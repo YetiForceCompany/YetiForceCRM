@@ -120,9 +120,7 @@ jQuery.Class(
 					element.find('option[value="' + oldvalue + '"]').removeAttr('selected');
 					element.find('option[value="' + transferOwner + '"]').attr('selected', 'selected');
 					element.trigger('liszt:updated');
-					let Fieldname = element
-						.find('option[value="' + transferOwner + '"]')
-						.data('picklistvalue');
+					let Fieldname = element.find('option[value="' + transferOwner + '"]').data('picklistvalue');
 					element
 						.closest('.row-fluid')
 						.find('.value')
@@ -134,7 +132,7 @@ jQuery.Class(
 								'</a>'
 						);
 
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				}
 			});
 		},
@@ -167,7 +165,7 @@ jQuery.Class(
 					window.location.reload();
 				})
 				.fail(function (jqXHR, textStatus, errorThrown) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						type: 'error',
 						text: textStatus
 					});
@@ -206,13 +204,13 @@ jQuery.Class(
 							}
 						});
 						if (Object.keys(tasks).length === 0) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_INFORMATION'),
 								text: app.vtranslate('JS_NOT_SELECTED_WORKFLOW_TRIGGER'),
 								type: 'error'
 							});
 						} else {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_STARTED_PERFORM_WORKFLOW'),
 								type: 'info'
@@ -226,7 +224,7 @@ jQuery.Class(
 								tasks: JSON.stringify(tasks)
 							})
 								.done(function () {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										title: app.vtranslate('JS_MESSAGE'),
 										text: app.vtranslate('JS_COMPLETED_PERFORM_WORKFLOW'),
 										type: 'success'
@@ -235,7 +233,7 @@ jQuery.Class(
 									detailInstance.loadWidgets();
 								})
 								.fail(function () {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										title: app.vtranslate('JS_ERROR'),
 										text: app.vtranslate('JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'),
 										type: 'error'
@@ -308,21 +306,12 @@ jQuery.Class(
 		init: function () {},
 		loadWidgetsEvents: function () {
 			const thisInstance = this;
-			app.event.on('DetailView.Widget.AfterLoad', function (
-				e,
-				widgetContent,
-				relatedModuleName,
-				instance
-			) {
+			app.event.on('DetailView.Widget.AfterLoad', function (e, widgetContent, relatedModuleName, instance) {
 				if (relatedModuleName === 'Calendar') {
-					thisInstance.reloadWidgetActivitesStats(
-						widgetContent.closest('.activityWidgetContainer')
-					);
+					thisInstance.reloadWidgetActivitesStats(widgetContent.closest('.activityWidgetContainer'));
 				}
 				if (relatedModuleName === 'ModComments') {
-					thisInstance.registerCommentEventsInDetail(
-						widgetContent.closest('.updatesWidgetContainer')
-					);
+					thisInstance.registerCommentEventsInDetail(widgetContent.closest('.updatesWidgetContainer'));
 				}
 				if (widgetContent.find('[name="relatedModule"]').length) {
 					thisInstance.registerShowSummary(widgetContent);
@@ -330,10 +319,9 @@ jQuery.Class(
 				if (relatedModuleName === 'OSSMailView') {
 					Vtiger_Index_Js.registerMailButtons(widgetContent);
 					widgetContent.find('.showMailModal').on('click', function (e) {
+						e.preventDefault();
 						let progressIndicatorElement = jQuery.progressIndicator();
-						app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (
-							data
-						) {
+						app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (data) {
 							Vtiger_Index_Js.registerMailButtons(data);
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						});
@@ -407,13 +395,14 @@ jQuery.Class(
 						relatedController.setRelatedContainer(contentContainer);
 						relatedController.registerRelatedEvents();
 						thisInstance.widgetRelatedRecordView(widgetContainer, true);
+						let chart = contentContainer.find('[name="typeChart"]');
+						if (chart.length && typeof window['Vtiger_Widget_Js'] !== 'undefined') {
+							let widgetInstance = Vtiger_Widget_Js.getInstance(contentContainer, chart.val());
+							widgetInstance.init(contentContainer);
+							widgetInstance.loadChart();
+						}
 					}
-					app.event.trigger(
-						'DetailView.Widget.AfterLoad',
-						contentContainer,
-						relatedModuleName,
-						thisInstance
-					);
+					app.event.trigger('DetailView.Widget.AfterLoad', contentContainer, relatedModuleName, thisInstance);
 					aDeferred.resolve(params);
 				})
 				.fail(function () {
@@ -426,14 +415,10 @@ jQuery.Class(
 			let cacheKey = this.getRecordId() + '_' + container.data('id');
 			let relatedRecordCacheID = app.moduleCacheGet(cacheKey);
 			if (relatedRecordCacheID !== null) {
-				let newActive = container.find(
-					".js-carousel-item[data-id = '" + relatedRecordCacheID + "']"
-				);
+				let newActive = container.find(".js-carousel-item[data-id = '" + relatedRecordCacheID + "']");
 				if (newActive.length) {
 					container.find('.js-carousel-item.active').removeClass('active');
-					container
-						.find(".js-carousel-item[data-id = '" + relatedRecordCacheID + "']")
-						.addClass('active');
+					container.find(".js-carousel-item[data-id = '" + relatedRecordCacheID + "']").addClass('active');
 				}
 			}
 			let controlBox = container.find('.control-widget');
@@ -633,22 +618,20 @@ jQuery.Class(
 			params.data = data;
 			params.async = false;
 			params.dataType = 'json';
-			this.preSaveValidation(JSON.parse(JSON.stringify(params)), this.getForm()).then(
-				(response) => {
-					if (response === true) {
-						AppConnector.request(params)
-							.done(function (responseData) {
-								aDeferred.resolve(responseData);
-							})
-							.fail((jqXHR, textStatus, errorThrown) => {
-								aDeferred.reject(jqXHR, textStatus, errorThrown);
-								app.errorLog(jqXHR, textStatus, errorThrown);
-							});
-					} else {
-						aDeferred.resolve({ success: false });
-					}
+			this.preSaveValidation(JSON.parse(JSON.stringify(params)), this.getForm()).then((response) => {
+				if (response === true) {
+					AppConnector.request(params)
+						.done(function (responseData) {
+							aDeferred.resolve(responseData);
+						})
+						.fail((jqXHR, textStatus, errorThrown) => {
+							aDeferred.reject(jqXHR, textStatus, errorThrown);
+							app.errorLog(jqXHR, textStatus, errorThrown);
+						});
+				} else {
+					aDeferred.resolve({ success: false });
 				}
-			);
+			});
 
 			return aDeferred.promise();
 		},
@@ -669,9 +652,10 @@ jQuery.Class(
 						let response = data.result;
 						for (let i = 0; i < response.length; i++) {
 							if (response[i].result !== true) {
-								Vtiger_Helper_Js.showPnotify(
-									response[i].message ? response[i].message : app.vtranslate('JS_ERROR')
-								);
+								app.showNotify({
+									text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
+									type: 'error'
+								});
 							}
 						}
 						if (data.result.length <= 0) {
@@ -682,7 +666,10 @@ jQuery.Class(
 					})
 					.fail((textStatus, errorThrown) => {
 						document.progressLoader.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
 						app.errorLog(textStatus, errorThrown);
 						aDeferred.resolve(false);
 					});
@@ -698,8 +685,15 @@ jQuery.Class(
 		/**
 		 * function to hide comment block.
 		 */
-		hideCommentBlock: function () {
-			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).hide();
+		removeCommentBlock: function () {
+			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).remove();
+		},
+
+		/**
+		 * function to hide button action.
+		 */
+		hideButtonAction: function () {
+			$('.js-hb__container').removeClass('u-hidden-block__opened');
 		},
 
 		/**
@@ -796,9 +790,7 @@ jQuery.Class(
 				editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').val();
 			}
 			let element = jQuery(e.currentTarget),
-				commentInfoHeader = closestCommentBlock
-					.closest('.js-comment-details')
-					.find('.js-comment-info-header'),
+				commentInfoHeader = closestCommentBlock.closest('.js-comment-details').find('.js-comment-info-header'),
 				commentId = commentInfoHeader.data('commentid'),
 				parentCommentId = commentInfoHeader.data('parentcommentid');
 			this.saveCommentAjax(
@@ -877,7 +869,7 @@ jQuery.Class(
 						text: app.vtranslate('LBL_SMS_MAX_CHARACTERS_ALLOWED'),
 						type: 'error'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 					return false;
 				}
 				let submitButton = form.find(':submit');
@@ -955,9 +947,7 @@ jQuery.Class(
 		registerAjaxEditEvent: function () {
 			let thisInstance = this;
 			let detailContentsHolder = thisInstance.getContentHolder();
-			detailContentsHolder.on(thisInstance.fieldUpdatedEvent, 'input,select,textarea', function (
-				e
-			) {
+			detailContentsHolder.on(thisInstance.fieldUpdatedEvent, 'input,select,textarea', function (e) {
 				thisInstance.updateHeaderValues(jQuery(e.currentTarget));
 			});
 		},
@@ -973,9 +963,7 @@ jQuery.Class(
 			let detailContentsHolder = thisInstance.getContentHolder();
 			if (jQuery.inArray(name, updatedFields) != '-1') {
 				let recordLabel = currentElement.val();
-				let recordLabelElement = detailContentsHolder
-					.closest('.contentsDiv')
-					.find('.' + name + '_label');
+				let recordLabelElement = detailContentsHolder.closest('.contentsDiv').find('.' + name + '_label');
 				recordLabelElement.text(recordLabel);
 			}
 		},
@@ -1013,11 +1001,7 @@ jQuery.Class(
 			let detailContentsHolder = this.getContentHolder();
 			detailContentsHolder.on('click', '.listViewEntries', function (e) {
 				let targetElement = jQuery(e.target, jQuery(e.currentTarget));
-				if (
-					targetElement.is('td:first-child') &&
-					targetElement.children('input[type="checkbox"]').length > 0
-				)
-					return;
+				if (targetElement.is('td:first-child') && targetElement.children('input[type="checkbox"]').length > 0) return;
 				if (jQuery(e.target).is('input[type="checkbox"]')) return;
 				let elem = jQuery(e.currentTarget);
 				let recordUrl = elem.data('recordurl');
@@ -1103,15 +1087,13 @@ jQuery.Class(
 					blockContent.progressIndicator();
 					AppConnector.request(url).done(function (response) {
 						blockContent.html(response);
-						const relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(
-							url,
-							thisInstance.getSelectedTab()
-						);
+						const relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(url, thisInstance.getSelectedTab());
 						relatedController.setRelatedContainer(blockContent);
 						if (isEmpty) {
 							relatedController.registerRelatedEvents();
 						} else {
 							relatedController.registerPostLoadEvents();
+							relatedController.registerListEvents();
 						}
 					});
 				}
@@ -1291,7 +1273,7 @@ jQuery.Class(
 										postSaveRecordDetails[dateTimeField[1].name].display_value;
 								}
 								detailViewValue.html(displayValue);
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 									text:
 										'<b>' +
@@ -1312,12 +1294,14 @@ jQuery.Class(
 								if (postSaveRecordDetails['_isViewable'] === false) {
 									let urlObject = app.convertUrlToObject(window.location.href);
 									if (window !== window.parent) {
-										window.parent.location.href =
-											'index.php?module=' + urlObject['module'] + '&view=ListPreview';
+										window.parent.location.href = 'index.php?module=' + urlObject['module'] + '&view=ListPreview';
 									} else {
 										window.location.href = 'index.php?module=' + urlObject['module'] + '&view=List';
 									}
-								} else if (postSaveRecordDetails['_isEditable'] === false) {
+								} else if (
+									postSaveRecordDetails['_isEditable'] === false ||
+									postSaveRecordDetails['_reload'] === true
+								) {
 									$.progressIndicator({
 										position: 'html',
 										blockInfo: {
@@ -1325,10 +1309,7 @@ jQuery.Class(
 										}
 									});
 									if (window !== window.parent) {
-										window.location.href = window.location.href.replace(
-											'view=Detail',
-											'view=DetailPreview'
-										);
+										window.location.href = window.location.href.replace('view=Detail', 'view=DetailPreview');
 									} else {
 										window.location.reload();
 									}
@@ -1356,9 +1337,7 @@ jQuery.Class(
 									thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 									thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 									thisInstance.registerEventForRelatedList();
-								} else if (
-									selectedTabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel
-								) {
+								} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
 									thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 								}
 								thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
@@ -1370,7 +1349,7 @@ jQuery.Class(
 								editElement.off('clickoutside');
 								readRecord.prop('disabled', false);
 								currentTdElement.progressIndicator({ mode: 'hide' });
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									type: 'error',
 									title: app.vtranslate('JS_SAVE_NOTIFY_FAIL'),
 									text: textStatus
@@ -1394,9 +1373,7 @@ jQuery.Class(
 		addElementsToQuickCreateForCreatingRelation: function (container, customParams) {
 			jQuery('<input type="hidden" name="relationOperation" value="true" >').appendTo(container);
 			jQuery.each(customParams, function (index, value) {
-				jQuery('<input type="hidden" name="' + index + '" value="' + value + '" >').appendTo(
-					container
-				);
+				jQuery('<input type="hidden" name="' + index + '" value="' + value + '" >').appendTo(container);
 			});
 		},
 		/**
@@ -1430,12 +1407,8 @@ jQuery.Class(
 				let fullFormUrl = element.data('url');
 				let preQuickCreateSave = function (data) {
 					thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);
-					let taskGoToFullFormButton = data
-						.find('[class^="CalendarQuikcCreateContents"]')
-						.find('.js-full-editlink');
-					let eventsGoToFullFormButton = data
-						.find('[class^="EventsQuikcCreateContents"]')
-						.find('.js-full-editlink');
+					let taskGoToFullFormButton = data.find('[class^="CalendarQuikcCreateContents"]').find('.js-full-editlink');
+					let eventsGoToFullFormButton = data.find('[class^="EventsQuikcCreateContents"]').find('.js-full-editlink');
 					let taskFullFormUrl = taskGoToFullFormButton.data('url') + '&' + fullFormUrl;
 					let eventsFullFormUrl = eventsGoToFullFormButton.data('url') + '&' + fullFormUrl;
 					taskGoToFullFormButton.data('url', taskFullFormUrl);
@@ -1465,12 +1438,7 @@ jQuery.Class(
 			let dateStartEl = jQuery('[name="date_start"]');
 			let dateStartVal = jQuery(dateStartEl).val();
 			let dateStartFormat = jQuery(dateStartEl).data('date-format');
-			let validDateFromat = Vtiger_Helper_Js.convertToDateString(
-				dateStartVal,
-				dateStartFormat,
-				modDay,
-				type
-			);
+			let validDateFromat = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, modDay, type);
 			let map = jQuery.extend({}, ['#b6a996,black']);
 
 			let params = {
@@ -1528,10 +1496,7 @@ jQuery.Class(
 					let quickcreateUrl = currentElement.data('url');
 					let quickCreateParams = {};
 					let autoCompleteFields = currentElement.data('acf');
-					let moduleName = currentElement
-						.closest('.js-detail-widget-header')
-						.find('[name="relatedModule"]')
-						.val();
+					let moduleName = currentElement.closest('.js-detail-widget-header').find('[name="relatedModule"]').val();
 					let relatedParams = {};
 					let postQuickCreateSave = function (data) {
 						thisInstance.postSummaryWidgetAddRecord(data, currentElement);
@@ -1560,12 +1525,10 @@ jQuery.Class(
 					} else {
 						headerInstance = Vtiger_Header_Js.getInstance();
 					}
-					headerInstance
-						.getQuickCreateForm(quickcreateUrl, moduleName, quickCreateParams)
-						.done(function (data) {
-							headerInstance.handleQuickCreateData(data, quickCreateParams);
-							progress.progressIndicator({ mode: 'hide' });
-						});
+					headerInstance.getQuickCreateForm(quickcreateUrl, moduleName, quickCreateParams).done(function (data) {
+						headerInstance.handleQuickCreateData(data, quickCreateParams);
+						progress.progressIndicator({ mode: 'hide' });
+					});
 				});
 			container
 				.find('button.selectRelation')
@@ -1656,10 +1619,17 @@ jQuery.Class(
 				let name = element.data('urlparams');
 				if (element.attr('type') == 'radio') {
 					if (element.prop('checked')) {
-						value =
-							typeof element.data('on-val') !== 'undefined'
-								? element.data('on-val')
-								: element.data('off-val');
+						value = typeof element.data('on-val') !== 'undefined' ? element.data('on-val') : element.data('off-val');
+						let additionalParams = element.data('params');
+						if (typeof additionalParams !== typeof undefined && additionalParams !== false) {
+							$.each(additionalParams, function (paramName, paramValue) {
+								if (paramName in urlNewParams) {
+									urlNewParams[paramName].push(paramValue);
+								} else {
+									urlNewParams[paramName] = paramValue;
+								}
+							});
+						}
 					}
 				} else {
 					let selectedFilter = element.find('option:selected').val();
@@ -1695,11 +1665,7 @@ jQuery.Class(
 		registerChangeFilterForWidget: function () {
 			let thisInstance = this;
 			jQuery('.js-switch').on('change', function (e, state) {
-				$(e.currentTarget)
-					.closest('.js-switch__btn')
-					.addClass('active')
-					.siblings()
-					.removeClass('active');
+				$(e.currentTarget).closest('.js-switch__btn').addClass('active').siblings().removeClass('active');
 				thisInstance.getFiltersDataAndLoad(e);
 			});
 			jQuery('.js-filter_field').on('select2:select', function (e, state) {
@@ -1727,19 +1693,15 @@ jQuery.Class(
 			/**
 			 * Function to handle actions after ajax save in summary view
 			 */
-			summaryViewContainer.on(
-				thisInstance.fieldUpdatedEvent,
-				'.js-widget-general-info',
-				function () {
-					let updatesWidget = summaryViewContainer.find("[data-type='Updates']"),
-						params;
-					if (updatesWidget.length) {
-						params = thisInstance.getFiltersData(updatesWidget);
-						updatesWidget.find('.btnChangesReviewedOn').parent().remove();
-						thisInstance.loadWidget(updatesWidget, params['params']);
-					}
+			summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.js-widget-general-info', function () {
+				let updatesWidget = summaryViewContainer.find("[data-type='Updates']"),
+					params;
+				if (updatesWidget.length) {
+					params = thisInstance.getFiltersData(updatesWidget);
+					updatesWidget.find('.btnChangesReviewedOn').parent().remove();
+					thisInstance.loadWidget(updatesWidget, params['params']);
 				}
-			);
+			});
 
 			summaryViewContainer.on('click', '.editDefaultStatus', function (e) {
 				let currentTarget = jQuery(e.currentTarget);
@@ -1757,9 +1719,7 @@ jQuery.Class(
 									let widget = currentTarget.closest('.widgetContentBlock');
 									if (widget.length) {
 										thisInstance.loadWidget(widget);
-										let updatesWidget = thisInstance
-											.getContentHolder()
-											.find("[data-type='Updates']");
+										let updatesWidget = thisInstance.getContentHolder().find("[data-type='Updates']");
 										if (updatesWidget.length > 0) {
 											thisInstance.loadWidget(updatesWidget);
 										}
@@ -1905,13 +1865,7 @@ jQuery.Class(
 			});
 			this.registerFastEditingFiels();
 		},
-		addRelationBetweenRecords: function (
-			relatedModule,
-			relatedModuleRecordId,
-			selectedTabElement,
-			params = {},
-			url
-		) {
+		addRelationBetweenRecords: function (relatedModule, relatedModuleRecordId, selectedTabElement, params = {}, url) {
 			let aDeferred = jQuery.Deferred();
 			let thisInstance = this;
 			let relatedController;
@@ -1961,15 +1915,11 @@ jQuery.Class(
 			if (summaryWidgetContainer.data('relationId')) {
 				params.relationId = summaryWidgetContainer.data('relationId');
 			}
-			this.addRelationBetweenRecords(
-				referenceModuleName,
-				idList,
-				null,
-				params,
-				widgetContainer.data('url')
-			).done(function (data) {
-				thisInstance.loadWidget(widgetContainer);
-			});
+			this.addRelationBetweenRecords(referenceModuleName, idList, null, params, widgetContainer.data('url')).done(
+				function (data) {
+					thisInstance.loadWidget(widgetContainer);
+				}
+			);
 		},
 		registerChangeEventForModulesList: function () {
 			jQuery('#tagSearchModulesList').on('change', function (e) {
@@ -1990,10 +1940,7 @@ jQuery.Class(
 			let detailContentsHolder = thisInstance.getContentHolder();
 			let detailContainer = detailContentsHolder.closest('div.detailViewInfo');
 
-			jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function (
-				e,
-				urlAttributes
-			) {
+			jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function (e, urlAttributes) {
 				let tabElement = jQuery(e.currentTarget);
 				if (!tabElement.hasClass('dropdown')) {
 					let element = jQuery('<div></div>');
@@ -2206,9 +2153,7 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.setReadRecord', function (e) {
 				let currentElement = jQuery(e.currentTarget);
 				currentElement.closest('.btn-group').addClass('d-none');
-				jQuery('#Accounts_detailView_fieldValue_was_read')
-					.find('.value')
-					.text(app.vtranslate('LBL_YES'));
+				jQuery('#Accounts_detailView_fieldValue_was_read').find('.value').text(app.vtranslate('LBL_YES'));
 				let params = {
 					module: app.getModuleName(),
 					action: 'SaveAjax',
@@ -2222,7 +2167,7 @@ jQuery.Class(
 						title: app.vtranslate('System'),
 						type: 'info'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 					let relatedTabKey = jQuery('.related li.active');
 					if (
 						relatedTabKey.data('linkKey') == thisInstance.detailViewSummaryTabLabel ||
@@ -2269,7 +2214,7 @@ jQuery.Class(
 					title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 					type: 'success'
 				};
-				Vtiger_Helper_Js.showPnotify(params);
+				app.showNotify(params);
 				thisInstance.reloadTabContent();
 			});
 		},
@@ -2311,9 +2256,7 @@ jQuery.Class(
 							}
 							item.find('.count').text(response.result.numberOfRecords);
 							moreList
-								.find(
-									'[data-reference="${relatedModule}"][data-relation-id="${relationId}"] .count'
-								)
+								.find('[data-reference="${relatedModule}"][data-relation-id="${relationId}"] .count')
 								.text(response.result.numberOfRecords);
 						}
 					});
@@ -2347,9 +2290,7 @@ jQuery.Class(
 									.data('data-child-comments-count'),
 								newChildCommentCount = currentChildCommentsCount + 1;
 							commentInfoBlock.find('.js-child-comments-count').text(newChildCommentCount);
-							let parentCommentId = commentInfoBlock
-								.find('.js-comment-info-header')
-								.data('commentid');
+							let parentCommentId = commentInfoBlock.find('.js-comment-info-header').data('commentid');
 							self.getChildComments(parentCommentId).done(function (responsedata) {
 								$(responsedata).appendTo(commentBlock);
 								commentInfoBlock.find('.js-view-thread-block').hide();
@@ -2399,23 +2340,23 @@ jQuery.Class(
 				let commentInfoBlock = $(e.currentTarget.closest('.js-comment-single'));
 				commentInfoBlock.find('.js-comment-container').show();
 				commentInfoBlock.find('.js-comment-info').show();
-				self.hideCommentBlock();
+				self.removeCommentBlock();
 			});
 			detailContentsHolder.on('click', '.js-reply-comment', function (e) {
-				self.hideCommentBlock();
+				self.removeCommentBlock();
+				self.hideButtonAction();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
 				commentInfoBlock.find('.js-comment-container').hide();
 				self.getCommentBlock().appendTo(commentInfoBlock).show();
 			});
 			detailContentsHolder.on('click', '.js-edit-comment', function (e) {
-				self.hideCommentBlock();
+				self.removeCommentBlock();
+				self.hideButtonAction();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
 					commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 					editCommentBlock = self.getEditCommentBlock();
 				editCommentBlock.find('.js-comment-content').html(commentInfoContent.html());
-				editCommentBlock
-					.find('.js-reason-to-edit')
-					.html(commentInfoBlock.find('.js-edit-reason-span').text());
+				editCommentBlock.find('.js-reason-to-edit').html(commentInfoBlock.find('.js-edit-reason-span').text());
 				commentInfoContent.hide();
 				commentInfoBlock.find('.js-comment-container').hide();
 				editCommentBlock.appendTo(commentInfoBlock).show();
@@ -2427,11 +2368,9 @@ jQuery.Class(
 						.saveComment(e)
 						.done(function () {
 							self.registerRelatedModulesRecordCount();
-							self
-								.loadWidget(detailContentsHolder.find("[data-type='Comments']"))
-								.done(function () {
-									element.removeAttr('disabled');
-								});
+							self.loadWidget(detailContentsHolder.find("[data-type='Comments']")).done(function () {
+								element.removeAttr('disabled');
+							});
 						})
 						.fail(function (error, err) {
 							element.removeAttr('disabled');
@@ -2445,9 +2384,7 @@ jQuery.Class(
 					self
 						.saveComment(e)
 						.done(function (data) {
-							self.registerRelatedModulesRecordCount(
-								self.getTabByLabel(self.detailViewRecentCommentsTabLabel)
-							);
+							self.registerRelatedModulesRecordCount(self.getTabByLabel(self.detailViewRecentCommentsTabLabel));
 							self.addComment(element, data);
 							element.removeAttr('disabled');
 						})
@@ -2461,25 +2398,14 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.js-more-recent-comments ', function () {
 				self.getTabByLabel(self.detailViewRecentCommentsTabLabel).trigger('click');
 			});
-			detailContentsHolder.find('.js-detail-hierarchy-comments-btn').on('click', function (e) {
-				if (
-					$(this).hasClass('active') &&
-					detailContentsHolder.find('.js-detail-hierarchy-comments-btn.active').length < 2
-				) {
-					return;
-				}
+			detailContentsHolder.find('.js-detail-hierarchy-comments').on('change', function (e) {
 				let recentCommentsTab = self.getTabByLabel(self.detailViewRecentCommentsTabLabel),
 					url = recentCommentsTab.data('url'),
 					regex = /&hierarchy=+([\w,]+)/;
 				url = url.replace(regex, '');
 				let hierarchy = [];
-				if ($(this).hasClass('active')) {
-					$(this).removeClass('active');
-				} else {
-					$(this).addClass('active');
-				}
-				detailContentsHolder.find('.js-detail-hierarchy-comments-btn.active').each(function () {
-					hierarchy.push($(this).find('.js-detail-hierarchy-comments').val());
+				detailContentsHolder.find('.js-detail-hierarchy-comments:checked').each(function () {
+					hierarchy.push($(this).val());
 				});
 				if (hierarchy.length !== 0) {
 					url += '&hierarchy=' + hierarchy.join(',');
@@ -2556,6 +2482,10 @@ jQuery.Class(
 						hierarchy.push($(this).val());
 					}
 				});
+				if (!hierarchy.length) {
+					widgetContainer.find('.js-detail-widget-content').html('');
+					return false;
+				}
 				let progressIndicatorElement = $.progressIndicator();
 				AppConnector.request({
 					module: app.getModuleName(),
@@ -2575,7 +2505,7 @@ jQuery.Class(
 		registerMailPreviewWidget: function (container) {
 			const self = this;
 			container.on('click', '.showMailBody', (e) => {
-				let row = $(e.currentTarget).closest('.row'),
+				let row = $(e.currentTarget).closest('.js-mail-row'),
 					mailBody = row.find('.mailBody'),
 					mailTeaser = row.find('.mailTeaser');
 				mailBody.toggleClass('d-none');
@@ -2589,7 +2519,14 @@ jQuery.Class(
 			});
 			container.on('click', '.showMailsModal', (e) => {
 				let url = $(e.currentTarget).data('url');
-				url += '&type=' + container.find('[name="mail-type"]').val();
+				let type = container.find('[name="mail-type"]');
+				let typeValue = '';
+				if (type.length > 0) {
+					typeValue = type.val();
+				} else {
+					typeValue = 'All';
+				}
+				url += '&type=' + typeValue;
 				if (container.find('[name="mailFilter"]').length > 0) {
 					url += '&mailFilter=' + container.find('[name="mailFilter"]').val();
 				}
@@ -2604,19 +2541,24 @@ jQuery.Class(
 			container.find('.expandAllMails').on('click', function (e) {
 				container.find('.mailBody').removeClass('d-none');
 				container.find('.mailTeaser').addClass('d-none');
-				container
-					.find('.showMailBody .js-toggle-icon')
-					.removeClass('fa-caret-down')
-					.addClass('fa-caret-up');
+				container.find('.showMailBody .js-toggle-icon').removeClass('fa-caret-down').addClass('fa-caret-up');
 			});
 			container.find('.collapseAllMails').on('click', function (e) {
 				container.find('.mailBody').addClass('d-none');
 				container.find('.mailTeaser').removeClass('d-none');
-				container
-					.find('.showMailBody .js-toggle-icon')
-					.removeClass('fa-caret-up')
-					.addClass('fa-caret-down');
+				container.find('.showMailBody .js-toggle-icon').removeClass('fa-caret-up').addClass('fa-caret-down');
 			});
+			container
+				.find('.showMailModal')
+				.off('click')
+				.on('click', function (e) {
+					e.preventDefault();
+					let progressIndicatorElement = jQuery.progressIndicator();
+					app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (data) {
+						Vtiger_Index_Js.registerMailButtons(data);
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					});
+				});
 		},
 		loadMailPreviewWidget: function (widgetContent) {
 			let thisInstance = this;
@@ -2633,12 +2575,7 @@ jQuery.Class(
 			params['mailFilter'] = $('[name="mailFilter"]').val();
 			AppConnector.request(params).done(function (data) {
 				widgetDataContainer.html(data);
-				app.event.trigger(
-					'DetailView.Widget.AfterLoad',
-					widgetDataContainer,
-					params['module'],
-					thisInstance
-				);
+				app.event.trigger('DetailView.Widget.AfterLoad', widgetDataContainer, params['module'], thisInstance);
 				progress.progressIndicator({ mode: 'hide' });
 			});
 		},
@@ -2718,10 +2655,7 @@ jQuery.Class(
 				let chatContainer = this.detailViewContentHolder.find('.js-chat-container');
 				const padding = 10;
 				chatContainer.height(
-					$(document).height() -
-						chatContainer.offset().top -
-						$('.js-footer').outerHeight() -
-						padding
+					$(document).height() - chatContainer.offset().top - $('.js-footer').outerHeight() - padding
 				);
 				window.ChatRecordRoomVueComponent.mount({
 					el: '#ChatRecordRoomVue'
@@ -2778,24 +2712,17 @@ jQuery.Class(
 				let nextPageUrl = url + '&page=' + requestedPage;
 				thisInstance.loadContents(nextPageUrl);
 			});
-			detailContentsHolder.on(
-				'click',
-				'div.detailViewTable div.fieldValue:not(.is-edit-active)',
-				function (e) {
-					let target = $(e.target);
-					if (target.closest('a').hasClass('btnNoFastEdit') || target.hasClass('btnNoFastEdit'))
-						return;
-					let currentTdElement = jQuery(e.currentTarget);
-					currentTdElement.addClass('is-edit-active');
-					thisInstance.ajaxEditHandling(currentTdElement);
-				}
-			);
+			detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue:not(.is-edit-active)', function (e) {
+				let target = $(e.target);
+				if (target.closest('a').hasClass('btnNoFastEdit') || target.hasClass('btnNoFastEdit')) return;
+				let currentTdElement = jQuery(e.currentTarget);
+				currentTdElement.addClass('is-edit-active');
+				thisInstance.ajaxEditHandling(currentTdElement);
+			});
 			detailContentsHolder.on('click', 'div.recordDetails span.squeezedWell', function (e) {
 				let currentElement = jQuery(e.currentTarget);
 				let relatedLabel = currentElement.data('reference');
-				jQuery('.detailViewInfo .related .nav > li[data-reference="' + relatedLabel + '"]').trigger(
-					'click'
-				);
+				jQuery('.detailViewInfo .related .nav > li[data-reference="' + relatedLabel + '"]').trigger('click');
 			});
 			detailContentsHolder.on('click', '.relatedPopup', function (e) {
 				let editViewObj = new Vtiger_Edit_Js();
@@ -2803,6 +2730,7 @@ jQuery.Class(
 				return false;
 			});
 			detailContentsHolder.on('click', '.viewThread', function (e) {
+				thisInstance.hideButtonAction();
 				let currentTarget = jQuery(e.currentTarget),
 					currentTargetParent = currentTarget.parent(),
 					commentActionsBlock = currentTarget.closest('.js-comment-actions'),
@@ -2814,10 +2742,7 @@ jQuery.Class(
 					currentTargetParent.hide();
 					return;
 				}
-				let commentId = currentTarget
-					.closest('.js-comment-div')
-					.find('.js-comment-info-header')
-					.data('commentid');
+				let commentId = currentTarget.closest('.js-comment-div').find('.js-comment-info-header').data('commentid');
 				thisInstance.getChildComments(commentId).done(function (data) {
 					jQuery(data).appendTo(jQuery(e.currentTarget).closest('.js-comment-details'));
 					commentActionsBlock.find('.hideThreadBlock').show();
@@ -2827,10 +2752,7 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.js-view-parent-thread', function (e) {
 				let currentTarget = jQuery(e.currentTarget),
 					currentTargetParent = currentTarget.parent(),
-					commentId = currentTarget
-						.closest('.js-comment-div')
-						.find('.js-comment-info-header')
-						.data('commentid');
+					commentId = currentTarget.closest('.js-comment-div').find('.js-comment-info-header').data('commentid');
 				thisInstance.getParentComments(commentId).done(function (data) {
 					$(e.currentTarget.closest('.js-comment-details')).html(data);
 					currentTarget.closest('.js-comment-actions').find('.hideThreadBlock').show();
@@ -2847,9 +2769,7 @@ jQuery.Class(
 				commentActionsBlock.find('.js-view-thread-block').show();
 			});
 			detailContentsHolder.on('click', '.detailViewThread', function (e) {
-				let recentCommentsTab = thisInstance.getTabByLabel(
-					thisInstance.detailViewRecentCommentsTabLabel
-				);
+				let recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 				let commentId = jQuery(e.currentTarget)
 					.closest('.js-comment-single')
 					.find('.js-comment-info-header')
@@ -2861,10 +2781,7 @@ jQuery.Class(
 			});
 			detailContentsHolder.on('click', '.moreRecentRecords', function (e) {
 				e.preventDefault();
-				let recentCommentsTab = thisInstance.getTabByModule(
-					$(this).data('label-key'),
-					$(this).data('relation-id')
-				);
+				let recentCommentsTab = thisInstance.getTabByModule($(this).data('label-key'), $(this).data('relation-id'));
 				if (recentCommentsTab.length) {
 					recentCommentsTab.trigger('click');
 				} else {
@@ -2918,9 +2835,7 @@ jQuery.Class(
 				});
 			});
 			detailContentsHolder.on('click', '.moreProductsService', function () {
-				jQuery('.related .mainNav[data-reference="ProductsAndServices"]:not(.d-none)').trigger(
-					'click'
-				);
+				jQuery('.related .mainNav[data-reference="ProductsAndServices"]:not(.d-none)').trigger('click');
 			});
 			detailContentsHolder.on('click', '.moreRelatedUpdates', function () {
 				let widgetContainer = jQuery(this).closest('.widgetContentBlock');
@@ -2968,26 +2883,19 @@ jQuery.Class(
 					);
 					url = data['params'];
 				} else {
-					url = thisInstance
-						.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel)
-						.data('url');
-					url =
-						url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true&newChange=' + newChange;
+					url = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url');
+					url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true&newChange=' + newChange;
 					if (url.indexOf('&whereCondition') === -1) {
 						let switchBtn = jQuery('.active .js-switch--recentActivities');
 						url +=
 							'&whereCondition=' +
-							(typeof switchBtn.data('on-val') === 'undefined'
-								? switchBtn.data('off-val')
-								: switchBtn.data('on-val'));
+							(typeof switchBtn.data('on-val') === 'undefined' ? switchBtn.data('off-val') : switchBtn.data('on-val'));
 					}
 				}
 				AppConnector.request(url).done(function (data) {
 					let dataContainer = jQuery(data);
 					container.find('#newChange').val(dataContainer.find('#newChange').val());
-					container
-						.find('#updatesCurrentPage')
-						.val(dataContainer.find('#updatesCurrentPage').val());
+					container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
 					container.find('.js-more-link').html(dataContainer.find('.js-more-link').html());
 					container.find('#updates ul').append(dataContainer.find('#updates ul').html());
 					app.event.trigger('DetailView.UpdatesWidget.AddMore', data, thisInstance);
@@ -3000,15 +2908,11 @@ jQuery.Class(
 						enabled: true
 					}
 				});
-				let url =
-					'index.php?module=ModTracker&action=ChangesReviewedOn&record=' + app.getRecordId();
+				let url = 'index.php?module=ModTracker&action=ChangesReviewedOn&record=' + app.getRecordId();
 				AppConnector.request(url).done(function (data) {
 					progressInstance.progressIndicator({ mode: 'hide' });
 					jQuery(e.currentTarget).parent().remove();
-					thisInstance
-						.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel)
-						.find('.count.badge')
-						.text('');
+					thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).find('.count.badge').text('');
 					if (selectedTabElement.data('labelKey') == thisInstance.detailViewRecentUpdatesTabLabel) {
 						thisInstance.reloadTabContent();
 					} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
@@ -3021,9 +2925,7 @@ jQuery.Class(
 				});
 			});
 			detailContentsHolder.on('click', '.moreRecentDocuments', function () {
-				let recentDocumentsTab = thisInstance.getTabByLabel(
-					thisInstance.detailViewRecentDocumentsTabLabel
-				);
+				let recentDocumentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentDocumentsTabLabel);
 				recentDocumentsTab.trigger('click');
 			});
 			detailContentsHolder.on('click', '.moreRecentActivities', function (e) {
@@ -3064,10 +2966,9 @@ jQuery.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				});
 			});
-			thisInstance.registerEventForRelatedList();
-			thisInstance.registerMailPreviewWidget(
-				detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]')
-			);
+			thisInstance.registerEventForRelatedList(); 
+			thisInstance.registerBlockAnimationEvent();
+			thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]')); 
 			thisInstance.registerMailPreviewWidget(
 				detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"]')
 			);
@@ -3081,9 +2982,7 @@ jQuery.Class(
 						valueOn = $(this).data('on-val'),
 						valueOff = $(this).data('off-val');
 					let url = tabElement.data('url');
-					url = url
-						.replace('&' + variableName + '=' + valueOn, '')
-						.replace('&' + variableName + '=' + valueOff, '');
+					url = url.replace('&' + variableName + '=' + valueOn, '').replace('&' + variableName + '=' + valueOff, '');
 					if (typeof currentTarget.data('on-val') !== 'undefined') {
 						url += '&' + variableName + '=' + valueOn;
 					} else if (typeof currentTarget.data('off-val') !== 'undefined') {

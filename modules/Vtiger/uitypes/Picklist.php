@@ -48,16 +48,16 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$moduleName = $this->getFieldModel()->getModuleName();
-		$dispalyValue = \App\Language::translate($value, $moduleName);
+		$displayValue = \App\Language::translate($value, $moduleName);
 		if ($rawText) {
-			return $dispalyValue;
+			return $displayValue;
 		}
 		if (\is_int($length)) {
-			$dispalyValue = \App\TextParser::textTruncate($dispalyValue, $length);
+			$displayValue = \App\TextParser::textTruncate($displayValue, $length);
 		}
-		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
+		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getName());
 		$value = App\Colors::sanitizeValue($value);
-		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
+		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">{$displayValue}</span>";
 	}
 
 	/**

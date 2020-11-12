@@ -314,8 +314,7 @@ jQuery.Class(
 					module: app.getModuleName(),
 					view: 'Configuration',
 					parent: app.getParentModuleName(),
-					date:
-						'["' + picker.startDate.format(format) + '","' + picker.endDate.format(format) + '"]'
+					date: '["' + picker.startDate.format(format) + '","' + picker.endDate.format(format) + '"]'
 				}).done(function (data) {
 					jQuery('.contentsDiv').html(data);
 					thisInstance.registerEvents();

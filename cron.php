@@ -15,7 +15,7 @@ try {
 	$checkLibrary = true;
 	require_once __DIR__ . '/include/RequirementsValidation.php';
 } catch (\Throwable $e) {
-	file_put_contents(__DIR__ . '/cache/logs/cron_error.log', date('Y-m-d H:i:s') . ' - ' . $e->getMessage() . PHP_EOL);
+	file_put_contents(__DIR__ . '/cache/logs/cron_error.log', date('Y-m-d H:i:s') . ' - ' . $e->getMessage() . PHP_EOL, LOCK_EX);
 	throw $e;
 }
 \App\Process::$requestMode = 'Cron';

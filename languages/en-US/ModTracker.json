@@ -36,6 +36,7 @@
     "LBL_REMOVED": "removed",
     "LBL_CONVERTED_FROM_LEAD": "Converted from lead",
     "LBL_DELETED": "Deleted record",
+    "LBL_DELETED_VALUE": "Deleted value",
     "LBL_ACTIVE": "Restored record",
     "LBL_ARCHIVED": "Archived record",
     "LBL_TRANSFER_EDIT": "record was changed in the transfer process",
@@ -47,6 +48,7 @@
     "LBL_INV_DELETED": "Deleted",
     "LBL_UPDATES_WIDGET_CONFIGURATION": "Updates widget config",
     "LBL_PERSON_MAKING_CHANGES": "Person making changes",
-    "LBL_MODULES": "Modules"
+    "LBL_MODULES": "Modules",
+    "LBL_SHOW_HIDDEN_DATA": "Showed hidden data"
   }
 }

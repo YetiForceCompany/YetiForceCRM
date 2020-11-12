@@ -92,6 +92,7 @@ Vtiger_Detail_Js(
 					text: errorMsg,
 					addclass: 'convertLeadNotify',
 					width: '35%',
+					type: 'error',
 					pnotify_after_open: function () {
 						instance.disableConvertLeadButton(buttonElement);
 					},
@@ -99,7 +100,7 @@ Vtiger_Detail_Js(
 						instance.enableConvertLeadButton(buttonElement);
 					}
 				};
-				Vtiger_Helper_Js.showPnotify(params);
+				app.showNotify(params);
 			} else {
 				var callBackFunction = function (data) {
 					var editViewObj = Vtiger_Edit_Js.getInstance();
@@ -107,7 +108,6 @@ Vtiger_Detail_Js(
 						parent: '#leadAccordion',
 						toggle: false
 					});
-					app.showScrollBar(jQuery(data).find('#leadAccordion'), { height: '420px' });
 					editViewObj.registerBasicEvents(data);
 					var checkBoxElements = instance.getConvertLeadModules();
 					jQuery.each(checkBoxElements, function (index, element) {
@@ -193,13 +193,9 @@ Vtiger_Detail_Js(
 			container.on('click', '.convertLeadModuleSelection', function (e) {
 				var currentTarget = jQuery(e.currentTarget);
 				var currentModuleName = currentTarget.val();
-				var moduleBlock = currentTarget
-					.closest('.convertLeadModules')
-					.find('#' + currentModuleName + '_FieldInfo');
+				var moduleBlock = currentTarget.closest('.convertLeadModules').find('#' + currentModuleName + '_FieldInfo');
 				var currentTransferModuleElement = jQuery('#transfer' + currentModuleName);
-				var otherTransferModuleElement = jQuery('input[name="transferModule"]').not(
-					currentTransferModuleElement
-				);
+				var otherTransferModuleElement = jQuery('input[name="transferModule"]').not(currentTransferModuleElement);
 				var otherTransferModuleValue = jQuery(otherTransferModuleElement).val();
 				var otherModuleElement = jQuery('#' + otherTransferModuleValue + 'Module');
 

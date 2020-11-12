@@ -23,24 +23,25 @@ Vtiger_Edit_Js(
 				e.preventDefault();
 				if (form.validationEngine('validate')) {
 					var formData = form.serializeFormData();
-					app
-						.saveAjax('', formData, { record: container.find('[name="record"]').val() })
-						.done(function (data) {
-							if (data.result) {
-								Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_SAVE_SUCCESS') });
-								var moduleClassName = 'Settings_' + app.getModuleName() + '_List_Js';
-								if (typeof window[moduleClassName] === 'undefined') {
-									moduleClassName = 'Settings_Vtiger_List_Js';
-								}
-								var instance = new window[moduleClassName]();
-								instance.getListViewRecords().done(function () {
-									instance.updatePagination();
-								});
-							} else {
-								Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+					app.saveAjax('', formData, { record: container.find('[name="record"]').val() }).done(function (data) {
+						if (data.result) {
+							Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_SAVE_SUCCESS') });
+							var moduleClassName = 'Settings_' + app.getModuleName() + '_List_Js';
+							if (typeof window[moduleClassName] === 'undefined') {
+								moduleClassName = 'Settings_Vtiger_List_Js';
 							}
-							app.hideModalWindow();
-						});
+							var instance = new window[moduleClassName]();
+							instance.getListViewRecords().done(function () {
+								instance.updatePagination();
+							});
+						} else {
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
+						}
+						app.hideModalWindow();
+					});
 				}
 			});
 		}

@@ -22,10 +22,7 @@ jQuery.Class(
 		registerEditFolders: function (container) {
 			const self = this;
 			container.find('.editFolders').on('click', function () {
-				const url =
-						'index.php?module=OSSMailScanner&parent=Settings&view=Folders' +
-						'&record=' +
-						$(this).data('user'),
+				const url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + $(this).data('user'),
 					progressIndicatorElement = jQuery.progressIndicator({
 						message: app.vtranslate('LBL_LOADING_LIST_OF_FOLDERS'),
 						position: 'html',
@@ -52,7 +49,7 @@ jQuery.Class(
 							if (!response['success']) {
 								messageType = 'error';
 							}
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: response['message'],
 								type: messageType
 							});
@@ -68,7 +65,6 @@ jQuery.Class(
 			});
 		},
 		getSelectedFolders(treeInstance) {
-			console.log(treeInstance.jstree('get_selected', true));
 			let folders = {};
 			for (let value of treeInstance.jstree('get_selected', true)) {
 				if (!Array.isArray(folders[value.original.db_type])) {
@@ -88,22 +84,15 @@ jQuery.Class(
 			$('#exceptions select')
 				.on('select2:select', function (e) {
 					let value = e.params.data.id;
-					if (
-						!!thisIstance.domainValidateToExceptions(value) ||
-						!!thisIstance.email_validate(value)
-					) {
-						thisIstance.saveWidgetConfig(
-							jQuery(this).attr('name'),
-							jQuery(this).val().join(),
-							'exceptions'
-						);
+					if (!!thisIstance.domainValidateToExceptions(value) || !!thisIstance.email_validate(value)) {
+						thisIstance.saveWidgetConfig(jQuery(this).attr('name'), jQuery(this).val().join(), 'exceptions');
 						thisIstance.registerColorField(jQuery(this));
 					} else {
 						jQuery(this)
 							.find("option[value='" + value + "']")
 							.remove();
 						jQuery(this).trigger('change');
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate('JS_mail_error'),
 							type: 'error'
 						});
@@ -135,7 +124,7 @@ jQuery.Class(
 				}).done(
 					function (data) {
 						if (data.success) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: data.result.data,
 								type: 'info'
 							});
@@ -152,7 +141,7 @@ jQuery.Class(
 						data: { module: 'OSSMailScanner', action: 'AccontRemove', id: userId },
 						async: true
 					}).done(function (data) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data.result.data,
 							type: 'info'
 						});
@@ -172,7 +161,7 @@ jQuery.Class(
 						async: true
 					}).done(
 						function () {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: app.vtranslate('removed_identity'),
 								type: 'info'
 							});
@@ -214,7 +203,7 @@ jQuery.Class(
 				if (!!thisIstance.email_validate(value)) {
 					thisIstance.saveWidgetConfig('email', value, 'cron');
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_mail_error'),
 						type: 'error'
 					});
@@ -225,7 +214,7 @@ jQuery.Class(
 				if (!!thisIstance.number_validate(value)) {
 					thisIstance.saveWidgetConfig('time', jQuery(this).val(), 'cron');
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_time_error'),
 						type: 'error'
 					});
@@ -236,7 +225,7 @@ jQuery.Class(
 			});
 			container.find('.js-run-cron').on('click', function () {
 				let buttonInstance = $(this);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: app.vtranslate('start_cron'),
 					type: 'info',
 					animation: 'show'
@@ -261,7 +250,7 @@ jQuery.Class(
 							animation: 'show'
 						};
 					}
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 					buttonInstance.attr('disabled', false);
 					thisIstance.reloadLogTable(container.find('.js-page-num').val() - 1);
 				});
@@ -273,7 +262,7 @@ jQuery.Class(
 				ajaxParams.async = true;
 				AppConnector.request(ajaxParams).done(function (data) {
 					if (data.success) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data.result.data,
 							type: 'info',
 							animation: 'show'
@@ -293,13 +282,14 @@ jQuery.Class(
 			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
-						text: response['data']
+					app.showNotify({
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
@@ -313,13 +303,14 @@ jQuery.Class(
 			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
-						text: response['data']
+					app.showNotify({
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
@@ -338,13 +329,14 @@ jQuery.Class(
 			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
-						text: response['data']
+					app.showNotify({
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
@@ -371,13 +363,14 @@ jQuery.Class(
 			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
-						text: response['data']
+					app.showNotify({
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
@@ -430,9 +423,7 @@ jQuery.Class(
 							'</td><td>';
 						if (data.result[i]['status'] === 'In progress') {
 							html +=
-								'<button type="button" class="btn btn-danger js-stop-cron" data-scan-id="' +
-								data.result[i]['id'] +
-								'"';
+								'<button type="button" class="btn btn-danger js-stop-cron" data-scan-id="' + data.result[i]['id'] + '"';
 							if (container.find('.js-run-cron').data('button-status')) {
 								html += ' disabled';
 							}

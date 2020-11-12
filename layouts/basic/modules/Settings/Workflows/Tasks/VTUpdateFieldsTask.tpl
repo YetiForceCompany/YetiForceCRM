@@ -25,7 +25,7 @@
 							<option value="">{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}</option>
 						</optgroup>
 						{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
-							{if !$FIELD_MODEL->isEditable() || $FIELD_MODEL->isReferenceField() || ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
+							{if !$FIELD_MODEL->isEditable() ||  ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
 								{continue}
 							{/if}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -36,7 +36,7 @@
 									data-field-name="{$FIELD_MODEL->getName()}"
 									data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}">
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
+									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))}) - {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))} ({\App\Language::translate($FIELD_MODEL->getBlockName(), $MODULE_MODEL->get('name'))})
 								{else}
 									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 								{/if}
@@ -66,7 +66,7 @@
 					<option value="">{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}</option>
 				</optgroup>
 				{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
-					{if !$FIELD_MODEL->isEditable() || $FIELD_MODEL->isReferenceField() || ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
+					{if !$FIELD_MODEL->isEditable()  || ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
 						{continue}
 					{/if}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -75,7 +75,7 @@
 							data-field-name="{$FIELD_MODEL->getName()}"
 							data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}">
 						{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-							({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
+							({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))}) - {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))} ({\App\Language::translate($FIELD_MODEL->getBlockName(), $MODULE_MODEL->get('name'))})
 						{else}
 							{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 						{/if}

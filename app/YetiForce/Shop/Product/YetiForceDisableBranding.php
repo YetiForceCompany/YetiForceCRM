@@ -16,13 +16,16 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Branding';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'Addons';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/yetiforce-branding';
+
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 10,
 		'Small' => 25,
@@ -31,14 +34,10 @@ class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Corporation' => 500,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function verify($cache = true): bool
 	{
 		if (\App\YetiForce\Register::getProducts('YetiForceDisableBranding')) {

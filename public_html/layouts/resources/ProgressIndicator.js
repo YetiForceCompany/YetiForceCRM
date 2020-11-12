@@ -56,11 +56,7 @@
 			thisInstance.container = element;
 			thisInstance.position = options.position;
 			if (typeof options.imageContainerCss !== 'undefined') {
-				thisInstance.imageContainerCss = $.extend(
-					true,
-					this.imageContainerCss,
-					options.imageContainerCss
-				);
+				thisInstance.imageContainerCss = $.extend(true, this.imageContainerCss, options.imageContainerCss);
 			}
 			if (this.isBlockMode()) {
 				thisInstance.elementToBlock = $(thisInstance.options.blockInfo.elementToBlock);

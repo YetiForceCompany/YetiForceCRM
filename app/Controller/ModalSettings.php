@@ -17,22 +17,7 @@ namespace App\Controller;
  */
 abstract class ModalSettings extends Modal
 {
-	/**
-	 * Only administrator user can access settings modal.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
-	 *
-	 * @return bool
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-		return true;
-	}
+	use Traits\SettingsPermission;
 
 	/**
 	 * Get modal scripts files that need to loaded in the modal.

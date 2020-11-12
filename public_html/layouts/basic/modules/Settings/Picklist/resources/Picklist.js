@@ -70,10 +70,7 @@ var Settings_Picklist_Js = {
 	registerAddItemEvent: function () {
 		jQuery('#addItem').on('click', function (e) {
 			var data = jQuery('#createViewContents').find('.modal');
-			var clonedCreateView = data
-				.clone(true, true)
-				.removeClass('basicCreateView')
-				.addClass('createView');
+			var clonedCreateView = data.clone(true, true).removeClass('basicCreateView').addClass('createView');
 			clonedCreateView.find('.rolesList').addClass('select2');
 			clonedCreateView.find('.automation-list').addClass('select2');
 			var callBackFunction = function (data) {
@@ -113,10 +110,7 @@ var Settings_Picklist_Js = {
 				jQuery('[name="addItemForm"]', jQuery(data)).validationEngine();
 				Settings_Picklist_Js.registerAssignValueToRoleSaveEvent(jQuery(data));
 				if (selectedListItem.length > 0) {
-					jQuery('[name="assign_values[]"]', jQuery('#assignValueToRoleForm')).select2(
-						'val',
-						selectedValues
-					);
+					jQuery('[name="assign_values[]"]', jQuery('#assignValueToRoleForm')).select2('val', selectedValues);
 				}
 			});
 		});
@@ -128,17 +122,9 @@ var Settings_Picklist_Js = {
 
 			var assignValuesSelectElement = jQuery('[name="assign_values[]"]', form);
 			var assignValuesSelect2Element = app.getSelect2ElementFromSelect(assignValuesSelectElement);
-			var assignValueResult = Vtiger_MultiSelect_Validator_Js.invokeValidation(
-				assignValuesSelectElement
-			);
+			var assignValueResult = Vtiger_MultiSelect_Validator_Js.invokeValidation(assignValuesSelectElement);
 			if (assignValueResult != true) {
-				assignValuesSelect2Element.validationEngine(
-					'showPrompt',
-					assignValueResult,
-					'error',
-					'topLeft',
-					true
-				);
+				assignValuesSelect2Element.validationEngine('showPrompt', assignValueResult, 'error', 'topLeft', true);
 			} else {
 				assignValuesSelect2Element.validationEngine('hide');
 			}
@@ -242,9 +228,7 @@ var Settings_Picklist_Js = {
 				data
 					.find(jQuery('.modal-body'))
 					.append(
-						'<div class="alert alert-info textAlignCenter">' +
-							app.vtranslate('JS_ALL_ROLES_SELECTED') +
-							'</div>'
+						'<div class="alert alert-info textAlignCenter">' + app.vtranslate('JS_ALL_ROLES_SELECTED') + '</div>'
 					);
 			} else {
 				rolesSelectElement.find('option').removeAttr('disabled', 'disabled');
@@ -260,14 +244,14 @@ var Settings_Picklist_Js = {
 		$('#renameItem').on('click', (e) => {
 			const selectedListItems = this.getSelectedItems();
 			if (selectedListItems.length < 1) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_NO_ITEM_SELECTED'),
 					type: 'error'
 				});
 				return false;
 			} else if (selectedListItems.length > 1) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MORE_THAN_ONE_ITEM_SELECTED'),
 					type: 'error'
@@ -352,9 +336,7 @@ var Settings_Picklist_Js = {
 		jQuery('[name="delete_value[]"]').on('select2:unselect', function (e) {
 			let id = e.params.data.id;
 			let text = e.params.data.text;
-			replaceValueElement
-				.append('<option value="' + id + '">' + text + '</option>')
-				.trigger('change');
+			replaceValueElement.append('<option value="' + id + '">' + text + '</option>').trigger('change');
 		});
 		jQuery('[name="delete_value[]"]').on('select2:select', function (e) {
 			let id = e.params.data.id;
@@ -415,7 +397,7 @@ var Settings_Picklist_Js = {
 						progress.progressIndicator({ mode: 'hide' });
 						if (typeof data.result !== 'undefined' && data.result === true) {
 							app.hideModalWindow();
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEM_SAVED_SUCCESSFULLY'),
 								type: 'success'
@@ -439,14 +421,14 @@ var Settings_Picklist_Js = {
 		$('#processStatusItem').on('click', (e) => {
 			const selectedListItems = this.getSelectedItems();
 			if (selectedListItems.length === 0) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_NO_ITEM_SELECTED'),
 					type: 'error'
 				});
 				return false;
 			} else if (selectedListItems.length > 1) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MORE_THAN_ONE_ITEM_SELECTED'),
 					type: 'error'
@@ -497,9 +479,7 @@ var Settings_Picklist_Js = {
 								'" />&nbsp;&nbsp;' +
 								newValue +
 								'</td></tr>';
-							var newPickListValueRow = jQuery(newElement).appendTo(
-								jQuery('#pickListValuesTable').find('tbody')
-							);
+							var newPickListValueRow = jQuery(newElement).appendTo(jQuery('#pickListValuesTable').find('tbody'));
 							newPickListValueRow.attr('data-key', newValue);
 							newPickListValueRow.attr('data-key-id', data['id']);
 							app.hideModalWindow();
@@ -508,7 +488,7 @@ var Settings_Picklist_Js = {
 								text: app.vtranslate('JS_ITEM_ADDED_SUCCESSFULLY'),
 								type: 'success'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 							//update the new item in the hidden picklist values array
 							var pickListValuesEle = jQuery('[name="pickListValues"]');
 							var pickListValuesArray = JSON.parse(pickListValuesEle.val());
@@ -556,7 +536,7 @@ var Settings_Picklist_Js = {
 						progress.progressIndicator({ mode: 'hide' });
 						if (typeof data.result !== 'undefined') {
 							app.hideModalWindow();
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEM_RENAMED_SUCCESSFULLY'),
 								type: 'success'
@@ -644,7 +624,7 @@ var Settings_Picklist_Js = {
 								delete pickListValuesArray[e];
 							});
 							pickListValuesEle.val(JSON.stringify(pickListValuesArray));
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEMS_DELETED_SUCCESSFULLY'),
 								type: 'success'
@@ -791,9 +771,7 @@ Vtiger_Base_Validator_Js(
 		validateValue: function (fieldValue) {
 			let specialChars = /[\<\>\"\,\#]/;
 			if (specialChars.test(fieldValue)) {
-				this.setError(
-					app.vtranslate('JS_SPECIAL_CHARACTERS') + ' < > " , # ' + app.vtranslate('JS_NOT_ALLOWED')
-				);
+				this.setError(app.vtranslate('JS_SPECIAL_CHARACTERS') + ' < > " , # ' + app.vtranslate('JS_NOT_ALLOWED'));
 				return false;
 			}
 			return true;

@@ -19,6 +19,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 .o-detail__record-img {
 	img {
 		height: calculate-rem(80px);
+		width: calculate-rem(80px);
 	}
 }
 
@@ -111,9 +112,10 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 							margin: 0 auto;
 							width: calculate-rem(30px);
 							height: calculate-rem(30px);
-							padding: calculate-rem(2px);
+							padding: calculate-rem(4px);
 							border: 2px solid #d2d6de;
-							font-size: calculate-rem(32px);
+							font-size: calculate-rem(29px);
+							border-radius: 50%;
 						}
 
 						@include media-breakpoint-up(sm) {

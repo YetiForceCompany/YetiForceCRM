@@ -135,7 +135,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 *
 	 * @return mixed
 	 */
-	public function getValueForSave(array $item, bool $userFormat, string $column = null)
+	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
 		if (null === $column) {
 			$column = $this->getColumnName();

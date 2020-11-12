@@ -132,9 +132,6 @@ Office.onReady((info) => {
 	};
 	if (info.host === Office.HostType.Outlook) {
 		window.MailIntegration_Start.registerEvents(Office.context.mailbox);
-		Office.context.mailbox.addHandlerAsync(
-			Office.EventType.ItemChanged,
-			window.MailIntegration_Start.reloadView
-		);
+		Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, window.MailIntegration_Start.reloadView);
 	}
 });

@@ -25,15 +25,15 @@ class Menu extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/BaseAction/Menu",
+	 *		path="/webservice/Menu",
 	 *		summary="Get menu into the system",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *    },
 	 *		@OA\RequestBody(
-	 *  			required=false,
-	 *  			description="Request body does not occur",
+	 *  		required=false,
+	 *  		description="Request body does not occur",
 	 *	  ),
 	 *    @OA\Parameter(
 	 *        name="X-ENCRYPTED",

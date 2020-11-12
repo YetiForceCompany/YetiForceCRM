@@ -21,10 +21,13 @@ jQuery.Class(
 						text: app.vtranslate(response.message),
 						type: 'info'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				})
 				.fail(function (textStatus, errorThrown) {
-					Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_COULD_NOT_FINNISH_REACTION') });
+					app.showNotify({
+						text: app.vtranslate('JS_COULD_NOT_FINNISH_REACTION'),
+						type: 'error'
+					});
 					app.errorLog(textStatus, errorThrown);
 				});
 		},
@@ -32,10 +35,7 @@ jQuery.Class(
 			this.getContainer()
 				.find('.js-switch--sent')
 				.on('change', (e) => {
-					$(e.currentTarget)
-						.closest('.form-group')
-						.find('.selectedUsersForm')
-						.toggleClass('d-none');
+					$(e.currentTarget).closest('.form-group').find('.selectedUsersForm').toggleClass('d-none');
 				});
 		},
 		registerEvents: function () {
@@ -72,7 +72,7 @@ jQuery.Class(
 						element.parents('tr').hide();
 					}
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				});
 			});
 		}

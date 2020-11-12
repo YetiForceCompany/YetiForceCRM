@@ -12,7 +12,7 @@ Vtiger_Edit_Js(
 			if (!recordId) {
 				recordId = parseInt(this.getForm().find('input[name="finvoiceid"]').val());
 			}
-			if (recordId) {
+			if (recordId && recordId != 0) {
 				const form = this.getForm();
 				const progressLoader = $.progressIndicator({ blockInfo: { enabled: true } });
 				AppConnector.request({
@@ -46,11 +46,7 @@ Vtiger_Edit_Js(
 					if (invoiceidInput.length) {
 						form
 							.find('.js-before-inventory')
-							.html(
-								'<div class="text-center">' +
-									app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') +
-									'</div>'
-							);
+							.html('<div class="text-center">' + app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') + '</div>');
 					}
 				}
 			});
@@ -69,7 +65,7 @@ Vtiger_Edit_Js(
 					return false;
 				}
 				const finvoiceid = finvoiceidInput.val();
-				if (finvoiceid == 0) {
+				if (!finvoiceid || finvoiceid == 0) {
 					return Vtiger_Helper_Js.showMessage({
 						type: 'error',
 						text: app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE')

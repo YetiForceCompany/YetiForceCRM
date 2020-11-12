@@ -78,7 +78,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				$value = \App\Fields\Owner::getUserLabel($value);
 				break;
 			case 'content':
-				$value = vtlib\Functions::getHtmlOrPlainText($value);
+				$value = \App\Layout::truncateHtml(vtlib\Functions::getHtmlOrPlainText($value), 'full');
 				break;
 			case 'date':
 				$value = DateTimeField::convertToUserFormat($value);

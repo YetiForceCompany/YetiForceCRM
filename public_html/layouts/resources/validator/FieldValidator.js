@@ -103,9 +103,7 @@ Vtiger_Base_Validator_Js(
 				var group = field.closest('.input-group');
 				var phoneCountryList = group.find('.phoneCountryList');
 				field.attr('readonly', true);
-				let moduleName = form.find('[name="module"]').length
-					? form.find('[name="module"]').val()
-					: app.getModuleName();
+				let moduleName = form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName();
 				if (moduleName === 'LayoutEditor') {
 					moduleName = $('#selectedModuleName').val();
 				}
@@ -170,8 +168,7 @@ Vtiger_Base_Validator_Js(
 		validate: function () {
 			let fieldValue = this.getFieldValue();
 			let fieldData = this.getElement().data();
-			const maximumLength =
-				typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : '3,64';
+			const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : '3,64';
 			let ranges = maximumLength.split(',');
 			if (fieldValue.length < parseInt(ranges[0])) {
 				this.setError(app.vtranslate('JS_ENTERED_VALUE_IS_TOO_SHORT'));
@@ -492,42 +489,6 @@ Vtiger_Base_Validator_Js(
 	}
 );
 
-Vtiger_Email_Validator_Js(
-	'Vtiger_MultiEmails_Validator_Js',
-	{
-		invokeValidation: function (field) {
-			var validatorInstance = new Vtiger_MultiEmails_Validator_Js();
-			validatorInstance.setElement(field);
-			var result = validatorInstance.validate();
-			if (!result) {
-				return validatorInstance.getError();
-			}
-		}
-	},
-	{
-		/**
-		 * Function to validate the Multi select
-		 * @return true if validation is successfull
-		 * @return false if validation error occurs
-		 */
-		validate: function () {
-			var fieldInstance = this.getElement();
-			var fieldInstanceValue = fieldInstance.val();
-			if (fieldInstanceValue != '') {
-				var emailsArr = fieldInstanceValue.split(',');
-				var i;
-				for (i = 0; i < emailsArr.length; ++i) {
-					var result = this.validateValue(emailsArr[i]);
-					if (result == false) {
-						return result;
-					}
-				}
-				return true;
-			}
-		}
-	}
-);
-
 Vtiger_Base_Validator_Js(
 	'Vtiger_MultiDomain_Validator_Js',
 	{
@@ -553,12 +514,7 @@ Vtiger_Base_Validator_Js(
 			const selectElementValue = fieldInstance.val();
 			if (Array.isArray(selectElementValue)) {
 				for (let value of selectElementValue) {
-					if (
-						value &&
-						!/(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/iu.test(
-							value
-						)
-					) {
+					if (value && !/(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/iu.test(value)) {
 						this.setError(app.vtranslate('JS_PLEASE_SELECT_VALID_DOMAIN_NAMES'));
 						return false;
 					}
@@ -681,8 +637,7 @@ Vtiger_Base_Validator_Js(
 			todayDateInstance.setHours(0, 0, 0, 0);
 			var comparedDateVal = todayDateInstance - fieldDateInstance;
 			if (comparedDateVal <= 0) {
-				var errorInfo =
-					fieldInfo.label + ' ' + app.vtranslate('JS_SHOULD_BE_LESS_THAN_CURRENT_DATE');
+				var errorInfo = fieldInfo.label + ' ' + app.vtranslate('JS_SHOULD_BE_LESS_THAN_CURRENT_DATE');
 				this.setError(errorInfo);
 				return false;
 			}
@@ -813,13 +768,7 @@ Vtiger_Base_Validator_Js(
 				var dependentFieldInContext = jQuery('input[name=' + dependentField + ']', contextFormElem);
 				if (dependentFieldInContext.length > 0) {
 					let value, dependentValue;
-					if (
-						$.inArray(dependentFieldInContext.data('fieldinfo').type, [
-							'currency',
-							'number',
-							'decimal'
-						]) !== -1
-					) {
+					if ($.inArray(dependentFieldInContext.data('fieldinfo').type, ['currency', 'number', 'decimal']) !== -1) {
 						value = App.Fields.Double.formatToDb(field.val());
 						dependentValue = App.Fields.Double.formatToDb(dependentFieldInContext.val());
 					} else {
@@ -937,12 +886,7 @@ Vtiger_Base_Validator_Js(
 					var comparedDateVal = todayDateInstance - dependentFieldDateInstance;
 					if (comparedDateVal < 0 && status == 'Held') {
 						var errorInfo =
-							fieldLabel +
-							' ' +
-							app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_HELD') +
-							' ' +
-							dependentFieldLabel +
-							'';
+							fieldLabel + ' ' + app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_HELD') + ' ' + dependentFieldLabel + '';
 						this.setError(errorInfo);
 						return false;
 					}
@@ -991,12 +935,7 @@ Vtiger_Base_Validator_Js(
 					var comparedDateVal = value - dependentValue;
 					if (comparedDateVal > 0) {
 						var errorInfo =
-							fieldLabel +
-							' ' +
-							app.vtranslate('JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO') +
-							' ' +
-							dependentFieldLabel +
-							'';
+							fieldLabel + ' ' + app.vtranslate('JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO') + ' ' + dependentFieldLabel + '';
 						this.setError(errorInfo);
 						return false;
 					}
@@ -1047,12 +986,8 @@ Vtiger_Base_Validator_Js(
 				return response;
 			}
 			let fieldData = this.getElement().data();
-			let decimalSeparator = fieldData.decimalSeparator
-				? fieldData.decimalSeparator
-				: CONFIG.currencyDecimalSeparator;
-			let groupSeparator = fieldData.groupSeparator
-				? fieldData.groupSeparator
-				: CONFIG.currencyGroupingSeparator;
+			let decimalSeparator = fieldData.decimalSeparator ? fieldData.decimalSeparator : CONFIG.currencyDecimalSeparator;
+			let groupSeparator = fieldData.groupSeparator ? fieldData.groupSeparator : CONFIG.currencyGroupingSeparator;
 
 			let strippedValue = this.getFieldValue().replace(decimalSeparator, '');
 			let spacePattern = /\s/;
@@ -1081,8 +1016,7 @@ Vtiger_Base_Validator_Js(
 				this.setError(errorInfo);
 				return false;
 			}
-			const maximumLength =
-				typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : null;
+			const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : null;
 			if (maximumLength && strippedValue > parseFloat(maximumLength)) {
 				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 				this.setError(errorInfo);
@@ -1298,24 +1232,15 @@ Vtiger_Email_Validator_Js(
 			if (this.validateValue(fieldValue) === false) {
 				return false;
 			}
-			let allFields = $(this.field)
-				.closest('div.js-multi-email')
-				.eq(0)
-				.find('[class*=js-multi-email-row]');
+			let allFields = $(this.field).closest('div.js-multi-email').eq(0).find('[class*=js-multi-email-row]');
 			let arrayLength = allFields.length;
 			for (let i = 0; i < arrayLength; ++i) {
 				let inputField = $(allFields[i]).find('input.js-email').eq(0);
 				if (inputField.val() === '') {
 					continue;
 				}
-				let inputClass1 = $(allFields[i])
-					.closest('div[class*=js-multi-email-row-]')
-					.eq(0)
-					.attr('class');
-				let inputClass2 = $(this.field)
-					.closest('div[class*=js-multi-email-row-]')
-					.eq(0)
-					.attr('class');
+				let inputClass1 = $(allFields[i]).closest('div[class*=js-multi-email-row-]').eq(0).attr('class');
+				let inputClass2 = $(this.field).closest('div[class*=js-multi-email-row-]').eq(0).attr('class');
 				if (inputClass1 !== inputClass2 && inputField.val() === fieldValue) {
 					this.setError(app.vtranslate('JS_EMAIL_DUPLICATED'));
 					return false;
@@ -1383,8 +1308,7 @@ Vtiger_Base_Validator_Js(
 			todayDateInstance.setHours(0, 0, 0, 0);
 			var comparedDateVal = todayDateInstance - fieldDateInstance;
 			if (comparedDateVal >= 0) {
-				var errorInfo =
-					fieldInfo.label + ' ' + app.vtranslate('JS_SHOULD_BE_GREATER_THAN_CURRENT_DATE');
+				var errorInfo = fieldInfo.label + ' ' + app.vtranslate('JS_SHOULD_BE_GREATER_THAN_CURRENT_DATE');
 				this.setError(errorInfo);
 				return false;
 			}
@@ -1535,7 +1459,7 @@ Vtiger_Base_Validator_Js(
 		validate: function () {
 			var field = this.getElement();
 			var fieldValue = field.val();
-			var alphaNumericRegex = /^[\/a-z\\0-9{}: _-]*$/i;
+			var alphaNumericRegex = /^[\/a-z\\0-9{}()$|: _-]*$/i;
 			if (!fieldValue.match(alphaNumericRegex)) {
 				var errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 				this.setError(errorInfo);
@@ -1710,11 +1634,7 @@ Vtiger_Base_Validator_Js(
 					? new TextEncoder().encode(fieldValue).byteLength > field.data('fieldinfo').maximumlength
 					: fieldValue.length > field.data('fieldinfo').maximumlength)
 			) {
-				this.setError(
-					app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') +
-						' ' +
-						field.data('fieldinfo').maximumlength
-				);
+				this.setError(app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ' ' + field.data('fieldinfo').maximumlength);
 				return false;
 			}
 			return true;

@@ -49,9 +49,25 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 		$installation = $request->getBoolean('installation');
 		$department = $request->isEmpty('department') ? '' : $request->getByType('department');
 		$product = \App\YetiForce\Shop::getProduct($request->getByType('product'), $department);
-		$this->successBtn = $product->expirationDate && !$product->showAlert() ? '' : 'LBL_BUY';
+		$alert = $product->showAlert();
+		$links = [];
+		if (isset($product->expirationDate)) {
+			if ($alert['status']) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => $alert['type'],
+					'linkicon' => 'fas fa-exclamation-triangle',
+					'linkhref' => $alert['href'],
+					'linkclass' => 'btn-warning',
+					'showLabel' => 1,
+				]);
+			}
+			$this->successBtn = '';
+		} else {
+			$this->successBtn = 'LBL_BUY';
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $this->qualifiedModuleName);
+		$viewer->assign('BTN_LINKS', $links);
 		$viewer->assign('PRODUCT', $product);
 		$viewer->assign('CURRENCY', $product->isCustom() ? $product->currencyCode : 'EUR');
 		$viewer->assign('PRICE', $installation ? false : $product->getPrice());

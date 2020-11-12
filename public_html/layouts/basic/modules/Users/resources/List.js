@@ -83,7 +83,7 @@ Vtiger_List_Js(
 						text: data.result.message,
 						type: 'success'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				}
 			});
 		},
@@ -132,7 +132,7 @@ Vtiger_List_Js(
 												text: response.result.message,
 												type: 'error'
 											};
-											Vtiger_Helper_Js.showPnotify(params);
+											app.showNotify(params);
 											jQuery('[data-id=' + userId + ']').hide();
 										}
 									});
@@ -176,7 +176,10 @@ Vtiger_List_Js(
 						progressInstance.progressIndicator({
 							mode: 'hide'
 						});
-						Vtiger_Helper_Js.showPnotify(response.result.message);
+						app.showNotify({
+							text: response.result.message,
+							type: 'success'
+						});
 						var url = response.result.listViewUrl;
 						window.location.href = url;
 					}
@@ -213,9 +216,10 @@ Vtiger_List_Js(
 								mode: 'hide'
 							});
 							if (data.error) {
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									text: app.vtranslate(data.error.message),
-									title: app.vtranslate('JS_LBL_PERMISSION')
+									title: app.vtranslate('JS_LBL_PERMISSION'),
+									type: 'error'
 								});
 							}
 							window.location.href = url;
@@ -283,9 +287,7 @@ Vtiger_List_Js(
 					if (listSearchInstance !== false) {
 						listSearchInstance.registerEvents();
 					} else {
-						App.Fields.Picklist.showSelect2ElementView(
-							$('#listViewContents').find('select.select2')
-						);
+						App.Fields.Picklist.showSelect2ElementView($('#listViewContents').find('select.select2'));
 					}
 				});
 			});

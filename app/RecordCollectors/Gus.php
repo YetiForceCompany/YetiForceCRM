@@ -18,25 +18,19 @@ namespace App\RecordCollectors;
  */
 class Gus extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $icon = 'yfi yfi-gus';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $label = 'GUS';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'vatId' => [
 			'labelModule' => '_Base',
@@ -52,9 +46,7 @@ class Gus extends Base
 		]
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $modulesFieldsMap = [
 		'Accounts' => [
 			'vatId' => 'vat_id',
@@ -77,9 +69,8 @@ class Gus extends Base
 			'ncr' => 'registration_number_1'
 		]
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
 			'Regon' => 'registration_number_2',
@@ -141,17 +132,13 @@ class Gus extends Base
 		],
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isActive(): bool
 	{
-		return \App\YetiForce\Shop::check('YetiForcePlGus') && \in_array($this->moduleName, $this->allowedModules);
+		return \in_array($this->moduleName, $this->allowedModules) && \App\YetiForce\Shop::check('YetiForcePlGus');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function search(): array
 	{
 		if (!$this->isActive()) {

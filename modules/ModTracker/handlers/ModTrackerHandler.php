@@ -24,11 +24,12 @@ class ModTracker_ModTrackerHandler_Handler
 		}
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
-			$delta = $recordModel->getData();
+			$delta = array_intersect_key($recordModel->getData(), $recordModel->getModule()->getFields());
+			$delta = array_fill_keys(array_keys($delta), null);
 			if ($recordModel->getModule()->isInventory() && ($invData = $recordModel->getInventoryData())) {
 				$delta['inventory'] = array_fill_keys(array_keys($invData), []);
 			}
-			unset($delta['createdtime'], $delta['modifiedtime'], $delta['id'], $delta['newRecord'], $delta['modifiedby']);
+			unset($delta['createdtime'], $delta['modifiedtime'], $delta['modifiedby']);
 			$status = ModTracker::$CREATED;
 			$watchdogTitle = 'LBL_CREATED';
 			$watchdogMessage = '$(record : ChangesListValues)$';
@@ -249,6 +250,26 @@ class ModTracker_ModTrackerHandler_Handler
 			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();
 		}
 		$this->addNotification($eventHandler->getModuleName(), $recordId, ModTracker_Record_Model::$statusLabel[$status]);
+	}
+
+	/**
+	 * Show hidden data handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterShowHiddenData(App\EventHandler $eventHandler)
+	{
+		if (!ModTracker::isTrackingEnabledForModule($eventHandler->getModuleName())) {
+			return false;
+		}
+		$recordModel = $eventHandler->getRecordModel();
+		\App\Db::getInstance()->createCommand()->insert('vtiger_modtracker_basic', [
+			'crmid' => $recordModel->getId(),
+			'module' => $eventHandler->getModuleName(),
+			'whodid' => \App\User::getCurrentUserRealId(),
+			'changedon' => date('Y-m-d H:i:s'),
+			'status' => ModTracker::$SHOW_HIDDEN_DATA,
+		])->execute();
 	}
 
 	/**

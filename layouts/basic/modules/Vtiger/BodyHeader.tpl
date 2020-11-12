@@ -131,7 +131,7 @@
 				</div>
 			{/if}
 			{if !\App\YetiForce\Shop::verify()}
-				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
 						{if $USER_MODEL->isAdminUser()}
 							href="index.php?module=YetiForce&parent=Settings&view=Shop"
 						{else}
@@ -141,7 +141,7 @@
 				</a>
 			{/if}
 			{if !\App\YetiForce\Register::verify(true)}
-				{if $USER_MODEL->isAdminUser()}
+				{if \App\Security\AdminAccess::isPermitted('Companies')}
 					{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
 				{else}
 					{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
@@ -149,7 +149,7 @@
 				<a class="d-flex align-items-center text-center text-warning p-0 text-danger js-popover-tooltip c-header__btn" role="button"
 						data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
 						title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
-						{if $USER_MODEL->isAdminUser()}
+						{if \App\Security\AdminAccess::isPermitted('Companies')}
 							href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
 						{else}
 							href="#"
@@ -166,48 +166,35 @@
 					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 					{if count($AUTOLOGINUSERS) > 0}
 						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
-						<div class="c-header__btn__container bg-white rounded js-header__btn--mail"
-							 {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true"
-							 data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
+						<div class="c-header__btn__container bg-white rounded js-header__btn--mail" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 							{if count($AUTOLOGINUSERS) eq 1}
-								<a class="c-header__btn btn btn-outline-dark border-0 h-100"
-								   title="{$MAIN_MAIL.username}"
-								   href="index.php?module=OSSMail&view=Index">
+								<a class="c-header__btn btn btn-outline-dark border-0 h-100" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
 									<div class="d-none d-xxl-block">
 										{if !empty($ITEM.username)}{$ITEM.username}{/if}
 										<span class="mail_user_name">{$MAIN_MAIL.username}</span>
 										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
 									</div>
 									<div class="d-xxl-none">
-										<span class="fas fa-inbox fa-fw"
-											  title="{\App\Language::translate('LBL_EMAIL')}"></span>
+										<span class="fas fa-inbox fa-fw" title="{\App\Language::translate('LBL_EMAIL')}"></span>
 									</div>
 								</a>
-							{elseif $CONFIG['showMailAccounts']=='true'}
+							{else}
 								<div class="d-none d-xxl-block">
-									<select id="mail-select" class="form-control-sm"
-											title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
+									<select id="mail-select" class="form-control-sm" title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-											<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}"
-													data-nomail="" class="noMails">
+											<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
 												{$ITEM.username}
 											</option>
 										{/foreach}
 									</select>
 								</div>
 								<div class="o-action-menu__item d-xxl-none dropdown">
-									<a class="c-header__btn btn btn-outline-dark border-0 dropdown-toggle"
-									   id="show-mail-list" data-toggle="dropdown"
-									   data-boundary="window" href="#" role="button" aria-haspopup="true"
-									   aria-expanded="false">
-										<span class="fas fa-inbox fa-fw"
-											  title="{\App\Language::translate('LBL_EMAIL')}"></span>
+									<a class="c-header__btn btn btn-outline-dark border-0 dropdown-toggle" id="show-mail-list" data-toggle="dropdown" data-boundary="window" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+										<span class="fas fa-inbox fa-fw" title="{\App\Language::translate('LBL_EMAIL')}"></span>
 									</a>
-									<ul class="dropdown-menu js-mail-list" aria-labelledby="show-mail-list" role="list"
-										data-js="click">
+									<ul class="dropdown-menu js-mail-list" aria-labelledby="show-mail-list" role="list" data-js="click">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-											<li value="{$KEY}" data-id="{$KEY}" data-nomail=""
-												class="dropdown-item noMails js-mail-link" data-js="click">
+											<li value="{$KEY}" data-id="{$KEY}" data-nomail="" class="dropdown-item noMails js-mail-link" data-js="click">
 												{$ITEM.username}
 											</li>
 										{/foreach}
@@ -219,27 +206,18 @@
 				{/if}
 			{/if}
 			{if $PARENT_MODULE === 'Settings'}
-				<div class="mr-xxl-4 d-flex flex-sm-nowrap">
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://yetiforce.shop"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="fas fa-shopping-cart fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}"></span>
+				<div class="mr-xxl-4 d-flex flex-sm-nowrap ml-4">
+					<a class="btn btn-light c-header__btn ml-2" title="YetiForce Documentation" role="button" href="https://doc.yetiforce.com" target="_blank" rel="noreferrer noopener">
+						<span class="mdi mdi-book-open-page-variant"></span>
 					</a>
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://yetiforce.shop/#support"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="far fa-life-ring fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}"></span>
+					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}" role="button" href="index.php?module=YetiForce&parent=Settings&view=Shop&category=Support" target="_blank">
+						<span class="far fa-life-ring fa-fw"></span>
 					</a>
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="fas fa-bug fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}"></span>
+					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}" role="button" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer noopener">
+						<span class="fas fa-bug fa-fw"></span>
+					</a>
+					<a class="btn btn-light c-header__btn ml-2" title="YetiForceCRM" role="button" href="#" data-toggle="modal" data-target="#yetiforceDetails">
+						<span class="fas fa-info-circle fa-fw"></span>
 					</a>
 				</div>
 			{/if}
@@ -383,7 +361,7 @@
 					{/foreach}
 					<div class="o-action-menu__item">
 						<div class="dropdown">
-							<a class="c-header__btn ml-2 btn btn-light btn dropdown-toggle js-popover-tooltip dropdownMenu"
+							<a class="c-header__btn ml-2 btn dropdown-toggle js-popover-tooltip dropdownMenu {if $CURRENT_USER->getId() != App\User::getCurrentUserRealId()}btn-info{else}btn-light{/if}"
 								id="showUserQuickMenuBtn" data-js="popover" data-toggle="dropdown" data-boundary="window"
 								data-content="{\App\Language::translate('LBL_MY_PREFERENCES')}" href="#" role="button">
 								{assign var="IMAGE" value=$CURRENT_USER->getImage()}

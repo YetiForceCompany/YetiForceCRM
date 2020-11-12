@@ -21,7 +21,8 @@ class Settings_LayoutEditor_EditField_View extends Settings_Vtiger_BasicModal_Vi
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if (!\App\User::getCurrentUserModel()->isAdmin() || !Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldId'))->isEditable()) {
+		parent::checkPermission($request);
+		if (!Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldId'))->isEditable()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}

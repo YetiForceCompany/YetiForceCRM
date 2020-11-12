@@ -181,7 +181,7 @@ Vtiger_BasicSearch_Js(
 						text: data.error.message,
 						type: 'error'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				}
 				aDeferred.resolve(data);
 			});
@@ -293,13 +293,7 @@ Vtiger_BasicSearch_Js(
 				if (searchModule.length <= 0) {
 					app
 						.getChosenElementFromSelect($('#searchModuleList'))
-						.validationEngine(
-							'showPrompt',
-							app.vtranslate('JS_SELECT_MODULE'),
-							'error',
-							'topRight',
-							true
-						);
+						.validationEngine('showPrompt', app.vtranslate('JS_SELECT_MODULE'), 'error', 'topRight', true);
 					return;
 				}
 				thisInstance
@@ -338,13 +332,7 @@ Vtiger_BasicSearch_Js(
 				if (searchModule.length <= 0) {
 					app
 						.getChosenElementFromSelect($('#searchModuleList'))
-						.validationEngine(
-							'showPrompt',
-							app.vtranslate('JS_SELECT_MODULE'),
-							'error',
-							'topRight',
-							true
-						);
+						.validationEngine('showPrompt', app.vtranslate('JS_SELECT_MODULE'), 'error', 'topRight', true);
 					return;
 				}
 

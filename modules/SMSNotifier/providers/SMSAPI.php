@@ -51,17 +51,12 @@ class SMSNotifier_SMSAPI_Provider extends SMSNotifier_Basic_Provider
 	}
 
 	/**
-	 * Response.
-	 *
-	 * @param Requests_Response $request
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
-	public function getResponse(Requests_Response $request)
+	public function getResponse($request)
 	{
-		$response = \App\Json::decode($request->body);
-
-		return isset($response['error']) && !empty($response['error']) ? false : true;
+		$response = \App\Json::decode($request->getBody());
+		return 200 === $request->getStatusCode() && empty($response['error']);
 	}
 
 	/**

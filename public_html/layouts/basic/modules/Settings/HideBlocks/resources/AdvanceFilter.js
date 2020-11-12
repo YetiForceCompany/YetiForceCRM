@@ -145,17 +145,9 @@ Vtiger_AdvanceFilter_Js(
 								}
 								let reconstructedCommaSeperatedValues = newValuesArr.join(',');
 								rowValues[field] = reconstructedCommaSeperatedValues;
-							} else if (
-								field == 'value' &&
-								valueSelectElement.is('select') &&
-								fieldType == 'picklist'
-							) {
+							} else if (field == 'value' && valueSelectElement.is('select') && fieldType == 'picklist') {
 								rowValues[field] = valueSelectElement.val();
-							} else if (
-								field == 'value' &&
-								valueSelectElement.is('select') &&
-								fieldType == 'multipicklist'
-							) {
+							} else if (field == 'value' && valueSelectElement.is('select') && fieldType == 'multipicklist') {
 								let value = valueSelectElement.val();
 								if (value == null) {
 									rowValues[field] = value;
@@ -202,13 +194,8 @@ Vtiger_AdvanceFilter_Js(
 					//values[index+1]['columns'] = {};
 					values[index + 1]['columns'] = iterationValues;
 				}
-				if (
-					groupElement.find('div.groupCondition').length > 0 &&
-					!jQuery.isEmptyObject(values[index + 1])
-				) {
-					values[index + 1]['condition'] = conditionGroups
-						.find('div.groupCondition [name="condition"]')
-						.val();
+				if (groupElement.find('div.groupCondition').length > 0 && !jQuery.isEmptyObject(values[index + 1])) {
+					values[index + 1]['condition'] = conditionGroups.find('div.groupCondition [name="condition"]').val();
 				}
 			});
 			return values;

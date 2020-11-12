@@ -20,13 +20,9 @@ namespace App\Integrations\Magento\Synchronizer\Maps;
  */
 class Invoice extends Inventory
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $moduleName = 'FInvoice';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $additionalFieldsCrm = [
 		'sum_tax' => '',
 		'sum_total' => '',
@@ -35,9 +31,7 @@ class Invoice extends Inventory
 		'sum_net' => '',
 		'finvoice_type' => 'PLL_DOMESTIC_INVOICE',
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $mappedFields = [
 		'subject' => 'increment_id',
 		'finvoice_status' => 'state',
@@ -54,9 +48,7 @@ class Invoice extends Inventory
 		'name' => 'product_id',
 		'discount' => 'discount_invoiced',
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $fieldsType = [
 		'finvoice_status' => 'map',
 		'payment_methods' => 'mapAndAddNew',
@@ -87,9 +79,7 @@ class Invoice extends Inventory
 		'paypal_express' => 'PLL_PAYPAL_EXPRESS',
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDataCrm(bool $onEdit = false): array
 	{
 		$parsedData = parent::getDataCrm($onEdit);
@@ -105,12 +95,16 @@ class Invoice extends Inventory
 		if (!empty($parsedData['mobile'])) {
 			$parsedData = $this->parsePhone('mobile', $parsedData);
 		}
+		if (!empty($parsedData['phone_a'])) {
+			$parsedData = $this->parsePhone('phone_a', $parsedData);
+		}
+		if (!empty($parsedData['phone_b'])) {
+			$parsedData = $this->parsePhone('phone_b', $parsedData);
+		}
 		return $this->dataCrm = $parsedData;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAddressDataByType(string $addressType)
 	{
 		if ('shipping' === $addressType) {

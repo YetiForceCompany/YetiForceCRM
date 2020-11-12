@@ -209,7 +209,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 * 		),
 	 *	),
 	 */
-	public function get()
+	public function get(): array
 	{
 		$this->createQuery();
 		$limit = $this->queryGenerator->getLimit();

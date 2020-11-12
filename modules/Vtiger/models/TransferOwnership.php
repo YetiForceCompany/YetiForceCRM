@@ -25,7 +25,6 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 		$type = $relModData[1];
 		switch ($type) {
 			case 0:
-
 				$field = $relModData[2];
 				foreach ($recordIds as $recordId) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
@@ -33,7 +32,6 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 						$relatedIds[] = $recordModel->get($field);
 					}
 				}
-
 				break;
 			case 1:
 				$tablename = Vtiger_Relation_Model::getInstance($parentModuleModel, Vtiger_Module_Model::getInstance($relatedModule))->getRelationField()->get('table');
@@ -63,8 +61,10 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 	{
 		foreach ($relatedModuleRecordIds as $record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $module);
-			$recordModel->set('assigned_user_id', $transferOwnerId);
-			$recordModel->save();
+			if($recordModel->isEditable()){
+				$recordModel->set('assigned_user_id', $transferOwnerId);
+				$recordModel->save();
+			}
 		}
 	}
 

@@ -48,7 +48,7 @@ Base_SortOrderModal_JS(
 				.done(function (data) {
 					app.hideModalWindow();
 					if (data.success) {
-						Vtiger_Helper_Js.showPnotify({ text: data.result.message, type: 'success' });
+						app.showNotify({ text: data.result.message, type: 'success' });
 					}
 					progress.progressIndicator({ mode: 'hide' });
 				});

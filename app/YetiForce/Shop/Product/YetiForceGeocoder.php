@@ -16,13 +16,16 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceGeocoder extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Address Search';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'Addons';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/yetiforce-address-search';
+
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 5,
 		'Small' => 12,
@@ -31,14 +34,10 @@ class YetiForceGeocoder extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Corporation' => 100,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function verify($cache = true): bool
 	{
 		return true;

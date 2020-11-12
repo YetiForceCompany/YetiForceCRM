@@ -165,7 +165,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function isAddActionSupported()
 	{
-		return $this->isActionSupported('add');
+		return $this->isActionSupported('add') && $this->getRelationModuleModel()->isPermitted('CreateView');
 	}
 
 	/**

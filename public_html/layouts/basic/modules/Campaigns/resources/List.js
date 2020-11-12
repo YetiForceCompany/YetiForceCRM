@@ -29,10 +29,7 @@ Vtiger_List_Js(
 						jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
 						jQuery('.listViewEntriesCheckBox').each(function (index, element) {
 							if (jQuery.inArray(jQuery(element).val(), excludedIds) != -1) {
-								jQuery(element)
-									.prop('checked', false)
-									.closest('tr')
-									.removeClass('highlightBackgroundColor');
+								jQuery(element).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 							}
 						});
 					}

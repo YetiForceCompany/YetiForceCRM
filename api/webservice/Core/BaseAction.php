@@ -26,6 +26,11 @@ class BaseAction
 	 */
 	public $responseType = 'data';
 
+	/**
+	 * Check called action.
+	 *
+	 * @return bool
+	 */
 	public function checkAction()
 	{
 		if ((isset($this->allowedMethod) && !\in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
@@ -33,7 +38,6 @@ class BaseAction
 		}
 		$this->checkPermission();
 		$this->checkPermissionToModule();
-
 		return true;
 	}
 
@@ -107,6 +111,9 @@ class BaseAction
 		$language = $this->getLanguage();
 		if ($language) {
 			\App\Language::setTemporaryLanguage($language);
+		}
+		if (\App\Config::performance('CHANGE_LOCALE')) {
+			\App\Language::initLocale();
 		}
 	}
 

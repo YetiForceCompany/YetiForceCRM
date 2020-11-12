@@ -36,12 +36,11 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		if ($searchParams) {
 			$minilistWidgetModel->setSearchParams($searchParams);
 		}
-		$filterField = false;
-		$filterHref = false;
+		$fieldHref = $filterField = false;
 		if ($widget->get('data')) {
 			$widgetParams = \App\Json::decode($widget->get('data'));
 			$fieldHref = $widgetParams['fieldHref'] ?? false;
-			if (isset($widgetParams['filterFields'])) {
+			if (!empty($widgetParams['filterFields'])) {
 				$filterField = Vtiger_Field_Model::getInstanceFromFieldId($widgetParams['filterFields']);
 			}
 		}

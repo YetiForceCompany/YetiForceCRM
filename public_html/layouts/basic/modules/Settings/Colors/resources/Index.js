@@ -70,7 +70,7 @@ Settings_Vtiger_Index_Js(
 					}
 				});
 				request(color).then((data) => {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: data['result']['message'],
 						type: 'success'
 					});
@@ -115,7 +115,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', data['result'].color);
 				colorPreview.data('color', data['result'].color);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -133,7 +133,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', '');
 				colorPreview.data('color', '');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -170,7 +170,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', data['result'].color);
 				colorPreview.data('color', data['result'].color);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -188,7 +188,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', '');
 				colorPreview.data('color', '');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -225,7 +225,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', data['result'].color);
 				colorPreview.data('color', data['result'].color);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -243,7 +243,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', '');
 				colorPreview.data('color', '');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -261,7 +261,7 @@ Settings_Vtiger_Index_Js(
 				color: colorPreview.data('color'),
 				record: target.data('record')
 			}).done(function (data) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -280,7 +280,7 @@ Settings_Vtiger_Index_Js(
 				picklistModule: target.data('fieldmodule'),
 				fieldId: target.data('fieldid')
 			}).done(function (data) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -310,9 +310,7 @@ Settings_Vtiger_Index_Js(
 		generatePicklistValueColor: function (e) {
 			var container = jQuery('.picklistViewContentDiv');
 			var target = $(e.currentTarget);
-			var colorPreview = container.find(
-				'#calendarColorPreviewPicklistValue' + target.data('fieldvalueid')
-			);
+			var colorPreview = container.find('#calendarColorPreviewPicklistValue' + target.data('fieldvalueid'));
 			var progress = $.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				blockInfo: {
@@ -329,7 +327,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', data['result'].color);
 				colorPreview.data('color', data['result'].color);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -340,9 +338,7 @@ Settings_Vtiger_Index_Js(
 		removePicklistValueColor: function (e) {
 			var container = jQuery('.picklistViewContentDiv');
 			var target = $(e.currentTarget);
-			var colorPreview = container.find(
-				'#calendarColorPreviewPicklistValue' + target.data('fieldvalueid')
-			);
+			var colorPreview = container.find('#calendarColorPreviewPicklistValue' + target.data('fieldvalueid'));
 			var progress = $.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				blockInfo: {
@@ -359,7 +355,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', '');
 				colorPreview.data('color', '');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -459,23 +455,15 @@ Settings_Vtiger_Index_Js(
 				}).done(function (data) {
 					container.html(data);
 					App.Fields.Picklist.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
-					App.Fields.Picklist.changeSelectElementView(
-						jQuery('.pickListModulesPicklistSelectContainer')
-					);
+					App.Fields.Picklist.changeSelectElementView(jQuery('.pickListModulesPicklistSelectContainer'));
 					thisInstance.registerModuleChangeEvent();
 					thisInstance.registerModulePickListChangeEvent();
 					$('.UserColors .addPicklistColorColumn').on('click', thisInstance.addPicklistColorColumn);
 					$('.UserColors .updatePicklistValueColor').on('click', function (e) {
 						thisInstance.updatePicklistValueColor(e, thisInstance);
 					});
-					$('.UserColors .generatePicklistValueColor').on(
-						'click',
-						thisInstance.generatePicklistValueColor
-					);
-					$('.UserColors .removePicklistValueColor').on(
-						'click',
-						thisInstance.removePicklistValueColor
-					);
+					$('.UserColors .generatePicklistValueColor').on('click', thisInstance.generatePicklistValueColor);
+					$('.UserColors .removePicklistValueColor').on('click', thisInstance.removePicklistValueColor);
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				});
 			});
@@ -492,7 +480,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', data['result'].color);
 				colorPreview.data('color', data['result'].color);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -529,7 +517,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', '');
 				colorPreview.data('color', '');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});

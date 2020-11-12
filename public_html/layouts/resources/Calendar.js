@@ -226,7 +226,10 @@ window.Calendar_Js = class {
 		AppConnector.request(params)
 			.done(function (response) {
 				if (!response['result']) {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+					app.showNotify({
+						text: app.vtranslate('JS_NO_EDIT_PERMISSION'),
+						type: 'error'
+					});
 					revertFunc();
 				} else {
 					window.popoverCache = {};
@@ -235,7 +238,10 @@ window.Calendar_Js = class {
 			})
 			.fail(function () {
 				progressInstance.progressIndicator({ mode: 'hide' });
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+				app.showNotify({
+					text: app.vtranslate('JS_NO_EDIT_PERMISSION'),
+					type: 'error'
+				});
 				revertFunc();
 			});
 	}
@@ -268,10 +274,7 @@ window.Calendar_Js = class {
 			if (this.container.hasClass('js-modal-container')) {
 				calendarPadding = this.container.find('.js-modal-header').outerHeight(); // modal needs bigger padding to prevent modal's scrollbar
 			} else {
-				calendarPadding = this.container
-					.find('.js-contents-div')
-					.css('margin-left')
-					.replace('px', ''); //equals calendar padding bottom to left margin
+				calendarPadding = this.container.find('.js-contents-div').css('margin-left').replace('px', ''); //equals calendar padding bottom to left margin
 			}
 			let setCalendarH = () => {
 				return (
@@ -383,12 +386,7 @@ window.Calendar_Js = class {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
 				}
-			} else if (
-				name &&
-				element.length > 0 &&
-				cachedValue === undefined &&
-				!element.find(':selected').length
-			) {
+			} else if (name && element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
 				let allOptions = [];
 				element.find('option').each((i, option) => {
 					allOptions.push($(option).val());
@@ -538,10 +536,7 @@ window.Calendar_Js = class {
 			let name = element.attr('name');
 			let cacheName = element.data('cache');
 			if (name) {
-				params[name] =
-					cacheName && app.moduleCacheGet(cacheName)
-						? app.moduleCacheGet(cacheName)
-						: element.val();
+				params[name] = cacheName && app.moduleCacheGet(cacheName) ? app.moduleCacheGet(cacheName) : element.val();
 				params.emptyFilters = !params.emptyFilters && params[name].length === 0;
 			}
 		});
@@ -561,11 +556,7 @@ window.Calendar_Js = class {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
 				}
-			} else if (
-				element.length > 0 &&
-				cachedValue === undefined &&
-				!element.find(':selected').length
-			) {
+			} else if (element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
 				let allOptions = [];
 				element.find('option').each((i, option) => {
 					allOptions.push($(option).val());
@@ -683,32 +674,22 @@ window.Calendar_Js = class {
 			id: calendarDetails._recordId,
 			title: calendarDetails._recordLabel,
 			start: calendar
-				.fullCalendar(
-					'moment',
-					calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value
-				)
+				.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value)
 				.format(),
 			end: calendar
-				.fullCalendar(
-					'moment',
-					calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value
-				)
+				.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value)
 				.format(),
-			start_display:
-				calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
-			end_display:
-				calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
+			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
 			url: `index.php?module=${CONFIG.module}&view=Detail&record=${calendarDetails._recordId}`,
-			className: `js-popover-tooltip--record ownerCBg_${
-				calendarDetails.assigned_user_id.value
-			} picklistCBr_${CONFIG.module}_${
-				$('.js-calendar__filter__select[data-cache="calendar-types"]').length &&
-				calendarDetails[this.eventTypeKeyName]
+			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${
+				CONFIG.module
+			}_${
+				$('.js-calendar__filter__select[data-cache="calendar-types"]').length && calendarDetails[this.eventTypeKeyName]
 					? this.eventTypeKeyName + '_' + calendarDetails[this.eventTypeKeyName]['value']
 					: ''
 			}`,
-			allDay:
-				typeof calendarDetails.allday === 'undefined' ? false : calendarDetails.allday.value == 'on'
+			allDay: typeof calendarDetails.allday === 'undefined' ? false : calendarDetails.allday.value == 'on'
 		};
 		return eventObject;
 	}
@@ -758,29 +739,25 @@ window.Calendar_Js = class {
 				allOptions.push($(option).val());
 			});
 			if ($.inArray(eventObject.assigned_user_id.value, allOptions) < 0) {
-				AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done(
-					(usersData) => {
-						let filterUsers = $('.js-calendar__filter--users');
-						let filterGroups = $('.js-calendar__filter--groups');
-						filterUsers.html(usersData);
-						if (usersData) {
-							filterUsers.closest('.js-toggle-panel').removeClass('d-none');
-						}
-						if (filterGroups.length) {
-							AppConnector.request(
-								`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`
-							).done((groupsData) => {
-								filterGroups.html(groupsData);
-								if (groupsData) {
-									filterGroups.closest('.js-toggle-panel').removeClass('d-none');
-								}
-								this.registerSelect2Event();
-							});
-						} else {
-							this.registerSelect2Event();
-						}
+				AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done((usersData) => {
+					let filterUsers = $('.js-calendar__filter--users');
+					let filterGroups = $('.js-calendar__filter--groups');
+					filterUsers.html(usersData);
+					if (usersData) {
+						filterUsers.closest('.js-toggle-panel').removeClass('d-none');
 					}
-				);
+					if (filterGroups.length) {
+						AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`).done((groupsData) => {
+							filterGroups.html(groupsData);
+							if (groupsData) {
+								filterGroups.closest('.js-toggle-panel').removeClass('d-none');
+							}
+							this.registerSelect2Event();
+						});
+					} else {
+						this.registerSelect2Event();
+					}
+				});
 			}
 		}
 	}

@@ -39,7 +39,6 @@ cache:
 branches:
     only:
         - developer
-        - /^greenkeeper/.*$/
 
 services:
     - mysql
@@ -56,10 +55,6 @@ before_script:
     - phpenv versions
     - php --version
     - sudo lscpu
-    - sudo lshw
-    - sudo cat /proc/cpuinfo
-    - sudo free -m
-    - sudo cat /proc/meminfo
     - sudo chmod -R 777 tests/setup/
     - ./tests/setup/before_script.sh
     - ./tests/setup/apache.sh
@@ -68,12 +63,6 @@ before_script:
 
 script:
     - cd tests
-    - readlink -f ../
-    - sudo ls ../ -all
-    - readlink -f ../vendor/bin/
-    - sudo ls ../vendor/bin/ -all
-    - readlink -f ../vendor/
-    - sudo ls ../vendor/ -all
     - ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
     - pwd
     - sudo ls -all

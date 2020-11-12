@@ -89,7 +89,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 				$db->createCommand()->delete('vtiger_relatedlists', ['field_name' => $fieldname, 'related_tabid' => $tabId, 'tabid' => array_map('App\Module::getModuleId', $reference)])->execute();
 			}
 
-			$entityInfo = \App\Module::getEntityInfo($tabId);
+			$entityInfo = \App\Module::getEntityInfo($fldModule);
 			foreach (['fieldnameArr' => 'fieldname', 'searchcolumnArr' => 'searchcolumn'] as $key => $name) {
 				if (false !== ($fieldNameKey = array_search($fieldname, $entityInfo[$key]))) {
 					unset($entityInfo[$key][$fieldNameKey]);

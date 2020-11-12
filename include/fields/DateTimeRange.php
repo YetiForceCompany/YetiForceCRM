@@ -100,14 +100,14 @@ class DateTimeRange
 				$dateValue[1] = $currentMonthEnd;
 				break;
 			case 'lastmonth':
-				$dateObject->modify('last month');
+				$dateObject->modify('first day of last month');
 				$lastMonthStart = $dateObject->format('Y-m-01');
 				$lastMonthEnd = $dateObject->format('Y-m-t');
 				$dateValue[0] = $lastMonthStart;
 				$dateValue[1] = $lastMonthEnd;
 				break;
 			case 'nextmonth':
-				$dateObject->modify('next month');
+				$dateObject->modify('first day of next month');
 				$nextMonthStart = $dateObject->format('Y-m-01');
 				$nextMonthEnd = $dateObject->format('Y-m-t');
 				$dateValue[0] = $nextMonthStart;

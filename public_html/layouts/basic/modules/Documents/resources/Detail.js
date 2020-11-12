@@ -74,7 +74,7 @@ Vtiger_Detail_Js(
 				type: customParams.type,
 				delay: '2000'
 			};
-			Vtiger_Helper_Js.showPnotify(params);
+			app.showNotify(params);
 		}
 	},
 	{}

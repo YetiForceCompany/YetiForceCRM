@@ -6,28 +6,30 @@
 {/if}
 <div class="o-settings-dashboard js-dashboard-container pt-2 h-100" data-js="container">
 	<div class="container-fluid h-100 px-0">
-		<div class="c-panel c-panel--collapsible c-panel--white">
-			<div class="c-panel__header collapsed" id="system-monitoring" data-toggle="collapse"
-				data-target="#system-monitoring-collapse" aria-expanded="false" aria-controls="system-monitoring-collapse">
-				<span class="mdi mdi-chevron-up mx-2 u-fs-26px"
-					alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
-				<div class="c-panel__title">
-					<span class="yfi yfi-system-monitoring"></span>
-					<h5>
-						{\App\Language::translate('LBL_SYSTEM_MONITORING', $QUALIFIED_MODULE)}
-					</h5>
-				</div>
-			</div>
-			<div id="system-monitoring-collapse" class="js-collapse collapse multi-collapse"
-				aria-labelledby="system-monitoring">
-				<div class="c-panel__body px-3">
-					<div class="c-text-divider mb-3">
-						<hr class="c-text-divider__line u-text-gray" />
+		{if $SYSTEM_MONITORING}
+			<div class="c-panel c-panel--collapsible c-panel--white">
+				<div class="c-panel__header collapsed" id="system-monitoring" data-toggle="collapse"
+					data-target="#system-monitoring-collapse" aria-expanded="false" aria-controls="system-monitoring-collapse">
+					<span class="mdi mdi-chevron-up mx-2 u-fs-26px"
+						alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<div class="c-panel__title">
+						<span class="yfi yfi-system-monitoring"></span>
+						<h5>
+							{\App\Language::translate('LBL_SYSTEM_MONITORING', $QUALIFIED_MODULE)}
+						</h5>
 					</div>
-					{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
+				</div>
+				<div id="system-monitoring-collapse" class="js-collapse collapse multi-collapse"
+					aria-labelledby="system-monitoring">
+					<div class="c-panel__body px-3">
+						<div class="c-text-divider mb-3">
+							<hr class="c-text-divider__line u-text-gray" />
+						</div>
+						{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
+					</div>
 				</div>
 			</div>
-		</div>
+		{/if}
 		<div class="c-panel c-panel--collapsible c-panel--white">
 			<div class="c-panel__header collapsed" id="my-shortcuts" data-toggle="collapse"
 				data-target="#my-shortcuts-collapse" aria-expanded="false" aria-controls="my-shortcuts-collapse">

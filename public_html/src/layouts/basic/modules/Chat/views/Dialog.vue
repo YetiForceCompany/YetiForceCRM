@@ -59,7 +59,7 @@ export default {
         animated: true,
         animate__slideOutDown: !this.dialog,
         animate__slideInUp: this.dialog,
-        'all-pointer-events': !this.dragStopped
+		'all-pointer-events': !this.dragStopped
       }
     }
   },

@@ -133,13 +133,13 @@ abstract class SMSNotifier_Basic_Provider
 	}
 
 	/**
-	 * Function to get full patch.
+	 * Function to get full path.
 	 *
 	 * @return string
 	 */
-	public function getPatch()
+	public function getPath()
 	{
-		$patch = $this->getUrl();
+		$path = $this->getUrl();
 		$keys = $this->getRequiredParams();
 		$keys[] = $this->toName;
 		$keys[] = $this->messageName;
@@ -147,7 +147,7 @@ abstract class SMSNotifier_Basic_Provider
 		foreach ($keys as $key) {
 			$params[$key] = $this->get($key);
 		}
-		return $patch . http_build_query($params);
+		return $path . http_build_query($params);
 	}
 
 	/**
@@ -159,20 +159,23 @@ abstract class SMSNotifier_Basic_Provider
 	public function send()
 	{
 		try {
-			$request = Requests::post($this->getPatch(), $this->getHeaders());
-		} catch (Exception $e) {
-			\App\Log::warning($e->getMessage());
+			$url = $this->getPath();
+			\App\Log::beginProfile('POST|' . __METHOD__ . "|{$url}", 'SMSNotifier');
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('POST', $url, ['headers' => $this->getHeaders()]);
+			\App\Log::endProfile('POST|' . __METHOD__ . "|{$url}", 'SMSNotifier');
+		} catch (\Throwable $e) {
+			\App\Log::error($e->__toString());
 			return false;
 		}
-		return $this->getResponse($request);
+		return $this->getResponse($response);
 	}
 
 	/**
 	 * Response.
 	 *
-	 * @param Requests_Response $request
+	 * @param \GuzzleHttp\Psr7\Response $request
 	 */
-	abstract public function getResponse(Requests_Response $request);
+	abstract public function getResponse($request);
 
 	/**
 	 * Fields to edit in settings.

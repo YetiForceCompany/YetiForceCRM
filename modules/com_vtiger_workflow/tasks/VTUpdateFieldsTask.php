@@ -65,6 +65,9 @@ class VTUpdateFieldsTask extends VTTask
 			}
 			$recordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 			$recordModel->save();
+			foreach (array_keys($recordModel->getPreviousValue()) as $fieldName) {
+				$rawRecordModel->set($fieldName, $recordModel->get($fieldName));
+			}
 		}
 	}
 }

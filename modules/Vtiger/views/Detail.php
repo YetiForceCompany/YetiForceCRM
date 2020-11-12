@@ -23,10 +23,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 *
 	 * @var Vtiger_DetailView_Model
 	 */
-	public $record = false;
-	protected $recordStructure = false;
-	public $defaultMode = false;
-
+	public $record;
+	/**
+	 * Record structure model instance.
+	 *
+	 * @var Vtiger_RecordStructure_Model
+	 */
+	protected $recordStructure;
+	/**
+	 * @var string
+	 */
+	public $defaultMode = '';
 	/**
 	 * Page title.
 	 *
@@ -63,6 +70,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showChat');
 		$this->exposeMethod('processWizard');
 		$this->exposeMethod('showModTrackerByField');
+		$this->exposeMethod('showCharts');
 	}
 
 	/**
@@ -96,11 +104,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
 		$eventHandler->trigger('DetailViewBefore');
-
-		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
-		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
+		$detailViewLinks = $this->record->getDetailViewLinks([
+			'MODULE' => $moduleName,
+			'RECORD' => $recordId,
+			'VIEW' => $request->getByType('view', 2)
+		]);
 		$this->record->getWidgets();
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$moduleModel = $this->record->getModule();
@@ -152,6 +161,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		]));
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -176,7 +186,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			if (!('Summary' === $currentUserModel->get('default_record_view') && $this->record->widgetsList)) {
 				$defaultMode = 'showModuleDetailView';
 			}
-		} elseif (false === $defaultMode) {
+		}
+		if (!$defaultMode) {
 			$defaultMode = 'showDetailViewByMode';
 		}
 		echo $this->{$defaultMode}($request);
@@ -230,7 +241,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet/dist/leaflet.js',
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
-			'modules.OpenStreetMap.resources.Map'
+			'modules.OpenStreetMap.resources.Map',
+			'modules.Vtiger.resources.dashboards.Widget',
+			'~libraries/chart.js/dist/Chart.js'
 		];
 		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
@@ -276,6 +289,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		if ($request->getBoolean('toWidget')) {
 			return $viewer->view('Detail/Widget/BlockView.tpl', $moduleName, true);
 		}
@@ -297,11 +311,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		if (\is_callable($moduleName . '_Record_Model', 'getStructure')) {
 			$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
 		}
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-
 		return $viewer->view('Detail/Widget/GeneralInfo.tpl', $moduleName, true);
 	}
 
@@ -315,8 +328,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$recordModel = $this->record->getRecord();
-		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
-		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
+		$detailViewLinks = $this->record->getDetailViewLinks([
+			'MODULE' => $moduleName,
+			'RECORD' => $recordId,
+			'VIEW' => $request->getByType('view', 2)
+		]);
 		$this->record->getWidgets();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
@@ -339,6 +355,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 		$viewer->assign('HIERARCHY_VALUE', $this->getHierarchyValue($request));
 		$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($moduleName));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			return $viewer->view('DetailViewSummaryView.tpl', $moduleName, true);
 		}
@@ -397,7 +414,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_BASE_NAME', 'ModTracker');
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('VIEW_MODEL', $this->record);
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		$defaultView = App\Config::module('ModTracker', 'DEFAULT_VIEW');
 		if ('List' == $defaultView) {
 			$tplName = 'RecentActivities.tpl';
@@ -446,7 +463,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		$viewer->assign('CURRENT_COMMENT', null);
 		return $viewer->view('RecentComments.tpl', $moduleName, true);
 	}
@@ -505,7 +522,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('CURRENT_COMMENT', null);
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
 	}
 
@@ -534,7 +551,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('CURRENT_COMMENT', null);
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
 	}
 
@@ -563,8 +580,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('ShowThreadComments.tpl', $moduleName, true);
 	}
 
@@ -602,7 +618,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('ShowAllComments.tpl', $moduleName, true);
 	}
 
@@ -640,7 +656,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$viewer->assign('CURRENTUSER', $currentUserModel);
 			$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 			$viewer->assign('CURRENT_COMMENT', false);
-			$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+			$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 			$viewer->assign('NO_COMMENT_FORM', true);
 			$viewer->assign('MODULE', $moduleName);
 			if (false === $isWidget) {
@@ -775,8 +791,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('ACTIVITIES', $relatedActivities);
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('RelatedActivities.tpl', $moduleName, true);
 	}
 
@@ -904,10 +919,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		$viewer->assign('NO_RESULT_TEXT', $request->getBoolean('no_result_text'));
 		$viewer->assign('RELATION_ID', $relationId);
-
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, true);
 	}
 
@@ -936,8 +950,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('SHOW_CREATOR_DETAIL', (bool) $relationModel->get('creator_detail'));
 		$viewer->assign('SHOW_COMMENT', (bool) $relationModel->get('relation_comment'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('RelatedTreeContent.tpl', $moduleName, true);
 	}
 
@@ -965,7 +978,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('RELATIONS', \Vtiger_Relation_Model::getAllRelations($moduleModel, false, true, true, 'modulename'));
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
 	}
 
@@ -1000,9 +1013,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('POPUP', $config['popup']);
 		$viewer->assign('NO_MORE', $request->getBoolean('noMore'));
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		$viewer->assign('IS_FULLSCREEN', $request->getBoolean('isFullscreen'));
-
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
 	}
 
@@ -1027,7 +1039,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$coordinates = $coordinateModel->readCoordinates($recordId);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COORRDINATES', $coordinates);
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
 	}
 
@@ -1051,6 +1063,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
 		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
 	}
 
@@ -1068,6 +1081,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
 		$viewer = $this->getViewer($request);
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		$viewer->view('Detail/Chat.tpl', 'Chat');
 	}
 
@@ -1096,6 +1110,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('VIEW', 'Detail');
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
 	}
 
@@ -1120,13 +1135,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('STEP', $step);
 		$viewer->assign('STEP_URL', "index.php?module={$moduleName}&view=Detail&record={$recordModel->getId()}&mode=processWizard&tab_label=LBL_RECORD_PROCESS_WIZARD&step=");
 		$viewer->assign('RECORD', $recordModel);
-		if(!empty($step['quickEdit'])){
+		if (!empty($step['quickEdit'])) {
 			$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		}
 		$viewer->assign('BLOCK_LIST', $recordModel->getModule()->getBlocks());
 		$viewer->assign('MODULE_MODEL', $recordModel->getModule());
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('VIEW', $request->getByType('view', 1));
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('Detail/ProcessWizard.tpl', $moduleName, true);
 	}
 
@@ -1177,6 +1193,32 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW', 'Detail');
 		$viewer->assign('FIELD_HISTORY', $history);
 		$viewer->assign('FIELD_LABEL', $recordModel->getField($fieldName)->getFieldLabel());
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('Detail/Widget/UpdatesListContent.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show Chart.
+	 *
+	 * @param App\Request $request
+	 */
+	public function showCharts(App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+
+		$widgetId = $request->getByType('widgetId', \App\Purifier::INTEGER);
+		$widgetData = (new App\Db\Query())->from('vtiger_widgets')->where(['id' => $widgetId, 'tabid' => \App\Module::getModuleId($moduleName)])->one();
+		$data = App\Json::decode($widgetData['data']);
+		$data['module'] = \App\Module::getModuleName($data['relatedmodule']);
+		$data['recordId'] = $this->record->getRecord()->getId();
+		$widgetData['data'] = \App\Json::encode($data);
+		$widget = Vtiger_Widget_Model::getInstanceFromValues($widgetData);
+		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();
+		$chartFilterWidgetModel->setWidgetModel($widget);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('CHART_MODEL', $chartFilterWidgetModel);
+		$viewer->assign('CHART_DATA', $chartFilterWidgetModel->getChartData());
+		$viewer->view('Detail/Widget/ShowChart.tpl', $moduleName);
 	}
 }

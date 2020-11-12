@@ -658,7 +658,7 @@ class PackageImport extends PackageExport
 		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTINSTALL);
 		register_shutdown_function(function () {
 			chdir(ROOT_DIRECTORY);
-			\App\UserPrivilegesFile::recalculateAll();
+			(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::recalculateAll', 'params' => []]))->save();
 		});
 	}
 

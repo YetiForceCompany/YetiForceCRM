@@ -52,13 +52,7 @@ window.Occurrences_CalendarModal_Js = class Occurrences_CalendarModal_Js extends
 				switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(
 					calendarView.find('.fc-center')
 				);
-			$(
-				this.switchTpl(
-					app.vtranslate('JS_WORK_DAYS'),
-					app.vtranslate('JS_ALL'),
-					this.isSwitchAllDays
-				)
-			)
+			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), this.isSwitchAllDays))
 				.prependTo(switchContainer)
 				.on('change', 'input', (e) => {
 					const currentTarget = $(e.currentTarget);
@@ -79,18 +73,12 @@ window.Occurrences_CalendarModal_Js = class Occurrences_CalendarModal_Js extends
 	}
 	switchTpl(on, off, state) {
 		return `<div class="btn-group btn-group-toggle js-switch c-calendar-switch" data-toggle="buttons">
-					<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on ${
-						state ? '' : 'active'
-					}">
-						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${
-			state ? '' : 'checked'
-		}>
+					<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on ${state ? '' : 'active'}">
+						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${state ? '' : 'checked'}>
 						${on}
 					</label>
 					<label class="btn btn-outline-primary c-calendar-switch__button ${state ? 'active' : ''}">
-						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${
-			state ? 'checked' : ''
-		}>
+						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${state ? 'checked' : ''}>
 						${off}
 					</label>
 				</div>`;
@@ -175,10 +163,7 @@ $.Class(
 		},
 		initCalendar() {
 			let className = this.module + '_CalendarModal_Js';
-			this.calendar = new window[className](
-				this.getContainer().closest('.js-modal-container'),
-				true
-			);
+			this.calendar = new window[className](this.getContainer().closest('.js-modal-container'), true);
 		},
 		registerEvents: function (container) {
 			this.setContainer(container);

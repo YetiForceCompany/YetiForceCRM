@@ -12,20 +12,14 @@
 class Users_DetailView_Model extends Vtiger_DetailView_Model
 {
 	/**
-	 * Function to get the detail view links (links and widgets).
-	 *
-	 * @param array $linkParams - parameters which will be used to calicaulate the params
-	 *
-	 * @return array - array of link models in the format as below
-	 *               array('linktype'=>list of link models);
+	 * {@inheritdoc}
 	 */
-	public function getDetailViewLinks($linkParams)
+	public function getDetailViewLinks(array $linkParams): array
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 		$linkModelList['DETAIL_VIEW_BASIC'] = [];
-
 		if ((true === $currentUserModel->isAdminUser() || $currentUserModel->get('id') === $recordId) && 'Active' === $recordModel->get('status')) {
 			$recordModel = $this->getRecord();
 			$detailViewLinks = [];
@@ -78,7 +72,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'yfi yfi-full-editing-view',
 				'showLabel' => true,
 			];
-			if ('PLL_PASSWORD_2FA' === \App\User::getUserModel($recordModel->getRealId())->getDetail('login_method') && 'TOTP_OFF' !== \App\Config::security('USER_AUTHY_MODE')) {
+			if ('PLL_PASSWORD_2FA' === $recordModel->get('login_method') && $recordModel->getId() === \App\User::getCurrentUserRealId() && 'TOTP_OFF' !== \App\Config::security('USER_AUTHY_MODE')) {
 				$detailViewActionLinks[] = [
 					'linktype' => 'DETAIL_VIEW_BASIC',
 					'linklabel' => 'LBL_2FA_TOTP_QR_CODE',

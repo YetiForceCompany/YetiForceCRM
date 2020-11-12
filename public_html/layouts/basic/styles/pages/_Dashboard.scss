@@ -138,6 +138,11 @@
 		.row {
 			@extend .mx-0;
 		}
+
+		.fc-bg {
+			pointer-events: none;
+		}
+
 	}
 
 	.widgeticons {

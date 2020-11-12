@@ -14,7 +14,7 @@
 				</div>
 			</div>
 			{if !\App\YetiForce\Shop::verify()}
-				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
 						{if $USER_MODEL->isAdminUser()}
 							href="index.php?module=YetiForce&parent=Settings&view=Shop"
 						{else}
@@ -24,7 +24,7 @@
 				</a>
 			{/if}
 			{if !\App\YetiForce\Register::verify(true)}
-				{if $USER_MODEL->isAdminUser()}
+				{if \App\Security\AdminAccess::isPermitted('Companies')}
 					{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
 				{else}
 					{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
@@ -32,7 +32,7 @@
 				<a class="d-flex align-items-center text-center text-warning p-0 text-danger js-popover-tooltip c-header__btn" role="button"
 						data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
 						title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
-						{if $USER_MODEL->isAdminUser()}
+						{if \App\Security\AdminAccess::isPermitted('Companies')}
 							href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
 						{else}
 							href="#"
@@ -44,27 +44,18 @@
 		</div>
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
 			{if $PARENT_MODULE === 'Settings'}
-				<div class="mr-xxl-4 d-flex flex-sm-nowrap">
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://yetiforce.shop"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="fas fa-shopping-cart fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}"></span>
+				<div class="mr-xxl-4 d-flex flex-sm-nowrap ml-4">
+					<a class="btn btn-light c-header__btn ml-2" title="YetiForce Documentation" role="button" href="https://doc.yetiforce.com" target="_blank" rel="noreferrer noopener">
+						<span class="mdi mdi-book-open-page-variant"></span>
 					</a>
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://yetiforce.shop/#support"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="far fa-life-ring fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}"></span>
+					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}" role="button" href="index.php?module=YetiForce&parent=Settings&view=Shop&category=Support" target="_blank">
+						<span class="far fa-life-ring fa-fw"></span>
 					</a>
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="fas fa-bug fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}"></span>
+					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}" role="button" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer noopener">
+						<span class="fas fa-bug fa-fw"></span>
+					</a>
+					<a class="btn btn-light c-header__btn ml-2" title="YetiForceCRM" role="button" href="#" data-toggle="modal" data-target="#yetiforceDetails">
+						<span class="fas fa-info-circle fa-fw"></span>
 					</a>
 				</div>
 			{/if}

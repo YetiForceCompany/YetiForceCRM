@@ -20,8 +20,7 @@ Vtiger_Edit_Js(
 				let isClosedStatusSet = status in closedStatus;
 				const recordId = app.getRecordId();
 				if (
-					(app.getMainParams('checkIfRecordHasTimeControl') ||
-						app.getMainParams('checkIfRelatedTicketsAreClosed')) &&
+					(app.getMainParams('checkIfRecordHasTimeControl') || app.getMainParams('checkIfRelatedTicketsAreClosed')) &&
 					isClosedStatusSet &&
 					recordId &&
 					!data.module
@@ -35,15 +34,12 @@ Vtiger_Edit_Js(
 							status: form.find('[name="ticketstatus"] :selected').val()
 						}).done((response) => {
 							progress.progressIndicator({ mode: 'hide' });
-							if (
-								response.result.hasTimeControl.result &&
-								response.result.relatedTicketsClosed.result
-							) {
+							if (response.result.hasTimeControl.result && response.result.relatedTicketsClosed.result) {
 								lockSave = false;
 								form.submit();
 							}
 							if (!response.result.hasTimeControl.result) {
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									text: response.result.hasTimeControl.message,
 									type: 'info'
 								});
@@ -53,7 +49,7 @@ Vtiger_Edit_Js(
 								});
 							}
 							if (!response.result.relatedTicketsClosed.result) {
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									text: response.result.relatedTicketsClosed.message,
 									type: 'info'
 								});
@@ -62,7 +58,7 @@ Vtiger_Edit_Js(
 					}
 				}
 				if (isClosedStatusSet && (!recordId || data.module)) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_CANT_CLOSE_NEW_RECROD'),
 						type: 'info'
 					});
@@ -103,20 +99,14 @@ Vtiger_Edit_Js(
 						}
 					}
 				}
-				jQuery('<input type="hidden" name="sourceModule" value="' + parentModule + '" />').appendTo(
-					data
-				);
-				jQuery('<input type="hidden" name="sourceRecord" value="' + parentId + '" />').appendTo(
-					data
-				);
+				jQuery('<input type="hidden" name="sourceModule" value="' + parentModule + '" />').appendTo(data);
+				jQuery('<input type="hidden" name="sourceRecord" value="' + parentId + '" />').appendTo(data);
 				jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
 
 				if (typeof relatedField !== 'undefined') {
 					let field = data.find('[name="' + relatedField + '"]');
 					if (field.length == 0) {
-						jQuery(
-							'<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />'
-						).appendTo(data);
+						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
 					}
 				}
 				for (index = 0; index < queryParameters.length; index++) {
@@ -127,11 +117,7 @@ Vtiger_Edit_Js(
 						data.find('[name="' + queryParamComponents[0] + '"]').length == 0
 					) {
 						jQuery(
-							'<input type="hidden" name="' +
-								queryParamComponents[0] +
-								'" value="' +
-								queryParamComponents[1] +
-								'" />'
+							'<input type="hidden" name="' + queryParamComponents[0] + '" value="' + queryParamComponents[1] + '" />'
 						).appendTo(data);
 					}
 				}

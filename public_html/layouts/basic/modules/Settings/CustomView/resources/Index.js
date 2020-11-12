@@ -128,7 +128,7 @@ jQuery.Class(
 				});
 			app.saveAjax('upadteSequences', sequences).done(function (data) {
 				if (data.success) {
-					Vtiger_Helper_Js.showPnotify({ text: data.result.message, type: 'success' });
+					app.showNotify({ text: data.result.message, type: 'success' });
 				}
 			});
 		},

@@ -295,8 +295,13 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($menu['filters'])) {
 			$content = $menu['id'] . '=>[';
 			$content .= "'module'=>" . var_export($menu['mod'], true) . ',';
-			$content .= "'filters'=>" . var_export($menu['filters'], true);
-			$content .= '],';
+			$content .= "'filters'=>" . var_export($menu['filters'], true) . '],';
+		}
+		if ('CustomFilter' === $menu['type']) {
+			$params = \vtlib\Functions::getQueryParams($menu['dataurl']);
+			$content = $menu['id'] . '=>[';
+			$content .= "'module'=>" . var_export($menu['mod'], true) . ',';
+			$content .= "'filters'=>" . $params['viewname'] . '],';
 		}
 		if (\count($menu['childs']) > 0) {
 			foreach ($menu['childs'] as $child) {

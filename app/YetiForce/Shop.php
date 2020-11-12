@@ -2,6 +2,7 @@
 
 /**
  * YetiForce shop file.
+ * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
  *
  * @package   App
  *
@@ -17,13 +18,20 @@ namespace App\YetiForce;
  */
 class Shop
 {
-	/**
-	 * Premium icons.
-	 */
+	/** @var string[] Premium icons. */
 	const PREMIUM_ICONS = [
 		1 => 'yfi-premium color-red-600',
 		2 => 'yfi-enterprise color-yellow-600',
 		3 => 'yfi-partners color-grey-600'
+	];
+	/** @var array Product categories. */
+	const PRODUCT_CATEGORIES = [
+		'All' => ['label' => 'LBL_CAT_ALL', 'icon' => 'fas fa-border-all'],
+		'CloudHosting' => ['label' => 'LBL_CAT_CLOUD_HOSTING', 'icon' => 'fas fa-server'],
+		'Support' => ['label' => 'LBL_CAT_SUPPORT', 'icon' => 'far fa-life-ring'],
+		'Addons' => ['label' => 'LBL_CAT_ADDONS', 'icon' => 'fas fa-puzzle-piece'],
+		'Integrations' => ['label' => 'LBL_CAT_INTEGRATIONS', 'icon' => 'adminIcon-integration'],
+		'PartnerSolutions' => ['label' => 'LBL_CAT_PARTNER_SOLUTIONS', 'icon' => 'yfi yfi-for-partners'],
 	];
 
 	/**
@@ -67,11 +75,10 @@ class Shop
 	/**
 	 * Get products.
 	 *
-	 * @param string $state
-	 * @param string $department
 	 * @param string $name
+	 * @param string $department
 	 *
-	 * @return \App\YetiForce\Shop\AbstractBaseProduct
+	 * @return Shop\AbstractBaseProduct
 	 */
 	public static function getProduct(string $name, string $department = ''): Shop\AbstractBaseProduct
 	{

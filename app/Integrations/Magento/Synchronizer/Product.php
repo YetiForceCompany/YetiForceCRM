@@ -20,9 +20,7 @@ namespace App\Integrations\Magento\Synchronizer;
  */
 class Product extends Record
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(): void
 	{
 		$this->lastScan = $this->config->getLastScan('product');
@@ -80,9 +78,7 @@ class Product extends Record
 		return $items;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSearchCriteria(int $pageSize = 10): string
 	{
 		$searchCriteria = [];

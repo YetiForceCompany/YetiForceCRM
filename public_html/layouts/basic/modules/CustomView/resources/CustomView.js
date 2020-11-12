@@ -84,18 +84,17 @@ class CustomView {
 			if (response && response.success) {
 				let url;
 				if (app.getParentModuleName() == 'Settings') {
-					url =
-						'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' +
-						$('#sourceModule').val();
+					url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
 				} else {
 					url = response.listviewurl;
 				}
 				window.location.href = url;
 			} else {
 				$.unblockUI();
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_DUPLICATE_RECORD'),
-					text: response.message
+					text: response.message,
+					type: 'error'
 				});
 			}
 		});
@@ -108,13 +107,9 @@ class CustomView {
 				let currentTarget = $(e.currentTarget);
 				let iconElement = currentTarget.next();
 				if (currentTarget.prop('checked')) {
-					iconElement
-						.removeClass(iconElement.data('unchecked'))
-						.addClass(iconElement.data('check'));
+					iconElement.removeClass(iconElement.data('unchecked')).addClass(iconElement.data('check'));
 				} else {
-					iconElement
-						.removeClass(iconElement.data('check'))
-						.addClass(iconElement.data('unchecked'));
+					iconElement.removeClass(iconElement.data('check')).addClass(iconElement.data('unchecked'));
 				}
 			});
 	}
@@ -179,9 +174,7 @@ class CustomView {
 	 */
 	registerDuplicatesEvents() {
 		const container = this.getContentsContainer();
-		App.Fields.Picklist.showSelect2ElementView(
-			container.find('.js-duplicates-container .js-duplicates-field')
-		);
+		App.Fields.Picklist.showSelect2ElementView(container.find('.js-duplicates-container .js-duplicates-field'));
 		container.on('click', '.js-duplicates-remove', function (e) {
 			$(this).closest('.js-duplicates-row').remove();
 		});
@@ -197,9 +190,10 @@ class CustomView {
 		$('#CustomView').on('submit', (e) => {
 			let selectElement = this.getColumnSelectElement();
 			if ($('#viewname').val().length > 100) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
-					text: app.vtranslate('JS_VIEWNAME_ALERT')
+					text: app.vtranslate('JS_VIEWNAME_ALERT'),
+					type: 'error'
 				});
 				e.preventDefault();
 				return;
@@ -251,9 +245,7 @@ class CustomView {
 				let advfilterlist = this.advanceFilterInstance.getConditions();
 				$('#advfilterlist').val(JSON.stringify(advfilterlist));
 				$('[name="duplicatefields"]').val(JSON.stringify(this.getDuplicateFields()));
-				$('input[name="columnslist"]', this.getContentsContainer()).val(
-					JSON.stringify(this.getSelectedColumns())
-				);
+				$('input[name="columnslist"]', this.getContentsContainer()).val(JSON.stringify(this.getSelectedColumns()));
 				this.saveAndViewFilter();
 				return false;
 			} else {

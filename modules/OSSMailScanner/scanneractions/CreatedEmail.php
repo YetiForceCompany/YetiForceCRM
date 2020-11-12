@@ -42,7 +42,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$record->set('cc_email', $mail->get('cc_email'));
 			$record->set('bcc_email', $mail->get('bcc_email'));
 			$maxLengthOrginal = $record->getField('orginal_mail')->get('maximumlength');
-			$orginal = \App\Purifier::purifyHtml($mail->get('clean'));
+			$orginal = $mail->get('clean');
 			$record->set('orginal_mail', $maxLengthOrginal ? \App\TextParser::htmlTruncate($orginal, $maxLengthOrginal, false) : $orginal);
 			$record->set('uid', $mail->get('message_id'))->set('rc_user', $account['user_id']);
 			$record->set('ossmailview_sendtype', $mail->getTypeEmail(true));
@@ -90,7 +90,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$html = nl2br($html);
 		}
 		$attachments = $mail->get('attachments');
-		if (\count($attachments) < 2) {
+		if (\Config\Modules\OSSMailScanner::$attachHtmlAndTxtToMessageBody && \count($attachments) < 2) {
 			foreach ($attachments as $key => $attachment) {
 				if (('.html' === substr($attachment['filename'], -5)) || ('.txt' === substr($attachment['filename'], -4))) {
 					$html .= $attachment['attachment'] . '<hr />';

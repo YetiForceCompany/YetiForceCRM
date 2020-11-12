@@ -8,8 +8,8 @@ Vtiger_List_Js(
 			var listInstance = Vtiger_List_Js.getInstance();
 			var validationResult = listInstance.checkListRecordSelected();
 			if (validationResult != true) {
-				app.showConfirmModal(app.vtranslate('JS_BIND_CONFIRM')).done(function (data) {
-					if (!data) {
+				app.showConfirmModal(app.vtranslate('JS_BIND_CONFIRM'), function (a) {
+					if (!a) {
 						return false;
 					}
 				});
@@ -18,7 +18,7 @@ Vtiger_List_Js(
 				$.extend(params.data, Vtiger_List_Js.getSelectedRecordsParams());
 				params.async = false;
 				AppConnector.request(params).done(function (data) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: data.result,
 						delay: '4000',
 						type: 'success'
@@ -47,7 +47,7 @@ Vtiger_List_Js(
 						text: data.result,
 						type: 'info'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 					Vtiger_List_Js.clearList();
 					listInstance.getListViewRecords();
 					app.hideModalWindow();

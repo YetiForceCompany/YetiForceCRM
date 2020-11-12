@@ -17,26 +17,23 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	 * @param \App\Request $request Values of the record
 	 *
 	 * @throws \yii\db\Exception
-	 *
-	 * @return \Vtiger_Record_Model Record Model of saved record
 	 */
 	public function saveRecord(App\Request $request)
 	{
-		$recordModel = parent::saveRecord($request);
-		$data = $recordModel->getData();
+		parent::saveRecord($request);
+		$data = $this->record->getData();
 		if ($request->getBoolean('reapeat')) {
 			$recurringEvents = Calendar_RecuringEvents_Model::getInstanceFromRequest($request);
-			if ($request->isEmpty('record') || (!$recordModel->isNew() && $recordModel->isEmpty('followup'))) {
-				App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
-				$data['followup'] = $recordModel->getId();
+			if ($request->isEmpty('record') || (!$this->record->isNew() && $this->record->isEmpty('followup'))) {
+				App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $this->record->getId()], ['activityid' => $this->record->getId()])->execute();
+				$data['followup'] = $this->record->getId();
 			} elseif (empty($data['followup'])) {
-				$data['followup'] = $recordModel->getId();
+				$data['followup'] = $this->record->getId();
 			}
-			$recurringEvents->setChanges($recordModel->getPreviousValue());
+			$recurringEvents->setChanges($this->record->getPreviousValue());
 			$recurringEvents->setData($data);
 			$recurringEvents->save();
 		}
-		return $recordModel;
 	}
 
 	/**
@@ -48,10 +45,10 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	 */
 	protected function getRecordModelFromRequest(App\Request $request)
 	{
-		$recordModel = parent::getRecordModelFromRequest($request);
+		parent::getRecordModelFromRequest($request);
 		if (!$request->isEmpty('typeSaving') && Calendar_RecuringEvents_Model::UPDATE_THIS_EVENT === $request->getInteger('typeSaving')) {
-			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
+			$this->record->set('recurrence', $this->record->getPreviousValue('recurrence'));
 		}
-		return $recordModel;
+		return $this->record;
 	}
 }

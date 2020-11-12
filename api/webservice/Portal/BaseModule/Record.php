@@ -33,7 +33,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @var \Vtiger_Record_Model
 	 */
-	protected $recordModel;
+	public $recordModel;
 
 	/**
 	 * Check permission to method.
@@ -191,7 +191,7 @@ class Record extends \Api\Core\BaseAction
 	 *					description="Value summary inventory data",
 	 * 					type="object",
 	 *				),
-	 *			@OA\Property(property="rawData", description="Tax selected in inventory", type="object"),
+	 *			@OA\Property(property="rawData", description="Raw record data", type="object"),
 	 *			@OA\Property(property="rawInventory", description="Inventory data", type="object"),
 	 *		),
 	 * ),
@@ -203,7 +203,6 @@ class Record extends \Api\Core\BaseAction
 	public function get(): array
 	{
 		$moduleName = $this->controller->request->get('module');
-		$record = $this->controller->request->get('record');
 		$rawData = $this->recordModel->getData();
 
 		$displayData = $fieldsLabel = [];
@@ -223,7 +222,6 @@ class Record extends \Api\Core\BaseAction
 				$rawData[$fieldModel->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$fieldModel->getName()]);
 			}
 		}
-
 		$response = [
 			'name' => $this->recordModel->getName(),
 			'id' => $this->recordModel->getId(),
@@ -234,7 +232,6 @@ class Record extends \Api\Core\BaseAction
 				'moveToTrash' => $this->recordModel->privilegeToDelete()
 			]
 		];
-
 		if ($this->recordModel->getModule()->isInventory()) {
 			$rawInventory = $this->recordModel->getInventoryData();
 			$inventory = $summaryInventory = [];
@@ -331,7 +328,6 @@ class Record extends \Api\Core\BaseAction
 	public function delete(): bool
 	{
 		$this->recordModel->changeState('Trash');
-
 		return true;
 	}
 
@@ -399,6 +395,7 @@ class Record extends \Api\Core\BaseAction
 	 *			description="Updated record id.",
 	 *			type="object",
 	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
+	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
@@ -470,12 +467,19 @@ class Record extends \Api\Core\BaseAction
 	 *			description="Created record id.",
 	 *			type="object",
 	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
+	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
 	 * ),
 	 */
 	public function post()
 	{
-		$model = (new \Api\Portal\Save($this->controller->app['id']))->saveRecord($this->controller->request);
-		return ['id' => $model->getId()];
+		$saveModel = new \Api\Portal\Save();
+		$saveModel->init($this);
+		$saveModel->saveRecord($this->controller->request);
+		$return = ['id' => $this->recordModel->getId()];
+		if ($saveModel->skippedData) {
+			$return['skippedData'] = $saveModel->skippedData;
+		}
+		return  $return;
 	}
 }

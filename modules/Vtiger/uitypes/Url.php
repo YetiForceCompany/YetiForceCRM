@@ -48,7 +48,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 			$scheme = 'http';
 			$value = "{$scheme}://{$value}";
 		}
-		if (!(preg_match('/^([^\:]+)\:/i', $value) && filter_var($value, FILTER_VALIDATE_URL) && \in_array(strtolower($scheme), static::ALLOWED_PROTOCOLS))) {
+		if (!(preg_match('/^([^\:]+)\:/i', $value) && \App\Validator::url($value) && \in_array(strtolower($scheme), static::ALLOWED_PROTOCOLS))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;

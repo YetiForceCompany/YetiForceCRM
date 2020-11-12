@@ -16,8 +16,7 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserModel = \App\User::getCurrentUserModel();
-		if ($currentUserModel->isAdmin() || ($currentUserModel->getId() === $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES'))) {
+		if (\App\Security\AdminAccess::isPermitted($request->getModule()) || (\App\User::getCurrentUserId() === $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES'))) {
 			return true;
 		}
 		throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
@@ -40,12 +39,14 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 	public function preProcessSettings(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
+		$userModel = \App\User::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$view = $request->getByType('view', \App\Purifier::STANDARD, '');
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('MENUS', Settings_Vtiger_Menu_Model::getMenu($moduleName, $view, $request->getMode()));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->assign('SHOW_MODAL_VISIT_PURPOSE', !$userModel->isAdmin() && !(\App\Session::get('showedModalVisitPurpose')[$userModel->getId()] ?? null));
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 

@@ -23,9 +23,12 @@ class EventHandler
 	private $moduleName;
 	private $params;
 	private $exceptions = [];
+	private $handlers = [];
 
-	/** Edit view, validation before saving */
+	/** @var string Edit view, validation before saving */
 	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
+	/** @var string Edit view, change value */
+	public const EDIT_VIEW_CHANGE_VALUE = 'EditViewChangeValue';
 
 	/**
 	 * Get all event handlers.
@@ -76,6 +79,32 @@ class EventHandler
 	}
 
 	/**
+	 * Get vars event handlers by type (event_name).
+	 *
+	 * @param string $name
+	 * @param string $moduleName
+	 * @param array  $params
+	 * @param bool   $byKey
+	 *
+	 * @return string
+	 */
+	public static function getVarsByType(string $name, string $moduleName, array $params, bool $byKey = false): string
+	{
+		$return = [];
+		foreach (self::getByType($name, $moduleName) as $key => $handler) {
+			$className = $handler['handler_class'];
+			if (method_exists($className, 'vars') && ($vars = (new $className())->vars($name, $params, $moduleName))) {
+				if ($byKey) {
+					$return[$key] = $vars;
+				} else {
+					$return = array_unique(array_merge($return, $vars));
+				}
+			}
+		}
+		return Purifier::encodeHtml(Json::encode($return));
+	}
+
+	/**
 	 * Register an event handler.
 	 *
 	 * @param string $eventName      The name of the event to handle
@@ -84,13 +113,16 @@ class EventHandler
 	 * @param string $excludeModules
 	 * @param int    $priority
 	 * @param bool   $isActive
-	 * @param mixed  $ownerId
+	 * @param int    $ownerId
+	 *
+	 * @return bool
 	 */
-	public static function registerHandler($eventName, $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0)
+	public static function registerHandler(string $eventName, string $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0): bool
 	{
+		$return = false;
 		$isExists = (new \App\Db\Query())->from(self::$baseTable)->where(['event_name' => $eventName, 'handler_class' => $className])->exists();
 		if (!$isExists) {
-			\App\Db::getInstance()->createCommand()
+			$return = \App\Db::getInstance()->createCommand()
 				->insert(self::$baseTable, [
 					'event_name' => $eventName,
 					'handler_class' => $className,
@@ -102,6 +134,7 @@ class EventHandler
 				])->execute();
 			static::clearCache();
 		}
+		return $return;
 	}
 
 	/**
@@ -141,6 +174,30 @@ class EventHandler
 	{
 		Db::getInstance()->createCommand()->update(self::$baseTable, $params, ['eventhandler_id' => $id])->execute();
 		static::clearCache();
+	}
+
+	/**
+	 * Check if it is active function.
+	 *
+	 * @param string      $className
+	 * @param string|null $eventName
+	 *
+	 * @return bool
+	 */
+	public static function checkActive(string $className, ?string $eventName = null): bool
+	{
+		$rows = (new \App\Db\Query())->from(self::$baseTable)->where(['handler_class' => $className])->all();
+		$status = false;
+		foreach ($rows as $row) {
+			if (isset($eventName) && $eventName !== $row['event_name']) {
+				continue;
+			}
+			if (empty($row['is_active'])) {
+				return false;
+			}
+			$status = true;
+		}
+		return $status;
 	}
 
 	/**
@@ -314,6 +371,11 @@ class EventHandler
 			Log::error("Handler not found, class: {$className} | {$function}");
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
-		return (new $className())->{$function}($this);
+		if (isset($this->handlers[$className])) {
+			$handler = $this->handlers[$className];
+		} else {
+			$handler = $this->handlers[$className] = new $className();
+		}
+		return $handler->{$function}($this);
 	}
 }

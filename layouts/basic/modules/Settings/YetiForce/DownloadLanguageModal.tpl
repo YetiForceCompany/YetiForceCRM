@@ -23,7 +23,7 @@
 								<strong>{\App\Purifier::encodeHtml($PREFIX)}</strong>
 							</td>
 							<td class="align-middle u-table-column__vw-20 u-table-column__before-block{if $INDEX == 0} border-top-0{/if} w-100">
-								<div class="progress position-relative">
+								<div class="progress position-relative u-h-line-normal">
 									<div class="progress-bar bg-color-blue-100" role="progressbar"
 										 style="width: {$DETAILS['progress']}%;"
 										 aria-valuenow="{$DETAILS['progress']}" aria-valuemin="0" aria-valuemax="100">

@@ -16,13 +16,16 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceMap extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Map';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'Addons';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/yetiforce-map';
+
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 20,
 		'Small' => 50,
@@ -31,14 +34,10 @@ class YetiForceMap extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Corporation' => 1250,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function verify($cache = true): bool
 	{
 		return true;

@@ -141,11 +141,7 @@ class Security
 	public static $allowedFrameDomains = [];
 
 	/** Allowed domains for loading images, used in CSP. */
-	public static $allowedImageDomains = [
-		'a.tile.openstreetmap.org',
-		'b.tile.openstreetmap.org',
-		'c.tile.openstreetmap.org',
-	];
+	public static $allowedImageDomains = [];
 
 	/** Allowed domains for loading script, used in CSP. */
 	public static $allowedScriptDomains = [];
@@ -176,4 +172,7 @@ class Security
 
 	/** Proxy password */
 	public static $proxyPassword = '';
+
+	/** @var bool Ask admin about visit purpose */
+	public static $askAdminAboutVisitPurpose = true;
 }

@@ -12,17 +12,13 @@ $('.show_pass').on('click', function (e) {
 		class="copy_pass${record} btn btn-light btn-sm mr-2 js-popover-tooltip" data-content="${text}" data-js="popover"><span class="fas fa-download"></span></button>`);
 	let element = $('[id="pass_' + record + '"]');
 	let passVal = element.html();
-	let showPassText = btn.data('titleShow')
-		? btn.data('titleShow')
-		: app.vtranslate('LBL_ShowPassword');
-	let hidePassText = btn.data('titleHide')
-		? btn.data('titleHide')
-		: app.vtranslate('LBL_HidePassword');
+	let showPassText = btn.data('titleShow') ? btn.data('titleShow') : app.vtranslate('LBL_ShowPassword');
+	let hidePassText = btn.data('titleHide') ? btn.data('titleHide') : app.vtranslate('LBL_HidePassword');
 
 	if (clipBoardInstances[copyKey] === undefined) {
 		let clipboard = new ClipboardJS(copyKey, {
 			text: function (trigger) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success'
 				});

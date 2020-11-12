@@ -47,8 +47,9 @@ class Vtiger_GetData_Action extends App\Controller\Action
 		} else {
 			$fields = $recordModel->getModule()->getFields();
 		}
+		$fieldsDependency = \App\FieldsDependency::getByRecordModel('Detail', $recordModel);
 		foreach ($fields as $fieldName => $fieldModel) {
-			if ($fieldModel->isViewable()) {
+			if ($fieldModel->isViewable() && (empty($fieldsDependency['hide']['backend']) || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
 				$data[$fieldName] = $recordModel->get($fieldName);
 				$labels[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $recordModel->getModuleName());
 				$display[$fieldName] = $fieldModel->getDisplayValue($recordModel->get($fieldName), $record, $recordModel, true);

@@ -229,7 +229,7 @@ class Login extends \Api\Core\BaseAction
 		if (!$row) {
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
-		if (\App\Encryption::getInstance()->decrypt($row['password_t']) !== $this->controller->request->get('password')) {
+		if (\App\Encryption::getInstance()->decrypt($row['password_t']) !== $this->controller->request->getRaw('password')) {
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
 		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type'] && (empty($row['crmid']) || !\App\Record::isExists($row['crmid']))) {

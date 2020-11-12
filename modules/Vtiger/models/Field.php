@@ -161,14 +161,17 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Get full label translation.
 	 *
-	 * @param Vtiger_Module_Model $module
+	 * @param Vtiger_Module_Model|null $module
 	 *
 	 * @return string
 	 */
-	public function getFullLabelTranslation(Vtiger_Module_Model $module)
+	public function getFullLabelTranslation(?Vtiger_Module_Model $module = null): string
 	{
 		$translation = '';
 		if ($this->get('source_field_name')) {
+			if (!$module) {
+				throw new \App\Exceptions\AppException('ERR_ARGUMENT_DOES_NOT_EXIST');
+			}
 			$translation = \App\Language::translate($module->getFieldByName($this->get('source_field_name'))->getFieldLabel(), $module->getName()) . ' - ';
 		}
 		return $translation .= \App\Language::translate($this->getFieldLabel(), $this->getModuleName());
@@ -650,7 +653,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			return $this->get('isMandatory');
 		}
 		$typeOfData = explode('~', $this->get('typeofdata'));
-		return (isset($typeOfData[1]) && 'M' === $typeOfData[1]) ? true : false;
+		return isset($typeOfData[1]) && 'M' === $typeOfData[1];
 	}
 
 	/**
@@ -763,7 +766,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isAjaxEditable()
 	{
-		$ajaxRestrictedFields = [72, 12];
+		$ajaxRestrictedFields = [72, 12, 101];
 		return !(10 === (int) $this->get('displaytype') || $this->isReferenceField() || !$this->getUITypeModel()->isAjaxEditable() || !$this->isEditable() || \in_array($this->get('uitype'), $ajaxRestrictedFields));
 	}
 
@@ -1463,14 +1466,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getFieldParams()
 	{
-		$data = \App\Json::decode($this->get('fieldparams'));
-		if (!\is_array($data)) {
-			$data = $this->get('fieldparams');
-			if (empty($data)) {
-				return [];
-			}
+		if (\App\Json::isJson($this->get('fieldparams'))) {
+			return \App\Json::decode($this->get('fieldparams'));
 		}
-		return $data;
+		return $this->get('fieldparams') ?: [];
 	}
 
 	public function isActiveSearchView()

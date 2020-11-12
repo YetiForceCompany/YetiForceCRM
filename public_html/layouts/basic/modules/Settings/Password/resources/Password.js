@@ -28,7 +28,7 @@ var Settings_Password_Js = {
 				text: response,
 				type: 'info'
 			};
-			Vtiger_Helper_Js.showPnotify(params);
+			app.showNotify(params);
 		});
 	},
 	registerPwned: function () {
@@ -42,13 +42,13 @@ var Settings_Password_Js = {
 				vale: this.value
 			})
 				.done(function (data) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: data['result']['message'],
 						type: 'success'
 					});
 				})
 				.fail(function () {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_ERROR'),
 						type: 'error'
 					});

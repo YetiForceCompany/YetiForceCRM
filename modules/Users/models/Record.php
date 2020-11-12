@@ -312,6 +312,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 				throw new \App\Exceptions\SaveRecord('ERR_PASSWORD_HAS_ALREADY_BEEN_USED', 406);
 			}
 		}
+		if (!$this->isNew() && 'on' === $this->getPreviousValue('is_admin')) {
+			$isExists = (new App\Db\Query())->from('vtiger_users')->where(['is_admin' => 'on'])->andWhere(['<>', 'id', $this->getId()])->exists();
+			if (!$isExists) {
+				throw new \App\Exceptions\SaveRecord('ERR_REMOVING_LAST_ADMIN', 406);
+			}
+		}
 	}
 
 	/**
@@ -323,7 +329,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$this->cleanAttachments();
 		if ($this->isNew() || false !== $this->getPreviousValue('roleid') || false !== $this->getPreviousValue('is_admin')) {
 			\App\Privilege::setAllUpdater();
-			if (!$this->isNew()) {
+			if (!$this->isNew() && false !== $this->getPreviousValue('roleid')) {
 				$dbCommand->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
 			}
 		}
@@ -350,6 +356,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$dbCommand->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
 		self::cleanCache($this->getId());
+		$this->updateLabel();
 	}
 
 	/**
@@ -361,6 +368,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		\App\Cache::delete('UserImageById', $userId);
 		\App\Cache::delete('UserIsExists', $userId);
+		\App\Cache::delete('UserIsExistsInactive', $userId);
 		\App\Cache::delete('NumberOfUsers', '');
 		\App\Cache::delete('ActiveAdminId', '');
 	}
@@ -901,7 +909,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Verify user assword.
+	 * Verify user password.
 	 *
 	 * @param string $password
 	 *
@@ -1041,5 +1049,29 @@ class Users_Record_Model extends Vtiger_Record_Model
 			\App\Cache::save('UsersFavourite', $this->getId(), $favouriteUsers, \App\Cache::LONG);
 		}
 		return $favouriteUsers;
+	}
+
+	/**
+	 * Update record label.
+	 *
+	 * @return void
+	 */
+	public function updateLabel(): void
+	{
+		$metaInfo = \App\Module::getEntityInfo($this->getModuleName());
+		$labelName = [];
+		foreach ($metaInfo['fieldnameArr'] as $columnName) {
+			$fieldModel = $this->getModule()->getFieldByColumn($columnName);
+			$labelName[] = $fieldModel->getDisplayValue($this->get($fieldModel->getName()), $this->getId(), $this, true);
+		}
+		$label = \App\Purifier::encodeHtml(\App\TextParser::textTruncate(\App\Purifier::decodeHtml(implode(' ', $labelName)), 250, false));
+		if (!empty($label)) {
+			$db = \App\Db::getInstance();
+			if (!(new \App\Db\Query())->from('u_#__users_labels')->where(['id' => $this->getId()])->exists()) {
+				$db->createCommand()->insert('u_#__users_labels', ['id' => $this->getId(), 'label' => $label])->execute();
+			} else {
+				$db->createCommand()->update('u_#__users_labels', ['label' => $label], ['id' => $this->getId()])->execute();
+			}
+		}
 	}
 }

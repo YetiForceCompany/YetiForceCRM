@@ -16,17 +16,19 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Hosting';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'CloudHosting';
+
+	/** {@inheritdoc} */
 	public $pricesType = 'selection';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/marketplace/hosting-en';
+
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 20,
 		'Small' => 50,
@@ -35,9 +37,7 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Corporation' => 1250,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $customFields = [
 		'subdomain' => [
 			'label' => 'LBL_SHOP_DOMAIN_PREFIX',
@@ -53,19 +53,13 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 		]
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $companyDataForm = false;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function verify($cache = true): bool
 	{
 		return true;

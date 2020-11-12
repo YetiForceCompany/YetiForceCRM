@@ -11,23 +11,18 @@
 
 class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Model
 {
-	/**
-	 * Function to get the values in stuctured format.
-	 *
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
-	 */
+	/** {@inheritdoc} */
 	public function getStructure()
 	{
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
-
 		$values = [];
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
-		$moduleModel = $this->getModule();
-		$blockModelList = $moduleModel->getBlocks();
+		$fieldsDependency = \App\FieldsDependency::getByRecordModel('Detail', $recordModel);
+		$blockModelList = $this->getModule()->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty($fieldModelList)) {
@@ -42,17 +37,18 @@ class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Mod
 						}
 						$recordModel->set($fieldName, $fieldValue);
 					}
-					if ($fieldModel->isViewableInDetailView()) {
+					if ($fieldModel->isViewableInDetailView() && (empty($fieldsDependency['hide']['backend']) || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
 						if ($recordId) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+						}
+						if (!empty($fieldsDependency['hide']['frontend']) && \in_array($fieldName, $fieldsDependency['hide']['frontend'])) {
+							$fieldModel->set('hideField', true);
 						}
 						$values[$blockLabel][$fieldName] = $fieldModel;
 					}
 				}
 			}
 		}
-		$this->structuredValues = $values;
-
-		return $values;
+		return $this->structuredValues = $values;
 	}
 }

@@ -26,13 +26,13 @@ jQuery.Class(
 							text: app.vtranslate(response.message),
 							type: 'success'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 					} else {
 						params = {
 							text: app.vtranslate(response.message),
 							type: 'error'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 					}
 				});
 			});

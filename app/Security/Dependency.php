@@ -96,9 +96,11 @@ class Dependency
 			$options['headers']['Content-Type'] = 'application/octet-stream';
 			$options['headers']['Content-Disposition'] = 'form-data; name="lock"; filename="composer.lock"';
 			$options['headers']['Accept'] = 'application/json';
+			\App\Log::beginProfile("POST|Dependency::check|{$this->checkUrl}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, [
 				'body' => $lockFile
 			]);
+			\App\Log::endProfile("POST|Dependency::check|{$this->checkUrl}", __NAMESPACE__);
 			$result = (array) \App\Json::decode($response->getBody());
 			$result = (\is_array($result) && !empty($result)) ? $result : [];
 		}

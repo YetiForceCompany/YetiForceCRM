@@ -14,9 +14,7 @@ Vtiger_RelatedList_Js(
 					cb: (modalContainer) => {
 						modalContainer.find('.js-modal__save').on('click', (e) => {
 							let element = modalContainer.find('.js-margin');
-							let resultOfValidation = Vtiger_NumberUserFormat_Validator_Js.invokeValidation(
-								element
-							);
+							let resultOfValidation = Vtiger_NumberUserFormat_Validator_Js.invokeValidation(element);
 							if (typeof resultOfValidation !== 'undefined') {
 								element.validationEngine('showPrompt', resultOfValidation, '', 'topLeft', true);
 								e.preventDefault();
@@ -67,7 +65,7 @@ Vtiger_RelatedList_Js(
 						price: element.val()
 					}).done(function (responseData) {
 						if (responseData.result) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 								type: 'success'
 							});

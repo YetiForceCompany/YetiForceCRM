@@ -155,11 +155,7 @@ Vtiger_AdvanceFilter_Js(
 									}
 								}
 								rowValues[field] = newValuesArr.join(',');
-							} else if (
-								field === 'value' &&
-								valueSelectElement.is('select') &&
-								fieldType === 'picklist'
-							) {
+							} else if (field === 'value' && valueSelectElement.is('select') && fieldType === 'picklist') {
 								rowValues[field] = valueSelectElement.val();
 							} else if (
 								field === 'value' &&
@@ -211,13 +207,8 @@ Vtiger_AdvanceFilter_Js(
 					values[index + 1] = {};
 					values[index + 1]['columns'] = iterationValues;
 				}
-				if (
-					groupElement.find('div.groupCondition').length > 0 &&
-					!$.isEmptyObject(values[index + 1])
-				) {
-					values[index + 1]['condition'] = conditionGroups
-						.find('div.groupCondition [name="condition"]')
-						.val();
+				if (groupElement.find('div.groupCondition').length > 0 && !$.isEmptyObject(values[index + 1])) {
+					values[index + 1]['condition'] = conditionGroups.find('div.groupCondition [name="condition"]').val();
 				}
 			});
 			return values;
@@ -292,11 +283,7 @@ Vtiger_AdvanceFilter_Js(
 					}
 					clonedPopupUi
 						.find('.fieldValueContainer')
-						.prepend(
-							'<input type="checkbox" class="fieldValue col-md-4" value="' +
-								value +
-								'" data-input="true" >'
-						);
+						.prepend('<input type="checkbox" class="fieldValue col-md-4" value="' + value + '" data-input="true" >');
 
 					if (value == 'true:boolean' || value === '') {
 						clonedPopupUi.find('.fieldValueContainer input').attr('checked', 'checked');
@@ -306,9 +293,7 @@ Vtiger_AdvanceFilter_Js(
 				}
 				let callBackFunction = function (data) {
 					data.find('.clonedPopupUi').removeClass('d-none');
-					let moduleNameElement = fieldValueElement
-						.closest('.js-conditions-row')
-						.find('[name="modulename"]');
+					let moduleNameElement = fieldValueElement.closest('.js-conditions-row').find('[name="modulename"]');
 					if (moduleNameElement.length > 0) {
 						var moduleName = moduleNameElement.val();
 						data.find('.useFieldElement').addClass('d-none');
@@ -402,13 +387,9 @@ Vtiger_AdvanceFilter_Js(
 				var fieldValueElement = fieldUiHolder.find('.getPopupUi');
 				if (valueType != 'rawtext') {
 					fieldValueElement.removeAttr('data-validation-engine');
-					fieldValueElement.removeClass(
-						'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'
-					);
+					fieldValueElement.removeClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
 				} else {
-					fieldValueElement.addClass(
-						'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'
-					);
+					fieldValueElement.addClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
 					fieldValueElement.attr(
 						'data-validation-engine',
 						'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'

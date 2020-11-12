@@ -11,6 +11,8 @@
 
 namespace Api\Portal\BaseModule;
 
+use OpenApi\Annotations as OA;
+
 /**
  * Get record history class.
  */
@@ -21,7 +23,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	/**
 	 * {@inheritdoc}
 	 */
-	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit'];
+	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-start-with'];
 	/**
 	 * Record model.
 	 *
@@ -90,6 +92,14 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *			@OA\Schema(type="integer"),
 	 *			in="header",
 	 *			example=0,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-start-with",
+	 *			description="Show history from given ID",
+	 *			@OA\Schema(type="integer"),
+	 *			in="header",
+	 *			example=5972,
 	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
@@ -167,16 +177,17 @@ class RecordHistory extends \Api\Core\BaseAction
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$pagingModel->set('page', (int) $requestOffset);
 		}
-		$recentActivities = \ModTracker_Record_Model::getUpdates($this->controller->request->getInteger('record'), $pagingModel, 'changes');
+		$recentActivities = \ModTracker_Record_Model::getUpdates($this->controller->request->getInteger('record'), $pagingModel, 'changes', $this->controller->request->getHeader('x-start-with'));
 		$response = [];
 		$isRawData = $this->isRawData();
 		foreach ($recentActivities as $recordModel) {
 			$row = [
-				'time' => $recordModel->get('changedon'),
+				'time' => $recordModel->getDisplayActivityTime(),
 				'owner' => $recordModel->getModifiedBy()->getDisplayName(),
 				'status' => \App\Language::translate($recordModel->getStatusLabel(), 'ModTracker'),
 			];
 			if ($isRawData) {
+				$row['rawTime'] = $recordModel->getActivityTime();
 				$row['rawOwner'] = $recordModel->getModifiedBy()->getId();
 				$row['rawStatus'] = $recordModel->getStatusLabel();
 			}
@@ -204,9 +215,7 @@ class RecordHistory extends \Api\Core\BaseAction
 					$row['data']['targetId'] = $relationInstance->get('targetid');
 				}
 			}
-			if ($row) {
-				$response[] = $row;
-			}
+			$response[$recordModel->get('id')] = $row;
 		}
 		return $response;
 	}

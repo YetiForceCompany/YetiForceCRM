@@ -1,12 +1,14 @@
 {
   "php": {
     "LBL_APP_NAME": "Name",
-    "LBL_ADDRESS_URL": "URL",
+    "LBL_ADDRESS_URL": "Allowed IPs",
+    "LBL_ADDRESS_URL_INFO": "Empty value - access from all servers.\nIf IP addresses are entered (after the decimal point), API access will be allowed only from these IP addresses.\nExample:",
     "LBL_TYPE_SERVER": "Type",
     "LBL_API_KEY": "Key",
     "LBL_ADD_APPLICATION": "Add key",
     "LBL_WEBSERVICE_APPS": "Web service - Applications",
     "LBL_WEBSERVICE_APPS_DESCRIPTION": "Create and manage application keys that integrate via API.",
+    "LBL_MODAL_ALERT": "The access data should be entered in the header in each API request.",
     "Mail": "Mail",
     "LBL_PASS": "Password",
     "LBL_TITLE_ADDED": "Add",

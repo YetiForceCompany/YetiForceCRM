@@ -8,11 +8,10 @@ namespace App;
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Module
 {
-	protected static $moduleEntityCacheById = [];
-
 	/**
 	 * Cache for tabdata.php.
 	 *
@@ -38,53 +37,46 @@ class Module
 		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
 	}
 
-	public static function getEntityInfo($mixed = false)
+	/**
+	 * Gets entity info.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array|null
+	 */
+	public static function getEntityInfo(string $moduleName = null): ?array
 	{
-		$entity = false;
-		if ($mixed) {
-			if (is_numeric($mixed)) {
-				if (Cache::has('ModuleEntityById', $mixed)) {
-					return Cache::get('ModuleEntityById', $mixed);
-				}
-			} else {
-				if (Cache::has('ModuleEntityByName', $mixed)) {
-					return Cache::get('ModuleEntityByName', $mixed);
-				}
-			}
-		}
-		if (!$entity) {
-			$dataReader = (new \App\Db\Query())->from('vtiger_entityname')
-				->createCommand()->query();
+		return self::getEntitiesInfo()[$moduleName] ?? null;
+	}
+
+	/**
+	 * Gets all entities data.
+	 *
+	 * @param array
+	 */
+	public static function getEntitiesInfo(): array
+	{
+		$cacheName = 'ModuleEntityInfo';
+		if (!Cache::has($cacheName, '')) {
+			$entityInfos = [];
+			$dataReader = (new \App\Db\Query())->from('vtiger_entityname')->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$row['fieldnameArr'] = explode(',', $row['fieldname']);
 				$row['searchcolumnArr'] = explode(',', $row['searchcolumn']);
-				Cache::save('ModuleEntityByName', $row['modulename'], $row);
-				Cache::save('ModuleEntityById', $row['tabid'], $row);
-				static::$moduleEntityCacheById[$row['tabid']] = $row;
+				$entityInfos[$row['modulename']] = $row;
 			}
-			if ($mixed) {
-				if (is_numeric($mixed)) {
-					return Cache::get('ModuleEntityById', $mixed);
-				}
-				return Cache::get('ModuleEntityByName', $mixed);
-			}
+			return Cache::save($cacheName, '', $entityInfos);
 		}
-		return $entity;
+		return Cache::get($cacheName, '');
 	}
 
 	public static function getAllEntityModuleInfo($sort = false)
 	{
-		if (empty(static::$moduleEntityCacheById)) {
-			static::getEntityInfo();
-		}
-		$entity = [];
+		$entity = static::getEntitiesInfo();
 		if ($sort) {
-			foreach (static::$moduleEntityCacheById as $row) {
-				$entity[$row['sequence']] = $row;
-			}
-			ksort($entity);
-		} else {
-			$entity = static::$moduleEntityCacheById;
+			usort($entity, function ($a, $b) {
+				return $a['sequence'] < $b['sequence'] ? -1 : 1;
+			});
 		}
 		return $entity;
 	}

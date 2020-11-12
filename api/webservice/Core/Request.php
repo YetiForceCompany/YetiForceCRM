@@ -36,6 +36,7 @@ class Request extends \App\Request
 		'x-product-bundles' => \App\Purifier::INTEGER,
 		'x-row-order-field' => \App\Purifier::ALNUM_EXTENDED,
 		'x-row-order' => \App\Purifier::ALNUM,
+		'x-start-with' => \App\Purifier::INTEGER,
 	];
 
 	/**
@@ -83,13 +84,13 @@ class Request extends \App\Request
 		}
 		$return = [];
 		switch ($type) {
+			case 'json':
+				$return = json_decode($content, 1);
+				break;
 			case 'form-data':
 			case 'x-www-form-urlencoded':
 				mb_parse_str($content, $data);
 				$return = $data;
-				break;
-			case 'json':
-				$return = json_decode($content, 1);
 				break;
 		}
 		return $return;

@@ -105,9 +105,7 @@ Settings_MappedFields_Edit_Js(
 			opts['promptPosition'] = 'bottomRight';
 			container.validationEngine(opts);
 			this.registerCancelStepClickEvent(container);
-			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(
-				jQuery('#advanceFilterContainer', container)
-			);
+			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('#advanceFilterContainer', container));
 			App.Fields.Picklist.changeSelectElementView(container);
 		}
 	}

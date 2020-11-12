@@ -32,6 +32,7 @@
 								<label class="btn btn-sm btn-outline-primary active">
 									<input class="js-switch" type="radio" name="options" id="options-option1" data-js="change"
 										data-on-text="{App\Language::translate('LBL_CURRENT')}"
+										data-params="{\App\Purifier::encodeHtml(\App\Json::encode(['orderby' => ['date_start' => 'ASC', 'time_start' => 'ASC']]))}"
 										data-on-val="{if isset($WIDGET['switchTypeInHeader']['on'])}{\App\Purifier::encodeHtml($WIDGET['switchTypeInHeader']['on'])}{/if}"
 										data-basic-text="{App\Language::translate('LBL_CURRENT')}" autocomplete="off" checked="checked" data-urlparams="search_params">
 									{App\Language::translate('LBL_CURRENT')}
@@ -40,16 +41,19 @@
 									<input class="js-switch" type="radio" name="options" id="options-option2" data-js="change"
 										data-basic-text="{App\Language::translate('LBL_HISTORY')}"
 										data-off-text="data-off-text {App\Language::translate('LBL_HISTORY')}"
+										data-params="{\App\Purifier::encodeHtml(\App\Json::encode(['orderby' => ['date_start' => 'DESC', 'time_start' => 'DESC']]))}"
 										data-off-val="{if isset($WIDGET['switchTypeInHeader']['off'])}{\App\Purifier::encodeHtml($WIDGET['switchTypeInHeader']['off'])}{/if}"
 										autocomplete="off" data-urlparams="search_params"> {App\Language::translate('LBL_HISTORY')}
 								</label>
 							</div>
 						{/if}
-						<button class="btn btn-sm btn-light addButton createActivity"
-							data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true"
-							type="button" title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
-							<span class="fas fa-plus"></span>
-						</button>
+						{if !$IS_READ_ONLY}
+							<button class="btn btn-sm btn-light addButton createActivity"
+								data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true"
+								type="button" title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
+								<span class="fas fa-plus"></span>
+							</button>
+						{/if}
 					</div>
 				</div>
 			</div>

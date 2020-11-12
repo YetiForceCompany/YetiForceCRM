@@ -88,24 +88,15 @@ jQuery.Class(
 				var newSequenceNumber = parseInt(lastSequenceNumber) + 1;
 				var newMapping = jQuery('.newMapping').clone(true, true);
 				newMapping.attr('sequence-number', newSequenceNumber);
-				newMapping
-					.find('select.leadsFields.newSelect')
-					.attr('name', 'mapping[' + newSequenceNumber + '][lead]');
-				newMapping
-					.find('select.accountsFields.newSelect')
-					.attr('name', 'mapping[' + newSequenceNumber + '][account]');
-				newMapping
-					.find('select.contactFields.newSelect')
-					.attr('name', 'mapping[' + newSequenceNumber + '][contact]');
+				newMapping.find('select.leadsFields.newSelect').attr('name', 'mapping[' + newSequenceNumber + '][lead]');
+				newMapping.find('select.accountsFields.newSelect').attr('name', 'mapping[' + newSequenceNumber + '][account]');
+				newMapping.find('select.contactFields.newSelect').attr('name', 'mapping[' + newSequenceNumber + '][contact]');
 				newMapping.removeClass('d-none newMapping');
 				newMapping.appendTo(convertLeadMappingTable);
 				newMapping.find('.newSelect').removeClass('newSelect').addClass('select2');
 				var select2Elements = newMapping.find('.select2');
 				App.Fields.Picklist.showSelect2ElementView(select2Elements);
-				jQuery('select.accountsFields.select2,select.contactFields.select2', newMapping).trigger(
-					'change',
-					false
-				);
+				jQuery('select.accountsFields.select2,select.contactFields.select2', newMapping).trigger('change', false);
 			});
 		},
 
@@ -235,7 +226,7 @@ jQuery.Class(
 								type: 'info'
 							};
 						}
-						Vtiger_Helper_Js.showPnotify(notifyParams);
+						app.showNotify(notifyParams);
 					})
 					.fail(function (error) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -248,10 +239,7 @@ jQuery.Class(
 		 */
 		registerOnChangeEventOfTargetModule: function () {
 			var form = jQuery('#leadsMapping');
-			form.on('change', 'select.accountsFields.select2,select.contactFields.select2', function (
-				e,
-				executeChange
-			) {
+			form.on('change', 'select.accountsFields.select2,select.contactFields.select2', function (e, executeChange) {
 				if (typeof executeChange === 'undefined') {
 					executeChange = true;
 				}
@@ -294,13 +282,9 @@ jQuery.Class(
 				}
 
 				if (selectElement.hasClass('accountsFields')) {
-					existingIdElement = jQuery(
-						'select.accountsFields.select2[selectedid="' + selectedOptionId + '"]'
-					);
+					existingIdElement = jQuery('select.accountsFields.select2[selectedid="' + selectedOptionId + '"]');
 				} else {
-					existingIdElement = jQuery(
-						'select.contactFields.select2[selectedid="' + selectedOptionId + '"]'
-					);
+					existingIdElement = jQuery('select.contactFields.select2[selectedid="' + selectedOptionId + '"]');
 				}
 
 				if (existingIdElement.length > 0) {

@@ -51,18 +51,16 @@ class Settings_OSSMail_Config_Model extends App\Base
 	public function getForm()
 	{
 		return [
-			'product_name' => ['label' => 'LBL_RC_product_name', 'fieldType' => 'text', 'required' => 1],
-			'validate_cert' => ['label' => 'LBL_RC_validate_cert', 'fieldType' => 'checkbox', 'required' => 0],
-			'imap_open_add_connection_type' => ['label' => 'LBL_RC_imap_open_add_connection_type', 'fieldType' => 'checkbox', 'required' => 0],
 			'default_host' => ['label' => 'LBL_RC_default_host', 'fieldType' => 'multipicklist', 'required' => 1],
 			'default_port' => ['label' => 'LBL_RC_default_port', 'fieldType' => 'int', 'required' => 1],
 			'smtp_server' => ['label' => 'LBL_RC_smtp_server', 'fieldType' => 'text', 'required' => 1],
+			'smtp_port' => ['label' => 'LBL_RC_smtp_port', 'fieldType' => 'int', 'required' => 1],
+			'username_domain' => ['label' => 'LBL_RC_username_domain', 'fieldType' => 'text', 'required' => 0],
+			'validate_cert' => ['label' => 'LBL_RC_validate_cert', 'fieldType' => 'checkbox', 'required' => 0],
+			'imap_open_add_connection_type' => ['label' => 'LBL_RC_imap_open_add_connection_type', 'fieldType' => 'checkbox', 'required' => 0],
+			'language' => ['label' => 'LBL_RC_language', 'fieldType' => 'picklist', 'required' => 1, 'value' => self::LANGUAGES],
 			'smtp_user' => ['label' => 'LBL_RC_smtp_user', 'fieldType' => 'text', 'required' => 1],
 			'smtp_pass' => ['label' => 'LBL_RC_smtp_pass', 'fieldType' => 'text', 'required' => 1],
-			'smtp_port' => ['label' => 'LBL_RC_smtp_port', 'fieldType' => 'int', 'required' => 1],
-			'language' => ['label' => 'LBL_RC_language', 'fieldType' => 'picklist', 'required' => 1, 'value' => self::LANGUAGES],
-			'username_domain' => ['label' => 'LBL_RC_username_domain', 'fieldType' => 'text', 'required' => 0],
-			'skin_logo' => ['label' => 'LBL_RC_skin_logo', 'fieldType' => 'text', 'required' => 1],
 			'ip_check' => ['label' => 'LBL_RC_ip_check', 'fieldType' => 'checkbox', 'required' => 0],
 			'enable_spellcheck' => ['label' => 'LBL_RC_enable_spellcheck', 'fieldType' => 'checkbox', 'required' => 0],
 			'identities_level' => ['label' => 'LBL_RC_identities_level', 'fieldType' => 'picklist', 'required' => 1, 'value' => [0, 1, 2, 3, 4]],

@@ -63,32 +63,4 @@ class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 		$response->setResult($result);
 		$response->emit();
 	}
-
-	/**
-	 * Function to verify status for multiple files.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function multiple(App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$result = ['success' => true];
-		foreach ($request->getArray('record', 'Integer') as $record) {
-			$documentRecordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$resultVal = $documentRecordModel->checkFileIntegrity();
-			if ($documentRecordModel->get('filestatus') !== (int) $resultVal) {
-				$documentRecordModel->updateFileStatus((int) $resultVal);
-			}
-			if (!$resultVal) {
-				$result = [
-					'success' => $resultVal,
-					'message' => App\Language::translate('LBL_FILE_NOT_AVAILABLE', $moduleName) . ": {$documentRecordModel->get('notes_title')}"
-				];
-				break;
-			}
-		}
-		$response = new Vtiger_Response();
-		$response->setResult($result);
-		$response->emit();
-	}
 }

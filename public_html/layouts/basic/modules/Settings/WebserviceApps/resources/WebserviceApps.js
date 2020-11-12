@@ -115,7 +115,10 @@ $.Class(
 									thisInstance.loadTable();
 									app.hideModalWindow();
 								} else if (typeof data.result.error !== 'undefined') {
-									Vtiger_Helper_Js.showPnotify(data.result.error);
+									app.showNotify({
+										text: data.result.error,
+										type: 'error'
+									});
 								}
 							});
 						}

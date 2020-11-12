@@ -98,7 +98,7 @@ class UpdateUtils
 					$addContentString = implode('', $addContent);
 					$content .= $addContentString;
 				}
-				file_put_contents($fileName, $content);
+				file_put_contents($fileName, $content, LOCK_EX);
 			}
 		}
 	}

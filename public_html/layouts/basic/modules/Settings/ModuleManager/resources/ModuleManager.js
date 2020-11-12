@@ -66,13 +66,12 @@ jQuery.Class(
 				progress.progressIndicator({ mode: 'hide' });
 				const result = data.result;
 				if (!result.success) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: result.text,
 						type: 'error'
 					});
 				} else {
-					window.location.href =
-						'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
+					window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
 				}
 			});
 		},
@@ -124,14 +123,12 @@ jQuery.Class(
 		},
 		createModule: function (currentTarget) {
 			var progressIndicatorElement = jQuery.progressIndicator();
-			app.showModalWindow(
-				null,
-				'index.php?module=ModuleManager&parent=Settings&view=CreateModule',
-				function (wizardContainer) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					Settings_Module_Manager_Js.registerModalCreateModule(wizardContainer);
-				}
-			);
+			app.showModalWindow(null, 'index.php?module=ModuleManager&parent=Settings&view=CreateModule', function (
+				wizardContainer
+			) {
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				Settings_Module_Manager_Js.registerModalCreateModule(wizardContainer);
+			});
 		},
 		//This will show the notification message using pnotify
 		showNotify: function (customParams) {
@@ -141,7 +138,7 @@ jQuery.Class(
 				type: 'info'
 			};
 			$.extend(params, customParams);
-			Vtiger_Helper_Js.showPnotify(params);
+			app.showNotify(params);
 		},
 		frameProgress: false,
 		deleteModule: function (container) {
@@ -165,7 +162,7 @@ jQuery.Class(
 						mode: 'deleteModule',
 						forModule: forModule
 					}).done(function (data) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							title: app.vtranslate('JS_REMOVED_MODULE'),
 							type: 'info'
 						});

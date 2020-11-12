@@ -53,7 +53,7 @@
 							<ul class="dropdown-menu">
 								{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
 									<li>
-										<a class="dropdown-item" href="#" data-view="{$RELATEDLIST_VIEW->get('view')}">
+										<a class="dropdown-item js-change-related-view" href="#" data-view="{$RELATEDLIST_VIEW->get('view')}" data-js="click">
 											{if $RELATEDLIST_VIEW->get('linkicon') neq ''}
 												<span class="{$RELATEDLIST_VIEW->get('linkicon')} mr-1"></span>
 											{/if}

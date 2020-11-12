@@ -82,6 +82,11 @@ class Controller
 			$this->response->setAcceptableMethods($handler->allowedMethod);
 			return false;
 		}
+		if (!empty($this->app['acceptable_url'])) {
+			if (!\in_array(\App\RequestUtil::getRemoteIP(true), array_map('trim', explode(',', $this->app['acceptable_url'])))) {
+				throw new Core\Exception('Illegal IP address', 401);
+			}
+		}
 		if ($this->headers['x-api-key'] !== \App\Encryption::getInstance()->decrypt($this->app['api_key'])) {
 			throw new Core\Exception('Invalid api key', 401);
 		}
@@ -151,7 +156,7 @@ class Controller
 
 	public function debugRequest()
 	{
-		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
+		if (\App\Config::debug('WEBSERVICE_LOG_REQUESTS')) {
 			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
 			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;

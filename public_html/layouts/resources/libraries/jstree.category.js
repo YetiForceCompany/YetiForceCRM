@@ -39,9 +39,7 @@
 							m[dpc[i]].category = [];
 							m[dpc[i]].category.checked =
 								(m[dpc[i]].category && m[dpc[i]].category.checked) ||
-								(m[dpc[i]].original &&
-									m[dpc[i]].original.category &&
-									m[dpc[i]].original.category.checked);
+								(m[dpc[i]].original && m[dpc[i]].original.category && m[dpc[i]].original.category.checked);
 							if (m[dpc[i]].category.checked) {
 								this._data.category.selected.push(dpc[i]);
 							}
@@ -158,10 +156,7 @@
 					obj.state.selected = false;
 					this._data.core.selected = $.vakata.array_remove_item(this._data.core.selected, obj.id);
 					if (dom.length) {
-						dom
-							.attr('aria-selected', false)
-							.children('.jstree-anchor')
-							.removeClass('jstree-clicked');
+						dom.attr('aria-selected', false).children('.jstree-anchor').removeClass('jstree-clicked');
 					}
 					this.trigger('deselect_node', {
 						node: obj,
@@ -260,10 +255,7 @@
 				obj.category.checked = false;
 			}
 			let dom = this.get_node(obj, true);
-			this._data.category.selected = $.vakata.array_remove_item(
-				this._data.category.selected,
-				obj.id
-			);
+			this._data.category.selected = $.vakata.array_remove_item(this._data.category.selected, obj.id);
 			if (dom && dom.length) {
 				let item = dom.children('.jstree-anchor').find('.jstree-category');
 				item.removeClass(options.checkClass).removeClass(options.undeterminedClass);

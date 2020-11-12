@@ -1,11 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Modals-QuickEdit -->
-<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 <input type="hidden" name="module" value="{$MODULE_NAME}"/>
 <input type="hidden" name="record" value="{$RECORD_ID}"/>
 <input type="hidden" name="action" value="SaveAjax"/>
 <input type="hidden" name="fromView" value="QuickEdit"/>
+<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
+<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, 'QuickEdit'])}"/>
 {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 	<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 {/if}
@@ -69,7 +70,7 @@
 								<div class="{if $FIELD_MODEL->get('label') eq "FL_REAPEAT"} col-sm-3
 							{elseif $FIELD_MODEL->get('label') eq "FL_RECURRENCE"} col-sm-9
 							{elseif $FIELD_MODEL->getUIType() neq "300"}col-sm-6
-							{else} col-md-12 m-auto{/if}  row form-group align-items-center my-1">
+							{else} col-md-12 m-auto{/if}  row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
 									{/if}
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 									<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left {if $FIELD_MODEL->getUIType() neq "300"} text-xl-right {/if} u-text-small-bold">
@@ -130,21 +131,6 @@
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 						</div>
 					{/foreach}
-					{if !empty($NO_FIELD_ACCESS)}
-						<div class="alert alert-warning w-100 mt-2">
-							<span class="font-weight-bold">{\App\Language::translate('LBL_NO_FIELD_ACCESS')}</span>
-							{foreach key=FIELD_LABEL item=FIELD_VALUE from=$NO_FIELD_ACCESS}
-								<div class="w-100 row">
-									<span class="col-4">
-										{$FIELD_LABEL}:
-									</span>
-									<span class="col-8">
-										{$FIELD_VALUE}
-									</span>
-								</div>
-							{/foreach}
-						</div>
-					{/if}
 				</div>
 			</div>
 		{else}

@@ -21,9 +21,6 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted('ModTracker')) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
 		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName, 'TimeLineList') || !\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -74,6 +71,7 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 
 		$viewClassName = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$instance = new $viewClassName();
+		$instance->record = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
 
 		$this->preProcess($request);
 		echo $instance->showRecentRelation($request);

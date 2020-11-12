@@ -46,8 +46,7 @@
 								{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
 									<optgroup label="{$BLOCK_NAME}">
 										{foreach item=ITEM from=$RELATED_FIELDS}
-											<option value="{$ITEM['var_value']}"
-													data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
+											<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
 										{/foreach}
 									</optgroup>
 								{/foreach}
@@ -61,6 +60,34 @@
 							<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedVariable"
 									data-copy-type="label"
 									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
+								<span class="fas fa-copy"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
+		{assign var=RELATED_LEVEL_VARIABLE value=$TEXT_PARSER->getRelatedLevelVariable()}
+		{if $RELATED_LEVEL_VARIABLE}
+			<div class="col-sm-6 fieldRow row form-group align-items-center my-1">
+				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_DEPENDENT_NEXT_LEVEL_MODULE_FIELDS','Other.TextParser')}</label>
+				<div class="medium w-100  col-lg-12 col-xl-9  fieldValue">
+					<div class="input-group">
+						<select class="select2 form-control" id="relatedRecordLevel" data-width="style">
+							{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$RELATED_LEVEL_VARIABLE}
+								<optgroup label="{$BLOCK_NAME}">
+									{foreach item=ITEM from=$RELATED_FIELDS}
+										<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
+						</select>
+						<div class="input-group-append">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedRecordLevel"
+									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+								<span class="fas fa-copy"></span>
+							</button>
+							<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedRecordLevel" data-copy-type="label" title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
 						</div>

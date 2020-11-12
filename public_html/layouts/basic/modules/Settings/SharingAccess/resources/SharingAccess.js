@@ -127,12 +127,12 @@ jQuery.Class(
 					app.hideModalWindow();
 					let moduleName = $('[name="for_module"]', form).val();
 					thisInstance.loadCustomRulesList(moduleName);
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						type: 'success',
 						text: response.message
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						type: 'error',
 						text: 'JS_ERROR'
 					});
@@ -208,7 +208,7 @@ jQuery.Class(
 							customRuleTable.addClass('d-none');
 						}
 					} else {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							type: 'error',
 							text: 'JS_ERROR'
 						});
@@ -266,10 +266,7 @@ jQuery.Class(
 				let element = $(e.currentTarget),
 					trElement = element.closest('tr'),
 					moduleName = trElement.data('moduleName'),
-					customRuleListContainer = $(
-						'.' + thisInstance.getCustomRuleContainerClassName(moduleName),
-						contentTable
-					);
+					customRuleListContainer = $('.' + thisInstance.getCustomRuleContainerClassName(moduleName), contentTable);
 				if (customRuleListContainer.length > 0) {
 					if (app.isHidden(customRuleListContainer)) {
 						customRuleListContainer.show();
@@ -320,7 +317,7 @@ jQuery.Class(
 				thisInstance.save(data).done(function (data) {
 					contentContainer.find('button:submit').addClass('d-none');
 					thisInstance.registerSharingAccessEdit();
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY'),
 						type: 'success'
 					});

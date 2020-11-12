@@ -68,12 +68,23 @@ class YetiForceGeocoder extends Base
 		if (!empty($this->config['country_codes'])) {
 			$params['countrycodes'] = $this->config['country_codes'];
 		}
+		$options = [
+			'timeout' => 30,
+			'headers' => [
+				'InsKey' => \App\YetiForce\Register::getInstanceKey()
+			]
+		];
+		if (isset($product['params']['token'])) {
+			$params['yf_token'] = $product['params']['token'];
+		} else {
+			$options['auth'] = [$product['params']['login'], $product['params']['pass']];
+		}
 		$rows = [];
 		try {
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-				->request('GET', 'https://osm-search.yetiforce.eu/?' . \http_build_query($params), [
-					'auth' => [$product['params']['login'], $product['params']['pass']], 'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]
-				]);
+			$url = 'https://osm-search.yetiforce.eu/?' . \http_build_query($params);
+			\App\Log::beginProfile("GET|YetiForceGeocoder::find|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, $options);
+			\App\Log::endProfile("GET|YetiForceGeocoder::find|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody());
 			}

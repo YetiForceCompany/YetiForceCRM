@@ -94,7 +94,8 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	public function isPermitted(int $userId = 0): bool
 	{
 		$userId = $userId ?: \App\User::getCurrentUserId();
-		return empty($this->get('admin_access')) || false !== strpos($this->get('admin_access'), ",{$userId},");
+		return (empty($this->getParam('module')) || \App\Security\AdminAccess::isPermitted($this->getParam('module'), $userId)) &&
+			(empty($this->get('admin_access')) || false !== strpos($this->get('admin_access'), ",{$userId},"));
 	}
 
 	/**

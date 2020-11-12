@@ -63,7 +63,7 @@ class Api extends \Tests\Base
 	protected static $schemaManager;
 
 	/**
-	 * @var \GuzzleHttp\ClientInterface
+	 * @var \GuzzleHttp\Client
 	 */
 	protected $httpClient;
 
@@ -87,7 +87,7 @@ class Api extends \Tests\Base
 		$webserviceApps->set('type', 'Portal');
 		$webserviceApps->set('status', 1);
 		$webserviceApps->set('name', 'portal');
-		$webserviceApps->set('acceptable_url', 'http://portal2/');
+		$webserviceApps->set('acceptable_url', '');
 		$webserviceApps->set('pass', 'portal');
 		$webserviceApps->save();
 		static::$serverId = (int) $webserviceApps->getId();
@@ -201,7 +201,7 @@ class Api extends \Tests\Base
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame($response['status'], 1, 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/{moduleName}/Record', 'put', 200);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/{moduleName}/Record/{recordId}', 'put', 200);
 	}
 
 	/**
@@ -274,12 +274,11 @@ class Api extends \Tests\Base
 	 */
 	public function testGetMenu(): void
 	{
-		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'BaseAction/Menu', static::$requestOptions);
+		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Menu', static::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame($response['status'], 1, 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['BaseAction']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/BaseAction/Menu', 'get', 200);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Menu', 'get', 200);
 	}
 
 	/**

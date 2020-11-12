@@ -17,7 +17,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static $baseModuleTools = ['Import', 'Export', 'Merge', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter', 'QuickExportToExcel', 'ExportPdf', 'RecordMapping',
-		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord', 'CloseRecord', 'ReceivingMailNotifications', 'CreateDashboardChartFilter', 'TimeLineList', 'ArchiveRecord', 'ActiveRecord', 'MassTrash', 'MoveToTrash', 'RecordConventer', 'AutoAssignRecord', 'AssignToYourself'];
+		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord', 'CloseRecord', 'ReceivingMailNotifications', 'CreateDashboardChartFilter', 'TimeLineList', 'ArchiveRecord', 'ActiveRecord', 'MassTrash', 'MoveToTrash', 'RecordConventer', 'AutoAssignRecord', 'AssignToYourself', 'InterestsConflictUsers'];
 
 	/**
 	 * @var array Base module tools exceptions.
@@ -310,7 +310,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field7->column = 'modifiedby';
 		$field7->uitype = 52;
 		$field7->typeofdata = 'V~O';
-		$field7->displaytype = 3;
+		$field7->displaytype = 2;
 		$field7->quickcreate = 3;
 		$field7->masseditable = 0;
 		$field7->maximumlength = '65535';

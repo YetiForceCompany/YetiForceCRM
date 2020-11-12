@@ -76,7 +76,7 @@
 														<div class="col-sm-6 col-lg-4">
 															<div class="btn-group-toggle mt-1 w-100" data-toggle="buttons">
 																<label class="btn btn-sm btn-outline-secondary w-100 text-right" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
-																	<input data-toggle="button" aria-pressed="false"
+																	<input aria-pressed="false"
 																		   autocomplete="off" type="checkbox"
 																		   id="selectRow{$FIELD_MODEL->getName()}"
 																		   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"

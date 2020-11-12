@@ -14,8 +14,8 @@
 				<div class="js-toggle-panel c-panel"
 					 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
 					 data-label="{$BLOCK_LABEL_KEY}">
-					<div class="blockHeader c-panel__header py-sm-2 py-0">
-						<div class="mx-2 my-sm-2 my-1">
+					<div class="blockHeader c-panel__header py-0">
+						<div class="mx-2 my-1">
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}"
 								  data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"
 								  data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>

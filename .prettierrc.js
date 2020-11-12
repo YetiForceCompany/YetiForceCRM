@@ -12,16 +12,16 @@ module.exports = {
 		{
 			files: '*.json',
 			options: {
-				useTabs: false,
+				useTabs: false
 			}
 		}
 	],
-	printWidth: 100,
+	printWidth: 120,
 	tabWidth: 2,
 	useTabs: true,
-	trailingComma: "none",
+	trailingComma: 'none',
 	bracketSpacing: true,
 	jsxBracketSameLine: false,
-	arrowParens: "always",
-	proseWrap: "preserve"
-}
+	arrowParens: 'always',
+	proseWrap: 'preserve'
+};

@@ -16,13 +16,16 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Magento Integration';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'Integrations';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/yetiforce-magento-integration';
+
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 10,
 		'Small' => 25,
@@ -31,16 +34,25 @@ class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Corporation' => 500,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function verify($cache = true): bool
 	{
 		return true;
+	}
+
+	/** {@inheritdoc} */
+	public function analyzeConfiguration(): array
+	{
+		if (empty($this->expirationDate) || \Settings_Magento_Module_Model::isActive()) {
+			return [];
+		}
+		return [
+			'message' => \App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', 'Settings:Magento', 'Magento'),
+			'type' => 'LBL_REQUIRES_INTERVENTION',
+			'href' => 'index.php?parent=Settings&module=Magento&view=List'
+		];
 	}
 }

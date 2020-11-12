@@ -37,13 +37,13 @@ class Users_Save_Action extends Vtiger_Save_Action
 	 */
 	protected function getRecordModelFromRequest(App\Request $request)
 	{
-		$recordModel = parent::getRecordModelFromRequest($request);
-		if ($recordModel->isNew()) {
-			$recordModel->set('user_name', $request->get('user_name', null));
-			$recordModel->set('user_password', $request->getRaw('user_password', null));
-			$recordModel->set('confirm_password', '');
+		parent::getRecordModelFromRequest($request);
+		if ($this->record->isNew()) {
+			$this->record->set('user_name', $request->get('user_name', null));
+			$this->record->set('user_password', $request->getRaw('user_password', null));
+			$this->record->set('confirm_password', '');
 		}
-		return $recordModel;
+		return $this->record;
 	}
 
 	/**
@@ -78,16 +78,16 @@ class Users_Save_Action extends Vtiger_Save_Action
 
 			return false;
 		}
-		$recordModel = $this->saveRecord($request);
+		$this->saveRecord($request);
 		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
 		$settingsModuleModel->refreshSwitchUsers();
 		if ($request->getBoolean('relationOperation')) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2));
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} elseif ($request->getBoolean('isPreference')) {
-			$loadUrl = $recordModel->getPreferenceDetailViewUrl();
+			$loadUrl = $this->record->getPreferenceDetailViewUrl();
 		} else {
-			$loadUrl = $recordModel->getDetailViewUrl();
+			$loadUrl = $this->record->getDetailViewUrl();
 		}
 		header("location: $loadUrl");
 	}

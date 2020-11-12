@@ -28,38 +28,38 @@ class Token extends Base
 	 */
 	private $token;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function authorize()
 	{
-		\App\Log::beginProfile('POST|V1/integration/admin/token', 'Integrations/MagentoApi');
+		$url = rtrim($this->config->get('url'), '/') . '/rest/V1/integration/admin/token';
+		\App\Log::beginProfile("POST|Token::authorize|{$url}", 'App\Integrations\Magento');
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-			->post(rtrim($this->config->get('url'), '/') . '/rest/V1/integration/admin/token', [
+			->post($url, [
 				'timeout' => 0,
+				'http_errors' => false,
 				'json' => ['username' => $this->config->get('user_name'), 'password' => $this->config->get('password')]]);
-		\App\Log::endProfile('POST|V1/integration/admin/token', 'Integrations/MagentoApi');
+		\App\Log::endProfile("POST|Token::authorize|{$url}", 'App\Integrations\Magento');
 		if (200 !== $response->getStatusCode()) {
-			throw new AppException();
+			throw new AppException($response->getReasonPhrase(), $response->getStatusCode());
 		}
 		$this->token = \App\Json::decode((string) $response->getBody());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function request(string $method, string $action, array $params = []): string
 	{
-		\App\Log::beginProfile($method . '|' . $action, 'Integrations/MagentoApi');
-		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($method, rtrim($this->config->get('url'), '/') . "/rest/$action", [
+		$url = rtrim($this->config->get('url'), '/') . "/rest/$action";
+		\App\Log::beginProfile("{$method}|Token::request|{$url}", 'App\Integrations\Magento');
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($method, $url, [
 			'headers' => [
 				'authorization' => 'Bearer ' . $this->token
 			],
 			'timeout' => 0,
+			'http_errors' => false,
 			'json' => $params]);
-		\App\Log::endProfile($method . '|' . $action, 'Integrations/MagentoApi');
+		\App\Log::endProfile("{$method}|Token::request|{$url}", 'App\Integrations\Magento');
 		if (200 !== $response->getStatusCode()) {
-			throw new AppException();
+			throw new AppException($response->getReasonPhrase(), $response->getStatusCode());
 		}
 		return (string) $response->getBody();
 	}

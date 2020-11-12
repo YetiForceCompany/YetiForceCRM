@@ -302,7 +302,7 @@ class QueryGenerator
 	/**
 	 * Set custom column.
 	 *
-	 * @param type $columns
+	 * @param string|string[] $columns
 	 *
 	 * @return \self
 	 */

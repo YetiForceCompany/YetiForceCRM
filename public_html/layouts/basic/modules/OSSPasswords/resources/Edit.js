@@ -49,14 +49,11 @@ Vtiger_Edit_Js(
 							sticker_hover: false,
 							type: 'error'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 						thisInstance.sending = false;
 						e.preventDefault();
 						e.stopPropagation();
-					} else if (
-						data.result.success === true &&
-						(thisInstance.sending === undefined || !thisInstance.sending)
-					) {
+					} else if (data.result.success === true && (thisInstance.sending === undefined || !thisInstance.sending)) {
 						thisInstance.sending = true;
 					} else if (thisInstance.sending) {
 						e.preventDefault();

@@ -11,7 +11,7 @@
     <YfIcon
       :style="styles"
       :size="size"
-      :icon="isDesktopNotification ? 'yfi-chat-notification-on' : 'yfi-chat-notification-off'"
+      :icon="isDesktopNotification && isNotificationPermitted() ? 'yfi-chat-notification-on' : 'yfi-chat-notification-off'"
     />
     <q-tooltip>{{ translate('JS_CHAT_NOTIFICATION') }}</q-tooltip>
   </q-btn>
@@ -41,15 +41,15 @@ export default {
   methods: {
     ...mapMutations(['setDesktopNotification']),
     isNotificationPermitted() {
-		return PNotify.modules.Desktop.checkPermission() === 0
+		return typeof Notification !== 'undefined' && Notification.permission === "granted"
 	},
     toggleDesktopNotification() {
       if (!this.isDesktopNotification && !this.isNotificationPermitted()) {
         this.isWaitingForPermission = true
-        PNotify.modules.Desktop.permission()
+        PNotifyDesktop.permission()
         setTimeout(() => {
           if (!this.isNotificationPermitted()) {
-            Vtiger_Helper_Js.showPnotify({
+           app.showNotify({
               text: app.vtranslate('JS_NO_DESKTOP_PERMISSION'),
               type: 'info',
               animation: 'show'
@@ -59,7 +59,7 @@ export default {
           }
           this.isWaitingForPermission = false
         }, 3000)
-      } else {
+      } else if(this.isNotificationPermitted()) {
         this.setDesktopNotification(!this.isDesktopNotification)
       }
     }

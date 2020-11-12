@@ -26,10 +26,7 @@ Vtiger_Edit_Js(
 			var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
 
 			var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue, firstDateFormat);
-			var secondDateInstance = Vtiger_Helper_Js.getDateInstance(
-				secondDateTimeValue,
-				secondDateFormat
-			);
+			var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
 
 			var timeBetweenDates = secondDateInstance - firstDateInstance;
 			if (timeBetweenDates >= 0) {
@@ -52,7 +49,7 @@ Vtiger_Edit_Js(
 						text: app.vtranslate('JS_DATE_SHOULD_BE_GREATER_THAN'),
 						type: 'error'
 					};
-					Vtiger_Helper_Js.showPnotify(parametry);
+					app.showNotify(parametry);
 					return false;
 				} else {
 					form.submit();

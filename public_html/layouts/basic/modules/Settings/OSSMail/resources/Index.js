@@ -27,21 +27,18 @@ jQuery.Class(
 		 * Register the field with hosts
 		 */
 		registerDefaultHost: function () {
-			App.Fields.Picklist.showSelect2ElementView(
-				this.getContainer().find('[name="default_host"]'),
-				{
-					delimiter: ',',
-					persist: false,
-					tags: true,
-					placeholder: app.vtranslate('JS_SELECT_OR_WRITE_AND_PRESS_ENTER'),
-					create: function (input) {
-						return {
-							value: input,
-							text: input
-						};
-					}
+			App.Fields.Picklist.showSelect2ElementView(this.getContainer().find('[name="default_host"]'), {
+				delimiter: ',',
+				persist: false,
+				tags: true,
+				placeholder: app.vtranslate('JS_SELECT_OR_WRITE_AND_PRESS_ENTER'),
+				create: function (input) {
+					return {
+						value: input,
+						text: input
+					};
 				}
-			);
+			});
 		},
 
 		/**
@@ -63,12 +60,13 @@ jQuery.Class(
 								text: response['data'],
 								type: 'info'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 						} else {
 							params = {
-								text: response['data']
+								text: response['data'],
+								type: 'error'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 						}
 					});
 				}

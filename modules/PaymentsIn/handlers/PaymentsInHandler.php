@@ -22,5 +22,6 @@ class PaymentsIn_PaymentsInHandler_Handler
 		$recordModel = $eventHandler->getRecordModel();
 		PaymentsIn_SSingleOrdersPaymentStatus_Model::updateIfPossible($recordModel);
 		PaymentsIn_FinvoicePaymentStatus_Model::updateIfPossible($recordModel);
+		PaymentsIn_FinvoiceProformaPaymentStatus_Model::updateIfPossible($recordModel);
 	}
 }

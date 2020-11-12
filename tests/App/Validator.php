@@ -53,7 +53,9 @@ class Validator extends \Tests\Base
 			[false, 'http*://yetiforce.com'],
 			[true, 'http://yetiforce.com:2160/'],
 			[false, ' http://yetiforce.com/'],
-			[false, 'javascript:alert(1)']
+			[false, 'javascript:alert(1)'],
+			[true, 'http://www.müller.de'],
+			[true, 'http://элтранс.рф'],
 		];
 	}
 

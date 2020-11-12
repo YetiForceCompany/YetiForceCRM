@@ -48,14 +48,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	public function checkFileIntegrity()
 	{
 		$returnValue = false;
-		if ('I' === $this->get('filelocationtype')) {
-			$fileDetails = $this->getFileDetails();
-			if (!empty($fileDetails)) {
-				$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
-				if (file_exists($savedFile) && fopen($savedFile, 'r')) {
-					$returnValue = true;
-				}
-			}
+		if ('I' === $this->get('filelocationtype') && ($fileDetails = $this->getFileDetails())) {
+			$fileName = html_entity_decode($fileDetails['name'], ENT_QUOTES, \App\Config::main('default_charset'));
+			$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
+			$returnValue = (file_exists($savedFile) && fopen($savedFile, 'r')) || (file_exists("{$savedFile}_{$fileName}") && fopen("{$savedFile}_{$fileName}", 'r'));
 		}
 		return $returnValue;
 	}
@@ -67,10 +63,13 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getFileDetails()
 	{
-		return (new \App\Db\Query())->from('vtiger_attachments')
-			->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-			->where(['crmid' => $this->get('id')])
-			->one();
+		if (!isset($this->fileDetails)) {
+			$this->fileDetails = (new \App\Db\Query())->from('vtiger_attachments')
+				->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+				->where(['crmid' => $this->get('id')])
+				->one();
+		}
+		return $this->fileDetails;
 	}
 
 	/**
@@ -216,80 +215,60 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * Sets field value for save.
+	 *
+	 * @param string $fieldName
+	 * @param mixed  $value
+	 *
+	 * @return $this
+	 */
+	public function setFieldValue(string $fieldName, $value)
+	{
+		$fieldModel = $this->getField($fieldName);
+		if ($fieldModel) {
+			$this->set($fieldModel->getName(), $value);
+			$this->setDataForSave([$fieldModel->getTableName() => [$fieldModel->getColumnName() => $value]]);
+		}
+		return $this;
+	}
+
+	/**
 	 * Function to save record.
 	 */
 	public function saveToDb()
 	{
 		$db = \App\Db::getInstance();
 		$fileNameByField = 'filename';
-		$fileName = $fileType = '';
-		$fileSize = 0;
-		$fileLocationType = $fileDownloadCount = null;
 		if ('I' === $this->get('filelocationtype')) {
-			if (!isset($this->file)) {
-				if (isset($_FILES[$fileNameByField])) {
-					$file = $_FILES[$fileNameByField];
-				} else {
-					$file = null;
-				}
-			} else {
+			if (isset($this->file)) {
 				$file = $this->file;
-			}
-			if (!empty($file['name'])) {
-				if (isset($file['error']) && 0 === $file['error']) {
-					$fileInstance = \App\Fields\File::loadFromRequest($file);
-					if ($fileInstance->validateAndSecure()) {
-						$fileName = \App\Purifier::decodeHtml(App\Purifier::purify($file['name']));
-						$fileType = $fileInstance->getMimeType();
-						$fileSize = $fileInstance->getSize();
-						$fileLocationType = 'I';
-					}
-				}
-			} elseif ($this->get($fileNameByField)) {
-				$fileName = $this->get($fileNameByField);
-				$fileSize = $this->get('filesize');
-				$fileType = $this->get('filetype');
-				$fileLocationType = $this->get('filelocationtype');
-				$fileDownloadCount = 0;
 			} else {
-				$fileLocationType = 'I';
-				$fileType = '';
-				$fileSize = 0;
-				$fileDownloadCount = null;
+				$file = $_FILES[$fileNameByField] ?? [];
+			}
+			if (!empty($file['name']) && isset($file['error']) && UPLOAD_ERR_OK === $file['error'] &&
+				($fileInstance = \App\Fields\File::loadFromRequest($file)) && $fileInstance->validateAndSecure()
+			) {
+				$this->setFieldValue('filename', \App\Purifier::decodeHtml(App\Purifier::purify($file['name'])))
+					->setFieldValue('filetype', $fileInstance->getMimeType())
+					->setFieldValue('filesize', $fileInstance->getSize())
+					->setFieldValue('filedownloadcount', 0);
 			}
 		} elseif ('E' === $this->get('filelocationtype')) {
-			$fileLocationType = 'E';
 			$fileName = $this->get($fileNameByField);
 			// If filename does not has the protocol prefix, default it to http://
 			// Protocol prefix could be like (https://, smb://, file://, \\, smb:\\,...)
 			if (!empty($fileName) && !preg_match('/^\w{1,5}:\/\/|^\w{0,3}:?\\\\\\\\/', trim($fileName), $match)) {
 				$fileName = "http://$fileName";
 			}
+			$this->setFieldValue('filename', $fileName)
+				->setFieldValue('filesize', 0)
+				->setFieldValue('filetype', '')
+				->setFieldValue('filedownloadcount', null);
 		}
-		$this->set('filename', $fileName)
-			->set('filesize', $fileSize)
-			->set('filetype', $fileType)
-			->set('filedownloadcount', $fileDownloadCount);
 		parent::saveToDb();
-		$db->createCommand()->update('vtiger_notes', [
-			'filename' => $fileName,
-			'filesize' => $fileSize,
-			'filetype' => $fileType,
-			'filelocationtype' => $fileLocationType,
-			'filedownloadcount' => $fileDownloadCount
-		], ['notesid' => $this->getId()])->execute();
 		//Inserting into attachments table
-		if ('I' === $fileLocationType) {
-			if (!isset($this->file)) {
-				if (isset($_FILES[$fileNameByField])) {
-					$file = $_FILES[$fileNameByField];
-				} else {
-					$file = null;
-				}
-			} else {
-				$file = $this->file;
-			}
-			if ('' !== $file['name'] && $file['size'] > 0) {
+		if ('I' === $this->get('filelocationtype')) {
+			if ($file && '' !== $file['name'] && $file['size'] > 0) {
 				$file['original_name'] = \App\Request::_get('0_hidden');
 				$this->uploadAndSaveFile($file);
 			}
@@ -309,45 +288,33 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	{
 		$id = $this->getId();
 		$moduleName = $this->getModuleName();
+		$result = false;
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$moduleName) method.");
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
 		if (!$fileInstance->validateAndSecure()) {
 			\App\Log::trace('Skip the save attachment process.');
-			return false;
+			return $result;
 		}
+
 		$this->ext['attachmentsName'] = $fileName = empty($fileDetails['original_name']) ? $fileDetails['name'] : $fileDetails['original_name'];
 		$db = \App\Db::getInstance();
-		$date = date('Y-m-d H:i:s');
 		$uploadFilePath = \App\Fields\File::initStorageFileDirectory($moduleName);
-		$params = [
-			'smcreatorid' => $this->isEmpty('created_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),
-			'smownerid' => $this->isEmpty('assigned_user_id') ? \App\User::getCurrentUserId() : $this->get('assigned_user_id'),
-			'setype' => $moduleName . ' Image',
-			'createdtime' => $this->isEmpty('createdtime') ? $date : $this->get('createdtime'),
-			'modifiedtime' => $this->isEmpty('modifiedtime') ? $date : $this->get('modifiedtime'),
-		];
-		$params['setype'] = $moduleName . ' Attachment';
-		$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
-		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
+		$db->createCommand()->insert('vtiger_attachments', [
+			'name' => ltrim(App\Purifier::purify($fileName)),
+			'type' => $fileDetails['type'],
+			'path' => $uploadFilePath
+		])->execute();
+		$currentId = $db->getLastInsertID('vtiger_attachments_attachmentsid_seq');
 		if ($fileInstance->moveFile(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $uploadFilePath . $currentId)) {
-			$db->createCommand()->insert('vtiger_attachments', [
-				'attachmentsid' => $currentId,
-				'name' => ltrim(App\Purifier::purify($fileName)),
-				'type' => $fileDetails['type'],
-				'path' => $uploadFilePath,
-			])->execute();
-			if ('edit' === \App\Request::_get('mode') && !empty($id) && !empty(\App\Request::_get('fileid'))) {
-				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \App\Request::_get('fileid')])->execute();
-			}
-			if ('Documents' === $moduleName) {
-				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
-			}
+			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
 			$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
 			$this->ext['attachmentsId'] = $currentId;
-			return true;
+			$result = true;
+		} else {
+			$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $currentId])->execute();
 		}
 		\App\Log::trace('Skip the save attachment process.');
-		return false;
+		return $result;
 	}
 
 	/**
@@ -367,9 +334,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 				}
 			}
 			$dataReader->close();
-			$dbCommand->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
 			$dbCommand->delete('vtiger_attachments', ['attachmentsid' => $attachmentsIds])->execute();
-			$dbCommand->delete('vtiger_crmentity', ['crmid' => $attachmentsIds])->execute();
 		}
 	}
 }

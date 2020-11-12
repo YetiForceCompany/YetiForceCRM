@@ -177,7 +177,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			$dataReader->close();
 			$this->set('mappingFields', $mappingFields);
 		}
-		return $mappingFields[$moduleName][$fieldName];
+		return $mappingFields[$moduleName][$fieldName] ?? '';
 	}
 
 	/**

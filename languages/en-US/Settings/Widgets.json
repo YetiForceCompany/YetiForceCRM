@@ -60,7 +60,8 @@
     "UpdatesList": "Field history and duration summary",
     "CountRecords": "Number of records",
     "LBL_LIST_WITH_SUMMARY": "List with summary",
-    "LBL_CURRENT_HISTORY_SWITCH": "Current/History"
+    "LBL_CURRENT_HISTORY_SWITCH": "Current/History",
+    "RelatedModuleChart": "Related module - chart"
   },
   "js": {
     "Loading data": "Loading...",

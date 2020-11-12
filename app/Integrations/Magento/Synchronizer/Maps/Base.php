@@ -51,6 +51,7 @@ abstract class Base
 	 */
 	public static $fieldsType = [
 		'salutationtype' => 'map',
+		'gender' => 'map',
 		'addresslevel1a' => 'country',
 		'addresslevel1b' => 'country',
 	];
@@ -123,6 +124,16 @@ abstract class Base
 	public static $salutationtype = [
 		'1' => 'Mr.',
 		'2' => 'Mrs.',
+	];
+	
+	/**
+	 * Contacts_gender map.
+	 *
+	 * @var string[]
+	 */
+	public static $gender = [
+		'1' => 'PLL_MAN',
+		'2' => 'PLL_WOMAN',
 	];
 
 	/**

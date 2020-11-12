@@ -11,6 +11,8 @@
 
 namespace Api\Portal\BaseModule;
 
+use OpenApi\Annotations as OA;
+
 /**
  * Get record related list class.
  */
@@ -21,7 +23,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	/**
 	 * {@inheritdoc}
 	 */
-	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id'];
+	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id', 'x-condition'];
 	/**
 	 * Record model.
 	 *
@@ -124,6 +126,20 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 * 				@OA\Items(type="string"),
 	 * 			)
 	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-condition",
+	 * 			description="Conditions [Json format]",
+	 *			in="header",
+	 *			required=false,
+	 *			@OA\JsonContent(
+	 *				description="Conditions details",
+	 *				type="object",
+	 *				@OA\Property(property="fieldName", description="Field name", type="string", example="lastname"),
+	 *				@OA\Property(property="value", description="Search value", type="string", example="Kowalski"),
+	 *				@OA\Property(property="operator", description="Field operator", type="string", example="e"),
+	 *				@OA\Property(property="group", description="Condition group if true is AND", type="boolean", example=true),
+	 *			),
+	 *		),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of consents",
@@ -211,6 +227,16 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
 			$relationListView->setFields(\array_merge(['id'], \App\Json::decode($requestFields)));
 		}
+		if ($conditions = $this->controller->request->getHeader('x-condition')) {
+			$conditions = \App\Json::decode($conditions);
+			if (isset($conditions['fieldName'])) {
+				$relationListView->getQueryGenerator()->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator'], $conditions['group'] ?? true, true);
+			} else {
+				foreach ($conditions as $condition) {
+					$relationListView->getQueryGenerator()->addCondition($condition['fieldName'], $condition['value'], $condition['operator'], $condition['group'] ?? true, true);
+				}
+			}
+		}
 		$response = [
 			'headers' => [],
 			'records' => [],
@@ -220,6 +246,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		}
 		$isRawData = $this->isRawData();
 		foreach ($relationListView->getEntries($pagingModel) as $id => $relatedRecordModel) {
+			$response['records'][$id] = [];
 			foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
 				$value = $relatedRecordModel->get($fieldName);
 				$response['records'][$id][$fieldName] = $fieldModel->getUITypeModel()->getApiDisplayValue($value, $relatedRecordModel);

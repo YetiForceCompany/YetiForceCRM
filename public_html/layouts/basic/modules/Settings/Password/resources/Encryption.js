@@ -77,7 +77,7 @@ jQuery.Class(
 					});
 					AppConnector.request(container.serializeFormData()).done(function (response) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: response.result,
 							type: 'info',
 							hide: false

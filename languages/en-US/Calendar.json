@@ -191,7 +191,8 @@
     "LBL_EDIT_FROM_CALENDAR": "Edit from Calendar",
     "FL_SUBPROCESS_SECOND_LEVEL": "Second level subprocess",
     "LBL_GROUP_NAME": "Group name",
-    "FL_MEETING_URL": "Meeting URL"
+    "FL_MEETING_URL": "Meeting URL",
+    "LBL_SEND_CALENDAR": "Send e-mail notification about Event"
   },
   "js": {
     "JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY": "Calendar view added successfully",

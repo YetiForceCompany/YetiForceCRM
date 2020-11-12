@@ -20,16 +20,12 @@ namespace App\Integrations\Magento\Synchronizer;
  */
 class Order extends Record
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected static $updateFields = [
 		'ssingleorders_status', 'status_magento'
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$this->lastScan = $this->config->getLastScan('order');
@@ -181,9 +177,7 @@ class Order extends Record
 		$recordModel->save();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSearchCriteria(int $pageSize = 10): string
 	{
 		$searchCriteria[] = parent::getSearchCriteria($pageSize);
@@ -208,6 +202,7 @@ class Order extends Record
 				$this->config->setScan('crm_order', 'id', $row['id']);
 			}
 		} catch (\Throwable $ex) {
+			$allChecked = false;
 			$this->log('Export orders', $ex);
 			\App\Log::error('Error during export order: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}

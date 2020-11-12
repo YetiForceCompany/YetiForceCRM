@@ -17,13 +17,9 @@ var Settings_Index_Js = {
 					enabled: true
 				}
 			});
-			app.showModalWindow(
-				null,
-				'index.php?module=YetiForce&parent=Settings&view=DownloadLanguageModal',
-				() => {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-				}
-			);
+			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=DownloadLanguageModal', () => {
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+			});
 		});
 		$('.AddNewLangMondal .btn-primary').on('click', Settings_Index_Js.AddLangMondal);
 		$('.AddNewTranslationMondal .btn-primary').on('click', Settings_Index_Js.AddTranslationMondal);
@@ -49,7 +45,7 @@ var Settings_Index_Js = {
 				action: 'DownloadLanguage',
 				prefix: $(e.target).data('prefix')
 			}).done(function (data) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: data['result']['type']
 				});
@@ -96,13 +92,13 @@ var Settings_Index_Js = {
 		});
 	},
 	initEditLang: function (position) {
-		App.Fields.Picklist.changeSelectElementView(
-			$('.LangManagement .layoutContent .active .select2'),
-			'select2'
-		).on('change', function (e) {
-			e = jQuery(this).closest('.active');
-			Settings_Index_Js.LoadEditLang(e);
-		});
+		App.Fields.Picklist.changeSelectElementView($('.LangManagement .layoutContent .active .select2'), 'select2').on(
+			'change',
+			function (e) {
+				e = jQuery(this).closest('.active');
+				Settings_Index_Js.LoadEditLang(e);
+			}
+		);
 		$('#edit_lang .translation').on('change', function (e) {
 			Settings_Index_Js.changeTranslation(e, position);
 		});
@@ -110,10 +106,7 @@ var Settings_Index_Js = {
 		$('#edit_lang .js-delete').on('click', function (e) {
 			Settings_Index_Js.deleteTranslation(e, position);
 		});
-		$('.LangManagement ' + position + ' .show_differences').on(
-			'click',
-			Settings_Index_Js.ShowDifferences
-		);
+		$('.LangManagement ' + position + ' .show_differences').on('click', Settings_Index_Js.ShowDifferences);
 		$.extend($.fn.dataTable.defaults, {
 			searching: true,
 			ordering: false,
@@ -321,7 +314,7 @@ var Settings_Index_Js = {
 			if (response['success'] == true) {
 				params.type = 'info';
 			}
-			Vtiger_Helper_Js.showPnotify(params);
+			app.showNotify(params);
 			resp = response['success'];
 		});
 		return { resp: resp, params: params.data.params, result: response };

@@ -15,6 +15,7 @@ $.Class('Vtiger_PDF_Js', {
 		});
 		switch (mode) {
 			case 'generate_pdf':
+				this.container.find('#pdfExportModal').submit();
 				break;
 			case 'single_pdf':
 				this.container.find('[name="single_pdf"]').val(1);
@@ -35,6 +36,7 @@ $.Class('Vtiger_PDF_Js', {
 	registerPreSubmitEvent: function (container) {
 		const self = this;
 		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', (e) => {
+			e.preventDefault();
 			self.proceedSubmit.apply(self, [$(e.currentTarget).attr('id')]);
 		});
 	},
@@ -72,10 +74,7 @@ $.Class('Vtiger_PDF_Js', {
 					var response = data.result;
 					if (data.success) {
 						let valid = response.valid;
-						let info = container
-							.find('.js-records-info')
-							.text(response.message)
-							.removeClass('d-none');
+						let info = container.find('.js-records-info').text(response.message).removeClass('d-none');
 						if (valid) {
 							info.addClass('d-none');
 						}

@@ -149,13 +149,7 @@ jQuery.Class(
 				var resultMessage = app.vtranslate('JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME');
 				form.find('.errorMessage').addClass('d-none');
 				if (sourceFieldValue == targetFieldValue) {
-					select2TargetField.validationEngine(
-						'showPrompt',
-						resultMessage,
-						'error',
-						'topLeft',
-						true
-					);
+					select2TargetField.validationEngine('showPrompt', resultMessage, 'error', 'topLeft', true);
 					dependencyGraph.html('');
 				} else {
 					select2SourceField.validationEngine('hide');
@@ -172,11 +166,7 @@ jQuery.Class(
 						.done(function (data) {
 							var result = data['result'];
 							if (!result['result']) {
-								thisInstance.addNewDependencyPickList(
-									sourceModule,
-									sourceFieldValue,
-									targetFieldValue
-								);
+								thisInstance.addNewDependencyPickList(sourceModule, sourceFieldValue, targetFieldValue);
 								progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							} else {
 								progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -245,9 +235,7 @@ jQuery.Class(
 				sourcefield: sourceFieldValue,
 				targetfield: targetFieldValue
 			}).done(function (data) {
-				dependencyGraph
-					.html(data)
-					.css({ padding: '10px', border: '1px solid #ddd', background: '#fff' });
+				dependencyGraph.html(data).css({ padding: '10px', border: '1px solid #ddd', background: '#fff' });
 				thisInstance.registerDependencyGraphEvents();
 			});
 		},
@@ -442,9 +430,7 @@ jQuery.Class(
 				} else {
 					encodedSourcePickListValue = allSourcePickListValues[key];
 				}
-				var mappingCells = dependencyTable.find(
-					'[data-source-value="' + encodedSourcePickListValue + '"]'
-				);
+				var mappingCells = dependencyTable.find('[data-source-value="' + encodedSourcePickListValue + '"]');
 				if (jQuery.inArray(allSourcePickListValues[key], thisInstance.selectedSourceValues) == -1) {
 					mappingCells.hide();
 				} else {
@@ -568,9 +554,7 @@ jQuery.Class(
 			if (form.length > 0) {
 				if (form.find('.editDependency').val() == 'true') {
 					form
-						.find(
-							'select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]'
-						)
+						.find('select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]')
 						.prop('disabled', true);
 					thisInstance.registerDependencyGraphEvents();
 					thisInstance.registerSubmitEvent();

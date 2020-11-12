@@ -1,7 +1,5 @@
 <?php
 
-namespace Api\Portal\BaseModule;
-
 /**
  * Get fields class.
  *
@@ -9,6 +7,11 @@ namespace Api\Portal\BaseModule;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace Api\Portal\BaseModule;
+
+use OpenApi\Annotations as OA;
+
 class Fields extends \Api\Core\BaseAction
 {
 	/** @var string[] Allowed request methods */

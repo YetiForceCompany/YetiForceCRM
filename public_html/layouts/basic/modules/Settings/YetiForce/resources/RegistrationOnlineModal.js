@@ -12,15 +12,9 @@ jQuery.Class(
 			form.find('[id$="newsletter]"]').on('click', (e) => {
 				let inputsContainer = $(e.target).closest('.js-card-body');
 				if ($(e.target).prop('checked')) {
-					inputsContainer
-						.find('[id$="firstname]"]')
-						.attr('data-validation-engine', 'validate[required]');
-					inputsContainer
-						.find('[id$="lastname]"]')
-						.attr('data-validation-engine', 'validate[required]');
-					inputsContainer
-						.find('[id$="email]"]')
-						.attr('data-validation-engine', 'validate[required,custom[email]]');
+					inputsContainer.find('[id$="firstname]"]').attr('data-validation-engine', 'validate[required]');
+					inputsContainer.find('[id$="lastname]"]').attr('data-validation-engine', 'validate[required]');
+					inputsContainer.find('[id$="email]"]').attr('data-validation-engine', 'validate[required,custom[email]]');
 					inputsContainer.find('.js-newsletter-content').removeClass('d-none');
 				} else {
 					inputsContainer.find('[id$="firstname]"]').removeAttr('data-validation-engine').val('');
@@ -49,7 +43,7 @@ jQuery.Class(
 			container.find('[name="saveButton"]').on('click', function (e) {
 				if (!form.validationEngine('validate')) {
 					e.preventDefault();
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_ENTER_ALL_REGISTRATION_DATA'),
 						type: 'error'
 					});
@@ -70,7 +64,7 @@ jQuery.Class(
 					companies: self.getCompanies(form)
 				})
 					.done(function (data) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data['result']['message'],
 							type: data['result']['type']
 						});

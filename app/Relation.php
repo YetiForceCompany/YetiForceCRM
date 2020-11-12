@@ -27,7 +27,7 @@ class Relation
 		if (Cache::has('App\Relation::getAll', '')) {
 			$allRelations = Cache::get('App\Relation::getAll', '');
 		} else {
-			$relations = [];
+			$allRelations = [];
 			$dataReader = (new Db\Query())->select(['vtiger_relatedlists.*', 'related_modulename' => 'vtiger_tab.name', 'related_module_presence' => 'vtiger_tab.presence'])
 				->from('vtiger_relatedlists')
 				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
@@ -54,7 +54,7 @@ class Relation
 			}
 		}
 		if ($moduleId) {
-			return $allRelations[$moduleId];
+			$allRelations = $allRelations[$moduleId] ?? [];
 		}
 		return $allRelations;
 	}

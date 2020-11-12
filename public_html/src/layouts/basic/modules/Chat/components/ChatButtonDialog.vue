@@ -99,7 +99,7 @@ export default {
       }
     },
     buttonAnimationClasses() {
-      return this.data.amountOfNewMessages ? 'animated shake' : ''
+      return this.data.amountOfNewMessages ? 'animate__animated animate__shakeX' : ''
     },
     hasCurrentRecordChat() {
       if (!this.config.activeRoomTypes.includes('crm')) {

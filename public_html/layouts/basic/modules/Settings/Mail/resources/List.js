@@ -59,9 +59,10 @@ Settings_Vtiger_List_Js(
 								}
 								listInstance.postMassDeleteRecords();
 								if (data.error) {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: app.vtranslate(data.error.message),
-										title: app.vtranslate('JS_LBL_PERMISSION')
+										title: app.vtranslate('JS_LBL_PERMISSION'),
+										type: 'error'
 									});
 								}
 							});
@@ -97,15 +98,13 @@ Settings_Vtiger_List_Js(
 		getParams: function () {
 			var listViewContainer = this.getListViewContainer();
 			var searchParams = {};
-			listViewContainer
-				.find('input.listSearchContributor, select.listSearchContributor')
-				.each(function (i, obj) {
-					if ($(obj).val() != null) {
-						var column = $(obj).attr('name');
-						searchParams[column] = {};
-						searchParams[column]['value'] = $(obj).val();
-					}
-				});
+			listViewContainer.find('input.listSearchContributor, select.listSearchContributor').each(function (i, obj) {
+				if ($(obj).val() != null) {
+					var column = $(obj).attr('name');
+					searchParams[column] = {};
+					searchParams[column]['value'] = $(obj).val();
+				}
+			});
 
 			var params = {
 				module: app.getModuleName(),

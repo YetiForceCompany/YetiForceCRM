@@ -283,7 +283,6 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			$usersId = self::getUsersForNotifications();
 			if (0 === \count($usersId)) {
 				\App\Log::trace('End ' . __METHOD__ . ' - No brute force users found to send email');
-
 				return false;
 			}
 			$emails = [];

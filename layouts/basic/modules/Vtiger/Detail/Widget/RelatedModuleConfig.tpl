@@ -30,7 +30,7 @@
 							<div class="form-group form-group-sm row">
 								<label class="col-md-4 col-form-label">{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}
 									:</label>
-								<div class="col-md-7 form-control-plaintext">
+								<div class="col-md-7 col-form-label">
 									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
 								</div>
 							</div>
@@ -50,7 +50,7 @@
 									</a>:
 								</label>
 								<div class="col-md-7 py-1">
-									<select name="relation_id" class="select2 form-control form-control-sm" data-validation-engine="validate[required]">
+									<select name="relation_id"{if $RELATED_ID} readonly="readonly"{/if} class="select2 form-control form-control-sm" data-validation-engine="validate[required]">
 										{foreach from=$RELATEDMODULES item=item key=key}
 											<option value="{$item['relation_id']}" {if $RELATED_ID == $item['relation_id']}selected{/if} data-relatedmodule="{$item['related_tabid']}">
 												{\App\Language::translate($item['label'], $item['name'])}
