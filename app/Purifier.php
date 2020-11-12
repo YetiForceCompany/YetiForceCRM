@@ -65,7 +65,6 @@ class Purifier
 	 * Purify type Alnum.
 	 */
 	public const ALNUM_EXTENDED = 'AlnumExtended';
-
 	/**
 	 * Default charset.
 	 *
