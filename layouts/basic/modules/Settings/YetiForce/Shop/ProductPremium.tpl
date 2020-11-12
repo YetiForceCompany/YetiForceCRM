@@ -3,11 +3,10 @@
 <!-- tpl-Settings-YetiForce-Shop-ProductPremium -->
 {assign var=PRODUCT_ALERT value=$PRODUCT->showAlert()}
 <div class="dashboardWidget marketplace-product mt-3 mr-3 flex-grow-1 js-product position-relative" data-js="showProductModal|click|container" data-category="{$PRODUCT->category}" data-product="{$PRODUCT->getName()}">
-	{if !empty($PRODUCT->expirationDate) && $PRODUCT_ALERT}
-		<span class="text-danger fas fa-exclamation animate__animated animate__flash infinite slow mr-1 mt-1 u-cursor-pointer js-popover-tooltip position-absolute u-position-r-0" data-toggle="popover" data-js="popover | mouseenter"
-		data-content="{\App\Language::translate($PRODUCT_ALERT, $QUALIFIED_MODULE)}"></span>
+	{if !empty($PRODUCT->expirationDate) && $PRODUCT_ALERT['status']}
+		<span class="text-danger fas fa-exclamation-circle animate__animated animate__infinite animate__flash animate__slow mr-1 mt-1 u-cursor-pointer js-popover-tooltip position-absolute u-position-r-0" data-toggle="popover" data-js="popover | mouseenter" data-content="{\App\Language::translate($PRODUCT_ALERT['message'], $QUALIFIED_MODULE)}"></span>
 	{/if}
-	<div class="o-small-product pl-2 {if empty($PRODUCT->expirationDate)}bg-light u-bg-light-darken{elseif $PRODUCT_ALERT}bg-danger{else}bg-yellow{/if}">
+	<div class="o-small-product pl-2 {if empty($PRODUCT->expirationDate)}bg-light u-bg-light-darken{elseif $PRODUCT_ALERT['status']}bg-danger{else}bg-yellow{/if}">
 		<div class="o-small-product__container d-flex u-min-h-120px-rem no-wrap py-2 px-1{if !empty($PRODUCT->expirationDate)} bg-white u-bg-white-darken{/if}">
 			<div class="o-small-product__img d-flex">
 				{if $PRODUCT->getImage()}
@@ -33,10 +32,17 @@
 						{/if}
 					</button>
 				{else}
-					{if $PRODUCT_ALERT}
-						<button class="btn btn-danger btn-block mt-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
-							{\App\Language::translate('LBL_SHOP_RENEW', $QUALIFIED_MODULE)}
-						</button>
+					{if $PRODUCT_ALERT['status']}
+						{if $PRODUCT_ALERT['type'] === 'LBL_SHOP_RENEW'}
+							<button class="btn btn-dark btn-block m-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
+								{\App\Language::translate($PRODUCT_ALERT['type'], $QUALIFIED_MODULE)}
+							</button>
+						{else}
+							<a class="btn btn-danger btn-block m-auto js-popover-tooltip" href="{$PRODUCT_ALERT['href']}" data-content="{\App\Language::translate($PRODUCT_ALERT['message'], $QUALIFIED_MODULE)}" data-js="popover | mouseenter">
+								<span class="fas fa-exclamation-triangle mr-2"></span>
+								{\App\Language::translate($PRODUCT_ALERT['type'], $QUALIFIED_MODULE)}
+							</a>
+						{/if}
 					{else}
 						<button class="btn btn-block bg-yellow mt-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}" disabled>
 							{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}

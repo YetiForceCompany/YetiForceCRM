@@ -315,7 +315,8 @@
     "LBL_SEARCH_PLACEHOLDER": "Search...",
     "LBL_SHOW_ADVANCED_SEQUENCE_SETTINGS": "Picklist sequence settings",
     "LBL_PREFIX": "Prefix",
-    "LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED": "%s functionality hasn't been activated yet. Click the \"Activate\" button.",
+    "LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED": "The %s functionality hasn't been activated yet or changes in the configuration have been performed and the functionality does not work properly. The functionality must be reactivated in order to work properly.",
+    "LBL_REQUIRES_INTERVENTION": "Requires intervention",
     "LBL_ACTIVATE_FUNCTIONALITY": "Activate"
   },
   "js": {
