@@ -85,7 +85,7 @@ Vtiger_Detail_Js(
 			};
 			app.showModalWindow(data, function (modalContainer) {
 				App.Components.Scrollbar.xy($('#hierarchyScroll', modalContainer));
-				if (typeof callbackFunction == 'function' && $('#hierarchyScroll').height() > 300) {
+				if (typeof callbackFunction == 'function' && $('#hierarchyScroll', modalContainer).height() > 300) {
 					callbackFunction();
 				}
 			});
