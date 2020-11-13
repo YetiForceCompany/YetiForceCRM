@@ -19,7 +19,7 @@ namespace App\RecordCollectors;
 class Gus extends Base
 {
 	/** {@inheritdoc} */
-	protected $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'yfi yfi-gus';
@@ -135,7 +135,7 @@ class Gus extends Base
 	/** {@inheritdoc} */
 	public function isActive(): bool
 	{
-		return \in_array($this->moduleName, $this->allowedModules) && \App\YetiForce\Shop::check('YetiForcePlGus');
+		return parent::isActive() && \App\YetiForce\Shop::check('YetiForcePlGus');
 	}
 
 	/** {@inheritdoc} */

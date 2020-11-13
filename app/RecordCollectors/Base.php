@@ -27,7 +27,7 @@ class Base
 	 *
 	 * @var string[]
 	 */
-	protected $allowedModules = [];
+	protected static $allowedModules = [];
 	/**
 	 * Icon.
 	 *
@@ -114,7 +114,7 @@ class Base
 	 */
 	public function isActive(): bool
 	{
-		return \in_array($this->moduleName, $this->allowedModules);
+		return \in_array($this->moduleName, static::$allowedModules);
 	}
 
 	/**
