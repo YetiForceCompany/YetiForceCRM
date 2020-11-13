@@ -27,13 +27,13 @@ class CheckingBlackListAcceptance extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		$query = (new \App\Db\Query())->from('s_yf_mail_rbl_list')->where(['type' => 0, 'status' => 0]);
-		if (!$query->exists()) {
+		$count = (new \App\Db\Query())->from('s_#__mail_rbl_list')->where(['type' => \App\Mail\Rbl::LIST_TYPE_BLACK_LIST, 'status' => 0])->count();
+		if (0 === $count) {
 			$this->status = 1;
 		} else {
 			$this->status = 0;
 			$this->link = 'index.php?parent=Settings&module=MailRbl&view=Index';
-			$this->description = \App\Language::translateArgs('LBL_CHECK_BLACKLIST_REPORTS_DESC', 'Settings:SystemWarnings', $query->count());
+			$this->description = \App\Language::translateArgs('LBL_CHECK_BLACKLIST_REPORTS_DESC', 'Settings:SystemWarnings', $count);
 		}
 	}
 }
