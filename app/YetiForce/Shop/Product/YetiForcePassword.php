@@ -42,4 +42,20 @@ class YetiForcePassword extends \App\YetiForce\Shop\AbstractBaseProduct
 	{
 		return true;
 	}
+
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
+	{
+		return [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_PASSWORD_CONF',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'adminIcon-passwords-configuration',
+				'linkhref' => true,
+				'linkurl' => 'index.php?module=Password&parent=Settings&view=Index',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			])
+		];
+	}
 }

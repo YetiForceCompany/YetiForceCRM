@@ -50,13 +50,14 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 		$department = $request->isEmpty('department') ? '' : $request->getByType('department');
 		$product = \App\YetiForce\Shop::getProduct($request->getByType('product'), $department);
 		$alert = $product->showAlert();
-		$links = [];
+		$links = $product->getAdditionalButtons() ?? [];
 		if (isset($product->expirationDate)) {
 			if ($alert['status']) {
 				$links[] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => $alert['type'],
 					'linkicon' => 'fas fa-exclamation-triangle',
-					'linkhref' => $alert['href'],
+					'linkhref' => true,
+					'linkurl' => $alert['href'],
 					'linkclass' => 'btn-warning',
 					'showLabel' => 1,
 				]);

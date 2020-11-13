@@ -310,4 +310,14 @@ abstract class AbstractBaseProduct
 	{
 		return [];
 	}
+
+	/**
+	 * Product modal additional buttons.
+	 *
+	 * @return Vtiger_Link_Model[]
+	 */
+	public function getAdditionalButtons(): array
+	{
+		return [];
+	}
 }

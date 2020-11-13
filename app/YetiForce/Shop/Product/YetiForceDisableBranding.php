@@ -45,4 +45,20 @@ class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 		}
 		return true;
 	}
+
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
+	{
+		return [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_COMPANY_DETAILS',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'adminIcon-company-detlis',
+				'linkhref' => true,
+				'linkurl' => 'index.php?parent=Settings&module=Companies&view=List',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			])
+		];
+	}
 }

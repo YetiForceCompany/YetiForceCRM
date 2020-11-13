@@ -42,4 +42,20 @@ class YetiForceGeocoder extends \App\YetiForce\Shop\AbstractBaseProduct
 	{
 		return true;
 	}
+
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
+	{
+		return [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_API_ADDRESS',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'adminIcon-address',
+				'linkhref' => true,
+				'linkurl' => 'index.php?module=ApiAddress&parent=Settings&view=Configuration',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			])
+		];
+	}
 }
