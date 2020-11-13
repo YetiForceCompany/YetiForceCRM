@@ -2,6 +2,10 @@
 	"php": {
 		"SystemRequirements": "System requirements",
 		"LBL_CHECK_SERVER_BLACK_LIST_IP": "Checks the server's IP address on a blacklist",
+		"LBL_CHECK_REPORTS_FOR_FORVERIFICATION": "Mail RBL - reports for verification",
+		"LBL_CHECK_REPORTS_FOR_FORVERIFICATION_DESC": "Number of potential spam reports awaiting verification: %s",
+		"LBL_CHECK_BLACKLIST_REPORTS": "Mail RBL - reports in blacklist",
+		"LBL_CHECK_BLACKLIST_REPORTS_DESC": "Number of accepted blacklisted spam reports: %s",
 		"LBL_LIBRARY_ROUNDCUBE": "Roundcube library",
 		"LBL_LIBRARY_PHPEXCEL": "PHPExcel library",
 		"LBL_CONFIG_REPORT": "Server configuration",
@@ -54,6 +58,7 @@
 		"LBL_SYSTEM_UPDATER": "System updater",
 		"LBL_LANGUAGES_UPDATER": "Languages updater",
 		"LBL_LANGUAGES_UPDATER_DESC": "An update of the languages installed on your CRM system is available. Go to the Language Management and click the update button.",
-		"LBL_UPDATER_DESC": "Updates are available for your system version. We recommend updating."
+    "LBL_UPDATER_DESC": "Updates are available for your system version. We recommend updating.",
+    "Mail": "Mail"
 	}
 }
