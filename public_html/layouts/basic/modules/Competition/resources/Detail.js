@@ -23,14 +23,15 @@ Vtiger_Detail_Js(
 		 */
 		displayHierarchyResponseData: function (data) {
 			let callbackFunction = function () {
-				app.showScrollBar(jQuery('#hierarchyScroll'), {
+				app.showScrollBar($('#hierarchyScroll'), {
 					height: '300px',
 					railVisible: true,
 					size: '6px'
 				});
 			};
-			app.showModalWindow(data, function () {
-				if (typeof callbackFunction == 'function' && $('#hierarchyScroll').height() > 300) {
+			app.showModalWindow(data, function (modalContainer) {
+				App.Components.Scrollbar.xy($('#hierarchyScroll', modalContainer));
+				if (typeof callbackFunction == 'function' && $('#hierarchyScroll', modalContainer).height() > 300) {
 					callbackFunction();
 				}
 			});
