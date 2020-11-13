@@ -10,7 +10,7 @@
 	{if !\App\YetiForce\Shop::check('YetiForceMagento')}
 		<div class="alert alert-warning">
 			<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
-			{\App\Language::translate('LBL_PAID_FUNCTIONALITY', $QUALIFIED_MODULE)} <a href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceMagento&mode=showProductModal">{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
+			{\App\Language::translate('LBL_PAID_FUNCTIONALITY', $QUALIFIED_MODULE)} <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceMagento&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
 		</div>
 	{elseif !Settings_Magento_Module_Model::isActive()}
 		<div class="alert alert-danger">
