@@ -416,6 +416,7 @@ class ConfReport
 	public static $functionalVerification = [
 		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER', 'mode' => 'onlyText'],
 		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES', 'mode' => 'onlyText'],
+		'magento' => ['type' => 'Magento',  'testCli' => false, 'label' => 'MAGENTO', 'mode' => 'onlyText'],
 	];
 	/**
 	 * Php variables.
@@ -1454,7 +1455,6 @@ class ConfReport
 		$view->assign('SHOW_FOOTER_BAR', true);
 		$html = $view->view('PageFooter.tpl', '', true);
 		$row['status'] = true;
-		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved') || !empty(\App\Config::component('Branding', 'footerName'));
 		}
@@ -1476,6 +1476,23 @@ class ConfReport
 	{
 		unset($name);
 		$row['status'] = true;
+		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
+		return $row;
+	}
+
+	/**
+	 * Validate magento value.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateMagento(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row['status'] = !(\Settings_Magento_Module_Model::isActive() && !\App\YetiForce\Shop::check('YetiForceMagento'));
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
 		return $row;
 	}

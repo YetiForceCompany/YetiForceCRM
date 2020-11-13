@@ -13,21 +13,16 @@
  */
 class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $name = 'Magento';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $baseTable = 'i_#__magento_servers';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $baseIndex = 'id';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $listFields = [
 		'name' => 'LBL_NAME',
 		'status' => 'LBL_STATUS',
@@ -35,17 +30,13 @@ class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 		'user_name' => 'LBL_USER_NAME',
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDefaultUrl()
 	{
 		return 'index.php?parent=Settings&module=Magento&view=List';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getCreateRecordUrl()
 	{
 		return 'index.php?parent=Settings&module=Magento&view=Edit';

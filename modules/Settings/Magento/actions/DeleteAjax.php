@@ -14,9 +14,7 @@
  */
 class Settings_Magento_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		Settings_Magento_Record_Model::getInstanceById($request->getInteger('record'))->delete();

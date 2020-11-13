@@ -16,6 +16,15 @@
 class Settings_Magento_Active_Action extends Settings_Vtiger_Save_Action
 {
 	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
+	{
+		parent::checkPermission($request);
+		if (!\App\YetiForce\Shop::check('YetiForceMagento')) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+	}
+
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$sSingleOrderTabId = \App\Module::getModuleId('SSingleOrders');
