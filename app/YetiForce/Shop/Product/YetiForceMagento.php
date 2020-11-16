@@ -59,8 +59,9 @@ class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
-		return [
-			\Vtiger_Link_Model::getInstanceFromValues([
+		$links = [];
+		if (\App\Security\AdminAccess::isPermitted('Magento')) {
+			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_MAGENTO',
 				'relatedModuleName' => 'Settings:Magento',
 				'linkicon' => 'fab fa-magento',
@@ -68,7 +69,8 @@ class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linkurl' => 'index.php?parent=Settings&module=Magento&view=List',
 				'linkclass' => 'btn-primary',
 				'showLabel' => 1,
-			])
-		];
+			]);
+		}
+		return $links;
 	}
 }

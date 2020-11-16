@@ -46,8 +46,9 @@ class YetiForceGeocoder extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
-		return [
-			\Vtiger_Link_Model::getInstanceFromValues([
+		$links = [];
+		if (\App\Security\AdminAccess::isPermitted('ApiAddress')) {
+			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_API_ADDRESS',
 				'relatedModuleName' => 'Settings:_Base',
 				'linkicon' => 'adminIcon-address',
@@ -55,7 +56,8 @@ class YetiForceGeocoder extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linkurl' => 'index.php?module=ApiAddress&parent=Settings&view=Configuration',
 				'linkclass' => 'btn-primary',
 				'showLabel' => 1,
-			])
-		];
+			]);
+		}
+		return $links;
 	}
 }

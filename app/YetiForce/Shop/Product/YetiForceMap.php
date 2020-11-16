@@ -46,8 +46,9 @@ class YetiForceMap extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
-		return [
-			\Vtiger_Link_Model::getInstanceFromValues([
+		$links = [];
+		if (\App\Security\AdminAccess::isPermitted('Map')) {
+			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_MAP',
 				'relatedModuleName' => 'Settings:_Base',
 				'linkicon' => 'far fa-map',
@@ -55,7 +56,8 @@ class YetiForceMap extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linkurl' => 'index.php?parent=Settings&module=Map&view=Config',
 				'linkclass' => 'btn-primary',
 				'showLabel' => 1,
-			])
-		];
+			]);
+		}
+		return $links;
 	}
 }
