@@ -47,6 +47,10 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	 */
 	public function preProcessAjax(App\Request $request)
 	{
+		if ($request->has('modal_params')) {
+			$viewer = $this->getViewer($request);
+			$viewer->assign('MODAL_PARAMS', $request->getArray('modal_params'));
+		}
 		$moduleName = $request->getModule();
 		$this->modalIcon = "modCT_{$moduleName} yfm-{$moduleName}";
 		$this->initializeContent($request);
