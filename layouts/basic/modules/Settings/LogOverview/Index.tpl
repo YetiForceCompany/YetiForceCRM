@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-Log-Index js-log" data-js="container">
+<!-- tpl-Settings-LogOverview-Index -->
+	<div class="js-log" data-js="container">
 		<div class="o-breadcrumb widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
@@ -10,7 +11,6 @@
 			<p>
 			<ul class="nav nav-tabs mr-0">
 				{assign var=TABLE_MAPPING value=\App\Log::$tableColumnMapping}
-
 				{foreach key=INDEX item=ITEM from=$TABLE_MAPPING}
 					<li class="nav-item">
 						<a class="nav-link {if $TYPE === $INDEX}active{/if}"
@@ -46,4 +46,5 @@
 			<table class="table table-bordered js-data-table" data-js="dataTable"></table>
 		</div>
 	</div>
+	<!-- /tpl-Settings-LogOverview-Index -->
 {/strip}
