@@ -18,16 +18,24 @@ class Log extends Logger
 	public static $logToProfile;
 	public $logToLevels = 0;
 	/**
-	 * Column mapping by table.
+	 * Column mapping by table owasp.
 	 *
 	 * @var array
 	 */
-	public static $tableColumnMapping = [
+	public static $owasp = [
 		'access_for_admin' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
 		'access_for_api' => ['date', 'username', 'ip', 'url', 'agent', 'request'],
 		'access_for_user' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
 		'access_to_record' => ['date', 'username', 'ip', 'module', 'record', 'url', 'agent', 'request', 'referer'],
 		'csrf' => ['date', 'username', 'ip', 'referer', 'url', 'agent'],
+	];
+	/**
+	 * Column mapping by table.
+	 *
+	 * @var array
+	 */
+	public static $tableColumnMapping = [
+		'magento' => ['time' => 'date', 'category' => 'text', 'message' => 'text', 'code' => 'text', 'trace' => 'text'],
 	];
 	public static $levelMap = [
 		'error' => Logger::LEVEL_ERROR,
