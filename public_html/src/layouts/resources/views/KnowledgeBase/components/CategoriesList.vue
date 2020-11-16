@@ -1,8 +1,8 @@
 
 <template>
   <transition
-    :enter-active-class="'animate__animated ' + animationIn"
-    :leave-active-class="'animate__animated ' + animationOut"
+    :enter-active-class="'animate__animated animate__faster ' + animationIn"
+    :leave-active-class="'animate__animated animate__faster ' + animationOut"
   >
     <q-list v-show="show">
       <q-item
