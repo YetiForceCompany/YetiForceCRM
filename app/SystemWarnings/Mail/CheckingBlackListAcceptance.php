@@ -32,8 +32,11 @@ class CheckingBlackListAcceptance extends \App\SystemWarnings\Template
 			$this->status = 1;
 		} else {
 			$this->status = 0;
-			$this->link = 'index.php?parent=Settings&module=MailRbl&view=Index';
 			$this->description = \App\Language::translateArgs('LBL_CHECK_BLACKLIST_REPORTS_DESC', 'Settings:SystemWarnings', $count);
+			if (\App\Security\AdminAccess::isPermitted('MailRbl')) {
+				$this->link = 'index.php?parent=Settings&module=MailRbl&view=Index';
+				$this->linkTitle = \App\Language::translate('MailRbl', 'Settings:MailRbl');
+			}
 		}
 	}
 }
