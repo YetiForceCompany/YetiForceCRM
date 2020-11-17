@@ -8,27 +8,22 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @author	  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
  * Settings Integration panel index view class.
  */
-class Settings_IntegrationPanel_Index_View extends Settings_Vtiger_Index_View
+class Settings_MailIntegration_Index_View extends Settings_Vtiger_Index_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$activeTab = 'pass';
-		if ($request->has('tab')) {
-			$activeTab = $request->getByType('tab');
-		}
+		$viewer = $this->getViewer($request);
+		$activeTab = $request->has('tab') ? $request->getByType('tab') : 'outlook';
 		$viewer->assign('ACTIVE_TAB', $activeTab);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('DETAIL', Settings_Password_Record_Model::getUserPassConfig());
+		$viewer->assign('CONFIG_FIELDS', Settings_MailIntegration_ConfigForm_Model::getFields($qualifiedModuleName));
+		$viewer->assign('CONFIG', App\Config::module('MailIntegration', null, []));
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 }

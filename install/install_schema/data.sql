@@ -199,7 +199,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (78,'Dependencies',1,'2020-09-16 08:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (79,'MailRbl',1,'2020-09-18 11:19:36');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (80,'FieldsDependency',1,'2020-10-13 09:49:22');
-insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (81,'IntegrationPanel',1,'2020-11-13 11:42:12');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (81,'MailIntegration',1,'2020-11-13 11:42:12');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -18644,7 +18644,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (128,1,'LBL_ADMIN_ACCESS','adminIcon-advanced-permission','LBL_ADMIN_ACCESS_DESCRIPTION','index.php?parent=Settings&module=AdminAccess&view=Index',12,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (129,8,'LBL_MAIL_RBL','fas fa-mail-bulk','LBL_MAIL_RBL_DESCRIPTION','index.php?parent=Settings&module=MailRbl&view=Index',8,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (130,2,'LBL_FIELDS_DEPENDENCY','fas fa-project-diagram','LBL_FIELDS_DEPENDENCY_DESCRIPTION','index.php?parent=Settings&module=FieldsDependency&view=List',7,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (131,5,'LBL_INTEGRATION_PANEL','fas fa-share-alt-square','LBL_INTEGRATION_PANEL_DESCRIPTION','index.php?parent=Settings&module=IntegrationPanel&view=Index',16,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (131,5,'LBL_MAIL_INTEGRATION','fas fa-solar-panel','LBL_MAIL_INTEGRATION_DESCRIPTION','index.php?parent=Settings&module=MailIntegration&view=Index',16,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
