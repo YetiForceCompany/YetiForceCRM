@@ -295,6 +295,24 @@ class Module
 			UserPrivilegesFile::recalculateAll();
 		}
 	}
+
+	/**
+	 * Get all module names by filter.
+	 *
+	 * @param bool     $isEntityType
+	 * @param bool     $showRestricted
+	 * @param bool|int $presence
+	 *
+	 * @return string[]
+	 */
+	public static function getAllModuleNamesFilter($isEntityType = true, $showRestricted = false, $presence = false): array
+	{
+		$modules = [];
+		foreach (\vtlib\Functions::getAllModules($isEntityType, $showRestricted, $presence) as  $value) {
+			$modules[$value['name']] = Language::translate($value['name'], $value['name']);
+		}
+		return $modules;
+	}
 }
 
 Module::init();

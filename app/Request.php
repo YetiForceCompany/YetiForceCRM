@@ -242,7 +242,9 @@ class Request
 				if (\is_array($value)) {
 					$input = [];
 					foreach ($value as $k => $v) {
-						$k = $keyType ? Purifier::purifyByType($k, $keyType) : Purifier::purify($k);
+						if (!\is_int($k)) {
+							$k = $keyType ? Purifier::purifyByType($k, $keyType) : Purifier::purify($k);
+						}
 						$input[$k] = $type ? Purifier::purifyByType($v, $type) : Purifier::purify($v);
 					}
 					$value = $input;
