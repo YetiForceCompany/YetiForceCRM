@@ -10,6 +10,7 @@
     "LBL_OUTLOOK_SCRIPT": "Dozwolone serwery CDN dla JavaScript",
     "LBL_OUTLOOK_SCRIPT_DESC": "Lista dozwolonych adresów serwerów CDN z których można wczytywać pliki JavaScript np. %s",
     "LBL_QUICK_CREATE_MODULES": "Lista modułów szybkiego tworzenia",
-    "LBL_QUICK_CREATE_MODULES_DESC": "Lista modułów w których mozna tworzyć dane z panelu integracyjnego.\nJesli nie wybrano wartości to system domyślną listę szybkiego tworzenia."
+    "LBL_QUICK_CREATE_MODULES_DESC": "Lista modułów w których mozna tworzyć dane z panelu integracyjnego.\nJesli nie wybrano wartości to system domyślną listę szybkiego tworzenia.",
+    "BTN_DOWNLOAD_OUTLOOK_INSTALLATION_FILE": "Download the outlook add-in installation file"
   }
 }

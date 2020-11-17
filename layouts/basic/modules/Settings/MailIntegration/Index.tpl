@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Settings-MailIntegration-Index -->
-<div class="o-breadcrumb widget_header form-row mb-2">
+<div class="o-breadcrumb widget_header row mb-2">
 	<div class="col-md-12">
 		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 	</div>
@@ -26,6 +26,10 @@
 			<div class="alert alert-info">
 				<span class="mdi mdi-information-outline mr-2 u-fs-lg float-left"></span>
 				{\App\Language::translateArgs('LBL_OUTLOOK_ALERT', $QUALIFIED_MODULE, '<a rel="noreferrer noopener" target="_blank" href="https://support.microsoft.com/en-us/office/installed-add-ins-a61762b7-7a82-47bd-b14e-bbc15eaeb70f">support.microsoft.com</a>')}
+				<a href="index.php?parent=Settings&module=MailIntegration&action=Download&mode=outlook" class="btn btn-primary btn-sm float-right">
+					<span class="fas fa-download mr-2"></span>
+					{App\Language::translate('BTN_DOWNLOAD_OUTLOOK_INSTALLATION_FILE', $QUALIFIED_MODULE)}
+				</a>
 			</div>
 			<form class="js-form-single-save js-validate-form" data-js="container|validationEngine">
 				<input type="hidden" name="parent" value="Settings">
