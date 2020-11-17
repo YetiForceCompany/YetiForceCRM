@@ -2,15 +2,15 @@
   "php": {
     "MailIntegration": "Mail integration panel",
     "LBL_MAIL_INTEGRATION": "Mail integration panel",
-    "LBL_MAIL_INTEGRATION_DESCRIPTION": "CRM jako panel integracyjny w zewnętrznym kliencie poczty",
+    "LBL_MAIL_INTEGRATION_DESCRIPTION": "CRM as an integration panel in an external mail client",
     "LBL_OUTLOOK": "Outlook add-ins",
-    "LBL_OUTLOOK_ALERT": "Instrukcja instalacji rozszeżenia add-ins znajduje się na stronie %s",
-    "LBL_OUTLOOK_ADDRESSES": "Adresy URL serwerów pocztowych Outlook",
-    "LBL_OUTLOOK_ADDRESSES_DESC": "Lista adresów w których ma być dostępny system jako panel integracyjny np. %s",
-    "LBL_OUTLOOK_SCRIPT": "Dozwolone serwery CDN dla JavaScript",
-    "LBL_OUTLOOK_SCRIPT_DESC": "Lista dozwolonych adresów serwerów CDN z których można wczytywać pliki JavaScript np. %s",
-    "LBL_QUICK_CREATE_MODULES": "Lista modułów szybkiego tworzenia",
-    "LBL_QUICK_CREATE_MODULES_DESC": "Lista modułów w których mozna tworzyć dane z panelu integracyjnego.\nJesli nie wybrano wartości to system domyślną listę szybkiego tworzenia.",
+    "LBL_OUTLOOK_ALERT": "Add-ins installation instructions can be found at %s",
+    "LBL_OUTLOOK_ADDRESSES": "Outlook mail server URLs",
+    "LBL_OUTLOOK_ADDRESSES_DESC": "List of addresses where the system will be available as an integration panel, e.g. %s",
+    "LBL_OUTLOOK_SCRIPT": "Allowed CDN servers for JavaScript",
+    "LBL_OUTLOOK_SCRIPT_DESC": "List of allowed CDN server addresses from which JavaScript files can be loaded, e.g. %s",
+    "LBL_QUICK_CREATE_MODULES": "List of quick create modules",
+    "LBL_QUICK_CREATE_MODULES_DESC": "List of modules in which data can be created from the integration panel. \n If no value is selected, the system will select the default quick create list",
     "BTN_DOWNLOAD_OUTLOOK_INSTALLATION_FILE": "Download the outlook add-in installation file"
   }
 }
