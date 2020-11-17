@@ -144,10 +144,17 @@ window.MailIntegration_Compose = {
 		}
 	}
 };
-(function ($) {
-	Office.onReady((info) => {
-		if (info.host === Office.HostType.Outlook) {
-			window.MailIntegration_Compose.registerEvents();
-		}
+if (typeof Office === 'undefined') {
+	app.showNotify({
+		title: app.vtranslate('JS_ERROR'),
+		type: 'error'
 	});
-})($);
+} else {
+	(function ($) {
+		Office.onReady((info) => {
+			if (info.host === Office.HostType.Outlook) {
+				window.MailIntegration_Compose.registerEvents();
+			}
+		});
+	})($);
+}

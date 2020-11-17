@@ -24,7 +24,6 @@ class Settings_MailIntegration_ConfigForm_Model
 	public static function getFields(string $moduleName): array
 	{
 		$config = App\Config::module('MailIntegration', null, []);
-		$outlookAllowedScriptUrls = $config['outlookAllowedScriptUrls'] ?? [];
 		$outlookUrls = $config['outlookUrls'] ?? [];
 		$fields = [
 			'modulesListQuickCreate' => [
@@ -45,17 +44,6 @@ class Settings_MailIntegration_ConfigForm_Model
 				'labelDescArgs' => 'https://outlook.live.com, https://outlook.office365.com, https://outlook.office.com',
 				'picklistValues' => array_combine($outlookUrls, $outlookUrls),
 				'fieldvalue' => $outlookUrls,
-				'dataSelect' => 'tags',
-			],
-			'outlookAllowedScriptUrls' => [
-				'isArray' => true,
-				'purifyType' => 'url',
-				'uitype' => 33,
-				'label' => 'LBL_OUTLOOK_SCRIPT',
-				'labelDesc' => 'LBL_OUTLOOK_SCRIPT_DESC',
-				'labelDescArgs' => 'https://appsforoffice.microsoft.com, https://ajax.aspnetcdn.com',
-				'picklistValues' => array_combine($outlookAllowedScriptUrls, $outlookAllowedScriptUrls),
-				'fieldvalue' => $outlookAllowedScriptUrls,
 				'dataSelect' => 'tags',
 			],
 		];

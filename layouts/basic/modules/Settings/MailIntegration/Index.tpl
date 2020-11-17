@@ -23,6 +23,25 @@
 				{\App\Language::translate('LBL_PAID_FUNCTIONALITY', $QUALIFIED_MODULE)} <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceOutlook&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
 			</div>
 		{else}
+			{if !Settings_MailIntegration_Activate_Model::isActive('outlook')}
+				<div class="alert alert-danger">
+					<form action='index.php' method="POST" enctype="multipart/form-data">
+						<input type="hidden" name="module" value="MailIntegration"/>
+						<input type="hidden" name="parent" value="Settings"/>
+						<input type="hidden" name="action" value="Activate"/>
+						<input type="hidden" name="source" value="outlook"/>
+						<span class="mdi mdi-alert-outline mr-3 u-fs-6x float-left"></span>
+						{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE,'Outlook')}<br />
+						{\App\Language::translate('LBL_OUTLOOK_ACTIVATED_ALERT', $QUALIFIED_MODULE)}<br />
+						<code title="Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF.">public static $csrfFrameBreakerWindow = 'top';</code><br />
+						<code title="Allowed domains for loading script, used in CSP.">public static $allowedScriptDomains = ['https://appsforoffice.microsoft.com', 'https://ajax.aspnetcdn.com'];</code>
+						<button type="submit" class="btn btn-primary btn-sm ml-3">
+							<span class="mdi mdi-check mr-2 float-left"></span>
+							{\App\Language::translate('LBL_ACTIVATE_FUNCTIONALITY', $QUALIFIED_MODULE)}
+						</button>
+					</form>
+				</div>
+			{/if}
 			<div class="alert alert-info">
 				<span class="mdi mdi-information-outline mr-2 u-fs-lg float-left"></span>
 				{\App\Language::translateArgs('LBL_OUTLOOK_ALERT', $QUALIFIED_MODULE, '<a rel="noreferrer noopener" target="_blank" href="https://support.microsoft.com/en-us/office/installed-add-ins-a61762b7-7a82-47bd-b14e-bbc15eaeb70f">support.microsoft.com</a>')}

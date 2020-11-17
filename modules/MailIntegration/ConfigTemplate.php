@@ -21,10 +21,4 @@ return [
 		'loopValidate' => true,
 		'validation' => '\App\Validator::url',
 	],
-	'outlookAllowedScriptUrls' => [
-		'default' => [],
-		'description' => 'List of allowed script for integration with Outlook',
-		'loopValidate' => true,
-		'validation' => '\App\Validator::url',
-	],
 ];

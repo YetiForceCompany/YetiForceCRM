@@ -247,14 +247,14 @@ window.MailIntegration_Iframe = {
 	registerImportClick() {
 		this.container.on('click', '.js-import-mail', (e) => {
 			this.showIframeLoader();
-			this.getMailDetails().then((mails) => {
+			this.getMailDetails().then(() => {
 				this.connector(
 					Object.assign(
 						{
 							module: 'MailIntegration',
 							action: 'Import'
 						},
-						mails,
+						this.mailDetails,
 						window.PanelParams
 					)
 				).done((response) => {
@@ -285,7 +285,7 @@ window.MailIntegration_Iframe = {
 				outputString += '<BR>isInline: ' + attachment.isInline;
 			}
 		}
-		const mailDetails = {
+		this.mailDetails = {
 			mailFrom: this.parseEmailAddressDetails(mailItem.from),
 			mailSender: mailItem.sender.emailAddress,
 			mailTo: this.parseEmailAddressDetails(mailItem.to),
@@ -295,11 +295,7 @@ window.MailIntegration_Iframe = {
 			mailNormalizedSubject: mailItem.normalizedSubject,
 			mailDateTimeCreated: mailItem.dateTimeCreated.toISOString()
 		};
-		const mailBodyCallback = (body) => {
-			mailDetails.mailBody = body;
-			return mailDetails;
-		};
-		return this.asyncGetMailBody(mailBodyCallback);
+		return this.asyncGetMailBody();
 	},
 	/**
 	 * Get mail body async function
@@ -308,16 +304,29 @@ window.MailIntegration_Iframe = {
 	 *
 	 * @return  {object}            Promise
 	 */
-	asyncGetMailBody(callback) {
-		return new Promise((resolve, reject) => {
-			this.mailItem.body.getAsync(Office.CoercionType.Html, (body) => {
-				if (body.status === 'succeeded') {
-					resolve(callback(body.value));
-				} else {
-					reject(body);
-				}
-			});
-		});
+	asyncGetMailBody() {
+		return Promise.all([
+			new Promise((resolve, reject) => {
+				this.mailItem.body.getAsync(Office.CoercionType.Html, (body) => {
+					if (body.status === 'succeeded') {
+						this.mailDetails.mailBody = body.value;
+						resolve(body);
+					} else {
+						reject(body);
+					}
+				});
+			}),
+			new Promise((resolve, reject) => {
+				this.mailItem.getAllInternetHeadersAsync((body) => {
+					if (body.status === 'succeeded') {
+						this.mailDetails.mailHeaders = body.value;
+						resolve(body);
+					} else {
+						reject(body);
+					}
+				});
+			})
+		]);
 	},
 	/**
 	 * Parse email address details

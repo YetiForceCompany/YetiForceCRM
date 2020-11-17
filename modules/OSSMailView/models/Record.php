@@ -97,12 +97,14 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 			$firstLetterBg = self::TYPE_COLORS[$row['type']];
 			$firstLetter = strtoupper(App\TextParser::textTruncate(trim(strip_tags($from)), 1, false));
-			$rblInstance = \App\Mail\Rbl::getInstance([]);
-			$rblInstance->set('rawBody', $row['orginal_mail']);
-			$rblInstance->parse();
-			if (($verifySender = $rblInstance->verifySender()) && !$verifySender['status']) {
-				$firstLetter = '<span class="fas fa-exclamation-triangle text-danger" title="' . \App\Purifier::encodeHtml($verifySender['info']) . '"></span>';
-				$firstLetterBg = 'bg-warning';
+			if ($row['orginal_mail']) {
+				$rblInstance = \App\Mail\Rbl::getInstance([]);
+				$rblInstance->set('rawBody', $row['orginal_mail']);
+				$rblInstance->parse();
+				if (($verifySender = $rblInstance->verifySender()) && !$verifySender['status']) {
+					$firstLetter = '<span class="fas fa-exclamation-triangle text-danger" title="' . \App\Purifier::encodeHtml($verifySender['info']) . '"></span>';
+					$firstLetterBg = 'bg-warning';
+				}
 			}
 			$return[] = [
 				'id' => $row['ossmailviewid'],

@@ -33,8 +33,8 @@ class Settings_MailIntegration_SaveConfigForm_Action extends Settings_Vtiger_Bas
 		$fieldModel = $fields[$field];
 		$value = $fieldModel->get('isArray') ? $request->getArray('updateValue', $fieldModel->get('purifyType')) : $request->getByType('updateValue', $fieldModel->get('purifyType'));
 		$fieldModel->getUITypeModel()->validate($value, true);
-		if ($updateSecurityConf = ('outlookUrls' === $field || 'outlookAllowedScriptUrls' === $field)) {
-			$oldValue = 'outlookUrls' === $field ? \Config\Modules\MailIntegration::$outlookUrls : \Config\Modules\MailIntegration::$outlookAllowedScriptUrls;
+		if ('outlookUrls' === $field) {
+			$oldValue = \Config\Modules\MailIntegration::$outlookUrls;
 			$toRemove = array_diff($oldValue, $value);
 		}
 
@@ -43,8 +43,8 @@ class Settings_MailIntegration_SaveConfigForm_Action extends Settings_Vtiger_Bas
 		$configFile->create();
 
 		$security = new \App\ConfigFile('security');
-		if ($updateSecurityConf) {
-			$updateValue = array_unique(array_merge(('outlookUrls' === $field ? \Config\Security::$allowedFrameDomains : \Config\Security::$allowedScriptDomains), $value));
+		if ('outlookUrls' === $field) {
+			$updateValue = array_unique(array_merge((\Config\Security::$allowedFrameDomains), $value));
 			if (isset($toRemove)) {
 				foreach ($toRemove as $value) {
 					if (false !== ($key = array_search($value, $updateValue))) {
@@ -52,11 +52,7 @@ class Settings_MailIntegration_SaveConfigForm_Action extends Settings_Vtiger_Bas
 					}
 				}
 			}
-			if ('outlookUrls' === $field) {
-				$security->set('allowedFrameDomains', array_values($updateValue));
-			} else {
-				$security->set('allowedScriptDomains', array_values($updateValue));
-			}
+			$security->set('allowedFrameDomains', array_values($updateValue));
 		}
 		$security->create();
 

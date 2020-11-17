@@ -18,14 +18,10 @@ use App\Mail\RecordFinder;
  */
 class CreatedHelpDesk extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $priority = 5;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(): void
 	{
 		if ($this->checkExceptions('CreatedHelpDesk')) {
