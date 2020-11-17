@@ -52,8 +52,8 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 		$links = [];
 		if (\App\Security\AdminAccess::isPermitted('MailIntegration')) {
 			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_API_ADDRESS',
-				'relatedModuleName' => 'Settings:_Base',
+				'linklabel' => 'LBL_MAIL_INTEGRATION',
+				'relatedModuleName' => 'Settings:MailIntegration',
 				'linkicon' => 'adminIcon-address',
 				'linkhref' => true,
 				'linkurl' => 'index.php?parent=Settings&module=MailIntegration&view=Index',
