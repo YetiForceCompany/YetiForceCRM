@@ -1302,7 +1302,7 @@ var app = (window.app = {
 						.done(function (responseData) {
 							if (responseData.success && responseData.result) {
 								if (responseData.result.notify) {
-									Vtiger_Helper_Js.showMessage(responseData.result.notify);
+									app.showNotify(responseData.result.notify);
 								}
 							}
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });

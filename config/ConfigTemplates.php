@@ -961,7 +961,7 @@ return [
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'MAX_LIFETIME_SESSION' => [
-			'default' => 21600,
+			'default' => 900,
 			'description' => 'Lifetime session (in seconds)',
 		],
 		'API_CREATE_LIFETIME_SESSION' => [

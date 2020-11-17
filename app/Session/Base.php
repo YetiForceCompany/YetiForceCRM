@@ -33,7 +33,7 @@ class Base extends \SessionHandler
 			return;
 		}
 		$cookie = array_merge([
-			'lifetime' => 0,
+			'lifetime' => \Config\Security::$MAX_LIFETIME_SESSION,
 			'path' => ini_get('session.cookie_path'),
 			'domain' => ini_get('session.cookie_domain'),
 			'secure' => \App\RequestUtil::getBrowserInfo()->https,
