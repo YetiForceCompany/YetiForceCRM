@@ -1277,6 +1277,79 @@ var app = (window.app = {
 			});
 		}
 	},
+	registerFormsEvents: function (container) {
+		let forms = container.find('form.js-form-ajax-submit,form.js-form-single-save');
+		forms.each((i, form) => {
+			form = $(form);
+			let validationForm = false;
+			if (form.hasClass('js-validate-form')) {
+				form.validationEngine(app.validationEngineOptions);
+				validationForm = true;
+			}
+			if (form.hasClass('js-form-single-save')) {
+				form.find('select,input').on('change', function () {
+					let element = $(this);
+					if (validationForm && element.validationEngine('validate')) {
+						return;
+					}
+					let progressIndicatorElement = $.progressIndicator({
+						blockInfo: { enabled: true }
+					});
+					let formData = form.serializeFormData();
+					formData['updateField'] = element.attr('name').replace('[]', '');
+					formData['updateValue'] = element.val();
+					AppConnector.request(formData)
+						.done(function (responseData) {
+							if (responseData.success && responseData.result) {
+								if (responseData.result.notify) {
+									Vtiger_Helper_Js.showMessage(responseData.result.notify);
+								}
+							}
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						})
+						.fail(function (error) {
+							app.showNotify({
+								title: app.vtranslate('JS_UNEXPECTED_ERROR'),
+								text: error,
+								type: 'error'
+							});
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						});
+				});
+			}
+			if (form.hasClass('js-form-ajax-submit')) {
+				form.on('submit', function (e) {
+					let save = true;
+					e.preventDefault();
+					if (validationForm && form.data('jqv').InvalidFields.length > 0) {
+						app.formAlignmentAfterValidation(form);
+						save = false;
+					}
+					if (save) {
+						let progressIndicatorElement = $.progressIndicator({
+							blockInfo: { enabled: true }
+						});
+						AppConnector.request(form.serializeFormData())
+							.done(function (responseData) {
+								if (responseData.success && responseData.result) {
+									if (responseData.result.notify) {
+										Vtiger_Helper_Js.showMessage(responseData.result.notify);
+									}
+								}
+								progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							})
+							.fail(function () {
+								app.showNotify({
+									text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+									type: 'error'
+								});
+								progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							});
+					}
+				});
+			}
+		});
+	},
 	isHidden: function (element) {
 		if (element.css('display') == 'none') {
 			return true;
@@ -2652,6 +2725,7 @@ $(document).ready(function () {
 	app.registesterScrollbar(document);
 	app.registerHtmlToImageDownloader(document);
 	app.registerShowHideBlock(document);
+	app.registerFormsEvents(document);
 	App.Components.Scrollbar.initPage();
 	String.prototype.toCamelCase = function () {
 		let value = this.valueOf();
