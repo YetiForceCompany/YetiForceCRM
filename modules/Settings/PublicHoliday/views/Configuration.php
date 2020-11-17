@@ -9,24 +9,36 @@
 class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_View
 {
 	/**
-	 * Process.
+	 * Process
 	 *
 	 * @param \App\Request $request
 	 */
 	public function process(App\Request $request)
 	{
+		$moduleModel = Settings_PublicHoliday_Module_Model::getInstance();
 		$viewer = $this->getViewer($request);
-		$date = $request->getArray('date', 'DateInUserFormat');
-		if ($date) {
-			$start = App\Fields\Date::formatToDB($date[0]);
-			$end = App\Fields\Date::formatToDB($date[1]);
-		} else {
-			$start = date('Y') . '-01-01';
-			$end = date('Y') . '-12-31';
-		}
-		$viewer->assign('DATE', implode(',', $date));
-		$viewer->assign('HOLIDAYS', App\Fields\Date::getHolidays($start, $end));
+		$viewer->assign('YEAR', date('Y'));
+		$viewer->assign('DATE', '');
+		$viewer->assign('HOLIDAYS', $moduleModel->getHolidaysByRange($range));
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->view('Configuration.tpl', $request->getModule(false));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getHeaderCss(App\Request $request)
+	{
+		$viewCssPath = [
+			'modules',
+			'Settings',
+			$request->getModule(),
+			!$request->isEmpty('view') ? $request->get('view', 'Text') : 'Configuration',
+		];
+		$viewCss = $this->checkAndConvertCssStyles([
+			implode('.', $viewCssPath),
+		]);
+		$cssArray = array_merge($viewCss, parent::getHeaderCss($request));
+		return $cssArray;
 	}
 }

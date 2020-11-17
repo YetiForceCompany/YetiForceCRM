@@ -1,0 +1,92 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.responsive-table-header-for-small {
+    display: none !important;
+}
+.responsive-table tr:nth-child(2) th:first-child,
+.responsive-table tr:nth-child(2) th:last-child {
+    min-width: 100px;
+}
+.responsive-table td:first-child div div:first-child {
+    text-align: center;
+    display: block;
+}
+.responsive-table td:first-child div div:last-child {
+    text-align: right;
+    display: none;
+}
+@media screen and (max-width: 940px) {
+    .responsive-table-header-for-small {
+        display: flex !important;
+    }
+    .responsive-table-header-for-small div:first-child {
+        padding: 3px 18px;
+    }
+    .responsive-table {
+        border-collapse: collapse;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        table-layout: fixed;
+    }
+    .responsive-table tr {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        padding: .35em;
+    }
+    .responsive-table th,
+    .responsive-table td {
+        padding: .625em;
+        text-align: center;
+    }
+    .responsive-table th {
+        font-size: .85em;
+        letter-spacing: .1em;
+    }
+    .responsive-table {
+        border: 0;
+    }    
+    .responsive-table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+    .responsive-table tr {
+        border-bottom: 3px solid #ddd;
+        display: block;
+        margin-bottom: .625em;
+    }
+    .responsive-table td:first-child div div:first-child {
+        float: left;
+    }
+    .responsive-table td:first-child div div:last-child {
+        display: inline;
+    }
+    .responsive-table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+    .responsive-table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+    }
+    .responsive-table td:last-child(-1) {
+        border-bottom: 0;
+    }
+    .responsive-table td:last-child {
+        display: none;
+    }
+}
+@media screen and (max-width: 399px) {
+    .responsive-table-header-for-small div:first-child {
+        padding: 3px 14px;
+    }
+}
