@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<input type="hidden" id="daterange" value="{$DATE}" />
+<!-- tpl-Settings-PublicHoliday-ConfigurationItems -->
 {foreach item=HOLIDAY from=$HOLIDAYS}
 	<tr class="holidayElement" data-holiday-id="{$HOLIDAY->getId()}"
 		data-holiday-type="{$HOLIDAY->getType()}" data-holiday-name="{$HOLIDAY->getName()}"
@@ -52,4 +52,5 @@
 		</td>
 	</tr>
 {/foreach}
+<!-- /tpl-Settings-PublicHoliday-ConfigurationItems -->
 {/strip}

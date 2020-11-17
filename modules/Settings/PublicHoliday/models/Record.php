@@ -8,17 +8,16 @@
  */
 class Settings_PublicHoliday_Record_Model extends Settings_Vtiger_Record_Model
 {
-    /**
-     * Module model instance
-     * 
-     * @var Settings_PublicHoliday_Module_Model
-     */
-    protected $module = null;
-
-    /**
-	 * Returns record id
+	/**
+	 * Module model instance.
 	 *
-     * @param none
+	 * @var Settings_PublicHoliday_Module_Model
+	 */
+	protected $module;
+
+	/**
+	 * Returns record id.
+	 *
 	 * @return int
 	 */
 	public function getId()
@@ -27,42 +26,38 @@ class Settings_PublicHoliday_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Returns holiday name
+	 * Returns holiday name.
 	 *
-     * @param none
 	 * @return string
 	 */
 	public function getName()
 	{
 		return $this->get('holidayname');
-    }
-    
-    /**
-	 * Returns holiday type
+	}
+
+	/**
+	 * Returns holiday type.
 	 *
-     * @param none
 	 * @return string
 	 */
 	public function getType()
 	{
 		return $this->get('holidaytype');
-    }
+	}
 
-    /**
-	 * Returns holiday date
+	/**
+	 * Returns holiday date.
 	 *
-     * @param none
 	 * @return string
 	 */
 	public function getDate()
 	{
 		return $this->get('holidaydate');
-    }
+	}
 
-    /**
-	 * Sets and returns module model instance
+	/**
+	 * Sets and returns module model instance.
 	 *
-     * @param none
 	 * @return Settings_Companies_Module_Model
 	 */
 	public function getModule()
@@ -74,91 +69,82 @@ class Settings_PublicHoliday_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Returns a clean instance
+	 * Returns a clean instance.
 	 *
-	 * @param none
 	 * @return \self
 	 */
 	public static function getCleanInstance()
 	{
-		$instance = new self();
-		return $instance;
+		return new self();
 	}
 
-    /**
+	/**
 	 * {@inheritdoc}
 	 */
 	public static function getInstanceById($id)
 	{
-        $moduleModel = Settings_PublicHoliday_Module_Model::getInstance();
-        $tableName = $moduleModel->getBaseTable();
-        $tableIndex = $moduleModel->getBaseIndex();
-        $query = new App\Db\Query();
-        $row = $query->from($tableName)
-                    ->where([$tableIndex => $id])
-					->createCommand()->queryOne();
+		$moduleModel = Settings_PublicHoliday_Module_Model::getInstance();
+		$tableName = $moduleModel->getBaseTable();
+		$tableIndex = $moduleModel->getBaseIndex();
+		$query = new App\Db\Query();
+		$row = $query->from($tableName)
+			->where([$tableIndex => $id])
+			->createCommand()->queryOne();
 		if ($row) {
 			$instance = new self();
-            $instance->setData($row);
+			$instance->setData($row);
 			return $instance;
-        }
-        return null;
+		}
+		return null;
 	}
 
 	/**
-	 * Return day of week for holiday date
-	 * 
-	 * @param none
+	 * Return day of week for holiday date.
+	 *
 	 * @return string
 	 */
 	public function getDayOfWeek()
 	{
-		$moduleModel = $this->getModule();
-        $moduleName = $moduleModel->getName();
-		$date = $this->getDate();
-		$dow = date('l', strtotime($date));
-		return $dow;
+		return date('l', strtotime($this->getDate()));
 	}
 
-    /**
-	 * Returns display value
+	/**
+	 * Returns display value.
 	 *
-	 * @param string
+	 * @param string $key
+	 *
 	 * @return string
 	 */
 	public function getDisplayValue(string $key)
 	{
-        $moduleModel = $this->getModule();
-        $moduleName = $moduleModel->getName();
+		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->getName();
 		$value = $this->get($key);
 		switch ($key) {
-            case 'holidaydate':
+			case 'holidaydate':
 				$displayValue = DateTimeField::convertToUserFormat($value);
-                break;
-                
+				break;
 			case 'holidaytype':
 				$displayValue = \App\Language::translate($value, $moduleName);
 				break;
-			
-            default:
+			default:
 				$displayValue = $value;
 				break;
 		}
 		return $displayValue;
 	}
 
-    /**
-	 * Updates / inserts record
+	/**
+	 * Updates / inserts record.
 	 *
-     * @param none
 	 * @return int
 	 */
 	public function save()
 	{
 		$moduleModel = $this->getModule();
-        $moduleTable = $moduleModel->getBaseTable();
-        $tableIndex = $moduleModel->getBaseIndex();
-		$publicholidayid = $this->getId();
+		$moduleTable = $moduleModel->getBaseTable();
+		$tableIndex = $moduleModel->getBaseIndex();
+		$publicHolidayId = $this->getId();
 		$recordValues = [
 			'holidaydate' => $this->getDate(),
 			'holidayname' => $this->getName(),
@@ -166,37 +152,45 @@ class Settings_PublicHoliday_Record_Model extends Settings_Vtiger_Record_Model
 		];
 		$result = 0;
 		$db = \App\Db::getInstance('admin');
-		if ($publicholidayid) {
+		if ($publicHolidayId) {
 			$result = $db->createCommand()
-						->update($moduleTable, $recordValues, [$tableIndex => $publicholidayid])
-						->execute();
+				->update($moduleTable, $recordValues, [$tableIndex => $publicHolidayId])
+				->execute();
 		} else {
 			$result = $db->createCommand()
-						->insert($moduleTable, $recordValues)
-						->execute();
-			$this->set($tableIndex, $db->getLastInsertID($moduleTable));
+				->insert($moduleTable, $recordValues)
+				->execute();
+			$this->set($tableIndex, $db->getLastInsertID("{$moduleTable}_publicholidayid_seq"));
 		}
 		return $result;
 	}
 
-    /**
-	 * Deletes record
-     * 
-     * @param none
-     * @return int
+	/**
+	 * Check if is duplicated.
+	 *
+	 * @return bool
+	 */
+	public function isDuplicate()
+	{
+		$query = (new \App\Db\Query())->from($this->getModule()->getBaseTable())->where(['holidaydate' => $this->getDate()]);
+		if ($this->getId()) {
+			$query->andWhere(['<>', 'publicholidayid', $this->getId()]);
+		}
+		return $query->exists();
+	}
+
+	/**
+	 * Deletes record.
+	 *
+	 * @return int
 	 */
 	public function delete()
 	{
-        $moduleModel = $this->getModule();
-        $moduleTable = $moduleModel->getBaseTable();
-        $tableIndex = $moduleModel->getBaseIndex();
-		$publicholidayid = $this->getId();
 		$result = 0;
-		if ($publicholidayid) {
-			$db = \App\Db::getInstance('admin');
-			$result = $db->createCommand()
-						->delete($moduleTable, [$tableIndex => $publicholidayid])
-						->execute();
+		if ($this->getId()) {
+			$result = \App\Db::getInstance('admin')->createCommand()
+				->delete($this->getModule()->getBaseTable(), [$this->getModule()->getBaseIndex() => $this->getId()])
+				->execute();
 		}
 		return $result;
 	}

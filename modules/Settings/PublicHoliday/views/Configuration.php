@@ -9,19 +9,46 @@
 class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_View
 {
 	/**
-	 * Process
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('list');
+	}
+
+	/**
+	 * Process.
 	 *
 	 * @param \App\Request $request
 	 */
 	public function process(App\Request $request)
 	{
+		if ($mode = $request->getMode()) {
+			$this->invokeExposedMethod($mode, $request);
+			return;
+		}
 		$moduleModel = Settings_PublicHoliday_Module_Model::getInstance();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('YEAR', date('Y'));
 		$viewer->assign('DATE', '');
-		$viewer->assign('HOLIDAYS', $moduleModel->getHolidaysByRange($range));
-		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+		$viewer->assign('HOLIDAYS', $moduleModel->getHolidaysByRange([]));
 		$viewer->view('Configuration.tpl', $request->getModule(false));
+	}
+
+	/**
+	 * Returns view for holiday item list by date filtering.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function list(App\Request $request): void
+	{
+		$viewer = $this->getViewer($request);
+		$moduleModel = Settings_PublicHoliday_Module_Model::getInstance();
+		$date = !$request->isEmpty('date', true) ? $request->getDateRange('date') : [];
+		$viewer->assign('DATE', $date ? implode(',', App\Fields\Date::formatRangeToDisplay($date)) : '');
+		$viewer->assign('HOLIDAYS', $moduleModel->getHolidaysByRange($date));
+		$viewer->view('ConfigurationItems.tpl', $request->getModule(false));
 	}
 
 	/**
@@ -29,16 +56,9 @@ class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_Vi
 	 */
 	public function getHeaderCss(App\Request $request)
 	{
-		$viewCssPath = [
-			'modules',
-			'Settings',
-			$request->getModule(),
-			!$request->isEmpty('view') ? $request->get('view', 'Text') : 'Configuration',
-		];
-		$viewCss = $this->checkAndConvertCssStyles([
-			implode('.', $viewCssPath),
-		]);
-		$cssArray = array_merge($viewCss, parent::getHeaderCss($request));
-		return $cssArray;
+		$view = $request->get('view', App\Purifier::STANDARD);
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
+			"modules.Settings.{$request->getModule()}.{$view}",
+		]));
 	}
 }

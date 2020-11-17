@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-PublicHoliday-Configuration" id="widgetsManagementEditorContainer">
+	<!-- tpl-Settings-PublicHoliday-Configuration -->
 		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
@@ -8,7 +8,7 @@
 		</div>
 		<div class="contents tabbable">
 			<div class="tab-content themeTableColor overflowVisible">
-				<div id="layoutDashBoards">
+				<div>
 					<div id="moduleBlocks">
 						<button type="button" class="btn btn-success addPublicHoliday my-2">
 							<span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}
@@ -23,16 +23,22 @@
 							</div>
 							<div class="row responsive-table-header-for-small">
 								<div class="col-sm-8 text-right order-sm-2">
-									<form onsubmit="return false;">
-										{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}
-										<input type="text"
-												class="ml-1 dateRangeField dateFilter text-center"
-												data-date-format="{$USER_MODEL->get('date_format')}"
-												data-calendar-type="range" value="{$DATE}"
-												data-validation-engine="validate[funcCall[Vtiger_Date_Validator_Js.invokeValidation]]" />
-										<button type="reset" class="btn btn-sm btn-default" title="{\App\Language::translate('LBL_ALL')}">
-											<i class="fas fa-lg fa-window-close"></i>
-										</button>
+									<form>
+										<div class="row text-right float-right">
+											<label>{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}</label>
+											<div class="input-group input-group-sm col">
+												<input type="text"
+														class="ml-1 dateRangeField dateFilter text-center form-control"
+														data-date-format="{$USER_MODEL->get('date_format')}"
+														data-calendar-type="range" value="{$DATE}"
+														data-validation-engine="validate[funcCall[Vtiger_Date_Validator_Js.invokeValidation]]" />
+												<div class="input-group-append" title="{\App\Language::translate('LBL_ALL')}">
+													<button type="button" class="btn btn-sm btn-default js-range-reset" title="{\App\Language::translate('LBL_ALL')}">
+														<span class="fas fa-lg fa-window-close"></span>
+													</button>
+												</div>
+											</div>
+										</div>
 									</form>
 								</div>
 								<div class="col-sm-4 order-sm-1">
@@ -58,9 +64,9 @@
 								<thead class="text-capitalize text-center">
 								<tr>
 									<th class="font-weight-normal">
-										<button class="masscopy btn btn-info btn-xs text-white mr-2"
+										<button class="masscopy btn btn-info btn-xs"
 												title="{\App\Language::translate('LBL_DUPLICATE_SELECTED', $QUALIFIED_MODULE)}">
-											<span class="fas fa-clone alignMiddle"></span>
+											<span class="fas fa-clone"></span>
 										</button>
 										<button class="massdelete btn btn-danger btn-xs text-white ml-2"
 												title="{\App\Language::translate('LBL_DELETE_SELECTED', $QUALIFIED_MODULE)}">
@@ -68,16 +74,22 @@
 										</button>
 									</th>
 									<th colspan="5" class="text-right font-weight-normal">
-										<form onsubmit="return false;">
-											{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}
-											<input type="text"
-													class="ml-1 dateRangeField dateFilter text-center"
-													data-date-format="{$USER_MODEL->get('date_format')}"
-													data-calendar-type="range" value="{$DATE}"
-													data-validation-engine="validate[funcCall[Vtiger_Date_Validator_Js.invokeValidation]]" />
-											<button type="reset" class="btn btn-sm btn-default" title="{\App\Language::translate('LBL_ALL')}">
-												<i class="fas fa-lg fa-window-close"></i>
-											</button>
+										<form>
+											<div class="row text-right float-right">
+												{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}
+												<div class="input-group input-group-sm col">
+													<input type="text"
+															class="ml-1 dateRangeField dateFilter text-center form-control"
+															data-date-format="{$USER_MODEL->get('date_format')}"
+															data-calendar-type="range" value="{$DATE}"
+															data-validation-engine="validate[funcCall[Vtiger_Date_Validator_Js.invokeValidation]]" />
+													<div class="input-group-append" title="{\App\Language::translate('LBL_ALL')}">
+														<button type="button" class="btn btn-sm btn-default js-range-reset" title="{\App\Language::translate('LBL_ALL')}">
+															<span class="fas fa-lg fa-window-close"></span>
+														</button>
+													</div>
+												</div>
+											</div>
 										</form>
 									</th>
 								</tr>
@@ -149,7 +161,7 @@
 														data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
 												</div>
 											</div>
-										{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
+										{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 									</form>
 								</div>
 							</div>
@@ -195,5 +207,5 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	<!-- /tpl-Settings-PublicHoliday-Configuration -->
 {/strip}
