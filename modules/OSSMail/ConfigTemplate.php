@@ -9,31 +9,8 @@ return [
 	'default_host' => [
 		'default' => ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com'],
 		'description' => 'Default host.',
-		'validation' => function () {
-			$arg = func_get_arg(0);
-			if (!$arg) {
-				return false;
-			}
-			$arg = (array) \App\Purifier::purify($arg);
-			foreach ($arg as $url) {
-				if (!\App\Validator::url($url)) {
-					return false;
-				}
-			}
-			return true;
-		},
-		'sanitization' => function () {
-			$values = func_get_arg(0);
-			if (!\is_array($values)) {
-				$values = [$values];
-			}
-			$saveValue = [];
-			foreach ($values as $value) {
-				$value = \App\Purifier::purify($value);
-				$saveValue[$value] = $value;
-			}
-			return $saveValue;
-		}
+		'loopValidate' => true,
+		'validation' => '\App\Validator::urlDomain',
 	],
 	'default_port' => [
 		'default' => 993,
