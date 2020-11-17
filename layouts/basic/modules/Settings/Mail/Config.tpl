@@ -24,14 +24,6 @@
 				</div>
 				<div class="d-flex">
 					<div class="float-left pagination-centered">
-						<input class="configCheckbox" type="checkbox" name="showMailAccounts" id="showMailAccounts" data-type="mailIcon" value="1" {if $CONFIG['showMailAccounts']=='true'}checked=""{/if}>
-					</div>
-					<div class="ml-1">
-						<label for="showMailAccounts">{\App\Language::translate('LBL_SHOW_MAIL_ACCOUNTS', $QUALIFIED_MODULE)}</label>
-					</div>
-				</div>
-				<div class="d-flex">
-					<div class="float-left pagination-centered">
 						<input class="configCheckbox" type="checkbox" name="showNumberUnreadEmails" id="showNumberUnreadEmails" data-type="mailIcon" value="1" {if $CONFIG['showNumberUnreadEmails']=='true'}checked=""{/if}>
 					</div>
 					<div class="ml-1">

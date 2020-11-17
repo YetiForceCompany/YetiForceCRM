@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * ********************************************************************************** */
 
 class Vtiger_Loader
@@ -28,24 +29,63 @@ class Vtiger_Loader
 	 */
 	public static function resolveNameToPath($qualifiedName, $fileExtension = 'php')
 	{
-		$allowedExtensions = ['php', 'js', 'css', 'less'];
-		$file = '';
-		if (!\in_array($fileExtension, $allowedExtensions)) {
-			return '';
-		}
-		$prefix = '';
-		if ('php' !== $fileExtension) {
-			$prefix = 'public_html' . DIRECTORY_SEPARATOR;
-		}
-		// TO handle loading vtiger files
-		if (0 === strpos($qualifiedName, '~')) {
-			$file = str_replace('~', '', $qualifiedName);
-			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $prefix . $file;
-		} else {
-			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
-			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $prefix . $file;
+		if ($file = self::resolveRelativePath($qualifiedName, $fileExtension)) {
+			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . ('php' !== $fileExtension ? 'public_html' . DIRECTORY_SEPARATOR : '') . $file;
 		}
 		return $file;
+	}
+
+	/**
+	 * Static function to resolve the qualified php filename to relative path.
+	 *
+	 * @param string $qualifiedName
+	 * @param string $fileExtension
+	 *
+	 * @return string
+	 */
+	public static function resolveRelativePath(string $qualifiedName, string $fileExtension = 'php'): string
+	{
+		$allowedExtensions = ['php', 'js', 'css', 'less'];
+		$file = '';
+		if (\in_array($fileExtension, $allowedExtensions)) {
+			if (0 === strpos($qualifiedName, '~')) {
+				$file = str_replace('~', '', $qualifiedName);
+			} else {
+				$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
+			}
+		}
+
+		return $file;
+	}
+
+	/**
+	 * Returns canonicalized absolute pathname for css/js files.
+	 *
+	 * @param string $filePath
+	 * @param string $fileExtension
+	 * @param array  $layoutPaths
+	 *
+	 * @return string
+	 */
+	public static function getRealPathFile(string $filePath, string $fileExtension, array $layoutPaths): string
+	{
+		$realPath = '';
+		$checkMin = \vtlib\Functions::getMinimizationOptions($fileExtension);
+		foreach ($layoutPaths as $layoutPath) {
+			$realPaths = [];
+			$completeFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $layoutPath . self::resolveRelativePath($filePath, $fileExtension);
+			if ($checkMin) {
+				$realPaths[] = substr($completeFilePath, 0, -(\strlen($fileExtension) + 1)) . ".min.{$fileExtension}";
+			}
+			$realPaths[] = $completeFilePath;
+			foreach ($realPaths as $path) {
+				if ($path && is_file($path)) {
+					$realPath = $path;
+					break 2;
+				}
+			}
+		}
+		return $realPath;
 	}
 
 	/**

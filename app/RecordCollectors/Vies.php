@@ -18,25 +18,19 @@ namespace App\RecordCollectors;
  */
 class Vies extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	protected $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+
+	/** {@inheritdoc} */
 	public $icon = 'yfi yfi-vies';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $label = 'Vies';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $displayType = 'Summary';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'countryCode' => [
 			'label' => 'Country',
@@ -81,9 +75,8 @@ class Vies extends Base
 			'typeofdata' => 'V~M'
 		],
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	protected $modulesFieldsMap = [
 		'Accounts' => [
 			'vatNumber' => 'vat_id',
@@ -98,6 +91,7 @@ class Vies extends Base
 			'vatNumber' => 'vat_id',
 		]
 	];
+
 	/**
 	 * Vies server address.
 	 *
@@ -105,9 +99,7 @@ class Vies extends Base
 	 */
 	protected $url = 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFields(): array
 	{
 		$fields = parent::getFields();
@@ -120,9 +112,7 @@ class Vies extends Base
 		return $fields;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function search(): array
 	{
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));

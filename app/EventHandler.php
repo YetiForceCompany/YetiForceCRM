@@ -23,6 +23,7 @@ class EventHandler
 	private $moduleName;
 	private $params;
 	private $exceptions = [];
+	private $handlers = [];
 
 	/** @var string Edit view, validation before saving */
 	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
@@ -173,6 +174,30 @@ class EventHandler
 	{
 		Db::getInstance()->createCommand()->update(self::$baseTable, $params, ['eventhandler_id' => $id])->execute();
 		static::clearCache();
+	}
+
+	/**
+	 * Check if it is active function.
+	 *
+	 * @param string      $className
+	 * @param string|null $eventName
+	 *
+	 * @return bool
+	 */
+	public static function checkActive(string $className, ?string $eventName = null): bool
+	{
+		$rows = (new \App\Db\Query())->from(self::$baseTable)->where(['handler_class' => $className])->all();
+		$status = false;
+		foreach ($rows as $row) {
+			if (isset($eventName) && $eventName !== $row['event_name']) {
+				continue;
+			}
+			if (empty($row['is_active'])) {
+				return false;
+			}
+			$status = true;
+		}
+		return $status;
 	}
 
 	/**
@@ -346,6 +371,11 @@ class EventHandler
 			Log::error("Handler not found, class: {$className} | {$function}");
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
-		return (new $className())->{$function}($this);
+		if (isset($this->handlers[$className])) {
+			$handler = $this->handlers[$className];
+		} else {
+			$handler = $this->handlers[$className] = new $className();
+		}
+		return $handler->{$function}($this);
 	}
 }

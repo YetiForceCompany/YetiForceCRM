@@ -83,8 +83,9 @@ Vtiger_Detail_Js(
 					size: '6px'
 				});
 			};
-			app.showModalWindow(data, function () {
-				if (typeof callbackFunction == 'function' && $('#hierarchyScroll').height() > 300) {
+			app.showModalWindow(data, function (modalContainer) {
+				App.Components.Scrollbar.xy($('#hierarchyScroll', modalContainer));
+				if (typeof callbackFunction == 'function' && $('#hierarchyScroll', modalContainer).height() > 300) {
 					callbackFunction();
 				}
 			});
@@ -140,9 +141,7 @@ Vtiger_Detail_Js(
 			var thisInstance = this;
 			this._super();
 			detailContentsHolder.on('click', '.moreRecentTickets', function () {
-				var recentTicketsTab = thisInstance.getTabByLabel(
-					thisInstance.detailViewRecentTicketsTabLabel
-				);
+				var recentTicketsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentTicketsTabLabel);
 				recentTicketsTab.trigger('click');
 			});
 			this.registerGantt();

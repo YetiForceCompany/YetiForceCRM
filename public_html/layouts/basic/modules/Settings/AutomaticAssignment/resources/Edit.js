@@ -87,11 +87,9 @@ jQuery.Class(
 
 				let params = [];
 				params[baseFieldName] = value;
-				app
-					.saveAjax('save', jQuery.extend({}, params), { record: app.getMainParams('record') })
-					.done(function () {
-						thisInstance.refreshTab();
-					});
+				app.saveAjax('save', jQuery.extend({}, params), { record: app.getMainParams('record') }).done(function () {
+					thisInstance.refreshTab();
+				});
 			});
 			container.find('.js-switch').on('change', (e) => {
 				const currentTarget = $(e.currentTarget),

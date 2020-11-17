@@ -52,9 +52,7 @@ jQuery.Class(
 				});
 				let params = this.container.serializeFormData();
 				let ipAddresses = [];
-				let ipAddressContainer = this.container
-					.find('.js-ip-container_element')
-					.not('.js-base-element');
+				let ipAddressContainer = this.container.find('.js-ip-container_element').not('.js-base-element');
 				ipAddressContainer.find('.js-ip-address').each(function () {
 					ipAddresses.push($(this).val());
 				});
@@ -72,10 +70,7 @@ jQuery.Class(
 		 * Add new row
 		 */
 		addRow: function () {
-			let sortContainer = this.container
-				.find('.js-base-element')
-				.clone(true, true)
-				.removeClass('js-base-element');
+			let sortContainer = this.container.find('.js-base-element').clone(true, true).removeClass('js-base-element');
 			this.container.find('.js-ip-container').append(sortContainer);
 			return sortContainer.removeClass('d-none');
 		},

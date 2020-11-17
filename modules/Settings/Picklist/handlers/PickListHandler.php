@@ -116,7 +116,7 @@ class Settings_Picklist_PickListHandler_Handler
 			require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 			require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 			$unserializeTask = unserialize($task);
-			if (\array_key_exists('field_value_mapping', $unserializeTask)) {
+			if (isset($unserializeTask->field_value_mapping)) {
 				$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
 				if (!empty($fieldMapping)) {
 					foreach ($fieldMapping as $key => $condition) {
@@ -151,7 +151,7 @@ class Settings_Picklist_PickListHandler_Handler
 						$pickListFieldName = 'priority';
 					}
 				}
-				if (\array_key_exists($pickListFieldName, $unserializeTask)) {
+				if (isset($unserializeTask->{$pickListFieldName})) {
 					$value = $unserializeTask->{$pickListFieldName};
 					$explodedValueArray = explode(',', $value);
 					$arrayKey = array_search($oldValue, $explodedValueArray);
@@ -244,7 +244,7 @@ class Settings_Picklist_PickListHandler_Handler
 				require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 				require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 				$unserializeTask = unserialize($task);
-				if (\array_key_exists('field_value_mapping', $unserializeTask)) {
+				if (isset($unserializeTask->field_value_mapping)) {
 					$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
 					if (!empty($fieldMapping)) {
 						foreach ($fieldMapping as $key => $condition) {
@@ -281,7 +281,7 @@ class Settings_Picklist_PickListHandler_Handler
 							$pickListFieldName = 'priority';
 						}
 					}
-					if (\array_key_exists($pickListFieldName, $unserializeTask)) {
+					if (isset($unserializeTask->{$pickListFieldName})) {
 						$value = $unserializeTask->{$pickListFieldName};
 						$explodedValueArray = explode(',', $value);
 						foreach ($valueToDelete as $value) {

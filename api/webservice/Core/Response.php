@@ -203,7 +203,7 @@ class Response
 
 	public function debugResponse()
 	{
-		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
+		if (\App\Config::debug('WEBSERVICE_LOG_REQUESTS')) {
 			$request = Request::init();
 			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
 			$log .= "Status: {$this->status}\n";

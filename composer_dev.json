@@ -59,7 +59,6 @@
     "ext-hash": "*",
     "composer/ca-bundle": "^1.1",
     "sabre/dav": "^4.1",
-    "rmccue/requests": "v1.7.0",
     "smarty/smarty": "^v3.1.33",
     "phpmailer/phpmailer": "^v6.1",
     "ezyang/htmlpurifier": "^v4.11.0",
@@ -99,9 +98,7 @@
     "ext-opcache": "Improve system performance"
   },
   "archive": {
-    "exclude": [
-      "tests"
-    ]
+    "exclude": ["tests"]
   },
   "config": {
     "autoloader-suffix": "YT",
@@ -109,9 +106,7 @@
     "classmap-authoritative": false
   },
   "autoload": {
-    "files": [
-      "app/Loader.php"
-    ],
+    "files": ["app/Loader.php"],
     "psr-4": {
       "vtlib\\": "vtlib/Vtiger/",
       "includes\\": "include/",

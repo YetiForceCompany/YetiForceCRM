@@ -111,11 +111,13 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 				$fieldLabelsList = $this->getFieldsInfo(array_unique($fieldIdsList));
 			}
 			foreach ($mapping as $mappingId => $mappingDetails) {
-				$finalMapping[$mappingId] = [
-					'editable' => $mappingDetails['editable'],
-					'Leads' => $fieldLabelsList[$mappingDetails['leadfid']],
-					'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']] ?? null,
-				];
+				if (isset($fieldLabelsList[$mappingDetails['leadfid']])) {
+					$finalMapping[$mappingId] = [
+						'editable' => $mappingDetails['editable'],
+						'Leads' => $fieldLabelsList[$mappingDetails['leadfid']],
+						'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']] ?? null,
+					];
+				}
 			}
 
 			$this->mapping = $finalMapping;
@@ -137,7 +139,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		$leadId = $leadModel->getId();
 		$dataReader = (new App\Db\Query())->select(['fieldid', 'fieldlabel', 'uitype', 'typeofdata', 'fieldname', 'tablename', 'tabid'])
 			->from('vtiger_field')
-			->where(['fieldid' => $fieldIdsList])
+			->where(['fieldid' => $fieldIdsList, 'presence' => [0, 2]])
 			->createCommand()->query();
 		$fieldLabelsList = [];
 		while ($rowData = $dataReader->read()) {

@@ -20,6 +20,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 		this.registerProductModalClick();
 		this.registerBuyModalClick();
 		this.registerShopSearch();
+		this.registerCategories();
 		this.showInitialModal();
 	}
 	showInitialModal() {
@@ -73,9 +74,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	showProductModal(productName, department) {
 		app.showModalWindow(
 			null,
-			`${this.modalUrl}&view=ProductModal&product=${productName}${
-				department ? '&department=' + department : ''
-			}`,
+			`${this.modalUrl}&view=ProductModal&product=${productName}${department ? '&department=' + department : ''}`,
 			(modalContainer) => {
 				modalContainer.find('.js-modal__save').on('click', (_) => {
 					app.hideModalWindow();
@@ -104,9 +103,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	showBuyModal(productName, department) {
 		app.showModalWindow(
 			null,
-			`${this.modalUrl}&view=BuyModal&product=${productName}${
-				department ? '&department=' + department : ''
-			}`,
+			`${this.modalUrl}&view=BuyModal&product=${productName}${department ? '&department=' + department : ''}`,
 			this.registerBuyModalEvents.bind(this)
 		);
 	}
@@ -171,9 +168,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			customFields.each((i, el) => {
 				let field = $(el);
 				customField.val(
-					`${customField.val()}${field.data('name')}::${field.val()}${
-						customFields.length - 1 !== i ? '|' : ''
-					}`
+					`${customField.val()}${field.data('name')}::${field.val()}${customFields.length - 1 !== i ? '|' : ''}`
 				);
 			});
 		}
@@ -193,5 +188,31 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	getDepartment(element) {
 		let department = element.closest('.js-department');
 		return department.length ? department.data('department') : '';
+	}
+	/**
+	 * Register categories.
+	 *
+	 */
+	registerCategories() {
+		this.container.find('.js-select-category').on('click', (e) => {
+			this.changeCategory($(e.currentTarget).data('tab'));
+		});
+		this.changeCategory(this.container.find('.js-select-category.active').data('tab'));
+	}
+	/**
+	 * Register categories.
+	 *
+	 */
+	changeCategory(category) {
+		this.container.find('.js-nav-premium .js-product').each(function () {
+			let product = $(this);
+			if (category === 'All') {
+				product.removeClass('d-none');
+			} else if (product.data('category') === category) {
+				product.removeClass('d-none');
+			} else {
+				product.addClass('d-none');
+			}
+		});
 	}
 };

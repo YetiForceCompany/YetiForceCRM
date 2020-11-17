@@ -73,9 +73,7 @@ jQuery.Class(
 			const self = this;
 			$('#tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 				if (this.dataset.name === 'Unlock' || this.dataset.name === 'Confirmations') {
-					AppComponents_InterestsConflict_Js['register' + this.dataset.name](
-						$('#' + this.dataset.name)
-					);
+					AppComponents_InterestsConflict_Js['register' + this.dataset.name]($('#' + this.dataset.name));
 				} else {
 					self['register' + this.dataset.name]($('#' + this.dataset.name));
 				}

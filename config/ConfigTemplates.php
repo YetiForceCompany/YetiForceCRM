@@ -304,6 +304,31 @@ return [
 			'default' => 0,
 			'description' => 'Level of saved/displayed tracerts. // Values: int'
 		],
+		'SQL_DIE_ON_ERROR' => [
+			'default' => false,
+			'description' => 'Stop the running process of the system if there is an error in sql query'
+		],
+		'EXCEPTION_ERROR_TO_SHOW' => [
+			'default' => false,
+			'description' => 'Display errors'
+		],
+		'DISPLAY_EXCEPTION_BACKTRACE' => [
+			'default' => false,
+			'description' => 'Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true'
+		],
+		'DISPLAY_EXCEPTION_LOGS' => [
+			'default' => false,
+			'description' => 'Display logs when error exception occurs'
+		],
+		'EXCEPTION_ERROR_HANDLER' => [
+			'default' => false,
+			'description' => 'Turn on/off the error handler'
+		],
+		'EXCEPTION_ERROR_TO_FILE' => [
+			'default' => false,
+			'description' => 'Save logs to file (cache/logs/errors.log)'
+		],
+
 		'DISPLAY_DEBUG_CONSOLE' => [
 			'default' => false,
 			'description' => 'Display main debug console'
@@ -324,10 +349,7 @@ return [
 			'default' => [],
 			'description' => 'List of user IDs allowed to display debug console. ',
 		],
-		'SQL_DIE_ON_ERROR' => [
-			'default' => false,
-			'description' => 'Stop the running process of the system if there is an error in sql query'
-		],
+
 		'DEBUG_CRON' => [
 			'default' => false,
 			'description' => 'Debug cron => cache/logs/cron/'
@@ -344,33 +366,29 @@ return [
 			'default' => new \Nette\PhpGenerator\PhpLiteral('E_ALL & ~E_NOTICE'),
 			'description' => 'Do not show Smarty Notice in phpError.log',
 		],
+		'EXCEPTION_ERROR_LEVEL' => [
+			'default' => new \Nette\PhpGenerator\PhpLiteral('E_ALL & ~E_NOTICE'),
+			'description' => "Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.\nhttps://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting\nAll errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR",
+		],
 		'JS_DEBUG' => [
 			'default' => true,
 			'description' => 'Turn on/off error debugging in javascript'
 		],
-		'DISPLAY_EXCEPTION_BACKTRACE' => [
+		'WEBSERVICE_SHOW_ERROR' => [
 			'default' => false,
-			'description' => 'Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true'
+			'description' => 'Show error messages in web service'
 		],
-		'DISPLAY_EXCEPTION_LOGS' => [
+		'WEBSERVICE_SHOW_EXCEPTION_BACKTRACE' => [
 			'default' => false,
-			'description' => 'Display logs when error exception occurs'
+			'description' => 'Show error exception backtrace'
 		],
-		'EXCEPTION_ERROR_HANDLER' => [
+		'WEBSERVICE_LOG_ERRORS' => [
 			'default' => false,
-			'description' => 'Turn on/off the error handler'
+			'description' => 'Web service - log only errors in the logs'
 		],
-		'EXCEPTION_ERROR_TO_FILE' => [
+		'WEBSERVICE_LOG_REQUESTS' => [
 			'default' => false,
-			'description' => 'Save logs to file (cache/logs/errors.log)'
-		],
-		'EXCEPTION_ERROR_TO_SHOW' => [
-			'default' => false,
-			'description' => 'Display errors'
-		],
-		'EXCEPTION_ERROR_LEVEL' => [
-			'default' => new \Nette\PhpGenerator\PhpLiteral('E_ALL & ~E_NOTICE'),
-			'description' => "Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.\nhttps://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting\nAll errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR",
+			'description' => 'Web service - log all communications'
 		],
 		'DAV_DEBUG_EXCEPTIONS' => [
 			'default' => false,
@@ -380,14 +398,6 @@ return [
 			'default' => false,
 			'description' => 'Activate the plugin recording log in DAV'
 		],
-		'WEBSERVICE_SHOW_ERROR' => [
-			'default' => false,
-			'description' => 'Show error messages in web service'
-		],
-		'WEBSERVICE_DEBUG' => [
-			'default' => false,
-			'description' => 'Web service logs'
-		],
 		'MAILER_DEBUG' => [
 			'default' => false,
 			'description' => 'Mailer debug'
@@ -396,7 +406,6 @@ return [
 			'default' => 1,
 			'description' => 'System error reporting, sum of: 1 = log; 4 = show, 8 = trace'
 		],
-
 		'ROUNDCUBE_DEVEL_MODE' => [
 			'default' => false,
 			'description' => 'Devel_mode this will print real PHP memory usage into logs/console and do not compress JS libraries'

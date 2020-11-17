@@ -12,10 +12,7 @@ $.Class(
 			$('#page').on('click', 'a', function (e) {
 				e.preventDefault();
 				let target = $(this);
-				if (
-					!target.closest('div').hasClass('fieldValue') ||
-					target.hasClass('showReferenceTooltip')
-				) {
+				if (!target.closest('div').hasClass('fieldValue') || target.hasClass('showReferenceTooltip')) {
 					if (target.attr('href') && target.attr('href') != '#') {
 						top.location.href = target.attr('href');
 					}
@@ -26,9 +23,7 @@ $.Class(
 		 * Redirects to the current iframe parent.
 		 */
 		updateParentFrame: function () {
-			parent.app
-				.getPageController()
-				.updateWindowHeight($('.mainContainer').height(), $(window.frameElement));
+			parent.app.getPageController().updateWindowHeight($('.mainContainer').height(), $(window.frameElement));
 		},
 		/**
 		 * Function sets the correct iframe size.

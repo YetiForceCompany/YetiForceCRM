@@ -62,21 +62,28 @@ Vtiger_Detail_Js(
 				});
 			});
 		},
+
 		/*
 		 * function to display the AccountHierarchy response data
 		 */
 		displayAccountHierarchyResponseData: function (data) {
-			var thisInstance = this;
-			app.showModalWindow(data, function (container) {
-				var bodyModal = container.find('.maxHeightModal');
-				app.showScrollBar(bodyModal, {
-					height: bodyModal.height,
+			let thisInstance = this;
+			let callbackFunction = function (data) {
+				app.showScrollBar($('#hierarchyScroll'), {
+					height: '300px',
 					railVisible: true,
 					size: '6px'
 				});
-				thisInstance.registerButtons(container);
+			};
+			app.showModalWindow(data, function (modalContainer) {
+				App.Components.Scrollbar.xy($('#hierarchyScroll', modalContainer));
+				if (typeof callbackFunction == 'function' && $('#hierarchyScroll', modalContainer).height() > 300) {
+					callbackFunction(data);
+				}
+				thisInstance.registerButtons(modalContainer);
 			});
 		},
+
 		registerHierarchyRecordCount: function () {
 			var hierarchyButton = $('.detailViewTitle .hierarchy');
 			if (hierarchyButton.length) {

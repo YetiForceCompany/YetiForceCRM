@@ -25,7 +25,7 @@ class YetiForce extends Base
 	public function getCoordinates(array $addressInfo)
 	{
 		$product = \App\YetiForce\Register::getProducts('YetiForceMap');
-		if (empty($addressInfo) || !\App\RequestUtil::isNetConnection() || empty($product['params']['login']) || empty($product['params']['pass'])) {
+		if (empty($addressInfo) || !\App\RequestUtil::isNetConnection() || ((empty($product['params']['login']) || empty($product['params']['pass'])) && empty($product['params']['token']))) {
 			return false;
 		}
 		$params = array_merge([
@@ -34,14 +34,20 @@ class YetiForce extends Base
 			'limit' => 1,
 			'accept-language' => \App\Language::getLanguage() . ',' . \App\Config::main('default_language') . ',en-US',
 		], $addressInfo);
+		$options = [
+			'timeout' => 60,
+			'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]
+		];
+		if (isset($product['params']['token'])) {
+			$params['yf_token'] = $product['params']['token'];
+		} else {
+			$options['auth'] = [$product['params']['login'], $product['params']['pass']];
+		}
 		$coordinates = false;
 		try {
 			$url = 'https://osm-search.yetiforce.eu/?' . \http_build_query($params);
 			\App\Log::beginProfile("GET|YetiForce::getCoordinates|{$url}", __NAMESPACE__);
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-				->request('GET', $url, [
-					'auth' => [$product['params']['login'], $product['params']['pass']],  'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]
-				]);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, $options);
 			\App\Log::endProfile("GET|YetiForce::getCoordinates|{$url}", __NAMESPACE__);
 			if (200 === $response->getStatusCode()) {
 				$coordinates = \App\Json::decode($response->getBody());

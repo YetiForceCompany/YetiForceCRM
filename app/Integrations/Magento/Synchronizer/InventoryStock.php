@@ -32,9 +32,7 @@ class InventoryStock extends Base
 	 */
 	public $product;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$products = [];

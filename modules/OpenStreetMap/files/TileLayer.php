@@ -32,9 +32,13 @@ class OpenStreetMap_TileLayer_File extends Vtiger_Basic_File
 	 */
 	public function get(App\Request $request)
 	{
-		$product = \App\YetiForce\Register::getProducts('YetiForceMap');
-		if (!\App\RequestUtil::isNetConnection() || empty($product['params']['login']) || empty($product['params']['pass'])) {
+		if (!\App\RequestUtil::isNetConnection()) {
 			$this->error();
+			return false;
+		}
+		$product = \App\YetiForce\Register::getProducts('YetiForceMap');
+		if ((empty($product['params']['login']) || empty($product['params']['pass'])) && empty($product['params']['token'])) {
+			$this->error('map_server_not_purchased');
 			return false;
 		}
 		$url = str_replace(['{z}', '{x}', '{y}'], [
@@ -42,10 +46,20 @@ class OpenStreetMap_TileLayer_File extends Vtiger_Basic_File
 			$request->getByType('x', 'Integer'),
 			$request->getByType('y', 'Integer'),
 		], 'https://osm-tile.yetiforce.eu/tile/{z}/{x}/{y}.png');
+		$options = [
+			'timeout' => 60,
+			'headers' => [
+				'InsKey' => \App\YetiForce\Register::getInstanceKey()
+			]
+		];
+		if (isset($product['params']['token'])) {
+			$url += '?yf_token=' . $product['params']['token'];
+		} else {
+			$options['auth'] = [$product['params']['login'], $product['params']['pass']];
+		}
 		try {
 			\App\Log::beginProfile("GET|TileLayer::get|{$url}", __NAMESPACE__);
-			$response = (new \GuzzleHttp\Client(\array_merge_recursive(\App\RequestHttp::getOptions(), ['timeout' => 30, 'InsKey' => \App\YetiForce\Register::getInstanceKey()])))
-				->request('GET', $url, ['auth' => [$product['params']['login'], $product['params']['pass']]]);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, $options);
 			\App\Log::endProfile("GET|TileLayer::get|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				\App\Log::error($url . ' | Error: ' . $response->getReasonPhrase(), __CLASS__);
@@ -62,6 +76,7 @@ class OpenStreetMap_TileLayer_File extends Vtiger_Basic_File
 			echo $body->getContents();
 		} catch (\Throwable $ex) {
 			\App\Log::error($url . ' | Error: ' . $ex->getMessage(), __CLASS__);
+			$this->error();
 		}
 	}
 

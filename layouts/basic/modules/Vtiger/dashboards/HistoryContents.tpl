@@ -55,8 +55,14 @@
 														<span>{\App\Language::translate($FIELD->getName(), $FIELD->getModuleName())}</span>
 														{if $FIELD->get('prevalue') neq '' && $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELD->get('postvalue') eq '0' || $FIELD->get('prevalue') eq '0'))}
 															&nbsp;{\App\Language::translate('LBL_FROM')}&nbsp; <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELD->getOldValue()))}</strong>
-														{else if $FIELD->get('postvalue') eq '' || ($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
+														{else if $FIELD->get('postvalue') neq '' && ($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
 															&nbsp; <strong> {\App\Language::translate('LBL_DELETED','ModTracker')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELD->getOldValue()))}</del> )
+														{else if $FIELD->get('postvalue') eq ''}
+															&nbsp;
+															<strong>{\App\Language::translate('LBL_DELETED_VALUE','ModTracker')}</strong>
+															&nbsp;(
+															<del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getOldValue())}</del>
+															)
 														{else}
 															&nbsp;{\App\Language::translate('LBL_CHANGED')}
 														{/if}

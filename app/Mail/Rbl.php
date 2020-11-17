@@ -23,9 +23,10 @@ class Rbl extends \App\Base
 	 */
 	public const REQUEST_STATUS = [
 		0 => ['label' => 'LBL_FOR_VERIFICATION', 'icon' => 'fas fa-question'],
-		1 => ['label' => 'LBL_ACCEPTED', 'icon' => 'fas fa-check text-success '],
+		1 => ['label' => 'LBL_ACCEPTED', 'icon' => 'fas fa-check text-success'],
 		2 => ['label' => 'LBL_REJECTED', 'icon' => 'fas fa-times text-danger'],
 		3 => ['label' => 'PLL_CANCELLED', 'icon' => 'fas fa-minus'],
+		4 => ['label' => 'LBL_REPORTED', 'icon' => 'fas fa-paper-plane text-primary'],
 	];
 	/**
 	 * List statuses.
@@ -33,7 +34,7 @@ class Rbl extends \App\Base
 	 * @var array
 	 */
 	public const LIST_STATUS = [
-		0 => ['label' => 'LBL_ACTIVE', 'icon' => 'fas fa-check text-success '],
+		0 => ['label' => 'LBL_ACTIVE', 'icon' => 'fas fa-check text-success'],
 		1 => ['label' => 'LBL_CANCELED', 'icon' => 'fas fa-times text-danger'],
 	];
 	/**
@@ -681,5 +682,112 @@ class Rbl extends \App\Base
 			}
 		}
 		return $params;
+	}
+
+	/**
+	 * Send report.
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	public static function sendReport(array $data): array
+	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			return ['status' => false, 'message' => \App\Language::translate('ERR_NO_INTERNET_CONNECTION', 'Other:Exceptions')];
+		}
+		$id = $data['id'];
+		unset($data['id']);
+		$recordModel = self::getRequestById($id);
+		$recordModel->parse();
+
+		$url = 'https://soc.yetiforce.com/api/Application';
+		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
+			'http_errors' => false,
+			'headers' => [
+				'crm-ik' => \App\YetiForce\Register::getInstanceKey(),
+			],
+			'json' => array_merge($data, [
+				'ik' => \App\YetiForce\Register::getInstanceKey(),
+				'ip' => $recordModel->getSender()['ip'] ?? '-',
+				'header' => $recordModel->get('header'),
+				'body' => $recordModel->get('body')
+			])
+		]);
+		\App\Log::endProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$body = \App\Json::decode($response->getBody()->getContents());
+		if (200 == $response->getStatusCode() && 'ok' === $body['result']) {
+			\App\Db::getInstance('admin')->createCommand()->update('s_#__mail_rbl_request', [
+				'status' => 4,
+			], ['id' => $id])->execute();
+			return ['status' => true];
+		}
+		\App\Log::warning($response->getReasonPhrase() . ' | ' . $body['error']['message'], __METHOD__);
+		return ['status' => false, 'message' => $body['error']['message']];
+	}
+
+	/**
+	 * Get IP list from public RBL.
+	 *
+	 * @param int $type
+	 *
+	 * @return array
+	 */
+	public static function getPublicList(int $type): array
+	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			return [];
+		}
+		$url = 'https://soc.yetiforce.com/list/' . (self::LIST_TYPE_PUBLIC_BLACK_LIST === $type ? 'black' : 'white');
+		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, [
+			'http_errors' => false,
+			'headers' => [
+				'crm-ik' => \App\YetiForce\Register::getInstanceKey(),
+			],
+		]);
+		\App\Log::endProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$list = [];
+		if (200 === $response->getStatusCode()) {
+			$list = \App\Json::decode($response->getBody()->getContents()) ?? [];
+		} else {
+			$body = \App\Json::decode($response->getBody()->getContents());
+			\App\Log::warning($response->getReasonPhrase() . ' | ' . $body['error']['message'], __METHOD__);
+		}
+		return $list;
+	}
+
+	/**
+	 * Public list synchronization.
+	 *
+	 * @param int $type
+	 *
+	 * @return void
+	 */
+	public static function sync(int $type): void
+	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			return;
+		}
+		$public = self::getPublicList($type);
+		$publicKeys = array_keys($public);
+		$db = \App\Db::getInstance('admin');
+		$dbCommand = $db->createCommand();
+		$query = (new \App\Db\Query())->select(['ip', 'source', 'id'])->from('s_#__mail_rbl_list')->where(['type' => $type]);
+		$rows = $query->createCommand($db)->queryAllByGroup(1);
+		$keys = array_keys($rows);
+		foreach (array_chunk(array_diff($publicKeys, $keys), 50, true) as  $chunk) {
+			$insertData = [];
+			foreach ($chunk as  $ip) {
+				$insertData[] = [$ip, 0, $type, $public[$ip]['source']];
+			}
+			$dbCommand->batchInsert('s_#__mail_rbl_list', ['ip', 'status', 'type', 'source'], $insertData)->execute();
+		}
+		foreach (array_diff($keys, $publicKeys) as $ip) {
+			$dbCommand->delete('s_#__mail_rbl_list', ['id' => $rows[$ip]['id']])->execute();
+		}
 	}
 }

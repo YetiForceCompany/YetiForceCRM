@@ -35,10 +35,7 @@ jQuery.Class(
 			this.getContainer()
 				.find('.js-switch--sent')
 				.on('change', (e) => {
-					$(e.currentTarget)
-						.closest('.form-group')
-						.find('.selectedUsersForm')
-						.toggleClass('d-none');
+					$(e.currentTarget).closest('.form-group').find('.selectedUsersForm').toggleClass('d-none');
 				});
 		},
 		registerEvents: function () {

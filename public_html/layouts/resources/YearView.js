@@ -34,8 +34,7 @@ FC.views.year = View.extend({
 	},
 	loadMonthData: function (calendar, events) {
 		const thisInstance = this;
-		let height =
-				calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height() - 10,
+		let height = calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height() - 10,
 			width = calendar.find('.fc-day-number').width() / 2 - 10,
 			i;
 		for (i in events.result) {
@@ -102,20 +101,14 @@ FC.views.year = View.extend({
 				calendar.view.type
 			}&start=${moment(date + '-01-01').format(dateFormat)}&end=${moment(date + '-12-31').format(
 				dateFormat
-			)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${
-				calendar.view.options.hiddenDays
-			}`
+			)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${calendar.view.options.hiddenDays}`
 		};
 		options = $.extend(this.getDefaultParams(), options);
 		let connectorMethod = window['AppConnector']['request'];
 		if (this.browserHistory && window.calendarLoaded) {
 			connectorMethod = window['AppConnector']['requestPjax'];
 		}
-		if (
-			this.browserHistoryConfig &&
-			Object.keys(this.browserHistoryConfig).length &&
-			window.calendarLoaded
-		) {
+		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && window.calendarLoaded) {
 			options = Object.assign(options, {
 				start: moment(this.browserHistoryConfig.start).format(dateFormat),
 				end: moment(this.browserHistoryConfig.end).format(dateFormat),

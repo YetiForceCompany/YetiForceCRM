@@ -359,11 +359,9 @@ export default {
 	},
 	playNotificationSound({ getters }, { roomList, firstFetch }) {
 		if (getters.isSoundNotification) {
-			let areNewMessagesForRoom = (roomType, room) =>
-				roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message
+			let areNewMessagesForRoom = (roomType, room) => roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message
 			if (firstFetch) {
-				areNewMessagesForRoom = (roomType, room) =>
-					roomList[roomType][room].cnt_new_message >= getters.data.roomList[roomType][room].cnt_new_message
+				areNewMessagesForRoom = (roomType, room) => roomList[roomType][room].cnt_new_message >= getters.data.roomList[roomType][room].cnt_new_message
 			}
 			for (let roomType in roomList) {
 				let played = false
@@ -380,24 +378,19 @@ export default {
 		}
 	},
 	showDesktopNotification({ getters }, { amount, lastMessage }) {
-		const notificationActive = getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()
+		const notificationActive = getters.isDesktopNotification && App.Notify.isDesktopPermitted()
 		if (!notificationActive) {
 			return
 		}
 		let text = lastMessage.messages
-		let roomCrumb =
-			'user' === lastMessage.roomData.roomType
-				? ''
-				: ` / ${app.vtranslate('JS_CHAT_ROOM_' + lastMessage.roomData.roomType.toUpperCase())}`
+		let roomCrumb = 'user' === lastMessage.roomData.roomType ? '' : ` / ${app.vtranslate('JS_CHAT_ROOM_' + lastMessage.roomData.roomType.toUpperCase())}`
 		let userName = lastMessage.userData.user_name
 		let title = `${app.vtranslate('JS_CHAT')}${roomCrumb} / ${userName}`
-		let icon = lastMessage.userData.image
-			? lastMessage.userData.image
-			: app.getMainParams('layoutPath') + '/../resources/Logo/logo'
+		let icon = lastMessage.userData.image ? lastMessage.userData.image : app.getMainParams('layoutPath') + '/../resources/Logo/logo'
 		if (getters.config.showNumberOfNewMessages) {
 			text += `\n✉️ ${app.vtranslate('JS_CHAT_SUM_UNREAD')}: ${amount}`
 		}
-		app.showDesktopNotification({ icon, text, title })
+		App.Notify.desktop({ icon, text, title })
 	},
 	updateAmountOfNewMessages({ commit, getters }, { roomList, amount }) {
 		if (amount !== getters.data.amountOfNewMessages && amount !== undefined) {
@@ -428,10 +421,7 @@ export default {
 		let roomsToUnpin = {}
 		let areDifferences = false
 		for (let roomType in roomList) {
-			roomsToUnpin[roomType] = difference(
-				Object.keys(getters.data.roomList[roomType]),
-				Object.keys(roomList[roomType])
-			)
+			roomsToUnpin[roomType] = difference(Object.keys(getters.data.roomList[roomType]), Object.keys(roomList[roomType]))
 			if (roomsToUnpin[roomType].length) {
 				areDifferences = true
 			}

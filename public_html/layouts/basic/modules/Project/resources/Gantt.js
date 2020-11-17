@@ -191,24 +191,8 @@ class Gantt {
 				LANG.JS_FRIDAY,
 				LANG.JS_SATURDAY
 			],
-			weekdaysShort: [
-				LANG.JS_SUN,
-				LANG.JS_MON,
-				LANG.JS_TUE,
-				LANG.JS_WED,
-				LANG.JS_THU,
-				LANG.JS_FRI,
-				LANG.JS_SAT
-			],
-			weekdaysMin: [
-				LANG.JS_SUN,
-				LANG.JS_MON,
-				LANG.JS_TUE,
-				LANG.JS_WED,
-				LANG.JS_THU,
-				LANG.JS_FRI,
-				LANG.JS_SAT
-			],
+			weekdaysShort: [LANG.JS_SUN, LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT],
+			weekdaysMin: [LANG.JS_SUN, LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT],
 			months: [
 				LANG.JS_JANUARY,
 				LANG.JS_FEBRUARY,
@@ -324,23 +308,17 @@ class Gantt {
 		this.headerContainer.find('.js-gantt-header__range-slider--y').on('input', (e) => {
 			this.ganttElastic.$emit('row-height-change', Number(e.target.value));
 		});
-		this.headerContainer
-			.find('.js-gantt-header__range-slider--task-list-width')
-			.on('input', (e) => {
-				this.ganttElastic.$emit('taskList-width-change', Number(e.target.value));
-			});
+		this.headerContainer.find('.js-gantt-header__range-slider--task-list-width').on('input', (e) => {
+			this.ganttElastic.$emit('taskList-width-change', Number(e.target.value));
+		});
 		this.headerContainer.find('.js-gantt-header__range-slider--scope').on('input', (e) => {
 			this.ganttElastic.$emit('scope-change', Number(e.target.value));
 		});
-		this.headerContainer
-			.find('.js-gantt-header__range-slider--task-list-visible')
-			.on('change', (e) => {
-				this.ganttState.options.taskList.display = $(e.target).is(':checked');
-			});
+		this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').on('change', (e) => {
+			this.ganttState.options.taskList.display = $(e.target).is(':checked');
+		});
 		this.ganttElastic.$watch('state.taskList.display', (value) => {
-			this.headerContainer
-				.find('.js-gantt-header__range-slider--task-list-visible')
-				.prop('checked', value);
+			this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').prop('checked', value);
 		});
 		this.headerContainer
 			.find('.js-gantt-header__range-slider--task-list-visible')
@@ -454,9 +432,7 @@ class Gantt {
 					<select class="select2 form-control" id="js-gantt__filter-project" multiple>
 						${self.statuses.Project.map((status) => {
 							return `<option value="${status.value}" ${
-								this.filter.status.Project.map((status) => status.value).indexOf(status.value) >= 0
-									? 'selected'
-									: ''
+								this.filter.status.Project.map((status) => status.value).indexOf(status.value) >= 0 ? 'selected' : ''
 							}>${status.label}</option>`;
 						})}
 					</select>
@@ -466,9 +442,7 @@ class Gantt {
 					<select class="select2 form-control" id="js-gantt__filter-milestone" multiple>
 						${self.statuses.ProjectMilestone.map((status) => {
 							return `<option value="${status.value}" ${
-								this.filter.status.ProjectMilestone.map((status) => status.value).indexOf(
-									status.value
-								) >= 0
+								this.filter.status.ProjectMilestone.map((status) => status.value).indexOf(status.value) >= 0
 									? 'selected'
 									: ''
 							}>${status.label}</option>`;
@@ -480,9 +454,7 @@ class Gantt {
 					<select class="select2 form-control" id="js-gantt__filter-task" multiple>
 						${self.statuses.ProjectTask.map((status) => {
 							return `<option value="${status.value}" ${
-								this.filter.status.ProjectTask.map((status) => status.value).indexOf(
-									status.value
-								) >= 0
+								this.filter.status.ProjectTask.map((status) => status.value).indexOf(status.value) >= 0
 									? 'selected'
 									: ''
 							}>${status.label}</option>`;
@@ -490,13 +462,10 @@ class Gantt {
 					</select>
 				</div>
 			</div>`,
-			title:
-				'<span class="fas fa-filter"></span> ' + app.vtranslate('JS_FILTER_BY_STATUSES', 'Project'),
+			title: '<span class="fas fa-filter"></span> ' + app.vtranslate('JS_FILTER_BY_STATUSES', 'Project'),
 			buttons: {
 				success: {
-					label:
-						'<span class="fas fa-check mr-1"></span>' +
-						app.vtranslate('JS_UPDATE_GANTT', 'Project'),
+					label: '<span class="fas fa-check mr-1"></span>' + app.vtranslate('JS_UPDATE_GANTT', 'Project'),
 					className: 'btn-success',
 					callback: function () {
 						self.saveFilter({

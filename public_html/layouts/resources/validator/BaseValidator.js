@@ -84,9 +84,7 @@ jQuery.Class(
 					}
 					let specialValidator = specialValidators[key],
 						tempSpecialValidator = jQuery.extend({}, specialValidator),
-						validatorOfNames = Vtiger_Base_Validator_Js.getValidatorClassName(
-							specialValidator.name
-						);
+						validatorOfNames = Vtiger_Base_Validator_Js.getValidatorClassName(specialValidator.name);
 					if (validatorOfNames !== '') {
 						tempSpecialValidator.name = validatorOfNames;
 						if (!jQuery.isEmptyObject(tempSpecialValidator)) {

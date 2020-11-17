@@ -57,8 +57,7 @@ Settings_Vtiger_List_Js(
 		registerAddNewTemplate: function (container) {
 			jQuery('#addButton', container).on('click', function () {
 				var selectedModule = jQuery('#moduleFilter option:selected').val();
-				window.location.href =
-					jQuery(this).data('url') + (selectedModule ? '&source_module=' + selectedModule : '');
+				window.location.href = jQuery(this).data('url') + (selectedModule ? '&source_module=' + selectedModule : '');
 			});
 		},
 		registerImportTemplate: function (container) {

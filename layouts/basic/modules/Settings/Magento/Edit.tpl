@@ -8,7 +8,7 @@
 </div>
 <div class="editViewContainer">
 	<div class="alert alert-warning">
-		<span class="mdi mdi-information-outline mr-2 float-left"></span>
+		<span class="mdi mdi-information-outline mr-2 u-fs-3x float-left"></span>
 		{\App\Language::translate('LBL_MAGENTO_ALERT', $QUALIFIED_MODULE)}<br>
 	</div>
 	<form class="js-edit-form form-horizontal recordEditView" method="post" id="EditView" action="index.php" data-js="submit|validationEngine">

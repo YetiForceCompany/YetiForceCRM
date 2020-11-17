@@ -48,6 +48,12 @@ abstract class AbstractBaseProduct
 	 */
 	public $category;
 	/**
+	 * Product website.
+	 *
+	 * @var string
+	 */
+	public $website;
+	/**
 	 * Price table depending on the size of the company.
 	 *
 	 * @var int[]
@@ -284,14 +290,34 @@ abstract class AbstractBaseProduct
 	 *
 	 * @return string
 	 */
-	public function showAlert(): string
+	public function showAlert(): array
 	{
-		if (strtotime('now') > strtotime($this->expirationDate)) {
-			return 'LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED';
+		if (strtotime('now') > strtotime($this->expirationDate) || \App\Company::getSize() !== $this->paidPackage) {
+			return ['status' => true, 'type' => 'LBL_SHOP_RENEW', 'message' => 'LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED'];
 		}
-		if (\App\Company::getSize() !== $this->paidPackage) {
-			return 'LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED';
+		if ($analyze = $this->analyzeConfiguration()) {
+			return array_merge(['status' => true], $analyze);
 		}
-		return '';
+		return ['status' => false];
+	}
+
+	/**
+	 * Analyze the configuration.
+	 *
+	 * @return array
+	 */
+	public function analyzeConfiguration(): array
+	{
+		return [];
+	}
+
+	/**
+	 * Product modal additional buttons.
+	 *
+	 * @return Vtiger_Link_Model[]
+	 */
+	public function getAdditionalButtons(): array
+	{
+		return [];
 	}
 }

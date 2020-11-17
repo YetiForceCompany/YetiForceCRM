@@ -169,9 +169,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	readCondition(container) {
 		let self = this;
-		let condition = container
-			.find('> .js-condition-switch .js-condition-switch-value')
-			.hasClass('active')
+		let condition = container.find('> .js-condition-switch .js-condition-switch-value').hasClass('active')
 			? 'AND'
 			: 'OR';
 		let arr = {};

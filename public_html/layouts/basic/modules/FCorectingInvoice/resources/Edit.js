@@ -46,11 +46,7 @@ Vtiger_Edit_Js(
 					if (invoiceidInput.length) {
 						form
 							.find('.js-before-inventory')
-							.html(
-								'<div class="text-center">' +
-									app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') +
-									'</div>'
-							);
+							.html('<div class="text-center">' + app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') + '</div>');
 					}
 				}
 			});

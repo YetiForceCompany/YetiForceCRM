@@ -2,6 +2,15 @@
 {strip}
 <!-- tpl-Base-Modals-Footer -->
 	<div class=" modal-footer{if isset($FOOTER_CLASS)} {$FOOTER_CLASS}{/if}">
+		{if !empty($BTN_LINKS)}
+			<div class="actions">
+				<div class="float-right">
+					{foreach from=$BTN_LINKS item=LINK}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE MODULE=$QUALIFIED_MODULE}
+					{/foreach}
+				</div>
+			</div>
+		{/if}
 		{if !empty($BTN_SUCCESS)}
 			<button class="js-modal__save btn btn-success" type="submit" name="saveButton" data-js="click">
 				<span class="{if isset($BTN_SUCCESS_ICON)}{$BTN_SUCCESS_ICON}{else}fas fa-check{/if} mr-1"></span>

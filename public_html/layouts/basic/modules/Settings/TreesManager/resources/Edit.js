@@ -188,50 +188,48 @@ jQuery.Class(
 				aDeferred.resolve();
 				return aDeferred.promise();
 			}
-			app.showModalWindow(
-				null,
-				'index.php?module=TreesManager&parent=Settings&view=ReplaceTreeItem',
-				function (wizardContainer) {
-					let jstreeInstanceReplace = wizardContainer.find('#treePopupContents');
-					jstreeInstanceReplace
-						.jstree({
-							core: {
-								data: data,
-								themes: {
-									name: 'proton',
-									responsive: true
-								}
+			app.showModalWindow(null, 'index.php?module=TreesManager&parent=Settings&view=ReplaceTreeItem', function (
+				wizardContainer
+			) {
+				let jstreeInstanceReplace = wizardContainer.find('#treePopupContents');
+				jstreeInstanceReplace
+					.jstree({
+						core: {
+							data: data,
+							themes: {
+								name: 'proton',
+								responsive: true
 							}
-						})
-						.on('loaded.jstree', function (event, data) {
-							$(this).jstree('open_all');
-						});
-					wizardContainer.find('.js-modal__save').on('click', () => {
-						let selected = jstreeInstanceReplace.jstree('get_selected'),
-							replaceIdsElement = $('#replaceIds'),
-							replaceIds = replaceIdsElement.val(),
-							data = [];
-						if (replaceIds !== '') {
-							data = JSON.parse(replaceIds);
 						}
-						if (!selected.length || selected.length > 1) {
-							let message = 'JS_ONLY_ONE_ITEM_SELECTED';
-							if (!selected.length) {
-								message = 'JS_NO_ITEM_SELECTED';
-							}
-							Settings_Vtiger_Index_Js.showMessage({
-								type: 'error',
-								text: app.vtranslate(message)
-							});
-							return false;
-						}
-						data = $.merge(data, [{ old: id, new: selected }]);
-						replaceIdsElement.val(JSON.stringify(data));
-						app.hideModalWindow();
-						aDeferred.resolve(selected);
+					})
+					.on('loaded.jstree', function (event, data) {
+						$(this).jstree('open_all');
 					});
-				}
-			);
+				wizardContainer.find('.js-modal__save').on('click', () => {
+					let selected = jstreeInstanceReplace.jstree('get_selected'),
+						replaceIdsElement = $('#replaceIds'),
+						replaceIds = replaceIdsElement.val(),
+						data = [];
+					if (replaceIds !== '') {
+						data = JSON.parse(replaceIds);
+					}
+					if (!selected.length || selected.length > 1) {
+						let message = 'JS_ONLY_ONE_ITEM_SELECTED';
+						if (!selected.length) {
+							message = 'JS_NO_ITEM_SELECTED';
+						}
+						Settings_Vtiger_Index_Js.showMessage({
+							type: 'error',
+							text: app.vtranslate(message)
+						});
+						return false;
+					}
+					data = $.merge(data, [{ old: id, new: selected }]);
+					replaceIdsElement.val(JSON.stringify(data));
+					app.hideModalWindow();
+					aDeferred.resolve(selected);
+				});
+			});
 			return aDeferred.promise();
 		},
 		checkChildren: function (id, data) {

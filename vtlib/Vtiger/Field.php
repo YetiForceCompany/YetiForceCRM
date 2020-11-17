@@ -306,7 +306,7 @@ class Field extends FieldBasic
 		while ($fieldId = $dataReader->readColumn(0)) {
 			$count = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => $fieldId])->count();
 			if (1 === (int) $count) {
-				$field = self::getInstance($fieldId, $moduleInstance->id);
+				$field = self::getInstance($fieldId, $moduleInstance);
 				$field->delete();
 			}
 		}

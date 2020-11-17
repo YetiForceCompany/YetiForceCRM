@@ -137,7 +137,7 @@ class Settings_Menu_Module_Model
 			->where(['not in', 'name', ['Users', 'ModComments']])
 			->andWhere(['or', ['isentitytype' => 1], ['name' => ['Home', 'OSSMail', 'Portal', 'Rss']]])
 			->andWhere(['presence' => 0])
-			->orderBy('name')
+			->orderBy('tabsequence')
 			->all();
 	}
 

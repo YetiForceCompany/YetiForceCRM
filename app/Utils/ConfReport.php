@@ -189,6 +189,10 @@ class ConfReport
 		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'query_cache_type' => ['container' => 'db', 'testCli' => false],
 		'table_cache' => ['container' => 'db', 'testCli' => false],
+		'table_open_cache_instances' => ['container' => 'db', 'testCli' => false],
+		'table_open_cache' => ['recommended' => 1000, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
+		'table_definition_cache' => ['type' => 'DbTableDefinitionCache', 'container' => 'db', 'testCli' => false],
+		'open_files_limit' => ['container' => 'db', 'testCli' => false],
 		'tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_buffer_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_additional_mem_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
@@ -332,7 +336,7 @@ class ConfReport
 		'spaceBackup' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_BACKUP'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START', 'isHtml' => true],
 		'crmProvider' => ['container' => 'env', 'testCli' => true, 'label' => 'CRM_PROVIDER'],
-		'open_basedir' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => false, 'mode' => 'showWarnings'],
+		'open_basedir' => ['container' => 'php',  'type' => 'OpenBasedir', 'testCli' => true, 'mode' => 'showWarnings'],
 		'caCertBundle' => ['recommended' => 'On', 'container' => 'env', 'type' => 'OnOff', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
 		'caCertBundlePath' => ['recommended' => 'On', 'container' => 'env', 'testCli' => true, 'label' => 'CACERTBUNDLE_PATH'],
 		'SSL_CERT_FILE' => ['container' => 'env', 'testCli' => true, 'label' => 'SSL_CERT_FILE'],
@@ -412,6 +416,7 @@ class ConfReport
 	public static $functionalVerification = [
 		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER', 'mode' => 'onlyText'],
 		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES', 'mode' => 'onlyText'],
+		'magento' => ['type' => 'Magento',  'testCli' => false, 'label' => 'MAGENTO', 'mode' => 'onlyText'],
 	];
 	/**
 	 * Php variables.
@@ -530,7 +535,7 @@ class ConfReport
 					break;
 				case 'db':
 					$db = \App\Db::getInstance();
-					if ($db->getIsActive()) {
+					if ($db->getMasterPdo()) {
 						static::$db = $db->getInfo();
 					}
 					break;
@@ -844,6 +849,26 @@ class ConfReport
 	{
 		unset($name);
 		if (isset($row[$sapi]) && (int) $row[$sapi] > 0 && (int) $row[$sapi] < (int) $row['recommended']) {
+			$row['status'] = false;
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate number greater than another parameter.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateDbTableDefinitionCache(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$tableOpenCache = (self::$db['table_open_cache'] > self::$database['table_open_cache']['recommended']) ? self::$db['table_open_cache'] : self::$database['table_open_cache']['recommended'];
+		$row['recommended'] = $tableOpenCache + 400;
+		if (isset($row[$sapi]) && (int) $row[$sapi] <= $row['recommended']) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -1430,7 +1455,6 @@ class ConfReport
 		$view->assign('SHOW_FOOTER_BAR', true);
 		$html = $view->view('PageFooter.tpl', '', true);
 		$row['status'] = true;
-		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved') || !empty(\App\Config::component('Branding', 'footerName'));
 		}
@@ -1453,6 +1477,48 @@ class ConfReport
 		unset($name);
 		$row['status'] = true;
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
+		return $row;
+	}
+
+	/**
+	 * Validate magento value.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateMagento(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row['status'] = !(\Settings_Magento_Module_Model::isActive() && !\App\YetiForce\Shop::check('YetiForceMagento'));
+		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
+		return $row;
+	}
+
+	/**
+	 * Validate open_basedir.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateOpenBasedir(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row['status'] = true;
+		if ('cron' === $sapi) {
+			if (!empty($row[$sapi])) {
+				$row['status'] = false;
+			}
+		} else {
+			if (empty($row[$sapi])) {
+				$row['status'] = false;
+			}
+		}
 		return $row;
 	}
 

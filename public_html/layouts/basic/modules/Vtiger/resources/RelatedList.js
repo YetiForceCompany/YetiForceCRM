@@ -13,13 +13,7 @@ jQuery.Class(
 	'Vtiger_RelatedList_Js',
 	{
 		relatedListInstance: false,
-		getInstance: function (
-			parentId,
-			parentModule,
-			selectedRelatedTabElement,
-			relatedModuleName,
-			url
-		) {
+		getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName, url) {
 			if (
 				Vtiger_RelatedList_Js.relatedListInstance === false ||
 				Vtiger_RelatedList_Js.relatedListInstance.moduleName !== relatedModuleName
@@ -37,10 +31,7 @@ jQuery.Class(
 				instance.selectedRelatedTabElement = selectedRelatedTabElement;
 				instance.moduleName = relatedModuleName;
 				instance.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
-				instance.content = $(
-					'div.contents',
-					instance.relatedTabsContainer.closest('div.detailViewContainer')
-				);
+				instance.content = $('div.contents', instance.relatedTabsContainer.closest('div.detailViewContainer'));
 				instance.relatedView = instance.content.find('input.relatedView').val();
 				Vtiger_RelatedList_Js.relatedListInstance = instance;
 			}
@@ -64,10 +55,7 @@ jQuery.Class(
 				}
 				instance.selectedRelatedTabElement = selectedRelatedTabElement;
 				instance.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
-				instance.content = $(
-					'div.contents',
-					instance.relatedTabsContainer.closest('div.detailViewContainer')
-				);
+				instance.content = $('div.contents', instance.relatedTabsContainer.closest('div.detailViewContainer'));
 				instance.relatedView = instance.content.find('input.relatedView').val();
 				Vtiger_RelatedList_Js.relatedListInstance = instance;
 			}
@@ -164,10 +152,7 @@ jQuery.Class(
 				thisInstance = this;
 			this.verifyFileExist().done(function (data) {
 				if (true === data) {
-					thisInstance.triggerMassAction(
-						massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')),
-						type
-					);
+					thisInstance.triggerMassAction(massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')), type);
 				}
 			});
 		}
@@ -219,7 +204,7 @@ jQuery.Class(
 		},
 		getDefaultParams: function () {
 			let container = this.getRelatedContainer();
-			let params = this.defaultParams;
+			let params = Object.assign({}, this.defaultParams);
 			params['page'] = this.getCurrentPageNum();
 			params['orderby'] = this.getOrderBy();
 			if (container.find('#relationId').val()) {
@@ -283,9 +268,7 @@ jQuery.Class(
 				}
 			});
 			let completeParams = this.getCompleteParams();
-			let activeTabsReference = thisInstance.relatedTabsContainer
-				.find('li.active')
-				.data('reference');
+			let activeTabsReference = thisInstance.relatedTabsContainer.find('li.active').data('reference');
 			AppConnector.request($.extend(completeParams, params))
 				.done(function (responseData) {
 					let currentInstance = Vtiger_Detail_Js.getInstance();
@@ -323,13 +306,7 @@ jQuery.Class(
 			app.showRecordsList(params, (modal, instance) => {
 				instance.setSelectEvent((responseData) => {
 					this.addRelations(Object.keys(responseData)).done(() => {
-						app.event.trigger(
-							'RelatedListView.AfterSelectRelation',
-							responseData,
-							this,
-							instance,
-							params
-						);
+						app.event.trigger('RelatedListView.AfterSelectRelation', responseData, this, instance, params);
 						let detail = Vtiger_Detail_Js.getInstance();
 						this.loadRelatedList().done(function () {
 							detail.registerRelatedModulesRecordCount();
@@ -574,12 +551,8 @@ jQuery.Class(
 						}
 					}
 				}
-				jQuery('<input type="hidden" name="sourceModule" value="' + parentModule + '" />').appendTo(
-					data
-				);
-				jQuery('<input type="hidden" name="sourceRecord" value="' + parentId + '" />').appendTo(
-					data
-				);
+				jQuery('<input type="hidden" name="sourceModule" value="' + parentModule + '" />').appendTo(data);
+				jQuery('<input type="hidden" name="sourceRecord" value="' + parentId + '" />').appendTo(data);
 				jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
 
 				if (typeof relatedField !== 'undefined') {
@@ -587,9 +560,7 @@ jQuery.Class(
 					//If their is no element with the relatedField name,we are adding hidden element with
 					//name as relatedField name,for saving of record with relation to parent record
 					if (field.length == 0) {
-						jQuery(
-							'<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />'
-						).appendTo(data);
+						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
 					}
 				}
 				for (index = 0; index < queryParameters.length; index++) {
@@ -600,11 +571,7 @@ jQuery.Class(
 						data.find('[name="' + queryParamComponents[0] + '"]').length == 0
 					) {
 						jQuery(
-							'<input type="hidden" name="' +
-								queryParamComponents[0] +
-								'" value="' +
-								queryParamComponents[1] +
-								'" />'
+							'<input type="hidden" name="' + queryParamComponents[0] + '" value="' + queryParamComponents[1] + '" />'
 						).appendTo(data);
 					}
 				}
@@ -706,9 +673,7 @@ jQuery.Class(
 			let defaultView = '';
 			if (app.getMainParams('defaultDetailViewName')) {
 				defaultView =
-					defaultView +
-					'&mode=showDetailViewByMode&requestMode=' +
-					app.getMainParams('defaultDetailViewName'); // full, summary
+					defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
 			}
 			frame.attr('src', url.replace('view=Detail', 'view=DetailPreview') + defaultView);
 		},
@@ -786,9 +751,7 @@ jQuery.Class(
 					let row = target.closest('tr');
 					let inventoryRow = row.next('.js-hidden-row');
 					if (inventoryRow.length) {
-						let block = inventoryRow.find(
-							'.js-hidden-row__block[data-element="' + target.data('element') + '"]'
-						);
+						let block = inventoryRow.find('.js-hidden-row__block[data-element="' + target.data('element') + '"]');
 						if (block.is(':visible') || !inventoryRow.is(':visible')) {
 							inventoryRow.toggleClass('d-none');
 						}
@@ -815,9 +778,7 @@ jQuery.Class(
 					self.updatePreview(recordUrl);
 				});
 			}
-			let widgetsContainer = this.content.find(
-				'.js-hidden-row .js-hidden-row__block[data-element="widgets"]'
-			);
+			let widgetsContainer = this.content.find('.js-hidden-row .js-hidden-row__block[data-element="widgets"]');
 			if (widgetsContainer.length) {
 				self.registerWidgets(widgetsContainer);
 			}
@@ -865,9 +826,7 @@ jQuery.Class(
 		registerPreviewEvent: function () {
 			let thisInstance = this;
 			let contentHeight = this.content.find('.js-detail-preview,.js-list-preview');
-			contentHeight.height(
-				app.getScreenHeight() - (this.content.offset().top + $('.js-footer').height())
-			);
+			contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.js-footer').height()));
 			this.content.find('.listPreviewframe').on('load', function () {
 				if (thisInstance.frameProgress) {
 					thisInstance.frameProgress.progressIndicator({ mode: 'hide' });
@@ -935,27 +894,25 @@ jQuery.Class(
 				});
 				let element = $(this);
 				let row = element.closest('tr');
-				thisInstance
-					.favoritesRelation(row.data('id'), element.data('state'))
-					.done(function (response) {
-						if (response) {
-							let state = element.data('state') ? 0 : 1;
-							element.data('state', state);
-							if (state) {
-								element.find('.far').addClass('d-none');
-								element.find('.fas').removeClass('d-none');
-							} else {
-								element.find('.fas').addClass('d-none');
-								element.find('.far').removeClass('d-none');
-							}
-							progressInstance.progressIndicator({ mode: 'hide' });
-							let text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
-							if (state) {
-								text = app.vtranslate('JS_ADDED_TO_FAVORITES');
-							}
-							app.showNotify({ text: text, type: 'success' });
+				thisInstance.favoritesRelation(row.data('id'), element.data('state')).done(function (response) {
+					if (response) {
+						let state = element.data('state') ? 0 : 1;
+						element.data('state', state);
+						if (state) {
+							element.find('.far').addClass('d-none');
+							element.find('.fas').removeClass('d-none');
+						} else {
+							element.find('.fas').addClass('d-none');
+							element.find('.far').removeClass('d-none');
 						}
-					});
+						progressInstance.progressIndicator({ mode: 'hide' });
+						let text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
+						if (state) {
+							text = app.vtranslate('JS_ADDED_TO_FAVORITES');
+						}
+						app.showNotify({ text: text, type: 'success' });
+					}
+				});
 			});
 			this.content.find('[name="addButton"]').on('click', function (e) {
 				const element = $(this);
@@ -1033,10 +990,7 @@ jQuery.Class(
 			return maxWidth;
 		},
 		setDomParams: function (container) {
-			this.listColumnFirstWidth = container
-				.find('.listViewEntriesDiv .listViewHeaders th')
-				.first()
-				.width();
+			this.listColumnFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
 			this.listColumnSecondWidth = this.getSecondColMinWidth(container);
 			this.windowW = $(window).width();
 			this.mainBody = container.closest('.mainBody');
@@ -1052,8 +1006,7 @@ jQuery.Class(
 			this.headerH = $('.js-header').outerHeight();
 		},
 		getDefaultSplitSizes: function () {
-			let thWidth =
-				((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / this.windowW) * 100;
+			let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / this.windowW) * 100;
 			return [thWidth, 100 - thWidth];
 		},
 		getSplitSizes() {

@@ -31,7 +31,7 @@ class Settings_MailRbl_ReportModal_View extends \App\Controller\ModalSettings
 		$recordModel = \App\Mail\Rbl::getRequestById($request->getInteger('id'));
 		$recordModel->parse();
 		$type = $recordModel->get('type') ? 'White' : 'Black';
-		$viewer->assign('SENDER', $recordModel->getSender());
+		$viewer->assign('IP', $recordModel->getSender()['ip'] ?? '-');
 		$viewer->assign('BODY', $recordModel->get('body'));
 		$viewer->assign('HEADER', $recordModel->get('header'));
 		$viewer->assign('TYPE', $type);
@@ -51,7 +51,7 @@ class Settings_MailRbl_ReportModal_View extends \App\Controller\ModalSettings
 			'[Security] Infrastructure and application scanning' => 'LBL_SECURITY_INFRASTRUCTURE_AND_APPLICATION_SCANNING',
 			'[Security] Attack on infrastructure or application' => 'LBL_SECURITY_ATTACK_INFRASTRUCTURE_OR_APPLICATION',
 			'[Security] Overloading infrastructure or application' => 'LBL_SECURITY_OVERLOADING_INFRASTRUCTURE_OR_APPLICATION',
-			'[Other] The essage contains inappropriate words' => 'LBL_OTHER_ESSAGE_CONTAINS_INAPPROPRIATE_WORDS',
+			'[Other] The message contains inappropriate words' => 'LBL_OTHER_MESSAGE_CONTAINS_INAPPROPRIATE_WORDS',
 			'[Other] The message contains inappropriate materials' => 'LBL_OTHER_MESSAGE_CONTAINS_INAPPROPRIATE_MATERIALS',
 			'[Other] Malicious message' => 'LBL_OTHER_MALICIOUS_MESSAGE',
 		]);

@@ -73,9 +73,7 @@ Vtiger_Detail_Js(
 		${rows
 			.map((row) => {
 				return `<tr>
-				<td><input type="radio" name="policy_id" value="${row.id}"${
-					row.checked ? 'checked="checked"' : ''
-				}></td>
+				<td><input type="radio" name="policy_id" value="${row.id}"${row.checked ? 'checked="checked"' : ''}></td>
 				<td>${row.name}</td>
 				<td>${row.operational_hours}</td>
 				<td>${row.reaction_time}</td>
@@ -107,9 +105,7 @@ Vtiger_Detail_Js(
 			}).done((data) => {
 				progress.progressIndicator({ mode: 'hide' });
 				if (data.success) {
-					this.container
-						.find('.js-sla-policy-template--container')
-						.html(this.getTemplateTableHtml(data.result));
+					this.container.find('.js-sla-policy-template--container').html(this.getTemplateTableHtml(data.result));
 				}
 			});
 		},
@@ -341,9 +337,7 @@ Vtiger_Detail_Js(
 			this.conditionBuilders = [];
 			this.conditionsBuildersContainers = [];
 			this.container.off('submit').on('submit', this.onSubmit.bind(this));
-			this.container
-				.find('.js-sla-policy-type-radio')
-				.on('click', (e) => this.onPolicyTypeChange());
+			this.container.find('.js-sla-policy-type-radio').on('click', (e) => this.onPolicyTypeChange());
 			this.onPolicyTypeChange();
 			App.Fields.TimePeriod.register(this.container);
 			this.registerAddRecordBtnClick();

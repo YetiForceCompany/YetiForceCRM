@@ -17,9 +17,7 @@ jQuery.Class('Vtiger_Menu_Js', {
 			.children('li')
 			.each(function () {
 				var eWidth = jQuery(this).width();
-				var moreMenuElement = jQuery(
-					'#commonMoreMenu li[data-id="' + jQuery(this).data('id') + '"]'
-				);
+				var moreMenuElement = jQuery('#commonMoreMenu li[data-id="' + jQuery(this).data('id') + '"]');
 				tabsWidth += eWidth;
 				if (tabsWidth > largeNav) {
 					jQuery(this).hide();

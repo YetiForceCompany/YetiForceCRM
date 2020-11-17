@@ -14,12 +14,12 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div id="hierarchyScroll" class="table-responsive">
+					<div id="hierarchyScroll">
 						<table class="table table-bordered">
 							<thead>
 							<tr class="blockHeader">
 								{foreach item=HEADERNAME from=$HIERARCHY['header']}
-									<th>{\App\Language::translate($HEADERNAME, $MODULE_NAME)}</th>
+									<th class="text-center text-nowrap">{\App\Language::translate($HEADERNAME, $MODULE_NAME)}</th>
 								{/foreach}
 							</tr>
 							</thead>
@@ -27,7 +27,7 @@
 								<tbody>
 								<tr>
 									{foreach item=LISTFIELDS from=$ENTRIES}
-										<td>{$LISTFIELDS}</td>
+										<td class="text-nowrap">{$LISTFIELDS}</td>
 									{/foreach}
 								</tr>
 								</tbody>

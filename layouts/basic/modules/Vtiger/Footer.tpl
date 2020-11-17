@@ -23,6 +23,7 @@
 	</div>
 	</div>
 	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
+	{assign var="IS_ADMIN" value=$USER_MODEL->isAdminUser()}
 	{if $SHOW_FOOTER_BAR}
 		{assign var="DISABLE_BRANDING" value=\App\YetiForce\Shop::check('YetiForceDisableBranding')}
 		{if $DISABLE_BRANDING}
@@ -75,8 +76,7 @@
 					{/if}
 					{if !empty($URL_GITHUB)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_GITHUB}" target="_blank"
-								rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_GITHUB}" target="_blank" rel="noreferrer noopener">
 								<span class="fab fa-github-square fa-2x" title="Github"></span>
 							</a>
 						</li>
@@ -103,24 +103,25 @@
 							</a>
 						{/if}
 						{if !\App\YetiForce\Shop::verify()}
-							<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-									{if $USER_MODEL->isAdminUser()}
-										href="index.php?module=YetiForce&parent=Settings&view=Shop"
-									{else}
-										href="#"
-									{/if} >
+							<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}" {if $IS_ADMIN} href="index.php?module=YetiForce&parent=Settings&view=Shop" {else} href="#" {/if} >
 								<span class="yfi yfi-shop-alert fa-2x"></span>
 							</a>
 						{/if}
 						{if !$DISABLE_BRANDING }
+							{if $IS_ADMIN}
+								<li class="page-item">
+									<a class="page-link mr-md-1" href="index.php?module=YetiForce&parent=Settings&view=Shop" target="_blank" rel="noreferrer noopener">
+										<span class="fas fa-shopping-cart fa-2x" title="{\App\Language::translate('LBL_YETIFORCE_SHOP')}"></span>
+									</a>
+								</li>
+							{/if}
 							<li class="page-item">
-								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer noopener">
-									<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
+								<a class="page-link mr-md-1" href="https://doc.yetiforce.com" target="_blank" rel="noreferrer noopener">
+									<span class="mdi mdi-book-open-page-variant fa-2x" title="doc.yetiforce.com"></span>
 								</a>
 							</li>
 							<li class="page-item u-cursor-pointer">
-								<a class="page-link" data-toggle="modal" href="#" role="button"
-									data-target="#yetiforceDetails">
+								<a class="page-link" data-toggle="modal" href="#" role="button" data-target="#yetiforceDetails">
 									<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
 								</a>
 							</li>
@@ -133,7 +134,7 @@
 						{if !$DISABLE_BRANDING}
 							{assign var=FOOTVR value= '['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 							{assign var=FOOTOSP value='open source project'}
-							{if $USER_MODEL->isAdminUser()}
+							{if $IS_ADMIN}
 								{assign var=FOOTVR value= "[ver. {$YETIFORCE_VERSION}] {$FOOTVR}"}
 							{/if}
 							{if \App\Security\AdminAccess::isPermitted('Dependencies')}
@@ -157,71 +158,90 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="myModalLabel">
-							YetiForceCRM {if $USER_MODEL->isAdminUser()}v{$YETIFORCE_VERSION}{/if} - The best open
-							system in the world
+							YetiForceCRM {if $IS_ADMIN}v{$YETIFORCE_VERSION}{/if} - The most flexible CRM in the world
 						</h5>
-						<button type="button" class="close" data-dismiss="modal"
-								title="{\App\Language::translate('LBL_CLOSE')}">
+						<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
 						<p class="text-center">
-							<img class="u-h-120px"
-								 src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}"
-								 title="YetiForceCRM" alt="YetiForceCRM"/>
+							<img class="u-h-120px" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo_hor.png')}" title="YetiForceCRM" alt="YetiForceCRM"/>
+						</p>
+						<p class="text-center">
+							<span class="badge badge-primary mr-2">APP ID</span>
+							{\App\YetiForce\Register::getInstanceKey()}
 						</p>
 						<p>Copyright © YetiForce.com All rights reserved.</p>
-						<p>The Program is provided AS IS, without warranty. Licensed under <a
-									href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
-									target="_blank" rel="noreferrer noopener"><strong>YetiForce Public License
-									3.0</strong></a>.</p>
+						<p class="my-2">The Program is provided AS IS, without warranty. Licensed under
+							<a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" class="ml-2" target="_blank" rel="noreferrer noopener">
+								<strong>YetiForce Public License 3.0</strong>
+							</a>.
+						</p>
 						<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br/><br/>
 						</p>
 						<div class="u-word-break">
-							<p><span class="badge badge-secondary">License:</span> <a
-										href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
-										target="_blank" rel="noreferrer noopener"><strong>YetiForce Public License
-										3.0</strong></a></p>
-							<p><span class="badge badge-primary">WWW:</span> <a href="https://yetiforce.com"
-																				target="_blank"
-																				rel="noreferrer noopener"><strong>https://yetiforce.com</strong></a>
+							<p>
+								<span class="badge badge-secondary mr-2">License</span>
+								<a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" target="_blank" rel="noreferrer noopener">
+									<strong>YetiForce Public License 3.0</strong>
+								</a>
 							</p>
-							<p><span class="badge badge-success">Code:</span> <a
-										href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank"
-										rel="noreferrer noopener"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a>
+							<p>
+								<span class="badge badge-primary mr-2">WWW</span>
+								<a href="https://yetiforce.com" target="_blank" rel="noreferrer noopener">
+									<strong>https://yetiforce.com</strong>
+								</a>
 							</p>
-							<p><span class="badge badge-info">Documentation:</span> <a
-										href="https://yetiforce.com/en/knowledge-base/documentation" target="_blank"
-										rel="noreferrer noopener"><strong>https://yetiforce.com/en/documentation.html</strong></a>
+							<p>
+								<span class="badge badge-success mr-2">Code</span>
+								<a href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank" rel="noreferrer noopener">
+									<strong>https://github.com/YetiForceCompany/YetiForceCRM</strong>
+								</a>
 							</p>
-							<p><span class="badge badge-warning">Issues:</span> <a
-										href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank"
-										rel="noreferrer noopener"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a>
+							<p>
+								<span class="badge badge-info mr-2">Documentation</span>
+								<a href="https://doc.yetiforce.com" target="_blank" rel="noreferrer noopener">
+									<strong>https://doc.yetiforce.com</strong>
+								</a>
 							</p>
-							<p><span class="badge badge-primary">Shop:</span> <a
-										href="https://yetiforce.shop/" target="_blank"
-										rel="noreferrer noopener"><strong>https://yetiforce.shop/</strong></a>
+							<p>
+								<span class="badge badge-warning mr-2">Issues</span>
+								<a href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer noopener">
+									<strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong>
+								</a>
 							</p>
 						</div>
 						<ul class="text-center list-inline">
-							<li class="yetiforceDetailsLink list-inline-item">
-								<a rel="noreferrer noopener" href="https://www.linkedin.com/groups/8177576"><span
-											class="fab fa-linkedin" title="LinkendIn"></span></a>
+							<li class="yetiforceDetailsLink list-inline-item mr-3">
+								<a rel="noreferrer noopener" target="_blank" href="https://www.linkedin.com/groups/8177576">
+									<span class="fab fa-linkedin" title="LinkendIn"></span>
+								</a>
+							</li>
+							<li class="yetiforceDetailsLink list-inline-item mr-3">
+								<a rel="noreferrer noopener" target="_blank" href="https://www.youtube.com/c/YetiForceCRM">
+									<span class="fab fa-youtube-square" title="YouTube"></span>
+								</a>
+							</li>
+							<li class="yetiforceDetailsLink list-inline-item mr-3">
+								<a rel="noreferrer noopener" target="_blank" href="https://twitter.com/YetiForceEN">
+									<span class="fab fa-twitter-square" title="Twitter"></span>
+								</a>
+							</li>
+							<li class="yetiforceDetailsLink list-inline-item mr-3">
+								<a rel="noreferrer noopener" target="_blank" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
+									<span class="fab fa-facebook-square" title="Facebook"></span>
+								</a>
+							</li>
+							<li class="yetiforceDetailsLink list-inline-item mr-3">
+								<a rel="noreferrer noopener" target="_blank" href="https://github.com/YetiForceCompany/YetiForceCRM">
+									<span class="fab fa-github-square" title="Github"></span>
+								</a>
 							</li>
 							<li class="yetiforceDetailsLink list-inline-item">
-								<a rel="noreferrer noopener" href="https://twitter.com/YetiForceEN"><span
-											class="fab fa-twitter-square" title="Twitter"></span></a>
-							</li>
-							<li class="yetiforceDetailsLink list-inline-item">
-								<a rel="noreferrer noopener"
-								   href="https://www.facebook.com/YetiForce-CRM-158646854306054/"><span
-											class="fab fa-facebook-square" title="Facebook"></span></a>
-							</li>
-							<li class="yetiforceDetailsLink list-inline-item">
-								<a rel="noreferrer noopener"
-								   href="https://github.com/YetiForceCompany/YetiForceCRM"><span
-											class="fab fa-github-square" title="Github"></span></a>
+								<a rel="noreferrer noopener" target="_blank" href="https://doc.yetiforce.com">
+									<span class="mdi mdi-book-open-page-variant" title="YetiForce Documentation"></span>
+								</a>
 							</li>
 						</ul>
 					</div>

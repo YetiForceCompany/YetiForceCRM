@@ -20,9 +20,7 @@ namespace App\Integrations\Magento\Synchronizer;
  */
 class Invoice extends Record
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$this->lastScan = $this->config->getLastScan('invoice');
@@ -124,9 +122,7 @@ class Invoice extends Record
 		return $recordModel->getId();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSearchCriteria(int $pageSize = 10): string
 	{
 		$searchCriteria[] = parent::getSearchCriteria($pageSize);

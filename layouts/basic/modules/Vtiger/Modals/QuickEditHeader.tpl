@@ -27,6 +27,11 @@
 						</h5>
 					</div>
 					<div class="col-xl-3 col-12 text-center text-xl-right">
+						{if !empty($QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER'])}
+							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER']}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq}
+							{/foreach}
+						{/if}
 						<button class="btn btn-success mr-1" type="submit" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
 							<strong><span class="fas fa-check"></span></strong>
 						</button>

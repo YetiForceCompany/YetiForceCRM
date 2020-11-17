@@ -195,9 +195,7 @@ Settings_Vtiger_Edit_Js(
 						value = '';
 					}
 					const clonedBooleanElement =
-						'<input type="checkbox" class="fieldValue col-md-4 form-control" value="' +
-						value +
-						'" data-input="true" >';
+						'<input type="checkbox" class="fieldValue col-md-4 form-control" value="' + value + '" data-input="true" >';
 					clonedPopupUi.find('.fieldValueContainer').prepend(clonedBooleanElement);
 					if (value === 'true:boolean' || value === '') {
 						clonedPopupUi.find('.fieldValueContainer input').attr('checked', 'checked');
@@ -249,13 +247,9 @@ Settings_Vtiger_Edit_Js(
 				var fieldValueElement = fieldUiHolder.find('.getPopupUi');
 				if (valueType != 'rawtext') {
 					fieldValueElement.removeAttr('data-validation-engine');
-					fieldValueElement.removeClass(
-						'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'
-					);
+					fieldValueElement.removeClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
 				} else {
-					fieldValueElement.addClass(
-						'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'
-					);
+					fieldValueElement.addClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
 					fieldValueElement.attr(
 						'data-validation-engine',
 						'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'

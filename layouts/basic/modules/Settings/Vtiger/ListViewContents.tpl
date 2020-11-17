@@ -47,7 +47,7 @@
 										<div class="actions">
 											<div class="float-right">
 												{foreach from=$LINKS item=LINK}
-													{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+													{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE MODULE=$QUALIFIED_MODULE}
 												{/foreach}
 											</div>
 										</div>

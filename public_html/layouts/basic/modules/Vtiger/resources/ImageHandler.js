@@ -26,8 +26,7 @@
 
 		this.show = function () {
 			var imagePath = 'themes/basic/images/loading.gif';
-			var imageHtml =
-				'<span class="imageHolder"><img class="loadinImg" src="' + imagePath + '" /></span>';
+			var imageHtml = '<span class="imageHolder"><img class="loadinImg" src="' + imagePath + '" /></span>';
 
 			switch (thisInstance.position) {
 				case 'prepend':

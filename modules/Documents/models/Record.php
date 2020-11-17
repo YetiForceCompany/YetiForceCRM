@@ -63,10 +63,13 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getFileDetails()
 	{
-		return (new \App\Db\Query())->from('vtiger_attachments')
-			->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-			->where(['crmid' => $this->get('id')])
-			->one();
+		if (!isset($this->fileDetails)) {
+			$this->fileDetails = (new \App\Db\Query())->from('vtiger_attachments')
+				->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+				->where(['crmid' => $this->get('id')])
+				->one();
+		}
+		return $this->fileDetails;
 	}
 
 	/**
