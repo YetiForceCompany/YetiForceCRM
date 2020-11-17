@@ -50,13 +50,13 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function getAdditionalButtons(): array
 	{
 		$links = [];
-		if (\App\Security\AdminAccess::isPermitted('ApiAddress')) {
+		if (\App\Security\AdminAccess::isPermitted('MailIntegration')) {
 			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_API_ADDRESS',
 				'relatedModuleName' => 'Settings:_Base',
 				'linkicon' => 'adminIcon-address',
 				'linkhref' => true,
-				'linkurl' => 'index.php?parent=Settings&module=ApiAddress&view=Configuration',
+				'linkurl' => 'index.php?parent=Settings&module=MailIntegration&view=Index',
 				'linkclass' => 'btn-primary',
 				'showLabel' => 1,
 			]);
