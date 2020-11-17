@@ -1029,17 +1029,17 @@ return [
 			'description' => 'Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF.',
 			'validationValues' => ['top', 'parent']
 		],
-		'allowedFrameDomains' => [
-			'default' => [],
-			'description' => 'Allowed domains for loading frame, used in CSP and validate referer.',
-			'loopValidate' => true,
-			'validation' => '\App\Validator::url',
-		],
 		'allowedImageDomains' => [
 			'default' => [],
 			'description' => 'Allowed domains for loading images, used in CSP.',
 			'loopValidate' => true,
 			'validation' => '\App\Validator::text',
+		],
+		'allowedFrameDomains' => [
+			'default' => [],
+			'description' => 'Allowed domains for loading frame, used in CSP and validate referer.',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::url',
 		],
 		'allowedScriptDomains' => [
 			'default' => [],

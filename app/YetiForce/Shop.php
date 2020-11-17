@@ -202,21 +202,23 @@ class Shop
 	/**
 	 * Verify or show a message about invalid products.
 	 *
+	 * @param bool $cache
+	 *
 	 * @return bool
 	 */
-	public static function verify(): bool
+	public static function verify(bool $cache = true): bool
 	{
-		if ($cacheData = self::getFromCache()) {
+		if ($cache && ($cacheData = self::getFromCache())) {
 			foreach ($cacheData as $product => $status) {
 				if (!$status) {
-					self::$verifyProduct = \App\Language::translate('LBL_SHOP_' . \strtoupper($product), 'Settings:YetiForce');
+					self::$verifyProduct .= \App\Language::translate('LBL_SHOP_' . \strtoupper($product), 'Settings:YetiForce') . PHP_EOL;
 					return false;
 				}
 			}
 		} else {
 			foreach (self::getProducts() as $product) {
 				if (!$product->verify()) {
-					self::$verifyProduct = $product->getLabel();
+					self::$verifyProduct .= $product->getLabel() . PHP_EOL;
 					return false;
 				}
 			}
@@ -231,21 +233,25 @@ class Shop
 	{
 		$content = [];
 		foreach (self::getProducts() as $key => $product) {
-			$content[$key] = $product->verify(false);
+			$content[$key] = $product->verify();
 		}
+		$content['key'] = md5(json_encode($content));
 		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shop.php', $content, 'Modifying this file will breach the licence terms!!!', 0, true);
 	}
 
 	/**
 	 * Get from cache.
 	 *
-	 * @return bool
+	 * @return array
 	 */
-	public static function getFromCache()
+	public static function getFromCache(): array
 	{
 		$content = [];
 		if (\file_exists(ROOT_DIRECTORY . '/app_data/shop.php')) {
 			$content = include ROOT_DIRECTORY . '/app_data/shop.php';
+		}
+		if (($content['key'] ?? '') !== md5(json_encode($content))) {
+			return [];
 		}
 		return $content;
 	}
