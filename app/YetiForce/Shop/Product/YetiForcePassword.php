@@ -38,8 +38,11 @@ class YetiForcePassword extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify($cache = true): bool
+	public function verify(): bool
 	{
+		if (\App\YetiForce\Register::getProducts('YetiForcePassword')) {
+			return \App\YetiForce\Shop::check('YetiForcePassword');
+		}
 		return true;
 	}
 

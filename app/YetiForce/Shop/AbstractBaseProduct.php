@@ -105,11 +105,12 @@ abstract class AbstractBaseProduct
 	/**
 	 * Verify the product.
 	 *
-	 * @param bool $cache
-	 *
 	 * @return bool
 	 */
-	abstract protected function verify($cache = true): bool;
+	public function verify(): bool
+	{
+		return true;
+	}
 
 	/**
 	 * Construct.

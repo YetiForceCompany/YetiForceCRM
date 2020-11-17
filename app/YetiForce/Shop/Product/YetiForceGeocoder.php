@@ -38,8 +38,15 @@ class YetiForceGeocoder extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify($cache = true): bool
+	public function verify(): bool
 	{
+		if (\App\YetiForce\Register::getProducts('YetiForceGeocoder')) {
+			return \App\YetiForce\Shop::check('YetiForceGeocoder');
+		}
+		$pwnedPassword = \App\Extension\PwnedPassword::getDefaultProvider();
+		if ('\App\Extension\PwnedPassword\YetiForce' === \get_class($pwnedPassword)) {
+			return !$pwnedPassword->isActive();
+		}
 		return true;
 	}
 

@@ -20,10 +20,4 @@ class Integrator extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $prices = [250];
 	/** {@inheritdoc} */
 	public $featured = true;
-
-	/** {@inheritdoc} */
-	public function verify($cache = true): bool
-	{
-		return true;
-	}
 }

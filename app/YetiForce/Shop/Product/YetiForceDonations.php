@@ -30,10 +30,4 @@ class YetiForceDonations extends \App\YetiForce\Shop\AbstractBaseProduct
 	{
 		return \App\User::getNumberOfUsers();
 	}
-
-	/** {@inheritdoc} */
-	public function verify($cache = true): bool
-	{
-		return true;
-	}
 }

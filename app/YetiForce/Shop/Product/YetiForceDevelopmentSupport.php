@@ -50,12 +50,6 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify($cache = true): bool
-	{
-		return true;
-	}
-
-	/** {@inheritdoc} */
 	public function getPriceLabel($key): string
 	{
 		return $this->customPricesLabel[$key] . ' ' . \App\Language::translate('LBL_HOURS');

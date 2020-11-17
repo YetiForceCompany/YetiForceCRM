@@ -38,7 +38,7 @@ class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify($cache = true): bool
+	public function verify(): bool
 	{
 		if (\App\YetiForce\Register::getProducts('YetiForceDisableBranding')) {
 			return \App\YetiForce\Shop::check('YetiForceDisableBranding');

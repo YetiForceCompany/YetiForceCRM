@@ -20,10 +20,4 @@ class Reseller extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $prices = [100];
 	/** {@inheritdoc} */
 	public $featured = true;
-
-	/** {@inheritdoc} */
-	public function verify($cache = true): bool
-	{
-		return true;
-	}
 }

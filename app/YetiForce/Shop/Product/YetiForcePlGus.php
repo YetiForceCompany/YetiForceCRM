@@ -38,8 +38,13 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify($cache = true): bool
+	public function verify(): bool
 	{
-		return true;
+		if (\App\YetiForce\Register::getProducts('YetiForcePlGus')) {
+			return \App\YetiForce\Shop::check('YetiForcePlGus');
+		}
+		$instance = new \App\RecordCollectors\Gus();
+		$instance->moduleName = reset(\App\RecordCollectors\Gus::$allowedModules);
+		return !$instance->isActive();
 	}
 }

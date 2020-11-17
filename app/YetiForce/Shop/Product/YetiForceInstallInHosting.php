@@ -58,10 +58,4 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 
 	/** {@inheritdoc} */
 	public $featured = true;
-
-	/** {@inheritdoc} */
-	public function verify($cache = true): bool
-	{
-		return true;
-	}
 }

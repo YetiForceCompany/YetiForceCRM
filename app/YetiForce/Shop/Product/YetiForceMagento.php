@@ -38,8 +38,11 @@ class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify($cache = true): bool
+	public function verify(): bool
 	{
+		if (\App\YetiForce\Register::getProducts('YetiForceMagento')) {
+			return \App\YetiForce\Shop::check('YetiForceMagento');
+		}
 		return true;
 	}
 

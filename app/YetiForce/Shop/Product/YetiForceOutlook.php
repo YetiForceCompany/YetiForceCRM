@@ -17,9 +17,14 @@ namespace App\YetiForce\Shop\Product;
 class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce Outlook Integration Panel (Beta)';
+	public $label = 'YetiForce Outlook Integration Panel';
+
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/yetiforce-magento-integration';
+
 	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 5,
@@ -33,8 +38,29 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify($cache = true): bool
+	public function verify(): bool
 	{
+		if (\App\YetiForce\Register::getProducts('YetiForceOutlook')) {
+			return \App\YetiForce\Shop::check('YetiForceOutlook');
+		}
 		return true;
+	}
+
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
+	{
+		$links = [];
+		if (\App\Security\AdminAccess::isPermitted('ApiAddress')) {
+			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_API_ADDRESS',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'adminIcon-address',
+				'linkhref' => true,
+				'linkurl' => 'index.php?parent=Settings&module=ApiAddress&view=Configuration',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			]);
+		}
+		return $links;
 	}
 }
