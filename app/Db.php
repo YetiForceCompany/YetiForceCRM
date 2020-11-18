@@ -159,11 +159,9 @@ class Db extends \yii\db\Connection
 		$fullVersion = $statement->fetch(\PDO::FETCH_COLUMN);
 		[$version] = explode('-', $conf['version']);
 		$conf['version_comment'] = $conf['version_comment'] . '|' . $fullVersion;
+		$typeDb = 'MySQL';
 		if (false !== stripos($conf['version_comment'], 'MariaDb')) {
 			$typeDb = 'MariaDb';
-		}
-		if (false !== stripos($conf['version_comment'], 'MySQL')) {
-			$typeDb = 'MySQL';
 		}
 		$memory = $conf['key_buffer_size'] + $conf['query_cache_size'] + $conf['tmp_table_size'] + $conf['innodb_buffer_pool_size'] +
 		($conf['innodb_additional_mem_pool_size'] ?? 0) + $conf['innodb_log_buffer_size'] + ($conf['max_connections'] * ($conf['sort_buffer_size']
