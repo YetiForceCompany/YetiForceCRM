@@ -102,9 +102,9 @@ class ConfReport
 		'session.use_strict_mode' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.use_trans_sid' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => false],
-		'session.use_only_cookies' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
-		'session.cookie_secure' => ['recommended' => '?', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => false],
-		'session.cookie_samesite' => ['recommended' => '', 'type' => 'CookieSamesite', 'container' => 'php', 'testCli' => true],
+		'session.use_only_cookies' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => false],
+		'session.cookie_secure' => ['recommended' => '', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => false],
+		'session.cookie_samesite' => ['recommended' => '', 'type' => 'CookieSamesite', 'container' => 'php', 'testCli' => false],
 		'session.name' => ['recommended' => 'YTSID', 'container' => 'php', 'type' => 'Equal', 'testCli' => false],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
@@ -1096,7 +1096,8 @@ class ConfReport
 	 */
 	private static function validateCookieSamesite(string $name, array $row, string $sapi)
 	{
-		if ($name && version_compare(PHP_VERSION, '7.3', '>')) {
+		$row['recommended'] = \Config\Security::$cookieSameSite;
+		if ($name && \PHP_VERSION_ID > 70300) {
 			$row['status'] = ($row[$sapi] ?? '') === $row['recommended'];
 		} else {
 			$row['mode'] = 'skipParam';

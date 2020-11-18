@@ -84,19 +84,31 @@ class Security
 	public static $LOGIN_PAGE_REMEMBER_CREDENTIALS = false;
 
 	/** Interdependent reference fields */
-	public static $FIELDS_REFERENCES_DEPENDENT = false;
+	public static $fieldsReferencesDependent = false;
 
 	/** Lifetime session (in seconds) */
-	public static $MAX_LIFETIME_SESSION = 21600;
+	public static $maxLifetimeSession = 900;
 
-	/** Force the use of https only for cookie */
-	public static $COOKIE_FORCE_HTTP_ONLY = true;
+	/** Update the current session id with a newly generated one after login and logout */
+	public static $loginSessionRegenerate = true;
+
+	/**
+	 * Same-site cookie attribute allows a web application to advise the browser that cookies should only be sent if the request originates from the website the cookie came from.
+	 * Values: None, Lax, Strict
+	 */
+	public static $cookieSameSite = 'Strict';
+
+	/**
+	 * Force the use of https only for cookie.
+	 * Values: true, false, null
+	 */
+	public static $cookieForceHttpOnly = true;
 
 	/** Maximum session lifetime from the time it was created (in minutes) */
-	public static $API_CREATE_LIFETIME_SESSION = 1440;
+	public static $apiLifetimeSessionCreate = 1440;
 
 	/** Maximum session lifetime since the last modification (in minutes) */
-	public static $API_UPDATE_LIFETIME_SESSION = 240;
+	public static $apiLifetimeSessionUpdate = 240;
 
 	/**
 	 * User authentication mode.
@@ -112,9 +124,6 @@ class Security
 
 	/** Cache lifetime for SensioLabs security checker. */
 	public static $CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER = 3600;
-
-	/** Update the current session id with a newly generated one after login and logout */
-	public static $loginSessionRegenerate = true;
 
 	/** Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option. */
 	public static $forceHttpsRedirection = false;

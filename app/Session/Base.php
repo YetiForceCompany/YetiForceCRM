@@ -32,15 +32,22 @@ class Base extends \SessionHandler
 			return;
 		}
 		$cookie = session_get_cookie_params();
-		$cookie['lifetime'] = \Config\Security::$MAX_LIFETIME_SESSION;
+		$cookie['lifetime'] = \Config\Security::$maxLifetimeSession;
 		$cookie['secure'] = \App\RequestUtil::isHttps();
-		if (\Config\Security::$COOKIE_FORCE_HTTP_ONLY ?? true) {
-			$cookie['httponly'] = true;
+		$cookie['domain'] = $_SERVER['HTTP_HOST'];
+		if (isset(\Config\Security::$cookieForceHttpOnly)) {
+			$cookie['httponly'] = \Config\Security::$cookieForceHttpOnly;
 		}
+		$cookie['samesite'] = \Config\Security::$cookieSameSite;
 		session_name($name);
-		session_set_cookie_params(
-			$cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']
-		);
+		if (\PHP_VERSION_ID < 70300) {
+			$cookie['path'] .= '; samesite=' . $cookie['samesite'];
+			session_set_cookie_params(
+				$cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']
+			);
+		} else {
+			session_set_cookie_params($cookie);
+		}
 	}
 
 	/**

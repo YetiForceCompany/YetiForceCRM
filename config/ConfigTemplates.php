@@ -954,27 +954,45 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'FIELDS_REFERENCES_DEPENDENT' => [
+		'fieldsReferencesDependent' => [
 			'default' => false,
 			'description' => 'Interdependent reference fields',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'MAX_LIFETIME_SESSION' => [
+		'maxLifetimeSession' => [
 			'default' => 900,
 			'description' => 'Lifetime session (in seconds)',
+			'validation' => '\App\Validator::integer'
 		],
-		'COOKIE_FORCE_HTTP_ONLY' => [
+		'loginSessionRegenerate' => [
 			'default' => true,
-			'description' => 'Force the use of https only for cookie',
+			'description' => 'Update the current session id with a newly generated one after login and logout',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
-		'API_CREATE_LIFETIME_SESSION' => [
+		'cookieSameSite' => [
+			'default' => 'Strict',
+			'description' => "Same-site cookie attribute allows a web application to advise the browser that cookies should only be sent if the request originates from the website the cookie came from.\nValues: None, Lax, Strict",
+			'validationValues' => ['None', 'Lax', 'Strict']
+		],
+		'cookieForceHttpOnly' => [
+			'default' => true,
+			'description' => "Force the use of https only for cookie.\nValues: true, false, null",
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return null === $arg ? $arg : \is_bool($arg);
+			}
+		],
+		'apiLifetimeSessionCreate' => [
 			'default' => 1440,
 			'description' => 'Maximum session lifetime from the time it was created (in minutes)',
+			'validation' => '\App\Validator::integer'
 		],
-		'API_UPDATE_LIFETIME_SESSION' => [
+		'apiLifetimeSessionUpdate' => [
 			'default' => 240,
 			'description' => 'Maximum session lifetime since the last modification (in minutes)',
+			'validation' => '\App\Validator::integer'
 		],
 		'USER_AUTHY_MODE' => [
 			'default' => 'TOTP_OPTIONAL',
@@ -993,10 +1011,6 @@ return [
 			'default' => 3600,
 			'description' => 'Cache lifetime for SensioLabs security checker.',
 			'validation' => '\App\Validator::naturalNumber',
-		],
-		'loginSessionRegenerate' => [
-			'default' => true,
-			'description' => 'Update the current session id with a newly generated one after login and logout'
 		],
 		'forceHttpsRedirection' => [
 			'default' => false,

@@ -18,7 +18,7 @@ class File extends Base
 	public static function clean()
 	{
 		$time = microtime(true);
-		$lifeTime = \App\Config::security('MAX_LIFETIME_SESSION');
+		$lifeTime = \Config\Security::$maxLifetimeSession;
 		$exclusion = ['.htaccess', 'index.html', 'sess_' . session_id()];
 		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'session', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile() && !\in_array($item->getBasename(), $exclusion)) {
