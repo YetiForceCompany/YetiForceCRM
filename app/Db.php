@@ -165,7 +165,6 @@ class Db extends \yii\db\Connection
 		if (false !== stripos($conf['version_comment'], 'MySQL')) {
 			$typeDb = 'MySQL';
 		}
-		file_put_contents(ROOT_DIRECTORY . '/tests/records.log', print_r($conf, true), FILE_APPEND);
 		$memory = $conf['key_buffer_size'] + $conf['query_cache_size'] + $conf['tmp_table_size'] + $conf['innodb_buffer_pool_size'] +
 		($conf['innodb_additional_mem_pool_size'] ?? 0) + $conf['innodb_log_buffer_size'] + ($conf['max_connections'] * ($conf['sort_buffer_size']
 				+ $conf['read_buffer_size'] + $conf['read_rnd_buffer_size'] + $conf['join_buffer_size'] + $conf['thread_stack'] + $conf['binlog_cache_size']));
