@@ -30,12 +30,10 @@
 						<input type="hidden" name="parent" value="Settings"/>
 						<input type="hidden" name="action" value="Activate"/>
 						<input type="hidden" name="source" value="outlook"/>
-						<span class="mdi mdi-alert-outline mr-3 u-fs-6x float-left"></span>
+						<span class="mdi mdi-alert-outline mr-3 u-fs-10x float-left"></span>
 						{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE,'Outlook')}<br />
-						{\App\Language::translate('LBL_OUTLOOK_ACTIVATED_ALERT', $QUALIFIED_MODULE)}<br />
-						<code title="Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF.">public static $csrfFrameBreakerWindow = 'top';</code><br />
-						<code title="Allowed domains for loading script, used in CSP.">public static $allowedScriptDomains = ['https://appsforoffice.microsoft.com', 'https://ajax.aspnetcdn.com'];</code>
-						<button type="submit" class="btn btn-primary btn-sm ml-3">
+						{\App\Language::translate('LBL_OUTLOOK_ACTIVATED_ALERT', $QUALIFIED_MODULE)}
+						<button type="submit" class="btn btn-primary btn-sm ml-3 float-right">
 							<span class="mdi mdi-check mr-2 float-left"></span>
 							{\App\Language::translate('LBL_ACTIVATE_FUNCTIONALITY', $QUALIFIED_MODULE)}
 						</button>

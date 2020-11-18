@@ -26,7 +26,9 @@ class Settings_MailIntegration_Activate_Model
 		if ('outlook' === $source) {
 			return \in_array('https://appsforoffice.microsoft.com', \Config\Security::$allowedScriptDomains) &&
 				\in_array('https://ajax.aspnetcdn.com', \Config\Security::$allowedScriptDomains) &&
-				'parent' === \Config\Security::$csrfFrameBreakerWindow;
+				'parent' === \Config\Security::$csrfFrameBreakerWindow &&
+				false === \Config\Security::$cookieForceHttpOnly &&
+				'None' === \Config\Security::$cookieSameSite;
 		}
 		return false;
 	}

@@ -31,6 +31,8 @@ class Settings_MailIntegration_Activate_Action extends Settings_Vtiger_Basic_Act
 				'https://appsforoffice.microsoft.com', 'https://ajax.aspnetcdn.com'
 			]))));
 			$security->set('csrfFrameBreakerWindow', 'parent');
+			$security->set('cookieForceHttpOnly', false);
+			$security->set('cookieSameSite', 'None');
 			$security->create();
 			header('Location: index.php?parent=Settings&module=MailIntegration&view=Index');
 		}
