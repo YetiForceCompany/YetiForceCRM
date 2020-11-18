@@ -15,7 +15,7 @@
 class Settings_MailIntegration_Activate_Model
 {
 	/**
-	 *  Function checks if user is active..
+	 * Function checks if user is active..
 	 *
 	 * @param string $source
 	 *
