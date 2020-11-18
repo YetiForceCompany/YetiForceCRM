@@ -331,7 +331,7 @@ class Purifier
 			}
 		} else {
 			$value = null;
-			if (method_exists('App\Validator', $type)) {
+			if (property_exists('App\Validator', $type)) {
 				$value = Validator::{$type}($input) ? $input : null;
 			} else {
 				switch ($type) {
