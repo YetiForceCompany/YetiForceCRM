@@ -47,6 +47,19 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 	}
 
 	/** {@inheritdoc} */
+	public function analyzeConfiguration(): array
+	{
+		if (empty($this->expirationDate) || \Settings_MailIntegration_Activate_Model::isActive('outlook')) {
+			return [];
+		}
+		return [
+			'message' => \App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', 'Settings:MailIntegration', 'Outlook'),
+			'type' => 'LBL_REQUIRES_INTERVENTION',
+			'href' => 'index.php?parent=Settings&module=MailIntegration&view=Index'
+		];
+	}
+
+	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
 		$links = [];
