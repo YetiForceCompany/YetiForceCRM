@@ -89,6 +89,9 @@ class Security
 	/** Lifetime session (in seconds) */
 	public static $MAX_LIFETIME_SESSION = 21600;
 
+	/** Force the use of https only for cookie */
+	public static $COOKIE_FORCE_HTTP_ONLY = true;
+
 	/** Maximum session lifetime from the time it was created (in minutes) */
 	public static $API_CREATE_LIFETIME_SESSION = 1440;
 
@@ -137,11 +140,11 @@ class Security
 	/** Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF. */
 	public static $csrfFrameBreakerWindow = 'top';
 
-	/** Allowed domains for loading frame, used in CSP and validate referer. */
-	public static $allowedFrameDomains = [];
-
 	/** Allowed domains for loading images, used in CSP. */
 	public static $allowedImageDomains = [];
+
+	/** Allowed domains for loading frame, used in CSP and validate referer. */
+	public static $allowedFrameDomains = [];
 
 	/** Allowed domains for loading script, used in CSP. */
 	public static $allowedScriptDomains = [];

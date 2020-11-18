@@ -25,20 +25,18 @@ class Base extends \SessionHandler
 	 * Construct.
 	 *
 	 * @param string $name
-	 * @param array  $cookie
 	 */
-	public function __construct($name = 'YTSID', $cookie = [])
+	public function __construct(string $name = 'YTSID')
 	{
 		if (PHP_SESSION_ACTIVE === session_status()) {
 			return;
 		}
-		$cookie = array_merge([
-			'lifetime' => \Config\Security::$MAX_LIFETIME_SESSION,
-			'path' => ini_get('session.cookie_path'),
-			'domain' => ini_get('session.cookie_domain'),
-			'secure' => \App\RequestUtil::getBrowserInfo()->https,
-			'httponly' => true,
-		], $cookie);
+		$cookie = session_get_cookie_params();
+		$cookie['lifetime'] = \Config\Security::$MAX_LIFETIME_SESSION;
+		$cookie['secure'] = \App\RequestUtil::isHttps();
+		if (\Config\Security::$COOKIE_FORCE_HTTP_ONLY ?? true) {
+			$cookie['httponly'] = true;
+		}
 		session_name($name);
 		session_set_cookie_params(
 			$cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']

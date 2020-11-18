@@ -23,7 +23,7 @@ class OSSMail_Logout_Model
 	{
 		if ($sessionId = $_COOKIE['roundcube_sessid'] ?? null) {
 			$cookie = session_get_cookie_params();
-			$secure = $cookie['secure'] || \App\RequestUtil::getBrowserInfo()->https;
+			$secure = $cookie['secure'] || \App\RequestUtil::isHttps();
 			$exp = time() - 3600;
 			setcookie('roundcube_sessid', '', $exp, $cookie['path'], $cookie['domain'], $secure, true);
 			setcookie('roundcube_sessauth', '', $exp, $cookie['path'], $cookie['domain'], $secure, true);

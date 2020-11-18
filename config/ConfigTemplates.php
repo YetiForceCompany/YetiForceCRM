@@ -964,6 +964,10 @@ return [
 			'default' => 900,
 			'description' => 'Lifetime session (in seconds)',
 		],
+		'COOKIE_FORCE_HTTP_ONLY' => [
+			'default' => true,
+			'description' => 'Force the use of https only for cookie',
+		],
 		'API_CREATE_LIFETIME_SESSION' => [
 			'default' => 1440,
 			'description' => 'Maximum session lifetime from the time it was created (in minutes)',

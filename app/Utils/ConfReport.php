@@ -580,7 +580,7 @@ class ConfReport
 				'phpIni' => php_ini_loaded_file() ?: '-',
 				'phpIniAll' => php_ini_scanned_files() ?: '-',
 				'locale' => $locale,
-				'https' => \App\RequestUtil::getBrowserInfo()->https,
+				'https' => \App\RequestUtil::isHttps(),
 				'caCertBundle' => \is_file(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()) ? 'On' : 'Off',
 				'caCertBundlePath' => $caCertBundlePath,
 				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
@@ -1154,7 +1154,7 @@ class ConfReport
 	{
 		unset($sapi);
 		$header = strtolower(\str_replace('Header: ', '', $name));
-		if (!empty($row['httpsRequired']) && !\App\RequestUtil::getBrowserInfo()->https) {
+		if (!empty($row['httpsRequired']) && !\App\RequestUtil::isHttps()) {
 			$row['recommended'] = '';
 		}
 		$onlyPhp = empty($row['onlyPhp']);
