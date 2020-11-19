@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cdc049e172463538972f615889a36c55",
+    "content-hash": "8849770fbaaa751b70d6abee7d096f1a",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -3706,16 +3706,16 @@
         },
         {
             "name": "yetiforce/yii2",
-            "version": "2.0.32",
+            "version": "2.0.39.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/yii2-framework.git",
-                "reference": "b1a55e26c58594f1e8e6b546a3c22daf6e413691"
+                "reference": "d905788b495ef5832387cabe975949f5155544a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/yii2-framework/zipball/b1a55e26c58594f1e8e6b546a3c22daf6e413691",
-                "reference": "b1a55e26c58594f1e8e6b546a3c22daf6e413691",
+                "url": "https://api.github.com/repos/YetiForceCompany/yii2-framework/zipball/d905788b495ef5832387cabe975949f5155544a2",
+                "reference": "d905788b495ef5832387cabe975949f5155544a2",
                 "shasum": ""
             },
             "require": {
@@ -3724,15 +3724,7 @@
                 "lib-pcre": "*",
                 "php": ">=5.4.0"
             },
-            "bin": [
-                "yii"
-            ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "yii\\": ""
@@ -3801,7 +3793,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2020-02-25T11:07:20+00:00"
+            "time": "2020-11-19T07:05:31+00:00"
         },
         {
             "name": "zbateson/mail-mime-parser",
