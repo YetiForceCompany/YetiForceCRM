@@ -236,6 +236,7 @@
     "LBL_IT_WORKS_PROPERLY": "Cela fonctionne correctement",
     "LBL_LABEL_FOOTER": "Pied",
     "LBL_LABEL_PREMIUM_MODULES": "Modules Premium",
+    "LBL_LABEL_MAGENTO": "Magento",
     "LBL_FILE_OWNER": "Propriétaire",
     "LBL_FILE_PERMISSIONS": "Droit d'accès",
     "LBL_LABEL_SCRIPT_USER": "Utilisateur appelant le script",
