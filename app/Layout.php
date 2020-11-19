@@ -152,16 +152,22 @@ class Layout
 	 *
 	 * @param string $text
 	 * @param int    $length
+	 * @param bool   $showIcon
 	 *
 	 * @return string
 	 */
-	public static function truncateText(string $text, int $length): string
+	public static function truncateText(string $text, int $length, bool $showIcon = false): string
 	{
 		if (\mb_strlen($text) < $length) {
 			return $text;
 		}
 		$teaser = TextParser::textTruncate($text, $length);
-		$btn = \App\Language::translate('LBL_MORE_BTN');
+		$text = nl2br($text);
+		if ($showIcon) {
+			$btn = '<span class="mdi mdi-overscan"></span>';
+		} else {
+			$btn = \App\Language::translate('LBL_MORE_BTN');
+		}
 		return "<div class=\"js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm pt-0 js-more\">{$btn}</button></span></div>";
 	}
 
