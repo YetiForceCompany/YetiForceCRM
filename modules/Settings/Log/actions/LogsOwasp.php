@@ -3,17 +3,15 @@
 /**
  * Data Action Class for Log.
  *
+ * @package   Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Michał Lorencik <m.lorencik@yetiforce.com>
  */
 class Settings_Log_LogsOwasp_Action extends Settings_Vtiger_Basic_Action
 {
-	/**
-	 * Process.
-	 *
-	 * @param \App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$type = $request->getByType('type', 1);

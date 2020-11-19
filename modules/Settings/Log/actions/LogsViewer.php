@@ -3,24 +3,23 @@
 /**
  * Settings log viewer action file.
  *
+ * @package   Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
  * Settings log viewer action class.
  */
 class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 {
-	/**
-	 * Process.
-	 *
-	 * @param \App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$type = $request->getByType('type', 'Text');
-		$filterType = $request->get('typefilter');
+		$type = $request->getByType('type');
+		$filterType = $request->getByType('typefilter');
 		if ('DateTimeRange' === $filterType) {
 			$range = $request->getByType('valuefilter', 'DateRangeUserFormat');
 		}
