@@ -18646,7 +18646,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (129,8,'LBL_MAIL_RBL','fas fa-mail-bulk','LBL_MAIL_RBL_DESCRIPTION','index.php?parent=Settings&module=MailRbl&view=Index',8,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (130,2,'LBL_FIELDS_DEPENDENCY','fas fa-project-diagram','LBL_FIELDS_DEPENDENCY_DESCRIPTION','index.php?parent=Settings&module=FieldsDependency&view=List',7,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (131,5,'LBL_INTEGRATION_PANEL','fas fa-share-alt-square','LBL_INTEGRATION_PANEL_DESCRIPTION','index.php?parent=Settings&module=IntegrationPanel&view=Index',16,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (132,14,'LBL_LOG_VIEWER','yfi yfi-system-monitoring','LBL_LOG_OVERIEW_DESCRIPTION','index.php?parent=Settings&module=Log&view=LogsViewer',6,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (132,14,'LBL_LOGS_VIEWER','yfi yfi-system-monitoring','LBL_LOGS_VIEWER_DESCRIPTION','index.php?parent=Settings&module=Log&view=LogsViewer',6,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
