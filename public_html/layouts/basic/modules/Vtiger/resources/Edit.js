@@ -130,6 +130,10 @@ $.Class(
 			if (searchParamsElement.length > 0) {
 				params['search_params'] = searchParamsElement.val();
 			}
+			let modalParamsElement = $('input[name="modalParams"]', container);
+			if (modalParamsElement.length > 0) {
+				params['modal_params'] = modalParamsElement.val();
+			}
 			$.each(['link', 'process'], function (index, value) {
 				let fieldElement = formElement.find('[name="' + value + '"]');
 				if (fieldElement.length && fieldElement.val() != '' && fieldElement.val() != 0) {
