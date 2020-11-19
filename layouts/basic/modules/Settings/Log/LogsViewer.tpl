@@ -20,7 +20,7 @@
 		<div class="col-12">
 			<div class="d-flex justify-content-center mt-2">
 				{foreach key=NAME_FIELD item=TYPE_FIELD from=$TABLE_MAPPING[$TYPE]['filter']}
-					{include file=\App\Layout::getTemplatePath('Filter/'|cat:$TYPE_FIELD|cat:'.tpl', $MODULE_NAME) NAME_FIELD=$NAME_FIELD TYPE_FIELD=$TYPE_FIELD}
+					{include file=\App\Layout::getTemplatePath('Filter/'|cat:$TYPE_FIELD|cat:'.tpl', $MODULE_NAME) NAME_FIELD=$NAME_FIELD TYPE_FIELD=$TYPE_FIELD MODULE_NAME=$MODULE_NAME}
 				{/foreach}
 				<div class="col-lg-3">
 					<button type="button" class="btn btn-primary btn-sm js-date-btn" data-js="click"> <span class="fas fa-filter mr-2"></span> {\App\Language::translate('LBL_FILTER')}</button>

@@ -3,7 +3,7 @@
 <!-- tpl-Settings-Log-Filter-DateTimeRange -->
 <div class="row col-4">
 	<div class="col-lg-3 text-right">
-		{\App\Language::translate('LBL_TIME_RANGE')}:
+		{\App\Language::translate('LBL_TIME', $MODULE_NAME)}:
 	</div>
 	<div class="col-lg-9">
 		<div class="input-group input-group-sm js-log-filter" data-type-filter="{$TYPE_FIELD}" data-js="container" >
