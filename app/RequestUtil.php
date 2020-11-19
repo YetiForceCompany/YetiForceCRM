@@ -161,16 +161,10 @@ class RequestUtil
 	 */
 	public static function isHttps(): bool
 	{
-		if (isset(self::$httpsCache)) {
-			return self::$httpsCache;
+		if (!isset(self::$httpsCache)) {
+			self::$httpsCache = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])) ||
+				(!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' === strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']));
 		}
-		$https = false;
-		if (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])) {
-			$https = true;
-		}
-		if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' === strtolower($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-			$https = true;
-		}
-		return self::$httpsCache = $https;
+		return self::$httpsCache;
 	}
 }
