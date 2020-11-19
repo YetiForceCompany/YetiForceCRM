@@ -18,7 +18,7 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$type = $request->getByType('type', 'AlnumExtended');
+		$type = $request->getByType('type');
 		$filterType = $request->getByType('typefilter');
 		if ('DateTimeRange' === $filterType) {
 			$range = $request->getByType('valuefilter', 'DateRangeUserFormat');

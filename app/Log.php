@@ -36,6 +36,7 @@ class Log extends Logger
 	 */
 	public static $logsViewerColumnMapping = [
 		'magento' => [
+			'table' => 'l_#__magento',
 			'columns' => [
 				'time' => ['type' => 'date', 'label' => 'LBL_TIME'],
 				'category' => ['type' => 'text', 'label' => 'LBL_CATEGORY'],
@@ -48,7 +49,8 @@ class Log extends Logger
 			],
 			'label' => 'LBL_MAGENTO'
 		],
-		'users_login_purpose' => [
+		'usersLoginPurpose' => [
+			'table' => 'l_#__users_login_purpose',
 			'columns' => [
 				'datetime' => ['type' => 'date', 'label' => 'LBL_TIME'],
 				'userid' => ['type' => 'userId', 'label' => 'LBL_USER'],
@@ -61,6 +63,7 @@ class Log extends Logger
 			'label' => 'LBL_USERS_LOGIN_PURPOSE'
 		],
 		'switch_users' => [
+			'table' => 'l_#__switch_users',
 			'columns' => [
 				'date' => ['type' => 'date', 'label' => 'LBL_TIME'],
 				'status' => ['type' => 'text', 'label' => 'LBL_STATUS'],
