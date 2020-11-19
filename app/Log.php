@@ -37,16 +37,42 @@ class Log extends Logger
 	public static $logsViewerColumnMapping = [
 		'magento' => [
 			'columns' => [
-				'time' => ['type' => 'date', 'label' => 'LBL_TIME', 'format' => 'userFormat'],
-				'category' => ['type' => 'text', 'label' => 'LBL_CATEGORY', 'format' => ''],
-				'message' => ['type' => 'text', 'label' => 'LBL_MESSAGE', 'format' => ''],
-				'code' => ['type' => 'text', 'label' => 'LBL_CODE', 'format' => ''],
-				'trace' => ['type' => 'text', 'label' => 'LBL_TRACE', 'format' => ''],
+				'time' => ['type' => 'date', 'label' => 'LBL_TIME'],
+				'category' => ['type' => 'text', 'label' => 'LBL_CATEGORY'],
+				'message' => ['type' => 'text', 'label' => 'LBL_MESSAGE'],
+				'code' => ['type' => 'text', 'label' => 'LBL_CODE'],
+				'trace' => ['type' => 'text', 'label' => 'LBL_TRACE'],
 			],
 			'filter' => [
 				'time' => 'DateTimeRange'
 			],
 			'label' => 'LBL_MAGENTO'
+		],
+		'users_login_purpose' => [
+			'columns' => [
+				'datetime' => ['type' => 'date', 'label' => 'LBL_TIME'],
+				'userid' => ['type' => 'userId', 'label' => 'LBL_USER'],
+				'purpose' => ['type' => 'text', 'label' => 'LBL_MESSAGE'],
+				'baseid' => ['type' => 'reference', 'label' => 'LBL_MESSAGE'],
+			],
+			'filter' => [
+				'time' => 'DateTimeRange'
+			],
+			'label' => 'LBL_USERS_LOGIN_PURPOSE'
+		],
+		'switch_users' => [
+			'columns' => [
+				'date' => ['type' => 'date', 'label' => 'LBL_TIME'],
+				'status' => ['type' => 'text', 'label' => 'LBL_STATUS'],
+				'busername' => ['type' => 'text', 'label' => 'LBL_BASE_USER'],
+				'dusername' => ['type' => 'text', 'label' => 'LBL_DEST_USER'],
+				'ip' => ['type' => 'text', 'label' => 'LBL_IP_ADDRESS'],
+				'agent' => ['type' => 'text', 'label' => 'LBL_USER_AGENT'],
+			],
+			'filter' => [
+				'time' => 'DateTimeRange'
+			],
+			'label' => 'LBL_USERS_LOGIN_PURPOSE'
 		],
 	];
 	public static $levelMap = [
