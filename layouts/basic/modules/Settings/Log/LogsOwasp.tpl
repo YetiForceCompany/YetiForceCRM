@@ -9,11 +9,11 @@
 		<div class="contents" id="listViewContainer">
 			<p>
 			<ul class="nav nav-tabs mr-0">
-				{assign var=TABLE_MAPPING value=\App\Log::$owasp}
+				{assign var=TABLE_MAPPING value=\App\Log::$owaspColumnMapping}
 				{foreach key=INDEX item=ITEM from=$TABLE_MAPPING}
 					<li class="nav-item">
 						<a class="nav-link {if $TYPE === $INDEX}active{/if}"
-						   href="index.php?module=Log&parent=Settings&view=Index&type={$INDEX}"
+						   href="index.php?parent=Settings&module=Log&view=LogsOwasp&type={$INDEX}"
 						   data-type="{$INDEX}">{\App\Language::translate('LBL_'|cat:$INDEX|UPPER,$MODULE_NAME)}</a>
 					</li>
 				{/foreach}

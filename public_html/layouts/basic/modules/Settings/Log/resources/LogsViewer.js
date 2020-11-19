@@ -2,7 +2,7 @@
 'use strict';
 
 Settings_Vtiger_Index_Js(
-	'Settings_Log_Index_Js',
+	'Settings_Log_LogsViewer_Js',
 	{},
 	{
 		/**
@@ -17,21 +17,25 @@ Settings_Vtiger_Index_Js(
 					enabled: true
 				}
 			});
+			let valueFilter = '';
+			let filter = this.container.find('.js-log-filter');
+			if (filter.data('type-filter') === 'DateTimeRange') {
+				valueFilter = filter.find('.js-date-filter').val();
+			}
 			AppConnector.request({
-				url: 'index.php',
-				type: 'POST',
 				data: {
-					module: 'Log',
+					module: app.getModuleName(),
 					parent: 'Settings',
-					action: 'Data',
+					action: 'LogsViewer',
 					type: this.container.find('.nav .active').data('type'),
-					range: this.container.find('.js-date-range-filter').val()
+					typefilter: filter.data('type-filter'),
+					valuefilter: valueFilter
 				}
 			}).done((response) => {
 				const columns = [],
 					data = [];
 				for (let key in response.columns) {
-					const render = key === 'url' || key === 'request' ? (data) => data : $.fn.dataTable.render.text();
+					const render = $.fn.dataTable.render;
 					columns.push({
 						title: response.columns[key],
 						name: key,
@@ -41,17 +45,6 @@ Settings_Vtiger_Index_Js(
 				}
 				for (let key in response.data) {
 					let row = response.data[key];
-					if (typeof row.url !== 'undefined') {
-						const original = row.url;
-						if (row.url.indexOf('?') === -1) {
-							row.url = 'index.php?' + row.url;
-						}
-						row.url = `<a href="${row.url}" title="${
-							response.columns['url']
-						}" data-content="${original}" class="js-popover-tooltip">${
-							original.length > 50 ? original.substr(0, 50) + '...' : original
-						}</a>`;
-					}
 					data.push(row);
 				}
 				callback(data, columns);
@@ -67,6 +60,7 @@ Settings_Vtiger_Index_Js(
 		 * @returns {jQuery}
 		 */
 		initDataTable(data, columns) {
+
 			return this.container.find('.js-data-table').dataTable({
 				searching: false,
 				processing: false,
@@ -101,14 +95,17 @@ Settings_Vtiger_Index_Js(
 		/**
 		 * Register data table component
 		 */
-		registerDataTable() {
-			App.Fields.Date.registerRange(this.container.find('.js-log-range'));
+		 registerDataTable() {
+			 let typefilter = this.container.find('.js-log-filter');
+			 if (typefilter.data('type-filter') === 'DateTimeRange') {
+				App.Fields.Date.registerRange(this.container.find('.js-log-filter'));
+			 }
 			let table, tableApi;
 			this.getData((data, columns) => {
 				table = this.initDataTable(data, columns);
 				tableApi = table.api();
 			});
-			this.container.find('.js-date-range-btn').click((e) => {
+			this.container.find('.js-date-btn').click((e) => {
 				this.getData((data, columns) => {
 					tableApi.data().clear();
 					tableApi.rows.add(data);
@@ -117,12 +114,14 @@ Settings_Vtiger_Index_Js(
 			});
 		},
 
+
+
 		/**
 		 * Register events
 		 */
 		registerEvents() {
 			this._super();
-			this.container = $('.js-log');
+			this.container = $('.js-logs-container');
 			this.registerDataTable();
 		}
 	}

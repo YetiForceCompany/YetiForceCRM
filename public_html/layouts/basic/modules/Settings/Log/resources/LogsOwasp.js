@@ -2,7 +2,7 @@
 'use strict';
 
 Settings_Vtiger_Index_Js(
-	'Settings_LogOverview_Index_Js',
+	'Settings_Log_LogsOwasp_Js',
 	{},
 	{
 		/**
@@ -21,9 +21,9 @@ Settings_Vtiger_Index_Js(
 				url: 'index.php',
 				type: 'POST',
 				data: {
-					module: 'LogOverview',
+					module: 'Log',
 					parent: 'Settings',
-					action: 'Data',
+					action: 'LogsOwasp',
 					type: this.container.find('.nav .active').data('type'),
 					range: this.container.find('.js-date-range-filter').val()
 				}
@@ -31,7 +31,7 @@ Settings_Vtiger_Index_Js(
 				const columns = [],
 					data = [];
 				for (let key in response.columns) {
-					const render = $.fn.dataTable.render;
+					const render = key === 'url' || key === 'request' ? (data) => data : $.fn.dataTable.render.text();
 					columns.push({
 						title: response.columns[key],
 						name: key,
@@ -67,7 +67,6 @@ Settings_Vtiger_Index_Js(
 		 * @returns {jQuery}
 		 */
 		initDataTable(data, columns) {
-
 			return this.container.find('.js-data-table').dataTable({
 				searching: false,
 				processing: false,
@@ -105,9 +104,7 @@ Settings_Vtiger_Index_Js(
 		registerDataTable() {
 			App.Fields.Date.registerRange(this.container.find('.js-log-range'));
 			let table, tableApi;
-
 			this.getData((data, columns) => {
-
 				table = this.initDataTable(data, columns);
 				tableApi = table.api();
 			});
