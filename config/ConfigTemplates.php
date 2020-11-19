@@ -1024,12 +1024,6 @@ return [
 			'default' => [],
 			'description' => "HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.\nhttps://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/.",
 		],
-		'cspHeaderActive' => [
-			'default' => true,
-			'description' => 'HTTP Content Security Policy response header allows website administrators to control resources the user agent is allowed to load for a given page',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
-		],
 		'csrfActive' => [
 			'default' => true,
 			'description' => 'Enable CSRF protection',
@@ -1046,6 +1040,17 @@ return [
 			'default' => 'top',
 			'description' => 'Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF.',
 			'validationValues' => ['top', 'parent']
+		],
+		'cspHeaderActive' => [
+			'default' => true,
+			'description' => 'HTTP Content Security Policy response header allows website administrators to control resources the user agent is allowed to load for a given page',
+			'validation' => '\App\Validator::alnumSpace'
+		],
+		'cspHeaderTokenTime' => [
+			'default' => '5 minutes',
+			'description' => 'HTTP Content Security Policy time interval for generating a new nonce token',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'allowedImageDomains' => [
 			'default' => [],

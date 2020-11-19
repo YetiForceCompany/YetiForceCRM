@@ -137,9 +137,6 @@ class Security
 	 */
 	public static $hpkpKeysHeader = [];
 
-	/** HTTP Content Security Policy response header allows website administrators to control resources the user agent is allowed to load for a given page */
-	public static $cspHeaderActive = true;
-
 	/** Enable CSRF protection */
 	public static $csrfActive = true;
 
@@ -148,6 +145,12 @@ class Security
 
 	/** Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF. */
 	public static $csrfFrameBreakerWindow = 'top';
+
+	/** HTTP Content Security Policy response header allows website administrators to control resources the user agent is allowed to load for a given page */
+	public static $cspHeaderActive = true;
+
+	/** HTTP Content Security Policy time interval for generating a new nonce token */
+	public static $cspHeaderTokenTime = '5 minutes';
 
 	/** Allowed domains for loading images, used in CSP. */
 	public static $allowedImageDomains = [];

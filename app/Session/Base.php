@@ -38,10 +38,14 @@ class Base extends \SessionHandler
 		if (isset(\Config\Security::$cookieForceHttpOnly)) {
 			$cookie['httponly'] = \Config\Security::$cookieForceHttpOnly;
 		}
-		$cookie['samesite'] = \Config\Security::$cookieSameSite;
+		if ($cookie['secure']) {
+			$cookie['samesite'] = \Config\Security::$cookieSameSite;
+		}
 		session_name($name);
 		if (\PHP_VERSION_ID < 70300) {
-			$cookie['path'] .= '; samesite=' . $cookie['samesite'];
+			if ($cookie['secure']) {
+				$cookie['path'] .= '; samesite=' . $cookie['samesite'];
+			}
 			session_set_cookie_params(
 				$cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']
 			);
