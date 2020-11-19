@@ -33,32 +33,28 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 		if ('DateTimeRange' === $filterType) {
 			$query->where(['between', 'time', $range[0] . ' 00:00:00', $range[1] . ' 23:59:59']);
 		}
-		$data = [];
+		$columns = \App\Log::$logsViewerColumnMapping[$type]['columns'];
+		$rows = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			foreach (\App\Log::$logsViewerColumnMapping[$type]['columns'] as $key => $value) {
+			$r = [];
+			foreach ($columns as $key => $value) {
 				if ('date' === $value['type']) {
-					$row[$key] = \DateTimeField::convertToUserFormat($row[$key]);
+					$r[] = \DateTimeField::convertToUserFormat($row[$key]);
 				} elseif ('text' === $value['type']) {
-					$row[$key] = \App\Layout::truncateHtml($row[$key], 'mini', 300);
+					$r[] = \App\Layout::truncateText($row[$key], 50, true);
 				}
 			}
-			$data[] = $row;
+			$rows[] = $r;
 		}
 		$dataReader->close();
-		$columns = [];
-		foreach (\App\Log::$logsViewerColumnMapping[$type]['columns'] as $key => $value) {
-			$columns[$key] = \App\Language::translate($value['fieldLabel'], $request->getModule(false));
-		}
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSONTEXT);
-		$response->setResult(\App\Json::encode([
-			'data' => $data,
-			'draw' => $request->getInteger('draw', 1),
-			'recordsFiltered' => \count($data),
-			'recordsTotal' => $logsCountAll,
-			'columns' => $columns
-		]));
-		$response->emit();
+		$result = [
+			'draw' => $request->getInteger('draw'),
+			'iTotalRecords' => $logsCountAll,
+			'iTotalDisplayRecords' => \count($rows),
+			'aaData' => $rows
+		];
+		header('content-type: text/json; charset=UTF-8');
+		echo \App\Json::encode($result);
 	}
 }

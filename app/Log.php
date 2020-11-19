@@ -37,11 +37,11 @@ class Log extends Logger
 	public static $logsViewerColumnMapping = [
 		'magento' => [
 			'columns' => [
-				'time' => ['type' => 'date', 'fieldLabel' => 'LBL_TIME', 'format' => 'userFormat'],
-				'category' => ['type' => 'text', 'fieldLabel' => 'LBL_CATEGORY', 'format' => ''],
-				'message' => ['type' => 'text', 'fieldLabel' => 'LBL_MESSAGE', 'format' => ''],
-				'code' => ['type' => 'text', 'fieldLabel' => 'LBL_CODE', 'format' => ''],
-				'trace' => ['type' => 'text', 'fieldLabel' => 'LBL_TRACE', 'format' => ''],
+				'time' => ['type' => 'date', 'label' => 'LBL_TIME', 'format' => 'userFormat'],
+				'category' => ['type' => 'text', 'label' => 'LBL_CATEGORY', 'format' => ''],
+				'message' => ['type' => 'text', 'label' => 'LBL_MESSAGE', 'format' => ''],
+				'code' => ['type' => 'text', 'label' => 'LBL_CODE', 'format' => ''],
+				'trace' => ['type' => 'text', 'label' => 'LBL_TRACE', 'format' => ''],
 			],
 			'filter' => [
 				'time' => 'DateTimeRange'

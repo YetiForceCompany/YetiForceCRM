@@ -20,7 +20,6 @@ class Settings_Log_LogsViewer_View extends Settings_Vtiger_Index_View
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_NAME', 'Settings:' . $request->getModule());
 		$viewer->assign('TYPE', $request->has('type') ? $request->getByType('type', 'Text') : 'magento');
 		$viewer->view('LogsViewer.tpl', $request->getModule(false));
 	}
