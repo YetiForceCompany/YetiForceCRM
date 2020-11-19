@@ -7,7 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Michał Lorencik <m.lorencik@yetiforce.com>
  */
-class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
+class Settings_Log_LogsOwasp_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
 	 * Process.
@@ -18,7 +18,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 	{
 		$type = $request->getByType('type', 1);
 		$range = $request->getByType('range', 'DateRangeUserFormat');
-		if (!isset(App\Log::$tableColumnMapping[$type])) {
+		if (!isset(App\Log::$owaspColumnMapping[$type])) {
 			throw new \App\Exceptions\NoPermittedForAdmin('ERR_ILLEGAL_VALUE');
 		}
 		$query = (new \App\Db\Query())->from('o_#__' . $type);
@@ -33,7 +33,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 			]
 		]);
 		if (isset($order['0']['column'])) {
-			$column = \App\Log::$tableColumnMapping[$type][$order['0']['column']];
+			$column = \App\Log::$owaspColumnMapping[$type][$order['0']['column']];
 			$dir = ('asc' === $order['0']['dir']) ? \SORT_ASC : \SORT_DESC;
 			$query->orderBy([$column => $dir]);
 		} else {
@@ -41,7 +41,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 		}
 		$data = [];
 		foreach ($query->all() as $log) {
-			foreach (\App\Log::$tableColumnMapping[$type] as $column) {
+			foreach (\App\Log::$owaspColumnMapping[$type] as $column) {
 				if (\in_array($column, ['url', 'agent', 'referer'])) {
 					$log[$column] = \App\Purifier::encodeHtml($log[$column]);
 				}
@@ -60,7 +60,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 		}
 
 		$columns = [];
-		foreach (\App\Log::$tableColumnMapping[$type] as $column) {
+		foreach (\App\Log::$owaspColumnMapping[$type] as $column) {
 			$columns[$column] = \App\Language::translate('LBL_' . strtoupper($column), $request->getModule(false));
 		}
 		$response = new Vtiger_Response();

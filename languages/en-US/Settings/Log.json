@@ -15,6 +15,11 @@
     "LBL_URL": "URL",
     "LBL_AGENT": "Agent",
     "LBL_REQUEST": "Request",
-    "LBL_REFERER": "Referer"
+    "LBL_TIME": "Time",
+    "LBL_CATEGORY": "Category",
+    "LBL_CODE": "Code",
+    "LBL_TRACE": "Trace",
+    "LBL_LOGS_VIEWER": "Logs viewer",
+    "LBL_LOGS_VIEWER_DESCRIPTION": ""
   }
 }

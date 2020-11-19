@@ -2,7 +2,7 @@
 'use strict';
 
 Settings_Vtiger_Index_Js(
-	'Settings_Log_Index_Js',
+	'Settings_Log_LogsOwasp_Js',
 	{},
 	{
 		/**
@@ -23,7 +23,7 @@ Settings_Vtiger_Index_Js(
 				data: {
 					module: 'Log',
 					parent: 'Settings',
-					action: 'Data',
+					action: 'LogsOwasp',
 					type: this.container.find('.nav .active').data('type'),
 					range: this.container.find('.js-date-range-filter').val()
 				}
