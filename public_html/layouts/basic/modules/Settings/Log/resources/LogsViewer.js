@@ -30,7 +30,7 @@ Settings_Vtiger_Index_Js(
 					}
 				}
 			});
-			table.find('.js-filter-form input,js-filter-form select').on('change', function () {
+			this.container.find('.js-date-btn').on('click', function () {
 				dataTable.ajax.reload();
 			});
 		},
