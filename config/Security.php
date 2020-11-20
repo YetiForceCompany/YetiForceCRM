@@ -24,7 +24,7 @@ class Security
 	public static $USER_ENCRYPT_PASSWORD_COST = 10;
 
 	/** Possible to reset the password while logging in (true/false) */
-	public static $RESET_LOGIN_PASSWORD = false;
+	public static $RESET_LOGIN_PASSWORD = true;
 
 	/** Show my preferences */
 	public static $SHOW_MY_PREFERENCES = true;
@@ -48,7 +48,7 @@ class Security
 	public static $PERMITTED_BY_ADVANCED_PERMISSION = true;
 
 	/** Permitted by private field. */
-	public static $PERMITTED_BY_PRIVATE_FIELD = true;
+	public static $PERMITTED_BY_PRIVATE_FIELD = false;
 
 	/** List of modules to which access is based on the record creation. */
 	public static $permittedModulesByCreatorField = [];
@@ -72,7 +72,7 @@ class Security
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ACTIVE = false;
 
 	/** Restricted domains */
-	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES = [];
+	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES = ['yetiforce.com'];
 
 	/** List of modules where restricted domains are enabled, if empty it will be enabled everywhere. */
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED = [];
@@ -87,20 +87,20 @@ class Security
 	public static $fieldsReferencesDependent = false;
 
 	/** Lifetime session (in seconds) */
-	public static $maxLifetimeSession = 900;
+	public static $maxLifetimeSession = 86400;
 
 	/** Update the current session id with a newly generated one after login and logout */
 	public static $loginSessionRegenerate = true;
 
 	/**
 	 * Same-site cookie attribute allows a web application to advise the browser that cookies should only be sent if the request originates from the website the cookie came from.
-	 * Values: None, Lax, Strict
+	 * Values: None, Lax, Strict.
 	 */
 	public static $cookieSameSite = 'Strict';
 
 	/**
 	 * Force the use of https only for cookie.
-	 * Values: true, false, null
+	 * Values: true, false, null.
 	 */
 	public static $cookieForceHttpOnly = true;
 
@@ -112,6 +112,7 @@ class Security
 
 	/**
 	 * User authentication mode.
+	 *
 	 * @see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.
 	 */
 	public static $USER_AUTHY_MODE = 'TOTP_OPTIONAL';
@@ -144,7 +145,7 @@ class Security
 	public static $csrfFrameBreaker = true;
 
 	/** Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF. */
-	public static $csrfFrameBreakerWindow = 'top';
+	public static $csrfFrameBreakerWindow = 'parent';
 
 	/** HTTP Content Security Policy response header allows website administrators to control resources the user agent is allowed to load for a given page */
 	public static $cspHeaderActive = true;
@@ -159,7 +160,7 @@ class Security
 	public static $allowedFrameDomains = [];
 
 	/** Allowed domains for loading script, used in CSP. */
-	public static $allowedScriptDomains = [];
+	public static $allowedScriptDomains = ['https://appsforoffice.microsoft.com', 'https://ajax.aspnetcdn.com'];
 
 	/** Allowed domains which can be used as the target of a form submissions from a given context, used in CSP. */
 	public static $allowedFormDomains = ['https://www.paypal.com'];
@@ -168,7 +169,7 @@ class Security
 	public static $generallyAllowedDomains = [];
 
 	/** List of allowed domains for fields with HTML support */
-	public static $purifierAllowedDomains = [];
+	public static $purifierAllowedDomains = ['yetiforce.com', 'github.com'];
 
 	/** Do you want all connections to be made using a proxy? */
 	public static $proxyConnection = false;
@@ -189,5 +190,5 @@ class Security
 	public static $proxyPassword = '';
 
 	/** @var bool Ask admin about visit purpose */
-	public static $askAdminAboutVisitPurpose = true;
+	public static $askAdminAboutVisitPurpose = false;
 }
