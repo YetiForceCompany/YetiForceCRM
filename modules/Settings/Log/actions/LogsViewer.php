@@ -35,7 +35,7 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 			foreach ($logsViewerColumnMapping['columns'] as $key => $value) {
 				switch ($value['type']) {
 					case 'date':
-						$r[] = \DateTimeField::convertToUserFormat($row[$key]);
+						$r[] = \App\Fields\DateTime::formatToDisplay($row[$key]);
 						break;
 					case 'text':
 						$r[] = \App\Layout::truncateText($row[$key], 50, true);
