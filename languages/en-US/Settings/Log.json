@@ -19,6 +19,14 @@
     "LBL_CATEGORY": "Category",
     "LBL_CODE": "Code",
     "LBL_TRACE": "Trace",
+    "LBL_SWITCH_USERS": "Switch users",
+    "LBL_USERS_LOGIN_PURPOSE": "Users login purpose",
+    "LBL_MAGENTO": "Magento",
+    "LBL_PURPOSE": "Purpose",
+    "LBL_BASE": "Base",
+    "LBL_BASE_USER": "Base user",
+    "LBL_DEST_USER": "Dest user",
+    "LBL_USER_AGENT": "User agent",
     "LBL_LOGS_VIEWER": "Logs viewer",
     "LBL_LOGS_VIEWER_DESCRIPTION": ""
   }
