@@ -19,18 +19,15 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 	public function process(App\Request $request)
 	{
 		$type = $request->getByType('type');
-		$filterType = $request->getByType('typefilter');
-		if ('DateTimeRange' === $filterType) {
-			$range = $request->getByType('valuefilter', 'DateRangeUserFormat');
-		}
 		if (!isset(\App\Log::$logsViewerColumnMapping[$type])) {
 			throw new \App\Exceptions\NoPermittedForAdmin('ERR_ILLEGAL_VALUE');
 		}
-		$query = (new \App\Db\Query())->from('l_#__' . $type);
+		$query = (new \App\Db\Query())->from(\App\Log::$logsViewerColumnMapping[$type]['table']);
 		$logsCountAll = (int) $query->count('*');
 		$query->offset($request->getInteger('start', 0));
 		$query->limit($request->getInteger('limit', 10));
-		if ('DateTimeRange' === $filterType) {
+		if ($request->has('time')) {
+			$range = $request->getByType('time', 'DateRangeUserFormat');
 			$query->where(['between', 'time', $range[0] . ' 00:00:00', $range[1] . ' 23:59:59']);
 		}
 		$columns = \App\Log::$logsViewerColumnMapping[$type]['columns'];

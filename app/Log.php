@@ -75,8 +75,8 @@ class Log extends Logger
 			'filter' => [
 				'time' => 'DateTimeRange'
 			],
-			'label' => 'LBL_USERS_LOGIN_PURPOSE'
-		],
+			'label' => 'LBL_SWITCH_USERS'
+		]
 	];
 	public static $levelMap = [
 		'error' => Logger::LEVEL_ERROR,
