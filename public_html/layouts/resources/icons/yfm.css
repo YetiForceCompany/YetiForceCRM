@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'yfm';
-	src: url('fonts/yfm.eot?2bykyj');
-	src: url('fonts/yfm.eot?2bykyj#iefix') format('embedded-opentype'), url('fonts/yfm.ttf?2bykyj') format('truetype'),
-		url('fonts/yfm.woff?2bykyj') format('woff'), url('fonts/yfm.svg?2bykyj#yfm') format('svg');
+	src: url('fonts/yfm.eot?my5wef');
+	src: url('fonts/yfm.eot?my5wef#iefix') format('embedded-opentype'), url('fonts/yfm.ttf?my5wef') format('truetype'),
+		url('fonts/yfm.woff?my5wef') format('woff'), url('fonts/yfm.svg?my5wef#yfm') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -27,6 +27,15 @@
 [class^='yfm-']:before,
 [class*=' yfm-']:before {
 	content: '\e972';
+}
+.yfm-Approvals:before {
+	content: '\e90e';
+}
+.yfm-BankAccounts:before {
+	content: '\e979';
+}
+.yfm-ProductCategory:before {
+	content: '\e981';
 }
 .yfm-PermissionInspector:before {
 	content: '\e974';
