@@ -3,8 +3,13 @@
 <!-- tpl-Settings-Magento-ListViewHeader -->
 <div>
 	<div class="o-breadcrumb widget_header row">
-		<div class="col-12 d-flex">
+		<div class="col-md-9">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
+		</div>
+		<div class="col-md-3 mt-1">
+			<a href="index.php?parent=Settings&module=Log&view=LogsViewer&type=magento"  class="btn btn-info float-right" >
+				<span class="yfi yfi-system-monitoring mr-2"></span>{\App\Language::translate('LBL_LOGS_VIEWER', 'Settings:Log')}
+			</a>
 		</div>
 	</div>
 	{if !\App\YetiForce\Shop::check('YetiForceMagento')}
