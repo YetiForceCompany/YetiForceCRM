@@ -9,31 +9,34 @@
 	</div>
 	{assign var=TABLE_MAPPING value=\App\Log::$logsViewerColumnMapping}
 	<div class="contents" id="listViewContainer">
-		<ul class="nav nav-tabs mr-0">
+		<ul class="nav nav-tabs mr-0 mb-2">
 			{foreach key=INDEX item=ITEM from=$TABLE_MAPPING}
 				<li class="nav-item">
-					<a class="nav-link {if $TYPE === $INDEX} active {/if}" href="index.php?parent=Settings&module=Log&view=LogsViewer&type={$INDEX}"
-						data-type="{$INDEX}">{\App\Language::translate($ITEM['label'], $QUALIFIED_MODULE)}</a>
+					<a class="nav-link {if $TYPE === $INDEX} active {/if}" href="index.php?parent=Settings&module=Log&view=LogsViewer&type={$INDEX}" data-type="{$INDEX}">{\App\Language::translate($ITEM['label'], $QUALIFIED_MODULE)}</a>
 				</li>
 			{/foreach}
 		</ul>
-		<div class="d-flex my-2">
-			<form class="js-filter-form form-inline mr-2" data-js="container">
-				{foreach key=NAME_FIELD item=TYPE_FIELD from=$TABLE_MAPPING[$TYPE]['filter']}
-					{include file=\App\Layout::getTemplatePath('Filter/'|cat:$TYPE_FIELD|cat:'.tpl', $QUALIFIED_MODULE) NAME_FIELD=$NAME_FIELD TYPE_FIELD=$TYPE_FIELD QUALIFIED_MODULE=$QUALIFIED_MODULE}
-				{/foreach}
-			</form>
-			<button type="button" class="btn btn-primary btn-sm js-date-btn" data-js="click"> <span class="fas fa-filter mr-2"></span> {\App\Language::translate('LBL_FILTER')}</button>
-		</div>
-		<table class="table table-sm table-striped display text-center mt-2 js-data-table" data-js="dataTable">
-			<thead>
-				<tr>
-					{foreach key=NAME item=ITEM from=$TABLE_MAPPING[$TYPE]['columns']}
-						<th data-name="{$NAME}" data-orderable="1">{\App\Language::translate($ITEM['label'], $QUALIFIED_MODULE)}</th>
-					{/foreach}
-				</tr>
-			</thead>
-		</table>
+		<form class="js-filter-form" data-js="container">
+			<table class="table table-sm table-striped display text-center mt-2 js-data-table w-100" data-js="dataTable">
+				<thead>
+					<tr>
+						{foreach key=NAME item=ITEM from=$TABLE_MAPPING[$TYPE]['columns']}
+							<th data-name="{$NAME}" data-orderable="1">{\App\Language::translate($ITEM['label'], $QUALIFIED_MODULE)}</th>
+						{/foreach}
+					</tr>
+					<tr>
+						{foreach item=NAME_COLUMN from=array_keys($TABLE_MAPPING[$TYPE]['columns'])}
+							<td>
+								{assign var=FILTER value=$TABLE_MAPPING[$TYPE]['filter']}
+								{if in_array($NAME_COLUMN, array_keys($FILTER))}
+									{include file=\App\Layout::getTemplatePath('Filter/'|cat:$FILTER[$NAME_COLUMN]|cat:'.tpl', $QUALIFIED_MODULE) NAME_FIELD=$NAME_COLUMN TYPE_FIELD=$FILTER[$NAME_COLUMN] QUALIFIED_MODULE=$QUALIFIED_MODULE}
+								{/if}
+							</td>
+						{/foreach}
+					</tr>
+				</thead>
+			</table>
+		</form>
 	</div>
 </div>
 <!-- /tpl-Settings-Log-LogsViewer -->

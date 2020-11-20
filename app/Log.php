@@ -54,11 +54,11 @@ class Log extends Logger
 			'columns' => [
 				'datetime' => ['type' => 'date', 'label' => 'LBL_TIME'],
 				'userid' => ['type' => 'userId', 'label' => 'LBL_USER'],
-				'purpose' => ['type' => 'text', 'label' => 'LBL_MESSAGE'],
-				'baseid' => ['type' => 'reference', 'label' => 'LBL_MESSAGE'],
+				'purpose' => ['type' => 'text', 'label' => 'LBL_PURPOSE'],
+				'baseid' => ['type' => 'reference', 'label' => 'LBL_BASE'],
 			],
 			'filter' => [
-				'time' => 'DateTimeRange'
+				'datetime' => 'DateTimeRange'
 			],
 			'label' => 'LBL_USERS_LOGIN_PURPOSE'
 		],
@@ -73,7 +73,7 @@ class Log extends Logger
 				'agent' => ['type' => 'text', 'label' => 'LBL_USER_AGENT'],
 			],
 			'filter' => [
-				'time' => 'DateTimeRange'
+				'date' => 'DateTimeRange'
 			],
 			'label' => 'LBL_SWITCH_USERS'
 		]
