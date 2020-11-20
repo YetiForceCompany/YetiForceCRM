@@ -19994,9 +19994,9 @@ ul.c-process-line {
           margin: 0 auto;
           width: 1.875rem;
           height: 1.875rem;
-          padding: 0.125rem;
+          padding: 0.25rem;
           border: 2px solid #d2d6de;
-          font-size: 2rem;
+          font-size: 1.8125rem;
           border-radius: 50%; }
         @media (min-width: 576px) {
           .timeline > li .timeline-item > .imageContainer > .userImage {
