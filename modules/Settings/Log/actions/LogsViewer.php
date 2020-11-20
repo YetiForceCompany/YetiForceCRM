@@ -71,7 +71,7 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 						$return = $query->where(['between', $key, $range[0] . ' 00:00:00', $range[1] . ' 23:59:59']);
 						break;
 					case 'Text':
-						$return = $query->andWhere([$key => $request->getByType($key)]);
+						$return = $query->andWhere(['like', $key, $request->getByType($key)]);
 						break;
 				}
 			}
