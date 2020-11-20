@@ -114,6 +114,18 @@ class Base extends \SessionHandler
 	}
 
 	/**
+	 * Function to get session data by id.
+	 *
+	 * @param string $sessionId
+	 *
+	 * @return array
+	 */
+	public function getById(string $sessionId): array
+	{
+		return [];
+	}
+
+	/**
 	 * Function to clean session. Removed old session.
 	 *
 	 * @return string[]
