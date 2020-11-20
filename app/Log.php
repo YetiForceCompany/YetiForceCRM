@@ -45,22 +45,9 @@ class Log extends Logger
 				'trace' => ['type' => 'text', 'label' => 'LBL_TRACE'],
 			],
 			'filter' => [
-				'time' => 'DateTimeRange'
+				'time' => 'DateTimeRange',
 			],
 			'label' => 'LBL_MAGENTO'
-		],
-		'usersLoginPurpose' => [
-			'table' => 'l_#__users_login_purpose',
-			'columns' => [
-				'datetime' => ['type' => 'date', 'label' => 'LBL_TIME'],
-				'userid' => ['type' => 'userId', 'label' => 'LBL_USER'],
-				'purpose' => ['type' => 'text', 'label' => 'LBL_PURPOSE'],
-				'baseid' => ['type' => 'reference', 'label' => 'LBL_BASE'],
-			],
-			'filter' => [
-				'datetime' => 'DateTimeRange'
-			],
-			'label' => 'LBL_USERS_LOGIN_PURPOSE'
 		],
 		'switch_users' => [
 			'table' => 'l_#__switch_users',
