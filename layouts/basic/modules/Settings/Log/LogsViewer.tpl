@@ -11,7 +11,12 @@
 		<ul class="nav nav-tabs mr-0 mb-2">
 			{foreach key=INDEX item=ITEM from=\App\Log::$logsViewerColumnMapping}
 				<li class="nav-item">
-					<a class="nav-link {if $TYPE === $INDEX} active {/if}" href="index.php?parent=Settings&module=Log&view=LogsViewer&type={$INDEX}" data-type="{$INDEX}">{\App\Language::translate($ITEM['label'], $QUALIFIED_MODULE)}</a>
+					<a class="nav-link {if $TYPE === $INDEX} active {/if}" href="index.php?parent=Settings&module=Log&view=LogsViewer&type={$INDEX}" data-type="{$INDEX}">
+						{if isset($ITEM['icon'])}
+							<span class="{$ITEM['icon']} mr-2"></span>
+						{/if}
+						{\App\Language::translate($ITEM['label'], $ITEM['labelModule'])}
+					</a>
 				</li>
 			{/foreach}
 		</ul>

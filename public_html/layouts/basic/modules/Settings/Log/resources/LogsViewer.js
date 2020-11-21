@@ -13,13 +13,10 @@ Settings_Vtiger_Index_Js(
 			let form = this.container.find('.js-filter-form');
 			let dataTable = app.registerDataTables(table, {
 				order: [],
-				columnDefs: [{ targets: -1, orderable: false }],
 				processing: true,
 				serverSide: true,
 				searching: false,
 				orderCellsTop: true,
-				fixedHeader: true,
-				dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'p>>" + "<'row'<'col-sm-12'tr>>",
 				ajax: {
 					url:
 						'index.php?parent=Settings&module=Log&action=LogsViewer&type=' +

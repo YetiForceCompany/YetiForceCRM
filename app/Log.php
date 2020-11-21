@@ -36,7 +36,10 @@ class Log extends Logger
 	 */
 	public static $logsViewerColumnMapping = [
 		'magento' => [
+			'label' => 'LBL_MAGENTO',
+			'labelModule' => 'Settings:Magento',
 			'table' => 'l_#__magento',
+			'icon' => 'yfi-magento',
 			'columns' => [
 				'time' => ['type' => 'date', 'label' => 'LBL_TIME'],
 				'category' => ['type' => 'text', 'label' => 'LBL_CATEGORY'],
@@ -46,11 +49,17 @@ class Log extends Logger
 			],
 			'filter' => [
 				'time' => 'DateTimeRange',
+				'category' => 'Text',
+				'message' => 'Text',
+				'code' => 'Text',
+				'trace' => 'Text',
 			],
-			'label' => 'LBL_MAGENTO'
 		],
-		'switch_users' => [
+		'switchUsers' => [
+			'label' => 'LBL_SWITCH_USERS',
+			'labelModule' => 'Settings:Users',
 			'table' => 'l_#__switch_users',
+			'icon' => 'yfi-users',
 			'columns' => [
 				'date' => ['type' => 'date', 'label' => 'LBL_TIME'],
 				'status' => ['type' => 'text', 'label' => 'LBL_STATUS'],
@@ -60,10 +69,32 @@ class Log extends Logger
 				'agent' => ['type' => 'text', 'label' => 'LBL_USER_AGENT'],
 			],
 			'filter' => [
-				'date' => 'DateTimeRange'
+				'date' => 'DateTimeRange',
+				'busername' => 'Text',
+				'dusername' => 'Text',
+				'ip' => 'Text',
+				'agent' => 'Text',
 			],
-			'label' => 'LBL_SWITCH_USERS'
-		]
+		],
+		'mail' => [
+			'label' => 'LBL_MAILS_NOT_SENT',
+			'labelModule' => 'Settings:Log',
+			'table' => 'l_#__mail',
+			'icon' => 'adminIcon-mail-queue',
+			'columns' => [
+				'date' => ['type' => 'date', 'label' => 'LBL_TIME'],
+				'subject' => ['type' => 'text', 'label' => 'LBL_SUBJECT'],
+				'from' => ['type' => 'text', 'label' => 'LBL_FROM'],
+				'to' => ['type' => 'text', 'label' => 'LBL_TO'],
+				'owner' => ['type' => 'userId', 'label' => 'LBL_OWNER'],
+			],
+			'filter' => [
+				'date' => 'DateTimeRange',
+				'subject' => 'Text',
+				'from' => 'Text',
+				'to' => 'Text',
+			],
+		],
 	];
 	public static $levelMap = [
 		'error' => Logger::LEVEL_ERROR,

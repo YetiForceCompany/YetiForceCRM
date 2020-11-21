@@ -22,13 +22,20 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 		if (!isset(\App\Log::$logsViewerColumnMapping[$type])) {
 			throw new \App\Exceptions\NoPermittedForAdmin('ERR_ILLEGAL_VALUE');
 		}
+		$rows = $columns = [];
+		foreach ($request->getArray('columns') as $key => $value) {
+			$columns[$key] = $value['name'];
+		}
 		$mapping = \App\Log::$logsViewerColumnMapping[$type];
 		$query = (new \App\Db\Query())->from($mapping['table']);
 		$logsCountAll = (int) $query->count('*');
-		$query->offset($request->getInteger('start', 0));
-		$query->limit($request->getInteger('limit', 10));
 		$this->loadFilter($request, $mapping['filter'], $query);
-		$rows = [];
+		$count = (int) $query->count('*');
+		$query->limit($request->getInteger('length'))->offset($request->getInteger('start'));
+		$order = current($request->getArray('order', App\Purifier::ALNUM));
+		if ($order && isset($columns[$order['column']], $mapping['columns'][$columns[$order['column']]])) {
+			$query->orderBy([$columns[$order['column']] => \App\Db::ASC === strtoupper($order['dir']) ? \SORT_ASC : \SORT_DESC]);
+		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$r = [];
@@ -55,7 +62,7 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 		echo \App\Json::encode([
 			'draw' => $request->getInteger('draw'),
 			'iTotalRecords' => $logsCountAll,
-			'iTotalDisplayRecords' => \count($rows),
+			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		]);
 	}
@@ -70,11 +77,11 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 	public function loadFilter(App\Request $request, array $filter, App\Db\Query &$query)
 	{
 		foreach ($filter as $key => $value) {
-			if ($request->has($key)) {
+			if ($request->has($key) && '' !== $request->getRaw($key)) {
 				switch ($value) {
 					case 'DateTimeRange':
 						$range = $request->getByType($key, 'DateRangeUserFormat');
-						$query->where(['between', $key, $range[0] . ' 00:00:00', $range[1] . ' 23:59:59']);
+						$query->andWhere(['between', $key, $range[0] . ' 00:00:00', $range[1] . ' 23:59:59']);
 						break;
 					case 'Text':
 						$query->andWhere(['like', $key, $request->getByType($key, 'Text')]);
