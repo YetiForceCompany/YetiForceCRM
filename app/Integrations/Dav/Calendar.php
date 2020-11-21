@@ -734,7 +734,7 @@ class Calendar
 			foreach ($attendees as &$attendee) {
 				$nameAttendee = isset($attendee->parameters['CN']) ? $attendee->parameters['CN']->getValue() : null;
 				$value = $attendee->getValue();
-				if (0 === strpos($value, 'mailto:')) {
+				if (0 === stripos($value, 'mailto:')) {
 					$value = substr($value, 7, \strlen($value) - 7);
 				}
 				if ($value && \App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
