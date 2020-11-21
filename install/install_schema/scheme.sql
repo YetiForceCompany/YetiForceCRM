@@ -624,7 +624,7 @@ CREATE TABLE `l_yf_batchmethod` (
   `params` text DEFAULT NULL,
   `status` tinyint(1) unsigned NOT NULL,
   `userid` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
   `message` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
