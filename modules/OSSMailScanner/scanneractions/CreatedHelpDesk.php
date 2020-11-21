@@ -24,7 +24,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 		$this->mail = $mail;
 		$id = $recordId = 0;
 		$this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($mail->get('subject'), 'HelpDesk');
-		if (empty($this->prefix) && \Config\Modules\OSSMailScanner::$SEARCH_PREFIX_IN_BODY) {
+		if (empty($this->prefix) && \Config\Modules\OSSMailScanner::$searchPrefixInBody) {
 			$this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($mail->get('body'), 'HelpDesk', true);
 		}
 		$recordId = $this->getNewestRecord();
@@ -48,7 +48,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 	}
 
 	/**
-	 * Tworzenie zgłoszenia z maila.
+	 * Creating a HelpDesk from an email.
 	 *
 	 * @return int
 	 */
@@ -57,12 +57,12 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 		$contactId = (int) $this->mail->findEmailAdress('from_email', 'Contacts', false);
 		$parentId = (int) $this->mail->findEmailAdress('from_email', 'Accounts', false);
 		$record = Vtiger_Record_Model::getCleanInstance('HelpDesk');
-		if(!$contactId && !$parentId && !\App\Config::module('OSSMailScanner', 'CREATE_TICKET_WITHOUT_CONTACT')){
+		if (!$contactId && !$parentId && !\Config\Modules\OSSMailScanner::$createTicketWithoutNoRelation) {
 			return 0;
 		}
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		if (empty($parentId) && !empty($contactId)) {
-			$parentId = (new App\Db\Query())->select(['parentid'])->from('vtiger_contactdetails')->where(['contactid' => $contactId])->limit(1)->scalar();
+			$parentId = (new App\Db\Query())->select(['parentid'])->from('vtiger_contactdetails')->where(['contactid' => $contactId])->scalar();
 		}
 		if ($parentId) {
 			$record->set('parent_id', $parentId);
@@ -123,10 +123,9 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 	{
 		$queryGenerator = new App\QueryGenerator($this->moduleName);
 		$statusFieldName = \App\RecordStatus::getFieldName($this->moduleName);
-		$queryGenerator->addCondition($statusFieldName,\App\RecordStatus::getStates($this->moduleName, \App\RecordStatus::RECORD_STATE_OPEN), 'e', false);
+		$queryGenerator->addCondition($statusFieldName, \App\RecordStatus::getStates($this->moduleName, \App\RecordStatus::RECORD_STATE_OPEN), 'e', false);
 		$queryGenerator->addNativeCondition([$this->tableName . '.' . $this->tableColumn => $this->prefix]);
 		$queryGenerator->setOrder('modifiedtime', 'DESC');
-		$queryGenerator->setLimit(1);
-		return $queryGenerator->createQuery()->createCommand()->queryScalar() ?? false;
+		return $queryGenerator->createQuery()->scalar() ?? false;
 	}
 }

@@ -18,13 +18,13 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
-	'SEARCH_PREFIX_IN_BODY' => [
+	'searchPrefixInBody' => [
 		'default' => false,
 		'description' => 'Search prefix in body, type: boolean',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
-	'CREATE_TICKET_WITHOUT_CONTACT' => [
+	'createTicketWithoutNoRelation' => [
 		'default' => true,
 		'description' => 'Create ticket when contact and account does not exist, type: boolean',
 		'validation' => '\App\Validator::bool',

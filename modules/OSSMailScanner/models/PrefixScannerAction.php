@@ -36,10 +36,10 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		$recordId = 0;
 		if ($mailId) {
 			$query = (new \App\Db\Query())->select(['vtiger_ossmailview_relation.crmid'])
-			->from('vtiger_ossmailview_relation')
-			->innerJoin('vtiger_crmentity', "vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid")
-			->where(['ossmailviewid' => $mailId, 'setype' => $this->moduleName])
-			->andWhere(['<>', 'vtiger_crmentity.deleted', 1]);
+				->from('vtiger_ossmailview_relation')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid')
+				->where(['ossmailviewid' => $mailId, 'setype' => $this->moduleName])
+				->andWhere(['<>', 'vtiger_crmentity.deleted', 1]);
 			$returnIds = $query->column();
 			if (!empty($returnIds)) {
 				$recordId = $returnIds;
@@ -47,7 +47,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 				$this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($this->mail->get('subject'), $this->moduleName);
 				if ($this->prefix) {
 					$recordId = $this->add();
-				} elseif (\App\Config::module('OSSMailScanner', 'SEARCH_PREFIX_IN_BODY') && $this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($this->mail->get('body'), $this->moduleName, true)) {
+				} elseif (\Config\Modules\OSSMailScanner::$searchPrefixInBody && ($this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($this->mail->get('body'), $this->moduleName, true))) {
 					$recordId = $this->addByBody();
 				}
 			}
@@ -115,7 +115,6 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		$queryGenerator = new App\QueryGenerator($this->moduleName);
 		$queryGenerator->addNativeCondition([$this->tableName . '.' . $this->tableColumn => $this->prefix]);
 		$queryGenerator->setOrder('modifiedtime', 'DESC');
-		$queryGenerator->setLimit(1);
-		return $queryGenerator->createQuery()->createCommand()->queryScalar() ?? false;
+		return $queryGenerator->createQuery()->scalar() ?? false;
 	}
 }
