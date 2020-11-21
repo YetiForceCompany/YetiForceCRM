@@ -389,6 +389,14 @@ class Rbl extends \App\Base
 		$status = true;
 		$info = '';
 		if (($returnPathHeader = $this->mailMimeParser->getHeader('Return-Path')) && ($returnPath = $returnPathHeader->getEmail())) {
+			if (0 === stripos($returnPath, 'SRS')) {
+				$separator = substr($returnPath, 4, 1);
+				$parts = explode($separator, $returnPath);
+				if (isset($parts[4])) {
+					$mail = explode('@', $parts[4]);
+					$returnPath = "{$mail[0]}@{$parts[3]}";
+				}
+			}
 			$status = $from === $returnPath;
 			if (!$status) {
 				$info .= "From: $from <> Return-Path: $returnPath" . PHP_EOL;
