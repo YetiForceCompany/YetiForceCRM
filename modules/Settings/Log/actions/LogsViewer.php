@@ -41,16 +41,19 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 			$r = [];
 			foreach ($mapping['columns'] as $key => $value) {
 				switch ($value['type']) {
-					case 'date':
+					case 'DateTime':
 						$r[] = \App\Fields\DateTime::formatToDisplay($row[$key]);
 						break;
-					case 'text':
+					case 'Date':
+						$r[] = \App\Fields\Date::formatToDisplay($row[$key]);
+						break;
+					case 'Text':
 						$r[] = \App\Layout::truncateText($row[$key], 50, true);
 						break;
-					case 'userId':
+					case 'Owner':
 						$r[] = \App\Fields\Owner::getUserLabel($row[$key]);
 						break;
-					case 'reference':
+					case 'Reference':
 						$r[] = \App\Record::getLabel($row[$key]);
 						break;
 				}
