@@ -22,8 +22,9 @@ class Notification_String_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$value = $recordModel->getParseField($this->get('field')->getName());
-
+		if ($newValue = $recordModel->getParseField($this->get('field')->getName())) {
+			$value = $newValue;
+		}
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 }

@@ -19,6 +19,9 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	public function getParseField($fieldName)
 	{
 		$relatedRecords = $this->getRelatedRecord();
+		if (!$relatedRecords) {
+			return '';
+		}
 		$relatedModule = $relatedRecords['module'];
 		$relatedId = $relatedRecords['id'];
 		$value = $this->get($fieldName);

@@ -394,10 +394,12 @@ class Rbl extends \App\Base
 				$parts = explode($separator, $returnPath);
 				if (isset($parts[4])) {
 					$mail = explode('@', $parts[4]);
-					$returnPath = "{$mail[0]}@{$parts[3]}";
+					$returnPathSrs = "{$mail[0]}@{$parts[3]}";
 				}
+				$status = $from === $returnPathSrs;
+			} else {
+				$status = $from === $returnPath;
 			}
-			$status = $from === $returnPath;
 			if (!$status) {
 				$info .= "From: $from <> Return-Path: $returnPath" . PHP_EOL;
 			}

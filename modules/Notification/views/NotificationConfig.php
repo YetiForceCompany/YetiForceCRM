@@ -40,7 +40,7 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
 		$scheduleData = Vtiger_Watchdog_Model::getWatchingModulesSchedule();
 		$selectedAllModules = \count($moduleList) === \count($watchingModules) ? true : false;
-		$selectedAllSendNotice = \count($moduleList) === \count($scheduleData['modules']) ? true : false;
+		$selectedAllSendNotice = \count($moduleList) === \count($scheduleData['modules'] ?? []) ? true : false;
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_LIST', $moduleList);
 		$viewer->assign('WATCHING_MODEL', Vtiger_Watchdog_Model::getInstance($moduleName));
@@ -49,7 +49,7 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 		$viewer->assign('IS_ALL_EMAIL_NOTICE', $selectedAllSendNotice);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('FREQUENCY', $scheduleData['frequency'] ?? null);
-		$viewer->assign('SCHEDULE_DATA', $scheduleData);
+		$viewer->assign('SCHEDULE_DATA', $scheduleData ?? null);
 		$viewer->assign('CRON_INFO', \vtlib\Cron::getInstance('LBL_SEND_NOTIFICATIONS'));
 		$viewer->view('NotificationConfig.tpl', $moduleName);
 		parent::postProcess($request);

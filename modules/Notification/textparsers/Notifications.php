@@ -24,8 +24,10 @@ class Notification_Notifications_TextParser extends \App\TextParser\Base
 	{
 		$html = '';
 		$scheduleData = \Vtiger_Watchdog_Model::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
+		if (!$scheduleData) {
+			return \App\Language::translate('LBL_NO_NOTIFICATIONS', 'Notification');
+		}
 		$modules = $scheduleData['modules'];
-
 		$notificationInstance = \Notification_Module_Model::getInstance('Notification');
 		$entries = \Notification_Module_Model::getEmailSendEntries($this->textParser->getParam('userId'), $modules, $this->textParser->getParam('startDate'), $this->textParser->getParam('endDate'));
 		$pattern = "/(?<=href=(\"|'))[^\"']+(?=(\"|'))/";
