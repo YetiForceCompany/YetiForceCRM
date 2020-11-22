@@ -868,7 +868,7 @@ class ConfReport
 		unset($name);
 		$tableOpenCache = (self::$db['table_open_cache'] > self::$database['table_open_cache']['recommended']) ? self::$db['table_open_cache'] : self::$database['table_open_cache']['recommended'];
 		$row['recommended'] = $tableOpenCache + 400;
-		if (isset($row[$sapi]) && (int) $row[$sapi] <= $row['recommended']) {
+		if (isset($row[$sapi]) && (int) $row[$sapi] < $row['recommended']) {
 			$row['status'] = false;
 		}
 		return $row;
