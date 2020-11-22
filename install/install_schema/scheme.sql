@@ -5438,7 +5438,7 @@ CREATE TABLE `vtiger_cron_task` (
   `status` tinyint(1) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `handler_class` varchar(100) DEFAULT NULL,
-  `frequency` mediumint(10) DEFAULT NULL,
+  `frequency` int(10) unsigned DEFAULT NULL,
   `max_exe_time` smallint(5) DEFAULT NULL,
   `laststart` int(10) unsigned DEFAULT NULL,
   `lastend` int(10) unsigned DEFAULT NULL,
@@ -8590,7 +8590,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
