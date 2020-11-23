@@ -103,10 +103,10 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Checks if encrypt is active.
 	 *
-	 * @return bool
+	 * @return array
 	 */
 	public static function isRunEncrypt()
 	{
-		return (new \App\Db\Query())->from('s_#__batchmethod')->where(['method' => '\App\Encryption::recalculatePasswords'])->exists();
+		return (new \App\Db\Query())->select(['status'])->from('s_#__batchmethod')->where(['method' => '\App\Encryption::recalculatePasswords'])->scalar();
 	}
 }

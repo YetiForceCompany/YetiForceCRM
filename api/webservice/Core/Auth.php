@@ -16,7 +16,7 @@ class Auth
 	public static function init($self)
 	{
 		$method = \App\Config::api('AUTH_METHOD');
-		$class = "Api\Core\Auth\\$method";
+		$class = "Api\\Core\\Auth\\$method";
 		$intance = new $class();
 		$intance->setApi($self);
 		$intance->authenticate(static::$realm);

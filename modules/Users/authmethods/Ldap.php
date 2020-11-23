@@ -37,8 +37,8 @@ class Users_Ldap_Authmethod
 	public function process($auth, $password)
 	{
 		\App\Log::trace('Start LDAP authentication', 'UserAuthentication');
-		if (!empty($password) && $this->userRecordModel->get('login_method') === 'PLL_LDAP') {
-			$port = $auth['port'] == '' ? 389 : $auth['port'];
+		if (!empty($password) && 'PLL_LDAP' === $this->userRecordModel->get('login_method')) {
+			$port = '' == $auth['port'] ? 389 : $auth['port'];
 			$ds = ldap_connect($auth['server'], $port);
 			if (!$ds) {
 				\App\Log::error('Error LDAP authentication: Could not connect to LDAP server.', 'UserAuthentication');
@@ -48,7 +48,7 @@ class Users_Ldap_Authmethod
 			ldap_set_option($ds, LDAP_OPT_TIMELIMIT, 5);
 			ldap_set_option($ds, LDAP_OPT_TIMEOUT, 5);
 			ldap_set_option($ds, LDAP_OPT_NETWORK_TIMEOUT, 5);
-			if (parse_url($auth['server'])['scheme'] === 'tls') {
+			if ('tls' === parse_url($auth['server'])['scheme']) {
 				ldap_start_tls($ds);
 			}
 			$bind = ldap_bind($ds, $this->userRecordModel->get('user_name') . $auth['domain'], $password);
@@ -57,9 +57,9 @@ class Users_Ldap_Authmethod
 			}
 			\App\Session::set('UserAuthType', 'LDAP');
 			return $bind;
-		} else {
-			\App\Log::trace($this->userRecordModel->get('user_name') . ' user does not belong to the LDAP', 'UserAuthentication');
 		}
+		\App\Log::trace($this->userRecordModel->get('user_name') . ' user does not belong to the LDAP', 'UserAuthentication');
+
 		\App\Log::trace('End LDAP authentication', 'UserAuthentication');
 		return null;
 	}

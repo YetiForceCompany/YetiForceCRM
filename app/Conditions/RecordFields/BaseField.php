@@ -125,7 +125,7 @@ class BaseField
 	{
 		$ssl = \strlen($this->value);
 		if (\strlen($this->getValue()) >= $ssl) {
-			return 0 == substr_compare($this->getValue(), $this->value, 0, $ssl);
+			return 0 == substr_compare($this->getValue(), $this->value, 0, $ssl, true);
 		}
 		return false;
 	}
@@ -304,6 +304,6 @@ class BaseField
 	 */
 	public function operatorOgr()
 	{
-		return \in_array($this->getValue(), \App\User::getGroups());
+		return \in_array($this->getValue(), \App\User::getCurrentUserModel()->getGroups());
 	}
 }

@@ -115,18 +115,16 @@ class VTCreateTodoTask extends VTTask
 			}
 			$timeEnd = explode(' ', $baseDateEnd);
 			if (\count($timeEnd) < 2) {
-				$row = (new App\Db\Query())->select(['end_hour'])->from('vtiger_users')->where(['id' => $userId])->one();
-				if ($row) {
-					$timeEnd = $row['end_hour'];
-					$timeWithSec = \App\Fields\Time::sanitizeDbFormat($timeEnd);
-					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
-					$timeEnd = $dbInsertDateTime->format('H:i:s');
+				if (\App\User::isExists($userId)) {
+					$timeEnd = \App\User::getUserModel($userId)->getDetail('end_hour');
+				} elseif ($userIdFromGroup = current(\App\PrivilegeUtil::getUsersByGroup($userId))) {
+					$timeEnd = \App\User::getUserModel($userIdFromGroup)->getDetail('end_hour');
 				} else {
-					$timeEnd = \App\User::getUserModel(\App\User::getActiveAdminId())->column_fields['end_hour'];
-					$timeWithSec = \App\Fields\Time::sanitizeDbFormat($timeEnd);
-					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
-					$timeEnd = $dbInsertDateTime->format('H:i:s');
+					$timeEnd = \App\User::getUserModel(\App\User::getActiveAdminId())->getDetail('end_hour');
 				}
+				$timeWithSec = \App\Fields\Time::sanitizeDbFormat($timeEnd);
+				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
+				$timeEnd = $dbInsertDateTime->format('H:i:s');
 			} else {
 				$timeEnd = $timeEnd[1];
 			}
@@ -175,7 +173,7 @@ class VTCreateTodoTask extends VTTask
 		}
 		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 		$newRecordModel->setData($fields);
-		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
+		$newRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 		$newRecordModel->save();
 
 		$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule());

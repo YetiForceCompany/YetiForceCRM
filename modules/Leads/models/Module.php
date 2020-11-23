@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -75,7 +76,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, App\QueryGenerator $queryGenerator)
 	{
-		if (!empty($record) && in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
+		if (!empty($record) && \in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
 			switch ($sourceModule) {
 				case 'Campaigns':
 					$tableName = 'vtiger_campaign_records';
@@ -130,17 +131,19 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$joinTable = ['vtiger_account', 'vtiger_crmentity'];
 			$moduleModel = Vtiger_Module_Model::getInstance('Accounts');
 			$focus = $moduleModel->getEntityInstance();
-			foreach ($mappingFields as $leadFieldName => $accountFieldName) {
-				$fieldModel = $moduleModel->getField($accountFieldName);
-				if (!$fieldModel) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			foreach ($mappingFields as $mappingField) {
+				foreach ($mappingField as $leadFieldName => $accountFieldName) {
+					$fieldModel = $moduleModel->getField($accountFieldName);
+					if (!$fieldModel) {
+						throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+					}
+					$tableName = $fieldModel->get('table');
+					if (!\in_array($tableName, $joinTable)) {
+						$query->innerJoin($tableName, "{$tableName}.{$focus->tab_name_index[$tableName]} = vtiger_account.accountid");
+						$joinTable[] = $tableName;
+					}
+					$query->andWhere(["{$tableName}.{$fieldModel->getColumnName()}" => $recordModel->get($leadFieldName)]);
 				}
-				$tableName = $fieldModel->get('table');
-				if (!in_array($tableName, $joinTable)) {
-					$query->innerJoin($tableName, "{$tableName}.{$focus->tab_name_index[$tableName]} = vtiger_account.accountid");
-					$joinTable[] = $tableName;
-				}
-				$query->andWhere(["{$tableName}.{$fieldModel->getColumnName()}" => $recordModel->get($leadFieldName)]);
 			}
 			$query->limit(2);
 			$dataReader = $query->createCommand()->query();
@@ -188,6 +191,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		if (empty($leadConfig['convert_status'])) {
 			return true;
 		}
-		return in_array($status, $leadConfig['convert_status']);
+		return \in_array($status, $leadConfig['convert_status']);
 	}
 }

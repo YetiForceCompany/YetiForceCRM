@@ -14,6 +14,19 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function validateValue($value)
+	{
+		if ($this->getFieldModel()->isRoleBased()) {
+			$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getFieldModel()->getFieldName(), \App\User::getCurrentUserModel()->getRole());
+		} else {
+			$picklistValues = App\Fields\Picklist::getValuesName($this->getFieldModel()->getFieldName());
+		}
+		return '' === $value || \in_array($value, $picklistValues);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
@@ -35,17 +48,24 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$moduleName = $this->getFieldModel()->getModuleName();
-		$dispalyValue = \App\Language::translate($value, $moduleName);
-		if (\is_int($length)) {
-			$dispalyValue = \App\TextParser::textTruncate($dispalyValue, $length);
-		}
+		$displayValue = \App\Language::translate($value, $moduleName);
 		if ($rawText) {
-			return $dispalyValue;
+			return $displayValue;
 		}
-		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
+		if (\is_int($length)) {
+			$displayValue = \App\TextParser::textTruncate($displayValue, $length);
+		}
+		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getName());
 		$value = App\Colors::sanitizeValue($value);
+		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">{$displayValue}</span>";
+	}
 
-		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return $value;
 	}
 
 	/**
@@ -77,11 +97,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function isAjaxEditable()
 	{
-		$moduleName = $this->getFieldModel()->getModuleName();
-		if (!isset(\App\Fields\Picklist::$picklistDependencyFields[$moduleName])) {
-			\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
-		}
-		return !isset(\App\Fields\Picklist::$picklistDependencyFields[$moduleName][$this->getFieldModel()->getFieldName()]);
+		return !\App\Fields\Picklist::isDependentField($this->getFieldModel()->getModuleName(), $this->getFieldModel()->getFieldName());
 	}
 
 	/**

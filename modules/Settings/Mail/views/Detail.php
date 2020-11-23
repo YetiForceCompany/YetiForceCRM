@@ -17,16 +17,12 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 	protected $pageTitle = 'LBL_MAIL_QUEUE_PAGE_TITLE';
 
 	/**
-	 * Checking permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
-		$currentUserModel = \App\User::getCurrentUserModel();
-		if (!$currentUserModel->isAdmin() || $request->isEmpty('record')) {
+		parent::checkPermission($request);
+		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -36,13 +32,13 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$record = $request->getInteger('record');
 		$qualifiedModuleName = $request->getModule(false);
 		$recordModel = Settings_Mail_Record_Model::getInstance($record);
 		$viewer = $this->getViewer($request);
-		if ($recordModel === false) {
+		if (false === $recordModel) {
 			$moduleModel = new Settings_Mail_Module_Model();
 			$viewer->assign('MODULE_MODEL', $moduleModel);
 		}

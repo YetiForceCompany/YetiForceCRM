@@ -15,6 +15,7 @@ $.Class('Vtiger_PDF_Js', {
 		});
 		switch (mode) {
 			case 'generate_pdf':
+				this.container.find('#pdfExportModal').submit();
 				break;
 			case 'single_pdf':
 				this.container.find('[name="single_pdf"]').val(1);
@@ -32,9 +33,10 @@ $.Class('Vtiger_PDF_Js', {
 	/*
 	 * Function to register the click event for generate button
 	 */
-	registerPreSubmitEvent: function(container) {
+	registerPreSubmitEvent: function (container) {
 		const self = this;
-		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', e => {
+		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', (e) => {
+			e.preventDefault();
 			self.proceedSubmit.apply(self, [$(e.currentTarget).attr('id')]);
 		});
 	},
@@ -46,7 +48,7 @@ $.Class('Vtiger_PDF_Js', {
 	 */
 	registerListViewCheckRecords(container) {
 		let templateElements = container.find('[name="pdf_template[]"]');
-		templateElements.on('change', function() {
+		templateElements.on('change', function () {
 			document.progressLoader = $.progressIndicator({
 				message: app.vtranslate('JS_PDF_RECALCULATING'),
 				position: 'html',
@@ -59,7 +61,7 @@ $.Class('Vtiger_PDF_Js', {
 			templateContainer.find('.js-pdf-user-variable').toggleClass('d-none');
 
 			let templates = [];
-			templateElements.filter(':checked').each(function() {
+			templateElements.filter(':checked').each(function () {
 				templates.push($(this).val());
 			});
 
@@ -68,27 +70,24 @@ $.Class('Vtiger_PDF_Js', {
 			params.templates = templates;
 
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					var response = data.result;
 					if (data.success) {
 						let valid = response.valid;
-						let info = container
-							.find('.js-records-info')
-							.text(response.message)
-							.removeClass('d-none');
+						let info = container.find('.js-records-info').text(response.message).removeClass('d-none');
 						if (valid) {
 							info.addClass('d-none');
 						}
-						setTimeout(function() {
+						setTimeout(function () {
 							document.progressLoader.progressIndicator({ mode: 'hide' });
 						}, 500);
 
-						container.find('.js-submit-button').each(function() {
+						container.find('.js-submit-button').each(function () {
 							$(this).attr('disabled', !valid);
 						});
 					}
 				})
-				.fail(function(data, err) {
+				.fail(function (data, err) {
 					app.errorLog(data, err);
 				});
 		});
@@ -98,7 +97,7 @@ $.Class('Vtiger_PDF_Js', {
 	 * Register select custom columns change
 	 */
 	registerSelectCustomColumnsChange() {
-		this.container.find('[name="isCustomMode"]').on('change', ev => {
+		this.container.find('[name="isCustomMode"]').on('change', (ev) => {
 			if ($(ev.target).is(':checked')) {
 				this.container.find('[name="inventoryColumns[]"]').prop('disabled', null);
 				this.container.find('.js-save-scheme').prop('disabled', null);
@@ -113,7 +112,7 @@ $.Class('Vtiger_PDF_Js', {
 	 * Register save scheme button click
 	 */
 	registerSaveInventoryColumnSchemeClick() {
-		this.container.find('.js-save-scheme').on('click', e => {
+		this.container.find('.js-save-scheme').on('click', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			const loader = $.progressIndicator({
@@ -128,7 +127,7 @@ $.Class('Vtiger_PDF_Js', {
 			params.isCustomMode = this.container.find('[name="isCustomMode"]').is(':checked');
 
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					const response = data['result'];
 					if (data['success']) {
 						loader.progressIndicator({ mode: 'hide' });
@@ -140,7 +139,7 @@ $.Class('Vtiger_PDF_Js', {
 						});
 					}
 				})
-				.fail(function(data, err) {
+				.fail(function (data, err) {
 					app.errorLog(data, err);
 				});
 		});
@@ -158,6 +157,6 @@ $.Class('Vtiger_PDF_Js', {
 		this.registerListViewCheckRecords(container);
 	}
 });
-$(function() {
+$(function () {
 	new Vtiger_PDF_Js().registerEvents();
 });

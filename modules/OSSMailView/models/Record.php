@@ -8,6 +8,11 @@
  */
 class OSSMailView_Record_Model extends Vtiger_Record_Model
 {
+	const TYPE_COLORS = [
+		0 => 'bgGreen',
+		1 => 'bgDanger',
+		2 => 'bgBlue',
+	];
 	protected $modules_email_actions_widgets = [];
 
 	public function __construct()
@@ -77,6 +82,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		if ('' !== $config['widget_limit']) {
 			$query->limit($config['widget_limit']);
 		}
+
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$from = $this->findRecordsById($row['from_id']);
@@ -89,10 +95,22 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			} else {
 				$subject = \App\Purifier::encodeHtml($row['subject']);
 			}
+			$firstLetterBg = self::TYPE_COLORS[$row['type']];
+			$firstLetter = strtoupper(App\TextParser::textTruncate(trim(strip_tags($from)), 1, false));
+			if ($row['orginal_mail']) {
+				$rblInstance = \App\Mail\Rbl::getInstance([]);
+				$rblInstance->set('rawBody', $row['orginal_mail']);
+				$rblInstance->parse();
+				if (($verifySender = $rblInstance->verifySender()) && !$verifySender['status']) {
+					$firstLetter = '<span class="fas fa-exclamation-triangle text-danger" title="' . \App\Purifier::encodeHtml($verifySender['info']) . '"></span>';
+					$firstLetterBg = 'bg-warning';
+				}
+			}
 			$return[] = [
 				'id' => $row['ossmailviewid'],
 				'date' => $row['date'],
-				'firstLetter' => strtoupper(App\TextParser::textTruncate(trim(strip_tags($from)), 1, false)),
+				'firstLetter' => $firstLetter,
+				'firstLetterBg' => $firstLetterBg,
 				'subjectRaw' => \App\Purifier::encodeHtml($row['subject']),
 				'subject' => $subject,
 				'attachments' => $row['attachments_exist'],

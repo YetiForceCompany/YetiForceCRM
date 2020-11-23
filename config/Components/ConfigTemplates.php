@@ -311,32 +311,6 @@ return [
 			'description' => 'List of modules for which Twitter has been enabled.',
 		]
 	],
-	'Magento' => [
-		'connector' => [
-			'default' => 'Token',
-			'description' => 'Type of connector for integration with Magento.',
-		],
-		'addressApi' => [
-			'default' => '',
-			'description' => 'Magento URL address',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return empty($arg) || \App\Validator::url($arg);
-			}
-		],
-		'username' => [
-			'default' => '',
-			'description' => 'Username to account in Magento.',
-		],
-		'password' => [
-			'default' => '',
-			'description' => 'Password to account in Magento.',
-		],
-		'masterSource' => [
-			'default' => 'magento',
-			'description' => 'Set master source: yetiforce or magento',
-		],
-	],
 	'Branding' => [
 		'footerName' => [
 			'default' => '',
@@ -377,6 +351,69 @@ return [
 			'sanitization' => function () {
 				return \App\Purifier::purify(func_get_arg(0));
 			}
+		],
+	],
+	'MeetingService' => [
+		'defaultEmailTemplate' => [
+			'default' => [],
+			'description' => "List of default email templates.\n@example ['Calendar'=>1]",
+		]
+	],
+	'Phone' => [
+		'defaultPhoneCountry' => [
+			'default' => true,
+			'description' => 'Determines the way the default country in the phone field is downloaded. True retrieves the value from the countries panel, false retrieves the country from the users default language.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+	],
+	'InterestsConflict' => [
+		'isActive' => [
+			'default' => false,
+			'description' => 'Is the conflict of interests functionality enabled?.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'confirmationTimeInterval' => [
+			'default' => '30 day',
+			'description' => "Time interval that defines how often the system should force a confirmation about the absence of conflict of interests.\n30 day, 5 weeks, 2 month, 2 years.",
+			'validation' => '\App\Validator::alnumSpace',
+		],
+		'confirmUsersAccess' => [
+			'default' => [],
+			'description' => 'Access to confirmation panel, users ids',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::integer',
+		],
+		'unlockUsersAccess' => [
+			'default' => [],
+			'description' => 'Email addresses for notifications, users ids',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::integer',
+		],
+		'notificationsEmails' => [
+			'default' => '',
+			'description' => 'Email addresses for notifications.',
+			'validation' => '\App\Validator::emails',
+		],
+		'sendMailAccessRequest' => [
+			'default' => false,
+			'description' => 'E-mail sent to the person requesting access.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'sendMailAccessResponse' => [
+			'default' => false,
+			'description' => 'E-mail sent to the above people.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'modules' => [
+			'default' => [],
+			'description' => 'List of modules where the conflict of interests mechanism is enabled.',
+			'validation' => function () {
+				return true;
+			},
 		],
 	],
 ];

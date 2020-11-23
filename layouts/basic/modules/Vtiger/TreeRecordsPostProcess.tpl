@@ -2,14 +2,16 @@
 {strip}
 	<!-- tpl-TreeRecordsPostProcess -->
 	</div>
-	</div>
-	</div>
-	<div class="{if $USER_MODEL->get('leftpanelhide')}c-menu--open {/if}siteBarRight">
-		<div class="btn btn-block toggleSiteBarRightButton"
-			 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
-			<span class="fas fa-chevron-right"></span>
+	<div class="{if $USER_MODEL->get('leftpanelhide')}c-menu--open {/if}siteBarRight col-xs-12 hideSiteBar"
+		 id="rightPanel"
+		 data-js="class: hideSiteBar">
+		 <div class="o-expandable__panel__tabs">
+			<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-lg-block"
+				title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
+				<span class="fas fa-chevron-left"></span>
+			</div>
 		</div>
-		<div class="siteBarContent">
+		<div class="tab-content">
 			<div class="row">
 				<div class="col-md-4 paddingTop10">
 					<h5>{\App\Language::translate('LBL_FILTERING',$MODULE)}</h5>

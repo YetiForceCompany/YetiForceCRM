@@ -2,7 +2,7 @@
 'use strict';
 
 Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
-	getWarningsList: function() {
+	getWarningsList: function () {
 		const thisInstance = this;
 		const container = $('.js-warnings-content');
 		const progressIndicator = $.progressIndicator({
@@ -14,12 +14,10 @@ Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
 			parent: app.getParentModuleName(),
 			view: app.getViewName(),
 			mode: 'getWarningsList',
-			active: $('.js-warnings-index-page .js-switch--warnings')
-				.first()
-				.is(':checked'),
+			active: $('.js-warnings-index-page .js-switch--warnings').first().is(':checked'),
 			folder: thisInstance.getSelectedFolders()
 		})
-			.done(data => {
+			.done((data) => {
 				container.html(data);
 				thisInstance.registerWarningsList(container);
 				progressIndicator.progressIndicator({ mode: 'hide' });
@@ -28,25 +26,21 @@ Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
 				progressIndicator.progressIndicator({ mode: 'hide' });
 			});
 	},
-	registerWarningsList: function(container) {
+	registerWarningsList: function (container) {
 		container.find('table').dataTable({
-			order: [[2, 'desc'], [1, 'asc']],
+			order: [
+				[2, 'desc'],
+				[1, 'asc']
+			],
 			lengthMenu: [20, 40, 60, 80, 100],
 			pageLength: 20
 		});
-		container.find('.showDescription').on('click', e => {
-			app.showModalWindow(
-				$(e.currentTarget)
-					.closest('td')
-					.find('.showDescriptionContent')
-					.html()
-			);
+		container.find('.showDescription').on('click', (e) => {
+			app.showModalWindow($(e.currentTarget).closest('td').find('.showDescriptionContent').html());
 		});
-		container.find('.setIgnore').on('click', e => {
+		container.find('.setIgnore').on('click', (e) => {
 			container.find('.js-popover-tooltip').popover('hide');
-			const data = $(e.currentTarget)
-				.closest('tr')
-				.data();
+			const data = $(e.currentTarget).closest('tr').data();
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
@@ -59,7 +53,7 @@ Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
 			});
 		});
 	},
-	registerWarningsFolders: function(container) {
+	registerWarningsFolders: function (container) {
 		const thisInstance = this;
 		let data = [];
 		const treeValues = container.find('.js-tree-values').val();
@@ -80,10 +74,10 @@ Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
 				},
 				plugins: ['checkbox']
 			})
-			.on('loaded.jstree', function(event, data) {
+			.on('loaded.jstree', function (event, data) {
 				$(this).jstree('open_all');
 			})
-			.on('changed.jstree', function(e, data) {
+			.on('changed.jstree', function (e, data) {
 				if (data.action != 'model') {
 					thisInstance.getWarningsList();
 				}
@@ -115,7 +109,7 @@ Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
 			thisInstance.getWarningsList();
 		});
 	},
-	registerEventsLoadContent: function(thisInstance, mode, container) {
+	registerEventsLoadContent: function (thisInstance, mode, container) {
 		thisInstance.registerWarningsFolders(container);
 	}
 });

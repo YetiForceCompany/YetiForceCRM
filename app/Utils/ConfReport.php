@@ -62,7 +62,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $stability = [
-		'phpVersion' => ['recommended' => '7.2.x, 7.3.x, 7.4.x (dev)', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
+		'phpVersion' => ['recommended' => '7.2.x, 7.3.x, 7.4.x', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
 		'protocolVersion' => ['recommended' => '2.0, 1.x', 'type' => 'Version', 'container' => 'env', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
 		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],
@@ -98,13 +98,13 @@ class ConfReport
 		'HTTPS' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'public_html' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'display_errors' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'demoMode' => true, 'testCli' => true],
-		'.htaccess' => ['recommended' => 'On', 'type' => 'Htaccess', 'container' => 'php', 'testCli' => false],
+		'.htaccess' => ['recommended' => 'On', 'type' => 'Htaccess', 'container' => 'php', 'testCli' => false, 'mode' => 'showWarnings'],
 		'session.use_strict_mode' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.use_trans_sid' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => false],
-		'session.use_only_cookies' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
-		'session.cookie_secure' => ['recommended' => '?', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => false],
-		'session.cookie_samesite' => ['recommended' => '', 'type' => 'CookieSamesite', 'container' => 'php', 'testCli' => true],
+		'session.use_only_cookies' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => false],
+		'session.cookie_secure' => ['recommended' => '', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => false],
+		'session.cookie_samesite' => ['recommended' => '', 'type' => 'CookieSamesite', 'container' => 'php', 'testCli' => false],
 		'session.name' => ['recommended' => 'YTSID', 'container' => 'php', 'type' => 'Equal', 'testCli' => false],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
@@ -162,6 +162,7 @@ class ConfReport
 		'bcmath' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'bcmath', 'container' => 'ext', 'testCli' => true],
 		'filter' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'filter', 'container' => 'ext', 'testCli' => true],
 		'ctype' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'ctype', 'container' => 'ext', 'testCli' => true],
+		'hash' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'hash', 'container' => 'ext', 'testCli' => true],
 		'exif' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'exif', 'container' => 'ext', 'testCli' => true],
 		'ldap' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'ldap', 'container' => 'ext', 'testCli' => true],
 		'OPcache' => ['mandatory' => false, 'type' => 'FnExist', 'fnName' => 'opcache_get_configuration', 'container' => 'ext', 'testCli' => true],
@@ -184,28 +185,50 @@ class ConfReport
 		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
 		'serverInfo' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_INFO'],
 		'maximumMemorySize' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false, 'label' => 'DB_MAXIMUM_MEMORY_SIZE', 'showHelp' => true],
+		'key_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'query_cache_type' => ['container' => 'db', 'testCli' => false],
+		'table_cache' => ['container' => 'db', 'testCli' => false],
+		'table_open_cache_instances' => ['container' => 'db', 'testCli' => false],
+		'table_open_cache' => ['recommended' => 1000, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
+		'table_definition_cache' => ['type' => 'DbTableDefinitionCache', 'container' => 'db', 'testCli' => false],
+		'open_files_limit' => ['container' => 'db', 'testCli' => false],
+		'tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'innodb_buffer_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'innodb_additional_mem_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'innodb_log_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'max_connections' => ['container' => 'db', 'testCli' => false],
+		'sort_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'myisam_sort_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'read_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'read_rnd_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'join_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'thread_stack' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'binlog_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'bulk_insert_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'max_heap_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'innodb_log_file_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
 		'wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
 		'interactive_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
 		'sql_mode' => ['recommended' => '', 'type' => 'NotIn', 'container' => 'db', 'testCli' => false, 'values' => ['STRICT_ALL_TABLES', 'STRICT_TRANS_TABLE']],
 		'max_allowed_packet' => ['recommended' => '10 MB', 'type' => 'GreaterMb', 'container' => 'db', 'testCli' => false],
-		'log_error' => ['container' => 'db', 'testCli' => false],
-		'max_connections' => ['container' => 'db', 'testCli' => false],
-		'bulk_insert_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'key_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'thread_cache_size' => ['container' => 'db', 'testCli' => false],
-		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'myisam_sort_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'max_heap_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'innodb_file_per_table' => ['recommended' => 'On', 'container' => 'db', 'testCli' => false],
-		'innodb_stats_on_metadata' => ['recommended' => 'Off', 'container' => 'db', 'testCli' => false],
+		'innodb_file_per_table' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'db', 'testCli' => false],
+		'innodb_stats_on_metadata' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'db', 'testCli' => false],
 		'innodb_buffer_pool_instances' => ['container' => 'db', 'testCli' => false],
-		'innodb_buffer_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'innodb_log_file_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'innodb_buffer_pool_load_at_startup' => ['container' => 'db', 'testCli' => false],
+		'innodb_io_capacity' => ['container' => 'db', 'testCli' => false],
 		'innodb_io_capacity_max' => ['container' => 'db', 'testCli' => false],
 		'tx_isolation' => ['container' => 'db', 'testCli' => false],
 		'transaction_isolation' => ['container' => 'db', 'testCli' => false],
+		'ft_min_word_len' => ['container' => 'db', 'testCli' => false],
+		'innodb_ft_min_token_size' => ['container' => 'db', 'testCli' => false],
+		'innodb_default_row_format' => ['recommended' => 'dynamic', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
+		'innodb_strict_mode' => ['container' => 'db', 'testCli' => false],
+		'innodb_file_format' => ['container' => 'db', 'testCli' => false],
+		'innodb_file_format_check' => ['container' => 'db', 'testCli' => false],
+		'innodb_file_format_max' => ['container' => 'db', 'testCli' => false],
 		'character_set_server' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
 		'character_set_database' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
 		'character_set_client' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
@@ -216,9 +239,43 @@ class ConfReport
 		'datadir' => ['container' => 'db', 'testCli' => false],
 		'connect_timeout' => ['container' => 'db', 'testCli' => false],
 		'lock_wait_timeout' => ['container' => 'db', 'testCli' => false],
-		'lock_wait_timeout' => ['container' => 'db', 'testCli' => false],
 		'net_read_timeout' => ['container' => 'db', 'testCli' => false],
 		'net_write_timeout' => ['container' => 'db', 'testCli' => false],
+		'aria_recover_options' => ['container' => 'db', 'testCli' => false],
+		'aria_recover' => ['container' => 'db', 'testCli' => false],
+		'hostname' => ['container' => 'db', 'testCli' => false],
+		'innodb_checksum_algorithm' => ['container' => 'db', 'testCli' => false],
+		'innodb_flush_method' => ['container' => 'db', 'testCli' => false],
+		'innodb_thread_sleep_delay' => ['container' => 'db', 'testCli' => false],
+		'innodb_thread_concurrency' => ['container' => 'db', 'testCli' => false],
+		'innodb_adaptive_max_sleep_delay' => ['container' => 'db', 'testCli' => false],
+		'innodb_read_ahead_threshold' => ['container' => 'db', 'testCli' => false],
+		'innodb_max_dirty_pages_pct_lwm' => ['container' => 'db', 'testCli' => false],
+		'innodb_open_files' => ['container' => 'db', 'testCli' => false],
+		'thread_pool_max_threads' => ['container' => 'db', 'testCli' => false],
+		'innodb_read_io_threads' => ['container' => 'db', 'testCli' => false],
+		'innodb_write_io_threads' => ['container' => 'db', 'testCli' => false],
+		'lower_case_file_system' => ['container' => 'db', 'testCli' => false],
+		'lower_case_table_names' => ['container' => 'db', 'testCli' => false],
+		'system_time_zone' => ['container' => 'db', 'testCli' => false],
+		'use_stat_tables' => ['container' => 'db', 'testCli' => false],
+		'thread_handling' => ['container' => 'db', 'testCli' => false],
+		'host_cache_size' => ['container' => 'db', 'testCli' => false],
+		'optimizer_search_depth' => ['container' => 'db', 'testCli' => false],
+		'version_compile_machine' => ['container' => 'db', 'testCli' => false],
+		'version_compile_os' => ['container' => 'db', 'testCli' => false],
+		'socket' => ['container' => 'db', 'testCli' => false],
+		'back_log' => ['container' => 'db', 'testCli' => false],
+		'binlog_format' => ['container' => 'db', 'testCli' => false],
+		'max_binlog_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'slow_query_log' => ['container' => 'db', 'testCli' => false],
+		'slow_query_log_file' => ['container' => 'db', 'testCli' => false],
+		'log_slow_admin_statements' => ['container' => 'db', 'testCli' => false],
+		'general_log' => ['container' => 'db', 'testCli' => false],
+		'general_log_file' => ['container' => 'db', 'testCli' => false],
+		'log_error' => ['container' => 'db', 'testCli' => false],
+		'log_warnings' => ['container' => 'db', 'testCli' => false],
+		'log_output' => ['container' => 'db', 'testCli' => false],
 	];
 
 	/**
@@ -276,8 +333,10 @@ class ConfReport
 		'spaceRoot' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_ROOT'],
 		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
 		'spaceTemp' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_TEMP'],
+		'spaceBackup' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_BACKUP'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START', 'isHtml' => true],
-		'open_basedir' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
+		'crmProvider' => ['container' => 'env', 'testCli' => true, 'label' => 'CRM_PROVIDER'],
+		'open_basedir' => ['container' => 'php',  'type' => 'OpenBasedir', 'testCli' => true, 'mode' => 'showWarnings'],
 		'caCertBundle' => ['recommended' => 'On', 'container' => 'env', 'type' => 'OnOff', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
 		'caCertBundlePath' => ['recommended' => 'On', 'container' => 'env', 'testCli' => true, 'label' => 'CACERTBUNDLE_PATH'],
 		'SSL_CERT_FILE' => ['container' => 'env', 'testCli' => true, 'label' => 'SSL_CERT_FILE'],
@@ -357,6 +416,7 @@ class ConfReport
 	public static $functionalVerification = [
 		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER', 'mode' => 'onlyText'],
 		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES', 'mode' => 'onlyText'],
+		'magento' => ['type' => 'Magento',  'testCli' => false, 'label' => 'MAGENTO', 'mode' => 'onlyText'],
 	];
 	/**
 	 * Php variables.
@@ -474,7 +534,10 @@ class ConfReport
 					static::$request = static::getRequest();
 					break;
 				case 'db':
-					static::$db = \App\Db::getInstance()->getInfo();
+					$db = \App\Db::getInstance();
+					if ($db->getMasterPdo()) {
+						static::$db = $db->getInfo();
+					}
 					break;
 				default:
 					break;
@@ -517,7 +580,7 @@ class ConfReport
 				'phpIni' => php_ini_loaded_file() ?: '-',
 				'phpIniAll' => php_ini_scanned_files() ?: '-',
 				'locale' => $locale,
-				'https' => \App\RequestUtil::getBrowserInfo()->https,
+				'https' => \App\RequestUtil::isHttps(),
 				'caCertBundle' => \is_file(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()) ? 'On' : 'Off',
 				'caCertBundlePath' => $caCertBundlePath,
 				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
@@ -531,6 +594,8 @@ class ConfReport
 				'spaceRoot' => '',
 				'spaceStorage' => '',
 				'spaceTemp' => '',
+				'spaceBackup' => '',
+				'crmProvider' => \App\YetiForce\Register::getProvider(),
 				'lastCronStart' => $lastCronStartText,
 				'lastCronStartDateTime' => $lastCronStart,
 				'protocolVersion' => isset($_SERVER['SERVER_PROTOCOL']) ? substr($_SERVER['SERVER_PROTOCOL'], strpos($_SERVER['SERVER_PROTOCOL'], '/') + 1) : '-',
@@ -549,11 +614,18 @@ class ConfReport
 	 */
 	public static function getCronVariables(string $type)
 	{
-		if (file_exists('app_data/cron.php')) {
-			$cron = include \ROOT_DIRECTORY . '/app_data/cron.php';
-			return $cron[$type] ?? null;
+		$data = [];
+		$filePath = \ROOT_DIRECTORY . '/app_data/cron.php';
+		if (file_exists($filePath)) {
+			try {
+				$cron = include $filePath;
+				$data = $cron[$type] ?? null;
+			} catch (\Throwable $e) {
+				unlink($filePath);
+				throw $e;
+			}
 		}
-		return [];
+		return $data;
 	}
 
 	/**
@@ -570,7 +642,10 @@ class ConfReport
 		$request = [];
 		try {
 			foreach (static::$urlsToCheck as $type => $url) {
-				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $requestUrl . $url, ['timeout' => 1, 'verify' => false]);
+				$urlAddress = $requestUrl . $url;
+				\App\Log::beginProfile("GET|ConfReport::getRequest|{$urlAddress}", __NAMESPACE__);
+				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $urlAddress, ['timeout' => 1, 'verify' => false]);
+				\App\Log::endProfile("GET|ConfReport::getRequest|{$urlAddress}", __NAMESPACE__);
 				foreach ($res->getHeaders() as $key => $value) {
 					$request[strtolower($key)][$type] = \is_array($value) ? implode(',', $value) : $value;
 				}
@@ -780,6 +855,26 @@ class ConfReport
 	}
 
 	/**
+	 * Validate number greater than another parameter.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateDbTableDefinitionCache(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$tableOpenCache = (self::$db['table_open_cache'] > self::$database['table_open_cache']['recommended']) ? self::$db['table_open_cache'] : self::$database['table_open_cache']['recommended'];
+		$row['recommended'] = $tableOpenCache + 400;
+		if (isset($row[$sapi]) && (int) $row[$sapi] < $row['recommended']) {
+			$row['status'] = false;
+		}
+		return $row;
+	}
+
+	/**
 	 * Validate number in bytes greater than recommended.
 	 *
 	 * @param string $name
@@ -810,7 +905,7 @@ class ConfReport
 	private static function validateShowBytes(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
+		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi] ?? 0);
 		return $row;
 	}
 
@@ -1001,7 +1096,8 @@ class ConfReport
 	 */
 	private static function validateCookieSamesite(string $name, array $row, string $sapi)
 	{
-		if ($name && version_compare(PHP_VERSION, '7.3', '>')) {
+		$row['recommended'] = \Config\Security::$cookieSameSite;
+		if ($name && \PHP_VERSION_ID > 70300) {
 			$row['status'] = ($row[$sapi] ?? '') === $row['recommended'];
 		} else {
 			$row['mode'] = 'skipParam';
@@ -1059,7 +1155,7 @@ class ConfReport
 	{
 		unset($sapi);
 		$header = strtolower(\str_replace('Header: ', '', $name));
-		if (!empty($row['httpsRequired']) && !\App\RequestUtil::getBrowserInfo()->https) {
+		if (!empty($row['httpsRequired']) && !\App\RequestUtil::isHttps()) {
 			$row['recommended'] = '';
 		}
 		$onlyPhp = empty($row['onlyPhp']);
@@ -1207,6 +1303,29 @@ class ConfReport
 	}
 
 	/**
+	 * Validate exists url.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateAllExt(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$forbidden = ['uopz'];
+		if (isset($row[$sapi])) {
+			foreach (array_intersect($forbidden, \explode(', ', $row[$sapi])) as $type) {
+				$row[$sapi] = \str_replace($type, "<b class=\"text-danger\">$type</b>", $row[$sapi]);
+				$row['isHtml'] = true;
+				$row['status'] = false;
+			}
+		}
+		return $row;
+	}
+
+	/**
 	 * Validate disc space value.
 	 *
 	 * @param string $name
@@ -1225,8 +1344,14 @@ class ConfReport
 			case 'spaceTemp':
 				$dir = static::$env['tempDir'];
 				break;
+			case 'spaceBackup':
+				$dir = \App\Utils\Backup::getBackupCatalogPath();
+				break;
 			default:
 				break;
+		}
+		if (empty($dir)) {
+			return $row;
 		}
 		$free = disk_free_space($dir);
 		$total = disk_total_space($dir);
@@ -1331,7 +1456,6 @@ class ConfReport
 		$view->assign('SHOW_FOOTER_BAR', true);
 		$html = $view->view('PageFooter.tpl', '', true);
 		$row['status'] = true;
-		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved') || !empty(\App\Config::component('Branding', 'footerName'));
 		}
@@ -1354,6 +1478,48 @@ class ConfReport
 		unset($name);
 		$row['status'] = true;
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
+		return $row;
+	}
+
+	/**
+	 * Validate magento value.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateMagento(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row['status'] = !(\Settings_Magento_Module_Model::isActive() && !\App\YetiForce\Shop::check('YetiForceMagento'));
+		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
+		return $row;
+	}
+
+	/**
+	 * Validate open_basedir.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateOpenBasedir(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row['status'] = true;
+		if ('cron' === $sapi) {
+			if (!empty($row[$sapi])) {
+				$row['status'] = false;
+			}
+		} else {
+			if (empty($row[$sapi])) {
+				$row['status'] = false;
+			}
+		}
 		return $row;
 	}
 

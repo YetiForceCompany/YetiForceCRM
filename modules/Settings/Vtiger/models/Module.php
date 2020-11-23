@@ -6,16 +6,24 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 // Settings Module Model Class
 
 class Settings_Vtiger_Module_Model extends \App\Base
 {
+	/** @var string Base table. */
 	public $baseTable = 'vtiger_settings_field';
+
+	/** @var string Base index. */
 	public $baseIndex = 'fieldid';
+
+	/** @var array List fields. */
 	public $listFields = ['name' => 'Name', 'description' => 'Description'];
 	public $nameFields = ['name'];
+
+	/** @var string Module name. */
 	public $name = 'Vtiger';
 
 	public function getName($includeParentIfExists = false)
@@ -100,32 +108,6 @@ class Settings_Vtiger_Module_Model extends \App\Base
 		return true;
 	}
 
-	/**
-	 * Function to get all the Settings menus.
-	 *
-	 * @return array - List of Settings_Vtiger_Menu_Model instances
-	 */
-	public function getMenus()
-	{
-		return Settings_Vtiger_Menu_Model::getAll();
-	}
-
-	/**
-	 * Function to get all the Settings menu items for the given menu.
-	 *
-	 * @param mixed $menu
-	 *
-	 * @return array - List of Settings_Vtiger_MenuItem_Model instances
-	 */
-	public function getMenuItems($menu = false)
-	{
-		$menuModel = false;
-		if ($menu) {
-			$menuModel = Settings_Vtiger_Menu_Model::getInstance($menu);
-		}
-		return Settings_Vtiger_MenuItem_Model::getAll($menuModel);
-	}
-
 	public function isPagingSupported()
 	{
 		return true;
@@ -155,81 +137,6 @@ class Settings_Vtiger_Module_Model extends \App\Base
 		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Index';
 	}
 
-	public function prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId)
-	{
-		if (!empty($selectedMenuId)) {
-			$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($selectedMenuId);
-		} elseif (!empty($moduleName) && 'Vtiger' != $moduleName) {
-			$fieldItem = Settings_Vtiger_Index_View::getSelectedFieldFromModule($menuModels, $moduleName);
-			if ($fieldItem) {
-				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
-				$fieldId = $fieldItem->get('fieldid');
-			} else {
-				foreach ($menuModels as $menuModel) {
-					$menuModuleName = Vtiger_Menu_Model::getModuleNameFromUrl($menuModel->get('linkto'));
-					if ('Settings:' === substr($menuModuleName, 0, 9)) {
-						$menuModuleName = substr($menuModuleName, 9);
-					}
-					if ($menuModuleName === $moduleName) {
-						$selectedMenu = $menuModel;
-						break;
-					}
-				}
-			}
-		}
-		if (empty($selectedMenu)) {
-			reset($menuModels);
-			$selectedMenu = $menuModels[key($menuModels)];
-		}
-
-		$menu = [];
-		foreach ($menuModels as $blockId => $menuModel) {
-			if (1 != $menuModel->getType()) {
-				$childs = [];
-				foreach ($menuModel->getMenuItems() as $menuItem) {
-					if ($menuItem->getId() == $fieldId) {
-						$this->set('selected', $menuItem);
-					}
-					$childs[] = [
-						'id' => $menuItem->getId(),
-						'active' => $menuItem->getId() == $fieldId ? true : false,
-						'name' => $menuItem->get('name'),
-						'type' => 'Shortcut',
-						'sequence' => $menuModel->get('sequence'),
-						'newwindow' => '0',
-						'icon' => $menuItem->get('iconpath'),
-						'dataurl' => $menuItem->getUrl(),
-						'parent' => 'Settings',
-						'moduleName' => Vtiger_Menu_Model::getModuleNameFromUrl($menuItem->getUrl()),
-					];
-				}
-				$menu[] = [
-					'id' => $blockId,
-					'active' => ($selectedMenu && $selectedMenu->get('blockid') == $blockId) ? true : false,
-					'name' => $menuModel->getLabel(),
-					'type' => 'Label',
-					'sequence' => $menuModel->get('sequence'),
-					'childs' => $childs,
-					'icon' => $menuModel->get('icon'),
-					'moduleName' => 'Settings::Vtiger',
-				];
-			} else {
-				$menu[] = [
-					'id' => $blockId,
-					'active' => ($selectedMenu && $selectedMenu->get('blockid') == $blockId) ? true : false,
-					'name' => $menuModel->getLabel(),
-					'type' => 'Shortcut',
-					'sequence' => $menuModel->get('sequence'),
-					'newwindow' => '0',
-					'icon' => $menuModel->get('icon'),
-					'dataurl' => $menuModel->get('linkto'),
-					'moduleName' => 'Settings::Vtiger',
-				];
-			}
-		}
-		return $menu;
-	}
-
 	public static function addSettingsField($block, $params)
 	{
 		$db = App\Db::getInstance();
@@ -239,11 +146,13 @@ class Settings_Vtiger_Module_Model extends \App\Base
 		$params['blockid'] = $blockId;
 		$params['sequence'] = ((int) $sequence) + 1;
 		$db->createCommand()->insert('vtiger_settings_field', $params)->execute();
+		Settings_Vtiger_Menu_Model::clearCache();
 	}
 
 	public static function deleteSettingsField($block, $name)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_settings_field', ['name' => $name, 'blockid' => vtlib\Deprecated::getSettingsBlockId($block)])->execute();
+		Settings_Vtiger_Menu_Model::clearCache();
 	}
 
 	/**
@@ -255,5 +164,6 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	{
 		$db = App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_settings_field', ['like', 'linkto', "module={$moduleName}&"])->execute();
+		Settings_Vtiger_Menu_Model::clearCache();
 	}
 }

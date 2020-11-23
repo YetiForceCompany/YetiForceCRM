@@ -25,13 +25,13 @@ $.Class(
 		 * Set event for select row
 		 * @param {function} cb
 		 */
-		setSelectEvent: function(cb) {
+		setSelectEvent: function (cb) {
 			this.selectEvent = cb;
 		},
 		/**
 		 * Generate tree
 		 */
-		generateTree: function() {
+		generateTree: function () {
 			let plugins = [];
 			if (this.multiple) {
 				plugins.push('category');
@@ -61,12 +61,12 @@ $.Class(
 		/**
 		 * Register select events
 		 */
-		registerSelectEvent: function() {
+		registerSelectEvent: function () {
 			if (this.multiple) {
 				this.container.find('[name="saveButton"]').on('click', () => {
 					let id = [],
 						name = [];
-					$.each(this.tree.jstree('getCategory', true), function(index, value) {
+					$.each(this.tree.jstree('getCategory', true), function (index, value) {
 						id.push('T' + value.id);
 						name.push(value.text);
 					});
@@ -80,26 +80,26 @@ $.Class(
 				});
 			}
 		},
-		registerSearchEvent: function() {
+		registerSearchEvent: function () {
 			const thisInstance = this;
 			let valueSearch = this.container.find('#valueSearchTree');
-			valueSearch.on('keypress', function(e) {
+			valueSearch.on('keypress', function (e) {
 				if (e.which == 13) {
 					thisInstance.searchingInTree(valueSearch.val());
 				}
 			});
-			this.container.find('#btnSearchTree').on('click', function() {
+			this.container.find('#btnSearchTree').on('click', function () {
 				thisInstance.searchingInTree(valueSearch.val());
 			});
 		},
-		searchingInTree: function(text) {
+		searchingInTree: function (text) {
 			this.tree.jstree(true).search(text);
 		},
 		/**
 		 * Register base events
 		 * @param {jQuery} modalContainer
 		 */
-		registerEvents: function(modalContainer) {
+		registerEvents: function (modalContainer) {
 			this.container = modalContainer;
 			this.tree = this.container.find('.js-tree-contents');
 			this.multiple = this.container.find('.js-multiple').val() == 1 ? true : false;

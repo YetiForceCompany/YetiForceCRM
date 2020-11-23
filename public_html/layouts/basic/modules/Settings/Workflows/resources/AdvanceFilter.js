@@ -32,13 +32,13 @@ Vtiger_AdvanceFilter_Js(
 			'is Not Watching Record'
 		],
 
-		getFieldSpecificType: function(fieldSelected) {
+		getFieldSpecificType: function (fieldSelected) {
 			var fieldInfo = fieldSelected.data('fieldinfo');
 			var type = fieldInfo.type;
 			return type;
 		},
 
-		getModuleName: function() {
+		getModuleName: function () {
 			return app.getModuleName();
 		},
 
@@ -47,7 +47,7 @@ Vtiger_AdvanceFilter_Js(
 		 * @params : condtionGroupElement - group where condtion need to be added
 		 * @return : current instance
 		 */
-		addNewCondition: function(conditionGroupElement) {
+		addNewCondition: function (conditionGroupElement) {
 			var basicElement = jQuery('.basic', conditionGroupElement);
 			var newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
 			jQuery('select', newRowElement).addClass('select2');
@@ -69,7 +69,7 @@ Vtiger_AdvanceFilter_Js(
 		 * @params : fieldSelect - select element which will represents field list
 		 * @return : select element which will represent the condition element
 		 */
-		loadConditions: function(fieldSelect) {
+		loadConditions: function (fieldSelect) {
 			let row = fieldSelect.closest('div.js-conditions-row');
 			let conditionSelectElement = row.find('select[name="comparator"]');
 			let conditionSelected = conditionSelectElement.val();
@@ -117,10 +117,7 @@ Vtiger_AdvanceFilter_Js(
 					}
 				}
 			}
-			conditionSelectElement
-				.empty()
-				.html(options)
-				.trigger('change');
+			conditionSelectElement.empty().html(options).trigger('change');
 			return conditionSelectElement;
 		},
 
@@ -128,20 +125,20 @@ Vtiger_AdvanceFilter_Js(
 		 * Function to retrieve the values of the filter
 		 * @return : object
 		 */
-		getValues: function() {
+		getValues: function () {
 			const thisInstance = this;
 			let fieldList = new Array('columnname', 'comparator', 'value', 'valuetype', 'column_condition'),
 				values = {},
 				columnIndex = 0,
 				conditionGroups = jQuery('.conditionGroup', this.getFilterContainer());
-			conditionGroups.each(function(index, domElement) {
+			conditionGroups.each(function (index, domElement) {
 				let groupElement = jQuery(domElement),
 					conditions = jQuery('.conditionList .js-conditions-row', groupElement),
 					iterationValues = {};
 				if (conditions.length <= 0) {
 					return true;
 				}
-				conditions.each(function(i, conditionDomElement) {
+				conditions.each(function (i, conditionDomElement) {
 					let rowElement = $(conditionDomElement),
 						fieldSelectElement = $('[name="columnname"]', rowElement),
 						valueSelectElement = $('[data-value="value"]', rowElement);
@@ -153,9 +150,7 @@ Vtiger_AdvanceFilter_Js(
 						rowValues = {},
 						key,
 						field;
-					if (
-						$.inArray(fieldType, ['picklist', 'multipicklist', 'multiReferenceValue', 'categoryMultipicklist']) > -1
-					) {
+					if ($.inArray(fieldType, ['picklist', 'multipicklist', 'multiReferenceValue']) > -1) {
 						for (key in fieldList) {
 							field = fieldList[key];
 							if (field === 'value' && valueSelectElement.is('input')) {
@@ -234,7 +229,7 @@ Vtiger_AdvanceFilter_Js(
 		 * @prarms : fieldSelectElement - select element which will represents field list
 		 * @return : jquery object which represents the ui for the field
 		 */
-		getFieldSpecificUi: function(fieldSelectElement) {
+		getFieldSpecificUi: function (fieldSelectElement) {
 			var fieldSelected = fieldSelectElement.find('option:selected');
 			var fieldInfo = fieldSelected.data('fieldinfo');
 			if (jQuery.inArray(fieldInfo.comparatorElementVal, this.comparatorsWithNoValueBoxMap) != -1) {
@@ -250,12 +245,12 @@ Vtiger_Field_Js(
 	'Workflows_Field_Js',
 	{},
 	{
-		getUiTypeSpecificHtml: function() {
+		getUiTypeSpecificHtml: function () {
 			var uiTypeModel = this.getUiTypeModel();
 			return uiTypeModel.getUi();
 		},
 
-		getModuleName: function() {
+		getModuleName: function () {
 			var currentModule = app.getModuleName();
 			return currentModule;
 		},
@@ -265,7 +260,7 @@ Vtiger_Field_Js(
 		 * give ui type specific ui
 		 * return <String or Jquery> it can return either plain html or jquery object
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<input type="text" class="getPopupUi form-control" name="' +
 				this.getName() +
@@ -286,7 +281,7 @@ Vtiger_Date_Field_Js(
 		/**
 		 * Function to get the user date format
 		 */
-		getDateFormat: function() {
+		getDateFormat: function () {
 			return this.get('date-format');
 		},
 
@@ -294,7 +289,7 @@ Vtiger_Date_Field_Js(
 		 * Function to get the ui
 		 * @return - input text field
 		 */
-		getUi: function() {
+		getUi: function () {
 			let comparatorSelectedOptionVal = this.get('comparatorElementVal'),
 				dateSpecificConditions = this.get('dateSpecificConditions'),
 				html,
@@ -358,7 +353,7 @@ Vtiger_Date_Field_Js(
 			}
 		},
 
-		_specialDateComparator: function(comp) {
+		_specialDateComparator: function (comp) {
 			var specialComparators = [
 				'less than days ago',
 				'more than days ago',
@@ -384,7 +379,7 @@ Vtiger_Date_Field_Js(
 		/**
 		 * Function to get the user date format
 		 */
-		getDateFormat: function() {
+		getDateFormat: function () {
 			return this.get('date-format');
 		},
 
@@ -392,7 +387,7 @@ Vtiger_Date_Field_Js(
 		 * Function to get the ui
 		 * @return - input text field
 		 */
-		getUi: function() {
+		getUi: function () {
 			let html, element;
 			if (this._specialDateTimeComparator(this.get('comparatorElementVal'))) {
 				html =
@@ -421,7 +416,7 @@ Vtiger_Date_Field_Js(
 			return element;
 		},
 
-		_specialDateTimeComparator: function(comp) {
+		_specialDateTimeComparator: function (comp) {
 			var specialComparators = [
 				'less than hours before',
 				'less than hours later',
@@ -442,7 +437,7 @@ Vtiger_Currency_Field_Js(
 	'Workflows_Currency_Field_Js',
 	{},
 	{
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<input type="text" class="getPopupUi marginLeftZero form-control" name="' +
 				this.getName() +
@@ -466,7 +461,7 @@ Vtiger_Time_Field_Js(
 		 * Function to get the ui
 		 * @return - input text field
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<input type="text" class="getPopupUi time form-control" name="' +
 				this.getName() +
@@ -490,7 +485,7 @@ Vtiger_Field_Js(
 		 * Function to get the ui
 		 * @return - input percentage field
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<input type="text" class="getPopupUi form-control" name="' +
 				this.getName() +
@@ -514,7 +509,7 @@ Vtiger_Field_Js(
 		 * Function to get the ui
 		 * @return - input text field
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<input type="text" class="getPopupUi form-control" name="' +
 				this.getName() +
@@ -538,7 +533,7 @@ Vtiger_Field_Js(
 		 * Function to get the ui
 		 * @return - input text field
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<input type="text" class="getPopupUi form-control boolean" name="' +
 				this.getName() +
@@ -558,7 +553,7 @@ Vtiger_Owner_Field_Js(
 	'Workflows_Owner_Field_Js',
 	{},
 	{
-		getUi: function() {
+		getUi: function () {
 			var html = '<select class="select2" data-value="value" name="' + this.getName() + '">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = this.getValue();

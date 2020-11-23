@@ -10,22 +10,12 @@
 /**
  * Help info View Class.
  */
-class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\Modal
+class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\ModalSettings
 {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$this->modalIcon = 'fas fa-info-circle';
@@ -38,7 +28,7 @@ class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\Modal
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$fieldModel = \Vtiger_Field_Model::getInstanceFromFieldId($request->getInteger('field'));
 		$qualifiedModuleName = $request->getModule(false);
@@ -55,7 +45,7 @@ class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule(false);

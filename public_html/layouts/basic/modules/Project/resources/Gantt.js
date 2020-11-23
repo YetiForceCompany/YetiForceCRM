@@ -11,18 +11,13 @@ class Gantt {
 	constructor(container, projectData) {
 		this.container = $(container);
 		this.containerParent = this.container.parent();
-		this.headerContainer = this.containerParent
-			.parent()
-			.find('.js-gantt-header')
-			.eq(0);
+		this.headerContainer = this.containerParent.parent().find('.js-gantt-header').eq(0);
 		this.weekStart = 6 - CONFIG.firstDayOfWeekNos;
 		let workingDays = [1, 2, 3, 4, 5];
 		this.options = {
 			slots: {
 				header: {
-					beforeOptions: `<button class="btn btn-primary pb-2 mr-2 h-100 js-gantt__front-filter"><span class="fas fa-filter"></span> ${
-						LANG.JS_GANTT_FILTER
-					}</button>`
+					beforeOptions: `<button class="btn btn-primary pb-2 mr-2 h-100 js-gantt__front-filter"><span class="fas fa-filter"></span> ${LANG.JS_GANTT_FILTER}</button>`
 				}
 			},
 			maxRows: 30,
@@ -61,7 +56,7 @@ class Gantt {
 					{
 						id: 4,
 						label: app.vtranslate('JS_DAYS'),
-						value: task => {
+						value: (task) => {
 							return task.duration / 24 / 60 / 60;
 						},
 						width: 75,
@@ -79,7 +74,7 @@ class Gantt {
 					{
 						id: 5,
 						label: app.vtranslate('JS_PLANNED'),
-						value: task => {
+						value: (task) => {
 							return task.planned_duration;
 						},
 						width: 85,
@@ -110,7 +105,12 @@ class Gantt {
 							}
 						}
 					},
-					{ id: 7, label: app.vtranslate('JS_ASSIGNED', 'Project'), value: 'assigned_user_name', width: 110 },
+					{
+						id: 7,
+						label: app.vtranslate('JS_ASSIGNED', 'Project'),
+						value: 'assigned_user_name',
+						width: 110
+					},
 					{
 						id: 8,
 						label: '%',
@@ -221,7 +221,7 @@ class Gantt {
 				LANG.JS_OCT,
 				LANG.JS_DEC
 			],
-			ordinal: n => `${n}`,
+			ordinal: (n) => `${n}`,
 			Now: LANG.JS_GANTT_NOW,
 			'X-Scale': LANG.JS_GANTT_ZOOM_X,
 			'Y-Scale': LANG.JS_GANTT_ZOOM_Y,
@@ -238,11 +238,11 @@ class Gantt {
 	 * @returns {Object}
 	 */
 	filterProjectData(projectData) {
-		let tasks = this.allTasks.map(task => Object.assign({}, task));
+		let tasks = this.allTasks.map((task) => Object.assign({}, task));
 		for (let moduleName in this.filter.status) {
 			if (this.filter.status.hasOwnProperty(moduleName)) {
-				const visibleLabels = this.filter.status[moduleName].map(status => status.label);
-				tasks = tasks.filter(task => {
+				const visibleLabels = this.filter.status[moduleName].map((status) => status.label);
+				tasks = tasks.filter((task) => {
 					if (task.module !== moduleName) {
 						return true;
 					}
@@ -262,7 +262,7 @@ class Gantt {
 	 * @returns {array}
 	 */
 	addIcons(tasks) {
-		return tasks.map(task => {
+		return tasks.map((task) => {
 			let icon = 'briefcase';
 			if (task.type === 'milestone') {
 				icon = 'folder';
@@ -280,13 +280,7 @@ class Gantt {
 	 */
 	resize() {
 		let offsetTop = this.container.offset().top;
-		let contentHeight =
-			$('body')
-				.eq(0)
-				.height() -
-			$('.js-footer')
-				.eq(0)
-				.height();
+		let contentHeight = $('body').eq(0).height() - $('.js-footer').eq(0).height();
 		let height = contentHeight - offsetTop - 100;
 		if (height < 300) {
 			height = 300;
@@ -301,29 +295,29 @@ class Gantt {
 	 * Register gantt header actions
 	 */
 	registerHeaderActions() {
-		this.headerContainer.find('.js-gantt-header__btn-filter').on('click', e => {
+		this.headerContainer.find('.js-gantt-header__btn-filter').on('click', (e) => {
 			e.preventDefault();
 			this.showFiltersModal();
 		});
-		this.headerContainer.find('.js-gantt-header__btn-center').on('click', e => {
+		this.headerContainer.find('.js-gantt-header__btn-center').on('click', (e) => {
 			this.ganttElastic.$emit('recenterPosition');
 		});
-		this.headerContainer.find('.js-gantt-header__range-slider--x').on('input', e => {
+		this.headerContainer.find('.js-gantt-header__range-slider--x').on('input', (e) => {
 			this.ganttElastic.$emit('times-timeZoom-change', Number(e.target.value));
 		});
-		this.headerContainer.find('.js-gantt-header__range-slider--y').on('input', e => {
+		this.headerContainer.find('.js-gantt-header__range-slider--y').on('input', (e) => {
 			this.ganttElastic.$emit('row-height-change', Number(e.target.value));
 		});
-		this.headerContainer.find('.js-gantt-header__range-slider--task-list-width').on('input', e => {
+		this.headerContainer.find('.js-gantt-header__range-slider--task-list-width').on('input', (e) => {
 			this.ganttElastic.$emit('taskList-width-change', Number(e.target.value));
 		});
-		this.headerContainer.find('.js-gantt-header__range-slider--scope').on('input', e => {
+		this.headerContainer.find('.js-gantt-header__range-slider--scope').on('input', (e) => {
 			this.ganttElastic.$emit('scope-change', Number(e.target.value));
 		});
-		this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').on('change', e => {
+		this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').on('change', (e) => {
 			this.ganttState.options.taskList.display = $(e.target).is(':checked');
 		});
-		this.ganttElastic.$watch('state.taskList.display', value => {
+		this.ganttElastic.$watch('state.taskList.display', (value) => {
 			this.headerContainer.find('.js-gantt-header__range-slider--task-list-visible').prop('checked', value);
 		});
 		this.headerContainer
@@ -345,7 +339,7 @@ class Gantt {
 		}
 		this.statuses = this.projectData.statuses;
 		this.filter = { status: this.projectData.activeStatuses };
-		this.container.closest('form').on('submit', ev => {
+		this.container.closest('form').on('submit', (ev) => {
 			ev.preventDefault();
 			ev.stopPropagation();
 			return false;
@@ -382,7 +376,7 @@ class Gantt {
 				blockInfo: {
 					enabled: true,
 					onBlock: () => {
-						AppConnector.request(params).done(response => {
+						AppConnector.request(params).done((response) => {
 							self.loadProject(response.result);
 							progressInstance.progressIndicator({ mode: 'hide' });
 						});
@@ -436,9 +430,9 @@ class Gantt {
 				<div class="form-group">
 					<label>${app.vtranslate('JS_PROJECT_STATUSES', 'Project')}:</label>
 					<select class="select2 form-control" id="js-gantt__filter-project" multiple>
-						${self.statuses.Project.map(status => {
+						${self.statuses.Project.map((status) => {
 							return `<option value="${status.value}" ${
-								this.filter.status.Project.map(status => status.value).indexOf(status.value) >= 0 ? 'selected' : ''
+								this.filter.status.Project.map((status) => status.value).indexOf(status.value) >= 0 ? 'selected' : ''
 							}>${status.label}</option>`;
 						})}
 					</select>
@@ -446,9 +440,9 @@ class Gantt {
 				<div class="form-group">
 				<label>${app.vtranslate('JS_MILESTONE_STATUSES', 'Project')}:</label>
 					<select class="select2 form-control" id="js-gantt__filter-milestone" multiple>
-						${self.statuses.ProjectMilestone.map(status => {
+						${self.statuses.ProjectMilestone.map((status) => {
 							return `<option value="${status.value}" ${
-								this.filter.status.ProjectMilestone.map(status => status.value).indexOf(status.value) >= 0
+								this.filter.status.ProjectMilestone.map((status) => status.value).indexOf(status.value) >= 0
 									? 'selected'
 									: ''
 							}>${status.label}</option>`;
@@ -458,9 +452,11 @@ class Gantt {
 				<div class="form-group">
 				<label>${app.vtranslate('JS_TASK_STATUSES', 'Project')}:</label>
 					<select class="select2 form-control" id="js-gantt__filter-task" multiple>
-						${self.statuses.ProjectTask.map(status => {
+						${self.statuses.ProjectTask.map((status) => {
 							return `<option value="${status.value}" ${
-								this.filter.status.ProjectTask.map(status => status.value).indexOf(status.value) >= 0 ? 'selected' : ''
+								this.filter.status.ProjectTask.map((status) => status.value).indexOf(status.value) >= 0
+									? 'selected'
+									: ''
 							}>${status.label}</option>`;
 						})}
 					</select>
@@ -471,22 +467,22 @@ class Gantt {
 				success: {
 					label: '<span class="fas fa-check mr-1"></span>' + app.vtranslate('JS_UPDATE_GANTT', 'Project'),
 					className: 'btn-success',
-					callback: function() {
+					callback: function () {
 						self.saveFilter({
 							status: {
 								Project: $('#js-gantt__filter-project', this)
 									.val()
-									.map(status => {
+									.map((status) => {
 										return self.getStatusFromValue(status, 'Project');
 									}),
 								ProjectMilestone: $('#js-gantt__filter-milestone', this)
 									.val()
-									.map(status => {
+									.map((status) => {
 										return self.getStatusFromValue(status, 'ProjectMilestone');
 									}),
 								ProjectTask: $('#js-gantt__filter-task', this)
 									.val()
-									.map(status => {
+									.map((status) => {
 										return self.getStatusFromValue(status, 'ProjectTask');
 									})
 							}
@@ -496,7 +492,7 @@ class Gantt {
 				danger: {
 					label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CANCEL'),
 					className: 'btn-danger',
-					callback: function() {}
+					callback: function () {}
 				}
 			}
 		});

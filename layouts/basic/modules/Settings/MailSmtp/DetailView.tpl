@@ -7,12 +7,12 @@
 		<div class="col-md-4 mt-3">
 			<div class="float-right btn-toolbar">
 				<a class="btn btn-info" role="button" href="{$RECORD_MODEL->getEditViewUrl()}">
-					<span class="yfi yfi-full-editing-view" title="{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}"></span>
+					<span class="yfi yfi-full-editing-view mr-2" title="{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}"></span>
 					<span class="sr-only">{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</span>
 					<strong>{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
 				</a>
 				<button type="button" class="btn btn-danger ml-2 js-remove" data-js="click" data-record-id="{$RECORD_MODEL->getId()}">
-					<span class="fas fa-trash-alt mr-1"></span>
+					<span class="fas fa-trash-alt mr-2"></span>
 					<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>
@@ -84,12 +84,6 @@
 					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_SECURE', $QUALIFIED_MODULE)}</label></td>
 					<td class="{$WIDTHTYPE} w-75">
 						{$RECORD_MODEL->getDisplayValue('secure')}
-					</td>
-				</tr>
-				<tr>
-					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_INDIVIDUAL_DELIVERY', $QUALIFIED_MODULE)}</label></td>
-					<td class="{$WIDTHTYPE} w-75">
-						{$RECORD_MODEL->getDisplayValue('individual_delivery')}
 					</td>
 				</tr>
 				<tr>

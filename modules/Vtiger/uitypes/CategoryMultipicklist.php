@@ -19,7 +19,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	{
 		if ($value) {
 			$value = trim($value, ',');
-			$value = ",$value,";
+			$value = ",{$value},";
 		} elseif (null === $value) {
 			$value = '';
 		}
@@ -33,7 +33,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	{
 		$values = [];
 		if (!\is_array($value)) {
-			$value = $value ? explode('##', $value) : [];
+			$value = $value ? explode(',', $value) : [];
 		}
 		foreach ($value as $val) {
 			$this->validate($val, true);
@@ -95,6 +95,6 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	 */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'c', 'k', 'y', 'ny'];
+		return ['e', 'n', 'c', 'ch', 'k', 'kh', 'y', 'ny'];
 	}
 }

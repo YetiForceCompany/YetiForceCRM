@@ -79,7 +79,7 @@ class PrivilegeQuery
 			$conditions[] = ['and', ['vtiger_crmentity.private' => 1], $subConditions];
 			$query->andWhere($conditions);
 		}
-		if (false !== $relatedRecord && \App\Config::security('PERMITTED_BY_RECORD_HIERARCHY')) {
+		if (\App\Config::security('PERMITTED_BY_RECORD_HIERARCHY') && !empty($relatedRecord)) {
 			$role = $userModel->getRoleDetail();
 			if (2 == $role->get('listrelatedrecord')) {
 				$rparentRecord = \Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
@@ -96,7 +96,7 @@ class PrivilegeQuery
 			}
 		}
 		$tabId = Module::getModuleId($moduleName);
-		if (!$userModel->isAdminUser() && 1 == $userModel->profile_global_permission[1] && 1 == $userModel->profile_global_permission[2] && 3 === $userModel->defaultOrgSharingPermission[$tabId]) {
+		if (!$userModel->isAdminUser() && 1 == $userModel->profile_global_permission[1] && 1 == $userModel->profile_global_permission[2] && 3 === ($userModel->defaultOrgSharingPermission[$tabId] ?? null)) {
 			$conditions = ['or'];
 			$conditions[] = ['vtiger_crmentity.smownerid' => $userId];
 			if (!empty($userModel->groups)) {

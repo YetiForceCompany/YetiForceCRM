@@ -59,15 +59,32 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$moduleName = $request->getByType('crmModule');
 		$record = $request->getInteger('crmRecord');
 		$type = $request->getByType('type');
-
 		$return = [];
-		if (!empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
+		if (('Users' === $moduleName && $record === \App\User::getCurrentUserRealId()) || ('Users' !== $moduleName && !empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record))) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$eventHandler = new App\EventHandler();
+			$eventHandler->setRecordModel($recordModel)->setModuleName($moduleName)->setParams($return);
+			$eventHandler->trigger('MailComposeParamBefore');
+			$return = $eventHandler->getParams();
+
 			$recordModel_OSSMailView = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
-			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
-			if (!empty($email)) {
+			if ($request->isEmpty('to') && ($email = $recordModel_OSSMailView->findEmail($record, $moduleName))) {
 				$return['to'] = $email;
 			}
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			foreach (['_to', '_cc'] as $name) {
+				$content = $request->has($name) ? $request->getRaw($name) : ($return[$name] ?? '');
+				if ($content) {
+					$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
+					$emailParser->emailoptout = false;
+					$fromEmailDetails = $emailParser->setContent($content)->parse()->getContent();
+					if ($fromEmailDetails) {
+						$return[substr($name, -2)] = $fromEmailDetails;
+					}
+					if (isset($return[$name])) {
+						unset($return[$name]);
+					}
+				}
+			}
 			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(3)))) || 'Campaigns' === $moduleName) {
 				$subject = '';
 				if ('new' === $type || 'Campaigns' === $moduleName) {
@@ -79,8 +96,32 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 					$return['recordNumber'] = $recordNumber;
 					$subject = "[$recordNumber] $subject";
 				}
+				if (($templateId = $request->getInteger('template', 0)) && \App\Record::isExists($templateId, 'EmailTemplates')) {
+					$params = $request->getArray('tamplateParams', \App\Purifier::TEXT, [], App\Purifier::ALNUM);
+					$templateModel = \Vtiger_Record_Model::getInstanceById($templateId, 'EmailTemplates');
+					$textParser = \App\TextParser::getInstanceByModel($recordModel);
+					foreach ($params as $key => $value) {
+						$textParser->setParam($key, $value);
+					}
+					$subject = $textParser->setContent($templateModel->get('subject'))->parse()->getContent();
+					$return['html'] = true;
+					$return['body'] = $textParser->setContent($templateModel->get('content'))->parse()->getContent();
+				}
 				$return['subject'] = $subject;
+				if ('Calendar' === $moduleName && $request->getBoolean('ics')) {
+					$filePath = \App\Config::main('tmp_dir');
+					$tmpFileName = tempnam($filePath, 'ics');
+					$filePath .= basename($tmpFileName);
+					if (false !== file_put_contents($filePath, $recordModel->getICal())) {
+						$fileName = \App\Fields\File::sanitizeUploadFileName($recordModel->getName()) . '.ics';
+						$return['filePath'] = [['path' => $filePath, 'name' => $fileName]];
+					}
+				}
 			}
+
+			$eventHandler->setParams($return);
+			$eventHandler->trigger('MailComposeParamAfter');
+			$return = $eventHandler->getParams();
 		}
 		if (!empty($moduleName)) {
 			$return['crmmodule'] = $moduleName;

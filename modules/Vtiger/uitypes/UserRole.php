@@ -19,8 +19,8 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (substr($value, 0, 1) !== 'H' || !is_numeric(substr($value, 1)) || is_null(\App\PrivilegeUtil::getRoleName($value))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+		if ('H' !== substr($value, 0, 1) || !is_numeric(substr($value, 1)) || null === \App\PrivilegeUtil::getRoleName($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
@@ -30,11 +30,14 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$displayValue = \App\TextParser::textTruncate(\App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->getFieldModel()->getModuleName()), is_int($length) ? $length : false);
-		if (\App\User::getCurrentUserModel()->isAdmin() && $rawText !== false) {
+		$displayValue = \App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->getFieldModel()->getModuleName());
+		if ($rawText) {
+			return $displayValue;
+		}
+		$displayValue = \App\TextParser::textTruncate($displayValue, \is_int($length) ? $length : false);
+		if (\App\User::getCurrentUserModel()->isAdmin()) {
 			$roleRecordModel = new Settings_Roles_Record_Model();
 			$roleRecordModel->set('roleid', $value);
-
 			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \App\Purifier::encodeHtml($displayValue) . '</a>';
 		}
 		return $displayValue;
@@ -79,7 +82,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'c'];
 	}
@@ -97,10 +100,9 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		if ($operator === 'e') {
+		if ('e' === $operator) {
 			return 'ConditionBuilder/UserRole.tpl';
-		} else {
-			return 'ConditionBuilder/Base.tpl';
 		}
+		return 'ConditionBuilder/Base.tpl';
 	}
 }

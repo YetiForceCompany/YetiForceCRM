@@ -18,7 +18,14 @@
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
 	{assign var=IS_EDITABLE_READ_ONLY value=$FIELD_MODEL->isEditableReadOnly()}
-	<div class="invUitype_{$MODULE}_{$FIELD_NAME}">
+	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
+	<div class="uitype_{$MODULE}_{$FIELD_NAME}">
+		{if isset($PARAMS['searchParams'])}
+			<input name="searchParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['searchParams'])}"/>
+		{/if}
+		{if isset($PARAMS['modalParams'])}
+			<input name="modalParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['modalParams'])}"/>
+		{/if}
 		{if {$REFERENCE_LIST_COUNT} eq 1}
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}"/>
 		{/if}
@@ -37,7 +44,11 @@
 				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_LIST[0]}"/>
 			{/if}
 		{/if}
-		{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
+		{if $REFERENCE_LIST_COUNT}
+			{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
+		{else}
+			{assign var=REFERENCE_MODULE_MODEL value=false}
+		{/if}
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$VALUE}" title="{$FIELD_VALUE}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}" data-fieldinfo='{$FIELD_INFO}' {if $IS_EDITABLE_READ_ONLY}readonly="readonly"{/if} />
 		<div class="input-group referenceGroup {$WIDTHTYPE_GROUP}">
 			{if $REFERENCE_LIST_COUNT > 1}

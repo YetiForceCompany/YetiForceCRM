@@ -45,7 +45,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function isBaseCurrency()
 	{
-		return ($this->get('defaultid') != '-11') ? false : true;
+		return ('-11' != $this->get('defaultid')) ? false : true;
 	}
 
 	/**
@@ -59,14 +59,14 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->isBaseCurrency()) {
 			//NO Edit and delete link for base currency
 			return [];
-		} else {
-			$recordLinks[] = [
-				'linkurl' => "javascript:Settings_Currency_Js.triggerDefault(event, '" . $this->getId() . "')",
-				'linklabel' => 'LBL_SET_AS_DEFAULT',
-				'linkclass' => 'btn-warning btn-sm',
-				'linkicon' => 'fas fa-redo-alt',
-			];
 		}
+		$recordLinks[] = [
+			'linkurl' => "javascript:Settings_Currency_Js.triggerDefault(event, '" . $this->getId() . "')",
+			'linklabel' => 'LBL_SET_AS_DEFAULT',
+			'linkclass' => 'btn-warning btn-sm',
+			'linkicon' => 'fas fa-redo-alt',
+		];
+
 		$recordLinks[] = [
 			'linkurl' => "javascript:Settings_Currency_Js.triggerEdit(event, '" . $this->getId() . "')",
 			'linklabel' => 'LBL_EDIT',
@@ -148,18 +148,9 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 				])->execute();
 			$id = $db->getLastInsertID('vtiger_currency_info_id_seq');
 		}
-		self::clearCache();
+		\App\Fields\Currency::clearCache();
 
 		return $id;
-	}
-
-	/**
-	 * Function clears cache.
-	 */
-	public static function clearCache()
-	{
-		\App\Cache::delete('Currency', 'List');
-		\App\Cache::delete('AllCurrency', 'All');
 	}
 
 	/**
@@ -194,7 +185,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getAllNonMapped($includedIds = [])
 	{
-		if (!is_array($includedIds)) {
+		if (!\is_array($includedIds)) {
 			if (!empty($includedIds)) {
 				$includedIds = [$includedIds];
 			} else {

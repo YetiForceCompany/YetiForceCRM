@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 /**
@@ -14,9 +15,7 @@
 class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 {
 	/**
-	 * Function to get the values in stuctured format.
-	 *
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * {@inheritdoc}
 	 */
 	public function getStructure()
 	{
@@ -29,17 +28,12 @@ class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Mo
 		$moduleModel = $this->getModule();
 		$blockModelList = $moduleModel->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
-			$fieldModelList = $blockModel->getFields();
-			if (!empty($fieldModelList)) {
-				$values[$blockLabel] = [];
-				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if ($fieldModel->isEditable() && $fieldModel->isMassEditable() && $fieldModel->isViewable() && $this->isFieldRestricted($fieldModel)) {
-						if ($recordExists) {
-							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-						}
-						$fieldModel->set('typeofdata', str_replace('~M', '~O', $fieldModel->get('typeofdata')));
-						$values[$blockLabel][$fieldName] = $fieldModel;
+			foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
+				if ($fieldModel->isEditable() && $fieldModel->isMassEditable() && $fieldModel->isViewable() && $this->isFieldRestricted($fieldModel)) {
+					if ($recordExists) {
+						$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 					}
+					$values[$blockLabel][$fieldName] = $fieldModel;
 				}
 			}
 		}
@@ -47,18 +41,19 @@ class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Mo
 		return $values;
 	}
 
-	/*
-	 * Function that return Field Restricted are not
+	/**
+	 * Function that return Field Restricted are not.
+	 *
 	 * 	@params Field Model
 	 *  @returns boolean true or false
+	 *
+	 * @param mixed $fieldModel
 	 */
-
 	public function isFieldRestricted($fieldModel)
 	{
-		if ($fieldModel->getFieldDataType() == 'image') {
+		if ('image' == $fieldModel->getFieldDataType()) {
 			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 }

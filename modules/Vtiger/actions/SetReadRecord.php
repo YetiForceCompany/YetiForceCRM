@@ -18,7 +18,7 @@ class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -27,7 +27,7 @@ class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$this->saveRecord($request);

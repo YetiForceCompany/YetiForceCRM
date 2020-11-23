@@ -7,6 +7,9 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-4 d-flex justify-content-end align-items-center">
+				<a href="https://yetiforce.com/en/knowledge-base/documentation/administrator-documentation/category/dav-applications" target="_blank" class="btn btn-outline-info float-right mr-3 js-popover-tooltip" data-content="{App\Language::translate('BTM_GOTO_YETIFORCE_DOCUMENTATION')}" rel="noreferrer noopener" data-js="popover">
+					<span class="mdi mdi-book-open-page-variant u-fs-lg"></span>
+				</a>
 				<button class="btn btn-primary js-add-key" data-js="click">
 					<span class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}
 				</button>
@@ -23,8 +26,8 @@
 			<div class="alert alert-info">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h5 class="alert-heading">
-					<span class="mdi mdi-information-outline u-font-size-2x mr-2 float-left"></span>
-				{\App\Language::translate('LBL_ALERT_DAV_CONFIG_TITLE', $QUALIFIED_MODULE)}
+					<span class="mdi mdi-information-outline u-fs-2em mr-2 float-left"></span>
+					{\App\Language::translate('LBL_ALERT_DAV_CONFIG_TITLE', $QUALIFIED_MODULE)}
 				</h5>
 				<p>{\App\Language::translate('LBL_ALERT_DAV_CONFIG_DESC', $QUALIFIED_MODULE)}</p>
 				<ul>
@@ -32,13 +35,17 @@
 					<li>{App\Config::main('site_URL')}dav.php/calendars/(__dav_login__)/YFCalendar/</li>
 					<li>{App\Config::main('site_URL')}dav.php/principals/(__dav_login__)/</li>
 				</ul>
-				<h6>DAVdroid</h6>
+				<h6><a href="https://www.davx5.com/download" target="_blank" rel="noreferrer noopener">DAVdroid</a></h6>
 				<ul>
 					<li>{App\Config::main('site_URL')}dav.php</li>
 				</ul>
-				<h6>Thunderbird CalDAV, Outlook CalDav Synchronizer</h6>
+				<h6><a href="https://addons.thunderbird.net/pl/thunderbird/addon/lightning/" target="_blank" rel="noreferrer noopener">Thunderbird Lightning</a>, <a href="http://caldavsynchronizer.org/" target="_blank" rel="noreferrer noopener">Outlook CalDav Synchronizer</a></h6>
 				<ul>
 					<li>{App\Config::main('site_URL')}dav.php/calendars/(__dav_login__)/YFCalendar/</li>
+				</ul>
+				<h6><a href="https://addons.thunderbird.net/en-US/thunderbird/addon/cardbook/" target="_blank" rel="noreferrer noopener">Thunderbird CardBook</a>, <a href="http://caldavsynchronizer.org/" target="_blank" rel="noreferrer noopener">Outlook CalDav Synchronizer</a></h6>
+				<ul>
+					<li>{App\Config::main('site_URL')}dav.php/addressbooks/(__dav_login__)/YFAddressBook/</li>
 				</ul>
 				<h6>iOS</h6>
 				<ul>

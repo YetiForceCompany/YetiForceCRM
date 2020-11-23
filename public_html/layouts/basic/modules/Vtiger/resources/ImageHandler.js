@@ -8,8 +8,8 @@
  *************************************************************************************/
 'use strict';
 
-(function($) {
-	var vtImageLoader = function(element, options) {
+(function ($) {
+	var vtImageLoader = function (element, options) {
 		var thisInstance = this;
 		this.defaults = {
 			position: 'append',
@@ -24,7 +24,7 @@
 		this.container = element;
 		this.position = options.position;
 
-		this.show = function() {
+		this.show = function () {
 			var imagePath = 'themes/basic/images/loading.gif';
 			var imageHtml = '<span class="imageHolder"><img class="loadinImg" src="' + imagePath + '" /></span>';
 
@@ -43,7 +43,7 @@
 			}
 		};
 
-		this.hide = function() {
+		this.hide = function () {
 			$('.imageHolder', this.container).remove();
 		};
 
@@ -54,8 +54,8 @@
 		}
 	};
 
-	$.fn.vtLoadImage = function(options) {
-		return this.each(function(index, element) {
+	$.fn.vtLoadImage = function (options) {
+		return this.each(function (index, element) {
 			var jQueryObject = $(element);
 			var imageLoader = new vtImageLoader(jQueryObject, options);
 			jQueryObject.data('imageLoader', imageLoader);

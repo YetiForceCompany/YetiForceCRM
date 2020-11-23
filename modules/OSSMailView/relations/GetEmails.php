@@ -81,7 +81,7 @@ class OSSMailView_GetEmails_Relation implements RelationInterface
 	 *
 	 * @return bool
 	 */
-	public function isExists(array  $data): bool
+	public function isExists(array $data): bool
 	{
 		return (bool) (new \App\Db\Query())->from(self::TABLE_NAME)->where($data)->exists();
 	}
@@ -96,7 +96,7 @@ class OSSMailView_GetEmails_Relation implements RelationInterface
 	public function addToDB(array $data): bool
 	{
 		$result = true;
-		if(!$this->isExists(['ossmailviewid' => $data['ossmailviewid'], 'crmid' => $data['crmid']])){
+		if (!$this->isExists(['ossmailviewid' => $data['ossmailviewid'], 'crmid' => $data['crmid']])) {
 			$result = (bool) \App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, $data)->execute();
 		}
 		return $result;
@@ -113,7 +113,7 @@ class OSSMailView_GetEmails_Relation implements RelationInterface
 	public function updateDB(int $toRecordId, array $where): bool
 	{
 		$result = true;
-		if(!$this->isExists(['ossmailviewid' => $where['ossmailviewid'], 'crmid' => $toRecordId])){
+		if (!$this->isExists(['ossmailviewid' => $where['ossmailviewid'], 'crmid' => $toRecordId])) {
 			$result = (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['crmid' => $toRecordId], $where)->execute();
 		}
 		return $result;

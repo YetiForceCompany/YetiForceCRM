@@ -22,11 +22,15 @@
 				{assign var="COUNTRY" value=$PHONE_DETAIL['country']}
 			{else}
 				{assign var="PHONE_DETAIL" value=[]}
-				{assign var="COUNTRY" value=\App\Language::getLanguageRegion()}
+				{if !\App\Config::component('Phone', 'defaultPhoneCountry')}
+					{assign var="COUNTRY" value=\App\Language::getLanguageRegion()}
+				{else}
+					{assign var="COUNTRY" value=''}
+				{/if}
 			{/if}
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
-			{assign var="ACTIVE_EXTRA_FIELD" value=($VIEW == 'Edit' || $VIEW == 'QuickCreateAjax') && $FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
+			{assign var="ACTIVE_EXTRA_FIELD" value=!empty($VIEW) && ($VIEW == 'Edit' || $VIEW == 'QuickCreateAjax') && $FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
 			{assign var=PICKLIST_VALUES value=App\Fields\Country::getAll('phone')}
 			{assign var=IS_LAZY value=count($PICKLIST_VALUES) > \App\Config::performance('picklistLimit')}
 			<div class="form-row">

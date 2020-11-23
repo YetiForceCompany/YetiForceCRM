@@ -69,17 +69,17 @@ class CustomView {
 		let aDeferred = $.Deferred();
 		let formData = $('#CustomView').serializeFormData();
 		AppConnector.request(formData, true)
-			.done(function(data) {
+			.done(function (data) {
 				aDeferred.resolve(data);
 			})
-			.fail(function(error) {
+			.fail(function (error) {
 				aDeferred.reject(error);
 			});
 		return aDeferred.promise();
 	}
 
 	saveAndViewFilter() {
-		this.saveFilter().done(function(data) {
+		this.saveFilter().done(function (data) {
 			let response = data.result;
 			if (response && response.success) {
 				let url;
@@ -91,9 +91,10 @@ class CustomView {
 				window.location.href = url;
 			} else {
 				$.unblockUI();
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_DUPLICATE_RECORD'),
-					text: response.message
+					text: response.message,
+					type: 'error'
 				});
 			}
 		});
@@ -102,7 +103,7 @@ class CustomView {
 	registerIconEvents() {
 		this.getContentsContainer()
 			.find('.js-filter-preferences')
-			.on('change', '.js-filter-preference', e => {
+			.on('change', '.js-filter-preference', (e) => {
 				let currentTarget = $(e.currentTarget);
 				let iconElement = currentTarget.next();
 				if (currentTarget.prop('checked')) {
@@ -115,7 +116,7 @@ class CustomView {
 
 	registerBlockToggleEvent() {
 		const container = this.getContentsContainer();
-		container.on('click', '.blockHeader', function(e) {
+		container.on('click', '.blockHeader', function (e) {
 			const target = $(e.target);
 			if (
 				target.is('input') ||
@@ -160,14 +161,10 @@ class CustomView {
 	getDuplicateFields() {
 		let fields = [];
 		const container = this.getContentsContainer();
-		container.find('.js-duplicates-container .js-duplicates-row').each(function() {
+		container.find('.js-duplicates-container .js-duplicates-row').each(function () {
 			fields.push({
-				fieldid: $(this)
-					.find('.js-duplicates-field')
-					.val(),
-				ignore: $(this)
-					.find('.js-duplicates-ignore')
-					.is(':checked')
+				fieldid: $(this).find('.js-duplicates-field').val(),
+				ignore: $(this).find('.js-duplicates-ignore').is(':checked')
 			});
 		});
 		return fields;
@@ -178,12 +175,10 @@ class CustomView {
 	registerDuplicatesEvents() {
 		const container = this.getContentsContainer();
 		App.Fields.Picklist.showSelect2ElementView(container.find('.js-duplicates-container .js-duplicates-field'));
-		container.on('click', '.js-duplicates-remove', function(e) {
-			$(this)
-				.closest('.js-duplicates-row')
-				.remove();
+		container.on('click', '.js-duplicates-remove', function (e) {
+			$(this).closest('.js-duplicates-row').remove();
 		});
-		container.find('.js-duplicate-add-field').on('click', function() {
+		container.find('.js-duplicate-add-field').on('click', function () {
 			let template = container.find('.js-duplicates-field-template').clone();
 			template.removeClass('d-none');
 			template.removeClass('js-duplicates-field-template');
@@ -192,12 +187,13 @@ class CustomView {
 		});
 	}
 	registerSubmitEvent(select2Element) {
-		$('#CustomView').on('submit', e => {
+		$('#CustomView').on('submit', (e) => {
 			let selectElement = this.getColumnSelectElement();
 			if ($('#viewname').val().length > 100) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
-					text: app.vtranslate('JS_VIEWNAME_ALERT')
+					text: app.vtranslate('JS_VIEWNAME_ALERT'),
+					type: 'error'
 				});
 				e.preventDefault();
 				return;
@@ -249,9 +245,7 @@ class CustomView {
 				let advfilterlist = this.advanceFilterInstance.getConditions();
 				$('#advfilterlist').val(JSON.stringify(advfilterlist));
 				$('[name="duplicatefields"]').val(JSON.stringify(this.getDuplicateFields()));
-				$('input[name="columnslist"]', this.getContentsContainer()).val(
-					JSON.stringify(this.getSelectedColumns())
-				);
+				$('input[name="columnslist"]', this.getContentsContainer()).val(JSON.stringify(this.getSelectedColumns()));
 				this.saveAndViewFilter();
 				return false;
 			} else {
@@ -266,7 +260,7 @@ class CustomView {
 	registerDisableSubmitOnEnter() {
 		this.getContentsContainer()
 			.find('#viewname, [name="color"]')
-			.keydown(function(e) {
+			.keydown(function (e) {
 				if (e.keyCode === 13) {
 					e.preventDefault();
 				}
@@ -275,7 +269,8 @@ class CustomView {
 
 	registerEvents() {
 		this.registerIconEvents();
-		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
+		App.Fields.Text.Editor.register(this.getContentsContainer().find('.js-editor'));
+		App.Fields.Tree.register(this.getContentsContainer());
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
 		this.registerDuplicatesEvents();

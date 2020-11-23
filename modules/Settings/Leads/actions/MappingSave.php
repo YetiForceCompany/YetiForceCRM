@@ -11,11 +11,11 @@
 
 class Settings_Leads_MappingSave_Action extends Settings_Vtiger_Index_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mapping = $request->get('mapping');
 		$csrfKey = $GLOBALS['csrf']['input-name'] ?? '';
-		if (array_key_exists($csrfKey, $mapping)) {
+		if (\array_key_exists($csrfKey, $mapping)) {
 			unset($mapping[$csrfKey]);
 		}
 		$mappingModel = Settings_Leads_Mapping_Model::getCleanInstance();

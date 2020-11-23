@@ -8,8 +8,8 @@
  *************************************************************************************/
 'use strict';
 
-(function($) {
-	var ProgressIndicatorHelper = function() {
+(function ($) {
+	var ProgressIndicatorHelper = function () {
 		var thisInstance = this;
 
 		this.defaults = {
@@ -47,7 +47,7 @@
 
 		this.showOnTop = false;
 
-		this.init = function(element, options = {}) {
+		this.init = function (element, options = {}) {
 			thisInstance.options = $.extend(true, this.defaults, options);
 			thisInstance.blockOverlayCSS = Object.assign(
 				thisInstance.blockOverlayCSS,
@@ -64,7 +64,7 @@
 			return this;
 		};
 
-		this.initActions = function() {
+		this.initActions = function () {
 			if (this.options.mode == 'show') {
 				this.show();
 			} else if (this.options.mode == 'hide') {
@@ -72,21 +72,21 @@
 			}
 		};
 
-		this.isPageBlockMode = function() {
+		this.isPageBlockMode = function () {
 			if (typeof this.elementToBlock !== 'undefined' && this.elementToBlock.is('body')) {
 				return true;
 			}
 			return false;
 		};
 
-		this.isBlockMode = function() {
+		this.isBlockMode = function () {
 			if (typeof this.options.blockInfo !== 'undefined' && this.options.blockInfo.enabled == true) {
 				return true;
 			}
 			return false;
 		};
 
-		this.show = function() {
+		this.show = function () {
 			var className = 'bigLoading';
 			if (this.options.smallLoadingImage == true) {
 				className = 'smallLoading';
@@ -156,7 +156,7 @@
 			}
 		};
 
-		this.hide = function() {
+		this.hide = function () {
 			$('.imageHolder', this.container).remove();
 			if (typeof this.blockedElement !== 'undefined') {
 				if (this.isPageBlockMode()) {
@@ -169,12 +169,12 @@
 		};
 	};
 
-	$.fn.progressIndicator = function(options) {
+	$.fn.progressIndicator = function (options) {
 		let element = this;
 		if (this.length <= 0) {
 			element = jQuery('body');
 		}
-		return element.each(function(index, element) {
+		return element.each(function (index, element) {
 			let jQueryObject = $(element),
 				progressIndicatorInstance;
 			if (typeof jQueryObject.data('progressIndicator') !== 'undefined') {
@@ -187,7 +187,7 @@
 		});
 	};
 
-	$.progressIndicator = function(options) {
+	$.progressIndicator = function (options) {
 		var progressImageContainer = jQuery('<div></div>');
 		var progressIndicatorInstance = new ProgressIndicatorHelper();
 		progressIndicatorInstance.init(progressImageContainer, options);

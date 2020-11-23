@@ -113,23 +113,20 @@ class Field extends FieldBasic
 			]);
 			\App\Log::trace("Creating table $picklistTable ... DONE", __METHOD__);
 		}
-		// Add value to picklist now
+		$dbCommand = $db->createCommand();
 		$picklistValues = $this->getPicklistValues();
-
-		$sortid = 1;
-		foreach ($values as &$value) {
+		$sortId = \count($picklistValues) + 1;
+		foreach ($values as $value) {
 			if (\in_array($value, $picklistValues)) {
 				continue;
 			}
-			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
-
 			$data = [
 				$this->name => $value,
-				'sortorderid' => $sortid,
-				'presence' => $presence,
+				'sortorderid' => $sortId,
+				'presence' => 1,
 			];
-			$db->createCommand()->insert($picklistTable, $data)->execute();
-			$sortid = $sortid + 1;
+			$dbCommand->insert($picklistTable, $data)->execute();
+			++$sortId;
 		}
 		\App\Fields\Picklist::clearCache($this->name, $this->getModuleName());
 	}
@@ -309,7 +306,7 @@ class Field extends FieldBasic
 		while ($fieldId = $dataReader->readColumn(0)) {
 			$count = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => $fieldId])->count();
 			if (1 === (int) $count) {
-				$field = self::getInstance($fieldId, $moduleInstance->id);
+				$field = self::getInstance($fieldId, $moduleInstance);
 				$field->delete();
 			}
 		}

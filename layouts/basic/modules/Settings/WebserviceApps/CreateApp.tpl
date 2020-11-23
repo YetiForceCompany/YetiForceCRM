@@ -21,12 +21,6 @@
 					</div>
 				</div>
 				<div class="form-group form-row col-sm-12">
-					<label class="col-sm-2 col-form-label text-right u-text-small-bold">{\App\Language::translate('LBL_ADDRESS_URL', $QUALIFIED_MODULE)}</label>
-					<div class="col-sm-10">
-						<input type="text" name="addressUrl" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('acceptable_url')}{/if}" class="form-control">
-					</div>
-				</div>
-				<div class="form-group form-row col-sm-12">
 					<label class="col-sm-2 col-form-label text-right u-text-small-bold"><span class="redColor">*</span>{\App\Language::translate('LBL_PASS', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
 						<div class="input-group">
@@ -58,6 +52,24 @@
 								</option>
 							{/foreach}
 						</select>
+					</div>
+				</div>
+				<div class="form-group form-row col-sm-12">
+					<label class="col-sm-2 col-form-label text-right u-text-small-bold">
+						{\App\Language::translate('LBL_ADDRESS_URL', $QUALIFIED_MODULE)}
+						<a href="#" class="js-popover-tooltip ml-2" data-placement="top" data-content="{\App\Language::translate('LBL_ADDRESS_URL_INFO', $QUALIFIED_MODULE)} x.x.x.x , y.y.y.y">
+							<i class="fas fa-info-circle"></i>
+						</a>
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name="addressUrl" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('acceptable_url')}{/if}" class="form-control">
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="alert alert-info mb-0" role="alert">
+						<span class="mdi mdi-information-outline u-fs-3x mr-2 float-left"></span>
+						{\App\Language::translate('LBL_MODAL_ALERT', $QUALIFIED_MODULE)}
+						<pre class="mb-0 mt-2">{\App\Purifier::encodeHtml('Authorization: Basic base64_encode($name . \':\' . $password)')}</pre>
 					</div>
 				</div>
 			</div>

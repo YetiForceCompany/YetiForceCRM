@@ -34,15 +34,17 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getLinks()
+	public function getLinks(): array
 	{
 		$relatedLink = parent::getLinks();
-		$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'RELATEDLIST_MASSACTIONS',
-			'linklabel' => 'LBL_SPECIFY_THE_MARGINP',
-			'linkurl' => 'javascript:PriceBooks_RelatedList_Js.triggerMassMargin()',
-			'linkclass' => '',
-		]);
+		if (!$this->getParentRecordModel()->isReadOnly()) {
+			$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_MASSACTIONS',
+				'linklabel' => 'LBL_SPECIFY_THE_MARGINP',
+				'linkurl' => 'javascript:PriceBooks_RelatedList_Js.triggerMassMargin()',
+				'linkclass' => '',
+			]);
+		}
 		return $relatedLink;
 	}
 }

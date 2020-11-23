@@ -35,46 +35,44 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 						eventLimit: 10,
 						eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
 						titleFormat: 'YYYY',
-						select: function(start, end) {},
-						loadView: function() {
-							self.getCalendarView()
-								.fullCalendar('getCalendar')
-								.view.render();
+						select: function (start, end) {},
+						loadView: function () {
+							self.getCalendarView().fullCalendar('getCalendar').view.render();
 						}
 					},
 					month: {
 						titleFormat: this.parseDateFormat('month'),
-						loadView: function() {
+						loadView: function () {
 							self.loadCalendarData();
 						}
 					},
 					week: {
 						titleFormat: this.parseDateFormat('week'),
-						loadView: function() {
+						loadView: function () {
 							self.loadCalendarData();
 						}
 					},
 					day: {
 						titleFormat: this.parseDateFormat('day'),
-						loadView: function() {
+						loadView: function () {
 							self.loadCalendarData();
 						}
 					},
 					basicDay: {
 						type: 'agendaDay',
-						loadView: function() {
+						loadView: function () {
 							self.loadCalendarData();
 						}
 					}
 				},
-				select: function(start, end) {
+				select: function (start, end) {
 					self.selectDays(start, end);
 					self.getCalendarView().fullCalendar('unselect');
 				},
-				eventRender: function(event, element) {
+				eventRender: function (event, element) {
 					self.eventRenderer(event, element);
 				},
-				viewRender: function(view, element) {
+				viewRender: function (view, element) {
 					if (view.type !== 'year') {
 						self.loadCalendarData(view);
 					}
@@ -84,7 +82,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 				}
 			};
 		options = Object.assign(basicOptions, options);
-		options.eventClick = function(calEvent, jsEvent) {
+		options.eventClick = function (calEvent, jsEvent) {
 			jsEvent.preventDefault();
 		};
 		this.calendar.fullCalendar(options);
@@ -129,7 +127,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 				);
 			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), this.isSwitchAllDays))
 				.prependTo(switchContainer)
-				.on('change', 'input', e => {
+				.on('change', 'input', (e) => {
 					const currentTarget = $(e.currentTarget);
 					let hiddenDays = [];
 					if (typeof currentTarget.data('on-text') !== 'undefined') {
@@ -153,9 +151,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 	 */
 	registerUsersChange() {
 		this.container.find('.assigned_user_id').on('change', () => {
-			this.getCalendarView()
-				.fullCalendar('getCalendar')
-				.view.options.loadView();
+			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});
 	}
 
@@ -209,15 +205,10 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 						break;
 					}
 				}
-				endDate = moment(endDate)
-					.add(minutes, 'minutes')
-					.toISOString();
+				endDate = moment(endDate).add(minutes, 'minutes').toISOString();
 			}
 		}
-		let dateFormat = this.container
-				.find('[name="date_start"]')
-				.data('dateFormat')
-				.toUpperCase(),
+		let dateFormat = this.container.find('[name="date_start"]').data('dateFormat').toUpperCase(),
 			timeFormat = this.container.find('[name="time_start"]').data('format'),
 			defaultTimeFormat = '';
 		if (timeFormat == 24) {
@@ -244,13 +235,12 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 		let rightFormCreate = sideBar.find('form[name="QuickCreate"]');
 		editViewInstance.registerBasicEvents(rightFormCreate);
 		rightFormCreate.validationEngine(app.validationEngineOptions);
-		headerInstance.registerHelpInfo(rightFormCreate);
 		App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 		sideBar.find('.js-summary-close-edit').on('click', () => {
 			this.getCalendarCreateView();
 		});
 		headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
-		new App.Fields.Text.Editor(sideBar.find('.js-editor'), { height: '5em', toolbar: 'Min' });
+		App.Fields.Text.Editor.register(sideBar.find('.js-editor'), { height: '5em', toolbar: 'Min' });
 	}
 
 	/** @inheritdoc */
@@ -280,19 +270,17 @@ jQuery.Class(
 		getContainer() {
 			return this.container;
 		},
-		setContainer: function(container) {
+		setContainer: function (container) {
 			this.container = container;
 		},
-		registerExtendCalendar: function() {
+		registerExtendCalendar: function () {
 			new Calendar_CalendarModal_Js($('.js-modal-container'), true);
 			let container = this.getContainer();
-			container.find('.js-activity-buttons button').on('click', function(e) {
+			container.find('.js-activity-buttons button').on('click', function (e) {
 				let form = container.find('form');
 				let currentTarget = $(e.currentTarget);
 				if (1 === currentTarget.data('type')) {
-					form.append(
-						'<input type=hidden name="activitystatus" value="' + currentTarget.data('state') + '">'
-					);
+					form.append('<input type=hidden name="activitystatus" value="' + currentTarget.data('state') + '">');
 					form.submit();
 				} else {
 					container.find('.js-activity-buttons').remove();
@@ -302,30 +290,30 @@ jQuery.Class(
 				}
 			});
 		},
-		registerStandardCalendar: function() {
+		registerStandardCalendar: function () {
 			const thisInstance = this;
 			let container = this.getContainer();
 			let data = container.find('form');
 			let user = data.find('[name="assigned_user_id"]');
 			let dateStartEl = data.find('[name="date_start"]');
 			let dateEnd = data.find('[name="due_date"]');
-			user.on('change', function(e) {
+			user.on('change', function (e) {
 				var element = $(e.currentTarget);
 				var data = element.closest('form');
 				thisInstance.getNearCalendarEvent(data);
 			});
-			dateStartEl.on('change', function(e) {
+			dateStartEl.on('change', function (e) {
 				var element = $(e.currentTarget);
 				var data = element.closest('form');
 				thisInstance.getNearCalendarEvent(data);
 			});
-			data.find('ul li a').on('click', function(e) {
+			data.find('ul li a').on('click', function (e) {
 				var element = $(e.currentTarget);
 				var data = element.closest('form');
 				data.find('.addedNearCalendarEvent').remove();
 				thisInstance.getNearCalendarEvent(data);
 			});
-			data.on('click', '.nextDayBtn', function() {
+			data.on('click', '.nextDayBtn', function () {
 				var dateStartEl = data.find('[name="date_start"]');
 				var startDay = dateStartEl.val();
 				var dateStartFormat = dateStartEl.data('date-format');
@@ -336,7 +324,7 @@ jQuery.Class(
 				dateEnd.val(startDay);
 				thisInstance.getNearCalendarEvent(data);
 			});
-			data.on('click', '.previousDayBtn', function() {
+			data.on('click', '.previousDayBtn', function () {
 				var dateStartEl = data.find('[name="date_start"]');
 				var startDay = dateStartEl.val();
 				var dateStartFormat = dateStartEl.data('date-format');
@@ -347,7 +335,7 @@ jQuery.Class(
 				dateEnd.val(startDay);
 				thisInstance.getNearCalendarEvent(data);
 			});
-			data.on('click', '.dateBtn', function(e) {
+			data.on('click', '.dateBtn', function (e) {
 				var element = $(e.currentTarget);
 				dateStartEl.val(element.data('date'));
 				data.find('[name="due_date"]').val(element.data('date'));
@@ -355,7 +343,7 @@ jQuery.Class(
 			});
 			thisInstance.getNearCalendarEvent(data);
 		},
-		getNearCalendarEvent: function(container) {
+		getNearCalendarEvent: function (container) {
 			let dateStartVal = container.find('[name="date_start"]').val();
 			if (typeof dateStartVal === 'undefined' || dateStartVal === '') {
 				return;
@@ -373,18 +361,15 @@ jQuery.Class(
 					elementToBlock: container.find('.eventsTable')
 				}
 			});
-			AppConnector.request(params).done(function(events) {
+			AppConnector.request(params).done(function (events) {
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				container.find('.eventsTable').remove();
 				container.append(events);
-				Vtiger_Header_Js.getInstance().registerHelpInfo(container);
+				app.showPopoverElementView(container.find('.js-help-info'));
 			});
 		},
-		registerEvents: function(container) {
-			let calendarType = container
-				.closest('.js-modal-container')
-				.find('.js-calendar-type')
-				.val();
+		registerEvents: function (container) {
+			let calendarType = container.closest('.js-modal-container').find('.js-calendar-type').val();
 			this.setContainer(container);
 			if (calendarType === 'Extended') {
 				this.registerExtendCalendar();

@@ -21,10 +21,10 @@ class ListUpdatedRecord
 		} else {
 			$moduleList[] = $module;
 		}
-		if (!in_array('smownerid', $columnList)) {
+		if (!\in_array('smownerid', $columnList)) {
 			$columnList[] = 'smownerid';
 		}
-		if ($limit == 'all') {
+		if ('all' == $limit) {
 			$limit = 200;
 		}
 		$select = array_values($columnList);

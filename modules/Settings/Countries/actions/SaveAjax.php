@@ -22,6 +22,7 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('updateStatus');
 		$this->exposeMethod('updatePhone');
 		$this->exposeMethod('updateUitype');
+		$this->exposeMethod('updateGetDefaultCountry');
 	}
 
 	/**
@@ -29,7 +30,7 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function updateAllStatuses(\App\Request $request)
+	public function updateAllStatuses(App\Request $request)
 	{
 		$status = (int) $request->getBoolean('status');
 		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
@@ -44,7 +45,7 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function updateSequence(\App\Request $request)
+	public function updateSequence(App\Request $request)
 	{
 		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();
@@ -63,7 +64,7 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function updateStatus(\App\Request $request)
+	public function updateStatus(App\Request $request)
 	{
 		$status = (int) $request->getBoolean('status');
 		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
@@ -78,7 +79,7 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function updatePhone(\App\Request $request)
+	public function updatePhone(App\Request $request)
 	{
 		$phone = (int) $request->getBoolean('phone');
 		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
@@ -93,7 +94,7 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function updateUitype(\App\Request $request)
+	public function updateUitype(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$id = $request->getInteger('id');
@@ -104,6 +105,21 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		$result = $moduleModel->updateUitype($id, $uitype);
 		$response->setResult($result > 0);
+		$response->emit();
+	}
+
+	/**
+	 * Update getting default phone country param.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function updateGetDefaultCountry(App\Request $request)
+	{
+		$configFile = new \App\ConfigFile('component', 'Phone');
+		$configFile->set('defaultPhoneCountry', $request->getBoolean('value'));
+		$configFile->create();
+		$response = new Vtiger_Response();
+		$response->setResult(true);
 		$response->emit();
 	}
 }

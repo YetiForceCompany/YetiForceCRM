@@ -14,7 +14,7 @@ class Settings_SalesProcesses_SaveAjax_Action extends Settings_Vtiger_Basic_Acti
 		$this->exposeMethod('updateConfig');
 	}
 
-	public function updateConfig(\App\Request $request)
+	public function updateConfig(App\Request $request)
 	{
 		$param = [
 			'type' => $request->getByType('type', 'Alnum'),

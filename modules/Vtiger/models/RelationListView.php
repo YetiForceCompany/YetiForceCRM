@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -122,15 +123,24 @@ class Vtiger_RelationListView_Model extends \App\Base
 	}
 
 	/**
+	 * Function to identify if the module supports quick search or not.
+	 */
+	public function isQuickSearchEnabled()
+	{
+		return $this->has('quickSearchEnabled') ? $this->get('quickSearchEnabled') : true;
+	}
+
+	/**
 	 * Get relation list view model instance.
 	 *
 	 * @param Vtiger_Record_Model $parentRecordModel
 	 * @param string              $relationModuleName
 	 * @param bool|int            $relationId
+	 * @param int                 $cvId
 	 *
 	 * @return self
 	 */
-	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $relationId = false)
+	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $relationId = false, int $cvId = 0)
 	{
 		$parentModuleModel = $parentRecordModel->getModule();
 		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleModel->getName());
@@ -145,7 +155,12 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		$instance->setParentRecordModel($parentRecordModel);
 		$instance->setRelatedModuleModel($relationModelInstance->getRelationModuleModel());
-		$relationModelInstance->set('query_generator', new \App\QueryGenerator($relationModelInstance->getRelationModuleModel()->getName()));
+		$queryGenerator = new \App\QueryGenerator($relationModelInstance->getRelationModuleModel()->getName());
+		if ($cvId) {
+			$instance->set('viewId', $cvId);
+			$queryGenerator->initForCustomViewById($cvId);
+		}
+		$relationModelInstance->set('query_generator', $queryGenerator);
 		$relationModelInstance->set('parentRecord', $parentRecordModel);
 		$instance->setRelationModel($relationModelInstance);
 		return $instance;
@@ -214,7 +229,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function getEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$relationModuleModel = $this->getRelationModel()->getRelationModuleModel();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getRelationQuery();
 		if (0 !== $pagingModel->get('limit')) {
@@ -228,17 +242,49 @@ class Vtiger_RelationListView_Model extends \App\Base
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-		$relatedRecordList = [];
-		$recordId = $this->getParentRecordModel()->getId();
-		foreach ($rows as $row) {
-			if ($recordId !== $row['id']) {
-				$recordModel = $relationModuleModel->getRecordFromArray($row);
-				$this->getEntryExtend($recordModel);
-				$relatedRecordList[$row['id']] = $recordModel;
-			}
-		}
+		$relatedRecordList = $this->getRecordsFromArray($rows);
 		$pagingModel->calculatePageRange(\count($relatedRecordList));
 		return $relatedRecordList;
+	}
+
+	/**
+	 * Get models of records from array.
+	 *
+	 * @param array $rows
+	 *
+	 * @return \Vtiger_Record_Model[]
+	 */
+	public function getRecordsFromArray(array $rows)
+	{
+		$listViewRecordModels = $relatedFields = [];
+		$moduleModel = $this->getRelationModel()->getRelationModuleModel();
+		$recordId = $this->getParentRecordModel()->getId();
+		foreach ($this->getQueryGenerator()->getRelatedFields() as $fieldInfo) {
+			$relatedFields[$fieldInfo['relatedModule']][$fieldInfo['sourceField']][] = $fieldInfo['relatedField'];
+		}
+		foreach ($rows as $row) {
+			if ($recordId == $row['id']) {
+				continue;
+			}
+			$extRecordModel = [];
+			foreach ($relatedFields as $relatedModuleName => $fields) {
+				foreach ($fields as $sourceField => $field) {
+					$recordData = [
+						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0
+					];
+					foreach ($field as $relatedFieldName) {
+						$recordData[$relatedFieldName] = $row[$sourceField . $relatedModuleName . $relatedFieldName];
+						unset($row[$sourceField . $relatedModuleName . $relatedFieldName]);
+					}
+					$extRecordModel[$sourceField][$relatedModuleName] = Vtiger_Module_Model::getInstance($relatedModuleName)->getRecordFromArray($recordData);
+				}
+			}
+			$recordModel = $moduleModel->getRecordFromArray($row);
+			$recordModel->ext = $extRecordModel;
+			$this->getEntryExtend($recordModel);
+			$listViewRecordModels[$row['id']] = $recordModel;
+		}
+		return $listViewRecordModels;
 	}
 
 	/**
@@ -260,9 +306,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 			foreach ($orderBy as $fieldName => $sortFlag) {
 				$field = $this->getRelationModel()->getRelationModuleModel()->getFieldByName($fieldName);
 				if ($field || 'id' === $fieldName) {
-					return $this->getRelationModel()->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+					$this->getRelationModel()->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+				} else {
+					\App\Log::warning("[RelationListView] Incorrect value of sorting: '$fieldName'");
 				}
-				\App\Log::warning("[RelationListView] Incorrect value of sorting: '$fieldName'");
 			}
 		}
 	}
@@ -274,9 +321,28 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function getHeaders()
 	{
-		$fields = $this->getRelationModel()->getQueryFields();
+		$fields = [];
+		if ($this->get('viewId')) {
+			$moduleModel = $this->getRelationModel()->getRelationModuleModel();
+			$customView = App\CustomView::getInstance($moduleModel->getName());
+			foreach ($customView->getColumnsListByCvid($this->get('viewId')) as $fieldInfo) {
+				$fieldName = $fieldInfo['field_name'];
+				$sourceFieldName = $fieldInfo['source_field_name'] ?? '';
+				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
+				if (!$fieldModel || !$fieldModel->isActiveField() || ($sourceFieldName && !$moduleModel->getFieldByName($sourceFieldName)->isActiveField())) {
+					continue;
+				}
+				if ($sourceFieldName) {
+					$fieldModel->set('source_field_name', $sourceFieldName);
+				}
+				$fields[$fieldModel->getFullName()] = $fieldModel;
+			}
+		}
+		if (empty($fields)) {
+			$fields = $this->getRelationModel()->getQueryFields();
+		}
 		unset($fields['id']);
-		foreach ($fields as $fieldName => &$fieldModel) {
+		foreach ($fields as $fieldName => $fieldModel) {
 			if (!$fieldModel->isViewable()) {
 				unset($fields[$fieldName]);
 			}
@@ -387,15 +453,18 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$relationModelInstance = $this->getRelationModel();
 		$relatedModel = $relationModelInstance->getRelationModuleModel();
 		$parentRecordModule = $this->getParentRecordModel();
-		$parentModule = $parentRecordModule->getModule();
-
-		$createViewUrl = $relatedModel->getCreateRecordUrl() . '&sourceModule=' . $parentModule->get('name') .
-			'&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true&relationId=' . $relationModelInstance->getId();
-
+		$createViewUrl = $relatedModel->getCreateRecordUrl() . '&sourceModule=' . $parentRecordModule->getModule()->getName() . '&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true&relationId=' . $relationModelInstance->getId();
 		//To keep the reference fieldname and record value in the url if it is direct relation
 		if ($relationModelInstance->isDirectRelation()) {
 			$relationField = $relationModelInstance->getRelationField();
 			$createViewUrl .= '&' . $relationField->getName() . '=' . $parentRecordModule->getId();
+		}
+		if (!empty(Config\Relation::$addSearchParamsToCreateView) && ($searchParams = $this->getArray('search_params')) && isset($searchParams['and']) && \is_array($searchParams['and'])) {
+			foreach ($searchParams['and'] as $row) {
+				if ('e' === $row['comparator']) {
+					$createViewUrl .= "&{$row['field_name']}={$row['value']}";
+				}
+			}
 		}
 		return $createViewUrl;
 	}
@@ -405,103 +474,97 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 *
 	 * @return Vtiger_Link_Model[]
 	 */
-	public function getLinks()
+	public function getLinks(): array
 	{
-		$relationModelInstance = $this->getRelationModel();
-		$relatedModuleName = $relationModelInstance->getRelationModuleModel()->getName();
 		$parentRecordModel = $this->getParentRecordModel();
-		$selectLinks = $this->getSelectRelationLinks();
-		foreach ($selectLinks as $selectLinkModel) {
-			$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModelInstance->getRelationModuleModel());
-		}
-		$relatedLink = [];
-		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'RELATEDLIST_VIEWS',
-			'linklabel' => 'LBL_RECORDS_LIST',
-			'view' => 'List',
-			'linkicon' => 'far fa-list-alt',
-		]);
-		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'RELATEDLIST_VIEWS',
-			'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
-			'view' => 'ListPreview',
-			'linkicon' => 'fas fa-desktop',
-		]);
-		$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
-		if ('Documents' === $relatedModuleName) {
-			$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'RELATEDLIST_MASSACTIONS',
-				'linklabel' => 'LBL_MASS_DOWNLOAD',
-				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassDownload('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=massDownload&src_record={$parentRecordModel->getId()}&relatedModule=Documents&mode=multiple','sendByForm')",
-				'linkclass' => '',
-				'linkicon' => 'fas fa-download'
-			]);
+		$relationModelInstance = $this->getRelationModel();
+		$relatedLink = [
+			'RELATEDLIST_VIEWS' => [
+				Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'RELATEDLIST_VIEWS',
+					'linklabel' => 'LBL_RECORDS_LIST',
+					'view' => 'List',
+					'linkicon' => 'far fa-list-alt',
+				]),
+				Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'RELATEDLIST_VIEWS',
+					'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
+					'view' => 'ListPreview',
+					'linkicon' => 'fas fa-desktop',
+				])
+			]
+		];
+		if (!$parentRecordModel->isReadOnly()) {
+			$selectLinks = $this->getSelectRelationLinks();
+			foreach ($selectLinks as $selectLinkModel) {
+				$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModelInstance->getRelationModuleModel());
+			}
+			$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
+			if ('Documents' === $relationModelInstance->getRelationModuleModel()->getName()) {
+				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'RELATEDLIST_MASSACTIONS',
+					'linklabel' => 'LBL_MASS_DOWNLOAD',
+					'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassDownload('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=massDownload&src_record={$parentRecordModel->getId()}&relatedModule=Documents&mode=multiple','sendByForm')",
+					'linkclass' => '',
+					'linkicon' => 'fas fa-download'
+				]);
+			}
 		}
 		return $relatedLink;
 	}
 
-	public function getSelectRelationLinks()
+	/**
+	 * Function to get the select links for related list.
+	 *
+	 * @return Vtiger_Link_Model[]
+	 */
+	public function getSelectRelationLinks(): array
 	{
-		$relationModelInstance = $this->getRelationModel();
-		$selectLinkModel = [];
-
-		if (!$relationModelInstance->isSelectActionSupported()) {
-			return $selectLinkModel;
+		if (!$this->getRelationModel()->isSelectActionSupported() || $this->getParentRecordModel()->isReadOnly()) {
+			return [];
 		}
-
-		$relatedModel = $relationModelInstance->getRelationModuleModel();
+		$relatedModel = $this->getRelationModel()->getRelationModuleModel();
 		if (!$relatedModel->isPermitted('DetailView')) {
-			return $selectLinkModel;
+			return [];
 		}
-
-		$selectLinkList = [
-			[
+		return [
+			Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
 				'linkicon' => 'fas fa-level-up-alt',
-			],
+			])
 		];
-
-		foreach ($selectLinkList as $selectLink) {
-			$selectLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($selectLink);
-		}
-		return $selectLinkModel;
 	}
 
-	public function getAddRelationLinks()
+	/**
+	 * Function to get the add links for related list.
+	 *
+	 * @return Vtiger_Link_Model[]
+	 */
+	public function getAddRelationLinks(): array
 	{
 		$relationModelInstance = $this->getRelationModel();
-		$addLinkModel = [];
-
-		if (!$relationModelInstance->isAddActionSupported()) {
-			return $addLinkModel;
+		if (!$relationModelInstance->isAddActionSupported() || $this->getParentRecordModel()->isReadOnly()) {
+			return [];
 		}
 		$relatedModel = $relationModelInstance->getRelationModuleModel();
-		if (!$relatedModel->isPermitted('CreateView')) {
-			return $addLinkModel;
-		}
-
-		$addLinkList = [[
-			'linktype' => 'LISTVIEWBASIC',
-			// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
-			//'linklabel' => \App\Language::translate('LBL_ADD')." ".vtranslate'SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
-			'linklabel' => App\Language::translate('LBL_ADD_RELATION', $relatedModel->getName()),
-			'linkurl' => $this->getCreateViewUrl(),
-			'linkqcs' => $relatedModel->isQuickCreateSupported(),
-			'linkicon' => 'fas fa-plus',
-		]];
-
-		if ('Documents' === $relatedModel->get('label')) {
-			$addLinkList[] = [
+		$addLinkModel = [
+			Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => App\Language::translate('LBL_ADD_RELATION', $relatedModel->getName()),
+				'linkurl' => $this->getCreateViewUrl(),
+				'linkqcs' => $relatedModel->isQuickCreateSupported(),
+				'linkicon' => 'fas fa-plus',
+			])
+		];
+		if ('Documents' === $relatedModel->getName()) {
+			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
 				'linkicon' => 'adminIcon-document-templates',
-			];
-		}
-		foreach ($addLinkList as &$addLink) {
-			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($addLink);
+			]);
 		}
 		return $addLinkModel;
 	}
@@ -536,5 +599,65 @@ class Vtiger_RelationListView_Model extends \App\Base
 			}
 		}
 		$this->relationModel->set('QueryFields', $relatedListFields);
+	}
+
+	/**
+	 * Get widgets instances.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return array
+	 */
+	public function getWidgets(int $recordId): array
+	{
+		$widgets = [];
+		$moduleModel = $this->getRelatedModuleModel();
+		foreach ($this->getWidgetsList() as $widgetCol) {
+			foreach ($widgetCol as $widget) {
+				$widgetName = Vtiger_Loader::getComponentClassName('Widget', $widget['type'], $moduleModel->getName());
+				if (class_exists($widgetName)) {
+					$widgetInstance = new $widgetName($moduleModel->getName(), $moduleModel, $recordId, $widget);
+					$widgetObject = $widgetInstance->getWidget();
+					if (\count($widgetObject) > 0) {
+						$widgets[$widgetObject['wcol']][] = $widgetObject;
+					}
+				}
+			}
+		}
+		return $widgets;
+	}
+
+	/**
+	 * Get widgets list.
+	 *
+	 * @return array
+	 */
+	public function getWidgetsList(): array
+	{
+		$relationId = $this->getRelationModel()->getId();
+		if (\App\Cache::has('RelatedModuleWidgets', $relationId)) {
+			return \App\Cache::get('RelatedModuleWidgets', $relationId);
+		}
+		$query = (new App\Db\Query())->from('a_#__relatedlists_widgets')->where(['relation_id' => $relationId]);
+		$dataReader = $query->orderBy(['sequence' => SORT_ASC])->createCommand()->query();
+		$widgets = [1 => [], 2 => [], 3 => []];
+		while ($row = $dataReader->read()) {
+			$row['data'] = \App\Json::decode($row['data']);
+			$widgets[$row['wcol']][$row['id']] = $row;
+		}
+		$dataReader->close();
+		App\Cache::save('RelatedModuleWidgets', $relationId, $widgets);
+		return $widgets;
+	}
+
+	/**
+	 * Check if widgets exist.
+	 *
+	 * @return bool
+	 */
+	public function isWidgetsList(): bool
+	{
+		$widgets = $this->getWidgetsList();
+		return !empty($widgets[1]) || !empty($widgets[2]) || !empty($widgets[3]);
 	}
 }

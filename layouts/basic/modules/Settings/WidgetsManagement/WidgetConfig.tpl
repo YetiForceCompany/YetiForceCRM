@@ -194,6 +194,14 @@
 							{/if}
 							{if $LINK_LABEL_KEY === 'Multifilter'}
 								<div class="row pt-2">
+									<div class="col-md-5 col-form-label text-left">
+										{\App\Language::translate('LBL_SHOW_FULL_NAME', $QUALIFIED_MODULE)}
+									</div>
+									<div class="col-md-7 text-right checkboxForm">
+										<input type="checkbox" name="showFullName" class="" {if !empty($WIDGET_INFO['showFullName']) eq 1} checked {/if}>
+									</div>
+								</div>
+								<div class="row pt-2">
 									<div class="col-sm-5 col-form-label">
 										{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 									</div>

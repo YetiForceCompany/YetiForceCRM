@@ -8,4 +8,4 @@
  *************************************************************************************/
 'use strict';
 
-Users_Edit_Js("Users_PreferenceEdit_Js", {}, {});
+Users_Edit_Js('Users_PreferenceEdit_Js', {}, {});

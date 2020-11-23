@@ -10,7 +10,7 @@
 
 class Settings_Groups_Save_Action extends Settings_Vtiger_Save_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$prevValues = [];
 		if (!$request->isEmpty('record')) {
@@ -42,7 +42,7 @@ class Settings_Groups_Save_Action extends Settings_Vtiger_Save_Action
 		header("location: $redirectUrl");
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

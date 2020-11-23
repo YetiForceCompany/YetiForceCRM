@@ -47,6 +47,7 @@ class Vtiger_Widget_Model extends \App\Base
 	 *
 	 * @param int    $defaultPosition
 	 * @param string $coordinate
+	 * @param int    $position
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -185,7 +186,7 @@ class Vtiger_Widget_Model extends \App\Base
 			->one();
 		$self = new self();
 		if ($row) {
-			if ($row['linklabel'] === 'Mini List') {
+			if ('Mini List' === $row['linklabel']) {
 				if (!$row['isdefault'] && \App\Privilege::isPermitted(\App\Module::getModuleName($row['module']), 'CreateDashboardFilter', false, $userId)) {
 					$row['deleteFromList'] = true;
 				}
@@ -193,7 +194,7 @@ class Vtiger_Widget_Model extends \App\Base
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$row['title'] = $minilistWidgetModel->getTitle();
-			} elseif ($row['linklabel'] === 'ChartFilter') {
+			} elseif ('ChartFilter' === $row['linklabel']) {
 				if (!$row['isdefault'] && \App\Privilege::isPermitted(\App\Module::getModuleName($row['module']), 'CreateDashboardChartFilter', false, $userId)) {
 					$row['deleteFromList'] = true;
 				}
@@ -228,10 +229,10 @@ class Vtiger_Widget_Model extends \App\Base
 	public function remove($action = 'hide')
 	{
 		$db = App\Db::getInstance();
-		if ($action == 'delete') {
+		if ('delete' == $action) {
 			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['id' => $this->get('id'), 'blockid' => $this->get('blockid')])
 				->execute();
-		} elseif ($action == 'hide') {
+		} elseif ('hide' == $action) {
 			$db->createCommand()->update('vtiger_module_dashboard_widgets', ['active' => 0], ['id' => $this->get('id')])
 				->execute();
 			$this->set('active', 0);
@@ -260,7 +261,7 @@ class Vtiger_Widget_Model extends \App\Base
 	 */
 	public function isDefault()
 	{
-		if ($this->get('isdefault') == 1) {
+		if (1 == $this->get('isdefault')) {
 			return true;
 		}
 		return false;
@@ -271,11 +272,12 @@ class Vtiger_Widget_Model extends \App\Base
 	 *
 	 * @param vtlib\Link             $widgetLink
 	 * @param Current Smarty Context $context
+	 * @param Vtiger_Record_Model    $recordModel
 	 */
 	public function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
 	{
-		if (preg_match("/^block:\/\/(.*)/", $widgetLink->get('linkurl'), $matches)) {
-			list($widgetControllerClass, $widgetControllerClassFile) = explode(':', $matches[1]);
+		if (preg_match('/^block:\\/\\/(.*)/', $widgetLink->get('linkurl'), $matches)) {
+			[$widgetControllerClass, $widgetControllerClassFile] = explode(':', $matches[1]);
 			if (!class_exists($widgetControllerClass)) {
 				\vtlib\Deprecated::checkFileAccessForInclusion($widgetControllerClassFile);
 				include_once $widgetControllerClassFile;

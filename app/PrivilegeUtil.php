@@ -11,7 +11,7 @@ namespace App;
  */
 class PrivilegeUtil
 {
-	/** Function to get parent record owner
+	/** Function to get parent record owner.
 	 * @param $tabid    -- tabid :: Type integer
 	 * @param $parModId -- parent module id :: Type integer
 	 * @param $recordId -- record id :: Type integer

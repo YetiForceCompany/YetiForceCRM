@@ -46,7 +46,7 @@ class Completions
 	 *
 	 * @var string
 	 */
-	const ROW_REGEX = '/(\##|\@@)(\d+)_([^(\##|\@@)]+)(\##|\@@)/u';
+	const ROW_REGEX = '/(\##|\@@)(\d+)_([^\##|\@@]+)(\##|\@@)/u';
 	/**
 	 * Owner separator.
 	 *
@@ -288,7 +288,7 @@ class Completions
 		if (!($moduleName = \App\Record::getType($recordId))) {
 			$html = static::deletedRecordTemplate($recordLabel);
 		} elseif (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
-			$html = "<a href=\"index.php?module={$moduleName}&view=Detail&record={$recordId}\" class=\"js-popover-tooltip--record\" data-id=\"#{$recordId}\">" .
+			$html = "<a href=\"index.php?module={$moduleName}&view=Detail&record={$recordId}\" class=\"js-popover-tooltip--record\" target=\"_blank\" data-id=\"#{$recordId}\">" .
 				$recordLabel . '</a>&nbsp;';
 		} else {
 			$html = $recordLabel;

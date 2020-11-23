@@ -71,16 +71,18 @@ class Vtiger_Menu_Model
 			if (\count($parentMenu) > 0) {
 				$breadcrumbs = array_reverse($parentMenu);
 			}
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			if ($moduleModel && $moduleModel->getDefaultUrl()) {
-				$breadcrumbs[] = [
-					'name' => \App\Language::translate($moduleName, $moduleName),
-					'url' => $moduleModel->getDefaultUrl(),
-				];
-			} else {
-				$breadcrumbs[] = [
-					'name' => \App\Language::translate($moduleName, $moduleName),
-				];
+			if ('AppComponents' !== $moduleName) {
+				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+				if ($moduleModel && $moduleModel->getDefaultUrl()) {
+					$breadcrumbs[] = [
+						'name' => \App\Language::translate($moduleName, $moduleName),
+						'url' => $moduleModel->getDefaultUrl(),
+					];
+				} else {
+					$breadcrumbs[] = [
+						'name' => \App\Language::translate($moduleName, $moduleName),
+					];
+				}
 			}
 			if ($pageTitle) {
 				$breadcrumbs[] = ['name' => $pageTitle];
@@ -103,46 +105,38 @@ class Vtiger_Menu_Model
 				'name' => \App\Language::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 			];
-			if ('Vtiger' !== $moduleName || 'Index' !== $view) {
-				$menu = Settings_Vtiger_MenuItem_Model::getAll();
-				foreach ($menu as &$menuModel) {
-					if ($request->isEmpty('fieldid')) {
-						if ($menuModel->getModule() === $moduleName) {
-							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
-								'url' => $menuModel->getUrl(),
-							];
-							break;
-						}
-					} else {
-						if ($request->getInteger('fieldid') === (int) $menuModel->getId()) {
-							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
-								'url' => $menuModel->getUrl(),
-							];
-							break;
-						}
-					}
+			$menu = Settings_Vtiger_MenuItem_Model::getAll();
+			foreach ($menu as $menuModel) {
+				if ($menuModel->isPermitted() && (
+						(($request->has('record') || 'Edit' === $view) && $menuModel->getModuleName() === $qualifiedModuleName) ||
+						$menuModel->isSelected($moduleName, $view, $request->getMode())
+					)
+				) {
+					$parent = $menuModel->getBlock();
+					$breadcrumbs[] = ['name' => App\Language::translate($parent->getLabel(), $qualifiedModuleName)];
+					$breadcrumbs[] = [
+						'name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
+						'url' => $menuModel->getUrl(),
+					];
+					break;
 				}
-				if (\is_array($pageTitle)) {
-					foreach ($pageTitle as $title) {
-						$breadcrumbs[] = $title;
-					}
-				} else {
-					if ($pageTitle) {
-						$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $qualifiedModuleName)];
-					} elseif ('Edit' === $view && $request->isEmpty('record') && $request->isEmpty('parent_roleid')) {
-						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
-					} elseif (!empty($view) && 'List' !== $view) {
-						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
-					}
-					if (!$request->isEmpty('record') && 'Users' === $moduleName) {
-						$recordLabel = \App\Fields\Owner::getUserLabel($request->getInteger('record'));
-						if (!empty($recordLabel)) {
-							$breadcrumbs[] = ['name' => $recordLabel];
-						}
+			}
+			if (\is_array($pageTitle)) {
+				foreach ($pageTitle as $title) {
+					$breadcrumbs[] = $title;
+				}
+			} else {
+				if ($pageTitle) {
+					$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $qualifiedModuleName)];
+				} elseif ('Edit' === $view && $request->isEmpty('record') && $request->isEmpty('parent_roleid')) {
+					$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
+				} elseif (!empty($view) && 'List' !== $view) {
+					$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
+				}
+				if (!$request->isEmpty('record') && 'Users' === $moduleName) {
+					$recordLabel = \App\Fields\Owner::getUserLabel($request->getInteger('record'));
+					if (!empty($recordLabel)) {
+						$breadcrumbs[] = ['name' => $recordLabel];
 					}
 				}
 			}
@@ -163,23 +157,6 @@ class Vtiger_Menu_Model
 			}
 		}
 		return $return;
-	}
-
-	/**
-	 * @param string $url
-	 *
-	 * @return type modulename
-	 */
-	public static function getModuleNameFromUrl($url)
-	{
-		if ('https://yetiforce.shop/' === $url) {
-			return 'Settings:Vtiger';
-		}
-		$params = vtlib\Functions::getQueryParams($url);
-		if ($params['parent']) {
-			return $params['parent'] . ':' . $params['module'];
-		}
-		return $params['module'];
 	}
 
 	/**

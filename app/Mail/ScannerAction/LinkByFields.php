@@ -16,14 +16,10 @@ namespace App\Mail\ScannerAction;
  */
 class LinkByFields extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $priority = 3;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(): void
 	{
 		$scanner = $this->scannerEngine;

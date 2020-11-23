@@ -13,7 +13,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$conditions = [];
 		$listSearchParams = [];
-		if ($assignedto != '') {
+		if ('' != $assignedto) {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($date)) {
@@ -29,10 +29,10 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			return ['show_chart' => false];
 		}
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if ($user == 'all') {
+		if ('all' == $user) {
 			$user = array_keys(\App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers());
 		}
-		if (!is_array($user)) {
+		if (!\is_array($user)) {
 			$user = [$user];
 		}
 		$colors = \App\Fields\Picklist::getColors('timecontrol_type');
@@ -72,7 +72,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			} else {
 				$workingTime[$row['smownerid']][$row['timecontrol_type']] = (float) $row['sum_time'];
 			}
-			if (!in_array($row['timecontrol_type'], $timeTypes)) {
+			if (!\in_array($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_typeid']] = $row['timecontrol_type'];
 				// one dataset per type
 				$chartData['datasets'][] = [
@@ -84,7 +84,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 					'links' => [],
 				];
 			}
-			if (!in_array($row['smownerid'], $smOwners)) {
+			if (!\in_array($row['smownerid'], $smOwners)) {
 				$smOwners[] = $row['smownerid'];
 				$ownerName = \App\Fields\Owner::getUserLabel($row['smownerid']);
 				$chartData['labels'][] = \App\Utils::getInitials($ownerName);
@@ -123,7 +123,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		return $chartData;
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);

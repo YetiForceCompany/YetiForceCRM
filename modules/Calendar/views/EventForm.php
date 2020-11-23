@@ -16,13 +16,13 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('record')) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			if (!$this->record->isEditable() ||
-				($request->getBoolean('isDuplicate') === true && (!$this->record->isCreateable() || !$this->record->isPermitted('ActivityPostponed')))
+				(true === $request->getBoolean('isDuplicate') && (!$this->record->isCreateable() || !$this->record->isPermitted('ActivityPostponed')))
 			) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
@@ -34,7 +34,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -58,12 +58,9 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 				}
 			}
 			$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
-			$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(
-				\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName))
-			);
-			$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(
-				\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName))
-			);
+			$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
+			$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
+			$viewer->assign('LIST_FILTER_FIELDS', \App\Json::encode(\App\ModuleHierarchy::getFieldsForListFilter($moduleName)));
 			$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 			$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 			$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
@@ -83,7 +80,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('Extended/EventForm.tpl', $request->getModule());
@@ -92,7 +89,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$jsFiles = parent::getFooterScripts($request);
 		if (!empty(App\Config::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM'))) {

@@ -44,6 +44,28 @@ class Cron
 	 * @var bool Flag to keep log file after run finish
 	 */
 	public static $keepLogFile = false;
+	/**
+	 * Max execution cron time.
+	 *
+	 * @var int
+	 */
+	private static $maxExecutionCronTime;
+	/**
+	 * @var int status disabled
+	 */
+	const STATUS_DISABLED = 0;
+	/**
+	 * @var int status enabled
+	 */
+	const STATUS_ENABLED = 1;
+	/**
+	 * @var int status running
+	 */
+	const STATUS_RUNNING = 2;
+	/**
+	 * @var int status completed
+	 */
+	const STATUS_COMPLETED = 3;
 
 	/**
 	 * Init and configure object.
@@ -59,7 +81,7 @@ class Cron
 			YetiForce\Register::check();
 			YetiForce\Watchdog::send();
 		}
-		if (!(static::$logActive = \App\Config::debug('DEBUG_CRON'))) {
+		if (!(static::$logActive = Config::debug('DEBUG_CRON'))) {
 			return;
 		}
 		if (!is_dir($this->logPath) && !mkdir($this->logPath, 0777, true) && !is_dir($this->logPath)) {
@@ -84,7 +106,7 @@ class Cron
 		if (!static::$logActive) {
 			return;
 		}
-		if ('warning' === $level || 'error' === $level) {
+		if ('error' === $level) {
 			static::$keepLogFile = true;
 		}
 		if ($indent) {
@@ -102,7 +124,7 @@ class Cron
 	{
 		$all = Utils\ConfReport::getAll();
 		$all['last_start'] = time();
-		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';');
+		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';', LOCK_EX);
 	}
 
 	/**
@@ -118,7 +140,7 @@ class Cron
 				unlink($this->logPath . $this->logFile);
 			}
 		} else {
-			$this->log('------------------------------------' . PHP_EOL . \App\Log::getlastLogs(), 'info', false);
+			$this->log('------------------------------------' . PHP_EOL . Log::getlastLogs(), 'info', false);
 		}
 	}
 
@@ -130,5 +152,69 @@ class Cron
 	public function getCronExecutionTime()
 	{
 		return static::$cronTimeStart ? round(microtime(true) - static::$cronTimeStart, 2) : null;
+	}
+
+	/**
+	 * Update cron task status by name.
+	 *
+	 * @param int    $status
+	 * @param string $name
+	 *
+	 * @return void
+	 */
+	public static function updateStatus(int $status, string $name): void
+	{
+		switch ((int) $status) {
+			case self::STATUS_DISABLED:
+			case self::STATUS_ENABLED:
+			case self::STATUS_RUNNING:
+				break;
+			default:
+				throw new Exceptions\AppException('Invalid status');
+		}
+		Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => $status], ['name' => $name])->execute();
+	}
+
+	/**
+	 * Get max execution cron time.
+	 *
+	 * @return int
+	 */
+	public static function getMaxExecutionTime(): int
+	{
+		if (isset(self::$maxExecutionCronTime)) {
+			return self::$maxExecutionCronTime;
+		}
+		$maxExecutionTime = (int) Config::main('maxExecutionCronTime');
+		$iniMaxExecutionTime = (int) ini_get('max_execution_time');
+		if (0 !== $iniMaxExecutionTime && $iniMaxExecutionTime < $maxExecutionTime) {
+			$maxExecutionTime = $iniMaxExecutionTime;
+		}
+		return self::$maxExecutionCronTime = $maxExecutionTime;
+	}
+
+	/**
+	 * Check max execution cron time.
+	 *
+	 * @return bool
+	 */
+	public function checkCronTimeout(): bool
+	{
+		return time() >= (self::getMaxExecutionTime() + self::$cronTimeStart);
+	}
+
+	/**
+	 * Check if it is active function.
+	 *
+	 * @param string $className
+	 *
+	 * @return bool
+	 */
+	public static function checkActive(string $className): bool
+	{
+		return (new Db\Query())
+			->from('vtiger_cron_task')
+			->where(['status' => [self::STATUS_ENABLED, self::STATUS_RUNNING], 'handler_class' => $className])
+			->exists();
 	}
 }

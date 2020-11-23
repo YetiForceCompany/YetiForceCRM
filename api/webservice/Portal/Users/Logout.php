@@ -50,17 +50,13 @@ class Logout extends \Api\Core\BaseAction
 	 *        name="X-ENCRYPTED",
 	 *        in="header",
 	 *        required=true,
-	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 * 			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *    ),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="User details",
-	 *				@OA\JsonContent(ref="#/components/schemas/UsersLogoutResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/UsersLogoutResponseBody"),
-	 *     		@OA\MediaType(
-	 *         		mediaType="text/html",
-	 *         		@OA\Schema(ref="#/components/schemas/UsersLogoutResponseBody")
-	 *     		),
+	 *			response=200,
+	 *			description="User details",
+	 *			@OA\JsonContent(ref="#/components/schemas/UsersLogoutResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/UsersLogoutResponseBody"),
 	 *		),
 	 * ),
 	 * @OA\SecurityScheme(
@@ -72,7 +68,7 @@ class Logout extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="UsersLogoutResponseBody",
-	 * 		title="Users logout response body",
+	 * 		title="Users module - Users logout response body",
 	 * 		description="JSON data",
 	 *		type="object",
 	 * 		@OA\Property(

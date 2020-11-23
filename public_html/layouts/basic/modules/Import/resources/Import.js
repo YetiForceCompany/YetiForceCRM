@@ -14,7 +14,7 @@ if (typeof ImportJs === 'undefined') {
 	 * Namespaced javascript class for Import
 	 */
 	var ImportJs = {
-		toogleMergeConfiguration: function() {
+		toogleMergeConfiguration: function () {
 			var mergeChecked = jQuery('#auto_merge').is(':checked');
 			var duplicateMergeConfiguration = jQuery('#duplicates_merge_configuration');
 			if (mergeChecked) {
@@ -23,7 +23,7 @@ if (typeof ImportJs === 'undefined') {
 				duplicateMergeConfiguration.hide();
 			}
 		},
-		checkFileType: function() {
+		checkFileType: function () {
 			var filePath = jQuery('#import_file').val();
 			if (filePath != '') {
 				var fileExtension = filePath.split('.').pop();
@@ -31,7 +31,7 @@ if (typeof ImportJs === 'undefined') {
 				ImportJs.handleFileTypeChange();
 			}
 		},
-		handleFileTypeChange: function() {
+		handleFileTypeChange: function () {
 			var fileType = jQuery('.js-type').val();
 			var delimiterContainer = jQuery('.js-delimiter-container');
 			var hasHeaderContainer = jQuery('.js-has-header-container');
@@ -57,7 +57,7 @@ if (typeof ImportJs === 'undefined') {
 					xmlTpl.addClass('d-none');
 			}
 		},
-		uploadAndParse: function() {
+		uploadAndParse: function () {
 			if (!ImportJs.validateFilePath()) return false;
 			if (!ImportJs.validateMergeCriteria()) return false;
 			return true;
@@ -65,11 +65,11 @@ if (typeof ImportJs === 'undefined') {
 		registerImportClickEvent() {
 			$('#importButton')
 				.removeAttr('disabled')
-				.on('click', function(e) {
+				.on('click', function (e) {
 					return ImportJs.sanitizeAndSubmit();
 				});
 		},
-		validateFilePath: function() {
+		validateFilePath: function () {
 			var importFile = jQuery('#import_file');
 			var filePath = importFile.val();
 			if (jQuery.trim(filePath) == '') {
@@ -90,7 +90,7 @@ if (typeof ImportJs === 'undefined') {
 			}
 			return true;
 		},
-		uploadFilter: function(elementId, allowedExtensions) {
+		uploadFilter: function (elementId, allowedExtensions) {
 			var obj = jQuery('#' + elementId);
 			if (obj) {
 				var filePath = obj.val();
@@ -110,7 +110,7 @@ if (typeof ImportJs === 'undefined') {
 			}
 			return true;
 		},
-		uploadFileSize: function(elementId) {
+		uploadFileSize: function (elementId) {
 			var element = jQuery('#' + elementId);
 			var importMaxUploadSize = element.closest('td').data('importUploadSize');
 			var importMaxUploadSizeInMb = element.closest('td').data('importUploadSizeMb');
@@ -131,7 +131,7 @@ if (typeof ImportJs === 'undefined') {
 			}
 			return true;
 		},
-		validateMergeCriteria: function() {
+		validateMergeCriteria: function () {
 			var mergeChecked = jQuery('#auto_merge').is(':checked');
 			if (mergeChecked) {
 				var selectedOptions = jQuery('#selected_merge_fields option');
@@ -148,7 +148,7 @@ if (typeof ImportJs === 'undefined') {
 			ImportJs.convertOptionsToJSONArray('#selected_merge_fields', '#merge_fields');
 			return true;
 		},
-		convertOptionsToJSONArray: function(objName, targetObjName) {
+		convertOptionsToJSONArray: function (objName, targetObjName) {
 			var obj = jQuery(objName);
 			var arr = [];
 			if (typeof obj !== 'undefined' && obj[0] != '') {
@@ -162,17 +162,17 @@ if (typeof ImportJs === 'undefined') {
 			}
 			return arr;
 		},
-		copySelectedOptions: function(source, destination) {
-			var srcObj = jQuery(source);
-			var destObj = jQuery(destination);
+		copySelectedOptions: function (source, destination) {
+			let srcObj = jQuery(source);
+			let destObj = jQuery(destination);
 
 			if (typeof srcObj === 'undefined' || typeof destObj === 'undefined') return;
 
-			for (var i = 0; i < srcObj[0].length; i++) {
+			for (let i = 0; i < srcObj[0].length; i++) {
 				if (srcObj[0].options[i].selected == true) {
-					var rowFound = false;
-					var existingObj = null;
-					for (var j = 0; j < destObj[0].length; j++) {
+					let rowFound = false;
+					let existingObj = null;
+					for (let j = 0; j < destObj[0].length; j++) {
 						if (destObj[0].options[j].value == srcObj[0].options[i].value) {
 							rowFound = true;
 							existingObj = destObj[0].options[j];
@@ -181,18 +181,22 @@ if (typeof ImportJs === 'undefined') {
 					}
 
 					if (rowFound != true) {
-						var opt = $('<option selected>');
+						let opt = $('<option selected>');
 						opt.attr('value', srcObj[0].options[i].value);
 						opt.text(srcObj[0].options[i].text);
 						jQuery(destObj[0]).append(opt);
 						srcObj[0].options[i].selected = false;
 					} else {
-						if (existingObj != null) existingObj.selected = true;
+						if (existingObj != null) {
+							existingObj.selected = true;
+						}
 					}
 				}
 			}
+			srcObj.trigger('change');
+			destObj.trigger('change');
 		},
-		removeSelectedOptions: function(objName) {
+		removeSelectedOptions: function (objName) {
 			var obj = jQuery(objName);
 			if (!obj.length) {
 				return;
@@ -203,12 +207,12 @@ if (typeof ImportJs === 'undefined') {
 				}
 			}
 		},
-		sanitizeAndSubmit: function() {
+		sanitizeAndSubmit: function () {
 			if (!ImportJs.sanitizeFieldMapping()) return false;
 			if (!ImportJs.validateCustomMap()) return false;
 			return true;
 		},
-		sanitizeFieldMapping: function() {
+		sanitizeFieldMapping: function () {
 			var fieldsList = jQuery('.fieldIdentifier');
 			var mappedFields = {};
 			var inventoryMappedFields = {};
@@ -238,11 +242,7 @@ if (typeof ImportJs === 'undefined') {
 						);
 						inventoryMappedFields[selectedFieldName] = rowId - 1;
 					} else {
-						stopImmediately = ImportJs.checkIfMappedFieldExist(
-							selectedFieldName,
-							mappedFields,
-							selectedFieldElement
-						);
+						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, mappedFields, selectedFieldElement);
 						mappedFields[selectedFieldName] = rowId - 1;
 					}
 					if (stopImmediately) {
@@ -277,10 +277,9 @@ if (typeof ImportJs === 'undefined') {
 			jQuery('#default_values').val(JSON.stringify(mappedDefaultValues));
 			return true;
 		},
-		checkIfMappedFieldExist: function(selectedFieldName, mappedFields, selectedFieldElement) {
+		checkIfMappedFieldExist: function (selectedFieldName, mappedFields, selectedFieldElement) {
 			if (selectedFieldName in mappedFields) {
-				var errorMessage =
-					app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + ' ' + selectedFieldElement.data('label');
+				var errorMessage = app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + ' ' + selectedFieldElement.data('label');
 				var params = {
 					text: errorMessage,
 					type: 'error'
@@ -290,7 +289,7 @@ if (typeof ImportJs === 'undefined') {
 			}
 			return false;
 		},
-		validateCustomMap: function() {
+		validateCustomMap: function () {
 			var errorMessage;
 			var params = {};
 			var saveMap = jQuery('#save_map').is(':checked');
@@ -321,12 +320,12 @@ if (typeof ImportJs === 'undefined') {
 			}
 			return true;
 		},
-		loadSavedMap: function() {
+		loadSavedMap: function () {
 			var selectedMapElement = jQuery('#saved_maps option:selected');
 			var mapId = selectedMapElement.attr('id');
 			var fieldsList = jQuery('.fieldIdentifier');
 			var deleteMapContainer = jQuery('#delete_map_container');
-			fieldsList.each(function(i, element) {
+			fieldsList.each(function (i, element) {
 				var fieldElement = jQuery(element);
 				jQuery('[name=mapped_fields]', fieldElement).val('');
 			});
@@ -346,7 +345,7 @@ if (typeof ImportJs === 'undefined') {
 				header = header.replace(/\/amp\//g, '&');
 				mapping["'" + header + "'"] = mappingPair[1];
 			}
-			fieldsList.each(function(i, element) {
+			fieldsList.each(function (i, element) {
 				var fieldElement = jQuery(element);
 				var mappedFields = jQuery('[name=mapped_fields]', fieldElement);
 				var rowId = jQuery('[name=row_counter]', fieldElement).get(0).value;
@@ -361,34 +360,34 @@ if (typeof ImportJs === 'undefined') {
 				ImportJs.loadDefaultValueWidget(fieldElement.attr('id'));
 			});
 		},
-		deleteMap: function(module) {
-			let callback = function() {
-				var selectedMapElement = jQuery('#saved_maps option:selected');
-				var mapId = selectedMapElement.attr('id');
-				var status = jQuery('#status');
-				status.show();
-				var postData = {
-					module: module,
-					view: 'Import',
-					mode: 'deleteMap',
-					mapid: mapId
-				};
-
-				AppConnector.request(postData)
-					.done(function(data) {
-						let mapContainer = $('#savedMapsContainer').html(data);
-						status.hide();
-						App.Fields.Picklist.showSelect2ElementView(mapContainer.find('select'));
-						var parent = jQuery('#saved_maps');
-						App.Fields.Picklist.changeSelectElementView(parent);
-					})
-					.fail(function(error, err) {
-						console.error(error);
-					});
-			};
-			app.showConfirmModal(app.vtranslate('LBL_DELETE_CONFIRMATION'), callback);
+		deleteMap: function (module) {
+			app.showConfirmModal(app.vtranslate('LBL_DELETE_CONFIRMATION'), function (s) {
+				if (s) {
+					var selectedMapElement = jQuery('#saved_maps option:selected');
+					var mapId = selectedMapElement.attr('id');
+					var status = jQuery('#status');
+					status.show();
+					var postData = {
+						module: module,
+						view: 'Import',
+						mode: 'deleteMap',
+						mapid: mapId
+					};
+					AppConnector.request(postData)
+						.done(function (data) {
+							let mapContainer = $('#savedMapsContainer').html(data);
+							status.hide();
+							App.Fields.Picklist.showSelect2ElementView(mapContainer.find('select'));
+							var parent = jQuery('#saved_maps');
+							App.Fields.Picklist.changeSelectElementView(parent);
+						})
+						.fail(function (error, err) {
+							console.error(error);
+						});
+				}
+			});
 		},
-		loadDefaultValueWidget: function(rowIdentifierId) {
+		loadDefaultValueWidget: function (rowIdentifierId) {
 			var affectedRow = jQuery('#' + rowIdentifierId);
 			if (typeof affectedRow === 'undefined' || affectedRow == null) return;
 			var selectedFieldElement = jQuery('[name=mapped_fields]', affectedRow).get(0);
@@ -406,9 +405,9 @@ if (typeof ImportJs === 'undefined') {
 			var defaultValueWidget = selectedFieldDefValueContainer.detach();
 			defaultValueWidget.appendTo(defaultValueContainer);
 		},
-		loadDefaultValueWidgetForMappedFields: function() {
+		loadDefaultValueWidgetForMappedFields: function () {
 			var fieldsList = jQuery('.fieldIdentifier');
-			fieldsList.each(function(i, element) {
+			fieldsList.each(function (i, element) {
 				var fieldElement = jQuery(element);
 				var mappedFieldName = jQuery('[name=mapped_fields]', fieldElement).val();
 				if (mappedFieldName != '') {
@@ -416,9 +415,9 @@ if (typeof ImportJs === 'undefined') {
 				}
 			});
 		},
-		submitAction: function() {
+		submitAction: function () {
 			var form = jQuery('[name="importAdvanced"]');
-			form.on('submit', function() {
+			form.on('submit', function () {
 				$.progressIndicator({
 					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 					position: 'html',
@@ -428,8 +427,8 @@ if (typeof ImportJs === 'undefined') {
 				});
 			});
 		},
-		openListInModal: function() {
-			$('.js-open-list-in-modal').on('click', function() {
+		openListInModal: function () {
+			$('.js-open-list-in-modal').on('click', function () {
 				let element = $(this),
 					moduleName = element.data('module-name'),
 					type = '',
@@ -448,7 +447,7 @@ if (typeof ImportJs === 'undefined') {
 						forUser +
 						'&forModule=' +
 						forModule,
-					function(data) {
+					function (data) {
 						let container = data.find('.listViewEntriesDiv'),
 							containerH = container.height(),
 							containerOffsetTop = container.offset().top,
@@ -466,7 +465,7 @@ if (typeof ImportJs === 'undefined') {
 		}
 	};
 
-	jQuery(document).ready(function() {
+	jQuery(document).ready(function () {
 		ImportJs.toogleMergeConfiguration();
 		ImportJs.openListInModal();
 		ImportJs.submitAction();

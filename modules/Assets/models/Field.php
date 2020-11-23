@@ -10,7 +10,7 @@ class Assets_Field_Model extends Vtiger_Field_Model
 	public function isAjaxEditable()
 	{
 		$edit = parent::isAjaxEditable();
-		if ($edit && $this->getName() === 'assetstatus') {
+		if ($edit && 'assetstatus' === $this->getName()) {
 			$edit = false;
 		}
 		return $edit;

@@ -33,56 +33,52 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 *		path="/webservice/{moduleName}/GetConsentsForEntry",
 	 *		summary="Gets the list of consents for specific entry",
 	 *		tags={"Consents"},
-	 *    security={
+	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
-	 *    },
+	 *	},
 	 *		@OA\RequestBody(
 	 *				required=true,
 	 *				description="Required data for communication",
 	 *				@OA\JsonContent(ref="#/components/schemas/ConsentsForEntryRequestBody"),
-	 *     		@OA\MediaType(
-	 *         		mediaType="multipart/form-data",
-	 *         		@OA\Schema(ref="#/components/schemas/ConsentsForEntryRequestBody")
-	 *     		),
-	 *     		@OA\MediaType(
-	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/ConsentsForEntryRequestBody")
-	 *     		),
+	 *			@OA\MediaType(
+	 *				mediaType="multipart/form-data",
+	 *				@OA\Schema(ref="#/components/schemas/ConsentsForEntryRequestBody")
+	 *			),
+	 *		@OA\MediaType(
+	 *				mediaType="application/x-www-form-urlencoded",
+	 *			@OA\Schema(ref="#/components/schemas/ConsentsForEntryRequestBody")
+	 *		),
 	 *		),
 	 *		@OA\Parameter(
-	 *				name="moduleName",
-	 *  		 	description="Module name",
-	 *  		 	@OA\Schema(
-	 *  		  		type="string"
-	 *  		 ),
-	 *  		 in="path",
-	 * 			 example="Contacts",
-	 *  		 required=true
-	 * 		),
-	 *		@OA\Response(
-	 *				response=200,
-	 *				description="List of consents for specific entry",
-	 *				@OA\JsonContent(ref="#/components/schemas/ConsentsForEntryResponseBody"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/ConsentsForEntryResponseBody")
-	 *				),
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
 	 *		),
 	 *		@OA\Response(
-	 *				response=401,
-	 *				description="No sent token OR Invalid token",
+	 *			response=200,
+	 *			description="List of consents for specific entry",
+	 *			@OA\JsonContent(ref="#/components/schemas/ConsentsForEntryResponseBody"),
 	 *		),
 	 *		@OA\Response(
-	 *				response=403,
-	 *				description="No permissions for module",
+	 *			response=401,
+	 *			description="No sent token OR Invalid token",
 	 *		),
 	 *		@OA\Response(
-	 *				response=404,
-	 *				description="Not Found",
+	 *			response=403,
+	 *			description="No permissions for module",
 	 *		),
 	 *		@OA\Response(
-	 *				response=405,
-	 *				description="Method Not Allowed",
+	 *			response=404,
+	 *			description="Not Found",
+	 *		),
+	 *		@OA\Response(
+	 *			response=405,
+	 *			description="Method Not Allowed",
 	 *		),
 	 * ),
 	 * @OA\Schema(
@@ -90,9 +86,9 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 *		title="Request body for GetConsentsForEntry",
 	 *		type="object",
 	 *		@OA\Property(
-	 *				property="token",
-	 *				description="Entry unique ID (Token type field in the module is required)",
-	 *				type="string"
+	 *			property="token",
+	 *			description="Entry unique ID (Token type field in the module is required)",
+	 *			type="string"
 	 *		),
 	 *	),
 	 * @OA\Schema(
@@ -100,28 +96,29 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 *		title="Response body for GetConsentsForEntry",
 	 *		type="object",
 	 *		@OA\Property(
-	 *				property="status",
-	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *				enum={0, 1},
-	 *				type="integer",
-	 *        example=1
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={0, 1},
+	 *			type="integer",
+	 *			example=1
 	 *		),
 	 *		@OA\Property(
-	 *				property="result",
-	 *				description="Specific response",
-	 *				type="object",
-	 * 				@OA\Property(
-	 * 						property="id",
-	 * 						type="integer",
-	 * 						description="Record ID",
-	 * 						example=24842
-	 * 				),
-	 * 				@OA\Property(
-	 * 						property="consents",
-	 * 						type="array",
-	 * 						@OA\Items(type="integer", example=24862),
-	 * 				)
-	 * 		),
+	 *			property="result",
+	 *			description="Specific response",
+	 *			type="object",
+	 *			@OA\Property(
+	 *				property="id",
+	 *				type="integer",
+	 *				description="Record ID",
+	 *				example=24842
+	 *			),
+	 *			@OA\Property(
+	 *				property="consents",
+	 * 				type="object",
+	 *				description="Get the edit value in display view",
+	 *				@OA\AdditionalProperties(description="Data from the associated module", type="integer", example=24862),
+	 *			)
+	 *		),
 	 *	),
 	 */
 	public function post()

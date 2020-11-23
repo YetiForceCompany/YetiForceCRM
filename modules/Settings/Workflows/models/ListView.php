@@ -46,9 +46,9 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		$pageLimit = $pagingModel->getPageLimit();
 
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy) && $orderBy === 'smownerid') {
+		if (!empty($orderBy) && 'smownerid' === $orderBy) {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
-			if ($fieldModel->getFieldDataType() === 'owner') {
+			if ('owner' === $fieldModel->getFieldDataType()) {
 				$orderBy = 'COALESCE(' . App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}
 		}
@@ -66,7 +66,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 			$row['module_name'] = \App\Language::translate($row['module_name'], $row['module_name']);
 			$row['execution_condition'] = \App\Language::translate($record->executionConditionAsLabel($row['execution_condition']), 'Settings:Workflows');
 			$row['summary'] = \App\Language::translate($row['summary'], 'Settings:Workflows');
-			$row['all_tasks'] = count($taskList);
+			$row['all_tasks'] = \count($taskList);
 			$row['active_tasks'] = $workflowModel->getActiveCountFromRecord($taskList);
 
 			$record->setData($row);
@@ -84,11 +84,11 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		return $listViewRecordModels;
 	}
 
-	/*	 * *
-	 * Function which will get the list view count
+	/**	 * *
+	 * Function which will get the list view count.
+	 *
 	 * @return - number of records
 	 */
-
 	public function getListViewCount()
 	{
 		$module = $this->getModule();

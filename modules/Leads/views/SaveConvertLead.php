@@ -89,8 +89,8 @@ class Leads_SaveConvertLead_View extends \App\Controller\View\Page
 				if ($currentUser->isAdminUser()) {
 					$message = \App\Language::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="fas fa-folder-open"></span></a>');
 				}
-				$this->showError($request, '', $message);
-				throw new \App\Exceptions\AppException('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT');
+				$this->showError($request, false, $message);
+				return;
 			}
 		} catch (Exception $e) {
 			$this->showError($request, $e);
@@ -108,7 +108,7 @@ class Leads_SaveConvertLead_View extends \App\Controller\View\Page
 		}
 
 		if (!empty($accountId)) {
-			ModTracker_Record_Model::addConvertToAccountRelation('Accounts', $accountId, $assignId);
+			ModTracker_Record_Model::addConvertToAccountRelation('Accounts', $accountId, \App\User::getCurrentUserRealId());
 			header("location: index.php?view=Detail&module=Accounts&record=$accountId");
 		} else {
 			$this->showError($request);

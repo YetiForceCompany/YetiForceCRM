@@ -25,7 +25,7 @@ class ServerHttps extends \App\SystemWarnings\Template
 
 			return;
 		}
-		if (\App\RequestUtil::getBrowserInfo()->https) {
+		if (\App\RequestUtil::isHttps()) {
 			$this->status = 1;
 		} else {
 			$this->status = 0;

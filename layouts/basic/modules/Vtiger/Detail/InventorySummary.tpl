@@ -18,7 +18,7 @@
 					<tbody>
 					<tr>
 						<td class="textAlignRight">
-							{CurrencyField::convertToUserFormatSymbol($DISCOUNT,false,$CURRENCY_SYMBOLAND['currency_symbol'])}
+							{CurrencyField::convertToUserFormatSymbol($DISCOUNT, true, $CURRENCY_SYMBOLAND['currency_symbol'])}
 						</td>
 					</tr>
 					</tbody>
@@ -56,7 +56,7 @@
 								{App\Fields\Double::formatToDisplay($KEY)}%
 							</td>
 							<td class="textAlignRight">
-								{CurrencyField::convertToUserFormatSymbol($TAX,false,$CURRENCY_SYMBOLAND['currency_symbol'])}
+								{CurrencyField::convertToUserFormatSymbol($TAX, true, $CURRENCY_SYMBOLAND['currency_symbol'])}
 							</td>
 						</tr>
 					{/foreach}
@@ -65,7 +65,7 @@
 							{\App\Language::translate('LBL_AMOUNT',$MODULE_NAME)}
 						</td>
 						<td class="textAlignRight">
-							{CurrencyField::convertToUserFormatSymbol($TAX_AMOUNT,false,$CURRENCY_SYMBOLAND['currency_symbol'])}
+							{CurrencyField::convertToUserFormatSymbol($TAX_AMOUNT, true, $CURRENCY_SYMBOLAND['currency_symbol'])}
 						</td>
 					</tr>
 					</tbody>
@@ -92,7 +92,7 @@
 									{CurrencyField::convertToUserFormat($KEY)}%
 								</td>
 								<td class="textAlignRight">
-									{CurrencyField::convertToUserFormatSymbol($TAX * $RATE,false,$BASE_CURRENCY['currency_symbol'])}
+									{CurrencyField::convertToUserFormatSymbol($TAX * $RATE, true, $BASE_CURRENCY['currency_symbol'])}
 								</td>
 							</tr>
 						{/foreach}
@@ -101,7 +101,7 @@
 								{\App\Language::translate('LBL_AMOUNT',$MODULE_NAME)}
 							</td>
 							<td class="textAlignRight">
-								{CurrencyField::convertToUserFormatSymbol($CURRENY_AMOUNT * $RATE,false,$BASE_CURRENCY['currency_symbol'])}
+								{CurrencyField::convertToUserFormatSymbol($CURRENY_AMOUNT * $RATE, true, $BASE_CURRENCY['currency_symbol'])}
 							</td>
 						</tr>
 						</tbody>

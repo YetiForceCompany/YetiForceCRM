@@ -13,7 +13,7 @@ class Settings_HideBlocks_Save_Action extends Settings_Vtiger_Index_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$blockId = $request->getInteger('blockid');
 		$enabled = $request->getBoolean('enabled');
@@ -34,7 +34,7 @@ class Settings_HideBlocks_Save_Action extends Settings_Vtiger_Index_Action
 		header('location: ' . Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName)->getListViewUrl());
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

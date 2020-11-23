@@ -16,28 +16,28 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Cloud';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'CloudHosting';
+
+	/** {@inheritdoc} */
 	public $pricesType = 'selection';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/marketplace/cloud';
+
+	/** {@inheritdoc} */
 	public $prices = [
-		'Micro' => 40,
-		'Small' => 100,
-		'Medium' => 200,
-		'Large' => 400,
-		'Corporation' => 2000,
+		'Micro' => 65,
+		'Small' => 125,
+		'Medium' => 245,
+		'Large' => 485,
+		'Corporation' => 965,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $customFields = [
 		'subdomain' => [
 			'label' => 'LBL_SHOP_DOMAIN_PREFIX',
@@ -53,21 +53,27 @@ class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 		]
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $companyDataForm = false;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function verify($cache = true): bool
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
 	{
-		return true;
+		return [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'Website',
+				'relatedModuleName' => '_Base',
+				'linkicon' => 'fas fa-globe',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => $this->website,
+				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+		];
 	}
 }

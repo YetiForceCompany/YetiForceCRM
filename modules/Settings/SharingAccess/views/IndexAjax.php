@@ -24,7 +24,7 @@ class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 	 *
 	 * @param \App\Request $request
 	 */
-	public function showRules(\App\Request $request)
+	public function showRules(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -47,7 +47,7 @@ class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 	 *
 	 * @param \App\Request $request
 	 */
-	public function editRule(\App\Request $request)
+	public function editRule(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -79,7 +79,7 @@ class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 	 *
 	 * @return \Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Settings.Vtiger.resources.Index',

@@ -68,7 +68,7 @@ class Pdf extends \Api\Core\BaseAction
 			$pdfFiles[] = ['path' => $filePath,	'name' => $fileName];
 			$pdf->output($filePath, 'F');
 		}
-		if (count($pdfFiles) > 1) {
+		if (\count($pdfFiles) > 1) {
 			$zipPath = $template->getPath('APIZIP');
 			$zip = \App\Zip::createFile($zipPath);
 			foreach ($pdfFiles as $file) {

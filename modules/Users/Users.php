@@ -40,7 +40,7 @@ require_once 'modules/Users/UserTimeZonesArray.php';
 
 // User is used to store customer information.
 
-/** Main class for the user module
+/** Main class for the user module.
  *
  */
 class Users extends CRMEntity
@@ -108,7 +108,7 @@ class Users extends CRMEntity
 	//Default Widgests
 	public $default_widgets = ['CVLVT', 'UA'];
 
-	/** constructor function for the main user class
+	/** constructor function for the main user class.
 	 *
 	 */
 	public function __construct()
@@ -130,7 +130,7 @@ class Users extends CRMEntity
 		return isset($this->is_admin) && 'on' === $this->is_admin;
 	}
 
-	/** Function to get the current user information from the user_privileges file
+	/** Function to get the current user information from the user_privileges file.
 	 * @param $userid -- user id:: Type integer
 	 * @returns user info in $this->column_fields array:: Type array
 	 */
@@ -149,7 +149,7 @@ class Users extends CRMEntity
 		return $this;
 	}
 
-	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array
+	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array.
 	 * @param $record -- record id:: Type integer
 	 * @param $module -- module:: Type varchar
 	 *

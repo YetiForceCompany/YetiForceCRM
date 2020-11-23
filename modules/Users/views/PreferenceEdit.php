@@ -11,7 +11,7 @@
 
 class Users_PreferenceEdit_View extends Vtiger_Edit_View
 {
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -20,25 +20,24 @@ class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		}
 		if (!$request->isEmpty('record', true)) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			if ($currentUserModel->get('id') != $request->getInteger('record') && $this->record->get('status') != 'Active') {
+			if ($currentUserModel->get('id') != $request->getInteger('record') && 'Active' != $this->record->get('status')) {
 				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 			}
 		} elseif ($request->isEmpty('record')) {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
-		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES')))) {
+		if ((true === $currentUserModel->isAdminUser() || ($currentUserModel->get('id') == $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES')))) {
 			return true;
-		} else {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
+		throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 	}
 
-	public function preProcessTplName(\App\Request $request)
+	public function preProcessTplName(App\Request $request)
 	{
 		return 'UserEditViewPreProcess.tpl';
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -48,13 +47,13 @@ class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		}
 	}
 
-	protected function preProcessDisplay(\App\Request $request)
+	protected function preProcessDisplay(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('record')) {

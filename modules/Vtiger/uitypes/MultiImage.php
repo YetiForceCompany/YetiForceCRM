@@ -38,11 +38,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		$hashValue = is_array($value) ? md5(print_r($value, true)) : $value;
+		$hashValue = \is_array($value) ? md5(print_r($value, true)) : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
-		if (!$isUserFormat && is_string($value)) {
+		if (!$isUserFormat && \is_string($value)) {
 			$value = \App\Json::decode($value);
 		}
 		$fieldInfo = $this->getFieldModel()->getFieldInfo();
@@ -109,10 +109,10 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getDisplayValueEncoded($value, $record, $length = false)
 	{
 		$value = \App\Json::decode($value);
-		if (!is_array($value) || empty($value)) {
+		if (!\is_array($value) || empty($value)) {
 			return '[]';
 		}
-		$imagesCount = count($value);
+		$imagesCount = \count($value);
 		if (!empty($length) && $imagesCount > $length) {
 			$len = $length;
 		}
@@ -129,10 +129,10 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
 		$value = \App\Json::decode($value);
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			return '';
 		}
 		$value = array_map(function ($v) {
@@ -161,7 +161,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				$style .= "height:$height;";
 			}
 		} else {
-			$width = 100 / count($value);
+			$width = 100 / \count($value);
 			$style .= "width:$width%;";
 			$images .= '<div style="width:100%">';
 		}
@@ -184,13 +184,13 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!$value) {
 			return '';
 		}
-		$len = $length ?: count($value);
+		$len = $length ?: \count($value);
 		if (!$record && $recordModel) {
 			$record = $recordModel->getId();
 		}
 		if ($rawText || !$record) {
 			$result = '';
-			if (!is_array($value)) {
+			if (!\is_array($value)) {
 				return '';
 			}
 			for ($i = 0; $i < $len; ++$i) {
@@ -199,11 +199,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			}
 			return \App\Purifier::encodeHtml(trim($result, "\n\t ,"));
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			return '';
 		}
 		$result = '<div class="c-multi-image__result" style="width:100%">';
-		$width = 1 / count($value) * 100;
+		$width = 1 / \count($value) * 100;
 		for ($i = 0; $i < $len; ++$i) {
 			if ($record) {
 				$src = $this->getImageUrl($value[$i]['key'], $record);
@@ -229,17 +229,17 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 		if ($rawText || !$record) {
 			$result = '';
-			if (!is_array($value)) {
+			if (!\is_array($value)) {
 				return '';
 			}
-			$len = count($value);
+			$len = \count($value);
 			for ($i = 0; $i < $len; ++$i) {
 				$val = $value[$i];
 				$result .= $val['name'] . ', ';
 			}
 			return \App\Purifier::encodeHtml(trim($result, "\n\t ,"));
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			return '';
 		}
 		$result = '<div class="c-multi-image__result">';
@@ -266,7 +266,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!$id && \App\Request::_has('record')) {
 			$id = \App\Request::_get('record');
 		}
-		if (is_array($value)) {
+		if (\is_array($value)) {
 			foreach ($value as &$item) {
 				$item['imageSrc'] = $this->getImageUrl($item['key'], $id);
 				unset($item['path']);
@@ -275,6 +275,50 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			$value = [];
 		}
 		return \App\Purifier::encodeHtml(\App\Json::encode($value));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		$value = \App\Json::decode($value);
+		if (!$value || !\is_array($value)) {
+			return [];
+		}
+		$multiMode = 'multiImage' === $this->getFieldModel()->getFieldDataType();
+		$id = $recordModel->getId();
+		$return = [];
+		foreach ($value as $item) {
+			$path = \App\Fields\File::getLocalPath($item['path']);
+			if (!file_exists($path)) {
+				throw new \Api\Core\Exception('File does not exist', 404);
+			}
+			$file = \App\Fields\File::loadFromInfo([
+				'path' => $path,
+				'name' => $item['name'],
+			]);
+			$file = [
+				'name' => $item['name'],
+				'type' => $file->getMimeType(),
+				'size' => $file->getSize(),
+				'path' => 'Files',
+				'postData' => [
+					'module' => $this->getFieldModel()->getModuleName(),
+					'actionName' => 'MultiImage',
+					'field' => $this->getFieldModel()->getFieldName(),
+					'record' => $id,
+					'key' => $item['key'],
+				]
+			];
+			if ($multiMode) {
+				$return[] = $file;
+			} else {
+				$return = $file;
+				break;
+			}
+		}
+		return $return;
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 /**
- * CardDav address books class file.
+ * CardDav address books file.
  *
  * @package   Integrations
  *
@@ -12,7 +12,7 @@
 namespace App\Integrations\Dav;
 
 /**
- * CardDav class.
+ * CardDav address books class.
  */
 class Card
 {

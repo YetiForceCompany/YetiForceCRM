@@ -107,6 +107,9 @@ class Mail
 		if (!is_numeric($id)) {
 			$id = self::getTemplateIdFromSysName($id);
 		}
+		if (!$id || !\App\Record::isExists($id, 'EmailTemplates')) {
+			return false;
+		}
 		$template = \Vtiger_Record_Model::getInstanceById($id, 'EmailTemplates');
 		return array_merge(
 			$template->getData(), static::getAttachmentsFromTemplate($template->getId())
@@ -156,7 +159,6 @@ class Mail
 			$attachments['attachments'] = ['ids' => $ids];
 		}
 		Cache::save('MailAttachmentsFromTemplete', $id, $attachments, Cache::LONG);
-
 		return $attachments;
 	}
 
@@ -175,9 +177,8 @@ class Mail
 			return Cache::get('MailAttachmentsFromDocument', $cacheId);
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_attachments.*'])->from('vtiger_attachments')
-			->innerJoin('vtiger_crmentity', 'vtiger_attachments.attachmentsid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
-			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seattachmentsrel.crmid' => $ids]);
+			->where(['vtiger_seattachmentsrel.crmid' => $ids]);
 		$attachments = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {

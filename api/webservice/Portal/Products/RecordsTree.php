@@ -49,39 +49,38 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getQuery()
+	public function createQuery(): void
 	{
 		if ($this->isUserPermissions) {
-			$queryGenerator = parent::getQuery();
+			parent::createQuery();
 		} else {
 			if ($parent = $this->getParentCrmId()) {
 				$this->parentRecordModel = \Vtiger_Record_Model::getInstanceById($parent, 'Accounts');
 				$pricebookId = $this->parentRecordModel->get('pricebook_id');
 				if (empty($pricebookId)) {
-					$queryGenerator = parent::getQuery();
+					parent::createQuery();
 				} else {
-					$queryGenerator = parent::getQuery();
-					$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
-					$queryGenerator->addJoin([
+					parent::createQuery();
+					$this->queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
+					$this->queryGenerator->addJoin([
 						'LEFT JOIN',
 						'vtiger_pricebookproductrel',
 						"vtiger_pricebookproductrel.pricebookid={$pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid"]
 					);
 				}
 			} else {
-				$queryGenerator = parent::getQuery();
+				parent::createQuery();
 			}
 		}
 		$storage = $this->getUserStorageId();
 		if ($storage) {
-			$queryGenerator->setCustomColumn('u_#__istorages_products.qtyinstock as storage_qtyinstock');
-			$queryGenerator->addJoin([
+			$this->queryGenerator->setCustomColumn('u_#__istorages_products.qtyinstock as storage_qtyinstock');
+			$this->queryGenerator->addJoin([
 				'LEFT JOIN',
 				'u_#__istorages_products',
 				"u_#__istorages_products.crmid={$storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid"]
 			);
 		}
-		return $queryGenerator;
 	}
 
 	/**
@@ -95,9 +94,9 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function getRecordFromRow(array $row, array $fieldsModel): array
+	protected function getRecordFromRow(array $row): array
 	{
-		$record = parent::getRecordFromRow($row, $fieldsModel);
+		$record = parent::getRecordFromRow($row);
 		$unitPrice = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
 		$regionalTaxes = $availableTaxes = '';
 		if ($this->isUserPermissions) {
@@ -147,9 +146,9 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function getColumnNames(array $fieldsModel): array
+	protected function getColumnNames(): array
 	{
-		$headers = parent::getColumnNames($fieldsModel);
+		$headers = parent::getColumnNames();
 		$headers['unit_gross'] = \App\Language::translate('LBL_GRAND_TOTAL');
 		return $headers;
 	}

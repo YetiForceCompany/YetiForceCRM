@@ -216,7 +216,9 @@ class File
 			return false;
 		}
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 5, 'connect_timeout' => 1]);
+			\App\Log::beginProfile("GET|File::loadFromUrl|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['timeout' => 5, 'connect_timeout' => 1]);
+			\App\Log::endProfile("GET|File::loadFromUrl|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				Log::warning('Error when downloading content: ' . $url . ' | Status code: ' . $response->getStatusCode(), __CLASS__);
 				return false;
@@ -599,7 +601,7 @@ class File
 					}
 			}
 		} catch (\Throwable $e) {
-			trigger_error($e->getMessage(), E_USER_NOTICE);
+			Log::warning($e->getMessage(), __METHOD__);
 		}
 		return false;
 	}
@@ -909,7 +911,6 @@ class File
 		$record->set('filename', $fileName);
 		$record->set('filestatus', 1);
 		$record->set('filelocationtype', 'I');
-		$record->set('folderid', 'T2');
 		$record->file = [
 			'name' => $fileName,
 			'size' => $file->getSize(),
@@ -1083,7 +1084,9 @@ class File
 	public static function isExistsUrl($url)
 	{
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 1, 'connect_timeout' => 1]);
+			\App\Log::beginProfile("GET|File::isExistsUrl|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['timeout' => 1, 'connect_timeout' => 1]);
+			\App\Log::endProfile("GET|File::isExistsUrl|{$url}", __NAMESPACE__);
 			if (200 === $response->getStatusCode()) {
 				return true;
 			}
@@ -1413,15 +1416,43 @@ class File
 		$file = static::loadFromContent(\base64_decode($raw['baseContent']), $raw['name']);
 		$savePath = static::initStorageFileDirectory($moduleName);
 		$key = $file->generateHash(true, $savePath);
-		$size = $file->getSize();
 		if ($file->moveFile($savePath . $key)) {
 			return [
 				'name' => $file->getName(),
-				'size' => \vtlib\Functions::showBytes($size),
+				'size' => \vtlib\Functions::showBytes($file->getSize()),
 				'key' => $key,
 				'hash' => \md5_file($savePath . $key),
 				'path' => $savePath . $key
 			];
 		}
+	}
+
+	/**
+	 * Save file from given url.
+	 *
+	 * @param string      $url
+	 * @param string      $moduleName
+	 * @param string|bool $type
+	 *
+	 * @return array
+	 */
+	public static function saveImageFromUrl(string $url, string $moduleName, $type = false): array
+	{
+		$value = [];
+		$file = static::loadFromUrl($url);
+		if ($file && $file->validateAndSecure($type)) {
+			$savePath = static::initStorageFileDirectory($moduleName);
+			$key = $file->generateHash(true, $savePath);
+			if ($file->moveFile($savePath . $key)) {
+				$value = [
+					'name' => $file->getName(),
+					'size' => \vtlib\Functions::showBytes($file->getSize()),
+					'key' => $key,
+					'hash' => \md5_file($savePath . $key),
+					'path' => $savePath . $key
+				];
+			}
+		}
+		return $value;
 	}
 }

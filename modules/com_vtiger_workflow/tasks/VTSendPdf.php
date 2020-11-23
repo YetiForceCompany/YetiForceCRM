@@ -37,7 +37,7 @@ class VTSendPdf extends VTTask
 			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
 			$emailParser->emailoptout = $this->emailoptout ? true : false;
 			if ($this->email) {
-				$emails = is_array($this->email) ? implode(',', $this->email) : $this->email;
+				$emails = \is_array($this->email) ? implode(',', $this->email) : $this->email;
 				$mailerContent['to'] = $emailParser->setContent($emails)->parse()->getContent(true);
 			}
 			unset($emailParser);

@@ -19,7 +19,7 @@
 	<select class="select2 js-currency" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}"
 			{if $ROW_NO} name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {/if}
 			title="{\App\Language::translate('LBL_CURRENCY', $MODULE_NAME)}"
-			{if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}>
+			{if $FIELD->isReadOnly()}readonly="readonly"{/if}>
 		{foreach item=CURRENCY key=count from=$CURRENCIES}
 			{assign var=CURRENCY_PARAM value=$CURRENCY_PARAMS[$CURRENCY.id]}
 			<option value="{$CURRENCY.id}" class="textShadowNone" data-conversion-rate="{$CURRENCY_PARAM.conversion}"

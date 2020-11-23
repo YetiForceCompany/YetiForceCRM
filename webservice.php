@@ -5,6 +5,7 @@
  */
 require_once 'include/main/WebUI.php';
 \App\Process::$requestMode = 'API';
+\App\Log::beginProfile($_SERVER['REQUEST_URI'], 'WebServiceAPI');
 try {
 	if (!\in_array('webservice', \App\Config::api('enabledServices'))) {
 		throw new \App\Exceptions\NoPermittedToApi('Webservice - Service is not active', 403);
@@ -16,15 +17,21 @@ try {
 	}
 	$controller->postProcess();
 } catch (\Api\Core\Exception $e) {
+	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 	$e->handleError();
 } catch (\App\Exceptions\NoPermittedToApi $e) {
+	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 	echo json_encode([
 		'status' => 0,
 		'error' => [
 			'message' => $e->getMessage(),
 		],
 	]);
+	$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
+	$ex->handleError();
 } catch (\Throwable $e) {
 	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-	throw new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
+	$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
+	$ex->handleError();
 }
+\App\Log::endProfile($_SERVER['REQUEST_URI'], 'WebServiceAPI');

@@ -20,6 +20,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 		this.registerProductModalClick();
 		this.registerBuyModalClick();
 		this.registerShopSearch();
+		this.registerCategories();
 		this.showInitialModal();
 	}
 	showInitialModal() {
@@ -39,25 +40,18 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 		let searchField = this.container.find('.js-shop-search');
 		searchField = searchField.length ? searchField : $('.js-shop-search');
 		searchField
-			.on('keyup', e => {
-				let value = $(e.currentTarget)
-					.val()
-					.toLowerCase();
-				this.container.find('.js-product .js-text-search').filter(function() {
+			.on('keyup', (e) => {
+				let value = $(e.currentTarget).val().toLowerCase();
+				this.container.find('.js-product .js-text-search').filter(function () {
 					let item = $(this).closest('.js-product');
-					if (
-						$(this)
-							.text()
-							.toLowerCase()
-							.indexOf(value) > -1
-					) {
+					if ($(this).text().toLowerCase().indexOf(value) > -1) {
 						item.removeClass('d-none');
 					} else {
 						item.addClass('d-none');
 					}
 				});
 			})
-			.on('click', e => {
+			.on('click', (e) => {
 				e.stopPropagation();
 			});
 	}
@@ -66,7 +60,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	 *
 	 */
 	registerProductModalClick() {
-		this.container.find('.js-product').on('click', e => {
+		this.container.find('.js-product').on('click', (e) => {
 			const currentTarget = $(e.currentTarget);
 			this.showProductModal(currentTarget.data('product'), this.getDepartment(currentTarget));
 		});
@@ -81,8 +75,8 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 		app.showModalWindow(
 			null,
 			`${this.modalUrl}&view=ProductModal&product=${productName}${department ? '&department=' + department : ''}`,
-			modalContainer => {
-				modalContainer.find('.js-modal__save').on('click', _ => {
+			(modalContainer) => {
+				modalContainer.find('.js-modal__save').on('click', (_) => {
 					app.hideModalWindow();
 					this.showBuyModal(productName, department);
 				});
@@ -94,7 +88,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	 *
 	 */
 	registerBuyModalClick() {
-		this.container.find('.js-buy-modal').on('click', e => {
+		this.container.find('.js-buy-modal').on('click', (e) => {
 			e.stopPropagation();
 			const currentTarget = $(e.currentTarget);
 			this.showBuyModal(currentTarget.data('product'), this.getDepartment(currentTarget));
@@ -117,7 +111,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	registerBuyModalEvents(modalContainer) {
 		const companyForm = modalContainer.find('.js-update-company-form');
 		const buyForm = modalContainer.find('.js-buy-form');
-		modalContainer.find('.js-modal__save').on('click', _ => {
+		modalContainer.find('.js-modal__save').on('click', (_) => {
 			this.registerBuyModalForms(companyForm, buyForm);
 		});
 		if (companyForm.length) {
@@ -143,7 +137,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 				const progressIndicatorElement = $.progressIndicator({
 					blockInfo: { enabled: true }
 				});
-				AppConnector.request(params).done(data => {
+				AppConnector.request(params).done((data) => {
 					if (data.success) {
 						buyForm.submit();
 						app.hideModalWindow();
@@ -194,5 +188,31 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	getDepartment(element) {
 		let department = element.closest('.js-department');
 		return department.length ? department.data('department') : '';
+	}
+	/**
+	 * Register categories.
+	 *
+	 */
+	registerCategories() {
+		this.container.find('.js-select-category').on('click', (e) => {
+			this.changeCategory($(e.currentTarget).data('tab'));
+		});
+		this.changeCategory(this.container.find('.js-select-category.active').data('tab'));
+	}
+	/**
+	 * Register categories.
+	 *
+	 */
+	changeCategory(category) {
+		this.container.find('.js-nav-premium .js-product').each(function () {
+			let product = $(this);
+			if (category === 'All') {
+				product.removeClass('d-none');
+			} else if (product.data('category') === category) {
+				product.removeClass('d-none');
+			} else {
+				product.addClass('d-none');
+			}
+		});
 	}
 };

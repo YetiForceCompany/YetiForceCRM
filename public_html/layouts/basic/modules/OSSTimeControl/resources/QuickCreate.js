@@ -29,7 +29,7 @@ window.OSSTimeControl_CalendarModal_Js = class OSSTimeControl_CalendarModal_Js e
 			center: 'prevYear,prev,title,next,nextYear',
 			right: 'today'
 		};
-		options.eventClick = function(calEvent, jsEvent) {
+		options.eventClick = function (calEvent, jsEvent) {
 			jsEvent.preventDefault();
 		};
 		return options;
@@ -54,7 +54,7 @@ window.OSSTimeControl_CalendarModal_Js = class OSSTimeControl_CalendarModal_Js e
 				);
 			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), this.isSwitchAllDays))
 				.prependTo(switchContainer)
-				.on('change', 'input', e => {
+				.on('change', 'input', (e) => {
 					const currentTarget = $(e.currentTarget);
 					let hiddenDays = [];
 					if (typeof currentTarget.data('on-text') !== 'undefined') {
@@ -88,9 +88,7 @@ window.OSSTimeControl_CalendarModal_Js = class OSSTimeControl_CalendarModal_Js e
 	 */
 	registerUsersChange() {
 		this.container.find('.assigned_user_id').on('change', () => {
-			this.getCalendarView()
-				.fullCalendar('getCalendar')
-				.view.options.loadView();
+			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});
 	}
 
@@ -133,10 +131,7 @@ window.OSSTimeControl_CalendarModal_Js = class OSSTimeControl_CalendarModal_Js e
 			startDate = startDate + 'T' + startHour + ':00';
 			endDate = endDate + 'T' + endHour + ':00';
 		}
-		let dateFormat = this.container
-				.find('[name="date_start"]')
-				.data('dateFormat')
-				.toUpperCase(),
+		let dateFormat = this.container.find('[name="date_start"]').data('dateFormat').toUpperCase(),
 			timeFormat = this.container.find('[name="time_start"]').data('format'),
 			defaultTimeFormat = '';
 		if (timeFormat == 24) {
@@ -170,15 +165,13 @@ $.Class(
 			this.container = container;
 		},
 		setModule() {
-			this.module = this.getContainer()
-				.find('[name="module"]')
-				.val();
+			this.module = this.getContainer().find('[name="module"]').val();
 		},
 		initCalendar() {
 			let className = this.module + '_CalendarModal_Js';
 			this.calendar = new window[className](this.getContainer().closest('.js-modal-container'), true);
 		},
-		registerEvents: function(container) {
+		registerEvents: function (container) {
 			this.setContainer(container);
 			this.setModule();
 			this.initCalendar();

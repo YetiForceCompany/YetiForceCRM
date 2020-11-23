@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-Workflows-Tasks-VTUpdateFieldsTask -->
 	<div class="d-flex px-1 px-md-2">
 		<strong class="align-self-center mr-2">{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong>
 		<button type="button" class="btn btn-outline-dark"
@@ -24,7 +25,7 @@
 							<option value="">{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}</option>
 						</optgroup>
 						{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
-							{if !$FIELD_MODEL->isEditable() || $FIELD_MODEL->isReferenceField() || ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
+							{if !$FIELD_MODEL->isEditable() ||  ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
 								{continue}
 							{/if}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -35,7 +36,7 @@
 									data-field-name="{$FIELD_MODEL->getName()}"
 									data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}">
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
+									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))}) - {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))} ({\App\Language::translate($FIELD_MODEL->getBlockName(), $MODULE_MODEL->get('name'))})
 								{else}
 									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 								{/if}
@@ -65,7 +66,7 @@
 					<option value="">{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}</option>
 				</optgroup>
 				{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
-					{if !$FIELD_MODEL->isEditable() || $FIELD_MODEL->isReferenceField() || ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
+					{if !$FIELD_MODEL->isEditable()  || ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
 						{continue}
 					{/if}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -74,7 +75,7 @@
 							data-field-name="{$FIELD_MODEL->getName()}"
 							data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}">
 						{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-							({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
+							({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))}) - {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))} ({\App\Language::translate($FIELD_MODEL->getBlockName(), $MODULE_MODEL->get('name'))})
 						{else}
 							{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 						{/if}
@@ -92,4 +93,5 @@
 			</button>
 		</div>
 	</div>
+	<!-- /tpl-Settings-Workflows-Tasks-VTUpdateFieldsTask -->
 {/strip}

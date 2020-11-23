@@ -2,7 +2,7 @@
 /**
  * Cron for workflow.
  *
- * @package   App
+ * @package   Cron
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -34,11 +34,14 @@ class Vtiger_Workflow_Cron extends \App\CronHandler
 			[$taskId, $entityId, $taskContents] = $taskDetails;
 			$task = $tm->retrieveTask($taskId);
 			//If task is not there then continue
-			if (empty($task)) {
+			if (empty($task) || !\App\Record::isExists($entityId)) {
 				continue;
 			}
 			$task->setContents($taskContents);
 			$task->doTask(Vtiger_Record_Model::getInstanceById($entityId));
+			if ($this->checkTimeout()) {
+				return;
+			}
 		}
 	}
 }

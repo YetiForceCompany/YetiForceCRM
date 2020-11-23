@@ -16,15 +16,15 @@ Vtiger_Detail_Js(
 		 * function to trigger delete record action
 		 * @params: delete record url.
 		 */
-		triggerDeleteUser: function(deleteUserUrl) {
+		triggerDeleteUser: function (deleteUserUrl) {
 			var message = app.vtranslate('LBL_DELETE_USER_CONFIRMATION');
 			Vtiger_Helper_Js.showConfirmationBox({ message: message })
-				.done(function(data) {
-					AppConnector.request(deleteUserUrl).done(function(data) {
+				.done(function (data) {
+					AppConnector.request(deleteUserUrl).done(function (data) {
 						if (data) {
-							var callback = function(data) {
+							var callback = function (data) {
 								var params = app.validationEngineOptions;
-								params.onValidationComplete = function(form, valid) {
+								params.onValidationComplete = function (form, valid) {
 									if (valid) {
 										Users_Detail_Js.deleteUser(form);
 									}
@@ -32,7 +32,7 @@ Vtiger_Detail_Js(
 								};
 								$('#deleteUser').validationEngine(app.validationEngineOptions);
 							};
-							app.showModalWindow(data, function(data) {
+							app.showModalWindow(data, function (data) {
 								if (typeof callback == 'function') {
 									callback(data);
 								}
@@ -40,11 +40,11 @@ Vtiger_Detail_Js(
 						}
 					});
 				})
-				.fail(function(error, err) {
+				.fail(function (error, err) {
 					console.error(error);
 				});
 		},
-		deleteUser: function(form) {
+		deleteUser: function (form) {
 			var userid = form.find('[name="userid"]').val();
 			var transferUserId = form.find('[name="tranfer_owner_id"]').val();
 
@@ -56,20 +56,23 @@ Vtiger_Detail_Js(
 				userid: userid,
 				permanent: form.find('[name="deleteUserPermanent"]:checked').val()
 			};
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				if (data.success) {
 					app.hideModalWindow();
-					Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
+					app.showNotify({
+						text: app.vtranslate(data.result.message),
+						type: 'success'
+					});
 					var url = data.result.listViewUrl;
 					window.location.href = url;
 				}
 			});
 		},
-		triggerChangeAccessKey: function(url) {
+		triggerChangeAccessKey: function (url) {
 			var title = app.vtranslate('JS_NEW_ACCESS_KEY_REQUESTED');
 			var message = app.vtranslate('JS_CHANGE_ACCESS_KEY_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ title: title, message: message }).done(function(data) {
-				AppConnector.request(url).done(function(data) {
+			Vtiger_Helper_Js.showConfirmationBox({ title: title, message: message }).done(function (data) {
+				AppConnector.request(url).done(function (data) {
 					var params = {};
 					if (data['success']) {
 						data = data.result;
@@ -83,44 +86,41 @@ Vtiger_Detail_Js(
 						message = app.vtranslate(data['error']['message']);
 					}
 					params['text'] = message;
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				});
 			});
 		}
 	},
 	{
 		usersEditInstance: false,
-		updateStartHourElement: function(form) {
+		updateStartHourElement: function (form) {
 			this.usersEditInstance.triggerHourFormatChangeEvent(form);
 			this.updateStartHourElementValue();
 		},
-		hourFormatUpdateEvent: function() {
+		hourFormatUpdateEvent: function () {
 			var thisInstance = this;
-			this.getForm().on(this.fieldUpdatedEvent, '[name="hour_format"]', function(e, params) {
+			this.getForm().on(this.fieldUpdatedEvent, '[name="hour_format"]', function (e, params) {
 				thisInstance.updateStartHourElementValue();
 			});
 		},
-		updateStartHourElementValue: function() {
+		updateStartHourElementValue: function () {
 			var form = this.getForm();
 			var startHourSelectElement = $('select[name="start_hour"]', form);
 			var selectedElementValue = startHourSelectElement.find('option:selected').text();
-			startHourSelectElement
-				.closest('.fieldValue')
-				.find('span.value')
-				.text(selectedElementValue);
+			startHourSelectElement.closest('.fieldValue').find('span.value').text(selectedElementValue);
 			var endHourSelectElement = $('select[name="end_hour"]', form);
 			endHourSelectElement
 				.closest('.fieldValue')
 				.find('span.value')
 				.text(endHourSelectElement.find('option:selected').text());
 		},
-		startHourUpdateEvent: function(form) {
+		startHourUpdateEvent: function (form) {
 			var thisInstance = this;
-			form.on(this.fieldUpdatedEvent, '[name="start_hour"]', function(e, params) {
+			form.on(this.fieldUpdatedEvent, '[name="start_hour"]', function (e, params) {
 				thisInstance.updateStartHourElement(form);
 			});
 		},
-		saveFieldValues: function(fieldDetailList) {
+		saveFieldValues: function (fieldDetailList) {
 			var aDeferred = $.Deferred();
 			var thisInstance = this;
 			var lock = false;
@@ -130,8 +130,8 @@ Vtiger_Detail_Js(
 				data = fieldDetailList;
 				if (data['field'] == 'email1') {
 					thisInstance.usersEditInstance.checkEmail(data['value']).done(
-						function(data) {},
-						function(data, error) {
+						function (data) {},
+						function (data, error) {
 							lock = true;
 							aDeferred.reject();
 						}
@@ -147,39 +147,19 @@ Vtiger_Detail_Js(
 				params.data = data;
 				params.async = false;
 				params.dataType = 'json';
-				AppConnector.request(params).done(function(reponseData) {
+				AppConnector.request(params).done(function (reponseData) {
 					aDeferred.resolve(reponseData);
 				});
 			}
 			return aDeferred.promise();
 		},
-		registerValidatePassword: function() {
-			$('body').on('click', '.js-validate-password', function(e) {
-				AppConnector.request({
-					module: app.getModuleName(),
-					action: 'VerifyData',
-					mode: 'validatePassword',
-					password: $('body')
-						.find('[name="' + $(e.currentTarget).data('field') + '"]')
-						.val()
-				}).done(function(data) {
-					if (data.success && data.result) {
-						Vtiger_Helper_Js.showMessage({
-							text: data.result.message,
-							type: data.result.type
-						});
-					}
-				});
-			});
-		},
-		registerEvents: function() {
+		registerEvents: function () {
 			this._super();
 			var form = this.getForm();
 			this.usersEditInstance = Vtiger_Edit_Js.getInstance();
 			this.updateStartHourElement(form);
 			this.hourFormatUpdateEvent();
 			this.startHourUpdateEvent(form);
-			this.registerValidatePassword();
 			Users_Edit_Js.registerChangeEventForCurrencySeparator();
 		}
 	}

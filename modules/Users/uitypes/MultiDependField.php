@@ -38,7 +38,7 @@ class Users_MultiDependField_UIType extends Vtiger_MultiDependField_UIType
 	public function getDefaultValue()
 	{
 		$defaultValue = $this->getFieldModel()->get('defaultvalue');
-		if (!$defaultValue && $this->getFieldModel()->getName() === 'othereventduration') {
+		if (!$defaultValue && 'othereventduration' === $this->getFieldModel()->getName()) {
 			$picklist = \App\Fields\Picklist::getValuesName('activitytype');
 			foreach ($picklist as $label) {
 				$value[] = ['activitytype' => $label, 'duration' => 60];

@@ -19,7 +19,7 @@ class VTExpressionSpaceFilter
 	{
 		do {
 			$token = $this->tokens->nextToken();
-		} while ($token->label == 'SPACE');
+		} while ('SPACE' == $token->label);
 
 		return $token;
 	}

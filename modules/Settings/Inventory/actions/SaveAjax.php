@@ -23,7 +23,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -71,7 +71,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function checkDuplicateName(\App\Request $request)
+	public function checkDuplicateName(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$id = !$request->isEmpty('id') ? $request->getInteger('id') : '';
@@ -91,7 +91,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function deleteInventory(\App\Request $request)
+	public function deleteInventory(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$params = $request->getMultiDimensionArray('param', [
@@ -115,7 +115,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function saveConfig(\App\Request $request)
+	public function saveConfig(App\Request $request)
 	{
 		$params = $request->getMultiDimensionArray('param', [
 			'view' => 'Standard',

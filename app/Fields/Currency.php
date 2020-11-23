@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Fields;
@@ -107,7 +108,7 @@ class Currency
 		if (\App\Cache::has('CurrencyGetAll', 'All')) {
 			$currencies = \App\Cache::get('CurrencyGetAll', 'All');
 		} else {
-			$currencies = (new \App\Db\Query())->from('vtiger_currency_info')->indexBy('id')->all();
+			$currencies = (new \App\Db\Query())->from('vtiger_currency_info')->where(['deleted' => 0])->indexBy('id')->all();
 			\App\Cache::save('CurrencyGetAll', 'All', $currencies);
 		}
 		if ($onlyActive) {
@@ -116,6 +117,22 @@ class Currency
 					unset($currencies[$id]);
 				}
 			}
+		}
+		return $currencies;
+	}
+
+	/**
+	 * Get supported currencies.
+	 *
+	 * @return array
+	 */
+	public static function getSupported(): array
+	{
+		if (\App\Cache::has('CurrencySupported', 'All')) {
+			$currencies = \App\Cache::get('CurrencySupported', 'All');
+		} else {
+			$currencies = (new \App\Db\Query())->from('vtiger_currencies')->indexBy('currency_code')->all();
+			\App\Cache::save('CurrencySupported', 'All', $currencies);
 		}
 		return $currencies;
 	}
@@ -146,5 +163,14 @@ class Currency
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Function clears cache.
+	 */
+	public static function clearCache()
+	{
+		\App\Cache::delete('CurrencyGetAll', 'All');
+		\App\Cache::delete('CurrencySupported', 'All');
 	}
 }

@@ -175,7 +175,7 @@ class Picklist
 	public static function getModules()
 	{
 		return (new \App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])->from('vtiger_field')
-			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['uitype' => [15, 16, 33, 115]])
+			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['uitype' => [15, 16, 33, 115], 'vtiger_tab.presence' => 0])
 			->distinct('vtiger_tab.tabid')->orderBy(['vtiger_tab.tabid' => SORT_ASC])->createCommand()->queryAllByGroup(1);
 	}
 
@@ -206,13 +206,6 @@ class Picklist
 	}
 
 	/**
-	 * Picklist dependency fields.
-	 *
-	 * @var array
-	 */
-	public static $picklistDependencyFields = [];
-
-	/**
 	 * Function to get picklist dependency data source.
 	 *
 	 * @param string $module
@@ -221,21 +214,20 @@ class Picklist
 	 */
 	public static function getPicklistDependencyDatasource($module)
 	{
-		if (\App\Cache::has('getPicklistDependencyDatasource', $module)) {
-			static::$picklistDependencyFields[$module] = \App\Cache::get('picklistDependencyFields', $module);
+		if (\App\Cache::has('getPicklistDependencyDatasource', $module) && \App\Cache::has('picklistDependencyFields', $module)) {
 			return \App\Cache::get('getPicklistDependencyDatasource', $module);
 		}
 		$query = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module)]);
 		$dataReader = $query->createCommand()->query();
 		$picklistDependencyDatasource = [];
-		static::$picklistDependencyFields[$module] = [];
+		$picklistDependencyFields = [];
 		$isEmptyDefaultValue = \App\Config::performance('PICKLIST_DEPENDENCY_DEFAULT_EMPTY');
 		while ($row = $dataReader->read()) {
 			$pickArray = [];
 			$sourceField = $row['sourcefield'];
 			$targetField = $row['targetfield'];
-			static::$picklistDependencyFields[$module][$sourceField] = true;
-			static::$picklistDependencyFields[$module][$targetField] = true;
+			$picklistDependencyFields[$sourceField] = true;
+			$picklistDependencyFields[$targetField] = true;
 			$sourceValue = \App\Purifier::decodeHtml($row['sourcevalue']);
 			$targetValues = \App\Purifier::decodeHtml($row['targetvalues']);
 			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
@@ -261,9 +253,41 @@ class Picklist
 				}
 			}
 		}
-		\App\Cache::save('picklistDependencyFields', $module, static::$picklistDependencyFields[$module]);
+		\App\Cache::save('picklistDependencyFields', $module, $picklistDependencyFields);
 		\App\Cache::save('getPicklistDependencyDatasource', $module, $picklistDependencyDatasource);
 		return $picklistDependencyDatasource;
+	}
+
+	/**
+	 * Check if field is dependent.
+	 *
+	 * @param string $moduleName
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public static function isDependentField(string $moduleName, string $fieldName): bool
+	{
+		if (!\App\Cache::has('picklistDependencyFields', $moduleName)) {
+			self::getPicklistDependencyDatasource($moduleName);
+		}
+		return isset(\App\Cache::get('picklistDependencyFields', $moduleName)[$fieldName]);
+	}
+
+	/**
+	 * Gets dependent source field.
+	 *
+	 * @param string $moduleName
+	 * @param string $fieldName
+	 */
+	public static function getDependentSourceField(string $moduleName, string $fieldName): string
+	{
+		foreach (self::getPicklistDependencyDatasource($moduleName) as $source => $values) {
+			if (isset($values['__DEFAULT__'][$fieldName])) {
+				return $source;
+			}
+		}
+		return '';
 	}
 
 	/**
@@ -350,6 +374,8 @@ class Picklist
 	 */
 	public static function clearCache(string $fieldName, string $moduleName)
 	{
+		\App\Cache::delete('picklistDependencyFields', $moduleName);
+		\App\Cache::delete('getPicklistDependencyDatasource', $moduleName);
 		\App\Cache::delete('Picklist::getValuesName', $fieldName);
 		\App\Cache::delete('Picklist::getNonEditableValues', $fieldName);
 		\App\Cache::delete('Picklist::getRoleBasedValues', $fieldName);

@@ -10,7 +10,7 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-namespace Api\ManageConsents\BaseModule;
+namespace Api\ManageConsents\Approvals;
 
 use OpenApi\Annotations as OA;
 
@@ -88,10 +88,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *				response=200,
 	 *				description="List of consents",
 	 *				@OA\JsonContent(ref="#/components/schemas/ConsentsResponseBody"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/ConsentsResponseBody")
-	 *				),
+	 *				@OA\XmlContent(ref="#/components/schemas/ConsentsResponseBody"),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
@@ -199,17 +196,17 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 		$fields = [];
 		foreach ($moduleModel->getFields() as $fieldModel) {
 			if ($fieldModel->isViewable() && $fieldModel->getPermissions()) {
-				$fields[] = $fieldModel->getName();
+				$fields[$fieldModel->getName()] = $fieldModel;
 			}
 		}
-		$queryGenerator->setFields(array_merge(['id'], $fields));
+		$queryGenerator->setFields(array_merge(['id'], array_keys($fields)));
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$count = $dataReader->count();
 		while ($row = $dataReader->read()) {
 			$recordModel = $moduleModel->getRecordFromArray($row);
 			$records[$recordModel->getId()]['id'] = $recordModel->getId();
-			foreach ($fields as $fieldName) {
-				$records[$recordModel->getId()][$fieldName] = $recordModel->getDisplayValue($fieldName, $recordModel->getId(), true);
+			foreach ($fields as $fieldName => $fieldModel) {
+				$records[$recordModel->getId()][$fieldName] = $fieldModel->getUITypeModel()->getApiDisplayValue($row[$fieldName], $recordModel);
 			}
 			if ($this->isRawData()) {
 				$rawData[$recordModel->getId()] = $row;

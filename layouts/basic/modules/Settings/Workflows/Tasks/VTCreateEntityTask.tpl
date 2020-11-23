@@ -18,12 +18,19 @@
 	<input type="hidden" id="taskFields"
 		   value="{\App\Purifier::encodeHtml(\App\Json::encode($TASK_OBJECT->getFieldNames()))}"/>
 	<input type="hidden" id="mappingPanel" value="{$MAPPING_PANEL}"/>
-	<div class="form-group text-center">
+	<div class="form-group text-left">
+		<input type="hidden" name="verifyIfExists" value="0">
+		<input type="checkbox" name="verifyIfExists" id="verifyIfExists" value="1" class="alignTop" {if !empty($TASK_OBJECT->verifyIfExists)} checked {/if}/>
+		<label class="form-check-label ml-1" for="verifyIfExists">
+			{\App\Language::translate('LBL_VERIFY_IF_EXISTS', $QUALIFIED_MODULE)}
+		</label>
+	</div>
+	<div class="form-group text-left">
 		<div class="radio-inline">
 			<label>
 				<input type="radio" name="mappingPanel" data-hide="getFromPanelMapp" data-show="createOwnMapp"
 					   id="optionsRadios1" value="0" {if !$MAPPING_PANEL}checked{/if}>
-				{\App\Language::translate('LBL_CREATE_CUSTOM_MAPPING', $QUALIFIED_MODULE)}
+				<span class="ml-1">{\App\Language::translate('LBL_CREATE_CUSTOM_MAPPING', $QUALIFIED_MODULE)}</span>
 			</label>
 		</div>
 		<div class="radio-inline"></div>
@@ -31,7 +38,7 @@
 			<label>
 				<input type="radio" name="mappingPanel" data-hide="createOwnMapp" data-show="getFromPanelMapp"
 					   id="optionsRadios2" value="1"{if $MAPPING_PANEL} checked{/if}>
-				{\App\Language::translate('LBL_GET_FROM_PANEL_MAPPING', $QUALIFIED_MODULE)}
+				<span class="ml-1">{\App\Language::translate('LBL_GET_FROM_PANEL_MAPPING', $QUALIFIED_MODULE)}</span>
 			</label>
 		</div>
 	</div>
@@ -45,6 +52,7 @@
 				</strong>
 			</label>
 			<div class="col-md-6">
+				{assign var=BASE_MODULE_ID value=$WORKFLOW_MODEL->getModule()->getId()}
 				{assign var=RELATED_MODULES_INFO value=$WORKFLOW_MODEL->getDependentModules()}
 				{assign var=RELATED_MODULES value=$RELATED_MODULES_INFO|array_keys}
 				{if !empty($TASK_OBJECT->entity_type)}
@@ -60,9 +68,18 @@
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 					</optgroup>
 					{foreach from=$RELATED_MODULES item=MODULE}
-						<option {if isset($TASK_OBJECT->entity_type) && $TASK_OBJECT->entity_type eq $MODULE} selected="" {/if}
+						<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE} selected="" {/if}
 								value="{$MODULE}">{\App\Language::translate($MODULE,$MODULE)}</option>
 					{/foreach}
+					<optgroup label="{\App\Language::translate('LBL_WORKFLOW_CUSTOM_RELATIONS', $QUALIFIED_MODULE)}">
+						{foreach from=\App\Relation::getAll($BASE_MODULE_ID) item=MODULE_INFO}
+							{assign var=MODULE value=\App\Module::getModuleName($MODULE_INFO['related_tabid'])}
+							{if $MODULE && !in_array($MODULE, $RELATED_MODULES) && false !== stripos($MODULE_INFO['actions'], 'ADD') && \App\Privilege::isPermitted($MODULE, 'EditView')}
+								<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE} selected="" {/if}
+									value="{$MODULE}">{\App\Language::translate($MODULE, $MODULE)}</option>
+							{/if}
+						{/foreach}
+					</optgroup>
 				</select>
 			</div>
 		</div>

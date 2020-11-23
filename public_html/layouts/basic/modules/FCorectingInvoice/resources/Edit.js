@@ -10,13 +10,9 @@ Vtiger_Edit_Js(
 		 */
 		loadInvoiceData(recordId = false) {
 			if (!recordId) {
-				recordId = parseInt(
-					this.getForm()
-						.find('input[name="finvoiceid"]')
-						.val()
-				);
+				recordId = parseInt(this.getForm().find('input[name="finvoiceid"]').val());
 			}
-			if (recordId) {
+			if (recordId && recordId != 0) {
 				const form = this.getForm();
 				const progressLoader = $.progressIndicator({ blockInfo: { enabled: true } });
 				AppConnector.request({
@@ -25,7 +21,7 @@ Vtiger_Edit_Js(
 					mode: 'showInventoryDetails',
 					view: 'Detail'
 				})
-					.done(response => {
+					.done((response) => {
 						form.find('.js-before-inventory').html(response);
 						progressLoader.progressIndicator({ mode: 'hide' });
 					})
@@ -39,7 +35,7 @@ Vtiger_Edit_Js(
 		 */
 		registerReferenceFieldsEvents() {
 			app.event.on('EditView.SelectReference', (e, params) => {
-				if (params.source_module === 'FInvoice') {
+				if (params.module === 'FInvoice') {
 					this.loadInvoiceData(params.record);
 				}
 			});
@@ -61,7 +57,7 @@ Vtiger_Edit_Js(
 		registerCopyFromInvoice() {
 			const form = this.getForm();
 			const thisInstance = this;
-			form.find('.js-copy-from-invoice').on('click', function(e) {
+			form.find('.js-copy-from-invoice').on('click', function (e) {
 				e.preventDefault();
 				e.stopPropagation();
 				const finvoiceidInput = form.find('input[name="finvoiceid"]');
@@ -69,7 +65,7 @@ Vtiger_Edit_Js(
 					return false;
 				}
 				const finvoiceid = finvoiceidInput.val();
-				if (!finvoiceid) {
+				if (!finvoiceid || finvoiceid == 0) {
 					return Vtiger_Helper_Js.showMessage({
 						type: 'error',
 						text: app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE')

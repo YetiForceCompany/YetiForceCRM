@@ -22,7 +22,7 @@ jQuery.Class(
 			'dateformat',
 			'default_timezone'
 		],
-		checkUsername: function(field, rules, i, options) {
+		checkUsername: function (field, rules, i, options) {
 			let fieldValue = field.val(),
 				negativeRegex = /^[a-zA-Z0-9_.@-]{3,64}$/,
 				result = negativeRegex.test(fieldValue);
@@ -34,7 +34,15 @@ jQuery.Class(
 				return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
 			}
 		},
-		checkDbName: function(field, rules, i, options) {
+		checkDbUsername: function (field, rules, i, options) {
+			let fieldValue = field.val(),
+				negativeRegex = /^[_a-zA-Z0-9.,:-]+$/,
+				result = negativeRegex.test(fieldValue);
+			if (!result) {
+				return app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
+			}
+		},
+		checkDbName: function (field, rules, i, options) {
 			let fieldValue = field.val(),
 				negativeRegex = /^[^\\/?%*:|\\\"<>.\s]{1,64}$/,
 				result = negativeRegex.test(fieldValue);
@@ -44,19 +52,19 @@ jQuery.Class(
 		}
 	},
 	{
-		registerEventForStep1: function() {
-			jQuery('.bt_install').on('click', function(e) {
+		registerEventForStep1: function () {
+			jQuery('.bt_install').on('click', function (e) {
 				jQuery('input[name="mode"]').val('step2');
 				jQuery('form[name="step1"]').submit();
 			});
-			jQuery('.bt_migrate').on('click', function(e) {
+			jQuery('.bt_migrate').on('click', function (e) {
 				jQuery('input[name="mode"]').val('mStep0');
 				jQuery('form[name="step1"]').submit();
 			});
 		},
-		registerEventForStep2: function() {
+		registerEventForStep2: function () {
 			let modalContainer = $('.js-license-modal');
-			modalContainer.on('shown.bs.modal', function(e) {
+			modalContainer.on('shown.bs.modal', function (e) {
 				app.registerDataTables(modalContainer.find('.js-data-table'), {
 					lengthMenu: [
 						[10, 25, 50, -1],
@@ -67,18 +75,22 @@ jQuery.Class(
 			});
 		},
 		showBuyModal(event) {
-			$.get(`Install.php?mode=showBuyModal&product=${$(event.currentTarget).data('product')}`).done(data => {
-				app.showModalWindow(data, '', modalContainer => {
-					new window.Settings_YetiForce_Shop_Js().registerBuyModalEvents(modalContainer);
-				});
-			});
+			$.get(`Install.php?mode=showBuyModal&product=${$(event.currentTarget).data('product')}`).done(
+				(data) => {
+					app.showModalWindow(data, '', (modalContainer) => {
+						new window.Settings_YetiForce_Shop_Js().registerBuyModalEvents(modalContainer);
+					});
+				}
+			);
 		},
 		registerEventForStepChooseHost() {
 			$('.js-buy-modal').on('click', this.showBuyModal);
-			$('.js-product-modal').on('click', e => {
-				$.get(`Install.php?mode=showProductModal&product=${$(e.currentTarget).data('product')}`).done(data => {
-					app.showModalWindow(data, '', modalContainer => {
-						modalContainer.find('.js-modal__save').on('click', _ => {
+			$('.js-product-modal').on('click', (e) => {
+				$.get(
+					`Install.php?mode=showProductModal&product=${$(e.currentTarget).data('product')}`
+				).done((data) => {
+					app.showModalWindow(data, '', (modalContainer) => {
+						modalContainer.find('.js-modal__save').on('click', (_) => {
 							app.hideModalWindow();
 							this.showBuyModal(e);
 						});
@@ -86,16 +98,16 @@ jQuery.Class(
 				});
 			});
 		},
-		registerEventForStep3: function() {
-			$('#recheck').on('click', function() {
+		registerEventForStep3: function () {
+			$('#recheck').on('click', function () {
 				window.location.reload();
 			});
 			let elements = jQuery('.js-wrong-status');
-			$('.js-confirm').on('submit', function(e) {
+			$('.js-confirm').on('submit', function (e) {
 				if (elements.length > 0) {
 					e.preventDefault();
-					app.showConfirmModal(app.vtranslate('LBL_SETTINGS_WARNING')).done(function(data) {
-						if (data) {
+					app.showConfirmModal(app.vtranslate('LBL_SETTINGS_WARNING'), function (s) {
+						if (s) {
 							elements = false;
 							$('form[name="step3"]').submit();
 							return;
@@ -104,13 +116,13 @@ jQuery.Class(
 				}
 			});
 		},
-		checkPwdEvent: function() {
+		checkPwdEvent: function () {
 			var thisInstance = this;
-			jQuery('input[name="password"]').on('blur', function() {
+			jQuery('input[name="password"]').on('blur', function () {
 				thisInstance.checkPwd(jQuery(this).val());
 			});
 		},
-		checkPwd: function(pass) {
+		checkPwd: function (pass) {
 			let error = false;
 
 			if (pass.length < 8) {
@@ -132,9 +144,9 @@ jQuery.Class(
 
 			return error;
 		},
-		registerEventForStep4: function() {
+		registerEventForStep4: function () {
 			var config = JSON.parse(localStorage.getItem('yetiforce_install'));
-			Install_Index_Js.fieldsCached.forEach(function(field) {
+			Install_Index_Js.fieldsCached.forEach(function (field) {
 				if (config && typeof config[field] !== 'undefined') {
 					var formField = jQuery('[name="' + field + '"]');
 					if ('SELECT' == jQuery(formField).prop('tagName')) {
@@ -163,7 +175,7 @@ jQuery.Class(
 				jQuery('#passwordError').html(app.vtranslate('LBL_PASS_REENTER_ERROR'));
 			}
 
-			jQuery('input[name="retype_password"]').on('blur', function(e) {
+			jQuery('input[name="retype_password"]').on('blur', function (e) {
 				var element = jQuery(e.currentTarget);
 				var password = jQuery('input[name="password"]').val();
 				if (password !== element.val()) {
@@ -171,7 +183,7 @@ jQuery.Class(
 				}
 			});
 
-			jQuery('input[name="password"]').on('blur', function(e) {
+			jQuery('input[name="password"]').on('blur', function (e) {
 				var retypePassword = jQuery('input[name="retype_password"]');
 				if (retypePassword.val() != '' && retypePassword.val() !== jQuery(e.currentTarget).val()) {
 					jQuery('#passwordError').html(app.vtranslate('LBL_PASS_REENTER_ERROR'));
@@ -180,10 +192,10 @@ jQuery.Class(
 				}
 			});
 
-			jQuery('input[name="retype_password"]').on('keypress', function(e) {
+			jQuery('input[name="retype_password"]').on('keypress', function (e) {
 				clearPasswordError();
 			});
-			$('form[name="step4"]').on('submit', e => {
+			$('form[name="step4"]').on('submit', (e) => {
 				if (this.checkForm()) {
 					e.preventDefault();
 				} else {
@@ -193,23 +205,21 @@ jQuery.Class(
 			});
 			this.checkPwdEvent();
 		},
-		registerEventForStep5: function() {
-			jQuery('input[name="step6"]').on('click', function() {
+		registerEventForStep5: function () {
+			jQuery('input[name="step6"]').on('click', function () {
 				var error = jQuery('#errorMessage');
 				if (error.length) {
 					app.showAlert(app.vtranslate('LBL_RESOLVE_ERROR'));
 					return false;
 				} else {
 					jQuery('#progressIndicator').removeClass('d-none');
-					jQuery('form[name="step5"]')
-						.submit()
-						.hide();
+					jQuery('form[name="step5"]').submit().hide();
 				}
 			});
 		},
-		registerEventForStep6: function() {
+		registerEventForStep6: function () {
 			var form = $('form[name="step6"]');
-			form.on('submit', function() {
+			form.on('submit', function () {
 				if (form.validationEngine('validate')) {
 					form.submit();
 					$('.js-submit').attr('disabled', true);
@@ -218,10 +228,10 @@ jQuery.Class(
 				}
 			});
 		},
-		registerEventForMigration: function() {
+		registerEventForMigration: function () {
 			var step = jQuery('input[name="mode"]').val();
 			if (step == 'mStep3') {
-				jQuery('form').on('submit', function() {
+				jQuery('form').on('submit', function () {
 					jQuery('#progressIndicator').show();
 					jQuery('#mainContainer').hide();
 				});
@@ -229,11 +239,7 @@ jQuery.Class(
 		},
 		checkForm() {
 			let error = false;
-			if (
-				jQuery('#passwordError')
-					.html()
-					.trim()
-			) {
+			if (jQuery('#passwordError').html().trim()) {
 				error = true;
 			}
 			if (this.checkPwd(jQuery('input[name="password"]').val())) {
@@ -257,13 +263,13 @@ jQuery.Class(
 				})
 			);
 		},
-		changeLanguage: function(e) {
+		changeLanguage: function (e) {
 			jQuery('input[name="mode"]').val('step1');
 			jQuery('form[name="step1"]').submit();
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			const form = $('form');
-			jQuery('input[name="back"]').on('click', function() {
+			jQuery('input[name="back"]').on('click', function () {
 				window.history.back();
 			});
 			form.validationEngine(app.validationEngineOptions);
@@ -281,7 +287,7 @@ jQuery.Class(
 		}
 	}
 );
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 	var install = new Install_Index_Js();
 	install.registerEvents();
 });

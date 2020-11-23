@@ -12,10 +12,4 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
-	'DISALLOW_LONGER_THAN_24_HOURS' => [
-		'default' => true,
-		'description' => 'Block creating record if duration exceeds 24 hours',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
-	]
 ];

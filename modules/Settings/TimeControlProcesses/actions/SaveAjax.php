@@ -8,7 +8,7 @@
  */
 class Settings_TimeControlProcesses_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$params = [
 			'value' => $request->getBoolean('value') ? 'true' : 'false',

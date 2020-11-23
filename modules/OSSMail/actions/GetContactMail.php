@@ -15,7 +15,7 @@ class OSSMail_GetContactMail_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -30,7 +30,7 @@ class OSSMail_GetContactMail_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$ids = $request->getInteger('ids');
 		$mod = $request->getByType('mod', 1);
@@ -40,7 +40,7 @@ class OSSMail_GetContactMail_Action extends \App\Controller\Action
 		$name = $recordModel->getName();
 		foreach ($searchList as $emailField) {
 			$email = $recordModel->get($emailField['fieldname']);
-			if ($email != '') {
+			if ('' != $email) {
 				$fieldlabel = \App\Language::translate($emailField['fieldlabel'], $emailField['name']);
 				$emailFields[] = ['name' => $name, 'fieldlabel' => $fieldlabel, 'email' => $email];
 			}

@@ -36,7 +36,7 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 		}
 		$allSkins = Vtiger_Theme::getAllSkins();
 		if (!isset($allSkins[$value])) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
@@ -46,8 +46,10 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$allSkins = Vtiger_Theme::getAllSkins();
-		$skinColor = $allSkins[$value];
+		if ($rawText) {
+			return $value;
+		}
+		$skinColor = Vtiger_Theme::getAllSkins()[$value] ?? '';
 		$value = \App\Utils::mbUcfirst($value);
 		return "<div style='width: 24px; height: 24px; background-color:$skinColor;' title='$value'>&nbsp;</div>";
 	}

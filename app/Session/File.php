@@ -12,15 +12,13 @@ namespace App\Session;
  */
 class File extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static function clean()
 	{
 		$time = microtime(true);
-		$lifeTime = \App\Config::security('MAX_LIFETIME_SESSION');
+		$lifeTime = \Config\Security::$maxLifetimeSession;
 		$exclusion = ['.htaccess', 'index.html', 'sess_' . session_id()];
-		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'session', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\App\Session::SESSION_PATH, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile() && !\in_array($item->getBasename(), $exclusion)) {
 				$sessionData = static::unserialize(file_get_contents($item->getPathname()));
 				if (!empty($sessionData['last_activity']) && $time - $sessionData['last_activity'] < $lifeTime) {
@@ -114,5 +112,16 @@ class File extends Base
 			$offset += \strlen(serialize($data));
 		}
 		return $return;
+	}
+
+	/** {@inheritdoc} */
+	public function getById(string $sessionId): array
+	{
+		$sessionFilePath = \App\Session::SESSION_PATH . \DIRECTORY_SEPARATOR . 'sess_' . $sessionId;
+		$sessionData = [];
+		if (file_exists($sessionFilePath) && ($content = file_get_contents($sessionFilePath))) {
+			$sessionData = self::unserialize($content);
+		}
+		return $sessionData;
 	}
 }

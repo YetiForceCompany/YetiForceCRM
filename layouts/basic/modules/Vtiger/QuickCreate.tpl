@@ -17,47 +17,56 @@
 	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-3" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
-				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
+				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php" enctype="multipart/form-data">
+					<input type="hidden" name="module" value="{$MODULE}"/>
+					<input type="hidden" name="action" value="SaveAjax"/>
+					<input type="hidden" name="fromView" value="QuickCreate"/>
+					<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
+					<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, 'QuickCreate'])}"/>
+					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
+						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
+					{/if}
+					{if !empty($MAPPING_RELATED_FIELD)}
+						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+					{/if}
+					{if !empty($LIST_FILTER_FIELDS)}
+						<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
+					{/if}
 					<div class="modal-header align-items-center form-row d-flex justify-content-between py-2">
 						<div class="col-xl-6 col-12">
 							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
 								<span class="col-12">
 									<span class="fas fa-plus mr-1"></span>
-									<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}
-										:</strong>
-									<strong class="text-uppercase"><span
-												class="yfm-{$MODULE} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong>
+									<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)} :</strong>
+									<strong class="text-uppercase"><span class="yfm-{$MODULE} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong>
 								</span>
 							</h5>
 						</div>
 						<div class="col-xl-6 col-12 text-center text-xl-right">
+							{if \App\Privilege::isPermitted($MODULE_NAME, 'RecordCollector') && !empty($QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR'])}
+								{foreach item=COLLECTOR_LINK from=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
+									{assign var=COLLECTOR value=\App\RecordCollector::getInstance($COLLECTOR_LINK->get('linkurl'), $MODULE_NAME)}
+									{if isset($COLLECTOR) && $COLLECTOR->isActive()}
+										<button type="button" class="btn btn-outline-dark js-popover-tooltip js-record-collector-modal mr-1" {if isset(Vtiger_Field_Model::$tabIndexLastSeq)}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"{/if} data-type={$COLLECTOR_LINK->get('linkurl')} data-content="{App\Language::translate({$COLLECTOR->label}, $MODULE_NAME)}" data-js="click|popover">
+											<span class="{$COLLECTOR->icon}"></span>
+										</button>
+									{/if}
+								{/foreach}
+							{/if}
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq}
 								{/foreach}
 							{/if}
-							<button class="btn btn-success mr-1" type="submit" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"
-									title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
+							<button class="btn btn-success mr-1" type="submit" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
 								<strong><span class="fas fa-check"></span></strong>
 							</button>
-							<button class="cancelLink btn btn-danger" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"
-									data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
+							<button class="cancelLink btn btn-danger" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
 								<span class="fas fa-times"></span>
 							</button>
 						</div>
 					</div>
-					<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
-					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency"
-							   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
-					{/if}
-					{if !empty($MAPPING_RELATED_FIELD)}
-						<input type="hidden" name="mappingRelatedField"
-							   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
-					{/if}
-					<input type="hidden" name="module" value="{$MODULE}"/>
-					<input type="hidden" name="action" value="SaveAjax"/>
 					<div class="quickCreateContent">
 						<div class="modal-body m-0">
 							{if $LAYOUT === 'blocks'}
@@ -89,9 +98,9 @@
 												{/if}
 												<div class="
 												{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6
-												{else} col-md-12 m-auto{/if}  row form-group align-items-center my-1">
+												{else} col-md-12 m-auto{/if}  row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
 													{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
-													<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left {if $FIELD_MODEL->getUIType() neq "300"} text-xl-right {/if} u-text-small-bold">
+													<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left {if $FIELD_MODEL->getUIType() neq "300"} text-xl-right {/if} u-text-small-bold">
 														{if $FIELD_MODEL->isMandatory() eq true}
 															<span class="redColor">*</span>
 														{/if}
@@ -162,7 +171,7 @@
 					</div>
 					{if !empty($SOURCE_RELATED_FIELD)}
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
-							<div class="d-none">
+							<div class="d-none fieldValue">
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 							</div>
 						{/foreach}

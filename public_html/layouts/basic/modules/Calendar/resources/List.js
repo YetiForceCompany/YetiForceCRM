@@ -9,16 +9,20 @@
  *************************************************************************************/
 'use strict';
 
-Vtiger_List_Js("Calendar_List_Js", {
-	triggerImportAction: function (importUrl) {
-		var progressIndicatorElement = jQuery.progressIndicator();
-		AppConnector.request(importUrl).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			if (data) {
-				app.showModalWindow(data, function (data) {
-					jQuery('#ical_import').validationEngine(app.validationEngineOptions);
-				});
-			}
-		});
+Vtiger_List_Js(
+	'Calendar_List_Js',
+	{
+		triggerImportAction: function (importUrl) {
+			var progressIndicatorElement = jQuery.progressIndicator();
+			AppConnector.request(importUrl).done(function (data) {
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				if (data) {
+					app.showModalWindow(data, function (data) {
+						jQuery('#ical_import').validationEngine(app.validationEngineOptions);
+					});
+				}
+			});
+		}
 	},
-}, {});
+	{}
+);

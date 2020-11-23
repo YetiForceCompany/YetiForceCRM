@@ -131,13 +131,27 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Get pevious value by field.
 	 *
-	 * @param string $key
+	 * @param string $fieldName
 	 *
 	 * @return mixed
 	 */
-	public function getPreviousValue($key = '')
+	public function getPreviousValue(string $fieldName = '')
 	{
-		return $key ? ($this->changes[$key] ?? false) : $this->changes;
+		return $fieldName ? ($this->changes[$fieldName] ?? false) : $this->changes;
+	}
+
+	/**
+	 * Revert previous value.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return void
+	 */
+	public function revertPreviousValue(string $fieldName): void
+	{
+		if (isset($this->changes[$fieldName])) {
+			$this->value[$fieldName] = $this->changes[$fieldName];
+		}
 	}
 
 	/**
@@ -286,7 +300,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRecordNumber(): string
 	{
-		return $this->get($this->getModule()->getSequenceNumberFieldName());
+		return $this->get($this->getModule()->getSequenceNumberFieldName()) ?? '';
 	}
 
 	/**
@@ -296,7 +310,14 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getDetailViewUrl()
 	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getDetailViewName() . '&record=' . $this->getId();
+		$menuUrl = '';
+		if (isset($_REQUEST['parent'])) {
+			$menuUrl .= '&parent=' . \App\Request::_getInteger('parent');
+		}
+		if (isset($_REQUEST['mid'])) {
+			$menuUrl .= '&mid=' . \App\Request::_getInteger('mid');
+		}
+		return "index.php?module={$this->getModuleName()}&view={$this->getModule()->getDetailViewName()}&record={$this->getId()}{$menuUrl}";
 	}
 
 	/**
@@ -306,7 +327,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getFullDetailViewUrl()
 	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getDetailViewName() . '&record=' . $this->getId() . '&mode=showDetailViewByMode&requestMode=full';
+		return $this->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full';
 	}
 
 	/**
@@ -316,7 +337,14 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getEditViewUrl()
 	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getEditViewName() . ($this->getId() ? '&record=' . $this->getId() : '');
+		$menuUrl = '';
+		if (isset($_REQUEST['parent'])) {
+			$menuUrl .= '&parent=' . \App\Request::_getInteger('parent');
+		}
+		if (isset($_REQUEST['mid'])) {
+			$menuUrl .= '&mid=' . \App\Request::_getInteger('mid');
+		}
+		return "index.php?module={$this->getModuleName()}&view={$this->getModule()->getEditViewName()}{$menuUrl}" . ($this->getId() ? '&record=' . $this->getId() : '');
 	}
 
 	/**
@@ -575,6 +603,7 @@ class Vtiger_Record_Model extends \App\Base
 					} else {
 						$value = $uitypeModel->getDBValue($value, $this);
 					}
+					$this->set($fieldName, $value);
 				}
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
@@ -625,6 +654,9 @@ class Vtiger_Record_Model extends \App\Base
 			\App\Db::getInstance('admin')->createCommand()->delete('s_#__privileges_updater', ['crmid' => $this->getId()])->execute();
 			Vtiger_MultiImage_UIType::deleteRecord($this);
 			$eventHandler->trigger('EntityAfterDelete');
+			if ($this->getModule()->isCommentEnabled()) {
+				(new \App\BatchMethod(['method' => 'ModComments_Module_Model::deleteForRecord', 'params' => [$this->getId()]]))->save();
+			}
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
@@ -743,7 +775,7 @@ class Vtiger_Record_Model extends \App\Base
 			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
 			$row['id'] = $row['crmid'];
 			$row['label'] = App\Purifier::decodeHtml($labels[$row['crmid']]);
-			$row['smownerid'] = $recordMeta['smownerid'];
+			$row['assigned_user_id'] = $recordMeta['smownerid'];
 			$row['createdtime'] = $recordMeta['createdtime'];
 			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
@@ -791,7 +823,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function isEditable()
 	{
 		if (!isset($this->privileges['isEditable'])) {
-			$this->privileges['isEditable'] = $this->isPermitted('EditView') && !$this->isLockByFields() && false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && empty($this->getUnlockFields());
+			return $this->privileges['isEditable'] = $this->isPermitted('EditView') && !$this->isLockByFields() && false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && empty($this->getUnlockFields()) && !$this->isReadOnly();
 		}
 		return $this->privileges['isEditable'];
 	}
@@ -806,7 +838,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function isPermitted(string $action)
 	{
 		if (!isset($this->privileges[$action])) {
-			$this->privileges[$action] = \App\Privilege::isPermitted($this->getModuleName(), $action, $this->getId());
+			return $this->privileges[$action] = \App\Privilege::isPermitted($this->getModuleName(), $action, $this->getId());
 		}
 		return $this->privileges[$action];
 	}
@@ -819,6 +851,19 @@ class Vtiger_Record_Model extends \App\Base
 	public function isMandatorySave()
 	{
 		return !empty($this->dataForSave) || ($this->getModule()->isInventory() && $this->getPreviousInventoryItems());
+	}
+
+	/**
+	 * Function to check read only record.
+	 *
+	 * @return bool
+	 */
+	public function isReadOnly(): bool
+	{
+		if (!isset($this->privileges['isReadOnly'])) {
+			return $this->privileges['isReadOnly'] = !$this->isNew() && \App\Components\InterestsConflict::CHECK_STATUS_CONFLICT === \App\Components\InterestsConflict::check($this->getId(), $this->getModuleName());
+		}
+		return $this->privileges['isReadOnly'];
 	}
 
 	/**
@@ -878,7 +923,7 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		if (!isset($this->privileges['Unlock'])) {
 			$this->privileges['Unlock'] = !$this->isNew() && $this->isPermitted('EditView') && $this->isPermitted('OpenRecord') &&
-				false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && !$this->isLockByFields() && !empty($this->getUnlockFields());
+				false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && !$this->isLockByFields() && !empty($this->getUnlockFields(true));
 		}
 		return $this->privileges['Unlock'];
 	}
@@ -886,17 +931,19 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Gets unlock fields.
 	 *
+	 * @param bool $isAjaxEditable
+	 *
 	 * @return array
 	 */
-	public function getUnlockFields()
+	public function getUnlockFields($isAjaxEditable = false)
 	{
-		$cacheName = 'UnlockFields';
+		$cacheName = 'UnlockFields' . $isAjaxEditable;
 		if (\App\Cache::staticHas($cacheName, $this->getId())) {
 			return \App\Cache::staticGet($cacheName, $this->getId());
 		}
 		$lockFields = \App\RecordStatus::getLockStatus($this->getModule()->getName());
 		foreach ($lockFields as $fieldName => $values) {
-			if (!\in_array($this->getValueByField($fieldName), $values) || !$this->getField($fieldName)->isAjaxEditable()) {
+			if (!\in_array($this->getValueByField($fieldName), $values) || ($isAjaxEditable && !$this->getField($fieldName)->isAjaxEditable())) {
 				unset($lockFields[$fieldName]);
 			}
 		}
@@ -912,7 +959,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToDelete()
 	{
 		if (!isset($this->privileges['Deleted'])) {
-			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId());
+			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && !$this->isLockByFields();
 		}
 		return $this->privileges['Deleted'];
 	}
@@ -986,10 +1033,8 @@ class Vtiger_Record_Model extends \App\Base
 		if (!is_dir($path)) {
 			return [];
 		}
-		$summaryBlocks = [];
+		$tempSummaryBlocks = [];
 		$dir = new DirectoryIterator($path);
-		$blockCount = 0;
-
 		foreach ($dir as $fileinfo) {
 			if (!$fileinfo->isDot()) {
 				$tmp = explode('.', $fileinfo->getFilename());
@@ -1000,13 +1045,16 @@ class Vtiger_Record_Model extends \App\Base
 					if (isset($blockObiect->reference) && !\App\Module::isModuleActive($blockObiect->reference)) {
 						continue;
 					}
-					$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
-					++$blockCount;
+					$tempSummaryBlocks[$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
 				}
 			}
 		}
-		foreach ($summaryBlocks as $key => $block) {
-			ksort($summaryBlocks[$key]);
+		ksort($tempSummaryBlocks);
+		$blockCount = 0;
+		$summaryBlocks = [];
+		foreach ($tempSummaryBlocks as $key => $block) {
+			$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$key] = $tempSummaryBlocks[$key];
+			++$blockCount;
 		}
 		return $summaryBlocks;
 	}
@@ -1312,7 +1360,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
 				'linklabel' => 'BTN_ASSIGN_TO',
 				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=AutoAssignRecord&record=' . $this->getId(),
-				'linkicon' => 'fas fa-random',
+				'linkicon' => 'yfi yfi-automatic-assignment',
 				'linkclass' => 'btn-sm btn-primary',
 				'modalView' => true,
 			];
@@ -1373,60 +1421,62 @@ class Vtiger_Record_Model extends \App\Base
 				];
 			}
 		}
-		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
-			$watching = (int) ($this->isWatchingRecord());
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'BTN_WATCHING_RECORD',
-				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
-				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
-				'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
-				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
-			];
-		}
-		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
-		if ($this->privilegeToActivate()) {
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_ACTIVATE_RECORD',
-				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
-				'linkicon' => 'fas fa-undo-alt',
-				'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
-				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
-				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn',
-			];
-		}
-		if ($this->privilegeToArchive()) {
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_ARCHIVE_RECORD',
-				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived',
-				'linkicon' => 'fas fa-archive',
-				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
-				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
-				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn',
-			];
-		}
-		if ($this->privilegeToMoveToTrash()) {
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_MOVE_TO_TRASH',
-				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash',
-				'linkicon' => 'fas fa-trash-alt',
-				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
-				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn',
-			];
-		}
-		if ($this->privilegeToDelete()) {
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-				'linkicon' => 'fas fa-eraser',
-				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
-				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-				'linkclass' => 'btn-sm btn-dark recordEvent',
-			];
+		if (!$this->isReadOnly()) {
+			if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
+				$watching = (int) ($this->isWatchingRecord());
+				$recordLinks[] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'BTN_WATCHING_RECORD',
+					'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
+					'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
+					'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
+					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
+				];
+			}
+			$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
+			if ($this->privilegeToActivate()) {
+				$recordLinks[] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_ACTIVATE_RECORD',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
+					'linkicon' => 'fas fa-undo-alt',
+					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
+					'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn',
+				];
+			}
+			if ($this->privilegeToArchive()) {
+				$recordLinks[] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_ARCHIVE_RECORD',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived',
+					'linkicon' => 'fas fa-archive',
+					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
+					'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn',
+				];
+			}
+			if ($this->privilegeToMoveToTrash()) {
+				$recordLinks[] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_MOVE_TO_TRASH',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash',
+					'linkicon' => 'fas fa-trash-alt',
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+					'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn',
+				];
+			}
+			if ($this->privilegeToDelete()) {
+				$recordLinks[] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+					'linkicon' => 'fas fa-eraser',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+					'linkclass' => 'btn-sm btn-dark recordEvent',
+				];
+			}
 		}
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
@@ -1443,7 +1493,6 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
-		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 		$links = [];
 		if ($this->isViewable()) {
 			if ($this->getModule()->isSummaryViewSupported()) {
@@ -1465,50 +1514,58 @@ class Vtiger_Record_Model extends \App\Base
 				'linkclass' => 'btn-sm btn-default',
 			]);
 		}
-		$relationModel = $viewModel->getRelationModel();
-		if ($relationModel->isEditable() && $this->isEditable()) {
-			$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_EDIT',
-				'linkhref' => true,
-				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'yfi yfi-full-editing-view',
-				'linkclass' => 'btn-sm btn-default',
-			]);
-			$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_QUICK_EDIT',
-				'linkicon' => 'yfi yfi-quick-creation',
-				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
-				'linkdata' => [
-					'module' => $this->getModuleName(),
-					'record' => $this->getId(),
-				]
-			]);
-		}
-		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
-			$watching = (int) ($this->isWatchingRecord());
-			$links['BTN_WATCHING_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'BTN_WATCHING_RECORD',
-				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
-				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
-				'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
-				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
-			]);
-		}
-		if ($this->getModule()->isPermitted('ExportPdf')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $this->getModuleName());
-			$pdfModel = new $handlerClass();
-			if ($pdfModel->checkActiveTemplates($this->getId(), $this->getModuleName(), 'Detail')) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-					'linklabel' => 'LBL_EXPORT_PDF',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&view=PDF&fromview=Detail&record=' . $this->getId(),
-					'linkicon' => 'fas fa-file-pdf',
-					'linkclass' => 'btn-sm btn-outline-danger showModal js-pdf'
+		if (!$this->isReadOnly()) {
+			$relationModel = $viewModel->getRelationModel();
+			if ($relationModel->isEditable() && $this->isEditable()) {
+				$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_EDIT',
+					'linkhref' => true,
+					'linkurl' => $this->getEditViewUrl(),
+					'linkicon' => 'yfi yfi-full-editing-view',
+					'linkclass' => 'btn-sm btn-default',
+				]);
+				$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_QUICK_EDIT',
+					'linkicon' => 'yfi yfi-quick-creation',
+					'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
+					'linkdata' => [
+						'module' => $this->getModuleName(),
+						'record' => $this->getId(),
+					]
 				]);
 			}
-		}
-		if ($relationModel->privilegeToDelete()) {
-			if ($this->privilegeToMoveToTrash()) {
+			if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
+				$watching = (int) ($this->isWatchingRecord());
+				$links['BTN_WATCHING_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'BTN_WATCHING_RECORD',
+					'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
+					'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
+					'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
+					'linkdata' => [
+						'module' => $this->getModuleName(),
+						'record' => $this->getId(),
+						'value' => (int) !$watching,
+						'on' => 'btn-dark',
+						'off' => 'btn-outline-dark',
+						'icon-on' => 'fa-eye',
+						'icon-off' => 'fa-eye-slash'],
+				]);
+			}
+			if ($this->getModule()->isPermitted('ExportPdf')) {
+				$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $this->getModuleName());
+				$pdfModel = new $handlerClass();
+				if ($pdfModel->checkActiveTemplates($this->getId(), $this->getModuleName(), 'Detail')) {
+					$links[] = Vtiger_Link_Model::getInstanceFromValues([
+						'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+						'linklabel' => 'LBL_EXPORT_PDF',
+						'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&view=PDF&fromview=Detail&record=' . $this->getId(),
+						'linkicon' => 'fas fa-file-pdf',
+						'linkclass' => 'btn-sm btn-outline-danger showModal js-pdf'
+					]);
+				}
+			}
+			$privilegeToDelete = $relationModel->privilegeToDelete();
+			if ($privilegeToDelete && $this->privilegeToMoveToTrash()) {
 				$links[] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_REMOVE_RELATION',
 					'linkicon' => 'fas fa-unlink',
@@ -1520,7 +1577,36 @@ class Vtiger_Record_Model extends \App\Base
 					]
 				]);
 			}
-			if ($this->privilegeToMoveToTrash()) {
+			$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
+			if ($this->privilegeToActivate()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_ACTIVATE_RECORD',
+					'linkicon' => 'fas fa-undo-alt',
+					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active&record=' . $this->getId(),
+					'linkdata' => [
+						'content' => \App\Language::translate('LBL_ACTIVATE_RECORD'),
+						'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC'),
+						'id' => $this->getId()
+					]
+				]);
+			}
+			if ($this->privilegeToArchive()) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_ARCHIVE_RECORD',
+					'linkicon' => 'fas fa-archive',
+					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&record=' . $this->getId(),
+					'linkdata' => [
+						'content' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
+						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
+						'id' => $this->getId()
+					]
+				]);
+			}
+			if ($privilegeToDelete && $this->privilegeToMoveToTrash()) {
 				$links[] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
@@ -1531,7 +1617,7 @@ class Vtiger_Record_Model extends \App\Base
 					'linkclass' => 'btn-sm btn-outline-dark relationDelete entityStateBtn'
 				]);
 			}
-			if ($this->privilegeToDelete()) {
+			if ($privilegeToDelete && $this->privilegeToDelete()) {
 				$links[] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
@@ -1594,7 +1680,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getValueByField(string $fieldName)
 	{
-		if (!$this->has($fieldName)) {
+		if (!$this->has($fieldName) || '' === $this->get($fieldName)) {
 			$focus = $this->getEntity();
 			if (isset($focus->column_fields[$fieldName]) && '' !== $focus->column_fields[$fieldName]) {
 				$value = $focus->column_fields[$fieldName];
@@ -1606,14 +1692,6 @@ class Vtiger_Record_Model extends \App\Base
 			parent::set($fieldName, $value);
 		}
 		return $this->get($fieldName);
-	}
-
-	/**
-	 * Clear changes.
-	 */
-	public function clearChanges()
-	{
-		$this->changes = null;
 	}
 
 	/**

@@ -13,7 +13,7 @@ class Settings_TreesManager_Save_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$name = $request->getByType('name', 'Text');

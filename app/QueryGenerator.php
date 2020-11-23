@@ -278,6 +278,18 @@ class QueryGenerator
 	}
 
 	/**
+	 * Clear fields.
+	 *
+	 * @return void
+	 */
+	public function clearFields()
+	{
+		$this->fields = ['id'];
+		$this->relatedFields = [];
+		return $this;
+	}
+
+	/**
 	 * Load base module list fields.
 	 */
 	public function loadListFields()
@@ -290,7 +302,7 @@ class QueryGenerator
 	/**
 	 * Set custom column.
 	 *
-	 * @param type $columns
+	 * @param string|string[] $columns
 	 *
 	 * @return \self
 	 */
@@ -313,13 +325,12 @@ class QueryGenerator
 	/**
 	 * Set concat column.
 	 *
-	 * @param type  $columns
-	 * @param mixed $fieldName
-	 * @param mixed $concat
+	 * @param string $fieldName
+	 * @param string $concat
 	 *
 	 * @return \self
 	 */
-	public function setConcatColumn($fieldName, $concat)
+	public function setConcatColumn(string $fieldName, string $concat)
 	{
 		$this->concatColumn[$fieldName] = $concat;
 
@@ -946,6 +957,9 @@ class QueryGenerator
 			$subQuery->andHaving((new \yii\db\Expression('COUNT(1) > 1')));
 			$this->joins['duplicates'] = ['INNER JOIN', ['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause)];
 		}
+		uksort($this->joins, function ($a, $b) use ($moduleTableIndexList) {
+			return !isset($moduleTableIndexList[$a]) && isset($moduleTableIndexList[$b]);
+		});
 		foreach ($this->joins as $join) {
 			$on = $join[2] ?? '';
 			$params = $join[3] ?? [];
@@ -1276,16 +1290,13 @@ class QueryGenerator
 				$groupColumnsInfo = [];
 				foreach ($groupInfo as $fieldSearchInfo) {
 					if ($fieldSearchInfo) {
-						[$fieldNameInfo, $operator, $fieldValue, $specialOption] = array_pad($fieldSearchInfo, 4, false);
+						[$fieldNameInfo, $operator, $fieldValue] = array_pad($fieldSearchInfo, 3, false);
 						$fieldValue = Purifier::decodeHtml($fieldValue);
 						[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldNameInfo), 3, false);
 						if (!empty($sourceFieldName)) {
 							$field = $this->getRelatedModuleField($fieldName, $moduleName);
 						} else {
 							$field = $this->getModuleField($fieldName);
-						}
-						if (('tree' === $field->getFieldDataType() || 'categoryMultipicklist' === $field->getFieldDataType()) && $specialOption) {
-							$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
 						}
 						if ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType()) {
 							$dateValues = explode(',', $fieldValue);

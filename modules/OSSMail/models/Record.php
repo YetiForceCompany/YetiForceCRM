@@ -57,6 +57,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			if (preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z-]*)?/', $iniset, $matches)) {
 				$rcubeVersion = str_replace('-git', '.999', $matches[1]);
 				\define('RCMAIL_VERSION', $rcubeVersion);
+				\define('RCUBE_VERSION', $rcubeVersion);
 			} else {
 				throw new \App\Exceptions\AppException('Unable to find a Roundcube version');
 			}
@@ -143,7 +144,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		static::$imapConnectMailbox = "{{$host}:{$port}/imap{$sslMode}{$validatecert}}{$folder}";
 		\App\Log::trace('imap_open(({' . static::$imapConnectMailbox . ", $user , $password. $options, $maxRetries, " . var_export($params, true) . ') method ...');
+		\App\Log::beginProfile(__METHOD__ . '|imap_open', 'Mail|IMAP');
 		$mbox = imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params);
+		\App\Log::endProfile(__METHOD__ . '|imap_open', 'Mail|IMAP');
 		if (!$mbox) {
 			\App\Log::error('Error OSSMail_Record_Model::imapConnect(' . static::$imapConnectMailbox . '): ' . imap_last_error());
 			if ($dieOnError) {
@@ -152,7 +155,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		self::$imapConnectCache[$cacheName] = $mbox;
 		\App\Log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
-
+		register_shutdown_function(function () use ($mbox) {
+			\App\Log::beginProfile(__METHOD__ . '|imap_close', 'Mail|IMAP');
+			imap_close($mbox);
+			\App\Log::endProfile(__METHOD__ . '|imap_close', 'Mail|IMAP');
+		});
 		return $mbox;
 	}
 
@@ -182,7 +189,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$result = (new \App\Db\Query())->from('yetiforce_mail_quantities')->where(['userid' => $user])->count();
 				$mbox = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', false);
 				if ($mbox) {
+					\App\Log::beginProfile(__METHOD__ . '|imap_status', 'Mail|IMAP');
 					$info = imap_status($mbox, static::$imapConnectMailbox, SA_UNSEEN);
+					\App\Log::endProfile(__METHOD__ . '|imap_status', 'Mail|IMAP');
 					if ($result > 0) {
 						$dbCommand->update('yetiforce_mail_quantities', ['num' => $info->unseen, 'status' => 0], ['userid' => $user])->execute();
 					} else {
@@ -221,15 +230,21 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function getMail($mbox, $id, $msgno = false, bool $fullMode = true)
 	{
 		if (!$msgno) {
+			\App\Log::beginProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
 			$msgno = imap_msgno($mbox, $id);
+			\App\Log::endProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
 		}
 		if (!$id) {
+			\App\Log::beginProfile(__METHOD__ . '|imap_uid', 'Mail|IMAP');
 			$id = imap_uid($mbox, $msgno);
+			\App\Log::endProfile(__METHOD__ . '|imap_uid', 'Mail|IMAP');
 		}
 		if (!$msgno) {
 			return false;
 		}
+		\App\Log::beginProfile(__METHOD__ . '|imap_headerinfo', 'Mail|IMAP');
 		$header = imap_headerinfo($mbox, $msgno);
+		\App\Log::endProfile(__METHOD__ . '|imap_headerinfo', 'Mail|IMAP');
 		$messageId = '';
 		if (property_exists($header, 'message_id')) {
 			$messageId = $header->message_id;
@@ -238,13 +253,13 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mail->set('header', $header);
 		$mail->set('id', $id);
 		$mail->set('Msgno', $header->Msgno);
-		$mail->set('message_id', \App\Purifier::purifyByType($messageId, 'MailId'));
+		$mail->set('message_id', $messageId ? \App\Purifier::purifyByType($messageId, 'MailId') : '');
 		$mail->set('to_email', \App\Purifier::purify($mail->getEmail('to')));
 		$mail->set('from_email', \App\Purifier::purify($mail->getEmail('from')));
 		$mail->set('reply_toaddress', \App\Purifier::purify($mail->getEmail('reply_to')));
 		$mail->set('cc_email', \App\Purifier::purify($mail->getEmail('cc')));
 		$mail->set('bcc_email', \App\Purifier::purify($mail->getEmail('bcc')));
-		$mail->set('subject', \App\TextParser::textTruncate(\App\Purifier::purify(self::decodeText($header->subject)), 65535, false));
+		$mail->set('subject', isset($header->subject) ? \App\TextParser::textTruncate(\App\Purifier::purify(self::decodeText($header->subject)), 65535, false) : '');
 		$mail->set('date', date('Y-m-d H:i:s', $header->udate));
 		if ($fullMode) {
 			$structure = self::getBodyAttach($mbox, $id, $msgno);
@@ -252,9 +267,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$mail->set('attachments', $structure['attachment']);
 
 			$clean = '';
+			\App\Log::beginProfile(__METHOD__ . '|imap_fetch_overview', 'Mail|IMAP');
 			$msgs = imap_fetch_overview($mbox, $msgno);
+			\App\Log::endProfile(__METHOD__ . '|imap_fetch_overview', 'Mail|IMAP');
+
 			foreach ($msgs as $msg) {
+				\App\Log::beginProfile(__METHOD__ . '|imap_fetchheader', 'Mail|IMAP');
 				$clean .= imap_fetchheader($mbox, $msg->msgno);
+				\App\Log::endProfile(__METHOD__ . '|imap_fetchheader', 'Mail|IMAP');
 			}
 			$mail->set('clean', $clean);
 		}
@@ -343,7 +363,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getBodyAttach($mbox, $id, $msgno)
 	{
+		\App\Log::beginProfile(__METHOD__ . '|imap_fetchstructure', 'Mail|IMAP');
 		$struct = imap_fetchstructure($mbox, $id, FT_UID);
+		\App\Log::endProfile(__METHOD__ . '|imap_fetchstructure', 'Mail|IMAP');
 		$mail = ['id' => $id];
 		if (empty($struct->parts)) {
 			$mail = self::initMailPart($mbox, $mail, $struct, 0);
@@ -375,7 +397,15 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 */
 	protected static function initMailPart($mbox, $mail, $partStructure, $partNum)
 	{
-		$data = $partNum ? imap_fetchbody($mbox, $mail['id'], $partNum, FT_UID | FT_PEEK) : imap_body($mbox, $mail['id'], FT_UID | FT_PEEK);
+		if ($partNum) {
+			\App\Log::beginProfile(__METHOD__ . '|imap_fetchbody', 'Mail|IMAP');
+			$data = imap_fetchbody($mbox, $mail['id'], $partNum, FT_UID | FT_PEEK);
+			\App\Log::endProfile(__METHOD__ . '|imap_fetchbody', 'Mail|IMAP');
+		} else {
+			\App\Log::beginProfile(__METHOD__ . '|imap_body', 'Mail|IMAP');
+			$data = imap_body($mbox, $mail['id'], FT_UID | FT_PEEK);
+			\App\Log::endProfile(__METHOD__ . '|imap_body', 'Mail|IMAP');
+		}
 		if (1 == $partStructure->encoding) {
 			$data = imap_utf8($data);
 		} elseif (2 == $partStructure->encoding) {
@@ -587,7 +617,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mailLimit = 5;
 		if ($account) {
 			$imap = self::imapConnect($account[0]['username'], \App\Encryption::getInstance()->decrypt($account[0]['password']), $account[0]['mail_host']);
+			\App\Log::beginProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');
 			$numMessages = imap_num_msg($imap);
+			\App\Log::endProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');
 			if ($numMessages < $mailLimit) {
 				$mailLimit = $numMessages;
 			}
@@ -595,7 +627,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$mail = self::getMail($imap, false, $i);
 				$mails[] = $mail;
 			}
-			imap_close($imap);
 		}
 		return $mails;
 	}

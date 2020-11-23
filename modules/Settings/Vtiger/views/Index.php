@@ -11,7 +11,7 @@
 
 class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 {
-	use \App\Controller\ExposeMethod;
+	use \App\Controller\ExposeMethod, \App\Controller\Traits\SettingsPermission;
 
 	/**
 	 * Page title.
@@ -24,20 +24,6 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 	{
 		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
-	}
-
-	/**
-	 * Checking permissions.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
 	}
 
 	public function preProcess(App\Request $request, $display = true)
@@ -60,17 +46,14 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 	public function preProcessSettings(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
+		$userModel = \App\User::getCurrentUserModel();
 		$moduleName = $request->getModule();
+		$view = $request->getByType('view', \App\Purifier::STANDARD, '');
 		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = $request->getInteger('block', '');
-		$fieldId = $request->getInteger('fieldid', '');
-		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
-		$menuModels = $settingsModel->getMenus();
-		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
-		if ($settingsModel->has('selected')) {
-			$viewer->assign('SELECTED_PAGE', $settingsModel->get('selected'));
-		}
-		$viewer->assign('MENUS', $menu);
+		$selected = null;
+		$viewer->assign('MENUS', Settings_Vtiger_Menu_Model::getMenu($moduleName, $view, $request->getMode(), $selected));
+		$viewer->assign('SELECTED_PAGE', $selected);
+		$viewer->assign('SHOW_MODAL_VISIT_PURPOSE', !$userModel->isAdmin() && !(\App\Session::get('showedModalVisitPurpose')[$userModel->getId()] ?? null));
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
@@ -80,48 +63,53 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
+		$userModel = \App\User::getCurrentUserModel();
 		$warnings = \App\SystemWarnings::getWarnings('all');
-		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
-		$systemMonitoring = [
-			'WARNINGS_COUNT' => [
+		$viewer->assign('WARNINGS', $userModel->isAdmin() && !App\Session::has('SystemWarnings') ? $warnings : []);
+		$monitoringData = [];
+		if (\App\Security\AdminAccess::isPermitted('Logs')) {
+			$monitoringData['WARNINGS_COUNT'] = [
 				'LABEL' => 'PLU_SYSTEM_WARNINGS',
 				'VALUE' => \count($warnings),
 				'HREF' => 'index.php?module=Logs&parent=Settings&view=SystemWarnings',
 				'ICON' => 'yfi yfi-system-warnings-2'
-			],
-			'SECURITY_COUNT' => [
+			];
+		}
+		if (\App\Security\AdminAccess::isPermitted('Log')) {
+			$monitoringData['SECURITY_COUNT'] = [
 				'LABEL' => 'PLU_SECURITY',
 				'VALUE' => $this->getSecurityCount(),
 				'HREF' => 'index.php?module=Log&parent=Settings&view=Index',
 				'ICON' => 'yfi yfi-security-errors-2'
-			],
-			'USERS_COUNT' => [
+			];
+		}
+		if (\App\Security\AdminAccess::isPermitted('Users')) {
+			$monitoringData['USERS_COUNT'] = [
 				'LABEL' => 'PLU_USERS',
 				'VALUE' => Users_Record_Model::getCount(true),
 				'HREF' => 'index.php?module=Users&parent=Settings&view=List',
 				'ICON' => 'yfi yfi-users-2'
-			],
-			'ACTIVE_MODULES' => [
+			];
+		}
+		if (\App\Security\AdminAccess::isPermitted('ModuleManager')) {
+			$monitoringData['ACTIVE_MODULES'] = [
 				'LABEL' => 'PLU_MODULES',
 				'VALUE' => Settings_ModuleManager_Module_Model::getModulesCount(true),
 				'HREF' => 'index.php?module=ModuleManager&parent=Settings&view=List',
 				'ICON' => 'yfi yfi-modules-2'
-			],
-			'ALL_WORKFLOWS' => [
+			];
+		}
+		if (\App\Security\AdminAccess::isPermitted('Workflows')) {
+			$monitoringData['ALL_WORKFLOWS'] = [
 				'LABEL' => 'PLU_WORKFLOWS_ACTIVE',
 				'VALUE' => Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount(),
 				'HREF' => 'index.php?module=Workflows&parent=Settings&view=List',
 				'ICON' => 'yfi yfi-workflows-2'
-			],
-		];
-		$viewer->assign('SYSTEM_MONITORING', $systemMonitoring);
-		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
-		$viewer->assign('PRODUCTS_PREMIUM', \App\YetiForce\Shop::getProducts('featured'));
-		$viewer->assign('PRODUCTS_PARTNER', \App\YetiForce\Shop::getProducts('featured', 'Partner'));
-		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+			];
+		}
+		$viewer->assign('SYSTEM_MONITORING', $monitoringData);
+		$viewer->assign('SETTINGS_SHORTCUTS', Settings_Vtiger_MenuItem_Model::getPinnedItems());
+		$viewer->view('Index.tpl', $request->getModule(false));
 	}
 
 	/**
@@ -195,22 +183,6 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
 		]), parent::getHeaderCss($request));
-	}
-
-	public static function getSelectedFieldFromModule($menuModels, $moduleName)
-	{
-		if ($menuModels) {
-			foreach ($menuModels as $menuModel) {
-				$menuItems = $menuModel->getMenuItems();
-				foreach ($menuItems as $item) {
-					$linkTo = $item->getUrl();
-					if (false !== stripos($linkTo, '&module=' . $moduleName) || false !== stripos($linkTo, '?module=' . $moduleName)) {
-						return $item;
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	public function validateRequest(App\Request $request)

@@ -14,6 +14,8 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to get fields of this model.
 	 *
+	 * @param mixed $blockInstance
+	 *
 	 * @return <Array> list of field models <Settings_Leads_Field_Model>
 	 */
 	public function getFields($blockInstance = false)
@@ -86,7 +88,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 
 		$moduleModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$moduleModel->$properName = $propertyValue;
+			$moduleModel->{$properName} = $propertyValue;
 		}
 		return $moduleModel;
 	}

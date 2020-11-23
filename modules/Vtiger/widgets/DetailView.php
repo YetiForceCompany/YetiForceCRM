@@ -38,7 +38,7 @@ class Vtiger_DetailView_Widget extends Vtiger_Basic_Widget
 		$widget = [];
 		$moduleName = $this->Module;
 		$model = Vtiger_Module_Model::getInstance($moduleName);
-		if ($model->isPermitted($moduleName)) {
+		if ($model->isPermitted('DetailView')) {
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'DetailView.tpl';
 			$widget = $this->Config;

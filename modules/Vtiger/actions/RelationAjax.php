@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -12,8 +13,8 @@
 class Vtiger_RelationAjax_Action extends \App\Controller\Action
 {
 	use
-		\App\Controller\ExposeMethod,
-		App\Controller\ClearProcess;
+		\App\Controller\ExposeMethod;
+	use App\Controller\ClearProcess;
 
 	/**
 	 * {@inheritdoc}
@@ -30,6 +31,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('updateFavoriteForRecord');
 		$this->exposeMethod('calculate');
 		$this->exposeMethod('massDownload');
+		$this->exposeMethod('checkFilesIntegrity');
 	}
 
 	/**
@@ -468,7 +470,9 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		}
 		$columnName = $fieldQueryModel->getColumnName();
 		if ('sum' === $request->getByType('calculateType')) {
-			$value = $queryGenerator->createQuery()->sum($columnName);
+			$fieldName = $fieldModel->getName();
+			$query = $queryGenerator->setFields(['id'])->setDistinct(null)->setGroup('id')->createQuery()->select([$fieldName => $columnName]);
+			$value = (new \App\Db\Query())->from(['c' => $query])->sum("c.{$fieldName}");
 		} else {
 			throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
 		}
@@ -493,5 +497,30 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		} else {
 			Documents_Record_Model::downloadFiles($records);
 		}
+	}
+
+	/**
+	 * Check many files integrity.
+	 *
+	 * @param App\Request $request
+	 */
+	public function checkFilesIntegrity(App\Request $request)
+	{
+		$relatedModuleName = $request->getByType('relatedModule', 2);
+		$fileNotAvailable = [];
+		$result = ['success' => true];
+		foreach ($this->getRecordsListFromRequest($request) as $record) {
+			$documentRecordModel = Vtiger_Record_Model::getInstanceById($record, $relatedModuleName);
+			$resultVal = $documentRecordModel->checkFileIntegrity();
+			if (!$resultVal) {
+				$fileNotAvailable[] = $documentRecordModel->get('notes_title');
+			}
+		}
+		if (!empty($fileNotAvailable)) {
+			$result = ['notify' => ['text' => \App\Language::translate('LBL_FILE_NOT_AVAILABLE', $relatedModuleName) . ': <br>- ' . implode('<br>- ', $fileNotAvailable)]];
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
 	}
 }

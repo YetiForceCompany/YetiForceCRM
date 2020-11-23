@@ -5,9 +5,9 @@ jQuery.Class(
 	'Settings_Map_Config_Js',
 	{},
 	{
-		registerTileLayer: function() {
+		registerTileLayer: function () {
 			let tab = $('#TileLayer');
-			tab.find('input').on('change', function() {
+			tab.find('input').on('change', function () {
 				AppConnector.request({
 					module: 'Map',
 					parent: 'Settings',
@@ -15,23 +15,23 @@ jQuery.Class(
 					mode: 'setTileLayer',
 					vale: this.value
 				})
-					.done(function(data) {
-						Vtiger_Helper_Js.showPnotify({
+					.done(function (data) {
+						app.showNotify({
 							text: data['result']['message'],
 							type: 'success'
 						});
 					})
-					.fail(function() {
-						Vtiger_Helper_Js.showPnotify({
+					.fail(function () {
+						app.showNotify({
 							text: app.vtranslate('JS_ERROR'),
 							type: 'error'
 						});
 					});
 			});
 		},
-		registerCoordinates: function() {
+		registerCoordinates: function () {
 			let tab = $('#Coordinates');
-			tab.find('input').on('change', function() {
+			tab.find('input').on('change', function () {
 				AppConnector.request({
 					module: 'Map',
 					parent: 'Settings',
@@ -39,23 +39,23 @@ jQuery.Class(
 					mode: 'setCoordinate',
 					vale: this.value
 				})
-					.done(function(data) {
-						Vtiger_Helper_Js.showPnotify({
+					.done(function (data) {
+						app.showNotify({
 							text: data['result']['message'],
 							type: 'success'
 						});
 					})
-					.fail(function() {
-						Vtiger_Helper_Js.showPnotify({
+					.fail(function () {
+						app.showNotify({
 							text: app.vtranslate('JS_ERROR'),
 							type: 'error'
 						});
 					});
 			});
 		},
-		registerRouting: function() {
+		registerRouting: function () {
 			let tab = $('#Routing');
-			tab.find('input').on('change', function() {
+			tab.find('input').on('change', function () {
 				AppConnector.request({
 					module: 'Map',
 					parent: 'Settings',
@@ -63,21 +63,21 @@ jQuery.Class(
 					mode: 'setRouting',
 					vale: this.value
 				})
-					.done(function(data) {
-						Vtiger_Helper_Js.showPnotify({
+					.done(function (data) {
+						app.showNotify({
 							text: data['result']['message'],
 							type: 'success'
 						});
 					})
-					.fail(function() {
-						Vtiger_Helper_Js.showPnotify({
+					.fail(function () {
+						app.showNotify({
 							text: app.vtranslate('JS_ERROR'),
 							type: 'error'
 						});
 					});
 			});
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			this.registerTileLayer();
 			this.registerCoordinates();
 			this.registerRouting();

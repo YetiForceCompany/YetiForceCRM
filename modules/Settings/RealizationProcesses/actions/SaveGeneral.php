@@ -18,10 +18,11 @@ class Settings_RealizationProcesses_SaveGeneral_Action extends Settings_Vtiger_I
 	 * Save date.
 	 *
 	 * @param <array> request
+	 * @param \App\Request $request
 	 *
 	 * @return true if saved, false otherwise
 	 */
-	public function save(\App\Request $request)
+	public function save(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$status = $request->getByType('status', 'Text');

@@ -39,7 +39,7 @@
       <div class="full-width">
         <div
           ref="input"
-          class="u-font-size-13px js-completions full-height u-outline-none"
+          class="u-fs-13px js-completions full-height u-outline-none"
           contenteditable="true"
           data-completions-buttons="true"
           :placeholder="translate('JS_CHAT_MESSAGE')"
@@ -138,7 +138,7 @@ export default {
           this.$emit('onSended')
         })
       } else {
-        Vtiger_Helper_Js.showPnotify({
+        app.showNotify({
           text: app.vtranslate('JS_MESSAGE_TOO_LONG'),
           type: 'error',
           animation: 'show'

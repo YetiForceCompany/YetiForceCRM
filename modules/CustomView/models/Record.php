@@ -358,7 +358,7 @@ class CustomView_Record_Model extends \App\Base
 		}
 		if ($lockRecords) {
 			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
-			$lockFields = array_merge_recursive($lockFields, \App\RecordStatus::getLockStatus($moduleName));
+			$lockFields = array_replace_recursive($lockFields, \App\RecordStatus::getLockStatus($moduleName));
 			foreach ($lockFields as $fieldName => $fieldValues) {
 				$queryGenerator->addNativeCondition(['not in', "$baseTableName.$fieldName", $fieldValues]);
 			}
@@ -804,11 +804,9 @@ class CustomView_Record_Model extends \App\Base
 			$query->andWhere([
 				'or',
 				['userid' => $currentUser->getId()],
-				['status' => 0],
-				['status' => 3],
+				['status' => [\App\CustomView::CV_STATUS_DEFAULT, \App\CustomView::CV_STATUS_PUBLIC]],
 				['userid' => (new App\Db\Query())->select(['vtiger_user2role.userid'])
 					->from('vtiger_user2role')
-					->innerJoin('vtiger_users', 'vtiger_users.id = vtiger_user2role.userid')
 					->innerJoin('vtiger_role', 'vtiger_role.roleid = vtiger_user2role.roleid')
 					->where(['like', 'vtiger_role.parentrole', "{$userParentRoleSeq}::%", false]),
 				],
@@ -894,7 +892,7 @@ class CustomView_Record_Model extends \App\Base
 			if (0 == \count($menus)) {
 				require 'user_privileges/menu_0.php';
 			}
-			if (\array_key_exists($menuId, $filterList)) {
+			if (isset($filterList[$menuId])) {
 				$filtersMenu = explode(',', $filterList[$menuId]['filters']);
 				$filters = array_intersect($filtersMenu, $filters);
 				if (empty($filters)) {

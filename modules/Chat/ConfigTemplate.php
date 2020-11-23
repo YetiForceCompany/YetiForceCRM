@@ -22,8 +22,8 @@ return [
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'MAX_LENGTH_MESSAGE' => [
-		'default' => 500,
-		'description' => 'The maximum length of the message, If you want to increase the number of characters, you must also change it in the database (u_yf_chat_messages_crm, u_yf_chat_messages_group, u_yf_chat_messages_global).',
+		'default' => 2000,
+		'description' => 'The maximum length of the message, If you want to increase the number of characters, you must also change it in the database (u_yf_chat_messages_crm, u_yf_chat_messages_group, u_yf_chat_messages_global, etc.,).',
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'REFRESH_TIME_GLOBAL' => [
@@ -46,12 +46,6 @@ return [
 	'dynamicAddingRooms' => [
 		'default' => true,
 		'description' => 'Show add button in left panel favorites rooms.',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
-	],
-	'draggableButton' => [
-		'default' => false,
-		'description' => 'Chat button: true - draggable, false - in header.',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],

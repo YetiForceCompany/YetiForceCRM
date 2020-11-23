@@ -47,11 +47,20 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				'filter' => 'Text',
 				'checkbox' => 'Text',
 				'field_name' => 'Alnum',
-				'FastEdit' => 'Integer'
+				'FastEdit' => 'Integer',
+				'chartType' => 'Text',
+				'color' => \App\Purifier::BOOL,
+				'valueType' => 'Text',
+				'groupField' => 'Text',
+				'search_params' => 'Text',
+				'valueField' => 'Text'
 			]
 		]);
 		if (!$this->validateLimit($params)) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||limit||' . $params['data']['limit'], 406);
+		}
+		if (isset($params['data']['search_params'])) {
+			$params['data']['search_params'] = \App\Json::decode($params['data']['search_params']);
 		}
 		Settings_Widgets_Module_Model::saveWidget($params);
 		$response = new Vtiger_Response();
@@ -111,6 +120,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				case 'DetailView':
 				case 'Summary':
 				case 'Updates':
+				case 'UpdatesList':
 					$returnVal = true;
 					break;
 				default:

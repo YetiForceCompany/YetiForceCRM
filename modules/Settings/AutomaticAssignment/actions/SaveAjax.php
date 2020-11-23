@@ -26,7 +26,7 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	 *
 	 * @param \App\Request $request
 	 */
-	public function save(\App\Request $request)
+	public function save(App\Request $request)
 	{
 		$data = $request->getMultiDimensionArray('param', [
 			'tabid' => 'Integer',
@@ -61,7 +61,7 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	 *
 	 * @param \App\Request $request
 	 */
-	public function changeRoleType(\App\Request $request)
+	public function changeRoleType(App\Request $request)
 	{
 		$member = $request->getByType('param', 'Text');
 		$recordId = $request->getInteger('record');
@@ -82,7 +82,7 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	 *
 	 * @param \App\Request $request
 	 */
-	public function deleteElement(\App\Request $request)
+	public function deleteElement(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);

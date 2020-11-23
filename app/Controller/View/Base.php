@@ -103,9 +103,8 @@ abstract class Base extends \App\Controller\Base
 	 */
 	public function getPageTitle(\App\Request $request)
 	{
+		$moduleName = $request->getByType('module', 'Alnum');
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleNameArray = explode(':', $qualifiedModuleName);
-		$moduleName = end($moduleNameArray);
 		$prefix = '';
 		if ('Vtiger' !== $moduleName) {
 			$prefix = \App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
@@ -214,7 +213,13 @@ abstract class Base extends \App\Controller\Base
 			'~layouts/resources/icons/additionalIcons.css',
 			'~layouts/resources/icons/yfm.css',
 			'~layouts/resources/icons/yfi.css',
+			'~libraries/@mdi/font/css/materialdesignicons.css',
 			'~libraries/@fortawesome/fontawesome-free/css/all.css',
+			'~libraries/@pnotify/core/dist/PNotify.css',
+			'~libraries/@pnotify/confirm/dist/PNotifyConfirm.css',
+			'~libraries/@pnotify/bootstrap4/dist/PNotifyBootstrap4.css',
+			'~libraries/@pnotify/mobile/dist/PNotifyMobile.css',
+			'~libraries/@pnotify/desktop/dist/PNotifyDesktop.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
 			'~libraries/select2/dist/css/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
@@ -229,15 +234,16 @@ abstract class Base extends \App\Controller\Base
 			'~libraries/tributejs/dist/tribute.css',
 			'~libraries/emojipanel/dist/emojipanel.css',
 			'~libraries/emoji-mart-vue-fast/css/emoji-mart.css',
-			'~libraries/@mdi/font/css/materialdesignicons.css',
 			'~libraries/overlayscrollbars/css/OverlayScrollbars.css',
 			'~src/css/quasar.css',
 			'~layouts/resources/colors/calendar.css',
 			'~layouts/resources/colors/owners.css',
 			'~layouts/resources/colors/modules.css',
 			'~layouts/resources/colors/picklists.css',
+			'~layouts/resources/colors/fields.css',
 			'~layouts/resources/styleTemplate.css',
 			'~' . \Vtiger_Theme::getBaseStylePath(),
+			'~' . \Vtiger_Theme::getThemeStyle(),
 		]);
 	}
 
@@ -283,12 +289,12 @@ abstract class Base extends \App\Controller\Base
 			'~libraries/jquery.class.js/jquery.class.js',
 			'~libraries/perfect-scrollbar/dist/perfect-scrollbar.js',
 			'~libraries/jquery-slimscroll/jquery.slimscroll.js',
-			'~libraries/pnotify/dist/iife/PNotify.js',
-			'~libraries/pnotify/dist/iife/PNotifyButtons.js',
-			'~libraries/pnotify/dist/iife/PNotifyAnimate.js',
-			'~libraries/pnotify/dist/iife/PNotifyMobile.js',
-			'~libraries/pnotify/dist/iife/PNotifyConfirm.js',
-			'~libraries/pnotify/dist/iife/PNotifyDesktop.js',
+			'~libraries/@pnotify/core/dist/PNotify.js',
+			'~libraries/@pnotify/mobile/dist/PNotifyMobile.js',
+			'~libraries/@pnotify/desktop/dist/PNotifyDesktop.js',
+			'~libraries/@pnotify/confirm/dist/PNotifyConfirm.js',
+			'~libraries/@pnotify/bootstrap4/dist/PNotifyBootstrap4.js',
+			'~libraries/@pnotify/font-awesome5/dist/PNotifyFontAwesome5.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
 			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
@@ -348,191 +354,70 @@ abstract class Base extends \App\Controller\Base
 	public function checkAndConvertJsScripts($jsFileNames)
 	{
 		$fileExtension = 'js';
-		$jsScriptInstances = [];
-		$prefix = '';
-		if (!IS_PUBLIC_DIR && 'php' !== $fileExtension) {
-			$prefix = 'public_html/';
-		}
+		$instances = [];
+		$min = \App\Config::developer('MINIMIZE_JS');
+		$layoutPaths = \App\Layout::getLayoutPaths();
+
+		$fileFullPrefix = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . (IS_PUBLIC_DIR ? 'public_html' . \DIRECTORY_SEPARATOR : '');
+		$rootLength = \strlen($fileFullPrefix);
 		foreach ($jsFileNames as $jsFileName) {
-			$jsScript = new \Vtiger_JsScript_Model();
-			if (\App\Cache::has('ConvertJsScripts', $jsFileName)) {
-				$jsScriptInstances[$jsFileName] = $jsScript->set('src', \App\Cache::get('ConvertJsScripts', $jsFileName));
+			$cacheName = "{$jsFileName} | {$min}";
+			$instance = new \Vtiger_JsScript_Model();
+			if (\App\Cache::has('ConvertJsScripts', $cacheName)) {
+				$instanceData = \App\Cache::get('ConvertJsScripts', $cacheName);
+				$instances[$jsFileName] = $instance->set('base', $instanceData['base'])->set('src', $instanceData['src']);
 				continue;
 			}
 			// external javascript source file handling
 			if (0 === strpos($jsFileName, 'http://') || 0 === strpos($jsFileName, 'https://')) {
-				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $jsFileName);
+				$instances[$jsFileName] = $instance->set('src', $jsFileName);
 				continue;
 			}
-			$completeFilePath = \Vtiger_Loader::resolveNameToPath($jsFileName, $fileExtension);
-			if (is_file($completeFilePath)) {
-				$jsScript->set('base', $completeFilePath);
-				if (0 === strpos($jsFileName, '~')) {
-					$filePath = ltrim(ltrim($jsFileName, '~'), '/');
-				} else {
-					$filePath = str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
-				}
-				$minFilePath = str_replace('.js', '.min.js', $filePath);
-				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
-					$filePath = $minFilePath;
-				}
-				\App\Cache::save('ConvertJsScripts', $jsFileName, $prefix . $filePath, \App\Cache::LONG);
-				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $prefix . $filePath);
-			} else {
-				$preLayoutPath = '';
-				if (0 === strpos($jsFileName, '~')) {
-					$jsFile = ltrim(ltrim($jsFileName, '~'), '/');
-					$preLayoutPath = '~';
-				} else {
-					$jsFile = $jsFileName;
-				}
-				// Checking if file exists in selected layout
-				$isFileExists = false;
-				$layoutPath = 'custom/layouts/' . \App\Layout::getActiveLayout();
-				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
-				if (!($isFileExists = is_file($fallBackFilePath))) {
-					$layoutPath = 'layouts/' . \App\Layout::getActiveLayout();
-					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
-					$isFileExists = is_file($fallBackFilePath);
-				}
-				if ($isFileExists) {
-					$jsScript->set('base', $fallBackFilePath);
-					$filePath = $jsFile;
-					if (empty($preLayoutPath)) {
-						$filePath = str_replace('.', '/', $filePath) . '.js';
-					}
-					$minFilePath = str_replace('.js', '.min.js', $filePath);
-					if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
-						$filePath = $minFilePath;
-					}
-					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
-					\App\Cache::save('ConvertJsScripts', $jsFileName, $filePath, \App\Cache::LONG);
-					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
-					continue;
-				}
-				// Checking if file exists in default layout
-				$isFileExists = false;
-				$layoutPath = 'custom/layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
-				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
-				if (!($isFileExists = is_file($fallBackFilePath))) {
-					$layoutPath = 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
-					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
-					$isFileExists = is_file($fallBackFilePath);
-				}
-				if ($isFileExists) {
-					$jsScript->set('base', $fallBackFilePath);
-					$filePath = $jsFile;
-					if (empty($preLayoutPath)) {
-						$filePath = str_replace('.', '/', $jsFile) . '.js';
-					}
-					$minFilePath = str_replace('.js', '.min.js', $filePath);
-					if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
-						$filePath = $minFilePath;
-					}
-					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
-					\App\Cache::save('ConvertJsScripts', $jsFileName, $filePath, \App\Cache::LONG);
-					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
-				}
+			if ($realPath = \Vtiger_Loader::getRealPathFile($jsFileName, $fileExtension, $layoutPaths)) {
+				$instance->set('base', $realPath)->set('src', substr($realPath, $rootLength));
+				\App\Cache::save('ConvertJsScripts', $cacheName, ['src' => $instance->get('src'), 'base' => $instance->get('base')], \App\Cache::LONG);
+				$instances[$jsFileName] = $instance;
 			}
 		}
-		return $jsScriptInstances;
+		return $instances;
 	}
 
 	/**
 	 * Check and convert css files.
 	 *
-	 * @param string[] $cssFileNames
+	 * @param string[] $fileNames
 	 * @param string   $fileExtension
 	 *
 	 * @return Vtiger_CssScript_Model[]
 	 */
-	public function checkAndConvertCssStyles($cssFileNames, $fileExtension = 'css')
+	public function checkAndConvertCssStyles($fileNames, $fileExtension = 'css')
 	{
-		$prefix = '';
-		if (!IS_PUBLIC_DIR && 'php' !== $fileExtension) {
-			$prefix = 'public_html/';
-		}
-		$cssStyleInstances = [];
-		foreach ($cssFileNames as $cssFileName) {
-			$cssScriptModel = new \Vtiger_CssScript_Model();
-			if (\App\Cache::has('ConvertCssStyles', $cssFileName)) {
-				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', \App\Cache::get('ConvertCssStyles', $cssFileName));
+		$instances = [];
+		$min = \App\Config::developer('MINIMIZE_CSS');
+		$layoutPaths = \App\Layout::getLayoutPaths();
+
+		$fileFullPrefix = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . (IS_PUBLIC_DIR ? 'public_html' . \DIRECTORY_SEPARATOR : '');
+		$rootLength = \strlen($fileFullPrefix);
+		foreach ($fileNames as $fileName) {
+			$cacheName = "{$fileName} | {$min}";
+			$instance = new \Vtiger_CssScript_Model();
+			if (\App\Cache::has('ConvertCssStyles', $cacheName)) {
+				$instanceData = \App\Cache::get('ConvertCssStyles', $cacheName);
+				$instances[$fileName] = $instance->set('base', $instanceData['base'])->set('href', $instanceData['href']);
 				continue;
 			}
-			if (0 === strpos($cssFileName, 'http://') || 0 === strpos($cssFileName, 'https://')) {
-				$cssStyleInstances[] = $cssScriptModel->set('href', $cssFileName);
+			// external javascript source file handling
+			if (0 === strpos($fileName, 'http://') || 0 === strpos($fileName, 'https://')) {
+				$instances[$fileName] = $instance->set('href', $fileName);
 				continue;
 			}
-			$completeFilePath = \Vtiger_Loader::resolveNameToPath($cssFileName, $fileExtension);
-			if (file_exists($completeFilePath)) {
-				$cssScriptModel->set('base', $completeFilePath);
-				if (0 === strpos($cssFileName, '~')) {
-					$filePath = ltrim(ltrim($cssFileName, '~'), '/');
-				} else {
-					$filePath = str_replace('.', '/', $cssFileName) . '.' . $fileExtension;
-				}
-				$minFilePath = str_replace('.css', '.min.css', $filePath);
-				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
-					$filePath = $minFilePath;
-				}
-				\App\Cache::save('ConvertCssStyles', $cssFileName, $prefix . $filePath, \App\Cache::LONG);
-				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $prefix . $filePath);
-			} else {
-				$preLayoutPath = '';
-				if (0 === strpos($cssFileName, '~')) {
-					$cssFile = ltrim(ltrim($cssFileName, '~'), '/');
-					$preLayoutPath = '~';
-				} else {
-					$cssFile = $cssFileName;
-				}
-				// Checking if file exists in selected layout
-				$isFileExists = false;
-				$layoutPath = 'custom/layouts/' . \App\Layout::getActiveLayout();
-				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-				if (!($isFileExists = is_file($fallBackFilePath))) {
-					$layoutPath = 'layouts/' . \App\Layout::getActiveLayout();
-					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-					$isFileExists = is_file($fallBackFilePath);
-				}
-				if ($isFileExists) {
-					$cssScriptModel->set('base', $fallBackFilePath);
-					if (empty($preLayoutPath)) {
-						$filePath = str_replace('.', '/', $cssFile) . '.css';
-					}
-					$minFilePath = str_replace('.css', '.min.css', $filePath);
-					if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
-						$filePath = $minFilePath;
-					}
-					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
-					\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
-					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
-					continue;
-				}
-				// Checking if file exists in default layout
-				$isFileExists = false;
-				$layoutPath = 'custom/layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
-				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-				if (!($isFileExists = is_file($fallBackFilePath))) {
-					$layoutPath = 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
-					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-					$isFileExists = is_file($fallBackFilePath);
-				}
-				if ($isFileExists) {
-					$cssScriptModel->set('base', $fallBackFilePath);
-					if (empty($preLayoutPath)) {
-						$filePath = str_replace('.', '/', $cssFile) . '.css';
-					}
-					$minFilePath = str_replace('.css', '.min.css', $filePath);
-					if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
-						$filePath = $minFilePath;
-					}
-					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
-					\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
-					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
-				}
+			if ($realPath = \Vtiger_Loader::getRealPathFile($fileName, $fileExtension, $layoutPaths)) {
+				$instance->set('base', $realPath)->set('href', substr($realPath, $rootLength));
+				\App\Cache::save('ConvertCssStyles', $cacheName, ['href' => $instance->get('href'), 'base' => $instance->get('base')], \App\Cache::LONG);
+				$instances[$fileName] = $instance;
 			}
 		}
-		return $cssStyleInstances;
+		return $instances;
 	}
 
 	/**
@@ -569,13 +454,12 @@ abstract class Base extends \App\Controller\Base
 			'globalSearchAutocompleteActive' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
 			'globalSearchAutocompleteMinLength' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
 			'globalSearchAutocompleteAmountResponse' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
-			'globalSearchDefaultOperator' => \App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
 			'sounds' => \App\Config::sounds(),
 			'intervalForNotificationNumberCheck' => \App\Config::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 			'recordPopoverDelay' => \App\Config::performance('RECORD_POPOVER_DELAY'),
 			'searchShowOwnerOnlyInList' => \App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
 			'picklistLimit' => \App\Config::performance('picklistLimit'),
-			'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
+			'fieldsReferencesDependent' => \Config\Security::$fieldsReferencesDependent,
 			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
 			'debug' => (bool) \App\Config::debug('JS_DEBUG'),
 			'modalTarget' => 'base',
@@ -607,7 +491,8 @@ abstract class Base extends \App\Controller\Base
 				'rowHeight' => $userModel->getDetail('rowheight'),
 				'userId' => $userModel->getId(),
 				// Modifying this file or functions that affect the footer appearance will violate the license terms!!!
-				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding')
+				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding'),
+				'globalSearchDefaultOperator' => \App\RecordSearch::OPERATORS[$userModel->getDetail('default_search_operator')]
 			];
 		}
 		foreach ($jsEnv as $key => $value) {

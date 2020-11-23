@@ -45,30 +45,30 @@ class VTUpdateCalendarDates extends VTTask
 			$task = new \ArrayObject(unserialize($row['task']));
 			$rowRecordModel = Vtiger_Record_Model::getInstanceById($row['activityid'], 'Calendar');
 
-			if ($task['datefield_start'] === 'wfRunTime') {
+			if ('wfRunTime' === $task['datefield_start']) {
 				$baseDateStart = date('Y-m-d H:i:s');
 			} else {
 				$baseDateStart = $recordModel->get($task['datefield_start']);
-				if ($baseDateStart === '') {
+				if ('' === $baseDateStart) {
 					$baseDateStart = date('Y-m-d');
 				}
 			}
 			preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateStart, $match);
 			$baseDateStart = strtotime($match[0]);
 
-			if ($task['datefield_end'] === 'wfRunTime') {
+			if ('wfRunTime' === $task['datefield_end']) {
 				$baseDateEnd = date('Y-m-d H:i:s');
 			} else {
 				$baseDateEnd = $recordModel->get($task['datefield_end']);
-				if ($baseDateEnd === '') {
+				if ('' === $baseDateEnd) {
 					$baseDateEnd = date('Y-m-d');
 				}
 			}
 			preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateEnd, $match);
 			$baseDateEnd = strtotime($match[0]);
 
-			$date_start = strftime('%Y-%m-%d', $baseDateStart + $task['days_start'] * 24 * 60 * 60 * (strtolower($task['direction_start']) == 'before' ? -1 : 1));
-			$due_date = strftime('%Y-%m-%d', $baseDateEnd + $task['days_end'] * 24 * 60 * 60 * (strtolower($task['direction_start']) == 'before' ? -1 : 1));
+			$date_start = strftime('%Y-%m-%d', $baseDateStart + $task['days_start'] * 24 * 60 * 60 * ('before' == strtolower($task['direction_start']) ? -1 : 1));
+			$due_date = strftime('%Y-%m-%d', $baseDateEnd + $task['days_end'] * 24 * 60 * 60 * ('before' == strtolower($task['direction_start']) ? -1 : 1));
 
 			$rowRecordModel->set('date_start', $date_start);
 			$rowRecordModel->set('due_date', $due_date);

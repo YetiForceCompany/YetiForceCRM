@@ -18,11 +18,7 @@
           @keydown.enter="search()"
         >
           <template #prepend>
-            <q-icon
-              @click="search()"
-              class="cursor-pointer"
-              name="mdi-magnify"
-            />
+            <q-icon @click="search()" class="cursor-pointer" name="mdi-magnify" />
           </template>
           <template #append>
             <q-icon
@@ -43,34 +39,32 @@
         </q-input>
         <slot name="searchAppend" />
       </div>
-      <div
-        class="flex-grow-1"
-        style="min-height: 100%; height: 0; overflow: hidden"
-      >
-        <q-scroll-area
-          ref="scrollContainer"
-          :class="[scrollbarHidden ? 'scrollbarHidden' : '']"
-        >
+      <div class="flex-grow-1" style="min-height: 100%; height: 0; overflow: hidden">
+        <q-scroll-area ref="scrollContainer" :class="[scrollbarHidden ? 'scrollbarHidden' : '']">
           <TabMessages
             ref="messagesContainer"
             :roomData="isSearchActive ? roomData.searchData : roomData"
             :fetchingEarlier="fetchingEarlier"
             @earlierClick="earlierClick()"
           />
+          <q-btn
+            round
+            size="sm"
+            :color="isNewMessages ? 'danger' : 'primary'"
+            @click="scrollDown"
+            v-scroll="onScroll"
+            v-show="roomData.chatEntries && roomData.chatEntries.length && scrollButton"
+            icon="mdi-chevron-down"
+            :class="isNewMessages ? 'animate__animated animate__shakeX animate__faster animate-pop' : 'animate-pop'"
+            style="position: sticky; bottom: 10px; left: 10px;"
+          ></q-btn>
         </q-scroll-area>
         <q-resize-observer @resize="onResize" />
       </div>
-      <TabChatInput
-        :roomData="roomData"
-        @onSended="scrollDown()"
-      />
+      <TabChatInput :roomData="roomData" @onSended="scrollDown()" />
     </div>
-    <div
-      v-else
-      :key="isVisible"
-    >
-      <slot name="noRoom">
-      </slot>
+    <div v-else :key="isVisible">
+      <slot name="noRoom"></slot>
     </div>
   </div>
 </template>
@@ -99,24 +93,46 @@ export default {
       isSearchActive: false,
       searching: false,
       fetchingEarlier: false,
-      scrollbarHidden: false
+      scrollbarHidden: false,
+      scrollButton: false,
+      isNewMessages: false,
+      scrollButtonSkip: false,
+      countMessages: 0
     }
   },
   computed: {
     ...mapGetters(['miniMode', 'config', 'dialog']),
+    roomChange() {
+      return this.roomData.recordid
+    },
     roomMessages() {
       return this.roomData.chatEntries
     }
   },
   watch: {
+    roomChange() {
+      this.clearScrollButton()
+    },
     roomMessages() {
+      this.scrollbarHidden = true
+      this.onScroll(this.$refs.scrollContainer.scrollPosition)
+      let forceScrollDown = !this.fetchingEarlier && !this.scrollButton
       if (!this.fetchingEarlier) {
+        this.isNewMessages = this.isNewMessages || this.roomData.chatEntries.length > this.countMessages
+      }
+      this.countMessages = this.roomData.chatEntries.length
+      if (forceScrollDown) {
         this.$nextTick(function() {
           this.scrollDown()
         })
       } else {
         this.fetchingEarlier = false
       }
+      this.$nextTick(function() {
+        setTimeout(() => {
+          this.scrollbarHidden = false
+        }, 1800)
+      })
     }
   },
   mounted() {
@@ -162,14 +178,15 @@ export default {
       }).then(e => {
         this.isSearchActive = true
         this.searching = false
+        this.clearScrollButton()
       })
     },
     scrollDown() {
       if (!this.isVisible) return
       this.scrollbarHidden = true
-      this.$refs.scrollContainer.setScrollPosition(
-        this.$refs.messagesContainer.$el.clientHeight
-      )
+      this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight)
+      this.isNewMessages = false
+      this.scrollButton = false
       setTimeout(() => {
         this.scrollbarHidden = false
       }, 1800)
@@ -177,6 +194,28 @@ export default {
     registerMountedEvents() {
       this.scrollDown()
       this.$emit('onContentLoaded', true)
+    },
+    onScroll(e) {
+      if (typeof window === 'undefined') return
+      if (this.scrollButtonSkip) {
+        setTimeout(() => {
+          this.scrollButtonSkip = false
+        }, 200)
+      } else {
+        this.scrollButton = e + this.$refs.scrollContainer.containerHeight < this.$refs.scrollContainer.scrollSize - 90
+        if (!this.scrollButton) {
+          this.isNewMessages = false
+        }
+      }
+    },
+    clearScrollButton() {
+      this.scrollButton = false
+      this.isNewMessages = false
+      this.countMessages = 0
+      this.scrollButtonSkip = true
+      this.$nextTick(function() {
+        this.scrollDown()
+      })
     }
   }
 }

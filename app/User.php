@@ -184,11 +184,11 @@ class User
 	/**
 	 * Get user id.
 	 *
-	 * @return int
+	 * @return int|null
 	 */
 	public function getId()
 	{
-		return $this->privileges['details']['record_id'];
+		return $this->privileges['details']['record_id'] ?? null;
 	}
 
 	/**
@@ -307,7 +307,17 @@ class User
 	 */
 	public function isAdmin()
 	{
-		return $this->privileges['details']['is_admin'];
+		return !empty($this->privileges['details']['is_admin']);
+	}
+
+	/**
+	 * Function to check whether the user is an super user.
+	 *
+	 * @return bool
+	 */
+	public function isSuperUser(): bool
+	{
+		return !empty($this->privileges['details']['super_user']);
 	}
 
 	/**
@@ -349,29 +359,31 @@ class User
 	/**
 	 * Function checks if user exists.
 	 *
-	 * @param int $id - User ID
+	 * @param int  $id     - User ID
+	 * @param bool $active
 	 *
 	 * @return bool
 	 */
-	public static function isExists($id)
+	public static function isExists(int $id, bool $active = true): bool
 	{
-		if (Cache::has('UserIsExists', $id)) {
-			return Cache::get('UserIsExists', $id);
+		$cacheKey = $active ? 'UserIsExists' : 'UserIsExistsInactive';
+		if (Cache::has($cacheKey, $id)) {
+			return Cache::get($cacheKey, $id);
 		}
 		$isExists = false;
 		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 			$users = PrivilegeFile::getUser('id');
-			if (isset($users[$id]) && !$users[$id]['deleted']) {
+			if (($active && isset($users[$id]) && 'Active' == $users[$id]['status'] && !$users[$id]['deleted']) || (!$active && isset($users[$id]))) {
 				$isExists = true;
 			}
 		} else {
-			$isExists = (new \App\Db\Query())
-				->from('vtiger_users')
-				->where(['status' => 'Active', 'deleted' => 0, 'id' => $id])
-				->exists();
+			$isExistsQuery = (new \App\Db\Query())->from('vtiger_users')->where(['id' => $id]);
+			if ($active) {
+				$isExistsQuery->andWhere(['status' => 'Active', 'deleted' => 0]);
+			}
+			$isExists = $isExistsQuery->exists();
 		}
-		Cache::save('UserIsExists', $id, $isExists);
-
+		Cache::save($cacheKey, $id, $isExists);
 		return $isExists;
 	}
 
@@ -382,9 +394,10 @@ class User
 	 */
 	public static function getActiveAdminId()
 	{
-		$key = 'id';
-		if (Cache::has(__METHOD__, $key)) {
-			return Cache::get(__METHOD__, $key);
+		$key = '';
+		$cacheName = 'ActiveAdminId';
+		if (Cache::has($cacheName, $key)) {
+			return Cache::get($cacheName, $key);
 		}
 		$adminId = 1;
 		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
@@ -402,7 +415,7 @@ class User
 				->orderBy(['id' => SORT_ASC])
 				->limit(1)->scalar();
 		}
-		Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
+		Cache::save($cacheName, $key, $adminId, Cache::LONG);
 
 		return $adminId;
 	}
@@ -414,15 +427,13 @@ class User
 	 *
 	 * @return int
 	 */
-	public static function getUserIdByName($name)
+	public static function getUserIdByName($name): ?int
 	{
-		if (Cache::has(__METHOD__, $name)) {
-			return Cache::get(__METHOD__, $name);
+		if (Cache::has('UserIdByName', $name)) {
+			return Cache::get('UserIdByName', $name);
 		}
 		$userId = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $name])->limit(1)->scalar();
-		Cache::save(__METHOD__, $name, $userId, Cache::LONG);
-
-		return $userId;
+		return Cache::save('UserIdByName', $name, false !== $userId ? $userId : null, Cache::LONG);
 	}
 
 	/**
@@ -496,5 +507,40 @@ class User
 		$count = (new Db\Query())->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['<>', 'id', 1])->count();
 		Cache::save('NumberOfUsers', '', $count, Cache::LONG);
 		return $count;
+	}
+
+	/**
+	 * Update users labels.
+	 *
+	 * @param int $fromUserId
+	 *
+	 * @return void
+	 */
+	public static function updateLabels(int $fromUserId = 0): void
+	{
+		$timeLimit = 180;
+		$timeMax = $timeLimit + time();
+		$query = (new \App\Db\Query())->select(['id'])->where(['>=', 'id', $fromUserId])->from('vtiger_users');
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			if (time() >= $timeMax) {
+				(new \App\BatchMethod(['method' => __METHOD__, 'params' => [$row['id'], microtime()]]))->save();
+				break;
+			}
+			if (self::isExists($row['id'], false)) {
+				$userRecordModel = \Users_Record_Model::getInstanceById($row['id'], 'Users');
+				$userRecordModel->updateLabel();
+			}
+		}
+	}
+
+	/**
+	 * The function gets the all users label.
+	 *
+	 * @return bool|array
+	 */
+	public static function getAllLabels()
+	{
+		return (new \App\Db\Query())->from('u_#__users_labels')->select(['id', 'label'])->createCommand()->queryAllByGroup();
 	}
 }

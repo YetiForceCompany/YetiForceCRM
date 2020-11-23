@@ -16,7 +16,7 @@
 				<span class="col-md-12 form-row">
 					<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 					<div class="col-md-10 px-0">
-						<select id="task_timefields" name="smtp" class="select2 form-control "
+						<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control "
 								data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
 							{foreach from=App\Mail::getAll() item=ITEM key=ID}

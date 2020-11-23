@@ -40,7 +40,7 @@
 												<strong>
 													{$RECENT_ACTIVITY->getModifiedBy()->getName()}
 												</strong>
-												{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker', 'ModTracker')}
+												{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 												{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 													{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
 														<div class="font-x-small updateInfoContainer">
@@ -67,7 +67,7 @@
 								{else if $RECENT_ACTIVITY->isUpdate()}
 									<li>
 										<div>
-											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker', 'ModTracker')}</span>
+											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</span>
 
 
 											<span class="float-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
@@ -120,7 +120,7 @@
 										<div>
 											<span>
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
-												{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker', 'ModTracker')}
+												{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 											</span>
 											<span class="float-right">
 												<p class="muted no-margin">

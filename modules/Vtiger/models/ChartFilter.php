@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -320,7 +321,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function isMultiFilter()
 	{
-		return count($this->filterIds) > 1;
+		return \count($this->filterIds) > 1;
 	}
 
 	/**
@@ -380,7 +381,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function withSectors()
 	{
-		return count($this->sectors) > 0;
+		return \count($this->sectors) > 0;
 	}
 
 	/**
@@ -453,7 +454,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$dataset['label'] = $dividingValue;
 			}
 			foreach ($dividing as $groupValue => &$group) {
-				if (!in_array($groupValue, $chartData['labels'])) {
+				if (!\in_array($groupValue, $chartData['labels'])) {
 					$chartData['labels'][] = $groupValue;
 				}
 				$dataset['data'][] = $group[$this->valueType];
@@ -696,13 +697,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		if (!empty($this->groupName)) {
 			$picklists = \App\Fields\Picklist::getModulesByName($this->queryGeneratorModuleName);
-			if ((!$this->isDividedByField() || !$this->areColorsFromDividingField()) && in_array($this->groupName, $picklists, true)) {
+			if ((!$this->isDividedByField() || !$this->areColorsFromDividingField()) && \in_array($this->groupName, $picklists, true)) {
 				$primaryKey = App\Fields\Picklist::getPickListId($this->groupName);
 				$fieldTable = 'vtiger_' . $this->groupName;
 				$query->leftJoin($fieldTable, "{$this->groupFieldModel->table}.{$this->groupFieldModel->column} = {$fieldTable}.{$this->groupName}");
 				$query->addSelect(['picklist_id' => "$fieldTable.$primaryKey"]);
 			}
-			if ($this->isDividedByField() && $this->areColorsFromDividingField() && in_array($this->dividingName, $picklists, true)) {
+			if ($this->isDividedByField() && $this->areColorsFromDividingField() && \in_array($this->dividingName, $picklists, true)) {
 				$primaryKey = App\Fields\Picklist::getPickListId($this->dividingName);
 				$fieldTable = 'vtiger_' . $this->dividingName;
 				$query->leftJoin($fieldTable, "{$this->dividingFieldModel->table}.{$this->dividingFieldModel->column} = {$fieldTable}.{$this->dividingName}");
@@ -722,8 +723,14 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function getQuery($filter)
 	{
 		$request = \App\Request::init();
-		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
-		$queryGenerator->initForCustomViewById($filter);
+		if ($this->getExtraData('relation_id') && $this->getExtraData('recordId')) {
+			$relationModelInstance = Vtiger_Relation_Model::getInstanceById($this->getExtraData('relation_id'));
+			$relationModelInstance->set('parentRecord', Vtiger_Record_Model::getInstanceById($this->getExtraData('recordId'), \App\Module::getModuleName($this->widgetModel->get('tabid'))));
+			$queryGenerator = $relationModelInstance->getQuery();
+		} else {
+			$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
+			$queryGenerator->initForCustomViewById($filter);
+		}
 		$this->queryGeneratorModuleName = $queryGenerator->getModuleModel()->getName();
 		if (!empty($this->groupName)) {
 			$queryGenerator->setField($this->groupName);
@@ -735,7 +742,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$queryGenerator->setField($this->valueName);
 		}
 		if ($params = App\Condition::validSearchParams($this->getTargetModule(), $request->getArray('search_params'))) {
-			$this->searchParams = $params[0];
+			$this->searchParams = $request->getArray('search_params')[0];
 			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($params);
 			$queryGenerator->parseAdvFilter($transformedSearchParams);
 		}
@@ -1041,7 +1048,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			if ($this->isDividedByField()) {
 				$params = array_merge($params, [[$this->dividingFieldName, $operator, $row[$this->dividingName]]]);
 			}
-			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$params]);
+			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . rawurlencode(App\Json::encode([$params]));
 			$this->addValue('link', $link, $groupValue, $dividingValue);
 		}
 	}
@@ -1288,7 +1295,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->getTargetModuleModel();
 		$this->setFilterIds();
 		// Decode data if not done already.
-		if (is_string($this->extraData)) {
+		if (\is_string($this->extraData)) {
 			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
 		}
 		if (null === $this->extraData) {
@@ -1349,7 +1356,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @param string $viewName
 	 *
-	 * @return null|int|string
+	 * @return int|string|null
 	 */
 	protected function getViewIdFromName($viewName)
 	{
@@ -1393,7 +1400,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getTotalCountURL()
 	{
-		if (count($this->getFilterIds()) > 1) {
+		if (\count($this->getFilterIds()) > 1) {
 			return null;
 		}
 		return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->getFilterId(0);

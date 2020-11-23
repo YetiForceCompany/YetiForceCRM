@@ -14,11 +14,7 @@
 					{if isset($MENU['moduleName'])}
 						{assign var=MENU_MODULE value=$MENU['moduleName']}
 					{/if}
-					{if isset($MENU['childs']) && $MENU['childs']|@count neq 0}
-						{assign var=HASCHILDS value='true'}
-					{else}
-						{assign var=HASCHILDS value='false'}
-					{/if}
+					{assign var=HASCHILDS value=isset($MENU['childs']) && $MENU['childs']|@count neq 0}
 					{include file=\App\Layout::getTemplatePath('menu/'|cat:$MENU.type|cat:'.tpl', $MODULE)}
 				{/foreach}
 			</ul>

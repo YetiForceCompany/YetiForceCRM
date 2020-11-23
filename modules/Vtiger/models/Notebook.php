@@ -29,7 +29,7 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 	 *
 	 * @param \App\Request $request
 	 */
-	public function save(\App\Request $request)
+	public function save(App\Request $request)
 	{
 		$content = $request->getByType('contents', 'Text');
 		$noteBookId = $request->getInteger('widgetid');

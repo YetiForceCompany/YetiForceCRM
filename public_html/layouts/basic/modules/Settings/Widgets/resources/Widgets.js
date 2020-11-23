@@ -5,36 +5,33 @@ jQuery.Class(
 	'Settings_Widgets_Index_Js',
 	{},
 	{
-		getTabId: function() {
+		getTabId: function () {
 			return $(".WidgetsManage [name='tabid']").val();
 		},
-		getType: function() {
+		getType: function () {
 			return $(".form-modalAddWidget [name='type']").val();
 		},
-		createStep2: function(type) {
+		createStep2: function (type) {
 			var thisInstance = this;
 			var tabId = thisInstance.getTabId();
 			var progressIndicatorElement = jQuery.progressIndicator({ position: 'html' });
 			app.showModalWindow(
 				null,
-				'index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=' +
-					type +
-					'&tabId=' +
-					tabId,
-				function(wizardContainer) {
+				'index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=' + type + '&tabId=' + tabId,
+				function (wizardContainer) {
 					app.showPopoverElementView(wizardContainer.find('.js-help-info'));
-					if (type === 'RelatedModule') {
+					if (type === 'RelatedModule' || type === 'RelatedModuleChart') {
 						thisInstance.loadFilters(wizardContainer);
 						thisInstance.relatedModuleFields(wizardContainer);
-						wizardContainer.find("select[name='relation_id']").on('change', function() {
-							thisInstance.changeRelatedModule();
+						wizardContainer.find("select[name='relation_id']").on('change', function () {
+							thisInstance.changeRelatedModule(wizardContainer);
 							thisInstance.relatedModuleFields(wizardContainer);
 						});
 					}
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					var form = jQuery('form', wizardContainer);
 					form.validationEngine(app.validationEngineOptions);
-					form.on('submit', function(e) {
+					form.on('submit', function (e) {
 						e.preventDefault();
 						if (form.validationEngine('validate')) {
 							var save = true;
@@ -49,7 +46,7 @@ jQuery.Class(
 										data: formData,
 										tabid: tabId
 									})
-									.done(_ => {
+									.done((_) => {
 										thisInstance.reloadWidgets();
 										app.hideModalWindow();
 									});
@@ -59,7 +56,7 @@ jQuery.Class(
 				}
 			);
 		},
-		loadWidgets: function() {
+		loadWidgets: function () {
 			var thisInstance = this;
 			var blocks = jQuery('.blocksSortable');
 			blocks.sortable({
@@ -68,20 +65,18 @@ jQuery.Class(
 				tolerance: 'pointer',
 				cursor: 'move',
 				placeholder: 'state-highlight',
-				stop: function(event, ui) {
+				stop: function (event, ui) {
 					thisInstance.updateSequence();
 				}
 			});
 		},
-		updateSequence: function() {
+		updateSequence: function () {
 			var thisInstance = this;
 			var params = {};
-			$('.blockSortable').each(function(index) {
+			$('.blockSortable').each(function (index) {
 				params[$(this).data('id')] = {
 					index: index,
-					column: $(this)
-						.closest('.blocksSortable')
-						.data('column')
+					column: $(this).closest('.blocksSortable').data('column')
 				};
 			});
 			var progress = $.progressIndicator({
@@ -96,7 +91,7 @@ jQuery.Class(
 			});
 			progress.progressIndicator({ mode: 'hide' });
 		},
-		reloadWidgets: function() {
+		reloadWidgets: function () {
 			var thisInstance = this;
 			var Indicator = jQuery.progressIndicator({
 				message: app.vtranslate('Loading data'),
@@ -110,7 +105,7 @@ jQuery.Class(
 			params['view'] = 'Index';
 			params['parent'] = 'Settings';
 			params['source'] = $("input[name='tabid']").val();
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				var container = jQuery('div.contentsDiv').html(data);
 				thisInstance.registerEvents(container);
 				Indicator.progressIndicator({ mode: 'hide' });
@@ -127,9 +122,9 @@ jQuery.Class(
 				async: mode !== 'saveWidget',
 				dataType: 'json'
 			})
-				.done(data => {
+				.done((data) => {
 					aDeferred.resolve(data);
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: data['result']['message'],
 						type: 'success'
 					});
@@ -139,7 +134,7 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
-		loadFilters: function(contener) {
+		loadFilters: function (contener) {
 			let types = ['filter', 'checkbox', 'switchHeader'];
 			let selected = contener.find("select[name='relation_id'] option:selected");
 			let relatedModuleInput = contener.find("input[name='relatedmodule']");
@@ -156,7 +151,7 @@ jQuery.Class(
 				filterField.append($('<option/>', { value: '-', text: app.vtranslate('None') }));
 				if (filters[relatedModule] !== undefined) {
 					filterField.closest('.form-group').removeClass('d-none');
-					$.each(filters[relatedModule], function(index, value) {
+					$.each(filters[relatedModule], function (index, value) {
 						if (typeof value === 'object') {
 							value = value.label;
 						}
@@ -172,10 +167,10 @@ jQuery.Class(
 				}
 			}
 		},
-		relatedModuleFields: function(container) {
+		relatedModuleFields: function (container) {
 			const relatedModule = parseInt(container.find("input[name='relatedmodule']").val());
-			const relatedfields = container.find("select[name='relatedfields']");
-			relatedfields.find('optgroup').each(function(index, optgroup) {
+			const relatedfields = container.find("select[name='relatedfields'],select[name='groupField']");
+			relatedfields.find('optgroup').each(function (index, optgroup) {
 				optgroup = $(optgroup);
 				if (relatedModule !== optgroup.data('module')) {
 					optgroup.addClass('d-none');
@@ -184,10 +179,10 @@ jQuery.Class(
 					optgroup.removeClass('d-none');
 					optgroup.prop('disabled', false);
 				}
-				optgroup.find('option').each(function(index, option) {
+				optgroup.find('option').each(function (index, option) {
 					option = $(option);
 					if (relatedModule !== option.data('module')) {
-						option.addClass('d-none');
+						option.addClass('d-none').removeAttr('selected');
 						option.prop('disabled', 'disabled');
 					} else {
 						option.removeClass('d-none');
@@ -198,10 +193,8 @@ jQuery.Class(
 			relatedfields.trigger('change:select2');
 		},
 
-		changeRelatedModule: function(e) {
-			var thisInstance = this;
-			var form = jQuery('.form-modalAddWidget');
-			thisInstance.loadFilters(form);
+		changeRelatedModule(wizardContainer) {
+			this.loadFilters(wizardContainer.find('.form-modalAddWidget'));
 		},
 
 		modalFormEdit(wizardContainer) {
@@ -211,14 +204,14 @@ jQuery.Class(
 			if (thisInstance.getType() == 'RelatedModule') {
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
-				wizardContainer.find("select[name='relatedmodule']").on('change', function() {
-					thisInstance.changeRelatedModule();
+				wizardContainer.find("select[name='relatedmodule']").on('change', function () {
+					thisInstance.changeRelatedModule(wizardContainer);
 					thisInstance.relatedModuleFields(wizardContainer);
 				});
 			}
 			const form = $('form', wizardContainer);
 			form.validationEngine(app.validationEngineOptions);
-			form.on('submit', e => {
+			form.on('submit', (e) => {
 				e.preventDefault();
 				if (form.validationEngine('validate')) {
 					const progress = $.progressIndicator({
@@ -241,48 +234,44 @@ jQuery.Class(
 			});
 		},
 
-		registerEvents: function(container) {
+		registerEvents: function (container) {
 			var thisInstance = this;
 			this.loadWidgets();
 			if (typeof container === 'undefined') {
 				container = jQuery('.WidgetsManage');
 			}
 			App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
-			container.find('select.js-module__list').on('change', function(e) {
+			container.find('select.js-module__list').on('change', function (e) {
 				var target = $(e.currentTarget);
 				$("input[name='tabid']").val(target.val());
 				thisInstance.reloadWidgets();
 			});
-			container.find('.js-widget__add').on('click', function(e) {
+			container.find('.js-widget__add').on('click', function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator({ position: 'html' });
 				var module = $('.WidgetsManage select.js-module__list').val();
-				app.showModalWindow(
-					null,
-					'index.php?parent=Settings&module=Widgets&view=Widget&mod=' + module,
-					function(wizardContainer) {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						var form = jQuery('form', wizardContainer);
-						form.on('submit', function(e) {
-							e.preventDefault();
-							var type = form.find('[name="type"]').val();
-							thisInstance.createStep2(type);
-						});
-					}
-				);
+				app.showModalWindow(null, 'index.php?parent=Settings&module=Widgets&view=Widget&mod=' + module, function (
+					wizardContainer
+				) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					var form = jQuery('form', wizardContainer);
+					form.on('submit', function (e) {
+						e.preventDefault();
+						var type = form.find('[name="type"]').val();
+						thisInstance.createStep2(type);
+					});
+				});
 			});
-			container.find('.js-widget__edit').on('click', e => {
+			container.find('.js-widget__edit').on('click', (e) => {
 				app.showModalWindow({
 					url:
 						'index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id=' +
-						$(e.currentTarget)
-							.closest('.blockSortable')
-							.data('id'),
-					cb: wizardContainer => {
+						$(e.currentTarget).closest('.blockSortable').data('id'),
+					cb: (wizardContainer) => {
 						this.modalFormEdit(wizardContainer);
 					}
 				});
 			});
-			container.find('.js-widget__remove').on('click', function(e) {
+			container.find('.js-widget__remove').on('click', function (e) {
 				var target = $(e.currentTarget);
 				var blockSortable = target.closest('.blockSortable');
 				thisInstance.registerSaveEvent('removeWidget', {

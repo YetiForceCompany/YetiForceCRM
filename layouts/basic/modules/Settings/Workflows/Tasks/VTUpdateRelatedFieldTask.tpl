@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-Workflows-Tasks-VTUpdateRelatedFieldTask -->
 	<div class="d-flex px-1 px-md-2">
 		<strong class="align-self-center mr-2">{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong>
 		<button type="button" class="btn btn-outline-dark"
@@ -7,8 +8,7 @@
 	</div>
 	<br/>
 	<div class="row js-conditions-container no-gutters px-1" id="save_fieldvaluemapping" data-js="container">
-		<input type="hidden" id="fieldValueMapping" name="field_value_mapping"
-			   value="{if isset($TASK_OBJECT->field_value_mapping)}{\App\Purifier::encodeHtml($TASK_OBJECT->field_value_mapping)}{/if}"/>
+		<input type="hidden" id="fieldValueMapping" name="field_value_mapping" value="{if isset($TASK_OBJECT->field_value_mapping)}{\App\Purifier::encodeHtml($TASK_OBJECT->field_value_mapping)}{/if}"/>
 		{if isset($TASK_OBJECT->field_value_mapping)}
 			{foreach from=\App\Json::decode($TASK_OBJECT->field_value_mapping) item=FIELD_MAP}
 				<div class="row no-gutters col-12 col-xl-6 js-conditions-row padding-bottom1per px-md-1"
@@ -38,7 +38,7 @@
 									</optgroup>
 								{/foreach}
 							{/foreach}
-							{foreach item=RELATION_MODEL from=$MODULE_MODEL->getRelations()}
+							{foreach item=RELATION_MODEL from=Vtiger_Relation_Model::getAllRelations($MODULE_MODEL, false)}
 								{assign var=RELATION_MODULE_NAME value=$RELATION_MODEL->getRelationModuleName()}
 								{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
 								<optgroup
@@ -101,7 +101,7 @@
 						</optgroup>
 					{/foreach}
 				{/foreach}
-				{foreach item=RELATION_MODEL from=$MODULE_MODEL->getRelations()}
+				{foreach item=RELATION_MODEL from=Vtiger_Relation_Model::getAllRelations($MODULE_MODEL, false)}
 					{assign var=RELATION_MODULE_NAME value=$RELATION_MODEL->getRelationModuleName()}
 					{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
 					<optgroup
@@ -132,4 +132,5 @@
 			</button>
 		</div>
 	</div>
+	<!-- /tpl-Settings-Workflows-Tasks-VTUpdateRelatedFieldTask -->
 {/strip}

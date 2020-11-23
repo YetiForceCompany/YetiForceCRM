@@ -8,14 +8,14 @@ Settings_MappedFields_Edit_Js(
 		step2Container: false,
 		advanceFilterInstance: false,
 		restictName: ['_csrf', 'mode', 'module', 'parent', 'record', 'view'],
-		init: function() {
+		init: function () {
 			this.initialize();
 		},
 		/**
 		 * Function to get the container which holds all the reports step1 elements
 		 * @return jQuery object
 		 */
-		getContainer: function() {
+		getContainer: function () {
 			return this.step2Container;
 		},
 		/**
@@ -23,14 +23,14 @@ Settings_MappedFields_Edit_Js(
 		 * @params : element - which represents the reports step1 container
 		 * @return : current instance
 		 */
-		setContainer: function(element) {
+		setContainer: function (element) {
 			this.step2Container = element;
 			return this;
 		},
 		/**
 		 * Function  to intialize the reports step1
 		 */
-		initialize: function(container) {
+		initialize: function (container) {
 			if (typeof container === 'undefined') {
 				container = jQuery('#mf_step2');
 			}
@@ -40,13 +40,13 @@ Settings_MappedFields_Edit_Js(
 				this.setContainer(jQuery('#mf_step2'));
 			}
 		},
-		submit: function() {
+		submit: function () {
 			var aDeferred = jQuery.Deferred();
 			var form = this.getContainer();
 			var formData = form.serializeFormData();
 			var saveData = this.getData(formData);
 			saveData.record = formData.record;
-			this.validationMappingFields().done(function(data) {
+			this.validationMappingFields().done(function (data) {
 				if (data) {
 					var progressIndicatorElement = jQuery.progressIndicator({
 						position: 'html',
@@ -54,9 +54,11 @@ Settings_MappedFields_Edit_Js(
 							enabled: true
 						}
 					});
-					app.saveAjax('step2', saveData).done(function(data) {
+					app.saveAjax('step2', saveData).done(function (data) {
 						if (data.success == true) {
-							Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY') });
+							Settings_Vtiger_Index_Js.showMessage({
+								text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')
+							});
 							var mfRecordElement = jQuery('[name="record"]', form);
 							if (mfRecordElement.val() === '') {
 								mfRecordElement.val(data.result.id);
@@ -64,14 +66,14 @@ Settings_MappedFields_Edit_Js(
 							}
 							formData['record'] = data.result.id;
 							AppConnector.request(formData)
-								.done(function(data) {
+								.done(function (data) {
 									form.hide();
 									progressIndicatorElement.progressIndicator({
 										mode: 'hide'
 									});
 									aDeferred.resolve(data);
 								})
-								.fail(function(error, err) {
+								.fail(function (error, err) {
 									app.errorLog(error, err);
 								});
 						}
@@ -83,7 +85,7 @@ Settings_MappedFields_Edit_Js(
 
 			return aDeferred.promise();
 		},
-		getData: function(data) {
+		getData: function (data) {
 			var mappingData = [];
 			var mappingConditions = [];
 			for (var i in data) {
@@ -99,17 +101,17 @@ Settings_MappedFields_Edit_Js(
 			mappingConditions = jQuery.extend({}, mappingConditions);
 			return { mapping: mappingData, otherConditions: JSON.stringify(mappingConditions) };
 		},
-		registerCancelStepClickEvent: function(form) {
-			jQuery('button.cancelLink', form).on('click', function() {
+		registerCancelStepClickEvent: function (form) {
+			jQuery('button.cancelLink', form).on('click', function () {
 				window.history.back();
 			});
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			var container = this.getContainer();
 
 			var opts = app.validationEngineOptions;
 			// to prevent the page reload after the validation has completed
-			opts['onValidationComplete'] = function(form, valid) {
+			opts['onValidationComplete'] = function (form, valid) {
 				//returns the valid status
 				return valid;
 			};
@@ -122,9 +124,9 @@ Settings_MappedFields_Edit_Js(
 		/**
 		 * Function to register event for adding new convert to field mapping
 		 */
-		registerEventForAddingNewMapping: function() {
+		registerEventForAddingNewMapping: function () {
 			var thisInstance = this;
-			jQuery('#addMapping').on('click', function(e) {
+			jQuery('#addMapping').on('click', function (e) {
 				var mappingToGenerateTable = jQuery('#mappingToGenerate');
 				var lastSequenceNumber = mappingToGenerateTable.find('tr:not(.d-none)[sequence-number]').last();
 				var newSequenceNumber = thisInstance.getSequenceNumber(lastSequenceNumber) + 1;
@@ -135,17 +137,14 @@ Settings_MappedFields_Edit_Js(
 				newMapping.find('input.mappingType').attr('name', 'mapping[' + newSequenceNumber + '][type]');
 				newMapping.removeClass('d-none newMapping');
 				newMapping.appendTo(mappingToGenerateTable);
-				newMapping
-					.find('.newSelect')
-					.removeClass('newSelect')
-					.addClass('select2');
+				newMapping.find('.newSelect').removeClass('newSelect').addClass('select2');
 				var select2Elements = newMapping.find('.select2');
 				App.Fields.Picklist.showSelect2ElementView(select2Elements);
 				jQuery('select.targetFields', newMapping).trigger('change', false);
 				thisInstance.loadDefaultValueWidgetForMappedFields(newMapping.find('.select2'));
 			});
 		},
-		getSequenceNumber: function(element) {
+		getSequenceNumber: function (element) {
 			let sequenceNumber;
 			if (element.length) {
 				sequenceNumber = element.attr('sequence-number');
@@ -157,9 +156,9 @@ Settings_MappedFields_Edit_Js(
 		/**
 		 * Function to register on change event for select2 element
 		 */
-		registerOnChangeEventForSourceModule: function() {
+		registerOnChangeEventForSourceModule: function () {
 			var form = this.getContainer();
-			form.on('change', '.sourceFields', function(e) {
+			form.on('change', '.sourceFields', function (e) {
 				var element = jQuery(e.currentTarget);
 				var container = jQuery(element.closest('tr'));
 				var selectedValue = element.val();
@@ -167,19 +166,15 @@ Settings_MappedFields_Edit_Js(
 				var selectedDataType = selectedOption.data('type');
 				var mappingType = selectedOption.data('mappingtype');
 				var fieldsSelectElement = container.find('select.targetFields.select2');
-				var fieldsBasedOnType = form
-					.find('.newMapping')
-					.find('.targetFields')
-					.children()
-					.clone(true, true);
+				var fieldsBasedOnType = form.find('.newMapping').find('.targetFields').children().clone(true, true);
 				var options = jQuery('<div></div>');
 				container.find('.mappingType').val(mappingType);
-				fieldsBasedOnType.each(function(i, e) {
+				fieldsBasedOnType.each(function (i, e) {
 					var element = jQuery(e);
 					if (element.is('option') && (element.data('type') == selectedDataType || element.data('type') == 'none')) {
 						options.append(element);
 					} else if (element.is('optgroup') && element.find('[data-type="' + selectedDataType + '"]').length > 0) {
-						element.children().each(function(q, k) {
+						element.children().each(function (q, k) {
 							var option = jQuery(k);
 							if (option.data('type') !== selectedDataType) {
 								option.remove();
@@ -200,15 +195,15 @@ Settings_MappedFields_Edit_Js(
 		/**
 		 * Function to register event to delete mapping
 		 */
-		registerEventToDeleteMapping: function() {
+		registerEventToDeleteMapping: function () {
 			var form = this.getContainer();
-			form.on('click', '.deleteMapping', function(e) {
+			form.on('click', '.deleteMapping', function (e) {
 				var element = jQuery(e.currentTarget);
 				var trContainer = element.closest('tr');
 				trContainer.remove();
 			});
 		},
-		loadDefaultValueWidget: function(element) {
+		loadDefaultValueWidget: function (element) {
 			var thisInstance = this;
 			var id = element.val() + '_defaultvalue';
 			var affectedRow = jQuery('#defaultValuesElementsContainer').find('#' + id);
@@ -236,12 +231,12 @@ Settings_MappedFields_Edit_Js(
 			copyOfDefaultValue.appendTo(dafeultTd);
 			App.Fields.Picklist.showSelect2ElementView(dafeultTd.find('select'));
 		},
-		loadDefaultValueWidgetForMappedFields: function(fieldsList) {
+		loadDefaultValueWidgetForMappedFields: function (fieldsList) {
 			var thisInstance = this;
-			fieldsList.each(function(i, element) {
+			fieldsList.each(function (i, element) {
 				thisInstance.loadDefaultValueWidget(jQuery(this));
 			});
-			fieldsList.on('change', function(e) {
+			fieldsList.on('change', function (e) {
 				var element = jQuery(e.currentTarget);
 				thisInstance.loadDefaultValueWidget(element);
 			});
@@ -249,7 +244,7 @@ Settings_MappedFields_Edit_Js(
 		/**
 		 * Function to register events for edit view of fields mapping
 		 */
-		registerEventsForEditView: function() {
+		registerEventsForEditView: function () {
 			this.registerEventForAddingNewMapping();
 			this.registerOnChangeEventForSourceModule();
 			this.registerEventToDeleteMapping();
@@ -258,11 +253,11 @@ Settings_MappedFields_Edit_Js(
 		/*
 		 * Function to register on chnage event of target module
 		 */
-		validationMappingFields: function() {
+		validationMappingFields: function () {
 			let aDeferred = jQuery.Deferred(),
 				mappingTable = jQuery('#mappingToGenerate tr:not(.d-none)');
 
-			mappingTable.each(function(i, e) {
+			mappingTable.each(function (i, e) {
 				let breakSave = false,
 					sourceField = jQuery(this).find('.sourceFields :selected'),
 					targetField = jQuery(this).find('.targetFields :selected'),

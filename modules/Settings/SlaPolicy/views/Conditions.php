@@ -46,16 +46,4 @@ class Settings_SlaPolicy_Conditions_View extends Settings_Vtiger_Index_View
 		$viewer->view('ConditionBuilder.tpl', $qualifiedModuleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getFooterScripts(App\Request $request)
-	{
-		return array_merge(
-			parent::getFooterScripts($request),
-			$this->checkAndConvertJsScripts([
-				'modules.Vtiger.resources.ConditionBuilder'
-			])
-		);
-	}
 }

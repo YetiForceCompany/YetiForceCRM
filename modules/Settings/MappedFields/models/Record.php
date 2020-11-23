@@ -81,7 +81,7 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue(string  $key)
+	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
 		if ('status' === $key) {

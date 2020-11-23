@@ -31,11 +31,11 @@ class LanguagesUpdater extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if (\App\Installer\Languages::getToInstall()) {
+		if (\App\Installer\Languages::getToInstall() && \App\Security\AdminAccess::isPermitted('LangManagement')) {
 			$this->status = 0;
 			$this->link = 'index.php?parent=Settings&module=LangManagement&view=Index';
 			$this->linkTitle = \App\Language::translate('LBL_UPDATE', 'Settings:Base');
-			$this->description = \App\Language::translateArgs('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings');
+			$this->description = \App\Language::translate('LBL_LANGUAGES_UPDATER_DESC', 'Settings:SystemWarnings');
 		} else {
 			$this->status = 1;
 		}

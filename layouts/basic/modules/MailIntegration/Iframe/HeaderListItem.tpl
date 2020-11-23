@@ -6,7 +6,7 @@
 	{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($RECORD['module'])}
 	  <div class="d-flex w-100 align-items-center">
 			<a class="modCT_{$RECORD['module']} {if $DETAIL_VIEW_PERMITTED}js-record-link js-popover-tooltip--record{/if} small u-text-inherit text-truncate" {if $DETAIL_VIEW_PERMITTED}href="{$URL}index.php?module={$RECORD['module']}&view=Detail&record={$RECORD['id']}"{/if} target="_blank">
-				<span class="relatedModuleIcon yfm-{$RECORD['module']} mr-1" aria-hidden="true"></span>
+				<span class="relatedModuleIcon yfm-{$RECORD['module']} mr-2" aria-hidden="true"></span>
 				<span class="relatedName">{$RECORD['label']}</span>
 			</a>
 			{if $DETAIL_VIEW_PERMITTED}

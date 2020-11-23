@@ -1,6 +1,6 @@
 <?php
 /**
- * CalDav calendar class file.
+ * CalDav calendar file.
  *
  * @package   Integrations
  *
@@ -14,7 +14,7 @@ namespace App\Integrations\Dav;
 use Sabre\VObject;
 
 /**
- * Calendar class.
+ *  CalDav calendar class.
  */
 class Calendar
 {
@@ -378,20 +378,20 @@ class Calendar
 		$endHasTime = $startHasTime = false;
 		$endField = 'VEVENT' === ((string) $this->vcomponent->name) ? 'DTEND' : 'DUE';
 		if (isset($this->vcomponent->DTSTART)) {
-			$davStart = VObject\DateTimeParser::parse($this->vcomponent->DTSTART);
-			$dateStart = $davStart->format('Y-m-d');
-			$timeStart = $davStart->format('H:i:s');
+			$timeStamp = $this->vcomponent->DTSTART->getDateTime()->getTimeStamp();
+			$dateStart = date('Y-m-d', $timeStamp);
+			$timeStart = date('H:i:s', $timeStamp);
 			$startHasTime = $this->vcomponent->DTSTART->hasTime();
 		} else {
-			$davStart = VObject\DateTimeParser::parse($this->vcomponent->DTSTAMP);
-			$dateStart = $davStart->format('Y-m-d');
-			$timeStart = $davStart->format('H:i:s');
+			$timeStamp = $this->vcomponent->DTSTAMP->getDateTime()->getTimeStamp();
+			$dateStart = date('Y-m-d', $timeStamp);
+			$timeStart = date('H:i:s', $timeStamp);
 		}
 		if (isset($this->vcomponent->{$endField})) {
-			$davEnd = VObject\DateTimeParser::parse($this->vcomponent->{$endField});
+			$timeStamp = $this->vcomponent->{$endField}->getDateTime()->getTimeStamp();
 			$endHasTime = $this->vcomponent->{$endField}->hasTime();
-			$dueDate = $davEnd->format('Y-m-d');
-			$timeEnd = $davEnd->format('H:i:s');
+			$dueDate = date('Y-m-d', $timeStamp);
+			$timeEnd = date('H:i:s', $timeStamp);
 			if (!$endHasTime) {
 				$endTime = strtotime('-1 day', strtotime("$dueDate $timeEnd"));
 				$dueDate = date('Y-m-d', $endTime);
@@ -402,11 +402,22 @@ class Calendar
 			$dueDate = date('Y-m-d', $endTime);
 			$timeEnd = date('H:i:s', $endTime);
 		}
-		if (!$startHasTime && !$endHasTime) {
+		if (!$startHasTime && !$endHasTime && \App\User::getCurrentUserId()) {
 			$allDay = 1;
 			$currentUser = \App\User::getCurrentUserModel();
-			$timeStart = $currentUser->getDetail('start_hour') . ':00';
-			$timeEnd = $currentUser->getDetail('end_hour') . ':00';
+			$userTimeZone = new \DateTimeZone($currentUser->getDetail('time_zone'));
+			$sysTimeZone = new \DateTimeZone(\App\Fields\DateTime::getTimeZone());
+			[$hour , $minute] = explode(':', $currentUser->getDetail('start_hour'));
+			$date = new \DateTime('now', $userTimeZone);
+			$date->setTime($hour, $minute);
+			$date->setTimezone($sysTimeZone);
+			$timeStart = $date->format('H:i:s');
+
+			$date->setTimezone($userTimeZone);
+			[$hour , $minute] = explode(':', $currentUser->getDetail('end_hour'));
+			$date->setTime($hour, $minute);
+			$date->setTimezone($sysTimeZone);
+			$timeEnd = $date->format('H:i:s');
 		}
 		$this->record->set('allday', $allDay);
 		$this->record->set('date_start', $dateStart);
@@ -723,11 +734,11 @@ class Calendar
 			foreach ($attendees as &$attendee) {
 				$nameAttendee = isset($attendee->parameters['CN']) ? $attendee->parameters['CN']->getValue() : null;
 				$value = $attendee->getValue();
-				if (0 === strpos($value, 'mailto:')) {
+				if (0 === stripos($value, 'mailto:')) {
 					$value = substr($value, 7, \strlen($value) - 7);
 				}
-				if (\App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
-					throw new \Sabre\DAV\Exception\BadRequest('Invalid email');
+				if ($value && \App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
+					throw new \Sabre\DAV\Exception\BadRequest('Invalid email: ' . $value);
 				}
 				if (isset($attendee['ROLE']) && 'CHAIR' === $attendee['ROLE']->getValue()) {
 					$users = $this->findRecordByEmail($value, ['Users']);

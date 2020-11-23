@@ -396,6 +396,7 @@ class OSSMail_Mail_Model extends \App\Base
 			'modifiedby' => $userId,
 			'createdtime' => $useTime,
 			'modifiedtime' => $useTime,
+			'folderid' => 'T2'
 		];
 		if ($attachments = $this->get('attachments')) {
 			$maxSize = \App\Config::main('upload_maxsize');

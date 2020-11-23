@@ -16,28 +16,28 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Hosting';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'CloudHosting';
+
+	/** {@inheritdoc} */
 	public $pricesType = 'selection';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/marketplace/hosting-en';
+
+	/** {@inheritdoc} */
 	public $prices = [
-		'Micro' => 20,
-		'Small' => 50,
-		'Medium' => 100,
-		'Large' => 250,
-		'Corporation' => 1250,
+		'Micro' => 45,
+		'Small' => 85,
+		'Medium' => 165,
+		'Large' => 325,
+		'Corporation' => 645,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $customFields = [
 		'subdomain' => [
 			'label' => 'LBL_SHOP_DOMAIN_PREFIX',
@@ -53,21 +53,27 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 		]
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $companyDataForm = false;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function verify($cache = true): bool
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
 	{
-		return true;
+		return [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'Website',
+				'relatedModuleName' => '_Base',
+				'linkicon' => 'fas fa-globe',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => $this->website,
+				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+		];
 	}
 }

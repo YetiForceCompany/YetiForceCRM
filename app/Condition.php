@@ -64,7 +64,9 @@ class Condition
 		's' => 'LBL_STARTS_WITH',
 		'ew' => 'LBL_ENDS_WITH',
 		'c' => 'LBL_CONTAINS',
+		'ch' => 'LBL_CONTAINS_HIERARCHY',
 		'k' => 'LBL_DOES_NOT_CONTAIN',
+		'kh' => 'LBL_DOES_NOT_CONTAIN_HIERARCHY',
 		'l' => 'LBL_LESS_THAN',
 		'g' => 'LBL_GREATER_THAN',
 		'm' => 'LBL_LESS_THAN_OR_EQUAL',
@@ -311,5 +313,32 @@ class Condition
 			$recordField = new $className($recordModel, $fieldModel, $rule);
 		}
 		return $recordField->check();
+	}
+
+	/**
+	 * Get field names from conditions.
+	 *
+	 * @param array $conditions
+	 *
+	 * @return array ['baseModule' => [], 'referenceModule' => []]
+	 */
+	public static function getFieldsFromConditions(array $conditions): array
+	{
+		$fields = ['baseModule' => [], 'referenceModule' => []];
+		if (isset($conditions['rules'])) {
+			foreach ($conditions['rules'] as &$condition) {
+				if (isset($condition['condition'])) {
+					$condition = static::getFieldsFromConditions($condition);
+				} else {
+					[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $condition['fieldname']), 3, false);
+					if ($sourceFieldName) {
+						$fields['referenceModule'][$moduleName][$sourceFieldName] = $fieldName;
+					} else {
+						$fields['baseModule'][] = $fieldName;
+					}
+				}
+			}
+		}
+		return $fields;
 	}
 }

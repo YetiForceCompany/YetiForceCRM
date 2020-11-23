@@ -25,15 +25,15 @@ class Menu extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/BaseAction/Menu",
-	 *		summary="Base action menu into the system",
+	 *		path="/webservice/Menu",
+	 *		summary="Get menu into the system",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *    },
 	 *		@OA\RequestBody(
-	 *  			required=false,
-	 *  			description="Request body does not occur",
+	 *  		required=false,
+	 *  		description="Request body does not occur",
 	 *	  ),
 	 *    @OA\Parameter(
 	 *        name="X-ENCRYPTED",
@@ -42,19 +42,15 @@ class Menu extends \Api\Core\BaseAction
 	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *    ),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="Menu details",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseActionMenuResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/BaseActionMenuResponseBody"),
-	 *     		@OA\MediaType(
-	 *         		mediaType="text/html",
-	 *         		@OA\Schema(ref="#/components/schemas/BaseActionMenuResponseBody")
-	 *     		),
+	 *			response=200,
+	 *			description="Menu details",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseActionMenuResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseActionMenuResponseBody"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="BaseActionMenuResponseBody",
-	 * 		title="Base action menu",
+	 * 		title="Base action - Menu",
 	 * 		description="Base action menu response body",
 	 *		type="object",
 	 *  	@OA\Property(

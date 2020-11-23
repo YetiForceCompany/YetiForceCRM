@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Controller;
@@ -16,22 +17,7 @@ namespace App\Controller;
  */
 abstract class ModalSettings extends Modal
 {
-	/**
-	 * Only administrator user can access settings modal.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
-	 *
-	 * @return bool
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-		return true;
-	}
+	use Traits\SettingsPermission;
 
 	/**
 	 * Get modal scripts files that need to loaded in the modal.
@@ -63,5 +49,19 @@ abstract class ModalSettings extends Modal
 			"modules.Settings.Vtiger.$viewName",
 			"modules.Settings.{$request->getModule()}.$viewName"
 		]);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(\App\Request $request)
+	{
+		$moduleName = $request->getModule(false);
+		if (isset($this->pageTitle)) {
+			$pageTitle = \App\Language::translate($this->pageTitle, $moduleName);
+		} else {
+			$pageTitle = \App\Language::translate($request->getModule(), $moduleName);
+		}
+		return $pageTitle;
 	}
 }

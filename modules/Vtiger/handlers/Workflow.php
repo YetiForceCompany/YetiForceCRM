@@ -20,7 +20,7 @@ class Vtiger_Workflow_Handler
 	 */
 	public function entityChangeState(App\EventHandler $eventHandler)
 	{
-		if ($eventHandler->getRecordModel()->get('deleted') === 'Trash') {
+		if ('Trash' === $eventHandler->getRecordModel()->get('deleted')) {
 			$this->performTasks($eventHandler, [
 				VTWorkflowManager::$ON_DELETE
 			]);
@@ -85,7 +85,7 @@ class Vtiger_Workflow_Handler
 			$this->workflows[$moduleName] = $wfs->getWorkflowsForModule($moduleName);
 		}
 		foreach ($this->workflows[$moduleName] as &$workflow) {
-			if ($condition && !in_array($workflow->executionCondition, $condition)) {
+			if ($condition && !\in_array($workflow->executionCondition, $condition)) {
 				continue;
 			}
 			switch ($workflow->executionCondition) {
@@ -134,7 +134,6 @@ class Vtiger_Workflow_Handler
 				if (VTWorkflowManager::$ONCE == $workflow->executionCondition) {
 					$workflow->markAsCompletedForRecord($recordModel->getId());
 				}
-
 				$workflow->performTasks($recordModel);
 			}
 		}

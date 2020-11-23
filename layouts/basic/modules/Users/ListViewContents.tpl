@@ -113,13 +113,13 @@
 						<div class="row">
 							{assign var=IMAGE value=$LISTVIEW_ENTRY->getImage()}
 							{if $IMAGE}
-								<div class='col-md-6'>
+								<div class='col-md-12 px-0 text-center'>
 									<img src="{$IMAGE.url}"
-										 class="c-img__user" alt="{$LISTVIEW_ENTRY->getName()}"
+										 class="c-img__user rounded-circle" alt="{$LISTVIEW_ENTRY->getName()}"
 										 title="{$LISTVIEW_ENTRY->getName()}">
 								</div>
 							{else}
-								<div class='col-md-6'>
+								<div class='col-md-12 px-0 text-center'>
 									<img class="c-img__user" alt=""
 										 src="{\App\Layout::getImagePath('DefaultUserIcon.png')}">
 								</div>
@@ -136,11 +136,13 @@
 						{if $LISTVIEW_HEADER@last}
 							<div class="float-right actions">
 								<div class="actionImages flexWrapper">
-									<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'>
-										<span class="fas fa-retweet align-middle"
-											  title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}"></span>
-										<span class="sr-only">{\App\Language::translate('LBL_DUPLICATE', $MODULE)}</span>
-									</a>&nbsp;
+									{if $IS_MODULE_EDITABLE}
+										<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'>
+											<span class="fas fa-retweet align-middle"
+												title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}"></span>
+											<span class="sr-only">{\App\Language::translate('LBL_DUPLICATE', $MODULE)}</span>
+										</a>&nbsp;
+									{/if}
 									{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
 										<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT"
 										   href='{$LISTVIEW_ENTRY->getEditViewUrl()}'>

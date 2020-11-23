@@ -9,7 +9,6 @@
 'use strict';
 
 var Settings_Roles_Js = {
-
 	newPriviliges: false,
 
 	initDeleteView: function () {
@@ -25,8 +24,7 @@ var Settings_Roles_Js = {
 			popupInstance.retrieveSelectedRecords(function (data) {
 				try {
 					data = JSON.parse(data);
-				} catch (e) {
-				}
+				} catch (e) {}
 
 				if (typeof data == 'object') {
 					jQuery('[name="' + field + '_display"]').val(data.label);
@@ -46,16 +44,18 @@ var Settings_Roles_Js = {
 		jQuery('.roleEle').on('click', function (e) {
 			var target = $(e.currentTarget);
 			// jquery_windowmsg plugin expects second parameter to be string.
-			jQuery.triggerParentEvent('postSelection', JSON.stringify({
-				value: target.closest('li').data('roleid'),
-				label: target.text()
-			}));
+			jQuery.triggerParentEvent(
+				'postSelection',
+				JSON.stringify({
+					value: target.closest('li').data('roleid'),
+					label: target.text()
+				})
+			);
 			self.close();
 		});
 	},
 
 	initEditView: function () {
-
 		function applyMoveChanges(roleid, parent_roleid) {
 			var params = {
 				module: 'Roles',
@@ -63,7 +63,7 @@ var Settings_Roles_Js = {
 				parent: 'Settings',
 				record: roleid,
 				parent_roleid: parent_roleid
-			}
+			};
 
 			AppConnector.request(params).done(function (res) {
 				if (!res.success) {
@@ -88,7 +88,7 @@ var Settings_Roles_Js = {
 
 		jQuery('.toolbar-handle').on('mouseover', function (e) {
 			var target = $(e.currentTarget);
-			jQuery('.toolbar', target).css({display: 'inline'});
+			jQuery('.toolbar', target).css({ display: 'inline' });
 		});
 		jQuery('.toolbar-handle').on('mouseout', function (e) {
 			var target = $(e.currentTarget);
@@ -113,7 +113,7 @@ var Settings_Roles_Js = {
 			helper: function (event) {
 				var target = $(event.currentTarget);
 				var targetGroup = target.closest('li');
-				var timestamp = +(new Date());
+				var timestamp = +new Date();
 
 				var container = $('<div/>');
 				container.data('refid', timestamp);
@@ -176,25 +176,28 @@ var Settings_Roles_Js = {
 
 				if (form.data('jqv').InvalidFields.length <= 0) {
 					var formData = form.serializeFormData();
-					thisInstance.checkDuplicateName({
-						'rolename': formData.rolename,
-						'record': formData.record
-					}).done(function (data) {
-						form.data('submit', 'true');
-						form.data('performCheck', 'true');
-						form.submit();
-						jQuery.progressIndicator({
-							'blockInfo': {
-								'enabled': true
-							}
+					thisInstance
+						.checkDuplicateName({
+							rolename: formData.rolename,
+							record: formData.record
+						})
+						.done(function (data) {
+							form.data('submit', 'true');
+							form.data('performCheck', 'true');
+							form.submit();
+							jQuery.progressIndicator({
+								blockInfo: {
+									enabled: true
+								}
+							});
+						})
+						.fail(function (data, err) {
+							var params = {};
+							params['text'] = data['message'];
+							params['type'] = 'error';
+							Settings_Vtiger_Index_Js.showMessage(params);
+							return false;
 						});
-					}).fail(function (data, err) {
-						var params = {};
-						params['text'] = data['message'];
-						params['type'] = 'error';
-						Settings_Vtiger_Index_Js.showMessage(params);
-						return false;
-					});
 				} else {
 					//If validation fails, form should submit again
 					form.removeData('submit');
@@ -214,25 +217,27 @@ var Settings_Roles_Js = {
 		var aDeferred = jQuery.Deferred();
 
 		var params = {
-			'module': app.getModuleName(),
-			'parent': app.getParentModuleName(),
-			'action': 'EditAjax',
-			'mode': 'checkDuplicate',
-			'rolename': details.rolename,
-			'record': details.record
-		}
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			action: 'EditAjax',
+			mode: 'checkDuplicate',
+			rolename: details.rolename,
+			record: details.record
+		};
 
-		AppConnector.request(params).done(function (data) {
-			var response = data['result'];
-			var result = response['success'];
-			if (result == true) {
-				aDeferred.reject(response);
-			} else {
-				aDeferred.resolve(response);
-			}
-		}).fail(function (error, err) {
-			aDeferred.reject(error, err);
-		});
+		AppConnector.request(params)
+			.done(function (data) {
+				var response = data['result'];
+				var result = response['success'];
+				if (result == true) {
+					aDeferred.reject(response);
+				} else {
+					aDeferred.resolve(response);
+				}
+			})
+			.fail(function (error, err) {
+				aDeferred.reject(error, err);
+			});
 		return aDeferred.promise();
 	},
 	/**
@@ -257,7 +262,7 @@ var Settings_Roles_Js = {
 				app.removeEmptyFilesInput(form[0]);
 				let formData = new FormData(form[0]),
 					progressIndicatorElement = jQuery.progressIndicator({
-						blockInfo: {'enabled': true}
+						blockInfo: { enabled: true }
 					}),
 					notifyType = '';
 				AppConnector.request({
@@ -267,13 +272,13 @@ var Settings_Roles_Js = {
 					processData: false,
 					contentType: false
 				}).done(function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					if (true === data.result.success) {
 						notifyType = 'success';
 					} else {
 						notifyType = 'error';
 					}
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate(data.result.message),
 						type: notifyType
@@ -288,7 +293,7 @@ var Settings_Roles_Js = {
 		Settings_Roles_Js.initEditView();
 		Settings_Roles_Js.registerSubmitEvent();
 	}
-}
+};
 jQuery(document).ready(function () {
 	Settings_Roles_Js.registerEvents();
-})
+});

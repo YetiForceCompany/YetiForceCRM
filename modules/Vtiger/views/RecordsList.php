@@ -47,6 +47,10 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	 */
 	public function preProcessAjax(App\Request $request)
 	{
+		if ($request->has('modal_params')) {
+			$viewer = $this->getViewer($request);
+			$viewer->assign('MODAL_PARAMS', $request->getArray('modal_params'));
+		}
 		$moduleName = $request->getModule();
 		$this->modalIcon = "modCT_{$moduleName} yfm-{$moduleName}";
 		$this->initializeContent($request);
@@ -97,7 +101,8 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	public function initializeContent(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule($request);
+		$moduleName = $request->getModule();
+		$cvId = $request->getInteger('cvId');
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
 		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
 		$sourceModule = $request->getByType('src_module', 2);
@@ -106,7 +111,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$currencyId = $request->isEmpty('currency_id', true) ? '' : $request->getInteger('currency_id');
 		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
 		$relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
-		$filterFields = $request->getArray('filterFields', 'Alnum');
+		$filterFields = $request->getArray('filterFields', 'Text');
 		$showSwitch = $request->getInteger('showSwitch');
 		//Check whether the request is in multi select mode
 		if ($request->isEmpty('multi_select', true)) {
@@ -148,17 +153,25 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				}
 			}
 		} elseif (!empty($filterFields['parent_id']) && 0 !== $relatedParentId) {
-			$linkRecord = $filterFields['parent_id'];
+			$linkRecord = (int) $filterFields['parent_id'];
 			$linkModule = \App\Record::getType($linkRecord);
 			if (\in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
 				$showSwitch = true;
 				$relatedParentModule = $linkModule;
 				$relatedParentId = $linkRecord;
 			}
-		} elseif (!$request->has('related_parent_id') && $sourceRecord && \App\Record::isExists($sourceRecord) && ($filterModules = App\ModuleHierarchy::getRecordsListFilter($moduleName)) && isset($filterModules[$sourceModule])) {
-			['fieldName' => $filterFieldName, 'moduleName' => $filterModuleName] = $filterModules[$sourceModule];
-			$relId = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule)->get($filterFieldName);
-			if ($relId && ('all' === $sourceModule || $filterModuleName === \App\Record::getType($relId))) {
+		} elseif (!$request->has('related_parent_id') && ($listFilterFields = App\ModuleHierarchy::getRecordsListFilter($moduleName)) && isset($listFilterFields[$sourceModule])) {
+			$filter = $listFilterFields[$sourceModule];
+			if (isset($filterFields[$filter['fieldName']]) && ('all' === $sourceModule || $filter['moduleName'] === \App\Record::getType($filterFields[$filter['fieldName']]))) {
+				$relId = $filterFields[$filter['fieldName']];
+				$filterModuleName = $filter['moduleName'];
+				if (isset($filter['relatedFieldName'])) {
+					$filterId = Vtiger_Record_Model::getInstanceById($relId, $filter['moduleName'])->get($filter['relatedFieldName']);
+					if ($filter['relatedModuleName'] === \App\Record::getType($filterId)) {
+						$relId = $filterId;
+						$filterModuleName = $filter['relatedModuleName'];
+					}
+				}
 				$relatedParentModule = $filterModuleName;
 				$relatedParentId = $relId;
 				$showSwitch = true;
@@ -172,9 +185,9 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			if (!$parentRecordModel->isViewable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
-			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
+			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, 0, $cvId);
 		} else {
-			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
+			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule, $cvId);
 		}
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
@@ -197,10 +210,12 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			}
 			$searchKey = $request->getByType('search_key', 'Alnum');
 			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $listViewModel->getQueryGenerator()->getModule(), $searchKey, $operator);
+			$listViewModel->set('operator', $operator);
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_VALUE', $searchValue);
+			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
 		$searchParmams = App\Condition::validSearchParams($listViewModel->getQueryGenerator()->getModule(), $request->getArray('search_params'));
 		if (empty($searchParmams)) {
@@ -213,6 +228,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+				$fieldSearchInfo['specialOption'] = \in_array($fieldSearchInfo[1], ['ch', 'kh']) ? true : '';
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
@@ -265,5 +281,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('RECORD_SELECTED', $request->getBoolean('record_selected', false));
+		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($request->getModule()));
+		$viewer->assign('CV_ID', $cvId);
 	}
 }

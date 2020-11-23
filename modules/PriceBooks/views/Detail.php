@@ -30,7 +30,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 			$_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;
 		}
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
-		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
+		$totalCount = $request->isEmpty('totalCount', true) ? 0 : $request->getInteger('totalCount');
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		if ($request->has('limit')) {
@@ -38,6 +38,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'));
+
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
 			$moduleInstance = $relationListView->getRelatedModuleModel()->getEntityInstance();
@@ -73,17 +74,34 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		//To make smarty to get the details easily accesible
 		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
-				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
-				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
-				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? null;
+				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2] ?? '';
+				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0] ?? '';
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? '';
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
+		}
+		$showHeader = true;
+		if ($request->has('showHeader')) {
+			$showHeader = $request->getBoolean('showHeader');
+		}
+		if ($showHeader) {
+			$links = $relationListView->getLinks();
+			if (!($request->has('showViews') ? $request->getBoolean('showViews') : true)) {
+				unset($links['RELATEDLIST_VIEWS']);
+				$relatedView = 'List';
+			}
+			if (!($request->has('showMassActions') ? $request->getBoolean('showMassActions') : true)) {
+				unset($links['RELATEDLIST_MASSACTIONS']);
+			}
+			$viewer->assign('RELATED_LIST_LINKS', $links);
 		}
 		if ('ListPreview' === $relatedView) {
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
+		if ($request->has('quickSearchEnabled')) {
+			$relationListView->set('quickSearchEnabled', $request->getBoolean('quickSearchEnabled'));
+		}
 		$models = $relationListView->getEntries($pagingModel);
-		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
 
@@ -91,18 +109,20 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_VIEW', $relatedView);
-		$viewer->assign('RELATED_LIST_LINKS', $links);
+		$viewer->assign('SHOW_SUMMATION_ROW', $request->has('showSummation') ? $request->getBoolean('showSummation') : true);
+		$viewer->assign('SHOW_HEADER', $showHeader);
+		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
+		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
 		$viewer->assign('RELATED_ENTIRES_COUNT', \count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
-		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			$totalCount = $relationListView->getRelatedEntriesCount();
+		if (\App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+			$totalCount = (int) $relationListView->getRelatedEntriesCount();
+			$pagingModel->set('totalCount', $totalCount);
+		} elseif (!empty($totalCount)) {
+			$pagingModel->set('totalCount', $totalCount);
 		}
-		if (empty($totalCount)) {
-			$totalCount = 0;
-		}
-		$pagingModel->set('totalCount', (int) $totalCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
@@ -112,8 +132,6 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
-		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
-		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$isFavorites = false;
 		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
@@ -126,6 +144,14 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->getByType('view'));
+		$viewer->assign('SHOW_RELATED_WIDGETS', \in_array($relationModel->getId(), App\Config::module($moduleName, 'showRelatedWidgetsByDefault', [])));
+		if ($relationListView->isWidgetsList()) {
+			$viewer->assign('IS_WIDGETS', true);
+			$viewer->assign('HIERARCHY_VALUE', App\Config::module('ModComments', 'DEFAULT_SOURCE'));
+			$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($relatedModuleName));
+		} else {
+			$viewer->assign('IS_WIDGETS', false);
+		}
 		return $viewer->view('RelatedList.tpl', $moduleName, true);
 	}
 }

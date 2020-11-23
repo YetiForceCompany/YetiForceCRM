@@ -23,7 +23,7 @@ class HelpDesk_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getHierarchyCount(\App\Request $request)
+	public function getHierarchyCount(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$recordId = $request->getInteger('record');
@@ -33,7 +33,7 @@ class HelpDesk_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$moduleModel = \Vtiger_Module_Model::getInstance($sourceModule);
 		$hierarchy = $moduleModel->getHierarchy($recordId);
 		$response = new Vtiger_Response();
-		$response->setResult(count($hierarchy['entries']) - 1);
+		$response->setResult(\count($hierarchy['entries']) - 1);
 		$response->emit();
 	}
 }

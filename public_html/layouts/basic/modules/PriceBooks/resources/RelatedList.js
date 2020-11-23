@@ -11,8 +11,8 @@ Vtiger_RelatedList_Js(
 			if (self.checkListRecordSelected() !== true) {
 				app.showModalWindow({
 					url: 'index.php?module=PriceBooks&view=SpecifyMargin',
-					cb: modalContainer => {
-						modalContainer.find('.js-modal__save').on('click', e => {
+					cb: (modalContainer) => {
+						modalContainer.find('.js-modal__save').on('click', (e) => {
 							let element = modalContainer.find('.js-margin');
 							let resultOfValidation = Vtiger_NumberUserFormat_Validator_Js.invokeValidation(element);
 							if (typeof resultOfValidation !== 'undefined') {
@@ -29,7 +29,7 @@ Vtiger_RelatedList_Js(
 								postData.relatedModule = self.moduleName;
 								postData.record = self.getParentId();
 								postData.margin = element.val();
-								AppConnector.request(postData).done(response => {
+								AppConnector.request(postData).done((response) => {
 									if (response.success) {
 										Vtiger_Detail_Js.reloadRelatedList();
 										app.hideModalWindow();
@@ -50,7 +50,7 @@ Vtiger_RelatedList_Js(
 			let thisInstance = this;
 			let element = this.content.find('.js-edit-listprice');
 			element.validationEngine(app.validationEngineOptions);
-			element.on('change', e => {
+			element.on('change', (e) => {
 				e.stopPropagation();
 				let element = $(e.currentTarget);
 				element.formatNumber();
@@ -65,7 +65,10 @@ Vtiger_RelatedList_Js(
 						price: element.val()
 					}).done(function (responseData) {
 						if (responseData.result) {
-							Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success' });
+							app.showNotify({
+								text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+								type: 'success'
+							});
 						}
 					});
 				}

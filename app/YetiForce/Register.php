@@ -1,6 +1,7 @@
 <?php
 /**
- * YetiForce register class.
+ * YetiForce register file.
+ * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
  *
  * @package   App
  *
@@ -92,6 +93,7 @@ class Register
 			'insKey' => static::getInstanceKey(),
 			'crmKey' => static::getCrmKey(),
 			'package' => \App\Company::getSize(),
+			'provider' => static::getProvider(),
 			'companies' => \App\Company::getAll(),
 		];
 	}
@@ -106,16 +108,14 @@ class Register
 		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			$this->error = 'ERR_NO_INTERNET_CONNECTION';
-
 			return false;
 		}
 		$result = false;
 		try {
-			$response = (new \GuzzleHttp\Client())
-				->post(static::$registrationUrl . 'add',
-					\App\RequestHttp::getOptions() + [
-						'form_params' => $this->getData()
-					]);
+			$url = static::$registrationUrl . 'add';
+			\App\Log::beginProfile("POST|Register::register|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client())->post($url, array_merge_recursive(\App\RequestHttp::getOptions(), ['form_params' => $this->getData()]));
+			\App\Log::endProfile("POST|Register::register|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
@@ -159,14 +159,18 @@ class Register
 		$status = 0;
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(static::$registrationUrl . 'check', [
-				'form_params' => \array_merge($conf, [
+			$url = static::$registrationUrl . 'check';
+			\App\Log::beginProfile("POST|Register::check|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
+				'form_params' => \array_merge_recursive($conf, [
 					'version' => \App\Version::get(),
 					'crmKey' => static::getCrmKey(),
 					'insKey' => static::getInstanceKey(),
+					'provider' => static::getProvider(),
 					'package' => \App\Company::getSize(),
 				])
 			]);
+			\App\Log::endProfile("POST|Register::check|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
@@ -371,5 +375,19 @@ class Register
 			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE', 3);
 		}
 		return $status;
+	}
+
+	/**
+	 * Get provider.
+	 *
+	 * @return string
+	 */
+	public static function getProvider(): string
+	{
+		$path = \ROOT_DIRECTORY . '/app_data/installSource.txt';
+		if (\file_exists($path)) {
+			return trim(file_get_contents($path));
+		}
+		return getenv('PROVIDER') ?: getenv('provider') ?: '';
 	}
 }

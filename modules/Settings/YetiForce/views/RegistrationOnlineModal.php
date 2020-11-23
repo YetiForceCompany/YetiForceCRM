@@ -28,7 +28,7 @@ class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\Mo
 	 *
 	 * @param \App\Request $request
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$this->modalIcon = 'fas fa-globe';
@@ -41,7 +41,7 @@ class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\Mo
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('REGISTER_COMPANIES', $this->prepareCompanies());

@@ -15,7 +15,7 @@ class Announcements_Detail_View extends Vtiger_Detail_View
 		$this->exposeMethod('showUsers');
 	}
 
-	public function showUsers(\App\Request $request)
+	public function showUsers(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();

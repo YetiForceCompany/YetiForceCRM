@@ -75,7 +75,11 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPicklistValues()
 	{
-		return \App\Fields\Country::getAll('uitype');
+		$values = [];
+		foreach(\App\Fields\Country::getAll('uitype') as $key=>$data){
+			$values[$key] = \App\Language::translateSingleMod($key, 'Other.Country');
+		}
+		return $values;
 	}
 
 	/**

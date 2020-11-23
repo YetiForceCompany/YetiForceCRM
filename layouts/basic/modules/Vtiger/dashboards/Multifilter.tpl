@@ -30,8 +30,10 @@
 			<div class="col-sm-12">
 				<div class="input-group input-group-sm">
 					<select name="customMultiFilter"
-							class="js-select select2 widgetFilter form-control customFilter"
-							data-js="container" multiple="multiple"
+							class="js-select select2 form-control widgetFilter"
+							multiple="multiple"
+							data-select-cb="registerSelectSortable"
+							data-js="container"
 							title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 						{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAll()}
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
@@ -39,15 +41,23 @@
 								{if !(\App\Privilege::isPermitted({$GROUP_CUSTOM_VIEWS->module->name}))}
 									{continue}
 								{/if}
-								<option title="{\App\Language::translate($GROUP_CUSTOM_VIEWS->module->name)}"
-										data-module="{$GROUP_CUSTOM_VIEWS->module->name}"
-										value="{$GROUP_CUSTOM_VIEWS->get('cvid')}" {if in_array($GROUP_CUSTOM_VIEWS->get('cvid'),$WIDGET_ACTIVE_FILTERS)} selected {/if}>
+								<option data-module="{$GROUP_CUSTOM_VIEWS->module->name}"
+										value="{$GROUP_CUSTOM_VIEWS->get('cvid')}"
+										{if in_array($GROUP_CUSTOM_VIEWS->get('cvid'), $WIDGET_ACTIVE_FILTERS)}
+											data-sort-index="{array_search($GROUP_CUSTOM_VIEWS->get('cvid'), $WIDGET_ACTIVE_FILTERS)}"
+											selected="selected"
+										{/if}>
 									{\App\Language::translate($GROUP_CUSTOM_VIEWS->module->name,$GROUP_CUSTOM_VIEWS->module->name)}
 									-{\App\Language::translate($GROUP_CUSTOM_VIEWS->get('viewname'), $GROUP_CUSTOM_VIEWS->module->name)}
 								</option>
 							{/foreach}
 						{/foreach}
 					</select>
+					<div class="input-group-append">
+						<button type="button" class="js-multifilter-save btn btn-success" title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}">
+							<span class="fa fa-save" title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}"></span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -2,7 +2,7 @@
 // show/hide password
 'use strict';
 var clipBoardInstances = [];
-$('.show_pass').on('click', function(e) {
+$('.show_pass').on('click', function (e) {
 	let btn = $(this);
 	let record = btn.data('id');
 	let iconElement = btn.find('span');
@@ -17,8 +17,8 @@ $('.show_pass').on('click', function(e) {
 
 	if (clipBoardInstances[copyKey] === undefined) {
 		let clipboard = new ClipboardJS(copyKey, {
-			text: function(trigger) {
-				Vtiger_Helper_Js.showPnotify({
+			text: function (trigger) {
+				app.showNotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success'
 				});
@@ -39,12 +39,12 @@ $('.show_pass').on('click', function(e) {
 				enabled: true
 			}
 		});
-		AppConnector.request(params).done(function(data) {
+		AppConnector.request(params).done(function (data) {
 			var response = data['result'];
 			if (response['success']) {
 				element.text(response['password']);
 				// change button title to 'Hide Password'
-				btn.on('show.bs.popover', function() {
+				btn.on('show.bs.popover', function () {
 					this.dataset.content = hidePassText;
 				});
 				iconElement.removeClass('adminIcon-passwords-encryption').addClass('fas fa-lock');
@@ -56,7 +56,7 @@ $('.show_pass').on('click', function(e) {
 	} else {
 		element.html('**********');
 		// change button title to 'Show Password'
-		btn.on('show.bs.popover', function() {
+		btn.on('show.bs.popover', function () {
 			this.dataset.content = showPassText;
 		});
 		app.showPopoverElementView(element);

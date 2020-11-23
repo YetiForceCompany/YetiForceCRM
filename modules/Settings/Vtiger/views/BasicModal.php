@@ -9,7 +9,7 @@
  */
 class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 {
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->getByType('view', 1);
@@ -19,7 +19,7 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		foreach ($this->getModalScripts($request) as $script) {
 			echo '<script type="' . $script->getType() . '" src="' . $script->getSrc() . '"></script>';
@@ -27,19 +27,19 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 		echo '</div></div></div>';
 	}
 
-	public function getSize(\App\Request $request)
+	public function getSize(App\Request $request)
 	{
 		return '';
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
 		//Content
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(\App\Request $request)
+	public function getModalScripts(App\Request $request)
 	{
 		$viewName = $request->getByType('view', 1);
 		return $this->checkAndConvertJsScripts([
@@ -48,7 +48,7 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 		]);
 	}
 
-	public function getModalCss(\App\Request $request)
+	public function getModalCss(App\Request $request)
 	{
 		$viewName = $request->getByType('view', 1);
 		return $this->checkAndConvertCssStyles([

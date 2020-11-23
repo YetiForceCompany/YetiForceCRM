@@ -80,12 +80,12 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		}
 		if (!$request->isEmpty('search_key', true)) {
 			$searchKey = $request->getByType('search_key', 'Alnum');
-			$serchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relatedModuleName, $searchKey, $operator);
+			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relationListView->getQueryGenerator()->getModule(), $searchKey, $operator);
 			$relationListView->set('search_key', $searchKey);
-			$relationListView->set('search_value', $serchValue);
-			$viewer->assign('ALPHABET_VALUE', $serchValue);
+			$relationListView->set('search_value', $searchValue);
+			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
-		$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
+		$searchParmams = App\Condition::validSearchParams($relationListView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
 		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -101,19 +101,41 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
+		$showHeader = true;
+		if ($request->has('showHeader')) {
+			$showHeader = $request->getBoolean('showHeader');
+		}
+		if ($showHeader) {
+			$links = $relationListView->getLinks();
+			if (!($request->has('showViews') ? $request->getBoolean('showViews') : true)) {
+				unset($links['RELATEDLIST_VIEWS']);
+				$relatedView = 'List';
+			}
+			if (!($request->has('showMassActions') ? $request->getBoolean('showMassActions') : true)) {
+				unset($links['RELATEDLIST_MASSACTIONS']);
+			}
+			$viewer->assign('RELATED_LIST_LINKS', $links);
+		}
 		if ('ListPreview' === $relatedView) {
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
+		if ($request->has('quickSearchEnabled')) {
+			$relationListView->set('quickSearchEnabled', $request->getBoolean('quickSearchEnabled'));
+		}
 		$models = $relationListView->getEntries($pagingModel);
-		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
-
+		if ($request->has('sortEnabled')) {
+			$relationListView->set('advSortEnabled', $request->getBoolean('sortEnabled'));
+		}
 		$viewer->assign('VIEW_MODEL', $relationListView);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_VIEW', $relatedView);
-		$viewer->assign('RELATED_LIST_LINKS', $links);
+		$viewer->assign('SHOW_SUMMATION_ROW', $request->has('showSummation') ? $request->getBoolean('showSummation') : true);
+		$viewer->assign('SHOW_HEADER', $showHeader);
+		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
+		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
 		$viewer->assign('RELATED_ENTIRES_COUNT', \count($models));
@@ -133,8 +155,6 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
-		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
-		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$isFavorites = false;
 		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
@@ -147,7 +167,14 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->getByType('view'));
-
+		$viewer->assign('SHOW_RELATED_WIDGETS', \in_array($relationModel->getId(), App\Config::module($moduleName, 'showRelatedWidgetsByDefault', [])));
+		if ($relationListView->isWidgetsList()) {
+			$viewer->assign('IS_WIDGETS', true);
+			$viewer->assign('HIERARCHY_VALUE', App\Config::module('ModComments', 'DEFAULT_SOURCE'));
+			$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($relatedModuleName));
+		} else {
+			$viewer->assign('IS_WIDGETS', false);
+		}
 		return $viewer->view('RelatedList.tpl', $moduleName, true);
 	}
 }

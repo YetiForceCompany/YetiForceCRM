@@ -98,19 +98,19 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function hadTimedout()
 	{
+		$maxTaskTime = $this->get('max_exe_time');
 		$lastEnd = (int) $this->get('lastend');
 		$lastStart = (int) $this->get('laststart');
 		if ($lastEnd < $lastStart && !$this->isRunning()) {
 			return true;
 		}
-
-		$maxExecutionTime = (int) \App\Config::main('maxExecutionCronTime');
-		$iniMaxExecutionTime = (int) ini_get('max_execution_time');
-		if ($maxExecutionTime > $iniMaxExecutionTime) {
-			$maxExecutionTime = $iniMaxExecutionTime;
-		}
-		if ($lastEnd < $lastStart && $this->isRunning() && time() > ($lastStart + $maxExecutionTime)) {
-			return true;
+		if ($lastEnd < $lastStart && $this->isRunning()) {
+			if (time() > ($lastStart + \App\Cron::getMaxExecutionTime())) {
+				return true;
+			}
+			if (!empty($maxTaskTime) && time() > ($lastStart + ($maxTaskTime * 60))) {
+				return true;
+			}
 		}
 		return false;
 	}

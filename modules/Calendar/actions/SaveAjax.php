@@ -14,21 +14,20 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function saveRecord(\App\Request $request)
+	public function saveRecord(App\Request $request)
 	{
-		$recordModel = parent::saveRecord($request);
-		if ($request->getBoolean('postponed') && ($relId = $recordModel->get('followup')) && \App\Privilege::isPermitted($recordModel->getModuleName(), 'ActivityPostponed', $relId)) {
-			$relRecord = Vtiger_Record_Model::getInstanceById($relId, $recordModel->getModuleName());
+		parent::saveRecord($request);
+		if ($request->getBoolean('postponed') && ($relId = $this->record->get('followup')) && \App\Privilege::isPermitted($this->record->getModuleName(), 'ActivityPostponed', $relId)) {
+			$relRecord = Vtiger_Record_Model::getInstanceById($relId, $this->record->getModuleName());
 			$relRecord->set('activitystatus', 'PLL_POSTPONED');
 			$relRecord->save();
 		}
-		return $recordModel;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getRecordModelFromRequest(\App\Request $request)
+	public function getRecordModelFromRequest(App\Request $request)
 	{
 		if (!$request->isEmpty('record') && !$request->has('field')) {
 			$className = Vtiger_Loader::getComponentClassName('Action', 'Save', $request->getModule());

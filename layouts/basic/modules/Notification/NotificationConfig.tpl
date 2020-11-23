@@ -41,7 +41,7 @@
 								{if $CRON_ACTIVE && $IS_PERMITTED}
 									<span class="sentNotice d-flex u-cursor-pointer">
 												<span title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $MODULE)}"
-													  class="fas {if in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-open sandNoticeOff{/if} fa-lg cursorPointer"
+													  class="fas {if $SCHEDULE_DATA && in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-open sandNoticeOff{/if} fa-lg cursorPointer"
 													  data-val=""></span></span>
 								{/if}
 								<span class="d-flex ml-1">

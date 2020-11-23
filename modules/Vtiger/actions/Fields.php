@@ -28,7 +28,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if('verifyPhoneNumber' !== $request->getMode()){
+		if ('verifyPhoneNumber' !== $request->getMode()) {
 			$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);

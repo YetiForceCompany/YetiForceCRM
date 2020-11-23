@@ -12,6 +12,13 @@ namespace App\Layout;
  */
 class Icon
 {
+	/**
+	 * Icons.
+	 *
+	 * @var array
+	 */
+	protected static $icons;
+
 	private static $extensionIcon = [
 		'application/pdf' => 'far fa-file-pdf',
 		'application/msword' => 'far fa-file-word',
@@ -60,5 +67,142 @@ class Icon
 			$fileIcon = 'yfm-Documents';
 		}
 		return $fileIcon;
+	}
+
+	/**
+	 * Init icons data.
+	 *
+	 * @return void
+	 */
+	public static function init()
+	{
+		if (!isset(static::$icons)) {
+			static::$icons = require 'app_data/icons.php';
+		}
+	}
+
+	/**
+	 * Get user icons.
+	 *
+	 * @return array
+	 */
+	public static function getUserIcons(): array
+	{
+		$icons = [];
+		foreach (self::$icons['user'] as $icon) {
+			$icons[] = ['type' => 'icon', 'name' => 'yfm-' . $icon];
+		}
+		return $icons;
+	}
+
+	/**
+	 * Get admin icons.
+	 *
+	 * @return array
+	 */
+	public static function getAdminIcons(): array
+	{
+		$icons = [];
+		foreach (self::$icons['admin'] as $icon) {
+			$icons[] = ['type' => 'icon', 'name' => 'adminIcon-' . $icon];
+		}
+		return $icons;
+	}
+
+	/**
+	 * Get additional icons.
+	 *
+	 * @return array
+	 */
+	public static function getAdditionalIcons(): array
+	{
+		$icons = [];
+		foreach (self::$icons['additional'] as $icon) {
+			$icons[] = ['type' => 'icon', 'name' => 'AdditionalIcon-' . $icon];
+		}
+		return $icons;
+	}
+
+	/**
+	 * Get fa icons.
+	 *
+	 * @return array
+	 */
+	public static function getFontAwesomeIcons(): array
+	{
+		$icons = [];
+		foreach (self::$icons['fa'] as $icon) {
+			$icons[] = ['type' => 'icon', 'name' => $icon];
+		}
+		return $icons;
+	}
+
+	/**
+	 * Get mdi icons.
+	 *
+	 * @return array
+	 */
+	public static function getMaterialDesignIcons(): array
+	{
+		$icons = [];
+		foreach (self::$icons['mdi'] as $icon) {
+			$icons[] = ['type' => 'icon', 'name' => 'mdi mdi-' . $icon];
+		}
+		return $icons;
+	}
+
+	/**
+	 * Get yeti icons.
+	 *
+	 * @return array
+	 */
+	public static function getYetiForceIcons(): array
+	{
+		$icons = [];
+		foreach (self::$icons['yfi'] as $icon) {
+			$icons[] = ['type' => 'icon', 'name' => 'yfi-' . $icon];
+		}
+		foreach (self::$icons['yfm'] as $icon) {
+			$icons[] = ['type' => 'icon', 'name' => 'yfm-' . $icon];
+		}
+		return $icons;
+	}
+
+	/**
+	 * Get icon images.
+	 *
+	 * @return array
+	 */
+	public static function getImageIcons(): array
+	{
+		$images = [];
+		$path = 'public_html' . \DIRECTORY_SEPARATOR . 'layouts' . \DIRECTORY_SEPARATOR . \App\Layout::getActiveLayout() . \DIRECTORY_SEPARATOR . 'images' . \DIRECTORY_SEPARATOR;
+		$dir = new \DirectoryIterator($path);
+		foreach ($dir as $fileinfo) {
+			$file = $fileinfo->getFilename();
+			if (!$fileinfo->isDot()) {
+				$images[] = ['type' => 'image', 'name' => $file, 'path' => \Vtiger_Theme::getImagePath($file)];
+			}
+		}
+		return $images;
+	}
+
+	/**
+	 * Get all icons and images.
+	 *
+	 * @return array
+	 */
+	public static function getAll(): array
+	{
+		static::init();
+		return array_merge(
+			self::getImageIcons(),
+			self::getUserIcons(),
+			self::getAdminIcons(),
+			self::getAdditionalIcons(),
+			self::getYetiForceIcons(),
+			self::getFontAwesomeIcons(),
+			self::getMaterialDesignIcons()
+		);
 	}
 }

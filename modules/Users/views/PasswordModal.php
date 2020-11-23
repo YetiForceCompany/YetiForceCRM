@@ -3,6 +3,8 @@
 /**
  * Reset password modal view class.
  *
+ * @package   View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -74,6 +76,11 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 			$title .= ' - ' . App\Fields\Owner::getUserLabel($record);
 		}
 		$this->pageTitle = $title;
+		if (App\User::getCurrentUserId() === $request->getInteger('record')) {
+			if (1 === (int) App\User::getCurrentUserModel()->getDetail('force_password_change') || 'pwned' === $request->getByType('type') || 2 === (int) \App\Session::get('ShowUserPasswordChange')) {
+				$this->lockExit = true;
+			}
+		}
 		parent::preProcessAjax($request);
 	}
 
@@ -91,7 +98,7 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		$viewer->assign('MODE_TITLE', 'LBL_RESET_PASSWORD_HEAD');
 		$viewer->assign('RECORD', $request->getInteger('record'));
 		$viewer->assign('ACTIVE_SMTP', App\Mail::getDefaultSmtp());
-		$viewer->view('PasswordModal.tpl', $moduleName);
+		$viewer->view('Modals/PasswordModal.tpl', $moduleName);
 	}
 
 	/**
@@ -113,24 +120,25 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		if (App\User::getCurrentUserId() === $request->getInteger('record')) {
 			$userModel = App\User::getCurrentUserModel();
 			if (1 === (int) $userModel->getDetail('force_password_change')) {
-				$this->modalClass = 'static';
-				$viewer->assign('LOCK_EXIT', true);
 				$viewer->assign('WARNING', \App\Language::translate('LBL_FORCE_PASSWORD_CHANGE_ALERT', 'Users'));
 			} elseif ('pwned' === $request->getByType('type')) {
 				$viewer->assign('WARNING', \App\Language::translate('LBL_PWNED_PASSWORD_CHANGE_ALERT', 'Users'));
 			} else {
-				$time = (int) $passConfig['change_time'];
-				if (0 !== $time) {
-					$time += (int) $passConfig['lock_time'];
-					if (date('Y-m-d') > date('Y-m-d', strtotime("+{$passConfig['change_time']} day", strtotime($userModel->getDetail('date_password_change'))))) {
+				switch ((int) \App\Session::get('ShowUserPasswordChange')) {
+					case 1:
+						$time = (int) $passConfig['change_time'] + (int) $passConfig['lock_time'];
 						$viewer->assign('WARNING', \App\Language::translateArgs('LBL_YOUR_PASSWORD_WILL_EXPIRE', $moduleName, \App\Fields\DateTime::getDiff(date('Y-m-d'), date('Y-m-d', strtotime("+$time day", strtotime($userModel->getDetail('date_password_change')))), 'days')));
-					}
+						\App\Session::delete('ShowUserPasswordChange');
+						break;
+					case 2:
+						$viewer->assign('WARNING', \App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', 'Users'));
+						break;
 				}
 			}
 		} else {
 			$viewer->assign('WARNING', \App\Language::translate('LBL_CHANGING_PASSWORD_OF_ANOTHER_USER', 'Users'));
 		}
-		$viewer->view('PasswordModal.tpl', $moduleName);
+		$viewer->view('Modals/PasswordModal.tpl', $moduleName);
 	}
 
 	/**
@@ -149,7 +157,7 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', 2));
 		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 2));
 		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params'), false));
-		$viewer->view('PasswordModal.tpl', $moduleName);
+		$viewer->view('Modals/PasswordModal.tpl', $moduleName);
 	}
 
 	/**

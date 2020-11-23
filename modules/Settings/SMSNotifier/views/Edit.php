@@ -19,7 +19,7 @@ class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_BasicModal_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		$moduleName = $request->getModule(false);
@@ -36,7 +36,7 @@ class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_BasicModal_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		parent::preProcess($request);
 		$qualifiedModuleName = $request->getModule(false);

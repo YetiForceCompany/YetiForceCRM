@@ -34,7 +34,7 @@ class Vtiger_GetManyToMany_Relation implements RelationInterface
 				'or',
 				[$referenceInfo['table'] . '.' . $referenceInfo['base'] => $recordId],
 				[$referenceInfo['table'] . '.' . $referenceInfo['rel'] => $recordId]
-			]);
+			])->addCondition('id', $recordId, 'n');
 		} else {
 			$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], "{$referenceInfo['table']}.{$referenceInfo['rel']} = vtiger_crmentity.crmid"])
 				->addNativeCondition([$referenceInfo['table'] . '.' . $referenceInfo['base'] => $recordId]);

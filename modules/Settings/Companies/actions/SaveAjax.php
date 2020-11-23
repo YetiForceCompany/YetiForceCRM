@@ -26,7 +26,7 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @return array
 	 */
-	public function updateCompany(\App\Request $request)
+	public function updateCompany(App\Request $request)
 	{
 		if (!$request->isEmpty('record')) {
 			$recordModel = Settings_Companies_Record_Model::getInstance($request->getInteger('record'));

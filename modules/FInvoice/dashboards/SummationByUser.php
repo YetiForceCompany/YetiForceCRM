@@ -71,7 +71,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 			],
 			'show_chart' => false
 		];
-		if ($widgetParam['showUser']) {
+		if (!empty($widgetParam['showUser'])) {
 			$chartData['fullLabels'] = [];
 		}
 		while ($row = $dataReader->read()) {

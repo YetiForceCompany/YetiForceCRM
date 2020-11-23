@@ -2,21 +2,13 @@
 {strip}
 	<!-- tpl-Settings-WebserviceApps-Index -->
 	<div class="table-responsive">
-		{if !App\YetiForce\Shop::getProduct('ModulesPremium')->verify(false)}
-			<div class="alert alert-warning">
-				<h5>
-					<span class="yfi yfi-shop-alert fa-2x mr-1"></span>
-					{\App\Language::translate('LBL_PAID_FUNCTIONALITY_IS_ACTIVE')}
-				</h5>
-			</div>
-		{/if}
 		<table class="table table-bordered table-sm">
 			<thead>
 				<tr>
 					<th><strong>{\App\Language::translate('LBL_APP_NAME',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{\App\Language::translate('LBL_ADDRESS_URL',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{\App\Language::translate('Status',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{\App\Language::translate('LBL_TYPE_SERVER', $QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{\App\Language::translate('LBL_ADDRESS_URL',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{\App\Language::translate('LBL_API_KEY',$QUALIFIED_MODULE)}</strong></th>
 				</tr>
 			</thead>
@@ -24,7 +16,6 @@
 				{foreach from=$LIST_SERVERS key=KEY item=SERVER}
 					<tr data-id="{$KEY}">
 						<td>{$SERVER['name']}</td>
-						<td>{$SERVER['acceptable_url']}</td>
 						<td>
 							{if $SERVER['status'] eq 1}
 								{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}
@@ -35,6 +26,7 @@
 						<td>
 							{\App\Language::translate($SERVER['type'], $QUALIFIED_MODULE)}
 						</td>
+						<td>{$SERVER['acceptable_url']}</td>
 						<td>
 							<div class="action">
 								*******************

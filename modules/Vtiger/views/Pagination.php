@@ -15,7 +15,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getRelationPagination');
 	}
 
-	public function getRelationPagination(\App\Request $request)
+	public function getRelationPagination(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->getInteger('page');
@@ -52,7 +52,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		echo $viewer->view('Pagination.tpl', $moduleName, true);
 	}
 
-	public function getPagination(\App\Request $request)
+	public function getPagination(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$cvId = $request->getByType('viewname', 2);
@@ -69,7 +69,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel->set('viewid', $cvId);
 		$pagingModel->set('noOfEntries', $request->getInteger('noOfEntries'));
 		$totalCount = $request->getInteger('totalCount');
-		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || -1 == $totalCount) {
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 			$operator = 's';
 			if (!$request->isEmpty('operator', true)) {
@@ -85,7 +85,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 				$listViewModel->set('entityState', $request->getByType('entityState'));
 			}
 			$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
-			if (!empty($searchParmams) && is_array($searchParmams)) {
+			if (!empty($searchParmams) && \is_array($searchParmams)) {
 				$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 				$listViewModel->set('search_params', $transformedSearchParams);
 			}

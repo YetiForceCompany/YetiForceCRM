@@ -66,7 +66,7 @@ class RangeTime
 			$years = floor($years);
 			if (!empty($years)) {
 				$short[] = 1 === $years ? $years . \App\Language::translate('LBL_Y') : $years . \App\Language::translate('LBL_YRS');
-				$full[] = 1 === $years ? $years . \App\Language::translate('LBL_YEAR') : $years . \App\Language::translate('LBL_YEARS');
+				$full[] = 1 === $years ? $years . ' ' . \App\Language::translate('LBL_YEAR') : $years . ' ' . \App\Language::translate('LBL_YEARS');
 			}
 		}
 		if ('y' === $unit || 'd' === $unit) {
@@ -75,7 +75,7 @@ class RangeTime
 			$days = floor($days);
 			if (!empty($days)) {
 				$short[] = $days . \App\Language::translate('LBL_D');
-				$full[] = 1 === $days ? $days . \App\Language::translate('LBL_DAY') : $days . \App\Language::translate('LBL_DAYS');
+				$full[] = 1 === $days ? $days . ' ' . \App\Language::translate('LBL_DAY') : $days . ' ' . \App\Language::translate('LBL_DAYS');
 			}
 			$hours = static::myBcmod(($value), (24 * 60));
 		}
@@ -83,13 +83,13 @@ class RangeTime
 		$hours = floor($hours);
 		if (!empty($hours)) {
 			$short[] = $hours . \App\Language::translate('LBL_H');
-			$full[] = 1 === $hours ? $hours . \App\Language::translate('LBL_HOUR') : $hours . \App\Language::translate('LBL_HOURS');
+			$full[] = 1 === $hours ? $hours . ' ' . \App\Language::translate('LBL_HOUR') : $hours . ' ' . \App\Language::translate('LBL_HOURS');
 		}
 		$minutes = static::myBcmod(($value), (60));
 		$minutes = floor($minutes);
-		if (!empty($value) || $showEmptyValue) {
+		if (!empty($minutes) || $showEmptyValue) {
 			$short[] = $minutes . \App\Language::translate('LBL_M');
-			$full[] = 1 === $minutes ? $minutes . \App\Language::translate('LBL_MINUTE') : $minutes . \App\Language::translate('LBL_MINUTES');
+			$full[] = 1 === $minutes ? $minutes . ' ' . \App\Language::translate('LBL_MINUTE') : $minutes . ' ' . \App\Language::translate('LBL_MINUTES');
 		}
 		if ($mode && isset(${$mode})) {
 			return implode(' ', ${$mode});

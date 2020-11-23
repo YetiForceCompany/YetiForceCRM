@@ -47,22 +47,18 @@ class Install extends \Api\Core\BaseAction
 	 *        name="X-ENCRYPTED",
 	 *        in="header",
 	 *        required=true,
-	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 * 		@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *    ),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="Base action details",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseActionInstallResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/BaseActionInstallResponseBody"),
-	 *     		@OA\MediaType(
-	 *         		mediaType="text/html",
-	 *         		@OA\Schema(ref="#/components/schemas/BaseActionInstallResponseBody")
-	 *     		),
+	 *			response=200,
+	 *			description="Base action details",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseActionInstallResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseActionInstallResponseBody"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="BaseActionInstallResponseBody",
-	 * 		title="Base action install",
+	 * 		title="Base action - Install",
 	 * 		description="The representation of a base action install",
 	 *		type="object",
 	 *  	@OA\Property(

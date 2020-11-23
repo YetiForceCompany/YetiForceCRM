@@ -14,8 +14,8 @@
 				<div class="js-toggle-panel c-panel"
 					 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
 					 data-label="{$BLOCK_LABEL_KEY}">
-					<div class="blockHeader c-panel__header py-sm-2 py-0">
-						<div class="mx-2 my-sm-2 my-1">
+					<div class="blockHeader c-panel__header py-0">
+						<div class="mx-2 my-1">
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right {if !($IS_HIDDEN)}d-none{/if}"
 								  data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"
 								  data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
@@ -31,7 +31,7 @@
 								{if !$FIELD_MODEL->isViewableInDetailView()}
 									{continue}
 								{/if}
-								<div class="form-row c-table__row--hover border-bottom py-0 py-sm-1 u-font-size-13px c-detail-widget__mobile-line ">
+								<div class="form-row c-table__row--hover border-bottom py-0 py-sm-1 u-fs-13px c-detail-widget__mobile-line ">
 									<div class="col-5 medium d-flex align-items-center"
 										 id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
@@ -63,10 +63,9 @@
 												{/if}
 											</div>
 											{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
-												<div class="c-table__action--hover js-detail-quick-edit col-3 u-cursor-pointer d-flex align-items-center justify-content-end pl-4">
+												<div class="c-table__action--hover js-detail-quick-edit col-3 u-cursor-pointer align-items-center justify-content-end pl-4">
 													<div class="float-right">
-														<span class="yfi yfi-full-editing-view"
-															  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+														<span class="yfi yfi-full-editing-view mt-1" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 													</div>
 												</div>
 												<div class="d-none edit col-12">

@@ -6,22 +6,75 @@
 	@extend .font-weight-bold;
 }
 
+@for $i from 1 through 10 {
+	.u-fs-#{$i}x {
+		font-size: #{$i}rem !important;
+	}
+}
+
 .u-fs-xs {
-	font-size: 0.75rem;
+	font-size: 0.75rem !important;
 }
 
 .u-fs-sm {
-	font-size: 0.876rem;
+	font-size: 0.876rem !important;
 }
 
 .u-fs-lg {
-	font-size: 1.33rem;
+	font-size: 1.33rem !important;
 }
 
-@for $i from 1 through 10 {
-	.u-fs-#{$i}x {
-		font-size: #{$i}rem;
-	}
+.u-fs-xlg {
+	font-size: 1.5rem !important;
+}
+
+.u-fs-2em {
+	font-size: 2em !important;
+}
+
+.u-fs-10px {
+	font-size: calculate-rem(10px) !important;
+}
+
+.u-fs-13px {
+	font-size: calculate-rem(13px) !important;
+}
+
+.u-fs-14px {
+	font-size: calculate-rem(14px) !important;
+}
+
+.u-fs-15px {
+	font-size: calculate-rem(15px) !important;
+}
+
+
+.u-fs-19px {
+	font-size: calculate-rem(19px) !important;
+}
+
+.u-fs-38px {
+	font-size: calculate-rem(38px) !important;
+}
+
+.u-fs-50px {
+	font-size: calculate-rem(50px) !important;
+}
+
+.u-fs-95per {
+	font-size: 95% !important;
+}
+
+.u-fs-100per {
+	font-size: 100% !important;
+}
+
+.u-fs-26px {
+	font-size: calculate-rem(26px) !important;
+}
+
+.u-fs-44px {
+	font-size: calculate-rem(44px) !important;
 }
 
 @for $i from 1 through 18 {
@@ -34,10 +87,6 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-
-	&:hover {
-		overflow: initial;
-	}
 
 	&.u-text-ellipsis--bg-white {
 		&:hover {
@@ -132,58 +181,6 @@
 
 .u-word-break-keep-all {
 	word-break: keep-all !important;
-}
-
-.u-font-size-10px {
-	font-size: calculate-rem(10px);
-}
-
-.u-font-size-13px {
-	font-size: calculate-rem(13px);
-}
-
-.u-font-size-14px {
-	font-size: calculate-rem(15px);
-}
-
-.u-font-size-19px {
-	font-size: calculate-rem(19px);
-}
-
-.u-font-size-38px {
-	font-size: calculate-rem(38px);
-}
-
-.u-font-size-50px {
-	font-size: calculate-rem(50px);
-}
-
-.u-font-size-120px {
-	font-size: calculate-rem(120px);
-}
-
-.u-font-size-95per {
-	font-size: 95% !important;
-}
-
-.u-font-size-100per {
-	font-size: 100% !important;
-}
-
-.u-font-size-26 {
-	font-size: calculate-rem(26px);
-}
-
-.u-font-size-44px {
-	font-size: calculate-rem(44px);
-}
-
-.u-font-size-2x {
-	font-size: 2em;
-}
-
-.u-font-size-3x {
-	font-size: 3em;
 }
 
 //--- MARGIN ---//
@@ -295,6 +292,10 @@
 	width: 60%;
 }
 
+.u-w-158px {
+	width: calculate-rem(158px) !important;
+}
+
 .u-w-max {
 	width: max-content !important;
 	width: -moz-max-content !important;
@@ -350,6 +351,10 @@
 
 .u-w-90per {
 	width: 90%;
+}
+
+.u-min-w-470px {
+	min-width: calculate-rem(470px);
 }
 
 .u-min-w-650px {
@@ -431,6 +436,10 @@
 
 .u-max-h-70vh {
 	max-height: 70vh;
+}
+
+.u-h-line-normal {
+	line-height: normal;
 }
 
 //--- BORDER ---//
@@ -586,9 +595,11 @@ body:not(.desktop) {
 	pointer-events: none;
 	opacity: 0.65;
 }
-
 .u-box-shadow {
 	@include u-box-shadow(3px 3px 14px 0 rgba(50, 50, 50, 0.75));
+}
+.u-box-shadow-light {
+	@include u-box-shadow(0.1rem 0.1rem 0.35rem rgba(0, 0, 0, 0.6));
 }
 
 @each $breakpoint, $max in $grid-breakpoints {
@@ -710,10 +721,15 @@ body:not(.desktop) {
 
 // --- MIN HEIGHT --- //
 
-@for $i from 1 through 10 {
+@for $i from 1 through 25 {
 	.u-min-height-#{$i}0 {
 		min-height: #{$i}0px;
 	}
+}
+
+// --- LINE HEIGHT --- //
+.u-lh-12 {
+	line-height: 1.2;
 }
 
 // --- FLEX --- //
@@ -748,14 +764,13 @@ body:not(.desktop) {
 	top: -1px;
 	z-index: 1;
 }
-.singleComment .u-hidden-block{
+.singleComment .u-hidden-block {
 	position: absolute;
 	display: none;
 	top: unset;
 }
-.recentActivitiesContainer  .u-hidden-block{
+.recentActivitiesContainer .u-hidden-block {
 	top: 12px;
-
 }
 .singleComment .u-hidden-block-btn {
 	display: block;

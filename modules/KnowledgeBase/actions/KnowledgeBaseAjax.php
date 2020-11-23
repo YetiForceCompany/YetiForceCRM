@@ -132,15 +132,16 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		if ('PLL_PRESENTATION' === $recordModel->get('knowledgebase_view')) {
 			$content = [];
+			$fieldModel = $recordModel->getField('content');
 			foreach (explode('<div style="page-break-after:always;"><span style="display:none;">', $recordModel->get('content')) as $key => $value) {
 				if (0 === $key) {
-					$content[] = $value;
+					$content[] = $fieldModel->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
 				} else {
-					$content[] = substr($value, 16);
+					$content[] = $fieldModel->getDisplayValue(substr($value, 16), $recordModel->getId(), $recordModel, true);
 				}
 			}
 		} else {
-			$content = $recordModel->get('content');
+			$content = $recordModel->getDisplayValue('content', false, true);
 		}
 		$relatedModules = $relatedRecords = [];
 		foreach ($recordModel->getModule()->getRelations() as $value) {
@@ -153,7 +154,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'content' => $content,
-			'introduction' => $recordModel->getForHtml('introduction'),
+			'introduction' => $recordModel->getDisplayValue('introduction', false, true),
 			'subject' => $recordModel->get('subject'),
 			'view' => $recordModel->get('knowledgebase_view'),
 			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id', false, true),

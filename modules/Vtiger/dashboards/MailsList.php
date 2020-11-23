@@ -8,12 +8,12 @@
  */
 class Vtiger_MailsList_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request, $widget = null)
+	public function process(App\Request $request, $widget = null)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$user = $request->getByType('user', 2);
+		$user = $request->isEmpty('user') ? $request->getByType('user', 2) : $currentUser->getId();
 		$linkId = $request->getInteger('linkid');
 		$data = $request->getAll();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());

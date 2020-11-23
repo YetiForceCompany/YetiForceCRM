@@ -14,7 +14,7 @@
 	{* Change to this also refer: RecentComments.tpl *}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	<div class="js-completions__container" data-js="container">
-		{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
+		{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 			<div class="js-add-comment-block addCommentBlock mb-2" data-js="container">
 				<div class="input-group">
 					<span class="input-group-prepend">
@@ -50,8 +50,7 @@
 					</div>
 				</div>
 				{if $HIERARCHY !== false && $HIERARCHY < 2}
-					<div
-						 data-toggle="buttons">
+					<div>
 						<div class="btn-group btn-group-toggle detailCommentsHierarchy" data-toggle="buttons">
 							<label class="js-detail-hierarchy-comments-btn u-text-ellipsis c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-primary {if in_array('current', $HIERARCHY_VALUE)}active{/if}"
 								   title="{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}" data-js="click">

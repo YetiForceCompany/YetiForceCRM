@@ -1,6 +1,7 @@
 <?php
 /**
  * YetiForce watchdog class.
+ * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
  *
  * @package   App
  *
@@ -73,9 +74,11 @@ class Watchdog
 			}
 		}
 		try {
+			\App\Log::beginProfile("POST|Watchdog::send|{$url}", __NAMESPACE__);
 			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
 				'timeout' => 5,
 				'body' => \App\Json::encode($info)]);
+			\App\Log::endProfile("POST|Watchdog::send|{$url}", __NAMESPACE__);
 		} catch (\Throwable $e) {
 			\App\Log::warning('Not possible to connect to the server status' . PHP_EOL . $e->getMessage(), 'YetiForceStatus');
 		}

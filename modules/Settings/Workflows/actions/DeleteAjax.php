@@ -10,7 +10,7 @@
 
 class Settings_Workflows_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
 		$recordId = $request->getInteger('record');

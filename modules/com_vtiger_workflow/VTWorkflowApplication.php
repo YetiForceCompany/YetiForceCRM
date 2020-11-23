@@ -36,7 +36,7 @@ class VTWorkflowApplication
 
 	public function editWorkflowUrl($id = null)
 	{
-		if ($id !== null) {
+		if (null !== $id) {
 			$idPart = "&workflow_id=$id";
 		}
 		return "index.php?module={$this->name}&action=editworkflow$idPart&return_url=" . urlencode($this->returnUrl());
@@ -51,7 +51,7 @@ class VTWorkflowApplication
 
 	public function editTaskUrl($id = null)
 	{
-		if ($id !== null) {
+		if (null !== $id) {
 			$idPart = "&task_id=$id";
 		}
 		return "index.php?module={$this->name}&action=edittask$idPart&return_url=" . urlencode($this->returnUrl());

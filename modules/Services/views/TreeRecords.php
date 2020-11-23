@@ -9,7 +9,7 @@
  */
 class Services_TreeRecords_View extends Products_TreeRecords_View
 {
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 

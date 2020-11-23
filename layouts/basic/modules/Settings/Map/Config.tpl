@@ -21,7 +21,7 @@
 			</li>
 			<li class="nav-item">
 				<a class="nav-link {if $ACTIVE_TAB eq 'Routing'}active{/if}" href="#Routing" data-toggle="tab">
-					<span class="fas fa-globe mr-2"></span>{\App\Language::translate('LBL_ROUTING', $QUALIFIED_MODULE)}
+					<span class="fas fa-route mr-2"></span>{\App\Language::translate('LBL_ROUTING', $QUALIFIED_MODULE)}
 				</a>
 			</li>
 		</ul>
@@ -29,7 +29,7 @@
 	<div id="my-tab-content" class="tab-content">
 		<div class="tab-pane {if $ACTIVE_TAB eq 'TileLayer'}active{/if}" id="TileLayer">
 			<div class="alert alert-info">
-				<span class="mdi mdi-information-outline u-font-size-2x mr-2 float-left"></span>
+				<span class="mdi mdi-information-outline u-fs-2em mr-2 float-left"></span>
 				{\App\Language::translate('LBL_TILE_LAYER_INFO_1', $QUALIFIED_MODULE)}<br>
 				{\App\Language::translateArgs('LBL_TILE_LAYER_INFO_2', $QUALIFIED_MODULE,'config/Modules/OpenStreetMap.php')}
 				<a rel="noreferrer noopener" target="_blank" href="https://wiki.openstreetmap.org/wiki/Tile_servers"> https://wiki.openstreetmap.org/wiki/Tile_servers</a>
@@ -61,7 +61,7 @@
 		</div>
 		<div class="tab-pane {if $ACTIVE_TAB eq 'Coordinates'}active{/if}" id="Coordinates">
 			<div class="alert alert-info">
-				<span class="mdi mdi-information-outline u-font-size-2x mr-2 float-left"></span>
+				<span class="mdi mdi-information-outline u-fs-2em mr-2 float-left"></span>
 				{\App\Language::translate('LBL_COORDINATES_INFO_1', $QUALIFIED_MODULE)}<br>
 				{\App\Language::translateArgs('LBL_COORDINATES_INFO_2', $QUALIFIED_MODULE,'config/Modules/OpenStreetMap.php')}
 				<a rel="noreferrer noopener" target="_blank" href="https://wiki.openstreetmap.org/wiki/Search_engines"> https://wiki.openstreetmap.org/wiki/Search_engines</a>
@@ -101,7 +101,7 @@
 		</div>
 		<div class="tab-pane {if $ACTIVE_TAB eq 'Routing'}active{/if}" id="Routing">
 			<div class="alert alert-info">
-				<span class="mdi mdi-information-outline u-font-size-2x mr-2 float-left"></span>
+				<span class="mdi mdi-information-outline u-fs-2em mr-2 float-left"></span>
 				{\App\Language::translate('LBL_ROUTING_INFO_1', $QUALIFIED_MODULE)}<br>
 				{\App\Language::translateArgs('LBL_ROUTING_INFO_2', $QUALIFIED_MODULE,'config/Modules/OpenStreetMap.php')}
 				<a rel="noreferrer noopener" target="_blank" href="https://wiki.openstreetmap.org/wiki/Routing/online_routers"> https://wiki.openstreetmap.org/wiki/Routing/online_routers</a>

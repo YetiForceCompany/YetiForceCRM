@@ -32,7 +32,7 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View
 		parent::loadJsConfig($request);
 		$moduleName = $request->getModule();
 		foreach ([
-			'checkIfRecordHasTimeControl' => (bool) \App\Config::module($moduleName, 'CHECK_IF_RECORDS_HAS_TIME_CONTROL'),
+			'checkIfRecordHasTimeControl' => ((bool) \App\Config::module($moduleName, 'CHECK_IF_RECORDS_HAS_TIME_CONTROL')) && \App\Module::isModuleActive('OSSTimeControl'),
 			'checkIfRelatedTicketsAreClosed' => (bool) \App\Config::module($moduleName, 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED'),
 			'closeTicketForStatus' => \App\Json::encode(array_flip(\App\RecordStatus::getStates($moduleName, \App\RecordStatus::RECORD_STATE_CLOSED)))
 		] as $key => $value) {

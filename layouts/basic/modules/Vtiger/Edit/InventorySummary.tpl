@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Edit-InventorySummary -->
-	<div class="row">
+	<div class="row mt-1 mb-1">
 		{if $INVENTORY_MODEL->isField('discount') && $INVENTORY_MODEL->isField('discountmode')}
 			<div class="col-md-4">
 				<div class="card mb-3 mb-md-0 inventorySummaryContainer inventorySummaryDiscounts">
@@ -36,7 +36,7 @@
 			</div>
 		{/if}
 		{if ($INVENTORY_MODEL->isField('tax') || $INVENTORY_MODEL->isField('tax_percent')) && $INVENTORY_MODEL->isField('taxmode')}
-			<div class="col-md-4 px-1">
+			<div class="col-md-4">
 				<div class="card mb-3 mb-md-0 inventorySummaryContainer inventorySummaryTaxes">
 					<div class="card-header">
 						<div class="form-row">
@@ -53,8 +53,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-body js-panel__body p-0 m-0 js-default-tax" data-js="data-tax-default-value|value"
-						 data-tax-default-value="{$TAX_DEFAULT['value']}"></div>
+					<div class="card-body js-panel__body p-0 m-0 js-default-tax" data-js="data-tax-default-value|value" data-tax-default-value="{if $TAX_DEFAULT}{$TAX_DEFAULT['value']}{/if}"></div>
 					<div class="card-footer js-panel__footer p-1 m-0 " data-js="value">
 						<div class="form-group m-0 p-0">
 							<div class="input-group">

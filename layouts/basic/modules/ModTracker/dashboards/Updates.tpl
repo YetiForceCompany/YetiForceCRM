@@ -3,41 +3,42 @@
 <!-- tpl-ModTracker-Dashboards-Updates -->
 	<div class="dashboardWidgetHeader">
 		{function SHOW_SELECT_OWNER SELECT_FIELD_NAME='owner' SELECT_FIELD_LABEL='Assigned To'}
+			<label class="mb-0"><strong>{\App\Language::translate($SELECT_FIELD_LABEL, $MODULE_NAME)}</strong></label>
 			<div class="input-group input-group-sm">
-			<span class="input-group-prepend" title="{\App\Language::translate($SELECT_FIELD_LABEL, $MODULE_NAME)}">
-				<span class="input-group-text">
-					<span class="fas fa-user iconMiddle"></span>
+				<span class="input-group-prepend" title="{\App\Language::translate($SELECT_FIELD_LABEL, $MODULE_NAME)}">
+					<span class="input-group-text">
+						<span class="fas fa-user iconMiddle"></span>
+					</span>
 				</span>
-			</span>
-			<select class="owner form-control" name="{$SELECT_FIELD_NAME}">
-				{if in_array('mine', $AVAILABLE_OWNERS)}
-					<option value="{$USER_MODEL->getId()}" data-name="{$USER_MODEL->getName()}"
-							title="{\App\Language::translate('LBL_MINE')}">{\App\Language::translate('LBL_MINE')}</option>
-				{/if}
-				{if in_array('all', $AVAILABLE_OWNERS)}
-					<option value="all" title="{\App\Language::translate('LBL_ALL')}">
-						{\App\Language::translate('LBL_ALL')}
-					</option>
-				{/if}
-				{assign var=ACCESSIBLE_USERS value=array_diff_key($ACCESSIBLE_USERS, array_flip([$USER_MODEL->getId()]))}
-				{if !empty($ACCESSIBLE_USERS) && in_array('users', $AVAILABLE_OWNERS)}
-					<optgroup label="{\App\Language::translate('LBL_USERS')}">
-						{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
-							<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}"
-									value="{$OWNER_ID}">{$OWNER_NAME}</option>
-						{/foreach}
-					</optgroup>
-				{/if}
-				{if !empty($ACCESSIBLE_GROUPS) && in_array('groups', $AVAILABLE_OWNERS)}
-					<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
-						{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_GROUPS}
-							<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}"
-									value="{$OWNER_ID}">{$OWNER_NAME}</option>
-						{/foreach}
-					</optgroup>
-				{/if}
-			</select>
-		</div>
+				<select class="owner form-control" name="{$SELECT_FIELD_NAME}">
+					{if in_array('mine', $AVAILABLE_OWNERS)}
+						<option value="{$USER_MODEL->getId()}" data-name="{$USER_MODEL->getName()}"
+								title="{\App\Language::translate('LBL_MINE')}">{\App\Language::translate('LBL_MINE')}</option>
+					{/if}
+					{if in_array('all', $AVAILABLE_OWNERS)}
+						<option value="all" title="{\App\Language::translate('LBL_ALL')}">
+							{\App\Language::translate('LBL_ALL')}
+						</option>
+					{/if}
+					{assign var=ACCESSIBLE_USERS value=array_diff_key($ACCESSIBLE_USERS, array_flip([$USER_MODEL->getId()]))}
+					{if !empty($ACCESSIBLE_USERS) && in_array('users', $AVAILABLE_OWNERS)}
+						<optgroup label="{\App\Language::translate('LBL_USERS')}">
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
+								<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}"
+										value="{$OWNER_ID}">{$OWNER_NAME}</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+					{if !empty($ACCESSIBLE_GROUPS) && in_array('groups', $AVAILABLE_OWNERS) && $SELECT_FIELD_NAME neq 'historyOwner'}
+						<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_GROUPS}
+								<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}"
+										value="{$OWNER_ID}">{$OWNER_NAME}</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+				</select>
+			</div>
 		{/function}
 		<input type="hidden" class="js-widget-id" value="{$WIDGET->get('id')}" data-js="value">
 		{assign var=MODAL_INDEX value="updatesWidget-{$WIDGET->get('id')}"}
@@ -45,8 +46,11 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 			<div class="flex-row">
 			<div class="d-inline-flex">
-			<button type="button" class="btn btn-sm btn-light js-update-widget-button" data-js="click">
-					<span class="fas fa-cog" title="{\App\Language::translate('LBL_UPDATES_WIDGET_CONFIGURATION')}"></span>
+			<button type="button"
+				class="btn btn-sm btn-light js-update-widget-button"
+				title="{\App\Language::translate('LBL_UPDATES_WIDGET_CONFIGURATION', $MODULE_NAME)}"
+				data-js="click">
+					<span class="fas fa-cog"></span>
 			</button>
 			</div>
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
@@ -63,13 +67,20 @@
 					</div>
 					<select class="widgetFilter form-control select2" name="sourceModule"
 							title="{\App\Language::translate('LBL_CUSTOM_FILTER')}" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate">
-						{foreach key=MODULE_ID item=NAME from=$TRACKING_MODULES}
-							<option value="{$MODULE_ID}"
-								data-template="<span><span class='modCT_{$NAME} yfm-{$NAME} mr-2'></span>{\App\Language::translate($NAME,$NAME)}</span>"
-								{if $MODULE_ID eq $SELECTED_MODULE}selected="selected"{/if}>
-								{\App\Language::translate($NAME, $NAME)}
-							</option>
-						{/foreach}
+						<option value="0"
+								data-template="<span><span class='yfi-menu-summary mr-2'></span>{\App\Language::translate('LBL_SUMMARY',$MODULE_NAME)}</span>"
+								{if empty($MODULE_ID)}selected="selected"{/if}>
+								{\App\Language::translate('LBL_SUMMARY', $MODULE_NAME)}
+						</option>
+						<optgroup label="{\App\Language::translate('LBL_MODULES', $MODULE_NAME)}">
+							{foreach key=MODULE_ID item=NAME from=$TRACKING_MODULES}
+								<option value="{$MODULE_ID}"
+									data-template="<span><span class='modCT_{$NAME} yfm-{$NAME} mr-2'></span>{\App\Language::translate($NAME,$NAME)}</span>"
+									{if $MODULE_ID eq $SELECTED_MODULE}selected="selected"{/if}>
+									{\App\Language::translate($NAME, $NAME)}
+								</option>
+							{/foreach}
+						</optgroup>
 					</select>
 				</div>
 			</div>
@@ -105,6 +116,9 @@
 									<div class="form-check">
 										<input class="form-check-input js-tracker-action" type="checkbox" value="{$VALUE}" data-js="container">
 										<label class="form-check-label">
+											<span class="mr-1 u-fs-xs" style="color: {ModTracker::$colorsActions[$VALUE]};">
+												<span class="{ModTracker::$iconActions[$VALUE]} fa-fw"></span>
+											</span>
 											{\App\Utils::mbUcfirst(\App\Language::translate($TRACKER_ACTION, $MODULE_NAME))}
 										</label>
 									</div>
@@ -134,7 +148,11 @@
 		</div>
 	</div>
 	<div class="dashboardWidgetContent">
-		{include file=\App\Layout::getTemplatePath('dashboards/UpdatesContents.tpl', $MODULE_NAME)}
+		{if empty($SELECTED_MODULE)}
+			{include file=\App\Layout::getTemplatePath('dashboards/UpdatesContentsSummary.tpl', $MODULE_NAME)}
+		{else}
+			{include file=\App\Layout::getTemplatePath('dashboards/UpdatesContents.tpl', $MODULE_NAME)}
+		{/if}
 	</div>
 <!-- /tpl-ModTracker-Dashboards-Updates -->
 {/strip}

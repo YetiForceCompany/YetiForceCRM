@@ -19,9 +19,12 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	public function getParseField($fieldName)
 	{
 		$relatedRecords = $this->getRelatedRecord();
+		$value = $this->get($fieldName);
+		if (empty($relatedRecords['id'])) {
+			return $value;
+		}
 		$relatedModule = $relatedRecords['module'];
 		$relatedId = $relatedRecords['id'];
-		$value = $this->get($fieldName);
 		if (\App\Record::isExists($relatedId)) {
 			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
 			$textParser->setContent($value)->parse();
@@ -108,17 +111,17 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$subprocess = $this->get('subprocess');
 		$process = $this->get('process');
 		$link = $this->get('link');
+		$linkextend = $this->get('linkextend');
 		if (!empty($subprocess) && \App\Record::isExists($subprocess)) {
 			$relatedId = $subprocess;
+		} elseif (!empty($process) && \App\Record::isExists($process)) {
+			$relatedId = $process;
+		} elseif (!empty($link) && \App\Record::isExists($link)) {
+			$relatedId = $link;
+		} elseif (!empty($linkextend) && \App\Record::isExists($linkextend)) {
+			$relatedId = $linkextend;
 		} else {
-			if (!empty($process) && \App\Record::isExists($process)) {
-				$relatedId = $process;
-			} else {
-				if (empty($link) || !\App\Record::isExists($link)) {
-					return false;
-				}
-				$relatedId = $link;
-			}
+			return false;
 		}
 		return ['id' => $relatedId, 'module' => \vtlib\Functions::getCRMRecordMetadata($relatedId)['setype']];
 	}

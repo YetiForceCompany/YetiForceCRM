@@ -16,7 +16,7 @@ class VTCreateEntityTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return ['entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel'];
+		return ['entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel', 'verifyIfExists'];
 	}
 
 	/**
@@ -36,7 +36,7 @@ class VTCreateEntityTask extends VTTask
 		if (!empty($this->field_value_mapping)) {
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
 		}
-		if (!empty($entityType) && !empty($fieldValueMapping) && \count($fieldValueMapping) > 0 && !$this->mappingPanel) {
+		if (!$this->mappingPanel && !empty($entityType) && !empty($fieldValueMapping) && \count($fieldValueMapping) > 0) {
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 			$ownerFields = array_keys($newRecordModel->getModule()->getFieldsByType('owner'));
 			foreach ($fieldValueMapping as $fieldInfo) {
@@ -89,13 +89,16 @@ class VTCreateEntityTask extends VTTask
 			}
 			$newRecordModel->set($this->reference_field, $recordId);
 			// To handle cyclic process
-			$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
+			$newRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 			$newRecordModel->save();
 			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule());
 			if ($relationModel) {
 				$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
 			}
-		} elseif ($entityType && $this->mappingPanel) {
+		} elseif ($this->mappingPanel && $entityType) {
+			if (!empty($this->verifyIfExists) && ($relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $entityType, false)) && (int) $relationListView->getRelatedEntriesCount() > 0) {
+				return true;
+			}
 			$saveContinue = true;
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
@@ -105,7 +108,7 @@ class VTCreateEntityTask extends VTTask
 				$newRecordModel = $this->setFieldMapping($fieldValueMapping, $newRecordModel, $parentRecordModel);
 			}
 			foreach ($mandatoryFields as $field) {
-				if (empty($newRecordModel->get($field->getName()))) {
+				if ('' === $newRecordModel->get($field->getName()) || null === $newRecordModel->get($field->getName())) {
 					$saveContinue = false;
 				}
 			}

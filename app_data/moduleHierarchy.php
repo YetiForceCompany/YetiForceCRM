@@ -8,23 +8,23 @@ return [
 		'Partners' => ['level' => 0],
 		'Competition' => ['level' => 0],
 		'OSSEmployees' => ['level' => 0],
-		'Contacts' => ['level' => 4],
-		'SSalesProcesses' => ['level' => 1],
 		'Project' => ['level' => 1],
 		'ServiceContracts' => ['level' => 1],
 		'Campaigns' => ['level' => 1],
 		'FBookkeeping' => ['level' => 1],
-		'HelpDesk' => ['level' => 2, 'parentModule' => 'ServiceContracts'],
-		'ProjectTask' => ['level' => 3, 'parentModule' => 'ProjectMilestone'],
+		'SSalesProcesses' => ['level' => 1],
 		'ProjectMilestone' => ['level' => 2, 'parentModule' => 'Project'],
+		'HelpDesk' => ['level' => 2, 'parentModule' => 'ServiceContracts'],
 		'SQuoteEnquiries' => ['level' => 2, 'parentModule' => 'Campaigns'],
+		'FInvoice' => ['level' => 2, 'parentModule' => 'FBookkeeping'],
 		'SRequirementsCards' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SCalculations' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SQuotes' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SSingleOrders' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SRecurringOrders' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
-		'FInvoice' => ['level' => 2, 'parentModule' => 'FBookkeeping'],
 		'SVendorEnquiries' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
+		'ProjectTask' => ['level' => 3, 'parentModule' => 'ProjectMilestone'],
+		'Contacts' => ['level' => 4],
 	],
 	'modulesMapRelatedFields' => [//Map links between modules
 		'ProjectTask' => [
@@ -35,7 +35,7 @@ return [
 			'projectid' => ['Project' => ['parent_id' => ['linktoaccountscontacts']]],
 			'contact_id' => ['Contacts' => ['parent_id' => ['parent_id']]],
 			'pssold_id' => ['Assets' => ['product_id' => ['product', 'Products'], 'parent_id' => ['parent_id', 'Accounts']], 'OSSSoldServices' => ['product_id' => ['serviceid', 'Services']]],
-			'servicecontractsid' => ['ServiceContracts' => ['parent_id' => ['sc_related_to', 'Accounts'], 'ticketpriorities' => ['contract_priority'], 'contract_type' => ['contract_type'], 'contracts_end_date' => ['due_date']]]
+			'servicecontractsid' => ['ServiceContracts' => ['parent_id' => ['sc_related_to', 'Accounts'], 'ticketpriorities' => ['contract_priority']]]
 		],
 		'OSSTimeControl' => [
 			'process' => ['Project' => ['link' => ['linktoaccountscontacts']]],
@@ -119,6 +119,7 @@ return [
 			'HelpDesk' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
 			'Project' => ['fieldName' => 'linktoaccountscontacts', 'moduleName' => 'Accounts'],
 			'SSalesProcesses' => ['fieldName' => 'related_to', 'moduleName' => 'Accounts'],
+			'SQuoteEnquiries' => ['fieldName' => 'accountid', 'moduleName' => 'Accounts'],
 		],
 		'ServiceContracts' => [
 			'Assets' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],

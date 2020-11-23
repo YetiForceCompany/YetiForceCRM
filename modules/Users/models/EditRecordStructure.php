@@ -11,23 +11,18 @@
 
 class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 {
-	/**
-	 * Function to get the values in stuctured format.
-	 *
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
-	 */
+	/** {@inheritdoc} */
 	public function getStructure()
 	{
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
-
 		$values = [];
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
-		$moduleModel = $this->getModule();
-		$blockModelList = $moduleModel->getBlocks();
+		$fieldsDependency = \App\FieldsDependency::getByRecordModel($recordModel->isNew() ? 'Create' : 'Edit', $recordModel);
+		$blockModelList = $this->getModule()->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if ($fieldModelList) {
@@ -50,7 +45,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 					} elseif ('reports_to_id' === $fieldName && !$currentUserModel->isAdminUser()) {
 						continue;
 					}
-					if ($fieldModel->isEditable() && 'is_owner' != $fieldName) {
+					if ($fieldModel->isEditable() && 'is_owner' !== $fieldName && (!$fieldsDependency['hide']['backend'] || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
 						if ('' !== $recordModel->get($fieldName)) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						} else {
@@ -61,6 +56,12 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 							if ('' !== $defaultValue && !$recordId) {
 								$fieldModel->set('fieldvalue', $defaultValue);
 							}
+						}
+						if ($fieldsDependency['hide']['frontend'] && \in_array($fieldName, $fieldsDependency['hide']['frontend'])) {
+							$fieldModel->set('hideField', true);
+						}
+						if ($fieldsDependency['mandatory'] && \in_array($fieldName, $fieldsDependency['mandatory'])) {
+							$fieldModel->set('isMandatory', true);
 						}
 						if (!$recordId && 99 == $fieldModel->get('uitype')) {
 							$fieldModel->set('editable', true);
@@ -79,8 +80,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 				}
 			}
 		}
-		$this->structuredValues = $values;
 		++Vtiger_Field_Model::$tabIndexLastSeq;
-		return $values;
+		return $this->structuredValues = $values;
 	}
 }

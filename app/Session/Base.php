@@ -25,24 +25,33 @@ class Base extends \SessionHandler
 	 * Construct.
 	 *
 	 * @param string $name
-	 * @param array  $cookie
 	 */
-	public function __construct($name = 'YTSID', $cookie = [])
+	public function __construct(string $name = 'YTSID')
 	{
 		if (PHP_SESSION_ACTIVE === session_status()) {
 			return;
 		}
-		$cookie += [
-			'lifetime' => 0,
-			'path' => ini_get('session.cookie_path'),
-			'domain' => ini_get('session.cookie_domain'),
-			'secure' => \App\RequestUtil::getBrowserInfo()->https,
-			'httponly' => true,
-		];
+		$cookie = session_get_cookie_params();
+		$cookie['lifetime'] = \Config\Security::$maxLifetimeSession;
+		$cookie['secure'] = \App\RequestUtil::isHttps();
+		$cookie['domain'] = $_SERVER['HTTP_HOST'] ?? '';
+		if (isset(\Config\Security::$cookieForceHttpOnly)) {
+			$cookie['httponly'] = \Config\Security::$cookieForceHttpOnly;
+		}
+		if ($cookie['secure']) {
+			$cookie['samesite'] = \Config\Security::$cookieSameSite;
+		}
 		session_name($name);
-		session_set_cookie_params(
-			$cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']
-		);
+		if (\PHP_VERSION_ID < 70300) {
+			if ($cookie['secure']) {
+				$cookie['path'] .= '; samesite=' . $cookie['samesite'];
+			}
+			session_set_cookie_params(
+				$cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']
+			);
+		} else {
+			session_set_cookie_params($cookie);
+		}
 	}
 
 	/**
@@ -102,6 +111,18 @@ class Base extends \SessionHandler
 	public function regenerateId($deleteOldSession = false)
 	{
 		return session_regenerate_id($deleteOldSession);
+	}
+
+	/**
+	 * Function to get session data by id.
+	 *
+	 * @param string $sessionId
+	 *
+	 * @return array
+	 */
+	public function getById(string $sessionId): array
+	{
+		return [];
 	}
 
 	/**

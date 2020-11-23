@@ -10,7 +10,7 @@
 
 class Settings_Profiles_Save_Action extends Settings_Vtiger_Basic_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
 			$recordModel = new Settings_Profiles_Record_Model();

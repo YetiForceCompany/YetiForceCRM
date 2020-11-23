@@ -10,7 +10,7 @@
 
 class Vtiger_MergeRecord_View extends \App\Controller\View\Page
 {
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 	}
 
@@ -19,7 +19,7 @@ class Vtiger_MergeRecord_View extends \App\Controller\View\Page
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$records = $request->getExploded('records');
 		$moduleName = $request->getModule();

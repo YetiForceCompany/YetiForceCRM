@@ -22,30 +22,60 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
-	{
-		return $this->getDisplayValue(\App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext')), $record, $recordModel, $rawText);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$value = \App\Purifier::encodeHtml($value);
+		if ($rawText) {
+			return \App\Purifier::encodeHtml($value);
+		}
+		$truncateValue = \App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext'));
+		$truncateValue = \App\Purifier::encodeHtml($truncateValue);
 		if ($recordModel && !empty($value) && $recordModel->getValueByField('filestatus')) {
 			if ('I' === $recordModel->getValueByField('filelocationtype')) {
 				$fileId = (new App\Db\Query())->select(['attachmentsid'])
 					->from('vtiger_seattachmentsrel')->where(['crmid' => $record])->scalar();
 				if ($fileId) {
 					$value = '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
-							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $truncateValue . '</a>';
 				}
 			} else {
-				$value = '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" rel="noreferrer noopener">' . $value . '</a>';
+				$value = \App\Purifier::encodeHtml($value);
+				$value = '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" rel="noreferrer noopener">' . $truncateValue . '</a>';
 			}
 		}
 		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		$return = [];
+		if ($recordModel && !empty($value)) {
+			if ('I' === $recordModel->getValueByField('filelocationtype')) {
+				$row = (new App\Db\Query())->from('vtiger_seattachmentsrel')->join('LEFT JOIN', 'vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')->where(['crmid' => $recordModel->getId()])->one();
+				if ($row) {
+					$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid'];
+					$return = [
+						'name' => $row['name'],
+						'type' => $row['type'],
+						'size' => filesize($filePath),
+						'path' => 'Files',
+						'postData' => [
+							'module' => 'Documents',
+							'actionName' => 'DownloadFile',
+							'record' => $recordModel->getId(),
+							'fileid' => $row['attachmentsid'],
+						]
+					];
+				}
+			} else {
+				$return = [
+					'url' => $value
+				];
+			}
+		}
+		return $return;
 	}
 
 	/**

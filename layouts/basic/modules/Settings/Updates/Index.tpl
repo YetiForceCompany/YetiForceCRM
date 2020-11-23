@@ -4,13 +4,15 @@
 		<div class="col-md-7">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
-		<div class="col-md-5 align-items-center d-flex justify-content-end">
-			<a class="btn btn-success btn-sm addMenu" role="button" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}">
-				<span class="fa fa-plus u-mr-5px" title="{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}"></span>
-				<span class="sr-only">{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</span>
-				<strong>{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong>
-			</a>
-		</div>
+		{if \App\Config::main('systemMode') !== 'demo' && \App\Security\AdminAccess::isPermitted('ModuleManager')}
+			<div class="col-md-5 align-items-center d-flex justify-content-end">
+				<a class="btn btn-success btn-sm addMenu" role="button" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}">
+					<span class="fa fa-plus u-mr-5px" title="{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}"></span>
+					<span class="sr-only">{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</span>
+					<strong>{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong>
+				</a>
+			</div>
+		{/if}
 	</div>
 	<hr class="mt-1 mb-2">
 	{if $TO_INSTALL}
@@ -35,18 +37,22 @@
 					<td>{\App\Purifier::encodeHtml($ITEM['toVersion'])}</td>
 					<td>{\App\Purifier::encodeHtml($ITEM['version'])}</td>
 					<td class="text-center">
-						{if \App\YetiForce\Updater::isDownloaded($ITEM)}
-							<a class="btn btn-success btn-sm addMenu" role="button" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep2&upgradePackage={\App\Purifier::encodeHtml($ITEM['hash'])}">
-								<span class="fas fa-download u-mr-5px" title="{\App\Language::translate('LBL_INSTALL_PACKAGE', $QUALIFIED_MODULE)}"></span>
-								<span class="sr-only">{\App\Language::translate('LBL_INSTALL_PACKAGE', $QUALIFIED_MODULE)}</span>
-								<strong>{\App\Language::translate('LBL_INSTALL_PACKAGE', $QUALIFIED_MODULE)}</strong>
-							</a>
+						{if \App\Config::main('systemMode') !== 'demo' && \App\Security\AdminAccess::isPermitted('ModuleManager')}
+							{if \App\YetiForce\Updater::isDownloaded($ITEM)}
+								<a class="btn btn-success btn-sm addMenu" role="button" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep2&upgradePackage={\App\Purifier::encodeHtml($ITEM['hash'])}">
+									<span class="fas fa-download u-mr-5px" title="{\App\Language::translate('LBL_INSTALL_PACKAGE', $QUALIFIED_MODULE)}"></span>
+									<span class="sr-only">{\App\Language::translate('LBL_INSTALL_PACKAGE', $QUALIFIED_MODULE)}</span>
+									<strong>{\App\Language::translate('LBL_INSTALL_PACKAGE', $QUALIFIED_MODULE)}</strong>
+								</a>
+							{else}
+								<a class="btn btn-primary btn-sm addMenu" role="button" href="index.php?parent=Settings&module=Updates&view=Index&download={\App\Purifier::encodeHtml($ITEM['hash'])}">
+									<span class="fas fa-download u-mr-5px" title="{\App\Language::translate('LBL_DOWNLOAD_PACKAGE', $QUALIFIED_MODULE)}"></span>
+									<span class="sr-only">{\App\Language::translate('LBL_DOWNLOAD_PACKAGE', $QUALIFIED_MODULE)}</span>
+									<strong>{\App\Language::translate('LBL_DOWNLOAD_PACKAGE', $QUALIFIED_MODULE)}</strong>
+								</a>
+							{/if}
 						{else}
-							<a class="btn btn-primary btn-sm addMenu" role="button" href="index.php?parent=Settings&module=Updates&view=Index&download={\App\Purifier::encodeHtml($ITEM['hash'])}">
-								<span class="fas fa-download u-mr-5px" title="{\App\Language::translate('LBL_DOWNLOAD_PACKAGE', $QUALIFIED_MODULE)}"></span>
-								<span class="sr-only">{\App\Language::translate('LBL_DOWNLOAD_PACKAGE', $QUALIFIED_MODULE)}</span>
-								<strong>{\App\Language::translate('LBL_DOWNLOAD_PACKAGE', $QUALIFIED_MODULE)}</strong>
-							</a>
+							<a href="{$ITEM['url']}" class="btn btn-primary btn-sm" target="_blank" rel="noreferrer noopener">{\App\Language::translate('LBL_DOWNLOAD_PACKAGE', $QUALIFIED_MODULE)}</a>
 						{/if}
 					</td>
 				</tr>

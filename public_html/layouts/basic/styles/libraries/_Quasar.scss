@@ -41,6 +41,20 @@ body > .q-dialog:not(.quasar-reset) {
 		height: calc(100vh - 113px);
 	}
 }
-.q-message-text {
-	background: none;
+.singleComment .q-message-text {
+	background: #e0e0e0;
+}
+
+@media only screen and (min-width: 768px) {
+	.singleComment {
+		.q-message-text {
+			background: #e0e0e0;
+		}
+		&:hover .comment-actions {
+			visibility: visible;
+		}
+		.comment-actions {
+			visibility: hidden;
+		}
+	} 
 }

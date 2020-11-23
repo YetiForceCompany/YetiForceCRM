@@ -18,17 +18,18 @@ class Settings_TreesManager_ReplaceTreeItem_View extends \App\Controller\ModalSe
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$this->qualifiedModuleName = $request->getModule(false);
-		$this->pageTitle = '<span class="fas fa-exchange-alt mr-2"></span>' . \App\Language::translate('LBL_SELECT_REPLACE_TREE_ITEM', $this->qualifiedModuleName);
+		$this->modalIcon = 'fas fa-exchange-alt';
+		$this->pageTitle = \App\Language::translate('LBL_SELECT_REPLACE_TREE_ITEM', $this->qualifiedModuleName);
 		parent::preProcessAjax($request);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $this->qualifiedModuleName);

@@ -230,6 +230,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
+				'class' => 'js-edit',
 				'linkicon' => 'yfi yfi-full-editing-view',
 			],
 			[
@@ -463,9 +464,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function getDependentModules()
 	{
 		$dependentFields = [];
-		$filterModules = [ 'Calendar', 'Accounts', 'Notification'];
+		$filterModules = ['Calendar', 'Accounts', 'Notification'];
 		foreach (\App\Field::getRelatedFieldForModule(false, $this->getModule()->getName()) as $module => $value) {
-			if(in_array($module, $filterModules)){
+			if (\in_array($module, $filterModules)) {
 				continue;
 			}
 			$dependentFields[$module] = ['fieldname' => $value['fieldname'], 'modulelabel' => \App\Language::translate($module, $module)];

@@ -5,9 +5,9 @@ jQuery.Class(
 	'Settings_ApiAddress_Configuration_Js',
 	{},
 	{
-		registerSave: function(container) {
+		registerSave: function (container) {
 			container.validationEngine(app.validationEngineOptions);
-			container.find('.saveGlobal').on('click', event => {
+			container.find('.saveGlobal').on('click', (event) => {
 				if (!container.validationEngine('validate')) {
 					app.formAlignmentAfterValidation(container);
 					return false;
@@ -33,14 +33,14 @@ jQuery.Class(
 					async: false,
 					dataType: 'json'
 				})
-					.done(function(data) {
-						Vtiger_Helper_Js.showPnotify({
+					.done(function (data) {
+						app.showNotify({
 							text: data['result']['message'],
 							type: 'success'
 						});
 					})
-					.fail(function() {
-						Vtiger_Helper_Js.showPnotify({
+					.fail(function () {
+						app.showNotify({
 							text: app.vtranslate('JS_ERROR'),
 							type: 'error'
 						});
@@ -48,15 +48,15 @@ jQuery.Class(
 			});
 		},
 		registerConfigModal(container) {
-			container.find('.js-show-config-modal').on('click', e => {
+			container.find('.js-show-config-modal').on('click', (e) => {
 				const providerName = e.currentTarget.dataset.provider;
 				app.showModalWindow(
 					null,
 					`index.php?module=ApiAddress&parent=Settings&view=ApiConfigModal&provider=${providerName}`,
-					modalContainer => {
+					(modalContainer) => {
 						const form = modalContainer.find('.js-form-validation');
 						form.validationEngine(app.validationEngineOptions);
-						modalContainer.find('.js-modal__save').on('click', _ => {
+						modalContainer.find('.js-modal__save').on('click', (_) => {
 							if (!form.validationEngine('validate')) {
 								app.formAlignmentAfterValidation(container);
 								return false;
@@ -77,15 +77,15 @@ jQuery.Class(
 								async: false,
 								dataType: 'json'
 							})
-								.done(function(data) {
-									Vtiger_Helper_Js.showPnotify({
+								.done(function (data) {
+									app.showNotify({
 										text: data['result']['message'],
 										type: 'success'
 									});
 									window.location.reload();
 								})
-								.fail(function() {
-									Vtiger_Helper_Js.showPnotify({
+								.fail(function () {
+									app.showNotify({
 										text: app.vtranslate('JS_ERROR'),
 										type: 'error'
 									});
@@ -96,7 +96,7 @@ jQuery.Class(
 			});
 		},
 		registerValidateBtn(container) {
-			container.find('.js-validate').on('click', e => {
+			container.find('.js-validate').on('click', (e) => {
 				const currentTarget = $(e.currentTarget);
 				let icon = currentTarget.find('.js-validate__icon');
 				icon.addClass('fa-spin');
@@ -105,16 +105,16 @@ jQuery.Class(
 					parent: 'Settings',
 					action: 'ValidateConfiguration',
 					provider: currentTarget.data('provider')
-				}).done(data => {
+				}).done((data) => {
 					icon.removeClass('fa-spin');
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: data['result']['message'],
 						type: data['result']['type']
 					});
 				});
 			});
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			const container = $('.js-validation-form');
 			this.registerConfigModal(container);
 			this.registerSave(container);

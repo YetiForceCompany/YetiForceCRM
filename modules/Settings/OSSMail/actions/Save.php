@@ -17,7 +17,7 @@ class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		if (!\App\Module::isModuleActive('OSSMail')) {
@@ -31,12 +31,12 @@ class Settings_OSSMail_Save_Action extends Settings_Vtiger_Basic_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordModel = Settings_OSSMail_Config_Model::getCleanInstance();
 		$configFile = new \App\ConfigFile('module', $request->getModule(true));
 		foreach ($recordModel->getForm() as $fieldName => $fieldInfo) {
-			if ($fieldInfo['required'] === 1 && $request->isEmpty($fieldName)) {
+			if (1 === $fieldInfo['required'] && $request->isEmpty($fieldName)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 			$configFile->set($fieldName, $request->getRaw($fieldName));

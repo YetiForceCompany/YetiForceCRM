@@ -10,13 +10,13 @@
 
 class Campaigns_RelatedList_View extends Vtiger_RelatedList_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$viewer = $this->getViewer($request);
-		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
+		if (\in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 			$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($relatedModuleName));
-			$viewer->assign('SELECTED_IDS', $request->getRaw('selectedIds') === 'all' ? 'all' : $request->getArray('selectedIds', 'Integer'));
+			$viewer->assign('SELECTED_IDS', 'all' === $request->getRaw('selectedIds') ? 'all' : $request->getArray('selectedIds', 'Integer'));
 			$viewer->assign('EXCLUDED_IDS', $request->getArray('excludedIds', 'Integer'));
 		}
 		return parent::process($request);

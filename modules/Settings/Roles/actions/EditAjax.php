@@ -23,7 +23,7 @@ class Settings_Roles_EditAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function checkDuplicate(\App\Request $request)
+	public function checkDuplicate(App\Request $request)
 	{
 		$roleName = $request->getByType('rolename', 'Text');
 		$records = $request->isEmpty('record') ? null : [$request->getByType('record', 2)];

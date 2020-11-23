@@ -36,7 +36,7 @@ class Vtiger_BasicAjax_Action extends \App\Controller\Action
 		$searchModuleModel = \Vtiger_Module_Model::getInstance($request->getByType('search_module', 'Alnum'));
 		$records = $searchModuleModel->searchRecord($request->getByType('search_value', 'Text'), $request->getModule());
 		$result = [];
-		if (is_array($records)) {
+		if (\is_array($records)) {
 			foreach ($records as $recordModels) {
 				foreach ($recordModels as $recordModel) {
 					$result[] = [

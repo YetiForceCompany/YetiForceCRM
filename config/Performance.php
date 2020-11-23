@@ -26,13 +26,6 @@ class Performance
 	/** Enable caching database instance, accelerate time database connection */
 	public static $ENABLE_CACHING_DB_CONNECTION = false;
 
-	/**
-	 * Should the caller information be captured in SQL Logging?
-	 * It adds little overhead for performance but will be useful to debug.
-	 * All data can be found in the table 'l_yf_sqltime'.
-	 */
-	public static $SQL_LOG_INCLUDE_CALLER = false;
-
 	/** If database default charset is UTF-8, set this to true. This avoids executing the SET NAMES SQL for each query! */
 	public static $DB_DEFAULT_CHARSET_UTF8 = true;
 
@@ -93,9 +86,6 @@ class Performance
 	/** The maximum number of attachments that cron can delete during a single execution */
 	public static $CRON_MAX_ATACHMENTS_DELETE = 1000;
 
-	/** Time to execute batch methods [min]. */
-	public static $CRON_BATCH_METHODS_LIMIT = 15;
-
 	/**
 	 * Parameter that allows to disable file overwriting.
 	 * After enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php.
@@ -144,6 +134,9 @@ class Performance
 	/** Is divided layout style on edit view in modules with products */
 	public static $INVENTORY_EDIT_VIEW_LAYOUT = true;
 
+	/** List of modules with splitted edit view layout */
+	public static $MODULES_SPLITTED_EDIT_VIEW_LAYOUT = [];
+
 	/** Popover record's trigger delay in ms */
 	public static $RECORD_POPOVER_DELAY = 500;
 
@@ -164,4 +157,7 @@ class Performance
 
 	/** Number of records that can be shown in report mail */
 	public static $REPORT_RECORD_NUMBERS = 10;
+
+	/** Number of records that can be shown in history login modal */
+	public static $LOGIN_HISTORY_VIEW_LIMIT = 10;
 }

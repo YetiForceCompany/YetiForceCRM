@@ -242,7 +242,9 @@ class Request
 				if (\is_array($value)) {
 					$input = [];
 					foreach ($value as $k => $v) {
-						$k = $keyType ? Purifier::purifyByType($k, $keyType) : Purifier::purify($k);
+						if (!\is_int($k)) {
+							$k = $keyType ? Purifier::purifyByType($k, $keyType) : Purifier::purify($k);
+						}
 						$input[$k] = $type ? Purifier::purifyByType($v, $type) : Purifier::purify($v);
 					}
 					$value = $input;
@@ -478,7 +480,11 @@ class Request
 			foreach ($_SERVER as $key => $value) {
 				if ('HTTP_' === substr($key, 0, 5)) {
 					$key = str_replace(' ', '-', \strtolower(str_replace('_', ' ', substr($key, 5))));
-					$data[$key] = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
+					if ('' !== $value) {
+						$data[$key] = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
+					} else {
+						$data[$key] = '';
+					}
 				}
 			}
 		} else {

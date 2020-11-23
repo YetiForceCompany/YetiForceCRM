@@ -17,7 +17,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$listSearchParams = [];
 		$conditionsArray = [['leadstatus', 'e', $value]];
-		if ($assignedto != '') {
+		if ('' != $assignedto) {
 			array_push($conditionsArray, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
@@ -87,7 +87,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		return $chartData;
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
@@ -99,17 +99,17 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$owner = $request->getByType('owner', 2);
 		}
 		$ownerForwarded = $owner;
-		if ($owner == 'all') {
+		if ('all' == $owner) {
 			$owner = '';
 		}
 		$createdTime = $request->getDateRange('createdtime');
 		if (empty($createdTime)) {
 			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
-		$data = ($owner === false) ? [] : $this->getLeadsByStatus($owner, $createdTime);
+		$data = (false === $owner) ? [] : $this->getLeadsByStatus($owner, $createdTime);
 		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-		$leadStatusAmount = count($data['datasets'][0]['names']);
+		$leadStatusAmount = \count($data['datasets'][0]['names']);
 		for ($i = 0; $i < $leadStatusAmount; ++$i) {
 			$data['datasets'][0]['links'][$i] = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
 		}

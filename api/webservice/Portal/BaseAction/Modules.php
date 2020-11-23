@@ -24,7 +24,7 @@ class Modules extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/Modules",
-	 *		summary="Gets the module list action, along with their translated action",
+	 *		summary="Get the module list action, along with their translated action",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
@@ -44,10 +44,6 @@ class Modules extends \Api\Core\BaseAction
 	 *			description="List of active modules",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseActionModulesResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseActionModulesResponseBody"),
-	 *			@OA\MediaType(
-	 *				mediaType="text/html",
-	 *				@OA\Schema(ref="#/components/schemas/BaseActionModulesResponseBody")
-	 *			),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
@@ -60,8 +56,8 @@ class Modules extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 *		schema="BaseActionModulesResponseBody",
-	 *		title="List items",
-	 *		description="List of obtained items",
+	 *		title="Base action - List of modules",
+	 *		description="List of available modules",
 	 *		type="object",
 	 *		@OA\Property(
 	 *			property="status",
@@ -73,7 +69,7 @@ class Modules extends \Api\Core\BaseAction
 	 *			property="result",
 	 *			description="List of modules accessed",
 	 *			type="object",
-	 *			@OA\Property(property="items", description="Module name", type="string", example="Accounts"),
+	 *			@OA\AdditionalProperties(description="Module name", type="string", example="Accounts"),
 	 * 		),
 	 *	),
 	 */

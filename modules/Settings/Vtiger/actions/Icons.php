@@ -8,7 +8,6 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
-
 class Settings_Vtiger_Icons_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
@@ -18,10 +17,10 @@ class Settings_Vtiger_Icons_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @throws \ReflectionException
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$response = new Vtiger_Response();
-		$response->setResult(Settings_Vtiger_Icons_Model::getAll());
+		$response->setResult(\App\Layout\Icon::getAll());
 		$response->emit();
 	}
 }

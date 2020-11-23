@@ -14,7 +14,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		if (!$request->isEmpty('sourceRecord', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('sourceRecord'))) {
@@ -37,7 +37,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function addRelationsFromRelatedModuleViewId(\App\Request $request)
+	public function addRelationsFromRelatedModuleViewId(App\Request $request)
 	{
 		$sourceRecordId = $request->getInteger('sourceRecord');
 		$relatedModuleName = $request->getByType('relatedModule', 2);
@@ -51,7 +51,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
+			if (\in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 				$queryGenerator = new App\QueryGenerator($relatedModuleName);
 				$queryGenerator->initForCustomViewById($viewId);
 				$dataReader = $queryGenerator->createQuery()->createCommand()->query();
@@ -81,7 +81,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function updateStatus(\App\Request $request)
+	public function updateStatus(App\Request $request)
 	{
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$status = !$request->isEmpty('status') ? $request->getInteger('status') : '';

@@ -4,18 +4,22 @@
 		{if ($MODE === 'massReset' || $MODE === 'reset') &&  $ACTIVE_SMTP}
 			<button class="btn btn-success" type="submit" name="saveButton"
 					{if App\Config::main('systemMode') === 'demo'}disabled="disabled"{/if}>
-				<span class="fas fa-redo-alt mr-1"></span><strong>{\App\Language::translate('BTN_RESET_PASSWORD', $MODULE_NAME)}</strong>
+				<span class="fas fa-redo-alt mr-2"></span><strong>{\App\Language::translate('BTN_RESET_PASSWORD', $MODULE_NAME)}</strong>
 			</button>
 		{/if}
 		{if $MODE === 'change'}
 			<button class="btn btn-success" type="submit" name="saveButton"
 					{if App\Config::main('systemMode') === 'demo'}disabled="disabled"{/if}>
-				<span class="fas fa-redo-alt mr-1"></span><strong>{\App\Language::translate('LBL_CHANGE_PASSWORD', $MODULE_NAME)}</strong>
+				<span class="fas fa-redo-alt mr-2"></span><strong>{\App\Language::translate('LBL_CHANGE_PASSWORD', $MODULE_NAME)}</strong>
 			</button>
 		{/if}
-		{if !$LOCK_EXIT}
+		{if $LOCK_EXIT}
+			<a class="btn btn-danger" role="button" href="index.php?module=Users&amp;parent=Settings&amp;action=Logout">
+				<span class="fas fa-power-off mr-2"></span><strong>{\App\Language::translate('LBL_SIGN_OUT', $MODULE_NAME)}</strong>
+			</a>
+		{else}
 			<button class="btn btn-danger" type="reset" data-dismiss="modal">
-				<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
+				<span class="fas fa-times mr-2"></span><strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 			</button>
 		{/if}
 	</div>

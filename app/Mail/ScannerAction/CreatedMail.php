@@ -16,14 +16,10 @@ namespace App\Mail\ScannerAction;
  */
 class CreatedMail extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $priority = 2;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(): void
 	{
 		$scanner = $this->scannerEngine;
@@ -50,6 +46,8 @@ class CreatedMail extends Base
 		$record->set('ossmailview_sendtype', \App\Mail\ScannerEngine\Base::MAIL_TYPES[$type]);
 		$maxLengthContent = $record->getField('content')->get('maximumlength');
 		$record->set('content', $maxLengthContent ? \App\TextParser::htmlTruncate($scanner->get('body'), $maxLengthContent, false) : $scanner->get('body'));
+		$maxLengthOrginal = $record->getField('orginal_mail')->get('maximumlength');
+		$record->set('orginal_mail', $maxLengthOrginal ? \App\TextParser::htmlTruncate($scanner->get('headers'), $maxLengthOrginal, false) : $scanner->get('headers'));
 		$record->setHandlerExceptions(['disableHandlers' => true]);
 		$record->setDataForSave(['vtiger_ossmailview' => [
 			'cid' => $scanner->getCid(),

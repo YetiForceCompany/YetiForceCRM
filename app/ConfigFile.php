@@ -31,6 +31,7 @@ class ConfigFile extends Base
 		'sounds',
 		'search',
 		'component',
+		'layout'
 	];
 
 	/** @var string Type of configuration file */
@@ -189,9 +190,6 @@ This file is auto-generated.
 	 */
 	public function sanitize(string $key, $value)
 	{
-		if (!isset($this->template[$key])) {
-			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
-		}
 		if (isset($this->template[$key]['sanitization'])) {
 			if (!\is_callable($this->template[$key]['sanitization'])) {
 				throw new Exceptions\AppException("ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION ||{$this->template[$key]['sanitization']}", 406);

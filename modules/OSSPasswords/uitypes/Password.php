@@ -69,4 +69,12 @@ class OSSPasswords_Password_UIType extends Vtiger_Password_UIType
 		$this->validate($value, true);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
+	{
+		return str_repeat('*', 10);
+	}
 }

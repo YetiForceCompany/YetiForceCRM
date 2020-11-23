@@ -14,7 +14,7 @@ class Settings_MailSmtp_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		Settings_MailSmtp_Record_Model::getInstanceById($request->getInteger('record'))->delete();
 		$response = new Vtiger_Response();

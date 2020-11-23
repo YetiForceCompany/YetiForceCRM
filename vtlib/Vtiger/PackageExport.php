@@ -21,6 +21,7 @@ class PackageExport
 	public $_export_modulexml_file;
 	protected $moduleInstance = false;
 	private $zipFileName;
+	private $openNode = 0;
 
 	/**
 	 * Constructor.
@@ -35,12 +36,22 @@ class PackageExport
 	/** Output Handlers */
 	public function openNode($node, $delimiter = PHP_EOL)
 	{
-		$this->__write("<$node>$delimiter");
+		$pre = '';
+		if ('' === $delimiter || PHP_EOL === $delimiter) {
+			$pre = str_repeat("\t", $this->openNode);
+		}
+		$this->__write($pre . "<$node>$delimiter");
+		++$this->openNode;
 	}
 
-	public function closeNode($node, $delimiter = PHP_EOL)
+	public function closeNode($node, $delimiter = PHP_EOL, $space = true)
 	{
-		$this->__write("</$node>$delimiter");
+		--$this->openNode;
+		$pre = '';
+		if ($space) {
+			$pre = str_repeat("\t", $this->openNode);
+		}
+		$this->__write($pre . "</$node>$delimiter");
 	}
 
 	public function outputNode($value, $node = '')
@@ -50,7 +61,7 @@ class PackageExport
 		}
 		$this->__write($value);
 		if ('' != $node) {
-			$this->closeNode($node);
+			$this->closeNode($node, PHP_EOL, false);
 		}
 	}
 
@@ -548,7 +559,9 @@ class PackageExport
 				$this->openNode('field');
 				$this->outputNode($cvRow['field_name'], 'fieldname');
 				$this->outputNode($cvRow['module_name'], 'modulename');
-				$this->outputNode($cvRow['source_field_name'], 'sourcefieldname');
+				if ($cvRow['source_field_name']) {
+					$this->outputNode($cvRow['source_field_name'], 'sourcefieldname');
+				}
 				$this->outputNode($cvRow['columnindex'], 'columnindex');
 				$this->closeNode('field');
 			}
@@ -644,6 +657,11 @@ class PackageExport
 				$this->outputNode($row['label'], 'label');
 				$this->outputNode($row['sequence'], 'sequence');
 				$this->outputNode($row['presence'], 'presence');
+				$this->outputNode($row['favorites'], 'favorites');
+				$this->outputNode($row['creator_detail'], 'creator_detail');
+				$this->outputNode($row['relation_comment'], 'relation_comment');
+				$this->outputNode($row['view_type'], 'view_type');
+				$this->outputNode($row['field_name'], 'field_name');
 				$actionText = $row['actions'];
 				if (!empty($actionText)) {
 					$this->openNode('actions');
@@ -652,6 +670,13 @@ class PackageExport
 						$this->outputNode($action, 'action');
 					}
 					$this->closeNode('actions');
+				}
+				if ($fields = \App\Field::getFieldsFromRelation($row['relation_id'])) {
+					$this->openNode('fields');
+					foreach ($fields as $field) {
+						$this->outputNode($field, 'field');
+					}
+					$this->closeNode('fields');
 				}
 				$this->closeNode('relatedlist');
 			}
@@ -670,6 +695,11 @@ class PackageExport
 				$this->outputNode($row['label'], 'label');
 				$this->outputNode($row['sequence'], 'sequence');
 				$this->outputNode($row['presence'], 'presence');
+				$this->outputNode($row['favorites'], 'favorites');
+				$this->outputNode($row['creator_detail'], 'creator_detail');
+				$this->outputNode($row['relation_comment'], 'relation_comment');
+				$this->outputNode($row['view_type'], 'view_type');
+				$this->outputNode($row['field_name'], 'field_name');
 				$actionText = $row['actions'];
 				if (!empty($actionText)) {
 					$this->openNode('actions');
@@ -678,6 +708,13 @@ class PackageExport
 						$this->outputNode($action, 'action');
 					}
 					$this->closeNode('actions');
+				}
+				if ($fields = \App\Field::getFieldsFromRelation($row['relation_id'])) {
+					$this->openNode('fields');
+					foreach ($fields as $field) {
+						$this->outputNode($field, 'field');
+					}
+					$this->closeNode('fields');
 				}
 				$this->closeNode('inrelatedlist');
 			}

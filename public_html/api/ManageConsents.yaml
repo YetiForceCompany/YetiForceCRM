@@ -34,10 +34,10 @@ paths:
         '200':
           description: 'Result of adding entry'
           content:
-            text/html:
+            application/json:
               schema:
                 $ref: '#/components/schemas/ApprovalsRegisterResponseBody'
-            application/json:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ApprovalsRegisterResponseBody'
         '401':
@@ -56,7 +56,7 @@ paths:
       tags:
         - Consents
       summary: 'Gets the list of consents'
-      operationId: 'Api\ManageConsents\BaseModule\RecordsList::get'
+      operationId: 'Api\ManageConsents\Approvals\RecordsList::get'
       parameters:
         -
           name: x-row-limit
@@ -90,8 +90,11 @@ paths:
           in: header
           description: 'Add conditions [Json format]'
           required: false
-          schema:
-            $ref: '#/components/schemas/ApprovalsConditionsRequest'
+          content:
+            application/json:
+              mediaType: application/json
+              schema:
+                $ref: '#/components/schemas/ApprovalsConditionsRequest'
       requestBody:
         description: 'The content of the request is empty'
         required: false
@@ -99,10 +102,10 @@ paths:
         '200':
           description: 'List of consents'
           content:
-            text/html:
+            application/json:
               schema:
                 $ref: '#/components/schemas/ConsentsResponseBody'
-            application/json:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ConsentsResponseBody'
         '401':
@@ -148,9 +151,6 @@ paths:
         '200':
           description: 'List of consents for specific entry'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/ConsentsForEntryResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/ConsentsForEntryResponseBody'
@@ -199,9 +199,6 @@ paths:
         '200':
           description: 'List of consents for specific entry'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/SendEmailResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/SendEmailResponseBody'
@@ -258,7 +255,7 @@ components:
     ApprovalsConditionsRequest:
       title: Conditions
       description: 'The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. '
-      type: string
+      type: text
       example:
         fieldName: approvals_status
         value: PLL_ACTIVE
@@ -324,9 +321,10 @@ components:
               type: integer
               example: 24842
             consents:
-              description: 'Gets consents.'
-              type: array
-              items:
+              description: 'Get the edit value in display view'
+              type: object
+              additionalProperties:
+                description: 'Data from the associated module'
                 type: integer
                 example: 24862
           type: object

@@ -65,6 +65,9 @@ class OpenStreetMap_UpdaterCoordinates_Cron extends \App\CronHandler
 					}
 				}
 				$lastUpdatedCrmId = $row['crmid'];
+				if ($this->checkTimeout()) {
+					break;
+				}
 			}
 			$dataReader->close();
 			$lastRecordId = $db->getUniqueID('vtiger_crmentity', 'crmid', false);

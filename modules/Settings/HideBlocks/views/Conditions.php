@@ -13,7 +13,7 @@ class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$blockId = $request->getInteger('blockid');
@@ -22,13 +22,13 @@ class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		$mode = '';
 		$viewer = $this->getViewer($request);
 
-		if ($views != '') {
-			$views = implode($views, ',');
+		if ('' != $views) {
+			$views = implode(',', $views);
 		}
 		if ($recordId) {
 			$mode = 'edit';
-		} else {
 		}
+
 		$moduleModel = Settings_HideBlocks_Record_Model::getModuleInstanceByBlockId($blockId);
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		$structuredValues = $recordStrucure->getStructure();
@@ -73,7 +73,7 @@ class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

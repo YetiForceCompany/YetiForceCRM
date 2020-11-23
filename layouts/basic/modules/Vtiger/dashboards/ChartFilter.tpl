@@ -104,25 +104,25 @@
 			</div>
 		</div>
 		{if $VALUE_TYPE!=='count'}
-		<div class="step3 form-group row">
-			<div class="{$COL_LBL}"><label><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}</label></div>
-			<div class="{$COL_CTRL}">
-				<select class="form-control saveParam valueField" name="valueField" size="2" data-validation-engine="validate[required]">
-					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
-						<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
-							{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
-								{if in_array($FIELD->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
-									<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
-								{/if}
-							{/foreach}
-						</optgroup>
-					{/foreach}
-				</select>
+			<div class="step3 form-group row">
+				<div class="{$COL_LBL}"><label><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}</label></div>
+				<div class="{$COL_CTRL}">
+					<select class="form-control saveParam valueField" name="valueField" size="2" data-validation-engine="validate[required]">
+						{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
+							<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
+								{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
+									{if in_array($FIELD->getFieldDataType(), $REQUIRED_FIELD_TYPE)}
+										<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+									{/if}
+								{/foreach}
+							</optgroup>
+						{/foreach}
+					</select>
+				</div>
 			</div>
-		</div>
 		{/if}
 	{elseif $WIZARD_STEP eq 'step4'}
-		{if $CHART_TYPE == 'Funnel'  && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
+		{if $CHART_TYPE == 'Funnel'  && in_array($GROUP_FIELD_MODEL->getFieldDataType(), $REQUIRED_FIELD_TYPE)}
 			<div class="step4 form-group row">
 				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_GROUP_VALUES','Home')}</label></div>
 				<div class="{$COL_CTRL}">

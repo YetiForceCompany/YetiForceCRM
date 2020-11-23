@@ -74,24 +74,33 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 	public function encryption(App\Request $request)
 	{
 		$method = $request->isEmpty('methods') ? '' : $request->getByType('methods', 'Text');
+		$vector = $request->getRaw('vector');
+		$password = $request->getRaw('password');
+		if (!$method) {
+			$vector = $password = '';
+		}
 		if ($method && !\in_array($method, \App\Encryption::getMethods())) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||methods', 406);
 		}
-		$password = $request->getRaw('password');
-		if ($method && \strlen($password) !== App\Encryption::getLengthVector($method)) {
+		if ($method && \strlen($vector) !== App\Encryption::getLengthVector($method)) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||password', 406);
 		}
 		\App\Config::set('securityKeys', 'encryptionMethod', $method);
 		$instance = new App\Encryption();
 		$instance->set('method', $method);
-		$instance->set('vector', $password);
-		$instance->set('pass', \App\Config::securityKeys('encryptionPass'));
+		$instance->set('vector', $vector);
+		$instance->set('pass', $password);
 		$response = new Vtiger_Response();
 		$encryption = $instance->encrypt('test');
-		if (empty($encryption) || 'test' === $encryption) {
+		if (!$method) {
+			$response->setResult(App\Language::translate('LBL_DISABLE_ENCRYPTION', $request->getModule(false)));
+			\App\BatchMethod::deleteByMethod('\App\Encryption::recalculatePasswords');
+			(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => [$method, $password, $vector]]))->save();
+		} elseif (empty($encryption) || 'test' === $encryption) {
 			$response->setResult(App\Language::translate('LBL_NO_REGISTER_ENCRYPTION', $request->getModule(false)));
 		} else {
-			(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => [$method, $password]]))->save();
+			\App\BatchMethod::deleteByMethod('\App\Encryption::recalculatePasswords');
+			(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => [$method, $password, $vector]]))->save();
 			$response->setResult(App\Language::translate('LBL_REGISTER_ENCRYPTION', $request->getModule(false)));
 		}
 		$response->emit();

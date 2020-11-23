@@ -175,6 +175,22 @@ class Config
 	}
 
 	/**
+	 * Gets layout configuration.
+	 *
+	 * @param string|null $arg
+	 * @param mixed       $default
+	 *
+	 * @throws \ReflectionException
+	 *
+	 * @return mixed
+	 */
+	public static function layout(?string $arg = null, $default = null)
+	{
+		$class = '\\Config\\Layout';
+		return self::get($class, $arg, $default);
+	}
+
+	/**
 	 * Gets security configuration.
 	 *
 	 * @param string|null $arg

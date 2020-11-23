@@ -23,12 +23,40 @@ class Response
 	 * @var string[]
 	 */
 	protected $acceptableMethods = [];
+	/**
+	 * Request instance.
+	 *
+	 * @var \Api\Core\Request
+	 */
+	protected $request;
 	protected static $instance = false;
 	protected $body;
+	/**
+	 * File instance.
+	 *
+	 * @var \App\Fields\File
+	 */
+	protected $file;
+	/**
+	 * Headers.
+	 *
+	 * @var array
+	 */
 	protected $headers = [];
 	protected $status = 200;
+	/**
+	 * Response data type.
+	 *
+	 * @var string
+	 */
+	protected $responseType;
 
-	public static function getInstance()
+	/**
+	 * Get instance.
+	 *
+	 * @return self
+	 */
+	public static function getInstance(): self
 	{
 		if (!static::$instance) {
 			static::$instance = new self();
@@ -46,9 +74,35 @@ class Response
 		$this->status = $status;
 	}
 
-	public function setBody($body)
+	/**
+	 * Set body data.
+	 *
+	 * @param array|\App\Fields\File $body
+	 *
+	 * @return void
+	 */
+	public function setBody(array $body): void
 	{
 		$this->body = $body;
+		$this->responseType = 'data';
+	}
+
+	/**
+	 * Set file instance.
+	 *
+	 * @param \App\Fields\File $file
+	 *
+	 * @return void
+	 */
+	public function setFile(\App\Fields\File $file): void
+	{
+		$this->file = $file;
+		$this->responseType = 'file';
+	}
+
+	public function setRequest(Request $request)
+	{
+		$this->request = $request;
 	}
 
 	/**
@@ -91,38 +145,52 @@ class Response
 	public function send()
 	{
 		$encryptDataTransfer = \App\Config::api('ENCRYPT_DATA_TRANSFER') ? 1 : 0;
-		if (200 !== $this->status) {
+		if (200 !== $this->status || 'data' !== $this->responseType) {
 			$encryptDataTransfer = 0;
 		}
 		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
+		if (empty($requestContentType) || '*/*' === $requestContentType) {
+			$requestContentType = $this->request->contentType;
+		}
 		if (!headers_sent()) {
 			header('access-control-allow-origin: *');
 			header('access-control-allow-methods: ' . implode(', ', $this->acceptableMethods));
 			header('access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(', ', $this->acceptableHeaders));
-			header("content-type: $requestContentType");
 			header(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->status . ' ' . $this->requestStatus());
 			header('encrypted: ' . $encryptDataTransfer);
 			foreach ($this->headers as $key => $header) {
 				header(\strtolower($key) . ': ' . $header);
 			}
 		}
-		if (!empty($this->body)) {
-			if ($encryptDataTransfer) {
-				header('content-disposition: attachment; filename="api.json"');
-				$response = $this->encryptData($this->body);
-			} else {
-				if (false !== strpos($requestContentType, 'text/html')) {
-					header('content-disposition: attachment; filename="api.html"');
-					$response = $this->encodeHtml($this->body);
-				} elseif (false !== strpos($requestContentType, 'application/xml')) {
-					header('content-disposition: attachment; filename="api.xml"');
-					$response = $this->encodeXml($this->body);
-				} else {
-					header('content-disposition: attachment; filename="api.json"');
-					$response = $this->encodeJson($this->body);
-				}
+		if ($encryptDataTransfer) {
+			header('content-disposition: attachment; filename="api.json"');
+			if (!empty($this->body)) {
+				echo $this->encryptData($this->body);
 			}
-			echo $response;
+		} else {
+			switch ($this->responseType) {
+				case 'data':
+					if (!empty($this->body)) {
+						header("content-type: $requestContentType");
+						if (false !== strpos($requestContentType, 'application/xml')) {
+							header('content-disposition: attachment; filename="api.xml"');
+							echo $this->encodeXml($this->body);
+						} else {
+							header('content-disposition: attachment; filename="api.json"');
+							echo $this->encodeJson($this->body);
+						}
+					}
+					break;
+				case 'file':
+					if (isset($this->file) && file_exists($this->file->getPath())) {
+						header('content-type: ' . $this->file->getMimeType());
+						header('content-transfer-encoding: binary');
+						header('content-length: ' . $this->file->getSize());
+						header('content-disposition: attachment; filename="' . $this->file->getName() . '"');
+						readfile($this->file->getPath());
+					}
+					break;
+			}
 		}
 		$this->debugResponse();
 	}
@@ -135,7 +203,7 @@ class Response
 
 	public function debugResponse()
 	{
-		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
+		if (\App\Config::debug('WEBSERVICE_LOG_REQUESTS')) {
 			$request = Request::init();
 			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
 			$log .= "Status: {$this->status}\n";
@@ -155,18 +223,16 @@ class Response
 		}
 	}
 
-	public function encodeHtml($responseData)
+	/**
+	 * Encode json data output.
+	 *
+	 * @param array $responseData
+	 *
+	 * @return string
+	 */
+	public function encodeJson($responseData): string
 	{
-		$htmlResponse = "<table border='1'>";
-		foreach ($responseData as $key => $value) {
-			$htmlResponse .= "<tr><td>$key</td><td>" . (\is_array($value) ? $this->encodeHtml($value) : nl2br($value)) . '</td></tr>';
-		}
-		return $htmlResponse . '</table>';
-	}
-
-	public function encodeJson($responseData)
-	{
-		return json_encode($responseData);
+		return json_encode($responseData, JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE);
 	}
 
 	public function encodeXml($responseData)

@@ -15,7 +15,7 @@ jQuery.Class(
 		listInstance: false,
 		getRelatedModulesContainer: false,
 		massEditPreSave: 'Vtiger.MassEdit.PreSave',
-		getInstance: function() {
+		getInstance: function () {
 			if (Vtiger_List_Js.listInstance === false) {
 				let module = app.getModuleName(),
 					parentModule = app.getParentModuleName(),
@@ -49,20 +49,21 @@ jQuery.Class(
 		 * function to trigger send Email
 		 * @params: send email url , module name.
 		 */
-		triggerSendEmail: function(params) {
-			var listInstance = Vtiger_List_Js.getInstance();
-			var validationResult = listInstance.checkListRecordSelected();
+		triggerSendEmail: function (params) {
+			let listInstance = Vtiger_List_Js.getInstance();
+			let validationResult = listInstance.checkListRecordSelected();
 			if (validationResult !== true) {
-				var postData = listInstance.getSearchParams();
+				let postData = listInstance.getSearchParams();
 				delete postData.parent;
+				delete postData.mode;
 				postData.view = 'SendMailModal';
 				postData.cvid = listInstance.getCurrentCvId();
 				if (params) {
 					jQuery.extend(postData, params);
 				}
-				AppConnector.request(postData).done(function(response) {
-					app.showModalWindow(response, function(data) {
-						data.find('[name="saveButton"]').on('click', function(e) {
+				AppConnector.request(postData).done(function (response) {
+					app.showModalWindow(response, function (data) {
+						data.find('[name="saveButton"]').on('click', function (e) {
 							if (data.find('form').validationEngine('validate')) {
 								jQuery.extend(postData, {
 									field: data.find('#field').val(),
@@ -72,12 +73,12 @@ jQuery.Class(
 								});
 								delete postData.view;
 								AppConnector.request(postData)
-									.done(function(response) {
+									.done(function (response) {
 										if (response.result == true) {
 											app.hideModalWindow();
 										}
 									})
-									.fail(function(data, err) {
+									.fail(function (data, err) {
 										app.hideModalWindow();
 									});
 							}
@@ -92,34 +93,34 @@ jQuery.Class(
 		 * function to trigger Send Sms
 		 * @params: send email url , module name.
 		 */
-		triggerSendSms: function(massActionUrl, module) {
-			var listInstance = Vtiger_List_Js.getInstance();
-			var validationResult = listInstance.checkListRecordSelected();
+		triggerSendSms: function (massActionUrl, module) {
+			let listInstance = Vtiger_List_Js.getInstance();
+			let validationResult = listInstance.checkListRecordSelected();
 			if (validationResult != true) {
 				Vtiger_List_Js.triggerMassAction(massActionUrl);
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}
 		},
-		triggerTransferOwnership: function(massActionUrl) {
-			var thisInstance = this;
-			var listInstance = Vtiger_List_Js.getInstance();
-			var validationResult = listInstance.checkListRecordSelected();
+		triggerTransferOwnership: function (massActionUrl) {
+			let thisInstance = this;
+			let listInstance = Vtiger_List_Js.getInstance();
+			let validationResult = listInstance.checkListRecordSelected();
 			if (validationResult != true) {
-				var progressIndicatorElement = jQuery.progressIndicator();
+				let progressIndicatorElement = jQuery.progressIndicator();
 				thisInstance.getRelatedModulesContainer = false;
-				var actionParams = {
+				let actionParams = {
 					type: 'POST',
 					url: massActionUrl,
 					dataType: 'html',
 					data: {}
 				};
-				AppConnector.request(actionParams).done(function(data) {
+				AppConnector.request(actionParams).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					if (data) {
-						var callback = function(data) {
-							var params = app.validationEngineOptions;
-							params.onValidationComplete = function(form, valid) {
+						let callback = function (data) {
+							let params = app.validationEngineOptions;
+							params.onValidationComplete = function (form, valid) {
 								if (valid) {
 									thisInstance.transferOwnershipSave(form);
 								}
@@ -127,8 +128,8 @@ jQuery.Class(
 							};
 							data.find('#changeOwner').validationEngine(app.validationEngineOptions);
 						};
-						app.showModalWindow(data, function(data) {
-							var selectElement = thisInstance.getRelatedModuleContainer();
+						app.showModalWindow(data, function (data) {
+							let selectElement = thisInstance.getRelatedModuleContainer();
 							App.Fields.Picklist.changeSelectElementView(selectElement, 'select2');
 							if (typeof callback == 'function') {
 								callback(data);
@@ -140,7 +141,7 @@ jQuery.Class(
 				listInstance.noRecordSelectedAlert();
 			}
 		},
-		triggerQuickExportToExcel: function(module) {
+		triggerQuickExportToExcel: function (module) {
 			const massActionUrl = 'index.php';
 			const listInstance = Vtiger_List_Js.getInstance();
 			if (listInstance.checkListRecordSelected() != true) {
@@ -152,13 +153,16 @@ jQuery.Class(
 				};
 				$.extend(postData, listInstance.getSearchParams());
 				app.openUrlMethodPost(massActionUrl, postData);
-				Vtiger_Helper_Js.showMessage({ text: app.vtranslate('JS_STARTED_GENERATING_FILE'), type: 'info' });
+				Vtiger_Helper_Js.showMessage({
+					text: app.vtranslate('JS_STARTED_GENERATING_FILE'),
+					type: 'info'
+				});
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}
 		},
-		transferOwnershipSave: function(form) {
+		transferOwnershipSave: function (form) {
 			const listInstance = Vtiger_List_Js.getInstance();
 			let transferOwner = jQuery('#transferOwnerId').val(),
 				relatedModules = jQuery('#related_modules').val(),
@@ -170,7 +174,7 @@ jQuery.Class(
 				};
 			params = $.extend(params, listInstance.getSearchParams());
 			delete params.view;
-			AppConnector.request(params).done(response => {
+			AppConnector.request(params).done((response) => {
 				app.hideModalWindow();
 				listInstance.getListViewRecords();
 				Vtiger_List_Js.clearList();
@@ -188,29 +192,29 @@ jQuery.Class(
 		/*
 		 * Function to get the related module container
 		 */
-		getRelatedModuleContainer: function() {
+		getRelatedModuleContainer: function () {
 			if (this.getRelatedModulesContainer == false) {
 				this.getRelatedModulesContainer = jQuery('#related_modules');
 			}
 			return this.getRelatedModulesContainer;
 		},
-		triggerMassAction: function(massActionUrl, callBackFunction, beforeShowCb, css) {
+		triggerMassAction: function (massActionUrl, callBackFunction, beforeShowCb, css) {
 			if (typeof beforeShowCb === 'undefined') {
-				beforeShowCb = function() {
+				beforeShowCb = function () {
 					return true;
 				};
 			}
 			if (typeof beforeShowCb == 'object') {
 				css = beforeShowCb;
-				beforeShowCb = function() {
+				beforeShowCb = function () {
 					return true;
 				};
 			}
-			var listInstance = Vtiger_List_Js.getInstance();
-			var validationResult = listInstance.checkListRecordSelected();
+			let listInstance = Vtiger_List_Js.getInstance();
+			let validationResult = listInstance.checkListRecordSelected();
 			if (validationResult != true) {
-				var progressIndicatorElement = jQuery.progressIndicator();
-				var actionParams = {
+				let progressIndicatorElement = jQuery.progressIndicator();
+				let actionParams = {
 					type: 'POST',
 					url: massActionUrl,
 					dataType: 'html',
@@ -221,16 +225,16 @@ jQuery.Class(
 				}
 				css = jQuery.extend({ 'text-align': 'left' }, css);
 				AppConnector.request(actionParams)
-					.done(function(data) {
+					.done(function (data) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						if (data) {
-							var result = beforeShowCb(data);
+							let result = beforeShowCb(data);
 							if (!result) {
 								return;
 							}
 							app.showModalWindow(
 								data,
-								function(data) {
+								function (data) {
 									app.event.trigger('MassEditModal.AfterLoad', data, massActionUrl);
 									if (typeof callBackFunction == 'function') {
 										callBackFunction(data);
@@ -245,9 +249,9 @@ jQuery.Class(
 							}
 						}
 					})
-					.fail(function(error, err) {
+					.fail(function (error, err) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							title: app.vtranslate('JS_MESSAGE'),
 							text: err,
 							type: 'error'
@@ -257,25 +261,25 @@ jQuery.Class(
 				listInstance.noRecordSelectedAlert();
 			}
 		},
-		triggerMassEdit: function(massEditUrl) {
-			var selectedCount = this.getSelectedRecordCount();
+		triggerMassEdit: function (massEditUrl) {
+			let selectedCount = this.getSelectedRecordCount();
 			if (selectedCount > jQuery('#listMaxEntriesMassEdit').val()) {
-				var params = {
+				let params = {
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MASS_EDIT_LIMIT'),
 					type: 'error'
 				};
-				Vtiger_Helper_Js.showPnotify(params);
+				app.showNotify(params);
 				return;
 			}
 			Vtiger_List_Js.triggerMassAction(
 				massEditUrl,
-				function(container) {
-					var massEditForm = container.find('#massEdit');
+				function (container) {
+					let massEditForm = container.find('#massEdit');
 					massEditForm.validationEngine(app.validationEngineOptions);
-					var listInstance = Vtiger_List_Js.getInstance();
+					let listInstance = Vtiger_List_Js.getInstance();
 					listInstance.registerEventForTabClick(massEditForm);
-					var editInstance = Vtiger_Edit_Js.getInstance();
+					let editInstance = Vtiger_Edit_Js.getInstance();
 					editInstance.registerBasicEvents(massEditForm);
 					listInstance.postMassEdit(container);
 					listInstance.registerSlimScrollMassEdit();
@@ -283,17 +287,17 @@ jQuery.Class(
 				{ width: '65%' }
 			);
 		},
-		getSelectedRecordCount: function() {
-			var count;
-			var listInstance = Vtiger_List_Js.getInstance();
-			var cvId = listInstance.getCurrentCvId();
-			var selectedIdObj = jQuery('#selectedIds').data(cvId + 'selectedIds');
+		getSelectedRecordCount: function () {
+			let count;
+			let listInstance = Vtiger_List_Js.getInstance();
+			let cvId = listInstance.getCurrentCvId();
+			let selectedIdObj = jQuery('#selectedIds').data(cvId + 'selectedIds');
 			if (selectedIdObj != undefined) {
 				if (selectedIdObj != 'all') {
 					count = selectedIdObj.length;
 				} else {
-					var excludedIdsCount = jQuery('#excludedIds').data(cvId + 'Excludedids').length;
-					var totalRecords = jQuery('#recordsCount').val();
+					let excludedIdsCount = jQuery('#excludedIds').data(cvId + 'Excludedids').length;
+					let totalRecords = jQuery('#recordsCount').val();
 					count = totalRecords - excludedIdsCount;
 				}
 			}
@@ -303,47 +307,28 @@ jQuery.Class(
 		 * function to trigger export action
 		 * returns UI
 		 */
-		triggerExportAction: function(exportActionUrl) {
-			let listInstance = Vtiger_List_Js.getInstance();
-			let params = listInstance.getSearchParams();
-			if ('undefined' === typeof params.viewname)
-				exportActionUrl +=
-					'&selected_ids=' + params.selected_ids + '&excluded_ids=' + params.excluded_ids + '&page=' + params.page;
-			else
-				exportActionUrl +=
-					'&selected_ids=' +
-					params.selected_ids +
-					'&excluded_ids=' +
-					params.excluded_ids +
-					'&viewname=' +
-					params.viewname +
-					'&page=' +
-					params.page +
-					'&entityState=' +
-					params.entityState;
-			if (listInstance.getListSearchInstance()) {
-				exportActionUrl += '&search_params=' + params.search_params;
-				if (typeof params.search_value !== 'undefined' && params.search_value.length > 0) {
-					exportActionUrl += '&search_key=' + params.search_key;
-					exportActionUrl += '&search_value=' + params.search_value;
-					exportActionUrl += '&operator=s';
-				}
+		triggerExportAction: function (exportActionUrl, newTab) {
+			let formAttr = {};
+			if (newTab) {
+				formAttr['target'] = '_blank';
 			}
-			window.location.href = exportActionUrl;
+			let params = Vtiger_List_Js.getInstance().getSearchParams();
+			delete params.view;
+			app.openUrlMethodPost(exportActionUrl, params, formAttr);
 		},
 		/**
 		 * Function to reload list
 		 */
-		clearList: function() {
+		clearList: function () {
 			jQuery('#deSelectAllMsg').trigger('click');
 			jQuery('#selectAllMsgDiv').hide();
 		},
-		triggerListSearch: function() {
-			var listInstance = Vtiger_List_Js.getInstance();
-			var listViewContainer = listInstance.getListViewContentContainer();
+		triggerListSearch: function () {
+			let listInstance = Vtiger_List_Js.getInstance();
+			let listViewContainer = listInstance.getListViewContentContainer();
 			listViewContainer.find('[data-trigger="listSearch"]').trigger('click');
 		},
-		getSelectedRecordsParams: function(checkList) {
+		getSelectedRecordsParams: function (checkList) {
 			let listInstance = Vtiger_List_Js.getInstance();
 			if (checkList == false || listInstance.checkListRecordSelected() !== true) {
 				return listInstance.getSearchParams();
@@ -352,42 +337,42 @@ jQuery.Class(
 			}
 			return false;
 		},
-		triggerGenerateRecords: function() {
-			var selected = Vtiger_List_Js.getSelectedRecordsParams();
+		triggerGenerateRecords: function () {
+			let selected = Vtiger_List_Js.getSelectedRecordsParams();
 			if (selected === false) {
 				return false;
 			}
 			selected.view = 'GenerateModal';
 			selected.fromview = 'List';
-			var progressIndicatorElement = jQuery.progressIndicator({
+			let progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			app.showModalWindow(null, 'index.php?' + jQuery.param(selected), function() {
+			app.showModalWindow(null, 'index.php?' + jQuery.param(selected), function () {
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 			});
 		},
-		showMap: function() {
-			var selectedParams = Vtiger_List_Js.getSelectedRecordsParams(false);
-			var url = 'index.php?module=OpenStreetMap&view=MapModal&srcModule=' + app.getModuleName();
-			app.showModalWindow(null, url, function(container) {
-				var mapView = new OpenStreetMap_Map_Js();
+		showMap: function () {
+			let selectedParams = Vtiger_List_Js.getSelectedRecordsParams(false);
+			let url = 'index.php?module=OpenStreetMap&view=MapModal&srcModule=' + app.getModuleName();
+			app.showModalWindow(null, url, function (container) {
+				let mapView = new OpenStreetMap_Map_Js();
 				mapView.setSelectedParams(selectedParams);
 				mapView.registerModalView(container);
 			});
 		},
-		triggerReviewChanges: function(reviewUrl) {
-			var listInstance = Vtiger_List_Js.getInstance();
-			var validationResult = listInstance.checkListRecordSelected();
+		triggerReviewChanges: function (reviewUrl) {
+			let listInstance = Vtiger_List_Js.getInstance();
+			let validationResult = listInstance.checkListRecordSelected();
 			if (validationResult != true) {
-				var message = app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION');
-				var title = '<i class="fa fa-check-circle"></i> ' + app.vtranslate('JS_LBL_REVIEW_CHANGES');
+				let message = app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION');
+				let title = '<i class="fa fa-check-circle"></i> ' + app.vtranslate('JS_LBL_REVIEW_CHANGES');
 				Vtiger_Helper_Js.showConfirmationBox({ message: message, title: title })
-					.done(function(e) {
+					.done(function (e) {
 						let params = listInstance.getSearchParams();
-						var url =
+						let url =
 							reviewUrl +
 							'&viewname=' +
 							params.viewname +
@@ -405,8 +390,8 @@ jQuery.Class(
 								url += '&operator=s';
 							}
 						}
-						var deleteMessage = app.vtranslate('JS_LOADING_PLEASE_WAIT');
-						var progressIndicatorElement = jQuery.progressIndicator({
+						let deleteMessage = app.vtranslate('JS_LOADING_PLEASE_WAIT');
+						let progressIndicatorElement = jQuery.progressIndicator({
 							message: deleteMessage,
 							position: 'html',
 							blockInfo: {
@@ -414,25 +399,25 @@ jQuery.Class(
 							}
 						});
 						AppConnector.request(url)
-							.done(function(data) {
+							.done(function (data) {
 								progressIndicatorElement.progressIndicator({
 									mode: 'hide'
 								});
 								if (data.result) {
-									var params = {
+									let params = {
 										text: data.result,
 										type: 'info'
 									};
-									Vtiger_Helper_Js.showPnotify(params);
+									app.showNotify(params);
 								} else {
 									listInstance.getListViewRecords();
 								}
 							})
-							.fail(function(error, err) {
+							.fail(function (error, err) {
 								app.errorLog(error, err);
 							});
 					})
-					.fail(function(error, err) {
+					.fail(function (error, err) {
 						Vtiger_List_Js.clearList();
 					});
 			} else {
@@ -454,7 +439,7 @@ jQuery.Class(
 		noEventsListSearch: true,
 		//Contains float table head
 		listFloatThead: false,
-		getListSearchInstance: function(events) {
+		getListSearchInstance: function (events) {
 			if (events != undefined) {
 				this.noEventsListSearch = events;
 			}
@@ -470,27 +455,27 @@ jQuery.Class(
 			}
 			return this.listSearchInstance;
 		},
-		getListViewContainer: function() {
+		getListViewContainer: function () {
 			if (this.listViewContainer == false) {
 				this.listViewContainer = jQuery('div.listViewPageDiv');
 			}
 			return this.listViewContainer;
 		},
-		getListViewTopMenuContainer: function() {
+		getListViewTopMenuContainer: function () {
 			if (this.listViewTopMenuContainer == false) {
 				this.listViewTopMenuContainer = jQuery('.listViewTopMenuDiv');
 			}
 			return this.listViewTopMenuContainer;
 		},
-		getListViewContentContainer: function() {
+		getListViewContentContainer: function () {
 			if (this.listViewContentContainer == false) {
 				this.listViewContentContainer = jQuery('.listViewContentDiv');
 			}
 			return this.listViewContentContainer;
 		},
-		getFilterBlock: function() {
+		getFilterBlock: function () {
 			if (this.filterBlock == false) {
-				var filterSelectElement = this.getFilterSelectElement();
+				let filterSelectElement = this.getFilterSelectElement();
 				if (filterSelectElement.length <= 0) {
 					this.filterBlock = jQuery();
 				} else if (filterSelectElement.is('select')) {
@@ -499,7 +484,7 @@ jQuery.Class(
 			}
 			return this.filterBlock;
 		},
-		getFilterSelectElement: function() {
+		getFilterSelectElement: function () {
 			if (this.filterSelectElement == false) {
 				this.filterSelectElement = jQuery('#customFilter');
 			}
@@ -513,24 +498,27 @@ jQuery.Class(
 			}
 			return params;
 		},
-		getDefaultParams: function() {
+		getDefaultParams: function () {
 			let params = {
 				module: app.getModuleName(),
-				page: $('#pageNumber').val(),
 				view: app.getViewName(),
 				viewname: this.getCurrentCvId(),
+				page: $('#pageNumber').val(),
 				orderby: $('#orderBy').val(),
 				entityState: $('#entityState').val()
 			};
-			if($('#sortOrder').length){
-				params.sortorder = $('#sortOrder').val();
+			if (app.getUrlVar('mid')) {
+				params.mid = app.getUrlVar('mid');
 			}
 			if (app.getParentModuleName()) {
 				params.parent = app.getParentModuleName();
 			}
-			var listSearchInstance = this.getListSearchInstance();
+			if ($('#sortOrder').length) {
+				params.sortorder = $('#sortOrder').val();
+			}
+			let listSearchInstance = this.getListSearchInstance();
 			if (listSearchInstance !== false) {
-				var searchValue = listSearchInstance.getAlphabetSearchValue();
+				let searchValue = listSearchInstance.getAlphabetSearchValue();
 				params.search_params = JSON.stringify(listSearchInstance.getListSearchParams(true));
 				if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
 					params.search_key = listSearchInstance.getAlphabetSearchField();
@@ -544,29 +532,29 @@ jQuery.Class(
 		/*
 		 * Function which will give you all the list view params
 		 */
-		getListViewRecords: function(urlParams) {
-			var aDeferred = $.Deferred();
+		getListViewRecords: function (urlParams) {
+			let aDeferred = $.Deferred();
 			if (typeof urlParams === 'undefined') {
 				urlParams = {};
 			}
-			var thisInstance = this;
-			var listViewContentsContainer = $('#listViewContents');
-			var loadingMessage = jQuery('.listViewLoadingMsg').text();
-			var progressIndicatorElement = $.progressIndicator({
+			let thisInstance = this;
+			let listViewContentsContainer = $('#listViewContents');
+			let loadingMessage = jQuery('.listViewLoadingMsg').text();
+			let progressIndicatorElement = $.progressIndicator({
 				message: loadingMessage,
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			var defaultParams = this.getDefaultParams();
+			let defaultParams = this.getDefaultParams();
 			urlParams = $.extend(defaultParams, urlParams);
 			AppConnector.requestPjax(urlParams)
-				.done(function(data) {
+				.done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					listViewContentsContainer.html(data);
 					app.event.trigger('RecordListView.AfterLoad', data, thisInstance);
-					thisInstance.calculatePages().done(function(data) {
+					thisInstance.calculatePages().done(function (data) {
 						aDeferred.resolve(data);
 						// Let listeners know about page state change.
 						app.notifyPostAjaxReady();
@@ -575,9 +563,9 @@ jQuery.Class(
 					thisInstance.massUpdatePagination(urlParams);
 					Vtiger_List_Js.clearList();
 				})
-				.fail(function(textStatus, errorThrown) {
+				.fail(function (textStatus, errorThrown) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
 						type: 'error'
 					});
@@ -585,47 +573,38 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
-		postLoadListViewRecordsEvents: function(container) {
+		postLoadListViewRecordsEvents: function (container) {
 			const self = this;
 			this.registerPostLoadDesktopEvents(container);
 			App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 			App.Fields.Picklist.changeSelectElementView(container);
-			var searchInstance = self.getListSearchInstance();
+			let searchInstance = self.getListSearchInstance();
 			if (searchInstance !== false) {
 				searchInstance.registerBasicEvents();
 			}
 			Vtiger_Index_Js.registerMailButtons(container);
 			//self.triggerDisplayTypeEvent();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
-			var selectedIds = self.readSelectedIds();
+			let selectedIds = self.readSelectedIds();
 			if (selectedIds != '') {
 				if (selectedIds == 'all') {
-					$('.listViewEntriesCheckBox').each(function(index, element) {
-						$(this)
-							.prop('checked', true)
-							.closest('tr')
-							.addClass('highlightBackgroundColor');
+					$('.listViewEntriesCheckBox').each(function (index, element) {
+						$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 					});
 					$('#deSelectAllMsgDiv').show();
-					var excludedIds = self.readExcludedIds();
+					let excludedIds = self.readExcludedIds();
 					if (excludedIds != '') {
 						$('#listViewEntriesMainCheckBox').prop('checked', false);
-						$('.listViewEntriesCheckBox').each(function(index, element) {
+						$('.listViewEntriesCheckBox').each(function (index, element) {
 							if ($.inArray($(element).val(), excludedIds) != -1) {
-								$(element)
-									.prop('checked', false)
-									.closest('tr')
-									.removeClass('highlightBackgroundColor');
+								$(element).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 							}
 						});
 					}
 				} else {
-					$('.listViewEntriesCheckBox').each(function(index, element) {
+					$('.listViewEntriesCheckBox').each(function (index, element) {
 						if ($.inArray($(element).val(), selectedIds) != -1) {
-							$(this)
-								.prop('checked', true)
-								.closest('tr')
-								.addClass('highlightBackgroundColor');
+							$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 						}
 					});
 				}
@@ -637,14 +616,14 @@ jQuery.Class(
 		/**
 		 * Function to calculate number of pages
 		 */
-		calculatePages: function() {
-			var aDeferred = jQuery.Deferred();
-			var element = jQuery('#totalPageCount');
-			var totalPageNumber = element.text();
+		calculatePages: function () {
+			let aDeferred = jQuery.Deferred();
+			let element = jQuery('#totalPageCount');
+			let totalPageNumber = element.text();
 			if (totalPageNumber == '') {
-				var totalRecordCount = jQuery('#totalCount').val();
+				let totalRecordCount = jQuery('#totalCount').val();
 				if (totalRecordCount != '') {
-					var pageLimit = jQuery('#pageLimit').val();
+					let pageLimit = jQuery('#pageLimit').val();
 					if (pageLimit == '0') pageLimit = 1;
 					let pageCount = Math.ceil(totalRecordCount / pageLimit);
 					if (pageCount == 0) {
@@ -663,67 +642,70 @@ jQuery.Class(
 		/*
 		 * Function to return alerts if no records selected.
 		 */
-		noRecordSelectedAlert: function(text = 'JS_PLEASE_SELECT_ONE_RECORD') {
-			return Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
+		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
+			app.showNotify({
+				text: app.vtranslate(text),
+				type: 'error'
+			});
 		},
-		massActionSave: function(form, isMassEdit) {
+		massActionSave: function (form, isMassEdit) {
 			if (typeof isMassEdit === 'undefined') {
 				isMassEdit = false;
 			}
-			var aDeferred = jQuery.Deferred();
+			let aDeferred = jQuery.Deferred();
 			if (isMassEdit) {
-				var massEditPreSaveEvent = jQuery.Event(Vtiger_List_Js.massEditPreSave);
+				let massEditPreSaveEvent = jQuery.Event(Vtiger_List_Js.massEditPreSave);
 				form.trigger(massEditPreSaveEvent);
 				if (massEditPreSaveEvent.isDefaultPrevented()) {
 					form.find('[name="saveButton"]').removeAttr('disabled');
 					aDeferred.reject();
 					return aDeferred.promise();
 				}
-				form.find('[id^="selectRow"]').each(function(index, checkbox) {
+				form.find('[id^="selectRow"]').each(function (index, checkbox) {
 					checkbox = jQuery(checkbox);
 					if (!checkbox.prop('checked')) {
 						checkbox
 							.closest('.js-form-row-container')
 							.find('.fieldValue [name]')
-							.each(function(index, element) {
+							.each(function (index, element) {
 								element = jQuery(element);
 								element.attr('data-element-name', element.attr('name')).removeAttr('name');
 							});
 					}
 				});
 			}
-			var massActionUrl = form.serializeFormData();
-			var progressIndicatorElement = jQuery.progressIndicator({
+			let massActionUrl = form.serializeFormData();
+			let progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
 			AppConnector.request(massActionUrl)
-				.done(function(data) {
+				.done(function (data) {
 					progressIndicatorElement.progressIndicator({
 						mode: 'hide'
 					});
 					app.hideModalWindow();
 					if (!data.result) {
-						var params = {
+						let params = {
 							text: app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFUL'),
 							type: 'info'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 					}
 					aDeferred.resolve(data);
 				})
-				.fail(function(error, err) {
+				.fail(function (error, err) {
 					app.hideModalWindow();
 					app.errorLog(error, err);
 					aDeferred.reject(error, err);
 				});
 			return aDeferred.promise();
 		},
-		checkSelectAll: function() {
-			var state = true;
-			jQuery('.listViewEntriesCheckBox').each(function(index, element) {
+		checkSelectAll: function () {
+			let state = true;
+			jQuery('.listViewEntriesCheckBox').each(function (index, element) {
 				if (jQuery(element).is(':checked')) {
 					state = true;
 				} else {
@@ -737,18 +719,18 @@ jQuery.Class(
 				jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
 			}
 		},
-		getRecordsCount: function() {
-			var aDeferred = jQuery.Deferred();
-			var recordCountVal = jQuery('#recordsCount').val();
+		getRecordsCount: function () {
+			let aDeferred = jQuery.Deferred();
+			let recordCountVal = jQuery('#recordsCount').val();
 			if (recordCountVal != '') {
 				aDeferred.resolve(recordCountVal);
 			} else {
-				var count = '';
-				var params = this.getDefaultParams();
+				let count = '';
+				let params = this.getDefaultParams();
 				params.view = 'ListAjax';
 				params.mode = 'getRecordsCount';
-				AppConnector.request(params).done(function(data) {
-					var response = JSON.parse(data);
+				AppConnector.request(params).done(function (data) {
+					let response = JSON.parse(data);
 					jQuery('#recordsCount').val(response['result']['count']);
 					count = response['result']['count'];
 					aDeferred.resolve(count);
@@ -757,10 +739,10 @@ jQuery.Class(
 
 			return aDeferred.promise();
 		},
-		getSelectOptionFromChosenOption: function(liElement) {
-			var id = liElement.attr('id');
-			var idArr = id.split('-');
-			var currentOptionId = '';
+		getSelectOptionFromChosenOption: function (liElement) {
+			let id = liElement.attr('id');
+			let idArr = id.split('-');
+			let currentOptionId = '';
 			if (idArr.length > 0) {
 				currentOptionId = idArr[idArr.length - 1];
 			} else {
@@ -768,13 +750,13 @@ jQuery.Class(
 			}
 			return jQuery('#filterOptionId_' + currentOptionId);
 		},
-		readSelectedIds: function(decode) {
-			var cvId = this.getCurrentCvId();
-			var selectedIdsElement = jQuery('#selectedIds');
-			var selectedIdsDataAttr = cvId + 'selectedIds';
-			var selectedIdsElementDataAttributes = selectedIdsElement.data();
+		readSelectedIds: function (decode) {
+			let cvId = this.getCurrentCvId();
+			let selectedIdsElement = jQuery('#selectedIds');
+			let selectedIdsDataAttr = cvId + 'selectedIds';
+			let selectedIdsElementDataAttributes = selectedIdsElement.data();
+			let selectedIds = [];
 			if (!(selectedIdsDataAttr in selectedIdsElementDataAttributes)) {
-				var selectedIds = [];
 				this.writeSelectedIds(selectedIds);
 			} else {
 				selectedIds = selectedIdsElementDataAttributes[selectedIdsDataAttr];
@@ -786,13 +768,13 @@ jQuery.Class(
 			}
 			return selectedIds;
 		},
-		readExcludedIds: function(decode) {
-			var cvId = this.getCurrentCvId();
-			var exlcudedIdsElement = jQuery('#excludedIds');
-			var excludedIdsDataAttr = cvId + 'Excludedids';
-			var excludedIdsElementDataAttributes = exlcudedIdsElement.data();
+		readExcludedIds: function (decode) {
+			let cvId = this.getCurrentCvId();
+			let excludedIds = [];
+			let exlcudedIdsElement = jQuery('#excludedIds');
+			let excludedIdsDataAttr = cvId + 'Excludedids';
+			let excludedIdsElementDataAttributes = exlcudedIdsElement.data();
 			if (!(excludedIdsDataAttr in excludedIdsElementDataAttributes)) {
-				var excludedIds = [];
 				this.writeExcludedIds(excludedIds);
 			} else {
 				excludedIds = excludedIdsElementDataAttributes[excludedIdsDataAttr];
@@ -804,26 +786,24 @@ jQuery.Class(
 			}
 			return excludedIds;
 		},
-		writeSelectedIds: function(selectedIds) {
-			var cvId = this.getCurrentCvId();
+		writeSelectedIds: function (selectedIds) {
+			let cvId = this.getCurrentCvId();
 			if (!Array.isArray(selectedIds)) {
 				selectedIds = [selectedIds];
 			}
 			jQuery('#selectedIds').data(cvId + 'selectedIds', selectedIds);
 		},
-		writeExcludedIds: function(excludedIds) {
-			var cvId = this.getCurrentCvId();
+		writeExcludedIds: function (excludedIds) {
+			let cvId = this.getCurrentCvId();
 			jQuery('#excludedIds').data(cvId + 'Excludedids', excludedIds);
 		},
-		getCurrentCvId: function() {
-			return jQuery('#customFilter')
-				.find('option:selected')
-				.data('id');
+		getCurrentCvId: function () {
+			return jQuery('#customFilter').find('option:selected').data('id');
 		},
-		getAlphabetSearchField: function() {
+		getAlphabetSearchField: function () {
 			return jQuery('#alphabetSearchKey').val();
 		},
-		getAlphabetSearchValue: function() {
+		getAlphabetSearchValue: function () {
 			return jQuery('#alphabetValue').val();
 		},
 		/**
@@ -838,13 +818,12 @@ jQuery.Class(
 			}
 			return false;
 		},
-		inactiveFieldValidation: function(field) {
+		inactiveFieldValidation: function (field) {
 			field.validationEngine('hide');
-			var form = field.closest('form');
-			var invalidFields = form.data('jqv').InvalidFields;
-			var fields = [field.get(0)];
-			var validationVal = field.attr('data-validation-engine');
-			field.attr('data-invalid-validation-engine', validationVal ? validationVal : 'validate[]');
+			let form = field.closest('form');
+			let invalidFields = form.data('jqv').InvalidFields;
+			let fields = [field.get(0)];
+			field.attr('data-invalid-validation-engine', field.attr('data-validation-engine'));
 			field.removeAttr('data-validation-engine');
 
 			if (field.is('select') && field.hasClass('select2')) {
@@ -852,40 +831,40 @@ jQuery.Class(
 				selectElement.validationEngine('hide');
 				fields.push(selectElement.get(0));
 			}
-			for (var i in fields) {
-				var response = jQuery.inArray(fields[i], invalidFields);
+			for (let i in fields) {
+				let response = jQuery.inArray(fields[i], invalidFields);
 				if (response != '-1') {
 					invalidFields.splice(response, 1);
 				}
 			}
 		},
-		activeFieldValidation: function(field) {
-			var validationVal = field.attr('data-invalid-validation-engine');
+		activeFieldValidation: function (field) {
+			let validationVal = field.attr('data-invalid-validation-engine');
 			if (typeof validationVal === 'undefined') return;
-			field.attr('data-validation-engine', validationVal ? validationVal : 'validate[]');
+			field.attr('data-validation-engine', validationVal);
 			field.removeAttr('data-invalid-validation-engine');
 		},
-		postMassEdit: function(massEditContainer) {
-			var thisInstance = this;
-			var editInstance = Vtiger_Edit_Js.getInstance();
-			massEditContainer.find('.selectRow').on('change', function(e) {
-				var element = jQuery(e.currentTarget);
-				var blockElement = element.closest('.js-form-row-container').find('.fieldValue');
-				var fieldElement = blockElement.find('[data-validation-engine],[data-invalid-validation-engine]');
-				var fieldInfo = fieldElement.data('fieldinfo');
+		postMassEdit: function (massEditContainer) {
+			let thisInstance = this;
+			let editInstance = Vtiger_Edit_Js.getInstance();
+			massEditContainer.find('.selectRow').on('change', function (e) {
+				let element = jQuery(e.currentTarget);
+				let blockElement = element.closest('.js-form-row-container').find('.fieldValue');
+				let fieldElement = blockElement.find('[data-validation-engine],[data-invalid-validation-engine]');
+				let fieldInfo = fieldElement.data('fieldinfo');
 				if (element.prop('checked')) {
 					thisInstance.activeFieldValidation(fieldElement);
 				} else {
 					thisInstance.inactiveFieldValidation(fieldElement);
 				}
 				if (fieldInfo !== undefined && fieldInfo.type === 'reference') {
-					var mapFields = editInstance.getMappingRelatedField(
+					let mapFields = editInstance.getMappingRelatedField(
 						fieldInfo.name,
 						editInstance.getReferencedModuleName(blockElement),
 						massEditContainer
 					);
-					$.each(mapFields, function(key, value) {
-						var checkboxElement = massEditContainer.find('[id="selectRow' + key + '"]');
+					$.each(mapFields, function (key, value) {
+						let checkboxElement = massEditContainer.find('[id="selectRow' + key + '"]');
 						if (checkboxElement.length && checkboxElement.prop('disabled')) {
 							checkboxElement.prop('disabled', false);
 							checkboxElement.trigger('click');
@@ -894,18 +873,21 @@ jQuery.Class(
 					});
 				}
 			});
-			massEditContainer.find('form').on('submit', function(e) {
-				var form = jQuery(e.currentTarget);
+			massEditContainer.find('form').on('submit', function (e) {
+				let form = jQuery(e.currentTarget);
 				if (typeof form.data('submit') !== 'undefined') {
 					return false;
 				}
 				if (form.validationEngine('validate')) {
 					e.preventDefault();
 					if (!form.find('input[id^="selectRow"]:checked').length) {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT'));
+						app.showNotify({
+							text: app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT'),
+							type: 'error'
+						});
 						return;
 					}
-					var invalidFields = form.data('jqv').InvalidFields;
+					let invalidFields = form.data('jqv').InvalidFields;
 					if (invalidFields.length == 0) {
 						form.find('[name="saveButton"]').prop('disabled', true);
 					} else {
@@ -913,11 +895,11 @@ jQuery.Class(
 					}
 					thisInstance
 						.massActionSave(form, true)
-						.done(function(data) {
+						.done(function (data) {
 							thisInstance.getListViewRecords();
 							Vtiger_List_Js.clearList();
 						})
-						.fail(function(error, err) {
+						.fail(function (error, err) {
 							app.errorLog(error, err);
 						});
 				} else {
@@ -943,10 +925,10 @@ jQuery.Class(
 					sortorder: listViewPageDiv.find('#sortOrder').val(),
 					viewname: self.getCurrentCvId()
 				})
-				.done(function(data) {
+				.done(function (data) {
 					aDeferred.resolve();
 				})
-				.fail(function(textStatus, errorThrown) {
+				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				});
 		},
@@ -955,13 +937,13 @@ jQuery.Class(
 		 */
 		registerPageNavigationEvents() {
 			const listViewPageDiv = this.getListViewContainer();
-			listViewPageDiv.find('.js-next-page').on('click', e => {
+			listViewPageDiv.find('.js-next-page').on('click', (e) => {
 				this.jumpToNextPage(e);
 			});
 			listViewPageDiv.find('.js-page--previous').on('click', () => {
 				this.jumpToPreviousPage();
 			});
-			listViewPageDiv.find('.pageNumber').on('click', e => {
+			listViewPageDiv.find('.pageNumber').on('click', (e) => {
 				this.jumpToClickedPage($(e.currentTarget));
 			});
 			listViewPageDiv.find('.js-count-number-records').on('click', () => {
@@ -969,10 +951,10 @@ jQuery.Class(
 			});
 			listViewPageDiv
 				.find('.js-page--jump-drop-down')
-				.on('click', 'li', e => {
+				.on('click', 'li', (e) => {
 					e.stopImmediatePropagation();
 				})
-				.on('keypress', '.js-page-jump', e => {
+				.on('keypress', '.js-page-jump', (e) => {
 					this.jumpToPage(e);
 				});
 		},
@@ -1048,12 +1030,12 @@ jQuery.Class(
 		/**
 		 * Function to get page count and total number of records in list
 		 */
-		getPageCount: function() {
-			var aDeferred = jQuery.Deferred();
-			var pageCountParams = this.getPageJumpParams();
+		getPageCount: function () {
+			let aDeferred = jQuery.Deferred();
+			let pageCountParams = this.getPageJumpParams();
 			AppConnector.request(pageCountParams)
-				.done(function(data) {
-					var response;
+				.done(function (data) {
+					let response;
 					if (typeof data != 'object') {
 						response = JSON.parse(data);
 					} else {
@@ -1061,14 +1043,14 @@ jQuery.Class(
 					}
 					aDeferred.resolve(response);
 				})
-				.fail(function(error, err) {});
+				.fail(function (error, err) {});
 			return aDeferred.promise();
 		},
 		/**
 		 * Function to get Page Jump Params
 		 */
-		getPageJumpParams: function() {
-			var params = this.getDefaultParams();
+		getPageJumpParams: function () {
+			let params = this.getDefaultParams();
 			params.view = 'ListAjax';
 			params.mode = 'getPageCount';
 
@@ -1077,7 +1059,7 @@ jQuery.Class(
 		/**
 		 * Function to update Pagining status
 		 */
-		updatePagination: function(pageNumber) {
+		updatePagination: function (pageNumber) {
 			pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
 			AppConnector.request(
 				Object.assign(this.getDefaultParams(), {
@@ -1089,7 +1071,7 @@ jQuery.Class(
 					totalCount: $('.pagination').data('totalCount'),
 					noOfEntries: jQuery('#noOfEntries').val()
 				})
-			).done(data => {
+			).done((data) => {
 				jQuery('.paginationDiv').html(data);
 				this.registerPageNavigationEvents();
 			});
@@ -1112,7 +1094,7 @@ jQuery.Class(
 				params.totalCount = -1;
 				params.view = 'Pagination';
 				params.mode = 'getPagination';
-				AppConnector.request(params).done(function(data) {
+				AppConnector.request(params).done(function (data) {
 					container.html(data);
 					self.registerPageNavigationEvents();
 				});
@@ -1121,7 +1103,7 @@ jQuery.Class(
 		/*
 		 * Function to register the event for changing the custom Filter
 		 */
-		registerChangeCustomFilterEvent: function(event) {
+		registerChangeCustomFilterEvent: function (event) {
 			let target = $(event.currentTarget);
 			let selectOption = '';
 			let selectOptionId = '';
@@ -1134,9 +1116,7 @@ jQuery.Class(
 			} else if (event.type === 'mouseup') {
 				selectOptionId = event.currentTarget.id.split('-').pop();
 				selectOption = $(`#filterOptionId_${selectOptionId}`);
-				this.getFilterSelectElement()
-					.val(event.currentTarget.id.split('-').pop())
-					.trigger('change');
+				this.getFilterSelectElement().val(event.currentTarget.id.split('-').pop()).trigger('change');
 			}
 
 			if ($(`.nav-item[data-cvid='${selectOptionId}'] .nav-link`).tab('show').length === 0) {
@@ -1147,10 +1127,7 @@ jQuery.Class(
 				textOption = selectOption.text();
 			}
 
-			$('#select2-customFilter-container span')
-				.contents()
-				.last()
-				.replaceWith(textOption);
+			$('#select2-customFilter-container span').contents().last().replaceWith(textOption);
 			app.setMainParams('pageNumber', '1');
 			app.setMainParams('pageToJump', '1');
 			app.setMainParams('orderBy', selectOption.data('orderby'));
@@ -1179,7 +1156,7 @@ jQuery.Class(
 		 */
 		registerChangeCustomFilterEventListeners() {
 			let filterSelect = this.getFilterSelectElement();
-			filterSelect.on('select2:selecting', event => {
+			filterSelect.on('select2:selecting', (event) => {
 				//prevent default select2 event if it isn't keyboard event
 				if (!$(':focus').length) {
 					event.preventDefault();
@@ -1194,30 +1171,22 @@ jQuery.Class(
 			this.getFilterBlock().on('mouseup', '.select2-results__option', this.registerChangeCustomFilterEvent.bind(this));
 			this.getListViewTopMenuContainer()
 				.find('.js-filter-tab')
-				.on('click', e => {
+				.on('click', (e) => {
 					const cvId = $(e.currentTarget).data('cvid');
 					let selectOption = filterSelect.find(`[value=${cvId}]`);
 					selectOption.trigger('click');
-					$('#select2-customFilter-container span')
-						.contents()
-						.last()
-						.replaceWith(selectOption.text());
+					$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
 					filterSelect.val(cvId).trigger('change');
 				});
 		},
-		breadCrumbsFilter: function(text) {
-			var breadCrumbs = jQuery('.breadcrumbsContainer');
-			var breadCrumbsLastSpan = breadCrumbs.last('span');
-			var filterExist = breadCrumbsLastSpan.find('.breadCrumbsFilter');
+		breadCrumbsFilter: function (text) {
+			let breadCrumbs = jQuery('.breadcrumbsContainer');
+			let breadCrumbsLastSpan = breadCrumbs.last('span');
+			let filterExist = breadCrumbsLastSpan.find('.breadCrumbsFilter');
 			if (filterExist.length && text != undefined) {
 				filterExist.text(' [' + app.vtranslate('JS_FILTER') + ': ' + text + ']');
 			} else if (filterExist.length < 1) {
-				text =
-					text == undefined
-						? this.getFilterSelectElement()
-								.find(':selected')
-								.text()
-						: text;
+				text = text == undefined ? this.getFilterSelectElement().find(':selected').text() : text;
 				if (breadCrumbsLastSpan.hasClass('breadCrumbsFilter')) {
 					breadCrumbsLastSpan.text(': ' + text);
 				} else {
@@ -1231,32 +1200,29 @@ jQuery.Class(
 				}
 			}
 		},
-		ListViewPostOperation: function() {
+		ListViewPostOperation: function () {
 			return true;
 		},
 		/*
 		 * Function to register the click event for list view main check box.
 		 */
-		registerMainCheckBoxClickEvent: function() {
-			var listViewPageDiv = this.getListViewContainer();
-			var thisInstance = this;
-			listViewPageDiv.on('click', '#listViewEntriesMainCheckBox', function() {
-				var selectedIds = thisInstance.readSelectedIds();
-				var excludedIds = thisInstance.readExcludedIds();
+		registerMainCheckBoxClickEvent: function () {
+			let listViewPageDiv = this.getListViewContainer();
+			let thisInstance = this;
+			listViewPageDiv.on('click', '#listViewEntriesMainCheckBox', function () {
+				let selectedIds = thisInstance.readSelectedIds();
+				let excludedIds = thisInstance.readExcludedIds();
 				if (jQuery('#listViewEntriesMainCheckBox').is(':checked')) {
-					var recordCountObj = thisInstance.getRecordsCount();
-					recordCountObj.done(function(data) {
+					let recordCountObj = thisInstance.getRecordsCount();
+					recordCountObj.done(function (data) {
 						jQuery('#totalRecordsCount').text(data);
 						if (jQuery('#deSelectAllMsgDiv').css('display') == 'none') {
 							jQuery('#selectAllMsgDiv').show();
 						}
 					});
 
-					jQuery('.listViewEntriesCheckBox').each(function(index, element) {
-						jQuery(this)
-							.prop('checked', true)
-							.closest('tr')
-							.addClass('highlightBackgroundColor');
+					jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+						jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 						if (selectedIds == 'all') {
 							if (jQuery.inArray(jQuery(element).val(), excludedIds) != -1) {
 								excludedIds.splice(jQuery.inArray(jQuery(element).val(), excludedIds), 1);
@@ -1267,11 +1233,8 @@ jQuery.Class(
 					});
 				} else {
 					jQuery('#selectAllMsgDiv').hide();
-					jQuery('.listViewEntriesCheckBox').each(function(index, element) {
-						jQuery(this)
-							.prop('checked', false)
-							.closest('tr')
-							.removeClass('highlightBackgroundColor');
+					jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+						jQuery(this).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 						if (selectedIds == 'all') {
 							excludedIds.push(jQuery(element).val());
 							selectedIds = 'all';
@@ -1287,13 +1250,13 @@ jQuery.Class(
 		/*
 		 * Function  to register click event for list view check box.
 		 */
-		registerCheckBoxClickEvent: function() {
-			var listViewPageDiv = this.getListViewContainer();
-			var thisInstance = this;
-			listViewPageDiv.on('click', '.listViewEntriesCheckBox', function(e) {
-				var selectedIds = thisInstance.readSelectedIds();
-				var excludedIds = thisInstance.readExcludedIds();
-				var elem = jQuery(e.currentTarget);
+		registerCheckBoxClickEvent: function () {
+			let listViewPageDiv = this.getListViewContainer();
+			let thisInstance = this;
+			listViewPageDiv.on('click', '.listViewEntriesCheckBox', function (e) {
+				let selectedIds = thisInstance.readSelectedIds();
+				let excludedIds = thisInstance.readExcludedIds();
+				let elem = jQuery(e.currentTarget);
 				if (elem.is(':checked')) {
 					elem.closest('tr').addClass('highlightBackgroundColor');
 					if (selectedIds == 'all') {
@@ -1318,18 +1281,15 @@ jQuery.Class(
 		/*
 		 * Function to register the click event for select all.
 		 */
-		registerSelectAllClickEvent: function() {
-			var listViewPageDiv = this.getListViewContainer();
-			var thisInstance = this;
-			listViewPageDiv.on('click', '#selectAllMsg', function() {
+		registerSelectAllClickEvent: function () {
+			let listViewPageDiv = this.getListViewContainer();
+			let thisInstance = this;
+			listViewPageDiv.on('click', '#selectAllMsg', function () {
 				jQuery('#selectAllMsgDiv').hide();
 				jQuery('#deSelectAllMsgDiv').show();
 				jQuery('#listViewEntriesMainCheckBox').prop('checked', true);
-				jQuery('.listViewEntriesCheckBox').each(function(index, element) {
-					jQuery(this)
-						.prop('checked', true)
-						.closest('tr')
-						.addClass('highlightBackgroundColor');
+				jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+					jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 				});
 				thisInstance.writeSelectedIds('all');
 			});
@@ -1337,20 +1297,17 @@ jQuery.Class(
 		/*
 		 * Function to register the click event for deselect All.
 		 */
-		registerDeselectAllClickEvent: function() {
-			var listViewPageDiv = this.getListViewContainer();
-			var thisInstance = this;
-			listViewPageDiv.on('click', '#deSelectAllMsg', function() {
+		registerDeselectAllClickEvent: function () {
+			let listViewPageDiv = this.getListViewContainer();
+			let thisInstance = this;
+			listViewPageDiv.on('click', '#deSelectAllMsg', function () {
 				jQuery('#deSelectAllMsgDiv').hide();
 				jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
-				jQuery('.listViewEntriesCheckBox').each(function(index, element) {
-					jQuery(this)
-						.prop('checked', false)
-						.closest('tr')
-						.removeClass('highlightBackgroundColor');
+				jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+					jQuery(this).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 				});
-				var excludedIds = [];
-				var selectedIds = [];
+				let excludedIds = [];
+				let selectedIds = [];
 				thisInstance.writeSelectedIds(selectedIds);
 				thisInstance.writeExcludedIds(excludedIds);
 			});
@@ -1358,7 +1315,7 @@ jQuery.Class(
 		/*
 		 * Function to register the click event for listView headers
 		 */
-		registerHeadersClickEvent: function() {
+		registerHeadersClickEvent: function () {
 			YetiForce_ListSearch_Js.registerSearch(this.getListViewContainer(), (data) => {
 				this.getListViewRecords(data);
 			});
@@ -1366,22 +1323,16 @@ jQuery.Class(
 		/*
 		 * function to register the click event event for create filter
 		 */
-		createFilterClickEvent: function(event) {
+		createFilterClickEvent: function (event) {
 			//to close the dropdown
-			this.getFilterSelectElement()
-				.data('select2')
-				.close();
-			new CustomView(
-				$(event.currentTarget)
-					.find('#createFilter')
-					.data('createurl')
-			);
+			this.getFilterSelectElement().data('select2').close();
+			new CustomView($(event.currentTarget).find('#createFilter').data('createurl'));
 		},
-		registerFeaturedFilterClickEvent: function() {
+		registerFeaturedFilterClickEvent: function () {
 			let thisInstance = this;
 			let listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
-				listViewFilterBlock.on('mouseup', '.js-filter-favorites', function(event) {
+				listViewFilterBlock.on('mouseup', '.js-filter-favorites', function (event) {
 					let liElement = $(this).closest('.select2-results__option');
 					let currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 					let params = {
@@ -1395,7 +1346,7 @@ jQuery.Class(
 					} else {
 						params.actions = 'add';
 					}
-					AppConnector.request(params).done(function(data) {
+					AppConnector.request(params).done(function (data) {
 						window.location.reload();
 					});
 					event.stopPropagation();
@@ -1405,19 +1356,16 @@ jQuery.Class(
 		/*
 		 * Function to register the click event for duplicate filter
 		 */
-		registerDuplicateFilterClickEvent: function() {
-			var thisInstance = this;
-			var listViewFilterBlock = this.getFilterBlock();
+		registerDuplicateFilterClickEvent: function () {
+			let thisInstance = this;
+			let listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
-				listViewFilterBlock.on('mouseup', '.js-filter-duplicate', function(event) {
+				listViewFilterBlock.on('mouseup', '.js-filter-duplicate', function (event) {
 					//to close the dropdown
-					thisInstance
-						.getFilterSelectElement()
-						.data('select2')
-						.close();
-					var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
-					var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-					var editUrl = currentOptionElement.data('duplicateurl');
+					thisInstance.getFilterSelectElement().data('select2').close();
+					let liElement = jQuery(event.currentTarget).closest('.select2-results__option');
+					let currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
+					let editUrl = currentOptionElement.data('duplicateurl');
 					new CustomView(editUrl);
 					event.stopPropagation();
 				});
@@ -1426,19 +1374,16 @@ jQuery.Class(
 		/*
 		 * Function to register the click event for edit filter
 		 */
-		registerEditFilterClickEvent: function() {
-			var thisInstance = this;
-			var listViewFilterBlock = this.getFilterBlock();
+		registerEditFilterClickEvent: function () {
+			let thisInstance = this;
+			let listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
-				listViewFilterBlock.on('mouseup', '.js-filter-edit', function(event) {
+				listViewFilterBlock.on('mouseup', '.js-filter-edit', function (event) {
 					//to close the dropdown
-					thisInstance
-						.getFilterSelectElement()
-						.data('select2')
-						.close();
-					var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
-					var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-					var editUrl = currentOptionElement.data('editurl');
+					thisInstance.getFilterSelectElement().data('select2').close();
+					let liElement = jQuery(event.currentTarget).closest('.select2-results__option');
+					let currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
+					let editUrl = currentOptionElement.data('editurl');
 					new CustomView(editUrl);
 					event.stopPropagation();
 				});
@@ -1447,21 +1392,18 @@ jQuery.Class(
 		/*
 		 * Function to register the click event for delete filter
 		 */
-		registerDeleteFilterClickEvent: function() {
+		registerDeleteFilterClickEvent: function () {
 			const thisInstance = this;
 			const listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
 				//used mouseup event to stop the propagation of customfilter select change event.
-				listViewFilterBlock.on('mouseup', '.js-filter-delete', event => {
+				listViewFilterBlock.on('mouseup', '.js-filter-delete', (event) => {
 					//to close the dropdown
-					thisInstance
-						.getFilterSelectElement()
-						.data('select2')
-						.close();
+					thisInstance.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
 					Vtiger_Helper_Js.showConfirmationBox({
 						message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER')
-					}).done(e => {
+					}).done((e) => {
 						app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('deleteurl'));
 					});
 					event.stopPropagation();
@@ -1471,16 +1413,13 @@ jQuery.Class(
 		/*
 		 * Function to register the click event for approve filter
 		 */
-		registerApproveFilterClickEvent: function() {
+		registerApproveFilterClickEvent: function () {
 			const thisInstance = this;
 			const listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
-				listViewFilterBlock.on('mouseup', '.js-filter-approve', event => {
+				listViewFilterBlock.on('mouseup', '.js-filter-approve', (event) => {
 					//to close the dropdown
-					thisInstance
-						.getFilterSelectElement()
-						.data('select2')
-						.close();
+					thisInstance.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
 					app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('approveurl'));
 					event.stopPropagation();
@@ -1490,16 +1429,13 @@ jQuery.Class(
 		/*
 		 * Function to register the click event for deny filter
 		 */
-		registerDenyFilterClickEvent: function() {
+		registerDenyFilterClickEvent: function () {
 			const thisInstance = this;
 			const listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
-				listViewFilterBlock.on('mouseup', '.js-filter-deny', event => {
+				listViewFilterBlock.on('mouseup', '.js-filter-deny', (event) => {
 					//to close the dropdown
-					thisInstance
-						.getFilterSelectElement()
-						.data('select2')
-						.close();
+					thisInstance.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
 					app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('denyurl'));
 					event.stopPropagation();
@@ -1509,7 +1445,7 @@ jQuery.Class(
 		/*
 		 * Function to generate filter actions template
 		 */
-		appendFilterActionsTemplate: function(liElement) {
+		appendFilterActionsTemplate: function (liElement) {
 			let currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
 			let template = $(`<span class="js-filter-actions o-filter-actions noWrap float-right">
 					<span ${
@@ -1538,10 +1474,10 @@ jQuery.Class(
 		/*
 		 * Function to register the hover event for customview filter options
 		 */
-		registerCustomFilterOptionsHoverEvent: function() {
-			var filterBlock = this.getFilterBlock();
+		registerCustomFilterOptionsHoverEvent: function () {
+			let filterBlock = this.getFilterBlock();
 			if (filterBlock != false) {
-				filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="option"]', event => {
+				filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="option"]', (event) => {
 					let liElement = $(event.currentTarget);
 					let liFilterImages = liElement.find('.js-filter-actions');
 					if (liElement.hasClass('group-result')) {
@@ -1556,77 +1492,45 @@ jQuery.Class(
 		/*
 		 * Function to register the list view row click event
 		 */
-		registerRowClickEvent: function() {
-			var listViewContentDiv = this.getListViewContentContainer();
-			listViewContentDiv.on('click', '.listViewEntries', function(e) {
-				if (
-					jQuery(e.target)
-						.closest('div')
-						.hasClass('actions')
-				)
-					return;
-				if (
-					jQuery(e.target).is('button') ||
-					jQuery(e.target)
-						.parent()
-						.is('button')
-				)
-					return;
-				if (
-					jQuery(e.target)
-						.closest('a')
-						.hasClass('noLinkBtn')
-				)
-					return;
+		registerRowClickEvent: function () {
+			let listViewContentDiv = this.getListViewContentContainer();
+			listViewContentDiv.on('click', '.listViewEntries', function (e) {
+				if (jQuery(e.target).closest('div').hasClass('actions')) return;
+				if (jQuery(e.target).is('button') || jQuery(e.target).parent().is('button')) return;
+				if (jQuery(e.target).closest('a').hasClass('noLinkBtn')) return;
 				if (jQuery(e.target, jQuery(e.currentTarget)).is('td:first-child')) return;
 				if (jQuery(e.target).is('input[type="checkbox"]')) return;
-				if (
-					$.contains(
-						jQuery(e.currentTarget)
-							.find('td:last-child')
-							.get(0),
-						e.target
-					)
-				)
-					return;
-				if (
-					$.contains(
-						jQuery(e.currentTarget)
-							.find('td:first-child')
-							.get(0),
-						e.target
-					)
-				)
-					return;
-				var elem = jQuery(e.currentTarget);
-				var recordUrl = elem.data('recordurl');
+				if ($.contains(jQuery(e.currentTarget).find('td:last-child').get(0), e.target)) return;
+				if ($.contains(jQuery(e.currentTarget).find('td:first-child').get(0), e.target)) return;
+				let elem = jQuery(e.currentTarget);
+				let recordUrl = elem.data('recordurl');
 				if (typeof recordUrl === 'undefined') {
 					return;
 				}
 				window.location.href = recordUrl;
 			});
 		},
-		registerRecordEvents: function() {
-			var thisInstance = this;
-			var listViewContentDiv = this.getListViewContentContainer();
-			listViewContentDiv.on('click', '.recordEvent', function(event) {
-				var target = $(this);
-				var recordId = target.closest('tr').data('id');
-				var params = {};
+		registerRecordEvents: function () {
+			let thisInstance = this;
+			let listViewContentDiv = this.getListViewContentContainer();
+			listViewContentDiv.on('click', '.recordEvent', function (event) {
+				let target = $(this);
+				let recordId = target.closest('tr').data('id');
+				let params = {};
 				if (target.data('confirm')) {
 					params.message = target.data('confirm');
 					params.title = target.html() + ' ' + target.data('content');
 				} else {
 					params.message = target.data('content');
 				}
-				Vtiger_Helper_Js.showConfirmationBox(params).done(function(e) {
-					var progressIndicatorElement = jQuery.progressIndicator({
+				Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
+					let progressIndicatorElement = jQuery.progressIndicator({
 						position: 'html',
 						blockInfo: {
 							enabled: true
 						}
 					});
-					AppConnector.request(target.data('url') + '&sourceView=List&record=' + recordId).done(function(data) {
+					AppConnector.request(target.data('url') + '&sourceView=List&record=' + recordId).done(function (data) {
 						progressIndicatorElement.progressIndicator({
 							mode: 'hide'
 						});
@@ -1634,19 +1538,19 @@ jQuery.Class(
 							if (data.result.notify) {
 								Vtiger_Helper_Js.showMessage(data.result.notify);
 							}
-							var paginationObject = $('.pagination');
-							var totalCount = paginationObject.data('totalCount');
+							let paginationObject = $('.pagination');
+							let totalCount = paginationObject.data('totalCount');
 							if (totalCount != '') {
 								totalCount--;
 								paginationObject.data('totalCount', totalCount);
 							}
-							var orderBy = jQuery('#orderBy').val();
-							var sortOrder = jQuery('#sortOrder').val();
-							var pageNumber = parseInt($('#pageNumber').val());
+							let orderBy = jQuery('#orderBy').val();
+							let sortOrder = jQuery('#sortOrder').val();
+							let pageNumber = parseInt($('#pageNumber').val());
 							if ($('#noOfEntries').val() == 1 && pageNumber != 1) {
 								pageNumber--;
 							}
-							var urlParams = {
+							let urlParams = {
 								viewname: data.result.viewname,
 								orderby: orderBy,
 								sortorder: sortOrder,
@@ -1654,13 +1558,14 @@ jQuery.Class(
 							};
 							$('#recordsCount').val('');
 							$('#totalPageCount').text('');
-							thisInstance.getListViewRecords(urlParams).done(function() {
+							thisInstance.getListViewRecords(urlParams).done(function () {
 								thisInstance.updatePagination(pageNumber);
 							});
 						} else {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: app.vtranslate(data.error.message),
-								title: app.vtranslate('JS_LBL_PERMISSION')
+								title: app.vtranslate('JS_LBL_PERMISSION'),
+								type: 'error'
 							});
 						}
 					});
@@ -1668,22 +1573,22 @@ jQuery.Class(
 				event.stopPropagation();
 			});
 		},
-		registerMassRecordsEvents: function() {
+		registerMassRecordsEvents: function () {
 			const self = this;
-			this.getListViewContainer().on('click', '.js-mass-record-event', function() {
+			this.getListViewContainer().on('click', '.js-mass-record-event', function () {
 				let target = $(this);
 				let listInstance = Vtiger_List_Js.getInstance();
 				if (listInstance.checkListRecordSelected() != true) {
 					if (target.data('type') === 'modal') {
 						let vars = {};
-						target.data('url').replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+						target.data('url').replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 							vars[key] = value;
 						});
 						AppConnector.request({
 							type: 'POST',
 							url: target.data('url'),
 							data: $.extend(self.getSearchParams(), vars)
-						}).done(function(modal) {
+						}).done(function (modal) {
 							app.showModalWindow(modal);
 						});
 					} else {
@@ -1694,7 +1599,7 @@ jQuery.Class(
 						} else {
 							params.message = target.html();
 						}
-						Vtiger_Helper_Js.showConfirmationBox(params).done(function(e) {
+						Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
 							let progressIndicatorElement = jQuery.progressIndicator(),
 								dataParams = self.getSearchParams();
 							delete dataParams.view;
@@ -1703,14 +1608,14 @@ jQuery.Class(
 								url: target.data('url'),
 								data: dataParams
 							})
-								.done(function(data) {
+								.done(function (data) {
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
 									if (data && data.result && data.result.notify) {
 										Vtiger_Helper_Js.showMessage(data.result.notify);
 									}
 									self.getListViewRecords();
 								})
-								.fail(function(error, err) {
+								.fail(function (error, err) {
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
 								});
 						});
@@ -1756,27 +1661,27 @@ jQuery.Class(
 		/*
 		 * Function to register the click event of email field
 		 */
-		registerEmailFieldClickEvent: function() {
-			var listViewContentDiv = this.getListViewContentContainer();
-			listViewContentDiv.on('click', '.emailField', function(e) {
+		registerEmailFieldClickEvent: function () {
+			let listViewContentDiv = this.getListViewContentContainer();
+			listViewContentDiv.on('click', '.emailField', function (e) {
 				e.stopPropagation();
 			});
 		},
 		/*
 		 * Function to register the click event of phone field
 		 */
-		registerPhoneFieldClickEvent: function() {
-			var listViewContentDiv = this.getListViewContentContainer();
-			listViewContentDiv.on('click', '.phoneField', function(e) {
+		registerPhoneFieldClickEvent: function () {
+			let listViewContentDiv = this.getListViewContentContainer();
+			listViewContentDiv.on('click', '.phoneField', function (e) {
 				e.stopPropagation();
 			});
 		},
 		/*
 		 * Function to register the click event of url field
 		 */
-		registerUrlFieldClickEvent: function() {
-			var listViewContentDiv = this.getListViewContentContainer();
-			listViewContentDiv.on('click', '.urlField', function(e) {
+		registerUrlFieldClickEvent: function () {
+			let listViewContentDiv = this.getListViewContentContainer();
+			listViewContentDiv.on('click', '.urlField', function (e) {
 				e.stopPropagation();
 			});
 		},
@@ -1785,12 +1690,12 @@ jQuery.Class(
 		 * this will remove data-validation-engine attr of all the elements
 		 * @param Accepts form as a parameter
 		 */
-		inactiveFieldsValidation: function(form) {
-			var massEditFieldList = jQuery('#massEditFieldsNameList').data('value');
-			for (var fieldName in massEditFieldList) {
-				var fieldInfo = massEditFieldList[fieldName];
+		inactiveFieldsValidation: function (form) {
+			let massEditFieldList = jQuery('#massEditFieldsNameList').data('value');
+			for (let fieldName in massEditFieldList) {
+				let fieldInfo = massEditFieldList[fieldName];
 
-				var fieldElement = form.find('[name="' + fieldInfo.name + '"]');
+				let fieldElement = form.find('[name="' + fieldInfo.name + '"]');
 				if (fieldInfo.type == 'reference') {
 					//get the element which will be shown which has "_display" appended to actual field name
 					fieldElement = form.find('[name="' + fieldInfo.name + '_display"]');
@@ -1803,10 +1708,10 @@ jQuery.Class(
 					continue;
 				}
 
-				var elemData = fieldElement.data();
+				let elemData = fieldElement.data();
 
 				//Blank validation by default
-				var validationVal = 'validate[]';
+				let validationVal = 'validate[]';
 				if ('validationEngine' in elemData) {
 					validationVal = elemData.validationEngine;
 					delete elemData.validationEngine;
@@ -1815,62 +1720,56 @@ jQuery.Class(
 				fieldElement.removeAttr('data-validation-engine');
 			}
 		},
-		registerEventForTabClick: function(form) {
-			var ulContainer = form.find('.massEditTabs');
-			ulContainer.on('click', 'a[data-toggle="tab"]', function(e) {
+		registerEventForTabClick: function (form) {
+			let ulContainer = form.find('.massEditTabs');
+			ulContainer.on('click', 'a[data-toggle="tab"]', function (e) {
 				form.validationEngine('validate');
-				var invalidFields = form.data('jqv').InvalidFields;
+				let invalidFields = form.data('jqv').InvalidFields;
 				if (invalidFields.length > 0) {
 					e.stopPropagation();
 				}
 			});
 		},
-		registerSlimScrollMassEdit: function() {
-			app.showScrollBar(jQuery('div[name="massEditContent"]'), { height: app.getScreenHeight(70) + 'px' });
+		registerSlimScrollMassEdit: function () {
+			app.showScrollBar(jQuery('div[name="massEditContent"]'), {
+				height: app.getScreenHeight(70) + 'px'
+			});
 		},
 		/*
 		 * Function to register the submit event for mass Actions save
 		 */
-		registerMassActionSubmitEvent: function() {
-			$('body').on('submit', '#massSave', e => {
+		registerMassActionSubmitEvent: function () {
+			$('body').on('submit', '#massSave', (e) => {
 				let form = jQuery(e.currentTarget),
 					commentContent = form.find('#commentcontent'),
 					commentContentValue = commentContent.html();
 				if (commentContentValue === '') {
-					var errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY');
+					let errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY');
 					commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
 					e.preventDefault();
 					return;
 				}
 				commentContent.validationEngine('hide');
-				jQuery(form)
-					.find('[name=saveButton]')
-					.attr('disabled', 'disabled');
-				this.massActionSave(form).done(function(data) {
+				jQuery(form).find('[name=saveButton]').attr('disabled', 'disabled');
+				this.massActionSave(form).done(function (data) {
 					Vtiger_List_Js.clearList();
 				});
 				e.preventDefault();
 			});
 		},
-		changeCustomFilterElementView: function() {
+		changeCustomFilterElementView: function () {
 			const thisInstance = this;
 			let filterSelectElement = this.getFilterSelectElement();
 			if (filterSelectElement.length > 0 && filterSelectElement.is('select')) {
 				App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
-					templateSelection: function(data) {
+					templateSelection: function (data) {
 						let resultContainer = $('<span></span>');
-						resultContainer.append(
-							$(
-								$('.filterImage')
-									.clone()
-									.get(0)
-							).show()
-						);
+						resultContainer.append($($('.filterImage').clone().get(0)).show());
 						resultContainer.append(data.text);
 						return resultContainer;
 					},
 					customSortOptGroup: true,
-					templateResult: function(data) {
+					templateResult: function (data) {
 						let actualElement = $(data.element);
 						if (actualElement.is('option')) {
 							let additionalText = '';
@@ -1890,7 +1789,7 @@ jQuery.Class(
 							return actualElement.attr('label');
 						}
 					},
-					escapeMarkup: function(markup) {
+					escapeMarkup: function (markup) {
 						return markup;
 					},
 					closeOnSelect: true
@@ -1900,15 +1799,15 @@ jQuery.Class(
 				$('.filterActionsDiv')
 					.appendTo(select2Instance.$dropdown.find('.select2-dropdown:last'))
 					.removeClass('d-none')
-					.on('click', function(e) {
+					.on('click', function (e) {
 						thisInstance.createFilterClickEvent(e);
 					});
 			}
 		},
-		triggerDisplayTypeEvent: function() {
-			var widthType = app.cacheGet('widthType', 'narrowWidthType');
+		triggerDisplayTypeEvent: function () {
+			let widthType = app.cacheGet('widthType', 'narrowWidthType');
 			if (widthType) {
-				var elements = jQuery('.listViewEntriesTable').find('td,th');
+				let elements = jQuery('.listViewEntriesTable').find('td,th');
 				elements.attr('class', widthType);
 			}
 		},
@@ -1916,16 +1815,16 @@ jQuery.Class(
 		 * Function to show total records count in listview on hover
 		 * of pageNumber text
 		 */
-		registerEventForTotalRecordsCount: function() {
-			var thisInstance = this;
-			jQuery('.totalNumberOfRecords').on('click', function(e) {
-				var element = jQuery(e.currentTarget);
-				var totalRecordsElement = jQuery('#totalCount');
-				var totalNumberOfRecords = totalRecordsElement.val();
+		registerEventForTotalRecordsCount: function () {
+			let thisInstance = this;
+			jQuery('.totalNumberOfRecords').on('click', function (e) {
+				let element = jQuery(e.currentTarget);
+				let totalRecordsElement = jQuery('#totalCount');
+				let totalNumberOfRecords = totalRecordsElement.val();
 				element.addClass('d-none');
 				element.parent().progressIndicator({});
 				if (totalNumberOfRecords == '') {
-					thisInstance.getPageCount().done(function(data) {
+					thisInstance.getPageCount().done(function (data) {
 						totalNumberOfRecords = data['result']['numberOfRecords'];
 						totalRecordsElement.val(totalNumberOfRecords);
 						thisInstance.showPagingInfo();
@@ -1936,24 +1835,24 @@ jQuery.Class(
 				element.parent().progressIndicator({ mode: 'hide' });
 			});
 		},
-		showPagingInfo: function() {
-			var totalNumberOfRecords = jQuery('#totalCount').val();
-			var pageNumberElement = jQuery('.pageNumbersText');
-			var pageRange = pageNumberElement.text();
-			var newPagingInfo = pageRange + ' (' + totalNumberOfRecords + ')';
-			var listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
+		showPagingInfo: function () {
+			let totalNumberOfRecords = jQuery('#totalCount').val();
+			let pageNumberElement = jQuery('.pageNumbersText');
+			let pageRange = pageNumberElement.text();
+			let newPagingInfo = pageRange + ' (' + totalNumberOfRecords + ')';
+			let listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
 			if (listViewEntriesCount != 0) {
 				jQuery('.pageNumbersText').html(newPagingInfo);
 			} else {
 				jQuery('.pageNumbersText').html('');
 			}
 		},
-		registerUnreviewedCountEvent: function() {
+		registerUnreviewedCountEvent: function () {
 			let ids = [],
 				listViewContentDiv = this.getListViewContentContainer(),
 				isUnreviewedActive = listViewContentDiv.find('.unreviewed').length;
-			listViewContentDiv.find('tr.listViewEntries').each(function() {
-				var id = jQuery(this).data('id');
+			listViewContentDiv.find('tr.listViewEntries').each(function () {
+				let id = jQuery(this).data('id');
 				if (id) {
 					ids.push(id);
 				}
@@ -1967,9 +1866,9 @@ jQuery.Class(
 				module: 'ModTracker',
 				sourceModule: app.getModuleName(),
 				recordsId: ids
-			}).done(appData => {
+			}).done((appData) => {
 				let data = appData.result;
-				$.each(data, function(id, value) {
+				$.each(data, function (id, value) {
 					if (value.a > 0) {
 						listViewContentDiv
 							.find('tr[data-id="' + id + '"] .unreviewed .badge.all')
@@ -1988,11 +1887,11 @@ jQuery.Class(
 				this.reflowThead();
 			});
 		},
-		registerLastRelationsEvent: function() {
+		registerLastRelationsEvent: function () {
 			let ids = [],
 				listViewContentDiv = this.getListViewContentContainer(),
 				isTimeLineActive = listViewContentDiv.find('.timeLineIconList').length;
-			listViewContentDiv.find('tr.listViewEntries').each(function() {
+			listViewContentDiv.find('tr.listViewEntries').each(function () {
 				let id = jQuery(this).data('id');
 				if (id) {
 					ids.push(id);
@@ -2006,18 +1905,18 @@ jQuery.Class(
 				module: 'ModTracker',
 				sourceModule: app.getModuleName(),
 				recordsId: ids
-			}).done(appData => {
-				var data = appData.result;
-				$.each(data, function(id, value) {
+			}).done((appData) => {
+				let data = appData.result;
+				$.each(data, function (id, value) {
 					if (value.type) {
 						listViewContentDiv
 							.find('tr[data-id="' + id + '"] .timeLineIconList')
 							.addClass(value.color + ' yfm-' + value.type)
 							.removeClass('d-none')
-							.on('click', function(e) {
-								var element = jQuery(e.currentTarget);
-								var url = element.data('url');
-								app.showModalWindow(null, url, function(data) {
+							.on('click', function (e) {
+								let element = jQuery(e.currentTarget);
+								let url = element.data('url');
+								app.showModalWindow(null, url, function (data) {
 									Vtiger_Index_Js.registerMailButtons(data);
 								});
 							});
@@ -2026,14 +1925,11 @@ jQuery.Class(
 				this.reflowThead();
 			});
 		},
-		registerChangeEntityStateEvent: function() {
-			var thisInstance = this;
-			$('.dropdownEntityState a').on('click', function(e) {
-				var element = $(this);
-				element
-					.closest('ul')
-					.find('a')
-					.removeClass('active');
+		registerChangeEntityStateEvent: function () {
+			let thisInstance = this;
+			$('.dropdownEntityState a').on('click', function (e) {
+				let element = $(this);
+				element.closest('ul').find('a').removeClass('active');
 				element.addClass('active');
 				$('#entityState').val(element.data('value'));
 				app.setMainParams('pageNumber', '1');
@@ -2041,24 +1937,22 @@ jQuery.Class(
 				$('#recordsCount').val('');
 				$('#totalPageCount').text('');
 				$('.pagination').data('totalCount', 0);
-				$('#dropdownEntityState')
-					.find('.js-icon')
-					.attr('class', element.find('.js-icon').attr('class'));
-				thisInstance.getListViewRecords().done(function(data) {
-					thisInstance.calculatePages().done(function() {
+				$('#dropdownEntityState').find('.js-icon').attr('class', element.find('.js-icon').attr('class'));
+				thisInstance.getListViewRecords().done(function (data) {
+					thisInstance.calculatePages().done(function () {
 						thisInstance.updatePagination();
 					});
 				});
 			});
 		},
-		registerSummationEvent: function() {
+		registerSummationEvent: function () {
 			let self = this;
 			let listContainer = this.getListViewContentContainer();
-			listContainer.on('click', '.listViewSummation button', function() {
-				var button = $(this);
-				var calculateValue = button.closest('td').find('.calculateValue');
-				var params = self.getSearchParams();
-				var progress = $.progressIndicator({
+			listContainer.on('click', '.listViewSummation button', function () {
+				let button = $(this);
+				let calculateValue = button.closest('td').find('.calculateValue');
+				let params = self.getSearchParams();
+				let progress = $.progressIndicator({
 					message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
 					position: 'html',
 					blockInfo: {
@@ -2073,7 +1967,7 @@ jQuery.Class(
 				app.hidePopover(button);
 				let scrollLeft = listContainer.scrollLeft();
 				let scrollTop = listContainer.scrollTop();
-				AppConnector.request(params).done(response => {
+				AppConnector.request(params).done((response) => {
 					if (response.success) {
 						calculateValue.html(response.result);
 					} else {
@@ -2086,7 +1980,7 @@ jQuery.Class(
 				});
 			});
 		},
-		registerListScroll: function(container) {
+		registerListScroll: function (container) {
 			const containerH = container.height(),
 				containerOffsetTop = container.offset().top,
 				footerH = $('.js-footer').height(),
@@ -2105,7 +1999,7 @@ jQuery.Class(
 				this.listFloatThead = container.find('.js-fixed-thead');
 				this.listFloatThead.floatThead('destroy');
 				this.listFloatThead.floatThead({
-					scrollContainer: function() {
+					scrollContainer: function () {
 						return container;
 					}
 				});
@@ -2124,12 +2018,39 @@ jQuery.Class(
 			}
 		},
 		registerMassActionsBtnEvents() {
-			this.getListViewContainer().on('click', '.js-mass-action', e => {
+			this.getListViewContainer().on('click', '.js-mass-action', (e) => {
 				e.preventDefault();
-				const url = $(e.currentTarget).data('url');
+				let element = $(e.currentTarget);
+				let url = element.data('url');
 				if (typeof url != 'undefined') {
 					if (this.checkListRecordSelected() !== true) {
-						Vtiger_List_Js.triggerMassAction(url);
+						switch (element.data('type')) {
+							case 'modal':
+								Vtiger_List_Js.triggerMassAction(url);
+								break;
+							case 'formRedirect':
+								Vtiger_List_Js.triggerExportAction(url, element.data('tab') === 'new');
+								Vtiger_List_Js.clearList();
+								break;
+							case 'reload':
+								let params = self.getSearchParams();
+								delete params.view;
+								delete params.action;
+								params.sourceModule = params.module;
+								delete params.module;
+								AppConnector.request({
+									type: 'POST',
+									url: url,
+									data: params
+								}).done((response) => {
+									self.getListViewRecords();
+									Vtiger_List_Js.clearList();
+									if (response.result) {
+										Vtiger_Helper_Js.showMessage(response.result.message);
+									}
+								});
+								break;
+						}
 					} else {
 						this.noRecordSelectedAlert();
 					}
@@ -2138,7 +2059,7 @@ jQuery.Class(
 			});
 		},
 		registerMassActionsBtnMergeEvents() {
-			this.getListViewContainer().on('click', '.js-mass-action--merge', e => {
+			this.getListViewContainer().on('click', '.js-mass-action--merge', (e) => {
 				let url = $(e.target).data('url');
 				if (typeof url !== 'undefined') {
 					if (this.checkListRecordSelected(2) !== true) {
@@ -2175,7 +2096,7 @@ jQuery.Class(
 				this.registerFixedThead(listViewContainer);
 			}
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			this.registerRowClickEvent();
 			this.registerPageNavigationEvents();
 			this.registerMainCheckBoxClickEvent();
@@ -2207,7 +2128,7 @@ jQuery.Class(
 			this.registerEventForTotalRecordsCount();
 			this.registerSummationEvent();
 			//Just reset all the checkboxes on page load: added for chrome issue.
-			var listViewContainer = this.getListViewContentContainer();
+			let listViewContainer = this.getListViewContentContainer();
 			listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);
 			this.getListSearchInstance(false);
 			this.registerDesktopEvents(listViewContainer);
@@ -2218,16 +2139,16 @@ jQuery.Class(
 		/**
 		 * Function that executes after the mass delete action
 		 */
-		postMassDeleteRecords: function() {
-			var aDeferred = jQuery.Deferred();
-			var listInstance = Vtiger_List_Js.getInstance();
+		postMassDeleteRecords: function () {
+			let aDeferred = jQuery.Deferred();
+			let listInstance = Vtiger_List_Js.getInstance();
 			app.hideModalWindow();
-			listInstance.getListViewRecords().done(function(data) {
+			listInstance.getListViewRecords().done(function (data) {
 				jQuery('#recordsCount').val('');
 				jQuery('#totalPageCount').text('');
 				//listInstance.triggerDisplayTypeEvent();
 				jQuery('#deSelectAllMsg').trigger('click');
-				listInstance.calculatePages().done(function() {
+				listInstance.calculatePages().done(function () {
 					listInstance.updatePagination();
 				});
 				aDeferred.resolve();

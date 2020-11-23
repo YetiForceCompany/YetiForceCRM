@@ -26,7 +26,7 @@ class OSSMailView_Base_UIType extends Vtiger_Base_UIType
 			$value = \App\Purifier::decodeHtml($value);
 		}
 		$fieldName = $this->getFieldModel()->getFieldName();
-		if (!is_numeric($value) && (is_string($value) && $fieldName !== 'uid' && $value !== strip_tags($value))) {
+		if (!is_numeric($value) && (\is_string($value) && 'uid' !== $fieldName && $value !== strip_tags($value))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $fieldName . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		if (App\TextParser::getTextLength($value) > 255) {

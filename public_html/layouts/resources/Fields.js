@@ -30,7 +30,7 @@ window.App.Fields = {
 			'JS_OCT',
 			'JS_NOV',
 			'JS_DEC'
-		].map(monthName => app.vtranslate(monthName)),
+		].map((monthName) => app.vtranslate(monthName)),
 		fullMonths: [
 			'JS_JANUARY',
 			'JS_FEBRUARY',
@@ -58,9 +58,9 @@ window.App.Fields = {
 			'JS_OCTOBER',
 			'JS_NOVEMBER',
 			'JS_DECEMBER'
-		].map(monthName => app.vtranslate(monthName)),
+		].map((monthName) => app.vtranslate(monthName)),
 		days: ['JS_SUN', 'JS_MON', 'JS_TUE', 'JS_WED', 'JS_THU', 'JS_FRI', 'JS_SAT'],
-		daysTranslated: ['JS_SUN', 'JS_MON', 'JS_TUE', 'JS_WED', 'JS_THU', 'JS_FRI', 'JS_SAT'].map(monthName =>
+		daysTranslated: ['JS_SUN', 'JS_MON', 'JS_TUE', 'JS_WED', 'JS_THU', 'JS_FRI', 'JS_SAT'].map((monthName) =>
 			app.vtranslate(monthName)
 		),
 		fullDays: ['JS_SUNDAY', 'JS_MONDAY', 'JS_TUESDAY', 'JS_WEDNESDAY', 'JS_THURSDAY', 'JS_FRIDAY', 'JS_SATURDAY'],
@@ -72,7 +72,7 @@ window.App.Fields = {
 			'JS_THURSDAY',
 			'JS_FRIDAY',
 			'JS_SATURDAY'
-		].map(monthName => app.vtranslate(monthName)),
+		].map((monthName) => app.vtranslate(monthName)),
 
 		/**
 		 * Register DatePicker
@@ -183,57 +183,27 @@ window.App.Fields = {
 			ranges[app.vtranslate('JS_NEXT_7_DAYS')] = [moment(), moment().add(6, 'days')];
 			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
 			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
-				moment()
-					.add(1, 'month')
-					.startOf('month'),
-				moment()
-					.add(1, 'month')
-					.endOf('month')
+				moment().add(1, 'month').startOf('month'),
+				moment().add(1, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_LAST_MONTH')] = [
-				moment()
-					.subtract(1, 'month')
-					.startOf('month'),
-				moment()
-					.subtract(1, 'month')
-					.endOf('month')
+				moment().subtract(1, 'month').startOf('month'),
+				moment().subtract(1, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
-				moment()
-					.add(1, 'month')
-					.startOf('month'),
-				moment()
-					.add(1, 'month')
-					.endOf('month')
+				moment().add(1, 'month').startOf('month'),
+				moment().add(1, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_LAST_3_MONTHS')] = [
-				moment()
-					.subtract(3, 'month')
-					.startOf('month'),
-				moment()
-					.subtract(1, 'month')
-					.endOf('month')
+				moment().subtract(3, 'month').startOf('month'),
+				moment().subtract(1, 'month').endOf('month')
 			];
-			ranges[app.vtranslate('JS_NEXT_3_MONTHS')] = [
-				moment().startOf('month'),
-				moment()
-					.add(3, 'month')
-					.endOf('month')
-			];
+			ranges[app.vtranslate('JS_NEXT_3_MONTHS')] = [moment().startOf('month'), moment().add(3, 'month').endOf('month')];
 			ranges[app.vtranslate('JS_LAST_6_MONTHS')] = [
-				moment()
-					.subtract(6, 'month')
-					.startOf('month'),
-				moment()
-					.subtract(1, 'month')
-					.endOf('month')
+				moment().subtract(6, 'month').startOf('month'),
+				moment().subtract(1, 'month').endOf('month')
 			];
-			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [
-				moment().startOf('month'),
-				moment()
-					.add(6, 'month')
-					.endOf('month')
-			];
+			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [moment().startOf('month'), moment().add(6, 'month').endOf('month')];
 			let params = {
 				autoUpdateInput: false,
 				autoApply: true,
@@ -259,17 +229,14 @@ window.App.Fields = {
 			parentElement
 				.find('.js-date__btn')
 				.off()
-				.on('click', e => {
-					$(e.currentTarget)
-						.parent()
-						.next('.dateRangeField')[0]
-						.focus();
+				.on('click', (e) => {
+					$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 				});
 			elements.each((index, element) => {
 				let el = $(element);
 				let currentParams = $.extend(true, params, el.data('params'));
 				el.daterangepicker(currentParams)
-					.on('apply.daterangepicker', function(ev, picker) {
+					.on('apply.daterangepicker', function (ev, picker) {
 						$(this).val(
 							picker.startDate.format(currentParams.locale.format) +
 								',' +
@@ -297,7 +264,7 @@ window.App.Fields = {
 		 * @param {jQuery} parentElement
 		 * @param {object} customParams
 		 */
-		register: function(parentElement, customParams) {
+		register: function (parentElement, customParams) {
 			if (typeof parentElement === 'undefined') {
 				parentElement = $('body');
 			} else {
@@ -310,12 +277,8 @@ window.App.Fields = {
 			if (elements.length === 0) {
 				return;
 			}
-			$('.input-group-text', elements.closest('.dateTime')).on('click', function(e) {
-				$(e.currentTarget)
-					.closest('.dateTime')
-					.find('input.dateTimePickerField ')
-					.get(0)
-					.focus();
+			$('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
+				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
 			});
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
@@ -384,14 +347,14 @@ window.App.Fields = {
 		/**
 		 * Function to check whether the color is dark or light
 		 */
-		getColorContrast: function(hexcolor) {
+		getColorContrast: function (hexcolor) {
 			var r = parseInt(hexcolor.substr(0, 2), 16);
 			var g = parseInt(hexcolor.substr(2, 2), 16);
 			var b = parseInt(hexcolor.substr(4, 2), 16);
 			var yiq = (r * 299 + g * 587 + b * 114) / 1000;
 			return yiq >= 128 ? 'light' : 'dark';
 		},
-		getRandomColor: function() {
+		getRandomColor: function () {
 			var letters = '0123456789ABCDEF'.split('');
 			var color = '#';
 			for (var i = 0; i < 6; i++) {
@@ -399,7 +362,7 @@ window.App.Fields = {
 			}
 			return color;
 		},
-		getRandomColors: function(count) {
+		getRandomColors: function (count) {
 			const colors = [];
 			for (var i = 0; i < count; i++) {
 				colors.push(this.getRandomColor());
@@ -407,12 +370,12 @@ window.App.Fields = {
 			return colors;
 		},
 		showPicker({ color, fieldToUpdate, bgToUpdate, cb }) {
-			let registerPickerEvents = modalContainer => {
+			let registerPickerEvents = (modalContainer) => {
 				let picker = window.ColorPicker.mount({
 					el: modalContainer.find('.js-color-picker')[0],
 					currentColor: color
 				});
-				modalContainer.find('.js-modal__save').on('click', _ => {
+				modalContainer.find('.js-modal__save').on('click', (_) => {
 					let newColor = picker.getColor().hex;
 					cb && cb(newColor);
 					bgToUpdate && bgToUpdate.css('background', newColor);
@@ -420,9 +383,7 @@ window.App.Fields = {
 					app.hideModalWindow(false, modalContainer.closest('.js-modal-container')[0].id);
 				});
 			};
-			let url = `index.php?module=AppComponents&view=ColorPickerModal${
-				color ? '&color=' + color.substring(1) : ''
-			}`;
+			let url = `index.php?module=AppComponents&view=ColorPickerModal${color ? '&color=' + color : ''}`;
 			app.showModalWindow({ url, cb: registerPickerEvents.bind(this) });
 		}
 	},
@@ -433,7 +394,7 @@ window.App.Fields = {
 		 * @param {string} key
 		 * @returns {ClipboardJS|undefined}
 		 */
-		registerCopyClipboard: function(container, key = '.clipboard') {
+		registerCopyClipboard: function (container, key = '.clipboard') {
 			if (typeof container !== 'object') {
 				return;
 			}
@@ -445,8 +406,8 @@ window.App.Fields = {
 			}
 			return new ClipboardJS(elements, {
 				container: container,
-				text: function(trigger) {
-					Vtiger_Helper_Js.showPnotify({
+				text: function (trigger) {
+					app.showNotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 						type: 'success'
 					});
@@ -469,33 +430,56 @@ window.App.Fields = {
 			});
 		},
 		Editor: class {
-			constructor(parentElement, params) {
-				let elements;
-				if (typeof parentElement === 'undefined') {
-					parentElement = $('body');
-				} else {
-					parentElement = $(parentElement);
+			constructor(container, params) {
+				this.container = container;
+				this.init(container, params);
+			}
+			/**
+			 * Register function
+			 * @param {jQuery} container
+			 * @param {Object} params
+			 */
+			static register(container, params) {
+				if (typeof container === 'undefined') {
+					container = $('body');
 				}
-				if (parentElement.hasClass('js-editor') && !parentElement.prop('disabled')) {
-					elements = parentElement;
-				} else {
-					elements = $('.js-editor:not([disabled])', parentElement);
+				if (container.hasClass('js-editor') && !container.prop('disabled')) {
+					return new App.Fields.Text.Editor(container, params);
 				}
-				if (elements.length !== 0 && typeof elements !== 'undefined') {
-					this.isModal = elements.closest('.js-modal-container').length;
-					if (this.isModal) {
-						let self = this;
-						this.progressInstance = $.progressIndicator({
-							blockInfo: {
-								enabled: true,
-								onBlock: () => {
-									self.loadEditor(elements, params);
-								}
+				const instances = [];
+				container.find('.js-editor:not([disabled])').each((_, e) => {
+					instances.push(new App.Fields.Text.Editor($(e), params));
+				});
+				return instances;
+			}
+			/**
+			 * Initiation
+			 * @param {jQuery} element
+			 * @param {Object} params
+			 */
+			init(element, params) {
+				let config = {};
+				if (element.hasClass('js-editor--basic')) {
+					config.toolbar = 'Min';
+				}
+				if (element.data('height')) {
+					config.height = element.data('height');
+				}
+				params = $.extend(config, params);
+				this.isModal = element.closest('.js-modal-container').length;
+				if (this.isModal) {
+					let self = this;
+					this.progressInstance = $.progressIndicator({
+						blockInfo: {
+							enabled: true,
+							onBlock: () => {
+								self.loadEditor(element, params);
 							}
-						});
-					} else {
-						this.loadEditor(elements, params);
-					}
+						}
+					});
+				} else {
+					App.Fields.Text.destroyEditor(element);
+					this.loadEditor(element, params);
 				}
 			}
 
@@ -549,8 +533,8 @@ window.App.Fields = {
 					emojiEnabled: false,
 					mentionsEnabled: false,
 					on: {
-						instanceReady: function(evt) {
-							evt.editor.on('blur', function() {
+						instanceReady: function (evt) {
+							evt.editor.on('blur', function () {
 								evt.editor.updateElement();
 							});
 							if (self.isModal) {
@@ -667,7 +651,7 @@ window.App.Fields = {
 						feed: this.getMentionUsersData.bind(this),
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
 											<div class="col-2 c-img__completion__container">
-												<div class="{icon} m-auto u-w-fit u-font-size-14px"></div>
+												<div class="{icon} m-auto u-w-fit u-fs-14px"></div>
 												<img src="{image}" class="c-img__completion mr-2" alt="{label}" title="{label}">
 											</div>
 											<div class="col row-10 no-gutters u-overflow-x-hidden">
@@ -760,7 +744,7 @@ window.App.Fields = {
 				let self = this;
 				return {
 					trigger: symbol,
-					selectTemplate: function(item) {
+					selectTemplate: function (item) {
 						if (this.range.isContentEditable(this.current.element)) {
 							return `<a href="#" data-id="${symbol + item.original.id}" data-module="${
 								item.original.module
@@ -770,10 +754,10 @@ window.App.Fields = {
 					},
 					values: (text, cb) => {
 						if (text.length >= CONFIG.globalSearchAutocompleteMinLength) {
-							App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
+							App.Fields.Text.getMentionData(text, (users) => cb(users), searchModule);
 						}
 					},
-					menuItemTemplate: function(item) {
+					menuItemTemplate: function (item) {
 						return self.mentionTemplate({
 							id: item.original.id,
 							module: item.original.module,
@@ -795,13 +779,13 @@ window.App.Fields = {
 			registerEmojiCollection() {
 				return {
 					trigger: ':',
-					selectTemplate: function(item) {
+					selectTemplate: function (item) {
 						if (this.range.isContentEditable(this.current.element)) {
 							return `<span data-id="${item.original.id}">${item.original.symbol}</span>`;
 						}
 						return item.original.symbol;
 					},
-					menuItemTemplate: function(item) {
+					menuItemTemplate: function (item) {
 						return `<span data-id="${item.original.id}">${item.original.symbol} ${item.original.id}</span>`;
 					},
 					lookup: 'id',
@@ -859,21 +843,15 @@ window.App.Fields = {
 					this.registerCompletionsButtons();
 				}
 				if (this.params.emojiPanel) {
-					this.registerEmojiPanel(
-						this.inputDiv,
-						this.inputDiv
-							.parents()
-							.eq(3)
-							.find('.js-completions__emojis')
-					);
+					this.registerEmojiPanel(this.inputDiv, this.inputDiv.parents().eq(3).find('.js-completions__emojis'));
 				}
 				if (App.emoji === undefined) {
 					fetch(`${CONFIG.siteUrl}/vendor/ckeditor/ckeditor/plugins/emoji/emoji.json`)
-						.then(response => response.json())
-						.then(response => {
+						.then((response) => response.json())
+						.then((response) => {
 							App.emoji = response;
 						})
-						.catch(error => console.error('Error:', error));
+						.catch((error) => console.error('Error:', error));
 				}
 				this.registerTagClick(inputDiv);
 			}
@@ -885,10 +863,10 @@ window.App.Fields = {
 			registerCompletionsTextArea(inputDiv) {
 				let textarea = inputDiv.siblings(`[name=${inputDiv.attr('id')}]`);
 				inputDiv
-					.on('focus', function() {
+					.on('focus', function () {
 						textarea.val(inputDiv.html());
 					})
-					.on('blur keyup paste input', function() {
+					.on('blur keyup paste input', function () {
 						textarea.val(inputDiv.html());
 					});
 			}
@@ -901,7 +879,7 @@ window.App.Fields = {
 				inputDiv
 					.closest('.js-completions__container')
 					.find('.js-completions__messages')
-					.on('click', '.js-completions__tag', e => {
+					.on('click', '.js-completions__tag', (e) => {
 						e.preventDefault();
 						inputDiv.append($(e.target).clone());
 					});
@@ -912,10 +890,10 @@ window.App.Fields = {
 			 */
 			registerCompletionsButtons() {
 				let completionsContainer = this.inputDiv.parents().eq(3);
-				completionsContainer.find('.js-completions__users').on('click', e => {
+				completionsContainer.find('.js-completions__users').on('click', (e) => {
 					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 1);
 				});
-				completionsContainer.find('.js-completions__records').on('click', e => {
+				completionsContainer.find('.js-completions__records').on('click', (e) => {
 					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 0);
 				});
 			}
@@ -930,26 +908,26 @@ window.App.Fields = {
 					container: '.js-completions__emojis',
 					json_url: CONFIG.siteUrl + 'libraries/emojipanel/dist/emojis.json'
 				});
-				emojisContainer.on('click', e => {
+				emojisContainer.on('click', (e) => {
 					let element = $(e.target);
 					element.toggleClass('active');
 				});
-				emojisContainer.on('click', '.emoji', e => {
+				emojisContainer.on('click', '.emoji', (e) => {
 					e.preventDefault();
 					e.stopPropagation();
 					if ($(e.currentTarget).data('char') !== undefined) {
 						inputDiv.append(`${$(e.currentTarget).data('char')}`);
 					}
 				});
-				emojisContainer.on('mouseenter', '.emoji', e => {
+				emojisContainer.on('mouseenter', '.emoji', (e) => {
 					if ($(e.currentTarget).data('name') !== undefined) {
 						emojisContainer.find('.emoji-hovered').remove();
 						emojisContainer
 							.find('footer')
 							.prepend(
-								`<div class="emoji-hovered">${$(e.currentTarget).data('char') +
-									' ' +
-									$(e.currentTarget).data('name')}</div>`
+								`<div class="emoji-hovered">${
+									$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')
+								}</div>`
 							);
 					}
 				});
@@ -978,11 +956,11 @@ window.App.Fields = {
 					action: 'Search',
 					mode: 'owners',
 					value: text
-				}).done(data => {
+				}).done((data) => {
 					callback(data.result);
 				});
 			} else {
-				basicSearch.search(text).done(function(data) {
+				basicSearch.search(text).done(function (data) {
 					data = JSON.parse(data);
 					let serverDataFormat = data.result,
 						reponseDataList = [];
@@ -1022,16 +1000,10 @@ window.App.Fields = {
 		generateRandomHash(prefix = '') {
 			prefix = prefix.toString();
 			const hash =
-				Math.random()
-					.toString(36)
-					.substr(2, 10) +
-				Math.random()
-					.toString(36)
-					.substr(2, 10) +
+				Math.random().toString(36).substr(2, 10) +
+				Math.random().toString(36).substr(2, 10) +
 				new Date().valueOf() +
-				Math.random()
-					.toString(36)
-					.substr(2, 6);
+				Math.random().toString(36).substr(2, 6);
 			return prefix ? prefix + hash : hash;
 		}
 	},
@@ -1043,13 +1015,13 @@ window.App.Fields = {
 		 * @params viewParams - select2 params
 		 * @returns jquery object list which represents changed select elements
 		 */
-		changeSelectElementView: function(parent, view, viewParams) {
+		changeSelectElementView: function (parent, view, viewParams) {
 			if (typeof parent === 'undefined') {
 				parent = $('body');
 			}
 			if (typeof view === 'undefined') {
 				const select2Elements = $('select.select2', parent).toArray();
-				select2Elements.forEach(elem => {
+				select2Elements.forEach((elem) => {
 					this.changeSelectElementView($(elem), 'select2', viewParams);
 				});
 				return;
@@ -1091,15 +1063,12 @@ window.App.Fields = {
 						const selectOffsetTop = $(e.currentTarget).offset().top;
 						dropdownList.css({
 							'max-height':
-								$(window).height() -
-								selectOffsetTop -
-								marginBottom -
-								(dropdownList.offset().top - selectOffsetTop)
+								$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
 						});
 					}
 				}, 100);
 			};
-			selectElement.each(function() {
+			selectElement.each(function () {
 				let select = $(this);
 				let htmlBoolParams = select.data('select');
 				if (htmlBoolParams === 'tags') {
@@ -1110,12 +1079,12 @@ window.App.Fields = {
 				}
 				select
 					.select2(params)
-					.on('select2:open', e => {
+					.on('select2:open', (e) => {
 						computeDropdownHeight(e, $('.select2-container--open:not(.select2-container--below)'));
 						if (select.data('unselecting')) {
 							select.removeData('unselecting');
-							setTimeout(function() {
-								select.each(function() {
+							setTimeout(function () {
+								select.each(function () {
 									$(this).select2('close');
 								});
 							}, 1);
@@ -1163,23 +1132,23 @@ window.App.Fields = {
 			if (typeof containerCssClass !== 'undefined') {
 				params.containerCssClass += ' ' + containerCssClass;
 			}
-			params.language.noResults = function(msn) {
+			params.language.noResults = function (msn) {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			};
 
 			// Sort DOM nodes alphabetically in select box.
 			if (typeof params['customSortOptGroup'] !== 'undefined' && params['customSortOptGroup']) {
-				$('optgroup', selectElement).each(function() {
+				$('optgroup', selectElement).each(function () {
 					var optgroup = $(this);
 					var options = optgroup
 						.children()
 						.toArray()
-						.sort(function(a, b) {
+						.sort(function (a, b) {
 							var aText = $(a).text();
 							var bText = $(b).text();
 							return aText < bText ? 1 : -1;
 						});
-					$.each(options, function(i, v) {
+					$.each(options, function (i, v) {
 						optgroup.prepend(v);
 					});
 				});
@@ -1188,19 +1157,10 @@ window.App.Fields = {
 
 			//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
 			//then we should send our custom function for formatSelectionTooBig
-			if (
-				typeof params.maximumSelectionLength !== 'undefined' &&
-				typeof params.formatSelectionTooBig === 'undefined'
-			) {
+			if (typeof params.maximumSelectionLength !== 'undefined' && typeof params.formatSelectionTooBig === 'undefined') {
 				//custom function which will return the maximum selection size exceeds message.
-				var formatSelectionExceeds = function(limit) {
-					return (
-						app.vtranslate('JS_YOU_CAN_SELECT_ONLY') +
-						' ' +
-						limit.maximum +
-						' ' +
-						app.vtranslate('JS_ITEMS')
-					);
+				var formatSelectionExceeds = function (limit) {
+					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY') + ' ' + limit.maximum + ' ' + app.vtranslate('JS_ITEMS');
 				};
 				params.language.maximumSelected = formatSelectionExceeds;
 			}
@@ -1210,15 +1170,12 @@ window.App.Fields = {
 				params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 			}
 			if (typeof params.templateResult === 'undefined') {
-				params.templateResult = function(data, container) {
+				params.templateResult = function (data, container) {
 					if (data.element && data.element.className) {
 						$(container).addClass(data.element.className);
 					}
 					let actualElement = $(data.element);
-					if (
-						typeof selectElement.data('showAdditionalIcons') !== 'undefined' &&
-						actualElement.is('option')
-					) {
+					if (typeof selectElement.data('showAdditionalIcons') !== 'undefined' && actualElement.is('option')) {
 						return (
 							'<div class="js-element__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' +
 							actualElement.text() +
@@ -1234,14 +1191,14 @@ window.App.Fields = {
 						return '<span>' + data.name + '</span>';
 					}
 				};
-				params.escapeMarkup = function(markup) {
+				params.escapeMarkup = function (markup) {
 					return markup;
 				};
 			} else if (typeof this[params.templateResult] === 'function') {
 				params.templateResult = this[params.templateResult];
 			}
 			if (typeof params.templateSelection === 'undefined') {
-				params.templateSelection = function(data, container) {
+				params.templateSelection = function (data, container) {
 					if (data.element && data.element.className) {
 						$(container).addClass(data.element.className);
 					}
@@ -1266,14 +1223,14 @@ window.App.Fields = {
 		 */
 		registerAjaxParams(selectElement, params) {
 			params.tags = false;
-			params.language.searching = function() {
+			params.language.searching = function () {
 				return app.vtranslate('JS_SEARCHING');
 			};
-			params.language.inputTooShort = function(args) {
+			params.language.inputTooShort = function (args) {
 				var remainingChars = args.minimum - args.input.length;
 				return app.vtranslate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', remainingChars);
 			};
-			params.language.errorLoading = function() {
+			params.language.errorLoading = function () {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			};
 			params.placeholder = '';
@@ -1282,16 +1239,16 @@ window.App.Fields = {
 				dataType: 'json',
 				delay: 250,
 				method: 'POST',
-				data: function(params) {
+				data: function (params) {
 					return {
 						value: params.term, // search term
 						page: params.page
 					};
 				},
-				processResults: function(data, params) {
+				processResults: function (data, params) {
 					var items = new Array();
 					if (data.success == true) {
-						selectElement.find('option').each(function() {
+						selectElement.find('option').each(function () {
 							var currentTarget = $(this);
 							items.push({
 								label: currentTarget.html(),
@@ -1309,7 +1266,7 @@ window.App.Fields = {
 				},
 				cache: false
 			};
-			params.escapeMarkup = function(markup) {
+			params.escapeMarkup = function (markup) {
 				if (markup !== 'undefined') return markup;
 			};
 			var minimumInputLength = 3;
@@ -1317,7 +1274,7 @@ window.App.Fields = {
 				minimumInputLength = selectElement.data('minimumInput');
 			}
 			params.minimumInputLength = minimumInputLength;
-			params.templateResult = function(data) {
+			params.templateResult = function (data) {
 				if (typeof data.name === 'undefined') {
 					return data.text;
 				}
@@ -1327,7 +1284,7 @@ window.App.Fields = {
 					return '<span>' + data.name + '</span>';
 				}
 			};
-			params.templateSelection = function(data, container) {
+			params.templateSelection = function (data, container) {
 				if (data.text === '') {
 					return data.name;
 				}
@@ -1392,15 +1349,10 @@ window.App.Fields = {
 			ul.sortable({
 				items: 'li:not(.select2-search__field)',
 				tolerance: 'pointer',
-				stop: function() {
-					$(
-						ul
-							.find('.select2-selection__choice')
-							.get()
-							.reverse()
-					).each(function() {
+				stop: function () {
+					$(ul.find('.select2-selection__choice').get().reverse()).each(function () {
 						let optionTitle = $(this).attr('title');
-						select.find('option').each(function() {
+						select.find('option').each(function () {
 							if ($(this).text() === optionTitle) {
 								select.prepend($(this));
 							}
@@ -1415,7 +1367,7 @@ window.App.Fields = {
 		 * @param selectElement
 		 */
 		registerIconsEvents(selectElement) {
-			selectElement.on('select2:selecting', event => {
+			selectElement.on('select2:selecting', (event) => {
 				let currentTarget = $(event.params.args.originalEvent.target);
 				if (!currentTarget.hasClass('js-select-option-event') && !currentTarget.is('path')) {
 					return;
@@ -1429,29 +1381,28 @@ window.App.Fields = {
 					optionElement = $(event.params.args.data.element),
 					progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
 				AppConnector.request(currentElementData.url)
-					.done(data => {
+					.done((data) => {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						let response = data.result;
 						if (response && response.result) {
 							if (optionElement.attr('data-state') === 'active') {
 								optionElement.attr('data-state', 'inactive');
-								currentTarget.toggleClass(
-									currentElementData.iconActive + ' ' + currentElementData.iconInactive
-								);
+								currentTarget.toggleClass(currentElementData.iconActive + ' ' + currentElementData.iconInactive);
 							} else {
 								optionElement.attr('data-state', 'active');
-								currentTarget.toggleClass(
-									currentElementData.iconInactive + ' ' + currentElementData.iconActive
-								);
+								currentTarget.toggleClass(currentElementData.iconInactive + ' ' + currentElementData.iconActive);
 							}
 							if (response.message) {
-								Vtiger_Helper_Js.showPnotify({ text: response.message, type: 'success' });
+								app.showNotify({ text: response.message, type: 'success' });
 							}
 						} else if (response && response.message) {
-							Vtiger_Helper_Js.showPnotify({ text: response.message });
+							app.showNotify({
+								text: response.message,
+								type: 'error'
+							});
 						}
 					})
-					.fail(function() {
+					.fail(function () {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					});
 			});
@@ -1471,7 +1422,7 @@ window.App.Fields = {
 				CustomData.prototype.query = (options, callback) => {
 					let results = [];
 					if (options.term && options.term !== '') {
-						results = params.data.filter(e => {
+						results = params.data.filter((e) => {
 							return e.text.toUpperCase().indexOf(options.term.toUpperCase()) >= 0;
 						});
 					} else {
@@ -1481,10 +1432,7 @@ window.App.Fields = {
 						options.page = 1;
 					}
 					let data = {};
-					data.results = results.slice(
-						(options.page - 1) * params.lazyElements,
-						options.page * params.lazyElements
-					);
+					data.results = results.slice((options.page - 1) * params.lazyElements, options.page * params.lazyElements);
 					data.pagination = {};
 					data.pagination.more = options.page * params.lazyElements < results.length;
 					callback(data);
@@ -1498,7 +1446,10 @@ window.App.Fields = {
 				let selectedOption = selectElement.data('selected-value');
 				if (selectedOption) {
 					let text = selectedOption;
-					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption)) {
+					if (
+						selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption) &&
+						!selectElement.get(0).dataset.templateResult
+					) {
 						text = selectElement.data('fieldinfo').picklistvalues[selectedOption];
 					}
 					this.createSelectedOption(selectElement, text, selectedOption);
@@ -1514,12 +1465,16 @@ window.App.Fields = {
 		 */
 		registerLazySelectOptions(selectElement) {
 			let options = [];
-			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues) {
-				options = $.map(selectElement.data('fieldinfo').picklistvalues, function(val, key) {
+			if (
+				selectElement.data('fieldinfo') &&
+				selectElement.data('fieldinfo').picklistvalues &&
+				!selectElement.get(0).dataset.templateResult
+			) {
+				options = $.map(selectElement.data('fieldinfo').picklistvalues, function (val, key) {
 					return { id: key, text: val };
 				});
 			} else {
-				options = $.map(selectElement.find('option'), item => {
+				options = $.map(selectElement.find('option'), (item) => {
 					return {
 						id: item.value,
 						element: item,
@@ -1564,8 +1519,7 @@ window.App.Fields = {
 		findOption(selectElement, searchValue, type = 'value') {
 			let foundOption = false;
 			const selectValues = this.getSelectOptions(selectElement);
-			const getFieldValueFromText = () =>
-				Object.keys(selectValues).find(key => selectValues[key] === searchValue);
+			const getFieldValueFromText = () => Object.keys(selectValues).find((key) => selectValues[key] === searchValue);
 			const valueExists = () => selectValues.hasOwnProperty(searchValue);
 			const createOption = () => {
 				return { text: selectValues[foundOption], value: foundOption };
@@ -1622,7 +1576,7 @@ window.App.Fields = {
 	MultiImage: {
 		currentFileUploads: 0,
 		register(container) {
-			$('.js-multi-image', container).each(function() {
+			$('.js-multi-image', container).each(function () {
 				new MultiImage($(this));
 			});
 		}
@@ -1634,21 +1588,21 @@ window.App.Fields = {
 				$(element)
 					.find('.js-email')
 					.each((index, element) => {
-						$(element).on('change', e => {
+						$(element).on('change', (e) => {
 							App.Fields.MultiEmail.parseToJSON($(inputElement));
 						});
 					});
 				$(element)
 					.find('.js-multi-email-add-item')
 					.each((index, element) => {
-						$(element).on('click', e => {
+						$(element).on('click', (e) => {
 							App.Fields.MultiEmail.addEmail($(inputElement));
 						});
 					});
 				$(element)
 					.find('.js-remove-item')
 					.each((index, element) => {
-						$(element).on('click', e => {
+						$(element).on('click', (e) => {
 							App.Fields.MultiEmail.removeEmail($(e.target), $(inputElement));
 							App.Fields.MultiEmail.parseToJSON(container);
 						});
@@ -1656,7 +1610,7 @@ window.App.Fields = {
 				$(element)
 					.find('input.js-checkbox')
 					.each((index, element) => {
-						$(element).on('change', e => {
+						$(element).on('change', (e) => {
 							App.Fields.MultiEmail.toggleCheckBox($(e.target));
 							App.Fields.MultiEmail.parseToJSON(container);
 						});
@@ -1672,12 +1626,8 @@ window.App.Fields = {
 			let arr = [];
 			let arrayLength = allFields.length;
 			for (let i = 0; i < arrayLength; ++i) {
-				let inputField = $(allFields[i])
-					.find('input.js-email')
-					.eq(0);
-				let checkboxField = $(allFields[i])
-					.find('input.js-checkbox')
-					.eq(0);
+				let inputField = $(allFields[i]).find('input.js-email').eq(0);
+				let checkboxField = $(allFields[i]).find('input.js-checkbox').eq(0);
 				if (inputField.val() !== '') {
 					arr.push({
 						e: $(inputField).val(),
@@ -1685,47 +1635,39 @@ window.App.Fields = {
 					});
 				}
 			}
-			$(element)
-				.find('input.js-hidden-email')
-				.val(JSON.stringify(arr));
+			$(element).find('input.js-hidden-email').val(JSON.stringify(arr));
 		},
 		/**
 		 * Invoked after clicking the add button
 		 * @param {jQuery} container
 		 */
 		addEmail(container) {
-			let newField = container
-				.find('[class*=js-multi-email-row]')
-				.eq(0)
-				.clone(false, false);
+			let newField = container.find('[class*=js-multi-email-row]').eq(0).clone(false, false);
 			let cnt = container.find('[class*=js-multi-email-row]').length + 1;
 			newField.removeClass('js-multi-email-row-1');
 			newField.addClass('js-multi-email-row-' + cnt);
 			newField.find('input.js-email').val('');
 			newField.find('input.js-checkbox').removeAttr('checked');
 			newField.find('label.js-label-checkbox').removeClass('active');
-			newField
-				.find('span.far')
-				.removeClass('fa-check-square')
-				.addClass('fa-square');
+			newField.find('span.far').removeClass('fa-check-square').addClass('fa-square');
 			newField
 				.find('.js-remove-item')
 				.eq(0)
-				.on('click', e => {
+				.on('click', (e) => {
 					App.Fields.MultiEmail.removeEmail($(e.target), container);
 					App.Fields.MultiEmail.parseToJSON(container);
 				});
 			newField
 				.find('input.js-checkbox')
 				.eq(0)
-				.on('change', e => {
+				.on('change', (e) => {
 					App.Fields.MultiEmail.toggleCheckBox($(e.target));
 					App.Fields.MultiEmail.parseToJSON(container);
 				});
 			newField
 				.find('input.js-email')
 				.eq(0)
-				.on('change', e => {
+				.on('change', (e) => {
 					App.Fields.MultiEmail.parseToJSON(container);
 				});
 			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
@@ -1770,7 +1712,7 @@ window.App.Fields = {
 			container.find('.js-multi-field').each((index, element) => {
 				const inputElement = $(element);
 				const fields = inputElement.find('.js-multi-field-val').data('fields');
-				inputElement.find('.js-multi-field-add-item').on('click', e => {
+				inputElement.find('.js-multi-field-add-item').on('click', (e) => {
 					App.Fields.MultiDependField.addRow(inputElement, fields);
 				});
 				App.Fields.MultiDependField.registerRow(inputElement, fields);
@@ -1783,11 +1725,11 @@ window.App.Fields = {
 		 */
 		registerRow(inputElement, fields) {
 			for (let i in fields) {
-				inputElement.find('[name="' + fields[i] + '"]').on('change', e => {
+				inputElement.find('[name="' + fields[i] + '"]').on('change', (e) => {
 					App.Fields.MultiDependField.parseToJson(inputElement, fields);
 				});
 			}
-			inputElement.find('.js-remove-item').on('click', e => {
+			inputElement.find('.js-remove-item').on('click', (e) => {
 				App.Fields.MultiDependField.removeRow($(e.target), inputElement);
 				App.Fields.MultiDependField.parseToJson(inputElement.closest('.js-multi-field'), fields);
 			});
@@ -1827,9 +1769,7 @@ window.App.Fields = {
 					arr.push(partData);
 				}
 			}
-			$(element)
-				.find('input.js-multi-field-val')
-				.val(JSON.stringify(arr));
+			$(element).find('input.js-multi-field-val').val(JSON.stringify(arr));
 		},
 		/**
 		 * Invoked after clicking the add button
@@ -1841,11 +1781,7 @@ window.App.Fields = {
 			let lastField = container.find('.js-multi-field-row').last();
 			let selectFields = lastField.find('select.select2');
 			if (selectFields.length) {
-				selectFields
-					.select2('destroy')
-					.removeAttr('data-select2-id')
-					.find('option')
-					.removeAttr('data-select2-id');
+				selectFields.select2('destroy').removeAttr('data-select2-id').find('option').removeAttr('data-select2-id');
 				newField = lastField.clone(false, false);
 				App.Fields.Picklist.showSelect2ElementView(lastField.find('select.select2'));
 			} else {
@@ -1889,7 +1825,7 @@ window.App.Fields = {
 			if (typeof container === 'undefined' || typeof container.length === 'undefined' || !container.length) {
 				return app.errorLog('Dependend select field container is missing.');
 			}
-			container.each(function() {
+			container.each(function () {
 				const masterSelect = $(this),
 					slaveSelect = $(masterSelect.data('slave')),
 					data = masterSelect.data('data');
@@ -1899,7 +1835,7 @@ window.App.Fields = {
 				if (!data) {
 					return app.errorLog('Could not load data (data-data attribute)');
 				}
-				masterSelect.on('change', e => {
+				masterSelect.on('change', (e) => {
 					let values = $(e.target).val();
 					if (!Array.isArray(values)) {
 						values = [values];
@@ -1909,7 +1845,7 @@ window.App.Fields = {
 						for (let item of data) {
 							if (item.value === value) {
 								if (typeof item.children !== 'undefined') {
-									item.children.forEach(child => {
+									item.children.forEach((child) => {
 										children.push(child);
 									});
 								}
@@ -1988,7 +1924,10 @@ window.App.Fields = {
 			value = parseFloat(value);
 			if (fixed) {
 				let base = 10 ** numberOfDecimal;
-				value = (Math.round(value * base) / base).toFixed(numberOfDecimal);
+				value =
+					Math.round(
+						value * base + Math.sign(value) * 0.1 ** (17 - 2 - (Math.round(value * base) / base).toString().length)
+					) / base;
 			}
 			let splittedFloat = value.toString().split('.');
 			let integer = splittedFloat[0];
@@ -2023,32 +1962,129 @@ window.App.Fields = {
 			return parseFloat(value);
 		}
 	},
-	Tree: {
-		register(container) {
-			container.on('click', '.js-tree-modal', function(e) {
-				let element = $(e.target),
-					parentElem = element.closest('.js-tree-container'),
-					sourceFieldElement = parentElem.find('input[class="sourceField"]'),
-					fieldDisplayElement = parentElem.find(
-						'input[name="' + sourceFieldElement.attr('name') + '_display"]'
-					);
-				AppConnector.request({
-					module: sourceFieldElement.data('modulename'),
-					view: 'TreeModal',
-					template: sourceFieldElement.data('treetemplate'),
-					fieldName: sourceFieldElement.attr('name'),
-					multiple: sourceFieldElement.data('multiple'),
-					value: sourceFieldElement.val()
-				}).done(function(requestData) {
-					app.modalEvents['treeModal'] = function(modal, instance) {
-						instance.setSelectEvent(responseData => {
-							sourceFieldElement.val(responseData.id);
-							fieldDisplayElement.val(responseData.name).attr('readonly', true);
-						});
-					};
-					app.showModalWindow(requestData, { modalId: 'treeModal' });
-				});
+	/**
+	 * Tree
+	 */
+	Tree: class Tree {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-tree-container')) {
+				return new Tree(container);
+			}
+			const instances = [];
+			container.find('.js-tree-container').each((n, e) => {
+				instances.push(new Tree($(e)));
 			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			this.modalEvent();
+			this.autoCompleteEvent();
+			this.clearSelectionEvent();
+		}
+		/**
+		 * Function which will handle modal view with tree
+		 */
+		modalEvent() {
+			$('.js-tree-modal', this.container)
+				.off('click')
+				.on('click', (_) => {
+					let sourceFieldElement = this.container.find('input.sourceField'),
+						fieldDisplayElement = this.container.find('input[name="' + sourceFieldElement.attr('name') + '_display"]');
+					AppConnector.request({
+						module: sourceFieldElement.data('modulename'),
+						view: 'TreeModal',
+						template: sourceFieldElement.data('treetemplate'),
+						fieldName: sourceFieldElement.attr('name'),
+						multiple: sourceFieldElement.data('multiple'),
+						value: sourceFieldElement.val()
+					}).done(function (requestData) {
+						app.modalEvents['treeModal'] = function (modal, instance) {
+							instance.setSelectEvent((responseData) => {
+								sourceFieldElement.val(responseData.id);
+								fieldDisplayElement.val(responseData.name).attr('readonly', true);
+								sourceFieldElement.trigger('change');
+							});
+						};
+						app.showModalWindow(requestData, { modalId: 'treeModal' });
+					});
+				});
+		}
+		/**
+		 * Function which will handle the reference auto complete event registrations
+		 */
+		autoCompleteEvent() {
+			let autoCompleteElement = $('input.treeAutoComplete', this.container);
+			if (autoCompleteElement.hasClass('ui-autocomplete-input')) {
+				autoCompleteElement.autocomplete('destroy');
+			}
+			autoCompleteElement.autocomplete({
+				delay: '600',
+				minLength: '3',
+				source: function (request, response) {
+					let inputElement = $(this.element[0]);
+					let searchValue = request.term.toLowerCase();
+					let parentElem = inputElement.closest('.js-tree-container');
+					let sourceFieldElement = $('input.sourceField', parentElem);
+					let fieldInfo = sourceFieldElement.data('fieldinfo');
+					let allValues = fieldInfo.picklistvalues;
+					let responseDataList = [];
+					for (let id in allValues) {
+						if (allValues[id].toLowerCase().indexOf(searchValue) >= 0) {
+							responseDataList.push({ label: allValues[id], value: id, id: id });
+						}
+					}
+					if (responseDataList.length <= 0) {
+						$(inputElement).val('');
+						responseDataList.push({
+							label: app.vtranslate('JS_NO_RESULTS_FOUND'),
+							type: 'no results'
+						});
+					}
+					response(responseDataList);
+				},
+				select: function (event, ui) {
+					let selectedItemData = ui.item;
+					if (typeof selectedItemData.type !== 'undefined' && selectedItemData.type == 'no results') {
+						return false;
+					}
+					selectedItemData.name = selectedItemData.value;
+					this.value = selectedItemData.label;
+					let element = $(this).attr('readonly', true);
+					element.closest('.js-tree-container').find('input.sourceField').val(selectedItemData.id).trigger('change');
+					return false;
+				},
+				change: function (event, ui) {},
+				open: function (event, ui) {
+					//To Make the menu come up in the case of quick create
+					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
+				}
+			});
+		}
+		/**
+		 * Function which will register reference field clear event
+		 */
+		clearSelectionEvent() {
+			$('.clearTreeSelection', this.container)
+				.off('click')
+				.on('click', (e) => {
+					let fieldElement = this.container.find('.sourceField');
+					$('input[name="' + fieldElement.attr('name') + '_display"]', this.container)
+						.removeAttr('readonly')
+						.val('');
+					fieldElement.val('').trigger('change');
+					e.preventDefault();
+				});
 		}
 	},
 	/**
@@ -2205,9 +2241,7 @@ window.App.Fields = {
 			$('.js-multicurrency-event', this.container)
 				.off('click')
 				.on('click', () => {
-					let modal = $('<form>').append(
-						this.container.find('.js-currencies-container .js-currencies-modal').clone()
-					);
+					let modal = $('<form>').append(this.container.find('.js-currencies-container .js-currencies-modal').clone());
 					this.registerEnableCurrencyEvent(modal);
 					this.registerResetCurrencyEvent(modal);
 					this.loadData(modal);
@@ -2215,10 +2249,10 @@ window.App.Fields = {
 					app.showModalWindow({
 						data: modal,
 						css: {},
-						cb: data => {
+						cb: (data) => {
 							let form = data.parent();
 							form.validationEngine(app.validationEngineOptionsForRecord);
-							form.on('submit', e => {
+							form.on('submit', (e) => {
 								e.preventDefault();
 								if (form.validationEngine('validate') && this.saveCurrencies(form)) {
 									let id = form.closest('.js-modal-container').attr('id');
@@ -2228,7 +2262,7 @@ window.App.Fields = {
 						}
 					});
 				});
-			this.getField().on('focusout', e => {
+			this.getField().on('focusout', (e) => {
 				let element = $(e.currentTarget);
 				element.formatNumber();
 				this.setPrice(element.val());
@@ -2337,14 +2371,11 @@ window.App.Fields = {
 				return;
 			}
 			let baseCurrencyRatePrevValue = baseCurrencyConversionRate.getNumberFromValue();
-			container.find('.js-conversion-rate').each(function(key, domElement) {
+			container.find('.js-conversion-rate').each(function (key, domElement) {
 				let element = $(domElement);
 				if (!element.is(baseCurrencyConversionRate)) {
 					element.val(
-						App.Fields.Double.formatToDisplay(
-							element.getNumberFromValue() / baseCurrencyRatePrevValue,
-							false
-						)
+						App.Fields.Double.formatToDisplay(element.getNumberFromValue() / baseCurrencyRatePrevValue, false)
 					);
 				}
 			});
@@ -2355,20 +2386,18 @@ window.App.Fields = {
 		 * @param {jQuery} container
 		 */
 		registerEnableCurrencyEvent(container) {
-			container.on('change', '.js-enable-currency', e => {
+			container.on('change', '.js-enable-currency', (e) => {
 				let element = $(e.currentTarget);
 				let parentRow = element.closest('tr');
 				if (element.is(':checked')) {
 					element.attr('checked', 'checked');
-					let price =
-						this.getField().getNumberFromValue() *
-						parentRow.find('.js-conversion-rate').getNumberFromValue();
+					let price = this.getField().getNumberFromValue() * parentRow.find('.js-conversion-rate').getNumberFromValue();
 					$('input', parentRow).removeAttr('disabled');
 					parentRow.find('.js-currency-reset').removeAttr('disabled');
 					parentRow.find('.js-converted-price').val(App.Fields.Double.formatToDisplay(price));
 				} else {
 					if (parentRow.find('.js-base-currency').is(':checked')) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							type: 'error',
 							title:
 								'"' +
@@ -2391,12 +2420,115 @@ window.App.Fields = {
 		 * @param {jQuery} container
 		 */
 		registerResetCurrencyEvent(container) {
-			container.on('click', '.js-currency-reset', e => {
+			container.on('click', '.js-currency-reset', (e) => {
 				let parentElem = $(e.currentTarget).closest('tr');
-				let price =
-					this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
+				let price = this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
 				$('.js-converted-price', parentElem).val(App.Fields.Double.formatToDisplay(price));
 			});
+		}
+	},
+	/**
+	 * Meeting URL
+	 */
+	MeetingUrl: class MeetingUrl {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-meeting-container')) {
+				return new MeetingUrl(container);
+			}
+			const instances = [];
+			container.find('.js-meeting-container').each((n, e) => {
+				instances.push(new MeetingUrl($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			let addButton = $('.js-meeting-add', this.container);
+			if (!addButton.length) {
+				return false;
+			}
+
+			let valElement = $('.js-meeting-val', this.container);
+			addButton.off('click').on('click', (e) => {
+				let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+				AppConnector.request(this.getUrl(e))
+					.done((data) => {
+						let result = data.result;
+						if (result && result.success && result.url) {
+							valElement.attr('readonly', true).val(result.url);
+						} else {
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
+						}
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					})
+					.fail((_) => {
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					});
+			});
+			$('.js-meeting-clear', this.container)
+				.off('click')
+				.on('click', () => {
+					valElement.attr('readonly', false).val('');
+				});
+			this.addEventsForDependentFields();
+		}
+		/**
+		 * Gets URL
+		 */
+		getUrl(e) {
+			let url = e.currentTarget.dataset.url;
+			let formData = $(e.currentTarget).closest('form').serializeFormData();
+			let expField = e.currentTarget.dataset.expField;
+			if (expField && formData && formData[expField]) {
+				let date = formData[expField].split(' ');
+				url += '&exp=' + encodeURIComponent(date[0]);
+			}
+			let roomName = e.currentTarget.dataset.roomName;
+			if (roomName && formData && formData[roomName]) {
+				url += '&roomName=' + encodeURIComponent(formData[roomName]);
+			}
+			return url;
+		}
+		/**
+		 * Add events for dependent fields
+		 */
+		addEventsForDependentFields() {
+			let addButton = $('.js-meeting-add', this.container);
+			let valElement = $('.js-meeting-val', this.container);
+			let data = addButton.data();
+			let formElement = this.container.closest('form');
+			for (let name of ['expField', 'roomName']) {
+				let fieldName = data[name];
+				if (!fieldName) {
+					continue;
+				}
+				formElement.on('change', `[name=${fieldName}]`, (_) => {
+					if (data['domain'] && valElement.val().indexOf(data['domain']) === 0) {
+						addButton.trigger('click');
+						app.showNotify({
+							type: 'info',
+							text: app.vtranslate('JS_MEETING_URL_CHANGED')
+						});
+					}
+				});
+			}
 		}
 	},
 	Utils: {

@@ -12,7 +12,7 @@
 jQuery.Class(
 	'Vtiger_AdvanceFilter_Js',
 	{
-		getInstance: function(container) {
+		getInstance: function (container) {
 			var module = app.getModuleName();
 			var moduleClassName1 = module + '_AdvanceFilterEx_Js';
 			var moduleClassName2 = module + '_AdvanceFilter_Js';
@@ -47,7 +47,7 @@ jQuery.Class(
 		allConditionValidationNeededFieldList: ['double', 'integer', 'currency'],
 		//used to eliminate mutiple times validation registrations
 		validationForControlsRegistered: false,
-		init: function(container) {
+		init: function (container) {
 			if (typeof container === 'undefined') {
 				container = jQuery('.filterContainer');
 			}
@@ -59,13 +59,13 @@ jQuery.Class(
 			}
 			this.initialize();
 		},
-		getModuleName: function() {
+		getModuleName: function () {
 			return 'AdvanceFilter';
 		},
 		/**
 		 * Function  to initialize the advance filter
 		 */
-		initialize: function() {
+		initialize: function () {
 			this.registerEvents();
 			this.initializeOperationMappingDetails();
 			this.loadFieldSpecificUiForAll();
@@ -73,14 +73,12 @@ jQuery.Class(
 		/**
 		 * Function which will save the field condition mapping condition label mapping
 		 */
-		initializeOperationMappingDetails: function() {
+		initializeOperationMappingDetails: function () {
 			var filterContainer = this.getFilterContainer();
 			this.fieldTypeConditionMapping = jQuery('input[name="advanceFilterOpsByFieldType"]', filterContainer).data(
 				'value'
 			);
-			this.conditonOperatorLabelMapping = jQuery('input[name="advanceFilterOptions"]', filterContainer).data(
-				'value'
-			);
+			this.conditonOperatorLabelMapping = jQuery('input[name="advanceFilterOptions"]', filterContainer).data('value');
 			this.dateConditionInfo = jQuery('[name="date_filters"]').data('value');
 			return this;
 		},
@@ -88,7 +86,7 @@ jQuery.Class(
 		 * Function to get the container which holds all the filter elements
 		 * @return jQuery object
 		 */
-		getFilterContainer: function() {
+		getFilterContainer: function () {
 			return this.filterContainer;
 		},
 		/**
@@ -96,25 +94,25 @@ jQuery.Class(
 		 * @params : element - which represents the filter container
 		 * @return : current instance
 		 */
-		setFilterContainer: function(element) {
+		setFilterContainer: function (element) {
 			this.filterContainer = element;
 			return this;
 		},
-		getDateSpecificConditionInfo: function() {
+		getDateSpecificConditionInfo: function () {
 			return this.dateConditionInfo;
 		},
 		/**
 		 * Function which will return set of condition for the given field type
 		 * @return array of conditions
 		 */
-		getConditionListFromType: function(fieldType) {
+		getConditionListFromType: function (fieldType) {
 			var fieldTypeConditions = this.fieldTypeConditionMapping[fieldType];
 			if (fieldType == 'D' || fieldType == 'DT') {
 				fieldTypeConditions = fieldTypeConditions.concat(this.getDateConditions(fieldType));
 			}
 			return fieldTypeConditions;
 		},
-		getDateConditions: function(fieldType) {
+		getDateConditions: function (fieldType) {
 			if (fieldType != 'D' && fieldType != 'DT') {
 				return [];
 			}
@@ -126,7 +124,7 @@ jQuery.Class(
 		 * @param : key - condition key
 		 * @reurn : label for the condition or key if it doest not contain in the condition label mapping
 		 */
-		getConditionLabel: function(key) {
+		getConditionLabel: function (key) {
 			if (key in this.conditonOperatorLabelMapping) {
 				return this.conditonOperatorLabelMapping[key];
 			}
@@ -140,7 +138,7 @@ jQuery.Class(
 		 * @params : select element which represents the field
 		 * @return : boolean true/false
 		 */
-		isEmptyFieldSelected: function(fieldSelect) {
+		isEmptyFieldSelected: function (fieldSelect) {
 			var selectedOption = fieldSelect.find('option:selected');
 			//assumption that empty field will be having value none
 			if (selectedOption.val() == 'none') {
@@ -152,7 +150,7 @@ jQuery.Class(
 		 * Function to get the add condition elements
 		 * @returns : jQuery object which represents the add conditions elements
 		 */
-		getAddConditionElement: function() {
+		getAddConditionElement: function () {
 			var filterContainer = this.getFilterContainer();
 			return jQuery('.addCondition button', filterContainer);
 		},
@@ -161,24 +159,26 @@ jQuery.Class(
 		 * @params : condtionGroupElement - group where condtion need to be added
 		 * @return : current instance
 		 */
-		addNewCondition: function(conditionGroupElement) {
+		addNewCondition: function (conditionGroupElement) {
 			let basicElement = $('.basic', conditionGroupElement);
 			let newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
 			let selectElement = newRowElement.find('select').addClass('select2');
 			let conditionList = $('.conditionList', conditionGroupElement);
 			conditionList.append(newRowElement);
-			App.Fields.Picklist.showSelect2ElementView(selectElement, { dropdownParent: conditionGroupElement });
+			App.Fields.Picklist.showSelect2ElementView(selectElement, {
+				dropdownParent: conditionGroupElement
+			});
 			return this;
 		},
 		/**
 		 * Function/Handler  which will triggered when user clicks on add condition
 		 */
-		addConditionHandler: function(e) {
+		addConditionHandler: function (e) {
 			var element = jQuery(e.currentTarget);
 			var conditionGroup = element.closest('div.conditionGroup');
 			this.addNewCondition(conditionGroup);
 		},
-		getFieldSpecificType: function(fieldSelected) {
+		getFieldSpecificType: function (fieldSelected) {
 			var fieldInfo = fieldSelected.data('fieldinfo');
 			var type = fieldInfo.type;
 			if (type == 'reference') {
@@ -191,7 +191,7 @@ jQuery.Class(
 		 * @params : fieldSelect - select element which will represents field list
 		 * @return : select element which will represent the condition element
 		 */
-		loadConditions: function(fieldSelect) {
+		loadConditions: function (fieldSelect) {
 			var row = fieldSelect.closest('div.js-conditions-row');
 			var conditionSelectElement = row.find('select[name="comparator"]');
 			var group = row.find('[name="column_condition"]');
@@ -243,12 +243,7 @@ jQuery.Class(
 				}
 				if (
 					jQuery.inArray(conditionList[key], ['s', 'ew']) != -1 &&
-					jQuery.inArray(fieldInfo.type, [
-						'taxes',
-						'multipicklist',
-						'categoryMultipicklist',
-						'sharedOwner'
-					]) != -1
+					jQuery.inArray(fieldInfo.type, ['taxes', 'multipicklist', 'categoryMultipicklist', 'sharedOwner']) != -1
 				) {
 					continue;
 				}
@@ -272,10 +267,7 @@ jQuery.Class(
 					options += '>' + conditionLabel + '</option>';
 				}
 			}
-			conditionSelectElement
-				.empty()
-				.html(options)
-				.trigger('change');
+			conditionSelectElement.empty().html(options).trigger('change');
 			return conditionSelectElement;
 		},
 		/**
@@ -283,14 +275,11 @@ jQuery.Class(
 		 * @prarms : fieldSelectElement - select element which will represents field list
 		 * @return : jquery object which represents the ui for the field
 		 */
-		getFieldSpecificUi: function(fieldSelectElement) {
+		getFieldSpecificUi: function (fieldSelectElement) {
 			let fieldModel = this.fieldModelInstance,
 				html;
 			if (fieldModel.get('comparatorElementVal') === 'd') {
-				html =
-					'<div class="checkbox"><label><input type="checkbox" name="' +
-					fieldModel.getName() +
-					'" value="0" ';
+				html = '<div class="checkbox"><label><input type="checkbox" name="' + fieldModel.getName() + '" value="0" ';
 				if (fieldModel.getValue() === 1 || fieldModel.getValue() === '1') {
 					html += 'checked';
 				}
@@ -300,10 +289,7 @@ jQuery.Class(
 				fieldModel.getType().toLowerCase() === 'boolean' ||
 				fieldSelectElement.find('option:selected').data('fieldtype') === 'C'
 			) {
-				let selectedValue = fieldSelectElement
-					.closest('.js-conditions-row')
-					.find('[data-value="value"]')
-					.val();
+				let selectedValue = fieldSelectElement.closest('.js-conditions-row').find('[data-value="value"]').val();
 				html = '<select class="select2" name="' + fieldModel.getName() + '">';
 				html += '<option value="0"';
 				if (selectedValue === '0') {
@@ -327,7 +313,7 @@ jQuery.Class(
 		 * @prarms : fieldSelect - select element which will represents field list
 		 * @return : current instance
 		 */
-		loadFieldSpecificUi: function(fieldSelect) {
+		loadFieldSpecificUi: function (fieldSelect) {
 			const selectedOption = fieldSelect.find('option:selected');
 			const row = fieldSelect.closest('div.js-conditions-row');
 			const fieldUiHolder = row.find('.fieldUiHolder');
@@ -451,10 +437,10 @@ jQuery.Class(
 		 * Function to load field specific ui for all the select elements - this is used on load
 		 * to show field specific ui for all the fields
 		 */
-		loadFieldSpecificUiForAll: function() {
+		loadFieldSpecificUiForAll: function () {
 			var conditionsContainer = jQuery('.conditionList');
 			var fieldSelectElement = jQuery('select[name="columnname"]', conditionsContainer);
-			jQuery.each(fieldSelectElement, function(i, elem) {
+			jQuery.each(fieldSelectElement, function (i, elem) {
 				var currentElement = jQuery(elem);
 				if (currentElement.val() != 'none') {
 					currentElement.trigger('change', { _intialize: true });
@@ -466,7 +452,7 @@ jQuery.Class(
 		 * Function to add the validation if required
 		 * @prarms : selectFieldElement - select element which will represents field list
 		 */
-		addValidationToFieldIfNeeded: function(selectFieldElement) {
+		addValidationToFieldIfNeeded: function (selectFieldElement) {
 			var selectedOption = selectFieldElement.find('option:selected');
 			var row = selectFieldElement.closest('div.js-conditions-row');
 			var fieldSpecificElement = row.find('[data-value="value"]');
@@ -485,8 +471,7 @@ jQuery.Class(
 			} else {
 				fieldSpecificElement
 					.removeClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-					.removeAttr('data-validation-engine')
-					.removeAttr('data-fieldinfo');
+					.removeAttr('data-validation-engine');
 			}
 			return this;
 		},
@@ -495,7 +480,7 @@ jQuery.Class(
 		 * @prarms : selectFieldElement - select element which will represents field list
 		 * @return - boolen true/false
 		 */
-		isFieldSupportsValidation: function(fieldSelect) {
+		isFieldSupportsValidation: function (fieldSelect) {
 			var fieldModel = this.fieldModelInstance;
 			var type = fieldModel.getType();
 
@@ -519,18 +504,18 @@ jQuery.Class(
 		 * Function to retrieve the values of the filter
 		 * @return : object
 		 */
-		getValues: function() {
+		getValues: function () {
 			const thisInstance = this;
 			let fieldList = ['columnname', 'comparator', 'value', 'column_condition'],
 				filterContainer = this.getFilterContainer(),
 				conditionGroups = $('.conditionGroup', filterContainer),
 				values = {},
 				columnIndex = 0;
-			$('.conditionGroup', filterContainer).each(function(index, domElement) {
+			$('.conditionGroup', filterContainer).each(function (index, domElement) {
 				let groupElement = $(domElement);
 				values[index + 1] = {};
 				values[index + 1]['columns'] = {};
-				$('.conditionList .js-conditions-row', groupElement).each(function(i, conditionDomElement) {
+				$('.conditionList .js-conditions-row', groupElement).each(function (i, conditionDomElement) {
 					let rowElement = $(conditionDomElement),
 						fieldSelectElement = $('[name="columnname"]', rowElement),
 						valueSelectElement = $('[data-value="value"]', rowElement);
@@ -641,9 +626,7 @@ jQuery.Class(
 					columnIndex++;
 				});
 				if (groupElement.find('div.groupCondition').length > 0) {
-					values[index + 1]['condition'] = conditionGroups
-						.find('div.groupCondition [name="condition"]')
-						.val();
+					values[index + 1]['condition'] = conditionGroups.find('div.groupCondition [name="condition"]').val();
 				}
 			});
 			return values;
@@ -651,7 +634,7 @@ jQuery.Class(
 		/**
 		 * Event handle which will be triggred on deletion of a condition row
 		 */
-		deleteConditionHandler: function(e) {
+		deleteConditionHandler: function (e) {
 			var element = jQuery(e.currentTarget);
 			var row = element.closest('.js-conditions-row');
 			row.remove();
@@ -659,19 +642,19 @@ jQuery.Class(
 		/**
 		 * Event handler which is invoked on add condition
 		 */
-		registerAddCondition: function() {
+		registerAddCondition: function () {
 			var thisInstance = this;
-			this.getAddConditionElement().on('click', function(e) {
+			this.getAddConditionElement().on('click', function (e) {
 				thisInstance.addConditionHandler(e);
 			});
 		},
 		/**
 		 * Function which will register field change event
 		 */
-		registerFieldChange: function() {
+		registerFieldChange: function () {
 			var filterContainer = this.getFilterContainer();
 			var thisInstance = this;
-			filterContainer.on('change', 'select[name="columnname"]', function(e, data) {
+			filterContainer.on('change', 'select[name="columnname"]', function (e, data) {
 				var currentElement = jQuery(e.currentTarget);
 				if (typeof data === 'undefined' || data._intialize != true) {
 					var row = currentElement.closest('div.js-conditions-row');
@@ -685,10 +668,10 @@ jQuery.Class(
 		/**
 		 * Function which will register condition change
 		 */
-		registerConditionChange: function() {
+		registerConditionChange: function () {
 			var filterContainer = this.getFilterContainer();
 			var thisInstance = this;
-			filterContainer.on('change', 'select[name="comparator"]', function(e) {
+			filterContainer.on('change', 'select[name="comparator"]', function (e) {
 				var comparatorSelectElement = jQuery(e.currentTarget);
 				var row = comparatorSelectElement.closest('div.js-conditions-row');
 				var fieldSelectElement = row.find('select[name="columnname"]');
@@ -700,17 +683,17 @@ jQuery.Class(
 		/**
 		 * Function to regisgter delete condition event
 		 */
-		registerDeleteCondition: function() {
+		registerDeleteCondition: function () {
 			var thisInstance = this;
 			var filterContainer = this.getFilterContainer();
-			filterContainer.on('click', '.js-condition-delete', function(e) {
+			filterContainer.on('click', '.js-condition-delete', function (e) {
 				thisInstance.deleteConditionHandler(e);
 			});
 		},
 		/**
 		 * Function which will regiter all events for this page
 		 */
-		registerEvents: function() {
+		registerEvents: function () {
 			this.registerAddCondition();
 			this.registerFieldChange();
 			this.registerDeleteCondition();
@@ -723,11 +706,11 @@ Vtiger_Field_Js(
 	'AdvanceFilter_Field_Js',
 	{},
 	{
-		getUiTypeSpecificHtml: function() {
+		getUiTypeSpecificHtml: function () {
 			var uiTypeModel = this.getUiTypeModel();
 			return uiTypeModel.getUi();
 		},
-		getModuleName: function() {
+		getModuleName: function () {
 			var currentModule = app.getModuleName();
 
 			var type = this.getType();
@@ -762,7 +745,7 @@ Vtiger_Picklist_Field_Js(
 	'AdvanceFilter_Picklist_Field_Js',
 	{},
 	{
-		getUi: function() {
+		getUi: function () {
 			var html = '<select class="select2" multiple name="' + this.getName() + '[]">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());
@@ -790,7 +773,89 @@ AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Filelocationtype_Field_Js', {}, {
 
 Vtiger_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js', {}, {});
 
-Vtiger_Multipicklist_Field_Js('AdvanceFilter_Categorymultipicklist_Field_Js', {}, {});
+Vtiger_Categorymultipicklist_Field_Js(
+	'AdvanceFilter_Categorymultipicklist_Field_Js',
+	{},
+	{
+		/**
+		 * Function to get the display value
+		 */
+		getDisplayValue: function () {
+			return this.get('displayvalue');
+		},
+		getReadOnly: function () {
+			let result = '';
+			if (this.getDisplayValue() !== '') {
+				result = ' readonly="true" ';
+			}
+			return result;
+		},
+		/**
+		 * Function to get the user date format
+		 */
+		getTreeTemplate: function () {
+			return this.get('treetemplate');
+		},
+		/**
+		 * Function to get the user date format
+		 */
+		getModuleName: function () {
+			return $('[name="module_name"]').val();
+		},
+		getUi: function () {
+			let pickListValues = this.getPickListValues();
+			let displayValue = this.getDisplayValue();
+			let multiple = 1;
+			if (this.getType() === 'tree') {
+				multiple = 0;
+			}
+			let html =
+				'<div class="js-tree-container fieldValue" data-js="container"><input name="' +
+				this.getName() +
+				'" type="hidden" value="' +
+				this.getValue() +
+				'" class="sourceField" data-displayvalue="' +
+				displayValue +
+				'" data-fieldinfo=\'{"mandatory":false,"presence":true,"quickcreate":true,"masseditable":true,"header_field":[],"maxlengthtext":0,"maximumlength":"200","maxwidthcolumn":0,"tabindex":0,"defaultvalue":"","type":"tree","name":"' +
+				this.getName() +
+				'","label":"","picklistvalues":' +
+				JSON.stringify(pickListValues) +
+				'}\' data-multiple="' +
+				multiple +
+				'" data-value="value" data-treetemplate="' +
+				this.getTreeTemplate() +
+				'" data-modulename="' +
+				this.getModuleName() +
+				'"><div class="input-group"><span class="input-group-prepend clearTreeSelection u-cursor-pointer"><span class="input-group-text"><span id="' +
+				this.getModuleName() +
+				'_editView_fieldName_' +
+				this.getName() +
+				'_clear" class="fas fa-times-circle"  title=""></span></span></span><input id="' +
+				this.getName() +
+				'_display" name="' +
+				this.getName() +
+				'_display" type="text" class="ml-0 treeAutoComplete form-control" value="' +
+				displayValue +
+				'"' +
+				this.getReadOnly() +
+				'data-fieldinfo=\'{"mandatory":false,"presence":true,"quickcreate":true,"masseditable":true,"header_field":[],"maxlengthtext":0,"maximumlength":"200","maxwidthcolumn":0,"tabindex":0,"defaultvalue":"","type":"tree","name":"' +
+				this.getName() +
+				'","label":"","picklistvalues":' +
+				JSON.stringify(pickListValues) +
+				'}\'><span class="input-group-append js-tree-modal u-cursor-pointer"><span class="input-group-text"><span id="' +
+				this.getModuleName() +
+				'_editView_fieldName_' +
+				this.getName() +
+				'_select" class="fas fa-search" title=""></span></span></span></div>';
+			let selectContainer = $(html);
+			App.Fields.Tree.register(selectContainer);
+			this.addValidationToElement(selectContainer);
+			return selectContainer;
+		}
+	}
+);
+
+AdvanceFilter_Categorymultipicklist_Field_Js('Vtiger_Tree_Field_Js', {}, {});
 
 AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Languages_Field_Js', {}, {});
 
@@ -802,7 +867,7 @@ Vtiger_Owner_Field_Js(
 	'AdvanceFilter_Owner_Field_Js',
 	{},
 	{
-		getUi: function() {
+		getUi: function () {
 			let comparatorSelectedOptionVal = this.get('comparatorElementVal'),
 				html = '',
 				selectContainer;
@@ -834,17 +899,12 @@ Vtiger_Owner_Field_Js(
 				return selectContainer;
 			} else {
 				let tagsArray = [];
-				$.each(this.getPickListValues(), function(groups, blocks) {
-					$.each(blocks, function(i, e) {
+				$.each(this.getPickListValues(), function (groups, blocks) {
+					$.each(blocks, function (i, e) {
 						tagsArray.push($.trim(e));
 					});
 				});
-				html =
-					'<input data-tags="' +
-					tagsArray +
-					'" type="hidden" class="row select2" name="' +
-					this.getName() +
-					'">';
+				html = '<input data-tags="' + tagsArray + '" type="hidden" class="row select2" name="' + this.getName() + '">';
 				selectContainer = $(html).val(this.getValue());
 				selectContainer.data('tags', tagsArray);
 				this.addValidationToElement(selectContainer);
@@ -867,7 +927,7 @@ Vtiger_Date_Field_Js(
 		 * Function to get the ui
 		 * @return - input text field
 		 */
-		getUi: function() {
+		getUi: function () {
 			let comparatorSelectedOptionVal = this.get('comparatorElementVal'),
 				dateSpecificConditions = this.get('dateSpecificConditions'),
 				html = '';
@@ -913,8 +973,7 @@ Vtiger_Date_Field_Js(
 					comparatorSelectedOptionVal === 'tomorrow' ||
 					comparatorSelectedOptionVal === 'yesterday'
 				) {
-					html =
-						'<input name="' + this.getName() + '" type="text" ReadOnly="true" value="' + startValue + '">';
+					html = '<input name="' + this.getName() + '" type="text" ReadOnly="true" value="' + startValue + '">';
 				} else {
 					html =
 						'<input name="' +

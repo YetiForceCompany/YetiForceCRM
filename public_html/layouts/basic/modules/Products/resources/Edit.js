@@ -13,11 +13,11 @@ Vtiger_Edit_Js(
 	'Products_Edit_Js',
 	{},
 	{
-		registerEventForUsageunit: function() {
+		registerEventForUsageunit: function () {
 			this.checkUsageUnit();
 			$('select[name="usageunit"]').on('change', this.checkUsageUnit);
 		},
-		checkUsageUnit: function() {
+		checkUsageUnit: function () {
 			var selectUsageunit = $('select[name="usageunit"]');
 			var inputQtyPerUnit = $('input[name="qty_per_unit"]');
 			var value = selectUsageunit.val();
@@ -27,7 +27,7 @@ Vtiger_Edit_Js(
 				inputQtyPerUnit.prop('disabled', true);
 			}
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			this._super();
 			this.registerEventForUsageunit();
 		}

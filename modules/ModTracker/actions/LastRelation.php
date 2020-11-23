@@ -16,12 +16,12 @@ class ModTracker_LastRelation_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$records = $request->getArray('recordsId', 'Integer');
 		if ($sourceModule) {
-			if (!in_array($sourceModule, App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			if (!\in_array($sourceModule, App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			foreach ($records as $recordId) {
@@ -39,7 +39,7 @@ class ModTracker_LastRelation_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$records = $request->getArray('recordsId', 'Integer');
 		$result = ModTracker_Record_Model::getLastRelation($records, $request->getByType('sourceModule', 2));

@@ -70,10 +70,14 @@
 							</div>
 							<div class="col-md-8 controls">
 								<select class="marginLeftZero form-control" name="fieldTypeList">
-									<option value="0">{App\Language::translate('LBL_FIELD_TYPE0', $QUALIFIED_MODULE)}</option>
-									{if !empty($SELECTED_MODULE_MODEL->getEntityInstance()->customFieldTable)}
-										<option value="1">{App\Language::translate('LBL_FIELD_TYPE1', $QUALIFIED_MODULE)}</option>
-									{/if}
+									{foreach item=TABLE from=$SELECTED_MODULE_MODEL->getEntityInstance()->tab_name}
+										{if in_array($TABLE, ['vtiger_crmentity', 'vtiger_entity_stats'])}
+											{continue}
+										{/if}
+										<option value="{$TABLE}" {if $TABLE == $SELECTED_MODULE_MODEL->getEntityInstance()->table_name}selected{/if}>
+											{$TABLE}
+										</option>
+									{/foreach}
 								</select>
 							</div>
 						</div>

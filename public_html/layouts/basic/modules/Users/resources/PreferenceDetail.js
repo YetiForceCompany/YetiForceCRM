@@ -8,13 +8,16 @@
  *************************************************************************************/
 'use strict';
 
-Users_Detail_Js("Users_PreferenceDetail_Js", {}, {
-
-	/**
-	 * register Events for my preference
-	 */
-	registerEvents: function () {
-		this._super();
-		Users_Edit_Js.registerChangeEventForCurrencySeparator();
+Users_Detail_Js(
+	'Users_PreferenceDetail_Js',
+	{},
+	{
+		/**
+		 * register Events for my preference
+		 */
+		registerEvents: function () {
+			this._super();
+			Users_Edit_Js.registerChangeEventForCurrencySeparator();
+		}
 	}
-});
+);

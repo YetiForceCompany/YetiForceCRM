@@ -15,10 +15,10 @@
 			{assign var="LABEL" value=$LINK->get('linkhint')}
 		{/if}
 		{assign var="LINK_URL" value=$LINK->getUrl()}
-		{assign var="BTN_MODULE" value=$LINK->getRelatedModuleName($MODULE)}
+		{assign var="BTN_MODULE" value=$LINK->getRelatedModuleName($MODULE_NAME)}
 		{if $LINK->get('linkhref')}<a role="button"{else}
 		<button type="button"{/if} {if !$LINK->isActive()}{' '}disabled{/if}{' '}{if isset($TABINDEX)}tabindex="{$TABINDEX}"{/if}
-				class="{if isset($BTN_CLASS)}{$BTN_CLASS} {/if}btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-outline-dark {/if}{$LINK->getClassName()}{else}btn-outline-dark{/if}  {if $LINK->get('modalView')}showModal{/if} {$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} js-popover-tooltip"
+				class="{if isset($BTN_CLASS)}{$BTN_CLASS} {/if}btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-outline-dark {/if}{$LINK->getClassName()}{else}btn-outline-dark{/if}  {if $LINK->get('modalView')}showModal{/if} {$MODULE_NAME}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} js-popover-tooltip"
 				data-js="popover{/if}"
 				{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 					{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
@@ -30,11 +30,17 @@
 					data-content="{\App\Language::translate($LABEL, $BTN_MODULE)}"
 					data-target="focus hover"
 				{/if}
+				{if $LINK->get('linktitle')}
+					{' '}title="{\App\Language::translate($LINK->get('linktitle'), $BTN_MODULE)}"
+				{/if}
 				{if $LINK->get('linkhref')}
 					{' '}href="{$LINK_URL}"
 				{/if}
 				{if $LINK->get('linktarget')}
 					{' '}target="{$LINK->get('linktarget')}"
+				{/if}
+				{if $LINK->get('linkExternal')}
+					{' '}rel="noreferrer noopener"
 				{/if}
 				{if $LINK->get('style')}
 					{' '}style="{$LINK->get('style')}"

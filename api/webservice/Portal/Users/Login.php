@@ -74,17 +74,13 @@ class Login extends \Api\Core\BaseAction
 	 *        name="X-ENCRYPTED",
 	 *        in="header",
 	 *        required=true,
-	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 * 			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *    ),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="User details",
-	 *				@OA\JsonContent(ref="#/components/schemas/UsersLoginResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/UsersLoginResponseBody"),
-	 *     		@OA\MediaType(
-	 *         		mediaType="text/html",
-	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginResponseBody")
-	 *     		),
+	 *			response=200,
+	 *			description="User details",
+	 *			@OA\JsonContent(ref="#/components/schemas/UsersLoginResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/UsersLoginResponseBody"),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
@@ -117,7 +113,7 @@ class Login extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="UsersLoginRequestBody",
-	 * 		title="Users login request body",
+	 * 		title="Users module - Users login request body",
 	 * 		description="JSON or form-data",
 	 *		type="object",
 	 *  	@OA\Property(
@@ -139,7 +135,7 @@ class Login extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="UsersLoginResponseBody",
-	 * 		title="Users login response body",
+	 * 		title="Users module - Users login response body",
 	 * 		description="Users login response body",
 	 *		type="object",
 	 *  	@OA\Property(
@@ -195,9 +191,32 @@ class Login extends \Api\Core\BaseAction
 	 * 				),
 	 *    ),
 	 * ),
+	 * @OA\Schema(
+	 *		schema="Exception",
+	 *		title="Exception",
+	 *  	description="Is the content request is encrypted",
+	 *		type="object",
+	 *  	@OA\Property(
+	 * 			property="status",
+	 *			description="0 - error",
+	 * 			enum={0},
+	 *			type="integer",
+	 *			example=0
+	 * 		),
+	 *		@OA\Property(
+	 * 			property="error",
+	 *     	 	description="Error  details",
+	 *    	 	type="object",
+	 *   		@OA\Property(property="message", type="string", example="Invalid method"),
+	 *   		@OA\Property(property="code", type="integer", example=405),
+	 *   		@OA\Property(property="file", type="string", example="api\webservice\Portal\BaseAction\Files.php"),
+	 *   		@OA\Property(property="line", type="integer", example=101),
+	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\\webservice\\Portal\\BaseAction\\Files.php (101) ...."),
+	 *    	),
+	 * ),
 	 * @OA\Tag(
-	 *   name="Users",
-	 *   description="Access to user methods"
+	 *		name="Users",
+	 *		description="Access to user methods"
 	 * )
 	 */
 	public function post()
@@ -210,7 +229,7 @@ class Login extends \Api\Core\BaseAction
 		if (!$row) {
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
-		if (\App\Encryption::getInstance()->decrypt($row['password_t']) !== $this->controller->request->get('password')) {
+		if (\App\Encryption::getInstance()->decrypt($row['password_t']) !== $this->controller->request->getRaw('password')) {
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
 		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type'] && (empty($row['crmid']) || !\App\Record::isExists($row['crmid']))) {
@@ -292,7 +311,6 @@ class Login extends \Api\Core\BaseAction
 			'params' => \App\Json::encode($params),
 		])->execute();
 		$row['language'] = $language;
-		$db->createCommand()->delete('w_#__portal_session', ['<', 'changed', date(static::DATE_TIME_FORMAT, strtotime('-1 day'))])->execute();
 		return $row;
 	}
 }

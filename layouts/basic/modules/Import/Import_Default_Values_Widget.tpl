@@ -23,7 +23,7 @@
 						{/foreach}
 					</select>
 				{elseif $_FIELD_TYPE eq 'integer'}
-					<input type="text" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small defaultInputTextContainer form-control" value="0" />
+					<input type="text" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small defaultInputTextContainer form-control" value="" />
 				{elseif $_FIELD_TYPE eq 'owner' || $_FIELD_INFO->getUIType() eq '52'}
 					<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small select2">
 						<option value="">--{\App\Language::translate('LBL_NONE', $FOR_MODULE)}--</option>

@@ -18,7 +18,7 @@ jQuery.Class(
 		 * @param moduleName module for which Instance should be created
 		 * @return Instance of field class
 		 */
-		getInstance: function(data, moduleName) {
+		getInstance: function (data, moduleName) {
 			if (typeof moduleName === 'undefined') {
 				moduleName = app.getModuleName();
 			}
@@ -46,7 +46,7 @@ jQuery.Class(
 		 * @return true if feld is madatory
 		 * @return false if field is not mandatory
 		 */
-		isMandatory: function() {
+		isMandatory: function () {
 			return this.get('mandatory');
 		},
 		/**
@@ -54,7 +54,7 @@ jQuery.Class(
 		 * @return value for the passed key
 		 */
 
-		get: function(key) {
+		get: function (key) {
 			if (key in this.data) {
 				return this.data[key];
 			}
@@ -64,21 +64,21 @@ jQuery.Class(
 		 * Function to get type attribute of the object
 		 * @return type attribute of the object
 		 */
-		getType: function() {
+		getType: function () {
 			return this.get('type');
 		},
 		/**
 		 * Function to get name of the field
 		 * @return <String> name of the field
 		 */
-		getName: function() {
+		getName: function () {
 			return this.get('name');
 		},
 		/**
 		 * Function to get value of the field
 		 * @return <Object> value of the field or empty of there is not value
 		 */
-		getValue: function() {
+		getValue: function () {
 			if ('value' in this.getData()) {
 				return this.get('value');
 			} else if ('defaultValue' in this.getData()) {
@@ -90,24 +90,24 @@ jQuery.Class(
 		 * Function to get the whole data
 		 * @return <object>
 		 */
-		getData: function() {
+		getData: function () {
 			return this.data;
 		},
 		/**
 		 * Function to set data attribute of the class
 		 * @return Instance of the class
 		 */
-		setData: function(fieldInfo) {
+		setData: function (fieldInfo) {
 			this.data = fieldInfo;
 			return this;
 		},
-		getModuleName: function() {
+		getModuleName: function () {
 			return app.getModuleName();
 		},
 		/**
 		 * Function to get the ui type specific model
 		 */
-		getUiTypeModel: function() {
+		getUiTypeModel: function () {
 			var currentModule = this.getModuleName();
 
 			var type = this.getType();
@@ -127,7 +127,7 @@ jQuery.Class(
 		 * give ui type specific ui
 		 * return <String or Jquery> it can return either plain html or jquery object
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html = '<input type="text" name="' + this.getName() + '" class="form-control" />';
 			html = jQuery(html).val(app.htmlDecode(this.getValue()));
 			return this.addValidationToElement(html);
@@ -137,14 +137,14 @@ jQuery.Class(
 		 * this will get the specific ui depending on the field type
 		 * return <String or Jquery> it can return either plain html or jquery object
 		 */
-		getUiTypeSpecificHtml: function() {
+		getUiTypeSpecificHtml: function () {
 			var uiTypeModel = this.getUiTypeModel();
 			return uiTypeModel.getUi();
 		},
 		/**
 		 * Function to add the validation for the element
 		 */
-		addValidationToElement: function(element) {
+		addValidationToElement: function (element) {
 			element = jQuery(element);
 			var addValidationToElement = element;
 			var elementInStructure = element.find('[name="' + this.getName() + '"]');
@@ -173,14 +173,14 @@ Vtiger_Field_Js(
 		 * Function to get the pick list values
 		 * @return <object> key value pair of options
 		 */
-		getPickListValues: function() {
+		getPickListValues: function () {
 			return this.get('picklistvalues');
 		},
 		/**
 		 * Function to get the ui
 		 * @return - select element and select2 element
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html = '<select class="select2 form-control" name="' + this.getName() + '">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());
@@ -207,14 +207,14 @@ Vtiger_Field_Js(
 		 * Function to get the pick list values
 		 * @return <object> key value pair of options
 		 */
-		getPickListValues: function() {
+		getPickListValues: function () {
 			return this.get('picklistvalues');
 		},
 		/**
 		 * Function to get the ui
 		 * @return - select element and select2 element
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html = '<select class="select2 form-control" multiple name="' + this.getName() + '[]">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());
@@ -241,7 +241,7 @@ Vtiger_Field_Js(
 		 * Function to check whether the field is checked or not
 		 * @return <Boolean>
 		 */
-		isChecked: function() {
+		isChecked: function () {
 			var value = this.getValue();
 			if (value == 1 || value == '1' || value.toLowerCase() == 'on') {
 				return true;
@@ -252,7 +252,7 @@ Vtiger_Field_Js(
 		 * Function to get the ui
 		 * @return - checkbox element
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<input type="hidden" name="' +
 				this.getName() +
@@ -275,14 +275,14 @@ Vtiger_Field_Js(
 		/**
 		 * Function to get the user date format
 		 */
-		getDateFormat: function() {
+		getDateFormat: function () {
 			return this.get('date-format');
 		},
 		/**
 		 * Function to get the ui
 		 * @return - input text field
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<div class="date input-group">' +
 				'<input class="dateField form-control datepicker" type="text" name="' +
@@ -307,10 +307,10 @@ Vtiger_Field_Js(
 		/**
 		 * get the currency symbol configured for the user
 		 */
-		getCurrencySymbol: function() {
+		getCurrencySymbol: function () {
 			return this.get('currency_symbol');
 		},
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<div class="input-group">' +
 				'<span class="input-group-addon">' +
@@ -335,10 +335,10 @@ Vtiger_Field_Js(
 		/**
 		 * Function to get the picklist values
 		 */
-		getPickListValues: function() {
+		getPickListValues: function () {
 			return this.get('picklistvalues');
 		},
-		getUi: function() {
+		getUi: function () {
 			var html = '<select class="select2 form-control" name="' + this.getName() + '">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = this.getValue();
@@ -387,14 +387,14 @@ Vtiger_Field_Js(
 		/**
 		 * Function to get the user date format
 		 */
-		getTimeFormat: function() {
+		getTimeFormat: function () {
 			return this.get('time-format');
 		},
 		/**
 		 * Function to get the ui
 		 * @return - input text field
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<div class="input-group time">' +
 				'<input class="clockPicker form-control" type="text" data-format="' +
@@ -420,7 +420,7 @@ Vtiger_Field_Js(
 		 * Function to get the ui
 		 * @return - input text field
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<textarea class="form-control-lg form-control" name="' +
 				this.getName() +
@@ -443,7 +443,7 @@ Vtiger_Field_Js(
 		 * Function to get the ui
 		 * @return - input percentage field
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html =
 				'<div class="input-group">' +
 				'<input type="number" class="form-control" min="0" max="100" name="' +
@@ -466,14 +466,14 @@ Vtiger_Field_Js(
 		 * Function to get the pick list values
 		 * @return <object> key value pair of options
 		 */
-		getPickListValues: function() {
+		getPickListValues: function () {
 			return this.get('picklistvalues');
 		},
 		/**
 		 * Function to get the ui
 		 * @return - select element and select2 element
 		 */
-		getUi: function() {
+		getUi: function () {
 			var html = '<select class="select2 form-control" name="' + this.getName() + '">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());

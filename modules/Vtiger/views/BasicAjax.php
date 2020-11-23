@@ -107,28 +107,26 @@ class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
 			$searchKey = $request->getByType('value', 'Text');
-			if (\App\TextParser::getTextLength($searchKey) >= \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')) {
-				$limit = false;
-				if (!$request->isEmpty('limit', true) && false !== $request->getBoolean('limit')) {
-					$limit = $request->getInteger('limit');
-				}
-				$operator = (!$request->isEmpty('operator')) ? $request->getByType('operator', 1) : false;
-				$searchModule = false;
-				if (!$request->isEmpty('searchModule', true) && '-' !== $request->getRaw('searchModule')) {
-					$searchModule = $request->getByType('searchModule', 2);
-				}
-				$viewer->assign('SEARCH_KEY', $searchKey);
-				$viewer->assign('SEARCH_MODULE', $searchModule);
-				$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit, $operator);
-				if (1 === App\Config::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
-					$matchingRecordsList = [];
-					foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {
-						if (isset($matchingRecords[$module['modulename']]) && 1 == $module['turn_off']) {
-							$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
-						}
+			$limit = false;
+			if (!$request->isEmpty('limit', true) && false !== $request->getBoolean('limit')) {
+				$limit = $request->getInteger('limit');
+			}
+			$operator = (!$request->isEmpty('operator')) ? $request->getByType('operator', 1) : false;
+			$searchModule = false;
+			if (!$request->isEmpty('searchModule', true) && '-' !== $request->getRaw('searchModule')) {
+				$searchModule = $request->getByType('searchModule', 2);
+			}
+			$viewer->assign('SEARCH_KEY', $searchKey);
+			$viewer->assign('SEARCH_MODULE', $searchModule);
+			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit, $operator);
+			if (1 === App\Config::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
+				$matchingRecordsList = [];
+				foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {
+					if (isset($matchingRecords[$module['modulename']]) && 1 == $module['turn_off']) {
+						$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
 					}
-					$matchingRecords = $matchingRecordsList;
 				}
+				$matchingRecords = $matchingRecordsList;
 			}
 		}
 		if (App\Config::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$moduleName])) {
@@ -146,7 +144,7 @@ class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 			foreach ($matchingRecords as $module => &$modules) {
 				foreach ($modules as $recordID => $recordModel) {
 					$label = $recordModel->getName();
-					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
+					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('assigned_user_id')) . ')';
 					if (!$recordModel->get('permitted')) {
 						$label .= ' <span class="fas fa-exclamation-circle" aria-hidden="true"></span>';
 					}
