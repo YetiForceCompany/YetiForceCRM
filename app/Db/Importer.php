@@ -670,6 +670,7 @@ class Importer
 							$primaryKey = false;
 							if ($column instanceof \yii\db\ColumnSchemaBuilder && (\in_array($column->get('type'), ['upk', 'pk', 'ubigpk', 'bigpk']))) {
 								$primaryKey = true;
+								$column->set('type', \in_array($column->get('type'), ['ubigpk', 'bigpk']) ? \yii\db\Schema::TYPE_BIGINT : \yii\db\Schema::TYPE_INTEGER);
 							}
 							if ($tableSchema->foreignKeys) {
 								foreach ($tableSchema->foreignKeys as $keyName => $value) {
