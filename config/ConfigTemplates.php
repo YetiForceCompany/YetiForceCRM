@@ -512,12 +512,6 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'SQL_LOG_INCLUDE_CALLER' => [
-			'default' => false,
-			'description' => "Should the caller information be captured in SQL Logging?\nIt adds little overhead for performance but will be useful to debug.\nAll data can be found in the table 'l_yf_sqltime'.",
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
-		],
 		'DB_DEFAULT_CHARSET_UTF8' => [
 			'default' => true,
 			'description' => 'If database default charset is UTF-8, set this to true. This avoids executing the SET NAMES SQL for each query!',
