@@ -9,7 +9,7 @@ jQuery.Class(
 		 */
 		registerNewsletter() {
 			const form = $('[data-view="RegistrationOnlineModal"]').find('form');
-			form.find('[id$="newsletter]"]').on('click', (e) => {
+			form.find('[id$="newsletter"]').on('click', (e) => {
 				let inputsContainer = $(e.target).closest('.js-card-body');
 				if ($(e.target).prop('checked')) {
 					inputsContainer.find('[id$="firstname]"]').attr('data-validation-engine', 'validate[required]');
