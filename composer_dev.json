@@ -74,7 +74,7 @@
     "nette/php-generator": "^3.2.1",
     "yetiforce/csrf-magic": "^v1.1.1",
     "maximebf/debugbar": "1.*",
-    "yetiforce/yii2": "2.0.32",
+    "yetiforce/yii2": "2.0.39.2",
     "yetiforce/yetiforcepdf": "0.1.30",
     "abraham/twitteroauth": "^1.0",
     "adhocore/jwt": "^1.0",
