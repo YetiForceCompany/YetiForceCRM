@@ -62,7 +62,7 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 	{
 		$moduleName = $request->getModule();
 		$pageTitle = '';
-		$this->modalIcon = 'fas fa-random';
+		$this->modalIcon = 'yfi yfi-confirm-conflict';
 		switch ($request->getMode()) {
 			case 'unlock':
 				$pageTitle = \App\Language::translate('LBL_INTERESTS_CONFLICT_UNLOCK', $moduleName);

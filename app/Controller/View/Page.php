@@ -259,7 +259,7 @@ abstract class Page extends Base
 			'linklabel' => 'LBL_CHANGE_PASSWORD',
 			'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->get('id')],
 			'linkclass' => 'showModal d-block',
-			'icon' => 'fas fa-key fa-fw',
+			'icon' => 'yfi yfi-change-passowrd',
 		];
 		if (\Users_Module_Model::getSwitchUsers()) {
 			$headerLinks[] = [
@@ -276,7 +276,7 @@ abstract class Page extends Base
 			'linklabel' => 'LBL_LOGIN_HISTORY',
 			'linkdata' => ['url' => 'index.php?module=Users&view=LoginHistoryModal&mode=change&record=' . $userModel->get('id')],
 			'linkclass' => 'showModal d-block',
-			'icon' => 'mdi mdi-lock-reset',
+			'icon' => 'yfi yfi-login-history',
 		];
 		$headerLinks[] = [
 			'linktype' => 'SEPARATOR',
