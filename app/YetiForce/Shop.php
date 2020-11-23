@@ -26,12 +26,12 @@ class Shop
 	];
 	/** @var array Product categories. */
 	const PRODUCT_CATEGORIES = [
-		'All' => ['label' => 'LBL_CAT_ALL', 'icon' => 'fas fa-border-all'],
-		'CloudHosting' => ['label' => 'LBL_CAT_CLOUD_HOSTING', 'icon' => 'fas fa-server'],
-		'Support' => ['label' => 'LBL_CAT_SUPPORT', 'icon' => 'far fa-life-ring'],
-		'Addons' => ['label' => 'LBL_CAT_ADDONS', 'icon' => 'fas fa-puzzle-piece'],
-		'Integrations' => ['label' => 'LBL_CAT_INTEGRATIONS', 'icon' => 'adminIcon-integration'],
-		'PartnerSolutions' => ['label' => 'LBL_CAT_PARTNER_SOLUTIONS', 'icon' => 'yfi yfi-for-partners'],
+		'All' => ['label' => 'LBL_CAT_ALL', 'icon' => 'yfi-all-shop'],
+		'CloudHosting' => ['label' => 'LBL_CAT_CLOUD_HOSTING', 'icon' => 'yfi-hosting-cloud-shop'],
+		'Support' => ['label' => 'LBL_CAT_SUPPORT', 'icon' => 'yfi-support-shop'],
+		'Addons' => ['label' => 'LBL_CAT_ADDONS', 'icon' => 'yfi-adds-on-shop'],
+		'Integrations' => ['label' => 'LBL_CAT_INTEGRATIONS', 'icon' => 'yfi-integration-shop'],
+		'PartnerSolutions' => ['label' => 'LBL_CAT_PARTNER_SOLUTIONS', 'icon' => 'yfi-partner-solution-shop'],
 	];
 
 	/**

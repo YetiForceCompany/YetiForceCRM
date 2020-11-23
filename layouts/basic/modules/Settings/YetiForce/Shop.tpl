@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Settings-YetiForce-Shop -->
 <div class="tpl-Settings-YetiForce-Shop">
 <div class="mt-2 mx-n2 js-products-container">
 	{if $STATUS}
@@ -65,4 +66,5 @@
 	</div>
 </div>
 </div>
+<!-- /tpl-Settings-YetiForce-Shop -->
 {/strip}
