@@ -668,7 +668,7 @@ class Importer
 							$this->logs .= "done    ({$time}s)\n";
 						} elseif ($column instanceof \yii\db\ColumnSchemaBuilder && $this->compareColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
 							$primaryKey = false;
-							if ($column instanceof \yii\db\ColumnSchemaBuilder && (\in_array($column->get('type'), ['upk', 'pk']))) {
+							if ($column instanceof \yii\db\ColumnSchemaBuilder && (\in_array($column->get('type'), ['upk', 'pk', 'ubigpk', 'bigpk']))) {
 								$primaryKey = true;
 							}
 							if ($tableSchema->foreignKeys) {
