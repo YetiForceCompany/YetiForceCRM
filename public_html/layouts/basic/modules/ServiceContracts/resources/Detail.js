@@ -105,7 +105,9 @@ Vtiger_Detail_Js(
 			}).done((data) => {
 				progress.progressIndicator({ mode: 'hide' });
 				if (data.success) {
-					this.container.find('.js-sla-policy-template--container').html(this.getTemplateTableHtml(data.result));
+					this.container
+						.find('.js-sla-policy-template--container')
+						.html(this.getTemplateTableHtml(data.result));
 				}
 			});
 		},

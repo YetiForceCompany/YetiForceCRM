@@ -124,7 +124,12 @@ window.AppConnector = {
 					);
 					console.error(
 						'Error: ' + errorThrown,
-						'\n' + sep + '\nTrace:\n' + sep + '\n' + (jqXHR.responseJSON ? jqXHR.responseJSON.error.trace : ''),
+						'\n' +
+							sep +
+							'\nTrace:\n' +
+							sep +
+							'\n' +
+							(jqXHR.responseJSON ? jqXHR.responseJSON.error.trace : ''),
 						'\n' + sep + '\nParams:\n' + sep + '\n' + JSON.stringify(params, null, '\t')
 					);
 				} else {

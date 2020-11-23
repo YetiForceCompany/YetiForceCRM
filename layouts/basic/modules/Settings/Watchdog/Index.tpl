@@ -1,13 +1,21 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<<<<<<< HEAD:layouts/basic/modules/Settings/YetiForce/Watchdog.tpl
+	<div class="tpl-Settings-YetiForce-Watchdog pt-md-0 pt-1">
+=======
 	<!-- tpl-Settings-Watchdog-Index -->
 	<div class="pt-md-0 pt-1">
+>>>>>>> developer:layouts/basic/modules/Settings/Watchdog/Index.tpl
 		<div class="o-breadcrumb widget_header mb-2 d-flex flex-nowrap flex-md-wrap justify-content-between px-2 row">
 			<div class="o-breadcrumb__container">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
+<<<<<<< HEAD:layouts/basic/modules/Settings/YetiForce/Watchdog.tpl
+		<div class="js-Settings-YetiForce-Watchdog-table container" data-js="container">
+=======
 		<div class="js-watchdog-container container" data-js="container">
+>>>>>>> developer:layouts/basic/modules/Settings/Watchdog/Index.tpl
 			<div class="row mb-2">
 				<div class="alert alert-success" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">

@@ -53,7 +53,7 @@ class PrivilegeQuery
 			return;
 		}
 		$where = ['and'];
-		$where[] = [$fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] => 1];
+			$where[] = [$fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] => 1];
 		$parentModule = \App\Record::getType($parentId);
 		$fields = \App\Field::getRelatedFieldForModule($moduleName);
 		$foundField = true;
