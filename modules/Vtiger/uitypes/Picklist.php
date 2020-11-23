@@ -71,14 +71,6 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getEditViewDisplayValue($value, $recordModel = false)
-	{
-		return $value;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/PickList.tpl';
