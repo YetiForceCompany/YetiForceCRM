@@ -54,7 +54,7 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 		if (isset($product->expirationDate)) {
 			if ($alert['status']) {
 				$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => $alert['type'],
+					'linklabel' => \App\Language::translate($alert['type'], 'Settings:_Base'),
 					'linkicon' => 'fas fa-exclamation-triangle',
 					'linkhref' => true,
 					'linkurl' => $alert['href'],

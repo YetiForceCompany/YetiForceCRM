@@ -28,11 +28,6 @@
 					<div class="d-flex flex-column h-100">
 						<h5 class="h3">
 							{$PRODUCT->getLabel()}
-							{if !empty($PRODUCT->website)}
-								<a class="btn btn-outline-info btn-sm float-right" title="{\App\Language::translate('Website')}" href="{$PRODUCT->website}" target="_blank" rel="noreferrer noopener">
-									<span class="fas fa-globe fa-2x" ></span>
-								</a>
-							{/if}
 						</h5>
 						<div>{$PRODUCT->getDescription()}</div>
 					</div>

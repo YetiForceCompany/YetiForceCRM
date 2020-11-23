@@ -53,6 +53,17 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 	{
 		return [
 			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'Website',
+				'relatedModuleName' => '_Base',
+				'linkicon' => 'fas fa-globe',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => $this->website,
+				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'api.stat.gov.pl',
 				'relatedModuleName' => 'Settings:_Base',
 				'linkicon' => 'adminIcon-passwords-configuration',
@@ -62,7 +73,7 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linkurl' => 'https://api.stat.gov.pl/Home/RegonApi',
 				'linkclass' => 'btn-primary',
 				'showLabel' => 1,
-			])
+			]),
 		];
 	}
 }

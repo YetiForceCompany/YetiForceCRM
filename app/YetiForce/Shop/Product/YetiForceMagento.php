@@ -62,7 +62,19 @@ class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
-		$links = [];
+		$links = [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'Website',
+				'relatedModuleName' => '_Base',
+				'linkicon' => 'fas fa-globe',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => $this->website,
+				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+		];
 		if (\App\Security\AdminAccess::isPermitted('Magento')) {
 			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_MAGENTO',

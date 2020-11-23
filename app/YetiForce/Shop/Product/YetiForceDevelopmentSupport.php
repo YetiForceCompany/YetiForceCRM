@@ -56,4 +56,22 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 	{
 		return $this->customPricesLabel[$key] . ' ' . \App\Language::translate('LBL_HOURS');
 	}
+
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
+	{
+		return [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'Website',
+				'relatedModuleName' => '_Base',
+				'linkicon' => 'fas fa-globe',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => $this->website,
+				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+		];
+	}
 }
