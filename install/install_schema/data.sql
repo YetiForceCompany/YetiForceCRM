@@ -346,8 +346,6 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `l_yf_social_media_logs` */
 
-/*Data for the table `l_yf_sqltime` */
-
 /*Data for the table `l_yf_switch_users` */
 
 /*Data for the table `l_yf_username_history` */

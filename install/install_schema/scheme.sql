@@ -712,20 +712,6 @@ CREATE TABLE `l_yf_social_media_logs` (
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `l_yf_sqltime` */
-
-CREATE TABLE `l_yf_sqltime` (
-  `id` int(10) NOT NULL,
-  `type` varchar(20) DEFAULT NULL,
-  `content` text DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
-  `qtime` decimal(20,3) DEFAULT NULL,
-  `group` int(10) DEFAULT NULL,
-  KEY `id` (`id`),
-  KEY `type` (`type`),
-  KEY `group` (`group`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `l_yf_switch_users` */
 
 CREATE TABLE `l_yf_switch_users` (
@@ -8266,7 +8252,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=638 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=656 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
