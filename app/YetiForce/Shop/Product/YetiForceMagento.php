@@ -23,7 +23,7 @@ class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-magento-integration';
+	public $website = 'https://yetiforce.com/en/yetiforce-magento-integration-en';
 
 	/** {@inheritdoc} */
 	public $prices = [

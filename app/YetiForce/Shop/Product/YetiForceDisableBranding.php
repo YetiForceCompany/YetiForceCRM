@@ -23,7 +23,7 @@ class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Addons';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-branding';
+	public $website = 'https://yetiforce.com/en/yetiforce-branding-en';
 
 	/** {@inheritdoc} */
 	public $prices = [

@@ -23,7 +23,7 @@ class YetiForceGeocoder extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Addons';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-address-search';
+	public $website = 'https://yetiforce.com/en/yetiforce-address-search-en';
 
 	/** {@inheritdoc} */
 	public $prices = [

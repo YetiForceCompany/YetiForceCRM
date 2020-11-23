@@ -23,7 +23,7 @@ class YetiForceMap extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Addons';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-map';
+	public $website = 'https://yetiforce.com/en/yetiforce-map-en';
 
 	/** {@inheritdoc} */
 	public $prices = [

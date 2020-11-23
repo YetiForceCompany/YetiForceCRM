@@ -27,11 +27,11 @@ class YetiForceHelp extends \App\YetiForce\Shop\AbstractBaseProduct
 
 	/** {@inheritdoc} */
 	public $prices = [
-		'Micro' => 25,
-		'Small' => 50,
-		'Medium' => 100,
-		'Large' => 250,
-		'Corporation' => 1250
+		'Micro' => 50,
+		'Small' => 80,
+		'Medium' => 200,
+		'Large' => 400,
+		'Corporation' => 800
 	];
 	/** {@inheritdoc} */
 	public $featured = true;

@@ -23,7 +23,7 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-magento-integration';
+	public $website = 'https://yetiforce.com/en/yetiforce-outlook-integration-panel-en';
 
 	/** {@inheritdoc} */
 	public $prices = [

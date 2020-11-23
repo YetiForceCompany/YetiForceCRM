@@ -23,7 +23,7 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-gus';
+	public $website = 'https://yetiforce.com/en/yetiforce-gus-en';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -46,5 +46,23 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 		$instance = new \App\RecordCollectors\Gus();
 		$instance->moduleName = reset(\App\RecordCollectors\Gus::$allowedModules);
 		return !$instance->isActive();
+	}
+
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
+	{
+		return [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'api.stat.gov.pl',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'adminIcon-passwords-configuration',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://api.stat.gov.pl/Home/RegonApi',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			])
+		];
 	}
 }

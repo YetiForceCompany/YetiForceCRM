@@ -30,11 +30,12 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 
 	/** {@inheritdoc} */
 	public $prices = [
-		'Micro' => 200,
-		'Small' => 380,
-		'Medium' => 700,
-		'Large' => 1200,
-		'Corporation' => 6000,
+		'Micro' => 225,
+		'Small' => 432,
+		'Medium' => 828,
+		'Large' => 1611,
+		'Corporation' => 3780,
+		'ExtraLarge' => 7200,
 	];
 
 	/** {@inheritdoc} */
@@ -43,7 +44,8 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 		'Small' => 10,
 		'Medium' => 20,
 		'Large' => 40,
-		'Corporation' => 200,
+		'Corporation' => 100,
+		'ExtraLarge' => 200,
 	];
 
 	/** {@inheritdoc} */
