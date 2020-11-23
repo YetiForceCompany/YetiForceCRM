@@ -29,7 +29,7 @@ class ColumnSchemaBuilder extends \yii\db\mysql\ColumnSchemaBuilder
 				$format = '{type}{length}{comment}{check}{append}{pos}';
 				break;
 			case self::CATEGORY_NUMERIC:
-				$format = '{type}{length}{unsigned}{notnull}{default}{unique}{comment}{append}{pos}{check}';
+				$format = '{type}{length}{unsigned}{notnull}{default}{unique}{autoIncrement}{comment}{append}{pos}{check}';
 				break;
 			default:
 				$format = '{type}{length}{notnull}{default}{unique}{comment}{append}{pos}{check}';
