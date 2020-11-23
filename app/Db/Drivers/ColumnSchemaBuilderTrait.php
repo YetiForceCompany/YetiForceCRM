@@ -86,6 +86,16 @@ trait ColumnSchemaBuilderTrait
 	}
 
 	/**
+	 * Return the variable autoIncrement.
+	 *
+	 * @return bool
+	 */
+	protected function getautoIncrement()
+	{
+		return $this->autoIncrement;
+	}
+
+	/**
 	 * Builds the autoincrement string for column. Defaults to unsupported.
 	 *
 	 * @return string

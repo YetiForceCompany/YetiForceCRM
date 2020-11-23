@@ -114,7 +114,7 @@ class Base
 	 */
 	public function primaryKeyUnsigned($length = null)
 	{
-		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_UPK, $length)->notNull();
+		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_UPK, $length)->notNull()->unsigned()->autoIncrement();
 	}
 
 	/**
@@ -127,7 +127,7 @@ class Base
 	 */
 	public function bigPrimaryKey($length = null)
 	{
-		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_BIGPK, $length)->notNull();
+		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_BIGPK, $length)->notNull()->autoIncrement();
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Base
 	 */
 	public function bigPrimaryKeyUnsigned($length = null)
 	{
-		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_UBIGPK, $length)->notNull();
+		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_UBIGPK, $length)->notNull()->unsigned()->autoIncrement();
 	}
 
 	/**
