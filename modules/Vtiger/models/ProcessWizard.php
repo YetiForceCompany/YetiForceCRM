@@ -311,11 +311,13 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 	public function checkPermissionsToStep(): bool
 	{
 		$step = $this->getStep();
-		if (isset($step['permissionsToStep']) && \is_bool($step['permissionsToStep'])) {
-			return $step['permissionsToStep'];
-		}
-		if (\is_callable($step['permissionsToStep'])) {
-			return \call_user_func($step['permissionsToStep']);
+		if (isset($step['permissionsToStep'])) {
+			if (\is_bool($step['permissionsToStep'])) {
+				return $step['permissionsToStep'];
+			}
+			if (\is_callable($step['permissionsToStep'])) {
+				return \call_user_func($step['permissionsToStep']);
+			}
 		}
 		return true;
 	}

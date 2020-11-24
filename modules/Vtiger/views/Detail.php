@@ -1135,8 +1135,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('STEP', $step);
 		$viewer->assign('STEP_URL', "index.php?module={$moduleName}&view=Detail&record={$recordModel->getId()}&mode=processWizard&tab_label=LBL_RECORD_PROCESS_WIZARD&step=");
 		$viewer->assign('RECORD', $recordModel);
+		if (!$this->recordStructure) {
+			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		}
+		$structuredValues = $this->recordStructure->getStructure();
+		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		if (!empty($step['quickEdit'])) {
 			$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
+		} else {
+			$viewer->assign('IS_AJAX_ENABLED', false);
 		}
 		$viewer->assign('BLOCK_LIST', $recordModel->getModule()->getBlocks());
 		$viewer->assign('MODULE_MODEL', $recordModel->getModule());
