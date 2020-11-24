@@ -50,7 +50,7 @@
 									</button>
 								</div>
 							{/if}
-							{if !$IS_READ_ONLY && (isset($WIDGET['data']['actionSelect']) || isset($WIDGET['data']['action']))}
+							{if empty($IS_READ_ONLY) && (isset($WIDGET['data']['actionSelect']) || isset($WIDGET['data']['action']))}
 								{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
 								{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $RELATED_MODULE_NAME)}
 								{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
