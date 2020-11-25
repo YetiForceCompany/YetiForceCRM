@@ -187,7 +187,11 @@ class Card
 	public function setValuesForRecord(\Vtiger_Record_Model $record)
 	{
 		$this->record = $record;
-		$head = $this->vcard->N->getParts();
+		if (isset($this->vcard->N)) {
+			$head = $this->vcard->N->getParts();
+		} elseif (isset($this->vcard->FN)) {
+			$head = $this->vcard->FN->getParts();
+		}
 		$moduleName = $record->getModuleName();
 		if ('Contacts' === $moduleName) {
 			if (isset($head[1]) && ($fieldModel = $record->getField('firstname'))) {
