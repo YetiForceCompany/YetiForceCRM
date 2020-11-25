@@ -282,6 +282,18 @@ return [
 			'default' => true,
 			'description' => 'Enable advanced phone number validation. Enabling it will block saving invalid phone number.'
 		],
+		'headerAlertMessage' => [
+			'default' => '',
+			'description' => 'Header alert message'
+		],
+		'headerAlertType' => [
+			'default' => '',
+			'description' => 'Header alert type'
+		],
+		'headerAlertIcon' => [
+			'default' => '',
+			'description' => 'Header alert icon'
+		],
 	],
 	'debug' => [
 		'LOG_TO_FILE' => [

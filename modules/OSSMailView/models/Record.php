@@ -321,6 +321,9 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	public function checkMailExist($uid, $folder, $rcId, $mbox)
 	{
 		$mail = OSSMail_Record_Model::getMail($mbox, $uid, false);
+		if (!$mail) {
+			return false;
+		}
 		$where = ['cid' => $mail->getUniqueId()];
 		if (!\Config\Modules\OSSMailScanner::$ONE_MAIL_FOR_MULTIPLE_RECIPIENTS) {
 			$where['mbox'] = $folder;
