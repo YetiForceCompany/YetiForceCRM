@@ -86,7 +86,7 @@ class Log extends Logger
 			'icon' => 'fas fa-swatchbook',
 			'columns' => [
 				'date' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
-				'method' => ['type' => 'Text', 'label' => 'LBL_METHOD'],
+				'method' => ['type' => 'Text', 'label' => 'LBL_BATCH_NAME'],
 				'message' => ['type' => 'Text', 'label' => 'LBL_ERROR_MASAGE'],
 				'userid' => ['type' => 'Owner', 'label' => 'LBL_OWNER'],
 				'params' => ['type' => 'Text', 'label' => 'LBL_PARAMS'],

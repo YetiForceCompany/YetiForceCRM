@@ -53,7 +53,7 @@
 			<div class="alert alert-danger" role="alert">
 				<span class="fas fa-exclamation-triangle pr-2"></span>{\App\Language::translate('LBL_ERROR_DURING_VERIFICATION', $MODULE_NAME)}<br />
 				{foreach from=$ERRORS key=KEY item=ITEM}
-					{$KEY} | {$ITEM}<br />
+					{$KEY} | {\App\Purifier::encodeHtml($ITEM)}<br />
 				{/foreach}
 			</div>
 		{/if}
