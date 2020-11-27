@@ -971,6 +971,11 @@ return [
 			'description' => 'Lifetime session (in seconds)',
 			'validation' => '\App\Validator::integer'
 		],
+		'maxLifetimeSessionCookie' => [
+			'default' => 0,
+			'description' => "Specifies the lifetime of the cookie in seconds which is sent to the browser. The value 0 means 'until the browser is closed.'\nHow much time can someone be logged in to the browser. Defaults to 0.",
+			'validation' => '\App\Validator::integer'
+		],
 		'loginSessionRegenerate' => [
 			'default' => true,
 			'description' => 'Update the current session id with a newly generated one after login and logout',

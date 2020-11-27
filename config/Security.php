@@ -89,6 +89,12 @@ class Security
 	/** Lifetime session (in seconds) */
 	public static $maxLifetimeSession = 900;
 
+	/**
+	 * Specifies the lifetime of the cookie in seconds which is sent to the browser. The value 0 means 'until the browser is closed.'
+	 * How much time can someone be logged in to the browser. Defaults to 0.
+	 */
+	public static $maxLifetimeSessionCookie = 0;
+
 	/** Update the current session id with a newly generated one after login and logout */
 	public static $loginSessionRegenerate = true;
 
