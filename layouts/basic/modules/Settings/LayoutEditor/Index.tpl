@@ -81,6 +81,7 @@
 						{foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
 							{assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
 							{assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
+							{assign var=BLOCK_ICON value=$BLOCK->get('icon')}
 							{$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_LABEL_KEY}
 							<div id="block_{$BLOCK_ID}"
 								 class="editFieldsTable block_{$BLOCK_ID} mb-2 border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if} js-block-container"
@@ -92,7 +93,7 @@
 											<img class="align-middle" src="{\App\Layout::getImagePath('drag.png')}" alt=""/>
 											&nbsp;&nbsp;
 										{/if}
-										<strong class="align-middle js-block-label" title="{$BLOCK_LABEL_KEY}" data-js="container">{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
+										<strong class="align-middle js-block-label" title="{$BLOCK_LABEL_KEY}" data-js="container">{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
 									</div>
 									<div class="btn-toolbar pl-1" role="toolbar" aria-label="Toolbar with button groups">
 										{if $BLOCK_MODEL->isAddCustomFieldEnabled()}

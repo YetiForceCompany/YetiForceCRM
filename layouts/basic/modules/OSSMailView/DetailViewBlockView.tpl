@@ -6,6 +6,7 @@
 		{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 		{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 		{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
+		{assign var=BLOCK_ICON value=$BLOCK->get('icon')}
 		{if $BLOCKS_HIDE}
 			<div class="detailViewTable">
 				<div class="c-panel js-toggle-panel" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL_KEY}">
@@ -17,7 +18,7 @@
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if $IS_HIDDEN}d-none{/if}"
 								  data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"
 								  data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-							<h5>{\App\Language::translate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h5>
+							<h5>{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{\App\Language::translate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h5>
 						</div>
 					</div>
 					<div class="c-panel__body blockContent {if $IS_HIDDEN} d-none{/if}">
