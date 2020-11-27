@@ -218,27 +218,35 @@ var App = (window.App = {
 									enabled: true
 								}
 							});
-							saveHandler(form).done((data) => {
-								const modalContainer = form.closest('.modalContainer');
-								const parentModuleName = app.getModuleName();
-								const viewName = app.getViewName();
-								if (modalContainer.length) {
-									app.hideModalWindow(false, modalContainer[0].id);
-								}
-								if (moduleName === parentModuleName && 'List' === viewName) {
-									const listInstance = new Vtiger_List_Js();
-									listInstance.getListViewRecords();
-								}
-								submitSuccessCallback(data);
-								app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
-								progress.progressIndicator({ mode: 'hide' });
-								if (data.success) {
+							saveHandler(form)
+								.done((data) => {
+									const modalContainer = form.closest('.modalContainer');
+									const parentModuleName = app.getModuleName();
+									const viewName = app.getViewName();
+									if (modalContainer.length) {
+										app.hideModalWindow(false, modalContainer[0].id);
+									}
+									if (moduleName === parentModuleName && 'List' === viewName) {
+										const listInstance = new Vtiger_List_Js();
+										listInstance.getListViewRecords();
+									}
+									submitSuccessCallback(data);
+									app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
+									progress.progressIndicator({ mode: 'hide' });
+									if (data.success) {
+										app.showNotify({
+											text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
+											type: 'success'
+										});
+									}
+								})
+								.fail(function (textStatus, errorThrown) {
 									app.showNotify({
-										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
-										type: 'success'
+										text: errorThrown,
+										title: app.vtranslate('JS_ERROR'),
+										type: 'error'
 									});
-								}
-							});
+								});
 						} else {
 							//If validation fails in recordPreSaveEvent, form should submit again
 							form.removeData('submit');
@@ -320,14 +328,13 @@ var App = (window.App = {
 			save(form) {
 				const aDeferred = $.Deferred();
 				const quickCreateSaveUrl = form.serializeFormData();
-				AppConnector.request(quickCreateSaveUrl).done(
-					(data) => {
+				AppConnector.request(quickCreateSaveUrl)
+					.done((data) => {
 						aDeferred.resolve(data);
-					},
-					(textStatus, errorThrown) => {
+					})
+					.fail(function (textStatus, errorThrown) {
 						aDeferred.reject(textStatus, errorThrown);
-					}
-				);
+					});
 				return aDeferred.promise();
 			}
 		},
