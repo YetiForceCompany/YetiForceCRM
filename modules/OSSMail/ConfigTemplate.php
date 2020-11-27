@@ -379,4 +379,8 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 		'default' => '',
 		'description' => 'Contact functionality is disabled'
 	],
+	'message_show_email' => [
+		'default' => true,
+		'description' => 'Enables display of email address with name instead of a name (and address in title)'
+	],
 ];

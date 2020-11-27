@@ -43,10 +43,10 @@ class Rbl extends \App\Base
 	 * @var array
 	 */
 	public const LIST_TYPES = [
-		0 => ['label' => 'LBL_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'color' => '#eaeaea'],
-		1 => ['label' => 'LBL_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'color' => '#E1FFE3'],
-		2 => ['label' => 'LBL_PUBLIC_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'color' => '#eaeaea'],
-		3 => ['label' => 'LBL_PUBLIC_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'color' => '#E1FFE3'],
+		0 => ['label' => 'LBL_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'alertColor' => '#ff555233', 'listColor' => '#ff555233'],
+		1 => ['label' => 'LBL_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'alertColor' => '#E1FFE3', 'listColor' => '#fff'],
+		2 => ['label' => 'LBL_PUBLIC_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'alertColor' => '#eaeaea', 'listColor' => '#ff555233'],
+		3 => ['label' => 'LBL_PUBLIC_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'alertColor' => '#E1FFE3', 'listColor' => '#fff'],
 	];
 	/**
 	 * RLB black list type.
@@ -667,7 +667,7 @@ class Rbl extends \App\Base
 		$color = '';
 		foreach ($rows as $row) {
 			if (1 !== (int) $row['status']) {
-				$color = self::LIST_TYPES[$row['type']]['color'];
+				$color = self::LIST_TYPES[$row['type']]['listColor'];
 				break;
 			}
 		}
