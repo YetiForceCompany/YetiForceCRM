@@ -62,7 +62,6 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 					$whereCondition = [$whereCondition];
 				}
 			}
-			$this->Config['buttonHeader'] = Settings_Widgets_Module_Model::getHeaderButtons($this->Data['relatedmodule']);
 			if (isset($this->Data['checkbox']) && '-' !== $this->Data['checkbox']) {
 				if (false !== strpos($this->Data['checkbox'], '.')) {
 					$separateData = explode('.', $this->Data['checkbox']);
@@ -83,6 +82,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 				$this->Config['url'] .= '&search_params=' . \App\Json::encode($whereCondition);
 			}
 			$widget = $this->Config;
+			$widget['instance'] = $this;
 		}
 		return $widget;
 	}

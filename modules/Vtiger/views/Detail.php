@@ -835,6 +835,16 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
+		if ($fieldRelation = $request->getArray('fromRelation', \App\Purifier::ALNUM, [], \App\Purifier::STANDARD)) {
+			if (($parentId = $parentRecordModel->get($fieldRelation['relatedField'])) && \App\Record::isExists($parentId)) {
+				$moduleName = \App\Record::getType($parentId);
+				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+				$relationId = $fieldRelation['relationId'];
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
+			} else {
+				$relationListView->getQueryGenerator()->addNativeCondition((new \yii\db\Expression('0 > 1')));
+			}
+		}
 		$relationModel = $relationListView->getRelationModel();
 		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
