@@ -281,12 +281,11 @@ class Rbl extends \App\Base
 				$fromDomain = $this->getDomain($received->getFromName());
 				$byDomain = $this->getDomain($received->getByName());
 				if (!($fromIp = $received->getFromAddress())) {
-					$fromIp = $this->getIp($received->getFromName());
+					$fromIp = $this->getIp($received->getFromName(), $received->getFromHostname());
 				}
 				if (!($byIp = $received->getByAddress())) {
-					$byIp = $this->getIp($received->getByName());
+					$byIp = $this->getIp($received->getByName(), $received->getByHostname());
 				}
-
 				if ($fromIp !== $byIp && ((!$fromDomain && !$byDomain) || $fromDomain !== $byDomain)) {
 					$row['ip'] = $fromIp;
 					$row['key'] = $key;
@@ -341,19 +340,43 @@ class Rbl extends \App\Base
 	/**
 	 * Get mail ip address.
 	 *
-	 * @param string $url
+	 * @param string  $fromName
+	 * @param ?string $hostName
 	 *
 	 * @return string
 	 */
-	public function getIp(string $url): string
+	public function getIp(string $fromName, ?string $hostName = null): string
 	{
-		if (']' === substr($url, -1) || '[' === substr($url, 0, 1)) {
-			$url = rtrim(ltrim($url, '['), ']');
+		if (']' === substr($fromName, -1) || '[' === substr($fromName, 0, 1)) {
+			$fromName = rtrim(ltrim($fromName, '['), ']');
 		}
-		if (filter_var($url, FILTER_VALIDATE_IP)) {
-			return $url;
+		if (filter_var($fromName, FILTER_VALIDATE_IP)) {
+			return $fromName;
 		}
-		return filter_var(gethostbyname($url), FILTER_VALIDATE_IP);
+		$ipAddresses = (new \SPFLib\DNS\StandardResolver())->getIPAddressesFromDomainName($fromName);
+		if (1 === \count($ipAddresses)) {
+			return filter_var(gethostbyname((string) reset($ipAddresses)), FILTER_VALIDATE_IP);
+		}
+		if (isset($hostName)) {
+			if (0 === stripos($hostName, 'helo=')) {
+				$hostName = substr($hostName, 5);
+				$ipAddresses = (new \SPFLib\DNS\StandardResolver())->getIPAddressesFromDomainName($hostName);
+				if (1 === \count($ipAddresses)) {
+					return filter_var(gethostbyname((string) reset($ipAddresses)), FILTER_VALIDATE_IP);
+				}
+			}
+		}
+		$ip = gethostbyname($fromName);
+		if ($fromName != $ip) {
+			return filter_var($ip, FILTER_VALIDATE_IP);
+		}
+		if (isset($hostName)) {
+			$ip = gethostbyname($hostName);
+			if ($hostName != $ip) {
+				return filter_var($ip, FILTER_VALIDATE_IP);
+			}
+		}
+		return '';
 	}
 
 	/**
