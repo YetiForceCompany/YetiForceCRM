@@ -497,7 +497,7 @@ var App = (window.App = {
 					data: formData,
 					processData: false,
 					contentType: false
-				}).done((data) => {
+				}).done(function (data) {
 					aDeferred.resolve(data);
 				})
 				.fail(function (textStatus, errorThrown) {
