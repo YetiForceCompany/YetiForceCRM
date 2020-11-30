@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8849770fbaaa751b70d6abee7d096f1a",
+    "content-hash": "77276fe355969d488f0bdd12790ac441",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -230,16 +230,16 @@
         },
         {
             "name": "dg/rss-php",
-            "version": "v1.4",
+            "version": "v1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/rss-php.git",
-                "reference": "4d018b27b0a4d7b13dde34a402f0efe90024c40a"
+                "reference": "18f00ab1828948a8cfe107729ca1f11c20129b47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/rss-php/zipball/4d018b27b0a4d7b13dde34a402f0efe90024c40a",
-                "reference": "4d018b27b0a4d7b13dde34a402f0efe90024c40a",
+                "url": "https://api.github.com/repos/dg/rss-php/zipball/18f00ab1828948a8cfe107729ca1f11c20129b47",
+                "reference": "18f00ab1828948a8cfe107729ca1f11c20129b47",
                 "shasum": ""
             },
             "require": {
@@ -269,7 +269,7 @@
                 "feed",
                 "rss"
             ],
-            "time": "2019-09-29T08:57:45+00:00"
+            "time": "2020-11-25T22:57:16+00:00"
         },
         {
             "name": "doctrine/collections",

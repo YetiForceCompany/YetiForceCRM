@@ -64,7 +64,7 @@
     "ezyang/htmlpurifier": "^v4.11.0",
     "simshaun/recurr": "^v4.0",
     "giggsey/libphonenumber-for-php": "^8.8.11",
-    "dg/rss-php": "^1.2",
+    "dg/rss-php": "^1.5",
     "phpoffice/phpspreadsheet": "^1.3.1",
     "sonata-project/google-authenticator": "^2.1.0",
     "milon/barcode": "^7.0.0",
