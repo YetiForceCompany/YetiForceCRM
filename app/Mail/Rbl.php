@@ -49,6 +49,33 @@ class Rbl extends \App\Base
 		3 => ['label' => 'LBL_PUBLIC_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'alertColor' => '#E1FFE3', 'listColor' => '#fff'],
 	];
 	/**
+	 * List categories.
+	 *
+	 * @var array
+	 */
+	public const LIST_CATEGORIES = [
+		'Black' => [
+			'[SPAM] Single unwanted message' => 'LBL_SPAM_SINGLE_UNWANTED_MESSAGE',
+			'[SPAM] Mass unwanted message' => 'LBL_SPAM_MASS_UNWANTED_MESSAGE',
+			'[SPAM] Sending an unsolicited message repeatedly' => 'LBL_SPAM_SENDING_UNSOLICITED_MESSAGE_REPEATEDLY',
+			'[Fraud] Money scam' => 'LBL_FRAUD_MONEY_SCAM',
+			'[Fraud] Phishing' => 'LBL_FRAUD_PHISHING',
+			'[Fraud] An attempt to persuade people to buy a product or service' => 'LBL_FRAUD_ATTEMPT_TO_PERSUADE_PEOPLE_TO_BUY',
+			'[Security] An attempt to impersonate another person' => 'LBL_SECURITY_ATTEMPT_TO_IMPERSONATE_ANOTHER_PERSON',
+			'[Security] An attempt to persuade the recipient to open a resource from outside the organization' => 'LBL_SECURITY_ATTEMPT_TO_PERSUADE_FROM_ORGANIZATION',
+			'[Security] An attempt to persuade the recipient to open a resource inside the organization' => 'LBL_SECURITY_ATTEMPT_TO_PERSUADE_INSIDE_ORGANIZATION',
+			'[Security] Infrastructure and application scanning' => 'LBL_SECURITY_INFRASTRUCTURE_AND_APPLICATION_SCANNING',
+			'[Security] Attack on infrastructure or application' => 'LBL_SECURITY_ATTACK_INFRASTRUCTURE_OR_APPLICATION',
+			'[Security] Overloading infrastructure or application' => 'LBL_SECURITY_OVERLOADING_INFRASTRUCTURE_OR_APPLICATION',
+			'[Other] The message contains inappropriate words' => 'LBL_OTHER_MESSAGE_CONTAINS_INAPPROPRIATE_WORDS',
+			'[Other] The message contains inappropriate materials' => 'LBL_OTHER_MESSAGE_CONTAINS_INAPPROPRIATE_MATERIALS',
+			'[Other] Malicious message' => 'LBL_OTHER_MALICIOUS_MESSAGE'
+		],
+		'White' => [
+			'[Whitelist] Trusted sender' => 'LBL_TRUSTED_SENDER'
+		]
+	];
+	/**
 	 * RLB black list type.
 	 *
 	 * @var int
