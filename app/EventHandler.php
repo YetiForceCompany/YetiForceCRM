@@ -31,6 +31,58 @@ class EventHandler
 	public const EDIT_VIEW_CHANGE_VALUE = 'EditViewChangeValue';
 
 	/**
+	 * Handler types.
+	 *
+	 * @var array
+	 */
+	public const HANDLER_TYPES = [
+		'EditViewPreSave' => [
+			'label' => 'LBL_EDIT_VIEW_PRESAVE',
+			'icon' => '',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'EntityChangeState' => [
+			'label' => 'LBL_ENTITY_CHANGE_STATE',
+			'icon' => '',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'EntityBeforeSave' => [
+			'label' => 'LBL_ENTITY_BEFORE_SAVE',
+			'icon' => '',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'EntityAfterSave' => [
+			'label' => 'LBL_ENTITY_AFTER_SAVE',
+			'icon' => '',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+	];
+
+	/**
 	 * Get all event handlers.
 	 *
 	 * @param bool $active
