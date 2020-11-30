@@ -544,6 +544,97 @@ var App = (window.App = {
 				const mergedOptions = Object.assign(this.defaults, options, yOptions);
 				return element.overlayScrollbars(mergedOptions).overlayScrollbars();
 			}
+		},
+		DropFile: class {
+			constructor(container, params) {
+				this.container = container;
+				this.init(params);
+			}
+			/**
+			 * Register function
+			 * @param {jQuery} container
+			 * @param {Object} params
+			 */
+			static register(container, params = {}) {
+				if (typeof container === 'undefined') {
+					container = $('body');
+				}
+				if (container.hasClass('js-drop-container') && !container.prop('disabled')) {
+					return new App.Components.DropFile(container, params);
+				}
+				const instances = [];
+				container.find('.js-drop-container').each((_, e) => {
+					instances.push(new App.Components.DropFile($(e), params));
+				});
+				return instances;
+			}
+			/**
+			 * Initiation
+			 * @param {Object} params
+			 */
+			init(params) {
+				let css = {
+					border: this.container.css('border'),
+					opacity: 'unset'
+				};
+				this.container.bind('dragenter dragover', (e) => {
+					$(e.currentTarget).css({
+						border: '2px dashed #4aa1f3',
+						opacity: 0.4
+					});
+					e.preventDefault();
+				});
+				this.container.bind('dragleave', (e) => {
+					$(e.currentTarget).css(css);
+					e.preventDefault();
+				});
+				this.container.bind('drop', (e) => {
+					let element = $(e.currentTarget).css(css);
+					e.preventDefault();
+					const files = e.originalEvent.dataTransfer.files;
+					if (files.length < 1) {
+						return false;
+					}
+					params.callback =
+						params.callback ||
+						function () {
+							let progressIndicatorElement = $.progressIndicator({
+								blockInfo: { enabled: true }
+							});
+							let formData = new FormData();
+							for (let file of files) {
+								formData.append(element.data('field-name'), file, file.name);
+							}
+							formData.append('action', 'SaveAjax');
+							formData.append('record', element.data('id'));
+							formData.append('module', element.data('module'));
+							AppConnector.request({
+								method: 'POST',
+								data: formData,
+								processData: false,
+								contentType: false
+							})
+								.done(function (data) {
+									if (data.success) {
+										progressIndicatorElement.progressIndicator({ mode: 'hide' });
+										app.showNotify({ text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'), type: 'success' });
+										if (element.closest('.js-detail-widget').length) {
+											Vtiger_Detail_Js.getInstance().getFiltersDataAndLoad(e);
+										}
+									} else {
+										app.showNotify({ text: app.vtranslate('JS_UNEXPECTED_ERROR'), type: 'error' });
+										progressIndicatorElement.progressIndicator({ mode: 'hide' });
+									}
+								})
+								.fail(function (error, err) {
+									app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
+									progressIndicatorElement.progressIndicator({ mode: 'hide' });
+									app.errorLog(error, err);
+								});
+						};
+					params.callback(e, this);
+				});
+			}
 		}
 	},
 	Notify: {

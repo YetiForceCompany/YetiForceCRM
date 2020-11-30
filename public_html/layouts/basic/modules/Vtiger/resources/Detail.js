@@ -387,6 +387,7 @@ jQuery.Class(
 					contentContainer.html(data);
 					App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
 					app.registerModal(contentContainer);
+					App.Components.DropFile.register(contentContainer);
 					if (relatedModuleName) {
 						let relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(
 							widgetContainer.data('url'),
