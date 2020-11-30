@@ -49,7 +49,7 @@ class Vtiger_Documents_Widget extends Vtiger_RelatedModule_Widget
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'adminIcon-document-templates',
+				'linkicon' => 'yfi-document-templates',
 				'linkclass' => 'btn-light btn-sm',
 			]);
 		}
