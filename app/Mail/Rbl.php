@@ -415,9 +415,10 @@ class Rbl extends \App\Base
 			if (0 === stripos($returnPath, 'SRS')) {
 				$separator = substr($returnPath, 4, 1);
 				$parts = explode($separator, $returnPath);
-				if (isset($parts[4])) {
-					$mail = explode('@', $parts[4]);
-					$returnPathSrs = "{$mail[0]}@{$parts[3]}";
+				$mail = explode('@', array_pop($parts));
+				if (isset($mail[1])) {
+					$last = array_pop($parts);
+					$returnPathSrs = "{$mail[0]}@{$last}";
 				}
 				$status = $from === $returnPathSrs;
 			} else {
