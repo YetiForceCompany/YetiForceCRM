@@ -1611,6 +1611,7 @@
     "JS_YOU_CAN_SELECT_ONLY": "You can select only",
     "LBL_DELETE_CONFIRMATION": "Are you sure you want to delete?",
     "JS_CHANGE_VALUE_CONFIRMATION": "Do you want to set this value?",
+    "JS_CHANGE_CONFIRMATION": "Are you sure you want to make changes?",
     "JS_DELETE_CONFIRMATION": "Are you sure you want to delete the relation with this module? Only the relation will be removed, to remove the record you have to go to the record and press delete",
     "LBL_DELETE_USER_CONFIRMATION": "When a User is deleted, the user will be marked as \"Inactive\" and no new records can be assigned to the User, and the user will not be able to login. Billing will stop for this user. Are you sure you want to delete?",
     "LBL_MASS_DELETE_CONFIRMATION": "Are you sure you want to delete the selected records?",

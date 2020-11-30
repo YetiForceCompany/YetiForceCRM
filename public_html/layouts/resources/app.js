@@ -632,7 +632,11 @@ var App = (window.App = {
 									app.errorLog(error, err);
 								});
 						};
-					params.callback(e, this);
+						app.showConfirmModal(app.vtranslate('JS_CHANGE_CONFIRMATION'), (result)=> {
+							if (result) {
+								params.callback(e, this);
+							}
+						});
 				});
 			}
 		}
