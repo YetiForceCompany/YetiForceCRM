@@ -3,5 +3,5 @@
 return [
 	'appVersion' => '6.0.8',
 	'patchVersion' => '2020.11.30',
-	'lib_roundcube' => '0.1.1'
+	'lib_roundcube' => '0.1.3'
 ];
