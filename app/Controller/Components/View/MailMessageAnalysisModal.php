@@ -52,6 +52,10 @@ class MailMessageAnalysisModal extends \App\Controller\Modal
 			if (!\Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission('OSSMail')) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
+		} elseif ($request->has('header') && $request->has('body') && $request->has('sourceModule') && $request->has('sourceRecord')) {
+			if (!\App\Privilege::isPermitted($request->getByType('sourceModule', 'Alnum'), 'DetailView', $request->getInteger('sourceRecord'))) {
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			}
 		} else {
 			throw new \App\Exceptions\AppException('ERR_NO_CONTENT', 406);
 		}
