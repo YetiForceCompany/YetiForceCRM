@@ -497,14 +497,12 @@ var App = (window.App = {
 					data: formData,
 					processData: false,
 					contentType: false
-				}).done(
-					(data) => {
-						aDeferred.resolve(data);
-					},
-					(textStatus, errorThrown) => {
-						aDeferred.reject(textStatus, errorThrown);
-					}
-				);
+				}).done((data) => {
+					aDeferred.resolve(data);
+				})
+				.fail(function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				});
 				return aDeferred.promise();
 			}
 		},
