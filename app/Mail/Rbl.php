@@ -281,10 +281,10 @@ class Rbl extends \App\Base
 				$fromDomain = $this->getDomain($received->getFromName());
 				$byDomain = $this->getDomain($received->getByName());
 				if (!($fromIp = $received->getFromAddress())) {
-					$fromIp = $this->getIp($received->getFromName(), $received->getFromHostname());
+					$fromIp = $this->findIpByName($received->getFromName(), $received->getFromHostname());
 				}
 				if (!($byIp = $received->getByAddress())) {
-					$byIp = $this->getIp($received->getByName(), $received->getByHostname());
+					$byIp = $this->findIpByName($received->getByName(), $received->getByHostname());
 				}
 				if ($fromIp !== $byIp && ((!$fromDomain && !$byDomain) || $fromDomain !== $byDomain)) {
 					$row['ip'] = $fromIp;
@@ -338,14 +338,14 @@ class Rbl extends \App\Base
 	}
 
 	/**
-	 * Get mail ip address.
+	 * Find mail ip address.
 	 *
 	 * @param string  $fromName
 	 * @param ?string $hostName
 	 *
 	 * @return string
 	 */
-	public function getIp(string $fromName, ?string $hostName = null): string
+	public function findIpByName(string $fromName, ?string $hostName = null): string
 	{
 		if (']' === substr($fromName, -1) || '[' === substr($fromName, 0, 1)) {
 			$fromName = rtrim(ltrim($fromName, '['), ']');
@@ -353,28 +353,14 @@ class Rbl extends \App\Base
 		if (filter_var($fromName, FILTER_VALIDATE_IP)) {
 			return $fromName;
 		}
-		$ipAddresses = (new \SPFLib\DNS\StandardResolver())->getIPAddressesFromDomainName($fromName);
-		if (1 === \count($ipAddresses)) {
-			return filter_var(gethostbyname((string) reset($ipAddresses)), FILTER_VALIDATE_IP);
-		}
-		if (isset($hostName)) {
-			if (0 === stripos($hostName, 'helo=')) {
-				$hostName = substr($hostName, 5);
-				$ipAddresses = (new \SPFLib\DNS\StandardResolver())->getIPAddressesFromDomainName($hostName);
-				if (1 === \count($ipAddresses)) {
-					return filter_var(gethostbyname((string) reset($ipAddresses)), FILTER_VALIDATE_IP);
-				}
+		if (0 === stripos($hostName, 'helo=')) {
+			$hostName = substr($hostName, 5);
+			if ($ip = \App\RequestUtil::getIpByName($hostName)) {
+				return $ip;
 			}
 		}
-		$ip = gethostbyname($fromName);
-		if ($fromName != $ip) {
-			return filter_var($ip, FILTER_VALIDATE_IP);
-		}
-		if (isset($hostName)) {
-			$ip = gethostbyname($hostName);
-			if ($hostName != $ip) {
-				return filter_var($ip, FILTER_VALIDATE_IP);
-			}
+		if ($ip = \App\RequestUtil::getIpByName($fromName)) {
+			return $ip;
 		}
 		return '';
 	}
