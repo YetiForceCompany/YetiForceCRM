@@ -76,8 +76,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getType($module = false)
 	{
-		$moduleName = \App\Module::getModuleName($module);
-
 		$dir = 'modules/Vtiger/widgets/';
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$ffs = scandir($dir);
@@ -87,8 +85,8 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				$folderFiles[$action] = $action;
 				Vtiger_Loader::includeOnce('~~' . $dir . $ff);
 				$modelClassName = Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
-				$instance = new $modelClassName();
-				if ($instance->allowedModules && !\in_array($moduleName, $instance->allowedModules) || ('Comments' == $action && !$moduleModel->isCommentEnabled())) {
+				$instance = new $modelClassName($module, $moduleModel);
+				if (!$instance->isPermitted()) {
 					unset($folderFiles[$action]);
 				}
 			}
@@ -360,31 +358,5 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			return $data[$index[0]][$index[1]];
 		}
 		return [];
-	}
-
-	/**
-	 * Function to get buttons which visible in header widget.
-	 *
-	 * @param int $moduleId Number id module
-	 *
-	 * @return Vtiger_Link_Model[]
-	 */
-	public static function getHeaderButtons($moduleId)
-	{
-		$linkList = [];
-		$moduleName = \App\Module::getModuleName($moduleId);
-		if ('Documents' === $moduleName) {
-			$linkList[] = [
-				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
-				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'adminIcon-document-templates',
-				'linkclass' => 'btn-light btn-sm',
-			];
-		}
-		$buttons = [];
-		foreach ($linkList as &$link) {
-			$buttons[] = Vtiger_Link_Model::getInstanceFromValues($link);
-		}
-		return $buttons;
 	}
 }

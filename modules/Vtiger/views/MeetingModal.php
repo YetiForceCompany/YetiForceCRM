@@ -60,14 +60,14 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 		$meeting = \App\MeetingService::getInstance();
 		$isActive = $meeting->isActive() && $meeting->validateUrl($url);
 		$templateData = $userRoom = '';
-		$simpleUrl = 0 !== strpos($url, $meeting->get('url'));
+		$simpleUrl = $meeting->isEmpty('url') || 0 !== strpos($url, $meeting->get('url'));
 
 		if ($isActive) {
 			$data = $meeting->getDataFromUrl($url);
 			$userRoom = $meeting->getUrl($data, \App\User::getCurrentUserRealId(), $this->moderator);
 		}
 		$sendInvitation = ($isActive || $simpleUrl) && \App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail');
-		$templateId = \App\Config::component('MeetingService', 'defaultEmailTemplate', [])[$moduleName] ?? '';
+		$templateId = \App\Config::component('MeetingService', 'defaultEmailTemplate', [])[$moduleName] ?? 0;
 		if ($sendInvitation && $templateId && \App\Record::isExists($templateId, 'EmailTemplates')) {
 			$templateModel = \Vtiger_Record_Model::getInstanceById($templateId, 'EmailTemplates');
 			$textParser = \App\TextParser::getInstanceById($recordId, $moduleName);
@@ -81,7 +81,7 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 		$viewer->assign('SEND_INVITATION', $sendInvitation);
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('SIMPLE_URL', $simpleUrl);
-		$viewer->assign('EMAIL_TEMPLATE', $templateData ? $templateId : '');
+		$viewer->assign('EMAIL_TEMPLATE', $templateData ? $templateId : 0);
 		$viewer->assign('EMAIL_TEMPLATE_DATA', $templateData);
 		$viewer->assign('TEMPLATE_PARAMS', \App\Json::encode(['meetingUrl' => $url]));
 		$viewer->view('Modals/MeetingModal.tpl', $request->getModule());

@@ -1,8 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Documents-MassAddDocuments-->
 	<div class="modal-header">
 		<h5 class="modal-title">
-			<span class="adminIcon-document-templates mr-1"></span>
+			<span class="yfi-document-templates mr-1"></span>
 			{\App\Language::translate('LBL_MASS_ADD', $MODULE)}
 		</h5>
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -21,11 +22,16 @@
 					<label>{\App\Language::translate('Title', $MODULE)}</label>
 					<div class="input-group">
 						<input type="text" name="nameFile[]" class="form-control">
-						<span class="input-group-addon"><span class="fas fa-file"></span></span>
+						<div class="input-group-append">
+							<span class="input-group-text">
+								<span class="fas fa-file"></span>
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 	</form>
+	<!-- /tpl-Documents-MassAddDocuments-->
 {/strip}

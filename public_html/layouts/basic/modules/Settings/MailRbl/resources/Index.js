@@ -150,6 +150,7 @@ jQuery.Class(
 			publicRbl: {
 				columns: [
 					{ data: 'ip' },
+					{ data: 'type' },
 					{ data: 'status' },
 					{
 						orderable: false,
@@ -255,14 +256,18 @@ jQuery.Class(
 			});
 		},
 		sendRequest: function (id) {
-			app.showModalWindow(null, 'index.php?parent=Settings&module=MailRbl&view=ReportModal&id=' + id, function (
-				container
-			) {
-				let form = container.find('form');
-				container.find('.js-modal__save').on('click', function () {
-					form.submit();
-				});
-			});
+			const self = this;
+			app.showModalWindow(
+				null,
+				'index.php?parent=Settings&module=MailRbl&view=ReportModal&id=' + id,
+				function (container) {
+					let form = container.find('form');
+					container.find('.js-modal__save').on('click', function () {
+						form.submit();
+						self.dataTable.ajax.reload();
+					});
+				}
+			);
 		},
 		/**
 		 * Register events

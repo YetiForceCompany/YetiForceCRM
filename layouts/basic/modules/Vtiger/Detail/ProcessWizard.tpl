@@ -20,7 +20,7 @@
 	<div class="process-content mt-2">
 		{foreach item=BLOCK_ROW from=$PROCESS_WIZARD->getStepBlocks()}
 			{if $BLOCK_ROW['type'] eq 'fields'}
-				{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE BLOCK_LABEL_KEY=$BLOCK_ROW['label'] FIELD_MODEL_LIST=$BLOCK_ROW['fieldsStructure']}
+				{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE BLOCK_LABEL_KEY=$BLOCK_ROW['label'] FIELD_MODEL_LIST=$BLOCK_ROW['fieldsStructure'] BLOCK_ICON=$BLOCK_ROW['icon']}
 			{elseif $BLOCK_ROW['type'] eq 'relatedLists' || $BLOCK_ROW['type'] eq 'relatedListsFromReference'}
 				{assign var=BLOCK_MODEL value=$BLOCK_ROW['relationStructure']}
 				{assign var=RELATED_MODULE_NAME value=$BLOCK_MODEL->getRelatedModuleName()}

@@ -24,6 +24,9 @@
 								</li>
 							{/if}
 						{/foreach}
+						{if $SENDER['key'] === $ROW['key']}
+							<li class="list-group-item p-1">{\App\Language::translate('LBL_SERVER_IP_FROM', $LANG_MODULE_NAME)}: {$SENDER['ip']}</li>
+						{/if}
 						</ul>
 					</div>
 				</div>

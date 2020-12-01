@@ -9,6 +9,7 @@
 		{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 		{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 		{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
+		{assign var=BLOCK_ICON value=$BLOCK->get('icon')}
 		{if $BLOCKS_HIDE}
 			<div class="table-responsive-sm">
 				<div class="js-toggle-panel c-panel"
@@ -23,7 +24,7 @@
 								  data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"
 								  data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
 						</div>
-						<h5 class="mb-sm-1 mb-0">{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h5>
+						<h5 class="mb-sm-1 mb-0">{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h5>
 					</div>
 					<div class="c-detail-widget__content js-detail-widget-collapse blockContent table-responsive-sm {if $IS_HIDDEN}d-none{/if} js-detail-widget-content py-sm-2 py-0 overflow-hidden" data-js="container|value">
 						<div class="c-detail-widget__table">

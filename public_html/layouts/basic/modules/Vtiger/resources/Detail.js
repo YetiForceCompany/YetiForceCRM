@@ -387,6 +387,7 @@ jQuery.Class(
 					contentContainer.html(data);
 					App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
 					app.registerModal(contentContainer);
+					App.Components.DropFile.register(contentContainer);
 					if (relatedModuleName) {
 						let relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(
 							widgetContainer.data('url'),
@@ -1021,14 +1022,12 @@ jQuery.Class(
 				this.getSelectedTab(),
 				this.getRelatedModuleName()
 			);
-			relatedListInstance.loadRelatedList(params).done(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				}
-			);
+			relatedListInstance.loadRelatedList(params).done(function (data) {
+				aDeferred.resolve(data);
+			})
+			.fail(function (textStatus, errorThrown) {
+				aDeferred.reject(textStatus, errorThrown);
+			});
 			return aDeferred.promise();
 		},
 		/**

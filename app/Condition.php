@@ -54,6 +54,7 @@ class Condition
 		'next60days' => ['label' => 'LBL_NEXT_60_DAYS'],
 		'next90days' => ['label' => 'LBL_NEXT_90_DAYS'],
 		'next120days' => ['label' => 'LBL_NEXT_120_DAYS'],
+		'moreThanDaysAgo' => ['label' => 'LBL_DATE_CONDITION_MORE_THAN_DAYS_AGO'],
 	];
 	/**
 	 * Supported advanced filter operations.

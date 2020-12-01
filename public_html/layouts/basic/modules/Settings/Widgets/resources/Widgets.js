@@ -20,7 +20,7 @@ jQuery.Class(
 				'index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=' + type + '&tabId=' + tabId,
 				function (wizardContainer) {
 					app.showPopoverElementView(wizardContainer.find('.js-help-info'));
-					if (type === 'RelatedModule' || type === 'RelatedModuleChart') {
+					if (type === 'RelatedModule' || type === 'RelatedModuleChart' || type === 'Documents') {
 						thisInstance.loadFilters(wizardContainer);
 						thisInstance.relatedModuleFields(wizardContainer);
 						wizardContainer.find("select[name='relation_id']").on('change', function () {
@@ -201,7 +201,8 @@ jQuery.Class(
 			const thisInstance = this;
 			$('#massEditHeader.modal-title').text(app.vtranslate('JS_EDIT_WIDGET'));
 			app.showPopoverElementView(wizardContainer.find('.js-help-info'));
-			if (thisInstance.getType() == 'RelatedModule') {
+			let type = thisInstance.getType();
+			if (type == 'RelatedModule' || type === 'RelatedModuleChart' || type === 'Documents') {
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
 				wizardContainer.find("select[name='relatedmodule']").on('change', function () {
@@ -249,17 +250,19 @@ jQuery.Class(
 			container.find('.js-widget__add').on('click', function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator({ position: 'html' });
 				var module = $('.WidgetsManage select.js-module__list').val();
-				app.showModalWindow(null, 'index.php?parent=Settings&module=Widgets&view=Widget&mod=' + module, function (
-					wizardContainer
-				) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					var form = jQuery('form', wizardContainer);
-					form.on('submit', function (e) {
-						e.preventDefault();
-						var type = form.find('[name="type"]').val();
-						thisInstance.createStep2(type);
-					});
-				});
+				app.showModalWindow(
+					null,
+					'index.php?parent=Settings&module=Widgets&view=Widget&mod=' + module,
+					function (wizardContainer) {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						var form = jQuery('form', wizardContainer);
+						form.on('submit', function (e) {
+							e.preventDefault();
+							var type = form.find('[name="type"]').val();
+							thisInstance.createStep2(type);
+						});
+					}
+				);
 			});
 			container.find('.js-widget__edit').on('click', (e) => {
 				app.showModalWindow({

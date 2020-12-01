@@ -563,7 +563,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'adminIcon-document-templates',
+				'linkicon' => 'yfi-document-templates',
 			]);
 		}
 		return $addLinkModel;

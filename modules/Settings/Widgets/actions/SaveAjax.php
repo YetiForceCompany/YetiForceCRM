@@ -53,7 +53,9 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				'valueType' => 'Text',
 				'groupField' => 'Text',
 				'search_params' => 'Text',
-				'valueField' => 'Text'
+				'valueField' => 'Text',
+				'email_template' => \App\Purifier::INTEGER,
+				'fromRelation' => \App\Purifier::TEXT
 			]
 		]);
 		if (!$this->validateLimit($params)) {

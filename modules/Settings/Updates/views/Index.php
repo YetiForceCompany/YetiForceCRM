@@ -17,11 +17,11 @@ class Settings_Updates_Index_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$toInstall = \App\YetiForce\Updater::getToInstall();
 		if (!$request->isEmpty('download')) {
-			$key = array_search($request->getByType('download', 'Alnum'), array_column($toInstall, 'hash'));
-			if (empty($toInstall[$key])) {
-				\App\Log::error('Updates download error |download: ' . $request->getByType('download', 'Alnum') . '|key: ' . $key . '|toInstall: ' . print_r($toInstall, true), 'Updates');
-			} else {
-				\App\YetiForce\Updater::download($toInstall[$key]);
+			$download = $request->getByType('download', 'Alnum');
+			foreach ($toInstall as  $package) {
+				if ($package['hash'] === $download) {
+					\App\YetiForce\Updater::download($package);
+				}
 			}
 		}
 		$viewer->assign('TO_INSTALL', $toInstall);

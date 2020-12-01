@@ -32,7 +32,7 @@ class Base extends \SessionHandler
 			return;
 		}
 		$cookie = session_get_cookie_params();
-		$cookie['lifetime'] = \Config\Security::$maxLifetimeSession;
+		$cookie['lifetime'] = \Config\Security::$maxLifetimeSessionCookie ?? 0;
 		$cookie['secure'] = \App\RequestUtil::isHttps();
 		$cookie['domain'] = $_SERVER['HTTP_HOST'] ?? '';
 		if (isset(\Config\Security::$cookieForceHttpOnly)) {

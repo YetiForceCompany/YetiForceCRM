@@ -77,7 +77,7 @@
     "LBL_LATEST_PHP_VERSIONS_ARE": "Neueste PHP-Versionen: %s",
     "BTN_CHECK_LATEST_VERSION": "Letzte PHP Version prüfen",
     "BTN_SERVER_SPEED_TEST": "Server Performance Test",
-    "BTN_DB_INFO": "Datenbank Information",
+    "BTN_DB_INFO": "Database information",
     "LBL_SERVER_SPEED_TEST": "Server Geschwindigkeit",
     "LBL_READ_TEST": "Lesen",
     "LBL_WRITE_TEST": "Schreiben",

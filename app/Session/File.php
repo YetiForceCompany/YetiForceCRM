@@ -21,11 +21,11 @@ class File extends Base
 		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\App\Session::SESSION_PATH, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile() && !\in_array($item->getBasename(), $exclusion)) {
 				$sessionData = static::unserialize(file_get_contents($item->getPathname()));
-				if (!empty($sessionData['last_activity']) && $time - $sessionData['last_activity'] < $lifeTime) {
+				if (!empty($sessionData['last_activity']) && ($time - $sessionData['last_activity']) < $lifeTime) {
 					continue;
 				}
 				unlink($item->getPathname());
-				if (!empty($sessionData['authenticated_user_id'])) {
+				if (!empty($sessionData['baseUserId']) || !empty($sessionData['authenticated_user_id'])) {
 					$userId = empty($sessionData['baseUserId']) ? $sessionData['authenticated_user_id'] : $sessionData['baseUserId'];
 					$userName = \App\User::getUserModel($userId)->getDetail('user_name');
 					if (!empty($userName)) {

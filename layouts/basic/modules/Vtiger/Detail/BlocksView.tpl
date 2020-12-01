@@ -9,6 +9,7 @@
 	{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 	{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 	{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
+	{assign var=BLOCK_ICON value=$BLOCK->get('icon')}
 	{if $BLOCKS_HIDE}
 		{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME)}
 	{/if}

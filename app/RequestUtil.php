@@ -167,4 +167,26 @@ class RequestUtil
 		}
 		return self::$httpsCache;
 	}
+
+	/**
+	 * Get the IP address corresponding to a given Internet host name.
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	public static function getIpByName(string $name): string
+	{
+		if (!self::isNetConnection()) {
+			return false;
+		}
+		if (\App\Cache::has(__METHOD__, $name)) {
+			return \App\Cache::get(__METHOD__, $name);
+		}
+		$ip = gethostbyname($name);
+		if ($ip === $name) {
+			$ip = '';
+		}
+		return \App\Cache::save(__METHOD__, $name, $ip);
+	}
 }

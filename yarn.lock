@@ -119,9 +119,9 @@ blueimp-tmpl@3:
   integrity sha512-v8/Vge6U3uwlAjO9TxeHoYl77C1GJDZBN45pUp+39WyHU/VRzYbnGDhRNYvcT6Lh8jihVsXNZttnDpnYVA4m9w==
 
 bootbox@^5.4.0:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.5.1.tgz#794908a0a0079544dfc38d177c441f3fa9b76c09"
-  integrity sha512-sAXwO4wgJipTrjAs77g3mCYdF59kxxPhQjG7rYPbHIp9AoAetPu77qvfJSBfmlezoEBdTs9ByfhOfb2W9IU7HQ==
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.5.2.tgz#a4200aa03f12ffe4d07905834e9dfb76e52cee00"
+  integrity sha512-q8d9VO2A4+q6S0XvovLtqtBUp7uRy0wtDOuuycnoheK2TiAm3um0jOlAOu9ORn9XoT92tdil+p15Dle1mRgSPQ==
   dependencies:
     bootstrap "^4.4.0"
     jquery "^3.5.1"
@@ -227,9 +227,9 @@ core-js@^1.0.0:
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
 core-js@^2.5.7:
-  version "2.6.11"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
-  integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
+  integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
 css-element-queries@^1.2.3:
   version "1.2.3"

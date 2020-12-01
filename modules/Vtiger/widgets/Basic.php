@@ -25,6 +25,16 @@ class Vtiger_Basic_Widget
 		$this->moduleModel = $moduleModel;
 	}
 
+	/**
+	 * Function to check permission.
+	 *
+	 * @return bool
+	 */
+	public function isPermitted(): bool
+	{
+		return !$this->allowedModules || \in_array($this->Module, $this->allowedModules);
+	}
+
 	public function getConfigTplName()
 	{
 		return 'BasicConfig';

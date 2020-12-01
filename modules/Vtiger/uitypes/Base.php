@@ -38,7 +38,19 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 *  Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
+	 * Function to get the field model for condition builder.
+	 *
+	 * @param string $operator
+	 *
+	 * @return Vtiger_Field_Model
+	 */
+	public function getConditionBuilderField(string $operator): Vtiger_Field_Model
+	{
+		return $this->getFieldModel();
+	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
 	 *
 	 * @param mixed  $value
 	 * @param string $operator

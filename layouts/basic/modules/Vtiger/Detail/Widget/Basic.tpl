@@ -50,7 +50,7 @@
 									</button>
 								</div>
 							{/if}
-							{if !$IS_READ_ONLY && (isset($WIDGET['data']['actionSelect']) || isset($WIDGET['data']['action']))}
+							{if empty($IS_READ_ONLY) && (isset($WIDGET['data']['actionSelect']) || isset($WIDGET['data']['action']))}
 								{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
 								{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $RELATED_MODULE_NAME)}
 								{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
@@ -66,9 +66,11 @@
 										<span class="fas fa-plus"></span>
 									</button>
 								{/if}
-								{foreach from=$WIDGET['buttonHeader'] item=$LINK}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewBasic' MODULE=$MODULE_NAME}
-								{/foreach}
+								{if !empty($WIDGET['buttonHeader'])}
+									{foreach from=$WIDGET['buttonHeader'] item=$LINK}
+										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewBasic' MODULE=$MODULE_NAME}
+									{/foreach}
+								{/if}
 							{/if}
 						</div>
 					</div>
@@ -114,6 +116,24 @@
 							<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val='{\App\Purifier::encodeHtml($WIDGET['checkbox']['off'])}' data-urlparams="search_params" autocomplete="off"> <span class="far fa-times-circle fa-lg" title="{$WIDGET['checkboxLables']['off']}"></span>
 						</label>
 					</div>
+				{/if}
+				{if !empty($WIDGET['instance']) && method_exists($WIDGET['instance'], 'getCustomFields')}
+					{foreach from=$WIDGET['instance']->getCustomFields() item=FIELD_MODEL}
+						<div class="form-group-sm w-100 mr-1 mb-1">
+							<select name="{$FIELD_MODEL->getName()}" class="select2 form-control form-control-sm js-filter_field"
+								data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if
+								!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}' {/if}
+								data-return="value" data-urlparams="{$FIELD_MODEL->getName()}" data-js="change">
+								<optgroup class="p-0">
+									<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
+								</optgroup>
+								{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$FIELD_MODEL->getPicklistValues()}
+									<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq
+									$PICKLIST_NAME} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
+								{/foreach}
+							</select>
+						</div>
+					{/foreach}
 				{/if}
 			</div>
 			<div class="js-detail-widget-content" data-js="container|value"></div>

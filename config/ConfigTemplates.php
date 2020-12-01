@@ -282,6 +282,18 @@ return [
 			'default' => true,
 			'description' => 'Enable advanced phone number validation. Enabling it will block saving invalid phone number.'
 		],
+		'headerAlertMessage' => [
+			'default' => '',
+			'description' => 'Header alert message'
+		],
+		'headerAlertType' => [
+			'default' => '',
+			'description' => 'Header alert type'
+		],
+		'headerAlertIcon' => [
+			'default' => '',
+			'description' => 'Header alert icon'
+		],
 	],
 	'debug' => [
 		'LOG_TO_FILE' => [
@@ -957,6 +969,11 @@ return [
 		'maxLifetimeSession' => [
 			'default' => 900,
 			'description' => 'Lifetime session (in seconds)',
+			'validation' => '\App\Validator::integer'
+		],
+		'maxLifetimeSessionCookie' => [
+			'default' => 0,
+			'description' => "Specifies the lifetime of the cookie in seconds which is sent to the browser. The value 0 means 'until the browser is closed.'\nHow much time can someone be logged in to the browser. Defaults to 0.",
 			'validation' => '\App\Validator::integer'
 		],
 		'loginSessionRegenerate' => [

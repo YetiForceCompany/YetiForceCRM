@@ -177,12 +177,20 @@ return [
 		'description' => 'Auto create user.'
 	],
 	'mail_pagesize' => [
-		'default' => 40,
+		'default' => 30,
 		'description' => 'Mail page size.'
 	],
-	'addressbook_pagesize' => [
-		'default' => 50,
-		'description' => 'Address book page size.'
+	'imap_cache' => [
+		'default' => 'db',
+		'description' => "Imap cache, Values: 'db', 'apc' and 'memcache' or 'memcached'",
+	],
+	'messages_cache' => [
+		'default' => 'db',
+		'description' => "Enables messages cache. Only 'db' cache is supported.",
+	],
+	'messages_cache_threshold' => [
+		'default' => 1000,
+		'description' => "Maximum cached message size in kilobytes.\nNote: On MySQL this should be less than (max_allowed_packet - 30%)",
 	],
 	'prefer_html' => [
 		'default' => true,
@@ -223,14 +231,6 @@ return [
 	'show_images' => [
 		'default' => 0,
 		'description' => 'Display remote resources (inline images, styles). Value: 0 - Never, always ask, 1 - Ask if sender is not in address book, 2 - Always allow',
-	],
-	'imap_cache' => [
-		'default' => 'db',
-		'description' => 'Imap cache',
-	],
-	'messages_cache' => [
-		'default' => 'db',
-		'description' => 'messages_cache',
 	],
 	'reply_mode' => [
 		'default' => 1,
@@ -378,5 +378,13 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 	'address_book_type' => [
 		'default' => '',
 		'description' => 'Contact functionality is disabled'
+	],
+	'message_show_email' => [
+		'default' => true,
+		'description' => 'Enables display of email address with name instead of a name (and address in title)'
+	],
+	'addressbook_pagesize' => [
+		'default' => 50,
+		'description' => 'Address book page size.'
 	],
 ];

@@ -2,8 +2,7 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<!-- tpl-Base-BodyHeader -->
 	{assign var='count' value=0}
-	<header class="navbar navbar-expand-md navbar-dark fixed-top px-2 js-header c-header"
-			data-js="height">
+	<header class="navbar navbar-expand-md navbar-dark fixed-top px-2 js-header c-header" data-js="height">
 		<div class="o-navbar__left d-inline-flex">
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">
@@ -159,6 +158,13 @@
 				</a>
 			{/if}
 		</div>
+		{if !empty(\Config\Main::$headerAlertMessage)}
+			<div class="alert {if empty(\Config\Main::$headerAlertType)}alert-danger{else}{\Config\Main::$headerAlertType}{/if} m-auto mb-0 px-3 py-1 text-center u-font-size-19px text-nowrap" role="alert">
+				<i class="{if empty(\Config\Main::$headerAlertIcon)}fas fa-exclamation-triangle{else}{\Config\Main::$headerAlertIcon}{/if}"></i>
+				<span class="font-weight-bold mx-5">{\Config\Main::$headerAlertMessage}</span>
+				<i class="{if empty(\Config\Main::$headerAlertIcon)}fas fa-exclamation-triangle{else}{\Config\Main::$headerAlertIcon}{/if}"></i>
+			</div>
+		{/if}
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
 			{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}

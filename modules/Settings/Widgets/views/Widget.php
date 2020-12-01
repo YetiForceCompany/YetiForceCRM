@@ -61,8 +61,9 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RELATEDMODULES', $RelatedModule);
 		$viewer->assign('PRIVILEGESMODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
 		if (class_exists($widgetName)) {
-			$widgetInstance = new $widgetName();
+			$widgetInstance = new $widgetName(\App\Module::getModuleName($tabId), null, null, []);
 			$tplName = $widgetInstance->getConfigTplName();
+			$viewer->assign('WIDGET', $widgetInstance);
 			$viewer->view("Detail/Widget/$tplName.tpl", 'Vtiger');
 		}
 	}
@@ -88,8 +89,9 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RELATEDMODULES', $RelatedModule);
 		$widgetName = 'Vtiger_' . $type . '_Widget';
 		if (class_exists($widgetName)) {
-			$widgetInstance = new $widgetName();
+			$widgetInstance = new $widgetName(\App\Module::getModuleName($WidgetInfo['tabid']), null, null, $WidgetInfo);
 			$tplName = $widgetInstance->getConfigTplName();
+			$viewer->assign('WIDGET', $widgetInstance);
 			$viewer->view("Detail/Widget/$tplName.tpl", 'Vtiger');
 		}
 	}

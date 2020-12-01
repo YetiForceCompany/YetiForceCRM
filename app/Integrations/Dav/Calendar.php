@@ -46,6 +46,14 @@ class Calendar
 	 * @var bool
 	 */
 	private $createdTimeZone = false;
+	/**
+	 * Custom values.
+	 *
+	 * @var string[]
+	 */
+	protected static $customValues = [
+		'X-MICROSOFT-SKYPETEAMSMEETINGURL' => 'meeting_url'
+	];
 
 	/**
 	 * Delete calendar event by crm id.
@@ -248,6 +256,7 @@ class Calendar
 		$this->parseState();
 		$this->parseType();
 		$this->parseDateTime();
+		$this->parseCustomValues();
 	}
 
 	/**
@@ -281,7 +290,7 @@ class Calendar
 			$values = [
 				'TENTATIVE' => 'PLL_PLANNED',
 				'CANCELLED' => 'PLL_CANCELLED',
-				'CONFIRMED' => 'PLL_COMPLETED',
+				'CONFIRMED' => 'PLL_PLANNED',
 			];
 		} else {
 			$values = [
@@ -424,6 +433,20 @@ class Calendar
 		$this->record->set('due_date', $dueDate);
 		$this->record->set('time_start', $timeStart);
 		$this->record->set('time_end', $timeEnd);
+	}
+
+	/**
+	 * Parse parse custom values.
+	 *
+	 * @return void
+	 */
+	private function parseCustomValues(): void
+	{
+		foreach (self::$customValues as $key => $fieldName) {
+			if (isset($this->vcomponent->{$key})) {
+				$this->record->set($fieldName, (string) $this->vcomponent->{$key});
+			}
+		}
 	}
 
 	/**

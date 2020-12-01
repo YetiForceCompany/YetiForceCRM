@@ -19,18 +19,48 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return empty($value) ? '' : DateTimeField::convertToDBFormat($value);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getConditionBuilderField(string $operator): Vtiger_Field_Model
+	{
+		$fieldModel = $this->getFieldModel();
+		if ('moreThanDaysAgo' === $operator) {
+			$fieldModel = Vtiger_Field_Model::init($fieldModel->getModuleName(), [
+				'uitype' => 7,
+				'name' => $fieldModel->getName(),
+				'label' => 'LBL_INTEGER',
+				'displaytype' => 1,
+				'typeofdata' => 'I~M'
+			]);
+		}
+		return $fieldModel;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
-		if ('bw' === $operator) {
-			$values = explode(',', $value);
-			foreach ($values as &$val) {
-				$this->validate($val, true);
-				$val = $this->getDBValue($val);
-			}
-			return implode(',', $values);
+		switch ($operator) {
+			case 'bw':
+				$values = explode(',', $value);
+				foreach ($values as &$val) {
+					$this->validate($val, true);
+					$val = $this->getDBValue($val);
+				}
+				$dbValue = implode(',', $values);
+				break;
+			case 'moreThanDaysAgo':
+				$uiTypeModel = $this->getConditionBuilderField($operator)->getUITypeModel();
+				$uiTypeModel->validate($value, true);
+				$dbValue = $uiTypeModel->getDBValue($value);
+				break;
+			default:
+				$this->validate($value, true);
+				$dbValue = $this->getDBValue($value);
 		}
-		$this->validate($value, true);
-		return $this->getDBValue($value);
+		return $dbValue;
 	}
 
 	/**
@@ -171,10 +201,17 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		if ('bw' === $operator) {
-			return 'ConditionBuilder/DateRange.tpl';
+		switch ($operator) {
+			case 'bw':
+				$template = 'ConditionBuilder/DateRange.tpl';
+				break;
+			case 'moreThanDaysAgo':
+				$template = 'ConditionBuilder/Base.tpl';
+				break;
+			default:
+				$template = 'ConditionBuilder/Date.tpl';
 		}
-		return 'ConditionBuilder/Date.tpl';
+		return $template;
 	}
 
 	/**

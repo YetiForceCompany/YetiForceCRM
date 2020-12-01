@@ -1642,6 +1642,18 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Function to get the field model for condition builder.
+	 *
+	 * @param string $operator
+	 *
+	 * @return self
+	 */
+	public function getConditionBuilderField(string $operator): self
+	{
+		return $this->getUITypeModel()->getConditionBuilderField($operator);
+	}
+
+	/**
 	 * Sets data.
 	 *
 	 * @param array $data

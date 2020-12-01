@@ -77,7 +77,7 @@
     "LBL_LATEST_PHP_VERSIONS_ARE": "Najnovejše različice PHP %s",
     "BTN_CHECK_LATEST_VERSION": "Preverite najnovejšo različico PHP",
     "BTN_SERVER_SPEED_TEST": "Test hitrosti strežnika",
-    "BTN_DB_INFO": "Informacije o podatkovni bazi",
+    "BTN_DB_INFO": "Database information",
     "LBL_SERVER_SPEED_TEST": "Hitrosti strežnika",
     "LBL_READ_TEST": "Preberi",
     "LBL_WRITE_TEST": "Zapiši",

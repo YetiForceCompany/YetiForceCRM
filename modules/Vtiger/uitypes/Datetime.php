@@ -97,18 +97,11 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * Returns template for operator.
-	 *
-	 * @param string $operator
-	 *
-	 * @return string
+	 * {@inheritdoc}
 	 */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		if ('bw' === $operator) {
-			return 'ConditionBuilder/DateTimeRange.tpl';
-		}
-		return 'ConditionBuilder/Date.tpl';
+		return 'bw' === $operator ? 'ConditionBuilder/DateTimeRange.tpl' : parent::getOperatorTemplateName($operator);
 	}
 
 	/**
