@@ -290,7 +290,7 @@ class Calendar
 			$values = [
 				'TENTATIVE' => 'PLL_PLANNED',
 				'CANCELLED' => 'PLL_CANCELLED',
-				'CONFIRMED' => 'PLL_COMPLETED',
+				'CONFIRMED' => 'PLL_PLANNED',
 			];
 		} else {
 			$values = [
