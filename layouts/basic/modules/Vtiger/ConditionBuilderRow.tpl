@@ -57,7 +57,8 @@
 				{else}
 					{assign var=CONDITION_ROW_VALUE value=''}
 				{/if}
-				{include file=\App\Layout::getTemplatePath($TEMPLATE_NAME, $SOURCE_MODULE) FIELD_MODEL=$SELECTED_FIELD_MODEL VALUE=$CONDITION_ROW_VALUE}
+				{assign var=FIELD_MODEL value=$SELECTED_FIELD_MODEL->getConditionBuilderField($SELECTED_OPERATOR)}
+				{include file=\App\Layout::getTemplatePath($TEMPLATE_NAME, $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL VALUE=$CONDITION_ROW_VALUE}
 			{/if}
 		</div>
 		<div class="col-1 d-flex justify-content-end">

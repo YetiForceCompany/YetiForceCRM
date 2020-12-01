@@ -365,4 +365,14 @@ class DateField extends BaseField
 		$dateValue = date('Y-m-d', strtotime($this->getValue()));
 		return ($dateValue >= $today) && ($dateValue <= date('Y-m-d', strtotime($today . '+119 day')));
 	}
+
+	/**
+	 * MoreThanDaysAgo operator.
+	 *
+	 * @return bool
+	 */
+	public function operatorMoreThanDaysAgo()
+	{
+		return $this->getValue() <= date('Y-m-d', strtotime('-' . $this->value . ' days'));
+	}
 }
