@@ -60,7 +60,7 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 		$meeting = \App\MeetingService::getInstance();
 		$isActive = $meeting->isActive() && $meeting->validateUrl($url);
 		$templateData = $userRoom = '';
-		$simpleUrl = 0 !== strpos($url, $meeting->get('url'));
+		$simpleUrl = $meeting->isEmpty('url') || 0 !== strpos($url, $meeting->get('url'));
 
 		if ($isActive) {
 			$data = $meeting->getDataFromUrl($url);
