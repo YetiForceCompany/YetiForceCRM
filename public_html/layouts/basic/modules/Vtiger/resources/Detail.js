@@ -1022,14 +1022,12 @@ jQuery.Class(
 				this.getSelectedTab(),
 				this.getRelatedModuleName()
 			);
-			relatedListInstance.loadRelatedList(params).done(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				}
-			);
+			relatedListInstance.loadRelatedList(params).done(function (data) {
+				aDeferred.resolve(data);
+			})
+			.fail(function (textStatus, errorThrown) {
+				aDeferred.reject(textStatus, errorThrown);
+			});
 			return aDeferred.promise();
 		},
 		/**
