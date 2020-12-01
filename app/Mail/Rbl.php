@@ -281,10 +281,14 @@ class Rbl extends \App\Base
 				$fromDomain = $this->getDomain($received->getFromName());
 				$byDomain = $this->getDomain($received->getByName());
 				if (!($fromIp = $received->getFromAddress())) {
-					$fromIp = $this->findIpByName($received->getFromName(), $received->getFromHostname());
+					if (!($fromIp = $this->findIpByName($received->getValueFor('from')))) {
+						$fromIp = $this->getIpByName($received->getFromName(), $received->getFromHostname());
+					}
 				}
 				if (!($byIp = $received->getByAddress())) {
-					$byIp = $this->findIpByName($received->getByName(), $received->getByHostname());
+					if (!($byIp = $this->findIpByName($received->getValueFor('by')))) {
+						$byIp = $this->getIpByName($received->getByName(), $received->getByHostname());
+					}
 				}
 				if ($fromIp !== $byIp && ((!$fromDomain && !$byDomain) || $fromDomain !== $byDomain)) {
 					$row['ip'] = $fromIp;
@@ -340,12 +344,30 @@ class Rbl extends \App\Base
 	/**
 	 * Find mail ip address.
 	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function findIpByName(string $value): string
+	{
+		$pattern = '~\[(IPv[64])?([a-f\d\.\:]+)\]~i';
+		if (preg_match($pattern, $value, $matches)) {
+			if (!empty($matches[2])) {
+				return $matches[2];
+			}
+		}
+		return '';
+	}
+
+	/**
+	 * Get mail ip address by hostname or ehloName.
+	 *
 	 * @param string  $fromName
 	 * @param ?string $hostName
 	 *
 	 * @return string
 	 */
-	public function findIpByName(string $fromName, ?string $hostName = null): string
+	public function getIpByName(string $fromName, ?string $hostName = null): string
 	{
 		if (']' === substr($fromName, -1) || '[' === substr($fromName, 0, 1)) {
 			$fromName = rtrim(ltrim($fromName, '['), ']');
