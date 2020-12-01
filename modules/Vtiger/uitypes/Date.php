@@ -203,13 +203,13 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	{
 		switch ($operator) {
 			case 'bw':
-				$template = 'ConditionBuilder/Date.tpl';
+				$template = 'ConditionBuilder/DateRange.tpl';
 				break;
 			case 'moreThanDaysAgo':
 				$template = 'ConditionBuilder/Base.tpl';
 				break;
 			default:
-				$template = 'ConditionBuilder/DateRange.tpl';
+				$template = 'ConditionBuilder/Date.tpl';
 		}
 		return $template;
 	}
