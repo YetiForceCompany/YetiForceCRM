@@ -66,9 +66,11 @@
 										<span class="fas fa-plus"></span>
 									</button>
 								{/if}
-								{foreach from=$WIDGET['buttonHeader'] item=$LINK}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewBasic' MODULE=$MODULE_NAME}
-								{/foreach}
+								{if !empty($WIDGET['buttonHeader'])}
+									{foreach from=$WIDGET['buttonHeader'] item=$LINK}
+										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewBasic' MODULE=$MODULE_NAME}
+									{/foreach}
+								{/if}
 							{/if}
 						</div>
 					</div>
