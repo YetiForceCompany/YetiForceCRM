@@ -1324,6 +1324,7 @@ $.Class(
 				this.setRowData(newRow, rowData);
 				this.quantityChangeActions(newRow);
 			}
+			return newRow;
 		},
 
 		/**
@@ -1704,6 +1705,48 @@ $.Class(
 				});
 			});
 		},
+
+		/**
+		 * function adds massively records to items.
+		 */
+		registerMassAddRecordsToItem: function (container) {
+			const thisInstance = this;
+			container.on('click', '.js-mass-add', (e) => {
+				let currentTarget = $(e.currentTarget);
+				let moduleName = currentTarget.data('module');
+				let isMultiple = false;
+				if (currentTarget.data('multiple') === true) {
+					isMultiple = true;
+				}
+				let view = false;
+				if (currentTarget.data('view')) {
+					view = currentTarget.data('view');
+				}
+				let params = 	{
+					module: moduleName,
+					src_module: currentTarget.data('src-module'),
+					currency_id: thisInstance.getCurrency() || CONFIG.defaultCurrencyId,
+					multi_select: isMultiple,
+					view: view
+				};
+				if (moduleName === 'Products') {
+					app.showRecordsList(params);
+				} else {
+					app.showRecordsList(params, (modal, instance) => {
+						instance.setSelectEvent((data) => {
+							for (let i in data) {
+								let parentElem = thisInstance.addItem(moduleName);
+								Vtiger_Edit_Js.getInstance().setReferenceFieldValue(parentElem, {
+									name: data[i],
+									id: i
+								});
+							}
+						});
+					});
+				}
+			});
+		},
+
 		calculateItemNumbers: function () {
 			let thisInstance = this;
 			let items = this.getInventoryItemsContainer();
@@ -1816,6 +1859,7 @@ $.Class(
 			this.form = container;
 			this.registerInventorySaveData();
 			this.registerAddItem();
+			this.registerMassAddRecordsToItem(container);
 			this.initItem();
 			this.registerSortableItems();
 			this.registerSubProducts();

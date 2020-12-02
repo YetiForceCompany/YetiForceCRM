@@ -70,12 +70,24 @@
 									{if $smarty.foreach.moduleList.first}
 										{assign var=REFERENCE_MODULE_DEFAULT value=$MAIN_MODULE}
 									{/if}
-									<div class="btn-group-sm d-flex align-items-center justify-content-center {if !$smarty.foreach.moduleList.first}ml-lg-1{/if}">
+									<div class="btn-group d-flex align-items-center justify-content-center {if !$smarty.foreach.moduleList.first}ml-lg-1{/if}" role="group">
 										<button type="button" data-module="{$MAIN_MODULE}"
 												title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
-												class="btn btn-light js-inv-add-item border mb-1 mb-lg-0"
+												class="btn btn-light js-inv-add-item border mb-1 mb-lg-0 text-nowrap"
 												data-js="click">
 											<span class="moduleIcon yfm-{$MAIN_MODULE} mr-1"></span><strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
+										</button>
+										<button type="button" data-module="{$MAIN_MODULE}"
+												title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
+												data-src-module="{$MODULE_NAME}"
+												{if $MAIN_MODULE eq 'Products'}
+													data-view="TreeCategoryInvetoryModal"
+												{else}
+													data-multiple="true"
+												{/if}
+												class="btn btn-light js-mass-add border mb-1 mb-lg-0 mr-2 u-cursor-pointer js-popover-tooltip" data-js="popover"
+												data-js="click">
+											<span id="{$MODULE_NAME}_editView_fieldName_name_select"  class="fas fa-plus mr-1"></span>
 										</button>
 									</div>
 								{/if}
