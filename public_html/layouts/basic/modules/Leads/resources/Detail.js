@@ -306,10 +306,15 @@ Vtiger_Detail_Js(
 				aDeferred.resolve(reponseData);
 			});
 			if (fieldDetailList && fieldDetailList.field == 'leadstatus') {
-				var btn = jQuery('.btn-convertLead');
-				var status = JSON.parse(jQuery('#conversion_available_status').val());
-				if (status.length === 0 || jQuery.inArray(fieldDetailList.value, status) != -1) {
-					btn.removeClass('d-none');
+				let btn = jQuery('.btn-convertLead');
+				let conversionAvailableStatus = jQuery('#conversion_available_status').val();
+				if (conversionAvailableStatus) {
+					let status = JSON.parse(conversionAvailableStatus);
+					if (status.length === 0 || jQuery.inArray(fieldDetailList.value, status) != -1) {
+						btn.removeClass('d-none');
+					} else {
+						btn.addClass('d-none');
+					}
 				} else {
 					btn.addClass('d-none');
 				}
