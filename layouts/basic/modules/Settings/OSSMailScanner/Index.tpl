@@ -265,11 +265,10 @@
 										{if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'openTicket'}checked
 										data-active="1"{/if}>
 								<strong>
-									{assign var="TICKET_STATUS" value=\App\Config::component('Mail', 'HELPDESK_OPENTICKET_STATUS')}
 									{\App\Language::translate('LBL_OPEN_TICKET', $MODULE_NAME)}:&nbsp;
-									"{\App\Language::translate($TICKET_STATUS, 'HelpDesk')}"
+									"{\App\Language::translate(\Config\Modules\OSSMailScanner::$helpdeskBindOpenStatus, 'HelpDesk')}"
 								</strong>
-								{if empty($TICKET_STATUS) }
+								{if empty(\Config\Modules\OSSMailScanner::$helpdeskBindOpenStatus) }
 									<strong class="color-red-a200">{\App\Language::translate('LBL_EMPTY_PARAMETER', $MODULE_NAME)}</strong>
 								{/if}
 							</label>

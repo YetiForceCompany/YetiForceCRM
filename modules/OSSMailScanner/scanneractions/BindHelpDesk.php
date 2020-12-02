@@ -13,6 +13,7 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 	public $tableName = 'vtiger_troubletickets';
 	public $tableColumn = 'ticket_no';
 
+	/** {@inheritdoc} */
 	public function process(OSSMail_Mail_Model $mail)
 	{
 		$this->mail = $mail;
@@ -24,20 +25,21 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 			}
 			$conf = OSSMailScanner_Record_Model::getConfig('emailsearch');
 			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->moduleName);
-			if ('Wait For Response' === $recordModel->get('ticketstatus') && !empty(\App\Config::component('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'))) {
-				$recordModel->set('ticketstatus', \App\Config::component('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'));
+			if ('Wait For Response' === $recordModel->get('ticketstatus') && !empty(\Config\Modules\OSSMailScanner::$helpdeskBindNextWaitForResponseStatus)) {
+				$recordModel->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskBindNextWaitForResponseStatus);
 				$recordModel->save();
 			}
 			$ticketStatus = array_flip(Settings_SupportProcesses_Module_Model::getTicketStatusNotModify());
 			if (isset($ticketStatus[$recordModel->get('ticketstatus')])) {
 				if ('openTicket' === $conf['changeTicketStatus']) {
-					$recordModel->set('ticketstatus', \App\Config::component('Mail', 'HELPDESK_OPENTICKET_STATUS'));
+					$recordModel->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskBindOpenStatus);
 					$recordModel->save();
 				} elseif ('createTicket' === $conf['changeTicketStatus']) {
 					$mailAccount = $mail->getAccount();
 					if (\is_array($mailAccount['actions']) ? \in_array('CreatedHelpDesk', $mailAccount['actions']) : strstr($mailAccount['actions'], 'CreatedHelpDesk')) {
 						$handler = new OSSMailScanner_CreatedHelpDesk_ScannerAction();
-						$handler->add($mail);
+						$handler->mail = $mail;
+						$handler->add();
 					}
 				}
 			}

@@ -49,7 +49,7 @@ class CreatedHelpDesk extends Base
 		$recordModel->setFromUserValue('ticket_title', $titleMaxLength ? \App\TextParser::textTruncate($scanner->get('subject'), $titleMaxLength, false) : $scanner->get('subject'));
 		$descriptionMaxLength = $recordModel->getField('description')->get('maximumlength');
 		$recordModel->set('description', $descriptionMaxLength ? \App\TextParser::htmlTruncate($scanner->get('body'), $descriptionMaxLength, false) : $scanner->get('body'));
-		$recordModel->set('ticketstatus', \Config\Components\Mail::$helpdeskCreatedStatus);
+		$recordModel->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
 		if ($contactId) {
 			$recordModel->ext['relationsEmail']['Contacts'] = $contactId;
 		}

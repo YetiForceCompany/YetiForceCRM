@@ -39,7 +39,8 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 				->from('vtiger_ossmailview_relation')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid')
 				->where(['ossmailviewid' => $mailId, 'setype' => $this->moduleName])
-				->andWhere(['<>', 'vtiger_crmentity.deleted', 1]);
+				->andWhere(['<>', 'vtiger_crmentity.deleted', 1])
+				->orderBy(['modifiedtime' => \SORT_DESC]);
 			$returnIds = $query->column();
 			if (!empty($returnIds)) {
 				$recordId = $returnIds;
@@ -96,7 +97,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 	protected function addByBody()
 	{
 		$returnIds = [];
-		if (!empty($crmId = $this->getNewestRecord())) {
+		if ($this->prefix && !empty($crmId = $this->findRecord())) {
 			$status = (new OSSMailView_Relation_Model())->addRelation($this->mail->getMailCrmId(), $crmId, $this->mail->get('udate_formated'));
 			if ($status) {
 				$returnIds[] = $crmId;
@@ -106,11 +107,11 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 	}
 
 	/**
-	 * Get newest record id of given record prefixes.
+	 * Find record by prefix.
 	 *
-	 * @return bool|int
+	 * @return int|null
 	 */
-	public function getNewestRecord()
+	public function findRecord()
 	{
 		$queryGenerator = new App\QueryGenerator($this->moduleName);
 		$queryGenerator->addNativeCondition([$this->tableName . '.' . $this->tableColumn => $this->prefix]);
