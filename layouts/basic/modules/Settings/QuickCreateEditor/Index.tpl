@@ -123,7 +123,7 @@
 							{foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
 								{assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
 								{assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
-								{assign var=BLOCK_ICON value=$BLOCK->get('icon')}
+								{assign var=BLOCK_ICON value=$BLOCK_MODEL->get('icon')}
 								{$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_LABEL_KEY}
 								<div id="block_{$BLOCK_ID}"
 									class="editFieldsTable block block_{$BLOCK_ID} mb-2 border1px"
