@@ -255,7 +255,8 @@
     "LBL_FILE_SIZE": "表のサイズ",
     "LBL_FORMAT": "行の書式",
     "LBL_ENGINE": "エンジン",
-    "LBL_COLLATION": "照合順"
+    "LBL_COLLATION": "照合順",
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
   },
   "js": {
     "JS_SPEED_TEST_START": "速度を確認しています..."

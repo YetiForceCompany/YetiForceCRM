@@ -255,7 +255,8 @@
     "LBL_FILE_SIZE": "Tabellengröße",
     "LBL_FORMAT": "Zeilenformat",
     "LBL_ENGINE": "Engine",
-    "LBL_COLLATION": "Sortierung"
+    "LBL_COLLATION": "Sortierung",
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
   },
   "js": {
     "JS_SPEED_TEST_START": "Performance wird ermittelt ..."

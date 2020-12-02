@@ -255,7 +255,8 @@
     "LBL_FILE_SIZE": "Dimensione tabelle",
     "LBL_FORMAT": "Formato riga",
     "LBL_ENGINE": "Motore",
-    "LBL_COLLATION": "Collazione"
+    "LBL_COLLATION": "Collazione",
+    "LBL_LAMP_CONFIG_FILES": "File di configurazione LAMP"
   },
   "js": {
     "JS_SPEED_TEST_START": "Controllo velocità ..."

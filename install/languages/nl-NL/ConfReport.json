@@ -255,7 +255,8 @@
     "LBL_FILE_SIZE": "Tabellen grootte",
     "LBL_FORMAT": "Rij formaat",
     "LBL_ENGINE": "Engine",
-    "LBL_COLLATION": "Vergelijking"
+    "LBL_COLLATION": "Vergelijking",
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
   },
   "js": {
     "JS_SPEED_TEST_START": "Checking speed..."

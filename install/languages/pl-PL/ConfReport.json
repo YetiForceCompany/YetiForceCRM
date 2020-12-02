@@ -255,7 +255,8 @@
     "LBL_FILE_SIZE": "Rozmiar tabel",
     "LBL_FORMAT": "Format wiersza",
     "LBL_ENGINE": "Silnik",
-    "LBL_COLLATION": "Porównanie"
+    "LBL_COLLATION": "Porównanie",
+    "LBL_LAMP_CONFIG_FILES": "Pliki konfiguracyjne LAMP"
   },
   "js": {
     "JS_SPEED_TEST_START": "Trwa sprawdzanie szybkości..."

@@ -255,7 +255,8 @@
     "LBL_FILE_SIZE": "Tables size",
     "LBL_FORMAT": "Row format",
     "LBL_ENGINE": "Engine",
-    "LBL_COLLATION": "Collation"
+    "LBL_COLLATION": "Collation",
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
   },
   "js": {
     "JS_SPEED_TEST_START": "Comprobando la velocidad..."
