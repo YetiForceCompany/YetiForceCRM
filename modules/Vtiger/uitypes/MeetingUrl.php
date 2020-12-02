@@ -19,6 +19,9 @@ class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if (empty($value)) {
+			return '';
+		}
 		$rawValue = $value;
 		$value = \App\Purifier::encodeHtml($value);
 		preg_match('^[\\w]+:\\/\\/^', $value, $matches);
