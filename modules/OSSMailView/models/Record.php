@@ -121,7 +121,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'to' => $to,
 				'url' => "index.php?module=OSSMailView&view=Preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
 				'type' => $row['type'],
-				'teaser' => App\TextParser::textTruncate(\App\Utils::htmlToText($content), 120),
+				'teaser' => App\TextParser::textTruncate(\App\Utils::htmlToText($content), 190),
 				'body' => $content,
 				'bodyRaw' => $row['content'],
 			];
