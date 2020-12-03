@@ -65,6 +65,8 @@
 					<th class="border-bottom-0">
 						<span class="inventoryLineItemHeader">{\App\Language::translate('LBL_ADD', $MODULE)}</span>&nbsp;&nbsp;
 						<div class="d-flex">
+							{assign var=CONFIG_MASS_ADD value=\App\Config::module($MODULE_NAME, 'quickeOffAddMassInvetoryRecord')}
+							{assign var=CONFIG_TREE value=\App\Config::module($MODULE_NAME, 'quickByTreeInventoryViewer')}
 							{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules'] name=moduleList}
 								{if \App\Module::isModuleActive($MAIN_MODULE)}
 									{if $smarty.foreach.moduleList.first}
@@ -77,18 +79,20 @@
 												data-js="click">
 											<span class="moduleIcon yfm-{$MAIN_MODULE} mr-1"></span><strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 										</button>
-										<button type="button" data-module="{$MAIN_MODULE}"
-												title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
-												data-src-module="{$MODULE_NAME}"
-												{if $MAIN_MODULE eq 'Products'}
-													data-view="TreeCategoryInvetoryModal"
-												{else}
-													data-multiple="true"
-												{/if}
-												class="btn btn-light js-mass-add border mb-1 mb-lg-0 mr-2 u-cursor-pointer js-popover-tooltip" data-js="popover"
-												data-js="click">
-											<span id="{$MODULE_NAME}_editView_fieldName_name_select"  class="fas fa-plus mr-1"></span>
-										</button>
+										{if empty($CONFIG_MASS_ADD[$MAIN_MODULE])}
+											<button type="button" data-module="{$MAIN_MODULE}"
+													title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
+													data-src-module="{$MODULE_NAME}"
+													{if $CONFIG_TREE[$MAIN_MODULE]}
+														data-view="TreeCategoryInvetoryModal"
+													{else}
+														data-multiple="true"
+													{/if}
+													class="btn btn-light js-mass-add border mb-1 mb-lg-0 mr-2 u-cursor-pointer js-popover-tooltip" data-js="popover"
+													data-js="click">
+												<span id="{$MODULE_NAME}_editView_fieldName_name_select"  class="fas fa-search-plus mr-1"></span>
+											</button>
+										{/if}
 									</div>
 								{/if}
 							{/foreach}
