@@ -81,12 +81,14 @@
 										</button>
 										{if empty($CONFIG_MASS_ADD[$MAIN_MODULE])}
 											<button type="button" data-module="{$MAIN_MODULE}"
-													title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
+													title="{\App\Language::translate('LBL_ADD_MASS')} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
 													data-src-module="{$MODULE_NAME}"
 													{if $CONFIG_TREE[$MAIN_MODULE]}
 														data-view="TreeCategoryInvetoryModal"
+														data-content="{\App\Language::translate('LBL_ADD_TREE_INVETORY')}"
 													{else}
 														data-multiple="true"
+														data-content="{\App\Language::translate('LBL_ADD_SELECT_INVETORY')}"
 													{/if}
 													class="btn btn-light js-mass-add border mb-1 mb-lg-0 mr-2 u-cursor-pointer js-popover-tooltip" data-js="popover"
 													data-js="click">

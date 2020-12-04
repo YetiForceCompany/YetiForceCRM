@@ -33,7 +33,7 @@
 		<div class="float-left pt-2 counterSelected"></div>
 		<div class="float-right">
 			<button class="btn btn-success mr-1" type="submit" name="saveButton">
-				<span class="fas fa-check mr-2"><strong>{\App\Language::translate('LBL_SELECT', $MODULE)}</strong>
+				<span class="fas fa-check mr-2"></span><strong>{\App\Language::translate('LBL_SELECT', $MODULE)}</strong>
 			</button>
 			<button class="btn btn-danger" type="reset" data-dismiss="modal">
 				<span class="fas fa-times mr-2"></span> <strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
