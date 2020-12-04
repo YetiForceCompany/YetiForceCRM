@@ -20,7 +20,7 @@
 			{assign var=DEFAULT_OWNER value=$AUTO_ASSIGN_RECORD->getDefaultOwner()}
 			{if $USERS}
 				<div class="table-responsive col-12">
-					<table id="assignTable" class="table table-striped table-bordered dataTable">
+					<table id="assignTable" class="table table-striped table-bordered js-modal-data-table">
 						<thead>
 							<tr>
 								<th>

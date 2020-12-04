@@ -1177,7 +1177,7 @@ var app = (window.app = {
 		};
 		const modalContainer = container.find('.modal:first');
 		modalContainer.one('shown.bs.modal', function () {
-			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
+			thisInstance.registerDataTables(modalContainer.find('.js-madal-data-table'));
 			cb(modalContainer);
 			App.Fields.Picklist.changeSelectElementView(modalContainer);
 			App.Fields.Date.register(modalContainer);
