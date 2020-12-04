@@ -30,8 +30,7 @@ jQuery.Class(
 			let thisInstance = this;
 			if (thisInstance.treeInstance == false) {
 				thisInstance.treeInstance = container.find('#treePopupContents');
-				let plugins = ['search', 'category'];
-				plugins.push('checkbox');
+				let plugins = ['search', 'category', 'checkbox'];
 				thisInstance.treeInstance.jstree(
 					$.extend(
 						true,

@@ -90,7 +90,7 @@
 													{/if}
 													class="btn btn-light js-mass-add border mb-1 mb-lg-0 mr-2 u-cursor-pointer js-popover-tooltip" data-js="popover"
 													data-js="click">
-												<span id="{$MODULE_NAME}_editView_fieldName_name_select"  class="fas fa-search-plus mr-1"></span>
+												<span id="{$MODULE_NAME}_editView_fieldName_name_select"  class="{if $CONFIG_TREE[$MAIN_MODULE]} fas fa-search-plus {else} fas fa-search {/if} mr-1"></span>
 											</button>
 										{/if}
 									</div>
@@ -101,7 +101,7 @@
 					{assign var="ROW_NO" value=0}
 					{if isset($FIELDS[0])}
 						{foreach item=FIELD from=$FIELDS[0]}
-							<th class="{if !$FIELD->isEditable()}d-none {/if} border-bottom-0">
+							<th class="{if !$FIELD->isEditable()} d-none {/if} border-bottom-0">
 								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE_NAME)}
 								{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}

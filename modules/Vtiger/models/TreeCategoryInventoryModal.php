@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Tree category inventory mdel file.
+ * Tree category inventory model file.
  *
  * @package   Model
  *
@@ -10,7 +10,7 @@
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 /**
- * Tree category inventory mdel class.
+ * Tree category inventory model class.
  */
 class Vtiger_TreeCategoryInventoryModal_Model extends Vtiger_TreeCategoryModal_Model
 {
@@ -48,7 +48,6 @@ class Vtiger_TreeCategoryInventoryModal_Model extends Vtiger_TreeCategoryModal_M
 				'record_id' => $item->getId(),
 				'parent' => 0 == $parent ? '#' : $parent,
 				'text' => $item->getName(),
-				'state' => $state,
 				'icon' => "js-detail__icon yfm-{$this->getModuleName()}",
 				'category' => ['checked' => false]
 			];
@@ -131,7 +130,7 @@ class Vtiger_TreeCategoryInventoryModal_Model extends Vtiger_TreeCategoryModal_M
 		foreach ($recordAttrId as $valueRecord) {
 			if (\is_int($valueRecord['parent'])) {
 				foreach ($dataToTree as $valueCategory) {
-					if ($valueCategory['id'] == $valueRecord['parent']) {
+					if ($valueCategory['id'] === $valueRecord['parent'] && !\in_array($valueCategory, $category)) {
 						$category[] = $valueCategory;
 					}
 				}

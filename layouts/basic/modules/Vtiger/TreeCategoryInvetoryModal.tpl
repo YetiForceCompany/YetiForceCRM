@@ -13,7 +13,9 @@
 		<div class="input-group pt-2">
 			<input id="valueSearchTree" type="text" class="form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE)} ...">
 			<div class="input-group-append">
-				<button id="btnSearchTree" class="btn btn-danger" type="button">{\App\Language::translate('LBL_SEARCH', $MODULE)}</button>
+				<button id="btnSearchTree" class="btn btn-danger" type="button">
+					<span class="fas fa-search mr-2"> {\App\Language::translate('LBL_SEARCH', $MODULE)}
+				</button>
 			</div>
 		</div>
 	</div>
@@ -31,10 +33,10 @@
 		<div class="float-left pt-2 counterSelected"></div>
 		<div class="float-right">
 			<button class="btn btn-success mr-1" type="submit" name="saveButton">
-				<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
+				<span class="fas fa-check mr-2"><strong>{\App\Language::translate('LBL_SELECT', $MODULE)}</strong>
 			</button>
 			<button class="btn btn-danger" type="reset" data-dismiss="modal">
-				<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+				<span class="fas fa-times mr-2"></span> <strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 			</button>
 		</div>
 	</div>
