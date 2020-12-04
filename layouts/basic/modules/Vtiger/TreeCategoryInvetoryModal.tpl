@@ -1,10 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-header d-block">
+	<div class="modal-header d-block pt-2">
 		<div class="d-flex">
 			<h5 class="modal-title">
-				<span class="fas fa-search-plus mr-1"></span>
-				{\App\Language::translate('LBL_EDITING', $MODULE)}
+				<span class="moduleIcon yfm-{$MODULE} mr-1"></span>
+				{\App\Language::translate('SINGLE_'|cat:$MODULE,$MODULE)} - {\App\Language::translate('Category')|lower}
 			</h5>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
@@ -13,8 +13,8 @@
 		<div class="input-group pt-2">
 			<input id="valueSearchTree" type="text" class="form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE)} ...">
 			<div class="input-group-append">
-				<button id="btnSearchTree" class="btn btn-danger" type="button">
-					<span class="fas fa-search mr-2"> {\App\Language::translate('LBL_SEARCH', $MODULE)}
+				<button id="btnSearchTree" class="btn btn-light" type="button">
+					<span class="fas fa-search mr-2"></span> {\App\Language::translate('LBL_SEARCH', $MODULE)}
 				</button>
 			</div>
 		</div>
@@ -30,7 +30,6 @@
 		{/if}
 	</div>
 	<div class="modal-footer d-block">
-		<div class="float-left pt-2 counterSelected"></div>
 		<div class="float-right">
 			<button class="btn btn-success mr-1" type="submit" name="saveButton">
 				<span class="fas fa-check mr-2"></span><strong>{\App\Language::translate('LBL_SELECT', $MODULE)}</strong>
