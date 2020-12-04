@@ -22,6 +22,13 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 	public $defaultBarcodeType = 'EAN13';
 
 	/**
+	 * Default barcode class.
+	 *
+	 * @var string
+	 */
+	public $defaultBarcodeClass = 'DNS1D';
+
+	/**
 	 * Height of a single bar element in pixels.
 	 *
 	 * @var string
@@ -86,12 +93,25 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 	 */
 	public function createBarcode(string $valueToEncode)
 	{
-		$qrCodeGenerator = new \Milon\Barcode\DNS1D();
+		$qrCodeGenerator = $this->getBarcodeClass();
 		$qrCodeGenerator->setStorPath(__DIR__ . App\Config::main('tmp_dir'));
 		$barcodeHeight = $this->params['height'] ?? $this->height;
 		$barcodeWidth = $this->params['width'] ?? $this->width;
 		$barcodeType = $this->params['barcodeType'] ?? $this->defaultBarcodeType;
 		return	$qrCodeGenerator->getBarcodePNG($valueToEncode, $barcodeType, $barcodeHeight, $barcodeWidth, $this->color, $this->showCode);
+	}
+
+	/**
+	 * Function get class for a specific barcode type.
+	 */
+	public function getBarcodeClass()
+	{
+		$barcodeClass = $this->params['barcodeClass'] ?? $this->defaultBarcodeClass;
+		$className = '\Milon\Barcode\\' . $barcodeClass;
+		if (!class_exists($className)) {
+			throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND||' . $className);
+		}
+		return new $className();
 	}
 
 	/**

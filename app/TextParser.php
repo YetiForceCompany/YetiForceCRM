@@ -39,6 +39,7 @@ class TextParser
 		'LBL_RECORDS_LIST' => '$(recordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
 		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(custom : dynamicInventoryColumnsTable)$',
+		'LBL_BARCODE' => '$(barcode : type=EAN13 class=DNS1D , value=12345678)$'
 	];
 
 	/**
@@ -93,7 +94,7 @@ class TextParser
 	 *
 	 * @var string[]
 	 */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable', 'barcode'];
 
 	/**
 	 * List of source modules.
@@ -1667,11 +1668,28 @@ class TextParser
 		if (!$this->recordModel->getModule()->isInventory()) {
 			return '';
 		}
-		$config = $this->getInventoryParamParser($params);
+		$config = $this->parseParams($params);
 		if ('table' === $config['type']) {
 			return $this->getInventoryTable($config);
 		}
 		return '';
+	}
+
+	/**
+	 * Get an instance of barcode text parser.
+	 *
+	 * @param string $params
+	 */
+	protected function barcode($params)
+	{
+		$instance = null;
+		$className = '\\App\\TextParser\\' . ucfirst(__FUNCTION__);
+		if (!class_exists($className)) {
+			Log::error("Not found custom class: $className");
+		} else {
+			$instance = new $className($this, $this->parseParams($params));
+		}
+		return $instance && $instance->isActive() ? $instance->process() : '';
 	}
 
 	/**
@@ -1681,7 +1699,7 @@ class TextParser
 	 *
 	 * @return array
 	 */
-	protected function getInventoryParamParser(string $params): array
+	protected function parseParams(string $params): array
 	{
 		preg_match('/type=(\w+)/', $params, $matches);
 		$config = [
