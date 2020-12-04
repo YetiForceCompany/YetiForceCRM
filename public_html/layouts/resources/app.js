@@ -1187,6 +1187,10 @@ var app = (window.app = {
 			});
 			app.registesterScrollbar(modalContainer);
 			app.registerIframeEvents(modalContainer);
+			modalContainer.find('.modal-dialog').draggable({
+				handle: '.modal-title'
+			});
+			modalContainer.find('.modal-title').css('cursor', 'move');
 		});
 		$('body').append(container);
 		modalContainer.modal(params);
