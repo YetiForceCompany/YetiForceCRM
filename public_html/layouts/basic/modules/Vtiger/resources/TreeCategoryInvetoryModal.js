@@ -115,25 +115,6 @@ jQuery.Class(
 			}
 		},
 
-		/*
-		 * Function counts the selected records.
-		 */
-		registerCounterSelected: function () {
-			let thisInstance = this;
-			this.treeInstance.on('changed.jstree', function (e, data) {
-				let counterSelected = 0;
-				let html = '';
-				$.each(thisInstance.treeInstance.jstree('get_selected', true), function (index, value) {
-					let id = value.original.record_id.toString();
-					if (id.indexOf('T')) {
-						counterSelected++;
-					}
-				});
-				html = app.vtranslate('JS_SELECTED_ELEMENTS') + ': ' + counterSelected;
-				$('.counterSelected').text(html);
-			});
-		},
-
 		/**
 		 * Register modal events
 		 */
@@ -143,7 +124,6 @@ jQuery.Class(
 			this.generateTree(container);
 			this.registerGetSelectRecords(container);
 			this.getSearchEvent();
-			this.registerCounterSelected();
 		}
 	}
 );
