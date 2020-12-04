@@ -605,7 +605,7 @@ window.App.Fields = {
 								'BidiRtl'
 							]
 						},
-						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
+						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat', 'Source'] }
 					],
 					toolbar_Clipboard: [
 						{ name: 'document', items: ['Print'] },

@@ -497,12 +497,13 @@ var App = (window.App = {
 					data: formData,
 					processData: false,
 					contentType: false
-				}).done(function (data) {
-					aDeferred.resolve(data);
 				})
-				.fail(function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				});
+					.done(function (data) {
+						aDeferred.resolve(data);
+					})
+					.fail(function (textStatus, errorThrown) {
+						aDeferred.reject(textStatus, errorThrown);
+					});
 				return aDeferred.promise();
 			}
 		},
@@ -630,11 +631,11 @@ var App = (window.App = {
 									app.errorLog(error, err);
 								});
 						};
-						app.showConfirmModal(app.vtranslate('JS_CHANGE_CONFIRMATION'), (result)=> {
-							if (result) {
-								params.callback(e, this);
-							}
-						});
+					app.showConfirmModal(app.vtranslate('JS_CHANGE_CONFIRMATION'), (result) => {
+						if (result) {
+							params.callback(e, this);
+						}
+					});
 				});
 			}
 		}
