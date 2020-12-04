@@ -70,14 +70,14 @@ jQuery.Class(
 		changeSendNoticeState: function (element, val) {
 			if (val !== undefined) {
 				if (val === true) {
-					element.addClass('fa-envelope').removeClass('fa-envelope-open');
+					element.addClass('fa-bell').removeClass('fa-bell-slash');
 					element.addClass('sandNoticeOn').removeClass('sandNoticeOff');
 				} else {
-					element.addClass('fa-envelope-open').removeClass('fa-envelope');
+					element.addClass('fa-bell-slash').removeClass('fa-bell');
 					element.addClass('sandNoticeOff').removeClass('sandNoticeOn');
 				}
 			} else {
-				element.toggleClass('fa-envelope fa-envelope-open');
+				element.toggleClass('fa-bell fa-bell-slash');
 				element.toggleClass('sandNoticeOn sandNoticeOff');
 			}
 		},
