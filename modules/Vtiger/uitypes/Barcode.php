@@ -65,23 +65,25 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$this->params = $params = $this->getFieldModel()->getFieldParams();
-		$barcodeDisplayType = $params['barcodeDisplayType'] ?? $this->barcodeDisplayType;
-		switch ($barcodeDisplayType) {
-			case 'barcode':
-				$this->showCode = false;
-				$barcode = $this->createBarcode($value);
-				$value = $this->wrapInImageContainer($barcode, $value);
-				break;
-			case 'barcodeAndValue':
-				$this->showCode = true;
-				$barcode = $this->createBarcode($value);
-				$value = $this->wrapInImageContainer($barcode, $value);
-				break;
-			case 'text':
-			case 'default':
-				$value = parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
-				break;
+		if ($value) {
+			$this->params = $params = $this->getFieldModel()->getFieldParams();
+			$barcodeDisplayType = $params['barcodeDisplayType'] ?? $this->barcodeDisplayType;
+			switch ($barcodeDisplayType) {
+				case 'barcode':
+					$this->showCode = false;
+					$barcode = $this->createBarcode($value);
+					$value = $this->wrapInImageContainer($barcode, $value);
+					break;
+				case 'barcodeAndValue':
+					$this->showCode = true;
+					$barcode = $this->createBarcode($value);
+					$value = $this->wrapInImageContainer($barcode, $value);
+					break;
+				case 'text':
+				case 'default':
+					$value = parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
+					break;
+			}
 		}
 		return $value;
 	}

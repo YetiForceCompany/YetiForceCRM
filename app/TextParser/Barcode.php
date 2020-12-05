@@ -107,7 +107,7 @@ class Barcode extends Base
 		$barcodeWidth = $this->params['width'] ?? $this->width;
 		$barcodeType = $this->params['type'] ?? $this->defaultBarcodeType;
 		$showText = $this->params['showText'] ?? $this->showText;
-		return	$qrCodeGenerator->getBarcodePNG($valueToEncode, $barcodeType, $barcodeHeight, $barcodeWidth, $this->color, $showText);
+		return $qrCodeGenerator->getBarcodePNG($valueToEncode, $barcodeType, $barcodeHeight, $barcodeWidth, $this->color, $showText);
 	}
 
 	/**
