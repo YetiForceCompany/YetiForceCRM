@@ -1333,22 +1333,6 @@ insert  into `u_yf_social_media_config`(`id`,`name`,`value`,`type`) values (5,'o
 
 /*Data for the table `u_yf_squoteenquiries` */
 
-/*Data for the table `u_yf_squoteenquiries_inventory` */
-
-/*Data for the table `u_yf_squoteenquiries_invfield` */
-
-insert  into `u_yf_squoteenquiries_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',0,1,0,'{\"modules\":[\"Products\",\"Services\"],\"limit\":\" \"}',1);
-insert  into `u_yf_squoteenquiries_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',3,1,0,'{}',1);
-insert  into `u_yf_squoteenquiries_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'comment1','LBL_COMMENT','Comment',0,'',3,2,0,'{}',0);
-insert  into `u_yf_squoteenquiries_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'unit','LBL_UNIT','Value',0,'',1,1,10,NULL,1);
-insert  into `u_yf_squoteenquiries_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'subunit','FL_SUBUNIT','Value',0,'',2,1,10,NULL,1);
-
-/*Data for the table `u_yf_squoteenquiries_invmap` */
-
-insert  into `u_yf_squoteenquiries_invmap`(`module`,`field`,`tofield`) values ('Products','subunit','subunit');
-insert  into `u_yf_squoteenquiries_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
-insert  into `u_yf_squoteenquiries_invmap`(`module`,`field`,`tofield`) values ('Services','service_usageunit','unit');
-
 /*Data for the table `u_yf_squoteenquiriescf` */
 
 /*Data for the table `u_yf_squotes` */
@@ -11080,7 +11064,6 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,60,0);
-insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,61,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,65,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,86,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,86,5,0);
@@ -18964,7 +18947,7 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`cu
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (82,'LettersOut',0,-1,'LettersOut',0,0,1,'1.0.0','0',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (83,'Announcements',0,-1,'Announcements',0,0,1,'0','0',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (84,'Reservations',0,-1,'Reservations',0,0,1,'1.0.0','0',NULL,0,0,0);
-insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (85,'SQuoteEnquiries',0,-1,'SQuoteEnquiries',0,0,1,'0','',NULL,0,1,0);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (85,'SQuoteEnquiries',0,-1,'SQuoteEnquiries',0,0,1,'0','',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (86,'SSalesProcesses',0,-1,'SSalesProcesses',0,0,1,'0','',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (87,'SRequirementsCards',0,-1,'SRequirementsCards',0,0,1,'0','',NULL,0,1,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (88,'SCalculations',0,-1,'SCalculations',0,0,1,'0','',NULL,0,1,0);

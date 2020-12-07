@@ -3882,48 +3882,6 @@ CREATE TABLE `u_yf_squoteenquiries` (
   CONSTRAINT `fk_1_u_yf_squoteenquiries` FOREIGN KEY (`squoteenquiriesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_yf_squoteenquiries_inventory` */
-
-CREATE TABLE `u_yf_squoteenquiries_inventory` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `crmid` int(10) DEFAULT NULL,
-  `seq` int(10) DEFAULT NULL,
-  `name` int(10) NOT NULL DEFAULT 0,
-  `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
-  `comment1` text DEFAULT NULL,
-  `unit` varchar(255) DEFAULT NULL,
-  `subunit` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `u_yf_squoteenquiries_inventory_crmid_idx` (`crmid`),
-  CONSTRAINT `fk_1_u_yf_squoteenquiries_inventory` FOREIGN KEY (`crmid`) REFERENCES `u_yf_squoteenquiries` (`squoteenquiriesid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `u_yf_squoteenquiries_invfield` */
-
-CREATE TABLE `u_yf_squoteenquiries_invfield` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `columnname` varchar(30) NOT NULL,
-  `label` varchar(50) NOT NULL,
-  `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `defaultvalue` varchar(255) DEFAULT NULL,
-  `sequence` int(10) unsigned NOT NULL,
-  `block` tinyint(1) unsigned NOT NULL,
-  `displaytype` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `params` text DEFAULT NULL,
-  `colspan` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `u_yf_squoteenquiries_invmap` */
-
-CREATE TABLE `u_yf_squoteenquiries_invmap` (
-  `module` varchar(50) NOT NULL,
-  `field` varchar(50) NOT NULL,
-  `tofield` varchar(50) NOT NULL,
-  PRIMARY KEY (`module`,`field`,`tofield`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `u_yf_squoteenquiriescf` */
 
 CREATE TABLE `u_yf_squoteenquiriescf` (
