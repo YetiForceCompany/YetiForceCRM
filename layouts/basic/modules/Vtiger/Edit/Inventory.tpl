@@ -81,7 +81,7 @@
 										<button type="button" data-module="{$MAIN_MODULE}"
 												title="{\App\Language::translate('LBL_ADD_MASS')} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
 												data-src-module="{$MODULE_NAME}"
-												{if $CONFIG_TREE[$MAIN_MODULE]}
+												{if isset($CONFIG_TREE) && $CONFIG_TREE[$MAIN_MODULE]}
 													data-view="TreeCategoryInventoryModal"
 													data-content="{\App\Language::translate('LBL_ADD_TREE_INVETORY')}"
 												{else}

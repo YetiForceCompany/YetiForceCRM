@@ -106,12 +106,10 @@ class Vtiger_TreeCategoryInventoryModal_Model extends Vtiger_TreeCategoryModal_M
 		$recordAttrId = $category = [];
 		$treeList = $this->getTreeList();
 		foreach ($this->getRecords() as $valueRecord) {
-			if (isset($valueRecord['attr']) && 'record' === $valueRecord['attr'] && \is_int($valueRecord['parent'])) {
-				$recordAttrId[] = $valueRecord;
-				foreach ($treeList as $valueCategory) {
-					if ($valueCategory['id'] === $valueRecord['parent'] && !\in_array($valueCategory, $category)) {
-						$category[] = $valueCategory;
-					}
+			$recordAttrId[] = $valueRecord;
+			foreach ($treeList as $valueCategory) {
+				if ($valueCategory['id'] === $valueRecord['parent'] && !\in_array($valueCategory, $category)) {
+					$category[] = $valueCategory;
 				}
 			}
 		}
