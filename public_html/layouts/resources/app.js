@@ -1311,11 +1311,9 @@ var app = (window.app = {
 	},
 	registerModalController: function (modalId, modalContainer, cb) {
 		let windowParent = this.childFrame ? window.parent : window;
-
 		if (modalId === undefined) {
 			modalId = Window.lastModalId;
 		}
-
 		if (modalContainer === undefined) {
 			modalContainer = $('#' + modalId + ' .js-modal-data');
 		}
@@ -1324,7 +1322,6 @@ var app = (window.app = {
 		if (typeof windowParent[modalClass] === 'undefined') {
 			modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		}
-		console.log(modalClass);
 		if (typeof windowParent[modalClass] !== 'undefined') {
 			let instance = new windowParent[modalClass]();
 			if (typeof cb === 'function') {
