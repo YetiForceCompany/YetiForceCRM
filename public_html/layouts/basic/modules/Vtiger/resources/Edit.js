@@ -858,10 +858,18 @@ $.Class(
 						let response = data.result;
 						for (let i = 0; i < response.length; i++) {
 							if (response[i].result !== true) {
-								app.showNotify({
-									text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
-									type: 'error'
-								});
+								if (typeof response[i].showModal !== 'undefined' && typeof response[i].showModal.url !== 'undefined') {
+									app.showModalWindow(null, response[i].showModal.url, function(modalContainer){
+										app.registerModalController(undefined, modalContainer, function(_, instance){
+											instance.formContainer = form;
+										});
+									});
+								}else{
+									app.showNotify({
+										text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
+										type: 'error'
+									});
+								}
 								if (response[i].hoverField != undefined) {
 									form.find('[name="' + response[i].hoverField + '"]').focus();
 								}
