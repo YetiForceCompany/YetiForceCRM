@@ -108,6 +108,17 @@ class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 		if ($recordModel->isEditable()) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_BASIC',
+				'linklabel' => 'LBL_QUICK_EDIT',
+				'linkdata' => [
+					'module' => $recordModel->getModuleName(),
+					'record' => $recordModel->getId(),
+				],
+				'linkicon' => 'yfi yfi-quick-creation',
+				'linkclass' => 'btn btn-outline-dark btn-sm js-quick-edit-modal',
+				'linkhint' => 'LBL_QUICK_EDIT',
+			]);
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
 				'linkicon' => 'yfi yfi-full-editing-view',
