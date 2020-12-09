@@ -5,6 +5,7 @@ $.Class(
 	'Vtiger_Inventory_Js',
 	{
 		inventoryInstance: false,
+
 		/**
 		 * Get inventory instance
 		 * @param {jQuery} container
@@ -48,6 +49,7 @@ $.Class(
 		getForm() {
 			return this.form;
 		},
+
 		/**
 		 * Function that is used to get the line item container
 		 * @return : jQuery object
@@ -1725,25 +1727,20 @@ $.Class(
 				let params = 	{
 					module: moduleName,
 					src_module: currentTarget.data('src-module'),
-					currency_id: thisInstance.getCurrency() || CONFIG.defaultCurrencyId,
 					multi_select: isMultiple,
 					view: view
 				};
-				if (moduleName === 'Products') {
-					app.showRecordsList(params);
-				} else {
-					app.showRecordsList(params, (modal, instance) => {
-						instance.setSelectEvent((data) => {
-							for (let i in data) {
-								let parentElem = thisInstance.addItem(moduleName);
-								Vtiger_Edit_Js.getInstance().setReferenceFieldValue(parentElem, {
-									name: data[i],
-									id: i
-								});
-							}
-						});
+				app.showRecordsList(params, (modal, instance) => {
+					instance.setSelectEvent((data) => {
+						for (let i in data) {
+							let parentElem = thisInstance.addItem(moduleName);
+							Vtiger_Edit_Js.getInstance().setReferenceFieldValue(parentElem, {
+								name: data[i],
+								id: i
+							});
+						}
 					});
-				}
+				});
 			});
 		},
 

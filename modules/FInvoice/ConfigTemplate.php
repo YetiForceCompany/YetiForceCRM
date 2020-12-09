@@ -12,13 +12,6 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
-	'quickeOffAddMassInvetoryRecord' => [
-		'default' => [
-			'Products' => true,
-			'Services' => true,
-		],
-		'description' => 'Disables the button of mass adding of records in advanced modules.',
-	],
 	'quickByTreeInventoryViewer' => [
 		'default' => [
 			'Products' => true,

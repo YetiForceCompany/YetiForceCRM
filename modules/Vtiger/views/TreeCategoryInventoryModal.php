@@ -12,7 +12,7 @@
 /**
  * Tree category inventory model view class.
  */
-class Vtiger_TreeCategoryInvetoryModal_View extends Vtiger_BasicModal_View
+class Vtiger_TreeCategoryInventoryModal_View extends \App\Controller\Modal
 {
 	public function checkPermission(App\Request $request)
 	{
@@ -22,15 +22,15 @@ class Vtiger_TreeCategoryInvetoryModal_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * Function to get size modal window.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return string
+	 * {@inheritdoc}
 	 */
-	public function getSize(App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
-		return 'modal-lg';
+		$moduleName = $request->getModule();
+		$this->modalIcon = "yfm-$moduleName";
+		$this->successBtn = 'LBL_SELECT';
+		$this->showHeader = true;
+		parent::preProcessAjax($request);
 	}
 
 	/**
@@ -40,7 +40,6 @@ class Vtiger_TreeCategoryInvetoryModal_View extends Vtiger_BasicModal_View
 	 */
 	public function process(App\Request $request)
 	{
-		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$srcModule = $request->getByType('src_module', 2);
@@ -49,10 +48,9 @@ class Vtiger_TreeCategoryInvetoryModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('TREE', \App\Json::encode($treeCategoryModel->getTreeData()));
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('TEMPLATE', $treeCategoryModel->getTemplate());
-		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->view('TreeCategoryInvetoryModal.tpl', $moduleName);
-		$this->postProcess($request);
+		$viewer->view('TreeCategoryInventoryModal.tpl', $moduleName);
 	}
 
 	/**
@@ -69,7 +67,6 @@ class Vtiger_TreeCategoryInvetoryModal_View extends Vtiger_BasicModal_View
 			'~layouts/resources/libraries/jstree.category.js',
 			'~layouts/resources/libraries/jstree.checkbox.js'
 		];
-		$scripts[] = 'modules.Vtiger.resources.TreeCategoryInvetoryModal';
 		return array_merge($this->checkAndConvertJsScripts($scripts), parent::getModalScripts($request));
 	}
 

@@ -15,32 +15,20 @@
 class Vtiger_TreeCategoryInventoryModal_Model extends Vtiger_TreeCategoryModal_Model
 {
 	/**
-	 * Get all records.
+	 * Creates a tree for records.
 	 *
 	 * @return array
 	 */
-	private function getAllRecords()
+	private function getRecords()
 	{
 		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 0);
 		$listViewModel->get('query_generator')->setField($this->getTreeField()['fieldname']);
-		return $listViewModel->getListViewEntries($pagingModel);
-	}
-
-	/**
-	 * Creates a tree for records.
-	 *
-	 * @return array
-	 */
-	private function getRecordsAll()
-	{
 		$tree = [];
-		foreach ($this->getAllRecords() as $item) {
+		foreach ($listViewModel->getListViewEntries($pagingModel) as $item) {
 			++$this->lastIdinTree;
 			$parent = (int) ltrim($item->get($this->getTreeField()['fieldname']), 'T');
-			$selected = $item->getId();
-			$state = ['selected' => $selected];
 			$tree[] = [
 				'id' => $this->lastIdinTree,
 				'type' => 'category',
@@ -102,15 +90,10 @@ class Vtiger_TreeCategoryInventoryModal_Model extends Vtiger_TreeCategoryModal_M
 	public static function getInstance(Vtiger_Module_Model $moduleModel)
 	{
 		$moduleName = $moduleModel->get('name');
-		if (isset(self::$_cached_instance[$moduleName])) {
-			return self::$_cached_instance[$moduleName];
-		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeCategoryInventoryModal', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
-		self::$_cached_instance[$moduleName] = $instance;
-
-		return self::$_cached_instance[$moduleName];
+		return $instance;
 	}
 
 	/**
@@ -121,15 +104,11 @@ class Vtiger_TreeCategoryInventoryModal_Model extends Vtiger_TreeCategoryModal_M
 	public function getTreeData()
 	{
 		$recordAttrId = $category = [];
-		$dataToTree = array_merge($this->getTreeList(), $this->getRecordsAll());
-		foreach ($dataToTree as $value) {
-			if (isset($value['attr']) && 'record' === $value['attr']) {
-				$recordAttrId[] = $value;
-			}
-		}
-		foreach ($recordAttrId as $valueRecord) {
-			if (\is_int($valueRecord['parent'])) {
-				foreach ($dataToTree as $valueCategory) {
+		$treeList = $this->getTreeList();
+		foreach ($this->getRecords() as $valueRecord) {
+			if (isset($valueRecord['attr']) && 'record' === $valueRecord['attr'] && \is_int($valueRecord['parent'])) {
+				$recordAttrId[] = $valueRecord;
+				foreach ($treeList as $valueCategory) {
 					if ($valueCategory['id'] === $valueRecord['parent'] && !\in_array($valueCategory, $category)) {
 						$category[] = $valueCategory;
 					}

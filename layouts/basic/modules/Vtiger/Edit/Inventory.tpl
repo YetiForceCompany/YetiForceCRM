@@ -65,7 +65,6 @@
 					<th class="border-bottom-0">
 						<span class="inventoryLineItemHeader">{\App\Language::translate('LBL_ADD', $MODULE)}</span>&nbsp;&nbsp;
 						<div class="d-flex">
-							{assign var=CONFIG_MASS_ADD value=\App\Config::module($MODULE_NAME, 'quickeOffAddMassInvetoryRecord')}
 							{assign var=CONFIG_TREE value=\App\Config::module($MODULE_NAME, 'quickByTreeInventoryViewer')}
 							{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules'] name=moduleList}
 								{if \App\Module::isModuleActive($MAIN_MODULE)}
@@ -79,22 +78,20 @@
 												data-js="click">
 											<span class="moduleIcon yfm-{$MAIN_MODULE} mr-1"></span><strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 										</button>
-										{if empty($CONFIG_MASS_ADD[$MAIN_MODULE])}
-											<button type="button" data-module="{$MAIN_MODULE}"
-													title="{\App\Language::translate('LBL_ADD_MASS')} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
-													data-src-module="{$MODULE_NAME}"
-													{if $CONFIG_TREE[$MAIN_MODULE]}
-														data-view="TreeCategoryInvetoryModal"
-														data-content="{\App\Language::translate('LBL_ADD_TREE_INVETORY')}"
-													{else}
-														data-multiple="true"
-														data-content="{\App\Language::translate('LBL_ADD_SELECT_INVETORY')}"
-													{/if}
-													class="btn btn-light js-mass-add border mb-1 mb-lg-0 mr-2 u-cursor-pointer js-popover-tooltip" data-js="popover"
-													data-js="click">
-												<span id="{$MODULE_NAME}_editView_fieldName_name_select"  class="{if $CONFIG_TREE[$MAIN_MODULE]} fas fa-search-plus {else} fas fa-search {/if} mr-1"></span>
-											</button>
-										{/if}
+										<button type="button" data-module="{$MAIN_MODULE}"
+												title="{\App\Language::translate('LBL_ADD_MASS')} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
+												data-src-module="{$MODULE_NAME}"
+												{if $CONFIG_TREE[$MAIN_MODULE]}
+													data-view="TreeCategoryInventoryModal"
+													data-content="{\App\Language::translate('LBL_ADD_TREE_INVETORY')}"
+												{else}
+													data-multiple="true"
+													data-content="{\App\Language::translate('LBL_ADD_SELECT_INVETORY')}"
+												{/if}
+												class="btn btn-light js-mass-add border mb-1 mb-lg-0 mr-2 u-cursor-pointer js-popover-tooltip" data-js="popover"
+												data-js="click">
+											<span class="{if $CONFIG_TREE[$MAIN_MODULE]} fas fa-search-plus {else} fas fa-search {/if} mr-1"></span>
+										</button>
 									</div>
 								{/if}
 							{/foreach}

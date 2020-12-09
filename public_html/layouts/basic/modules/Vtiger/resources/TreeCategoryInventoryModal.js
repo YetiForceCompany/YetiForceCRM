@@ -1,8 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-jQuery.Class(
-	'Vtiger_TreeCategoryInvetory_Js',
+$.Class(
+	'Base_TreeCategoryInventoryModal_JS',
 	{},
 	{
 		modalContainer: false,
@@ -15,7 +15,8 @@ jQuery.Class(
 			}
 			return this.modalContainer;
 		},
-		getRecords: function (container) {
+		getRecords: function () {
+			let container = this.modalContainer;
 			if (this.treeData == false && container !== 'undefined') {
 				let treeValues = container.find('#treePopupValues').val();
 				this.treeData = JSON.parse(treeValues);
@@ -26,10 +27,10 @@ jQuery.Class(
 		/*
 		 * Function generates a tree.
 		 */
-		generateTree: function (container) {
+		generateTree: function () {
 			let thisInstance = this;
 			if (thisInstance.treeInstance == false) {
-				thisInstance.treeInstance = container.find('#treePopupContents');
+				thisInstance.treeInstance = this.modalContainer.find('#treePopupContents');
 				let plugins = ['search', 'category', 'checkbox'];
 				thisInstance.treeInstance.jstree(
 					$.extend(
@@ -80,9 +81,9 @@ jQuery.Class(
 		/*
 		 * Function retrieves the selected records.
 		 */
-		registerGetSelectRecords: function (container) {
+		registerGetSelectRecords: function () {
 			const thisInstance = this;
-			container.find('[name="saveButton"]').on('click', function (e) {
+			this.modalContainer.find('[name="saveButton"]').on('click', function (e) {
 				let recordsToAdd = [];
 				let cSelected = thisInstance.treeInstance.jstree('getCategory', true);
 				$.each(cSelected, function (index, treeElement) {
@@ -118,16 +119,12 @@ jQuery.Class(
 		/**
 		 * Register modal events
 		 */
-		registerEvents: function () {
-			let container = this.getModalContainer();
-			this.getRecords(container);
-			this.generateTree(container);
-			this.registerGetSelectRecords(container);
+		registerEvents: function (container) {
+			this.modalContainer = container;
+			this.getRecords();
+			this.generateTree();
+			this.registerGetSelectRecords();
 			this.getSearchEvent();
 		}
 	}
 );
-jQuery(function () {
-	let instance = new Vtiger_TreeCategoryInvetory_Js();
-	instance.registerEvents();
-});
