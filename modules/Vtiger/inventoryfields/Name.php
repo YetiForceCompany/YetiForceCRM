@@ -121,4 +121,20 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		$config = $this->getParamsConfig();
 		return isset($config['mandatory']) ? 'false' !== $config['mandatory'] : true;
 	}
+
+	/**
+	 * Gets URL for mass selection.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return string
+	 */
+	public function getUrlForMassSelection(string $moduleName): string
+	{
+		$view = 'RecordsList';
+		if (\App\Config::module($moduleName, 'inventoryMassAddEntriesTreeView') && ($field = current(Vtiger_Module_Model::getInstance($moduleName)->getFieldsByType('tree', true))) && $field->isViewable()) {
+			$view = 'TreeInventoryModal';
+		}
+		return "index.php?module={$moduleName}&view={$view}&src_module={$this->getModuleName()}&multi_select=true";
+	}
 }

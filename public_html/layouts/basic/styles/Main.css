@@ -14945,7 +14945,7 @@ body,
 
 .jstree-proton .jstree-search {
   color: #fff !important;
-  background: #d9534f;
+  background: #d9534f !important;
   border-radius: 3px; }
 
 #treePopupContainer {

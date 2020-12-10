@@ -2551,8 +2551,8 @@ var app = (window.app = {
 		}
 		return result.trim();
 	},
-	showRecordsList: function (params = {}, cb, afterShowModal) {
-		if (!params.view) {
+	showRecordsList: function (params, cb, afterShowModal) {
+		if (typeof params === 'object' && !params.view) {
 			params.view = 'RecordsList';
 		}
 		this.showRecordsListModal(params).done(function (modal) {

@@ -5,6 +5,7 @@ $.Class(
 	'Vtiger_Inventory_Js',
 	{
 		inventoryInstance: false,
+
 		/**
 		 * Get inventory instance
 		 * @param {jQuery} container
@@ -48,6 +49,7 @@ $.Class(
 		getForm() {
 			return this.form;
 		},
+
 		/**
 		 * Function that is used to get the line item container
 		 * @return : jQuery object
@@ -1324,6 +1326,7 @@ $.Class(
 				this.setRowData(newRow, rowData);
 				this.quantityChangeActions(newRow);
 			}
+			return newRow;
 		},
 
 		/**
@@ -1704,6 +1707,29 @@ $.Class(
 				});
 			});
 		},
+
+		/**
+		 * Mass add entries.
+		 */
+		registerMassAddItem: function () {
+			this.getForm().on('click', '.js-mass-add', (e) => {
+				let currentTarget = $(e.currentTarget);
+				let moduleName = currentTarget.data('module');
+				let url = currentTarget.data('url');
+				app.showRecordsList(url, (_, instance) => {
+					instance.setSelectEvent((data) => {
+						for (let i in data) {
+							let parentElem = this.addItem(moduleName);
+							Vtiger_Edit_Js.getInstance().setReferenceFieldValue(parentElem, {
+								name: data[i],
+								id: i
+							});
+						}
+					});
+				});
+			});
+		},
+
 		calculateItemNumbers: function () {
 			let thisInstance = this;
 			let items = this.getInventoryItemsContainer();
@@ -1816,6 +1842,7 @@ $.Class(
 			this.form = container;
 			this.registerInventorySaveData();
 			this.registerAddItem();
+			this.registerMassAddItem();
 			this.initItem();
 			this.registerSortableItems();
 			this.registerSubProducts();
