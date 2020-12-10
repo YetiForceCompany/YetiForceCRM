@@ -108,12 +108,13 @@ class Vtiger_TreeInventoryModal_Model extends Vtiger_TreeCategoryModal_Model
 	{
 		$treeData = [];
 		$treeList = $this->getTreeList();
-		foreach ($this->getRecords() as $treeRecord) {
-			if (isset($treeList[$treeRecord['parent']]) && !\in_array($treeList[$treeRecord['parent']], $treeData)) {
-				$treeData[] = $treeList[$treeRecord['parent']];
+		$records = $this->getRecords();
+		foreach ($records as $tree) {
+			while (isset($treeList[$tree['parent']]) && !\in_array($treeList[$tree['parent']], $treeData)) {
+				$tree = $treeList[$tree['parent']];
+				$treeData[] = $tree;
 			}
-			$treeData[] = $treeRecord;
 		}
-		return $treeData;
+		return array_merge($treeData, $records);
 	}
 }
