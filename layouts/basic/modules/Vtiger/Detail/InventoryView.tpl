@@ -62,6 +62,15 @@
 				<tfoot>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
+						<th class="col{$FIELD->getType()} textAlignCenter {if !$FIELD->isSummary()}hideTd{/if}">
+							{if $FIELD->isSummary()}
+								{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}
+							{/if}
+						</th>
+					{/foreach}
+				</tr>
+				<tr>
+					{foreach item=FIELD from=$FIELDS[1]}
 						<td class="col{$FIELD->getType()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}"
 							data-sumfield="{lcfirst($FIELD->getType())}">
 							{if $FIELD->isSummary()}
