@@ -20,9 +20,8 @@
 				{else}
 					<span class="fas fa-list"></span>
 				{/if}
-				&nbsp;
-				<span class="textHolder">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>
-				&nbsp;<span class="caret"></span>
+				<span class="textHolder ml-2">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>
+				<span class="caret"></span>
 			</button>
 			<div class="dropdown-menu">
 				{foreach item=LINK from=$LINKS}
