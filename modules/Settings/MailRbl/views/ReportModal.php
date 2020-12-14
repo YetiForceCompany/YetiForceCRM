@@ -18,7 +18,7 @@ class Settings_MailRbl_ReportModal_View extends \App\Controller\ModalSettings
 	/** {@inheritdoc} */
 	public $modalIcon = 'fas fa-paper-plane';
 	/** {@inheritdoc} */
-	public $modalSize = 'modal-full';
+	public $modalSize = 'modal-blg';
 	/** {@inheritdoc} */
 	public $successBtn = 'BTN_SEND_REPORT';
 	/** {@inheritdoc} */

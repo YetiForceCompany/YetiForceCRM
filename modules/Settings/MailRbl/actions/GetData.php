@@ -24,10 +24,106 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
+		$this->exposeMethod('forVerification');
+		$this->exposeMethod('toSend');
 		$this->exposeMethod('request');
 		$this->exposeMethod('blackList');
 		$this->exposeMethod('whiteList');
 		$this->exposeMethod('publicRbl');
+		$this->exposeMethod('counters');
+	}
+
+	/**
+	 * Counters mode.
+	 *
+	 * @param App\Request $request
+	 */
+	public function counters(App\Request $request)
+	{
+		$requestQuery = (new \App\Db\Query())->from('s_#__mail_rbl_request');
+		$listQuery = (new \App\Db\Query())->from('s_#__mail_rbl_list');
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'forVerification' => $requestQuery->where(['status' => 0])->count(),
+			'toSend' => $requestQuery->where(['status' => 1])->count(),
+			'request' => $requestQuery->where(null)->count(),
+			'blackList' => $listQuery->where(['type' => \App\Mail\Rbl::LIST_TYPE_BLACK_LIST])->count(),
+			'whiteList' => $listQuery->where(['type' => \App\Mail\Rbl::LIST_TYPE_WHITE_LIST])->count(),
+			'publicRbl' => $listQuery->where(['type' => [\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST, \App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST]])->count(),
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * For verification mode.
+	 *
+	 * @param App\Request $request
+	 */
+	public function forVerification(App\Request $request)
+	{
+		$rows = [];
+		$query = $this->getQuery($request);
+		$query->from('s_#__mail_rbl_request')->select(['id',  'type', 'datetime', 'user', 'header']);
+		$query->andWhere(['status' => 0]);
+		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
+		while ($row = $dataReader->read()) {
+			$message = \ZBateson\MailMimeParser\Message::from($row['header']);
+			$type = \App\Mail\Rbl::LIST_TYPES[$row['type']];
+			$rows[] = [
+				'id' => $row['id'],
+				'datetime' => \App\Fields\DateTime::formatToDisplay($row['datetime']),
+				'user' => \App\Fields\Owner::getUserLabel($row['user']),
+				'sender' => \App\Purifier::encodeHtml($message->getHeaderValue('from')),
+				'recipient' => \App\Purifier::encodeHtml($message->getHeaderValue('to')),
+				'type' => "<span class=\"{$type['icon']} mr-2\"></span>" . \App\Language::translate($type['label'], 'Settings:MailRbl'),
+			];
+		}
+		$query->limit(null)->offset(null)->orderBy(null);
+		$count = $query->count();
+		$result = [
+			'draw' => $request->getInteger('draw'),
+			'iTotalRecords' => $query->where(['status' => 0])->count(),
+			'iTotalDisplayRecords' => $count,
+			'aaData' => $rows
+		];
+		header('content-type: text/json; charset=UTF-8');
+		echo \App\Json::encode($result);
+	}
+
+	/**
+	 * To send mode.
+	 *
+	 * @param App\Request $request
+	 */
+	public function toSend(App\Request $request)
+	{
+		$rows = [];
+		$query = $this->getQuery($request);
+		$query->from('s_#__mail_rbl_request')->select(['id',  'type', 'datetime', 'user', 'header']);
+		$query->andWhere(['status' => 1]);
+		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
+		while ($row = $dataReader->read()) {
+			$message = \ZBateson\MailMimeParser\Message::from($row['header']);
+			$type = \App\Mail\Rbl::LIST_TYPES[$row['type']];
+			$rows[] = [
+				'id' => $row['id'],
+				'datetime' => \App\Fields\DateTime::formatToDisplay($row['datetime']),
+				'user' => \App\Fields\Owner::getUserLabel($row['user']),
+				'sender' => \App\Purifier::encodeHtml($message->getHeaderValue('from')),
+				'recipient' => \App\Purifier::encodeHtml($message->getHeaderValue('to')),
+				'type' => "<span class=\"{$type['icon']} mr-2\"></span>" . \App\Language::translate($type['label'], 'Settings:MailRbl'),
+			];
+		}
+		$query->limit(null)->offset(null)->orderBy(null);
+		$count = $query->count();
+		$result = [
+			'draw' => $request->getInteger('draw'),
+			'iTotalRecords' => $query->where(['status' => 1])->count(),
+			'iTotalDisplayRecords' => $count,
+			'aaData' => $rows
+		];
+		header('content-type: text/json; charset=UTF-8');
+		echo \App\Json::encode($result);
 	}
 
 	/**

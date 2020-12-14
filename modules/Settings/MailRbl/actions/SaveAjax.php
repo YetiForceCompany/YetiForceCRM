@@ -28,7 +28,7 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function process(App\Request $request)
 	{
 		$db = \App\Db::getInstance('admin');
-		$requestMode = 'request' === $request->getMode();
+		$requestMode = \in_array($request->getMode(), ['forVerification', 'toSend', 'request']);
 		$db->createCommand()
 			->update($requestMode ? 's_#__mail_rbl_request' : 's_#__mail_rbl_list', [
 				'status' => $request->getInteger('status')

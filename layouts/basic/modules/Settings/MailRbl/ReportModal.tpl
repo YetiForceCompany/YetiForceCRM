@@ -2,7 +2,7 @@
 {strip}
 <!-- tpl-Settings-MailRbl-ReportModal -->
 <div class="modal-body">
-	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	<div class="alert alert-warning alert-dismissible mb-0 fade show" role="alert">
 		<span class="fas fa-info-circle mr-2 u-fs-3x float-left"></span>
 		{\App\Language::translate($MODAL_DESC, $QUALIFIED_MODULE)}
 	</div>
@@ -25,9 +25,9 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="inputDesc" class="col-sm-3 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_REPORT_DESC', $QUALIFIED_MODULE)}:</label>
+			<label for="inputDesc" class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_REPORT_DESC', $QUALIFIED_MODULE)}:</label>
 			<div class="col-sm-9">
-				<textarea name="desc" class="form-control" id="inputDesc" rows="3" data-validation-engine="validate[required]"></textarea>
+				<textarea name="desc" class="form-control" id="inputDesc" rows="3"></textarea>
 			</div>
 		</div>
 		<div class="form-group row">
@@ -42,13 +42,14 @@
 		</div>
 		<div class="form-group">
 			<label for="inputEvidence" class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_REPORT_EVIDENCE', $QUALIFIED_MODULE)}:</label>
-			<hr />
+			{if $BODY}
+				<div>
+					<iframe sandbox="allow-same-origin" class="w-100 js-iframe-full-height" frameborder="0" srcdoc="{\App\Purifier::encodeHtml($BODY)}"></iframe>
+				</div>
+				<hr />
+			{/if}
 			<div class="">
 				<pre>{\App\Purifier::encodeHtml($HEADER)}</pre>
-			</div>
-			<hr />
-			<div>
-				<iframe sandbox="allow-same-origin" class="w-100 js-iframe-full-height" frameborder="0" srcdoc="{\App\Purifier::encodeHtml($BODY)}"></iframe>
 			</div>
 		</div>
 	</form>

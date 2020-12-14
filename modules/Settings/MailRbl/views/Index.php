@@ -18,7 +18,7 @@ class Settings_MailRbl_Index_View extends Settings_Vtiger_Index_View
 	 */
 	public function process(App\Request $request)
 	{
-		$activeTab = 'request';
+		$activeTab = 'forVerification';
 		if ($request->has('tab')) {
 			$activeTab = $request->getByType('tab');
 		}
