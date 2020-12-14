@@ -23,7 +23,7 @@
 				</h5>
 				<div class="ml-auto">
 					<button type="button" name="saveButton" class="js-modal__save btn btn-success mr-1">
-						<span class="fas fa-check mr-1"></span>
+						<span class="fas fa-paper-plane mr-1"></span>
 						{\App\Language::translate('BTN_SEND_REPORT', $MODULE_NAME)}
 					</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">
