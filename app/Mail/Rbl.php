@@ -308,12 +308,12 @@ class Rbl extends \App\Base
 				$fromDomain = $this->getDomain($received->getFromName());
 				$byDomain = $this->getDomain($received->getByName());
 				if (!($fromIp = $received->getFromAddress())) {
-					if (!($fromIp = $this->findIpByName($received->getValueFor('from')))) {
+					if (!($fromIp = $this->findIpByName($received, 'from'))) {
 						$fromIp = $this->getIpByName($received->getFromName(), $received->getFromHostname());
 					}
 				}
 				if (!($byIp = $received->getByAddress())) {
-					if (!($byIp = $this->findIpByName($received->getValueFor('by')))) {
+					if (!($byIp = $this->findIpByName($received, 'by'))) {
 						$byIp = $this->getIpByName($received->getByName(), $received->getByHostname());
 					}
 				}
@@ -371,16 +371,32 @@ class Rbl extends \App\Base
 	/**
 	 * Find mail ip address.
 	 *
-	 * @param string $value
+	 * @param \ZBateson\MailMimeParser\Header\ReceivedHeader $received
+	 * @param string                                         $type
 	 *
 	 * @return string
 	 */
-	public function findIpByName(string $value): string
+	public function findIpByName(\ZBateson\MailMimeParser\Header\ReceivedHeader $received, string $type): string
 	{
+		$value = $received->getValueFor($type);
 		$pattern = '~\[(IPv[64])?([a-f\d\.\:]+)\]~i';
 		if (preg_match($pattern, $value, $matches)) {
 			if (!empty($matches[2])) {
 				return $matches[2];
+			}
+		}
+		$lastReceivedPart = null;
+		foreach ($received->getParts() as $part) {
+			if ($part instanceof \ZBateson\MailMimeParser\Header\Part\ReceivedPart) {
+				$lastReceivedPart = $part->getName();
+			} elseif ($part instanceof \ZBateson\MailMimeParser\Header\Part\CommentPart) {
+				if ($lastReceivedPart === $type) {
+					if (preg_match($pattern, $part->getComment(), $matches)) {
+						if (!empty($matches[2])) {
+							return $matches[2];
+						}
+					}
+				}
 			}
 		}
 		return '';
