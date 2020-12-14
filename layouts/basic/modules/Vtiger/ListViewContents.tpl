@@ -100,9 +100,8 @@
 							{else}
 								{assign var=SEARCH_INFO value=[]}
 							{/if}
-							<div class="u-min-w-150px">
-								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO  USER_MODEL=$USER_MODEL}
-							</div>
+							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
+							FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 						</td>
 					{/foreach}
 					<td class="reducePadding"></td>
