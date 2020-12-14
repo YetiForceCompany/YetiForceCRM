@@ -3,11 +3,16 @@
 <!-- tpl-Notification-NotificationConfig -->
 {assign var="CRON_ACTIVE" value=$CRON_INFO->getStatus()}
 {assign var="IS_PERMITTED" value=\App\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
-<div class="modal-header">
-	<h5 class="modal-title">{\App\Language::translate('LBL_WATCHING_MODULES', $MODULE)}</h5>
-	<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
-		<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
-	</button>
+<div class="modal-header row">
+	<div class="col-12 px-0 d-flex align-items-center">
+		<span class="fas fa-paper-plane mr-2"></span> <h5 class="modal-title">{\App\Language::translate('LBL_WATCHING_MODULES', $MODULE)}</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+		</button>
+	</div>
+	<div class="alert alert-info col-12 mb-0">
+		{\App\Language::translate('LBL_CHANGE_SAVE', $MODULE)}
+	</div>
 </div>
 <div class="modal-body table-responsive">
 	<form id="sortingCustomView">
@@ -20,7 +25,7 @@
 						{if $CRON_ACTIVE && $IS_PERMITTED}
 							<span class="sentNoticeAll u-cursor-pointer d-flex">
 								<span title="{\App\Language::translate('LBL_SELECT_ALL')}"
-									class="fas {if $IS_ALL_EMAIL_NOTICE}fa-envelope sandNoticeOn{else}fa-envelope-open sandNoticeOff{/if} fa-lg marginTB3 cursorPointer"></span>
+									class="fas {if $IS_ALL_EMAIL_NOTICE}fa-bell sandNoticeOn{else}fa-bell-slash sandNoticeOff{/if} fa-lg marginTB3 cursorPointer"></span>
 							</span>
 						{/if}
 						<span class="d-flex ml-1">
@@ -40,7 +45,7 @@
 							{if $CRON_ACTIVE && $IS_PERMITTED}
 								<span class="sentNotice d-flex u-cursor-pointer">
 											<span title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $MODULE)}"
-													class="fas {if $SCHEDULE_DATA && in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-open sandNoticeOff{/if} fa-lg cursorPointer"
+													class="fas {if $SCHEDULE_DATA && in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-bell sandNoticeOn{else}fa-bell-slash sandNoticeOff{/if} fa-lg cursorPointer"
 													data-val=""></span></span>
 							{/if}
 							<span class="d-flex ml-1">
