@@ -80,7 +80,7 @@
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}"
 								  data-js="click" data-mode="show"
 								  data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<h4>{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{\App\Language::translate($BLOCK_LABEL, $MODULE)}</h4>
+							<h5>{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{\App\Language::translate($BLOCK_LABEL, $MODULE)}</h5>
 						</div>
 						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
 							 data-js="display">
