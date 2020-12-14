@@ -23,6 +23,18 @@ class Settings_MailRbl_ReportModal_View extends \App\Controller\ModalSettings
 	public $successBtn = 'BTN_SEND_REPORT';
 	/** {@inheritdoc} */
 	public $successBtnIcon = 'fas fa-paper-plane';
+	/** {@inheritdoc} */
+	public $showHeader = false;
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function preProcessAjax(\App\Request $request)
+	{
+		parent::preProcessAjax($request);
+		$viewer = $this->getViewer($request);
+		$viewer->view('ReportModalHeader.tpl', $request->getModule(false));
+	}
 
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
