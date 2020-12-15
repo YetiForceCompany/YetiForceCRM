@@ -119,6 +119,7 @@
 				{/if}
 				{if !empty($WIDGET['instance']) && method_exists($WIDGET['instance'], 'getCustomFields')}
 					{foreach from=$WIDGET['instance']->getCustomFields() item=FIELD_MODEL}
+						{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 						<div class="form-group-sm w-100 mr-1 mb-1">
 							<select name="{$FIELD_MODEL->getName()}" class="select2 form-control form-control-sm js-filter_field"
 								data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if
