@@ -47,7 +47,7 @@
 				{include file=\App\Layout::getTemplatePath('Detail/HeaderValues.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="tpl-Base-Detail-HeaderFields ml-md-2 pr-md-2 u-min-w-md-30 w-100">
+		<div class="ml-md-2 pr-md-2 u-min-w-md-30 w-100">
 			{include file=\App\Layout::getTemplatePath('Detail/HeaderButtons.tpl', $MODULE_NAME)}
 			{include file=\App\Layout::getTemplatePath('Detail/HeaderHighlights.tpl', $MODULE_NAME)}
 		</div>
