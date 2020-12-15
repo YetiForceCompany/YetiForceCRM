@@ -70,8 +70,18 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 							if (!\in_array($request->getByType('header_type', 'Standard'), $uitypeModel->getHeaderTypes())) {
 								throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . 'header_type', 406);
 							}
-							$value = \App\Json::encode(['type' => $request->getByType('header_type', 'Standard'),
-								'class' => $request->getByType('header_class', 'Standard')]);
+							$data['type'] = $request->getByType('header_type', 'Standard');
+							if ('highlights' === $data['type']) {
+								$data['class'] = $request->getByType('header_class', 'Standard');
+							} elseif ('value' === $data['type'] && $fieldInstance->isReferenceField() && ($relFields = $request->getArray('header_rel_fields', \App\Purifier::ALNUM))) {
+								$relModuleModel = \Vtiger_Module_Model::getInstance(current($fieldInstance->getReferenceList()));
+								foreach ($relFields as $fieldName) {
+									if ($relModuleModel->getFieldByName($fieldName)->isViewableInDetailView()) {
+										$data['rel_fields'][] = $fieldName;
+									}
+								}
+							}
+							$value = \App\Json::encode($data);
 						} else {
 							$value = '';
 						}

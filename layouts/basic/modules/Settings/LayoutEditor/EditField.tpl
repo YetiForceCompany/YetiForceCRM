@@ -75,14 +75,36 @@
 						<label for="header_field">
 							{App\Language::translate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 						</label>
-						<div class="js-toggle-hide form-group{if !$FIELD_MODEL->isHeaderField()} zeroOpacity {/if}{if $FIELD_MODEL->getFieldDataType() neq 'picklist'} hide{/if}" data-js="class:zeroOpacity">
+						<div class="js-toggle-hide form-group{if !$FIELD_MODEL->isHeaderField()} zeroOpacity {/if}" data-js="class:zeroOpacity">
 							{assign var=HEADER_FIELD_VALUE value=$FIELD_MODEL->getHeaderValue('class')}
-							{assign var=HEADER_FIELD_TYPE value=$FIELD_MODEL->getHeaderValue('type')}
-							<select name="header_type" class="form-control select2">
+							{assign var=HEADER_FIELD_TYPE value=$FIELD_MODEL->getHeaderValue('type', 'value')}
+							{assign var=HEADER_REL_FIELDS value=$FIELD_MODEL->getHeaderValue('rel_fields', [])}
+							<select name="header_type" class="js-header_type form-control select2">
 								{foreach key=LABEL item=VALUE from=$FIELD_MODEL->getUITypeModel()->getHeaderTypes()}
 									<option value="{$VALUE}" {if $VALUE == $HEADER_FIELD_TYPE} selected {/if}>{App\Language::translate($LABEL, $QUALIFIED_MODULE)}</option>
 								{/foreach}
 							</select>
+							{if $FIELD_MODEL->isReferenceField() && count($FIELD_MODEL->getReferenceList()) eq 1}
+								<div class="js-header_rel_fields mt-1{if $HEADER_FIELD_TYPE neq 'value'} d-none{/if}">
+									<select name="header_rel_fields" multiple="multiple" class="form-control select2" data-select-cb="registerSelectSortable"  data-maximum-selection-length="3">
+										{foreach item=REL_MODULE from=$FIELD_MODEL->getReferenceList()}
+											{assign var=REL_MODULE_MODEL value=\Vtiger_Module_Model::getInstance($REL_MODULE)}
+											{foreach from=$REL_MODULE_MODEL->getFields() key=REL_FIELD_NAME item=REL_FIELD_MODEL}
+												{if $REL_FIELD_MODEL->isViewableInDetailView()}
+													{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($REL_FIELD_NAME, $HEADER_REL_FIELDS)}
+													<option value="{$REL_FIELD_MODEL->getName()}" data-field-name="{$REL_FIELD_NAME}"
+														{if $ELEMENT_POSITION_IN_ARRAY !== false}
+															data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
+														{/if}
+														data-js="data-sort-index|data-field-name">
+														{App\Language::translate($REL_FIELD_MODEL->getFieldLabel(), $REL_FIELD_MODEL->getModuleName())}
+													</option>
+												{/if}
+											{/foreach}
+										{/foreach}
+									</select>
+								</div>
+							{/if}
 							<input name="header_class" value="{if $HEADER_FIELD_VALUE}{$HEADER_FIELD_VALUE}{else}badge-info{/if}" type="text" class="hide">
 						</div>
 					</div>

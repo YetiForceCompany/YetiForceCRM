@@ -36,6 +36,9 @@ Vtiger_Detail_Js(
 				}
 			});
 		},
+		/**
+		 * Registers read count of hierarchy if it is possoble
+		 */
 		registerHierarchyRecordCount: function () {
 			let hierarchyButton = $('.js-detail-hierarchy'),
 				params = {
@@ -47,7 +50,7 @@ Vtiger_Detail_Js(
 			if (hierarchyButton.length) {
 				AppConnector.request(params).then(function (response) {
 					if (response.success) {
-						hierarchyButton.append(' <span class="badge">' + response.result + '</span>');
+						$('.hierarchy .badge').html(response.result);
 					}
 				});
 			}
@@ -60,7 +63,7 @@ Vtiger_Detail_Js(
 					view: 'Hierarchy',
 					record: app.getRecordId()
 				};
-			hierarchyButton.on('click', '.js-detail__icon, .js-detail-hierarchy', function () {
+			hierarchyButton.on('click', '.js-detail-hierarchy', function () {
 				let progressIndicatorElement = $.progressIndicator({
 					position: 'html',
 					blockInfo: {

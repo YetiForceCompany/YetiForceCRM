@@ -1334,12 +1334,12 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isCustomField()
 	{
-		return (2 == $this->generatedtype) ? true : false;
+		return 2 == $this->generatedtype;
 	}
 
 	public function hasDefaultValue()
 	{
-		return '' == $this->defaultvalue ? false : true;
+		return !empty($this->defaultvalue);
 	}
 
 	public function isActiveField()
@@ -1349,12 +1349,12 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isMassEditable()
 	{
-		return 1 == $this->masseditable ? true : false;
+		return 1 == $this->masseditable;
 	}
 
 	public function isHeaderField()
 	{
-		return !empty($this->header_field) ? true : false;
+		return !empty($this->header_field);
 	}
 
 	/**
@@ -1373,14 +1373,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Gets header field value.
 	 *
 	 * @param string $type
+	 * @param mixed  $default
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return mixed
 	 */
-	public function getHeaderValue(string $type)
+	public function getHeaderValue(string $type, $default = '')
 	{
-		return $this->getHeaderField()[$type] ?? '';
+		return $this->getHeaderField()[$type] ?? $default;
 	}
 
 	/**
