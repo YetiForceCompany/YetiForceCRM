@@ -47,7 +47,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group col-12">
 			<label for="inputEvidence" class="col-sm-3 col-form-label text-left">{\App\Language::translate('LBL_REPORT_EVIDENCE', $QUALIFIED_MODULE)}:</label>
 			{if $BODY}
 				<div>
