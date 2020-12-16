@@ -24,7 +24,7 @@ class Settings_MailRbl_Index_View extends Settings_Vtiger_Index_View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('ACTIVE_TAB', $activeTab);
-		$viewer->assign('DATE', implode(',', \App\Fields\Date::formatRangeToDisplay([date('Y-m-d', strtotime('-1 week')), date('Y-m-d')])));
+		$viewer->assign('DATE', implode(',', \App\Fields\Date::formatRangeToDisplay([date('Y-m-d', strtotime('-1 month')), date('Y-m-d')])));
 		$viewer->view('Index.tpl', $request->getModule(false));
 	}
 }
