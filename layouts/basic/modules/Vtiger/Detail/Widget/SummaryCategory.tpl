@@ -19,23 +19,49 @@
 			</div>
 		</div>
 	{/if}
-	<div class="c-detail-widget__content js-detail-widget-collapse js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse"
-		data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}" data-js="container|value">
-		<div class="mx-2">
+	<div class="c-detail-widget__content js-detail-widget-collapse js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}" data-js="container|value">
+			<div class="px-0">
 			{foreach item=SUMMARY_CATEGORY from=$RECORD->getSummaryInfo()}
-				<div class="row text-center o-summary-category__row">
+				<div class="d-flex text-center o-summary-category__row mb-2 px-2">
 					{foreach item=FIELD_VALUE from=$SUMMARY_CATEGORY}
-						<div class="o-summary-category__card col-md-3" data-reference="{$FIELD_VALUE.reference}">
-							<div class="o-summary-category__card__body mb-3 bg-light rounded py-2">
-								<div>
-									<label class="o-summary-category__card__label small">
-										{\App\Language::translate($FIELD_VALUE.name,$MODULE_NAME)}
-									</label>
-								</div>
-								<div>
-									<label class="o-summary-category__card__label h5">
-										{if !empty($FIELD_VALUE.data)}{$FIELD_VALUE.data}{else}0{/if}
-									</label>
+						<div class="card u-w-24per mx-auto px-0" data-reference="{$FIELD_VALUE.reference}">
+							<div class="card-header p-1">
+								<label class="card-text small text-md-nowrap">
+									<strong>{\App\Language::translate($FIELD_VALUE.name,$MODULE_NAME)}</strong>
+								</label>
+							</div>
+							<div class="card-body bg-light rounded px-0 py-1 d-flex align-items-center">
+								<div class="card-body bg-light rounded px-0 py-1">
+									{if !empty($FIELD_VALUE.data) && !is_array($FIELD_VALUE.data)}
+										{$FIELD_VALUE.data}
+									{elseif is_array($FIELD_VALUE.data)}
+										<div  class="d-flex">
+											<div  class="col-6 px-0">
+												<div  class="card-text small">
+													{\App\Language::translate('LBL_OPEN')}
+												</div>
+												<div  class="card-text">
+													<span class="badge badge-secondary px-2" >
+														{$FIELD_VALUE.data.open}
+													</span>
+												</div>
+
+											</div>
+											<div  class="col-6 px-0">
+												<div  class="card-text small">
+													{\App\Language::translate('LBL_ALL')}
+												</div>
+												<div  class="card-text">
+													<span class="badge badge-secondary px-2">
+														{$FIELD_VALUE.data.total}
+													</span>
+												</div>
+
+											</div>
+										</div>
+									{else}
+										0
+									{/if}
 								</div>
 							</div>
 						</div>
