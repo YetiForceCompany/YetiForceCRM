@@ -27,16 +27,13 @@
 					<small><em>{\App\Language::translate('Sent','OSSMailView')}</em></small>
 					<span><small><em>&nbsp;{$RECORD->getDisplayValue('createdtime')}</em></small></span>
 				</span>
-				<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id'))}" data-toggle="popover" data-js="popover | mouseenter">
-					<span class="text-muted mr-1 u-white-space-nowrap">{\App\Language::translate('LBL_OWNER')}:</span>
-					<span class="js-popover-text" data-js="clone">
-					{$RECORD->getDisplayValue('assigned_user_id')}
-					</span>
-					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
-				</div>
+				{include file=\App\Layout::getTemplatePath('Detail/HeaderValues.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
+		<div class="ml-md-2 pr-md-2 u-min-w-md-30 w-100">
+			{include file=\App\Layout::getTemplatePath('Detail/HeaderButtons.tpl', $MODULE_NAME)}
+			{include file=\App\Layout::getTemplatePath('Detail/HeaderHighlights.tpl', $MODULE_NAME)}
+		</div>
 	</div>
 	{include file=\App\Layout::getTemplatePath('Detail/HeaderProgress.tpl', $MODULE_NAME)}
 {/strip}

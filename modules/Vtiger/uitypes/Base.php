@@ -405,7 +405,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getHeaderTypes()
 	{
-		return ['LBL_HEADER_TYPE_VALUE' => 'value'];
+		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_HIGHLIGHTS' => 'highlights'];
 	}
 
 	/**

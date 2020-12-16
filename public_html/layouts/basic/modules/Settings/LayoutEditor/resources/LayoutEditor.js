@@ -1392,6 +1392,15 @@ $.Class(
 					defaultValueUi.addClass('zeroOpacity');
 				}
 			});
+			contents.find('.js-header_type').on('change', function (e) {
+				let el = $(e.currentTarget);
+				let relFieldsElement = el.closest('.js-toggle-hide').find('.js-header_rel_fields');
+				if (el.val() === 'value') {
+					relFieldsElement.removeClass('d-none');
+				} else {
+					relFieldsElement.addClass('d-none');
+				}
+			});
 		},
 		/**
 		 * Function to register the click event for related modules list tab

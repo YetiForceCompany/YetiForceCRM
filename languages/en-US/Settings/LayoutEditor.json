@@ -188,6 +188,7 @@
     "RangeTime": "Range time",
     "LBL_HEADER_TYPE_VALUE": "Value",
     "LBL_HEADER_TYPE_PROGRESS": "Progress bar",
+    "LBL_HEADER_TYPE_HIGHLIGHTS": "Highlights",
     "LBL_EDIT_MANDATORY_INFO": "Applies to the entire record. If 'No' is selected, the record can be saved without any inventory lines.",
     "MultiDomain": "Domain multi select",
     "LBL_CHANGED_MODULE_TYPE_INFO": "Module type change operation has been added to cron task queue.",
