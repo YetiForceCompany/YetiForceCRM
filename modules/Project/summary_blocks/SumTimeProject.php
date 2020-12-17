@@ -11,6 +11,8 @@ class SumTimeProject
 	public $name = 'FL_TOTAL_TIME_H';
 	public $sequence = 9;
 	public $reference = 'OSSTimeControl';
+	public $icon = '';
+	public $type = 'value';
 
 	/**
 	 * Process.

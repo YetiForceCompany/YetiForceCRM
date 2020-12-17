@@ -16,6 +16,8 @@ class Milestones
 	public $name = 'LBL_MILESTONES';
 	public $sequence = 1;
 	public $reference = 'ProjectMilestone';
+	public $icon = 'yfm-ProjectMilestone';
+	public $type = 'badge';
 
 	/**
 	 * Process.
@@ -31,6 +33,16 @@ class Milestones
 		$total = $query->count();
 		$open = $query->andWhere(['vtiger_projectmilestone.projectmilestone_status' => ['PLL_IN_PROGRESSING', 'PLL_IN_APPROVAL']])->count();
 		\App\Log::trace('Exiting Tasks::process() method ...');
-		return ['open' => $open, 'total' => $total];
+		return [
+			[
+				'lable' => \App\Language::translate('LBL_OPEN'),
+				'value' => $open,
+				'class' => 'badge-success'
+			], [
+				'lable' => \App\Language::translate('LBL_ALL'),
+				'value' => $total,
+				'class' => 'badge-secondary'
+			]
+		];
 	}
 }

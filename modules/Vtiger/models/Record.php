@@ -1045,7 +1045,7 @@ class Vtiger_Record_Model extends \App\Base
 					if (isset($blockObiect->reference) && !\App\Module::isModuleActive($blockObiect->reference)) {
 						continue;
 					}
-					$tempSummaryBlocks[$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
+					$tempSummaryBlocks[$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference, 'type' => $blockObiect->type, 'icon' => $blockObiect->icon];
 				}
 			}
 		}

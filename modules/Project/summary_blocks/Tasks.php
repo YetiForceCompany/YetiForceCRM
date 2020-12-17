@@ -16,6 +16,8 @@ class Tasks
 	public $name = 'LBL_TASKS_LIST';
 	public $sequence = 2;
 	public $reference = 'ProjectTask';
+	public $icon = 'yfm-ProjectTask';
+	public $type = 'badge';
 
 	/**
 	 * Process.
@@ -31,6 +33,17 @@ class Tasks
 		$total = $query->count();
 		$open = $query->andWhere(['vtiger_projecttask.projecttaskstatus' => ['PLL_IN_PROGRESSING', 'PLL_IN_APPROVAL', 'PLL_SUBMITTED_COMMENTS']])->count();
 		\App\Log::trace('Exiting Tasks::process() method ...');
-		return ['open' => $open, 'total' => $total];
+
+		return [
+			[
+				'lable' => \App\Language::translate('LBL_OPEN'),
+				'value' => $open,
+				'class' => 'badge-success'
+			], [
+				'lable' => \App\Language::translate('LBL_ALL'),
+				'value' => $total,
+				'class' => 'badge-secondary'
+			]
+		];
 	}
 }
