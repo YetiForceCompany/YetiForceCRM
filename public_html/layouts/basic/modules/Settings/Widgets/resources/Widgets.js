@@ -28,6 +28,7 @@ jQuery.Class(
 							thisInstance.relatedModuleFields(wizardContainer);
 						});
 					}
+					thisInstance.registerSort(wizardContainer);
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					var form = jQuery('form', wizardContainer);
 					form.validationEngine(app.validationEngineOptions);
@@ -141,7 +142,7 @@ jQuery.Class(
 			let relatedModule = relatedModuleInput.val();
 			if (selected.length) {
 				relatedModule = selected.data('relatedmodule');
-				relatedModuleInput.val(selected.data('relatedmodule'));
+				relatedModuleInput.val(selected.data('relatedmodule')).data('module-name', selected.data('module-name'));
 			}
 			for (let i in types) {
 				let filters = app.getMainParams(types[i] + 'All', true);
@@ -210,6 +211,7 @@ jQuery.Class(
 					thisInstance.relatedModuleFields(wizardContainer);
 				});
 			}
+			this.registerSort(wizardContainer);
 			const form = $('form', wizardContainer);
 			form.validationEngine(app.validationEngineOptions);
 			form.on('submit', (e) => {
@@ -232,6 +234,34 @@ jQuery.Class(
 							progress.progressIndicator({ mode: 'hide' });
 						});
 				}
+			});
+		},
+
+		registerSort: function (container) {
+			container.find("select[name='relation_id']").on('change', (e) => {
+				container.find('#orderBy').val('[]');
+			});
+			container.find('.js-sort-modal').on('click', (e) => {
+				let relatedModule = container.find("input[name='relatedmodule']").data('module-name');
+				let url = e.currentTarget.dataset.url;
+				app.showModalWindow(
+					null,
+					url + '&module=' + relatedModule,
+					function (wizardContainer) {
+						wizardContainer.find('.js-modal__save').on('click', (el) => {
+							el.preventDefault();
+							let sortData = {};
+							wizardContainer.find('.js-sort-container_element:not(.js-base-element)').each(function () {
+								let orderBy = $(this).find('.js-orderBy').val();
+								if (orderBy) {
+									sortData[orderBy] = $(this).find('.js-sort-order').val();
+								}
+							});
+							container.find('#orderBy').val(JSON.stringify(sortData));
+						});
+					},
+					{ modalId: e.currentTarget.dataset.modalid }
+				);
 			});
 		},
 

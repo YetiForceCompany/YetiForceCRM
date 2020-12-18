@@ -55,7 +55,8 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				'search_params' => 'Text',
 				'valueField' => 'Text',
 				'email_template' => \App\Purifier::INTEGER,
-				'fromRelation' => \App\Purifier::TEXT
+				'fromRelation' => \App\Purifier::TEXT,
+				'orderby' => \App\Purifier::TEXT
 			]
 		]);
 		if (!$this->validateLimit($params)) {
@@ -63,6 +64,9 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 		if (isset($params['data']['search_params'])) {
 			$params['data']['search_params'] = \App\Json::decode($params['data']['search_params']);
+		}
+		if (isset($params['data']['orderby'])) {
+			$params['data']['orderby'] = \App\Json::decode($params['data']['orderby']);
 		}
 		Settings_Widgets_Module_Model::saveWidget($params);
 		$response = new Vtiger_Response();
