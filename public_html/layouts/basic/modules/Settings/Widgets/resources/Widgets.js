@@ -205,7 +205,7 @@ jQuery.Class(
 			if (type == 'RelatedModule' || type === 'RelatedModuleChart' || type === 'Documents') {
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
-				wizardContainer.find("select[name='relatedmodule']").on('change', function () {
+				wizardContainer.find("select[name='relation_id']").on('change', function () {
 					thisInstance.changeRelatedModule(wizardContainer);
 					thisInstance.relatedModuleFields(wizardContainer);
 				});
