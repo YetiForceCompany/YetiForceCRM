@@ -129,6 +129,12 @@ class Settings_ModuleManager_Library_Model
 			$zip = \App\Zip::openFile($path, ['checkFiles' => false]);
 			$zip->unzip([$compressedName => $lib['dir']]);
 			unlink($path);
+			if ('roundcube' === $name) {
+				$db = \App\Db::getInstance();
+				foreach (['roundcube_cache', 'roundcube_cache_index', 'roundcube_cache_messages', 'roundcube_cache_shared', 'roundcube_cache_thread'] as $table) {
+					$db->createCommand()->truncateTable($table)->execute();
+				}
+			}
 		} else {
 			App\Log::warning('No import file: ' . $name, 'Library');
 			$returnVal = false;
