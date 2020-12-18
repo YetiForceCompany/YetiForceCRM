@@ -336,21 +336,28 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to get switch buttons for widget.
 	 *
-	 * @param int $index
+	 * @param mixed $sourceModule
+	 * @param array $index
 	 *
 	 * @return array
 	 */
-	public static function getHeaderSwitch($index = [])
+	public static function getHeaderSwitch($sourceModule, $index = [])
 	{
-		$data = [
-			\App\Module::getModuleId('SSalesProcesses') => [
-				[
-					'type' => 1,
-					'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
-					'value' => ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']],
-				],
-			],
-		];
+		$data = [];
+		$moduleId = is_numeric($sourceModule) ? $sourceModule : \App\Module::getModuleId($sourceModule);
+		$relatedList = (new self())->getRelatedModule($moduleId);
+		foreach ($relatedList as $moduleData) {
+			$moduleName = $moduleData['name'];
+			if (($fieldName = \App\RecordStatus::getFieldName($moduleName)) && ($statuses = \App\RecordStatus::getStates($moduleName, \App\RecordStatus::RECORD_STATE_CLOSED))) {
+				$data[$moduleData['related_tabid']] = [
+					[
+						'type' => 1,
+						'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', $moduleName),
+						'value' => [$fieldName => $statuses]
+					],
+				];
+			}
+		}
 		if (empty($index)) {
 			return $data;
 		}

@@ -1469,7 +1469,8 @@
     "LBL_RELATED_RECORD": "Related record",
     "LBL_SOURCE_RECORD": "Source record",
     "BTM_GOTO_YETIFORCE_DOCUMENTATION": "Go to YetiForce documentation",
-    "LBL_NOT_FILLED_MANDATORY_FIELDS": "All required fields were not filled in"
+    "LBL_NOT_FILLED_MANDATORY_FIELDS": "All required fields were not filled in",
+    "LBL_HEADERSWITCH_OPEN_CLOSED": "Open/Closed"
   },
   "js": {
     "JS_APPROVE": "Approve",

@@ -52,7 +52,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 				$this->Config['actionURL'] = $url . "&sourceRecord={$this->Record}&sourceModule={$this->Module}&relationOperation=true&relationId=" . $this->Data['relation_id'];
 			}
 			if (isset($this->Data['switchHeader']) && '-' != $this->Data['switchHeader']) {
-				$switchHeaderData = Settings_Widgets_Module_Model::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
+				$switchHeaderData = Settings_Widgets_Module_Model::getHeaderSwitch($this->Module, [$this->Data['relatedmodule'], $this->Data['switchHeader']]);
 				if ($switchHeaderData && 1 === $switchHeaderData['type']) {
 					$whereConditionOff = [];
 					foreach ($switchHeaderData['value'] as $name => $value) {

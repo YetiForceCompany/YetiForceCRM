@@ -8658,6 +8658,7 @@ CREATE TABLE `vtiger_ssalesprocesses_status` (
   `sortorderid` int(10) DEFAULT NULL,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
+  `record_state` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ssalesprocesses_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 

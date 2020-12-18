@@ -151,7 +151,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	 *
 	 * @return bool
 	 */
-	public function updateRecordStatus(int $id, int $recordState, int $timeCounting): bool
+	public function updateRecordStatus(int $id, int $recordState, ?int $timeCounting): bool
 	{
 		if (!$this->isProcessStatusField()) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_IS_NOT_A_PROCESS_STATUS_FIELD', 'Settings:Picklist'), 406);
@@ -159,22 +159,33 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		if (!$this->isEditable()) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUE', 'Settings:Picklist'), 406);
 		}
+		$db = \App\Db::getInstance();
 		$pickListFieldName = $this->getName();
 		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
 		$tableName = \App\Fields\Picklist::getPickListTableName($pickListFieldName);
 		$tabId = $this->get('tabid');
 		$moduleName = \App\Module::getModuleName($tabId);
-		$oldTimeCounting = \App\RecordStatus::getTimeCountingIds($moduleName, false)[$id] ?? '';
-		$oldStateValue = \App\RecordStatus::getStates($moduleName)[$id];
+		if (!isset($db->getTableSchema($tableName)->columns['record_state'])) {
+			$db->createCommand()->addColumn(
+				$tableName,
+				'record_state',
+				$db->getSchema()->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1)->notNull()->defaultValue(0)
+			)->execute();
+		}
+		$oldTimeCounting = \App\RecordStatus::getTimeCountingIds($moduleName, false)[$id] ?? null;
+		$oldStateValue = \App\RecordStatus::getStates($moduleName)[$id] ?? null;
 		if ($recordState === $oldStateValue && $timeCounting === $oldTimeCounting) {
 			return true;
 		}
-		$result = \App\Db::getInstance()->createCommand()->update($tableName, ['record_state' => $recordState, 'time_counting' => $timeCounting], [$primaryKey => $id])->execute();
+		$updateData = ['record_state' => $recordState];
+		if (null !== $timeCounting) {
+			$updateData['time_counting'] = $timeCounting;
+		}
+		$result = $db->createCommand()->update($tableName, $updateData, [$primaryKey => $id])->execute();
 		if ($result) {
 			\App\Fields\Picklist::clearCache($pickListFieldName, $moduleName);
-			return true;
 		}
-		return false;
+		return (bool) $result;
 	}
 
 	/**
