@@ -41,7 +41,7 @@
 										<div class="col px-1">
 											<div  class="px-0">
 												<div  class="card-text small">
-													{$DATA.lable}
+													{$DATA.label}
 												</div>
 												<div  class="card-text mt-2">
 													<span class="badge {$DATA.class} px-2 u-fs-lg">

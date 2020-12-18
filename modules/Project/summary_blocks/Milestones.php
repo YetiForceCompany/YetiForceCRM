@@ -35,11 +35,11 @@ class Milestones
 		\App\Log::trace('Exiting Tasks::process() method ...');
 		return [
 			[
-				'lable' => \App\Language::translate('LBL_OPEN'),
+				'label' => \App\Language::translate('LBL_OPEN'),
 				'value' => $open,
 				'class' => 'badge-success'
 			], [
-				'lable' => \App\Language::translate('LBL_ALL'),
+				'label' => \App\Language::translate('LBL_ALL'),
 				'value' => $total,
 				'class' => 'badge-secondary'
 			]
