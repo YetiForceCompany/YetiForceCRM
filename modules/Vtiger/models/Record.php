@@ -1481,7 +1481,7 @@ class Vtiger_Record_Model extends \App\Base
 		foreach ($recordLinks as $key => $recordLink) {
 			$links[$key] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-		return $this->returnSequenceLinks(App\Config::module($this->getModuleName(), 'recordListViewButtonSequence', []), $links);
+		return $this->sequenceButtonLinks($links, App\Config::module($this->getModuleName(), 'recordListViewButtonSequence', []));
 	}
 
 	/**
@@ -1637,19 +1637,18 @@ class Vtiger_Record_Model extends \App\Base
 				]);
 			}
 		}
-		return $this->returnSequenceLinks(App\Config::module($this->getModuleName(), 'relatedListViewButtonSequence', []), $links);
+		return $this->sequenceButtonLinks($links,  App\Config::module($this->getModuleName(), 'recordRelatedListViewButtonSequence', []));
 	}
 
 	/**
-	 * function return links for record List and related List in the specified sequence.
+	 * Links for record list and related list in the specified sequence.
 	 *
+	 * @param array Vtiger_Link_Model[] $links
 	 * @param array $config
-	 * @param array $links
 	 *
 	 * @return array
 	 */
-	public function returnSequenceLinks ($config, $links) {
-		$returnLinks =  [];
+	public function sequenceButtonLinks (array $links, array $config):array {
 		if ($config) {
 			foreach ($config as $value) {
 				if ($links[$value]) {
