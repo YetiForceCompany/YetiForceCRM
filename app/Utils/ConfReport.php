@@ -636,6 +636,9 @@ class ConfReport
 	private static function getRequest()
 	{
 		$requestUrl = static::$crmUrl;
+		if (\PHP_SAPI !== 'cli' && !IS_PUBLIC_DIR) {
+			$requestUrl .= 'public_html/';
+		}
 		$request = [];
 		try {
 			foreach (static::$urlsToCheck as $type => $url) {
