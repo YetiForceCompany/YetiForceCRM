@@ -76,7 +76,7 @@
     "maximebf/debugbar": "1.*",
     "yetiforce/yii2": "2.0.39.2",
     "yetiforce/yetiforcepdf": "0.1.30",
-    "abraham/twitteroauth": "^1.0",
+    "abraham/twitteroauth": "^2.0",
     "adhocore/jwt": "^1.0",
     "zbateson/mail-mime-parser": "^1.2",
     "mlocati/spf-lib": "^3",
