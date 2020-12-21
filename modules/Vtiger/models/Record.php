@@ -1481,7 +1481,7 @@ class Vtiger_Record_Model extends \App\Base
 		foreach ($recordLinks as $key => $recordLink) {
 			$links[$key] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-		return $this->sequenceButtonLinks($links, App\Config::module($this->getModuleName(), 'recordListViewButtonSequence', []));
+		return $this->changeSequenceButtonLinks($links, App\Config::module($this->getModuleName(), 'recordListViewButtonSequence', []));
 	}
 
 	/**
@@ -1637,30 +1637,30 @@ class Vtiger_Record_Model extends \App\Base
 				]);
 			}
 		}
-		return $this->sequenceButtonLinks($links,  App\Config::module($this->getModuleName(), 'recordRelatedListViewButtonSequence', []));
+		return $this->changeSequenceButtonLinks($links, App\Config::module($this->getModuleName(), 'recordRelatedListViewButtonSequence', []));
 	}
 
 	/**
-	 * Links for record list and related list in the specified sequence.
+	 * Change the order of the buttons.
 	 *
 	 * @param array Vtiger_Link_Model[] $links
-	 * @param array $config
+	 * @param array                     $config
 	 *
 	 * @return array
 	 */
-	public function sequenceButtonLinks (array $links, array $config):array {
-		if ($config) {
-			foreach ($config as $value) {
-				if ($links[$value]) {
-					$returnLinks[$value] = $links[$value];
-				}
-				unset($links[$value]);
-			}
-			$returnLinks =	array_merge($returnLinks, $links);
-		} else {
-			$returnLinks = $links;
+	public function changeSequenceButtonLinks(array $links, array $config): array
+	{
+		if (!$config) {
+			return $links;
 		}
-		return $returnLinks;
+		$returnLinks = [];
+		foreach ($config as $value) {
+			if ($links[$value]) {
+				$returnLinks[$value] = $links[$value];
+			}
+			unset($links[$value]);
+		}
+		return array_merge($returnLinks, $links);
 	}
 
 	/**
