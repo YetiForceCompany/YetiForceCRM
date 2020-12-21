@@ -62,7 +62,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $stability = [
-		'phpVersion' => ['recommended' => '7.2.x, 7.3.x, 7.4.x', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
+		'phpVersion' => ['recommended' => '7.3.x, 7.4.x', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
 		'protocolVersion' => ['recommended' => '2.0, 1.x', 'type' => 'Version', 'container' => 'env', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
 		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],
@@ -1097,11 +1097,7 @@ class ConfReport
 	private static function validateCookieSamesite(string $name, array $row, string $sapi)
 	{
 		$row['recommended'] = \Config\Security::$cookieSameSite;
-		if ($name && \PHP_VERSION_ID > 70300) {
-			$row['status'] = ($row[$sapi] ?? '') === $row['recommended'];
-		} else {
-			$row['mode'] = 'skipParam';
-		}
+		$row['status'] = ($row[$sapi] ?? '') === $row['recommended'];
 		return $row;
 	}
 

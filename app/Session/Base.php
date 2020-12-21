@@ -42,16 +42,7 @@ class Base extends \SessionHandler
 			$cookie['samesite'] = \Config\Security::$cookieSameSite;
 		}
 		session_name($name);
-		if (\PHP_VERSION_ID < 70300) {
-			if ($cookie['secure']) {
-				$cookie['path'] .= '; samesite=' . $cookie['samesite'];
-			}
-			session_set_cookie_params(
-				$cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']
-			);
-		} else {
-			session_set_cookie_params($cookie);
-		}
+		session_set_cookie_params($cookie);
 	}
 
 	/**
