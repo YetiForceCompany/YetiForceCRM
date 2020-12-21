@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8849770fbaaa751b70d6abee7d096f1a",
+    "content-hash": "1058d83486676944777f43db37edac66",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -4040,16 +4040,16 @@
         },
         {
             "name": "zbateson/mail-mime-parser",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zbateson/mail-mime-parser.git",
-                "reference": "67b067a247005f11314ee8e9ba7fa71579531a23"
+                "reference": "706964d904798b8c22d63f62f0ec5f5bc84e30d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zbateson/mail-mime-parser/zipball/67b067a247005f11314ee8e9ba7fa71579531a23",
-                "reference": "67b067a247005f11314ee8e9ba7fa71579531a23",
+                "url": "https://api.github.com/repos/zbateson/mail-mime-parser/zipball/706964d904798b8c22d63f62f0ec5f5bc84e30d9",
+                "reference": "706964d904798b8c22d63f62f0ec5f5bc84e30d9",
                 "shasum": ""
             },
             "require": {
@@ -4111,7 +4111,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-21T23:01:18+00:00"
+            "time": "2020-12-02T21:55:45+00:00"
         },
         {
             "name": "zbateson/mb-wrapper",
