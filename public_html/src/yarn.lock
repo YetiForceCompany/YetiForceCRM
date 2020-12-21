@@ -43,9 +43,9 @@ tinycolor2@^1.1.2:
   integrity sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==
 
 vue-color@^2.7.0:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/vue-color/-/vue-color-2.7.1.tgz#ca035109ea0010f0d60b889b97d63d37ac712f2d"
-  integrity sha512-u3yl46B2eEej9zfAOIRRSphX1QfeNQzMwO82EIA+aoi0AKX3o1KcfsmMzm4BFkkj2ukCxLVfQ41k7g1gSI7SlA==
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/vue-color/-/vue-color-2.8.0.tgz#9bf825af8056c1c72fc5befe036fb54632897d8b"
+  integrity sha512-8xrUECPDJkr8BGmaSlAHo+7IyKlf3K/xmY1wjXHdNbHVjKf7ti2U3rGETavsK4FfandafGq6XslFbesK3saCFg==
   dependencies:
     clamp "^1.0.1"
     lodash.throttle "^4.0.0"

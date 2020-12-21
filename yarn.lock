@@ -244,11 +244,11 @@ css-line-break@1.1.1:
     base64-arraybuffer "^0.2.0"
 
 datatables.net-bs4@^1.10.15, datatables.net-bs4@^1.10.22:
-  version "1.10.22"
-  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.10.22.tgz#1ba03e5628841b83329069743ec389a56940234b"
-  integrity sha512-si0eOiaKmuURURpXhPRba7b3vCZsVfJK8pfrlM5WtaOaCEBa62DG/S9guMxUBmcAmvEC3FA2CKc/iKya3gb9qg==
+  version "1.10.23"
+  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.10.23.tgz#bdd5d0dcb1bd68a7afe649a4424ba20647523b52"
+  integrity sha512-ChUB8t5t5uzPnJYTPXx2DOvnlm2shz8OadXrKoFavOadB308OuwHVxSldYq9+KGedCeiVxEjNqcaV4nFSXkRsw==
   dependencies:
-    datatables.net "1.10.22"
+    datatables.net "1.10.23"
     jquery ">=1.7"
 
 datatables.net-responsive-bs4@^2.2.3:
@@ -268,17 +268,17 @@ datatables.net-responsive@2.2.6:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
-datatables.net@1.10.22, datatables.net@^1.10.15, datatables.net@^1.10.22:
-  version "1.10.22"
-  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.22.tgz#975d4ffb1eb40dec5fb772eaf93796ec1a948b55"
-  integrity sha512-ujn8GvkQIBYzYH54XY7OrI0Zb35TKRd9ABYfbnXgBfwTGIFT6UsmXrfHU5Yk+MSDoF0sDu2TB+31V6c+zUZ0Pw==
+datatables.net@1.10.23, datatables.net@^1.10.15, datatables.net@^1.10.22:
+  version "1.10.23"
+  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.23.tgz#59f7d7b12845183b1b379530d1385077e113ec01"
+  integrity sha512-we3tlNkzpxvgkKKlTxTMXPCt35untVXNg8zUYWpQyC1U5vJc+lT0+Zdc1ztK8d3lh5CfdnuFde2p8n3XwaGl3Q==
   dependencies:
     jquery ">=1.7"
 
 dayjs@^1.8.16:
-  version "1.9.6"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.9.6.tgz#6f0c77d76ac1ff63720dd1197e5cb87b67943d70"
-  integrity sha512-HngNLtPEBWRo8EFVmHFmSXAjtCX8rGNqeXQI0Gh7wCTSqwaKgPIDqu9m07wABVopNwzvOeCb+2711vQhDlcIXw==
+  version "1.9.7"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.9.7.tgz#4b260bb17dceed2d5f29038dfee03c65a6786fc0"
+  integrity sha512-IC877KBdMhBrCfBfJXHQlo0G8keZ0Opy7YIIq5QKtUbCuHMzim8S4PyiVK4YmihI3iOF9lhfUBW4AQWHTR5WHA==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -483,9 +483,9 @@ jstree-bootstrap-theme@^1.0.1:
     jquery ">=1.9.1"
 
 jstree@^3.3.7:
-  version "3.3.10"
-  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.10.tgz#28d5b464a6bd4b5a93ccc2e978d005845596a408"
-  integrity sha512-TDhwTy24ZKCVei0gLRxnH5PQuX77nqlG7bhQh+UDTeOxC2xdhDrS1x7YtbjLVlSxmH7USnA/WIeVOGN/m3D0QA==
+  version "3.3.11"
+  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.11.tgz#da2f12bcab6af61839586c81db46e8f2e19160aa"
+  integrity sha512-9ZJKroPjCyjb6JLPuAbBrLJKT6pS1f4m5gkwoEagG5oQWtvzm0IiDsntXTxeFtz7AmqrKfij+gLfF9MgWriNxg==
   dependencies:
     jquery ">=1.9.1"
 
@@ -535,9 +535,9 @@ object-assign@^4.1.0:
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
 
 overlayscrollbars@^1.10.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.13.0.tgz#1edb436328133b94877b558f77966d5497ca36a7"
-  integrity sha512-p8oHrMeRAKxXDMPI/EBNITj/zTVHKNnAnM59Im+xnoZUlV07FyTg46wom2286jJlXGGfcPFG/ba5NUiCwWNd4w==
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.13.1.tgz#0b840a88737f43a946b9d87875a2f9e421d0338a"
+  integrity sha512-gIQfzgGgu1wy80EB4/6DaJGHMEGmizq27xHIESrzXq0Y/J0Ay1P3DWk6tuVmEPIZH15zaBlxeEJOqdJKmowHCQ==
 
 perfect-scrollbar@^1.3.0:
   version "1.5.0"
@@ -557,9 +557,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.14.5"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.14.5.tgz#dd432ea9b0d7d7e7cedf12e2d8a20d35e944d4e9"
-  integrity sha512-K/rYbL5U8Wel31Lqr6VIJcWNXIoa4DSfNQ56Yrw+H/AKSmWMsyDyQcPYX9qMjhaSvEd/HOIIBdfOxx+eO6weAA==
+  version "1.14.7"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.14.7.tgz#63475a6550bf70a99298ac531bb36e7ac1116d15"
+  integrity sha512-AP++F9xNEmzdK4zEjYBgEF0lifg3LBIrE24weUyQqS/jNQ22YT1cGyqDzWrfScaGLmRdm27R6eWLsbT4Qnh3Pg==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
@@ -637,9 +637,9 @@ tributejs@^5.0.0:
   integrity sha512-B5CXihaVzXw+1UHhNFyAwUTMDk1EfoLP5Tj1VhD9yybZ1I8DZJEv8tZ1l0RJo0t0tk9ZhR8eG5tEsaCvRigmdQ==
 
 ua-parser-js@^0.7.18:
-  version "0.7.22"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.22.tgz#960df60a5f911ea8f1c818f3747b99c6e177eae3"
-  integrity sha512-YUxzMjJ5T71w6a8WWVcMGM6YWOTX27rCoIQgLXiWaxqXSx9D7DNjiGWn1aJIRSQ5qr0xuhra77bSIh6voR/46Q==
+  version "0.7.23"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.23.tgz#704d67f951e13195fbcd3d78818577f5bc1d547b"
+  integrity sha512-m4hvMLxgGHXG3O3fQVAyyAQpZzDOvwnhOTjYz5Xmr7r/+LpkNy3vJXdVRWgd1TkAb7NGROZuSy96CrlNVjA7KA==
 
 url-polyfill@^1.1.7:
   version "1.1.12"
