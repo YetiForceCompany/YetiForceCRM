@@ -69,12 +69,12 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 			$this->params = $params = $this->getFieldModel()->getFieldParams();
 			$barcodeDisplayType = $params['barcodeDisplayType'] ?? $this->barcodeDisplayType;
 			switch ($barcodeDisplayType) {
-				case 'barcode':
+				case 'barcode' && !$rawText:
 					$this->showCode = false;
 					$barcode = $this->createBarcode($value);
 					$value = $this->wrapInImageContainer($barcode, $value);
 					break;
-				case 'barcodeAndValue':
+				case 'barcodeAndValue' && !$rawText:
 					$this->showCode = true;
 					$barcode = $this->createBarcode($value);
 					$value = $this->wrapInImageContainer($barcode, $value);
