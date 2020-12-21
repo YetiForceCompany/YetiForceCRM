@@ -1381,7 +1381,7 @@ class Vtiger_Record_Model extends \App\Base
 		$links = $recordLinks = [];
 		if ($this->isViewable()) {
 			if ($this->getModule()->isSummaryViewSupported()) {
-				$recordLinks[] = [
+				$recordLinks['LBL_SHOW_QUICK_DETAILS'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
 					'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
@@ -1390,7 +1390,7 @@ class Vtiger_Record_Model extends \App\Base
 					'modalView' => true,
 				];
 			}
-			$recordLinks[] = [
+			$recordLinks['LBL_SHOW_COMPLETE_DETAILS'] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
 				'linkurl' => $this->getFullDetailViewUrl(),
@@ -1400,7 +1400,7 @@ class Vtiger_Record_Model extends \App\Base
 			];
 		}
 		if ($this->isEditable()) {
-			$recordLinks[] = [
+			$recordLinks['LBL_EDIT'] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
@@ -1409,7 +1409,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linkhref' => true,
 			];
 			if ($this->getModule()->isQuickCreateSupported()) {
-				$recordLinks[] = [
+				$recordLinks['LBL_QUICK_EDIT'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_QUICK_EDIT',
 					'linkicon' => 'yfi yfi-quick-creation',
@@ -1424,7 +1424,7 @@ class Vtiger_Record_Model extends \App\Base
 		if (!$this->isReadOnly()) {
 			if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
 				$watching = (int) ($this->isWatchingRecord());
-				$recordLinks[] = [
+				$recordLinks['BTN_WATCHING_RECORD'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'BTN_WATCHING_RECORD',
 					'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
@@ -1435,7 +1435,7 @@ class Vtiger_Record_Model extends \App\Base
 			}
 			$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 			if ($this->privilegeToActivate()) {
-				$recordLinks[] = [
+				$recordLinks['LBL_ACTIVATE_RECORD'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_ACTIVATE_RECORD',
 					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
@@ -1457,7 +1457,7 @@ class Vtiger_Record_Model extends \App\Base
 				];
 			}
 			if ($this->privilegeToMoveToTrash()) {
-				$recordLinks[] = [
+				$recordLinks['LBL_MOVE_TO_TRASH'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
 					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash',
@@ -1468,7 +1468,7 @@ class Vtiger_Record_Model extends \App\Base
 				];
 			}
 			if ($this->privilegeToDelete()) {
-				$recordLinks[] = [
+				$recordLinks['LBL_DELETE_RECORD_COMPLETELY'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
 					'linkicon' => 'fas fa-eraser',
@@ -1478,10 +1478,10 @@ class Vtiger_Record_Model extends \App\Base
 				];
 			}
 		}
-		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		foreach ($recordLinks as $key => $recordLink) {
+			$links[$key] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-		return $links;
+		return $this->sequenceButtonLinks($links, App\Config::module($this->getModuleName(), 'recordListViewButtonSequence', []));
 	}
 
 	/**
@@ -1555,7 +1555,7 @@ class Vtiger_Record_Model extends \App\Base
 				$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $this->getModuleName());
 				$pdfModel = new $handlerClass();
 				if ($pdfModel->checkActiveTemplates($this->getId(), $this->getModuleName(), 'Detail')) {
-					$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					$links['LBL_EXPORT_PDF'] = Vtiger_Link_Model::getInstanceFromValues([
 						'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 						'linklabel' => 'LBL_EXPORT_PDF',
 						'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&view=PDF&fromview=Detail&record=' . $this->getId(),
@@ -1566,7 +1566,7 @@ class Vtiger_Record_Model extends \App\Base
 			}
 			$privilegeToDelete = $relationModel->privilegeToDelete();
 			if ($privilegeToDelete && $this->privilegeToMoveToTrash()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				$links['LBL_REMOVE_RELATION'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_REMOVE_RELATION',
 					'linkicon' => 'fas fa-unlink',
 					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
@@ -1579,7 +1579,7 @@ class Vtiger_Record_Model extends \App\Base
 			}
 			$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 			if ($this->privilegeToActivate()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				$links['LBL_ACTIVATE_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_ACTIVATE_RECORD',
 					'linkicon' => 'fas fa-undo-alt',
 					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
@@ -1593,7 +1593,7 @@ class Vtiger_Record_Model extends \App\Base
 				]);
 			}
 			if ($this->privilegeToArchive()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				$links['LBL_ARCHIVE_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_ARCHIVE_RECORD',
 					'linkicon' => 'fas fa-archive',
 					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
@@ -1607,7 +1607,7 @@ class Vtiger_Record_Model extends \App\Base
 				]);
 			}
 			if ($privilegeToDelete && $this->privilegeToMoveToTrash()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				$links['LBL_MOVE_TO_TRASH'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
 					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&record=' . $this->getId(),
@@ -1618,7 +1618,7 @@ class Vtiger_Record_Model extends \App\Base
 				]);
 			}
 			if ($privilegeToDelete && $this->privilegeToDelete()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				$links['LBL_DELETE_RECORD_COMPLETELY'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
 					'linkicon' => 'fas fa-eraser',
@@ -1637,7 +1637,30 @@ class Vtiger_Record_Model extends \App\Base
 				]);
 			}
 		}
-		return $links;
+		return $this->sequenceButtonLinks($links,  App\Config::module($this->getModuleName(), 'recordRelatedListViewButtonSequence', []));
+	}
+
+	/**
+	 * Links for record list and related list in the specified sequence.
+	 *
+	 * @param array Vtiger_Link_Model[] $links
+	 * @param array $config
+	 *
+	 * @return array
+	 */
+	public function sequenceButtonLinks (array $links, array $config):array {
+		if ($config) {
+			foreach ($config as $value) {
+				if ($links[$value]) {
+					$returnLinks[$value] = $links[$value];
+				}
+				unset($links[$value]);
+			}
+			$returnLinks =	array_merge($returnLinks, $links);
+		} else {
+			$returnLinks = $links;
+		}
+		return $returnLinks;
 	}
 
 	/**
