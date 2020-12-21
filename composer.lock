@@ -3196,23 +3196,23 @@
         },
         {
             "name": "sonata-project/google-authenticator",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/GoogleAuthenticator.git",
-                "reference": "feda53899b26af24e3db2fe7a3e5f053ca483762"
+                "reference": "bb30e7cdfab4bd8a5b1d35c78e024e81060ecd99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/GoogleAuthenticator/zipball/feda53899b26af24e3db2fe7a3e5f053ca483762",
-                "reference": "feda53899b26af24e3db2fe7a3e5f053ca483762",
+                "url": "https://api.github.com/repos/sonata-project/GoogleAuthenticator/zipball/bb30e7cdfab4bd8a5b1d35c78e024e81060ecd99",
+                "reference": "bb30e7cdfab4bd8a5b1d35c78e024e81060ecd99",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": ">=7.3"
             },
             "require-dev": {
-                "symfony/phpunit-bridge": "^4.0"
+                "symfony/phpunit-bridge": "^5.1.8"
             },
             "type": "library",
             "extra": {
@@ -3232,16 +3232,16 @@
             ],
             "authors": [
                 {
+                    "name": "Thomas Rabaix",
+                    "email": "thomas.rabaix@gmail.com"
+                },
+                {
                     "name": "Christian Stocker",
                     "email": "me@chregu.tv"
                 },
                 {
                     "name": "Andre DeMarre",
                     "homepage": "http://www.devnetwork.net/viewtopic.php?f=50&t=94989"
-                },
-                {
-                    "name": "Thomas Rabaix",
-                    "email": "thomas.rabaix@gmail.com"
                 }
             ],
             "description": "Library to integrate Google Authenticator into a PHP project",
@@ -3251,9 +3251,27 @@
             ],
             "support": {
                 "issues": "https://github.com/sonata-project/GoogleAuthenticator/issues",
-                "source": "https://github.com/sonata-project/GoogleAuthenticator/tree/2.2.0"
+                "source": "https://github.com/sonata-project/GoogleAuthenticator/tree/2.3.0"
             },
-            "time": "2018-07-18T22:08:02+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/OskarStark",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/VincentLanglet",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/core23",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/wbloszyk",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-12-16T09:50:15+00:00"
         },
         {
             "name": "symfony/polyfill-iconv",
