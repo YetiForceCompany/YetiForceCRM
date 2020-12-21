@@ -34,12 +34,14 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 	 * @var string
 	 */
 	public $height = '2';
+
 	/**
 	 * Width of a single bar element in pixels.
 	 *
 	 * @var string
 	 */
 	public $width = '30';
+
 	/**
 	 * Show value of barcode.
 	 *
@@ -53,6 +55,7 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 	 * @var array
 	 */
 	public $color = [0, 0, 0];
+
 	/**
 	 * Default barcode display type.
 	 *
@@ -63,7 +66,7 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false): string
 	{
 		if ($value) {
 			$this->params = $params = $this->getFieldModel()->getFieldParams();
@@ -92,21 +95,25 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 	 * Function return a PNG image representation of barcode.
 	 *
 	 * @param string $valueToEncode
+	 *
+	 * @return string
 	 */
-	public function createBarcode(string $valueToEncode)
+	public function createBarcode(string $valueToEncode): string
 	{
 		$qrCodeGenerator = $this->getBarcodeClass();
 		$qrCodeGenerator->setStorPath(__DIR__ . App\Config::main('tmp_dir'));
 		$barcodeHeight = $this->params['height'] ?? $this->height;
 		$barcodeWidth = $this->params['width'] ?? $this->width;
 		$barcodeType = $this->params['barcodeType'] ?? $this->defaultBarcodeType;
-		return	$qrCodeGenerator->getBarcodePNG($valueToEncode, $barcodeType, $barcodeHeight, $barcodeWidth, $this->color, $this->showCode);
+		return $qrCodeGenerator->getBarcodePNG($valueToEncode, $barcodeType, $barcodeHeight, $barcodeWidth, $this->color, $this->showCode);
 	}
 
 	/**
-	 * Function get class for a specific barcode type.
+	 *  Function get class for a specific barcode type.
+	 *
+	 * @return object
 	 */
-	public function getBarcodeClass()
+	public function getBarcodeClass(): object
 	{
 		$barcodeClass = $this->params['barcodeClass'] ?? $this->defaultBarcodeClass;
 		$className = '\Milon\Barcode\\' . $barcodeClass;
@@ -121,8 +128,10 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 	 *
 	 * @param string $barcode
 	 * @param string $value
+	 *
+	 * @return string
 	 */
-	public function wrapInImageContainer(string $barcode, string $value)
+	public function wrapInImageContainer(string $barcode, string $value): string
 	{
 		return '<img src="data:image/png;base64,' . $barcode . '" alt="' . $value . '"  title="' . $value . '"/>';
 	}

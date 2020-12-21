@@ -66,7 +66,7 @@ class Barcode extends Base
 	 *
 	 * @return string
 	 */
-	public function process()
+	public function process(): string
 	{
 		$barcode = '';
 		$valueForEncode = $this->getValueForBarcode();
@@ -82,7 +82,7 @@ class Barcode extends Base
 	 *
 	 * @return string
 	 */
-	public function getValueForBarcode()
+	public function getValueForBarcode(): string
 	{
 		$value = '';
 		if (isset($this->params['value'])) {
@@ -99,7 +99,7 @@ class Barcode extends Base
 	 *
 	 * @param string $valueToEncode
 	 */
-	public function createBarcode(string $valueToEncode)
+	public function createBarcode(string $valueToEncode): string
 	{
 		$qrCodeGenerator = $this->getBarcodeClass();
 		$qrCodeGenerator->setStorPath(__DIR__ . \App\Config::main('tmp_dir'));
@@ -112,8 +112,10 @@ class Barcode extends Base
 
 	/**
 	 * Function get class for a specific barcode type.
+	 *
+	 * @return object
 	 */
-	public function getBarcodeClass()
+	public function getBarcodeClass(): object
 	{
 		$barcodeClass = $this->params['class'] ?? $this->defaultBarcodeClass;
 		$className = '\Milon\Barcode\\' . $barcodeClass;
@@ -127,8 +129,10 @@ class Barcode extends Base
 	 * Function return barcode in image.
 	 *
 	 * @param string $barcode
+	 *
+	 * @return string
 	 */
-	public function wrapInImageContainer(string $barcode)
+	public function wrapInImageContainer(string $barcode): string
 	{
 		return '<img src="data:image/png;base64,' . $barcode . '"/>';
 	}
