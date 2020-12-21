@@ -20,7 +20,7 @@ on:
   pull_request:
     branches:
       - developer
-    
+
 
 ###############
 # Set the Job #
@@ -49,7 +49,7 @@ jobs:
             # Run Linter against code base #
             ################################
             - name: Lint Code Base
-              uses: docker://github/super-linter:v3.13.5
+              uses: docker://github/super-linter:v3.14.3
               env:
                   DEFAULT_BRANCH: developer
                   VALIDATE_ALL_CODEBASE: false
