@@ -527,58 +527,32 @@ $.Class(
 				.find(
 					'.js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel'
 				)
-				.each(function (index) {
+				.each(function () {
 					let block = $(this);
-					let referenceModulesList = false;
-					referenceModulesList = block.find('.referenceModulesList');
+					let referenceModulesList = block.find('.referenceModulesList');
 					if (referenceModulesList.length > 0) {
-						referenceModulesList.on('change', function (e) {
+						referenceModulesList.on('change', function () {
 							thisInstance.formElement
 								.find('[class*="copyAddressFrom"]:not(.copyAddressFromMain, .copyAddressFromMailing)')
 								.addClass('d-none');
-							let moduleName = $(this).val();
-							if (moduleName == 'Accounts') {
-								thisInstance.enableCopyAddressFromModule(
-									moduleName,
-									thisInstance.formElement,
-									'copyAddressFromAccount',
-									block.find('.sourceField').attr('name'),
-									'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'
-								);
-							} else if (moduleName == 'Contacts') {
-								thisInstance.enableCopyAddressFromModule(
-									moduleName,
-									thisInstance.formElement,
-									'copyAddressFromContact',
-									block.find('.sourceField').attr('name'),
-									'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS'
-								);
-							} else if (moduleName == 'Leads') {
-								thisInstance.enableCopyAddressFromModule(
-									moduleName,
-									thisInstance.formElement,
-									'copyAddressFromLead',
-									block.find('.sourceField').attr('name'),
-									'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'
-								);
-							} else if (moduleName == 'Vendors') {
-								thisInstance.enableCopyAddressFromModule(
-									moduleName,
-									thisInstance.formElement,
-									'copyAddressFromVendor',
-									block.find('.sourceField').attr('name'),
-									'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'
-								);
-							}
+							thisInstance.registerEventForCopyBlockAddress($(this).val(), block.find('.sourceField').attr('name'));
 						});
 						referenceModulesList.trigger('change');
+					} else {
+						let referenceFields = block.find('[name="popupReferenceModule"]');
+						if (referenceFields.length > 0) {
+							thisInstance.registerEventForCopyBlockAddress(
+								referenceFields.val(),
+								block.find('.sourceField').attr('name')
+							);
+						}
 					}
 				});
-			this.formElement.find('.js-toggle-panel').each(function (index) {
+			this.formElement.find('.js-toggle-panel').each(function () {
 				let hideCopyAddressLabel = true;
 				$(this)
 					.find('.adressAction button')
-					.each(function (index) {
+					.each(function () {
 						if ($(this).hasClass('d-none') == false) {
 							hideCopyAddressLabel = false;
 						}
@@ -608,6 +582,42 @@ $.Class(
 				let to = block.data('label');
 				thisInstance.copyAddress(from, to, false, false);
 			});
+		},
+		registerEventForCopyBlockAddress: function (moduleName, fieldName) {
+			const self = this;
+			if (moduleName == 'Accounts') {
+				self.enableCopyAddressFromModule(
+					moduleName,
+					self.formElement,
+					'copyAddressFromAccount',
+					fieldName,
+					'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'
+				);
+			} else if (moduleName == 'Contacts') {
+				self.enableCopyAddressFromModule(
+					moduleName,
+					self.formElement,
+					'copyAddressFromContact',
+					fieldName,
+					'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS'
+				);
+			} else if (moduleName == 'Leads') {
+				self.enableCopyAddressFromModule(
+					moduleName,
+					self.formElement,
+					'copyAddressFromLead',
+					fieldName,
+					'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'
+				);
+			} else if (moduleName == 'Vendors') {
+				self.enableCopyAddressFromModule(
+					moduleName,
+					self.formElement,
+					'copyAddressFromVendor',
+					fieldName,
+					'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'
+				);
+			}
 		},
 		/**
 		 * Show button to copy the address details from selected module
@@ -859,12 +869,12 @@ $.Class(
 						for (let i = 0; i < response.length; i++) {
 							if (response[i].result !== true) {
 								if (typeof response[i].showModal !== 'undefined' && typeof response[i].showModal.url !== 'undefined') {
-									app.showModalWindow(null, response[i].showModal.url, function(modalContainer){
-										app.registerModalController(undefined, modalContainer, function(_, instance){
+									app.showModalWindow(null, response[i].showModal.url, function (modalContainer) {
+										app.registerModalController(undefined, modalContainer, function (_, instance) {
 											instance.formContainer = form;
 										});
 									});
-								}else{
+								} else {
 									app.showNotify({
 										text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
 										type: 'error'
