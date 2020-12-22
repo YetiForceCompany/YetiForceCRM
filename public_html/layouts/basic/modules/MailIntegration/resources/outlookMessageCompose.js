@@ -82,7 +82,7 @@ window.MailIntegration_Compose = {
 				window.MailIntegration_Compose.findEmail(request, response);
 			},
 			select: function (e, ui) {
-				window.MailIntegration_Compose.onSelectRecipient(this, ui.item);
+				window.MailIntegration_Compose.onSelectRecipient(e.toElement, ui.item);
 			}
 		});
 	},
