@@ -11,6 +11,7 @@
 				</div>
 			</div>
 			<div class="alert alert-primary" role="alert">
+				<span class="mdi mdi-information-outline u-fs-4x mr-2 float-left"></span>
 				{\App\Language::translate("LBL_VISIT_PURPOSE_ALERT")}
 			</div>
 		</div>
