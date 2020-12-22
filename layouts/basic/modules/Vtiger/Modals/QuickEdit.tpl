@@ -137,7 +137,7 @@
 							{foreach key=FIELD_LABEL item=FIELD_VALUE from=$NO_FIELD_ACCESS}
 								<div class="w-100 row">
 									<span class="col-4">
-										{$FIELD_LABEL}:
+										{\App\Language::translate($FIELD_LABEL, $MODULE_NAME)}:
 									</span>
 									<span class="col-8">
 										{$FIELD_VALUE}
