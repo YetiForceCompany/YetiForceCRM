@@ -100,6 +100,24 @@
 		{elseif $LAYOUT === 'vertical'}
 			<div class="massEditTable border-0 px-1 mx-auto m-0">
 				<div class="col-12 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE}">
+					{if !empty($NO_FIELD_ACCESS)}
+						<div class="alert alert-warning w-100 mt-2">
+							<div class="font-weight-bold d-flex align-items-center">
+								<span class="mdi mdi-alert-outline mr-2 u-fs-2em float-left"></span>
+								{\App\Language::translate('LBL_NO_FIELD_ACCESS')}
+							</div>
+							{foreach key=FIELD_LABEL item=FIELD_VALUE from=$NO_FIELD_ACCESS}
+								<div class="w-100 row">
+									<span class="col-4">
+										{\App\Language::translate($FIELD_LABEL, $MODULE_NAME)}:
+									</span>
+									<span class="col-8">
+										{$FIELD_VALUE}
+									</span>
+								</div>
+							{/foreach}
+						</div>
+					{/if}
 					{if !empty($CHANGED_FIELDS)}
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$CHANGED_FIELDS}
 							<div class="fieldLabel col-lg-12 col-xl-3 text-lg-left text-xl-right u-text-ellipsis mt-1">
@@ -131,21 +149,6 @@
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 						</div>
 					{/foreach}
-					{if !empty($NO_FIELD_ACCESS)}
-						<div class="alert alert-warning w-100 mt-2">
-							<span class="font-weight-bold">{\App\Language::translate('LBL_NO_FIELD_ACCESS')}</span>
-							{foreach key=FIELD_LABEL item=FIELD_VALUE from=$NO_FIELD_ACCESS}
-								<div class="w-100 row">
-									<span class="col-4">
-										{\App\Language::translate($FIELD_LABEL, $MODULE_NAME)}:
-									</span>
-									<span class="col-8">
-										{$FIELD_VALUE}
-									</span>
-								</div>
-							{/foreach}
-						</div>
-					{/if}
 				</div>
 			</div>
 		{else}
