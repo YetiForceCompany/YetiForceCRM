@@ -36,7 +36,17 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return (isset($_SESSION['AutoLoginUser']) && \array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
 	}
 
-	public static function getComposeUrl($moduleName = false, $record = false, $view = false, $type = false)
+	/**
+	 * URL generation for internal mail clients.
+	 *
+	 * @param mixed $moduleName
+	 * @param mixed $record
+	 * @param mixed $view
+	 * @param mixed $type
+	 *
+	 * @return string
+	 */
+	public static function getComposeUrl($moduleName = false, $record = false, $view = false, $type = false): string
 	{
 		$url = 'index.php?module=OSSMail&view=Compose';
 		if ($moduleName) {
@@ -182,39 +192,47 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return self::$composeParam;
 	}
 
-	public static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
+	/**
+	 * URL generation for external mail clients.
+	 *
+	 * @param mixed $moduleName
+	 * @param mixed $record
+	 * @param mixed $view
+	 * @param mixed $type
+	 *
+	 * @return string
+	 */
+	public static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false): string
 	{
 		$url = 'mailto:';
-		if (!empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
-			$recordModel_OSSMailView = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
-			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
-			if (!empty($email)) {
-				$url .= $email;
+		$request = new App\Request([]);
+		if ($moduleName) {
+			$request->set('crmModule', $moduleName);
+		}
+		if ($record) {
+			$request->set('crmRecord', $record);
+		}
+		if ($view) {
+			$request->set('crmView', $view);
+		}
+		if ($type) {
+			$request->set('type', $type);
+		}
+		$param = self::getComposeParam($request);
+		if (isset($param['to'])) {
+			$url .= str_replace(',', ';', $param['to']);
+		}
+		$url .= '?';
+		foreach (['cc', 'bcc'] as $value) {
+			if (isset($param[$value])) {
+				$url .= $value . '=' . str_replace(',', ';', $param[$value]) . '&';
 			}
-			$url .= '?';
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$moduleModel = $recordModel->getModule();
-			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(3))))) {
-				if ($fieldName = $moduleModel->getSequenceNumberFieldName()) {
-					$subject = "subject=[$fieldName] ";
-					if ('new' == $type) {
-						switch ($moduleName) {
-							case 'HelpDesk':
-								$subject .= $recordModel->get('ticket_title');
-								break;
-							case 'SSalesProcesses':
-								$subject .= $recordModel->get('subject');
-								break;
-							case 'Project':
-								$subject .= $recordModel->get('projectname');
-								break;
-							default:
-								break;
-						}
-					}
-					$url .= $subject;
-				}
-			}
+		}
+		if (isset($param['subject'])) {
+			$url .= 'subject=' . \App\Purifier::encodeHtml($param['subject']) . '&';
+		}
+		if (isset($param['body'])) {
+			$url .= 'body=' . \App\Purifier::encodeHtml($param['body']) . '&';
 		}
 		return $url;
 	}
