@@ -16496,6 +16496,9 @@ table .listButtons.narrow .c-badge__icon {
 .u-min-w-650px {
   min-width: 40.625rem !important; }
 
+.u-min-w-150px {
+  min-width: 9.375rem !important; }
+
 .u-min-w-300px {
   min-width: 18.75rem !important; }
 
