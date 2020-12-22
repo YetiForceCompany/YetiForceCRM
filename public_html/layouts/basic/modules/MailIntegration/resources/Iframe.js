@@ -169,11 +169,13 @@ window.MailIntegration_Iframe = {
 				}
 			}
 		}
-		const mailBodyCallback = (body) => {
-			data.description = body;
-			return data;
-		};
-		return this.asyncGetMailBody(mailBodyCallback);
+		this.mailDetails = {};
+		return new Promise((resolve) => {
+			this.asyncGetMailBody().then(() => {
+				data.description = this.mailDetails.mailBody;
+				resolve(data);
+			});
+		});
 	},
 	/**
 	 * Toggle active list items
