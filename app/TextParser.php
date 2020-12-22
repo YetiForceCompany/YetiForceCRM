@@ -1682,14 +1682,27 @@ class TextParser
 	 */
 	protected function barcode($params)
 	{
-		$instance = null;
-		$className = '\\App\\TextParser\\' . ucfirst(__FUNCTION__);
-		if (!class_exists($className)) {
-			Log::error("Not found custom class: $className");
-		} else {
-			$instance = new $className($this, $this->parseParams($params));
+		$params = $this->parseParams($params);
+		if (isset($params['value'])) {
+			$valueForParse = $params['value'];
 		}
-		return $instance && $instance->isActive() ? $instance->process() : '';
+		if (isset($params['fieldName'])) {
+			$valueForParse = $this->recordModel->get($params['fieldName']);
+		}
+		if ($valueForParse) {
+			$className = '\Milon\Barcode\\' . $params['class'];
+			if (!class_exists($className)) {
+				throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND||' . $className);
+			}
+			$qrCodeGenerator = new $className();
+			$qrCodeGenerator->setStorPath(__DIR__ . \App\Config::main('tmp_dir'));
+			$barcodeHeight = $this->params['height'] ?? '2';
+			$barcodeWidth = $this->params['width'] ?? '30';
+			$barcodeType = $this->params['type'] ?? 'EAN13';
+			$showText = $this->params['showText'] ?? true;
+			$png = $qrCodeGenerator->getBarcodePNG($valueForParse, $barcodeType, $barcodeHeight, $barcodeWidth, [0, 0, 0], $showText);
+			return  '<img src="data:image/png;base64,' . $png . '"/>';
+		}
 	}
 
 	/**

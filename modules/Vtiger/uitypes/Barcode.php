@@ -1,6 +1,6 @@
 <?php
 /**
- * UIType barcode.
+ * Barcode uitype file.
  *
  * @package   UIType
  *
