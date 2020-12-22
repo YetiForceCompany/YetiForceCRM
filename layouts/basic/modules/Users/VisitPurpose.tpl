@@ -10,6 +10,9 @@
 					<textarea id="visitPurpose" maxlength="501" class="" name="visitPurpose" data-validation-engine="validate[required,maxSize[500]]"></textarea>
 				</div>
 			</div>
+			<div class="alert alert-primary" role="alert">
+				{\App\Language::translate("LBL_VISIT_PURPOSE_ALERT")}
+			</div>
 		</div>
 	</form>
 <!-- /tpl-Users-VisitPurpose -->
