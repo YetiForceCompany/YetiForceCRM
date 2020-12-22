@@ -1470,7 +1470,8 @@
     "LBL_SOURCE_RECORD": "Source record",
     "BTM_GOTO_YETIFORCE_DOCUMENTATION": "Go to YetiForce documentation",
     "LBL_NOT_FILLED_MANDATORY_FIELDS": "All required fields were not filled in",
-    "LBL_HEADERSWITCH_OPEN_CLOSED": "Open/Closed"
+    "LBL_HEADERSWITCH_OPEN_CLOSED": "Open/Closed",
+	"LBL_VISIT_PURPOSE_ALERT": "Warning, window visible only to the administrator. We do not recommend working on the admin account, this should only be used to manage CRM. The window can be disabled in the configuration file."
   },
   "js": {
     "JS_APPROVE": "Approve",
