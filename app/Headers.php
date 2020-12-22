@@ -46,6 +46,7 @@ class Headers
 		'script-src' => '\'self\' \'unsafe-inline\' blob:',
 		'form-action' => '\'self\'',
 		'frame-ancestors' => '\'self\'',
+		'frame-src' => '\'self\' mailto: tel:',
 		'style-src' => '\'self\' \'unsafe-inline\'',
 		'connect-src' => '\'self\'',
 	];
