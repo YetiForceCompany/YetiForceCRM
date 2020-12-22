@@ -1264,6 +1264,7 @@
     "FL_IS_PRIVATE": "Private",
     "LBL_AUTOMATIC_ASSIGNMENT": "Automatic assignment",
     "LBL_ROLE": "Role",
+    "LBL_NO_FIELD_ACCESS": "You cannot change the values in the fields",
     "LBL_NUMBER_OF_ASSIGNED_RECORDS": "Number of assigned records",
     "LBL_ASSIGN": "Assign",
     "LBL_SET_DEFAULT_RECORD_OWNER": "Set default Assigned To",
