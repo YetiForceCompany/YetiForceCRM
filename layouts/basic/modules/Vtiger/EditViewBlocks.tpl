@@ -126,17 +126,22 @@
 									{if $COUNTER eq 2}
 									</div>
 									<div class="row">
+										{assign var=FIELD_PARAMS value=$FIELD_MODEL->getFieldParams()}
+										{if !empty($FIELD_PARAMS['editWidth'])}
+											{assign var=EDIT_WIDTH value=$FIELD_PARAMS['editWidth']}
+										{else}
+											{assign var=EDIT_WIDTH value=''}
+										{/if}
 										{assign var=COUNTER value=1}{else}{assign var=COUNTER value=$COUNTER+1}{/if}
 										{if isset($RECORD_STRUCTURE_RIGHT)}
 											<div class="col-sm-12 fieldRow row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
 										{else}
-											<div class="{if $FIELD_MODEL->get('label') eq "FL_REAPEAT"} col-sm-3
-											{elseif $FIELD_MODEL->get('label') eq "FL_RECURRENCE"} col-sm-9
-											{elseif $FIELD_MODEL->getUIType() neq "300"}col-sm-6
-											{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
+											<div class="{if $FIELD_MODEL->getUIType() eq "300"} col-md-12 m-auto 
+											{elseif !empty($EDIT_WIDTH)} {$EDIT_WIDTH}
+											{else} col-sm-6 {/if} fieldRow row form-group align-items-center my-1 js-field-block-column {if $FIELD_MODEL->get('hideField')} d-none {/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
 										{/if}
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
-										<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
+										<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} my-0 {if !empty($EDIT_WIDTH) && ($EDIT_WIDTH eq 'col-md-12')} {$EDIT_WIDTH} mr-auto pl-2 {else} col-lg-12 col-xl-3 text-lg-left text-xl-right {/if}  fieldLabel u-text-small-bold">
 											{if $FIELD_MODEL->isMandatory() eq true}
 												<span class="redColor">*</span>
 											{/if}
@@ -148,7 +153,7 @@
 											{/if}
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
 										</label>
-										<div class="{$WIDTHTYPE} {$WIDTHTYPE_GROUP} w-100 {if $FIELD_MODEL->getUIType() neq "300"} col-lg-12 col-xl-9 {/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+										<div class="{$WIDTHTYPE} {$WIDTHTYPE_GROUP} w-100 fieldValue {if !empty($EDIT_WIDTH)} {$EDIT_WIDTH} {elseif ($FIELD_MODEL->getUIType() neq "300") && empty($EDIT_WIDTH)} col-lg-12 col-xl-9 {/if}"{if $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 											{if $FIELD_MODEL->getUIType() eq "300"}
 												<label class="u-text-small-bold">{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
