@@ -483,7 +483,7 @@ $.Class(
 				params.data.sourceRecordData = formData;
 			}
 			let referenceModuleName = this.getReferencedModuleName(container);
-			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, params);
+			App.Components.QuickCreate.createRecord(referenceModuleName, params);
 		},
 		/**
 		 * Function which will register event for create of reference record

@@ -12,7 +12,9 @@
  *  Class representing a standard calendar.
  * @extends Calendar_Js
  */
-window.Calendar_Calendar_Js = class extends Calendar_Js {
+window.Calendar_Calendar_Js = class extends (
+	Calendar_Js
+) {
 	setCalendarModuleOptions() {
 		let self = this,
 			options = {
@@ -140,8 +142,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 			data.find('[name="time_start"]').val(startTimeString);
 			data.find('[name="time_end"]').val(endTimeString);
 
-			var headerInstance = new Vtiger_Header_Js();
-			headerInstance.handleQuickCreateData(data, {
+			App.Components.QuickCreate.showModal(data, {
 				callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result);
 				}
@@ -190,9 +191,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 	loadCalendarCreateView() {
 		var aDeferred = jQuery.Deferred();
 		var url = `index.php?module=${this.module}&view=QuickCreateAjax`;
-		var headerInstance = Vtiger_Header_Js.getInstance();
-		headerInstance
-			.getQuickCreateForm(url, this.module)
+		App.Components.QuickCreate.getForm(url, this.module)
 			.done(function (data) {
 				aDeferred.resolve(jQuery(data));
 			})

@@ -1539,7 +1539,7 @@ jQuery.Class(
 				a.remove();
 			});
 			container.find('.js-widget-quick-create').on('click', function (e) {
-				Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
+				App.Components.QuickCreate.createRecord($(this).data('module-name'));
 			});
 		},
 		registerChangeSorting: function registerChangeSorting() {
@@ -2381,7 +2381,7 @@ YetiForce_Widget_Js(
 				defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
 			}
 			container.find('.js-widget-quick-create').on('click', function (e) {
-				Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
+				App.Components.QuickCreate.createRecord($(this).data('module-name'));
 			});
 			thisInstance.getCalendarView().fullCalendar({
 				header: {
@@ -2464,7 +2464,7 @@ YetiForce_Widget_Js(
 					params.callbackFunction = function () {
 						thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
 					};
-					Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
+					App.Components.QuickCreate.createRecord('Calendar', params);
 				});
 			var switchBtn = container.find('.js-switch--calendar');
 			switchBtn.on('change', (e) => {

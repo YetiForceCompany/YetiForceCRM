@@ -319,7 +319,7 @@ Vtiger_Detail_Js(
 			quickCreateParams['callbackFunction'] = callback;
 			quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			quickCreateParams['noCache'] = true;
-			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, quickCreateParams);
+			App.Components.QuickCreate.createRecord(referenceModuleName, quickCreateParams);
 			return aDeferred.promise();
 		},
 		registerEvents: function () {

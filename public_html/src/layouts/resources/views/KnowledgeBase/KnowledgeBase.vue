@@ -493,8 +493,7 @@ export default {
       })
     },
     openQuickCreateModal() {
-      const headerInstance = new window.Vtiger_Header_Js()
-      headerInstance.quickCreateModule(this.moduleName)
+      App.Components.QuickCreate.createRecord(this.moduleName)
     },
     showArticlePreview(id) {
       this.fetchRecord(id).then(() => {

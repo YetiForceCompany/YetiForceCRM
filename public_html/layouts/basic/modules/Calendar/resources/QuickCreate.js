@@ -5,7 +5,9 @@
  *  Class representing a modal calendar.
  * @extends Calendar_CalendarExtended_Js
  */
-window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calendar_CalendarExtended_Js {
+window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends (
+	Calendar_CalendarExtended_Js
+) {
 	constructor(container, readonly) {
 		super(container, readonly);
 		this.isSwitchAllDays = false;
@@ -230,7 +232,6 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 	/** @inheritdoc */
 	registerEditForm(sideBar) {
 		let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
-			headerInstance = new Vtiger_Header_Js(),
 			params = [];
 		let rightFormCreate = sideBar.find('form[name="QuickCreate"]');
 		editViewInstance.registerBasicEvents(rightFormCreate);
@@ -239,7 +240,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 		sideBar.find('.js-summary-close-edit').on('click', () => {
 			this.getCalendarCreateView();
 		});
-		headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
+		App.Components.QuickCreate.registerPostLoadEvents(rightFormCreate, params);
 		App.Fields.Text.Editor.register(sideBar.find('.js-editor'), { height: '5em', toolbar: 'Min' });
 	}
 

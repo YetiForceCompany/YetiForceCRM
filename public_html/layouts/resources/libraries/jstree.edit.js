@@ -47,7 +47,7 @@
 								},
 								noCache: true
 							};
-							Vtiger_Header_Js.getInstance().quickCreateModule(module, QuickCreateParams);
+							App.Components.QuickCreate.createRecord(module, QuickCreateParams);
 						} else {
 							app.hideModalWindow();
 							Vtiger_Helper_Js.showConfirmationBox({

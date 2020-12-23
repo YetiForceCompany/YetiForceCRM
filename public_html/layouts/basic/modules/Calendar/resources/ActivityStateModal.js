@@ -37,10 +37,9 @@ jQuery.Class(
 								'index.php?module=Calendar&view=QuickCreateAjax&addRelation=true&sourceModule=Calendar&sourceRecord=' +
 								currentTarget.data('id'),
 							params = {},
-							subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject'),
-							headerInstance = Vtiger_Header_Js.getInstance();
+							subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject');
 						params.noCache = true;
-						headerInstance.getQuickCreateForm(url, 'Calendar', params).done(function (data) {
+						App.Components.QuickCreate.getForm(url, 'Calendar', params).done(function (data) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							if (currentTarget.data('type') == '0' && typeof subject !== 'undefined' && subject.length > 0) {
 								data = $(data);
@@ -49,7 +48,7 @@ jQuery.Class(
 									element.val(subject);
 								}
 							}
-							headerInstance.handleQuickCreateData(data, {
+							App.Components.QuickCreate.showModal(data, {
 								callbackFunction: function (data) {
 									if (data && data.success && data.result.followup.value == currentTarget.data('id')) {
 										self.updateActivityState(currentTarget);

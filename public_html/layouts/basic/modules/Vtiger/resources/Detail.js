@@ -1022,12 +1022,14 @@ jQuery.Class(
 				this.getSelectedTab(),
 				this.getRelatedModuleName()
 			);
-			relatedListInstance.loadRelatedList(params).done(function (data) {
-				aDeferred.resolve(data);
-			})
-			.fail(function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			});
+			relatedListInstance
+				.loadRelatedList(params)
+				.done(function (data) {
+					aDeferred.resolve(data);
+				})
+				.fail(function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				});
 			return aDeferred.promise();
 		},
 		/**
@@ -1456,7 +1458,7 @@ jQuery.Class(
 				QuickCreateParams['callbackFunction'] = callbackFunction;
 				QuickCreateParams['data'] = Object.assign({}, customParams);
 				QuickCreateParams['noCache'] = false;
-				Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, QuickCreateParams);
+				App.Components.QuickCreate.createRecord(referenceModuleName, QuickCreateParams);
 			});
 		},
 		getEndDate: function (startDate) {
@@ -1552,14 +1554,14 @@ jQuery.Class(
 							enabled: true
 						}
 					});
-					let headerInstance;
+					let quickCreate;
 					if (window !== window.parent) {
-						headerInstance = window.parent.Vtiger_Header_Js.getInstance();
+						quickCreate = window.parent.App.Components.QuickCreate;
 					} else {
-						headerInstance = Vtiger_Header_Js.getInstance();
+						quickCreate = App.Components.QuickCreate;
 					}
-					headerInstance.getQuickCreateForm(quickcreateUrl, moduleName, quickCreateParams).done(function (data) {
-						headerInstance.handleQuickCreateData(data, quickCreateParams);
+					quickCreate.getForm(quickcreateUrl, moduleName, quickCreateParams).done(function (data) {
+						quickCreate.showModal(data, quickCreateParams);
 						progress.progressIndicator({ mode: 'hide' });
 					});
 				});
@@ -1742,12 +1744,12 @@ jQuery.Class(
 				let url = currentTarget.data('url');
 				if (url) {
 					if (currentTarget.hasClass('showEdit')) {
-						let headerInstance = Vtiger_Header_Js.getInstance();
+						let quickCreate = App.Components.QuickCreate;
 						if (window !== window.parent) {
-							headerInstance = window.parent.Vtiger_Header_Js.getInstance();
+							quickCreate = window.parent.App.Components.QuickCreate;
 						}
-						headerInstance.getQuickCreateForm(url, 'Calendar', { noCache: true }).done((data) => {
-							headerInstance.handleQuickCreateData(data, {
+						quickCreate.getForm(url, 'Calendar', { noCache: true }).done((data) => {
+							quickCreate.showModal(data, {
 								callbackFunction: () => {
 									let widget = currentTarget.closest('.widgetContentBlock');
 									if (widget.length) {
@@ -1894,7 +1896,7 @@ jQuery.Class(
 				QuickCreateParams['goToFullFormcallback'] = goToFullFormcallback;
 				QuickCreateParams['data'] = customParams;
 				QuickCreateParams['noCache'] = false;
-				Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, QuickCreateParams);
+				App.Components.QuickCreate.createRecord(referenceModuleName, QuickCreateParams);
 			});
 			this.registerFastEditingFiels();
 		},

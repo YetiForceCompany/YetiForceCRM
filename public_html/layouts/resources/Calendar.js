@@ -610,8 +610,7 @@ window.Calendar_Js = class {
 		const self = this;
 		$('.js-add').on('click', (e) => {
 			self.getCalendarCreateView().done((data) => {
-				const headerInstance = new Vtiger_Header_Js();
-				headerInstance.handleQuickCreateData(data, {
+				App.Components.QuickCreate.showModal(data, {
 					callbackFunction: (data) => {
 						self.addCalendarEvent(data.result);
 					}
@@ -653,9 +652,7 @@ window.Calendar_Js = class {
 		let aDeferred = jQuery.Deferred();
 		let moduleName = app.getModuleName();
 		let url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
-		let headerInstance = Vtiger_Header_Js.getInstance();
-		headerInstance
-			.getQuickCreateForm(url, moduleName)
+		App.Components.QuickCreate.getForm(url, moduleName)
 			.done(function (data) {
 				aDeferred.resolve(jQuery(data));
 			})
@@ -787,7 +784,9 @@ window.Calendar_Js = class {
  *  Class representing a calendar with creating events by day click instead of selecting days.
  * @extends Calendar_Js
  */
-window.Calendar_Unselectable_Js = class extends Calendar_Js {
+window.Calendar_Unselectable_Js = class extends (
+	Calendar_Js
+) {
 	/**
 	 * Set calendar module options.
 	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
@@ -852,8 +851,7 @@ window.Calendar_Unselectable_Js = class extends Calendar_Js {
 			data.find('[name="time_start"]').val(startTimeString);
 			data.find('[name="time_end"]').val(endTimeString);
 
-			let headerInstance = new Vtiger_Header_Js();
-			headerInstance.handleQuickCreateData(data, {
+			App.Components.QuickCreate.showModal(data, {
 				callbackFunction(data) {
 					self.addCalendarEvent(data.result, dateFormat);
 				}

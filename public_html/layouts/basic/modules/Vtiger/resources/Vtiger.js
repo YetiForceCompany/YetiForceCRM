@@ -527,7 +527,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	sendNotification: function () {
-		Vtiger_Header_Js.getInstance().quickCreateModule('Notification');
+		App.Components.QuickCreate.createRecord('Notification');
 	},
 	performPhoneCall: function (phoneNumber, record) {
 		AppConnector.request({
