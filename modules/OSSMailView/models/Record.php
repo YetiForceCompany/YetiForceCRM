@@ -97,7 +97,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 			$firstLetterBg = self::TYPE_COLORS[$row['type']];
 			$firstLetter = strtoupper(App\TextParser::textTruncate(trim(strip_tags($from)), 1, false));
-			if ($row['orginal_mail']) {
+			if ($row['orginal_mail'] && '-' !== $row['orginal_mail']) {
 				$rblInstance = \App\Mail\Rbl::getInstance([]);
 				$rblInstance->set('rawBody', $row['orginal_mail']);
 				$rblInstance->parse();
