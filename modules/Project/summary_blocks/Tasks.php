@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Tasks file.
+ * Summary block for a task list file.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -9,14 +9,43 @@
  */
 
 /**
- * Tasks class.
+ * Summary block for a task list class.
  */
 class Tasks
 {
+	/**
+	 * Name.
+	 *
+	 * @var string
+	 */
 	public $name = 'LBL_TASKS_LIST';
+
+	/**
+	 * Sequence.
+	 *
+	 * @var int
+	 */
 	public $sequence = 2;
+
+	/**
+	 * Reference.
+	 *
+	 * @var string
+	 */
 	public $reference = 'ProjectTask';
+
+	/**
+	 * Name icon.
+	 *
+	 * @var string
+	 */
 	public $icon = 'yfm-ProjectTask';
+
+	/**
+	 * Type.
+	 *
+	 * @var string
+	 */
 	public $type = 'badge';
 
 	/**

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Milestones file.
+ * Summary block for list of stages file.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -9,14 +9,43 @@
  */
 
 /**
- * Milestones class.
+ * Summary block for list of stages class.
  */
 class Milestones
 {
+	/**
+	 * Name.
+	 *
+	 * @var string
+	 */
 	public $name = 'LBL_MILESTONES';
+
+	/**
+	 * Sequence.
+	 *
+	 * @var int
+	 */
 	public $sequence = 1;
+
+	/**
+	 * Reference.
+	 *
+	 * @var string
+	 */
 	public $reference = 'ProjectMilestone';
+
+	/**
+	 * Name icon.
+	 *
+	 * @var string
+	 */
 	public $icon = 'yfm-ProjectMilestone';
+
+	/**
+	 * Type.
+	 *
+	 * @var string
+	 */
 	public $type = 'badge';
 
 	/**
