@@ -5,8 +5,6 @@ class OffersAccepted
 	public $name = 'Offers accepted';
 	public $sequence = 3;
 	public $reference = 'SQuotes';
-	public $icon = false;
-	public $type = false;
 
 	/**
 	 * Process function.

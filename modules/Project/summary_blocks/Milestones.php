@@ -28,11 +28,11 @@ class Milestones
 	 */
 	public function process(Vtiger_Record_Model $recordModel)
 	{
-		\App\Log::trace('Entering Tasks::process() method ...');
-		$query = (new App\Db\Query())->from('vtiger_projectmilestone')->innerJoin('vtiger_crmentity', 'vtiger_projectmilestone.projectmilestoneid = vtiger_crmentity.crmid')->where(['vtiger_projectmilestone.projectid' => $recordModel->getId(), 'vtiger_crmentity.deleted' => 0]);
+		$query = (new App\Db\Query())->from('vtiger_projectmilestone')
+			->innerJoin('vtiger_crmentity', 'vtiger_projectmilestone.projectmilestoneid = vtiger_crmentity.crmid')
+			->where(['vtiger_projectmilestone.projectid' => $recordModel->getId(), 'vtiger_crmentity.deleted' => 0]);
 		$total = $query->count();
 		$open = $query->andWhere(['vtiger_projectmilestone.projectmilestone_status' => ['PLL_IN_PROGRESSING', 'PLL_IN_APPROVAL']])->count();
-		\App\Log::trace('Exiting Tasks::process() method ...');
 		return [
 			[
 				'label' => \App\Language::translate('LBL_OPEN'),

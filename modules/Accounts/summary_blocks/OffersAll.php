@@ -5,8 +5,6 @@ class OffersAll
 	public $name = 'Offers all';
 	public $sequence = 2;
 	public $reference = 'SQuotes';
-	public $icon = false;
-	public $type = false;
 
 	/**
 	 * Process function.

@@ -5,8 +5,6 @@ class TotalTimeWorked
 	public $name = 'Total time worked';
 	public $sequence = 6;
 	public $reference = 'OSSTimeControl';
-	public $icon = false;
-	public $type = false;
 
 	/**
 	 * Process function.

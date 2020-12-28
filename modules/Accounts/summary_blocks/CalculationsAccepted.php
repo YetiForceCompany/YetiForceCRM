@@ -5,8 +5,6 @@ class CalculationsAccepted
 	public $name = 'Calculations accepted';
 	public $sequence = 1;
 	public $reference = 'SCalculations';
-	public $icon = false;
-	public $type = false;
 
 	/**
 	 * Process function.

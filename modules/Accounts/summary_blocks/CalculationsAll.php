@@ -5,8 +5,6 @@ class CalculationsAll
 	public $name = 'Calculations all';
 	public $sequence = 0;
 	public $reference = 'SCalculations';
-	public $icon = false;
-	public $type = false;
 
 	/**
 	 * Process function.

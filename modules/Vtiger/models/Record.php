@@ -1041,11 +1041,17 @@ class Vtiger_Record_Model extends \App\Base
 				$fullPath = $path . DIRECTORY_SEPARATOR . $tmp[0] . '.php';
 				if (file_exists($fullPath)) {
 					require_once $fullPath;
-					$blockObiect = new $tmp[0]();
-					if (isset($blockObiect->reference) && !\App\Module::isModuleActive($blockObiect->reference)) {
+					$block = new $tmp[0]();
+					if (isset($block->reference) && !\App\Module::isModuleActive($block->reference)) {
 						continue;
 					}
-					$tempSummaryBlocks[$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference, 'type' => $blockObiect->type, 'icon' => $blockObiect->icon];
+					$tempSummaryBlocks[$block->sequence] = [
+						'name' => $block->name,
+						'data' => $block->process($this),
+						'reference' => $block->reference,
+						'type' => $block->type ?? false,
+						'icon' => $block->icon ?? false,
+					];
 				}
 			}
 		}
