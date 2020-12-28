@@ -390,10 +390,6 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `roundcube_session` */
 
-/*Data for the table `roundcube_system` */
-
-insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','2016011900');
-
 /*Data for the table `roundcube_users` */
 
 /*Data for the table `roundcube_users_autologin` */

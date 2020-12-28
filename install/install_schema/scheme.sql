@@ -1008,14 +1008,6 @@ CREATE TABLE `roundcube_session` (
   KEY `changed_index` (`changed`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `roundcube_system` */
-
-CREATE TABLE `roundcube_system` (
-  `name` varchar(64) NOT NULL,
-  `value` mediumtext DEFAULT NULL,
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `roundcube_users` */
 
 CREATE TABLE `roundcube_users` (
