@@ -35,7 +35,7 @@
 									</strong>
 								</label>
 							</div>
-							<div class="card-body bg-light rounded px-0 py-1 d-flex align-items-center justify-content-center">
+							<div class="card-body bg-light rounded px-0 pt-1 pb-2 d-flex align-items-center justify-content-center">
 								{foreach item=DATA from=$FIELD_VALUE.data}
  									{if isset($FIELD_VALUE.type) && $FIELD_VALUE.type eq 'badge' }
 										<div class="col px-1">
@@ -43,10 +43,10 @@
 												<div  class="card-text small">
 													{$DATA.label}
 												</div>
-												<div  class="card-text mt-2">
-													<span class="badge {$DATA.class} px-2 u-fs-lg">
+												<div  class="card-text mt-1">
+													<a class="badge {$DATA.class} px-2 u-fs-lg" {if isset($DATA.badgeLink)} href="{$DATA.badgeLink}" {/if}>
 														{$DATA.value}
-													</span>
+													</a>
 												</div>
 											</div>
 										</div>
