@@ -1679,8 +1679,10 @@ class TextParser
 	 * Get an instance of barcode text parser.
 	 *
 	 * @param string $params
+	 *
+	 * @return string
 	 */
-	protected function barcode($params)
+	protected function barcode($params): string
 	{
 		$params = $this->parseParams($params);
 		if (isset($params['value'])) {
@@ -1696,13 +1698,14 @@ class TextParser
 			}
 			$qrCodeGenerator = new $className();
 			$qrCodeGenerator->setStorPath(__DIR__ . \App\Config::main('tmp_dir'));
-			$barcodeHeight = $this->params['height'] ?? '2';
-			$barcodeWidth = $this->params['width'] ?? '30';
+			$barcodeHeight = $this->params['height'] ?? 2;
+			$barcodeWidth = $this->params['width'] ?? 30;
 			$barcodeType = $this->params['type'] ?? 'EAN13';
 			$showText = $this->params['showText'] ?? true;
 			$png = $qrCodeGenerator->getBarcodePNG($valueForParse, $barcodeType, $barcodeHeight, $barcodeWidth, [0, 0, 0], $showText);
-			return  '<img src="data:image/png;base64,' . $png . '"/>';
+			return '<img src="data:image/png;base64,' . $png . '"/>';
 		}
+		return '';
 	}
 
 	/**

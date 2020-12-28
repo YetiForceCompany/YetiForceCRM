@@ -31,16 +31,16 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 	/**
 	 * Height of a single bar element in pixels.
 	 *
-	 * @var string
+	 * @var int
 	 */
-	public $height = '2';
+	public $height = 2;
 
 	/**
 	 * Width of a single bar element in pixels.
 	 *
-	 * @var string
+	 * @var int
 	 */
-	public $width = '30';
+	public $width = 30;
 
 	/**
 	 * Show value of barcode.
