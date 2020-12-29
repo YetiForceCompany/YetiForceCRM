@@ -12601,7 +12601,10 @@ body:not(.desktop) .ps__rail-y {
   line-height: 1; }
 
 .btn .mdi::before {
-  position: relative; }
+  position: relative;
+  width: 1.25em;
+  font-size: 1.2rem;
+  vertical-align: text-bottom; }
 
 .alert .mdi::before {
   position: relative;
@@ -16427,6 +16430,9 @@ table .listButtons.narrow .c-badge__icon {
 
 .u-w-10per {
   width: 10%; }
+
+.u-w-24per {
+  width: 24%; }
 
 .u-w-30per {
   width: 30%; }
