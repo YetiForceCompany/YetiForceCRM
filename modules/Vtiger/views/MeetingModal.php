@@ -17,7 +17,7 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $modalIcon = 'AdditionalIcon-VideoConference';
+	public $modalIcon = 'mdi mdi-card-account-phone';
 	/**
 	 * {@inheritdoc}
 	 */
@@ -78,7 +78,7 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MEETING_URL', $userRoom);
 		$viewer->assign('MEETING_GUEST_URL', $url);
-		$viewer->assign('SEND_INVITATION', $sendInvitation);
+		$viewer->assign('SEND_INVITATION', $sendInvitation && $templateData);
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('SIMPLE_URL', $simpleUrl);
 		$viewer->assign('EMAIL_TEMPLATE', $templateData ? $templateId : 0);
