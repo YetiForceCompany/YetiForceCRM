@@ -449,6 +449,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 326:
 						$fieldDataType = 'meetingUrl';
 						break;
+					case 327:
+						$fieldDataType = 'barcode';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {

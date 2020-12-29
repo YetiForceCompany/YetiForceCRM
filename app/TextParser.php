@@ -39,6 +39,7 @@ class TextParser
 		'LBL_RECORDS_LIST' => '$(recordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
 		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(custom : dynamicInventoryColumnsTable)$',
+		'LBL_BARCODE' => '$(barcode : type=EAN13 class=DNS1D , value=12345678)$'
 	];
 
 	/**
@@ -93,7 +94,7 @@ class TextParser
 	 *
 	 * @var string[]
 	 */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable', 'barcode'];
 
 	/**
 	 * List of source modules.
@@ -1667,9 +1668,42 @@ class TextParser
 		if (!$this->recordModel->getModule()->isInventory()) {
 			return '';
 		}
-		$config = $this->getInventoryParamParser($params);
+		$config = $this->parseParams($params);
 		if ('table' === $config['type']) {
 			return $this->getInventoryTable($config);
+		}
+		return '';
+	}
+
+	/**
+	 * Get an instance of barcode text parser.
+	 *
+	 * @param string $params
+	 *
+	 * @return string
+	 */
+	protected function barcode($params): string
+	{
+		$params = $this->parseParams($params);
+		if (isset($params['value'])) {
+			$valueForParse = $params['value'];
+		}
+		if (isset($params['fieldName'])) {
+			$valueForParse = $this->recordModel->get($params['fieldName']);
+		}
+		if ($valueForParse) {
+			$className = '\Milon\Barcode\\' . $params['class'];
+			if (!class_exists($className)) {
+				throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND||' . $className);
+			}
+			$qrCodeGenerator = new $className();
+			$qrCodeGenerator->setStorPath(__DIR__ . \App\Config::main('tmp_dir'));
+			$barcodeHeight = $this->params['height'] ?? 2;
+			$barcodeWidth = $this->params['width'] ?? 30;
+			$barcodeType = $this->params['type'] ?? 'EAN13';
+			$showText = $this->params['showText'] ?? true;
+			$png = $qrCodeGenerator->getBarcodePNG($valueForParse, $barcodeType, $barcodeHeight, $barcodeWidth, [0, 0, 0], $showText);
+			return '<img src="data:image/png;base64,' . $png . '"/>';
 		}
 		return '';
 	}
@@ -1681,7 +1715,7 @@ class TextParser
 	 *
 	 * @return array
 	 */
-	protected function getInventoryParamParser(string $params): array
+	protected function parseParams(string $params): array
 	{
 		preg_match('/type=(\w+)/', $params, $matches);
 		$config = [
