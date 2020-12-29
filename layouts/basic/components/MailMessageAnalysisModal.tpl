@@ -24,8 +24,11 @@
 								</li>
 							{/if}
 						{/foreach}
-						{if $SENDER['key'] === $ROW['key']}
-							<li class="list-group-item p-1">{\App\Language::translate('LBL_SERVER_IP_FROM', $LANG_MODULE_NAME)}: {$SENDER['ip']}</li>
+						{if $SENDER['key'] === $ROW['key'] && $SENDER['ip']}
+							<li class="list-group-item p-1">
+								{\App\Language::translate('LBL_SERVER_IP_FROM', $LANG_MODULE_NAME)}:
+								<a href="https://soc.yetiforce.com/search?ip={$SENDER['ip']}" class="ml-2" target="_blank" title="soc.yetiforce.com">{$SENDER['ip']}</a>
+							</li>
 						{/if}
 						</ul>
 					</div>
