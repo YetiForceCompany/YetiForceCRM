@@ -99,18 +99,22 @@ class Mail
 	 * Get mail template.
 	 *
 	 * @param int|string $id
+	 * @param bool       $attachments
 	 *
 	 * @return array
 	 */
-	public static function getTemplate($id)
+	public static function getTemplate($id, bool $attachments = true): array
 	{
 		if (!is_numeric($id)) {
 			$id = self::getTemplateIdFromSysName($id);
 		}
 		if (!$id || !\App\Record::isExists($id, 'EmailTemplates')) {
-			return false;
+			return [];
 		}
 		$template = \Vtiger_Record_Model::getInstanceById($id, 'EmailTemplates');
+		if (!$attachments) {
+			return $template->getData();
+		}
 		return array_merge(
 			$template->getData(), static::getAttachmentsFromTemplate($template->getId())
 		);

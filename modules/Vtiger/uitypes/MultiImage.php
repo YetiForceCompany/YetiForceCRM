@@ -153,16 +153,16 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 		$images = $style = '';
 		if ($params) {
-			[$width, $height] = explode('|', $params, 2);
+			[$width, $height] = array_pad(explode('|', $params, 2), 2, '');
 			if ($width) {
-				$style .= "width:$width;";
+				$style .= "max-width:$width;";
 			}
 			if ($height) {
-				$style .= "height:$height;";
+				$style .= "max-height:$height;";
 			}
 		} else {
 			$width = 100 / \count($value);
-			$style .= "width:$width%;";
+			$style .= "max-width:$width%;";
 			$images .= '<div style="width:100%">';
 		}
 		foreach ($value as $item) {

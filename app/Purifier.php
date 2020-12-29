@@ -216,6 +216,7 @@ class Purifier
 		$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 		$config->set('CSS.AllowTricky', true);
 		$config->set('CSS.Proprietary', true);
+		$config->set('CSS.Trusted', true);
 		$config->set('Core.RemoveInvalidImg', true);
 		$config->set('HTML.SafeIframe', true);
 		$config->set('HTML.SafeEmbed', true);

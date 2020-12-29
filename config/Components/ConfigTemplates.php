@@ -346,10 +346,14 @@ return [
 		],
 	],
 	'MeetingService' => [
-		'defaultEmailTemplate' => [
+		'emailTemplateDefault' => [
+			'default' => 0,
+			'description' => 'Default email templates.',
+		],
+		'emailTemplateModule' => [
 			'default' => [],
 			'description' => "List of default email templates.\n@example ['Calendar'=>1]",
-		]
+		],
 	],
 	'Phone' => [
 		'defaultPhoneCountry' => [

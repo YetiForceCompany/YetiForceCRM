@@ -20,8 +20,8 @@ class TextParser
 	 * @var array
 	 */
 	public static $variableExamples = [
-		'LBL_ORGANIZATION_NAME' => '$(organization : name)$',
-		'LBL_ORGANIZATION_LOGO' => '$(organization : mailLogo)$',
+		'LBL_ORGANIZATION_NAME' => '$(organization : company_name)$',
+		'LBL_ORGANIZATION_LOGO' => '$(organization : logo)$',
 		'LBL_EMPLOYEE_NAME' => '$(employee : last_name)$',
 		'LBL_CRM_DETAIL_VIEW_URL' => '$(record : CrmDetailViewURL)$',
 		'LBL_PORTAL_DETAIL_VIEW_URL' => '$(record : PortalDetailViewURL)$',
@@ -507,11 +507,20 @@ class TextParser
 	 */
 	protected function organization(string $params): string
 	{
-		if (false === strpos($params, '|')) {
+		if (!$params) {
 			return '';
 		}
 		$returnVal = '';
-		[$id, $fieldName, $params] = array_pad(explode('|', $params, 3), 3, false);
+		if (false === strpos($params, '|')) {
+			$id = User::getCurrentUserModel()->get('multiCompanyId');
+			$fieldName = $params;
+			$params = false;
+		} else {
+			[$id, $fieldName, $params] = array_pad(explode('|', $params, 3), 3, false);
+		}
+		if (!Record::isExists($id, 'MultiCompany')) {
+			return '';
+		}
 		$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'MultiCompany');
 		if ($recordModel->has($fieldName)) {
 			$value = $recordModel->get($fieldName);
@@ -549,7 +558,7 @@ class TextParser
 			Cache::save('TextParserEmployeeDetailRows', $userId, $employee, Cache::LONG);
 		}
 		$value = '';
-		if ($employee) {
+		if ($employee && Record::isExists($employee, 'OSSEmployees')) {
 			$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($employee, 'OSSEmployees');
 			$instance = static::getInstanceByModel($relatedRecordModel);
 			foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
@@ -580,14 +589,14 @@ class TextParser
 	  case 'CurrentDateTime':
 				return Fields\DateTime::formatToDisplay('now');
 			case 'SiteUrl':
-				return \App\Config::main('site_URL');
+				return Config::main('site_URL');
 			case 'PortalUrl':
-				return \App\Config::main('PORTAL_URL');
+				return Config::main('PORTAL_URL');
 			case 'BaseTimeZone':
 				return Fields\DateTime::getTimeZone();
 			case 'UserTimeZone':
-				$userModel = \App\User::getCurrentUserModel();
-				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : \App\Config::main('default_timezone');
+				$userModel = User::getCurrentUserModel();
+				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : Config::main('default_timezone');
 			default:
 				return $key;
 		}
@@ -616,7 +625,7 @@ class TextParser
 		}
 		switch ($key) {
 			case 'CrmDetailViewURL':
-				return \App\Config::main('site_URL') . 'index.php?module=' . $this->moduleName . '&view=Detail&record=' . $this->record;
+				return Config::main('site_URL') . 'index.php?module=' . $this->moduleName . '&view=Detail&record=' . $this->record;
 			case 'PortalDetailViewURL':
 				$recorIdName = 'id';
 				if ('HelpDesk' === $this->moduleName) {
@@ -626,7 +635,7 @@ class TextParser
 				} elseif ('Products' === $this->moduleName) {
 					$recorIdName = 'productid';
 				}
-				return \App\Config::main('PORTAL_URL') . '/index.php?module=' . $this->moduleName . '&action=index&' . $recorIdName . '=' . $this->record;
+				return Config::main('PORTAL_URL') . '/index.php?module=' . $this->moduleName . '&action=index&' . $recorIdName . '=' . $this->record;
 			case 'ModuleName':
 				return $this->moduleName;
 			case 'RecordId':
@@ -751,7 +760,7 @@ class TextParser
 			return implode($this->relatedRecordSeparator, $return);
 		}
 		$module = Record::getType($relatedId);
-		if (!empty($module) && ($relatedModule && $relatedModule !== $module)) {
+		if (!Record::isExists($relatedId) || empty($module) || ($relatedModule && $relatedModule !== $module)) {
 			return '';
 		}
 		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $module);
@@ -900,7 +909,7 @@ class TextParser
 				if ($this->withoutTranslations) {
 					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">$(translate : {$fieldModel->getFieldLabel()}|$relatedModuleName)$</th>";
 				} else {
-					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $relatedModuleName) . '</th>';
+					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">" . Language::translate($fieldModel->getFieldLabel(), $relatedModuleName) . '</th>';
 				}
 			}
 		}
@@ -974,7 +983,7 @@ class TextParser
 			if ($this->withoutTranslations) {
 				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
 			} else {
-				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">" . Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
 			}
 		}
 		$counter = 0;
@@ -1310,7 +1319,7 @@ class TextParser
 			if ($skipEmpty && $this->recordModel && !(($relId = $this->recordModel->get($field->getName())) &&
 				(
 					\in_array($field->getFieldDataType(), ['userCreator', 'owner', 'sharedOwner']) ||
-					((\App\Record::isExists($relId)) && ($relRecord = \Vtiger_Record_Model::getInstanceById($relId))->isViewable() && ($relatedModules = [\App\Record::getType($relId)]))
+					((Record::isExists($relId)) && ($relRecord = \Vtiger_Record_Model::getInstanceById($relId))->isViewable() && ($relatedModules = [Record::getType($relId)]))
 				)
 			)) {
 				continue;
@@ -1514,9 +1523,9 @@ class TextParser
 	public static function htmlTruncate($html, $length = false, $addDots = true, &$isTruncated = false)
 	{
 		if (!$length) {
-			$length = \App\Config::main('listview_max_textlength');
+			$length = Config::main('listview_max_textlength');
 		}
-		$encoding = \App\Config::main('default_charset');
+		$encoding = Config::main('default_charset');
 		$config = \HTMLPurifier_Config::create(null);
 		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'vtlib');
 		$lexer = \HTMLPurifier_Lexer::create($config);
@@ -1583,11 +1592,11 @@ class TextParser
 	public static function textTruncate($text, $length = false, $addDots = true)
 	{
 		if (!$length) {
-			$length = \App\Config::main('listview_max_textlength');
+			$length = Config::main('listview_max_textlength');
 		}
 		$textLength = mb_strlen($text);
 		if ((!$addDots && $textLength > $length) || ($addDots && $textLength > $length + 2)) {
-			$text = mb_substr($text, 0, $length, \App\Config::main('default_charset'));
+			$text = mb_substr($text, 0, $length, Config::main('default_charset'));
 			if ($addDots) {
 				$text .= '...';
 			}
@@ -1697,7 +1706,7 @@ class TextParser
 				throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND||' . $className);
 			}
 			$qrCodeGenerator = new $className();
-			$qrCodeGenerator->setStorPath(__DIR__ . \App\Config::main('tmp_dir'));
+			$qrCodeGenerator->setStorPath(__DIR__ . Config::main('tmp_dir'));
 			$barcodeHeight = $this->params['height'] ?? 2;
 			$barcodeWidth = $this->params['width'] ?? 30;
 			$barcodeType = $this->params['type'] ?? 'EAN13';
@@ -1775,7 +1784,7 @@ class TextParser
 					continue;
 				}
 				if ('seq' === $name) {
-					$html .= '<th class="col-type-ItemNumber" style="border:1px solid #ddd">' . \App\Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
+					$html .= '<th class="col-type-ItemNumber" style="border:1px solid #ddd">' . Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
 					$columns[$name] = false;
 					continue;
 				}
@@ -1786,7 +1795,7 @@ class TextParser
 				if (!$field->isVisible()) {
 					continue;
 				}
-				$html .= '<th class="col-type-' . $field->getType() . '" style="border:1px solid #ddd">' . \App\Language::translate($field->get('label'), $this->moduleName) . '</th>';
+				$html .= '<th class="col-type-' . $field->getType() . '" style="border:1px solid #ddd">' . Language::translate($field->get('label'), $this->moduleName) . '</th>';
 				$columns[$field->getColumnName()] = $field;
 			}
 			$html .= '</tr></thead><tbody>';
@@ -1861,7 +1870,7 @@ class TextParser
 	 */
 	protected function parseVariable(string $variable, int $id = 0): string
 	{
-		if ($id) {
+		if ($id && Record::isExists($id)) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id);
 			if (!$recordModel->isViewable()) {
 				return '';
