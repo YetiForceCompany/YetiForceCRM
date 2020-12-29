@@ -387,4 +387,8 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 		'default' => 50,
 		'description' => 'Address book page size.'
 	],
+	'junk_mbox' => [
+		'default' => '',
+		'description' => 'Store spam messages in this mailbox'
+	],
 ];
