@@ -1354,7 +1354,7 @@ class ConfReport
 			default:
 				break;
 		}
-		if (empty($dir)) {
+		if (empty($dir) || !is_dir($dir)) {
 			return $row;
 		}
 		$free = disk_free_space($dir);
