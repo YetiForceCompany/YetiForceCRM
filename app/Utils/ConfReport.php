@@ -54,7 +54,7 @@ class ConfReport
 	 *
 	 * @var string[]
 	 */
-	public static $container = ['php', 'env', 'ext', 'request', 'db'];
+	public static $container = ['php', 'env', 'ext', 'request', 'db', 'writableFilesAndFolders'];
 
 	/**
 	 * Stability variables map.
@@ -537,6 +537,14 @@ class ConfReport
 					$db = \App\Db::getInstance();
 					if ($db->getMasterPdo()) {
 						static::$db = $db->getInfo();
+					}
+					break;
+				case 'writableFilesAndFolders':
+					if ($tmp = sys_get_temp_dir()) {
+						self::$writableFilesAndFolders[$tmp] = ['type' => 'IsWritable', 'testCli' => true, 'absolutePaths' => true];
+					}
+					if ($tmp = ini_get('upload_tmp_dir')) {
+						self::$writableFilesAndFolders[$tmp] = ['type' => 'IsWritable', 'testCli' => true, 'absolutePaths' => true];
 					}
 					break;
 				default:
@@ -1419,13 +1427,18 @@ class ConfReport
 	 */
 	private static function validateIsWritable(string $name, array $row, string $sapi)
 	{
-		if (!file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $name)) {
+		$absolutePaths = $row['absolutePaths'] ?? false;
+		$path = $name;
+		if (!$absolutePaths) {
+			$path = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $path;
+		}
+		if (!file_exists($path)) {
 			$row['mode'] = 'skipParam';
 		} else {
-			$row['status'] = \App\Fields\File::isWriteable($name);
+			$row['status'] = \App\Fields\File::isWriteable($path, true);
 			$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
-			$row['owner'] = fileowner(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $name);
-			$row['perms'] = substr(sprintf('%o', fileperms(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $name)), -4);
+			$row['owner'] = fileowner($path);
+			$row['perms'] = substr(sprintf('%o', fileperms($path)), -4);
 		}
 		return $row;
 	}
