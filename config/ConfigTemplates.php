@@ -782,7 +782,7 @@ return [
 			'default' => true,
 			'description' => 'Fill in the record creation form with the data used in filtering (search_params)'
 		],
-		'hideButtonsLeftSide' => [
+		'separateChangeRelationButton' => [
 			'default' => false,
 			'description' => 'Hide buttons visible in the record in related module'
 		],

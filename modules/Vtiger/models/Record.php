@@ -1641,10 +1641,10 @@ class Vtiger_Record_Model extends \App\Base
 					'linkicon' => 'mdi mdi-briefcase-edit-outline',
 					'linkclass' => 'btn-sm btn-warning js-show-modal'
 				]);
-				if (App\Config::relation('hideButtonsLeftSide')) {
+				if (App\Config::relation('separateChangeRelationButton')) {
 					$links['LBL_CHANGE_RELATION_DATA'] = $changeRelationDataButton;
 				} else {
-					$links['BUTTONS'][] = $changeRelationDataButton;
+					$links['BUTTONS']['LBL_CHANGE_RELATION_DATA'] = $changeRelationDataButton;
 				}
 			}
 		}
