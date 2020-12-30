@@ -784,7 +784,7 @@ return [
 		],
 		'hideButtonsLeftSide' => [
 			'default' => false,
-			'description' => 'Hide buttons visible in the record in related module '
+			'description' => 'Hide buttons visible in the record in related module'
 		],
 	],
 	'search' => [
