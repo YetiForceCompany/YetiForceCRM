@@ -47,7 +47,7 @@ class ConfReport
 	 *
 	 * @var string[]
 	 */
-	public static $types = ['stability', 'security', 'headers', 'libraries', 'database', 'performance', 'environment', 'publicDirectoryAccess', 'writableFilesAndFolders', 'functionalVerification'];
+	public static $types = ['stability', 'security', 'libraries', 'database', 'performance', 'environment', 'writableFilesAndFolders', 'functionalVerification', 'headers', 'publicDirectoryAccess'];
 
 	/**
 	 * List all container.
@@ -327,7 +327,7 @@ class ConfReport
 		'sapi' => ['container' => 'env', 'testCli' => true, 'label' => 'PHP_SAPI'],
 		'zendVersion' => ['container' => 'env', 'testCli' => true, 'label' => 'ZEND_VERSION'],
 		'locale' => ['container' => 'env', 'testCli' => true, 'label' => 'LOCALE'],
-		'error_log' => ['type' => 'NotEmpty', 'container' => 'php', 'testCli' => true, 'label' => 'LOG_FILE'],
+		'error_log' => ['type' => 'ErrorLog', 'container' => 'php', 'testCli' => true, 'label' => 'LOG_FILE'],
 		'phpIni' => ['container' => 'env', 'testCli' => true, 'label' => 'PHPINI'],
 		'phpIniAll' => ['container' => 'env', 'testCli' => true, 'label' => 'PHPINIS'],
 		'spaceRoot' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_ROOT'],
@@ -1546,6 +1546,24 @@ class ConfReport
 		unset($name);
 		if (empty($row[$sapi])) {
 			$row['status'] = false;
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate check error_log.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateErrorLog(string $name, array $row, string $sapi)
+	{
+		$row = self::validateNotEmpty($name, $row, $sapi);
+		if ($row['status']) {
+			$row['status'] = is_dir(\dirname($row[$sapi]));
 		}
 		return $row;
 	}
