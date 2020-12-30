@@ -455,7 +455,7 @@ class File
 	private function checkFile()
 	{
 		if (false !== $this->error && UPLOAD_ERR_OK != $this->error) {
-			throw new \App\Exceptions\DangerousFile('ERR_FILE_ERROR_REQUEST||' . $this->getErrorMessage($this->error));
+			throw new \App\Exceptions\DangerousFile('ERR_FILE_ERROR_REQUEST||' . self::getErrorMessage($this->error));
 		}
 		if (empty($this->name)) {
 			throw new \App\Exceptions\DangerousFile('ERR_FILE_EMPTY_NAME');
@@ -978,7 +978,7 @@ class File
 	 *
 	 * @return string
 	 */
-	private function getErrorMessage($code)
+	public static function getErrorMessage(int $code): string
 	{
 		switch ($code) {
 			case UPLOAD_ERR_INI_SIZE:
@@ -1003,7 +1003,7 @@ class File
 				$message = 'File upload stopped by extension';
 				break;
 			default:
-				$message = 'Unknown upload error';
+				$message = 'Unknown upload error | Code: ' . $code;
 				break;
 		}
 		return $message;
@@ -1032,12 +1032,15 @@ class File
 	 * Check if give path is writeable.
 	 *
 	 * @param string $path
+	 * @param bool   $absolutePaths
 	 *
 	 * @return bool
 	 */
-	public static function isWriteable($path)
+	public static function isWriteable(string $path, bool $absolutePaths = false): bool
 	{
-		$path = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $path;
+		if (!$absolutePaths) {
+			$path = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $path;
+		}
 		if (is_dir($path)) {
 			return static::isDirWriteable($path);
 		}
