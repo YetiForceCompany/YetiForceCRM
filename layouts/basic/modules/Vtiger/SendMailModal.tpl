@@ -65,10 +65,10 @@
 				</div>
 			</div>
 			<div class="form-group form-row">
-				<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_MAIL_NOTES')}
+				<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_MASS_MAIL_NOTES')}
 					<span class="js-popover-tooltip ml-1" data-toggle="popover"
 						data-placement="top"
-						data-content="{\App\Language::translate('LBL_MAIL_NOTES_INFO')}" data-js="popover">
+						data-content="{\App\Language::translate('LBL_MASS_MAIL_NOTES_INFO')}" data-js="popover">
 						<span class="fas fa-info-circle"></span>
 					</span>
 				</label>

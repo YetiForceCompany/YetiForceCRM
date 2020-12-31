@@ -26,10 +26,8 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getSize(\App\Request $request)
+	/** {@inheritdoc} */
+	public function getSize(App\Request $request)
 	{
 		return 'modal-lg';
 	}
