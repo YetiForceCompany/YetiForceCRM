@@ -784,7 +784,7 @@ return [
 		],
 		'separateChangeRelationButton' => [
 			'default' => false,
-			'description' => 'Hide buttons visible in the record in related module'
+			'description' => 'Separate change relation button in related module'
 		],
 	],
 	'search' => [
