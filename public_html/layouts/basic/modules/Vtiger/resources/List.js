@@ -68,6 +68,7 @@ jQuery.Class(
 								jQuery.extend(postData, {
 									field: data.find('#field').val(),
 									template: data.find('#template').val(),
+									mailNotes: data.find('#mail_notes').val(),
 									action: 'Mail',
 									mode: 'sendMails'
 								});
