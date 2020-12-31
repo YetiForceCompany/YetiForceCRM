@@ -99,7 +99,7 @@ class TextParser
 	/**
 	 * List of source modules.
 	 *
-	 * @var string[]
+	 * @var array
 	 */
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition'],
