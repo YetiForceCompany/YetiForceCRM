@@ -1642,9 +1642,9 @@ class Vtiger_Record_Model extends \App\Base
 					'linkclass' => 'btn-sm btn-warning js-show-modal'
 				]);
 				if (App\Config::relation('separateChangeRelationButton')) {
-					$links['LBL_CHANGE_RELATION_DATA'] = $changeRelationDataButton;
-				} else {
 					$links['BUTTONS']['LBL_CHANGE_RELATION_DATA'] = $changeRelationDataButton;
+				} else {
+					$links['LBL_CHANGE_RELATION_DATA'] = $changeRelationDataButton;
 				}
 			}
 		}
