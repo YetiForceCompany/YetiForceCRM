@@ -782,6 +782,10 @@ return [
 			'default' => true,
 			'description' => 'Fill in the record creation form with the data used in filtering (search_params)'
 		],
+		'separateChangeRelationButton' => [
+			'default' => false,
+			'description' => 'Separate change relation button in related module'
+		],
 	],
 	'search' => [
 		'GLOBAL_SEARCH_SELECT_MODULE' => [

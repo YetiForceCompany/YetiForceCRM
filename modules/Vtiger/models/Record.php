@@ -1634,13 +1634,18 @@ class Vtiger_Record_Model extends \App\Base
 				]);
 			}
 			if (!empty($relationModel->getTypeRelationModel()->customFields) && ($relationModel->getTypeRelationModel()->getFields()) && ($parentRecord = $relationModel->get('parentRecord')) && $parentRecord->isEditable() && $this->isEditable()) {
-				$links['BUTTONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				$changeRelationDataButton = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_CHANGE_RELATION_DATA',
 					'dataUrl' => "index.php?module={$relationModel->getParentModuleModel()->getName()}&view=ChangeRelationData&record={$this->getId()}&fromRecord={$parentRecord->getId()}&relationId={$relationModel->getId()}",
 					'linkicon' => 'mdi mdi-briefcase-edit-outline',
 					'linkclass' => 'btn-sm btn-warning js-show-modal'
 				]);
+				if (App\Config::relation('separateChangeRelationButton')) {
+					$links['BUTTONS']['LBL_CHANGE_RELATION_DATA'] = $changeRelationDataButton;
+				} else {
+					$links['LBL_CHANGE_RELATION_DATA'] = $changeRelationDataButton;
+				}
 			}
 		}
 		return \App\Utils::changeSequence($links, App\Config::module($this->getModuleName(), 'recordRelatedListViewButtonSequence', []));
