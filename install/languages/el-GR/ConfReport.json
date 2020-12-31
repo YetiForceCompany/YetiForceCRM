@@ -49,7 +49,7 @@
     "LBL_LABEL_SPACE_ROOT": "Χωρητικότητα βασικού καταλόγου",
     "LBL_LABEL_SPACE_STORAGE": "Χωρητικότητα καταλόγου αποθήκευσης",
     "LBL_LABEL_SPACE_TEMP": "Χωρητικότητα προσωρινού καταλόγου",
-    "LBL_LABEL_SPACE_BACKUP": "Backup directory capacity",
+    "LBL_LABEL_SPACE_BACKUP": "Χωρητικότητα αντιγράφων ασφαλείας καταλόγου",
     "LBL_SPACE_TOTAL": "Σύνολο",
     "LBL_SPACE_FREE": "Ελεύθερα",
     "LBL_SPACE_USED": "Χρησιμοποιημένα",
