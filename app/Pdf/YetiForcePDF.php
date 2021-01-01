@@ -477,8 +477,8 @@ class YetiForcePDF extends PDF
 	{
 		$html = $this->watermark ? $this->wrapWatermark($this->watermark) : '';
 		$html .= $this->header ? $this->wrapHeaderContent($this->header) : '';
-		$html .= $this->footer ? $this->wrapFooterContent($this->footer) : '';
 		$html .= $this->html;
+		$html .= $this->footer ? $this->wrapFooterContent($this->footer) : '';
 		return $html;
 	}
 
