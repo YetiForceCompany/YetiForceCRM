@@ -24,7 +24,6 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 			return $this->structuredValues;
 		}
 		Vtiger_Field_Model::$tabIndexDefaultSeq = 1000;
-		$values = [];
 		$fieldsDependency = \App\FieldsDependency::getByRecordModel('QuickCreate', $this->record);
 		$fieldModelList = $this->getModule()->getQuickCreateFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
@@ -59,10 +58,9 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 			if ($fieldsDependency['mandatory'] && \in_array($fieldName, $fieldsDependency['mandatory'])) {
 				$fieldModel->set('isMandatory', true);
 			}
-			$values[$fieldName] = $fieldModel;
+			$this->structuredValues[$fieldName] = $fieldModel;
 		}
-		$this->structuredValues = $values;
 		++Vtiger_Field_Model::$tabIndexLastSeq;
-		return $values;
+		return $this->structuredValues;
 	}
 }

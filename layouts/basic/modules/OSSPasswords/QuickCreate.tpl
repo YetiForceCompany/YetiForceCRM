@@ -4,6 +4,5 @@
 	<input value="{$CONFIG_PASS['pass_allow_chars']}" type="hidden" id="allowedLetters">
 	<input value="{$CONFIG_PASS['pass_length_max']}" type="hidden" id="maxChars">
 	<input value="{$CONFIG_PASS['pass_length_min']}" type="hidden" id="minChars">
-	<link rel="stylesheet" type="text/css"
-		  href="{\App\Layout::getLayoutFile('modules/OSSPasswords/resources/validate_pass.css')}">
+	<link rel="stylesheet" type="text/css" href="{\App\Layout::getLayoutFile('modules/OSSPasswords/resources/validate_pass.css')}">
 {/strip}
