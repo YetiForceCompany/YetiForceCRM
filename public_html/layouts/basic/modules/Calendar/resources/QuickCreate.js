@@ -233,7 +233,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends (
 	registerEditForm(sideBar) {
 		let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
 			params = [];
-		let rightFormCreate = sideBar.find('form[name="QuickCreate"]');
+		let rightFormCreate = sideBar.find('form.js-form');
 		editViewInstance.registerBasicEvents(rightFormCreate);
 		rightFormCreate.validationEngine(app.validationEngineOptions);
 		App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));

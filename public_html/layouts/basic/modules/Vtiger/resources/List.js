@@ -96,9 +96,31 @@ jQuery.Class(
 		 */
 		triggerSendSms: function (massActionUrl, module) {
 			let listInstance = Vtiger_List_Js.getInstance();
-			let validationResult = listInstance.checkListRecordSelected();
-			if (validationResult != true) {
+			if (listInstance.checkListRecordSelected() != true) {
 				Vtiger_List_Js.triggerMassAction(massActionUrl);
+			} else {
+				listInstance.noRecordSelectedAlert();
+			}
+		},
+		triggerMassQuickCreate: function (moduleName, data) {
+			let listInstance = Vtiger_List_Js.getInstance();
+			if (listInstance.checkListRecordSelected() != true) {
+				let progress = $.progressIndicator({ blockInfo: { enabled: true } });
+				let params = {
+					callbackFunction: function () {},
+					data: $.extend(data, listInstance.getSearchParams())
+				};
+				App.Components.QuickCreate.getForm(
+					'index.php?module=' + moduleName + '&view=MassQuickCreateModal&sourceModule=' + app.getModuleName(),
+					moduleName,
+					params
+				).done((data) => {
+					progress.progressIndicator({
+						mode: 'hide'
+					});
+					App.Components.QuickCreate.showModal(data, params);
+					app.registerEventForClockPicker();
+				});
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}

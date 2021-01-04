@@ -154,7 +154,7 @@ var App = (window.App = {
 			 */
 			showModal(html, params = {}) {
 				app.showModalWindow(html, (container) => {
-					const quickCreateForm = container.find('form[name="QuickCreate"]');
+					const quickCreateForm = container.find('form.js-form');
 					const moduleName = quickCreateForm.find('[name="module"]').val();
 					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 					const moduleClassName = moduleName + '_QuickCreate_Js';
@@ -220,14 +220,12 @@ var App = (window.App = {
 							});
 							saveHandler(form)
 								.done((data) => {
-									const modalContainer = form.closest('.modalContainer');
-									const parentModuleName = app.getModuleName();
-									const viewName = app.getViewName();
+									let modalContainer = form.closest('.modalContainer');
 									if (modalContainer.length) {
 										app.hideModalWindow(false, modalContainer[0].id);
 									}
-									if (moduleName === parentModuleName && 'List' === viewName) {
-										const listInstance = new Vtiger_List_Js();
+									if ('List' === app.getViewName()) {
+										let listInstance = new Vtiger_List_Js();
 										listInstance.getListViewRecords();
 									}
 									submitSuccessCallback(data);
@@ -326,9 +324,8 @@ var App = (window.App = {
 			 * @return  {Promise}        aDeferred
 			 */
 			save(form) {
-				const aDeferred = $.Deferred();
-				const quickCreateSaveUrl = form.serializeFormData();
-				AppConnector.request(quickCreateSaveUrl)
+				let aDeferred = $.Deferred();
+				AppConnector.request(form.serializeFormData())
 					.done((data) => {
 						aDeferred.resolve(data);
 					})

@@ -64,7 +64,7 @@ Vtiger_Edit_Js(
 		 */
 		registerRecordPreSaveEvent: function (container) {
 			var thisInstance = this;
-			var form = $('.recordEditView[name="QuickCreate"]');
+			var form = $('form.js-form');
 			if (form.length == 0) {
 				form = this.getForm();
 			}

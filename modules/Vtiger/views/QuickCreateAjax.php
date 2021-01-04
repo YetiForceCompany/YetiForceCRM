@@ -38,6 +38,14 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	 * @var Vtiger_Field_Model[] Field instances.
 	 */
 	public $recordStructure;
+	/**
+	 * @var array Hidden inputs.
+	 */
+	public $hiddenInput = [];
+	/**
+	 * @var string From view name.
+	 */
+	public $fromView = 'QuickCreate';
 
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
@@ -67,9 +75,10 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 			}
 			$viewer->assign('RECORD_STRUCTURE', $blockRecordStructure);
 			$viewer->assign('BLOCK_LIST', $blockModels);
+		} else {
+			$viewer->assign('RECORD_STRUCTURE', $this->recordStructure);
 		}
 		$viewer->assign('LAYOUT', $layout);
-		$viewer->assign('RECORD_STRUCTURE', $this->recordStructure);
 		$viewer->assign('ADDRESS_BLOCK_LABELS', ['LBL_ADDRESS_INFORMATION', 'LBL_ADDRESS_MAILING_INFORMATION', 'LBL_ADDRESS_DELIVERY_INFORMATION', 'LBL_ADDRESS_BILLING', 'LBL_ADDRESS_SHIPPING']);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
@@ -85,6 +94,8 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODE', 'edit');
 		$viewer->assign('RECORD', $this->recordModel);
+		$viewer->assign('HIDDEN_INPUT', $this->hiddenInput);
+		$viewer->assign('FROM_VIEW', $this->fromView);
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Config::main('upload_maxsize'));
@@ -149,7 +160,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		echo $viewer->view('QuickCreate.tpl', $request->getModule(), true);
+		$viewer->view('QuickCreate.tpl', $request->getModule());
 		parent::postProcessAjax($request);
 	}
 
@@ -157,11 +168,10 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$jsFileNames = [
+		return $this->checkAndConvertJsScripts([
 			"modules.$moduleName.resources.Edit",
 			"modules.$moduleName.resources.QuickCreate",
-		];
-		return $this->checkAndConvertJsScripts($jsFileNames);
+		]);
 	}
 
 	/** {@inheritdoc} */

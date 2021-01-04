@@ -89,9 +89,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function saveRecord(App\Request $request)
 	{
 		$this->getRecordModelFromRequest($request);
@@ -101,7 +99,11 @@ class Vtiger_Save_Action extends \App\Controller\Action
 				throw new \App\Exceptions\NoPermittedToRecord($response['message'], 406);
 			}
 		}
-		$this->record->save();
+		if ('MassQuickCreate' === $request->getByType('fromView')) {
+			$this->multiSave($request);
+		} else {
+			$this->record->save();
+		}
 		if ($request->getBoolean('relationOperation')) {
 			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
 			if ($relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 2)), $this->record->getModule(), $relationId)) {
@@ -189,5 +191,28 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult(true);
 		$response->emit();
+	}
+
+	/**
+	 * Multiple record save mode.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	protected function multiSave(App\Request $request): void
+	{
+		$moduleName = $request->getByType('module', 'Alnum');
+		$multiSaveField = $request->getByType('multiSaveField', 'Alnum');
+		$sourceModule = $request->getByType('sourceModule', 'Alnum');
+		$request->set('module', $sourceModule);
+		foreach (Vtiger_Mass_Action::getRecordsListFromRequest($request) as $id) {
+			$recordModel = \Vtiger_Record_Model::getCleanInstance($this->record->getModuleName());
+			$recordModel->setData($this->record->getData());
+			$recordModel->ext = $this->record->ext;
+			$recordModel->set($multiSaveField, $id);
+			$recordModel->save();
+		}
+		$request->set('module', $moduleName);
 	}
 }
