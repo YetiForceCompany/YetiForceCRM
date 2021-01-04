@@ -110,6 +110,7 @@ class Users extends Base
 		}
 		$userIds = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['deleted' => 0])->column();
 		$progress = $this->cli->climate->progress()->total(\count($userIds));
+		$i = 0;
 		foreach ($userIds as $userId) {
 			$password = \App\Encryption::generateUserPassword();
 			$userRecordModel = \Users_Record_Model::getInstanceById($userId, 'Users');
@@ -134,6 +135,8 @@ class Users extends Base
 				'password' => $password,
 			]);
 			$progress->advance();
+			++$i;
 		}
+		$this->cli->climate->lightGreen('Number of passwords reset: ' . $i);
 	}
 }
