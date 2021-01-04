@@ -34,7 +34,6 @@ class Vtiger_RecordStructure_Model extends \App\Base
 	public function setRecord($record)
 	{
 		$this->record = $record;
-
 		return $this;
 	}
 
