@@ -657,6 +657,7 @@ CREATE TABLE `l_yf_mail` (
   `cc` text DEFAULT NULL,
   `bcc` text DEFAULT NULL,
   `attachments` text DEFAULT NULL,
+  `params` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
