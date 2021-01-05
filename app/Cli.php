@@ -74,7 +74,13 @@ class Cli
 	 */
 	public function modulesList(): void
 	{
-		$options = ['Users', 'ModuleManager', 'Exit'];
+		$options = [];
+		foreach (new \DirectoryIterator(ROOT_DIRECTORY . '/app/Cli') as $fileInfo) {
+			if ($fileInfo->isFile()) {
+				$options[] = $fileInfo->getBasename('.php');
+			}
+		}
+		$options[] = ['Exit'];
 		$input = $this->climate->radio('Module:', $options);
 		$module = $input->prompt();
 		if ('Exit' === $module || empty($module)) {
