@@ -1103,13 +1103,15 @@ class PackageImport extends PackageExport
 	{
 		$dirName = 'cache/updates/updates';
 		$db = \App\Db::getInstance();
+		$startTime = microtime(true);
+		file_put_contents('cache/logs/update.log', PHP_EOL . ((string) $this->_modulexml->label) . ' - ' . date('Y-m-d H:i:s'), FILE_APPEND);
 		ob_start();
 		if (file_exists($dirName . '/init.php')) {
 			require_once $dirName . '/init.php';
 			$updateInstance = new \YetiForceUpdate($this->_modulexml);
 			$updateInstance->package = $this;
 			$result = $updateInstance->preupdate();
-			file_put_contents('cache/logs/update.log', ob_get_clean(), FILE_APPEND);
+			file_put_contents('cache/logs/update.log', PHP_EOL . ' | ' . ob_get_clean(), FILE_APPEND);
 			ob_start();
 			if (false !== $result) {
 				$updateInstance->update();
@@ -1160,7 +1162,7 @@ class PackageImport extends PackageExport
 		Functions::recurseDelete('app_data/cron.php');
 		Functions::recurseDelete('app_data/ConfReport_AllErrors.php');
 		Functions::recurseDelete('app_data/shop.php');
-		file_put_contents('cache/logs/update.log', ob_get_contents(), FILE_APPEND);
+		file_put_contents('cache/logs/update.log', PHP_EOL . date('Y-m-d H:i:s') . ' (' . round(microtime(true) - $startTime, 2) . ') | ' . ob_get_clean(), FILE_APPEND);
 		ob_end_clean();
 	}
 

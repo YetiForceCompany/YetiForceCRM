@@ -38,6 +38,8 @@ class Cli
 		$this->climate->tab(2)->lightGreen('Y e t i F o r c e     C L I');
 		$this->climate->border('─', 200);
 
+		\App\User::setCurrentUserId(\Users::getActiveAdminId());
+
 		$this->climate->arguments->add([
 			'module' => [
 				'prefix' => 'm',
@@ -63,6 +65,7 @@ class Cli
 			$className = "\\App\\Cli\\{$this->climate->arguments->get('module')}";
 			$instance = new $className($this);
 			$this->climate->backgroundBlue()->out($instance->methods[$this->climate->arguments->get('action')]);
+			$this->climate->border('─', 200);
 			\call_user_func([$instance, $this->climate->arguments->get('action')]);
 		}
 	}

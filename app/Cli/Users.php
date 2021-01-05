@@ -29,7 +29,7 @@ class Users extends Base
 	 */
 	public function resetPassword(): void
 	{
-		$this->cli->climate->arguments->add([
+		$this->climate->arguments->add([
 			'login' => [
 				'prefix' => 'l',
 				'description' => 'Login',
@@ -39,17 +39,17 @@ class Users extends Base
 				'description' => 'Password',
 			],
 		]);
-		$this->cli->climate->arguments->parse();
-		if ($this->cli->climate->arguments->defined('login')) {
-			$userName = $this->cli->climate->arguments->get('login');
+		$this->climate->arguments->parse();
+		if ($this->climate->arguments->defined('login')) {
+			$userName = $this->climate->arguments->get('login');
 		} else {
-			$input = $this->cli->climate->input('Enter login/username:');
+			$input = $this->climate->input('Enter login/username:');
 			$userName = $input->prompt();
 		}
 		$row = (new \App\Db\Query())->select(['id', 'deleted'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->limit(1)->one();
 		if (!$row) {
-			$this->cli->climate->red('User not found');
-			if ($this->cli->climate->confirm('Re-enter login?')->confirmed()) {
+			$this->climate->red('User not found');
+			if ($this->climate->confirm('Re-enter login?')->confirmed()) {
 				$this->resetPassword();
 			} else {
 				$this->cli->actionsList('Users');
@@ -57,18 +57,18 @@ class Users extends Base
 			return;
 		}
 		$userRecordModel = \Users_Record_Model::getInstanceById($row['id'], 'Users');
-		$this->cli->climate->lightBlue($userRecordModel->getDisplayName() . ' (' . $userRecordModel->getDisplayValue('roleid', false, true) . ')');
+		$this->climate->lightBlue($userRecordModel->getDisplayName() . ' (' . $userRecordModel->getDisplayValue('roleid', false, true) . ')');
 		if (0 !== (int) $row['deleted']) {
-			$this->cli->climate->lightGreen('User inactive!!!');
+			$this->climate->lightGreen('User inactive!!!');
 		}
-		if ($this->cli->climate->arguments->defined('password')) {
-			$password = $this->cli->climate->arguments->get('password');
+		if ($this->climate->arguments->defined('password')) {
+			$password = $this->climate->arguments->get('password');
 		} else {
-			if ($this->cli->climate->confirm('Generate a password?')->confirmed()) {
+			if ($this->climate->confirm('Generate a password?')->confirmed()) {
 				$password = \App\Encryption::generateUserPassword();
-				$this->cli->climate->lightGreen('New password: ' . $password);
+				$this->climate->lightGreen('New password: ' . $password);
 			} else {
-				$input = $this->cli->climate->password('Please enter a new password:');
+				$input = $this->climate->password('Please enter a new password:');
 				$password = $input->prompt();
 			}
 		}
@@ -84,7 +84,7 @@ class Users extends Base
 		$eventHandler->trigger('UsersBeforePasswordChange');
 		$userRecordModel->save();
 		$eventHandler->trigger('UsersAfterPasswordChange');
-		if ($this->cli->climate->confirm('Send password to user\'s email address?')->confirmed()) {
+		if ($this->climate->confirm('Send password to user\'s email address?')->confirmed()) {
 			\App\Mailer::sendFromTemplate([
 				'template' => 'UsersResetPassword',
 				'moduleName' => 'Users',
@@ -103,13 +103,13 @@ class Users extends Base
 	 */
 	public function resetAllPasswords(): void
 	{
-		$this->cli->climate->lightBlue('New passwords will be sent to the user\'s e-mail, it is required that the e-mail sending works properly.');
-		if (!$this->cli->climate->confirm('Do you want to reset the passwords of all active users?')->confirmed()) {
+		$this->climate->lightBlue('New passwords will be sent to the user\'s e-mail, it is required that the e-mail sending works properly.');
+		if (!$this->climate->confirm('Do you want to reset the passwords of all active users?')->confirmed()) {
 			$this->cli->actionsList('Users');
 			return;
 		}
 		$userIds = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['deleted' => 0])->column();
-		$progress = $this->cli->climate->progress()->total(\count($userIds));
+		$progress = $this->climate->progress()->total(\count($userIds));
 		$i = 0;
 		foreach ($userIds as $userId) {
 			$password = \App\Encryption::generateUserPassword();
@@ -137,6 +137,6 @@ class Users extends Base
 			$progress->advance();
 			++$i;
 		}
-		$this->cli->climate->lightGreen('Number of passwords reset: ' . $i);
+		$this->climate->lightGreen('Number of passwords reset: ' . $i);
 	}
 }

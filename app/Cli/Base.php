@@ -18,6 +18,8 @@ abstract class Base
 {
 	/** @var \App\Cli Cli instance. */
 	protected $cli;
+	/** @var \League\CLImate\CLImate CLImate instance. */
+	protected $climate;
 
 	/**
 	 * Construct.
@@ -27,5 +29,6 @@ abstract class Base
 	public function __construct(\App\Cli $cli)
 	{
 		$this->cli = $cli;
+		$this->climate = $cli->climate;
 	}
 }
