@@ -29,11 +29,14 @@ class SystemUpdater extends Base
 	 */
 	public function history(): void
 	{
-		$this->climate->table(array_map(function ($item) {
+		$table = array_map(function ($item) {
 			$item['result'] = $item['result'] ? 'OK' : 'Error';
 			unset($item['id']);
 			return $item;
-		}, \Settings_Updates_Module_Model::getUpdates()));
+		}, \Settings_Updates_Module_Model::getUpdates());
+		if ($table) {
+			$this->climate->table($table);
+		}
 		$this->cli->actionsList('SystemUpdater');
 	}
 
@@ -59,6 +62,10 @@ class SystemUpdater extends Base
 			} else {
 				$options[$package['hash']] .= ' - To download';
 			}
+		}
+		if (!$options) {
+			$this->climate->lightBlue('No updates available');
+			return;
 		}
 		$input = $this->climate->radio('Updates available:', $options);
 		$hash = $input->prompt();
