@@ -56,12 +56,16 @@ class SystemUpdater extends Base
 		$options = [];
 		$toInstall = \App\YetiForce\Updater::getToInstall();
 		foreach ($toInstall as $package) {
-			$options[$package['hash']] = "{$package['label']} ({$package['fromVersion']} >> {$package['toVersion']})";
-			if (\App\YetiForce\Updater::isDownloaded($package)) {
-				$options[$package['hash']] .= ' - Downloaded, ready to install';
-			} else {
-				$options[$package['hash']] .= ' - To download';
+			$option = "{$package['label']}";
+			if ($package['fromVersion'] !== $package['toVersion']) {
+				$option .= " ({$package['fromVersion']} >> {$package['toVersion']})";
 			}
+			if (\App\YetiForce\Updater::isDownloaded($package)) {
+				$option .= ' - Downloaded, ready to install';
+			} else {
+				$option .= ' - To download';
+			}
+			$options[$package['hash']] = $option;
 		}
 		if (!$options) {
 			$this->climate->lightBlue('No updates available');

@@ -1163,7 +1163,9 @@ class PackageImport extends PackageExport
 		Functions::recurseDelete('app_data/ConfReport_AllErrors.php');
 		Functions::recurseDelete('app_data/shop.php');
 		file_put_contents('cache/logs/update.log', PHP_EOL . date('Y-m-d H:i:s') . ' (' . round(microtime(true) - $startTime, 2) . ') | ' . ob_get_clean(), FILE_APPEND);
-		ob_end_clean();
+		if (ob_get_length()) {
+			ob_end_clean();
+		}
 	}
 
 	/**
