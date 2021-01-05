@@ -19,7 +19,7 @@ class Users extends Base
 	/** @var string[] Methods list */
 	public $methods = [
 		'resetPassword' => 'Reset user password',
-		'resetAllPassword' => 'Reset all user password',
+		'resetAllPasswords' => 'Reset all user passwords',
 	];
 
 	/**
@@ -68,7 +68,7 @@ class Users extends Base
 				$password = \App\Encryption::generateUserPassword();
 				$this->cli->climate->lightGreen('New password: ' . $password);
 			} else {
-				$input = $this->cli->climate->password('Please enter new password:');
+				$input = $this->cli->climate->password('Please enter a new password:');
 				$password = $input->prompt();
 			}
 		}
@@ -97,11 +97,11 @@ class Users extends Base
 	}
 
 	/**
-	 * Reset all user password.
+	 * Reset all user passwords.
 	 *
 	 * @return void
 	 */
-	public function resetAllPassword(): void
+	public function resetAllPasswords(): void
 	{
 		$this->cli->climate->lightBlue('New passwords will be sent to the user\'s e-mail, it is required that the e-mail sending works properly.');
 		if (!$this->cli->climate->confirm('Do you want to reset the passwords of all active users?')->confirmed()) {
