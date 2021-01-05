@@ -80,7 +80,7 @@ class Cli
 				$options[] = $fileInfo->getBasename('.php');
 			}
 		}
-		$options[] = ['Exit'];
+		$options[] = 'Exit';
 		$input = $this->climate->radio('Module:', $options);
 		$module = $input->prompt();
 		if ('Exit' === $module || empty($module)) {
