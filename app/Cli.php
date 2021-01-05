@@ -76,7 +76,7 @@ class Cli
 	{
 		$options = [];
 		foreach (new \DirectoryIterator(ROOT_DIRECTORY . '/app/Cli') as $fileInfo) {
-			if ($fileInfo->isFile()) {
+			if ($fileInfo->isFile() && 'Base' !== $fileInfo->getBasename('.php')) {
 				$options[] = $fileInfo->getBasename('.php');
 			}
 		}
