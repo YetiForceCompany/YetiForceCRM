@@ -501,6 +501,12 @@ return [
 			'description' => 'Should the breadcrumb menu have href enabled? true = enabled, false = off',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
+		],
+		'displayRecordListButtons' => [
+			'default' => false,
+			'description' => 'Should display record list buttons? true = enabled, false = off',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		]
 	],
 	'performance' => [

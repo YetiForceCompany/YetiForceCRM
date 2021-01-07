@@ -1318,6 +1318,23 @@ CREATE TABLE `s_yf_privileges_updater` (
   KEY `crmid` (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_record_list_button` */
+
+CREATE TABLE `s_yf_record_list_button` (
+  `tabid` smallint(5) NOT NULL,
+  `dependent_tabid` smallint(5) DEFAULT NULL,
+  `related_tabid` smallint(5) DEFAULT NULL,
+  `view` varchar(11) NOT NULL,
+  `side` varchar(10) NOT NULL,
+  `sequence` smallint(3) unsigned NOT NULL DEFAULT 0,
+  `params` text DEFAULT NULL,
+  KEY `tabid` (`tabid`),
+  KEY `related_tabid` (`related_tabid`),
+  KEY `dependent_tabid` (`dependent_tabid`),
+  CONSTRAINT `s_yf_record_list_button_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE,
+  CONSTRAINT `s_yf_record_list_button_ibfk_2` FOREIGN KEY (`dependent_tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_record_quick_changer` */
 
 CREATE TABLE `s_yf_record_quick_changer` (

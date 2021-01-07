@@ -1500,6 +1500,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
 		$links = [];
+		$recordListButtons = [];
 		if ($this->isViewable()) {
 			if ($this->getModule()->isSummaryViewSupported()) {
 				$defaultViewName = $viewModel->getParentRecordModel()->getModule()->getDefaultViewName();
@@ -1642,8 +1643,30 @@ class Vtiger_Record_Model extends \App\Base
 					'linkclass' => 'btn-sm btn-warning js-show-modal'
 				]);
 			}
+			if (\App\Config::layout('displayRecordListButtons')) {
+				$recordList = new \App\Layout\RecordList();
+				$recordListButtons = $recordList->getRecordListButtons($this->getModuleName(), $relationModel->get('parentRecord')->getModuleName(), 'RelatedList', 'Left');
+			}
 		}
-		return \App\Utils::changeSequence($links, App\Config::module($this->getModuleName(), 'recordRelatedListViewButtonSequence', []));
+		$sortedButtons = \App\Utils::changeSequence($links, App\Config::module($this->getModuleName(), 'recordRelatedListViewButtonSequence', []));
+		return array_merge($sortedButtons, $recordListButtons);
+	}
+
+	/**
+	 * Get the right record list actions for the record.
+	 *
+	 * @param Vtiger_RelationListView_Model $viewModel
+	 *
+	 * @return array
+	 */
+	public function getRecordRelatedListViewLinksRightSide(Vtiger_RelationListView_Model $viewModel): array
+	{
+		$recordListButtons = [];
+		if (\App\Config::layout('displayRecordListButtons')) {
+			$recordList = new \App\Layout\RecordList();
+			$recordListButtons = $recordList->getRecordListButtons($this->getModuleName(), null, 'RelatedList', 'Right');
+		}
+		return $recordListButtons;
 	}
 
 	/**
