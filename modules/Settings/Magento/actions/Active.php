@@ -36,7 +36,7 @@ class Settings_Magento_Active_Action extends Settings_Vtiger_Save_Action
 				'columntype' => $importerType->integer(10)->defaultValue(0)->notNull()->unsigned(),
 				'label' => 'FL_MAGENTO_SERVER',
 				'uitype' => 325,
-				'displaytype' => 9,
+				'displaytype' => 2,
 				'maximumlength' => '4294967295',
 				'typeofdata' => 'I~O'
 			], 'magento_id' => [
