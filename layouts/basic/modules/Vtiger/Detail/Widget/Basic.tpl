@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-Basic -->
-{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
+{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId($WIDGET['id']|cat:_)}"}
 {assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 <div class="tpl-Detail-Widget-Basic c-detail-widget js-detail-widget" data-name="{$WIDGET['label']}" data-module-name="{$RELATED_MODULE_NAME}" {if isset($WIDGET['data']['relation_id'])}data-relation-id="{$WIDGET['data']['relation_id']}"{/if} data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}" data-js="container">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
