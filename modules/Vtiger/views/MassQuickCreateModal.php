@@ -32,13 +32,19 @@ class Vtiger_MassQuickCreateModal_View extends Vtiger_QuickCreateAjax_View
 		if (isset($this->recordStructure[$this->hiddenInput['multiSaveField']])) {
 			unset($this->recordStructure[$this->hiddenInput['multiSaveField']]);
 		}
+		$this->hiddenInput['sourceView'] = $request->getByType('sourceView');
 		$this->hiddenInput['sourceModule'] = $request->getByType('sourceModule', 'Alnum');
 		$this->hiddenInput['entityState'] = $request->getByType('entityState', 'Alnum');
-		$this->hiddenInput['viewname'] = $request->getByType('viewname', 'Alnum');
-		$this->hiddenInput['relationId'] = $request->getByType('relationId', 'Alnum');
-		$this->hiddenInput['excluded_ids'] = \App\Json::encode($request->getArray('excluded_ids', 'Alnum'));
-		$this->hiddenInput['selected_ids'] = \App\Json::encode($request->getArray('selected_ids', 'Alnum'));
 		$this->hiddenInput['search_params'] = \App\Json::encode($request->getArray('search_params'));
+		$this->hiddenInput['excluded_ids'] = \App\Json::encode($request->getArray('excluded_ids', 'Integer'));
+		$this->hiddenInput['selected_ids'] = \App\Json::encode($request->getArray('selected_ids', 'Alnum'));
+		if ('ListView' === $this->hiddenInput['sourceView']) {
+			$this->hiddenInput['viewname'] = $request->getByType('viewname', 'Alnum');
+		} elseif ('RelatedListView' === $this->hiddenInput['sourceView']) {
+			$this->hiddenInput['relationId'] = $request->getInteger('relationId');
+			$this->hiddenInput['relatedRecord'] = $request->getInteger('relatedRecord');
+			$this->hiddenInput['relatedModule'] = $request->getByType('relatedModule', 'Alnum');
+		}
 		return $fieldValues;
 	}
 }

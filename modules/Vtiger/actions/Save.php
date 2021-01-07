@@ -99,7 +99,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 				throw new \App\Exceptions\NoPermittedToRecord($response['message'], 406);
 			}
 		}
-		if ('MassQuickCreate' === $request->getByType('fromView')) {
+		if (!$request->isEmpty('fromView') && 'MassQuickCreate' === $request->getByType('fromView')) {
 			$this->multiSave($request);
 		} else {
 			$this->record->save();
@@ -205,14 +205,24 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		$moduleName = $request->getByType('module', 'Alnum');
 		$multiSaveField = $request->getByType('multiSaveField', 'Alnum');
 		$sourceModule = $request->getByType('sourceModule', 'Alnum');
-		$request->set('module', $sourceModule);
-		foreach (Vtiger_Mass_Action::getRecordsListFromRequest($request) as $id) {
+		$sourceView = $request->getByType('sourceView');
+		if ('ListView' === $sourceView) {
+			$request->set('module', $sourceModule);
+			$ids = Vtiger_Mass_Action::getRecordsListFromRequest($request);
+			$request->set('module', $moduleName);
+		} elseif ('RelatedListView' === $sourceView) {
+			$request->set('module', $request->getByType('relatedModule', 'Alnum'));
+			$request->set('relatedModule', $request->getByType('sourceModule', 'Alnum'));
+			$request->set('record', $request->getByType('relatedRecord', 'Alnum'));
+			$ids = Vtiger_RelationAjax_Action::getRecordsListFromRequest($request);
+			$request->set('module', $moduleName);
+		}
+		foreach ($ids as $id) {
 			$recordModel = \Vtiger_Record_Model::getCleanInstance($this->record->getModuleName());
 			$recordModel->setData($this->record->getData());
 			$recordModel->ext = $this->record->ext;
 			$recordModel->set($multiSaveField, $id);
 			$recordModel->save();
 		}
-		$request->set('module', $moduleName);
 	}
 }

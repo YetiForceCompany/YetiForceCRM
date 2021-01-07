@@ -155,6 +155,43 @@ jQuery.Class(
 					thisInstance.triggerMassAction(massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')), type);
 				}
 			});
+		},
+		triggerMassQuickCreate: function (moduleName, data) {
+			const self = this.relatedListInstance;
+			if (self.checkListRecordSelected() != true) {
+				let listParams = self.getSelectedParams();
+				let progress = $.progressIndicator({ blockInfo: { enabled: true } });
+				let params = {
+					callbackFunction: function () {
+						self.loadRelatedList();
+					},
+					noCache: true,
+					data: $.extend(data, {
+						sourceView: 'RelatedListView',
+						sourceModule: listParams.relatedModule,
+						entityState: listParams.entityState,
+						search_params: listParams.search_params,
+						excluded_ids: listParams.excluded_ids,
+						selected_ids: listParams.selected_ids,
+						relationId: listParams.relationId,
+						relatedRecord: listParams.record,
+						relatedModule: listParams.module
+					})
+				};
+				App.Components.QuickCreate.getForm(
+					'index.php?module=' + moduleName + '&view=MassQuickCreateModal',
+					moduleName,
+					params
+				).done((data) => {
+					progress.progressIndicator({
+						mode: 'hide'
+					});
+					App.Components.QuickCreate.showModal(data, params);
+					app.registerEventForClockPicker();
+				});
+			} else {
+				self.noRecordSelectedAlert();
+			}
 		}
 	},
 	{
@@ -245,6 +282,13 @@ jQuery.Class(
 				tab_label: container.find('#tab_label').val()
 			};
 			return $.extend(this.getDefaultParams(), params);
+		},
+		getSelectedParams: function () {
+			return $.extend(this.getCompleteParams(), {
+				selected_ids: this.readSelectedIds(true),
+				excluded_ids: this.readExcludedIds(true),
+				cvid: this.getCurrentCvId()
+			});
 		},
 		parseUrlParams: function (url) {
 			if (url) {

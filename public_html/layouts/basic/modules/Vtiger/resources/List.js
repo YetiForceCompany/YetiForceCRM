@@ -108,7 +108,8 @@ jQuery.Class(
 				let progress = $.progressIndicator({ blockInfo: { enabled: true } });
 				let params = {
 					callbackFunction: function () {},
-					data: $.extend(data, listInstance.getSearchParams())
+					noCache: true,
+					data: $.extend(data, listInstance.getSearchParams(), { sourceView: 'ListView' })
 				};
 				App.Components.QuickCreate.getForm(
 					'index.php?module=' + moduleName + '&view=MassQuickCreateModal&sourceModule=' + app.getModuleName(),
