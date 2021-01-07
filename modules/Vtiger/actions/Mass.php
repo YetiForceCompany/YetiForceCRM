@@ -58,7 +58,7 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 *
-	 * @return array
+	 * @return int[]
 	 */
 	public static function getRecordsListFromRequest(App\Request $request)
 	{
@@ -67,6 +67,6 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 			return $selectedIds;
 		}
 		$queryGenerator = static::getQuery($request);
-		return $queryGenerator ? $queryGenerator->setFields(['id'])->createQuery()->column() : [];
+		return $queryGenerator ? $queryGenerator->clearFields()->createQuery()->column() : [];
 	}
 }

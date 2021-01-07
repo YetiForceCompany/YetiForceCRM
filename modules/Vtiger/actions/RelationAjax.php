@@ -71,12 +71,11 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 */
 	public static function getQuery(App\Request $request)
 	{
-		$selectedIds = $request->getArray('selected_ids', 2);
+		$selectedIds = $request->getArray('selected_ids', 'Alnum');
 		if ($selectedIds && 'all' !== $selectedIds[0]) {
-			$queryGenerator = new App\QueryGenerator($request->getByType('relatedModule', 2));
-			$queryGenerator->setFields(['id']);
+			$queryGenerator = new App\QueryGenerator($request->getByType('relatedModule', 'Alnum'));
+			$queryGenerator->clearFields();
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
-
 			return $queryGenerator;
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
@@ -95,13 +94,13 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_key', $searchKey);
 			$relationListView->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relationListView->getQueryGenerator()->getModule(), $searchKey, $operator));
 		}
-		$searchParmams = App\Condition::validSearchParams($request->getByType('relatedModule', 'Alnum'), $request->getArray('search_params'));
-		if (empty($searchParmams) || !\is_array($searchParmams)) {
-			$searchParmams = [];
+		$searchParams = App\Condition::validSearchParams($request->getByType('relatedModule', 'Alnum'), $request->getArray('search_params'));
+		if (empty($searchParams) || !\is_array($searchParams)) {
+			$searchParams = [];
 		}
-		$relationListView->set('search_params', $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams));
+		$relationListView->set('search_params', $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams));
 		$queryGenerator = $relationListView->getRelationQuery(true);
-		$queryGenerator->setFields(['id']);
+		$queryGenerator->clearFields();
 		$excludedIds = $request->getArray('excluded_ids', 'Integer');
 		if ($excludedIds && \is_array($excludedIds)) {
 			$queryGenerator->addCondition('id', $excludedIds, 'n');
@@ -114,7 +113,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 *
-	 * @return array
+	 * @return int[]
 	 */
 	public static function getRecordsListFromRequest(App\Request $request)
 	{

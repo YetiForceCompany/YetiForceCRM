@@ -265,7 +265,7 @@ class QueryGenerator
 	 *
 	 * @return \self
 	 */
-	public function setField($fields)
+	public function setField($fields): self
 	{
 		if (\is_array($fields)) {
 			foreach ($fields as $field) {
@@ -280,12 +280,13 @@ class QueryGenerator
 	/**
 	 * Clear fields.
 	 *
-	 * @return void
+	 * @return self
 	 */
-	public function clearFields()
+	public function clearFields(): self
 	{
 		$this->fields = ['id'];
 		$this->relatedFields = [];
+		$this->customColumns = [];
 		return $this;
 	}
 
@@ -306,7 +307,7 @@ class QueryGenerator
 	 *
 	 * @return \self
 	 */
-	public function setCustomColumn($columns)
+	public function setCustomColumn($columns): self
 	{
 		if (\is_array($columns)) {
 			foreach ($columns as $key => $column) {
