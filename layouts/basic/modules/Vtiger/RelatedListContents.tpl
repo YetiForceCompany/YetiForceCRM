@@ -127,14 +127,14 @@
 					{assign var=COUNT value=0}
 					<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}"
 						{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
-						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
-							<div>
-								<input type="checkbox" value="{$RELATED_RECORD->getId()}"
-								title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
-								class="relatedListViewEntriesCheckBox"/>
-							</div>
-						{/if}
-						{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
+						<div class="d-flex align-items-center">
+							{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+									<input type="checkbox" value="{$RELATED_RECORD->getId()}"
+									title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
+									class="relatedListViewEntriesCheckBox"/>
+							{/if}
+							{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
+						</div>
 					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS name=listHeaderForeach}
 						{if !empty($COLUMNS) && $COUNT == $COLUMNS }
