@@ -27,12 +27,11 @@
 	{/function}
 	{if !empty($FIELDS_HEADER['value'])}
 		{foreach from=$FIELDS_HEADER['value'] key=NAME item=FIELD_MODEL}
-
 			{SHOW_HEADER_FIELD_VALUE}
 		{/foreach}
 	{else}
 		{assign var=FIELD_MODEL value=$RECORD->getField('assigned_user_id')}
-		{if $FIELD_MODEL->isViewableInDetailView()}
+		{if $FIELD_MODEL && $FIELD_MODEL->isViewableInDetailView()}
 			{SHOW_HEADER_FIELD_VALUE}
 		{/if}
 		{assign var=FIELD_MODEL value=$RECORD->getField('shownerid')}

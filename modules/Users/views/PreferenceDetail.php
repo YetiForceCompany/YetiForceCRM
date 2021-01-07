@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Users_PreferenceDetail_View extends Vtiger_Detail_View
+class Users_PreferenceDetail_View extends Users_Detail_View
 {
 	/**
 	 * {@inheritdoc}
@@ -58,20 +58,6 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view($this->preProcessTplName($request), $request->getModule());
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(App\Request $request)
-	{
-		$recordId = $request->getInteger('record');
-		$moduleName = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$dayStartPicklistValues = $recordModel->getDayStartsPicklistValues();
-		$viewer = $this->getViewer($request);
-		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
-		return parent::process($request);
 	}
 
 	/**
