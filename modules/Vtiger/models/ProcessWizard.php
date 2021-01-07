@@ -237,6 +237,9 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 				}
 			}
 		}
+		if (!empty($block['icon'])) {
+			$block['icon'] = '';
+		}
 		$block['fieldsStructure'] = $fields;
 		return $block;
 	}
@@ -251,6 +254,9 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 	public function getRelatedListStructure(array $block): array
 	{
 		$relation = Vtiger_Relation_Model::getInstanceById($block['relationId']);
+		if (!empty($block['icon'])) {
+			$block['icon'] = '';
+		}
 		$block['relationStructure'] = Vtiger_Link_Model::getInstanceFromValues([
 			'linklabel' => $block['label'] ?? $relation->get('label'),
 			'linkurl' => $relation->getListUrl($this->recordModel) . ($block['relationConditions'] ?? ''),
@@ -271,6 +277,9 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 	public function getRelatedListReferenceStructure(array $block): array
 	{
 		$fieldValue = $this->recordModel->get($block['referenceField']);
+		if (!empty($block['icon'])) {
+			$block['icon'] = '';
+		}
 		if ($fieldValue && App\Record::isExists($fieldValue)) {
 			$relation = Vtiger_Relation_Model::getInstanceById($block['relationId']);
 			$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($fieldValue);
