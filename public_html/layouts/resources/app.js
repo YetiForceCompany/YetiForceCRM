@@ -94,13 +94,22 @@ var App = (window.App = {
 				}
 				container.on('click', '.js-quick-create-modal', function (e) {
 					e.preventDefault();
-					let url = $(this).data('url');
-					url = url.replace('index.php?', '');
-					if (url) {
-						let searchParams = new URLSearchParams(url);
-						if (searchParams.has('module')) {
-							App.Components.QuickCreate.createRecord(searchParams.get('module'));
-						}
+					let element = $(this);
+					if (element.data('module')) {
+						App.Components.QuickCreate.createRecord(element.data('module'));
+					}
+					if (element.data('url')) {
+						let url = element.data('url');
+						let urlObject = app.convertUrlToObject(url);
+						let params = { callbackFunction: function () {} };
+						const progress = $.progressIndicator({ blockInfo: { enabled: true } });
+						App.Components.QuickCreate.getForm(url, urlObject.module, params).done((data) => {
+							progress.progressIndicator({
+								mode: 'hide'
+							});
+							App.Components.QuickCreate.showModal(data, params);
+							app.registerEventForClockPicker();
+						});
 					}
 				});
 			},
@@ -2850,6 +2859,7 @@ $(document).ready(function () {
 	app.registerHtmlToImageDownloader(document);
 	app.registerShowHideBlock(document);
 	app.registerFormsEvents(document);
+	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
 	String.prototype.toCamelCase = function () {
 		let value = this.valueOf();

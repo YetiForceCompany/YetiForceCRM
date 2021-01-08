@@ -1488,17 +1488,17 @@ class Vtiger_Record_Model extends \App\Base
 			$links[$key] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
 		$allRecordListButtons = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['LIST_VIEW_BUTTONS']);
-		if (isset($allRecordListButtons['LIST_VIEW_BUTTONS'])) {
-			foreach ($allRecordListButtons['LIST_VIEW_BUTTONS'] as $buttonKey => $recordListButton) {
-				$url = $recordListButton->linkurl;
+		if (!$this->isReadOnly() && isset($allRecordListButtons['LIST_VIEW_BUTTONS'])) {
+			foreach ($allRecordListButtons['LIST_VIEW_BUTTONS'] as $recordListButton) {
+				$url = $recordListButton->linkurl ?: $recordListButton->dataUrl;
 				$queryParams = vtlib\Functions::getQueryParams($url);
-				if (property_exists($recordListButton, 'permit') && isset($queryParams['module']) && !\App\Privilege::isPermitted(isset($queryParams['module']), $recordListButton->get('permit'))) {
+				if (property_exists($recordListButton, 'permit') && isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module'], $recordListButton->get('permit'))) {
 					continue;
 				}
-				$url .= "&sourceModule={$this->getModuleName()}&sourceRecord={$this->getId()}";
-				$recordListButton->set('linkurl', $url);
-				$recordListButton->set('modalView', true);
-				$links[$recordListButton->get('linklabel') . $buttonKey] = $recordListButton;
+				if (isset($recordListButton->dataUrl)) {
+					$recordListButton->dataUrl .= "&sourceModule={$this->getModuleName()}&sourceRecord={$this->getId()}";
+				}
+				$links[$recordListButton->get('linklabel')] = $recordListButton;
 			}
 		}
 		return \App\Utils::changeSequence($links, App\Config::module($this->getModuleName(), 'recordListViewButtonSequence', []));
@@ -1661,19 +1661,22 @@ class Vtiger_Record_Model extends \App\Base
 					$links['LBL_CHANGE_RELATION_DATA'] = $changeRelationDataButton;
 				}
 			}
-		}
-		$allRecordListButtons = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['RELATED_LIST_VIEW_BUTTONS']);
-		if (isset($allRecordListButtons['RELATED_LIST_VIEW_BUTTONS'])) {
-			foreach ($allRecordListButtons['RELATED_LIST_VIEW_BUTTONS'] as $buttonKey => $recordListButton) {
-				$url = $recordListButton->linkurl;
-				$queryParams = vtlib\Functions::getQueryParams($url);
-				if (property_exists($recordListButton, 'permit') && isset($queryParams['module']) && !\App\Privilege::isPermitted(isset($queryParams['module']), $recordListButton->get('permit'))) {
-					continue;
+			$allRecordListButtons = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['RELATED_LIST_VIEW_BUTTONS']);
+			if (isset($allRecordListButtons['RELATED_LIST_VIEW_BUTTONS'])) {
+				foreach ($allRecordListButtons['RELATED_LIST_VIEW_BUTTONS'] as $recordListButton) {
+					$url = $recordListButton->linkurl ?: $recordListButton->dataUrl;
+					$queryParams = vtlib\Functions::getQueryParams($url);
+					if (property_exists($recordListButton, 'permit') && isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module'], $recordListButton->get('permit'))) {
+						continue;
+					}
+					if (isset($recordListButton->dataUrl)) {
+						$recordListButton->dataUrl .= "&sourceModule={$this->getModuleName()}&sourceRecord={$this->getId()}";
+						if ($relationModel->get('parentRecord') && ($relationField = $relationModel->getRelationField())) {
+							$recordListButton->dataUrl .= '&' . $relationField->getName() . '=' . $relationModel->get('parentRecord')->getId();
+						}
+					}
+					$links[$recordListButton->get('linklabel')] = $recordListButton;
 				}
-				$url = $url . "&sourceModule={$this->getModuleName()}&sourceRecord={$this->getId()}";
-				$recordListButton->set('linkurl', $url);
-				$recordListButton->set('modalView', true);
-				$links[$recordListButton->get('linklabel') . $buttonKey] = $recordListButton;
 			}
 		}
 		return \App\Utils::changeSequence($links, App\Config::module($this->getModuleName(), 'recordRelatedListViewButtonSequence', []));
