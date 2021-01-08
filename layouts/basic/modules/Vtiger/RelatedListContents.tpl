@@ -193,10 +193,6 @@
 							{/if}
 						</td>
 					{/if}
-					<td>
-						{$COUNT = $COUNT+1}
-						{include file=\App\Layout::getTemplatePath('RelatedListRightSide.tpl', $MODULE_NAME)}
-					</td>
 				</tr>
 				{if $IS_INVENTORY || $IS_WIDGETS}
 					<tr class="js-hidden-row {if !$SHOW_RELATED_WIDGETS}d-none{/if}" data-id="{$RELATED_RECORD->getId()}">
