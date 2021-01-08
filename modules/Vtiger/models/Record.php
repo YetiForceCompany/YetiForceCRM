@@ -1487,6 +1487,21 @@ class Vtiger_Record_Model extends \App\Base
 		foreach ($recordLinks as $key => $recordLink) {
 			$links[$key] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
+		$allRecordListButtons = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['LIST_VIEW_BUTTONS']);
+		if (isset($allRecordListButtons['LIST_VIEW_BUTTONS'])) {
+			foreach ($allRecordListButtons['LIST_VIEW_BUTTONS'] as $buttonKey => $recordListButton) {
+				$url = $recordListButton->linkurl;
+				$queryParams = vtlib\Functions::getQueryParams($url);
+				if (property_exists($recordListButton, 'permit') && isset($queryParams['module']) && !\App\Privilege::isPermitted(isset($queryParams['module']), $recordListButton->get('permit'))) {
+					continue;
+				}
+				$url .= "&sourceModule={$this->getModuleName()}&sourceRecord={$this->getId()}";
+				$recordListButton->set('linkurl', $url);
+				$recordListButton->set('dataUrl', $url);
+				$recordListButton->set('modalView', true);
+				$links[$recordListButton->get('linklabel') . $buttonKey] = $recordListButton;
+			}
+		}
 		return \App\Utils::changeSequence($links, App\Config::module($this->getModuleName(), 'recordListViewButtonSequence', []));
 	}
 
@@ -1641,6 +1656,21 @@ class Vtiger_Record_Model extends \App\Base
 					'linkicon' => 'mdi mdi-briefcase-edit-outline',
 					'linkclass' => 'btn-sm btn-warning js-show-modal'
 				]);
+			}
+		}
+		$allRecordListButtons = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['RELATED_LIST_VIEW_BUTTONS']);
+		if (isset($allRecordListButtons['RELATED_LIST_VIEW_BUTTONS'])) {
+			foreach ($allRecordListButtons['RELATED_LIST_VIEW_BUTTONS'] as $buttonKey => $recordListButton) {
+				$url = $recordListButton->linkurl;
+				$queryParams = vtlib\Functions::getQueryParams($url);
+				if (property_exists($recordListButton, 'permit') && isset($queryParams['module']) && !\App\Privilege::isPermitted(isset($queryParams['module']), $recordListButton->get('permit'))) {
+					continue;
+				}
+				$url = $url . "&sourceModule={$this->getModuleName()}&sourceRecord={$this->getId()}";
+				$recordListButton->set('linkurl', $url);
+				$recordListButton->set('dataUrl', $url);
+				$recordListButton->set('modalView', true);
+				$links[$recordListButton->get('linklabel') . $buttonKey] = $recordListButton;
 			}
 		}
 		return \App\Utils::changeSequence($links, App\Config::module($this->getModuleName(), 'recordRelatedListViewButtonSequence', []));
