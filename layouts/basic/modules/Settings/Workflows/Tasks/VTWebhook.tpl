@@ -4,8 +4,7 @@
 <!-- tpl-Settings-Workflows-Tasks-VTWebhook -->
 <div id="VtWebhookContainer">
 	<div class="row pb-3">
-		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_ADDRESS_WEBHOOK',
-			$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
+		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_ADDRESS_WEBHOOK', $QUALIFIED_MODULE)}<span class="redColor">*</span></span>
 		<div class="col-md-4">
 			<input data-validation-engine='validate[required, funcCall[Vtiger_Url_Validator_Js.invokeValidation]]' class="form-control" name="url" type="text"
 				value="{if isset($TASK_OBJECT->url)}{$TASK_OBJECT->url}{/if}" />
@@ -19,45 +18,49 @@
 		</div>
 	</div>
 	<div class="row pb-3">
-		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_PASSWORD',
-			$QUALIFIED_MODULE)}</span>
+		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_PASSWORD', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-4">
 			<input class="form-control" data-validation-engine='validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]' name="password" type="password"
 				value="{if isset($TASK_OBJECT->password)}{$TASK_OBJECT->password}{/if}" />
 		</div>
 	</div>
 	<div class="row pb-3">
-		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SELECT_FIELD',
-			$QUALIFIED_MODULE)}</span>
+		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_FORM', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-4">
-			<select class="select2 form-control" name="fieldsdata"
-				data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD')}" multiple="multiple">
-				{assign var=TEXT_PARSER value=App\TextParser::getInstance($SOURCE_MODULE)}
-				{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable()}
-					<optgroup label="{$BLOCK_NAME}">
-						{foreach item=ITEM from=$FIELDS}
-							<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}" {if isset($TASK_OBJECT->
-								fieldsdata) && $TASK_OBJECT->fieldsdata &&
-								in_array($ITEM['var_value'],$TASK_OBJECT->fieldsdata)}selected=""{/if}>
-								{$ITEM['label']}
-							</option>
-						{/foreach}
-					</optgroup>
+			<select class="select2 form-control" name="form"
+				data-placeholder="{\App\Language::translate('LBL_FORM')}">
+				{assign var=FORM_TYPES value=['json' => 'LBL_JSON', 'form' => 'LBL_FORM']}
+				{foreach item=FORM_LABEL key=FORM from=$FORM_TYPES}
+					<option value="{$FORM}" data-label="{$FORM}" {if isset($TASK_OBJECT->form) && $TASK_OBJECT->form eq $FORM}selected=""{/if}>
+						{\App\Language::translate($FORM_LABEL)}
+					</option>
 				{/foreach}
 			</select>
 		</div>
 	</div>
 	<div class="row pb-3">
-		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_DATA_TYPE',
-			$QUALIFIED_MODULE)}</span>
+		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}</span>
+		<div class="col-md-4">
+			<select name="fieldname" class="select2" data-select="allowClear" multiple="multiple">
+				{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
+					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
+					{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
+					<option value="{$FIELD_MODEL->getName()}" {if isset($TASK_OBJECT->fieldname) && ($TASK_OBJECT->fieldname eq $FIELD_MODEL->getName()) || (is_array($TASK_OBJECT->fieldname) && in_array($FIELD_MODEL->getName(), $TASK_OBJECT->fieldname))} selected="" {/if}>
+						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
+					</option>
+				{/foreach}
+			</select>
+		</div>
+	</div>
+	<div class="row pb-3">
+		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_DATA_TYPE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-4">
 			<select class="select2 form-control" name="typedata"
 				data-placeholder="{\App\Language::translate('LBL_DATA_TYPE')}" multiple="multiple">
-				{assign var=TEXT_PARSER value=App\TextParser::getInstance($SOURCE_MODULE)}
-				{foreach item=DATA_TYPE from=['LBL_DATA_FORMAT_USER', 'LBL_DATA_FORMAT_DATABASE', 'LBL_DATA_CHANGED']}
-					<option value="{$DATA_TYPE}" data-label="{$DATA_TYPE}" {if isset($TASK_OBJECT->typedata) &&
-						$TASK_OBJECT->typedata}selected=""{/if}>
-						{\App\Language::translate($DATA_TYPE)}
+				{assign var=DATA_TYPES value=['formUser' => 'LBL_DATA_FORMAT_USER', 'formatDatabase' => 'LBL_DATA_FORMAT_DATABASE', 'dataChanged' => 'LBL_DATA_CHANGED']}
+				{foreach item=DATA_LABEL key=DATA_TYPE from=$DATA_TYPES}
+					<option value="{$DATA_TYPE}" {if isset($TASK_OBJECT->typedata) && ($TASK_OBJECT->typedata eq $DATA_TYPE) || ( is_array($TASK_OBJECT->typedata) && in_array($DATA_TYPE, $TASK_OBJECT->typedata))} selected="" {/if}>
+						{\App\Language::translate($DATA_LABEL)}
 					</option>
 				{/foreach}
 			</select>
