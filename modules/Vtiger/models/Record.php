@@ -1497,7 +1497,6 @@ class Vtiger_Record_Model extends \App\Base
 				}
 				$url .= "&sourceModule={$this->getModuleName()}&sourceRecord={$this->getId()}";
 				$recordListButton->set('linkurl', $url);
-				$recordListButton->set('dataUrl', $url);
 				$recordListButton->set('modalView', true);
 				$links[$recordListButton->get('linklabel') . $buttonKey] = $recordListButton;
 			}
@@ -1668,7 +1667,6 @@ class Vtiger_Record_Model extends \App\Base
 				}
 				$url = $url . "&sourceModule={$this->getModuleName()}&sourceRecord={$this->getId()}";
 				$recordListButton->set('linkurl', $url);
-				$recordListButton->set('dataUrl', $url);
 				$recordListButton->set('modalView', true);
 				$links[$recordListButton->get('linklabel') . $buttonKey] = $recordListButton;
 			}
