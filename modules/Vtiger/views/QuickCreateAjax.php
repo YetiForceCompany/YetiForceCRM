@@ -131,8 +131,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$sourceRelatedField = $this->recordModel->getModule()->getValuesFromSource($request);
 		foreach ($sourceRelatedField as $fieldName => $fieldValue) {
 			if (isset($this->recordStructure[$fieldName])) {
-				$fieldValue = $this->recordStructure[$fieldName]->get('fieldvalue');
-				if (empty($fieldValue)) {
+				if (empty($this->recordStructure[$fieldName]->get('fieldvalue'))) {
 					$this->recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
 				}
 			} else {
