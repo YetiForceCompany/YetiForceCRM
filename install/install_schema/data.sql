@@ -440,8 +440,6 @@ insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`
 
 /*Data for the table `s_yf_privileges_updater` */
 
-/*Data for the table `s_yf_record_list_button` */
-
 /*Data for the table `s_yf_record_quick_changer` */
 
 insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (1,90,'{\"ssingleorders_status\":\"PLL_ACCEPTED\"} ','{\"ssingleorders_status\":\"PLL_CANCELLED\"} ','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
