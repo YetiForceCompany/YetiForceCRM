@@ -11,7 +11,7 @@
 		</div>
 	</div>
 	<div class="row pb-3">
-		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_HTTP_OUT_LOGIN')}</span>
+		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_HTTP_OUT_LOGIN', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-4">
 			<input data-validation-engine='validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]' class="form-control" name="login" type="text" autocomplete="off"
 				value="{if isset($TASK_OBJECT->login)}{$TASK_OBJECT->login}{/if}" />
@@ -28,10 +28,9 @@
 		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_FORMAT', $QUALIFIED_MODULE)}<span class="redColor">*</span></span>
 		<div class="col-md-4">
 			<select data-validation-engine='validate[required]' class="select2 form-control" name="format" data-placeholder="{\App\Language::translate('LBL_FORMAT')}">
-				{assign var=FORMAT_TYPES value=['json' => 'LBL_JSON', 'form_params' => 'LBL_FORM']}
-				{foreach item=FORMAT_LABEL key=FORMAT from=$FORMAT_TYPES}
+				{foreach item=FORMAT from=['json', 'form_params']}
 					<option value="{$FORMAT}" data-label="{$FORM}" {if isset($TASK_OBJECT->format) && $TASK_OBJECT->format eq $FORMAT}selected=""{/if}>
-						{\App\Language::translate($FORMAT_LABEL)}
+						{$FORMAT}
 					</option>
 				{/foreach}
 			</select>
@@ -55,11 +54,11 @@
 		<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_DATA_TYPE', $QUALIFIED_MODULE)}<span class="redColor">*</span></span>
 		<div class="col-md-4">
 			<select  data-validation-engine='validate[required]' class="select2 form-control" name="typedata"
-				data-placeholder="{\App\Language::translate('LBL_DATA_TYPE')}" multiple="multiple">
+				data-placeholder="{\App\Language::translate('LBL_DATA_TYPE', $QUALIFIED_MODULE)}" multiple="multiple">
 				{assign var=DATA_TYPES value=['data' => 'LBL_DATA_FORMAT_USER', 'rawData' => 'LBL_DATA_FORMAT_DATABASE', 'changes' => 'LBL_DATA_CHANGED']}
 				{foreach item=DATA_LABEL key=DATA_TYPE from=$DATA_TYPES}
 					<option value="{$DATA_TYPE}" {if isset($TASK_OBJECT->typedata) && (($TASK_OBJECT->typedata eq $DATA_TYPE) || ( is_array($TASK_OBJECT->typedata) && in_array($DATA_TYPE, $TASK_OBJECT->typedata)))} selected="" {/if}>
-						{\App\Language::translate($DATA_LABEL)}
+						{\App\Language::translate($DATA_LABEL, $QUALIFIED_MODULE)}
 					</option>
 				{/foreach}
 			</select>
