@@ -83,6 +83,28 @@ var App = (window.App = {
 			 */
 			moduleCache: {},
 			/**
+			 * Register function
+			 * @param {jQuery} container
+			 */
+			register(container) {
+				if (typeof container === 'undefined') {
+					container = $('body');
+				} else {
+					container = $(container);
+				}
+				container.on('click', '.js-quick-create-modal', function (e) {
+					e.preventDefault();
+					let url = $(this).data('url');
+					url = url.replace('index.php?', '');
+					if (url) {
+						let searchParams = new URLSearchParams(url);
+						if (searchParams.has('module')) {
+							App.Components.QuickCreate.createRecord(searchParams.get('module'));
+						}
+					}
+				});
+			},
+			/**
 			 * createRecord
 			 *
 			 * @param   {string}  moduleName

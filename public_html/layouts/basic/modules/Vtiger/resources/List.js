@@ -2159,6 +2159,7 @@ jQuery.Class(
 			this.registerUnreviewedCountEvent();
 			this.registerLastRelationsEvent();
 			Vtiger_Index_Js.registerMailButtons(listViewContainer);
+			App.Components.QuickCreate.register(listViewContainer);
 		},
 		/**
 		 * Function that executes after the mass delete action
