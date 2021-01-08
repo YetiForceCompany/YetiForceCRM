@@ -44,7 +44,7 @@
 				{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
-					<option value="{$FIELD_MODEL->getName()}" {if isset($TASK_OBJECT->fields) && ($TASK_OBJECT->fields eq $FIELD_MODEL->getName()) || (is_array($TASK_OBJECT->fields) && in_array($FIELD_MODEL->getName(), $TASK_OBJECT->fields))} selected="" {/if}>
+					<option value="{$FIELD_MODEL->getName()}" {if isset($TASK_OBJECT->fields) && (($TASK_OBJECT->fields eq $FIELD_MODEL->getName()) || (is_array($TASK_OBJECT->fields) && in_array($FIELD_MODEL->getName(), $TASK_OBJECT->fields)))} selected="" {/if}>
 						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 					</option>
 				{/foreach}
@@ -58,7 +58,7 @@
 				data-placeholder="{\App\Language::translate('LBL_DATA_TYPE')}" multiple="multiple">
 				{assign var=DATA_TYPES value=['data' => 'LBL_DATA_FORMAT_USER', 'rawData' => 'LBL_DATA_FORMAT_DATABASE', 'changes' => 'LBL_DATA_CHANGED']}
 				{foreach item=DATA_LABEL key=DATA_TYPE from=$DATA_TYPES}
-					<option value="{$DATA_TYPE}" {if isset($TASK_OBJECT->typedata) && ($TASK_OBJECT->typedata eq $DATA_TYPE) || ( is_array($TASK_OBJECT->typedata) && in_array($DATA_TYPE, $TASK_OBJECT->typedata))} selected="" {/if}>
+					<option value="{$DATA_TYPE}" {if isset($TASK_OBJECT->typedata) && (($TASK_OBJECT->typedata eq $DATA_TYPE) || ( is_array($TASK_OBJECT->typedata) && in_array($DATA_TYPE, $TASK_OBJECT->typedata)))} selected="" {/if}>
 						{\App\Language::translate($DATA_LABEL)}
 					</option>
 				{/foreach}
