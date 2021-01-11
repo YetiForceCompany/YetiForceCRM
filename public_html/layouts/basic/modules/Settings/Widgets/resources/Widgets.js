@@ -42,6 +42,9 @@ jQuery.Class(
 							}
 							if (save) {
 								var formData = form.serializeFormData();
+								if	(typeof formData.relatedfields === 'string') {
+									formData.relatedfields = [formData.relatedfields];
+								}
 								thisInstance
 									.registerSaveEvent('saveWidget', {
 										data: formData,
