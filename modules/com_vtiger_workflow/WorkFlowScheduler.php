@@ -55,12 +55,11 @@ class WorkFlowScheduler
 	 *
 	 * @param Workflow $workflow
 	 *
-	 * @return string
+	 * @return int[]
 	 */
-	public function getEligibleWorkflowRecords($workflow)
+	public function getEligibleWorkflowRecords($workflow): array
 	{
 		$query = $this->getWorkflowQuery($workflow);
-
 		return $query->column();
 	}
 
@@ -86,8 +85,10 @@ class WorkFlowScheduler
 			$tm = new VTTaskManager();
 			$tasks = $tm->getTasksForWorkflow($workflow->id);
 			if ($tasks) {
-				$records = $this->getEligibleWorkflowRecords($workflow);
-				foreach ($records as &$recordId) {
+				foreach ($this->getEligibleWorkflowRecords($workflow) as $recordId) {
+					if (!\App\Record::isExists($recordId)) {
+						continue;
+					}
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 					$data = $recordModel->getData();
 					foreach ($tasks as $task) {
