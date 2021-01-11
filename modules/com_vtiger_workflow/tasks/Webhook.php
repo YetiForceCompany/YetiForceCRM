@@ -12,7 +12,7 @@
 /**
  * Webhook cron task class.
  */
-class VTWebhook extends VTTask
+class Webhook extends VTTask
 {
 	/** @var bool Performs the task immediately after saving. */
 	public $executeImmediately = true;
