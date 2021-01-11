@@ -62,7 +62,12 @@ jQuery.Class(
 						data: function (row) {
 							let action = '';
 							action += '<div class="o-tab__container--action">';
-							action += `<button type="button" class="btn btn-primary btn-xs js-send-request-id" data-id="${
+							action += `<button type="button" class="btn btn-primary btn-xs js-send-request-id" data-type="quick" data-id="${
+								row['id']
+							}" title="${app.vtranslate(
+								'BTN_STATUS_ACTION_QUICK_SEND_REQUEST'
+							)}" data-js="click"><span class="fas fa-fighter-jet"></span></button>`;
+							action += `<button type="button" class="btn btn-info btn-xs ml-2 js-send-request-id" data-type="manual" data-id="${
 								row['id']
 							}" title="${app.vtranslate(
 								'BTN_STATUS_ACTION_SEND_REQUEST'
@@ -324,7 +329,23 @@ jQuery.Class(
 				});
 			});
 			table.off('click', '.js-send-request-id').on('click', '.js-send-request-id', function () {
-				self.sendRequest(this.dataset.id);
+				if (this.dataset.type === 'manual') {
+					self.sendRequest(this.dataset.id);
+				} else {
+					AppConnector.request({
+						module: app.getModuleName(),
+						parent: app.getParentModuleName(),
+						action: 'SendReport',
+						id: this.dataset.id
+					}).done(function (response) {
+						self.dataTable.ajax.reload();
+						self.refreshCounters();
+						app.showNotify({
+							text: app.vtranslate(response.result.message),
+							type: true === response.result.success ? 'success' : 'error'
+						});
+					});
+				}
 			});
 		},
 		sendRequest: function (id) {

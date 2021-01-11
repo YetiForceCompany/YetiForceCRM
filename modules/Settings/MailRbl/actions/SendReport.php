@@ -18,16 +18,21 @@ class Settings_MailRbl_SendReport_Action extends Settings_Vtiger_Basic_Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$status = \App\Mail\Rbl::sendReport([
+		$data = [
 			'id' => $request->getInteger('id'),
-			'type' => $request->getByType('type'),
-			'desc' => $request->getByType('desc', 'Text'),
-			'category' => $request->getByType('category', 'Text'),
-		]);
+		];
+		if ($request->has('category')) {
+			$data['desc'] = $request->getByType('desc', 'Text');
+			$data['category'] = $request->getByType('category', 'Text');
+		}
+		$status = \App\Mail\Rbl::sendReport($data);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => $status['status'],
-			'notify' => ['type' => $status['status'] ? 'success' : 'error', 'title' => App\Language::translate($status['status'] ? 'LBL_SENT' : $status['message'])],
+			'notify' => [
+				'type' => ($status['status'] ? 'success' : 'error'),
+				'title' => App\Language::translate($status['status'] ? 'LBL_SENT' : $status['message'])
+			],
 		]);
 		$response->emit();
 	}

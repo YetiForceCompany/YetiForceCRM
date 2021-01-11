@@ -165,7 +165,7 @@
 						<th>{\App\Language::translate('LBL_RECIPIENT', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('LBL_LIST_TYPE', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('LBL_USER', $QUALIFIED_MODULE)}</th>
-						<th class="u-w-85px">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
+						<th class="u-w-158px">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
 				</table>

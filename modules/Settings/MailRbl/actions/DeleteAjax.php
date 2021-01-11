@@ -22,7 +22,7 @@ class Settings_MailRbl_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	{
 		$db = \App\Db::getInstance('admin');
 		$dbCommand = $db->createCommand();
-		if ('request' === $request->getMode()) {
+		if (\in_array($request->getMode(), ['forVerification', 'toSend', 'request'])) {
 			$status = $dbCommand->delete('s_#__mail_rbl_request', [
 				'id' => $request->getInteger('record')
 			])->execute();

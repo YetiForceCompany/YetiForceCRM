@@ -72,7 +72,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 			$rows[] = [
 				'id' => $row['id'],
 				'datetime' => \App\Fields\DateTime::formatToDisplay($row['datetime']),
-				'user' => \App\Fields\Owner::getUserLabel($row['user']),
+				'user' => \App\Fields\Owner::getUserLabel($row['user']) ?: '',
 				'sender' => \App\Purifier::encodeHtml($message->getHeaderValue('from')),
 				'recipient' => \App\Purifier::encodeHtml($message->getHeaderValue('to')),
 				'type' => "<span class=\"{$type['icon']} mr-2\"></span>" . \App\Language::translate($type['label'], 'Settings:MailRbl'),
@@ -108,7 +108,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 			$rows[] = [
 				'id' => $row['id'],
 				'datetime' => \App\Fields\DateTime::formatToDisplay($row['datetime']),
-				'user' => \App\Fields\Owner::getUserLabel($row['user']),
+				'user' => \App\Fields\Owner::getUserLabel($row['user']) ?: '',
 				'sender' => \App\Purifier::encodeHtml($message->getHeaderValue('from')),
 				'recipient' => \App\Purifier::encodeHtml($message->getHeaderValue('to')),
 				'type' => "<span class=\"{$type['icon']} mr-2\"></span>" . \App\Language::translate($type['label'], 'Settings:MailRbl'),
@@ -144,7 +144,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 			$rows[] = [
 				'id' => $row['id'],
 				'datetime' => \App\Fields\DateTime::formatToDisplay($row['datetime']),
-				'user' => \App\Fields\Owner::getUserLabel($row['user']),
+				'user' => \App\Fields\Owner::getUserLabel($row['user']) ?: '',
 				'sender' => \App\Purifier::encodeHtml($message->getHeaderValue('from')),
 				'recipient' => \App\Purifier::encodeHtml($message->getHeaderValue('to')),
 				'statusId' => $row['status'],

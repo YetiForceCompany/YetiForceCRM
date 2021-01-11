@@ -22,12 +22,12 @@
 					{$MODAL_TITLE}
 				</h5>
 				<div class="ml-auto">
-					<button type="button" name="saveButton" class="js-modal__save btn btn-success mr-1">
-						<span class="fas fa-paper-plane mr-1"></span>
+					<button type="button" name="saveButton" class="js-modal__save btn btn-success mr-4">
+						<span class="fas fa-paper-plane mr-2"></span>
 						{\App\Language::translate('BTN_SEND_REPORT', $MODULE_NAME)}
 					</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">
-						<span class="fas fa-times mr-1"></span>
+					<button type="button" class="btn btn-danger mr-2" data-dismiss="modal">
+						<span class="fas fa-times mr-2"></span>
 						{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}
 					</button>
 				</div>

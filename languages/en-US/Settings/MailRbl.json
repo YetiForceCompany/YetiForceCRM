@@ -96,6 +96,7 @@
     "BTN_STATUS_ACTION_ACCEPT": "Accept",
     "BTN_STATUS_ACTION_REJECT": "Reject",
     "BTN_DELETE": "Delete",
-    "BTN_STATUS_ACTION_SEND_REQUEST": "Send a report"
+    "BTN_STATUS_ACTION_SEND_REQUEST": "Send a report (modal window)",
+    "BTN_STATUS_ACTION_QUICK_SEND_REQUEST": "Send a report (no confirmation)"
   }
 }

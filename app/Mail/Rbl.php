@@ -785,7 +785,10 @@ class Rbl extends \App\Base
 		unset($data['id']);
 		$recordModel = self::getRequestById($id);
 		$recordModel->parse();
-
+		$data['type'] = $recordModel->get('type') ? 'White' : 'Black';
+		if (empty($data['category'])) {
+			$data['category'] = '[SPAM] Single unwanted message';
+		}
 		$url = 'https://soc.yetiforce.com/api/Application';
 		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
