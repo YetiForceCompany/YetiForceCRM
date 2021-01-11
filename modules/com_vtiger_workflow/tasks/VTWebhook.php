@@ -1,71 +1,68 @@
 <?php
 
 /**
- * Communication between servers file.
+ * Webhook cron task file.
  *
- * @package 	tasks
+ * @package 	WorkflowTask
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 /**
- * Communication between servers class.
+ * Webhook cron task class.
  */
 class VTWebhook extends VTTask
 {
 	/** @var bool Performs the task immediately after saving. */
 	public $executeImmediately = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFieldNames()
 	{
 		return ['url', 'login', 'password', 'fields', 'typedata', 'format'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function doTask($recordModel)
 	{
 		if (empty($this->url) || empty($this->format) || empty($this->typedata)) {
 			return;
 		}
-		$params = $recordModelData = [];
-		$fields = $types = false;
-		if (!empty($this->fields)) {
-			if (!\is_array($this->fields)) {
-				$fields = [$this->fields];
-			} else {
-				$fields = $this->fields;
-			}
-		}
-		if (!\is_array($this->typedata)) {
-			$types = [$this->typedata];
-		} else {
-			$types = $this->typedata;
-		}
-		$fieldParams = $fields ?: array_keys($recordModel->getModule()->getFields());
-		foreach ($types as $type) {
-			foreach ($fieldParams as $fieldName) {
-				if ('data' === $type) {
-					$recordModelData[$type][] = $recordModel->getDisplayValue($fieldName, $recordModel->getId(), true);
-				} elseif ('changes' === $type) {
-					$recordModelData[$type][] = $recordModel->getPreviousValue($fieldName) ?: '';
-				} elseif ('rawData' === $type) {
-					$recordModelData[$type][] = $recordModel->get($fieldName);
+		$data = ['date' => date('Y-m-d H:i:s (T P)')];
+		$fields = $this->fields ?: array_keys($recordModel->getModule()->getFields());
+		foreach ($this->typedata as $type) {
+			foreach ($fields as $fieldName) {
+				switch ($type) {
+					case 'data':
+						$data[$type][$fieldName] = $recordModel->getDisplayValue($fieldName, $recordModel->getId(), true);
+						break;
+					case 'changes':
+						if (false !== ($previousValue = $recordModel->getPreviousValue($fieldName))) {
+							$data[$type][$fieldName] = ['before' => $previousValue, 'after' => $recordModel->get($fieldName)];
+						}
+						break;
+					case 'rawData':
+						$data[$type][$fieldName] = $recordModel->get($fieldName);
+						break;
+					default:
+						break;
 				}
 			}
 		}
-		if (!empty($this->format)) {
-			$params[$this->format] = $recordModelData;
+		$params = [
+			"{$this->format}" => $data
+		];
+		if (!empty($this->login)) {
+			$params['auth'] = [$this->login, $this->password];
 		}
-		$params['auth'] = [$this->login, $this->password];
-		$params['date'] = date('Y-m-d H:i:s');
-		\App\Log::beginProfile("POST|VTWebhook::doTask|{$this->url}", 'com_vtiger_workflow\tasks\VTWebhook');
-		(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('POST', $this->url, $params);
-		\App\Log::endProfile("POST|VTWebhook::doTask|{$this->url}", 'com_vtiger_workflow\tasks\VTWebhook');
+		try {
+			\App\Log::beginProfile("POST|{$this->url}", 'Workflow|Webhook');
+			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('POST', $this->url, $params);
+			\App\Log::endProfile("POST|{$this->url}", 'Workflow|Webhook');
+		} catch (\Throwable $ex) {
+			\App\Log::warning('Error: ' . $this->url . ' | ' . $ex->__toString(), __CLASS__);
+			return false;
+		}
 	}
 }
