@@ -18,7 +18,14 @@
 					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME}"/>
 					{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-					<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}: </strong>{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}<br/>
+					{assign var=FIELD_LABEL_TRANSLATION value=App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
+					<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}
+					{if $FIELD_LABEL_TRANSLATION neq $FIELD_MODEL->getFieldLabel()}
+						<div class="js-popover-tooltip d-inline u-fs-xs ml-1" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate('LBL_LABEL', $QUALIFIED_MODULE)|cat:': '|cat:$FIELD_MODEL->getFieldLabel())}">
+							<span class="fas fa-info-circle"></span>
+						</div>
+					{/if}
+					: </strong>{$FIELD_LABEL_TRANSLATION}<br/>
 					<strong>{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->getFieldName()}<br/>
 					<strong>{App\Language::translate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->getFieldDataType()} (UiType: {$FIELD_MODEL->getUIType()})<br/>
 					<strong>{App\Language::translate('LBL_LENGTH', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->get('maximumlength')}
