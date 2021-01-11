@@ -81,7 +81,7 @@
     "zbateson/mail-mime-parser": "^1.2",
     "mlocati/spf-lib": "^3",
     "phpmailer/dkimvalidator": "^v0.3",
-    "league/climate": "^3.6"
+    "league/climate": "^3.7"
   },
   "suggest": {
     "ext-imagick": "Library recommended for securing potentially dangerous graphic files",
