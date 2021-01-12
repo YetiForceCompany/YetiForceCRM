@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -18,6 +19,9 @@ namespace App;
  */
 class RecordConverter extends Base
 {
+	/** Field to mapping */
+	const FIELD_TO_MAPPING = 1;
+
 	/**
 	 * Source module name.
 	 *
@@ -49,14 +53,14 @@ class RecordConverter extends Base
 	/**
 	 * Record models of created records.
 	 *
-	 * @var Vtiger_Record_Model[]
+	 * @var \Vtiger_Record_Model[]
 	 */
 	public $cleanRecordModels = [];
 
 	/**
 	 * Source record models.
 	 *
-	 * @var Vtiger_Record_Model[]
+	 * @var \Vtiger_Record_Model[]
 	 */
 	public $recordModels = [];
 
@@ -174,16 +178,75 @@ class RecordConverter extends Base
 	}
 
 	/**
+	 * Function check if convert for record and view is available.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string               $view
+	 * @param int|null             $userId
+	 *
+	 * @return bool
+	 */
+	public static function isAvailable(\Vtiger_Record_Model $recordModel, string $view = '', ?int $userId = null): bool
+	{
+		$result = false;
+		if (null === $userId) {
+			$userId = \App\User::getCurrentUserId();
+		}
+		$dataReader = self::getQuery($recordModel->getModuleName(), $view)->createCommand()->query();
+		while (!$result && ($row = $dataReader->read())) {
+			$modulePermitted = false;
+			$destinyModules = array_filter(explode(',', $row['destiny_module']));
+			foreach ($destinyModules as $destinyModuleId) {
+				if (!($modulePermitted = \App\Privilege::isPermitted(\App\Module::getModuleName($destinyModuleId), 'CreateView', false, $userId))) {
+					break;
+				}
+			}
+			$conditions = $row['conditions'] ? \App\Json::decode($row['conditions']) : [];
+			$result = $modulePermitted && \App\Condition::checkConditions($conditions, $recordModel);
+		}
+		$dataReader->close();
+		return $result;
+	}
+
+	/**
 	 * Function gets module converters.
 	 *
-	 * @param string $moduleName
-	 * @param string $view
+	 * @param string   $moduleName
+	 * @param string   $view
+	 * @param array    $recordIds
+	 * @param int|null $userId
 	 *
 	 * @return array
 	 */
-	public static function getModuleConverters(string $moduleName, string $view = ''): array
+	public static function getModuleConverters(string $moduleName, string $view = '', array $recordIds = [], ?int $userId = null): array
 	{
-		return self::getQuery($moduleName, $view)->createCommand(Db::getInstance('admin'))->queryAllByGroup(1);
+		$converters = [];
+		if (null === $userId) {
+			$userId = \App\User::getCurrentUserId();
+		}
+		$dataReader = self::getQuery($moduleName, $view)->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$modulePermitted = false;
+			$destinyModules = array_filter(explode(',', $row['destiny_module']));
+			foreach ($destinyModules as $destinyModuleId) {
+				if (!($modulePermitted = \App\Privilege::isPermitted(\App\Module::getModuleName($destinyModuleId), 'CreateView', false, $userId))) {
+					break;
+				}
+			}
+			$conditions = $row['conditions'] ? \App\Json::decode($row['conditions']) : [];
+			if ($modulePermitted && $conditions && $recordIds) {
+				foreach ($recordIds as $recordId) {
+					if (\App\Condition::checkConditions($conditions, \Vtiger_Record_Model::getInstanceById($recordId))) {
+						$converters[$row['id']] = $row;
+						break;
+					}
+				}
+			} elseif ($modulePermitted) {
+				$converters[$row['id']] = $row;
+			}
+		}
+		$dataReader->close();
+		return $converters;
 	}
 
 	/**
@@ -211,6 +274,14 @@ class RecordConverter extends Base
 	}
 
 	/**
+	 * Gets ID.
+	 */
+	public function getId()
+	{
+		return $this->get('id');
+	}
+
+	/**
 	 * Function variable initializing.
 	 *
 	 * @throws Exceptions\AppException
@@ -220,31 +291,41 @@ class RecordConverter extends Base
 		$this->sourceModule = Module::getModuleName($this->get('source_module'));
 		$this->sourceModuleModel = \Vtiger_Module_Model::getInstance($this->sourceModule);
 		$this->fieldMapping = $this->get('field_mapping') ? Json::decode($this->get('field_mapping')) : [];
+		$this->getMappingFields();
 		$this->inventoryMapping = $this->get('inv_field_mapping') ? Json::decode($this->get('inv_field_mapping')) : [];
 		$this->sourceInvFields = \Vtiger_Inventory_Model::getInstance($this->sourceModule)->getFields();
 		$this->defaultValuesCreatedRecord = $this->get('default_values') ? Json::decode($this->get('default_values')) : [];
 	}
 
 	/**
-	 * Function get number of created records.
+	 * Check permissions.
 	 *
-	 * @param array $records
+	 * @param int $recordId
 	 *
-	 * @return int
+	 * @return bool
 	 */
-	public function countRecordsToCreate(array $records): int
+	public function isPermitted(int $recordId): bool
 	{
-		$modulesAmount = 0;
-		foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
-			$destinyModuleName = Module::getModuleName($destinyModuleId);
-			if (Privilege::isPermitted($destinyModuleName, 'CreateView')) {
-				++$modulesAmount;
+		return \App\Privilege::isPermitted(Module::getModuleName($this->get('source_module')), 'DetailView', $recordId) &&
+			(\App\Json::isEmpty($this->get('conditions')) || \App\Condition::checkConditions(\App\Json::decode($this->get('conditions')), \Vtiger_Record_Model::getInstanceById($recordId)));
+	}
+
+	/**
+	 * Gets fields form mapping.
+	 *
+	 * @return array
+	 */
+	public function getMappingFields(): array
+	{
+		if (!isset($this->mapping)) {
+			$this->mapping = [];
+			$dataReader = (new Db\Query())->from('a_#__record_converter_mapping')->where(['id' => $this->getId()])->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$this->mapping[$row['dest_module']][$row['dest_field']] = $row;
 			}
 		}
-		if ($this->get('field_merge')) {
-			return \count($this->getGroupRecords($records)) * $modulesAmount;
-		}
-		return \count($records) * $modulesAmount;
+
+		return $this->mapping;
 	}
 
 	/**
@@ -257,26 +338,34 @@ class RecordConverter extends Base
 	public function process(array $records)
 	{
 		$this->init();
-		if ($this->get('destiny_module')) {
-			$recordsAmount = \count($records);
-			foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
-				$destinyModuleName = Module::getModuleName($destinyModuleId);
-				if (!Privilege::isPermitted($destinyModuleName, 'CreateView')) {
-					Log::warning("No permitted to action CreateView in module $destinyModuleName in view RecordConventer");
-					continue;
-				}
-				$this->initDestinyModuleValues($destinyModuleName);
-				$this->checkFieldMergeExist();
-				$this->setFieldsMapCanExecute($recordsAmount);
-				$this->setInvMapCanExecute();
-				if ($this->isFieldMergeExists) {
-					$this->groupRecordConvert = true;
-					$this->getRecordsGroupBy($records);
-				} else {
-					$this->getRecordModelsWithoutMerge($records);
-				}
+		$recordsAmount = \count($records);
+		foreach ($this->getDestinyModules() as $destinyModuleName) {
+			$this->initDestinyModuleValues($destinyModuleName);
+			$this->checkFieldMergeExist();
+			$this->setFieldsMapCanExecute($recordsAmount);
+			$this->setInvMapCanExecute();
+			if ($this->isFieldMergeExists) {
+				$this->groupRecordConvert = true;
+				$this->getRecordsGroupBy($records);
+			} else {
+				$this->getRecordModelsWithoutMerge($records);
 			}
 		}
+	}
+
+	/**
+	 * Gets destiny modules.
+	 */
+	public function getDestinyModules(): array
+	{
+		$modules = [];
+		foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
+			$destinyModuleName = Module::getModuleName($destinyModuleId);
+			if (Privilege::isPermitted($destinyModuleName, 'CreateView')) {
+				$modules[$destinyModuleId] = $destinyModuleName;
+			}
+		}
+		return $modules;
 	}
 
 	/**
@@ -335,7 +424,7 @@ class RecordConverter extends Base
 	/**
 	 * Function get query to group records.
 	 *
-	 * @param array $records
+	 * @param int[] $records
 	 *
 	 * @return array
 	 */
@@ -375,6 +464,9 @@ class RecordConverter extends Base
 	public function getRecordModelsWithoutMerge(array $records)
 	{
 		foreach ($records as $recordId) {
+			if (!$this->isPermitted($recordId)) {
+				continue;
+			}
 			$this->cleanRecordModels[$recordId] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
 			if (!isset($this->recordModels[$recordId])) {
 				$this->recordModels[$recordId] = \Vtiger_Record_Model::getInstanceById($recordId, $this->sourceModule);
@@ -402,7 +494,7 @@ class RecordConverter extends Base
 	}
 
 	/**
-	 * Function set values to new record automaticly.
+	 * Function set values to new record automatically.
 	 */
 	public function initFieldValuesAuto()
 	{
@@ -424,15 +516,14 @@ class RecordConverter extends Base
 	 */
 	public function initFieldValuesByUser()
 	{
+		$fieldsData = $this->getMappingFields()[$this->destinyModuleModel->getId()] ?? [];
+		$destFieldList = $this->destinyModuleModel->getFieldsById();
 		foreach ($this->cleanRecordModels as $key => $cleanRecordModel) {
-			$referenceRecordModel = &$this->cleanRecordModels[$key];
-			$textParser = TextParser::getInstanceByModel($this->recordModels[$key]);
-			foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
-				if (!isset($this->textParserValues[$key][$sourceField])) {
-					$textParser->setContent($sourceField);
-					$this->textParserValues[$key][$sourceField] = $textParser->parse()->getContent();
+			$sourceFieldList = $this->recordModels[$key]->getModule()->getFieldsById();
+			foreach ($fieldsData as $destFieldId => $fieldRow) {
+				if (self::FIELD_TO_MAPPING === $fieldRow['state'] && ($fieldModel = $destFieldList[$destFieldId])->isEditable() && ($sourceFieldModel = $sourceFieldList[$fieldRow['source_field']])->isActiveField()) {
+					$cleanRecordModel->set($fieldModel->getName(), $this->recordModels[$key]->get($sourceFieldModel->getName()));
 				}
-				$referenceRecordModel->set($destinyField, $this->textParserValues[$key][$sourceField]);
 			}
 		}
 	}
@@ -446,6 +537,10 @@ class RecordConverter extends Base
 			try {
 				$recordModel->save();
 				$this->createdRecords[] = $recordModel->getId();
+				$this->set('sourceRecord', $this->recordModels[$key]);
+				$eventHandler = $recordModel->getEventHandler();
+				$eventHandler->setParams(['converter' => $this]);
+				$eventHandler->trigger('RecordConverterAfter');
 				unset($this->cleanRecordModels[$key]);
 			} catch (\Throwable $ex) {
 				$this->error = $ex->getMessage();

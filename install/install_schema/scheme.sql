@@ -163,7 +163,7 @@ CREATE TABLE `a_yf_pdf` (
 /*Table structure for table `a_yf_record_converter` */
 
 CREATE TABLE `a_yf_record_converter` (
-  `id` smallint(10) NOT NULL AUTO_INCREMENT,
+  `id` smallint(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `source_module` smallint(5) NOT NULL,
@@ -175,12 +175,29 @@ CREATE TABLE `a_yf_record_converter` (
   `check_duplicate` tinyint(1) DEFAULT NULL,
   `show_in_list` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `show_in_detail` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `conditions` text DEFAULT NULL,
   PRIMARY KEY (`id`,`source_module`,`destiny_module`),
   KEY `a_yf_record_converter_fk_tab` (`source_module`),
   KEY `status` (`status`),
   KEY `show_in_list` (`show_in_list`),
   KEY `show_in_detail` (`show_in_detail`),
   CONSTRAINT `fk_1_a_yf_record_converter` FOREIGN KEY (`source_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_record_converter_mapping` */
+
+CREATE TABLE `a_yf_record_converter_mapping` (
+  `id` smallint(10) unsigned NOT NULL,
+  `dest_module` smallint(5) NOT NULL,
+  `source_field` int(10) NOT NULL,
+  `dest_field` int(10) NOT NULL,
+  `state` tinyint(1) unsigned DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `a_yf_record_converter_mapping_source_field` (`source_field`),
+  KEY `a_yf_record_converter_mapping_dest_field` (`dest_field`),
+  CONSTRAINT `a_yf_record_converter_mapping_fk1` FOREIGN KEY (`id`) REFERENCES `a_yf_record_converter` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `a_yf_record_converter_mapping_fk2` FOREIGN KEY (`source_field`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE,
+  CONSTRAINT `a_yf_record_converter_mapping_fk3` FOREIGN KEY (`dest_field`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_relatedlists_inv_fields` */

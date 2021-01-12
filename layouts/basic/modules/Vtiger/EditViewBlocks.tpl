@@ -52,6 +52,10 @@
 				<input type="hidden" name="_isDuplicateRecord" value="true"/>
 				<input type="hidden" name="_duplicateRecord" value="{\App\Request::_get('record')}"/>
 			{/if}
+			{if !empty($RECORD_CONVERTER)}
+				<input type="hidden" name="recordConverter" value="{$RECORD_CONVERTER}"/>
+				<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}"/>
+			{/if}
 			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
 				<input type="hidden" name="{$FIELD_NAME}" value="{$FIELD->getEditViewValue($RECORD->get($FIELD_NAME),$RECORD)}"/>
 			{/foreach}
@@ -136,7 +140,7 @@
 										{if isset($RECORD_STRUCTURE_RIGHT)}
 											<div class="col-sm-12 fieldRow row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
 										{else}
-											<div class="{if $FIELD_MODEL->getUIType() eq "300"} col-md-12 m-auto 
+											<div class="{if $FIELD_MODEL->getUIType() eq "300"} col-md-12 m-auto
 											{elseif !empty($EDIT_WIDTH)} {$EDIT_WIDTH}
 											{else} col-sm-6 {/if} fieldRow row form-group align-items-center my-1 js-field-block-column {if $FIELD_MODEL->get('hideField')} d-none {/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
 										{/if}

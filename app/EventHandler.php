@@ -29,6 +29,8 @@ class EventHandler
 	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
 	/** @var string Edit view, change value */
 	public const EDIT_VIEW_CHANGE_VALUE = 'EditViewChangeValue';
+	/** @var string Record converter after create record */
+	public const RECORD_CONVERTER_AFTER_SAVE = 'RecordConverterAfterSave';
 
 	/**
 	 * Get all event handlers.
@@ -236,7 +238,7 @@ class EventHandler
 	/**
 	 * Set record model.
 	 *
-	 * @param \App\Vtiger_Record_Model $recordModel
+	 * @param \Vtiger_Record_Model $recordModel
 	 *
 	 * @return $this
 	 */

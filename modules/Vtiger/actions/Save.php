@@ -57,6 +57,9 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		if ($request->getBoolean('_isDuplicateRecord') && !\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('_duplicateRecord'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
+		if ($request->has('recordConverter') && !\App\RecordConverter::getInstanceById($request->getInteger('recordConverter'))->isPermitted($request->getInteger('sourceRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		if ($request->getBoolean('relationOperation') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
@@ -103,6 +106,11 @@ class Vtiger_Save_Action extends \App\Controller\Action
 			$this->multiSave($request);
 		} else {
 			$this->record->save();
+			if ($request->has('recordConverter')) {
+				$converter = \App\RecordConverter::getInstanceById($request->getInteger('recordConverter'))->set('sourceRecord', $request->getInteger('sourceRecord'));
+				$eventHandler->setParams(['converter' => $converter]);
+				$eventHandler->trigger(\App\EventHandler::RECORD_CONVERTER_AFTER_SAVE);
+			}
 		}
 		if ($request->getBoolean('relationOperation')) {
 			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
