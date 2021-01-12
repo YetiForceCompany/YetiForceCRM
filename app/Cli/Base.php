@@ -18,8 +18,12 @@ abstract class Base
 {
 	/** @var \App\Cli Cli instance. */
 	protected $cli;
+
 	/** @var \League\CLImate\CLImate CLImate instance. */
 	protected $climate;
+
+	/** @var string Module Name */
+	public $moduleName;
 
 	/**
 	 * Construct.

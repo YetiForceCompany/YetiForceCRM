@@ -34,9 +34,9 @@ class Cli
 			$this->climate->to('error')->red('Something went terribly wrong.');
 			return;
 		}
-		$this->climate->border('─', 200);
+		$this->climate->lightGreen()->border('─', 200);
 		$this->climate->tab(2)->lightGreen('Y e t i F o r c e     C L I');
-		$this->climate->border('─', 200);
+		$this->climate->lightGreen()->border('─', 200);
 
 		\App\User::setCurrentUserId(\Users::getActiveAdminId());
 
@@ -57,9 +57,7 @@ class Cli
 		$this->climate->arguments->parse();
 		if ($this->climate->arguments->defined('help')) {
 			$this->climate->usage();
-		} elseif (!$this->climate->arguments->defined('module') && !$this->climate->arguments->defined('action')) {
-			$this->modulesList();
-		} elseif ($this->climate->arguments->defined('module') && !$this->climate->arguments->defined('action')) {
+		} elseif ($this->climate->arguments->defined('module') && !$this->climate->arguments->defined('action') && !empty($this->climate->arguments->get('module'))) {
 			$this->actionsList($this->climate->arguments->get('module'));
 		} elseif ($this->climate->arguments->defined('module') && $this->climate->arguments->defined('action')) {
 			$className = "\\App\\Cli\\{$this->climate->arguments->get('module')}";
@@ -67,6 +65,8 @@ class Cli
 			$this->climate->backgroundBlue()->out($instance->methods[$this->climate->arguments->get('action')]);
 			$this->climate->border('─', 200);
 			\call_user_func([$instance, $this->climate->arguments->get('action')]);
+		} else {
+			$this->modulesList();
 		}
 	}
 
@@ -80,10 +80,13 @@ class Cli
 		$options = [];
 		foreach (new \DirectoryIterator(ROOT_DIRECTORY . '/app/Cli') as $fileInfo) {
 			if ($fileInfo->isFile() && 'Base' !== $fileInfo->getBasename('.php')) {
-				$options[] = $fileInfo->getBasename('.php');
+				$module = $fileInfo->getBasename('.php');
+				$className = "\\App\\Cli\\{$module}";
+				$instance = new $className($this);
+				$options[$module] = $instance->moduleName;
 			}
 		}
-		$options[] = 'Exit';
+		$options['Exit'] = 'Exit';
 		$input = $this->climate->radio('Module:', $options);
 		$module = $input->prompt();
 		if ('Exit' === $module || empty($module)) {

@@ -16,6 +16,9 @@ namespace App\Cli;
  */
 class Users extends Base
 {
+	/** {@inheritdoc} */
+	public $moduleName = 'Users';
+
 	/** @var string[] Methods list */
 	public $methods = [
 		'resetPassword' => 'Reset user password',

@@ -16,6 +16,9 @@ namespace App\Cli;
  */
 class SystemUpdater extends Base
 {
+	/** {@inheritdoc} */
+	public $moduleName = 'System updater';
+
 	/** @var string[] Methods list */
 	public $methods = [
 		'history' => 'History of uploaded updates',
