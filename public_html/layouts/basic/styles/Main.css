@@ -17942,6 +17942,16 @@ input[type="checkbox"] {
   border-radius: 3px;
   border-color: #d7d7d7; }
 
+.relatedContents input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  min-height: 20px !important; }
+
+.relatedContents input[type="checkbox"]:checked::after,
+.relatedContents .checkbox input[type="checkbox"]:checked::after,
+.relatedContents .checkbox-inline input[type="checkbox"]:checked::after {
+  height: 16px; }
+
 input[type="checkbox"]:checked::after,
 .checkbox input[type="checkbox"]:checked::after,
 .checkbox-inline input[type="checkbox"]:checked::after {
