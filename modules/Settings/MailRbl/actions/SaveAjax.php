@@ -45,7 +45,10 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => App\Language::translate('LBL_CHANGES_SAVED'),
+			'notify' => [
+				'type' => 'success',
+				'title' => App\Language::translate('LBL_CHANGES_SAVED'),
+			],
 		]);
 		$response->emit();
 	}
