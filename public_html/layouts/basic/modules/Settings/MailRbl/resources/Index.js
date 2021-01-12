@@ -322,10 +322,7 @@ jQuery.Class(
 				}).done(function (response) {
 					self.dataTable.ajax.reload();
 					self.refreshCounters();
-					app.showNotify({
-						text: app.vtranslate(response.result.message),
-						type: true === response.result.success ? 'success' : 'error'
-					});
+					app.showNotify(response.result.notify);
 				});
 			});
 			table.off('click', '.js-send-request-id').on('click', '.js-send-request-id', function () {
@@ -340,10 +337,7 @@ jQuery.Class(
 					}).done(function (response) {
 						self.dataTable.ajax.reload();
 						self.refreshCounters();
-						app.showNotify({
-							text: app.vtranslate(response.result.message),
-							type: true === response.result.success ? 'success' : 'error'
-						});
+						app.showNotify(response.result.notify);
 					});
 				}
 			});
