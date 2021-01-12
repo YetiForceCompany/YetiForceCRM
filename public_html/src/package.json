@@ -43,7 +43,7 @@
     "lodash.get": "^4.4.2",
     "lodash.isequal": "^4.5.0",
     "lodash.unionby": "^4.8.0",
-    "vue-color": "^2.7.0",
+    "vue-color": "^2.8.1",
     "vue-drag-resize": "https://github.com/kirillmurashov/vue-drag-resize#master",
     "vuex": "^3.1.1"
   },
