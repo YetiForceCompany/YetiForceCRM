@@ -2703,7 +2703,7 @@ var app = (window.app = {
 		PNotify.defaults.sticker = false;
 		PNotify.defaults.styling = 'bootstrap4';
 		PNotify.defaults.icons = 'fontawesome5';
-		PNotify.defaults.delay = 4000;
+		PNotify.defaults.delay = 3000;
 		PNotify.defaults.stack.maxOpen = 10;
 		PNotify.defaults.stack.spacing1 = 5;
 		PNotify.defaults.stack.spacing2 = 5;

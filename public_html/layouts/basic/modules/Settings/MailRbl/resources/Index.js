@@ -322,7 +322,17 @@ jQuery.Class(
 				}).done(function (response) {
 					self.dataTable.ajax.reload();
 					self.refreshCounters();
-					app.showNotify(response.result.notify);
+					app.showNotify(
+						$.extend(response.result.notify, {
+							stack: new PNotify.Stack({
+								firstpos1: 25,
+								spacing1: 5,
+								spacing2: 5,
+								maxOpen: 10,
+								modal: false
+							})
+						})
+					);
 				});
 			});
 			table.off('click', '.js-send-request-id').on('click', '.js-send-request-id', function () {
@@ -337,7 +347,17 @@ jQuery.Class(
 					}).done(function (response) {
 						self.dataTable.ajax.reload();
 						self.refreshCounters();
-						app.showNotify(response.result.notify);
+						app.showNotify(
+							$.extend(response.result.notify, {
+								stack: new PNotify.Stack({
+									firstpos1: 25,
+									spacing1: 5,
+									spacing2: 5,
+									maxOpen: 10,
+									modal: false
+								})
+							})
+						);
 					});
 				}
 			});
