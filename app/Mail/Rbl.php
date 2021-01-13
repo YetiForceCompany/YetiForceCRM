@@ -317,7 +317,7 @@ class Rbl extends \App\Base
 						$byIp = $this->getIpByName($received->getByName(), $received->getByHostname());
 					}
 				}
-				if ($fromIp !== $byIp && ((!$fromDomain && !$byDomain) || $fromDomain !== $byDomain)) {
+				if ($fromIp && $byIp && $fromIp !== $byIp && ((!$fromDomain && !$byDomain) || $fromDomain !== $byDomain)) {
 					$row['ip'] = $fromIp;
 					$row['key'] = $key;
 					$row['from'] = $received->getFromName();
@@ -811,8 +811,8 @@ class Rbl extends \App\Base
 			], ['id' => $id])->execute();
 			return ['status' => true];
 		}
-		\App\Log::warning($response->getReasonPhrase() . ' | ' . $body['error']['message'], __METHOD__);
-		return ['status' => false, 'message' => $body['error']['message']];
+		\App\Log::warning($response->getReasonPhrase() . ' | ' . ($body['error']['message'] ?? $body['result']), __METHOD__);
+		return ['status' => false, 'message' => ($body['error']['message'] ?? $body['result'])];
 	}
 
 	/**
