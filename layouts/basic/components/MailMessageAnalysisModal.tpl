@@ -1,14 +1,14 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-MailRbl-DetailModal -->
+<!-- tpl-Components-MailMessageAnalysisModal -->
 <div class="modal-body pt-1">
 	{assign var=RECEIVED value=$RECORD->getReceived()}
 	{if $RECEIVED}
 		<div class="lineOfText mb-2">
 			<div>{\App\Language::translate('LBL_MAIL_TRACE_TITLE', $LANG_MODULE_NAME)}</div>
 		</div>
-		<div class="row col-12 m-0">
-			{assign var=TABLE_HEADERS value=['fromName', 'fromIP', 'byName', 'extraWith', 'extraComments']}
+		<div class="row col-12 m-0 p-0">
+			{assign var=TABLE_HEADERS value=['fromName', 'fromIP', 'byName', 'extraWith', 'extraComments', 'dateTime']}
 			<table class="table table-sm p-0 pr-2 mb-0 o-tab__container">
 				<thead>
 					<tr>
@@ -21,12 +21,12 @@
 				</thead>
 				<tbody>
 					{foreach item=ROW from=$RECEIVED}
-						<tr class="{if $SENDER['key'] === $ROW['key']} bg-light {/if}">
+						<tr class="{if $SENDER['key'] === $ROW['key']}table-info{/if}">
 							{foreach item=ITEM_ROWS  from=$TABLE_HEADERS}
 								<td class="text-center u-min-w-150px">
 									{if isset($ROW[$ITEM_ROWS])}
-										{if $ITEM_ROWS eq 'fromIP' && $SENDER['key'] eq $ROW['key'] && $SENDER['ip']}
-											<a href="https://soc.yetiforce.com/search?ip={$SENDER['ip']}" class="ml-2" target="_blank" title="soc.yetiforce.com">{\App\Purifier::encodeHtml($ROW[$ITEM_ROWS])}</a>
+										{if $ITEM_ROWS eq 'fromIP'}
+											<a href="https://soc.yetiforce.com/search?ip={$ROW[$ITEM_ROWS]}" class="ml-2" target="_blank" title="soc.yetiforce.com">{\App\Purifier::encodeHtml($ROW[$ITEM_ROWS])}</a>
 										{else}
 											{\App\Purifier::encodeHtml($ROW[$ITEM_ROWS])}
 										{/if}
@@ -58,5 +58,5 @@
 		<iframe sandbox="allow-same-origin"  class="w-100" frameborder="0" srcdoc="{\App\Purifier::encodeHtml($RECORD->get('body'))}"></iframe>
 	{/if}
 </div>
-<!-- /tpl-Settings-MailRbl-DetailModal -->
+<!-- /tpl-Components-MailMessageAnalysisModal -->
 {/strip}

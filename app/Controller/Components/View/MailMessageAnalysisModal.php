@@ -29,7 +29,7 @@ class MailMessageAnalysisModal extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $modalSize = 'modal-full';
+	public $modalSize = 'modal-blg';
 	/**
 	 * {@inheritdoc}
 	 */
@@ -121,6 +121,7 @@ class MailMessageAnalysisModal extends \App\Controller\Modal
 			'byIP' => ['icon' => 'fas fa-network-wired', 'title' => 'LBL_SERVER_IP_BY', 'label' => 'LBL_BY_IP'],
 			'extraComments' => ['icon' => 'far fa-comment-alt', 'title' => 'LBL_SERVER_COMMENTS', 'label' => 'LBL_EXTRA_WITH'],
 			'extraWith' => ['icon' => 'fab fa-expeditedssl', 'title' => 'LBL_PROTOCOL', 'label' => 'LBL_EXTRA_COMMENTS'],
+			'dateTime' => ['icon' => 'fas fa-clock', 'title' => 'LBL_PROTOCOL', 'label' => 'LBL_EXTRA_COMMENTS'],
 		]);
 		$viewer->view('MailMessageAnalysisModal.tpl', $request->getModule(false));
 	}

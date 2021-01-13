@@ -287,6 +287,9 @@ class Rbl extends \App\Base
 			if ($received->getComments()) {
 				$row['extraComments'] = preg_replace('/\s+/', ' ', trim(implode(' | ', $received->getComments())));
 			}
+			if ($received->getDateTime()) {
+				$row['dateTime'] = $received->getDateTime()->format('Y-m-d H:i:s');
+			}
 			$rows[] = $row;
 		}
 		return array_reverse($rows);
