@@ -113,20 +113,14 @@ class MailMessageAnalysisModal extends \App\Controller\Modal
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CARD_MAP', [
-			'from' => [
-				'Name' => ['icon' => 'fas fa-upload', 'label' => 'LBL_SERVER_NAME_FROM_DESC'],
-				'Hostname' => ['icon' => 'fas fa-server', 'label' => 'LBL_SERVER_HOST_NAME_FROM'],
-				'IP' => ['icon' => 'fas fa-network-wired', 'label' => 'LBL_SERVER_IP_FROM'],
-			],
-			'by' => [
-				'Name' => ['icon' => 'fas fa-download', 'label' => 'LBL_SERVER_NAME_BY_DESC'],
-				'Hostname' => ['icon' => 'fas fa-server', 'label' => 'LBL_SERVER_HOST_NAME_BY'],
-				'IP' => ['icon' => 'fas fa-network-wired', 'label' => 'LBL_SERVER_IP_BY'],
-			],
-			'extra' => [
-				'Comments' => ['icon' => 'far fa-comment-alt', 'label' => 'LBL_SERVER_COMMENTS'],
-				'With' => ['icon' => 'fab fa-expeditedssl', 'label' => 'LBL_PROTOCOL'],
-			]
+			'fromName' => ['icon' => 'fas fa-upload', 'title' => 'LBL_SERVER_NAME_FROM_DESC', 'label' => 'LBL_FROM_NAME'],
+			'fromHostname' => ['icon' => 'fas fa-server', 'title' => 'LBL_SERVER_HOST_NAME_FROM', 'label' => 'LBL_FROM_HOST_NAME'],
+			'fromIP' => ['icon' => 'fas fa-network-wired', 'title' => 'LBL_SERVER_IP_FROM', 'label' => 'LBL_FROM_IP'],
+			'byName' => ['icon' => 'fas fa-download', 'title' => 'LBL_SERVER_NAME_BY_DESC', 'label' => 'LBL_BY_NAME'],
+			'byHostname' => ['icon' => 'fas fa-server', 'title' => 'LBL_SERVER_HOST_NAME_BY', 'label' => 'LBL_BY_HOST_NAME'],
+			'byIP' => ['icon' => 'fas fa-network-wired', 'title' => 'LBL_SERVER_IP_BY', 'label' => 'LBL_BY_IP'],
+			'extraComments' => ['icon' => 'far fa-comment-alt', 'title' => 'LBL_SERVER_COMMENTS', 'label' => 'LBL_EXTRA_WITH'],
+			'extraWith' => ['icon' => 'fab fa-expeditedssl', 'title' => 'LBL_PROTOCOL', 'label' => 'LBL_EXTRA_COMMENTS'],
 		]);
 		$viewer->view('MailMessageAnalysisModal.tpl', $request->getModule(false));
 	}

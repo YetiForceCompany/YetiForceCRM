@@ -7,39 +7,36 @@
 		<div class="lineOfText mb-2">
 			<div>{\App\Language::translate('LBL_MAIL_TRACE_TITLE', $LANG_MODULE_NAME)}</div>
 		</div>
-		<div class="d-flex align-items-center justify-content-center">
-		{foreach item=ROW from=$RECEIVED name=ReceivedForeach}
-			<div class="{if count($RECEIVED) > 1} col {else} w-100 {/if} p-0 pr-2 mb-2">
-				<div class="u-box-shadow card{if $SENDER['key'] === $ROW['key']} u-bg-modern{/if}">
-					<div class="card-body p-1">
-						<ul class="list-group list-group-flush text-break">
-						{foreach item=ITEM_ROWS key=KEY_ROWS from=$ROW}
-							{if $ITEM_ROWS && is_array($ITEM_ROWS)}
-								<li class="list-group-item p-1">
-								{foreach item=ITEM key=KEY from=$ITEM_ROWS}
-									{if $ITEM}
-										<span class="{$CARD_MAP[$KEY_ROWS][$KEY]['icon']} mr-1" title="{\App\Language::translate($CARD_MAP[$KEY_ROWS][$KEY]['label'], $LANG_MODULE_NAME)}"></span>{\App\Purifier::encodeHtml($ITEM)}<br>
-									{/if}
-								{/foreach}
-								</li>
-							{/if}
+		<div class="row col-12 m-0">
+			{assign var=TABLE_HEADERS value=['fromName', 'fromIP', 'byName', 'extraWith', 'extraComments']}
+			<table class="table table-sm p-0 pr-2 mb-0 o-tab__container">
+				<thead>
+					<tr>
+						{foreach item=ITEM_ROWS from=$TABLE_HEADERS}
+							<th class="text-center">
+								<span class="{$CARD_MAP[$ITEM_ROWS]['icon']} mr-1" title="{\App\Language::translate($CARD_MAP[$ITEM_ROWS]['title'], $LANG_MODULE_NAME)}"></span> {{\App\Language::translate($CARD_MAP[$ITEM_ROWS]['label'], $LANG_MODULE_NAME)}}
+							</th>
 						{/foreach}
-						{if $SENDER['key'] === $ROW['key'] && $SENDER['ip']}
-							<li class="list-group-item p-1">
-								{\App\Language::translate('LBL_SERVER_IP_FROM', $LANG_MODULE_NAME)}:
-								<a href="https://soc.yetiforce.com/search?ip={$SENDER['ip']}" class="ml-2" target="_blank" title="soc.yetiforce.com">{$SENDER['ip']}</a>
-							</li>
-						{/if}
-						</ul>
-					</div>
-				</div>
-			</div>
-			{if !$smarty.foreach.ReceivedForeach.last}
-				<div class="pr-2">
-					<span class="fas fa-chevron-right mt-5 u-fs-2x text-primary my-auto"></span>
-				</div>
-			{/if}
-		{/foreach}
+					</tr>
+				</thead>
+				<tbody>
+					{foreach item=ROW from=$RECEIVED}
+						<tr class="{if $SENDER['key'] === $ROW['key']} bg-light {/if}">
+							{foreach item=ITEM_ROWS  from=$TABLE_HEADERS}
+								<td class="text-center u-min-w-150px">
+									{if isset($ROW[$ITEM_ROWS])}
+										{if $ITEM_ROWS eq 'fromIP' && $SENDER['key'] eq $ROW['key'] && $SENDER['ip']}
+											<a href="https://soc.yetiforce.com/search?ip={$SENDER['ip']}" class="ml-2" target="_blank" title="soc.yetiforce.com">{\App\Purifier::encodeHtml($ROW[$ITEM_ROWS])}</a>
+										{else}
+											{\App\Purifier::encodeHtml($ROW[$ITEM_ROWS])}
+										{/if}
+									{/if}
+								</td>
+							{/foreach}
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
 		</div>
 	{/if}
 	<div class="lineOfText">
