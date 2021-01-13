@@ -228,6 +228,10 @@ return [
 		'default' => 'H:i',
 		'description' => 'Set time format',
 	],
+	'time_formats' => [
+		'default' => ['G:i', 'H:i', 'g:i a', 'h:i A', 'H:i:s (T P)'],
+		'description' => 'give this choice of time formats to the user to select from',
+	],
 	'show_images' => [
 		'default' => 0,
 		'description' => 'Display remote resources (inline images, styles). Value: 0 - Never, always ask, 1 - Ask if sender is not in address book, 2 - Always allow',
