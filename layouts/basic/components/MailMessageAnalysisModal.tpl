@@ -8,13 +8,12 @@
 			<div>{\App\Language::translate('LBL_MAIL_TRACE_TITLE', $LANG_MODULE_NAME)}</div>
 		</div>
 		<div class="row col-12 m-0 p-0">
-			{assign var=TABLE_HEADERS value=['fromName', 'fromIP', 'byName', 'extraWith', 'extraComments', 'dateTime']}
 			<table class="table table-sm p-0 pr-2 mb-0 o-tab__container">
 				<thead>
 					<tr>
 						{foreach item=ITEM_ROWS from=$TABLE_HEADERS}
 							<th class="text-center">
-								<span class="{$CARD_MAP[$ITEM_ROWS]['icon']} mr-1" title="{\App\Language::translate($CARD_MAP[$ITEM_ROWS]['title'], $LANG_MODULE_NAME)}"></span> {{\App\Language::translate($CARD_MAP[$ITEM_ROWS]['label'], $LANG_MODULE_NAME)}}
+								<span class="{$CARD_MAP[$ITEM_ROWS]['icon']} mr-1"></span> {{\App\Language::translate($CARD_MAP[$ITEM_ROWS]['label'], $LANG_MODULE_NAME)}}
 							</th>
 						{/foreach}
 					</tr>
