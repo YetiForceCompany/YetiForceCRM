@@ -267,7 +267,7 @@ class Rbl extends \App\Base
 				$row['fromName'] = $received->getFromName();
 			}
 			if ($received->getFromHostname()) {
-				$row['fromHostname'] = $received->getFromHostname();
+				$row['fromName'] .= PHP_EOL . '(' . $received->getFromHostname() . ')';
 			}
 			if ($received->getFromAddress()) {
 				$row['fromIP'] = $received->getFromAddress();
@@ -276,7 +276,7 @@ class Rbl extends \App\Base
 				$row['byName'] = $received->getByName();
 			}
 			if ($received->getByHostname()) {
-				$row['byHostname'] = $received->getByHostname();
+				$row['byName'] .= PHP_EOL . '(' . $received->getByHostname() . ')';
 			}
 			if ($received->getByAddress()) {
 				$row['byIP'] = $received->getByAddress();
