@@ -264,28 +264,28 @@ class Rbl extends \App\Base
 		foreach ($this->mailMimeParser->getAllHeadersByName('Received') as $key => $received) {
 			$row = ['key' => $key];
 			if ($received->getFromName()) {
-				$row['from']['Name'] = $received->getFromName();
+				$row['fromName'] = $received->getFromName();
 			}
 			if ($received->getFromHostname()) {
-				$row['from']['Hostname'] = $received->getFromHostname();
+				$row['fromHostname'] = $received->getFromHostname();
 			}
 			if ($received->getFromAddress()) {
-				$row['from']['IP'] = $received->getFromAddress();
+				$row['fromIP'] = $received->getFromAddress();
 			}
 			if ($received->getByName()) {
-				$row['by']['Name'] = $received->getByName();
+				$row['byName'] = $received->getByName();
 			}
 			if ($received->getByHostname()) {
-				$row['by']['Hostname'] = $received->getByHostname();
+				$row['byHostname'] = $received->getByHostname();
 			}
 			if ($received->getByAddress()) {
-				$row['by']['IP'] = $received->getByAddress();
+				$row['byIP'] = $received->getByAddress();
 			}
 			if ($received->getValueFor('with')) {
-				$row['extra']['With'] = $received->getValueFor('with');
+				$row['extraWith'] = $received->getValueFor('with');
 			}
 			if ($received->getComments()) {
-				$row['extra']['Comments'] = preg_replace('/\s+/', ' ', trim(implode(' | ', $received->getComments())));
+				$row['extraComments'] = preg_replace('/\s+/', ' ', trim(implode(' | ', $received->getComments())));
 			}
 			$rows[] = $row;
 		}

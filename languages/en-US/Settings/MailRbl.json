@@ -1,6 +1,9 @@
 {
   "php": {
     "MailRbl": "RBL mail servers",
+    "LBL_BY_NAME": "To",
+    "LBL_BY_HOST_NAME": "Outgoing host name",
+    "LBL_BY_IP": "Outgoing ip",
     "LBL_MAIL_RBL": "RBL mail servers",
     "LBL_MAIL_RBL_DESCRIPTION": "Configure RBL email servers to detect spam and define trusted senders.",
     "BTN_SEND_REPORT": "Send a report",
@@ -10,6 +13,11 @@
     "LBL_FRAUD_MONEY_SCAM": "[Fraud] Money scam",
     "LBL_FRAUD_PHISHING": "[Fraud] Phishing",
     "LBL_FRAUD_ATTEMPT_TO_PERSUADE_PEOPLE_TO_BUY": "[Fraud] An attempt to persuade people to buy a product or service",
+    "LBL_FROM_NAME": "From",
+    "LBL_FROM_HOST_NAME": "Incoming host name",
+    "LBL_FROM_IP": "Incoming ip",
+    "LBL_EXTRA_WITH": "Additional information",
+    "LBL_EXTRA_COMMENTS": "Additional comment",
     "LBL_SECURITY_ATTEMPT_TO_IMPERSONATE_ANOTHER_PERSON": "[Security] An attempt to impersonate another person",
     "LBL_SECURITY_ATTEMPT_TO_PERSUADE_FROM_ORGANIZATION": "[Security] An attempt to persuade the recipient to open a resource from outside the organization",
     "LBL_SECURITY_ATTEMPT_TO_PERSUADE_INSIDE_ORGANIZATION": "[Security] An attempt to persuade the recipient to open a resource inside the organization",
