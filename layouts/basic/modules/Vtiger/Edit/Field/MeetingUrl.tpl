@@ -24,6 +24,9 @@
 			<br>{\App\Language::translateArgs("LBL_MEETING_AUTOGENERATE_INFO", $DEPEND_FIELD->getModuleName(), implode(', ',$DEPENDENT_TEXT))}
 		{/if}
 	{/function}
+	{if !isset($RECORD_ID)}
+		{assign var="RECORD_ID" value=0}
+	{/if}
 	<div class="js-meeting-container">
 		<div class="input-group {$WIDTHTYPE_GROUP}">
 			<input id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}"
