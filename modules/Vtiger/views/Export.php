@@ -32,15 +32,21 @@ class Vtiger_Export_View extends Vtiger_Index_View
 	public function process(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
-		$viewId = $request->getByType('viewname', 2);
+		$viewId = $entityState = false;
 		$selectedIds = $request->getArray('selected_ids', 2);
 		$excludedIds = $request->getArray('excluded_ids', 2);
 		$page = $request->getInteger('page');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_IDS', $selectedIds);
 		$viewer->assign('EXCLUDED_IDS', $excludedIds);
-		$viewer->assign('ENTITY_STATE', $request->getByType('entityState'));
+		if (!$request->isEmpty('viewname')) {
+			$viewId = $request->getByType('viewname', 2);
+		}
+		if (!$request->isEmpty('entityState')) {
+			$entityState = $request->getByType('entityState');
+		}
 		$viewer->assign('VIEWID', $viewId);
+		$viewer->assign('ENTITY_STATE', $entityState);
 		$viewer->assign('PAGE', $page);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE', 'Export');
