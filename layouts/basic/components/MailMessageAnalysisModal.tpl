@@ -7,7 +7,7 @@
 		<div class="lineOfText mb-2">
 			<div>{\App\Language::translate('LBL_MAIL_TRACE_TITLE', $LANG_MODULE_NAME)} - {$SENDER['ip']}</div>
 		</div>
-		<div class="row col-12 m-0 p-0">
+		<div class="row col-12 m-0 p-0 u-overflow-auto">
 			<table class="table table-sm p-0 pr-2 mb-0 o-tab__container">
 				<thead>
 					<tr>
