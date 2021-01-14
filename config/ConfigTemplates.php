@@ -386,21 +386,25 @@ return [
 			'default' => true,
 			'description' => 'Turn on/off error debugging in javascript'
 		],
-		'WEBSERVICE_SHOW_ERROR' => [
+		'apiShowExceptionMessages' => [
 			'default' => false,
-			'description' => 'Show error messages in web service'
+			'description' => '[WebServices/API] Show exception messages in response body'
 		],
-		'WEBSERVICE_SHOW_EXCEPTION_BACKTRACE' => [
+		'apiShowExceptionReasonPhrase' => [
 			'default' => false,
-			'description' => 'Show error exception backtrace'
+			'description' => '[WebServices/API] Show exception reason phrase in response header'
 		],
-		'WEBSERVICE_LOG_ERRORS' => [
+		'apiShowExceptionBacktrace' => [
 			'default' => false,
-			'description' => 'Web service - log only errors in the logs'
+			'description' => '[WebServices/API] Show exception backtrace in response body'
 		],
-		'WEBSERVICE_LOG_REQUESTS' => [
+		'apiLogException' => [
 			'default' => false,
-			'description' => 'Web service - log all communications'
+			'description' => '[WebServices/API] Log to file only exception errors in the logs'
+		],
+		'apiLogAllRequests' => [
+			'default' => false,
+			'description' => '[WebServices/API] Log to file all communications data (request + response)'
 		],
 		'DAV_DEBUG_EXCEPTIONS' => [
 			'default' => false,

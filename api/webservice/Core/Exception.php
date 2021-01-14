@@ -27,9 +27,8 @@ class Exception extends \Exception
 		if (empty($this->code)) {
 			$this->code = $code;
 		}
-		if (!\App\Config::debug('WEBSERVICE_SHOW_ERROR') && 200 === $code) {
+		if (!\App\Config::debug('apiShowExceptionMessages')) {
 			$message = 'Internal Server Error';
-			$code = 500;
 		}
 		$body = [
 			'status' => 0,
@@ -38,7 +37,7 @@ class Exception extends \Exception
 				'code' => $code,
 			],
 		];
-		if (\App\Config::debug('WEBSERVICE_SHOW_EXCEPTION_BACKTRACE')) {
+		if (\App\Config::debug('apiShowExceptionBacktrace')) {
 			$body['error']['file'] = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $this->getFile()), PHP_EOL);
 			$body['error']['line'] = $this->getLine();
 			if (!empty($previous)) {
@@ -49,12 +48,15 @@ class Exception extends \Exception
 		$response = Response::getInstance();
 		$response->setBody($body);
 		$response->setStatus($code);
+		if (\App\Config::debug('apiShowExceptionReasonPhrase')) {
+			$response->setReasonPhrase($this->message);
+		}
 		$response->send();
 	}
 
 	public function handleError()
 	{
-		if (\App\Config::debug('WEBSERVICE_LOG_ERRORS')) {
+		if (\App\Config::debug('apiLogException')) {
 			$request = Request::init();
 			$error = "code: {$this->getCode()} | message: {$this->getMessage()}\n";
 			$error .= "file: {$this->getFile()} ({$this->getLine()})\n";

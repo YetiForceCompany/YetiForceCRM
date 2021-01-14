@@ -156,7 +156,7 @@ class Controller
 
 	public function debugRequest()
 	{
-		if (\App\Config::debug('WEBSERVICE_LOG_REQUESTS')) {
+		if (\App\Config::debug('apiLogAllRequests')) {
 			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
 			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;

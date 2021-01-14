@@ -87,17 +87,20 @@ class Debug
 	/** Turn on/off error debugging in javascript */
 	public static $JS_DEBUG = true;
 
-	/** Show error messages in web service */
-	public static $WEBSERVICE_SHOW_ERROR = false;
+	/** [WebServices/API] Show exception messages in response body */
+	public static $apiShowExceptionMessages = false;
 
-	/** Show error exception backtrace */
-	public static $WEBSERVICE_SHOW_EXCEPTION_BACKTRACE = false;
+	/** [WebServices/API] Show exception reason phrase in response header */
+	public static $apiShowExceptionReasonPhrase = false;
 
-	/** Web service - log only errors in the logs */
-	public static $WEBSERVICE_LOG_ERRORS = false;
+	/** [WebServices/API] Show exception backtrace in response body */
+	public static $apiShowExceptionBacktrace = false;
 
-	/** Web service - log all communications */
-	public static $WEBSERVICE_LOG_REQUESTS = false;
+	/** [WebServices/API] Log to file only exception errors in the logs */
+	public static $apiLogException = false;
+
+	/** [WebServices/API] Log to file all communications data (request + response) */
+	public static $apiLogAllRequests = false;
 
 	/** API - Sabre dav - This is a flag that allows (or not) showing file, line, and code of the exception in the returned XML */
 	public static $DAV_DEBUG_EXCEPTIONS = false;
