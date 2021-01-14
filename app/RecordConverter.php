@@ -19,7 +19,7 @@ namespace App;
  */
 class RecordConverter extends Base
 {
-	/** Field to mapping */
+	/** @var int Field to mapping */
 	const FIELD_TO_MAPPING = 1;
 
 	/**
@@ -275,6 +275,8 @@ class RecordConverter extends Base
 
 	/**
 	 * Gets ID.
+	 *
+	 * @return int
 	 */
 	public function getId()
 	{
@@ -293,7 +295,9 @@ class RecordConverter extends Base
 		$this->fieldMapping = $this->get('field_mapping') ? Json::decode($this->get('field_mapping')) : [];
 		$this->getMappingFields();
 		$this->inventoryMapping = $this->get('inv_field_mapping') ? Json::decode($this->get('inv_field_mapping')) : [];
-		$this->sourceInvFields = \Vtiger_Inventory_Model::getInstance($this->sourceModule)->getFields();
+		if ($this->sourceModuleModel->isInventory()) {
+			$this->sourceInvFields = \Vtiger_Inventory_Model::getInstance($this->sourceModule)->getFields();
+		}
 		$this->defaultValuesCreatedRecord = $this->get('default_values') ? Json::decode($this->get('default_values')) : [];
 	}
 
@@ -356,6 +360,8 @@ class RecordConverter extends Base
 
 	/**
 	 * Gets destiny modules.
+	 *
+	 * @return string[]
 	 */
 	public function getDestinyModules(): array
 	{
@@ -396,7 +402,9 @@ class RecordConverter extends Base
 	{
 		$this->destinyModule = $moduleName;
 		$this->destinyModuleModel = \Vtiger_Module_Model::getInstance($this->destinyModule);
-		$this->destinyInvFields = \Vtiger_Inventory_Model::getInstance($this->destinyModule)->getFields();
+		if ($this->destinyModuleModel->isInventory()) {
+			$this->destinyInvFields = \Vtiger_Inventory_Model::getInstance($this->destinyModule)->getFields();
+		}
 	}
 
 	/**
@@ -541,7 +549,7 @@ class RecordConverter extends Base
 				$this->set('sourceRecord', $this->recordModels[$key]);
 				$eventHandler = $recordModel->getEventHandler();
 				$eventHandler->setParams(['converter' => $this]);
-				$eventHandler->trigger('RecordConverterAfter');
+				$eventHandler->trigger(EventHandler::RECORD_CONVERTER_AFTER_SAVE);
 				unset($this->cleanRecordModels[$key]);
 			} catch (\Throwable $ex) {
 				$this->error = $ex->getMessage();

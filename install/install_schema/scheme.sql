@@ -192,7 +192,7 @@ CREATE TABLE `a_yf_record_converter_mapping` (
   `source_field` int(10) NOT NULL,
   `dest_field` int(10) NOT NULL,
   `state` tinyint(1) unsigned DEFAULT 1,
-  PRIMARY KEY (`id`),
+  KEY `a_yf_record_converter_mapping_id` (`id`),
   KEY `a_yf_record_converter_mapping_source_field` (`source_field`),
   KEY `a_yf_record_converter_mapping_dest_field` (`dest_field`),
   CONSTRAINT `a_yf_record_converter_mapping_fk1` FOREIGN KEY (`id`) REFERENCES `a_yf_record_converter` (`id`) ON DELETE CASCADE,
