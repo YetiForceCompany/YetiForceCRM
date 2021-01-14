@@ -80,7 +80,7 @@ class RangeTime
 	public static function getIntervalPart(\DateInterval $dateInterval)
 	{
 		foreach (['a', 'h', 'i', 's'] as $part) {
-			$val = $dateInterval->format("%{$part}");
+			$val = (int) $dateInterval->format("%{$part}");
 			if ('a' === $part && $val > 365) {
 				$years = (int) floor($val / 365);
 				$val = (int) static::myBcmod(($val), 365);
