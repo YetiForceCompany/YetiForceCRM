@@ -123,7 +123,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		if ($timedout) {
 			$result['duration'] = $timedout->getDuration();
 		} else {
-			$result['duration'] = \App\Fields\RangeTime::formatHourToDisplay(\App\Fields\Time::secondsToDecimal($totalDiff), 'short', true);
+			$result['duration'] = \App\Fields\RangeTime::displayElapseTime($totalDiff, 's');
 		}
 		$result['laststart'] = empty($lastStart) ? ' - ' : \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $lastStart));
 		$result['finished_tasks'] = $finishedTasks;

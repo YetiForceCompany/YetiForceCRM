@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -80,6 +81,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 					'original_label' => $label,
 					'_type' => $row['timecontrol_type'],
 					'data' => [],
+					'dataFormatted' => [],
 					'backgroundColor' => [],
 					'links' => [],
 				];
@@ -92,7 +94,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		foreach ($chartData['datasets'] as &$dataset) {
-			$dataset['label'] .= ': ' . \App\Fields\RangeTime::formatHourToDisplay($workingTimeByType[$dataset['label']]);
+			$dataset['label'] .= ': ' . \App\Fields\RangeTime::displayElapseTime($workingTimeByType[$dataset['label']]);
 		}
 		if ($dataReader->count() > 0) {
 			$chartData['show_chart'] = true;
@@ -107,8 +109,9 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 					foreach ($chartData['datasets'] as &$dataset) {
 						if ($dataset['_type'] === $timeType) {
 							// each data item is an different owner time in this dataset/time type
-							$dataset['data'][] = round($userTime, 2);
+							$dataset['data'][] = round($userTime / 60, 2);
 							$dataset['backgroundColor'][] = $colors[$timeTypeId];
+							$dataset['dataFormatted'][] = \App\Fields\RangeTime::displayElapseTime($userTime);
 						}
 					}
 				}

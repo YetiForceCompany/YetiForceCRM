@@ -31,23 +31,6 @@ class OSSTimeControl_TimeControl_Handler
 	}
 
 	/**
-	 * EntityAfterDelete handler function.
-	 *
-	 * @param App\EventHandler $eventHandler
-	 */
-	public function entityAfterDelete(App\EventHandler $eventHandler)
-	{
-		$recordModel = $eventHandler->getRecordModel();
-		$wfs = new VTWorkflowManager();
-		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
-		foreach ($workflows as &$workflow) {
-			if ($workflow->evaluate($recordModel)) {
-				$workflow->performTasks($recordModel);
-			}
-		}
-	}
-
-	/**
 	 * EntityAfterSave handler function.
 	 *
 	 * @param App\EventHandler $eventHandler
@@ -65,6 +48,16 @@ class OSSTimeControl_TimeControl_Handler
 	}
 
 	/**
+	 * EntityAfterDelete handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterDelete(App\EventHandler $eventHandler)
+	{
+		$this->entityAfterSave($eventHandler);
+	}
+
+	/**
 	 * EntityBeforeSave handler function.
 	 *
 	 * @param App\EventHandler $eventHandler
@@ -74,7 +67,7 @@ class OSSTimeControl_TimeControl_Handler
 		$recordModel = $eventHandler->getRecordModel();
 		$start = strtotime($recordModel->get('date_start') . ' ' . $recordModel->get('time_start'));
 		$end = strtotime($recordModel->get('due_date') . ' ' . $recordModel->get('time_end'));
-		$recordModel->set('sum_time', round(abs(ceil((($end - $start) / 3600) * 100) / 100), 2));
+		$recordModel->set('sum_time', round(abs(ceil((($end - $start) / 60) * 100) / 100), 0));
 	}
 
 	/**
@@ -84,14 +77,7 @@ class OSSTimeControl_TimeControl_Handler
 	 */
 	public function entityChangeState(App\EventHandler $eventHandler)
 	{
-		$recordModel = $eventHandler->getRecordModel();
-		$wfs = new VTWorkflowManager();
-		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
-		foreach ($workflows as &$workflow) {
-			if ($workflow->evaluate($recordModel)) {
-				$workflow->performTasks($recordModel);
-			}
-		}
+		$this->entityAfterSave($eventHandler);
 	}
 
 	/**

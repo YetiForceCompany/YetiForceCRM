@@ -93,7 +93,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$dataReader->close();
 		foreach ($chartData['datasets'] as &$dataset) {
-			$dataset['label'] .= ': ' . \App\Fields\RangeTime::formatHourToDisplay($workingTimeByType[$dataset['label']]);
+			$dataset['label'] .= ': ' . \App\Fields\RangeTime::displayElapseTime($workingTimeByType[$dataset['label']]);
 		}
 		if ($dataReader->count() > 0) {
 			$chartData['show_chart'] = true;
@@ -107,8 +107,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 					foreach ($chartData['datasets'] as &$dataset) {
 						if ($dataset['_type'] === $timeType) {
 							// each data item is an different day in this dataset/time type
-							$dataset['data'][] = round($value, 2);
-							$dataset['dataFormatted'][] = \App\Fields\RangeTime::formatHourToDisplay($value);
+							$dataset['data'][] = round($value / 60, 2);
+							$dataset['dataFormatted'][] = \App\Fields\RangeTime::displayElapseTime($value);
 							$dataset['backgroundColor'][] = $colors[$timeTypeId];
 						}
 					}

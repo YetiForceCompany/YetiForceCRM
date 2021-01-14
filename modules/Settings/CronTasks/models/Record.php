@@ -146,23 +146,21 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Get cron operation duration.
 	 *
-	 * @param string $type string format 'short' for '1h 3m 0s', 'full' for '1 hour 3 minutes 4 seconds'
-	 *
 	 * @return string duration string or 'running','timeout'
 	 */
-	public function getDuration($type = 'short')
+	public function getDuration()
 	{
 		$lastStart = (int) $this->get('laststart');
 		if (!$lastStart) {
-			return '-';
+			$duration = '-';
+		} elseif ($this->isRunning() && !$this->hadTimedout()) {
+			$duration = 'running';
+		} elseif ($this->hadTimedout()) {
+			$duration = 'timeout';
+		} else {
+			$duration = \App\Fields\RangeTime::displayElapseTime((int) $this->get('lastend') - $lastStart, 's', 's');
 		}
-		if ($this->isRunning() && !$this->hadTimedout()) {
-			return 'running';
-		}
-		if ($this->hadTimedout()) {
-			return 'timeout';
-		}
-		return \App\Fields\RangeTime::formatHourToDisplay(\App\Fields\Time::secondsToDecimal((int) $this->get('lastend') - $lastStart), $type, true);
+		return $duration;
 	}
 
 	/**

@@ -1427,7 +1427,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isCalculateField()
 	{
-		return $this->isCalculateField && \in_array($this->getUIType(), [71, 7, 317]);
+		return $this->isCalculateField && \in_array($this->getUIType(), [71, 7, 317, 8]);
 	}
 
 	/**

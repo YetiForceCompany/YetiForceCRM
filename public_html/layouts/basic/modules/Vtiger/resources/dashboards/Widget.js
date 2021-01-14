@@ -2758,7 +2758,9 @@ YetiForce_Bar_Widget_Js(
 					callbacks: {
 						label: function (tooltipItem, data) {
 							return (
-								data.datasets[tooltipItem.datasetIndex].original_label + ': ' + app.formatToHourText(tooltipItem.yLabel)
+								data.datasets[tooltipItem.datasetIndex].original_label +
+								': ' +
+								data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index]
 							);
 						},
 						title: function (tooltipItems, data) {
@@ -2772,7 +2774,7 @@ YetiForce_Bar_Widget_Js(
 			return {
 				datalabels: {
 					formatter: function datalabelsFormatter(value, context) {
-						return app.formatToHourText(value);
+						return context.dataset.dataFormatted[context.dataIndex];
 					}
 				}
 			};

@@ -79,7 +79,7 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 			$columnName = $column->getName();
 			$content = '';
 			if ('sum_time' === $columnName) {
-				$content = '<strong>' . \App\Fields\RangeTime::formatHourToDisplay($summary['sum_time'], 'short') . '</strong>';
+				$content = '<strong>' . \App\Fields\RangeTime::displayElapseTime($summary['sum_time']) . '</strong>';
 				$style = $bodyStyle . 'text-align:center;';
 			} elseif ('name' === $columnName) {
 				$content = '<strong>' . \App\Language::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';

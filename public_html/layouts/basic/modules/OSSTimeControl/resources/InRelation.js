@@ -43,7 +43,7 @@ jQuery(document).ready(function ($) {
 										return jdata.datasets[0].tooltips[tooltipItem['index']];
 									},
 									label: function (tooltipItem, chart) {
-										return jdata.datasets[0].data[tooltipItem['index']];
+										return jdata.datasets[0].dataFormatted[tooltipItem['index']];
 									}
 								}
 							},
