@@ -5,7 +5,7 @@
 	{assign var=RECEIVED value=$RECORD->getReceived()}
 	{if $RECEIVED}
 		<div class="lineOfText mb-2">
-			<div>{\App\Language::translate('LBL_MAIL_TRACE_TITLE', $LANG_MODULE_NAME)}</div>
+			<div>{\App\Language::translate('LBL_MAIL_TRACE_TITLE', $LANG_MODULE_NAME)} - {$SENDER['ip']}</div>
 		</div>
 		<div class="row col-12 m-0 p-0">
 			<table class="table table-sm p-0 pr-2 mb-0 o-tab__container">
@@ -22,10 +22,14 @@
 					{foreach item=ROW from=$RECEIVED}
 						<tr class="{if $SENDER['key'] === $ROW['key']}table-info{/if}">
 							{foreach item=ITEM_ROWS  from=$TABLE_HEADERS}
-								<td class="text-center u-min-w-150px">
+								<td class="text-center u-min-w-150px {$ITEM_ROWS}">
 									{if isset($ROW[$ITEM_ROWS])}
 										{if $ITEM_ROWS eq 'fromIP'}
-											<a href="https://soc.yetiforce.com/search?ip={$ROW[$ITEM_ROWS]}" class="ml-2" target="_blank" title="soc.yetiforce.com">{\App\Purifier::encodeHtml($ROW[$ITEM_ROWS])}</a>
+											{assign var=FROM_IP value=$ROW[$ITEM_ROWS]}
+											{if empty($FROM_IP) && $SENDER['key'] == $ROW['key']}
+												{assign var=FROM_IP value=$SENDER['ip']}
+											{/if}
+											<a href="https://soc.yetiforce.com/search?ip={$FROM_IP}" class="ml-2" target="_blank" title="soc.yetiforce.com">{\App\Purifier::encodeHtml($FROM_IP)}</a>
 										{else}
 											{\App\Purifier::encodeHtml($ROW[$ITEM_ROWS])}
 										{/if}

@@ -262,15 +262,12 @@ class Rbl extends \App\Base
 	{
 		$rows = [];
 		foreach ($this->mailMimeParser->getAllHeadersByName('Received') as $key => $received) {
-			$row = ['key' => $key];
+			$row = ['key' => $key, 'fromIP' => $received->getFromAddress() ?? ''];
 			if ($received->getFromName()) {
 				$row['fromName'] = $received->getFromName();
 			}
 			if ($received->getFromHostname()) {
 				$row['fromName'] .= PHP_EOL . '(' . $received->getFromHostname() . ')';
-			}
-			if ($received->getFromAddress()) {
-				$row['fromIP'] = $received->getFromAddress();
 			}
 			if ($received->getByName()) {
 				$row['byName'] = $received->getByName();
