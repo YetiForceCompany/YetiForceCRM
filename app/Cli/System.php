@@ -1,6 +1,6 @@
 <?php
 /**
- * System Updater cli file.
+ * System cli file.
  *
  * @package   App
  *
@@ -12,17 +12,18 @@
 namespace App\Cli;
 
 /**
- * System Updater cli class.
+ * System cli class.
  */
-class SystemUpdater extends Base
+class System extends Base
 {
 	/** {@inheritdoc} */
-	public $moduleName = 'System updater';
+	public $moduleName = 'System';
 
 	/** @var string[] Methods list */
 	public $methods = [
 		'history' => 'History of uploaded updates',
 		'update' => 'Update',
+		'checkRegStatus' => 'Check registration status',
 	];
 
 	/**
@@ -40,7 +41,7 @@ class SystemUpdater extends Base
 		if ($table) {
 			$this->climate->table($table);
 		}
-		$this->cli->actionsList('SystemUpdater');
+		$this->cli->actionsList('System');
 	}
 
 	/**
@@ -100,5 +101,15 @@ class SystemUpdater extends Base
 				return;
 			}
 		}
+	}
+
+	/**
+	 * Check registration status.
+	 *
+	 * @return void
+	 */
+	public function checkRegStatus(): void
+	{
+		$this->cli->actionsList('System');
 	}
 }
