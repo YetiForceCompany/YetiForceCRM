@@ -292,7 +292,7 @@ jQuery.Class(
 							let iframe = $(this);
 							iframe.on('load', (e) => {
 								let content = iframe.contents();
-								iframe.height(content.find('body').height() + 30);
+								iframe.height(300);
 								content.find('head').append('<style>body{margin: 0;}p{margin: 0.5em 0;}</style>');
 							});
 						});

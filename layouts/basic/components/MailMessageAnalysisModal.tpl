@@ -50,16 +50,17 @@
 			{$KEY}: {\App\Purifier::encodeHtml($VALUE)}<br />
 		{/foreach}
 	</div>
-	<div class="lineOfText">
-		<div>{\App\Language::translate('LBL_MAIL_HEADERS', $LANG_MODULE_NAME)}</div>
-	</div>
-	<pre class="mb-0">{\App\Purifier::encodeHtml(trim($RECORD->get('header')))}</pre>
 	{if $RECORD->get('body')}
 		<div class="lineOfText">
 			<div>{\App\Language::translate('LBL_MAIL_CONTENT', $LANG_MODULE_NAME)}</div>
 		</div>
 		<iframe sandbox="allow-same-origin"  class="w-100" frameborder="0" srcdoc="{\App\Purifier::encodeHtml($RECORD->get('body'))}"></iframe>
 	{/if}
+	<div class="lineOfText">
+		<div>{\App\Language::translate('LBL_MAIL_HEADERS', $LANG_MODULE_NAME)}</div>
+	</div>
+	<pre class="mb-0">{\App\Purifier::encodeHtml(trim($RECORD->get('header')))}</pre>
+
 </div>
 <!-- /tpl-Components-MailMessageAnalysisModal -->
 {/strip}
