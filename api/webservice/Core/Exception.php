@@ -14,7 +14,7 @@ class Exception extends \Exception
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct($message, $code = 200, \Throwable $previous = null)
+	public function __construct($message, $code = 500, \Throwable $previous = null)
 	{
 		if (!empty($previous)) {
 			parent::__construct($message, $code, $previous);
