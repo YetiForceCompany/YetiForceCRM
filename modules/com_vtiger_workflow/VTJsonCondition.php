@@ -270,6 +270,7 @@ class VTJsonCondition
 				default:
 					break;
 			}
+
 		switch ($condition) {
 			case 'equal to':
 				return $fieldValue == $value;
@@ -277,6 +278,18 @@ class VTJsonCondition
 				return $fieldValue < $value;
 			case 'greater than':
 				return $fieldValue > $value;
+			case 'greaterthannow':
+				$value = date('Y-m-d');
+				if ('datetime' === $dataType) {
+					$value = date('Y-m-d H:i:s');
+				}
+				return $fieldValue > $value;
+			case 'smallerthannow':
+				$value = date('Y-m-d');
+				if ('datetime' === $dataType) {
+					$value = date('Y-m-d H:i:s');
+				}
+				return $fieldValue < $value;
 			case 'does not equal':
 				return $fieldValue != $value;
 			case 'less than or equal to':
