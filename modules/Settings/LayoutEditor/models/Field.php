@@ -33,7 +33,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			if ('vtiger_crmentity' !== $tablename) {
 				$db->createCommand()->dropColumn($tablename, $columnName)->execute();
 			}
-			App\Db::getInstance('admin')->createCommand()->delete('a_#__mapped_fields', ['or', ['source' => $id], ['target' => $id]])->execute();
+			App\Db::getInstance('admin')->createCommand()->delete('a_#__mapped_fields', ['or', ['source' => (string) $id], ['target' => (string) $id]])->execute();
 			//we have to remove the entries in customview and report related tables which have this field ($colName)
 			$db->createCommand()->delete('vtiger_cvcolumnlist', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
 			$db->createCommand()->delete('vtiger_cvcolumnlist', [
