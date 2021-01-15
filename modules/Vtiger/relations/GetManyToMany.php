@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use App\Relation\RelationInterface;
 
@@ -15,9 +16,13 @@ use App\Relation\RelationInterface;
  */
 class Vtiger_GetManyToMany_Relation implements RelationInterface
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	public function getRelationType(): int
+	{
+		return Vtiger_Relation_Model::RELATION_M2M;
+	}
+
+	/** {@inheritdoc} */
 	public function getQuery()
 	{
 		$recordId = $this->relationModel->get('parentRecord')->getId();
@@ -41,9 +46,7 @@ class Vtiger_GetManyToMany_Relation implements RelationInterface
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
@@ -58,9 +61,7 @@ class Vtiger_GetManyToMany_Relation implements RelationInterface
 		return (bool) $result;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		$relatedModuleName = $this->relationModel->getRelationModuleName();
@@ -80,9 +81,7 @@ class Vtiger_GetManyToMany_Relation implements RelationInterface
 		return (bool) $result;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
 		$relatedModuleName = $this->relationModel->getRelationModuleName();

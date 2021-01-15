@@ -347,9 +347,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 				unset($fields[$fieldName]);
 			}
 		}
-		$relationObject = $this->getRelationModel()->getTypeRelationModel();
-		if (method_exists($relationObject, 'getFields')) {
-			$fields = array_merge($fields, $relationObject->getFields());
+		$relationModel = $this->getRelationModel()->getTypeRelationModel();
+		if (method_exists($relationModel, 'getFields')) {
+			$fields = array_merge($fields, $relationModel->getFields());
 		}
 		return $fields;
 	}

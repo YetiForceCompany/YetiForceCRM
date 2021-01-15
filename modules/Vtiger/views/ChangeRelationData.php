@@ -8,6 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
  * Class ChangeRelationData.
@@ -51,11 +52,11 @@ class Vtiger_ChangeRelationData_View extends \App\Controller\Modal
 		$relationId = $request->getInteger('relationId');
 		$parentRecord = \Vtiger_Record_Model::getInstanceById($parentRecordId);
 		$relationView = \Vtiger_RelationListView_Model::getInstance($parentRecord, $moduleName, $relationId);
-		$relation = $relationView->getRelationModel()->getTypeRelationModel();
-		$data = $relation->getRelationData($parentRecordId, $recordId);
+		$relationModel = $relationView->getRelationModel()->getTypeRelationModel();
+		$data = $relationModel->getRelationData($parentRecordId, $recordId);
 		$fieldModels = [];
 
-		foreach ($relation->getFields() as $fieldModel) {
+		foreach ($relationModel->getFields() as $fieldModel) {
 			$fieldModel->set('fieldvalue', $data[$fieldModel->getName()] ?? '');
 			$fieldModels[$fieldModel->getName()] = $fieldModel;
 		}

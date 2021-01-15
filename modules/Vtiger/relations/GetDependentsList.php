@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use App\Relation\RelationInterface;
 
@@ -15,9 +16,13 @@ use App\Relation\RelationInterface;
  */
 class Vtiger_GetDependentsList_Relation implements RelationInterface
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	public function getRelationType(): int
+	{
+		return Vtiger_Relation_Model::RELATION_O2M;
+	}
+
+	/** {@inheritdoc} */
 	public function getQuery()
 	{
 		$fieldModel = $this->relationModel->getRelationField();
@@ -28,9 +33,7 @@ class Vtiger_GetDependentsList_Relation implements RelationInterface
 		$queryGenerator->addTableToQuery($fieldModel->getTableName());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		$moduleModel = $this->relationModel->getRelationModuleModel();
@@ -51,17 +54,13 @@ class Vtiger_GetDependentsList_Relation implements RelationInterface
 		return $result;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
 		$result = false;
