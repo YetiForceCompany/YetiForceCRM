@@ -109,6 +109,16 @@ jQuery.Class(
 							}" title="${app.vtranslate(
 								'BTN_SHOW_DETAILS'
 							)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;
+							action += `<button type="button" class="btn btn-primary btn-xs ml-2 js-send-request-id" data-type="quick" data-id="${
+								row['id']
+							}" title="${app.vtranslate(
+								'BTN_STATUS_ACTION_QUICK_SEND_REQUEST'
+							)}" data-js="click"><span class="fas fa-fighter-jet"></span></button>`;
+							action += `<button type="button" class="btn btn-info btn-xs ml-2 js-send-request-id" data-type="manual" data-id="${
+								row['id']
+							}" title="${app.vtranslate(
+								'BTN_STATUS_ACTION_SEND_REQUEST'
+							)}" data-js="click"><span class="fas fa-paper-plane"></span></button>`;
 							if (row['statusId'] !== 1) {
 								action += `<button type="button" class="btn btn-success btn-xs ml-2 js-update" data-id="${
 									row['id']
