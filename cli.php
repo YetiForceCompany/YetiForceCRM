@@ -9,6 +9,7 @@
 \define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
 
 require __DIR__ . '/include/main/WebUI.php';
+require __DIR__ . '/include/RequirementsValidation.php';
 
 \App\Process::$requestMode = 'Cli';
 try {

@@ -85,7 +85,7 @@ class ConfReport
 		'date.timezone' => ['type' => 'TimeZone', 'container' => 'php', 'testCli' => true], //Roundcube
 		'allow_url_fopen' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //Roundcube
 		'auto_detect_line_endings' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //CSVReader
-		'httpMethods' => ['recommended' => 'GET, POST, PUT, OPTIONS, PATCH, PROPFIND, REPORT, LOCK, DELETE, COPY, MOVE', 'type' => 'HttpMethods', 'container' => 'request', 'testCli' => false, 'label' => 'HTTP_METHODS'],
+		'httpMethods' => ['recommended' => 'GET, POST, PUT, OPTIONS, PATCH, PROPFIND, REPORT, LOCK, DELETE, COPY, MOVE', 'type' => 'HttpMethods', 'container' => 'request', 'testCli' => true, 'label' => 'HTTP_METHODS'],
 		'request_order' => ['recommended' => 'GP', 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'variables_order' => ['recommended' => 'GPCS', 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 	];
@@ -177,105 +177,105 @@ class ConfReport
 	 * @var array
 	 */
 	public static $database = [
-		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false, 'label' => 'DB_DRIVER'],
-		'typeDb' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
-		'serverVersion' => ['recommended' => ['MariaDb' => '10.x', 'MySQL' => '5.6.x'], 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
-		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
-		'version_comment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
-		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
-		'serverInfo' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_INFO'],
-		'maximumMemorySize' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false, 'label' => 'DB_MAXIMUM_MEMORY_SIZE', 'showHelp' => true],
-		'key_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'query_cache_type' => ['container' => 'db', 'testCli' => false],
-		'table_cache' => ['container' => 'db', 'testCli' => false],
-		'table_open_cache_instances' => ['container' => 'db', 'testCli' => false],
-		'table_open_cache' => ['recommended' => 1000, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
-		'table_definition_cache' => ['type' => 'DbTableDefinitionCache', 'container' => 'db', 'testCli' => false],
-		'open_files_limit' => ['container' => 'db', 'testCli' => false],
-		'tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'innodb_buffer_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'innodb_additional_mem_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'innodb_log_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'max_connections' => ['container' => 'db', 'testCli' => false],
-		'sort_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'myisam_sort_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'read_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'read_rnd_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'join_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'thread_stack' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'binlog_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'bulk_insert_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'max_heap_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'innodb_log_file_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
-		'wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
-		'interactive_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
-		'sql_mode' => ['recommended' => '', 'type' => 'NotIn', 'container' => 'db', 'testCli' => false, 'values' => ['STRICT_ALL_TABLES', 'STRICT_TRANS_TABLE']],
-		'max_allowed_packet' => ['recommended' => '10 MB', 'type' => 'GreaterMb', 'container' => 'db', 'testCli' => false],
-		'thread_cache_size' => ['container' => 'db', 'testCli' => false],
-		'innodb_file_per_table' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'db', 'testCli' => false],
-		'innodb_stats_on_metadata' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'db', 'testCli' => false],
-		'innodb_buffer_pool_instances' => ['container' => 'db', 'testCli' => false],
-		'innodb_buffer_pool_load_at_startup' => ['container' => 'db', 'testCli' => false],
-		'innodb_io_capacity' => ['container' => 'db', 'testCli' => false],
-		'innodb_io_capacity_max' => ['container' => 'db', 'testCli' => false],
-		'tx_isolation' => ['container' => 'db', 'testCli' => false],
-		'transaction_isolation' => ['container' => 'db', 'testCli' => false],
-		'ft_min_word_len' => ['container' => 'db', 'testCli' => false],
-		'innodb_ft_min_token_size' => ['container' => 'db', 'testCli' => false],
-		'innodb_default_row_format' => ['recommended' => 'dynamic', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
-		'innodb_strict_mode' => ['container' => 'db', 'testCli' => false],
-		'innodb_file_format' => ['container' => 'db', 'testCli' => false],
-		'innodb_file_format_check' => ['container' => 'db', 'testCli' => false],
-		'innodb_file_format_max' => ['container' => 'db', 'testCli' => false],
-		'character_set_server' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
-		'character_set_database' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
-		'character_set_client' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
-		'character_set_connection' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
-		'character_set_results' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
-		'character_set_system' => ['container' => 'db', 'testCli' => false],
-		'character_set_filesystem' => ['container' => 'db', 'testCli' => false],
-		'datadir' => ['container' => 'db', 'testCli' => false],
-		'connect_timeout' => ['container' => 'db', 'testCli' => false],
-		'lock_wait_timeout' => ['container' => 'db', 'testCli' => false],
-		'net_read_timeout' => ['container' => 'db', 'testCli' => false],
-		'net_write_timeout' => ['container' => 'db', 'testCli' => false],
-		'aria_recover_options' => ['container' => 'db', 'testCli' => false],
-		'aria_recover' => ['container' => 'db', 'testCli' => false],
-		'hostname' => ['container' => 'db', 'testCli' => false],
-		'innodb_checksum_algorithm' => ['container' => 'db', 'testCli' => false],
-		'innodb_flush_method' => ['container' => 'db', 'testCli' => false],
-		'innodb_thread_sleep_delay' => ['container' => 'db', 'testCli' => false],
-		'innodb_thread_concurrency' => ['container' => 'db', 'testCli' => false],
-		'innodb_adaptive_max_sleep_delay' => ['container' => 'db', 'testCli' => false],
-		'innodb_read_ahead_threshold' => ['container' => 'db', 'testCli' => false],
-		'innodb_max_dirty_pages_pct_lwm' => ['container' => 'db', 'testCli' => false],
-		'innodb_open_files' => ['container' => 'db', 'testCli' => false],
-		'thread_pool_max_threads' => ['container' => 'db', 'testCli' => false],
-		'innodb_read_io_threads' => ['container' => 'db', 'testCli' => false],
-		'innodb_write_io_threads' => ['container' => 'db', 'testCli' => false],
-		'lower_case_file_system' => ['container' => 'db', 'testCli' => false],
-		'lower_case_table_names' => ['container' => 'db', 'testCli' => false],
-		'system_time_zone' => ['container' => 'db', 'testCli' => false],
-		'use_stat_tables' => ['container' => 'db', 'testCli' => false],
-		'thread_handling' => ['container' => 'db', 'testCli' => false],
-		'host_cache_size' => ['container' => 'db', 'testCli' => false],
-		'optimizer_search_depth' => ['container' => 'db', 'testCli' => false],
-		'version_compile_machine' => ['container' => 'db', 'testCli' => false],
-		'version_compile_os' => ['container' => 'db', 'testCli' => false],
-		'socket' => ['container' => 'db', 'testCli' => false],
-		'back_log' => ['container' => 'db', 'testCli' => false],
-		'binlog_format' => ['container' => 'db', 'testCli' => false],
-		'max_binlog_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'slow_query_log' => ['container' => 'db', 'testCli' => false],
-		'slow_query_log_file' => ['container' => 'db', 'testCli' => false],
-		'log_slow_admin_statements' => ['container' => 'db', 'testCli' => false],
-		'general_log' => ['container' => 'db', 'testCli' => false],
-		'general_log_file' => ['container' => 'db', 'testCli' => false],
-		'log_error' => ['container' => 'db', 'testCli' => false],
-		'log_warnings' => ['container' => 'db', 'testCli' => false],
-		'log_output' => ['container' => 'db', 'testCli' => false],
+		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => true, 'label' => 'DB_DRIVER'],
+		'typeDb' => ['container' => 'db', 'testCli' => true, 'label' => 'DB_VERSION_TYPE'],
+		'serverVersion' => ['recommended' => ['MariaDb' => '10.x', 'MySQL' => '5.6.x'], 'type' => 'VersionDb', 'container' => 'db', 'testCli' => true, 'label' => 'DB_SERVER_VERSION'],
+		'clientVersion' => ['container' => 'db', 'testCli' => true, 'label' => 'DB_CLIENT_VERSION'],
+		'version_comment' => ['container' => 'db', 'testCli' => true, 'label' => 'DB_VERSION_COMMENT'],
+		'connectionStatus' => ['container' => 'db', 'testCli' => true, 'label' => 'DB_CONNECTION_STATUS'],
+		'serverInfo' => ['container' => 'db', 'testCli' => true, 'label' => 'DB_SERVER_INFO'],
+		'maximumMemorySize' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true, 'label' => 'DB_MAXIMUM_MEMORY_SIZE', 'showHelp' => true],
+		'key_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'query_cache_type' => ['container' => 'db', 'testCli' => true],
+		'table_cache' => ['container' => 'db', 'testCli' => true],
+		'table_open_cache_instances' => ['container' => 'db', 'testCli' => true],
+		'table_open_cache' => ['recommended' => 1000, 'type' => 'Greater', 'container' => 'db', 'testCli' => true],
+		'table_definition_cache' => ['type' => 'DbTableDefinitionCache', 'container' => 'db', 'testCli' => true],
+		'open_files_limit' => ['container' => 'db', 'testCli' => true],
+		'tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'innodb_buffer_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'innodb_additional_mem_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'innodb_log_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'max_connections' => ['container' => 'db', 'testCli' => true],
+		'sort_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'myisam_sort_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'read_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'read_rnd_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'join_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'thread_stack' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'binlog_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'bulk_insert_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'max_heap_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'innodb_log_file_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => true],
+		'wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => true],
+		'interactive_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => true],
+		'sql_mode' => ['recommended' => '', 'type' => 'NotIn', 'container' => 'db', 'testCli' => true, 'values' => ['STRICT_ALL_TABLES', 'STRICT_TRANS_TABLE']],
+		'max_allowed_packet' => ['recommended' => '10 MB', 'type' => 'GreaterMb', 'container' => 'db', 'testCli' => true],
+		'thread_cache_size' => ['container' => 'db', 'testCli' => true],
+		'innodb_file_per_table' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'db', 'testCli' => true],
+		'innodb_stats_on_metadata' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'db', 'testCli' => true],
+		'innodb_buffer_pool_instances' => ['container' => 'db', 'testCli' => true],
+		'innodb_buffer_pool_load_at_startup' => ['container' => 'db', 'testCli' => true],
+		'innodb_io_capacity' => ['container' => 'db', 'testCli' => true],
+		'innodb_io_capacity_max' => ['container' => 'db', 'testCli' => true],
+		'tx_isolation' => ['container' => 'db', 'testCli' => true],
+		'transaction_isolation' => ['container' => 'db', 'testCli' => true],
+		'ft_min_word_len' => ['container' => 'db', 'testCli' => true],
+		'innodb_ft_min_token_size' => ['container' => 'db', 'testCli' => true],
+		'innodb_default_row_format' => ['recommended' => 'dynamic', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
+		'innodb_strict_mode' => ['container' => 'db', 'testCli' => true],
+		'innodb_file_format' => ['container' => 'db', 'testCli' => true],
+		'innodb_file_format_check' => ['container' => 'db', 'testCli' => true],
+		'innodb_file_format_max' => ['container' => 'db', 'testCli' => true],
+		'character_set_server' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
+		'character_set_database' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
+		'character_set_client' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
+		'character_set_connection' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
+		'character_set_results' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
+		'character_set_system' => ['container' => 'db', 'testCli' => true],
+		'character_set_filesystem' => ['container' => 'db', 'testCli' => true],
+		'datadir' => ['container' => 'db', 'testCli' => true],
+		'connect_timeout' => ['container' => 'db', 'testCli' => true],
+		'lock_wait_timeout' => ['container' => 'db', 'testCli' => true],
+		'net_read_timeout' => ['container' => 'db', 'testCli' => true],
+		'net_write_timeout' => ['container' => 'db', 'testCli' => true],
+		'aria_recover_options' => ['container' => 'db', 'testCli' => true],
+		'aria_recover' => ['container' => 'db', 'testCli' => true],
+		'hostname' => ['container' => 'db', 'testCli' => true],
+		'innodb_checksum_algorithm' => ['container' => 'db', 'testCli' => true],
+		'innodb_flush_method' => ['container' => 'db', 'testCli' => true],
+		'innodb_thread_sleep_delay' => ['container' => 'db', 'testCli' => true],
+		'innodb_thread_concurrency' => ['container' => 'db', 'testCli' => true],
+		'innodb_adaptive_max_sleep_delay' => ['container' => 'db', 'testCli' => true],
+		'innodb_read_ahead_threshold' => ['container' => 'db', 'testCli' => true],
+		'innodb_max_dirty_pages_pct_lwm' => ['container' => 'db', 'testCli' => true],
+		'innodb_open_files' => ['container' => 'db', 'testCli' => true],
+		'thread_pool_max_threads' => ['container' => 'db', 'testCli' => true],
+		'innodb_read_io_threads' => ['container' => 'db', 'testCli' => true],
+		'innodb_write_io_threads' => ['container' => 'db', 'testCli' => true],
+		'lower_case_file_system' => ['container' => 'db', 'testCli' => true],
+		'lower_case_table_names' => ['container' => 'db', 'testCli' => true],
+		'system_time_zone' => ['container' => 'db', 'testCli' => true],
+		'use_stat_tables' => ['container' => 'db', 'testCli' => true],
+		'thread_handling' => ['container' => 'db', 'testCli' => true],
+		'host_cache_size' => ['container' => 'db', 'testCli' => true],
+		'optimizer_search_depth' => ['container' => 'db', 'testCli' => true],
+		'version_compile_machine' => ['container' => 'db', 'testCli' => true],
+		'version_compile_os' => ['container' => 'db', 'testCli' => true],
+		'socket' => ['container' => 'db', 'testCli' => true],
+		'back_log' => ['container' => 'db', 'testCli' => true],
+		'binlog_format' => ['container' => 'db', 'testCli' => true],
+		'max_binlog_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'slow_query_log' => ['container' => 'db', 'testCli' => true],
+		'slow_query_log_file' => ['container' => 'db', 'testCli' => true],
+		'log_slow_admin_statements' => ['container' => 'db', 'testCli' => true],
+		'general_log' => ['container' => 'db', 'testCli' => true],
+		'general_log_file' => ['container' => 'db', 'testCli' => true],
+		'log_error' => ['container' => 'db', 'testCli' => true],
+		'log_warnings' => ['container' => 'db', 'testCli' => true],
+		'log_output' => ['container' => 'db', 'testCli' => true],
 	];
 
 	/**
@@ -319,10 +319,10 @@ class ConfReport
 	public static $environment = [
 		'crmVersion' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_VERSION'],
 		'crmDate' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_DATE'],
-		'operatingSystem' => ['container' => 'env', 'testCli' => false, 'label' => 'OPERATING_SYSTEM'],
+		'operatingSystem' => ['container' => 'env', 'testCli' => true, 'label' => 'OPERATING_SYSTEM'],
 		'serverSoftware' => ['container' => 'env', 'testCli' => false, 'label' => 'SERVER_SOFTWARE'],
 		'currentUser' => ['container' => 'env', 'type' => 'CronEqual', 'testCli' => true, 'label' => 'SCRIPT_USER'],
-		'tempDir' => ['container' => 'env', 'testCli' => false, 'label' => 'TMP_DIR'],
+		'tempDir' => ['container' => 'env', 'testCli' => true, 'label' => 'TMP_DIR'],
 		'crmDir' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_DIR'],
 		'sapi' => ['container' => 'env', 'testCli' => true, 'label' => 'PHP_SAPI'],
 		'zendVersion' => ['container' => 'env', 'testCli' => true, 'label' => 'ZEND_VERSION'],
@@ -792,7 +792,7 @@ class ConfReport
 	private static function validateVersionDb(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$recommended = $row['recommended'][static::$db['typeDb']];
+		$recommended = \is_string($row['recommended']) ? $row['recommended'] : $row['recommended'][static::$db['typeDb']];
 		$row['status'] = false;
 		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], $recommended, '>=')) {
 			$row['status'] = true;
@@ -894,10 +894,12 @@ class ConfReport
 	private static function validateGreaterMb(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (isset($row[$sapi]) && '-1' !== $row[$sapi] && \vtlib\Functions::parseBytes($row[$sapi]) < \vtlib\Functions::parseBytes($row['recommended'])) {
-			$row['status'] = false;
+		if (isset($row[$sapi])) {
+			if ('-1' !== $row[$sapi] && \vtlib\Functions::parseBytes($row[$sapi]) < \vtlib\Functions::parseBytes($row['recommended'])) {
+				$row['status'] = false;
+			}
+			$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
 		}
-		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
 		return $row;
 	}
 
@@ -1232,15 +1234,17 @@ class ConfReport
 	private static function validateNotIn(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$value = $row[$sapi];
-		if (!\is_array($row[$sapi])) {
-			$value = \explode(',', $row[$sapi]);
-		}
-		$recommended = (array) $row['values'];
-		foreach ($recommended as $item) {
-			if (\in_array($item, $value)) {
-				$row['status'] = false;
-				break;
+		if (isset($row[$sapi])) {
+			$value = $row[$sapi];
+			if (!\is_array($row[$sapi])) {
+				$value = \explode(',', $row[$sapi]);
+			}
+			$recommended = (array) $row['values'];
+			foreach ($recommended as $item) {
+				if (\in_array($item, $value)) {
+					$row['status'] = false;
+					break;
+				}
 			}
 		}
 		return $row;
@@ -1409,7 +1413,7 @@ class ConfReport
 	private static function validateHttpMethods(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		foreach (array_diff(\explode(',', $row['recommended']), \explode(',', $row[$sapi])) as $type) {
+		foreach (array_diff(\explode(',', $row['recommended']), \explode(',', $row[static::$sapi])) as $type) {
 			$row['recommended'] = \str_replace($type, "<b class=\"text-danger\">$type</b>", $row['recommended']);
 			$row['isHtml'] = true;
 		}
@@ -1631,7 +1635,7 @@ class ConfReport
 					if (isset($data['cron'])) {
 						$tmp[] = 'cron: ' . $data['cron'];
 					}
-					$val = \implode('|', $tmp) ?? '';
+					$val = \implode(' | ', $tmp) ?? '';
 				}
 				if ($returnMore) {
 					$data['val'] = $val;

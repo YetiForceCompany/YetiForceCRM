@@ -39,6 +39,7 @@ class Cli
 		$this->climate->lightGreen()->border('─', 200);
 
 		\App\User::setCurrentUserId(\Users::getActiveAdminId());
+		\App\Language::setTemporaryLanguage('en_US');
 
 		$this->climate->arguments->add([
 			'module' => [
