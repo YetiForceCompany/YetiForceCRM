@@ -13,6 +13,7 @@ jQuery.Class(
 					{ data: 'datetime' },
 					{ orderable: false, data: 'sender' },
 					{ orderable: false, data: 'recipient' },
+					{ orderable: false, data: 'ip' },
 					{ data: 'type' },
 					{ data: 'user' },
 					{
@@ -55,6 +56,7 @@ jQuery.Class(
 					{ data: 'datetime' },
 					{ orderable: false, data: 'sender' },
 					{ orderable: false, data: 'recipient' },
+					{ orderable: false, data: 'ip' },
 					{ data: 'type' },
 					{ data: 'user' },
 					{
@@ -93,6 +95,7 @@ jQuery.Class(
 					{ data: 'datetime' },
 					{ orderable: false, data: 'sender' },
 					{ orderable: false, data: 'recipient' },
+					{ orderable: false, data: 'ip' },
 					{ data: 'type' },
 					{ data: 'status' },
 					{ data: 'user' },

@@ -67,14 +67,16 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$query->andWhere(['status' => 0]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
-			$message = \ZBateson\MailMimeParser\Message::from($row['header']);
+			$mailRbl = \App\Mail\Rbl::getInstance($row);
+			$mailRbl->parse();
 			$type = \App\Mail\Rbl::LIST_TYPES[$row['type']];
 			$rows[] = [
 				'id' => $row['id'],
 				'datetime' => \App\Fields\DateTime::formatToDisplay($row['datetime']),
 				'user' => \App\Fields\Owner::getUserLabel($row['user']) ?: '',
-				'sender' => \App\Purifier::encodeHtml($message->getHeaderValue('from')),
-				'recipient' => \App\Purifier::encodeHtml($message->getHeaderValue('to')),
+				'sender' => \App\Purifier::encodeHtml($mailRbl->mailMimeParser->getHeaderValue('from')),
+				'recipient' => \App\Purifier::encodeHtml($mailRbl->mailMimeParser->getHeaderValue('to')),
+				'ip' => \App\Purifier::encodeHtml($mailRbl->getSender()['ip'] ?? ''),
 				'type' => "<span class=\"{$type['icon']} mr-2\"></span>" . \App\Language::translate($type['label'], 'Settings:MailRbl'),
 			];
 		}
@@ -103,14 +105,16 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$query->andWhere(['status' => 1]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
-			$message = \ZBateson\MailMimeParser\Message::from($row['header']);
+			$mailRbl = \App\Mail\Rbl::getInstance($row);
+			$mailRbl->parse();
 			$type = \App\Mail\Rbl::LIST_TYPES[$row['type']];
 			$rows[] = [
 				'id' => $row['id'],
 				'datetime' => \App\Fields\DateTime::formatToDisplay($row['datetime']),
 				'user' => \App\Fields\Owner::getUserLabel($row['user']) ?: '',
-				'sender' => \App\Purifier::encodeHtml($message->getHeaderValue('from')),
-				'recipient' => \App\Purifier::encodeHtml($message->getHeaderValue('to')),
+				'sender' => \App\Purifier::encodeHtml($mailRbl->mailMimeParser->getHeaderValue('from')),
+				'recipient' => \App\Purifier::encodeHtml($mailRbl->mailMimeParser->getHeaderValue('to')),
+				'ip' => \App\Purifier::encodeHtml($mailRbl->getSender()['ip'] ?? ''),
 				'type' => "<span class=\"{$type['icon']} mr-2\"></span>" . \App\Language::translate($type['label'], 'Settings:MailRbl'),
 			];
 		}
@@ -135,18 +139,20 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	{
 		$rows = [];
 		$query = $this->getQuery($request);
-		$query->from('s_#__mail_rbl_request')->select(['id', 'status', 'type', 'datetime', 'user', 'header']);
+		$query->from('s_#__mail_rbl_request')->select(['id', 'status', 'type', 'datetime', 'user', 'header', 'body']);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
-			$message = \ZBateson\MailMimeParser\Message::from($row['header']);
+			$mailRbl = \App\Mail\Rbl::getInstance($row);
+			$mailRbl->parse();
 			$status = \App\Mail\Rbl::REQUEST_STATUS[$row['status']];
 			$type = \App\Mail\Rbl::LIST_TYPES[$row['type']];
 			$rows[] = [
 				'id' => $row['id'],
 				'datetime' => \App\Fields\DateTime::formatToDisplay($row['datetime']),
 				'user' => \App\Fields\Owner::getUserLabel($row['user']) ?: '',
-				'sender' => \App\Purifier::encodeHtml($message->getHeaderValue('from')),
-				'recipient' => \App\Purifier::encodeHtml($message->getHeaderValue('to')),
+				'sender' => \App\Purifier::encodeHtml($mailRbl->mailMimeParser->getHeaderValue('from')),
+				'recipient' => \App\Purifier::encodeHtml($mailRbl->mailMimeParser->getHeaderValue('to')),
+				'ip' => \App\Purifier::encodeHtml($mailRbl->getSender()['ip'] ?? ''),
 				'statusId' => $row['status'],
 				'status' => "<span class=\"{$status['icon']} mr-2\"></span>" . \App\Language::translate($status['label'], 'Settings:MailRbl'),
 				'type' => "<span class=\"{$type['icon']} mr-2\"></span>" . \App\Language::translate($type['label'], 'Settings:MailRbl'),
