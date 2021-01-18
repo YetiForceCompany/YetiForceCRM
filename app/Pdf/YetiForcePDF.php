@@ -497,7 +497,7 @@ class YetiForcePDF extends PDF
 				$watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.1;">';
 			}
 		} elseif (self::WATERMARK_TYPE_TEXT === $templateModel->get('watermark_type') && '' !== trim($templateModel->get('watermark_text'))) {
-			$watermark = '<div style="opacity:0.1;display:inline-block;">' . $templateModel->get('watermark_text') . '</div>';
+			$watermark = '<div style="opacity:0.1;display:inline-block;">' . $templateModel->parseVariables($templateModel->get('watermark_text')) . '</div>';
 		}
 		return $watermark;
 	}
