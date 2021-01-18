@@ -26,7 +26,7 @@ class Cli
 	{
 		$this->climate = new \League\CLImate\CLImate();
 		$this->climate->clear();
-		if (getmyuid() !== fileowner(__FILE__)) {
+		if (\function_exists('getmyuid') && getmyuid() !== fileowner(__FILE__)) {
 			$this->climate->to('error')->red('Something went terribly wrong.');
 			return;
 		}
