@@ -313,7 +313,7 @@ Vtiger_Field_Js(
 		getUi: function () {
 			var html =
 				'<div class="input-group">' +
-				'<span class="input-group-addon">' +
+				'<span class="input-group-append">' +
 				this.getCurrencySymbol() +
 				'</span>' +
 				'<input type="text" class="form-control" name="' +
@@ -404,7 +404,7 @@ Vtiger_Field_Js(
 				'"  value="' +
 				this.getValue() +
 				'" />' +
-				'<span class="input-group-addon"><i class="far fa-clock"></i></span>' +
+				'<span class="input-group-append"><i class="far fa-clock"></i></span>' +
 				'</div>';
 			var element = jQuery(html);
 			return this.addValidationToElement(element);
@@ -451,7 +451,7 @@ Vtiger_Field_Js(
 				'" value="' +
 				this.getValue() +
 				'" step="any"/>' +
-				'<span class="input-group-addon">%</span>' +
+				'<span class="input-group-append">%</span>' +
 				'</div>';
 			var element = jQuery(html);
 			return this.addValidationToElement(element);

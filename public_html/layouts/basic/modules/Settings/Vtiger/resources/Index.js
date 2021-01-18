@@ -336,7 +336,7 @@ $.Class(
 							}
 						}
 					});
-					alertsContainer.find('.input-group-addon input[type="checkbox"]').on('click', function (e) {
+					alertsContainer.find('.input-group-append input[type="checkbox"]').on('click', function (e) {
 						let btn = $(this),
 							group = btn.closest('.input-group');
 						if (this.checked) {

@@ -367,7 +367,7 @@ jQuery.Class(
 				fieldName = fieldName + '[]';
 			}
 
-			if (fieldSpecificUi.find('.input-group-addon').length > 0) {
+			if (fieldSpecificUi.find('.input-group-append').length > 0) {
 				fieldSpecificUi.find('.input-group').addClass('row');
 				fieldSpecificUi.find('.input-group').addClass('row');
 				fieldSpecificUi.find('input[type="text"]').css('width', '100%');
