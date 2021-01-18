@@ -77,8 +77,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$referenceModule = $this->getReferenceModule($value);
-		if (!$referenceModule || empty($value)) {
+		if (empty($value) || !($referenceModule = $this->getReferenceModule($value))) {
 			return '';
 		}
 		$referenceModuleName = $referenceModule->get('name');
@@ -105,8 +104,10 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		$referenceModuleName = $this->getReferenceModule($value);
-		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
+		if (empty($value)) {
+			return '';
+		}
+		if (($referenceModule = $this->getReferenceModule($value)) && ('Users' === $referenceModule || 'Groups' === $referenceModule)) {
 			return \App\Fields\Owner::getLabel($value);
 		}
 		return \App\Record::getLabel($value);
