@@ -825,8 +825,6 @@ $.Class(
 				if (!thisInstance.checkLimits(thisInstance.form)) {
 					return false;
 				}
-				let table = thisInstance.form.find('#blackIthemTable');
-				table.find('[name]').removeAttr('name');
 			});
 		},
 		syncHeaderData() {
