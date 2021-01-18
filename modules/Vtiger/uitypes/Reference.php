@@ -80,7 +80,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (empty($value) || !($referenceModule = $this->getReferenceModule($value))) {
 			return '';
 		}
-		$referenceModuleName = $referenceModule->get('name');
+		$referenceModuleName = $referenceModule->getName();
 		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
 			return \App\Fields\Owner::getLabel($value);
 		}
@@ -107,7 +107,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if (($referenceModule = $this->getReferenceModule($value)) && ('Users' === $referenceModule || 'Groups' === $referenceModule)) {
+		if (($referenceModule = $this->getReferenceModule($value)) && ('Users' === $referenceModule->getName() || 'Groups' === $referenceModule->getName())) {
 			return \App\Fields\Owner::getLabel($value);
 		}
 		return \App\Record::getLabel($value);
