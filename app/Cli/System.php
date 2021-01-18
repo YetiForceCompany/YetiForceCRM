@@ -116,6 +116,12 @@ class System extends Base
 		$status = \App\YetiForce\Register::check(true);
 		$this->climate->bold('Status: ' . \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[$status], 'Settings::Companies'));
 		$this->climate->border('─', 200);
+		$this->climate->bold('APP ID: ' . \App\YetiForce\Register::getInstanceKey());
+		$this->climate->border('─', 200);
+		$this->climate->bold('CRM ID: ' . \App\YetiForce\Register::getCrmKey());
+		$this->climate->border('─', 200);
+		$this->climate->bold('Provider: ' . \App\YetiForce\Register::getProvider());
+		$this->climate->border('─', 200);
 		$this->cli->actionsList('System');
 	}
 
