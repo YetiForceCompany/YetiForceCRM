@@ -21,6 +21,7 @@
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'/>
 		<input type="hidden" id="autoRefreshListOnChange"
 			   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
 		<div class="relatedHeader calendarRelatedHeader mb-1">
 			<div class="row">
 				<div class="col-sm-6 col-md-6">

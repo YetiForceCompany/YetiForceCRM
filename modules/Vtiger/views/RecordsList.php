@@ -217,19 +217,20 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			$viewer->assign('SEARCH_VALUE', $searchValue);
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
-		$searchParmams = App\Condition::validSearchParams($listViewModel->getQueryGenerator()->getModule(), $request->getArray('search_params'));
-		if (empty($searchParmams)) {
-			$searchParmams = [];
+		$searchParams = App\Condition::validSearchParams($listViewModel->getQueryGenerator()->getModule(), $request->getArray('search_params'));
+		if (empty($searchParams)) {
+			$searchParamsRaw = $searchParams = [];
 		}
-		$transformedSearchParams = $listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams);
+		$transformedSearchParams = $listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 		$listViewModel->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
 		foreach ($request->getArray('search_params') as $fieldListGroup) {
+			$searchParamsRaw[] = $fieldListGroup;
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
 				$fieldSearchInfo['specialOption'] = \in_array($fieldSearchInfo[1], ['ch', 'kh']) ? true : '';
-				$searchParmams[$fieldName] = $fieldSearchInfo;
+				$searchParams[$fieldName] = $fieldSearchInfo;
 			}
 		}
 		if ($currencyId) {
@@ -279,7 +280,8 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('LISTVIEW_HEADERS', $listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $listViewEntries);
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
-		$viewer->assign('SEARCH_DETAILS', $searchParmams);
+		$viewer->assign('SEARCH_DETAILS', $searchParams);
+		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('RECORD_SELECTED', $request->getBoolean('record_selected', false));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($request->getModule()));
 		$viewer->assign('CV_ID', $cvId);

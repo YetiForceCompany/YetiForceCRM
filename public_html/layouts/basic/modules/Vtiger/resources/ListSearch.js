@@ -278,15 +278,12 @@ jQuery.Class(
 				searchInfo.push(searchValue);
 				searchParams.push(searchInfo);
 			});
-			if (urlSearchParams) {
+			if (urlSearchParams && listViewPageDiv.find('#search_params').length) {
 				let valueInSearch = null;
-				let url = app.getUrlVar('search_params');
+				let url = listViewPageDiv.find('#search_params').val();
 				if (url != undefined && url.length) {
-					let lengthUrl = url.length;
-					if (url.charAt(lengthUrl - 1) === '#') {
-						url = url.substr(0, lengthUrl - 1);
-					}
-					url = JSON.parse(decodeURIComponent(url));
+					url = JSON.parse(url);
+					console.log(url);
 					$.each(url[0], function (index, value) {
 						let exist = false;
 						$.each(searchParams, function (index, searchParam) {

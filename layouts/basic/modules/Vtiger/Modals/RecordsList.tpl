@@ -16,6 +16,7 @@
 		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
 			   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<input type="hidden" class="js-filter-fields" data-js="value" value="{App\Purifier::encodeHtml(\App\Json::encode($FILTER_FIELDS))}">
+		<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
 		{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE)}
 		<div class="table-responsive">
 			<table class="table table-bordered listViewEntriesTable">
