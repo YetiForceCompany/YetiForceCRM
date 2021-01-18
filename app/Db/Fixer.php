@@ -205,6 +205,8 @@ class Fixer
 
 	/**
 	 * Add missing entries in vtiger_def_org_share and vtiger_org_share_action2tab.
+	 *
+	 * @return int
 	 */
 	public static function share(): int
 	{

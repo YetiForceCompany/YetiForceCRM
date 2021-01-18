@@ -24,6 +24,9 @@ class System extends Base
 		'history' => 'History of uploaded updates',
 		'update' => 'Update',
 		'checkRegStatus' => 'Check registration status',
+		'reloadModule' => 'Reload modules',
+		'clearCache' => 'Clear cache',
+		'reloadUserPrivileges' => 'Reload users privileges',
 	];
 
 	/**
@@ -110,6 +113,50 @@ class System extends Base
 	 */
 	public function checkRegStatus(): void
 	{
+		$status = \App\YetiForce\Register::check(true);
+		$this->climate->bold('Status: ' . \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[$status], 'Settings::Companies'));
+		$this->climate->border('─', 200);
+		$this->cli->actionsList('System');
+	}
+
+	/**
+	 * Check registration status.
+	 *
+	 * @return void
+	 */
+	public function reloadModule(): void
+	{
+		$this->climate->bold('Tools: ' . \App\Db\Fixer::baseModuleTools());
+		$this->climate->bold('Actions: ' . \App\Db\Fixer::baseModuleActions());
+		$this->climate->bold('Profile field: ' . \App\Db\Fixer::profileField());
+		$this->climate->bold('Share: ' . \App\Db\Fixer::share());
+		\App\Module::createModuleMetaFile();
+		$this->climate->bold('Create module meta file');
+		\App\Colors::generate();
+		$this->climate->bold('Colors');
+		$this->cli->actionsList('System');
+	}
+
+	/**
+	 * Check registration status.
+	 *
+	 * @return void
+	 */
+	public function clearCache(): void
+	{
+		$this->climate->bold('Clear: ' . \App\Cache::clear());
+		$this->climate->bold('Clear opcache: ' . \App\Cache::clearOpcache());
+		$this->cli->actionsList('System');
+	}
+
+	/**
+	 * Check registration status.
+	 *
+	 * @return void
+	 */
+	public function reloadUserPrivileges(): void
+	{
+		$this->climate->bold('Users: ' . \App\UserPrivilegesFile::recalculateAll());
 		$this->cli->actionsList('System');
 	}
 }
