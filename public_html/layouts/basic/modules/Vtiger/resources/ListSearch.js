@@ -283,7 +283,6 @@ jQuery.Class(
 				let url = listViewPageDiv.find('#search_params').val();
 				if (url != undefined && url.length) {
 					url = JSON.parse(url);
-					console.log(url);
 					$.each(url[0], function (index, value) {
 						let exist = false;
 						$.each(searchParams, function (index, searchParam) {
