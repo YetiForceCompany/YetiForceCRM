@@ -218,7 +218,7 @@ class TextParser
 	protected $permissions = true;
 
 	/** @var string[] Uitypes with large data */
-	protected $LargeDataUiTypes = ['multiImage', 'image'];
+	protected $largeDataUiTypes = ['multiImage', 'image'];
 
 	/**
 	 * Get instanace by record id.
@@ -674,7 +674,7 @@ class TextParser
 					if (!$fieldModel) {
 						continue;
 					}
-					$currentValue = \in_array($fieldModel->getFieldDataType(), $this->LargeDataUiTypes) ? '' : $this->getDisplayValueByField($fieldModel);
+					$currentValue = \in_array($fieldModel->getFieldDataType(), $this->largeDataUiTypes) ? '' : $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
 						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					} else {
