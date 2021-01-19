@@ -24,7 +24,7 @@ class RelatedAttachments extends Base
 	public $type = 'pdf';
 
 	/** @var string Default template */
-	public $default = '$(custom : RelatedAttachments|__CONDITIONS__|__ATTACH_FILES__)$';
+	public $default = '$(custom : RelatedAttachments|__FIELD_NAMES__|__CONDITIONS__|__ATTACH_FILES__)$';
 
 	/**
 	 * Process.
@@ -41,20 +41,27 @@ class RelatedAttachments extends Base
 			return '';
 		}
 
-		[$conditions, $attachFiles] = array_pad($this->params, 2, '');
+		[$fields, $conditions, $attachFiles] = array_pad($this->params, 3, '');
 		$pdf = $attachFiles ? $this->textParser->getParam('pdf') : null;
 		$pagingModel = new \Vtiger_Paging_Model();
-		if ($conditions) {
+		if (trim($conditions)) {
 			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(\App\Json::decode($conditions));
 			$relationListView->set('search_params', $transformedSearchParams);
 		}
-		$relationListView->setFields(['notes_title', 'filename', 'filelocationtype']);
+		$fields = array_filter(explode(',', trim($fields)));
+		foreach ($fields as $key => $field) {
+			if (!($fieldModel = $relationListView->getRelatedModuleModel()->getFieldByName($field)) || !$fieldModel->isActiveField()) {
+				unset($fields[$key]);
+			}
+		}
+		$fields = $fields ?: ['notes_title', 'filename'];
+		$relationListView->setFields(array_unique(array_merge($fields, ['notes_title', 'filename', 'filelocationtype'])));
 		$rows = [];
 		$counter = 0;
 		foreach ($relationListView->getEntries($pagingModel) as $relatedRecordModel) {
 			++$counter;
 			$row = [];
-			foreach (['notes_title', 'filename'] as $fieldName) {
+			foreach ($fields as $fieldName) {
 				$value = $relatedRecordModel->getDisplayValue($fieldName, false, true);
 				$value = trim($value);
 				$row[] = 'filename' === $fieldName ? "({$value})" : $value;
