@@ -19,7 +19,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 */
 	public function getSearchParams($owner, $time)
 	{
-		$listSearchParams = [[['estimated_date', 'bw', implode(',', $time)]]];
+		$listSearchParams = [[['estimated_date', 'bw', $time]]];
 		if (isset($owner)) {
 			$listSearchParams[0][] = ['assigned_user_id', 'e', $owner];
 		}
@@ -36,17 +36,14 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 */
 	public function parseData($data, $previousData)
 	{
-		foreach ($data as $key => $values) {
-			if (!isset($previousData[$key])) {
-				$previousData[$key] = [0, $values[1], ''];
+		if (!empty($previousData['show_chart'])) {
+			foreach ($previousData['datasets'] as $key => $values) {
+				if (isset($data['datasets'][$key]) && is_array($values)) {
+					$data['datasets'][] = $values;
+				}
 			}
 		}
-		foreach ($previousData as $key => $values) {
-			if (!isset($data[$key])) {
-				$data[$key] = [0, $values[1], ''];
-			}
-		}
-		return [array_values($data), array_values($previousData)];
+		return $data;
 	}
 
 	/**
@@ -57,31 +54,52 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 *
 	 * @return array
 	 */
-	public function getEstimatedValue($time, $compare = false)
+	public function getEstimatedValue($time, $owner)
 	{
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
-		$queryGenerator->setFields(['assigned_user_id']);
+		$queryGenerator->setFields(['assigned_user_id', 'ssalesprocesses_status']);
 		$queryGenerator->setGroup('assigned_user_id');
+		$queryGenerator->setGroup('ssalesprocesses_status');
 		$queryGenerator->addCondition('estimated_date', $time, 'bw', true, true);
+		if ('all' === $owner) {
+			$queryGenerator->setStateCondition('All');
+
+		}	else {
+			$queryGenerator->addNativeCondition(['smownerid' => $owner]);
+		}
 		$sum = new \yii\db\Expression('SUM(estimated)');
 		$queryGenerator->setCustomColumn(['estimated' => $sum]);
 		$query = $queryGenerator->createQuery();
 		$listView = $queryGenerator->getModuleModel()->getListViewUrl();
 		$dataReader = $query->createCommand()->query();
-
-		$data = [];
-		$i = -1;
+		$colors = \App\Fields\Picklist::getColors('ssalesprocesses_status');
+		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'names' => [],
+					'links' => [],
+				],
+			],
+			'show_chart' => false,
+		];
 		while ($row = $dataReader->read()) {
-			$i = $compare ? $row['assigned_user_id'] : $i + 1;
-			$data[$i] = [
-				$row['estimated'],
-				\App\Fields\Owner::getUserLabel($row['assigned_user_id']),
-				$listView . $this->getSearchParams($row['assigned_user_id'], $time),
-			];
+			$chartData['datasets'][0]['data'][] = round($row['estimated'], 2);
+			foreach (\App\Fields\Picklist::getValuesName('ssalesprocesses_status') as $key => $values) {
+				if ($row['ssalesprocesses_status'] === $values) {
+					$chartData['datasets'][0]['backgroundColor'][] = $colors[$key];
+				}
+			}
+			$chartData['datasets'][0]['links'][] = $listView . $this->getSearchParams($row['assigned_user_id'], $time);
+			$ownerName = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
+			$chartData['labels'][] = \App\Utils::getInitials($ownerName);
+			$chartData['fullLabels'][] = $ownerName;
 		}
+		$chartData['show_chart'] = (bool) isset($chartData['datasets']);
 		$dataReader->close();
-
-		return $data;
+		return $chartData;
 	}
 
 	/**
@@ -91,12 +109,17 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 */
 	public function process(App\Request $request)
 	{
+		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->getInteger('linkid');
 		$time = $request->getDateRange('time');
 		$compare = $request->getBoolean('compare');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
+		if (!$request->has('owner')) {
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Accounts');
+		} else {
+			$owner = $request->getByType('owner', 2);
+		}
 		if (empty($time)) {
 			$time = [0 => ''];
 			$date = new \DateTime();
@@ -107,8 +130,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			$time[1] = \App\Fields\Date::formatToDisplay($time[1]);
 		}
 		$timeSting = implode(',', $time);
-
-		$data = $this->getEstimatedValue($timeSting, $compare);
+		$data = $this->getEstimatedValue($timeSting, $owner);
 		if ($compare) {
 			$start = new \DateTime(\DateTimeField::convertToDBFormat($time[0]));
 			$endPeriod = clone $start;
@@ -120,10 +142,9 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			$endPeriod->modify('-1 days');
 			$start->modify("-{$interval} days");
 			$previousTime = \App\Fields\Date::formatToDisplay($start->format('Y-m-d')) . ',' . \App\Fields\Date::formatToDisplay($endPeriod->format('Y-m-d'));
-			$previousData = $this->getEstimatedValue($previousTime, $compare);
+			$previousData = $this->getEstimatedValue($previousTime, $owner);
 			if (!empty($data) || !empty($previousData)) {
-				[$data, $previousData] = $this->parseData($data, $previousData);
-				$data = [$previousData, 'compare' => $data];
+				$data = $this->parseData($data, $previousData);
 			}
 		}
 		$viewer->assign('WIDGET', $widget);
@@ -131,6 +152,8 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DTIME', $timeSting);
 		$viewer->assign('COMPARE', $compare);
+		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance('Accounts', $currentUserId)->getAccessibleUsersForModule());
+		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance('Accounts', $currentUserId)->getAccessibleGroupForModule());
 		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
