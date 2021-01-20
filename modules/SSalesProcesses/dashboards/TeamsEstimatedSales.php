@@ -57,13 +57,11 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	public function getEstimatedValue($time, $owner)
 	{
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
-		$queryGenerator->setFields(['assigned_user_id', 'ssalesprocesses_status']);
+		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->setGroup('assigned_user_id');
-		$queryGenerator->setGroup('ssalesprocesses_status');
 		$queryGenerator->addCondition('estimated_date', $time, 'bw', true, true);
 		if ('all' === $owner) {
 			$queryGenerator->setStateCondition('All');
-
 		}	else {
 			$queryGenerator->addNativeCondition(['smownerid' => $owner]);
 		}
@@ -72,30 +70,14 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		$query = $queryGenerator->createQuery();
 		$listView = $queryGenerator->getModuleModel()->getListViewUrl();
 		$dataReader = $query->createCommand()->query();
-		$colors = \App\Fields\Picklist::getColors('ssalesprocesses_status');
-		$chartData = [
-			'labels' => [],
-			'datasets' => [
-				[
-					'data' => [],
-					'backgroundColor' => [],
-					'names' => [],
-					'links' => [],
-				],
-			],
-			'show_chart' => false,
-		];
+		$chartData = [];
 		while ($row = $dataReader->read()) {
 			$chartData['datasets'][0]['data'][] = round($row['estimated'], 2);
-			foreach (\App\Fields\Picklist::getValuesName('ssalesprocesses_status') as $key => $values) {
-				if ($row['ssalesprocesses_status'] === $values) {
-					$chartData['datasets'][0]['backgroundColor'][] = $colors[$key];
-				}
-			}
-			$chartData['datasets'][0]['links'][] = $listView . $this->getSearchParams($row['assigned_user_id'], $time);
-			$ownerName = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
-			$chartData['labels'][] = \App\Utils::getInitials($ownerName);
-			$chartData['fullLabels'][] = $ownerName;
+				$chartData['datasets'][0]['backgroundColor'][] = '#95a458';
+				$chartData['datasets'][0]['links'][] = $listView . $this->getSearchParams($row['assigned_user_id'], $time);
+				$ownerName = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
+				$chartData['labels'][] = \App\Utils::getInitials($ownerName);
+				$chartData['fullLabels'][] = $ownerName;
 		}
 		$chartData['show_chart'] = (bool) isset($chartData['datasets']);
 		$dataReader->close();
