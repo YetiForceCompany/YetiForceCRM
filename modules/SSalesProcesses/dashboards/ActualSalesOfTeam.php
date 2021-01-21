@@ -35,16 +35,17 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 	 * Function to get data to chart.
 	 *
 	 * @param string      $time
-	 * @param string|bool $compare
+	 * @param bool $compare
+	 * @param int|string $owner
 	 *
 	 * @return array
 	 */
-	public function getEstimatedValue($time, $compare = false)
+	public function getEstimatedValue(string $time, bool $compare = false, $owner = false): array
 	{
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
 		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->setGroup('assigned_user_id');
-		$queryGenerator->addCondition('actual_date', $time, 'bw', true, true);
+		$queryGenerator->addCondition('actual_date', $time, 'bw', true, false);
 		$sum = new \yii\db\Expression('SUM(actual_sale)');
 		$queryGenerator->setCustomColumn(['actual_sale' => $sum]);
 		$query = $queryGenerator->createQuery();
