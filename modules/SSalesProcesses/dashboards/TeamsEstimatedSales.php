@@ -21,7 +21,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	{
 		$conditions = [];
 		$listSearchParams = [];
-		if ('' != $owner) {
+		if (!empty($owner)) {
 			array_push($conditions, ['assigned_user_id', 'e', $owner]);
 		}
 		if (!empty($time)) {
