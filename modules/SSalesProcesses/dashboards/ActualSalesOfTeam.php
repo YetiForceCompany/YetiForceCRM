@@ -35,11 +35,12 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 	 * Function to get data to chart.
 	 *
 	 * @param string      $time
-	 * @param string|bool $compare
+	 * @param bool $compare
+	 * @param int|string $owner
 	 *
 	 * @return array
 	 */
-	public function getEstimatedValue($time, $compare = false, $owner)
+	public function getEstimatedValue(string $time, bool $compare = false, $owner = false): array
 	{
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
 		$queryGenerator->setFields(['assigned_user_id']);

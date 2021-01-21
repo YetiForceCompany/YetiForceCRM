@@ -54,6 +54,9 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 				$data['datasets'][] = $values;
 			}
 		}
+		if (isset($data['datasets'])) {
+			$data['datasets'] = array_reverse($data['datasets']);
+		}
 		return $data;
 	}
 
@@ -61,21 +64,20 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 * Function to get data to chart.
 	 *
 	 * @param string      $time
-	 * @param string|bool $compare
+	 * @param bool $compare
 	 * @param int|string $owner
 	 *
 	 * @return array
 	 */
-	public function getEstimatedValue($timeString, $compare = false, $owner)
+	public function getEstimatedValue(string $timeString, bool $compare = false, $owner = false): array
 	{
+		unset($compare);
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
 		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->setGroup('assigned_user_id');
 		$queryGenerator->addCondition('estimated_date', $timeString, 'bw', false, false);
-		if ('all' === $owner) {
-			$queryGenerator->setStateCondition('All');
-		}	else {
-			$queryGenerator->addNativeCondition(['smownerid' => $owner]);
+		if ('all' !== $owner) {
+		 $queryGenerator->addNativeCondition(['smownerid' => $owner]);
 		}
 		$sum = new \yii\db\Expression('SUM(estimated)');
 		$queryGenerator->setCustomColumn(['estimated' => $sum]);
@@ -118,7 +120,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			$owner = $request->getByType('owner', 2);
 		}
 		$timeString = implode(',', $time);
-		$data = $this->getEstimatedValue($timeString, false, $owner);
+		$data = $this->getEstimatedValue($timeString, $compare, $owner);
 		if ($compare) {
 			$start = new \DateTime($time[0]);
 			$endPeriod = clone $start;
