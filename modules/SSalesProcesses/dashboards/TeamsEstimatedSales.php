@@ -25,7 +25,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			array_push($conditions, ['assigned_user_id', 'e', $owner]);
 		}
 		if (!empty($time)) {
-			array_push($conditions, ['due_date', 'bw', implode(',', \App\Fields\Date::formatRangeToDisplay(explode(',', $time)))]);
+			array_push($conditions, ['estimated_date', 'bw', implode(',', \App\Fields\Date::formatRangeToDisplay(explode(',', $time)))]);
 		}
 		$listSearchParams[] = $conditions;
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
