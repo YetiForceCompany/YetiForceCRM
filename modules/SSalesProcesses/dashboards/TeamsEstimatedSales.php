@@ -41,12 +41,17 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 */
 	public function parseData($data, $previousData)
 	{
-		if (!empty($previousData['show_chart'])) {
-			foreach ($previousData['datasets'] as $key => $values) {
-				$values['backgroundColor'] = '#EDC240';
-				if (isset($data['datasets'][$key]) && is_array($values)) {
-					$data['datasets'][] = $values;
-				}
+		foreach ($data['datasets'] ?? [] as $key => $values) {
+			unset($values);
+			if (!isset($previousData['datasets'][$key])) {
+				$previousData['datasets'][$key]['data'] = [0];
+				$previousData['datasets'][$key]['backgroundColor'] = '#EDC240';
+			}
+		}
+		foreach ($previousData['datasets'] ?? [] as $key => $values) {
+			$values['backgroundColor'] = '#EDC240';
+			if (isset($data['datasets'][$key]) && is_array($values)) {
+				$data['datasets'][] = $values;
 			}
 		}
 		return $data;
