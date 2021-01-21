@@ -5388,6 +5388,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`) values (95,3062,'phone_a_extra','u_yf_finvoice_address',1,1,'phone_a_extra','FL_PHONE_CUSTOM_INFORMATION',0,2,'','100',18,312,3,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`) values (90,3063,'phone_a_extra','u_yf_ssingleorders_address',1,1,'phone_a_extra','FL_PHONE_CUSTOM_INFORMATION',0,2,'','100',18,295,3,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`) values (90,3064,'phone_b_extra','u_yf_ssingleorders_address',1,1,'phone_b_extra','FL_PHONE_CUSTOM_INFORMATION',0,2,'','100',18,463,3,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`) values (112,3065,'sys_name','u_yf_emailtemplates',1,1,'sys_name','FL_SYS_NAME',0,0,'','50',8,378,2,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'');
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -9059,6 +9060,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,95,3062,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,90,3063,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,90,3064,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,112,3065,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 

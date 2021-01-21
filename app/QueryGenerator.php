@@ -700,14 +700,15 @@ class QueryGenerator
 		}
 		if ('Calendar' === $this->moduleName && !\in_array('activitytype', $this->fields)) {
 			$this->fields[] = 'activitytype';
-		}
-		if ('Documents' === $this->moduleName && \in_array('filename', $this->fields)) {
+		} elseif ('Documents' === $this->moduleName && \in_array('filename', $this->fields)) {
 			if (!\in_array('filelocationtype', $this->fields)) {
 				$this->fields[] = 'filelocationtype';
 			}
 			if (!\in_array('filestatus', $this->fields)) {
 				$this->fields[] = 'filestatus';
 			}
+		} elseif ('EmailTemplates' === $this->moduleName && !\in_array('sys_name', $this->fields)) {
+			$this->fields[] = 'sys_name';
 		}
 		if (!$onlyFields) {
 			$this->conditions = CustomView::getConditions($viewId);
