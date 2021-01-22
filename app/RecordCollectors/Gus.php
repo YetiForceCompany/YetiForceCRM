@@ -185,7 +185,7 @@ class Gus extends Base
 					}
 				}
 				$response['fields'] = $data;
-				$response['keys'] = array_keys($data[$fieldName]['data']);
+				$response['keys'] = array_keys($infoFromGus);
 				$response['skip'] = $skip;
 			}
 		} catch (\SoapFault $e) {
