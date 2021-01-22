@@ -83,9 +83,6 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 						'type' => $rblRecord->get('type'),
 						'request' => $request->getInteger('record'),
 					], ['id' => $id])->execute();
-					$dbCommand->update('s_#__mail_rbl_request', [
-						'status' => 3,
-					], ['id' => $ipList['request']])->execute();
 				} else {
 					$dbCommand->insert('s_#__mail_rbl_list', [
 						'ip' => $sender['ip'],
