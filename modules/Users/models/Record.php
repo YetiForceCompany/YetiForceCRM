@@ -307,8 +307,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		if (!$this->isNew() && false !== $this->getPreviousValue('user_password') && App\User::getCurrentUserId() === $this->getId()) {
-			$isExists = (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $this->getId(), 'pass' => \App\Encryption::createHash($this->get('user_password'))])->exists();
-			if ($isExists) {
+			if (App\User::checkPreviousPassword($this->getId(), $this->get('user_password'))) {
 				throw new \App\Exceptions\SaveRecord('ERR_PASSWORD_HAS_ALREADY_BEEN_USED', 406);
 			}
 		}

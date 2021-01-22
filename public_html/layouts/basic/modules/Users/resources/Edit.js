@@ -175,6 +175,7 @@ Vtiger_Edit_Js(
 					module: app.getModuleName(),
 					action: 'VerifyData',
 					mode: 'validatePassword',
+					record: form.find('[name="record"]').val(),
 					password: form.find('[name="' + $(e.currentTarget).data('field') + '"]').val()
 				}).done(function (data) {
 					if (data.success && data.result) {

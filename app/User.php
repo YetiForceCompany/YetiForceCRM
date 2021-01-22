@@ -543,4 +543,17 @@ class User
 	{
 		return (new \App\Db\Query())->from('u_#__users_labels')->select(['id', 'label'])->createCommand()->queryAllByGroup();
 	}
+
+	/**
+	 * Check the previous password.
+	 *
+	 * @param int    $userId
+	 * @param string $password
+	 *
+	 * @return bool
+	 */
+	public static function checkPreviousPassword(int $userId, string $password): bool
+	{
+		return(new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $userId, 'pass' => Encryption::createHash($password)])->exists();
+	}
 }

@@ -41,7 +41,7 @@ class Users_VerifyData_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function recordPreSave(App\Request $request)
+	public function recordPreSave(App\Request $request): void
 	{
 		$message = '';
 		$moduleName = $request->getModule();
@@ -77,9 +77,13 @@ class Users_VerifyData_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function validatePassword(App\Request $request)
+	public function validatePassword(App\Request $request): void
 	{
-		$message = Settings_Password_Record_Model::checkPassword($request->getRaw('password'));
+		if (App\User::checkPreviousPassword($request->getInteger('record'), $request->getRaw('password'))) {
+			$message = \App\Language::translate('ERR_PASSWORD_HAS_ALREADY_BEEN_USED', 'Other:Exceptions');
+		} else {
+			$message = Settings_Password_Record_Model::checkPassword($request->getRaw('password'));
+		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'type' => $message ? 'error' : 'success',
