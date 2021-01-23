@@ -192,7 +192,7 @@ class Calendar
 	public static function loadFromContent(string $content, ?\Vtiger_Record_Model $recordModel = null, ?string $uid = null)
 	{
 		$instance = new self();
-		$instance->vcalendar = VObject\Reader::read($content);
+		$instance->vcalendar = VObject\Reader::read($content, \Sabre\VObject\Reader::OPTION_FORGIVING);
 		if ($recordModel && $uid) {
 			$instance->records[$uid] = $recordModel;
 		}
@@ -226,13 +226,14 @@ class Calendar
 	 */
 	public function getRecordInstance()
 	{
-		foreach ($this->vcalendar->getBaseComponents() as $component) {
+		foreach ($this->vcalendar->getBaseComponents() ?: $this->vcalendar->getComponents() as $component) {
 			$type = (string) $component->name;
 			if ('VTODO' === $type || 'VEVENT' === $type) {
 				$this->vcomponent = $component;
 				$this->parseComponent();
 			}
 		}
+
 		return $this->records;
 	}
 
