@@ -108,7 +108,7 @@ class Users_Password_Action extends \App\Controller\Action
 		$isOtherUser = App\User::getCurrentUserId() !== $request->getInteger('record');
 		if (!$isOtherUser && 'PASSWORD' !== \App\Session::get('UserAuthMethod')) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', 'Users'), 'type' => 'error']]);
-		} elseif ($password !== $request->getRaw('confirmPassword')) {
+		} elseif ($password !== $request->getRaw('confirm_password')) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', 'Users'), 'type' => 'error']]);
 		} elseif (!$isOtherUser && !$userRecordModel->verifyPassword($request->getRaw('oldPassword'))) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', 'Users'), 'type' => 'error']]);
