@@ -454,6 +454,7 @@ class ModuleBasic
 			$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $ids])->execute();
 			$db->createCommand()->delete('a_#__relatedlists_inv_fields', ['relation_id' => $ids])->execute();
 		}
+		\App\Cache::delete('HierarchyByRelation', '');
 		\App\Log::trace('End', __METHOD__);
 	}
 

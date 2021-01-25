@@ -200,6 +200,22 @@ CREATE TABLE `a_yf_record_converter_mapping` (
   CONSTRAINT `a_yf_record_converter_mapping_fk3` FOREIGN KEY (`dest_field`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_record_list_filter` */
+
+CREATE TABLE `a_yf_record_list_filter` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `relationid` smallint(5) unsigned NOT NULL,
+  `rel_relationid` smallint(5) unsigned NOT NULL,
+  `dest_relationid` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `a_yf_record_list_filter_relationid_idx` (`relationid`),
+  KEY `a_yf_record_list_filter_rel_relationid_idx` (`rel_relationid`),
+  KEY `a_yf_record_list_filter_dest_relationid_idx` (`dest_relationid`),
+  CONSTRAINT `a_yf_record_list_filter_dest_relationid_idx` FOREIGN KEY (`dest_relationid`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE,
+  CONSTRAINT `a_yf_record_list_filter_rel_relationid_idx` FOREIGN KEY (`rel_relationid`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE,
+  CONSTRAINT `a_yf_record_list_filter_relationid_idx` FOREIGN KEY (`relationid`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_relatedlists_inv_fields` */
 
 CREATE TABLE `a_yf_relatedlists_inv_fields` (

@@ -111,11 +111,14 @@ $.Class(
 			}
 			let listFilterFieldsJson = formElement.find('input[name="listFilterFields"]').val();
 			let listFilterFields = listFilterFieldsJson ? JSON.parse(listFilterFieldsJson) : [];
-			if (listFilterFields) {
-				$.each(listFilterFields, function (index, value) {
-					let mapFieldElement = formElement.find('[name="' + value + '"]');
+			if (
+				listFilterFields[sourceField] != undefined &&
+				listFilterFields[sourceField][popupReferenceModule] != undefined
+			) {
+				$.each(listFilterFields[sourceField][popupReferenceModule], function (index, value) {
+					let mapFieldElement = formElement.find('[name="' + index + '"]');
 					if (mapFieldElement.length && mapFieldElement.val() != '') {
-						filterFields[value] = mapFieldElement.val();
+						filterFields[index] = mapFieldElement.val();
 					}
 				});
 			}
