@@ -134,7 +134,7 @@ class FileTarget extends \yii\log\FileTarget
 		$result = '';
 		$anonymization = new \App\Anonymization();
 		foreach (\yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars) as $key => $value) {
-			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($anonymization->setData($_REQUEST)->anonymize()->getData());
+			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($anonymization->setData($value)->anonymize()->getData());
 		}
 		$result .= "\nHEADERS = " . \yii\helpers\VarDumper::dumpAsString(getallheaders());
 		foreach (\App\Utils\ConfReport::getAllErrors(true) as $key => $value) {
