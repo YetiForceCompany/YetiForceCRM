@@ -386,7 +386,7 @@ class ModuleHierarchy
 				}
 			}
 		}
-		return array_unique($fields);
+		return $fields;
 	}
 
 	/**
