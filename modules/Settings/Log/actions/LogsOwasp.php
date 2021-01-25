@@ -51,7 +51,7 @@ class Settings_Log_LogsOwasp_Action extends Settings_Vtiger_Basic_Action
 						$val = (\is_array($val)) ? var_export($val, true) : $val;
 						$requestArray .= \App\Purifier::encodeHtml("$key => $val") . PHP_EOL;
 					}
-					$log[$column] = "<pre>$requestArray</pre>";
+					$log[$column] = \App\Layout::truncateText($requestArray, 70, true);
 				}
 			}
 			$data[] = $log;
