@@ -51,6 +51,9 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->setGroup('assigned_user_id');
 		$queryGenerator->addCondition('actual_date', $timeString, 'bw', true, false);
+		if ('all' !== $owner) {
+		 $queryGenerator->addNativeCondition(['smownerid' => $owner]);
+		}
 		$sum = new \yii\db\Expression('SUM(actual_sale)');
 		$queryGenerator->setCustomColumn(['actual_sale' => $sum]);
 		$query = $queryGenerator->createQuery();
