@@ -330,7 +330,7 @@ class Cron
 	public function checkTimeout(): bool
 	{
 		return $this->cronInstance->checkCronTimeout() ||
-		!empty($this->data['max_exe_time']) && $this->getLastStart() && time() >= (($this->data['max_exe_time'] * 60) + $this->getLastStart());
+		(!empty($this->data['max_exe_time']) && $this->getLastStart() && time() >= (($this->data['max_exe_time'] * 60) + $this->getLastStart()));
 	}
 
 	/**
