@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Chat.
+ * Chat file.
  *
  * @package   App
  *
@@ -14,7 +14,7 @@
 namespace App;
 
 /**
- * Class Chat.
+ * Chat class.
  */
 final class Chat
 {
