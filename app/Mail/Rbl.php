@@ -564,8 +564,7 @@ class Rbl extends \App\Base
 	{
 		$fromDomain = explode('@', $this->mailMimeParser->getHeader('from')->getEmail())[1];
 		$status = self::DMARC_NONE;
-		$dmarcRecord = $this->getDmarcRecord($fromDomain);
-		if (!$dmarcRecord) {
+		if (empty($fromDomain) || !($dmarcRecord = $this->getDmarcRecord($fromDomain))) {
 			return ['status' => $status, 'logs' => \App\Language::translateArgs('LBL_NO_DMARC_DNS', 'Settings:MailRbl', $fromDomain)] + self::DMARC[$status];
 		}
 		$logs = '';
