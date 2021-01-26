@@ -5056,20 +5056,6 @@ CREATE TABLE `vtiger_blocks` (
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=472 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_blocks_hide` */
-
-CREATE TABLE `vtiger_blocks_hide` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `blockid` int(10) unsigned DEFAULT NULL,
-  `conditions` text DEFAULT NULL,
-  `enabled` tinyint(1) unsigned DEFAULT NULL,
-  `view` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `blockid` (`blockid`,`enabled`),
-  KEY `view` (`view`),
-  KEY `blockid_2` (`blockid`,`enabled`,`view`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_calendar_config` */
 
 CREATE TABLE `vtiger_calendar_config` (
