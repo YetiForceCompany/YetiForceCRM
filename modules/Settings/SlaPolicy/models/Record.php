@@ -137,10 +137,12 @@ class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to delete the current Record Model.
+	 *
+	 * @return int
 	 */
 	public function delete()
 	{
-		\App\Db::getInstance('admin')->createCommand()
+		return \App\Db::getInstance('admin')->createCommand()
 			->delete('s_#__sla_policy', ['id' => $this->getId()])
 			->execute();
 		\App\Cache::clear();
