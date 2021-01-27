@@ -79,39 +79,6 @@ class Vtiger_Block_Model extends vtlib\Block
 	}
 
 	/**
-	 * Function to check whether the current block is hide.
-	 *
-	 * @param Vtiger_Record_Model $record
-	 * @param string              $view
-	 *
-	 * @return bool
-	 */
-	public function isHideBlock($record, $view)
-	{
-		$key = $this->get('id') . '_' . $record->getId() . '_' . $view;
-		if (\App\Cache::staticHas(__METHOD__, $key)) {
-			return \App\Cache::staticGet(__METHOD__, $key);
-		}
-		$showBlock = false;
-		$query = (new \App\Db\Query())->from('vtiger_blocks_hide')->where(['enabled' => 1, 'blockid' => $this->get('id')])->andWhere(['like', 'view', $view]);
-		$hideBlocks = $query->all();
-		if ($hideBlocks) {
-			Vtiger_Loader::includeOnce('~/modules/com_vtiger_workflow/VTJsonCondition.php');
-			$conditionStrategy = new VTJsonCondition();
-			foreach ($hideBlocks as $hideBlock) {
-				$expr = \App\Json::decode($hideBlock['conditions']);
-				if (!$record->getId() && $expr) {
-					continue;
-				}
-				$showBlock = $conditionStrategy->evaluate($hideBlock['conditions'], $record);
-			}
-		}
-		\App\Cache::staticSave(__METHOD__, $key, !$showBlock);
-
-		return !$showBlock;
-	}
-
-	/**
 	 * Function which indicates whether the block is shown or hidden.
 	 *
 	 * @return bool
