@@ -32,6 +32,9 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if (empty($value)) {
+			return '';
+		}
 		return \App\Purifier::encodeHtml(\App\Language::getLanguageLabel($value));
 	}
 

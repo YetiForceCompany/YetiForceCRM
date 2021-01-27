@@ -51,6 +51,7 @@ class Webhook extends VTTask
 			}
 		}
 		$params = [
+			'verify' => false,
 			"{$this->format}" => $data
 		];
 		if (!empty($this->login)) {
