@@ -432,6 +432,11 @@ insert  into `s_yf_auto_record_flow_updater`(`id`,`status`,`source_module`,`targ
 
 insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`vat_id`,`city`,`address`,`post_code`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`,`facebook`,`twitter`,`linkedin`) values (1,0,'',1,NULL,'','','','','',0,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
+/*Data for the table `s_yf_fields_anonymization` */
+
+insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (476,'[\"logs\"]');
+insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (477,'[\"logs\"]');
+
 /*Data for the table `s_yf_fields_dependency` */
 
 insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`,`mandatory`,`fields`,`conditions`,`conditionsFields`) values (1,6,1,'Legal form','[\"Create\",\"Edit\",\"Detail\",\"QuickCreate\",\"QuickEdit\"]',1,0,'[\"vat_id\",\"registration_number_2\",\"registration_number_1\",\"siccode\"]','{\"condition\":\"OR\",\"rules\":[{\"fieldname\":\"legal_form:Accounts\",\"operator\":\"n\",\"value\":\"PLL_NATURAL_PERSON\"}]}','[\"legal_form\"]');
