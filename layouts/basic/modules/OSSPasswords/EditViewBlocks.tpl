@@ -60,74 +60,71 @@
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
 				{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 				{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
-				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 				{assign var=BLOCK_ICON value=$BLOCK->get('icon')}
-				{if $BLOCKS_HIDE}
-					<div class="c-panel form-row js-toggle-panel row mx-1 mb-3"
-						 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
-						 data-label="{$BLOCK_LABEL}">
-						<div class="blockHeader c-panel__header align-items-center">
-							{if !empty($APIADDRESS_ACTIVE) && in_array($BLOCK_LABEL,$ADDRESS_BLOCK_LABELS)}
-								{assign var=APIADDRESFIELD value=TRUE}
-							{else}
-								{assign var=APIADDRESFIELD value=FALSE}
-							{/if}
-							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
-								  data-js="click" data-mode="hide"
-								  data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}"
-								  data-js="click" data-mode="show"
-								  data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<h5>{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{\App\Language::translate($BLOCK_LABEL, $MODULE)}</h5>
+				<div class="c-panel form-row js-toggle-panel row mx-1 mb-3"
+					 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
+					 data-label="{$BLOCK_LABEL}">
+					<div class="blockHeader c-panel__header align-items-center">
+						{if !empty($APIADDRESS_ACTIVE) && in_array($BLOCK_LABEL,$ADDRESS_BLOCK_LABELS)}
+							{assign var=APIADDRESFIELD value=TRUE}
+						{else}
+							{assign var=APIADDRESFIELD value=FALSE}
+						{/if}
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
+							  data-js="click" data-mode="hide"
+							  data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}"
+							  data-js="click" data-mode="show"
+							  data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+						<h5>{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{\App\Language::translate($BLOCK_LABEL, $MODULE)}</h5>
+					</div>
+					<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
+						 data-js="display">
+						<div class="form-row m-0 mt-2">
+							{assign var=COUNTER value=0}
+							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
+							{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
+							{if $COUNTER eq '1'}
 						</div>
-						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
-							 data-js="display">
-							<div class="form-row m-0 mt-2">
-								{assign var=COUNTER value=0}
-								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-								{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
-								{if $COUNTER eq '1'}
-							</div>
-							<div class="col-md-12 px-0 m-0">
-								{assign var=COUNTER value=0}
+						<div class="col-md-12 px-0 m-0">
+							{assign var=COUNTER value=0}
+							{/if}
+							{/if}
+							{if $COUNTER eq 2}
+						</div>
+						<div class="form-row m-0">
+							{assign var=COUNTER value=1}
+							{else}
+							{assign var=COUNTER value=$COUNTER+1}
+							{/if}
+							<div class="{if $FIELD_MODEL->getUIType() neq "300"} col-sm-6 form-row align-items-center my-1 mx-0 {else} w-100{/if} js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
+								{if $FIELD_MODEL->getUIType() neq "300"}
+									<div class="col-lg-12 col-xl-3 text-lg-left text-xl-right fieldLabel  {$WIDTHTYPE}">
+										<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold m-0 pr-1">
+											{if $FIELD_MODEL->isMandatory() eq true}
+												<span class="redColor">*</span>
+											{/if}
+											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
+										</label>
+									</div>
 								{/if}
-								{/if}
-								{if $COUNTER eq 2}
-							</div>
-							<div class="form-row m-0">
-								{assign var=COUNTER value=1}
-								{else}
-								{assign var=COUNTER value=$COUNTER+1}
-								{/if}
-								<div class="{if $FIELD_MODEL->getUIType() neq "300"} col-sm-6 form-row align-items-center my-1 mx-0 {else} w-100{/if} js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
-									{if $FIELD_MODEL->getUIType() neq "300"}
-										<div class="col-lg-12 col-xl-3 text-lg-left text-xl-right fieldLabel  {$WIDTHTYPE}">
-											<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold m-0 pr-1">
-												{if $FIELD_MODEL->isMandatory() eq true}
-													<span class="redColor">*</span>
-												{/if}
-												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
-											</label>
-										</div>
-									{/if}
-									<div class="fieldValue {$WIDTHTYPE} {$WIDTHTYPE_GROUP}{if $FIELD_MODEL->getUIType() eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-lg-12 col-xl-9{/if}">
-										<div class="form-row">
-											<div class="col-md-12">
-												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-											</div>
+								<div class="fieldValue {$WIDTHTYPE} {$WIDTHTYPE_GROUP}{if $FIELD_MODEL->getUIType() eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-lg-12 col-xl-9{/if}">
+									<div class="form-row">
+										<div class="col-md-12">
+											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 										</div>
 									</div>
 								</div>
-								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->getUIType() neq "19" and $FIELD_MODEL->getUIType() neq "20" and $FIELD_MODEL->getUIType() neq "30" and $FIELD_MODEL->getUIType() neq '300'}
 							</div>
-							<div class="col-md-12 px-0">
-								{/if}
-								{/foreach}
-							</div>
+							{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->getUIType() neq "19" and $FIELD_MODEL->getUIType() neq "20" and $FIELD_MODEL->getUIType() neq "30" and $FIELD_MODEL->getUIType() neq '300'}
+						</div>
+						<div class="col-md-12 px-0">
+							{/if}
+							{/foreach}
 						</div>
 					</div>
-				{/if}
+				</div>
 			{/foreach}
 			{/strip}
