@@ -15,12 +15,10 @@ class Settings_SlaPolicy_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	 */
 	public function process(App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		$recordModel = Settings_SlaPolicy_Record_Model::getInstanceById($recordId);
-		if ($recordModel && !empty($recordModel->delete())) {
-			$result = $result = ['success' => true];
-		} else {
-			$result = ['success' => false, 'message' => "Not found SLA Policy record with this id: $recordId"];
+		$recordModel = Settings_SlaPolicy_Record_Model::getInstanceById($request->getInteger('record'));
+		$result =  ['success' => true];
+		if ($recordModel) {
+			$result =  ['success' => (bool) $recordModel->delete()];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
