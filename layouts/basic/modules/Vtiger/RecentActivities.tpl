@@ -43,20 +43,24 @@
 												{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 												{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 													{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
-														<div class="font-x-small updateInfoContainer">
-															<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
+														<div class='font-x-small'>
+															<span class="mr-2">{\App\Language::translate($FIELDMODEL->getName(), $FIELDMODEL->getModuleName())}</span>
 															{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
-																&nbsp;{\App\Language::translate('LBL_FROM')} <strong style="white-space:pre-wrap;">
-																	{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue')))),$MODULE_NAME)}</strong>
-																{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-																&nbsp; <strong> {\App\Language::translate('LBL_DELETED','ModTracker')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue'))))}</del> )
+																<span class="mr-2">{\App\Language::translate('LBL_FROM')}</span>
+																<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELDMODEL->getOldValue()))} </strong>
+															{else if $FIELDMODEL->get('postvalue') neq '' && ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
+																<span class="mr-2"><strong>{\App\Language::translate('LBL_DELETED','ModTracker')}</strong></span>
+																(<del>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELDMODEL->getOldValue()))}</del>)
+															{else if $FIELDMODEL->get('postvalue') eq ''}
+																<span class="mr-2"><strong>{\App\Language::translate('LBL_DELETED_VALUE','ModTracker')}</strong></span>
+																(<del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del>)
 															{else}
-																&nbsp;{\App\Language::translate('LBL_CHANGED')}
+																<span class="mr-2">{\App\Language::translate('LBL_CHANGED')}</span>
 															{/if}
 															{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-																&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;<strong style="white-space:pre-wrap;">
-																	{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('postvalue'))))}</strong>
-																{/if}
+																<span class="mr-2">{\App\Language::translate('LBL_TO')}</span>
+																<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELDMODEL->getNewValue()))}</strong>
+															{/if}
 														</div>
 													{/if}
 												{/foreach}
@@ -68,28 +72,28 @@
 									<li>
 										<div>
 											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</span>
-
-
 											<span class="float-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
-
-
 										</div>
 										{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 											{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
-												<div class='font-x-small updateInfoContainer'>
-													<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
-													{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
-														&nbsp;{\App\Language::translate('LBL_FROM')} <strong style="white-space:pre-wrap;">
-															{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue')))),$MODULE_NAME)}</strong>
-														{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-														&nbsp; <strong> {\App\Language::translate('LBL_DELETED','ModTracker')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue'))))}</del> )
+												<div class='font-x-small'>
+													<span class="mr-2">{\App\Language::translate($FIELDMODEL->getName(), $FIELDMODEL->getModuleName())}</span>
+													{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->ge('prevalue') eq '0'))}
+														<span class="mr-2">{\App\Language::translate('LBL_FROM')}</span>
+														<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELDMODEL->getOldValue()))} </strong>
+													{else if $FIELDMODEL->get('postvalue') neq '' && ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
+														<span class="mr-2"><strong>{\App\Language::translate('LBL_DELETED','ModTracker')}</strong></span>
+														(<del>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELDMODEL->getOldValue()))}</del>)
+													{else if $FIELDMODEL->get('postvalue') eq ''}
+														<span class="mr-2"><strong>{\App\Language::translate('LBL_DELETED_VALUE','ModTracker')}</strong></span>
+														(<del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del>)
 													{else}
-														&nbsp;{\App\Language::translate('LBL_CHANGED')}
+														<span class="mr-2">{\App\Language::translate('LBL_CHANGED')}</span>
 													{/if}
 													{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-														&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;<strong style="white-space:pre-wrap;">
-															{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('postvalue')))),$MODULE_NAME)}</strong>
-														{/if}
+														<span class="mr-2">{\App\Language::translate('LBL_TO')}</span>
+														<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELDMODEL->getNewValue()))}</strong>
+													{/if}
 												</div>
 											{/if}
 										{/foreach}
@@ -130,7 +134,6 @@
 											</span>
 										</div>
 									</li>
-
 								{else}
 									<li>
 										<strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong>
