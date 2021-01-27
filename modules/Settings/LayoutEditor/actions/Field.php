@@ -11,6 +11,13 @@
 
 class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 {
+	/**
+	 * @var string[] List of fields in edit view modal
+	 */
+	const EDIT_FIELDS_FORM = [
+		'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory'
+	];
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -56,10 +63,12 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	public function save(App\Request $request)
 	{
 		$fieldId = $request->getInteger('fieldid');
+		if (empty($fieldId)) {
+			throw new \App\Exceptions\AppException('Empty field ID: ' . $fieldId);
+		}
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
 		$uitypeModel = $fieldInstance->getUITypeModel();
-		$fields = ['presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory'];
-		foreach ($fields as $field) {
+		foreach (self::EDIT_FIELDS_FORM as $field) {
 			if ($request->has($field)) {
 				switch ($field) {
 					case 'mandatory':
@@ -103,6 +112,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		if ($request->has('fieldMask')) {
 			$fieldInstance->set('fieldparams', $request->getByType('fieldMask', 'Text'));
 		}
+		$fieldInstance->set('anonymizationTarget', $request->getArray('anonymizationTarget', \App\Purifier::STANDARD));
 		$response = new Vtiger_Response();
 		try {
 			if ($request->getBoolean('defaultvalue')) {

@@ -194,7 +194,8 @@
     "LBL_CHANGED_MODULE_TYPE_INFO": "Module type change operation has been added to cron task queue.",
     "LBL_NON_CUSTOM_FIELD_CANNOT_DELETE": "Cannot delete non-custom field",
     "LBL_EDIT_MAY_AFFECT_STABILITY": "Field modification may affect system stability.",
-    "LBL_EDIT_MAY_AFFECT_STABILITY_DESC": "Only people with relevant technical expertise should create and change fields in the system. Field modification may affect system stability, so we recommend performing it in a test environment first."
+    "LBL_EDIT_MAY_AFFECT_STABILITY_DESC": "Only people with relevant technical expertise should create and change fields in the system. Field modification may affect system stability, so we recommend performing it in a test environment first.",
+    "LBL_ANONYMIZATION_TARGET": "Anonymization"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",
