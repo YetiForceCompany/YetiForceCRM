@@ -218,6 +218,9 @@
 								<option value="logs" {if in_array('logs',$FIELD_MODEL->get('anonymizationTarget'))}selected{/if}>
 									{App\Language::translate('LBL_LOGS', $QUALIFIED_MODULE)}
 								</option>
+								<option value="modTrackerDisplay" {if in_array('modTrackerDisplay',$FIELD_MODEL->get('anonymizationTarget'))}selected{/if}>
+									{App\Language::translate('LBL_UPDATES', $QUALIFIED_MODULE)}
+								</option>
 							</select>
 						</div>
 					</div>

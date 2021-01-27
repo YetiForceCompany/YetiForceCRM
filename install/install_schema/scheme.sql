@@ -1197,7 +1197,7 @@ CREATE TABLE `s_yf_companies` (
 
 CREATE TABLE `s_yf_fields_anonymization` (
   `field_id` int(10) NOT NULL,
-  `anonymization_target` varchar(20) NOT NULL,
+  `anonymization_target` varchar(50) NOT NULL,
   PRIMARY KEY (`field_id`),
   CONSTRAINT `s_yf_fields_anonymization_fieldid_fk` FOREIGN KEY (`field_id`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

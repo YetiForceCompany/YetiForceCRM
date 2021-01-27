@@ -436,6 +436,7 @@ insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`vat_id`,`c
 
 insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (476,'[\"logs\"]');
 insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (477,'[\"logs\"]');
+insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (931,'[\"logs\",\"modTrackerDisplay\"]');
 
 /*Data for the table `s_yf_fields_dependency` */
 

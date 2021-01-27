@@ -1484,6 +1484,19 @@ class Vtiger_Field_Model extends vtlib\Field
 		return $this->get('fieldparams') ?: [];
 	}
 
+	/**
+	 * Get anonymization target.
+	 *
+	 * @return string[] Values: logs, modTrackerDisplay
+	 */
+	public function getAnonymizationTarget(): array
+	{
+		if (\is_string($this->get('anonymizationTarget'))) {
+			$this->set('anonymizationTarget', \App\Json::decode($this->get('anonymizationTarget')));
+		}
+		return $this->get('anonymizationTarget');
+	}
+
 	public function isActiveSearchView()
 	{
 		if ($this->get('fromOutsideList')) {

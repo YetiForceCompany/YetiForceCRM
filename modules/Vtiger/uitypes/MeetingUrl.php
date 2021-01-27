@@ -42,14 +42,6 @@ class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
-	{
-		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, $rawText, \App\Config::main('listview_max_textlength'));
-	}
-
-	/**
 	 * Gets URL.
 	 *
 	 * @param int|null $recordId

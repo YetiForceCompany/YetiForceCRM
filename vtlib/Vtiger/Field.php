@@ -184,17 +184,15 @@ class Field extends FieldBasic
 	 * @param string|int    $value          mixed fieldid or fieldname
 	 * @param \vtlib\Module $moduleInstance Instance of the module if fieldname is used
 	 *
-	 * @return \vtlib\Field|null
+	 * @return \vtlib\Field|bool
 	 */
 	public static function getInstance($value, $moduleInstance = false)
 	{
-		$instance = false;
-		$moduleId = false;
+		$moduleId = $instance = false;
 		if ($moduleInstance) {
 			$moduleId = $moduleInstance->id;
 		}
-		$data = \App\Field::getFieldInfo($value, $moduleId);
-		if ($data) {
+		if ($data = \App\Field::getFieldInfo($value, $moduleId)) {
 			$instance = new self();
 			$instance->initialize($data, $moduleId);
 		}
@@ -249,7 +247,7 @@ class Field extends FieldBasic
 		if (\App\Cache::has('AllFieldForModule', $moduleId)) {
 			$rows = \App\Cache::get('AllFieldForModule', $moduleId);
 		} else {
-			$rows = (new \App\Db\Query())->select(['vtiger_field.*'])
+			$rows = (new \App\Db\Query())->select(['vtiger_field.*', 's_#__fields_anonymization.*'])
 				->from('vtiger_field')
 				->leftJoin('vtiger_blocks', 'vtiger_field.block = vtiger_blocks.blockid')
 				->leftJoin('s_#__fields_anonymization', 'vtiger_field.fieldid = s_#__fields_anonymization.field_id')

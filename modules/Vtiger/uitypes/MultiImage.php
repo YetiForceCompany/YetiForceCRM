@@ -131,6 +131,9 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
+		if (\in_array('modTrackerDisplay', $this->getFieldModel()->getAnonymizationTarget())) {
+			return '****';
+		}
 		$value = \App\Json::decode($value);
 		if (!\is_array($value)) {
 			return '';

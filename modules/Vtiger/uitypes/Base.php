@@ -258,6 +258,9 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
+		if (\in_array('modTrackerDisplay', $this->getFieldModel()->getAnonymizationTarget())) {
+			return '****';
+		}
 		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, $rawText, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 	}
 

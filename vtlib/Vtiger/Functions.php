@@ -178,6 +178,7 @@ class Functions
 		if (!\App\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
 				->from('vtiger_field')
+				->leftJoin('s_#__fields_anonymization', 'vtiger_field.fieldid = s_#__fields_anonymization.field_id')
 				->where(['tabid' => \App\Module::getModuleId($module)])
 				->createCommand()->query();
 			$fieldInfoByName = $fieldInfoByColumn = [];
@@ -401,7 +402,7 @@ class Functions
 				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
 				$viewer->view('ExceptionError.tpl', 'Vtiger');
 			} else {
-				echo $message . \PHP_EOL;
+				echo $message . PHP_EOL;
 			}
 		}
 		if ($die) {
