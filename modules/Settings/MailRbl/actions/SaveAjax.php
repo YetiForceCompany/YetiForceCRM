@@ -22,34 +22,42 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	protected $rblRecord;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$db = \App\Db::getInstance('admin');
 		$requestMode = \in_array($request->getMode(), ['forVerification', 'toSend', 'request']);
-		$db->createCommand()
-			->update($requestMode ? 's_#__mail_rbl_request' : 's_#__mail_rbl_list', [
-				'status' => $request->getInteger('status')
-			], ['id' => $request->getInteger('record')])->execute();
-		if ($requestMode) {
-			$this->update($request);
-		} else {
-			$ips = (new \App\Db\Query())->select(['ip'])->from('s_#__mail_rbl_list')->where(['id' => $request->getInteger('record')])->column($db);
-			foreach ($ips as $ip) {
-				\App\Cache::delete('MailRblIpColor', $ip);
-				\App\Cache::delete('MailRblList', $ip);
-			}
-		}
 		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => true,
-			'notify' => [
-				'type' => 'success',
-				'title' => App\Language::translate('LBL_CHANGES_SAVED'),
-			],
-		]);
+		if ('forVerification' === $request->getMode() && 1 === $request->getInteger('status') && ($error = $this->checkExistingRbl($request))) {
+			$response->setResult([
+				'success' => true,
+				'notify' => [
+					'type' => 'error',
+					'title' => $error,
+				],
+			]);
+		} else {
+			$db->createCommand()
+				->update($requestMode ? 's_#__mail_rbl_request' : 's_#__mail_rbl_list', [
+					'status' => $request->getInteger('status')
+				], ['id' => $request->getInteger('record')])->execute();
+			if ($requestMode) {
+				$this->update($request);
+			} else {
+				$ips = (new \App\Db\Query())->select(['ip'])->from('s_#__mail_rbl_list')->where(['id' => $request->getInteger('record')])->column($db);
+				foreach ($ips as $ip) {
+					\App\Cache::delete('MailRblIpColor', $ip);
+					\App\Cache::delete('MailRblList', $ip);
+				}
+			}
+			$response->setResult([
+				'success' => true,
+				'notify' => [
+					'type' => 'success',
+					'title' => App\Language::translate('LBL_CHANGES_SAVED'),
+				],
+			]);
+		}
 		$response->emit();
 	}
 
@@ -98,5 +106,33 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$dbCommand->delete('s_#__mail_rbl_list', ['request' => $request->getInteger('record')])->execute();
 		}
+	}
+
+	/**
+	 * Check existing IP in RBL list.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return string
+	 */
+	private function checkExistingRbl(App\Request $request): string
+	{
+		$rblRecord = \App\Mail\Rbl::getRequestById($request->getInteger('record'));
+		$rblRecord->parse();
+		$sender = $rblRecord->getSender();
+		if (!empty($sender['ip'])) {
+			if ($ipsList = \App\Mail\Rbl::findIp($sender['ip'])) {
+				$type = (int) $rblRecord->get('type');
+				foreach ($ipsList as $ipList) {
+					if ($type !== (int) $ipList['type']) {
+						$type = $type ? 'LBL_WHITE_LIST' : 'LBL_BLACK_LIST';
+						$tab = $type ? 'whiteList' : 'blackList';
+						$href = "<a href=\"http://yeti/index.php?parent=Settings&module=MailRbl&view=Index&tab={$tab}&ip={$sender['ip']}\" target=\"_blank\">{$sender['ip']}</a>";
+						return App\Language::translateArgs('LBL_IP_EXISTING_IN_RBL', $request->getModule(false), $href, App\Language::translate($type, $request->getModule(false)));
+					}
+				}
+			}
+		}
+		return '';
 	}
 }

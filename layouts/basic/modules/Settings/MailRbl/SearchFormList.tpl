@@ -9,7 +9,7 @@
 				{\App\Language::translate('LBL_IP', $QUALIFIED_MODULE)}
 			</span>
 		</div>
-		<input name="ip" type="text" class="form-control" aria-describedby="{$ID}Ip"/>
+		<input name="ip" type="text" value="{$IP}" class="form-control" aria-describedby="{$ID}Ip"/>
 	</div>
 	<div class="input-group col-md-6">
 		<div class="input-group-prepend">
