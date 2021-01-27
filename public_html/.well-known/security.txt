@@ -1,4 +1,0 @@
-# If you would like to report a security issue
-# you may report it to us on email.
-Contact: security@yetiforce.com
-Preferred-Languages: en, pl
