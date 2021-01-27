@@ -260,7 +260,7 @@ class Field
 		} else {
 			$fields = (new \App\Db\Query())->select(['vtiger_relatedlists_fields.fieldid', 'vtiger_field.fieldname'])->from('vtiger_relatedlists_fields')
 				->innerJoin('vtiger_field', 'vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid')
-				->where(['relation_id' => $relationId, 'vtiger_field.presence' => [0, 2]])->orderBy(['vtiger_relatedlists_fields.relation_id' => \SORT_ASC, 'vtiger_relatedlists_fields.sequence' => \SORT_ASC])
+				->where(['relation_id' => $relationId, 'vtiger_field.presence' => [0, 2]])->orderBy(['vtiger_relatedlists_fields.relation_id' => SORT_ASC, 'vtiger_relatedlists_fields.sequence' => SORT_ASC])
 				->createCommand()->queryAllByGroup();
 			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
 		}
@@ -282,7 +282,10 @@ class Field
 			if (Cache::has('FieldInfoById', $mixed)) {
 				return Cache::get('FieldInfoById', $mixed);
 			}
-			$fieldInfo = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => $mixed])->one();
+			$fieldInfo = (new \App\Db\Query())
+				->from('vtiger_field')
+				->leftJoin('s_#__fields_anonymization', 'vtiger_field.fieldid = s_#__fields_anonymization.field_id')
+				->where(['vtiger_field.fieldid' => $mixed])->one();
 			Cache::save('FieldInfoById', $mixed, $fieldInfo, Cache::LONG);
 		} else {
 			$fieldsInfo = \vtlib\Functions::getModuleFieldInfos($module);

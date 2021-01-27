@@ -17,7 +17,7 @@ namespace App;
 class Anonymization
 {
 	/**
-	 * Word map for anonymization.
+	 * @var array Word map for anonymization.
 	 */
 	const MAPS = [
 		'password' => ['pass', 'password', 'oldPassword']
@@ -166,7 +166,7 @@ class Anonymization
 			$fields = Cache::get('getFieldsFromRelation', $moduleId);
 		} else {
 			$fields = (new \App\Db\Query())->select(['vtiger_field.fieldname'])->from('s_#__fields_anonymization')
-				->innerJoin('vtiger_field', 'vtiger_field.fieldid = s_#__fields_anonymization.fieldid')
+				->innerJoin('vtiger_field', 'vtiger_field.fieldid = s_#__fields_anonymization.field_id')
 				->where(['tabid' => $moduleId])
 				->column();
 			Cache::save('getFieldsFromRelation', $moduleId, $fields, Cache::LONG);
