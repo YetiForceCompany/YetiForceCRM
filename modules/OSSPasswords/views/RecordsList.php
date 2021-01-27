@@ -9,9 +9,7 @@
  */
 class OSSPasswords_RecordsList_View extends Vtiger_RecordsList_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function initializeContent(App\Request $request)
 	{
 		parent::initializeContent($request);

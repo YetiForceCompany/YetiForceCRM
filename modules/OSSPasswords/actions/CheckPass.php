@@ -18,9 +18,7 @@ class OSSPasswords_CheckPass_Action extends \App\Controller\Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$recordModel = Vtiger_Record_Model::getCleanInstance($request->getModule());

@@ -82,9 +82,7 @@ class OSSPasswords extends CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function moduleHandler($moduleName, $eventType)
 	{
 		$db = App\Db::getInstance();
