@@ -48,7 +48,7 @@ class System extends Base
 	}
 
 	/**
-	 * Update.
+	 * Update CRM.
 	 *
 	 * @return void
 	 */
@@ -60,6 +60,57 @@ class System extends Base
 		} else {
 			$this->climate->lightRed('Max execution time = ' . $maxExecutionTime);
 		}
+		$this->climate->arguments->add([
+			'type' => [
+				'prefix' => 't',
+				'description' => 'Update type. Values: patches, version',
+			],
+		]);
+		if ($this->helpMode) {
+			return;
+		}
+		$this->climate->arguments->parse();
+		if ($this->climate->arguments->defined('type')) {
+			$this->updateByType($this->climate->arguments->get('type'));
+		} else {
+			$this->updateBySelect();
+		}
+	}
+
+	/**
+	 * Update by package type.
+	 *
+	 * @param string $type Package type. Values: patches, version
+	 *
+	 * @return void
+	 */
+	private function updateByType(string $type): void
+	{
+		$types = ['patches', 'version'];
+		if (!\in_array($this->climate->arguments->get('type'), $types)) {
+			$this->climate->white('Type not found. Allowed types:')->columns($types);
+			return;
+		}
+		$versionUpdate = 'version' === $type;
+		foreach (\App\YetiForce\Updater::getToInstall() as $package) {
+			$versionCompare = $package['fromVersion'] !== $package['toVersion'];
+			if (($versionCompare && !$versionUpdate) || (!$versionCompare && $versionUpdate)) {
+				continue;
+			}
+			if (!\App\YetiForce\Updater::isDownloaded($package)) {
+				\App\YetiForce\Updater::download($package);
+			}
+			$this->updateByPackage($package);
+		}
+	}
+
+	/**
+	 * Update by selecting a package.
+	 *
+	 * @return void
+	 */
+	private function updateBySelect(): void
+	{
 		$options = [];
 		$toInstall = \App\YetiForce\Updater::getToInstall();
 		foreach ($toInstall as $package) {
@@ -83,20 +134,7 @@ class System extends Base
 		foreach ($toInstall as $package) {
 			if ($package['hash'] === $hash) {
 				if (\App\YetiForce\Updater::isDownloaded($package)) {
-					$startTime = microtime(true);
-					try {
-						$packageInstance = new \vtlib\Package();
-						$response = $packageInstance->import(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \Settings_ModuleManager_Module_Model::getUploadDirectory() . \DIRECTORY_SEPARATOR . $package['hash'] . '.zip', true);
-						if ($packageInstance->_errorText) {
-							$this->climate->lightRed($packageInstance->_errorText);
-						} else {
-							echo $response;
-						}
-					} catch (\Throwable $th) {
-						$this->climate->lightRed($th->__toString());
-					}
-					$this->climate->lightBlue('Update time: ' . round(microtime(true) - $startTime, 2));
-					$this->climate->lightBlue('Check the update logs: cache/logs/update.log');
+					$this->updateByPackage($package);
 				} else {
 					\App\YetiForce\Updater::download($package);
 					$this->update();
@@ -104,6 +142,31 @@ class System extends Base
 				return;
 			}
 		}
+	}
+
+	/**
+	 * Update package.
+	 *
+	 * @param array $package
+	 *
+	 * @return void
+	 */
+	private function updateByPackage(array $package): void
+	{
+		$startTime = microtime(true);
+		try {
+			$packageInstance = new \vtlib\Package();
+			$response = $packageInstance->import(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \Settings_ModuleManager_Module_Model::getUploadDirectory() . \DIRECTORY_SEPARATOR . $package['hash'] . '.zip', true);
+			if ($packageInstance->_errorText) {
+				$this->climate->lightRed($packageInstance->_errorText);
+			} else {
+				echo $response;
+			}
+		} catch (\Throwable $th) {
+			$this->climate->lightRed($th->__toString());
+		}
+		$this->climate->lightBlue('Update time: ' . round(microtime(true) - $startTime, 2));
+		$this->climate->lightBlue('Check the update logs: cache/logs/update.log');
 	}
 
 	/**
@@ -140,6 +203,7 @@ class System extends Base
 		$this->climate->bold('Create module meta file');
 		\App\Colors::generate();
 		$this->climate->bold('Colors');
+		$this->climate->lightYellow()->border('─', 200);
 		$this->cli->actionsList('System');
 	}
 
@@ -152,6 +216,7 @@ class System extends Base
 	{
 		$this->climate->bold('Clear: ' . \App\Cache::clear());
 		$this->climate->bold('Clear opcache: ' . \App\Cache::clearOpcache());
+		$this->climate->lightYellow()->border('─', 200);
 		$this->cli->actionsList('System');
 	}
 
@@ -163,6 +228,7 @@ class System extends Base
 	public function reloadUserPrivileges(): void
 	{
 		$this->climate->bold('Users: ' . \App\UserPrivilegesFile::recalculateAll());
+		$this->climate->lightYellow()->border('─', 200);
 		$this->cli->actionsList('System');
 	}
 }

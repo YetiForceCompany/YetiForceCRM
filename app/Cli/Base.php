@@ -25,6 +25,9 @@ abstract class Base
 	/** @var string Module Name */
 	public $moduleName;
 
+	/** @var bool Show only help info */
+	public $helpMode = false;
+
 	/**
 	 * Construct.
 	 *

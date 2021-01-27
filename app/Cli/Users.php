@@ -35,13 +35,16 @@ class Users extends Base
 		$this->climate->arguments->add([
 			'login' => [
 				'prefix' => 'l',
-				'description' => 'Login',
+				'description' => 'Login/User name',
 			],
 			'password' => [
 				'prefix' => 'p',
-				'description' => 'Password',
+				'description' => 'New password',
 			],
 		]);
+		if ($this->helpMode) {
+			return;
+		}
 		$this->climate->arguments->parse();
 		if ($this->climate->arguments->defined('login')) {
 			$userName = $this->climate->arguments->get('login');
