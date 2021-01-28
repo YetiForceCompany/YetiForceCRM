@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Portal;
@@ -26,10 +27,13 @@ class PrivilegeQuery
 	 * @param mixed         $user
 	 * @param int           $relatedRecord
 	 */
-	public static function getConditions(\App\Db\Query $query, string $moduleName, $user = false, $relatedRecord = false)
+	public static function getConditions(\App\Db\Query $query, string $moduleName, $user = false, $relatedRecord = null)
 	{
 		if (!($user && $user instanceof \App\User)) {
 			$user = \App\User::getCurrentUserModel();
+		}
+		if (!$user->has('permission_type')) {
+			return \App\PrivilegeQuery::getPrivilegeQuery($query, $moduleName, $user, $relatedRecord);
 		}
 		switch ($user->get('permission_type')) {
 			case Privilege::USER_PERMISSIONS:

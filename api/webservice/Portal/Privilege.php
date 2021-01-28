@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Portal;
@@ -45,13 +46,13 @@ class Privilege
 	 */
 	public static function isPermitted(string $moduleName, $actionName = null, $record = false, $userId = false)
 	{
-		if (empty($record)) {
-			return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
-		}
 		if (!$userId) {
 			$user = \App\User::getCurrentUserModel();
 		} else {
 			$user = \App\User::getUserModel($userId);
+		}
+		if (empty($record) || !$user->has('permission_type')) {
+			return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
 		}
 		switch ($user->get('permission_type')) {
 			case self::USER_PERMISSIONS:

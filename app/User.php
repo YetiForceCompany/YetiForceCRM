@@ -16,7 +16,7 @@ class User
 	protected static $currentUserRealId = false;
 	protected static $currentUserCache = false;
 	protected static $userModelCache = [];
-	protected $privileges;
+	protected $privileges = [];
 
 	/**
 	 * Get current user Id.
@@ -88,9 +88,7 @@ class User
 		}
 		$userModel = new self();
 		if ($userId) {
-			$privileges = static::getPrivilegesFile($userId);
-			$privileges = $privileges['_privileges'];
-			$userModel->privileges = $privileges;
+			$userModel->privileges = static::getPrivilegesFile($userId)['_privileges'] ?? [];
 			static::$userModelCache[$userId] = $userModel;
 		}
 		return $userModel;
@@ -330,6 +328,18 @@ class User
 	public function get($key)
 	{
 		return $this->privileges[$key];
+	}
+
+	/**
+	 * Check for existence of key.
+	 *
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public function has(string $key): bool
+	{
+		return array_key_exists($key, $this->privileges);
 	}
 
 	/**
