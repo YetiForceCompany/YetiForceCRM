@@ -189,7 +189,7 @@ jQuery.Class(
 				}
 			});
 			var params = {};
-			if	(typeof form.owners_all === 'string') {
+			if (typeof form.owners_all === 'string') {
 				form.owners_all = [form.owners_all];
 			}
 			params['form'] = form;
@@ -514,10 +514,6 @@ jQuery.Class(
 				const dropDownMenu = dropDownContainer.find('.dropdown-menu');
 				dropDownContainer.dropdown('dispose').dropdown('toggle');
 				const form = dropDownMenu.find('form');
-				let select2 = form.find('.select2');
-				if (select2.length > 0) {
-					select2.remove();
-				}
 				form.validationEngine(
 					$.extend(
 						true,
@@ -559,7 +555,7 @@ jQuery.Class(
 					)
 				);
 				let selectElements = basicDropDown.find('select[name="owners_all"]');
-				if (selectElements.length > 0) {
+				if (selectElements.length > 0 && !selectElements.hasClass('select2-hidden-accessible')) {
 					App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="owners_all"]'));
 				}
 				selectElements = basicDropDown.find('select[name="default_date"]');
