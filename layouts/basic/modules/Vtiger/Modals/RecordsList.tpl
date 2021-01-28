@@ -74,7 +74,7 @@
 					{/foreach}
 				</tr>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
-					<tr class="u-cursor-pointer js-select-row" data-id="{$LISTVIEW_ENTRY->getId()}" data-js="click"
+					<tr class="u-cursor-pointer js-select-row listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-js="click"
 						data-name='{$LISTVIEW_ENTRY->getName()}'
 						data-info='{App\Json::encode($LISTVIEW_ENTRY->getRawData())}'>
 						<td class="{$WIDTHTYPE} u-cursor-auto text-center">
@@ -90,7 +90,7 @@
 								{if $LISTVIEW_HEADER->get('fromOutsideList') eq true}
 									{$LISTVIEW_HEADER->getDisplayValue($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
 								{else}
-									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER,true)}
+									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
 								{/if}
 							</td>
 						{/foreach}
