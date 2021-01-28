@@ -25,7 +25,6 @@ class System extends Base
 		'update' => 'Update',
 		'checkRegStatus' => 'Check registration status',
 		'reloadModule' => 'Reload modules',
-		'clearCache' => 'Clear cache',
 		'reloadUserPrivileges' => 'Reload users privileges',
 	];
 
@@ -98,7 +97,9 @@ class System extends Base
 				continue;
 			}
 			if (!\App\YetiForce\Updater::isDownloaded($package)) {
+				$this->climate->inline($package['label'] . ' - Downloading a package ...');
 				\App\YetiForce\Updater::download($package);
+				$this->climate->out('- downloaded');
 			}
 			$this->updateByPackage($package);
 		}
@@ -156,6 +157,7 @@ class System extends Base
 		$startTime = microtime(true);
 		try {
 			$packageInstance = new \vtlib\Package();
+			$this->climate->white($package['label'] . ' - Installing the package');
 			$response = $packageInstance->import(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \Settings_ModuleManager_Module_Model::getUploadDirectory() . \DIRECTORY_SEPARATOR . $package['hash'] . '.zip', true);
 			if ($packageInstance->_errorText) {
 				$this->climate->lightRed($packageInstance->_errorText);
@@ -166,7 +168,6 @@ class System extends Base
 			$this->climate->lightRed($th->__toString());
 		}
 		$this->climate->lightBlue('Update time: ' . round(microtime(true) - $startTime, 2));
-		$this->climate->lightBlue('Check the update logs: cache/logs/update.log');
 	}
 
 	/**
@@ -203,19 +204,6 @@ class System extends Base
 		$this->climate->bold('Create module meta file');
 		\App\Colors::generate();
 		$this->climate->bold('Colors');
-		$this->climate->lightYellow()->border('─', 200);
-		$this->cli->actionsList('System');
-	}
-
-	/**
-	 * Check registration status.
-	 *
-	 * @return void
-	 */
-	public function clearCache(): void
-	{
-		$this->climate->bold('Clear: ' . \App\Cache::clear());
-		$this->climate->bold('Clear opcache: ' . \App\Cache::clearOpcache());
 		$this->climate->lightYellow()->border('─', 200);
 		$this->cli->actionsList('System');
 	}

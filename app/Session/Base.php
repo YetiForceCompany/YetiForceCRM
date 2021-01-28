@@ -126,4 +126,14 @@ class Base extends \SessionHandler
 	public static function clean()
 	{
 	}
+
+	/**
+	 * Function to clean all session.
+	 *
+	 * @return int
+	 */
+	public static function cleanAll(): int
+	{
+		return 0;
+	}
 }

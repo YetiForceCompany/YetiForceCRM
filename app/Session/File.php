@@ -36,6 +36,31 @@ class File extends Base
 		}
 	}
 
+	/** {@inheritdoc} */
+	public static function cleanAll(): int
+	{
+		$exclusion = ['.htaccess', 'index.html', 'sess_' . session_id()];
+		$i = 0;
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\App\Session::SESSION_PATH, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			if ($item->isFile() && !\in_array($item->getBasename(), $exclusion)) {
+				unlink($item->getPathname());
+				++$i;
+			}
+		}
+		return $i;
+	}
+
+	/** {@inheritdoc} */
+	public function getById(string $sessionId): array
+	{
+		$sessionFilePath = \App\Session::SESSION_PATH . \DIRECTORY_SEPARATOR . 'sess_' . $sessionId;
+		$sessionData = [];
+		if (file_exists($sessionFilePath) && ($content = file_get_contents($sessionFilePath))) {
+			$sessionData = self::unserialize($content);
+		}
+		return $sessionData;
+	}
+
 	/**
 	 * Deserialize session data from string, entry function.
 	 *
@@ -112,16 +137,5 @@ class File extends Base
 			$offset += \strlen(serialize($data));
 		}
 		return $return;
-	}
-
-	/** {@inheritdoc} */
-	public function getById(string $sessionId): array
-	{
-		$sessionFilePath = \App\Session::SESSION_PATH . \DIRECTORY_SEPARATOR . 'sess_' . $sessionId;
-		$sessionData = [];
-		if (file_exists($sessionFilePath) && ($content = file_get_contents($sessionFilePath))) {
-			$sessionData = self::unserialize($content);
-		}
-		return $sessionData;
 	}
 }

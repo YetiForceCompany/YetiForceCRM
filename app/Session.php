@@ -19,7 +19,7 @@ class Session
 	/**
 	 * Session handler.
 	 *
-	 * @var \SessionHandlerInterface
+	 * @var \App\Session\Base
 	 */
 	public static $pool;
 
@@ -158,6 +158,19 @@ class Session
 			return static::$pool->clean();
 		}
 		return [];
+	}
+
+	/**
+	 * Function to clean all session.
+	 *
+	 * @return int
+	 */
+	public static function cleanAll(): int
+	{
+		if (!empty(static::$pool)) {
+			return static::$pool->cleanAll();
+		}
+		return 0;
 	}
 
 	/**
