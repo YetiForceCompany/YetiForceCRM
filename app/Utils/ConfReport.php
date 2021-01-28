@@ -140,6 +140,7 @@ class ConfReport
 	 */
 	public static $libraries = [
 		'imap' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'imap', 'container' => 'ext', 'testCli' => true],
+		'pdo' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'pdo', 'container' => 'ext', 'testCli' => true],
 		'pdo_mysql' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'pdo_mysql', 'container' => 'ext', 'testCli' => true],
 		'mysqlnd' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'mysqlnd', 'container' => 'ext', 'testCli' => true],
 		'openssl' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'openssl', 'container' => 'ext', 'testCli' => true],
@@ -623,7 +624,7 @@ class ConfReport
 	public static function getCronVariables(string $type)
 	{
 		$data = [];
-		$filePath = \ROOT_DIRECTORY . '/app_data/cron.php';
+		$filePath = ROOT_DIRECTORY . '/app_data/cron.php';
 		if (file_exists($filePath)) {
 			try {
 				$cron = include $filePath;
@@ -1200,13 +1201,13 @@ class ConfReport
 			$row['status'] = strtolower($row['www']) === strtolower($row['recommended']);
 			if (!$row['status']) {
 				$www = [];
-				foreach (explode(';', $row['www']) as  $value) {
+				foreach (explode(';', $row['www']) as $value) {
 					if ($value) {
 						$name = explode(' ', trim($value))[0];
 						$www[$name] = $value;
 					}
 				}
-				foreach (explode(';', $row['recommended']) as  $value) {
+				foreach (explode(';', $row['recommended']) as $value) {
 					if ($value) {
 						$name = explode(' ', trim($value))[0];
 						if ($www[$name] !== $value) {
@@ -1434,7 +1435,7 @@ class ConfReport
 		$absolutePaths = $row['absolutePaths'] ?? false;
 		$path = $name;
 		if (!$absolutePaths) {
-			$path = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $path;
+			$path = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $path;
 		}
 		if (!file_exists($path)) {
 			$row['mode'] = 'skipParam';
