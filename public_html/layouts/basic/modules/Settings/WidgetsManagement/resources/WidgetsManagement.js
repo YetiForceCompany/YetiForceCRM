@@ -513,8 +513,7 @@ jQuery.Class(
 				dropDownContainer.append(dropDown);
 				const dropDownMenu = dropDownContainer.find('.dropdown-menu');
 				dropDownContainer.dropdown('dispose').dropdown('toggle');
-				const form = dropDownMenu.find('form');
-				form.validationEngine(
+				dropDownMenu.find('form').validationEngine(
 					$.extend(
 						true,
 						{
