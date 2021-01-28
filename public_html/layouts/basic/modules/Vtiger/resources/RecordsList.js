@@ -221,7 +221,7 @@ $.Class(
 				}
 				let row = $(this);
 				let data = row.data();
-				if (self.container.find('.js-multi-select').val() === 'true') {
+				if (self.container.find('.js-multi-select').val()) {
 					let selected = {};
 					if (additional) {
 						selected[data.id] = [];
