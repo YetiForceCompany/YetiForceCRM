@@ -26,9 +26,7 @@ class Settings_MailRbl_ReportModal_View extends \App\Controller\ModalSettings
 	/** {@inheritdoc} */
 	public $showHeader = false;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(\App\Request $request)
 	{
 		parent::preProcessAjax($request);

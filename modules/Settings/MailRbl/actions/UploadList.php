@@ -22,9 +22,7 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public $delimiter = "\n";
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$response = new Vtiger_Response();
