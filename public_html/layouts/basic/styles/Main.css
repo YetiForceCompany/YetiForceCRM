@@ -12601,7 +12601,9 @@ body:not(.desktop) .ps__rail-y {
   line-height: 1; }
 
 .btn .mdi::before {
-  position: relative;
+  position: relative; }
+
+.c-mdi::before {
   width: 1.25em;
   font-size: 1.2rem;
   vertical-align: text-bottom; }

@@ -184,7 +184,7 @@ abstract class Page extends Base
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_VIDEO_CONFERENCE',
 				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . \App\User::getCurrentUserRealId()],
-				'icon' => 'mdi mdi-card-account-phone',
+				'icon' => 'mdi mdi-card-account-phone c-mdi',
 				'linkclass' => 'js-show-modal'
 			];
 		}

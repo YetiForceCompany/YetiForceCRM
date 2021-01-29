@@ -540,6 +540,8 @@ body:not(.desktop) {
 }
 .btn .mdi::before {
 	position: relative;
+}
+.c-mdi::before {
 	width: 1.25em;
 	font-size: 1.2rem;
 	vertical-align: text-bottom;
