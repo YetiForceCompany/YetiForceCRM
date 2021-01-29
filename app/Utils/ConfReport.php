@@ -1667,7 +1667,7 @@ class ConfReport
 			$t = explode('.', $row);
 			array_pop($t);
 			$short = implode('.', $t);
-			if (!isset($ver[$short]) && version_compare($short, '7.0', '>') && version_compare($short, '7.4', '<')) {
+			if (!isset($ver[$short]) && version_compare($short, '7.2', '>') && version_compare($short, '8.0', '<')) {
 				$ver[$short] = $row;
 			}
 		}
