@@ -188,15 +188,16 @@ jQuery.Class(
 					enabled: true
 				}
 			});
-
 			var params = {};
+			if (typeof form.owners_all === 'string') {
+				form.owners_all = [form.owners_all];
+			}
 			params['form'] = form;
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['sourceModule'] = jQuery('#selectedModuleName').val();
 			params['action'] = 'SaveAjax';
 			params['mode'] = mode;
-
 			AppConnector.request(params)
 				.done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -553,7 +554,7 @@ jQuery.Class(
 					)
 				);
 				let selectElements = basicDropDown.find('select[name="owners_all"]');
-				if (selectElements.length > 0) {
+				if (selectElements.length > 0 && !selectElements.hasClass('select2-hidden-accessible')) {
 					App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="owners_all"]'));
 				}
 				selectElements = basicDropDown.find('select[name="default_date"]');
