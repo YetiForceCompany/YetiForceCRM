@@ -74,7 +74,7 @@
 													<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
-											{if $SPECIAL_WIDGETS['Rss']}
+											{if isset($SPECIAL_WIDGETS['Rss'])}
 												{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
 												<div class="btn-group ml-1">
 													<button class="btn btn-success btn-sm addRss" type="button"
