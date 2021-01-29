@@ -60,7 +60,6 @@
 									class="{$SORT_IMAGE}"></span>{/if}</a>
 					</th>
 				{/foreach}
-				<th>{\App\Language::translate('LBL_ACTIONS')}</th>
 			</tr>
 			{if $MODULE_MODEL->isQuickSearchEnabled()}
 				<tr class="bg-white">
@@ -92,7 +91,6 @@
 							FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 						</td>
 					{/foreach}
-					<td></td>
 				</tr>
 			{/if}
 			</thead>
@@ -101,12 +99,15 @@
 				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}'
 					data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}'
 					id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-					<td width="2%" class="{$WIDTHTYPE}">
+					<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}" >
 						<input type="hidden" name="deleteActionUrl" value="{$LISTVIEW_ENTRY->getDeleteUrl()}">
-						{if $LISTVIEW_ENTRY->isEditable()}
-							<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}"
-								   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
-								   class="listViewEntriesCheckBox"/>
+						{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl', $MODULE)}
+						{if $LISTVIEW_ENTRY->get('status') neq 'Active'}
+							<a class="btn btn-sm btn-light" onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);">
+								<span class="fas fa-sync-alt"
+									 title="{\App\Language::translate('LBL_RESTORE', $MODULE)}"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_RESTORE', $MODULE)}</span>
+							</a>
 						{/if}
 					</td>
 					<td width="5%" class="{$WIDTHTYPE}">
@@ -132,52 +133,6 @@
 							{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
 						</td>
 					{/foreach}
-					<td>
-						{if $LISTVIEW_HEADER@last}
-							<div class="float-right actions">
-								<div class="actionImages flexWrapper">
-									{if $IS_MODULE_EDITABLE}
-										<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'>
-											<span class="fas fa-retweet align-middle"
-												title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}"></span>
-											<span class="sr-only">{\App\Language::translate('LBL_DUPLICATE', $MODULE)}</span>
-										</a>&nbsp;
-									{/if}
-									{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
-										<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT"
-										   href='{$LISTVIEW_ENTRY->getEditViewUrl()}'>
-											<span class="yfi yfi-full-editing-view align-middle"
-												  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
-											<span class="sr-only">{\App\Language::translate('LBL_EDIT', $MODULE)}</span>
-										</a>
-										&nbsp;
-									{/if}
-									{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
-										{if $LISTVIEW_ENTRY->get('status') eq 'Active'}
-											<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE"
-											   class="deleteRecordButton">
-												<span class="fas fa-trash-alt align-middle"
-													  title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-												<span class="sr-only">{\App\Language::translate('LBL_DELETE', $MODULE)}</span>
-											</a>
-										{else}
-											<a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);">
-												<span class="fas fa-sync-alt align-middle"
-													  title="{\App\Language::translate('LBL_RESTORE', $MODULE)}"></span>
-												<span class="sr-only">{\App\Language::translate('LBL_RESTORE', $MODULE)}</span>
-											</a>
-											&nbsp;
-											<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);">
-												<span class="fas fa-trash-alt align-middle"
-													  title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-												<span class="sr-only">{\App\Language::translate('LBL_DELETE', $MODULE)}</span>
-											</a>
-										{/if}
-									{/if}
-								</div>
-							</div>
-						{/if}
-					</td>
 				</tr>
 			{/foreach}
 			</tbody>
