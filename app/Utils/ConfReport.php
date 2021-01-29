@@ -140,7 +140,7 @@ class ConfReport
 	 */
 	public static $libraries = [
 		'imap' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'imap', 'container' => 'ext', 'testCli' => true],
-		'pdo' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'pdo', 'container' => 'ext', 'testCli' => true],
+		'PDO' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'PDO', 'container' => 'ext', 'testCli' => true],
 		'pdo_mysql' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'pdo_mysql', 'container' => 'ext', 'testCli' => true],
 		'mysqlnd' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'mysqlnd', 'container' => 'ext', 'testCli' => true],
 		'openssl' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'openssl', 'container' => 'ext', 'testCli' => true],
