@@ -29,17 +29,13 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 		'currencyparam' => App\Purifier::TEXT
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditTemplateName()
 	{
 		return 'inventoryTypes/Currency.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (empty($value)) {
@@ -72,9 +68,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 		return $params;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		if ($name === $this->getColumnName()) {
@@ -83,9 +77,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($columnName === $this->getColumnName()) {

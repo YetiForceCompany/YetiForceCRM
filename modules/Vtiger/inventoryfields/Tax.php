@@ -34,9 +34,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public $shared = ['taxparam' => 'tax_percent'];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
@@ -50,9 +48,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		return '';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		if ($name !== $this->getColumnName()) {
@@ -68,9 +64,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($columnName === $this->getColumnName()) {
@@ -130,9 +124,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		return $return;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
 		if ($column === $this->getColumnName() || null === $column) {

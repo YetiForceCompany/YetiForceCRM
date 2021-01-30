@@ -11,16 +11,20 @@
  */
 class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 {
+	/** {@inheritdoc} */
 	protected $type = 'Unit';
+	/** {@inheritdoc} */
 	protected $defaultLabel = 'LBL_UNIT';
+	/** {@inheritdoc} */
 	protected $columnName = 'unit';
+	/** {@inheritdoc} */
 	protected $dbType = 'string';
+	/** {@inheritdoc} */
 	protected $onlyOne = true;
+	/** {@inheritdoc} */
 	protected $purifyType = \App\Purifier::TEXT;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (($rel = $rowData['name'] ?? '') && (($type = \App\Record::getType($rel)) && $mapDetail = $this->getMapDetail($type))) {
@@ -29,9 +33,7 @@ class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditValue($value)
 	{
 		return \App\Purifier::encodeHtml($value);
