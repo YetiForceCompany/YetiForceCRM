@@ -47,7 +47,7 @@ class ConfReport
 	 *
 	 * @var string[]
 	 */
-	public static $types = ['stability', 'security', 'libraries', 'database', 'performance', 'environment', 'writableFilesAndFolders', 'functionalVerification', 'headers', 'publicDirectoryAccess'];
+	public static $types = ['stability', 'security', 'libraries', 'database', 'performance', 'environment', 'writableFilesAndFolders', 'functionalVerification', 'headers', 'publicDirectoryAccess', 'pathVerification'];
 
 	/**
 	 * List all container.
@@ -98,7 +98,6 @@ class ConfReport
 		'HTTPS' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'public_html' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'display_errors' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'demoMode' => true, 'testCli' => true],
-		'.htaccess' => ['recommended' => 'On', 'type' => 'Htaccess', 'container' => 'php', 'testCli' => false, 'mode' => 'showWarnings'],
 		'session.use_strict_mode' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.use_trans_sid' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => false],
@@ -352,11 +351,23 @@ class ConfReport
 	 * @var array
 	 */
 	public static $publicDirectoryAccess = [
-		'config' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
-		'cache' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
-		'app_data' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
-		'storage' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
-		'user_privileges' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'config' => ['type' => 'NotExistsUrl', 'container' => 'request', 'testCli' => false],
+		'cache' => ['type' => 'NotExistsUrl', 'container' => 'request', 'testCli' => false],
+		'app_data' => ['type' => 'NotExistsUrl', 'container' => 'request', 'testCli' => false],
+		'storage' => ['type' => 'NotExistsUrl', 'container' => 'request', 'testCli' => false],
+		'user_privileges' => ['type' => 'NotExistsUrl', 'container' => 'request', 'testCli' => false],
+	];
+	/**
+	 * Path verification.
+	 *
+	 * @var array
+	 */
+	public static $pathVerification = [
+		'webservice/' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'.well-known/carddav' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'.well-known/caldav' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'robots.txt' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'install/index.php' => ['type' => 'NotExistsUrl', 'container' => 'request', 'testCli' => false],
 	];
 
 	/**
@@ -653,7 +664,7 @@ class ConfReport
 			foreach (static::$urlsToCheck as $type => $url) {
 				$urlAddress = $requestUrl . $url;
 				\App\Log::beginProfile("GET|ConfReport::getRequest|{$urlAddress}", __NAMESPACE__);
-				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $urlAddress, ['timeout' => 1, 'verify' => false]);
+				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('HEAD', $urlAddress, ['timeout' => 1, 'verify' => false]);
 				\App\Log::endProfile("GET|ConfReport::getRequest|{$urlAddress}", __NAMESPACE__);
 				foreach ($res->getHeaders() as $key => $value) {
 					$request[strtolower($key)][$type] = \is_array($value) ? implode(',', $value) : $value;
@@ -1055,31 +1066,6 @@ class ConfReport
 	}
 
 	/**
-	 * Validate htaccess .
-	 *
-	 * @param string $name
-	 * @param array  $row
-	 * @param string $sapi
-	 *
-	 * @return array
-	 */
-	private static function validateHtaccess(string $name, array $row, string $sapi)
-	{
-		unset($name);
-		if (isset($_SERVER['SERVER_SOFTWARE']) && false === strpos($_SERVER['SERVER_SOFTWARE'], 'nginx')) {
-			if (!isset($_SERVER['HTACCESS_TEST'])) {
-				$row['status'] = false;
-				$row[$sapi] = 'Off';
-			} else {
-				$row[$sapi] = 'On';
-			}
-		} else {
-			$row['mode'] = 'skipParam';
-		}
-		return $row;
-	}
-
-	/**
 	 * Validate session.cookie_secure.
 	 *
 	 * @param string $name
@@ -1290,6 +1276,22 @@ class ConfReport
 	 * @return array
 	 */
 	private static function validateExistsUrl(string $name, array $row, string $sapi)
+	{
+		unset($sapi);
+		$row['status'] = \App\Fields\File::isExistsUrl(static::$crmUrl . $name);
+		return $row;
+	}
+
+	/**
+	 * Validate not exists url.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateNotExistsUrl(string $name, array $row, string $sapi)
 	{
 		unset($sapi);
 		$row['status'] = !\App\Fields\File::isExistsUrl(static::$crmUrl . $name);
@@ -1591,11 +1593,7 @@ class ConfReport
 			foreach ($params as $param => $data) {
 				if (!$data['status']) {
 					if (!isset($data['www']) && !isset($data['cron'])) {
-						if (!empty($data['type']) && 'ExistsUrl' === $data['type']) {
-							$val = !$data['status'];
-						} else {
-							$val = $data['status'];
-						}
+						$val = $data['status'];
 					} else {
 						$val = $data['www'] ?? $data['cron'];
 					}
@@ -1623,11 +1621,7 @@ class ConfReport
 		foreach (static::get($type, true) as $param => $data) {
 			if (!$data['status'] && (empty($data['mode']) || 'showErrors' === $data['mode'])) {
 				if (!isset($data['www']) && !isset($data['cron'])) {
-					if (!empty($data['type']) && 'ExistsUrl' === $data['type']) {
-						$val = !$data['status'];
-					} else {
-						$val = $data['status'];
-					}
+					$val = $data['status'];
 				} else {
 					$tmp = [];
 					if (isset($data['www'])) {
