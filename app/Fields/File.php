@@ -506,9 +506,9 @@ class File
 		$shortMimeType = $this->getShortMimeType(0);
 		if ($this->validateAllCodeInjection || \in_array($shortMimeType, static::$phpInjection)) {
 			$contents = $this->getContents();
-			if ((1 === preg_match('/(<\?php?(.*?))/si', $contents) ||
-			false !== stripos($contents, '<?=') ||
-			false !== stripos($contents, '<? ')) && $this->searchCodeInjection()
+			if ((1 === preg_match('/(<\?php?(.*?))/si', $contents)
+			|| false !== stripos($contents, '<?=')
+			|| false !== stripos($contents, '<? ')) && $this->searchCodeInjection()
 			) {
 				throw new \App\Exceptions\DangerousFile('ERR_FILE_PHP_CODE_INJECTION');
 			}
@@ -529,69 +529,69 @@ class File
 			$tokens = token_get_all($this->getContents(), TOKEN_PARSE);
 			foreach ($tokens as $token) {
 				switch (\is_array($token) ? $token[0] : $token) {
-						case \T_COMMENT:
-						case \T_DOC_COMMENT:
-						case \T_WHITESPACE:
-						case \T_CURLY_OPEN:
-						case \T_OPEN_TAG:
-						case \T_CLOSE_TAG:
-						case \T_INLINE_HTML:
-						case \T_DOLLAR_OPEN_CURLY_BRACES:
+						case T_COMMENT:
+						case T_DOC_COMMENT:
+						case T_WHITESPACE:
+						case T_CURLY_OPEN:
+						case T_OPEN_TAG:
+						case T_CLOSE_TAG:
+						case T_INLINE_HTML:
+						case T_DOLLAR_OPEN_CURLY_BRACES:
 							continue 2;
-						case \T_DOUBLE_COLON:
-						case \T_ABSTRACT:
-						case \T_ARRAY:
-						case \T_AS:
-						case \T_BREAK:
-						case \T_CALLABLE:
-						case \T_CASE:
-						case \T_CATCH:
-						case \T_CLASS:
-						case \T_CLONE:
-						case \T_CONTINUE:
-						case \T_DEFAULT:
-						case \T_ECHO:
-						case \T_ELSE:
-						case \T_ELSEIF:
-						case \T_EMPTY:
-						case \T_ENDIF:
-						case \T_ENDSWITCH:
-						case \T_ENDWHILE:
-						case \T_EXIT:
-						case \T_EXTENDS:
-						case \T_FINAL:
-						case \T_FINALLY:
-						case \T_FOREACH:
-						case \T_FUNCTION:
-						case \T_GLOBAL:
-						case \T_IF:
-						case \T_IMPLEMENTS:
-						case \T_INCLUDE:
-						case \T_INCLUDE_ONCE:
-						case \T_INSTANCEOF:
-						case \T_INSTEADOF:
-						case \T_INTERFACE:
-						case \T_ISSET:
-						case \T_LOGICAL_AND:
-						case \T_LOGICAL_OR:
-						case \T_LOGICAL_XOR:
-						case \T_NAMESPACE:
-						case \T_NEW:
-						case \T_PRIVATE:
-						case \T_PROTECTED:
-						case \T_PUBLIC:
-						case \T_REQUIRE:
-						case \T_REQUIRE_ONCE:
-						case \T_RETURN:
-						case \T_STATIC:
-						case \T_THROW:
-						case \T_TRAIT:
-						case \T_TRY:
-						case \T_UNSET:
-						case \T_USE:
-						case \T_VAR:
-						case \T_WHILE:
-						case \T_YIELD:
+						case T_DOUBLE_COLON:
+						case T_ABSTRACT:
+						case T_ARRAY:
+						case T_AS:
+						case T_BREAK:
+						case T_CALLABLE:
+						case T_CASE:
+						case T_CATCH:
+						case T_CLASS:
+						case T_CLONE:
+						case T_CONTINUE:
+						case T_DEFAULT:
+						case T_ECHO:
+						case T_ELSE:
+						case T_ELSEIF:
+						case T_EMPTY:
+						case T_ENDIF:
+						case T_ENDSWITCH:
+						case T_ENDWHILE:
+						case T_EXIT:
+						case T_EXTENDS:
+						case T_FINAL:
+						case T_FINALLY:
+						case T_FOREACH:
+						case T_FUNCTION:
+						case T_GLOBAL:
+						case T_IF:
+						case T_IMPLEMENTS:
+						case T_INCLUDE:
+						case T_INCLUDE_ONCE:
+						case T_INSTANCEOF:
+						case T_INSTEADOF:
+						case T_INTERFACE:
+						case T_ISSET:
+						case T_LOGICAL_AND:
+						case T_LOGICAL_OR:
+						case T_LOGICAL_XOR:
+						case T_NAMESPACE:
+						case T_NEW:
+						case T_PRIVATE:
+						case T_PROTECTED:
+						case T_PUBLIC:
+						case T_REQUIRE:
+						case T_REQUIRE_ONCE:
+						case T_RETURN:
+						case T_STATIC:
+						case T_THROW:
+						case T_TRAIT:
+						case T_TRY:
+						case T_UNSET:
+						case T_USE:
+						case T_VAR:
+						case T_WHILE:
+						case T_YIELD:
 							return true;
 						default:
 							$text = \is_array($token) ? $token[1] : $token;
@@ -614,15 +614,15 @@ class File
 	private function validateCodeInjectionInMetadata()
 	{
 		if (
-			\function_exists('exif_read_data') &&
-			\in_array($this->getMimeType(), ['image/jpeg', 'image/tiff']) &&
-			\in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])
+			\function_exists('exif_read_data')
+			&& \in_array($this->getMimeType(), ['image/jpeg', 'image/tiff'])
+			&& \in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])
 		) {
 			$imageSize = getimagesize($this->path, $imageInfo);
 			if (
-				$imageSize &&
-				(empty($imageInfo['APP1']) || 0 === strpos($imageInfo['APP1'], 'Exif')) &&
-				($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)
+				$imageSize
+				&& (empty($imageInfo['APP1']) || 0 === strpos($imageInfo['APP1'], 'Exif'))
+				&& ($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)
 			) {
 				throw new \App\Exceptions\DangerousFile('ERR_FILE_PHP_CODE_INJECTION');
 			}
@@ -793,7 +793,7 @@ class File
 	public static function initMimeTypes()
 	{
 		if (empty(self::$mimeTypes)) {
-			self::$mimeTypes = require \ROOT_DIRECTORY . '/config/mimetypes.php';
+			self::$mimeTypes = require ROOT_DIRECTORY . '/config/mimetypes.php';
 		}
 	}
 
@@ -1086,19 +1086,16 @@ class File
 	 */
 	public static function isExistsUrl($url)
 	{
+		\App\Log::beginProfile("GET|File::isExistsUrl|{$url}", __NAMESPACE__);
 		try {
-			\App\Log::beginProfile("GET|File::isExistsUrl|{$url}", __NAMESPACE__);
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['timeout' => 1, 'connect_timeout' => 1]);
-			\App\Log::endProfile("GET|File::isExistsUrl|{$url}", __NAMESPACE__);
-			if (200 === $response->getStatusCode()) {
-				return true;
-			}
-			Log::warning("Checked URL is not allowed: $url | Status code: " . $response->getStatusCode(), __CLASS__);
-			return false;
-		} catch (\Throwable $e) {
-			Log::warning("Checked URL is not allowed: $url | " . $e->getMessage(), __CLASS__);
-			return false;
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('HEAD', $url, ['timeout' => 1, 'connect_timeout' => 1, 'http_errors' => false, 'allow_redirects' => false]);
+			$status = \in_array($response->getStatusCode(), [200, 302, 401]);
+		} catch (\Throwable $th) {
+			$status = false;
 		}
+		\App\Log::endProfile("GET|File::isExistsUrl|{$url}", __NAMESPACE__);
+		\App\Log::info("Checked URL: $url | Status: " . $status, __CLASS__);
+		return $status;
 	}
 
 	/**
