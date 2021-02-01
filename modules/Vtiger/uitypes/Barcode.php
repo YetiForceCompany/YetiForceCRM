@@ -63,9 +63,7 @@ class Vtiger_Barcode_UIType extends Vtiger_Base_UIType
 	 */
 	public $barcodeDisplayType = 'text';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if ($value) {

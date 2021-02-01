@@ -11,9 +11,7 @@
 
 class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validateValue($value)
 	{
 		if ($this->getFieldModel()->isRoleBased()) {
@@ -24,9 +22,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		return '' === $value || \in_array($value, $picklistValues);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
@@ -39,9 +35,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		return implode('##', $values);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if ('' === $value) {
@@ -60,57 +54,43 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">{$displayValue}</span>";
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/PickList.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Picklist.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isAjaxEditable()
 	{
 		return !\App\Fields\Picklist::isDependentField($this->getFieldModel()->getModuleName(), $this->getFieldModel()->getFieldName());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderTypes()
 	{
 		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_HIGHLIGHTS' => 'highlights', 'LBL_HEADER_TYPE_PROGRESS' => 'progress'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getRecordOperators(): array
 	{
 		if ($this->getFieldModel()->getFieldParams()['isProcessStatusField'] ?? false) {

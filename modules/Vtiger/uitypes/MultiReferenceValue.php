@@ -12,9 +12,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 {
 	const COMMA = '|#|';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = str_replace(self::COMMA, ', ', $value);
@@ -26,9 +24,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		$field = $this->getFieldModel();
@@ -47,17 +43,13 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml(\App\TextParser::textTruncate($values, $field->get('maxlengthtext')));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MultiReferenceValue.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/MultiReferenceValue.tpl';
@@ -197,17 +189,13 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		return array_unique($values);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];

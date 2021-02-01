@@ -11,17 +11,13 @@
 
 class Vtiger_Date_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return empty($value) ? '' : DateTimeField::convertToDBFormat($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getConditionBuilderField(string $operator): Vtiger_Field_Model
 	{
 		$fieldModel = $this->getFieldModel();
@@ -37,9 +33,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return $fieldModel;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		switch ($operator) {
@@ -63,9 +57,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return $dbValue;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -82,9 +74,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -98,9 +88,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return $dateValue;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (empty($value) || ' ' === $value) {
@@ -124,41 +112,31 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/Date.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Date.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDefaultEditTemplateName()
 	{
 		return 'Edit/DefaultField/Date.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return null;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setDefaultValueFromRequest(App\Request $request)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
@@ -170,9 +148,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		$this->getFieldModel()->set('defaultvalue', $value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDefaultValue()
 	{
 		$defaultValue = $this->getFieldModel()->get('defaultvalue');
@@ -184,9 +160,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return $defaultValue;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return array_merge(['e', 'n', 'bw', 'b', 'a', 'y', 'ny'], array_keys(App\Condition::DATE_OPERATORS));
@@ -214,9 +188,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return $template;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
 	{
 		if (!$params) {

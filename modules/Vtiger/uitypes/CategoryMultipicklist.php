@@ -12,9 +12,7 @@
  */
 class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($value) {
@@ -26,9 +24,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		return \App\Purifier::decodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
@@ -42,9 +38,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		return implode('##', $values);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (isset($this->validate[$value]) || '' === $value || null === $value) {
@@ -58,9 +52,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -82,17 +74,13 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		return \App\Purifier::encodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'c', 'ch', 'k', 'kh', 'y', 'ny'];

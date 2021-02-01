@@ -9,9 +9,7 @@
  */
 class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if (\is_array($value)) {
@@ -20,9 +18,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 		return \App\Purifier::decodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		$hashValue = \is_array($value) ? implode('|', $value) : $value;
@@ -49,9 +45,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 		$this->validate[$hashValue] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$limits = $this->getPicklistValues();
@@ -104,17 +98,13 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 		return $limits;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return ['integer'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];

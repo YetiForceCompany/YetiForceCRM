@@ -14,9 +14,7 @@
  */
 class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
@@ -33,9 +31,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		$hashValue = \is_array($value) ? md5(print_r($value, true)) : $value;
@@ -76,9 +72,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$this->validate[$hashValue] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return empty($value) ? '' : \App\Json::encode($value);
@@ -126,9 +120,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml(\App\Json::encode($value));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
 		if (\in_array('modTrackerDisplay', $this->getFieldModel()->getAnonymizationTarget())) {
@@ -145,9 +137,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		return trim($result, "\n\t, ");
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
 	{
 		$value = \App\Json::decode($value);
@@ -178,9 +168,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		return $images;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = \App\Json::decode($value);
@@ -218,9 +206,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		return trim($result, "\n\t ") . '</div>';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		$value = \App\Json::decode($value);
@@ -256,9 +242,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		return $result . '</div>';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$value = \App\Json::decode($value);
@@ -280,9 +264,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml(\App\Json::encode($value));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
 	{
 		$value = \App\Json::decode($value);
@@ -324,17 +306,13 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		return $return;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MultiImage.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewTemplateName()
 	{
 		return 'Detail/Field/MultiImage.tpl';
@@ -457,17 +435,13 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['y', 'ny'];

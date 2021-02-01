@@ -11,9 +11,7 @@
 
 class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -27,9 +25,7 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -48,9 +44,7 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 		return \App\Language::getAll();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];

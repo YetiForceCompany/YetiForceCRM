@@ -14,9 +14,7 @@
  */
 class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -55,9 +53,7 @@ class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 		return "index.php?module={$fieldModel->getModuleName()}&action=Meeting&fieldName={$fieldModel->getName()}&record=" . ($recordId ?: '') . '&expField=' . ($params['exp'] ?? '');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MeetingUrl.tpl';
