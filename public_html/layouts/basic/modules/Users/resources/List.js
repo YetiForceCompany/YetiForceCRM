@@ -93,7 +93,7 @@ Vtiger_List_Js(
 		 */
 		deleteUserPermanently: function (userId, e) {
 			e.stopPropagation();
-			var message = app.vtranslate('LBL_DELETE_USER_PERMANENT_CONFIRMATION');
+			var message = app.vtranslate('JS_DELETE_USER_PERMANENT_CONFIRMATION');
 			var deleteRecordActionUrl =
 				'index.php?module=' +
 				app.getModuleName() +
