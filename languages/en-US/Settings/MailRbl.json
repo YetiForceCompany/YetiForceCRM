@@ -98,7 +98,11 @@
     "LBL_LIST_RECORD_ERRORS": "Wrong IP addresses",
     "LBL_PUBLIC_BLACK_LIST": "Black list of IP addresses",
     "LBL_PUBLIC_WHITE_LIST": "White list of IP addresses",
-    "LBL_IP_EXISTING_IN_RBL": "IP address %s exists in %s, cancel the existing report in order to add a new one."
+    "LBL_IP_EXISTING_IN_RBL": "IP address %s exists in %s, cancel the existing report in order to add a new one.",
+    "LBL_BTN_ACCEPT_AUTOMATICALLY": "Accept automatically",
+    "LBL_BTN_ACCEPT_MANUALLY": "Accept manually",
+    "LBL_BTN_SEND_AUTOMATICALLY": "Send automatically",
+    "LBL_BTN_SEND_MANUALLY": "Send manually"
   },
   "js": {
     "BTN_SHOW_DETAILS": "Show details",

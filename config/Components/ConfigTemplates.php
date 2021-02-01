@@ -134,6 +134,18 @@ return [
 			'default' => true,
 			'description' => 'Should the message sender on the mail list be verified in the mail client?'
 		],
+		'rcListAcceptAutomatically' => [
+			'default' => false,
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+			'description' => 'Should the system accept spam reports automatically?'
+		],
+		'rcListSendReportAutomatically' => [
+			'default' => false,
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+			'description' => 'Should the system send reports automatically to https://soc.yetiforce.com?'
+		],
 		'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => [
 			'default' => false,
 			'description' => 'Required acceptation before sending mails.'

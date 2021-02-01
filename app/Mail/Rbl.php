@@ -631,10 +631,10 @@ class Rbl extends \App\Base
 		$dkimDomain = self::parseHeaderParams($this->mailMimeParser->getHeaderValue('DKIM-Signature'))['d'];
 		$status = $fromDomain === $dkimDomain;
 		if ($status || 's' === $adkim) {
-			return  ['status' => $status, 'log' => ($status ? '' : "From: $fromDomain | DKIM domain: $dkimDomain")];
+			return ['status' => $status, 'log' => ($status ? '' : "From: $fromDomain | DKIM domain: $dkimDomain")];
 		}
 		$status = (mb_strlen($fromDomain) - mb_strlen('.' . $dkimDomain)) === strpos($fromDomain, '.' . $dkimDomain) || (mb_strlen($dkimDomain) - mb_strlen('.' . $fromDomain)) === strpos($dkimDomain, '.' . $fromDomain);
-		return  ['status' => $status, 'log' => ($status ? '' : "From: $fromDomain | DKIM domain: $dkimDomain")];
+		return ['status' => $status, 'log' => ($status ? '' : "From: $fromDomain | DKIM domain: $dkimDomain")];
 	}
 
 	/**
@@ -656,7 +656,7 @@ class Rbl extends \App\Base
 		}
 		$status = $fromDomain === $mailFrom;
 		if ($status || 's' === $aspf) {
-			return  ['status' => $status, 'log' => ($status ? '' : "RFC5321.MailFrom domain: $mailFrom | RFC5322.From domain: $fromDomain")];
+			return ['status' => $status, 'log' => ($status ? '' : "RFC5321.MailFrom domain: $mailFrom | RFC5322.From domain: $fromDomain")];
 		}
 		$logs = '';
 		$status = (mb_strlen($mailFrom) - mb_strlen('.' . $fromDomain)) === strpos($mailFrom, '.' . $fromDomain);
@@ -670,7 +670,51 @@ class Rbl extends \App\Base
 				}
 			}
 		}
-		return  ['status' => $status, 'log' => trim($logs)];
+		return ['status' => $status, 'log' => trim($logs)];
+	}
+
+	/**
+	 * Update list by request id.
+	 *
+	 * @param int $record
+	 *
+	 * @return void
+	 */
+	public function updateList(int $record): void
+	{
+		$sender = $this->getSender();
+		if (!empty($sender['ip'])) {
+			$dbCommand = \App\Db::getInstance('admin')->createCommand();
+			$id = false;
+			if ($ipsList = self::findIp($sender['ip'])) {
+				foreach ($ipsList as $ipList) {
+					if (2 !== (int) $ipList['type']) {
+						$id = $ipList['id'];
+						break;
+					}
+				}
+			}
+			if ($id) {
+				$dbCommand->update('s_#__mail_rbl_list', [
+					'status' => 0,
+					'type' => $this->get('type'),
+					'request' => $record,
+				], ['id' => $id])->execute();
+			} else {
+				$dbCommand->insert('s_#__mail_rbl_list', [
+					'ip' => $sender['ip'],
+					'status' => 0,
+					'type' => $this->get('type'),
+					'request' => $record,
+					'source' => '',
+				])->execute();
+			}
+			\App\Cache::delete('MailRblIpColor', $sender['ip']);
+			\App\Cache::delete('MailRblList', $sender['ip']);
+			if (\Config\Components\Mail::$rcListSendReportAutomatically ?? false) {
+				self::sendReport(['id' => $record]);
+			}
+		}
 	}
 
 	/**
@@ -766,6 +810,34 @@ class Rbl extends \App\Base
 			}
 		}
 		return $params;
+	}
+
+	/**
+	 * Add report.
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public static function addReport(array $data): void
+	{
+		$status = 0;
+		if (\Config\Components\Mail::$rcListAcceptAutomatically ?? false) {
+			$status = 1;
+		}
+		$db = \App\Db::getInstance('admin');
+		$db->createCommand()->insert('s_#__mail_rbl_request', [
+			'status' => $status,
+			'datetime' => date('Y-m-d H:i:s'),
+			'user' => \App\User::getCurrentUserId(),
+			'type' => $data['type'],
+			'header' => $data['header'],
+			'body' => $data['body'] ?? null
+		])->execute();
+		$record = $db->getLastInsertID();
+		if ($status && $record && (\Config\Components\Mail::$rcListSendReportAutomatically ?? false)) {
+			self::sendReport(['id' => $record]);
+		}
 	}
 
 	/**
@@ -866,9 +938,9 @@ class Rbl extends \App\Base
 		$query = (new \App\Db\Query())->select(['ip', 'source', 'id'])->from('s_#__mail_rbl_list')->where(['type' => $type]);
 		$rows = $query->createCommand($db)->queryAllByGroup(1);
 		$keys = array_keys($rows);
-		foreach (array_chunk(array_diff($publicKeys, $keys), 50, true) as  $chunk) {
+		foreach (array_chunk(array_diff($publicKeys, $keys), 50, true) as $chunk) {
 			$insertData = [];
-			foreach ($chunk as  $ip) {
+			foreach ($chunk as $ip) {
 				$insertData[] = [$ip, 0, $type, $public[$ip]['source']];
 			}
 			$dbCommand->batchInsert('s_#__mail_rbl_list', ['ip', 'status', 'type', 'source'], $insertData)->execute();
