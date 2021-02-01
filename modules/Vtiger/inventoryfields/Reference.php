@@ -29,19 +29,26 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		if (empty($value) || !\App\Record::isExists($value)) {
+		if (empty($value) || !($referenceModule = $this->getReferenceModule($value))) {
 			return '';
 		}
+		$referenceModuleName = $referenceModule->getName();
+		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
+			return \App\Fields\Owner::getLabel($value);
+		}
+		if (!\App\Record::isExists($value)) {
+			return '';
+		}
+		
 		$label = \App\Record::getLabel($value);
-		$moduleName = \App\Record::getType($value);
-		if ($rawText || ($value && !\App\Privilege::isPermitted($moduleName, 'DetailView', $value))) {
+		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $label;
 		}
 		$label = App\TextParser::textTruncate($label, \App\Config::main('href_max_length'));
 		if ('Active' !== \App\Record::getState($value)) {
 			$label = '<s>' . $label . '</s>';
 		}
-		return "<a class='modCT_$moduleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$label</a>";
+		return "<a class='modCT_$referenceModuleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$referenceModuleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$label</a>";
 	}
 
 	/** {@inheritdoc} */
@@ -49,6 +56,9 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		if (empty($value)) {
 			return '';
+		}
+		if (($referenceModule = $this->getReferenceModule($value)) && ('Users' === $referenceModule->getName() || 'Groups' === $referenceModule->getName())) {
+			return \App\Fields\Owner::getLabel($value);
 		}
 		return \App\Record::getLabel($value);
 	}
@@ -75,8 +85,14 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		if (!empty($record)) {
 			$metadata = vtlib\Functions::getCRMRecordMetadata($record);
-
-			return $metadata['setype'];
+			$referenceModuleList = $this->getReferenceModules();
+			$referenceEntityType = $metadata['setype'];
+			if (!empty($referenceModuleList) && \in_array($referenceEntityType, $referenceModuleList)) {
+				return Vtiger_Module_Model::getInstance($referenceEntityType);
+			}
+			if (!empty($referenceModuleList) && \in_array('Users', $referenceModuleList)) {
+				return Vtiger_Module_Model::getInstance('Users');
+			}
 		}
 		return '';
 	}
