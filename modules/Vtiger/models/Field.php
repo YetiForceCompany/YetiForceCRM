@@ -1313,9 +1313,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
 			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence')
 		], ['fieldid' => $this->get('id')])->execute();
-		if ($this->isMandatory()) {
-			$dbCommand->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
-		}
 		if ($anonymizationTarget = $this->get('anonymizationTarget')) {
 			$anonymizationTarget = \App\Json::encode($anonymizationTarget);
 			$execute = $dbCommand->update('s_#__fields_anonymization', ['anonymization_target' => $anonymizationTarget], ['field_id' => $this->getId()])->execute();
