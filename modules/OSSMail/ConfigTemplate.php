@@ -146,7 +146,7 @@ return [
 	],
 	'session_lifetime' => [
 		'default' => 30,
-		'description' => 'Set session lifetime',
+		'description' => 'Session lifetime in minutes',
 		'validation' => '\App\Validator::naturalNumber',
 		'sanitization' => function () {
 			return (int) func_get_arg(0);
