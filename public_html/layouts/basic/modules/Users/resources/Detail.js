@@ -17,7 +17,7 @@ Vtiger_Detail_Js(
 		 * @params: delete record url.
 		 */
 		triggerDeleteUser: function (deleteUserUrl) {
-			var message = app.vtranslate('LBL_DELETE_USER_CONFIRMATION');
+			var message = app.vtranslate('JS_DELETE_USER_CONFIRMATION');
 			Vtiger_Helper_Js.showConfirmationBox({ message: message })
 				.done(function (data) {
 					AppConnector.request(deleteUserUrl).done(function (data) {

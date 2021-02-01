@@ -678,6 +678,85 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $activityReminderInSeconds;
 	}
 
+	/** {@inheritdoc} */
+	public function getRecordListViewLinksLeftSide()
+	{
+		$links = $recordLinks = [];
+		if ($this->isViewable()) {
+			$recordLinks['LBL_SHOW_COMPLETE_DETAILS'] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
+				'linkurl' => $this->getFullDetailViewUrl(),
+				'linkicon' => 'fas fa-th-list',
+				'linkclass' => 'btn-sm btn-default',
+				'linkhref' => true,
+			];
+		}
+		if ($this->isEditable() && $this->isActive()) {
+			$recordLinks['LBL_EDIT'] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_EDIT',
+				'linkurl' => $this->getEditViewUrl(),
+				'linkicon' => 'yfi yfi-full-editing-view',
+				'linkclass' => 'btn-sm btn-default',
+				'linkhref' => true,
+			];
+			if ($this->isPermitted('DuplicateRecord')) {
+				$recordLinks['LBL_DUPLICATE'] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_DUPLICATE',
+					'linkurl' => $this->getDuplicateRecordUrl(),
+					'linkicon' => 'fas fa-clone',
+					'linkclass' => 'btn-outline-dark btn-sm',
+					'title' => \App\Language::translate('LBL_DUPLICATE_RECORD')
+				];
+			}
+		}
+		if ($this->privilegeToDelete()) {
+			if ($this->isActive()) {
+				$recordLinks['LBL_DELETE_RECORD_COMPLETELY'] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+					'linkicon' => 'fas fa-eraser',
+					'linkclass' => 'btn-sm btn-primary deleteRecordButton'
+				];
+			} else {
+				$recordLinks['LBL_DELETE_USER_PERMANENTLY'] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_DELETE_USER_PERMANENTLY',
+					'linkurl' => 'javascript:Settings_Users_List_Js.deleteUserPermanently(' . $this->getId() . ', event)',
+					'linkicon' => 'fas fa-eraser',
+					'linkclass' => 'btn-sm btn-dark',
+				];
+			}
+		}
+		foreach ($recordLinks as $key => $recordLink) {
+			$links[$key] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+		if (!$this->isActive()) {
+			$links['BUTTONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_RESTORE',
+				'linkicon' => 'fas fa-sync-alt',
+				'linkclass' => 'btn btn-sm btn-light',
+				'linkurl' => 'javascript:Settings_Users_List_Js.restoreUser(' . $this->getId() . ', event)',
+			]);
+		}
+		return \App\Utils::changeSequence($links, App\Config::module($this->getModuleName(), 'recordListViewButtonSequence', []));
+	}
+
+	/** Checking if the record is active.
+	 *
+	 * @return bool
+	 */
+	public function isActive(): bool
+	{
+		$active = false;
+		if ('Active' === $this->get('status')) {
+			$active = true;
+		}
+		return $active;
+	}
+
 	/**
 	 * Function to get the users count.
 	 *

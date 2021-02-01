@@ -16,7 +16,7 @@ Vtiger_List_Js(
 		 * @params: delete record url.
 		 */
 		deleteRecord: function (deleteRecordActionUrl) {
-			var message = app.vtranslate('LBL_DELETE_USER_CONFIRMATION');
+			var message = app.vtranslate('JS_DELETE_USER_CONFIRMATION');
 			Vtiger_Helper_Js.showConfirmationBox({ message: message })
 				.done(function (data) {
 					AppConnector.request(deleteRecordActionUrl).done(function (data) {
@@ -157,7 +157,7 @@ Vtiger_List_Js(
 		restoreUser: function (userId, e) {
 			e.stopPropagation();
 			Vtiger_Helper_Js.showConfirmationBox({
-				message: app.vtranslate('LBL_RESTORE_CONFIRMATION')
+				message: app.vtranslate('JS_RESTORE_CONFIRMATION')
 			}).done(function () {
 				var progressInstance = jQuery.progressIndicator({
 					position: 'html',
