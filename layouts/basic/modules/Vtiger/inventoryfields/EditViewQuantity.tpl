@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewQuantity -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
-	{assign var=VALIDATION_ENGINE value='validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]'}
+	{assign var=VALIDATION_ENGINE value='validate[required,funcCall[Vtiger_Double_Validator_Js.invokeValidation]]'}
 	<div class="input-group input-group-sm">
 		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="text"
 			   class="qty smallInputBox form-control form-control-sm" data-maximumlength="{$FIELD->getRangeValues()}"
