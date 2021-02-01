@@ -147,7 +147,7 @@
 					<td colspan="1" class="hideTd u-w-1per-45px">&nbsp;&nbsp;</td>
 					{foreach item=FIELD from=$FIELDS[1]}
 						<td {if !$FIELD->isEditable()}colspan="0"{/if}
-								class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-center
+								class="{if !$FIELD->isEditable()} d-none{/if} text-center
 								{if !$FIELD->isSummary()} hideTd{/if}">
 							{if $FIELD->isSummary()}
 								{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}
