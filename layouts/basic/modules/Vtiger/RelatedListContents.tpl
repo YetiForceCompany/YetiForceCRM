@@ -147,7 +147,7 @@
 						{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 							<a class="modCT_{$RELATED_MODULE_NAME} js-list__field js-popover-tooltip--record" data-js="width" title=""
 							   href="{$RELATED_RECORD->getDetailViewUrl()}">
-								{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
+								{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 							</a>
 						{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 							{if $HEADER_FIELD->get('isEditable')}
