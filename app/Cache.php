@@ -180,7 +180,7 @@ class Cache
 	 *
 	 * @return bool
 	 */
-	public static function clearOpcache()
+	public static function clearOpcache(): bool
 	{
 		if (static::$clearOpcache) {
 			return false;
@@ -188,13 +188,15 @@ class Cache
 		register_shutdown_function(function () {
 			static::resetOpcache();
 		});
-		static::$clearOpcache = true;
+		return static::$clearOpcache = true;
 	}
 
 	/**
 	 * Reset opcache if it is possible.
+	 *
+	 * @return void
 	 */
-	public static function resetOpcache()
+	public static function resetOpcache(): void
 	{
 		if (\function_exists('opcache_reset')) {
 			\opcache_reset();
@@ -205,8 +207,10 @@ class Cache
 	 * Reset file from opcache if it is possible.
 	 *
 	 * @param string $path
+	 *
+	 * @return void
 	 */
-	public static function resetFileCache(string $path)
+	public static function resetFileCache(string $path): void
 	{
 		if (\function_exists('opcache_invalidate')) {
 			\opcache_invalidate($path, true);
@@ -215,11 +219,44 @@ class Cache
 
 	/**
 	 * Clear all cache.
+	 *
+	 * @return void
 	 */
-	public static function clearAll()
+	public static function clearAll(): void
 	{
 		static::clearOpcache();
 		static::clear();
 		clearstatcache();
+	}
+
+	/**
+	 * Clean old cache files.
+	 *
+	 * @param string $days
+	 *
+	 * @return int[]
+	 */
+	public static function cleanOldFiles(string $days = '-30 day'): array
+	{
+		$time = strtotime($days);
+		$exclusion = ['.htaccess', 'index.html'];
+		$s = $i = 0;
+		foreach ((new \DirectoryIterator(ROOT_DIRECTORY . '/cache')) as $item) {
+			if ($item->isFile() && 'index.html' !== $item->getBasename()) {
+				$s += $item->getSize();
+				unlink($item->getPathname());
+				++$i;
+			}
+		}
+		foreach (['pdf', 'import', 'mail', 'vtlib', 'rss_cache', 'upload', 'templates_c', \App\Fields\File::getTmpPath()] as $dir) {
+			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . "/cache/$dir", \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+				if ($item->isFile() && !\in_array($item->getBasename(), $exclusion) && $item->getMTime() < $time && $item->getATime() < $time) {
+					$s += $item->getSize();
+					unlink($item->getPathname());
+					++$i;
+				}
+			}
+		}
+		return ['size' => $s, 'counter' => $i];
 	}
 }

@@ -82,18 +82,8 @@ class Cleaner extends Base
 	 */
 	public function cacheFiles(): void
 	{
-		foreach (['cache', 'cache/vtlib', 'cache/upload', 'cache/pdf', 'cache/mail', 'cache/import', 'cache/templates_c'] as $dir) {
-			$s = $i = 0;
-			$this->climate->inline($dir);
-			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . '/' . $dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isFile() && 'index.html' !== $item->getBasename()) {
-					$s += $item->getSize();
-					unlink($item->getPathname());
-					++$i;
-				}
-			}
-			$this->climate->bold(" - files: $i , size: " . \vtlib\Functions::showBytes($s));
-		}
+		[$size, $counter] = \App\Cache::cleanOldFiles('now');
+		$this->climate->bold(" - files: $counter , size: " . \vtlib\Functions::showBytes($size));
 		$this->climate->lightYellow()->border('─', 200);
 		$this->cli->actionsList('Cleaner');
 	}
