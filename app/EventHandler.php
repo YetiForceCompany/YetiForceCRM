@@ -40,7 +40,7 @@ class EventHandler
 	public const HANDLER_TYPES = [
 		'EditViewPreSave' => [
 			'label' => 'LBL_EDIT_VIEW_PRESAVE',
-			'icon' => '',
+			'icon' => 'fas fa-step-backward',
 			'columns' => [
 				'eventName' => ['label' => 'LBL_EVENT_NAME'],
 				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
@@ -51,7 +51,7 @@ class EventHandler
 		],
 		'EntityChangeState' => [
 			'label' => 'LBL_ENTITY_CHANGE_STATE',
-			'icon' => '',
+			'icon' => 'fas fa-compass',
 			'columns' => [
 				'eventName' => ['label' => 'LBL_EVENT_NAME'],
 				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
@@ -62,7 +62,7 @@ class EventHandler
 		],
 		'EntityBeforeSave' => [
 			'label' => 'LBL_ENTITY_BEFORE_SAVE',
-			'icon' => '',
+			'icon' => 'fas fa-save',
 			'columns' => [
 				'eventName' => ['label' => 'LBL_EVENT_NAME'],
 				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
@@ -73,7 +73,7 @@ class EventHandler
 		],
 		'EntityAfterSave' => [
 			'label' => 'LBL_ENTITY_AFTER_SAVE',
-			'icon' => '',
+			'icon' => 'far fa-save',
 			'columns' => [
 				'eventName' => ['label' => 'LBL_EVENT_NAME'],
 				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
