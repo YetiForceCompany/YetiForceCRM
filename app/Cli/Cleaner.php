@@ -82,8 +82,8 @@ class Cleaner extends Base
 	 */
 	public function cacheFiles(): void
 	{
-		[$size, $counter] = \App\Cache::cleanOldFiles('now');
-		$this->climate->bold(" - files: $counter , size: " . \vtlib\Functions::showBytes($size));
+		$stats = \App\Cache::cleanOldFiles('now');
+		$this->climate->bold(" - files: {$stats['counter']} , size: " . \vtlib\Functions::showBytes($stats['size']));
 		$this->climate->lightYellow()->border('─', 200);
 		$this->cli->actionsList('Cleaner');
 	}

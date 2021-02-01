@@ -241,16 +241,18 @@ class Cache
 		$time = strtotime($days);
 		$exclusion = ['.htaccess', 'index.html'];
 		$s = $i = 0;
-		foreach ((new \DirectoryIterator(ROOT_DIRECTORY . '/cache')) as $item) {
-			if ($item->isFile() && 'index.html' !== $item->getBasename()) {
-				$s += $item->getSize();
-				unlink($item->getPathname());
-				++$i;
-			}
-		}
-		foreach (['pdf', 'import', 'mail', 'vtlib', 'rss_cache', 'upload', 'templates_c', \App\Fields\File::getTmpPath()] as $dir) {
+		foreach (['pdf', 'import', 'mail', 'vtlib', 'rss_cache', 'upload', 'templates_c'] as $dir) {
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . "/cache/$dir", \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isFile() && !\in_array($item->getBasename(), $exclusion) && $item->getMTime() < $time && $item->getATime() < $time) {
+					$s += $item->getSize();
+					unlink($item->getPathname());
+					++$i;
+				}
+			}
+		}
+		foreach ([ROOT_DIRECTORY . '/cache', \App\Fields\File::getTmpPath()] as $dir) {
+			foreach ((new \DirectoryIterator($dir)) as $item) {
+				if ($item->isFile() && 'index.html' !== $item->getBasename()) {
 					$s += $item->getSize();
 					unlink($item->getPathname());
 					++$i;
