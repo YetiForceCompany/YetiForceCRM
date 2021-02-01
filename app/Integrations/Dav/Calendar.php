@@ -54,6 +54,12 @@ class Calendar
 	protected static $customValues = [
 		'X-MICROSOFT-SKYPETEAMSMEETINGURL' => 'meeting_url'
 	];
+	/**
+	 * Max date.
+	 *
+	 * @var string
+	 */
+	const MAX_DATE = '2038-01-01';
 
 	/**
 	 * Delete calendar event by crm id.
