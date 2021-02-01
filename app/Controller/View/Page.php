@@ -254,14 +254,16 @@ abstract class Page extends Base
 				'icon' => 'fas fa-user-cog fa-fw',
 			];
 		}
-		if (\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId()) {
-			$headerLinks[] = [
-				'linktype' => 'HEADERLINK',
-				'linklabel' => 'LBL_CHANGE_PASSWORD',
-				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->get('id')],
-				'linkclass' => 'showModal d-block',
-				'icon' => 'yfi yfi-change-passowrd',
-			];
+		if (\App\Config::security('CHANGE_LOGIN_PASSWORD')) {
+			if (\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId()) {
+				$headerLinks[] = [
+					'linktype' => 'HEADERLINK',
+					'linklabel' => 'LBL_CHANGE_PASSWORD',
+					'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->get('id')],
+					'linkclass' => 'showModal d-block',
+					'icon' => 'yfi yfi-change-passowrd',
+				];
+			}
 		}
 		if (\Users_Module_Model::getSwitchUsers()) {
 			$headerLinks[] = [
