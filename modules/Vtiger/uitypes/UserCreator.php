@@ -43,7 +43,7 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getReferenceModule($value)
+	public function getReferenceModule($record): ?Vtiger_Module_Model
 	{
 		return Vtiger_Module_Model::getInstance('Users');
 	}

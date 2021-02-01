@@ -39,7 +39,6 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (!\App\Record::isExists($value)) {
 			return '';
 		}
-		
 		$label = \App\Record::getLabel($value);
 		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $label;
@@ -48,7 +47,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if ('Active' !== \App\Record::getState($value)) {
 			$label = '<s>' . $label . '</s>';
 		}
-		return "<a class='modCT_$referenceModuleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$referenceModuleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$label</a>";
+		return "<a class='modCT_$referenceModuleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value'>$label</a>";
 	}
 
 	/** {@inheritdoc} */
@@ -81,7 +80,14 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		return $paramsDecoded['modules'];
 	}
 
-	public function getReferenceModule($record)
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
+	 * @param mixed $record
+	 *
+	 * @return Vtiger_Module_Model|null
+	 */
+	public function getReferenceModule($record): ?Vtiger_Module_Model
 	{
 		if (!empty($record)) {
 			$metadata = vtlib\Functions::getCRMRecordMetadata($record);
@@ -94,7 +100,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 				return Vtiger_Module_Model::getInstance('Users');
 			}
 		}
-		return '';
+		return null;
 	}
 
 	/** {@inheritdoc} */
