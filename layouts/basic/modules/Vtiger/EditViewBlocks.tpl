@@ -74,105 +74,102 @@
 					{assign var=COLUMNS_SIZES value=['col-md-12']}
 				{/if}
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
-				<div class="{$COLUMN_SIZE} px-2">
-					{if $EDIT_VIEW_LAYOUT && 'col-xl-8' === $COLUMN_SIZE}
-						{if 1 === $MODULE_TYPE}
-							{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
+					<div class="{$COLUMN_SIZE} px-2">
+						{if $EDIT_VIEW_LAYOUT && 'col-xl-8' === $COLUMN_SIZE}
+							{if 1 === $MODULE_TYPE}
+								{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
+							{/if}
+							{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_RIGHT}
+						{else}
+							{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE}
 						{/if}
-						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_RIGHT}
-					{else}
-						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE}
-					{/if}
-					{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
-					{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
-					{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
-					{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
-					{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
-					{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
-					{assign var=BLOCK_ICON value=$BLOCK->get('icon')}
-					{if $BLOCKS_HIDE}
-					<div class="js-toggle-panel c-panel c-panel--edit mb-3"
-						 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
-						 data-label="{$BLOCK_LABEL}">
-						<div class="blockHeader c-panel__header align-items-center">
-							{if in_array($BLOCK_LABEL, $ADDRESS_BLOCK_LABELS)}
-								{assign var=SEARCH_ADDRESS value=TRUE}
-							{else}
-								{assign var=SEARCH_ADDRESS value=FALSE}
-							{/if}
-							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
-								  data-js="click" data-mode="hide"
-								  data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}"
-								  data-js="click" data-mode="show"
-								  data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<h5>{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h5>
-						</div>
-						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
-							 data-js="display">
-							{assign var=PROVIDER value=\App\Map\Address::getActiveProviders()}
-							{if in_array($BLOCK_LABEL, $ADDRESS_BLOCK_LABELS)}
-								<div class="{if $SEARCH_ADDRESS && $PROVIDER && ($WIDTHTYPE eq 'narrow')} pb-1 {else} pb-2 {/if} pt-2 adressAction row justify-content-center">
-									{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE) PROVIDER=$PROVIDER}
-								</div>
-							{/if}
-							<div class="row">
-								{assign var=COUNTER value=0}
-								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-									{if ($FIELD_NAME === 'time_start' || $FIELD_NAME === 'time_end') && ($MODULE === 'OSSTimeControl' || $MODULE === 'Reservations')}{continue}{/if}
-									{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '300'}
-										{if $COUNTER eq '1'}
+						{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
+						{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
+						{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
+						{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
+						{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
+						{assign var=BLOCK_ICON value=$BLOCK->get('icon')}
+						<div class="js-toggle-panel c-panel c-panel--edit mb-3"
+							data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
+							data-label="{$BLOCK_LABEL}">
+							<div class="blockHeader c-panel__header align-items-center">
+								{if in_array($BLOCK_LABEL, $ADDRESS_BLOCK_LABELS)}
+									{assign var=SEARCH_ADDRESS value=TRUE}
+								{else}
+									{assign var=SEARCH_ADDRESS value=FALSE}
+								{/if}
+								<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
+									data-js="click" data-mode="hide"
+									data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}"
+									data-js="click" data-mode="show"
+									data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<h5>{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h5>
+							</div>
+							<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
+								data-js="display">
+								{assign var=PROVIDER value=\App\Map\Address::getActiveProviders()}
+								{if in_array($BLOCK_LABEL, $ADDRESS_BLOCK_LABELS)}
+									<div class="{if $SEARCH_ADDRESS && $PROVIDER && ($WIDTHTYPE eq 'narrow')} pb-1 {else} pb-2 {/if} pt-2 adressAction row justify-content-center">
+										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE) PROVIDER=$PROVIDER}
+									</div>
+								{/if}
+								<div class="row">
+									{assign var=COUNTER value=0}
+									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
+										{if ($FIELD_NAME === 'time_start' || $FIELD_NAME === 'time_end') && ($MODULE === 'OSSTimeControl' || $MODULE === 'Reservations')}{continue}{/if}
+										{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '300'}
+											{if $COUNTER eq '1'}
+											</div>
+											<div class="row">
+												{assign var=COUNTER value=0}
+											{/if}
+										{/if}
+										{if $COUNTER eq 2}
 										</div>
 										<div class="row">
-											{assign var=COUNTER value=0}
-										{/if}
-									{/if}
-									{if $COUNTER eq 2}
-									</div>
-									<div class="row">
-										{assign var=FIELD_PARAMS value=$FIELD_MODEL->getFieldParams()}
-										{if !empty($FIELD_PARAMS['editWidth'])}
-											{assign var=EDIT_WIDTH value=$FIELD_PARAMS['editWidth']}
-										{else}
-											{assign var=EDIT_WIDTH value=''}
-										{/if}
-										{assign var=COUNTER value=1}{else}{assign var=COUNTER value=$COUNTER+1}{/if}
-										{if isset($RECORD_STRUCTURE_RIGHT)}
-											<div class="col-sm-12 fieldRow row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
-										{else}
-											<div class="{if $FIELD_MODEL->getUIType() eq "300"} col-md-12 m-auto
-											{elseif !empty($EDIT_WIDTH)} {$EDIT_WIDTH}
-											{else} col-sm-6 {/if} fieldRow row form-group align-items-center my-1 js-field-block-column {if $FIELD_MODEL->get('hideField')} d-none {/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
-										{/if}
-										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
-										<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} my-0 {if !empty($EDIT_WIDTH) && ($EDIT_WIDTH eq 'col-md-12')} {$EDIT_WIDTH} mr-auto pl-2 {else} col-lg-12 col-xl-3 text-lg-left text-xl-right {/if}  fieldLabel u-text-small-bold">
-											{if $FIELD_MODEL->isMandatory() eq true}
-												<span class="redColor">*</span>
+											{assign var=FIELD_PARAMS value=$FIELD_MODEL->getFieldParams()}
+											{if !empty($FIELD_PARAMS['editWidth'])}
+												{assign var=EDIT_WIDTH value=$FIELD_PARAMS['editWidth']}
+											{else}
+												{assign var=EDIT_WIDTH value=''}
 											{/if}
-											{if $HELPINFO_LABEL}
-												<a href="#" class="js-help-info float-right u-cursor-pointer" title="" data-placement="top" data-content="{$HELPINFO_LABEL}"
-													data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}">
-													<span class="fas fa-info-circle"></span>
-												</a>
+											{assign var=COUNTER value=1}{else}{assign var=COUNTER value=$COUNTER+1}{/if}
+											{if isset($RECORD_STRUCTURE_RIGHT)}
+												<div class="col-sm-12 fieldRow row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
+											{else}
+												<div class="{if $FIELD_MODEL->getUIType() eq "300"} col-md-12 m-auto
+												{elseif !empty($EDIT_WIDTH)} {$EDIT_WIDTH}
+												{else} col-sm-6 {/if} fieldRow row form-group align-items-center my-1 js-field-block-column {if $FIELD_MODEL->get('hideField')} d-none {/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
 											{/if}
-											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
-										</label>
-										<div class="{$WIDTHTYPE} {$WIDTHTYPE_GROUP} w-100 fieldValue {if !empty($EDIT_WIDTH)} {$EDIT_WIDTH} {elseif ($FIELD_MODEL->getUIType() neq "300") && empty($EDIT_WIDTH)} col-lg-12 col-xl-9 {/if}"{if $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-											{if $FIELD_MODEL->getUIType() eq "300"}
-												<label class="u-text-small-bold">{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
-													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
-												</label>
-											{/if}
-											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
+											<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} my-0 {if !empty($EDIT_WIDTH) && ($EDIT_WIDTH eq 'col-md-12')} {$EDIT_WIDTH} mr-auto pl-2 {else} col-lg-12 col-xl-3 text-lg-left text-xl-right {/if}  fieldLabel u-text-small-bold">
+												{if $FIELD_MODEL->isMandatory() eq true}
+													<span class="redColor">*</span>
+												{/if}
+												{if $HELPINFO_LABEL}
+													<a href="#" class="js-help-info float-right u-cursor-pointer" title="" data-placement="top" data-content="{$HELPINFO_LABEL}"
+														data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}">
+														<span class="fas fa-info-circle"></span>
+													</a>
+												{/if}
+												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
+											</label>
+											<div class="{$WIDTHTYPE} {$WIDTHTYPE_GROUP} w-100 fieldValue {if !empty($EDIT_WIDTH)} {$EDIT_WIDTH} {elseif ($FIELD_MODEL->getUIType() neq "300") && empty($EDIT_WIDTH)} col-lg-12 col-xl-9 {/if}"{if $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+												{if $FIELD_MODEL->getUIType() eq "300"}
+													<label class="u-text-small-bold">{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
+														{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
+													</label>
+												{/if}
+												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+											</div>
 										</div>
+									{/foreach}
 									</div>
-								{/foreach}
 								</div>
 							</div>
-						</div>
-						{/if}
-					{/foreach}
-				</div>
+						{/foreach}
+					</div>
 				{/foreach}
 			</div>
 			{if 1 === $MODULE_TYPE && !isset($RECORD_STRUCTURE_RIGHT)}

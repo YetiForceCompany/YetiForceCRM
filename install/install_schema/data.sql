@@ -2074,8 +2074,6 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`,`icon`) values (470,133,'LBL_BASIC_INFORMATION',1,0,0,0,0,0,1,0,NULL);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`,`icon`) values (471,133,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0,NULL);
 
-/*Data for the table `vtiger_blocks_hide` */
-
 /*Data for the table `vtiger_calendar_config` */
 
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('reminder','update_event','LBL_UPDATE_EVENT','0');
@@ -18607,7 +18605,6 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (67,2,'LBL_WIDGETS_MANAGEMENT','adminIcon-widgets-configuration','LBL_WIDGETS_MANAGEMENT_DESCRIPTION','index.php?module=WidgetsManagement&parent=Settings&view=Configuration',15,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (70,2,'LBL_TREES_MANAGER','adminIcon-field-folders','LBL_TREES_MANAGER_DESCRIPTION','index.php?module=TreesManager&parent=Settings&view=List',11,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (71,2,'LBL_MODTRACKER_SETTINGS','adminIcon-modules-track-chanegs','LBL_MODTRACKER_SETTINGS_DESCRIPTION','index.php?module=ModTracker&parent=Settings&view=List',5,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (72,2,'LBL_HIDEBLOCKS','adminIcon-filed-hide-bloks','LBL_HIDEBLOCKS_DESCRIPTION','index.php?module=HideBlocks&parent=Settings&view=List',12,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (73,12,'LBL_PUBLIC_HOLIDAY','adminIcon-calendar-holidys','LBL_PUBLIC_HOLIDAY_DESCRIPTION','index.php?module=PublicHoliday&view=Configuration&parent=Settings',3,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (74,12,'LBL_CALENDAR_CONFIG','adminIcon-calendar-configuration','LBL_CALENDAR_CONFIG_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=UserColors',2,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (75,6,'LBL_SALES_PROCESSES','adminIcon-sales','LBL_SALES_PROCESSES_DESCRIPTION','index.php?module=SalesProcesses&view=Index&parent=Settings',2,0,0,NULL);
