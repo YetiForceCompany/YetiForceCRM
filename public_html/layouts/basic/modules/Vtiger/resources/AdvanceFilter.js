@@ -366,16 +366,7 @@ jQuery.Class(
 			) {
 				fieldName = fieldName + '[]';
 			}
-
-			if (fieldSpecificUi.find('.input-group-addon').length > 0) {
-				fieldSpecificUi.find('.input-group').addClass('row');
-				fieldSpecificUi.find('.input-group').addClass('row');
-				fieldSpecificUi.find('input[type="text"]').css('width', '100%');
-				fieldSpecificUi.find('input[type="text"]').addClass('form-control');
-			} else {
-				fieldSpecificUi.filter('[name="' + fieldName + '"]').addClass('form-control');
-			}
-
+			fieldSpecificUi.filter('[name="' + fieldName + '"]').addClass('form-control');
 			fieldSpecificUi
 				.filter('[name="' + fieldName + '"]')
 				.attr('data-value', 'value')
