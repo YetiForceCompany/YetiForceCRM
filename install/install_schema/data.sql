@@ -153,7 +153,6 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (19,'GlobalPermission',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (20,'Groups',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (21,'Help',1,'2020-09-09 12:08:50');
-insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (22,'HideBlocks',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (23,'InterestsConflict',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (24,'Inventory',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (25,'LangManagement',1,'2020-09-09 12:08:50');
