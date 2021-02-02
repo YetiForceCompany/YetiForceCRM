@@ -280,7 +280,6 @@ Vtiger_Base_Validator_Js(
 				if (!fieldInfo || !fieldInfo.maximumlength) {
 					return true;
 				}
-
 				let maximumLength = fieldInfo.maximumlength,
 					minimumLength = -maximumLength;
 				fieldValue = parseFloat(fieldValue);
@@ -593,7 +592,7 @@ Vtiger_PositiveNumber_Validator_Js(
 				return response;
 			}
 			let field = this.getElement(),
-				fieldValue = this.getFieldValue(),
+				fieldValue = App.Fields.Double.formatToDb(this.getFieldValue()),
 				fieldData = field.data(),
 				fieldInfo = fieldData.fieldinfo,
 				errorInfo;
