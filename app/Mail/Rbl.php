@@ -835,8 +835,10 @@ class Rbl extends \App\Base
 			'body' => $data['body'] ?? null
 		])->execute();
 		$record = $db->getLastInsertID();
-		if ($status && $record && (\Config\Components\Mail::$rcListSendReportAutomatically ?? false)) {
-			self::sendReport(['id' => $record]);
+		if ($status && $record) {
+			$rblRecord = self::getRequestById($record);
+			$rblRecord->parse();
+			$rblRecord->updateList($record);
 		}
 	}
 
