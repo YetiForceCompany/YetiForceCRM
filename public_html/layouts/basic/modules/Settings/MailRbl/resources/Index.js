@@ -404,7 +404,7 @@ jQuery.Class(
 				mode: 'counters'
 			}).done(function (response) {
 				tabs.each(function (index) {
-					if (response.result[this.dataset.name]) {
+					if (response.result[this.dataset.name] !== undefined) {
 						$(this).find('.js-badge').text(response.result[this.dataset.name]);
 					}
 				});
