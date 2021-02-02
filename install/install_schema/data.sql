@@ -210,6 +210,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (78,'Dependencies',1,'2020-09-16 08:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (79,'MailRbl',1,'2020-09-18 11:19:36');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (80,'FieldsDependency',1,'2020-10-13 09:49:22');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (83,'Proxy',1,'2021-02-02 08:38:48');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -18657,6 +18658,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (130,2,'LBL_FIELDS_DEPENDENCY','yfi yfi-dependent-fields','LBL_FIELDS_DEPENDENCY_DESCRIPTION','index.php?parent=Settings&module=FieldsDependency&view=List',7,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (131,5,'LBL_MAIL_INTEGRATION','yfi yfi-mail-integrator-panel','LBL_MAIL_INTEGRATION_DESCRIPTION','index.php?parent=Settings&module=MailIntegration&view=Index',16,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (133,14,'LBL_LOGS_VIEWER','yfi yfi-view-logs','LBL_LOGS_VIEWER_DESCRIPTION','index.php?parent=Settings&module=Log&view=LogsViewer',6,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (134,7,'LBL_CONFIG_PROXY','yfi yfi-server-configuration','LBL_CONFIG_PROXY_DESCRIPTION','index.php?parent=Settings&module=Proxy&view=Edit',8,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
