@@ -41,7 +41,7 @@ class OSSMail_AddressBook_Model
 			$setype = $row['setype'];
 			if (!empty($users)) {
 				$users = explode(',', ltrim($users, ','));
-				foreach ($users as &$user) {
+				foreach ($users as $user) {
 					$mails[$user][$setype][] = "$name <$email>";
 				}
 			}
