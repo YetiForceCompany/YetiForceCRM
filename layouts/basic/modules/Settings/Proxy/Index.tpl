@@ -7,7 +7,6 @@
 		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 	</div>
 </div>
-<hr>
 <div class="alert alert-block alert-info mb-2">
 	<button button type="button" class="close" data-dismiss="alert" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
