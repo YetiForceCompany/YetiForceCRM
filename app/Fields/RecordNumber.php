@@ -52,10 +52,13 @@ class RecordNumber extends \App\Base
 	 * Sets model of record.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return $this
 	 */
-	public function setRecord(\Vtiger_Record_Model $recordModel)
+	public function setRecord(\Vtiger_Record_Model $recordModel): self
 	{
 		$this->set('recordModel', $recordModel);
+		return $this;
 	}
 
 	/**
@@ -209,26 +212,27 @@ class RecordNumber extends \App\Base
 	 */
 	public function isNewSequence(): bool
 	{
-		return $this->getRecord()->isNew() ||
-			(($name = $this->getPicklistName()) && false !== $this->getRecord()->getPreviousValue($name) && !$this->getRecord()->isEmpty($name) && $this->getPicklistValue($name) !== $this->getPicklistValue($name, $this->getRecord()->getPreviousValue($name)));
+		return $this->getRecord()->isNew()
+			|| ($this->getRelatedValue() && $this->getRelatedValue() !== self::getInstance($this->getRecord()->getModuleName())
+				->setRecord((clone $this->getRecord())->getInstanceByEntity($this->getRecord()->getEntity(), $this->getRecord()->getId()))->getRelatedValue());
 	}
 
 	/**
 	 * Returns prefix of picklist.
 	 *
-	 * @param string      $piclistName
+	 * @param string      $picklistName
 	 * @param string|null $recordValue
 	 *
 	 * @return string
 	 */
-	private function getPicklistValue(string $piclistName, ?string $recordValue = null): string
+	private function getPicklistValue(string $picklistName, ?string $recordValue = null): string
 	{
-		$values = Picklist::getValues($piclistName);
+		$values = Picklist::getValues($picklistName);
 		if (!isset($recordValue)) {
-			$recordValue = $this->getRecord()->get($piclistName);
+			$recordValue = $this->getRecord()->get($picklistName);
 		}
 		foreach ($values as $value) {
-			if ($recordValue === $value[$piclistName]) {
+			if ($recordValue === $value[$picklistName]) {
 				return $value['prefix'] ?? '';
 			}
 		}
