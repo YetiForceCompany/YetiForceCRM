@@ -22,7 +22,7 @@ class Cleaner extends Base
 	/** @var string[] Methods list */
 	public $methods = [
 		'logs' => 'Delete all logs',
-		'session' => 'Delete all session',
+		'session' => 'Delete all sessions',
 		'cacheData' => 'Cache data',
 		'cacheFiles' => 'Cache files',
 	];
@@ -44,7 +44,7 @@ class Cleaner extends Base
 			}
 		}
 		$this->climate->lightYellow()->border('─', 200);
-		$this->climate->bold('Number of deleted files log: ' . $i);
+		$this->climate->bold('Number of deleted log files: ' . $i);
 		$this->climate->lightYellow()->border('─', 200);
 	}
 
@@ -57,7 +57,7 @@ class Cleaner extends Base
 	{
 		$this->climate->bold('Removing all sessions...');
 		\App\Session::load();
-		$this->climate->bold('Number of sessions deleted: ' . \App\Session::cleanAll());
+		$this->climate->bold('Number of deleted sessions: ' . \App\Session::cleanAll());
 		$this->climate->lightYellow()->border('─', 200);
 		$this->cli->actionsList('Cleaner');
 	}
