@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings proxy save ajax action file.
+ * Settings proxy save config form action file.
  *
  * @package   Settings.Action
  *
@@ -9,7 +9,7 @@
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 /**
- * Settings proxy save ajax action class.
+ * Settings proxy save config form action class.
  */
 class Settings_Proxy_SaveConfigForm_Action extends Settings_Vtiger_Basic_Action
 {
