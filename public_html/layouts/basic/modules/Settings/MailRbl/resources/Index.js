@@ -396,7 +396,6 @@ jQuery.Class(
 		 */
 		refreshCounters: function () {
 			let tabs = $('#tabs li a');
-			const self = this;
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
