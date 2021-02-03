@@ -165,7 +165,7 @@ class ConfReport
 		'hash' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'hash', 'container' => 'ext', 'testCli' => true],
 		'exif' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'exif', 'container' => 'ext', 'testCli' => true],
 		'ldap' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'ldap', 'container' => 'ext', 'testCli' => true],
-		'OPcache' => ['mandatory' => false, 'type' => 'FnExist', 'fnName' => 'opcache_get_configuration', 'container' => 'ext', 'testCli' => true],
+		'OPcache' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'Zend OPcache', 'container' => 'ext', 'testCli' => true],
 		'apcu' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'apcu', 'container' => 'ext', 'testCli' => true, 'mode' => 'showWarnings'],
 		'imagick' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'imagick', 'container' => 'ext', 'testCli' => true, 'mode' => 'showWarnings'],
 		'allExt' => ['container' => 'ext', 'type' => 'AllExt', 'testCli' => true, 'label' => 'EXTENSIONS'],
@@ -1030,6 +1030,30 @@ class ConfReport
 	}
 
 	/**
+	 * Parser extension loaded.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 *
+	 * @return array
+	 */
+	private static function parserExtExist(string $name, array $row)
+	{
+		unset($name);
+		$info = '';
+		if (\in_array($row['extName'], static::$ext)) {
+			$ext = new \ReflectionExtension($row['extName']);
+			ob_start();
+			$ext->info();
+			if ($i = ob_get_contents()) {
+				$info = $i;
+			}
+			ob_end_clean();
+		}
+		return $info;
+	}
+
+	/**
 	 * Validate extension loaded.
 	 *
 	 * @param string $name
@@ -1041,6 +1065,9 @@ class ConfReport
 	private static function validateExtExist(string $name, array $row, string $sapi)
 	{
 		unset($name);
+		if (isset($row[$sapi])) {
+			$row[$sapi . '_info'] = $row[$sapi];
+		}
 		$row['status'] = \in_array($row['extName'], static::$ext);
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
 		return $row;
