@@ -1334,6 +1334,8 @@
     "LBL_YETIFORCE_NEWSLETTER": "Newsletter",
     "LBL_YETIFORCE_NEWSLETTER_FILL_DATA": "Fill in the required information",
     "LBL_YETIFORCE_NEWSLETTER_ERROR": "No e-mail address was added to company details. If you want to receive newsletter %s.",
+    "LBL_YETIFORCE_NOT_REGISTRATION_TITLE": "This functionality is available after registration.",
+    "LBL_YETIFORCE_NOT_REGISTRATION_DESC": "The system has not been registered. Please register your YetiForce CRM to have access to this part of the system.",
     "LBL_START": "Start",
     "LBL_END": "End",
     "LBL_AUTOMATIC": "Automatic",
