@@ -2998,10 +2998,13 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_nam
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (118,1,'number','Approvals','');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (118,2,'createdtime','Approvals','');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (118,3,'assigned_user_id','Approvals','');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,0,'subject','ApprovalsRegister','');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,1,'number','ApprovalsRegister','');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,2,'createdtime','ApprovalsRegister','');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,3,'assigned_user_id','ApprovalsRegister','');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,0,'subject','ApprovalsRegister',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,1,'approvalsid','ApprovalsRegister',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,2,'approvals_register_status','ApprovalsRegister',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,3,'contactid','ApprovalsRegister',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,4,'approvals_register_type','ApprovalsRegister',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,5,'registration_date','ApprovalsRegister',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (119,6,'assigned_user_id','ApprovalsRegister',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (120,0,'addresslevel2a','Locations','');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (120,1,'addresslevel5a','Locations','');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (120,2,'subject','Locations','');
