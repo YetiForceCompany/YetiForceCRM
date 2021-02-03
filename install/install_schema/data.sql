@@ -210,7 +210,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (78,'Dependencies',1,'2020-09-16 08:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (79,'MailRbl',1,'2020-09-18 11:19:36');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (80,'FieldsDependency',1,'2020-10-13 09:49:22');
-insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (83,'Proxy',1,'2021-02-02 08:38:48');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (81,'Proxy',1,'2021-02-02 08:38:48');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 

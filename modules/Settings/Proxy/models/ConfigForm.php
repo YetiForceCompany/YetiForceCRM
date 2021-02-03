@@ -2,11 +2,12 @@
 /**
  * Settings proxy config form file.
  *
- * @package   Settings.Module
+ * @package   Settings.Model
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @author	Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
  * Settings proxy config form class.
@@ -69,7 +70,6 @@ class Settings_Proxy_ConfigForm_Model
 				'mandatory' => true
 			],
 		];
-
 		foreach ($fields as $key => $value) {
 			$fields[$key] = \Vtiger_Field_Model::init($moduleName, $value, $key);
 		}
