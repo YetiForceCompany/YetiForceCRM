@@ -12,7 +12,8 @@
     "FL_DATE_TIME": "Date",
     "FL_PURPOSE": "Purpose",
     "FL_USER": "User",
-    "FL_BASE_USER": "Base user"
+    "FL_BASE_USER": "Base user",
+    "LBL_ADMIN_ABOUT_VISIT_PURPOSE": "Whether to activate the target visit mechanism for the administrator"
   },
   "js": {
     "JS_SAVE_SUCCESS": "Changes saved"

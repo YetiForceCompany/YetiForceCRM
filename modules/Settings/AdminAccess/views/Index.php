@@ -68,6 +68,8 @@ class Settings_AdminAccess_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('STRUCTURE', $moduleModel->getStructure('visitPurpose'));
+		$viewer->assign('CONFIG_FIELDS', Settings_AdminAccess_Module_Model::getFields($qualifiedModuleName));
+		$viewer->assign('CONFIG', App\Config::security());
 		$viewer->view(\App\Utils::mbUcfirst($request->getMode()) . '.tpl', $qualifiedModuleName);
 	}
 }

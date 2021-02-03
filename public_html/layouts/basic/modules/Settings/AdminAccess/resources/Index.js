@@ -68,6 +68,7 @@ jQuery.Class(
 					progress.progressIndicator({ mode: 'hide' });
 					contentContainer.html(data);
 					this.registerTabEvents(contentContainer);
+					app.registerFormsEvents(contentContainer);
 				})
 				.fail((_) => {
 					app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });

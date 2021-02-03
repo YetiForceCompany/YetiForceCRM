@@ -61,6 +61,31 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
+	 * Get fields for config form.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return Vtiger_Field_Model[]
+	 */
+	public static function getFields(string $moduleName): array
+	{
+		$config = App\Config::security();
+		$fields = [
+			'askAdminAboutVisitPurpose' => [
+				'purifyType' => 'bool',
+				'uitype' => 56,
+				'label' => 'LBL_ADMIN_ABOUT_VISIT_PURPOSE',
+				'labelDesc' => 'LBL_ADMIN_ABOUT_VISIT_PURPOSE_DESC',
+				'fieldvalue' => $config['askAdminAboutVisitPurpose'] ?? ''
+			],
+		];
+		foreach ($fields as $key => $value) {
+			$fields[$key] = \Vtiger_Field_Model::init($moduleName, $value, $key);
+		}
+		return $fields;
+	}
+
+	/**
 	 * Gets field instance by name.
 	 *
 	 * @param string $name
@@ -152,7 +177,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 				break;
 			default: break;
 		}
-		return  $value;
+		return $value;
 	}
 
 	/**
