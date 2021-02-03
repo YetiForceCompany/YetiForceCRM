@@ -23,16 +23,12 @@ class Settings_AdminAccess_SaveConfigForm_Action extends Settings_Vtiger_Basic_A
 		if (!isset($fields[$field])) {
 			throw new \App\Exceptions\IllegalValue('ERR_ILLEGAL_VALUE');
 		}
-		try {
-			$fieldModel = $fields[$field];
-			$value = $request->getByType($field, $fieldModel->get('purifyType'));
-			$configFile = new \App\ConfigFile('security');
-			$configFile->set($field, $value);
-			$configFile->create();
-			$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_CHANGES_SAVED')]]);
-		} catch (\Throwable $e) {
-			$response->setError(\App\Language::translate('LBL_ERROR', $qualifiedModuleName));
-		}
+		$fieldModel = $fields[$field];
+		$value = $request->getByType($field, $fieldModel->get('purifyType'));
+		$configFile = new \App\ConfigFile('security');
+		$configFile->set($field, $value);
+		$configFile->create();
+		$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_CHANGES_SAVED')]]);
 		$response->emit();
 	}
 }
