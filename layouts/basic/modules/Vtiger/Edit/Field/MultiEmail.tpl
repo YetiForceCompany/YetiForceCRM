@@ -10,9 +10,9 @@
 <div class="js-multi-email">
 	<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" class="js-multi-email-value" />
 	<div class="row">
-		<div class="js-multi-email-add col-lg-1 btn btn-outline-success border p-1 mb-3"
+		<div class="js-multi-email-add d-flex align-items-center col-lg-1 btn btn-outline-success border p-1 mb-3"
 				title="{\App\Language::translate('LBL_ADD', $MODULE)}">
-			<span class="fas fa-plus"></span>
+			<span class="fas fa-plus mx-auto"></span>
 		</div>
 		<div class="js-multi-email-items col-lg-11">
 			{foreach from=$FIELD_VALUE item=ITEM name=multiemailloop}

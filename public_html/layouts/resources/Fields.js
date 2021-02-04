@@ -1585,7 +1585,7 @@ window.App.Fields = {
 		register($container) {
 			$('.js-multi-email', $container).each((idx, multiEmailField) => {
 				let $multiEmailField = $(multiEmailField);
-				$multiEmailField.on('change', '.js-multi-email-value', (e) => {
+				$multiEmailField.on('change', '.js-multi-email', (e) => {
 					App.Fields.MultiEmail.parseToJSON($multiEmailField);
 				});
 				$multiEmailField.on('click', '.js-multi-email-consenticon', (e) => {
@@ -1609,7 +1609,7 @@ window.App.Fields = {
 			let value = [];
 			$('.js-multi-email-item', $multiEmailField).each((idx, item) => {
 				let $item = $(item);
-				let email = $('.js-multi-email-value', $item).val();
+				let email = $('.js-multi-email', $item).val();
 				let consent = $('.js-multi-email-consent', $item).is(':visible') ? 1 : 0;
 				if (email) {
 					value.push({
@@ -1627,7 +1627,7 @@ window.App.Fields = {
 		addItem($multiEmailField) {
 			let $newItem = $('.js-multi-email-item', $multiEmailField).first().clone(false, false);
 			if ($newItem) {
-				$('.js-multi-email-value', $newItem).attr('value', '').val('');
+				$('.js-multi-email', $newItem).attr('value', '').val('');
 				$('.js-multi-email-consent', $newItem).val('');
 				$('.js-multi-email-consenticon', $newItem).hide();
 				$('.js-multi-email-consenticon', $newItem).first().show();
