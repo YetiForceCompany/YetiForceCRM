@@ -48,7 +48,7 @@
 								<input type="text" maxlength="50" name="fieldLabel" value=""
 									   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 									   class="form-control"
-									   data-validator={\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'FieldLabel']]))}/>
+									   data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'FieldLabel']]))}'/>
 							</div>
 						</div>
 						<div class="form-group row align-items-center">
@@ -113,7 +113,7 @@
 										tabindex="-1" aria-hidden="true"
 										placeholder="{App\Language::translate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}"
 										data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-										data-validator={\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'PicklistFieldValues']]))}>
+										data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'PicklistFieldValues']]))}'>
 								</select>
 							</div>
 						</div>

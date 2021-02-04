@@ -53,7 +53,7 @@
 							   class="row-fluid currencyField form-control" data-fieldinfo='{$FIELD_INFO}'
 							   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 							   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-							   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}{/if} data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}'
+							   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'{/if} data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}'
 							   data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'
 							   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 				{if $SYMBOL_PLACEMENT eq '1.0$'}
@@ -79,7 +79,7 @@
 							   class="row-fluid currencyField form-control" data-fieldinfo='{$FIELD_INFO}'
 							   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 							   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-							   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}{/if} data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}'
+							   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'{/if} data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}'
 							   data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'
 							   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 					</span>
