@@ -2260,8 +2260,14 @@ var app = (window.app = {
 			e.preventDefault();
 			let currentElement = $(e.currentTarget);
 			let content = currentElement.data('content');
-			let title = currentElement.data('title') ?? '';
-			let modalClass = currentElement.data('class') ?? '';
+			let title = '',
+				modalClass = '';
+			if (currentElement.data('title')) {
+				title = currentElement.data('title');
+			}
+			if (currentElement.data('class')) {
+				modalClass = currentElement.data('class');
+			}
 			app.showModalWindow(`<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog ${modalClass}" role="document"><div class="modal-content">
 			<div class="modal-header"> <h5 class="modal-title">${title}</h5>
 			  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

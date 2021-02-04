@@ -58,10 +58,10 @@
 						{foreach from=$VULNERABILITIES key=LIB_NAME item=LIB}
 							{foreach from=$LIB['advisories'] item=ADVISORIE}
 								<tr>
-									<td><label>{$LIB_NAME} ({$LIB['version']})</label></td>
-									<td><label>{$ADVISORIE['title']}</label></td>
-									<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer noopener" href="{$ADVISORIE['link']}">{$ADVISORIE['link']}</a></label></td>
-									<td><label>{$ADVISORIE['cve']}</label></td>
+									<td><label>{\App\Purifier::encodeHtml($LIB_NAME)} ({\App\Purifier::encodeHtml($LIB['version'])})</label></td>
+									<td><label>{\App\Purifier::encodeHtml($ADVISORIE['title'])}</label></td>
+									<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer noopener" href="{\App\Purifier::encodeHtml($ADVISORIE['link'])}">{\App\Purifier::encodeHtml($ADVISORIE['link'])}</a></label></td>
+									<td><label>{\App\Purifier::encodeHtml($ADVISORIE['cve'])}</label></td>
 								</tr>
 							{/foreach}
 						{/foreach}

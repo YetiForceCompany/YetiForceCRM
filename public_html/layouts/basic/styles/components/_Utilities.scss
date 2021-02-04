@@ -372,6 +372,15 @@
 	min-width: calculate-rem(300px) !important;
 }
 
+.u-table-min-width-10rem table tr > td,
+.u-table-min-width-10rem table tr > th {
+	min-width: 10rem;
+}
+.u-table-min-width-5rem table tr > td,
+.u-table-min-width-5rem table tr > th {
+	min-width: 5rem;
+}
+
 .u-w-1em {
 	width: 1em;
 }
