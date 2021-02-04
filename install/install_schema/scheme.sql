@@ -3743,7 +3743,8 @@ CREATE TABLE `u_yf_recurring_info` (
   `date_start` date DEFAULT NULL,
   `date_end` date DEFAULT NULL,
   `last_recurring_date` date DEFAULT NULL,
-  PRIMARY KEY (`srecurringordersid`)
+  PRIMARY KEY (`srecurringordersid`),
+  CONSTRAINT `u_yf_recurring_info_fk1` FOREIGN KEY (`srecurringordersid`) REFERENCES `u_yf_srecurringorders` (`srecurringordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_relations_members_entity` */
