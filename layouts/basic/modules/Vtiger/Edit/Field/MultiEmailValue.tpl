@@ -2,7 +2,7 @@
 {strip}
 <div class="js-multi-email-item tpl-Base-Edit-Field-MultiEmailValue">
 	<div class="input-group mb-3">
-		<input type="text" class="js-multi-email-value form-control"
+		<input type="text" class="js-multi-email form-control"
 				value="{$ITEM['e']}"
 				placeholder="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory()} required,{/if}funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]" />
