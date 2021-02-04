@@ -40,7 +40,7 @@
 					<select class="select2" name="q_{$FIELD_MODEL->getFieldName()}"
 						data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 						data-fieldinfo='{$FIELD_INFO|escape}' {if
-						!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}' {/if}
+						!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
 						data-selected-value='{$FIELD_MODEL->get(' fieldvalue')}' {if $FIELD_MODEL->isEditableReadOnly() ||
 						!$IS_AJAX_ENABLED || !$FIELD_MODEL->isAjaxEditable()}disabled="disabled"{/if}{if $PLACE_HOLDER}
 						data-select="allowClear"

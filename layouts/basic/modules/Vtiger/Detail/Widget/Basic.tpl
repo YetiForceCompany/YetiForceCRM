@@ -56,13 +56,13 @@
 								{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 								{if !empty($WIDGET['data']['actionSelect']) && $VRMM->getSelectRelationLinks()}
 									{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
-									<button class="btn btn-sm btn-light selectRelation js-popover-tooltip ml-1" type="button" data-placement="top" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}' {/if} data-content="{\App\Language::translate('LBL_SELECT_RELATION',$RELATIONMODEL->getRelationModuleName())}">
+									<button class="btn btn-sm btn-light selectRelation js-popover-tooltip ml-1" type="button" data-placement="top" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{\App\Purifier::encodeHtml(\App\Json::encode($RESTRICTIONS_FIELD))}' {/if} data-content="{\App\Language::translate('LBL_SELECT_RELATION',$RELATIONMODEL->getRelationModuleName())}">
 										<span class="fas fa-search"></span>
 									</button>
 								{/if}
 								{if !empty($WIDGET['data']['action']) && $VRMM->getAddRelationLinks()}
 									{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-									<button class="btn btn-sm btn-light {if $WIDGET['isQuickCreateSupport']}createInventoryRecordFromFilter{else}createRecordFromFilter{/if} js-popover-tooltip ml-1" type="button" data-url="{$WIDGET['actionURL']}" {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}' {/if} data-placement="top" data-content="{\App\Language::translate('LBL_ADD_RELATION',$RELATIONMODEL->getRelationModuleName())}">
+									<button class="btn btn-sm btn-light {if $WIDGET['isQuickCreateSupport']}createInventoryRecordFromFilter{else}createRecordFromFilter{/if} js-popover-tooltip ml-1" type="button" data-url="{$WIDGET['actionURL']}" {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Purifier::encodeHtml(\App\Json::encode($AUTOCOMPLETE_FIELD))}' {/if} data-placement="top" data-content="{\App\Language::translate('LBL_ADD_RELATION',$RELATIONMODEL->getRelationModuleName())}">
 										<span class="fas fa-plus"></span>
 									</button>
 								{/if}
@@ -94,7 +94,7 @@
 						{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 						<select name="{$FIELD_MODEL->getName()}" class="select2 form-control form-control-sm js-filter_field"
 							data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if
-							!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}' {/if} data-fieldlable='{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}'
+							!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if} data-fieldlable='{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}'
 							data-filter="{$FILTER}" data-urlparams="search_params" data-js="change">
 							<option>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}</option>
 							{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
@@ -123,7 +123,7 @@
 						<div class="form-group-sm w-100 mr-1 mb-1">
 							<select name="{$FIELD_MODEL->getName()}" class="select2 form-control form-control-sm js-filter_field"
 								data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if
-								!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}' {/if}
+								!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
 								data-return="value" data-urlparams="{$FIELD_MODEL->getName()}" data-js="change">
 								<optgroup class="p-0">
 									<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>

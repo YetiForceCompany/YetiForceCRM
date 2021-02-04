@@ -50,7 +50,7 @@
 									<input name="newValue" type="text"
 										   class="form-control"
 										   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-										   data-validator={\App\Json::encode([['name'=>'FieldLabel']])}>
+										   data-validator={\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'FieldLabel']]))}>
 								</div>
 							{else}
 								<div class="col-md-9 controls alert alert-warning">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUE',$QUALIFIED_MODULE)}</div>
