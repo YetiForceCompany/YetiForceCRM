@@ -1429,8 +1429,9 @@ var app = (window.app = {
 						blockInfo: { enabled: true }
 					});
 					let formData = form.serializeFormData();
-					formData['updateField'] = element.attr('name').replace('[]', '');
-					formData['updateValue'] = element.val();
+					let name = element.attr('name').replace('[]', '');
+					formData['updateField'] = name;
+					formData['updateValue'] = formData[name];
 					AppConnector.request(formData)
 						.done(function (responseData) {
 							if (responseData.success && responseData.result) {
@@ -2255,6 +2256,18 @@ var app = (window.app = {
 				}
 				e.stopPropagation();
 			});
+		container.off('click', '.js-show-modal-content').on('click', '.js-show-modal-content', function (e) {
+			e.preventDefault();
+			let currentElement = $(e.currentTarget);
+			let content = currentElement.data('content');
+			let title = currentElement.data('title') ?? '';
+			let modalClass = currentElement.data('class') ?? '';
+			app.showModalWindow(`<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog ${modalClass}" role="document"><div class="modal-content">
+			<div class="modal-header"> <h5 class="modal-title">${title}</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div><div class="modal-body text-break">${content}</div></div></div></div>`);
+			e.stopPropagation();
+		});
 	},
 	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
