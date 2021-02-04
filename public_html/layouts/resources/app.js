@@ -1371,6 +1371,9 @@ var app = (window.app = {
 			form.validationEngine(app.validationEngineOptions);
 			validationForm = true;
 		}
+		if (container.data('view') === 'QuickDetailModal') {
+			this.registerBlockAnimationEvent(container);
+		}
 		if (form.hasClass('sendByAjax') || form.hasClass('js-send-by-ajax')) {
 			form.on('submit', function (e) {
 				let save = true;
@@ -1633,6 +1636,44 @@ var app = (window.app = {
 		}
 		return year + '-' + month + '-' + day;
 	},
+
+	registerBlockAnimationEvent: function (container = false) {
+		let detailViewContentHolder = $('div.details div.contents');
+		let blockHeader = detailViewContentHolder.find('.blockHeader');
+		if (container !== false) {
+			blockHeader = container.find('.blockHeader');
+		}
+		blockHeader.on('click', function (e) {
+			const target = $(e.target);
+			if (
+				target.is('input') ||
+				target.is('button') ||
+				target.parents().is('button') ||
+				target.hasClass('js-stop-propagation') ||
+				target.parents().hasClass('js-stop-propagation')
+			) {
+				return false;
+			}
+			let currentTarget = $(this).find('.js-block-toggle').not('.d-none');
+			let blockId = currentTarget.data('id');
+			let closestBlock = currentTarget.closest('.js-toggle-panel');
+			let bodyContents = closestBlock.find('.blockContent');
+			let data = currentTarget.data();
+			let module = app.getModuleName();
+			if (data.mode === 'show') {
+				bodyContents.addClass('d-none');
+				app.cacheSet(module + '.' + blockId, 0);
+				currentTarget.addClass('d-none');
+				closestBlock.find('[data-mode="hide"]').removeClass('d-none');
+			} else {
+				bodyContents.removeClass('d-none');
+				app.cacheSet(module + '.' + blockId, 1);
+				currentTarget.addClass('d-none');
+				closestBlock.find('[data-mode="show"]').removeClass('d-none');
+			}
+		});
+	},
+
 	registerEventForDateFields: function (parentElement) {
 		if (typeof parentElement === 'undefined') {
 			parentElement = $('body');
@@ -2893,6 +2934,7 @@ $(document).ready(function () {
 	if (pageController) {
 		pageController.registerEvents();
 	}
+	app.registerBlockAnimationEvent();
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
