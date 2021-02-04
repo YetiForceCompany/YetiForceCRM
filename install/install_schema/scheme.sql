@@ -2525,7 +2525,8 @@ CREATE TABLE `u_yf_finvoiceproforma_address` (
   `phone_b` varchar(100) DEFAULT NULL,
   `phone_a_extra` varchar(100) DEFAULT NULL,
   `phone_b_extra` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`finvoiceproformaaddressid`)
+  PRIMARY KEY (`finvoiceproformaaddressid`),
+  CONSTRAINT `u_yf_finvoiceproforma_address_fk1` FOREIGN KEY (`finvoiceproformaaddressid`) REFERENCES `u_yf_finvoiceproforma` (`finvoiceproformaid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoiceproforma_inventory` */
