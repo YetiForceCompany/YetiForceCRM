@@ -90,7 +90,7 @@ class Mail
 			$queryGenerator->addCondition('email_template_type', $type, 'e');
 		}
 		if ($hideSystem) {
-			$queryGenerator->addNativeCondition(['u_#__emailtemplates.sys_name' => null]);
+			$queryGenerator->addNativeCondition(['u_#__emailtemplates.sys_name' => [null, '']]);
 		}
 		return $queryGenerator->createQuery()->all();
 	}
