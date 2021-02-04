@@ -1030,30 +1030,6 @@ class ConfReport
 	}
 
 	/**
-	 * Parser extension loaded.
-	 *
-	 * @param string $name
-	 * @param array  $row
-	 *
-	 * @return array
-	 */
-	private static function parserExtExist(string $name, array $row)
-	{
-		unset($name);
-		$info = '';
-		if (\in_array($row['extName'], static::$ext)) {
-			$ext = new \ReflectionExtension($row['extName']);
-			ob_start();
-			$ext->info();
-			if ($i = ob_get_contents()) {
-				$info = $i;
-			}
-			ob_end_clean();
-		}
-		return $info;
-	}
-
-	/**
 	 * Validate extension loaded.
 	 *
 	 * @param string $name
@@ -1065,11 +1041,18 @@ class ConfReport
 	private static function validateExtExist(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (isset($row[$sapi])) {
-			$row[$sapi . '_info'] = $row[$sapi];
-		}
 		$row['status'] = \in_array($row['extName'], static::$ext);
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
+		if ($row['status'] && 'www' === $sapi) {
+			$ext = new \ReflectionExtension($row['extName']);
+			ob_start();
+			$ext->info();
+			if ($i = ob_get_contents()) {
+				$info = $i;
+			}
+			ob_end_clean();
+			$row[$sapi . '_info'] = $info;
+		}
 		return $row;
 	}
 

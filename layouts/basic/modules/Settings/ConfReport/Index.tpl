@@ -60,7 +60,7 @@
 			</div>
 		{/if}
 		<div class="u-columns-count-3 u-columns-gap-1rem u-columns-width-36rem pt-2 text-center u-align-middle-children">
-			<div class="u-columns__item pb-3 libraries c-table-min-width-10rem table-responsive-md">
+			<div class="u-columns__item pb-3 libraries u-table-min-width-5rem table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
@@ -106,7 +106,7 @@
 										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
 									{if isset($ITEM['www_info'])}
-										<a href="#" class="js-show-modal-content ml-2" data-content="{\App\Purifier::encodeHtml($ITEM['www_info'])}" data-class="modal-lg c-table-min-width-10rem" data-js="modal">
+										<a href="#" class="js-show-modal-content ml-2" data-content="{\App\Purifier::encodeHtml($ITEM['www_info'])}" data-class="modal-lg u-table-min-width-10rem" data-js="modal">
 											<span class="fas fa-info-circle"></span>
 										</a>
 									{/if}
@@ -117,7 +117,7 @@
 										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
 									{if isset($ITEM['www_info'])}
-										<a href="#" class="js-show-modal-content ml-2" data-content="{\App\Purifier::encodeHtml($ITEM['www_info'])}" data-class="modal-lg c-table-min-width-10rem" data-js="modal">
+										<a href="#" class="js-show-modal-content ml-2" data-content="{\App\Purifier::encodeHtml($ITEM['www_info'])}" data-class="modal-lg u-table-min-width-10rem" data-js="modal">
 											<span class="fas fa-info-circle"></span>
 										</a>
 									{/if}
@@ -127,7 +127,7 @@
 										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
 									{/if}
 									{if isset($ITEM['cron_info'])}
-										<a href="#" class="js-show-modal-content ml-2" data-content="{\App\Purifier::encodeHtml($ITEM['cron_info'])}" data-class="modal-lg c-table-min-width-10rem" data-js="modal">
+										<a href="#" class="js-show-modal-content ml-2" data-content="{\App\Purifier::encodeHtml($ITEM['cron_info'])}" data-class="modal-lg u-table-min-width-10rem" data-js="modal">
 											<span class="fas fa-info-circle"></span>
 										</a>
 									{/if}
