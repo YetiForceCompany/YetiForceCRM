@@ -1231,16 +1231,14 @@ Vtiger_Email_Validator_Js(
 			if (this.validateValue(fieldValue) === false) {
 				return false;
 			}
-			let allFields = $(this.field).closest('div.js-multi-email').eq(0).find('[class*=js-multi-email-row]');
+			let allFields = $(this.field).closest('div.js-multi-email').eq(0).find('.js-multi-email-item');
 			let arrayLength = allFields.length;
 			for (let i = 0; i < arrayLength; ++i) {
-				let inputField = $(allFields[i]).find('input.js-email').eq(0);
+				let inputField = $(allFields[i]).find('input.js-multi-email-email');
 				if (inputField.val() === '') {
 					continue;
 				}
-				let inputClass1 = $(allFields[i]).closest('div[class*=js-multi-email-row-]').eq(0).attr('class');
-				let inputClass2 = $(this.field).closest('div[class*=js-multi-email-row-]').eq(0).attr('class');
-				if (inputClass1 !== inputClass2 && inputField.val() === fieldValue) {
+				if (inputField.val() === fieldValue) {
 					this.setError(app.vtranslate('JS_EMAIL_DUPLICATED'));
 					return false;
 				}
