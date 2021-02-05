@@ -78,6 +78,13 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 				'labelDesc' => 'LBL_LOGIN_ADMIN_VISIT_PURPOSE_DESC',
 				'fieldvalue' => $config['askAdminAboutVisitPurpose'] ?? ''
 			],
+			'askAdminAboutVisitSwitchUsers' => [
+				'purifyType' => 'bool',
+				'uitype' => 56,
+				'label' => 'LBL_LOGIN_ADMIN_VISIT_SWITCH_USERS',
+				'labelDesc' => 'LBL_LOGIN_ADMIN_VISIT_SWITCH_USERS_DESC',
+				'fieldvalue' => $config['askAdminAboutVisitSwitchUsers'] ?? ''
+			],
 		];
 		foreach ($fields as $key => $value) {
 			$fields[$key] = \Vtiger_Field_Model::init($moduleName, $value, $key);
@@ -129,6 +136,12 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 				case 'purpose':
 					$params['uitype'] = 300;
 					$params['label'] = 'FL_PURPOSE';
+					$params['typeofdata'] = 'V~O';
+					$params['table'] = 'l_#__users_login_purpose';
+					break;
+				case 'type':
+					$params['uitype'] = 1;
+					$params['label'] = 'FL_TYPE';
 					$params['typeofdata'] = 'V~O';
 					$params['table'] = 'l_#__users_login_purpose';
 					break;
@@ -263,7 +276,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 		$fields = [];
 		switch ($key) {
 			case 'visitPurpose':
-				foreach (['userid', 'datetime', 'purpose', 'baseid'] as $fieldName) {
+				foreach (['userid', 'datetime', 'purpose', 'baseid', 'type'] as $fieldName) {
 					$fields[] = $this->getFieldInstanceByName($fieldName);
 				}
 				break;

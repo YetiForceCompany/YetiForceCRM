@@ -790,6 +790,7 @@ CREATE TABLE `l_yf_users_login_purpose` (
   `datetime` datetime NOT NULL,
   `purpose` varchar(500) NOT NULL,
   `baseid` int(10) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `l_yf_users_login_purpose_userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

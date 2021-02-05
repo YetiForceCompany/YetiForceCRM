@@ -51,12 +51,13 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 		$baseUserId = $currentUser->getId();
 		$userId = $request->getInteger('id');
 
-		if ($request->has('visitPurpose') && \App\Config::security('askAdminAboutVisitPurpose', true)) {
+		if ($request->has('visitPurpose') && \App\Config::security('askAdminAboutVisitSwitchUsers', true)) {
 			$db->createCommand()->insert('l_#__users_login_purpose', [
 				'userid' => $userId,
 				'datetime' => date('Y-m-d H:i:s'),
 				'purpose' => $request->getByType('visitPurpose', \App\Purifier::TEXT),
-				'baseid' => \App\User::getCurrentUserRealId()
+				'baseid' => \App\User::getCurrentUserRealId(),
+				'type' => 'switch'
 			])->execute();
 		}
 

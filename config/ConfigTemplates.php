@@ -1140,6 +1140,12 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
+		'askAdminAboutVisitSwitchUsers' => [
+			'default' => true,
+			'description' => '@var bool Ask admin about switch users purpose',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
 	],
 	'sounds' => [
 		'IS_ENABLED' => [

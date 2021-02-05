@@ -39,6 +39,7 @@ class Users_VisitPurpose_Action extends \App\Controller\Action
 				'datetime' => date('Y-m-d H:i:s'),
 				'purpose' => $visitPurpose,
 				'baseid' => $userModel->getId() !== $baseId ? $baseId : 0,
+				'type' => 'login',
 			])->execute();
 		if ($result && !$userModel->isAdmin() && $userModel->isSuperUser()) {
 			$userData = \App\Session::get('showedModalVisitPurpose') ?? [];
