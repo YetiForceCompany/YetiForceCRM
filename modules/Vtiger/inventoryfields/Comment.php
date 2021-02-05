@@ -18,10 +18,29 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	protected $colSpan = 0;
 	protected $columnName = 'comment';
 	protected $dbType = 'text';
+	protected $params = ['width', 'height'];
 	protected $onlyOne = false;
 	protected $blocks = [2];
 	public $isVisible = false;
 	protected $purifyType = \App\Purifier::HTML;
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditTemplateName()
+	{
+		return 'inventoryTypes/Comment.tpl';
+	}
+
+	/**
+	 * Get width.
+	 *
+	 * @return int
+	 */
+	public function getWidth(): int
+	{
+		return $this->getParamsConfig()['width'] ? $this->getParamsConfig()['width'] : 100;
+	}
 
 	/**
 	 * Get height.
@@ -30,7 +49,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getHeight(): int
 	{
-		return $this->getParamsConfig()['height'] ?? 50;
+		return $this->getParamsConfig()['height'] ? $this->getParamsConfig()['height'] : 50;
 	}
 
 	/**
