@@ -148,12 +148,13 @@
 				</div>
 				<div class="col-md-6 px-1">
 					{if in_array($FIELD_MODEL->getFieldDataType(),['string','currency','url','integer','double'])}
+						{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
 						<div class="form-group">
 							<label for="fieldMask"><strong>{App\Language::translate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}</strong></label>
 							<div class=" input-group">
 								<input type="text" class="form-control" id="fieldMask" name="fieldMask"
 										{if $FIELD_MODEL->get('maximumlength')} data-validation-engine="validate[maxSize[{$FIELD_MODEL->get('maximumlength')}]]{/if}"
-										value="{$FIELD_MODEL->get('fieldparams')}"/>
+										value="{if isset($PARAMS['mask'])}{$PARAMS['mask']}{/if}"/>
 								<div class="input-group-append">
 									<span class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover"
 											data-placement="top"

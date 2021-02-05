@@ -6,7 +6,7 @@
 	{\App\Language::translate($FIELD->get('label'), $MODULE)}
 </label>
 <textarea name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" title="{\App\Language::translate("LBL_ROW_COMMENT",$MODULE)}"
-	id="editView_comment{$FIELD->getColumnName()}{$ROW_NO}" data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode(['mandatory' => false]))|escape}"
+	id="editView_comment{$FIELD->getColumnName()}{$ROW_NO}" data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode(['mandatory' => false]))}"
 	data-height="{$FIELD->getHeight()}px" data-width="{$FIELD->getWidth()}%" data-emoji-enabled="true" data-mentions-enabled="true"
 	class="comment js-inventory-item-comment form-control js-editor js-editor--basic" {if $FIELD->isReadOnly()}readonly="readonly"{/if} data-js="ckeditor">
 	{$VALUE}
