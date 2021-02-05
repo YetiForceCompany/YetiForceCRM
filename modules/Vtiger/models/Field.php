@@ -1494,6 +1494,19 @@ class Vtiger_Field_Model extends vtlib\Field
 		return $this->get('anonymizationTarget');
 	}
 
+	/**
+	 * Get maximum value.
+	 *
+	 * @return string|null
+	 */
+	public function getMaxValue(): ?string
+	{
+		if (($maximumLength = $this->get('maximumlength')) && false !== strpos($maximumLength, ',')) {
+			$maximumLength = explode(',', $maximumLength)[1];
+		}
+		return $maximumLength;
+	}
+
 	public function isActiveSearchView()
 	{
 		if ($this->get('fromOutsideList')) {
