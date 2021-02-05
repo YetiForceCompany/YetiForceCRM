@@ -31,6 +31,12 @@
 	}
 }
 
+.footer-non--active {
+	.c-form__action-panel {
+		bottom: 0px;
+	}
+}
+
 .verticalScroll {
 	position: absolute;
 	left: 0;
@@ -39,6 +45,12 @@
 	overflow-x: hidden;
 	padding-right: 10px;
 	padding-left: 10px;
+}
+
+.footer-non--active {
+	.verticalScroll {
+		height: 90vh;
+	}
 }
 
 .o-register-warning + .mainContainer,
