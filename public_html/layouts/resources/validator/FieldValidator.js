@@ -1233,12 +1233,16 @@ Vtiger_Email_Validator_Js(
 			}
 			let allFields = $(this.field).closest('div.js-multi-email').eq(0).find('.js-multi-email-item');
 			let arrayLength = allFields.length;
+			let amoutOfDuplicateEmails = 0;
 			for (let i = 0; i < arrayLength; ++i) {
-				let inputField = $(allFields[i]).find('input.js-multi-email-email');
+				let inputField = $(allFields[i]).find('input.js-multi-email');
 				if (inputField.val() === '') {
 					continue;
 				}
 				if (inputField.val() === fieldValue) {
+					++amoutOfDuplicateEmails;
+				}
+				if (2 <= amoutOfDuplicateEmails) {
 					this.setError(app.vtranslate('JS_EMAIL_DUPLICATED'));
 					return false;
 				}

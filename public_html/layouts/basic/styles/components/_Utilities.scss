@@ -397,6 +397,10 @@
 	}
 }
 
+.u-max-w-40px {
+	max-width: calculate-rem(40px);
+}
+
 .u-max-w-150px {
 	max-width: 150px;
 }

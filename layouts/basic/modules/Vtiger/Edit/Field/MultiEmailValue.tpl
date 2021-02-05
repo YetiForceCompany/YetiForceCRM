@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <div class="js-multi-email-item tpl-Base-Edit-Field-MultiEmailValue">
-	<div class="input-group mb-3">
+	<div class="input-group mb-1">
 		<input type="text" class="js-multi-email form-control"
 				value="{$ITEM['e']}"
 				placeholder="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"
