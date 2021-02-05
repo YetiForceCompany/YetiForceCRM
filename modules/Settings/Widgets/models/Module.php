@@ -47,7 +47,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getModulesList()
 	{
-		$modules = \vtlib\Functions::getAllModules();
+		$modules = \vtlib\Functions::getAllModules(true, true, 0);
 		foreach ($modules as $id => $module) {
 			$moduleModel = Vtiger_Module_Model::getInstance($module['name']);
 			if (!$moduleModel->isSummaryViewSupported()) {
@@ -76,8 +76,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getType($module = false)
 	{
-		$moduleName = \App\Module::getModuleName($module);
-
 		$dir = 'modules/Vtiger/widgets/';
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$ffs = scandir($dir);
@@ -87,8 +85,8 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				$folderFiles[$action] = $action;
 				Vtiger_Loader::includeOnce('~~' . $dir . $ff);
 				$modelClassName = Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
-				$instance = new $modelClassName();
-				if ($instance->allowedModules && !\in_array($moduleName, $instance->allowedModules) || ('Comments' == $action && !$moduleModel->isCommentEnabled())) {
+				$instance = new $modelClassName($module, $moduleModel);
+				if (!$instance->isPermitted()) {
 					unset($folderFiles[$action]);
 				}
 			}
@@ -338,21 +336,28 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to get switch buttons for widget.
 	 *
-	 * @param int $index
+	 * @param mixed $sourceModule
+	 * @param array $index
 	 *
 	 * @return array
 	 */
-	public static function getHeaderSwitch($index = [])
+	public static function getHeaderSwitch($sourceModule, $index = [])
 	{
-		$data = [
-			\App\Module::getModuleId('SSalesProcesses') => [
-				[
-					'type' => 1,
-					'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
-					'value' => ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']],
-				],
-			],
-		];
+		$data = [];
+		$moduleId = is_numeric($sourceModule) ? $sourceModule : \App\Module::getModuleId($sourceModule);
+		$relatedList = (new self())->getRelatedModule($moduleId);
+		foreach ($relatedList as $moduleData) {
+			$moduleName = $moduleData['name'];
+			if (($fieldName = \App\RecordStatus::getFieldName($moduleName)) && ($statuses = \App\RecordStatus::getStates($moduleName, \App\RecordStatus::RECORD_STATE_CLOSED))) {
+				$data[$moduleData['related_tabid']] = [
+					[
+						'type' => 1,
+						'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', $moduleName),
+						'value' => [$fieldName => $statuses]
+					],
+				];
+			}
+		}
 		if (empty($index)) {
 			return $data;
 		}
@@ -360,31 +365,5 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			return $data[$index[0]][$index[1]];
 		}
 		return [];
-	}
-
-	/**
-	 * Function to get buttons which visible in header widget.
-	 *
-	 * @param int $moduleId Number id module
-	 *
-	 * @return Vtiger_Link_Model[]
-	 */
-	public static function getHeaderButtons($moduleId)
-	{
-		$linkList = [];
-		$moduleName = \App\Module::getModuleName($moduleId);
-		if ('Documents' === $moduleName) {
-			$linkList[] = [
-				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
-				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'adminIcon-document-templates',
-				'linkclass' => 'btn-light btn-sm',
-			];
-		}
-		$buttons = [];
-		foreach ($linkList as &$link) {
-			$buttons[] = Vtiger_Link_Model::getInstanceFromValues($link);
-		}
-		return $buttons;
 	}
 }

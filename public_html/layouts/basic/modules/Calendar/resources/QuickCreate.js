@@ -5,7 +5,9 @@
  *  Class representing a modal calendar.
  * @extends Calendar_CalendarExtended_Js
  */
-window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calendar_CalendarExtended_Js {
+window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends (
+	Calendar_CalendarExtended_Js
+) {
 	constructor(container, readonly) {
 		super(container, readonly);
 		this.isSwitchAllDays = false;
@@ -125,13 +127,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 				switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(
 					calendarview.find('.fc-center')
 				);
-			$(
-				this.switchTpl(
-					app.vtranslate('JS_WORK_DAYS'),
-					app.vtranslate('JS_ALL'),
-					this.isSwitchAllDays
-				)
-			)
+			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), this.isSwitchAllDays))
 				.prependTo(switchContainer)
 				.on('change', 'input', (e) => {
 					const currentTarget = $(e.currentTarget);
@@ -203,9 +199,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 			endDate = endDate + 'T' + endHour + ':00';
 			if (startDate == endDate) {
 				let activityType = this.container.find('[name="activitytype"]').val();
-				let activityDurations = JSON.parse(
-					this.container.find('[name="defaultOtherEventDuration"]').val()
-				);
+				let activityDurations = JSON.parse(this.container.find('[name="defaultOtherEventDuration"]').val());
 				let minutes = 0;
 				for (let i in activityDurations) {
 					if (activityDurations[i].activitytype === activityType) {
@@ -237,19 +231,16 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 
 	/** @inheritdoc */
 	registerEditForm(sideBar) {
-		let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(
-				sideBar.find('[name="module"]').val()
-			),
-			headerInstance = new Vtiger_Header_Js(),
+		let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
 			params = [];
-		let rightFormCreate = sideBar.find('form[name="QuickCreate"]');
+		let rightFormCreate = sideBar.find('form.js-form');
 		editViewInstance.registerBasicEvents(rightFormCreate);
 		rightFormCreate.validationEngine(app.validationEngineOptions);
 		App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 		sideBar.find('.js-summary-close-edit').on('click', () => {
 			this.getCalendarCreateView();
 		});
-		headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
+		App.Components.QuickCreate.registerPostLoadEvents(rightFormCreate, params);
 		App.Fields.Text.Editor.register(sideBar.find('.js-editor'), { height: '5em', toolbar: 'Min' });
 	}
 
@@ -290,17 +281,13 @@ jQuery.Class(
 				let form = container.find('form');
 				let currentTarget = $(e.currentTarget);
 				if (1 === currentTarget.data('type')) {
-					form.append(
-						'<input type=hidden name="activitystatus" value="' + currentTarget.data('state') + '">'
-					);
+					form.append('<input type=hidden name="activitystatus" value="' + currentTarget.data('state') + '">');
 					form.submit();
 				} else {
 					container.find('.js-activity-buttons').remove();
 					form.find('[name="record"]').val('');
 					form.append('<input type=hidden name="postponed" value="true">');
-					form.append(
-						'<input type=hidden name="followup" value="' + currentTarget.data('id') + '">'
-					);
+					form.append('<input type=hidden name="followup" value="' + currentTarget.data('id') + '">');
 				}
 			});
 		},
@@ -331,9 +318,9 @@ jQuery.Class(
 				var dateStartEl = data.find('[name="date_start"]');
 				var startDay = dateStartEl.val();
 				var dateStartFormat = dateStartEl.data('date-format');
-				startDay = moment(
-					Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+7', ' ')
-				).format(dateStartFormat.toUpperCase());
+				startDay = moment(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+7', ' ')).format(
+					dateStartFormat.toUpperCase()
+				);
 				dateStartEl.val(startDay);
 				dateEnd.val(startDay);
 				thisInstance.getNearCalendarEvent(data);
@@ -342,9 +329,9 @@ jQuery.Class(
 				var dateStartEl = data.find('[name="date_start"]');
 				var startDay = dateStartEl.val();
 				var dateStartFormat = dateStartEl.data('date-format');
-				startDay = moment(
-					Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-7', ' ')
-				).format(dateStartFormat.toUpperCase());
+				startDay = moment(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-7', ' ')).format(
+					dateStartFormat.toUpperCase()
+				);
 				dateStartEl.val(startDay);
 				dateEnd.val(startDay);
 				thisInstance.getNearCalendarEvent(data);

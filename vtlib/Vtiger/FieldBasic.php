@@ -48,6 +48,10 @@ class FieldBasic
 	public $block;
 	public $fieldparams = '';
 	public $color = '';
+	/**
+	 * @var string[] Anonymization targets form field ex. logs.
+	 */
+	public $anonymizationTarget = [];
 
 	/**
 	 * Initialize this instance.
@@ -85,7 +89,10 @@ class FieldBasic
 		$this->fieldparams = $valuemap['fieldparams'];
 		$this->visible = (int) $valuemap['visible'];
 		$this->color = $valuemap['color'];
-		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $module);
+		$this->block = $blockInstance ?: Block::getInstance($valuemap['block'], $module);
+		if (!empty($valuemap['anonymization_target'])) {
+			$this->anonymizationTarget = \App\Json::decode($valuemap['anonymization_target']);
+		}
 	}
 
 	/** Cache (Record) the schema changes to improve performance */

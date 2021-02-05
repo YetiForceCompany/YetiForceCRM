@@ -177,11 +177,13 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$parent = (int) str_replace('T', '', end($pieces));
 			$icon = false;
 			if (!empty($row['icon'])) {
-				$basePath = '';
-				if ($row['icon'] && 0 === strpos($row['icon'], 'layouts') && !IS_PUBLIC_DIR) {
-					$basePath = 'public_html/';
+				$basePathIcon = $row['icon'];
+				if ($basePathIcon && 0 === strpos($basePathIcon, 'public_html') && IS_PUBLIC_DIR) {
+					$basePathIcon = str_replace('public_html/', '', $basePathIcon);
+				} elseif ($basePathIcon && 0 === strpos($basePathIcon, 'layouts') && !IS_PUBLIC_DIR) {
+					$basePathIcon = 'public_html/' . $basePathIcon;
 				}
-				$icon = $basePath . $row['icon'];
+				$icon = $basePathIcon;
 			}
 			$parameters = [
 				'id' => $treeID,

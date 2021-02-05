@@ -8,7 +8,21 @@
 			</div>
 		</div>
 		<div class="mb-2">
-			{if !empty($VULNERABILITIES)}
+			{if !\App\YetiForce\Register::verify(false)}
+				<div class="alert alert-danger" role="alert">
+					<h4 class="alert-heading">
+						<span class="yfi yfi-yeti-register-alert mr-2"></span>
+						{\App\Language::translate('LBL_YETIFORCE_NOT_REGISTRATION_TITLE')}
+					</h4>
+					<p>{\App\Language::translate('LBL_YETIFORCE_NOT_REGISTRATION_DESC')}</p>
+					{if \App\Security\AdminAccess::isPermitted('Companies')}
+						<a href="index.php?module=Companies&parent=Settings&view=List&displayModal=online" class="btn btn-success mr-1">
+							<span class="adminIcon-company-detlis mr-2"></span>
+							{App\Language::translate('LBL_YETIFORCE_REGISTRATION')}
+						</a>
+					{/if}
+				</div>
+			{else if !empty($VULNERABILITIES)}
 				<div class="w-100 mb-2">
 					<div class="alert alert-danger" role="alert">
 						<h4 class="alert-heading">
@@ -44,10 +58,10 @@
 						{foreach from=$VULNERABILITIES key=LIB_NAME item=LIB}
 							{foreach from=$LIB['advisories'] item=ADVISORIE}
 								<tr>
-									<td><label>{$LIB_NAME} ({$LIB['version']})</label></td>
-									<td><label>{$ADVISORIE['title']}</label></td>
-									<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer noopener" href="{$ADVISORIE['link']}">{$ADVISORIE['link']}</a></label></td>
-									<td><label>{$ADVISORIE['cve']}</label></td>
+									<td><label>{\App\Purifier::encodeHtml($LIB_NAME)} ({\App\Purifier::encodeHtml($LIB['version'])})</label></td>
+									<td><label>{\App\Purifier::encodeHtml($ADVISORIE['title'])}</label></td>
+									<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer noopener" href="{\App\Purifier::encodeHtml($ADVISORIE['link'])}">{\App\Purifier::encodeHtml($ADVISORIE['link'])}</a></label></td>
+									<td><label>{\App\Purifier::encodeHtml($ADVISORIE['cve'])}</label></td>
 								</tr>
 							{/foreach}
 						{/foreach}

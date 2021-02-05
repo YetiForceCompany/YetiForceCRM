@@ -43,13 +43,18 @@ class Response
 	 * @var array
 	 */
 	protected $headers = [];
+	/**
+	 * @var int Response status code.
+	 */
 	protected $status = 200;
 	/**
-	 * Response data type.
-	 *
-	 * @var string
+	 * @var string Response data type.
 	 */
 	protected $responseType;
+	/**
+	 * @var string Reason phrase.
+	 */
+	protected $reasonPhrase;
 
 	/**
 	 * Get instance.
@@ -64,14 +69,41 @@ class Response
 		return static::$instance;
 	}
 
-	public function addHeader($key, $value)
+	/**
+	 * Add header.
+	 *
+	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return void
+	 */
+	public function addHeader(string $key, $value): void
 	{
 		$this->headers[$key] = $value;
 	}
 
-	public function setStatus($status)
+	/**
+	 * Set status code.
+	 *
+	 * @param int $status
+	 *
+	 * @return void
+	 */
+	public function setStatus(int $status): void
 	{
 		$this->status = $status;
+	}
+
+	/**
+	 * Set reason phrase.
+	 *
+	 * @param string $reasonPhrase
+	 *
+	 * @return void
+	 */
+	public function setReasonPhrase(string $reasonPhrase): void
+	{
+		$this->reasonPhrase = $reasonPhrase;
 	}
 
 	/**
@@ -100,7 +132,14 @@ class Response
 		$this->responseType = 'file';
 	}
 
-	public function setRequest(Request $request)
+	/**
+	 * Set request.
+	 *
+	 * @param \Api\Core\Request $request
+	 *
+	 * @return void
+	 */
+	public function setRequest(Request $request): void
 	{
 		$this->request = $request;
 	}
@@ -129,8 +168,16 @@ class Response
 		$this->acceptableHeaders = array_merge($this->acceptableHeaders, $headers);
 	}
 
-	private function requestStatus()
+	/**
+	 * Get reason phrase.
+	 *
+	 * @return string
+	 */
+	private function getReasonPhrase(): string
 	{
+		if (isset($this->reasonPhrase)) {
+			return  str_ireplace(["\r\n", "\r", "\n"], ' ', $this->reasonPhrase);
+		}
 		$statusCodes = [
 			200 => 'OK',
 			401 => 'Unauthorized',
@@ -156,7 +203,7 @@ class Response
 			header('access-control-allow-origin: *');
 			header('access-control-allow-methods: ' . implode(', ', $this->acceptableMethods));
 			header('access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(', ', $this->acceptableHeaders));
-			header(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->status . ' ' . $this->requestStatus());
+			header(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->status . ' ' . $this->getReasonPhrase());
 			header('encrypted: ' . $encryptDataTransfer);
 			foreach ($this->headers as $key => $header) {
 				header(\strtolower($key) . ': ' . $header);
@@ -203,7 +250,7 @@ class Response
 
 	public function debugResponse()
 	{
-		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
+		if (\App\Config::debug('apiLogAllRequests')) {
 			$request = Request::init();
 			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
 			$log .= "Status: {$this->status}\n";

@@ -62,9 +62,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 		return $this->getParamsConfig()['isOpened'] ?? false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		$conf = App\Config::module($this->getModuleName(), 'inventoryCommentIframeContent', null);
@@ -75,9 +73,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 		return $rawText ? $value : \App\Layout::truncateHtml($value, 'full');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if (!\is_string($value)) {
@@ -85,17 +81,13 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		return \App\Utils\Completions::encodeAll(\App\Purifier::decodeHtml($value));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getValue($value)
 	{
 		if ('' == $value) {

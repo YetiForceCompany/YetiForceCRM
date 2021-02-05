@@ -85,9 +85,9 @@ class RecordFinder
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->permissions = false;
 		foreach ($fields as $field) {
-			if ($queryGenerator->getModuleField($field)) {
+			if ($fieldsModel = $queryGenerator->getModuleField($field)) {
 				$activeFields[] = $field;
-				$conditions[] = [$field => $emails];
+				$conditions[] = [$fieldsModel->getColumnName() => $emails];
 			}
 		}
 		if (!$activeFields) {

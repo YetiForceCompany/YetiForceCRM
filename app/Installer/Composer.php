@@ -115,9 +115,6 @@ class Composer
 		'phpoffice/phpspreadsheet' => [
 			'bin'
 		],
-		'rmccue/requests' => [
-			'bin'
-		],
 		'sabre/dav' => [
 			'bin'
 		],

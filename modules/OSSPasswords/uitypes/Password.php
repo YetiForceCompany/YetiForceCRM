@@ -15,50 +15,38 @@
  */
 class OSSPasswords_Password_UIType extends Vtiger_Password_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isActiveSearchView()
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		return $rawText ? parent::getListViewDisplayValue($value, $record, $recordModel, $rawText) : str_repeat('*', 10);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSPasswords');
 		return $recordModel->checkPassword($value)['error'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Base.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function convertToSave($value, Vtiger_Record_Model $recordModel)
 	{
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();

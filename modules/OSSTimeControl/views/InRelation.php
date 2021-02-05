@@ -56,20 +56,21 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 			$relationListView->set('search_value', $searchValue);
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
-		$searchParmams = App\Condition::validSearchParams($relationListView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
-		if (empty($searchParmams) || !\is_array($searchParmams)) {
-			$searchParmams = [];
+		$searchParams = App\Condition::validSearchParams($relationListView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
+		if (empty($searchParams) || !\is_array($searchParams)) {
+			$searchParamsRaw = $searchParams = [];
 		}
 		$queryGenerator = $relationListView->getQueryGenerator();
-		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParmams);
+		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 		$relationListView->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
 		foreach ($request->getArray('search_params') as $fieldListGroup) {
+			$searchParamsRaw[] = $fieldListGroup;
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2] ?? '';
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0] ?? '';
 				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? '';
-				$searchParmams[$fieldName] = $fieldSearchInfo;
+				$searchParams[$fieldName] = $fieldSearchInfo;
 			}
 		}
 		$showHeader = true;
@@ -139,7 +140,8 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('SEARCH_DETAILS', $searchParmams);
+		$viewer->assign('SEARCH_DETAILS', $searchParams);
+		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('VIEW', $request->getByType('view'));
 		$viewer->assign('SHOW_RELATED_WIDGETS', \in_array($relationModel->getId(), App\Config::module($moduleName, 'showRelatedWidgetsByDefault', [])));
 		if ($relationListView->isWidgetsList()) {

@@ -64,12 +64,7 @@
 	 * @param  {Number} [highlightedLine] If provided, the given line number will be highlighted.
 	 * @return {String}
 	 */
-	var createCodeBlock = (PhpDebugBar.Widgets.createCodeBlock = function (
-		code,
-		lang,
-		firstLineNumber,
-		highlightedLine
-	) {
+	var createCodeBlock = (PhpDebugBar.Widgets.createCodeBlock = function (code, lang, firstLineNumber, highlightedLine) {
 		var pre = $('<pre />').addClass(csscls('code-block'));
 		// Add a newline to prevent <code> element from vertically collapsing too far if the last
 		// code line was empty: that creates problems with the horizontal scrollbar being
@@ -511,9 +506,9 @@
 					});
 
 					// build table and add
-					var aggregateTable = $(
-						'<table style="display: table; border: 0; width: 99%"></table>'
-					).addClass(csscls('params'));
+					var aggregateTable = $('<table style="display: table; border: 0; width: 99%"></table>').addClass(
+						csscls('params')
+					);
 					$.each(aggregate, function (i, aggregate) {
 						width = Math.min(((aggregate.data.duration * 100) / data.duration).toFixed(2), 100);
 
@@ -591,9 +586,7 @@
 						$('<span />').addClass(csscls('type')).text(e.type).appendTo(li);
 					}
 					if (e.surrounding_lines) {
-						var pre = createCodeBlock(e.surrounding_lines.join(''), 'php')
-							.addClass(csscls('file'))
-							.appendTo(li);
+						var pre = createCodeBlock(e.surrounding_lines.join(''), 'php').addClass(csscls('file')).appendTo(li);
 						li.click(function () {
 							if (pre.is(':visible')) {
 								pre.hide();

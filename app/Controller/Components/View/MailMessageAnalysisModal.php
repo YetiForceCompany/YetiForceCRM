@@ -29,7 +29,7 @@ class MailMessageAnalysisModal extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $modalSize = 'modal-full';
+	public $modalSize = 'modal-blg';
 	/**
 	 * {@inheritdoc}
 	 */
@@ -52,6 +52,10 @@ class MailMessageAnalysisModal extends \App\Controller\Modal
 			if (!\Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission('OSSMail')) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
+		} elseif ($request->has('header') && $request->has('body') && $request->has('sourceModule') && $request->has('sourceRecord')) {
+			if (!\App\Privilege::isPermitted($request->getByType('sourceModule', 'Alnum'), 'DetailView', $request->getInteger('sourceRecord'))) {
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			}
 		} else {
 			throw new \App\Exceptions\AppException('ERR_NO_CONTENT', 406);
 		}
@@ -72,6 +76,10 @@ class MailMessageAnalysisModal extends \App\Controller\Modal
 	{
 		if ($request->has('record')) {
 			$this->recordModel = \App\Mail\Rbl::getRequestById($request->getInteger('record'));
+		} elseif ($request->has('header') && $request->has('body')) {
+			$this->recordModel = \App\Mail\Rbl::getInstance([]);
+			$this->recordModel->set('header', $request->getRaw('header'));
+			$this->recordModel->set('body', $request->getRaw('body'));
 		} else {
 			$this->recordModel = \App\Mail\Rbl::getInstance([]);
 			[$headers] = explode("\r\n\r\n", str_replace(["\r\n", "\r", "\n"], ["\n", "\n", "\r\n"], $request->getRaw('content')), 2);
@@ -104,21 +112,17 @@ class MailMessageAnalysisModal extends \App\Controller\Modal
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
+		$viewer->assign('TABLE_HEADERS', ['fromName', 'fromIP', 'byName', 'extraWith', 'extraComments', 'dateTime']);
 		$viewer->assign('CARD_MAP', [
-			'from' => [
-				'Name' => ['icon' => 'fas fa-upload', 'label' => 'LBL_SERVER_NAME_FROM_DESC'],
-				'Hostname' => ['icon' => 'fas fa-server', 'label' => 'LBL_SERVER_HOST_NAME_FROM'],
-				'IP' => ['icon' => 'fas fa-network-wired', 'label' => 'LBL_SERVER_IP_FROM'],
-			],
-			'by' => [
-				'Name' => ['icon' => 'fas fa-download', 'label' => 'LBL_SERVER_NAME_BY_DESC'],
-				'Hostname' => ['icon' => 'fas fa-server', 'label' => 'LBL_SERVER_HOST_NAME_BY'],
-				'IP' => ['icon' => 'fas fa-network-wired', 'label' => 'LBL_SERVER_IP_BY'],
-			],
-			'extra' => [
-				'Comments' => ['icon' => 'far fa-comment-alt', 'label' => 'LBL_SERVER_COMMENTS'],
-				'With' => ['icon' => 'fab fa-expeditedssl', 'label' => 'LBL_PROTOCOL'],
-			]
+			'fromName' => ['icon' => 'fas fa-upload', 'label' => 'LBL_FROM_NAME'],
+			'fromHostname' => ['icon' => 'fas fa-server', 'label' => 'LBL_FROM_HOST_NAME'],
+			'fromIP' => ['icon' => 'fas fa-network-wired', 'label' => 'LBL_FROM_IP'],
+			'byName' => ['icon' => 'fas fa-download', 'label' => 'LBL_BY_NAME'],
+			'byHostname' => ['icon' => 'fas fa-server', 'label' => 'LBL_BY_HOST_NAME'],
+			'byIP' => ['icon' => 'fas fa-network-wired', 'label' => 'LBL_BY_IP'],
+			'extraComments' => ['icon' => 'far fa-comment-alt', 'label' => 'LBL_EXTRA_WITH'],
+			'extraWith' => ['icon' => 'fab fa-expeditedssl', 'label' => 'LBL_EXTRA_COMMENTS'],
+			'dateTime' => ['icon' => 'fas fa-clock', 'label' => 'LBL_DATE'],
 		]);
 		$viewer->view('MailMessageAnalysisModal.tpl', $request->getModule(false));
 	}

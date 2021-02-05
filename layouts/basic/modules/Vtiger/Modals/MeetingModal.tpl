@@ -44,17 +44,15 @@
 						</h6>
 						<div class="card-body text-center p-0">
 							<div class="row mb-3 mt-2">
-								{if $EMAIL_TEMPLATE}
-									<div class="col-xs-6 mx-auto">
-										<span class="m-1 yfi-copy-invitation text-info u-fs-4x u-cursor-pointer js-template-copy" data-js="click" data-clipboard-target="#iframeTemlate"
-											title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD', $MODULE_NAME)}">
-										</span>
-										<div class="text-center text-info">
-											{\App\Language::translate('LBL_COPY', $MODULE_NAME)}<br>
-										</div>
+								<div class="col-xs-6 mx-auto">
+									<span class="m-1 yfi-copy-invitation text-info u-fs-4x u-cursor-pointer js-template-copy" data-js="click" data-clipboard-target="#iframeTemlate"
+										title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD', $MODULE_NAME)}">
+									</span>
+									<div class="text-center text-info">
+										{\App\Language::translate('LBL_COPY', $MODULE_NAME)}<br>
 									</div>
-									<iframe id="iframeTemlate" width="0" height="0" frameborder="0" data-js="iframe" srcdoc="{\App\Purifier::encodeHtml($EMAIL_TEMPLATE_DATA)}"></iframe>
-								{/if}
+								</div>
+								<iframe id="iframeTemlate" width="0" height="0" frameborder="0" data-js="iframe" srcdoc="{\App\Purifier::encodeHtml($EMAIL_TEMPLATE_DATA)}"></iframe>
 								<div class="col-xs-6 mx-auto">
 									{if $USER_MODEL->get('internal_mailer') == 1}
 										{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD_ID, 'Detail', 'new')}

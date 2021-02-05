@@ -106,9 +106,7 @@ abstract class Inventory extends Base
 		return (int) \App\Fields\Currency::getIdByCode($this->data['order_currency_code']);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDataCrm(bool $onEdit = false): array
 	{
 		parent::getDataCrm($onEdit);

@@ -11,17 +11,13 @@
 
 class Vtiger_Text_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return \App\Utils\Completions::encodeAll(\App\Purifier::decodeHtml($value));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
@@ -33,9 +29,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -51,17 +45,13 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		return \App\Utils\Completions::encode(parent::getEditViewDisplayValue($value, $recordModel));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -88,9 +78,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
 	{
 		if (empty($value)) {
@@ -104,41 +92,31 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext') ?: 50);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Text.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewTemplateName()
 	{
 		return 'Detail/Field/Text.tpl';

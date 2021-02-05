@@ -666,45 +666,41 @@ class Importer
 							$dbCommand->addColumn($tableName, $columnName, $column)->execute();
 							$time = round((microtime(true) - $start), 1);
 							$this->logs .= "done    ({$time}s)\n";
-						} else {
-							if ($this->comperColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
-								$primaryKey = false;
-								if ($column instanceof \yii\db\ColumnSchemaBuilder && (\in_array($column->get('type'), ['upk', 'pk']))) {
-									if ('upk' == $column->get('type')) {
-										$column->unsigned();
+						} elseif ($column instanceof \yii\db\ColumnSchemaBuilder && $this->compareColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
+							$primaryKey = false;
+							if ($column instanceof \yii\db\ColumnSchemaBuilder && (\in_array($column->get('type'), ['upk', 'pk', 'ubigpk', 'bigpk']))) {
+								$primaryKey = true;
+								$column->set('type', \in_array($column->get('type'), ['ubigpk', 'bigpk']) ? \yii\db\Schema::TYPE_BIGINT : \yii\db\Schema::TYPE_INTEGER);
+							}
+							if ($tableSchema->foreignKeys) {
+								foreach ($tableSchema->foreignKeys as $keyName => $value) {
+									if (isset($value[$columnName])) {
+										$this->logs .= "  > foreign key must be removed and added in postUpdate: $tableName:$columnName <> {$value[0]}:{$value[$columnName]} FK:{$keyName}\n";
+										$importer->foreignKey[] = [$keyName, $tableName, $columnName, $value[0], $value[$columnName], 'CASCADE', null];
+										$dbCommand->dropForeignKey($keyName, $tableName)->execute();
 									}
-									$column->set('type', 'integer')->set('autoIncrement', true)->notNull();
-									$primaryKey = true;
-								}
-								if ($tableSchema->foreignKeys) {
-									foreach ($tableSchema->foreignKeys as $keyName => $value) {
-										if (isset($value[$columnName])) {
-											$this->logs .= "  > foreign key must be removed and added in postUpdate: $tableName:$columnName <> {$value[0]}:{$value[$columnName]} FK:{$keyName}\n";
-											$importer->foreignKey[] = [$keyName, $tableName, $columnName, $value[0], $value[$columnName], 'CASCADE', null];
-											$dbCommand->dropForeignKey($keyName, $tableName)->execute();
-										}
-									}
-								}
-								foreach ($schema->findForeignKeyToColumn($tableName, $columnName) as $sourceTableName => $fks) {
-									foreach ($fks as $keyName => $fk) {
-										$this->logs .= "  > foreign key must be removed and added in postUpdate: $tableName:$columnName <> $sourceTableName:{$fk['sourceColumn']} FK:{$keyName}\n";
-										$importer->foreignKey[] = [$keyName, $sourceTableName, $fk['sourceColumn'], $tableName, $columnName, 'CASCADE', null];
-										$dbCommand->dropForeignKey($keyName, $sourceTableName)->execute();
-									}
-								}
-
-								$this->logs .= "  > alter column: $tableName:$columnName ... ";
-								$start = microtime(true);
-								$dbCommand->alterColumn($tableName, $columnName, $column)->execute();
-								$time = round((microtime(true) - $start), 1);
-								$this->logs .= "done    ({$time}s)\n";
-								if ($primaryKey) {
-									if (!isset($table['primaryKeys'])) {
-										$table['primaryKeys'] = [];
-									}
-									$table['primaryKeys'][] = [$tableSchema->fullName . '_pk', [$columnName]];
 								}
 							}
+							foreach ($schema->findForeignKeyToColumn($tableName, $columnName) as $sourceTableName => $fks) {
+								foreach ($fks as $keyName => $fk) {
+									$this->logs .= "  > foreign key must be removed and added in postUpdate: $tableName:$columnName <> $sourceTableName:{$fk['sourceColumn']} FK:{$keyName}\n";
+									$importer->foreignKey[] = [$keyName, $sourceTableName, $fk['sourceColumn'], $tableName, $columnName, 'CASCADE', null];
+									$dbCommand->dropForeignKey($keyName, $sourceTableName)->execute();
+								}
+							}
+							$this->logs .= "  > alter column: $tableName:$columnName ... ";
+							$start = microtime(true);
+							$dbCommand->alterColumn($tableName, $columnName, $column)->execute();
+							$time = round((microtime(true) - $start), 1);
+							$this->logs .= "done    ({$time}s)\n";
+							if ($primaryKey) {
+								if (!isset($table['primaryKeys'])) {
+									$table['primaryKeys'] = [];
+								}
+								$table['primaryKeys'][] = [$tableSchema->fullName . '_pk', [$columnName]];
+							}
+						} elseif (!($column instanceof \yii\db\ColumnSchemaBuilder)) {
+							$this->logs .= "  > Warning: column ({$tableName}:{$columnName}) is not verified\n";
 						}
 					}
 				}
@@ -797,12 +793,13 @@ class Importer
 	 *
 	 * @return bool
 	 */
-	protected function comperColumns(\yii\db\QueryBuilder $queryBuilder, \yii\db\ColumnSchema $baseColumn, \yii\db\ColumnSchemaBuilder $targetColumn)
+	protected function compareColumns(\yii\db\QueryBuilder $queryBuilder, \yii\db\ColumnSchema $baseColumn, \yii\db\ColumnSchemaBuilder $targetColumn)
 	{
 		return rtrim($baseColumn->dbType, ' unsigned') !== strtok($queryBuilder->getColumnType($targetColumn), ' ') ||
 		($baseColumn->allowNull !== (null === $targetColumn->isNotNull)) ||
 		($baseColumn->defaultValue !== $targetColumn->default) ||
-		($baseColumn->unsigned !== $targetColumn->isUnsigned);
+		($baseColumn->unsigned !== $targetColumn->isUnsigned) ||
+		($baseColumn->autoIncrement !== $targetColumn->autoIncrement);
 	}
 
 	/**

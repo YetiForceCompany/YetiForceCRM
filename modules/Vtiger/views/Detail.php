@@ -835,6 +835,16 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
+		if ($fieldRelation = $request->getArray('fromRelation', \App\Purifier::ALNUM, [], \App\Purifier::STANDARD)) {
+			if (($parentId = $parentRecordModel->get($fieldRelation['relatedField'])) && \App\Record::isExists($parentId)) {
+				$moduleName = \App\Record::getType($parentId);
+				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+				$relationId = $fieldRelation['relationId'];
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
+			} else {
+				$relationListView->getQueryGenerator()->addNativeCondition((new \yii\db\Expression('0 > 1')));
+			}
+		}
 		$relationModel = $relationListView->getRelationModel();
 		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
@@ -1135,8 +1145,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('STEP', $step);
 		$viewer->assign('STEP_URL', "index.php?module={$moduleName}&view=Detail&record={$recordModel->getId()}&mode=processWizard&tab_label=LBL_RECORD_PROCESS_WIZARD&step=");
 		$viewer->assign('RECORD', $recordModel);
+		if (!$this->recordStructure) {
+			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		}
+		$structuredValues = $this->recordStructure->getStructure();
+		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		if (!empty($step['quickEdit'])) {
 			$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
+		} else {
+			$viewer->assign('IS_AJAX_ENABLED', false);
 		}
 		$viewer->assign('BLOCK_LIST', $recordModel->getModule()->getBlocks());
 		$viewer->assign('MODULE_MODEL', $recordModel->getModule());

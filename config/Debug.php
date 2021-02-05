@@ -32,6 +32,24 @@ class Debug
 	/** Level of saved/displayed tracerts. // Values: int */
 	public static $LOG_TRACE_LEVEL = 0;
 
+	/** Stop the running process of the system if there is an error in sql query */
+	public static $SQL_DIE_ON_ERROR = false;
+
+	/** Display errors */
+	public static $EXCEPTION_ERROR_TO_SHOW = false;
+
+	/** Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true */
+	public static $DISPLAY_EXCEPTION_BACKTRACE = false;
+
+	/** Display logs when error exception occurs */
+	public static $DISPLAY_EXCEPTION_LOGS = false;
+
+	/** Turn on/off the error handler */
+	public static $EXCEPTION_ERROR_HANDLER = false;
+
+	/** Save logs to file (cache/logs/errors.log) */
+	public static $EXCEPTION_ERROR_TO_FILE = false;
+
 	/** Display main debug console */
 	public static $DISPLAY_DEBUG_CONSOLE = false;
 
@@ -47,9 +65,6 @@ class Debug
 	/** List of user IDs allowed to display debug console. */
 	public static $DEBUG_CONSOLE_ALLOWED_USERS = [];
 
-	/** Stop the running process of the system if there is an error in sql query */
-	public static $SQL_DIE_ON_ERROR = false;
-
 	/** Debug cron => cache/logs/cron/ */
 	public static $DEBUG_CRON = false;
 
@@ -62,42 +77,36 @@ class Debug
 	/** Do not show Smarty Notice in phpError.log */
 	public static $SMARTY_ERROR_REPORTING = E_ALL & ~E_NOTICE;
 
-	/** Turn on/off error debugging in javascript */
-	public static $JS_DEBUG = true;
-
-	/** Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true */
-	public static $DISPLAY_EXCEPTION_BACKTRACE = false;
-
-	/** Display logs when error exception occurs */
-	public static $DISPLAY_EXCEPTION_LOGS = false;
-
-	/** Turn on/off the error handler */
-	public static $EXCEPTION_ERROR_HANDLER = false;
-
-	/** Save logs to file (cache/logs/errors.log) */
-	public static $EXCEPTION_ERROR_TO_FILE = false;
-
-	/** Display errors */
-	public static $EXCEPTION_ERROR_TO_SHOW = false;
-
 	/**
 	 * Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.
 	 * https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
 	 * All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
 	 */
-	public static $EXCEPTION_ERROR_LEVEL = 32759;
+	public static $EXCEPTION_ERROR_LEVEL = E_ALL & ~E_NOTICE;
+
+	/** Turn on/off error debugging in javascript */
+	public static $JS_DEBUG = true;
+
+	/** [WebServices/API] Show exception messages in response body */
+	public static $apiShowExceptionMessages = false;
+
+	/** [WebServices/API] Show exception reason phrase in response header */
+	public static $apiShowExceptionReasonPhrase = false;
+
+	/** [WebServices/API] Show exception backtrace in response body */
+	public static $apiShowExceptionBacktrace = false;
+
+	/** [WebServices/API] Log to file only exception errors in the logs */
+	public static $apiLogException = false;
+
+	/** [WebServices/API] Log to file all communications data (request + response) */
+	public static $apiLogAllRequests = false;
 
 	/** API - Sabre dav - This is a flag that allows (or not) showing file, line, and code of the exception in the returned XML */
 	public static $DAV_DEBUG_EXCEPTIONS = false;
 
 	/** Activate the plugin recording log in DAV */
 	public static $DAV_DEBUG_PLUGIN = false;
-
-	/** Show error messages in web service */
-	public static $WEBSERVICE_SHOW_ERROR = false;
-
-	/** Web service logs */
-	public static $WEBSERVICE_DEBUG = false;
 
 	/** Mailer debug */
 	public static $MAILER_DEBUG = false;

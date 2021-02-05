@@ -41,7 +41,7 @@
 								<input class="form-control" type="text"
 									   data-prompt-position="topLeft:70"
 									   data-validation-engine="validate[required, maxSize[{$FIELD_INFO['maximumlength']}], funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-									   data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue">
+									   data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'FieldLabel']]))}' name="newValue">
 							</div>
 						</div>
 						{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}

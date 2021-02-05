@@ -227,6 +227,7 @@ class Record
 	public static function updateLabelOnSave(\Vtiger_Record_Model $recordModel)
 	{
 		$metaInfo = \App\Module::getEntityInfo($recordModel->getModuleName());
+		$separator = $metaInfo['separator'] ?? ' ';
 		$labelName = [];
 		foreach ($metaInfo['fieldnameArr'] as $columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
@@ -237,11 +238,11 @@ class Record
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 		}
-		$label = Purifier::encodeHtml(TextParser::textTruncate(Purifier::decodeHtml(implode(' ', $labelName)), 250, false));
+		$label = Purifier::encodeHtml(TextParser::textTruncate(Purifier::decodeHtml(implode($separator, $labelName)), 250, false));
 		if (empty($label)) {
 			$label = '';
 		}
-		$search = Purifier::encodeHtml(TextParser::textTruncate(Purifier::decodeHtml(implode(' ', $labelSearch)), 250, false));
+		$search = Purifier::encodeHtml(TextParser::textTruncate(Purifier::decodeHtml(implode($separator, $labelSearch)), 250, false));
 		if (empty($search)) {
 			$search = '';
 		}
@@ -311,15 +312,20 @@ class Record
 	public static function getState($recordId)
 	{
 		$metadata = Functions::getCRMRecordMetadata($recordId);
-		switch ($metadata['deleted']) {
-			default:
+		switch ($metadata['deleted'] ?? null) {
 			case 0:
-				return 'Active';
+				$state = 'Active';
+				break;
 			case 1:
-				return 'Trash';
+				$state = 'Trash';
+				break;
 			case 2:
-				return 'Archived';
+				$state = 'Archived';
+				break;
+			default:
+				$state = null;
 		}
+		return $state;
 	}
 
 	/**

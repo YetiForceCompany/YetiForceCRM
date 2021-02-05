@@ -60,24 +60,10 @@ window.App.Fields = {
 			'JS_DECEMBER'
 		].map((monthName) => app.vtranslate(monthName)),
 		days: ['JS_SUN', 'JS_MON', 'JS_TUE', 'JS_WED', 'JS_THU', 'JS_FRI', 'JS_SAT'],
-		daysTranslated: [
-			'JS_SUN',
-			'JS_MON',
-			'JS_TUE',
-			'JS_WED',
-			'JS_THU',
-			'JS_FRI',
-			'JS_SAT'
-		].map((monthName) => app.vtranslate(monthName)),
-		fullDays: [
-			'JS_SUNDAY',
-			'JS_MONDAY',
-			'JS_TUESDAY',
-			'JS_WEDNESDAY',
-			'JS_THURSDAY',
-			'JS_FRIDAY',
-			'JS_SATURDAY'
-		],
+		daysTranslated: ['JS_SUN', 'JS_MON', 'JS_TUE', 'JS_WED', 'JS_THU', 'JS_FRI', 'JS_SAT'].map((monthName) =>
+			app.vtranslate(monthName)
+		),
+		fullDays: ['JS_SUNDAY', 'JS_MONDAY', 'JS_TUESDAY', 'JS_WEDNESDAY', 'JS_THURSDAY', 'JS_FRIDAY', 'JS_SATURDAY'],
 		fullDaysTranslated: [
 			'JS_SUNDAY',
 			'JS_MONDAY',
@@ -192,16 +178,10 @@ window.App.Fields = {
 			let ranges = {};
 			ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
 			ranges[app.vtranslate('JS_TOMORROW')] = [moment().add(1, 'days'), moment().add(1, 'days')];
-			ranges[app.vtranslate('JS_YESTERDAY')] = [
-				moment().subtract(1, 'days'),
-				moment().subtract(1, 'days')
-			];
+			ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
 			ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
 			ranges[app.vtranslate('JS_NEXT_7_DAYS')] = [moment(), moment().add(6, 'days')];
-			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [
-				moment().startOf('month'),
-				moment().endOf('month')
-			];
+			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
 			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
 				moment().add(1, 'month').startOf('month'),
 				moment().add(1, 'month').endOf('month')
@@ -218,18 +198,12 @@ window.App.Fields = {
 				moment().subtract(3, 'month').startOf('month'),
 				moment().subtract(1, 'month').endOf('month')
 			];
-			ranges[app.vtranslate('JS_NEXT_3_MONTHS')] = [
-				moment().startOf('month'),
-				moment().add(3, 'month').endOf('month')
-			];
+			ranges[app.vtranslate('JS_NEXT_3_MONTHS')] = [moment().startOf('month'), moment().add(3, 'month').endOf('month')];
 			ranges[app.vtranslate('JS_LAST_6_MONTHS')] = [
 				moment().subtract(6, 'month').startOf('month'),
 				moment().subtract(1, 'month').endOf('month')
 			];
-			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [
-				moment().startOf('month'),
-				moment().add(6, 'month').endOf('month')
-			];
+			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [moment().startOf('month'), moment().add(6, 'month').endOf('month')];
 			let params = {
 				autoUpdateInput: false,
 				autoApply: true,
@@ -409,9 +383,7 @@ window.App.Fields = {
 					app.hideModalWindow(false, modalContainer.closest('.js-modal-container')[0].id);
 				});
 			};
-			let url = `index.php?module=AppComponents&view=ColorPickerModal${
-				color ? '&color=' + color : ''
-			}`;
+			let url = `index.php?module=AppComponents&view=ColorPickerModal${color ? '&color=' + color : ''}`;
 			app.showModalWindow({ url, cb: registerPickerEvents.bind(this) });
 		}
 	},
@@ -582,13 +554,7 @@ window.App.Fields = {
 						{ name: 'links', items: ['Link', 'Unlink'] },
 						{
 							name: 'insert',
-							items: [
-								'ckeditor-image-to-base',
-								'Table',
-								'HorizontalRule',
-								'SpecialChar',
-								'PageBreak'
-							]
+							items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']
 						},
 						{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
 						{ name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv'] },
@@ -639,7 +605,7 @@ window.App.Fields = {
 								'BidiRtl'
 							]
 						},
-						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
+						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat', 'Source'] }
 					],
 					toolbar_Clipboard: [
 						{ name: 'document', items: ['Print'] },
@@ -877,10 +843,7 @@ window.App.Fields = {
 					this.registerCompletionsButtons();
 				}
 				if (this.params.emojiPanel) {
-					this.registerEmojiPanel(
-						this.inputDiv,
-						this.inputDiv.parents().eq(3).find('.js-completions__emojis')
-					);
+					this.registerEmojiPanel(this.inputDiv, this.inputDiv.parents().eq(3).find('.js-completions__emojis'));
 				}
 				if (App.emoji === undefined) {
 					fetch(`${CONFIG.siteUrl}/vendor/ckeditor/ckeditor/plugins/emoji/emoji.json`)
@@ -1015,11 +978,7 @@ window.App.Fields = {
 		 * @param {jQuery} element
 		 */
 		destroyEditor(element) {
-			if (
-				typeof CKEDITOR !== 'undefined' &&
-				CKEDITOR.instances &&
-				element.attr('id') in CKEDITOR.instances
-			) {
+			if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances && element.attr('id') in CKEDITOR.instances) {
 				CKEDITOR.instances[element.attr('id')].destroy();
 			}
 		},
@@ -1099,17 +1058,12 @@ window.App.Fields = {
 			const computeDropdownHeight = (e, dropdownContainer) => {
 				setTimeout(() => {
 					if (!dropdownContainer.find('.select2-dropdown--above').length) {
-						const dropdownList = dropdownContainer.find(
-							'.select2-results > .select2-results__options'
-						);
+						const dropdownList = dropdownContainer.find('.select2-results > .select2-results__options');
 						const marginBottom = 35;
 						const selectOffsetTop = $(e.currentTarget).offset().top;
 						dropdownList.css({
 							'max-height':
-								$(window).height() -
-								selectOffsetTop -
-								marginBottom -
-								(dropdownList.offset().top - selectOffsetTop)
+								$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
 						});
 					}
 				}, 100);
@@ -1203,19 +1157,10 @@ window.App.Fields = {
 
 			//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
 			//then we should send our custom function for formatSelectionTooBig
-			if (
-				typeof params.maximumSelectionLength !== 'undefined' &&
-				typeof params.formatSelectionTooBig === 'undefined'
-			) {
+			if (typeof params.maximumSelectionLength !== 'undefined' && typeof params.formatSelectionTooBig === 'undefined') {
 				//custom function which will return the maximum selection size exceeds message.
 				var formatSelectionExceeds = function (limit) {
-					return (
-						app.vtranslate('JS_YOU_CAN_SELECT_ONLY') +
-						' ' +
-						limit.maximum +
-						' ' +
-						app.vtranslate('JS_ITEMS')
-					);
+					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY') + ' ' + limit.maximum + ' ' + app.vtranslate('JS_ITEMS');
 				};
 				params.language.maximumSelected = formatSelectionExceeds;
 			}
@@ -1230,10 +1175,7 @@ window.App.Fields = {
 						$(container).addClass(data.element.className);
 					}
 					let actualElement = $(data.element);
-					if (
-						typeof selectElement.data('showAdditionalIcons') !== 'undefined' &&
-						actualElement.is('option')
-					) {
+					if (typeof selectElement.data('showAdditionalIcons') !== 'undefined' && actualElement.is('option')) {
 						return (
 							'<div class="js-element__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' +
 							actualElement.text() +
@@ -1445,14 +1387,10 @@ window.App.Fields = {
 						if (response && response.result) {
 							if (optionElement.attr('data-state') === 'active') {
 								optionElement.attr('data-state', 'inactive');
-								currentTarget.toggleClass(
-									currentElementData.iconActive + ' ' + currentElementData.iconInactive
-								);
+								currentTarget.toggleClass(currentElementData.iconActive + ' ' + currentElementData.iconInactive);
 							} else {
 								optionElement.attr('data-state', 'active');
-								currentTarget.toggleClass(
-									currentElementData.iconInactive + ' ' + currentElementData.iconActive
-								);
+								currentTarget.toggleClass(currentElementData.iconInactive + ' ' + currentElementData.iconActive);
 							}
 							if (response.message) {
 								app.showNotify({ text: response.message, type: 'success' });
@@ -1494,10 +1432,7 @@ window.App.Fields = {
 						options.page = 1;
 					}
 					let data = {};
-					data.results = results.slice(
-						(options.page - 1) * params.lazyElements,
-						options.page * params.lazyElements
-					);
+					data.results = results.slice((options.page - 1) * params.lazyElements, options.page * params.lazyElements);
 					data.pagination = {};
 					data.pagination.more = options.page * params.lazyElements < results.length;
 					callback(data);
@@ -1584,8 +1519,7 @@ window.App.Fields = {
 		findOption(selectElement, searchValue, type = 'value') {
 			let foundOption = false;
 			const selectValues = this.getSelectOptions(selectElement);
-			const getFieldValueFromText = () =>
-				Object.keys(selectValues).find((key) => selectValues[key] === searchValue);
+			const getFieldValueFromText = () => Object.keys(selectValues).find((key) => selectValues[key] === searchValue);
 			const valueExists = () => selectValues.hasOwnProperty(searchValue);
 			const createOption = () => {
 				return { text: selectValues[foundOption], value: foundOption };
@@ -1648,125 +1582,79 @@ window.App.Fields = {
 		}
 	},
 	MultiEmail: {
-		register(container) {
-			container.find('.js-multi-email').each((index, element) => {
-				const inputElement = element;
-				$(element)
-					.find('.js-email')
-					.each((index, element) => {
-						$(element).on('change', (e) => {
-							App.Fields.MultiEmail.parseToJSON($(inputElement));
-						});
-					});
-				$(element)
-					.find('.js-multi-email-add-item')
-					.each((index, element) => {
-						$(element).on('click', (e) => {
-							App.Fields.MultiEmail.addEmail($(inputElement));
-						});
-					});
-				$(element)
-					.find('.js-remove-item')
-					.each((index, element) => {
-						$(element).on('click', (e) => {
-							App.Fields.MultiEmail.removeEmail($(e.target), $(inputElement));
-							App.Fields.MultiEmail.parseToJSON(container);
-						});
-					});
-				$(element)
-					.find('input.js-checkbox')
-					.each((index, element) => {
-						$(element).on('change', (e) => {
-							App.Fields.MultiEmail.toggleCheckBox($(e.target));
-							App.Fields.MultiEmail.parseToJSON(container);
-						});
-					});
+		register($container) {
+			$('.js-multi-email', $container).each((idx, multiEmailField) => {
+				let $multiEmailField = $(multiEmailField);
+				$multiEmailField.on('change', '.js-multi-email', (e) => {
+					App.Fields.MultiEmail.parseToJSON($multiEmailField);
+				});
+				$multiEmailField.on('click', '.js-multi-email-consenticon', (e) => {
+					App.Fields.MultiEmail.toggleConsent($(e.target));
+					App.Fields.MultiEmail.parseToJSON($multiEmailField);
+				});
+				$multiEmailField.on('click', '.js-multi-email-add', (e) => {
+					App.Fields.MultiEmail.addItem($multiEmailField);
+				});
+				$multiEmailField.on('click', '.js-multi-email-remove', (e) => {
+					App.Fields.MultiEmail.removeItem($(e.target));
+					App.Fields.MultiEmail.parseToJSON($multiEmailField);
+				});
 			});
 		},
 		/**
-		 * Convert data to json
-		 * @param {jQuery} element
+		 * Converts data to json and set MultiEmail field value
+		 * @param $multiEmailField
 		 */
-		parseToJSON(element) {
-			let allFields = $(element).find('[class*=js-multi-email-row]');
-			let arr = [];
-			let arrayLength = allFields.length;
-			for (let i = 0; i < arrayLength; ++i) {
-				let inputField = $(allFields[i]).find('input.js-email').eq(0);
-				let checkboxField = $(allFields[i]).find('input.js-checkbox').eq(0);
-				if (inputField.val() !== '') {
-					arr.push({
-						e: $(inputField).val(),
-						o: $(checkboxField).is(':checked') ? 1 : 0
+		parseToJSON($multiEmailField) {
+			let value = [];
+			$('.js-multi-email-item', $multiEmailField).each((idx, item) => {
+				let $item = $(item);
+				let email = $('.js-multi-email', $item).val();
+				let consent = $('.js-multi-email-consent', $item).is(':visible') ? 1 : 0;
+				if (email) {
+					value.push({
+						e: email,
+						o: consent
 					});
 				}
-			}
-			$(element).find('input.js-hidden-email').val(JSON.stringify(arr));
+			});
+			$('.js-multi-email-value', $multiEmailField).val(JSON.stringify(value));
 		},
 		/**
-		 * Invoked after clicking the add button
-		 * @param {jQuery} container
+		 * Adds a new item: email box and consent checkbox
+		 * @param $multiEmailField
 		 */
-		addEmail(container) {
-			let newField = container.find('[class*=js-multi-email-row]').eq(0).clone(false, false);
-			let cnt = container.find('[class*=js-multi-email-row]').length + 1;
-			newField.removeClass('js-multi-email-row-1');
-			newField.addClass('js-multi-email-row-' + cnt);
-			newField.find('input.js-email').val('');
-			newField.find('input.js-checkbox').removeAttr('checked');
-			newField.find('label.js-label-checkbox').removeClass('active');
-			newField.find('span.far').removeClass('fa-check-square').addClass('fa-square');
-			newField
-				.find('.js-remove-item')
-				.eq(0)
-				.on('click', (e) => {
-					App.Fields.MultiEmail.removeEmail($(e.target), container);
-					App.Fields.MultiEmail.parseToJSON(container);
-				});
-			newField
-				.find('input.js-checkbox')
-				.eq(0)
-				.on('change', (e) => {
-					App.Fields.MultiEmail.toggleCheckBox($(e.target));
-					App.Fields.MultiEmail.parseToJSON(container);
-				});
-			newField
-				.find('input.js-email')
-				.eq(0)
-				.on('change', (e) => {
-					App.Fields.MultiEmail.parseToJSON(container);
-				});
-			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
-		},
-		/**
-		 * Invoked after clicking the remove button
-		 * @param {jQuery} container
-		 */
-		removeEmail(element, container) {
-			if (container.find('[class*=js-multi-email-row]').length > 1) {
-				element.closest('[class*=js-multi-email-row]').remove();
+		addItem($multiEmailField) {
+			let $newItem = $('.js-multi-email-item', $multiEmailField).first().clone(false, false);
+			if ($newItem) {
+				$('.js-multi-email', $newItem).attr('value', '').val('');
+				$('.js-multi-email-consent', $newItem).val('');
+				$('.js-multi-email-consenticon', $newItem).hide();
+				$('.js-multi-email-consenticon', $newItem).first().show();
+				$('.js-multi-email-items', $multiEmailField).append($newItem);
+				$('.js-multi-email-remove', $multiEmailField).show();
 			}
 		},
 		/**
-		 * Toggle checkbox
-		 * @param {jQuery} element
+		 * Removes an item: email box and consent checkbox
+		 * @param $deleteBtn
 		 */
-		toggleCheckBox(element) {
-			if (element.is(':checked')) {
-				element
-					.attr('checked', 'checked')
-					.closest('.js-multi-email__checkbox')
-					.find('.js-multi-email__checkbox__icon')
-					.removeClass('fa-square')
-					.addClass('fa-check-square');
-			} else {
-				element
-					.removeAttr('checked')
-					.closest('.js-multi-email__checkbox')
-					.find('.js-multi-email__checkbox__icon')
-					.removeClass('fa-check-square')
-					.addClass('fa-square');
+		removeItem($deleteBtn) {
+			let $multiEmailField = $deleteBtn.closest('.js-multi-email');
+			if (1 < $('.js-multi-email-item', $multiEmailField).length) {
+				$deleteBtn.closest('.js-multi-email-item').remove();
 			}
+			if (1 == $('.js-multi-email-item', $multiEmailField).length) {
+				$('.js-multi-email-remove', $multiEmailField).hide();
+			}
+		},
+		/**
+		 * Toggle consent boxes
+		 * @param $consentBox
+		 */
+		toggleConsent($consentBox) {
+			let $item = $consentBox.closest('.js-multi-email-item');
+			$('.js-multi-email-consenticon', $item).toggle();
 		}
 	},
 	MultiDependField: {
@@ -1847,11 +1735,7 @@ window.App.Fields = {
 			let lastField = container.find('.js-multi-field-row').last();
 			let selectFields = lastField.find('select.select2');
 			if (selectFields.length) {
-				selectFields
-					.select2('destroy')
-					.removeAttr('data-select2-id')
-					.find('option')
-					.removeAttr('data-select2-id');
+				selectFields.select2('destroy').removeAttr('data-select2-id').find('option').removeAttr('data-select2-id');
 				newField = lastField.clone(false, false);
 				App.Fields.Picklist.showSelect2ElementView(lastField.find('select.select2'));
 			} else {
@@ -1892,11 +1776,7 @@ window.App.Fields = {
 		 * data-sort: do we want to sort slave options by text when master has two items selected? if not - just append options to slave
 		 */
 		register(container) {
-			if (
-				typeof container === 'undefined' ||
-				typeof container.length === 'undefined' ||
-				!container.length
-			) {
+			if (typeof container === 'undefined' || typeof container.length === 'undefined' || !container.length) {
 				return app.errorLog('Dependend select field container is missing.');
 			}
 			container.each(function () {
@@ -2000,9 +1880,7 @@ window.App.Fields = {
 				let base = 10 ** numberOfDecimal;
 				value =
 					Math.round(
-						value * base +
-							Math.sign(value) *
-								0.1 ** (17 - 2 - (Math.round(value * base) / base).toString().length)
+						value * base + Math.sign(value) * 0.1 ** (17 - 2 - (Math.round(value * base) / base).toString().length)
 					) / base;
 			}
 			let splittedFloat = value.toString().split('.');
@@ -2076,9 +1954,7 @@ window.App.Fields = {
 				.off('click')
 				.on('click', (_) => {
 					let sourceFieldElement = this.container.find('input.sourceField'),
-						fieldDisplayElement = this.container.find(
-							'input[name="' + sourceFieldElement.attr('name') + '_display"]'
-						);
+						fieldDisplayElement = this.container.find('input[name="' + sourceFieldElement.attr('name') + '_display"]');
 					AppConnector.request({
 						module: sourceFieldElement.data('modulename'),
 						view: 'TreeModal',
@@ -2133,20 +2009,13 @@ window.App.Fields = {
 				},
 				select: function (event, ui) {
 					let selectedItemData = ui.item;
-					if (
-						typeof selectedItemData.type !== 'undefined' &&
-						selectedItemData.type == 'no results'
-					) {
+					if (typeof selectedItemData.type !== 'undefined' && selectedItemData.type == 'no results') {
 						return false;
 					}
 					selectedItemData.name = selectedItemData.value;
 					this.value = selectedItemData.label;
 					let element = $(this).attr('readonly', true);
-					element
-						.closest('.js-tree-container')
-						.find('input.sourceField')
-						.val(selectedItemData.id)
-						.trigger('change');
+					element.closest('.js-tree-container').find('input.sourceField').val(selectedItemData.id).trigger('change');
 					return false;
 				},
 				change: function (event, ui) {},
@@ -2233,15 +2102,9 @@ window.App.Fields = {
 				<div class="input-group-append">
 					<a href class="btn btn-default c-time-period-input-modifier c-time-period-input-modifier--plus-1"><span class="fas fa-plus"></span></a>
 					<select class="select2 js-time-period-select time-period-${this.container.attr('name')}">
-						<option value="d"${this.period === 'd' ? ' selected="selected"' : ''}>${app.vtranslate(
-				'JS_DAYS_FULL'
-			)}</option>
-						<option value="H"${this.period === 'H' ? ' selected="selected"' : ''}>${app.vtranslate(
-				'JS_HOURS_FULL'
-			)}</option>
-						<option value="i"${this.period === 'i' ? ' selected="selected"' : ''}>${app.vtranslate(
-				'JS_MINUTES_FULL'
-			)}</option>
+						<option value="d"${this.period === 'd' ? ' selected="selected"' : ''}>${app.vtranslate('JS_DAYS_FULL')}</option>
+						<option value="H"${this.period === 'H' ? ' selected="selected"' : ''}>${app.vtranslate('JS_HOURS_FULL')}</option>
+						<option value="i"${this.period === 'i' ? ' selected="selected"' : ''}>${app.vtranslate('JS_MINUTES_FULL')}</option>
 					</select>
 				</div>
 			</div>`;
@@ -2332,9 +2195,7 @@ window.App.Fields = {
 			$('.js-multicurrency-event', this.container)
 				.off('click')
 				.on('click', () => {
-					let modal = $('<form>').append(
-						this.container.find('.js-currencies-container .js-currencies-modal').clone()
-					);
+					let modal = $('<form>').append(this.container.find('.js-currencies-container .js-currencies-modal').clone());
 					this.registerEnableCurrencyEvent(modal);
 					this.registerResetCurrencyEvent(modal);
 					this.loadData(modal);
@@ -2376,9 +2237,7 @@ window.App.Fields = {
 				let row = modalContainer.find('[data-currency-id="' + i + '"]');
 				if (row.length) {
 					row.find('.js-enable-currency').prop('checked', true);
-					row
-						.find('.js-currency-reset,.js-base-currency,[name^="currencies["]')
-						.prop('disabled', false);
+					row.find('.js-currency-reset,.js-base-currency,[name^="currencies["]').prop('disabled', false);
 					row.find('.js-converted-price').val(values['currencies'][i]['price']);
 					if (i == baseCurrencyId) {
 						row.find('.js-base-currency').prop('checked', true);
@@ -2470,10 +2329,7 @@ window.App.Fields = {
 				let element = $(domElement);
 				if (!element.is(baseCurrencyConversionRate)) {
 					element.val(
-						App.Fields.Double.formatToDisplay(
-							element.getNumberFromValue() / baseCurrencyRatePrevValue,
-							false
-						)
+						App.Fields.Double.formatToDisplay(element.getNumberFromValue() / baseCurrencyRatePrevValue, false)
 					);
 				}
 			});
@@ -2489,9 +2345,7 @@ window.App.Fields = {
 				let parentRow = element.closest('tr');
 				if (element.is(':checked')) {
 					element.attr('checked', 'checked');
-					let price =
-						this.getField().getNumberFromValue() *
-						parentRow.find('.js-conversion-rate').getNumberFromValue();
+					let price = this.getField().getNumberFromValue() * parentRow.find('.js-conversion-rate').getNumberFromValue();
 					$('input', parentRow).removeAttr('disabled');
 					parentRow.find('.js-currency-reset').removeAttr('disabled');
 					parentRow.find('.js-converted-price').val(App.Fields.Double.formatToDisplay(price));
@@ -2522,9 +2376,7 @@ window.App.Fields = {
 		registerResetCurrencyEvent(container) {
 			container.on('click', '.js-currency-reset', (e) => {
 				let parentElem = $(e.currentTarget).closest('tr');
-				let price =
-					this.getField().getNumberFromValue() *
-					parentElem.find('.js-conversion-rate').getNumberFromValue();
+				let price = this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
 				$('.js-converted-price', parentElem).val(App.Fields.Double.formatToDisplay(price));
 			});
 		}

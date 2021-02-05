@@ -8,9 +8,7 @@
  */
 class OSSPasswords_Detail_View extends Vtiger_Detail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertJsScripts([
@@ -20,9 +18,7 @@ class OSSPasswords_Detail_View extends Vtiger_Detail_View
 		]), parent::getFooterScripts($request));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isAjaxEnabled($recordModel)
 	{
 		return false;

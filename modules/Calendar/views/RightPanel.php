@@ -40,7 +40,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
 		switch ($clendarallorecords) {
 			case 3:
-				if (App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+				if (App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($moduleName, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)) {
 					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
 					$users = $usersAndGroup['users'];
 				} else {
@@ -82,7 +82,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 				$groups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 				break;
 			case 3:
-				if (App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+				if (App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($moduleName, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)) {
 					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
 					$groups = $usersAndGroup['group'];
 				} else {

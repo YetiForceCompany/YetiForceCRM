@@ -293,13 +293,7 @@ Vtiger_BasicSearch_Js(
 				if (searchModule.length <= 0) {
 					app
 						.getChosenElementFromSelect($('#searchModuleList'))
-						.validationEngine(
-							'showPrompt',
-							app.vtranslate('JS_SELECT_MODULE'),
-							'error',
-							'topRight',
-							true
-						);
+						.validationEngine('showPrompt', app.vtranslate('JS_SELECT_MODULE'), 'error', 'topRight', true);
 					return;
 				}
 				thisInstance
@@ -338,13 +332,7 @@ Vtiger_BasicSearch_Js(
 				if (searchModule.length <= 0) {
 					app
 						.getChosenElementFromSelect($('#searchModuleList'))
-						.validationEngine(
-							'showPrompt',
-							app.vtranslate('JS_SELECT_MODULE'),
-							'error',
-							'topRight',
-							true
-						);
+						.validationEngine('showPrompt', app.vtranslate('JS_SELECT_MODULE'), 'error', 'topRight', true);
 					return;
 				}
 

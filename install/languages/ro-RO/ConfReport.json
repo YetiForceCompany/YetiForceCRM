@@ -77,7 +77,7 @@
     "LBL_LATEST_PHP_VERSIONS_ARE": "Latest PHP versions: %s",
     "BTN_CHECK_LATEST_VERSION": "Check the latest PHP version",
     "BTN_SERVER_SPEED_TEST": "Test viteza server",
-    "BTN_DB_INFO": "Informatii baza de date",
+    "BTN_DB_INFO": "Database information",
     "LBL_SERVER_SPEED_TEST": "Server speed",
     "LBL_READ_TEST": "Read",
     "LBL_WRITE_TEST": "Write",
@@ -236,6 +236,7 @@
     "LBL_IT_WORKS_PROPERLY": "It works properly",
     "LBL_LABEL_FOOTER": "Footer",
     "LBL_LABEL_PREMIUM_MODULES": "Premium modules",
+    "LBL_LABEL_MAGENTO": "Magento",
     "LBL_FILE_OWNER": "Owner",
     "LBL_FILE_PERMISSIONS": "Permissions",
     "LBL_LABEL_SCRIPT_USER": "Script calling user",
@@ -254,7 +255,8 @@
     "LBL_FILE_SIZE": "Tables size",
     "LBL_FORMAT": "Row format",
     "LBL_ENGINE": "Engine",
-    "LBL_COLLATION": "Collation"
+    "LBL_COLLATION": "Collation",
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
   },
   "js": {
     "JS_SPEED_TEST_START": "Verificare viteza..."

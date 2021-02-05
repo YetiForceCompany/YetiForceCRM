@@ -10,16 +10,10 @@ Settings_Vtiger_List_Js(
 		 */
 		registerButtons() {
 			$('.js-register-online').on('click', (e) => {
-				app.showModalWindow(
-					null,
-					'index.php?module=YetiForce&parent=Settings&view=RegistrationOnlineModal'
-				);
+				app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=RegistrationOnlineModal');
 			});
 			$('.js-register-serial').on('click', (e) => {
-				app.showModalWindow(
-					null,
-					'index.php?module=YetiForce&parent=Settings&view=RegistrationSerialModal'
-				);
+				app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=RegistrationSerialModal');
 			});
 			$('.js-register-check').on('click', (e) => {
 				AppConnector.request({

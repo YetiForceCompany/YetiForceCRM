@@ -126,6 +126,9 @@ class Vtiger_Export_Model extends \App\Base
 		if (!$request->isEmpty('viewname', true)) {
 			$this->queryOptions['viewname'] = $request->getByType('viewname', 'Alnum');
 		}
+		if (!$request->isEmpty('entityState')) {
+			$this->queryOptions['entityState'] = $request->getByType('entityState');
+		}
 		$this->queryOptions['entityState'] = $request->getByType('entityState');
 		$this->queryOptions['page'] = $request->getInteger('page');
 		$this->queryOptions['mode'] = $request->getMode();
@@ -228,7 +231,9 @@ class Vtiger_Export_Model extends \App\Base
 			}
 		}
 		$queryGenerator->setFields($fields);
-		$queryGenerator->setStateCondition($this->queryOptions['entityState']);
+		if (!empty($this->queryOptions['entityState'])) {
+			$queryGenerator->setStateCondition($this->queryOptions['entityState']);
+		}
 		$query = $queryGenerator->createQuery();
 		$this->accessibleFields = $queryGenerator->getFields();
 		switch ($this->queryOptions['mode']) {

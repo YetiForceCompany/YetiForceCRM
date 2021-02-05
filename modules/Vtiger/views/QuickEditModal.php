@@ -36,6 +36,17 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
+	public function preProcessAjax(\App\Request $request)
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		$viewer = $this->getViewer($request);
+		$viewer->assign('QUICKCREATE_LINKS', $this->getLinks($recordModel));
+		parent::preProcessAjax($request);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function preProcessTplName(App\Request $request)
 	{
 		return 'Modals/QuickEditHeader.tpl';
@@ -51,7 +62,7 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$moduleModel = $recordModel->getModule();
 		$fieldList = $moduleModel->getFields();
-		$changedFields = [];
+		$changedFields = $noFieldsAccess = [];
 		$changedFieldsExist = false;
 		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
 			$fieldModel = $fieldList[$fieldName];
@@ -62,11 +73,16 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 				if ($uitypeModel->validateValue($recordModel->get($fieldName))) {
 					$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 					$changedFields[$fieldName] = $fieldModel;
+				} elseif ($fieldModel->isViewEnabled()) {
+					$noFieldsAccess[$fieldModel->getFieldLabel()] = '-';
 				}
+			} elseif ($fieldModel->isViewEnabled()) {
+				$noFieldsAccess[$fieldModel->getFieldLabel()] = $fieldModel->getDisplayValue($recordModel->get($fieldName));
 			}
 		}
 		$recordStructure = $this->getStructure($recordModel, $request);
 		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD_STRUCTURE_MODEL', Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel));
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$layout = $request->getByType('showLayout') ?: Config\Performance::$quickEditLayout ?? 'blocks';
 		$layout = 'Calendar' === $moduleName ? 'standard' : $layout;
@@ -98,6 +114,7 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('CHANGED_FIELDS', $changedFields);
+		$viewer->assign('NO_FIELD_ACCESS', $noFieldsAccess);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -181,5 +198,25 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		}
 		++Vtiger_Field_Model::$tabIndexLastSeq;
 		return $values;
+	}
+
+	/**
+	 * Function to get the list of links for the module.
+	 *
+	 * @param \Vtiger_Record_Model $recordMode
+	 *
+	 * @return Vtiger_Link_Model[] - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 */
+	public function getLinks(Vtiger_Record_Model $recordModel)
+	{
+		$links['QUICKEDIT_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'QUICKEDIT_VIEW_HEADER',
+			'linkhint' => 'LBL_GO_TO_FULL_FORM',
+			'showLabel' => 1,
+			'linkicon' => 'yfi yfi-full-editing-view',
+			'linkdata' => ['js' => 'click', 'url' => $recordModel->getEditViewUrl()],
+			'linkclass' => 'btn-light js-full-editlink fontBold u-text-ellipsis mb-2 mb-md-0 col-12'
+		]);
+		return $links;
 	}
 }

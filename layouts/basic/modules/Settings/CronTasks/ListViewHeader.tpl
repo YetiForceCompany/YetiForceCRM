@@ -20,10 +20,8 @@
 				<div class="d-flex flex-wrap justify-content-md-end">
 					<span class="mr-1">{\App\Language::translate('LBL_TOTAL_LAST_DURATION',$QUALIFIED_MODULE)}:</span>
 					<strong>
-						{if $LAST_CRON['duration']==='running'}<i class="fas fa-spinner fa-spin"
-																title="{\App\Language::translate('LBL_IS_RUNNING',$QUALIFIED_MODULE)}"></i>
-						{elseif $LAST_CRON['duration']==='timeout'}<i class="fas fa-exclamation-triangle text-danger"
-																	title="{\App\Language::translate('LBL_HAD_TIMEOUT',$QUALIFIED_MODULE)}"></i>
+						{if $LAST_CRON['duration']==='running'}<i class="fas fa-spinner fa-spin text-primary" title="{\App\Language::translate('LBL_IS_RUNNING',$QUALIFIED_MODULE)}"></i>
+						{elseif $LAST_CRON['duration']==='timeout'}<i class="fas fa-exclamation-triangle text-danger" title="{\App\Language::translate('LBL_HAD_TIMEOUT',$QUALIFIED_MODULE)}"></i>
 						{else}{$LAST_CRON['duration']}
 						{/if}
 					</strong>
@@ -90,5 +88,5 @@
 	</div>
 	<div class="clearfix"></div>
 	<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
-		<!-- /tpl-Settings-CronTasks-ListViewHeader -->
-		{/strip}
+<!-- /tpl-Settings-CronTasks-ListViewHeader -->
+{/strip}

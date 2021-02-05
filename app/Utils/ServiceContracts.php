@@ -75,7 +75,7 @@ class ServiceContracts
 	 *
 	 * @return array
 	 */
-	private static function getDefaultBusinessHours(): array
+	public static function getDefaultBusinessHours(): array
 	{
 		if (\App\Cache::has('UtilsServiceContracts::getDefaultBusinessHours', '')) {
 			return \App\Cache::get('UtilsServiceContracts::getDefaultBusinessHours', '');

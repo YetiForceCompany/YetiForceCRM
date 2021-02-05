@@ -119,7 +119,7 @@
       :style="height ? { 'max-height': `${height - 31.14}px` } : {}"
     >
       <div v-show="record.introduction">
-        <div class="text-subtitle2 text-bold">{{ record.introduction }}</div>
+        <div class="text-subtitle2 text-bold" v-html="record.introduction"></div>
       </div>
       <div v-show="record.content">
         <q-resize-observer @resize="onResize" />

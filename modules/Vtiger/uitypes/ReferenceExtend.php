@@ -9,18 +9,14 @@
  */
 class Vtiger_ReferenceExtend_UIType extends Vtiger_Reference_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getReferenceList()
 	{
 		$modules = \App\ModuleHierarchy::getModulesByLevel(4);
 		return empty($modules) ? [] : array_keys($modules);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		if (\App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
@@ -29,17 +25,13 @@ class Vtiger_ReferenceExtend_UIType extends Vtiger_Reference_UIType
 		return Vtiger_Base_UIType::getListSearchTemplateName();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isAjaxEditable()
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];

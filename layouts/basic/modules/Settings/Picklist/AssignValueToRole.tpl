@@ -26,7 +26,7 @@
 					<input type="hidden" name="action" value="SaveAjax" />
 					<input type="hidden" name="mode" value="assignValueToRole" />
 					<input type="hidden" name="picklistName" value="{$SELECTED_PICKLIST_FIELDMODEL->get('name')}" />
-					<input type="hidden" name="pickListValues" value='{\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES)}' />
+					<input type="hidden" name="pickListValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES))}' />
 					<div class="modal-body tabbable">
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>

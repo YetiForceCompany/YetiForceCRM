@@ -38,7 +38,19 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 *  Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
+	 * Function to get the field model for condition builder.
+	 *
+	 * @param string $operator
+	 *
+	 * @return Vtiger_Field_Model
+	 */
+	public function getConditionBuilderField(string $operator): Vtiger_Field_Model
+	{
+		return $this->getFieldModel();
+	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
 	 *
 	 * @param mixed  $value
 	 * @param string $operator
@@ -246,6 +258,9 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
+		if (\in_array('modTrackerDisplay', $this->getFieldModel()->getAnonymizationTarget())) {
+			return '****';
+		}
 		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, $rawText, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 	}
 
@@ -393,7 +408,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getHeaderTypes()
 	{
-		return ['LBL_HEADER_TYPE_VALUE' => 'value'];
+		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_HIGHLIGHTS' => 'highlights'];
 	}
 
 	/**

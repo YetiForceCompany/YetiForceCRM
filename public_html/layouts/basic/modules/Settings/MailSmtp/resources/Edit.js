@@ -35,19 +35,13 @@ Settings_Vtiger_Edit_Js(
 			const container = this.getForm();
 			const button = container.find('.previewPassword');
 			button.on('mousedown', function (e) {
-				container
-					.find('[name="' + $(e.currentTarget).data('targetName') + '"]')
-					.attr('type', 'text');
+				container.find('[name="' + $(e.currentTarget).data('targetName') + '"]').attr('type', 'text');
 			});
 			button.on('mouseup', function (e) {
-				container
-					.find('[name="' + $(e.currentTarget).data('targetName') + '"]')
-					.attr('type', 'password');
+				container.find('[name="' + $(e.currentTarget).data('targetName') + '"]').attr('type', 'password');
 			});
 			button.on('mouseout', function (e) {
-				container
-					.find('[name="' + $(e.currentTarget).data('targetName') + '"]')
-					.attr('type', 'password');
+				container.find('[name="' + $(e.currentTarget).data('targetName') + '"]').attr('type', 'password');
 			});
 		},
 		registerSaveSendMail() {
@@ -55,9 +49,7 @@ Settings_Vtiger_Edit_Js(
 			form.find('.js-save-send-mail').on('click', () => {
 				if (form.find('.saveMailContent').hasClass('d-none')) {
 					form.find('.js-smtp-host').attr('data-validation-engine', 'validate[required]');
-					form
-						.find('.js-smtp-port')
-						.attr('data-validation-engine', 'validate[required,custom[integer]]');
+					form.find('.js-smtp-port').attr('data-validation-engine', 'validate[required,custom[integer]]');
 					form.find('.js-smtp-password').attr('data-validation-engine', 'validate[required]');
 					form.find('.js-smtp-username').attr('data-validation-engine', 'validate[required]');
 					form.find('.js-smtp-folder').attr('data-validation-engine', 'validate[required]');

@@ -8,9 +8,7 @@
  */
 class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -22,9 +20,7 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 			\App\Language::translate('Medium', $moduleName) . ',' . \App\Language::translate('Strong', $moduleName) . ',' . \App\Language::translate('Very Strong', $moduleName));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

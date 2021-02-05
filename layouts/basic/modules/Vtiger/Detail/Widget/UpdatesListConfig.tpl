@@ -37,7 +37,11 @@
 								<div class="col-md-7">
 									<select name="field_name" multiple="multiple" class="select2 form-control marginLeftZero columnsSelect" data-validation-engine="validate[required]" >
 										{assign var=FIELDS value=$MODULE_MODEL->getFields($SOURCE, array(15,16,52,53,302)) }
-										{assign var=FIELD_NAME value=(array)($WIDGETINFO['data']['field_name']) }
+										{if isset($WIDGETINFO['data']['field_name'])}
+											{assign var=FIELD_NAME value=(array)($WIDGETINFO['data']['field_name'])}
+										{else}
+											{assign var=FIELD_NAME value=[]}
+										{/if}
 										{foreach from=$FIELDS['fields'] item=item key=key}
 											<option {if isset($WIDGETINFO['data']['field_name']) && in_array($key, $FIELD_NAME)}selected{/if} value="{$key}">
 												{\App\Language::translate($item, $SOURCEMODULE)}

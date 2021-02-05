@@ -14,15 +14,15 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-3" role="dialog">
+	<div class="modal quickCreateContainer" tabindex="-3" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
-				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php" enctype="multipart/form-data">
+				<form class="form-horizontal recordEditView js-form" name="{$FROM_VIEW}" method="post" action="index.php" enctype="multipart/form-data">
 					<input type="hidden" name="module" value="{$MODULE}"/>
 					<input type="hidden" name="action" value="SaveAjax"/>
-					<input type="hidden" name="fromView" value="QuickCreate"/>
+					<input type="hidden" name="fromView" value="{$FROM_VIEW}"/>
 					<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
-					<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, 'QuickCreate'])}"/>
+					<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}"/>
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 					{/if}
@@ -32,6 +32,9 @@
 					{if !empty($LIST_FILTER_FIELDS)}
 						<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
 					{/if}
+					{foreach key=INPUT_NAME item=INPUT_VALUE from=$HIDDEN_INPUT}
+						<input type="hidden" name="{$INPUT_NAME}" value='{\App\Purifier::encodeHtml($INPUT_VALUE)}'/>
+					{/foreach}
 					<div class="modal-header align-items-center form-row d-flex justify-content-between py-2">
 						<div class="col-xl-6 col-12">
 							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">

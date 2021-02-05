@@ -309,6 +309,21 @@ class Validator
 	}
 
 	/**
+	 * Function checks if given value is url or domain.
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
+	public static function urlDomain(string $url): bool
+	{
+		if (false === strpos($url, '://')) {
+			return static::domain($url);
+		}
+		return static::url($url);
+	}
+
+	/**
 	 * Function checks if given value is url.
 	 *
 	 * @param string $url
@@ -317,9 +332,6 @@ class Validator
 	 */
 	public static function url(string $url): bool
 	{
-		if (false === strpos($url, '://')) {
-			return static::domain($url);
-		}
 		if (mb_strlen($url) != \strlen($url) && \function_exists('idn_to_ascii') && \defined('INTL_IDNA_VARIANT_UTS46')) {
 			$url = preg_replace_callback('/:\/\/([^\/]+)/', function ($matches) {
 				return '://' . idn_to_ascii($matches[1], IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);

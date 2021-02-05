@@ -21,12 +21,8 @@ try {
 	$e->handleError();
 } catch (\App\Exceptions\NoPermittedToApi $e) {
 	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-	echo json_encode([
-		'status' => 0,
-		'error' => [
-			'message' => $e->getMessage(),
-		],
-	]);
+	$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
+	$ex->handleError();
 } catch (\Throwable $e) {
 	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 	$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);

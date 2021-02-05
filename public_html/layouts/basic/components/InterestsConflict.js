@@ -39,13 +39,21 @@ $.Class(
 						render: function (data, type, row, meta) {
 							switch (data) {
 								case 1:
-									return `<span class="fas fa-check text-success" title="${app.vtranslate('JS_UNLOCK_STATUS_ACCEPTED')}"></span>`;
+									return `<span class="fas fa-check text-success" title="${app.vtranslate(
+										'JS_UNLOCK_STATUS_ACCEPTED'
+									)}"></span>`;
 								case 2:
-									return `<span class="fas fa-times text-danger" title="${app.vtranslate('JS_UNLOCK_STATUS_REJECTED')}"></span>`;
+									return `<span class="fas fa-times text-danger" title="${app.vtranslate(
+										'JS_UNLOCK_STATUS_REJECTED'
+									)}"></span>`;
 								case 3:
-									return `<span class="fas fa-slash text-dark" title="${app.vtranslate('JS_UNLOCK_STATUS_CANCELED')}"></span>`;
+									return `<span class="fas fa-slash text-dark" title="${app.vtranslate(
+										'JS_UNLOCK_STATUS_CANCELED'
+									)}"></span>`;
 								default:
-									return `<span class="fas fa-question text-warning" title="${app.vtranslate('JS_UNLOCK_STATUS_NEW')}"></span>`;
+									return `<span class="fas fa-question text-warning" title="${app.vtranslate(
+										'JS_UNLOCK_STATUS_NEW'
+									)}"></span>`;
 							}
 						}
 					},
@@ -162,9 +170,11 @@ $.Class(
 							if (row['db'] !== 'base') {
 								return action;
 							}
-							action += `<button type="button" class="btn btn-primary btn-sm js-update" data-user="${row['user_id']}" data-related="${
-								row['related_id']
-							}"  title="${app.vtranslate('JS_INTERESTS_CONFLICT_SET_CANCELED')}"><span class="fas fa-minus"></span></button>`;
+							action += `<button type="button" class="btn btn-primary btn-sm js-update" data-user="${
+								row['user_id']
+							}" data-related="${row['related_id']}"  title="${app.vtranslate(
+								'JS_INTERESTS_CONFLICT_SET_CANCELED'
+							)}"><span class="fas fa-minus"></span></button>`;
 							return action;
 						},
 						defaultContent: ''

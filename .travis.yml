@@ -5,9 +5,9 @@ dist: xenial
 language: php
 
 php:
-    - 7.2
     - 7.3
     - 7.4
+    - 8.0
     - nightly
 
 stages:
@@ -39,7 +39,6 @@ cache:
 branches:
     only:
         - developer
-        - /^greenkeeper/.*$/
 
 services:
     - mysql
@@ -56,10 +55,6 @@ before_script:
     - phpenv versions
     - php --version
     - sudo lscpu
-    - sudo lshw
-    - sudo cat /proc/cpuinfo
-    - sudo free -m
-    - sudo cat /proc/meminfo
     - sudo chmod -R 777 tests/setup/
     - ./tests/setup/before_script.sh
     - ./tests/setup/apache.sh
@@ -107,7 +102,7 @@ jobs:
           script: composer validate
         - stage: coverage
           env: INSTALL_MODE="DEV" BROWSER_NAME="chrome" CHROME_HEADLESS="1" DEPENDENCIES="--prefer-lowest"
-          php: 7.2
+          php: 7.3
           addons:
               apt:
                   packages:

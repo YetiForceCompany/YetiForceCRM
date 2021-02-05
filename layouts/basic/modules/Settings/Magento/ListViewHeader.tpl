@@ -3,23 +3,34 @@
 <!-- tpl-Settings-Magento-ListViewHeader -->
 <div>
 	<div class="o-breadcrumb widget_header row">
-		<div class="col-12 d-flex">
+		<div class="col-md-9">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
+		</div>
+		<div class="col-md-3 mt-1">
+			<a href="index.php?parent=Settings&module=Log&view=LogsViewer&type=magento"  class="btn btn-info float-right" >
+				<span class="yfi yfi-system-monitoring mr-2"></span>{\App\Language::translate('LBL_LOGS_VIEWER', 'Settings:Log')}
+			</a>
 		</div>
 	</div>
 	{if !\App\YetiForce\Shop::check('YetiForceMagento')}
 		<div class="alert alert-warning">
 			<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
-			{\App\Language::translate('LBL_PAID_FUNCTIONALITY', $QUALIFIED_MODULE)} <a href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceMagento&mode=showProductModal">{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
+			{\App\Language::translate('LBL_PAID_FUNCTIONALITY', $QUALIFIED_MODULE)} <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceMagento&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
 		</div>
-	{elseif !$MODULE_MODEL->isActive()}
+	{elseif !Settings_Magento_Module_Model::isActive()}
 		<div class="alert alert-danger">
-			<span class="mdi mdi-alert-outline mr-2 u-fs-lg float-left"></span>
-			{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE,'Magento')}
-			<a class="btn btn-primary btn-sm ml-3" href="index.php?parent=Settings&module=Magento&action=Active">
-				<span class="mdi mdi-check mr-2 float-left"></span>
+			<form action='index.php' method="POST" enctype="multipart/form-data">
+				<input type="hidden" name="module" value="Magento"/>
+				<input type="hidden" name="parent" value="Settings"/>
+				<input type="hidden" name="action" value="Active"/>
+
+				<span class="mdi mdi-alert-outline mr-2 u-fs-2em float-left"></span>
+				{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE,'Magento')}
+				<button type="submit" class="btn btn-primary btn-sm ml-3">
+					<span class="mdi mdi-check mr-2 float-left"></span>
 				{\App\Language::translate('LBL_ACTIVATE_FUNCTIONALITY', $QUALIFIED_MODULE)}
-			</a>
+				</button>
+			</form>
 		</div>
 	{else}
 		<div class="listViewActionsDiv row mt-2 mb-2">

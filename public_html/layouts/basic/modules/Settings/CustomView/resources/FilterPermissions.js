@@ -43,9 +43,7 @@ jQuery.Class(
 			if (targetOpt.length) {
 				targetOpt.append(targetOption);
 			} else {
-				target.append(
-					'<optgroup label="' + values.blockLabel + '">' + targetOption + '</optgroup>'
-				);
+				target.append('<optgroup label="' + values.blockLabel + '">' + targetOption + '</optgroup>');
 			}
 			source.remove();
 			App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));

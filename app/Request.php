@@ -242,7 +242,9 @@ class Request
 				if (\is_array($value)) {
 					$input = [];
 					foreach ($value as $k => $v) {
-						$k = $keyType ? Purifier::purifyByType($k, $keyType) : Purifier::purify($k);
+						if (!\is_int($k)) {
+							$k = $keyType ? Purifier::purifyByType($k, $keyType) : Purifier::purify($k);
+						}
 						$input[$k] = $type ? Purifier::purifyByType($v, $type) : Purifier::purify($v);
 					}
 					$value = $input;
@@ -600,14 +602,18 @@ class Request
 	 *
 	 * @param string $key
 	 * @param mixed  $value
+	 * @param bool   $onlyRaw
 	 *
 	 * @return $this
 	 */
-	public function set($key, $value)
+	public function set($key, $value, bool $onlyRaw = false): self
 	{
-		$this->rawValues[$key] = $this->purifiedValuesByGet[$key] = $this->purifiedValuesByInteger[$key] = $this->purifiedValuesByHtml[$key] = $value;
-		$this->purifiedValuesByType[$key] = [];
-
+		if ($onlyRaw) {
+			$this->rawValues[$key] = $value;
+		} else {
+			$this->rawValues[$key] = $this->purifiedValuesByGet[$key] = $this->purifiedValuesByInteger[$key] = $this->purifiedValuesByHtml[$key] = $value;
+			$this->purifiedValuesByType[$key] = [];
+		}
 		return $this;
 	}
 

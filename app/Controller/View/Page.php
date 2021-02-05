@@ -184,7 +184,7 @@ abstract class Page extends Base
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_VIDEO_CONFERENCE',
 				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . \App\User::getCurrentUserRealId()],
-				'icon' => 'AdditionalIcon-VideoConference',
+				'icon' => 'mdi mdi-card-account-phone c-mdi',
 				'linkclass' => 'js-show-modal'
 			];
 		}
@@ -254,13 +254,15 @@ abstract class Page extends Base
 				'icon' => 'fas fa-user-cog fa-fw',
 			];
 		}
-		$headerLinks[] = [
-			'linktype' => 'HEADERLINK',
-			'linklabel' => 'LBL_CHANGE_PASSWORD',
-			'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->get('id')],
-			'linkclass' => 'showModal d-block',
-			'icon' => 'fas fa-key fa-fw',
-		];
+		if (\App\Config::security('CHANGE_LOGIN_PASSWORD') && \App\User::getCurrentUserId() === \App\User::getCurrentUserRealId()) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_CHANGE_PASSWORD',
+				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->get('id')],
+				'linkclass' => 'showModal d-block',
+				'icon' => 'yfi yfi-change-passowrd',
+			];
+		}
 		if (\Users_Module_Model::getSwitchUsers()) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
@@ -276,7 +278,7 @@ abstract class Page extends Base
 			'linklabel' => 'LBL_LOGIN_HISTORY',
 			'linkdata' => ['url' => 'index.php?module=Users&view=LoginHistoryModal&mode=change&record=' . $userModel->get('id')],
 			'linkclass' => 'showModal d-block',
-			'icon' => 'mdi mdi-lock-reset',
+			'icon' => 'yfi yfi-login-history',
 		];
 		$headerLinks[] = [
 			'linktype' => 'SEPARATOR',

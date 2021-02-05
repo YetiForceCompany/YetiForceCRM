@@ -14,7 +14,7 @@
 			<tr>
 				<th class="{$WIDTHTYPE}" scope="row">{$ROW['value']}</th>
 				<td class="{$WIDTHTYPE}"><span title="{\Vtiger_Util_Helper::formatDateDiffInStrings($ROW['date'])}">{\App\Fields\DateTime::formatToDisplay($ROW['date'])}</span></td>
-				<td class="{$WIDTHTYPE}">{App\Fields\RangeTime::formatToRangeText($ROW['time'],'short',false,'d')}</td>
+				<td class="{$WIDTHTYPE}">{App\Fields\RangeTime::displayElapseTime($ROW['time'],'i','')}</td>
 			</tr>
 		{/foreach}
 	</tbody>

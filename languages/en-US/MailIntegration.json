@@ -10,8 +10,7 @@
     "LBL_ADD_CALENDAR": "Add event",
     "LBL_ADD_MODCOMMENTS": "Add comment",
     "LBL_SELECT_RECORD": "Select related record",
-    "LBL_ADD_RECORD": "Add related record",
-    "LBL_DOWNLOAD_OUTLOOK_INSTALLATION_FILE": "Download the outlook add-in installation file"
+    "LBL_ADD_RECORD": "Add related record"
   },
   "js": {
     "JS_ERROR": "YetiForce message: add-in error, please contact system administrator.",

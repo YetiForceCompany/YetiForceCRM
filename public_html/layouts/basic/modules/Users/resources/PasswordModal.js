@@ -11,6 +11,7 @@ $.Class(
 					module: 'Users',
 					action: 'VerifyData',
 					mode: 'validatePassword',
+					record: modal.find('[name="record"]').val(),
 					password: modal.find('[name="' + $(e.currentTarget).data('field') + '"]').val()
 				}).done(function (data) {
 					if (data.success && data.result) {

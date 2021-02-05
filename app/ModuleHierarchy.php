@@ -5,9 +5,12 @@ namespace App;
 /**
  * Modules hierarchy basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class ModuleHierarchy
 {
@@ -57,21 +60,6 @@ class ModuleHierarchy
 	{
 		if (isset(static::$hierarchy['modulesMapMMCustom'][$moduleName])) {
 			return static::$hierarchy['modulesMapMMCustom'][$moduleName];
-		}
-		return false;
-	}
-
-	/**
-	 * Get records list filters.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return array|bool
-	 */
-	public static function getRecordsListFilter(string $moduleName)
-	{
-		if (isset(static::$hierarchy['recordsListFilter'][$moduleName])) {
-			return static::$hierarchy['recordsListFilter'][$moduleName];
 		}
 		return false;
 	}
@@ -390,21 +378,46 @@ class ModuleHierarchy
 	public static function getFieldsForListFilter(string $moduleName): array
 	{
 		$fields = [];
-		if (isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName])) {
-			foreach (static::$hierarchy['modulesMapRelatedFields'][$moduleName] as $modules) {
-				foreach ($modules as $rows) {
-					$fields = array_merge($fields, array_keys($rows));
+		$moduleId = \App\Module::getModuleId($moduleName);
+		foreach (static::getHierarchyByRelation() as $relations) {
+			foreach ($relations as $relation) {
+				if ($relation['related_tabid'] === $moduleId && !empty($relation['rel_field_name'])) {
+					$fields[$relation['field_name']][\App\Module::getModuleName($relation['tabid'])] = [$relation['rel_field_name'] => \App\Module::getModuleName($relation['rel_tabid'])];
 				}
 			}
 		}
-		if (isset(static::$hierarchy['recordsListFilter'])) {
-			foreach (static::$hierarchy['recordsListFilter'] as $modules) {
-				if (isset($modules[$moduleName])) {
-					$fields[] = $modules[$moduleName]['fieldName'];
-				}
+		return $fields;
+	}
+
+	/**
+	 * Get hierarchy info by relation.
+	 *
+	 * @param int|null $relationId
+	 *
+	 * @return array
+	 */
+	public static function getHierarchyByRelation(int $relationId = null): array
+	{
+		if (Cache::has('HierarchyByRelation', '')) {
+			$data = Cache::get('HierarchyByRelation', '');
+		} else {
+			$data = [];
+			$dataReader = (new \App\Db\Query())
+				->select(['SR.tabid', 'SR.field_name', 'SR.related_tabid', 'rel_field_name' => 'RR.field_name', 'rel_tabid' => 'RR.tabid', 'a_yf_record_list_filter.*'])
+				->from('a_yf_record_list_filter')
+				->leftJoin(['SR' => 'vtiger_relatedlists'], 'SR.relation_id=a_yf_record_list_filter.relationid')
+				->leftJoin(['RR' => 'vtiger_relatedlists'], 'RR.relation_id=a_yf_record_list_filter.rel_relationid')
+				->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$data[$row['relationid']][] = $row;
 			}
+			Cache::save('HierarchyByRelation', '', $data, Cache::LONG);
 		}
-		return array_unique($fields);
+		if (null === $relationId) {
+			return $data;
+		}
+
+		return $data[$relationId] ?? [];
 	}
 }
 

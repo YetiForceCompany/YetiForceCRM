@@ -39,6 +39,9 @@
 				{if $LINK->get('linktarget')}
 					{' '}target="{$LINK->get('linktarget')}"
 				{/if}
+				{if $LINK->get('linkExternal')}
+					{' '}rel="noreferrer noopener"
+				{/if}
 				{if $LINK->get('style')}
 					{' '}style="{$LINK->get('style')}"
 				{/if}

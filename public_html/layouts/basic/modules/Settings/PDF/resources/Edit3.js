@@ -99,9 +99,7 @@ Settings_PDF_Edit_Js(
 			container.validationEngine(opts);
 			App.Fields.Picklist.changeSelectElementView(container);
 			this.registerCancelStepClickEvent(container);
-			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(
-				$('#advanceFilterContainer', container)
-			);
+			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('#advanceFilterContainer', container));
 		}
 	}
 );

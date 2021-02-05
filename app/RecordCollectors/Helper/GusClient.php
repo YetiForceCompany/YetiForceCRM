@@ -237,8 +237,10 @@ class GusClient extends \SoapClient
 			$response['NumerTelefonu'] = $responseFromGus[0][$prefixName . 'numerTelefonu'] ?? '';
 			$response['NumerFaksu'] = $responseFromGus[0][$prefixName . 'numerFaksu'] ?? '';
 			$response['AdresEmail'] = $responseFromGus[0][$prefixName . 'adresEmail'] ?? '';
-			$response['PodstawowaFormaPrawna'] = $responseFromGus[0][$prefixName . 'podstawowaFormaPrawna_Nazwa'] ?? '';
-			$response['SzczegolnaFormaPrawna'] = $responseFromGus[0][$prefixName . 'szczegolnaFormaPrawna_Nazwa'] ?? '';
+			$response['PodstawowaFormaPrawna'] = mb_convert_case($responseFromGus[0][$prefixName . 'podstawowaFormaPrawna_Nazwa'] ?? '', MB_CASE_TITLE, 'UTF-8');
+			$response['PodstawowaFormaPrawnaKod'] = $responseFromGus[0][$prefixName . 'podstawowaFormaPrawna_Symbol'] ?? '';
+			$response['SzczegolnaFormaPrawna'] = mb_convert_case($responseFromGus[0][$prefixName . 'szczegolnaFormaPrawna_Nazwa'] ?? '', MB_CASE_TITLE, 'UTF-8');
+			$response['SzczegolnaFormaPrawnaKod'] = $responseFromGus[0][$prefixName . 'szczegolnaFormaPrawna_Symbol'] ?? '';
 			$response['DataRozpoczeciaDzialalnosci'] = $responseFromGus[0][$prefixName . 'dataRozpoczeciaDzialalnosci'] ?? '';
 			$response['NumerWrejestrzeEwidencji'] = $responseFromGus[0][$prefixName . 'numerWrejestrzeEwidencji'] ?? '';
 			$this->endSession();

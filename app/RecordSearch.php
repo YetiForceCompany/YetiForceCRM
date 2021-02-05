@@ -122,26 +122,59 @@ class RecordSearch
 			case 'End':
 				$where[] = ['like', 'csl.searchlabel', "%$this->searchValue", false];
 				break;
+			case 'FulltextBegin':
+				if ($word = $this->parseWordForFullText($this->searchValue)) {
+					$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $word . '*']);
+				} else {
+					$query->andWhere(new \yii\db\Expression('1=0'));
+				}
+				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(csl.searchlabel) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $word . '*'])]);
+				$query->addOrderBy(['matcher' => SORT_DESC]);
+				break;
+			case 'FulltextWord':
+				$words = [$this->searchValue];
+				if (preg_match('/[><()~*"@+-]/', $this->searchValue)) {
+					$words = preg_split('/\s/', $this->searchValue, -1, PREG_SPLIT_NO_EMPTY);
+					foreach ($words as $key => $word) {
+						$words[$key] = $this->parseWordForFullText($word);
+					}
+				}
+				$conditions = ['or'];
+				$matcher = $params = [];
+				foreach ($words as $key => $word) {
+					$matcher[] = "MATCH(csl.searchlabel) AGAINST(:searchValue{$key} IN BOOLEAN MODE)";
+					$params[":searchValue{$key}"] = $word;
+					$conditions[] = new \yii\db\Expression("MATCH(csl.searchlabel) AGAINST(:findvalue{$key} IN BOOLEAN MODE)", [":findvalue{$key}" => $word]);
+				}
+				$query->addSelect(['matcher' => new \yii\db\Expression(implode('+', $matcher), $params)]);
+				$query->andWhere($conditions);
+				$query->addOrderBy(['matcher' => SORT_DESC]);
+				break;
 			default:
-			case 'Contain':
 				if (false !== strpos($this->searchValue, '*') || false !== strpos($this->searchValue, '_')) {
 					$where[] = ['like', 'csl.searchlabel', str_replace('*', '%', "%{$this->searchValue}%"), false];
 				} else {
 					$where[] = ['like', 'csl.searchlabel', $this->searchValue];
 				}
 				break;
-			case 'FulltextBegin':
-				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(csl.searchlabel) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue . '*'])]);
-				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue . '*']);
-				$query->addOrderBy(['matcher' => \SORT_DESC]);
-				break;
-			case 'FulltextWord':
-				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(csl.searchlabel) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue])]);
-				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
-				$query->addOrderBy(['matcher' => \SORT_DESC]);
-				break;
 		}
 		return $query->andWhere($where);
+	}
+
+	/**
+	 * Parse text for Full-Text Search.
+	 *
+	 * @param string $text
+	 *
+	 * @return string
+	 */
+	public function parseWordForFullText(string $text): string
+	{
+		if (($word = preg_replace('/[><()~*"@+-]/', ' +', $text)) !== $text) {
+			$words = preg_split('/\s|\+/', $word, -1, PREG_SPLIT_NO_EMPTY);
+			$word = $words ? '+' . implode(' +', $words) : '';
+		}
+		return $word;
 	}
 
 	/**
@@ -170,12 +203,12 @@ class RecordSearch
 			case 'FulltextBegin':
 				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(cl.label) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue . '*'])]);
 				$query->andWhere('MATCH(cl.label) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue . '*']);
-				$query->addOrderBy(['matcher' => \SORT_DESC]);
+				$query->addOrderBy(['matcher' => SORT_DESC]);
 				break;
 			case 'FulltextWord':
 				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(cl.label) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue])]);
 				$query->andWhere('MATCH(cl.label) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
-				$query->addOrderBy(['matcher' => \SORT_DESC]);
+				$query->addOrderBy(['matcher' => SORT_DESC]);
 				break;
 		}
 		if ($this->checkPermissions) {

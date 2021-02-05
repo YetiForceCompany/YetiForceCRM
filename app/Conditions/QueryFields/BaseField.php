@@ -244,7 +244,8 @@ class BaseField
 	 */
 	public function operatorN()
 	{
-		return ['<>', $this->getColumnName(), $this->getValue()];
+		$value = $this->getValue();
+		return [(\is_array($value) ? 'not in' : '<>'), $this->getColumnName(), $value];
 	}
 
 	/**

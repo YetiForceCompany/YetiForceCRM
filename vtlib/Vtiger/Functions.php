@@ -178,6 +178,7 @@ class Functions
 		if (!\App\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
 				->from('vtiger_field')
+				->leftJoin('s_#__fields_anonymization', 'vtiger_field.fieldid = s_#__fields_anonymization.field_id')
 				->where(['tabid' => \App\Module::getModuleId($module)])
 				->createCommand()->query();
 			$fieldInfoByName = $fieldInfoByColumn = [];
@@ -374,14 +375,14 @@ class Functions
 		if (\App\Request::_isAjax() && \App\Request::_isJSON()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
-			$trace = '';
-			if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
-				$trace = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', "{$e->getFile()}({$e->getLine()})\n{$e->getTraceAsString()}");
-			}
+
 			if (\is_object($e)) {
-				$response->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], ' ', $e->getMessage()));
-				$response->setError($e->getCode(), $e->getMessage(), $trace);
+				$response->setException($e);
 			} else {
+				$trace = '';
+				if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
+					$trace = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', "{$e->getFile()}({$e->getLine()})\n{$e->getTraceAsString()}");
+				}
 				$response->setError($code, $message, $trace);
 			}
 			$response->emit();
@@ -401,7 +402,7 @@ class Functions
 				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
 				$viewer->view('ExceptionError.tpl', 'Vtiger');
 			} else {
-				echo $message . \PHP_EOL;
+				echo $message . PHP_EOL;
 			}
 		}
 		if ($die) {

@@ -15,11 +15,7 @@ jQuery.Class(
 					self.updateActivityState(currentTarget);
 				} else {
 					let isReminder = currentTarget.closest('#calendar-reminder-modal').length;
-					if (
-						app.getModuleName() === 'Calendar' &&
-						viewName === 'CalendarExtended' &&
-						!isReminder
-					) {
+					if (app.getModuleName() === 'Calendar' && viewName === 'CalendarExtended' && !isReminder) {
 						let calendarInstance = new Calendar_CalendarExtended_Js();
 						calendarInstance.getCalendarSidebarData({
 							module: 'Calendar',
@@ -41,32 +37,20 @@ jQuery.Class(
 								'index.php?module=Calendar&view=QuickCreateAjax&addRelation=true&sourceModule=Calendar&sourceRecord=' +
 								currentTarget.data('id'),
 							params = {},
-							subject = currentTarget
-								.closest('.modalEditStatus')
-								.find('.modalSummaryValues .fieldVal')
-								.data('subject'),
-							headerInstance = Vtiger_Header_Js.getInstance();
+							subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject');
 						params.noCache = true;
-						headerInstance.getQuickCreateForm(url, 'Calendar', params).done(function (data) {
+						App.Components.QuickCreate.getForm(url, 'Calendar', params).done(function (data) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							if (
-								currentTarget.data('type') == '0' &&
-								typeof subject !== 'undefined' &&
-								subject.length > 0
-							) {
+							if (currentTarget.data('type') == '0' && typeof subject !== 'undefined' && subject.length > 0) {
 								data = $(data);
 								let element = data.find('[name="subject"]');
 								if (element.length) {
 									element.val(subject);
 								}
 							}
-							headerInstance.handleQuickCreateData(data, {
+							App.Components.QuickCreate.showModal(data, {
 								callbackFunction: function (data) {
-									if (
-										data &&
-										data.success &&
-										data.result.followup.value == currentTarget.data('id')
-									) {
+									if (data && data.success && data.result.followup.value == currentTarget.data('id')) {
 										self.updateActivityState(currentTarget);
 									}
 								}
@@ -99,24 +83,17 @@ jQuery.Class(
 						if (widget.length) {
 							thisInstance.loadWidget(widget);
 						} else {
-							let recentActivitiesTab = thisInstance.getTabByLabel(
-								thisInstance.detailViewRecentActivitiesTabLabel
-							);
+							let recentActivitiesTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentActivitiesTabLabel);
 							if (recentActivitiesTab) {
 								recentActivitiesTab.trigger('click');
 							}
 							if (app.getModuleName() === 'Calendar') {
 								recentActivitiesTab =
 									!thisInstance.getSelectedTab().length ||
-									thisInstance.getSelectedTab().data('linkKey') ==
-										thisInstance.detailViewDetailsTabLabel
+									thisInstance.getSelectedTab().data('linkKey') == thisInstance.detailViewDetailsTabLabel
 										? thisInstance
 												.getTabContainer()
-												.find(
-													'[data-link-key="' +
-														thisInstance.detailViewDetailsTabLabel +
-														'"]:not(.d-none)'
-												)
+												.find('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]:not(.d-none)')
 										: $('<div></div>');
 								$('.showModal.closeCalendarRekord').addClass('d-none');
 								recentActivitiesTab.trigger('click');
@@ -130,10 +107,7 @@ jQuery.Class(
 					if (viewName === 'DashBoard') {
 						new Vtiger_DashBoard_Js().getContainer().find('a[name="drefresh"]').trigger('click');
 					}
-					if (
-						app.getModuleName() === 'Calendar' &&
-						(viewName === 'Calendar' || viewName === 'CalendarExtended')
-					) {
+					if (app.getModuleName() === 'Calendar' && (viewName === 'Calendar' || viewName === 'CalendarExtended')) {
 						const calendarInstance = new window[`Calendar_${viewName}_Js`]();
 						calendarInstance.loadCalendarData();
 						calendarInstance.getCalendarCreateView();

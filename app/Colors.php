@@ -1,6 +1,8 @@
 <?php
 /**
- * Colors stylesheet generator class.
+ * Colors stylesheet generator file.
+ *
+ * @package   App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -11,7 +13,7 @@
 namespace App;
 
 /**
- * Custom colors stylesheet file generator.
+ * Colors stylesheet generator class.
  */
 class Colors
 {

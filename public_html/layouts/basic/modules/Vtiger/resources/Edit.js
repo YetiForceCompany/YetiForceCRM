@@ -98,7 +98,10 @@ $.Class(
 			let filterFields = {};
 			let mappingRelatedField = formElement.find('input[name="mappingRelatedField"]').val();
 			let mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-			if (mappingRelatedModule[sourceField] != undefined && mappingRelatedModule[sourceField][popupReferenceModule] != undefined) {
+			if (
+				mappingRelatedModule[sourceField] != undefined &&
+				mappingRelatedModule[sourceField][popupReferenceModule] != undefined
+			) {
 				$.each(mappingRelatedModule[sourceField][popupReferenceModule], function (index, value) {
 					let mapFieldElement = formElement.find('[name="' + index + '"]');
 					if (mapFieldElement.length && mapFieldElement.val() != '') {
@@ -108,11 +111,14 @@ $.Class(
 			}
 			let listFilterFieldsJson = formElement.find('input[name="listFilterFields"]').val();
 			let listFilterFields = listFilterFieldsJson ? JSON.parse(listFilterFieldsJson) : [];
-			if (listFilterFields) {
-				$.each(listFilterFields, function (index, value) {
-					let mapFieldElement = formElement.find('[name="' + value + '"]');
+			if (
+				listFilterFields[sourceField] != undefined &&
+				listFilterFields[sourceField][popupReferenceModule] != undefined
+			) {
+				$.each(listFilterFields[sourceField][popupReferenceModule], function (index, value) {
+					let mapFieldElement = formElement.find('[name="' + index + '"]');
 					if (mapFieldElement.length && mapFieldElement.val() != '') {
-						filterFields[value] = mapFieldElement.val();
+						filterFields[index] = mapFieldElement.val();
 					}
 				});
 			}
@@ -126,6 +132,10 @@ $.Class(
 			let searchParamsElement = $('input[name="searchParams"]', container);
 			if (searchParamsElement.length > 0) {
 				params['search_params'] = searchParamsElement.val();
+			}
+			let modalParamsElement = $('input[name="modalParams"]', container);
+			if (modalParamsElement.length > 0) {
+				params['modal_params'] = modalParamsElement.val();
 			}
 			$.each(['link', 'process'], function (index, value) {
 				let fieldElement = formElement.find('[name="' + value + '"]');
@@ -428,7 +438,9 @@ $.Class(
 				let mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 				if (mapFieldDisplayElement.length > 0) {
 					mapFieldDisplayElement.val('').attr('readonly', false);
-					let referenceModulesList = formElement.find('#' + self.moduleName + '_editView_fieldName_' + key + '_dropDown');
+					let referenceModulesList = formElement.find(
+						'#' + self.moduleName + '_editView_fieldName_' + key + '_dropDown'
+					);
 					if (referenceModulesList.length > 0 && value[1]) {
 						referenceModulesList.val(referenceModulesList.find('option:first').val()).trigger('change');
 					}
@@ -474,7 +486,7 @@ $.Class(
 				params.data.sourceRecordData = formData;
 			}
 			let referenceModuleName = this.getReferencedModuleName(container);
-			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, params);
+			App.Components.QuickCreate.createRecord(referenceModuleName, params);
 		},
 		/**
 		 * Function which will register event for create of reference record
@@ -514,158 +526,36 @@ $.Class(
 		 */
 		registerEventForCopyAddress: function () {
 			let thisInstance = this;
-			let account_id = false;
-			let contact_id = false;
-			let lead_id = false;
-			let vendor_id = false;
 			this.formElement
-				.find('.js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel')
-				.each(function (index) {
+				.find(
+					'.js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel'
+				)
+				.each(function () {
 					let block = $(this);
-					let referenceModulesList = false;
-					let relatedField = block.find('[name="popupReferenceModule"]').val();
-					if (relatedField == 'Accounts') {
-						account_id = block.find('.sourceField').attr('name');
-					}
-					if (relatedField == 'Contacts') {
-						contact_id = block.find('.sourceField').attr('name');
-					}
-					if (relatedField == 'Leads') {
-						lead_id = block.find('.sourceField').attr('name');
-					}
-					if (relatedField == 'Vendors') {
-						vendor_id = block.find('.sourceField').attr('name');
-					}
-					referenceModulesList = block.find('.referenceModulesList');
+					let referenceModulesList = block.find('.referenceModulesList');
 					if (referenceModulesList.length > 0) {
-						$.each(referenceModulesList.find('option'), function (key, data) {
-							if (data.value == 'Accounts') {
-								account_id = block.find('.sourceField').attr('name');
-							}
-							if (data.value == 'Contacts') {
-								contact_id = block.find('.sourceField').attr('name');
-							}
-							if (data.value == 'Leads') {
-								lead_id = block.find('.sourceField').attr('name');
-							}
-							if (data.value == 'Vendors') {
-								vendor_id = block.find('.sourceField').attr('name');
-							}
+						referenceModulesList.on('change', function () {
+							thisInstance.formElement
+								.find('[class*="copyAddressFrom"]:not(.copyAddressFromMain, .copyAddressFromMailing)')
+								.addClass('d-none');
+							thisInstance.registerEventForCopyBlockAddress($(this).val(), block.find('.sourceField').attr('name'));
 						});
-					}
-				});
-
-			if (account_id == false) {
-				this.formElement.find('.copyAddressFromAccount').addClass('d-none');
-			} else {
-				this.formElement.find('.copyAddressFromAccount').on('click', function (e) {
-					let element = $(this);
-					let block = element.closest('.js-toggle-panel');
-					let from = element.data('label');
-					let to = block.data('label');
-					let recordRelativeAccountId = $('[name="' + account_id + '"]').val();
-
-					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify({
-							text: app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'),
-							type: 'error'
-						});
+						referenceModulesList.trigger('change');
 					} else {
-						let recordRelativeAccountName = $('#' + account_id + '_display').val();
-						let data = {
-							record: recordRelativeAccountId,
-							selectedName: recordRelativeAccountName,
-							module: 'Accounts'
-						};
-
-						thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
-						element.attr('checked', 'checked');
+						let referenceFields = block.find('[name="popupReferenceModule"]');
+						if (referenceFields.length > 0) {
+							thisInstance.registerEventForCopyBlockAddress(
+								referenceFields.val(),
+								block.find('.sourceField').attr('name')
+							);
+						}
 					}
 				});
-			}
-			if (contact_id == false) {
-				this.formElement.find('.copyAddressFromContact').addClass('d-none');
-			} else {
-				this.formElement.find('.copyAddressFromContact').on('click', function (e) {
-					let element = $(this);
-					let block = element.closest('.js-toggle-panel');
-					let from = element.data('label');
-					let to = block.data('label');
-					let recordRelativeAccountId = $('[name="' + contact_id + '"]').val();
-					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify({
-							text: app.vtranslate('JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS'),
-							type: 'error'
-						});
-					} else {
-						let recordRelativeAccountName = $('#' + contact_id + '_display').val();
-						let data = {
-							record: recordRelativeAccountId,
-							selectedName: recordRelativeAccountName,
-							module: 'Contacts'
-						};
-						thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
-						element.attr('checked', 'checked');
-					}
-				});
-			}
-			if (lead_id == false) {
-				this.formElement.find('.copyAddressFromLead').addClass('d-none');
-			} else {
-				this.formElement.find('.copyAddressFromLead').on('click', function (e) {
-					let element = $(this);
-					let block = element.closest('.js-toggle-panel');
-					let from = element.data('label');
-					let to = block.data('label');
-					let recordRelativeAccountId = $('[name="' + lead_id + '"]').val();
-					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify({
-							text: app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'),
-							type: 'error'
-						});
-					} else {
-						let recordRelativeAccountName = $('#' + lead_id + '_display').val();
-						let data = {
-							record: recordRelativeAccountId,
-							selectedName: recordRelativeAccountName,
-							module: 'Leads'
-						};
-						thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
-						element.attr('checked', 'checked');
-					}
-				});
-			}
-			if (vendor_id == false) {
-				this.formElement.find('.copyAddressFromVendor').addClass('d-none');
-			} else {
-				this.formElement.find('.copyAddressFromVendor').on('click', function (e) {
-					let element = $(this);
-					let block = element.closest('.js-toggle-panel');
-					let from = element.data('label');
-					let to = block.data('label');
-					let recordRelativeAccountId = $('[name="' + vendor_id + '"]').val();
-					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify({
-							text: app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'),
-							type: 'error'
-						});
-					} else {
-						let recordRelativeAccountName = $('#' + vendor_id + '_display').val();
-						let data = {
-							record: recordRelativeAccountId,
-							selectedName: recordRelativeAccountName,
-							module: 'Vendors'
-						};
-						thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
-						element.attr('checked', 'checked');
-					}
-				});
-			}
-			this.formElement.find('.js-toggle-panel').each(function (index) {
+			this.formElement.find('.js-toggle-panel').each(function () {
 				let hideCopyAddressLabel = true;
 				$(this)
 					.find('.adressAction button')
-					.each(function (index) {
+					.each(function () {
 						if ($(this).hasClass('d-none') == false) {
 							hideCopyAddressLabel = false;
 						}
@@ -695,6 +585,75 @@ $.Class(
 				let to = block.data('label');
 				thisInstance.copyAddress(from, to, false, false);
 			});
+		},
+		registerEventForCopyBlockAddress: function (moduleName, fieldName) {
+			const self = this;
+			if (moduleName == 'Accounts') {
+				self.enableCopyAddressFromModule(
+					moduleName,
+					self.formElement,
+					'copyAddressFromAccount',
+					fieldName,
+					'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'
+				);
+			} else if (moduleName == 'Contacts') {
+				self.enableCopyAddressFromModule(
+					moduleName,
+					self.formElement,
+					'copyAddressFromContact',
+					fieldName,
+					'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS'
+				);
+			} else if (moduleName == 'Leads') {
+				self.enableCopyAddressFromModule(
+					moduleName,
+					self.formElement,
+					'copyAddressFromLead',
+					fieldName,
+					'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'
+				);
+			} else if (moduleName == 'Vendors') {
+				self.enableCopyAddressFromModule(
+					moduleName,
+					self.formElement,
+					'copyAddressFromVendor',
+					fieldName,
+					'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'
+				);
+			}
+		},
+		/**
+		 * Show button to copy the address details from selected module
+		 */
+		enableCopyAddressFromModule: function (moduleName, formElement, className, fieldName, label) {
+			let thisInstance = this;
+			formElement
+				.find('.' + className)
+				.removeClass('d-none')
+				.on('click', function (e) {
+					let element = $(this);
+					let recordRelativeAccountId = $('[name="' + fieldName + '"]').val();
+					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
+						app.showNotify({
+							text: app.vtranslate(label),
+							type: 'error'
+						});
+					} else {
+						let recordRelativeAccountName = $('#' + fieldName + '_display').val();
+						let data = {
+							record: recordRelativeAccountId,
+							selectedName: recordRelativeAccountName,
+							module: moduleName
+						};
+						thisInstance.copyAddressDetails(
+							element.data('label'),
+							element.closest('.js-toggle-panel').data('label'),
+							data,
+							element.closest('.js-toggle-panel')
+						);
+						element.attr('checked', 'checked');
+					}
+				});
 		},
 		/**
 		 * Function which will copy the address details
@@ -750,6 +709,7 @@ $.Class(
 						toElement.trigger('change');
 					}
 				} else {
+					toElement.val('');
 					toElement.attr('readonly', false);
 				}
 			}
@@ -795,19 +755,31 @@ $.Class(
 						container.find('[name="' + key + '_display"]').val(result['displayData'][key]);
 						container.find('[name="' + key + '_display"]').attr('readonly', true);
 					}
-					if (container.find('[name="' + key + 'a"]').length != 0 && container.find('[name="' + key + 'a"]').val() == 0 && result['data'][key] != 0) {
+					if (
+						container.find('[name="' + key + 'a"]').length != 0 &&
+						container.find('[name="' + key + 'a"]').val() == 0 &&
+						result['data'][key] != 0
+					) {
 						container.find('[name="' + key + 'a"]').val(result['data'][key]);
 						container.find('[name="' + key + 'a"]').attr('readonly', true);
 						container.find('[name="' + key + 'a_display"]').val(result['displayData'][key]);
 						container.find('[name="' + key + 'a_display"]').attr('readonly', true);
 					}
-					if (container.find('[name="' + key + 'b"]').length != 0 && container.find('[name="' + key + 'b"]').val() == 0 && result['data'][key] != 0) {
+					if (
+						container.find('[name="' + key + 'b"]').length != 0 &&
+						container.find('[name="' + key + 'b"]').val() == 0 &&
+						result['data'][key] != 0
+					) {
 						container.find('[name="' + key + 'b"]').val(result['data'][key]);
 						container.find('[name="' + key + 'b"]').attr('readonly', true);
 						container.find('[name="' + key + 'b_display"]').val(result['displayData'][key]);
 						container.find('[name="' + key + 'b_display"]').attr('readonly', true);
 					}
-					if (container.find('[name="' + key + 'c"]').length != 0 && container.find('[name="' + key + 'c"]').val() == 0 && result['data'][key] != 0) {
+					if (
+						container.find('[name="' + key + 'c"]').length != 0 &&
+						container.find('[name="' + key + 'c"]').val() == 0 &&
+						result['data'][key] != 0
+					) {
 						container.find('[name="' + key + 'c"]').val(result['data'][key]);
 						container.find('[name="' + key + 'c"]').attr('readonly', true);
 						container.find('[name="' + key + 'c_display"]').val(result['displayData'][key]);
@@ -899,10 +871,18 @@ $.Class(
 						let response = data.result;
 						for (let i = 0; i < response.length; i++) {
 							if (response[i].result !== true) {
-								app.showNotify({
-									text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
-									type: 'error'
-								});
+								if (typeof response[i].showModal !== 'undefined' && typeof response[i].showModal.url !== 'undefined') {
+									app.showModalWindow(null, response[i].showModal.url, function (modalContainer) {
+										app.registerModalController(undefined, modalContainer, function (_, instance) {
+											instance.formContainer = form;
+										});
+									});
+								} else {
+									app.showNotify({
+										text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
+										type: 'error'
+									});
+								}
 								if (response[i].hoverField != undefined) {
 									form.find('[name="' + response[i].hoverField + '"]').focus();
 								}
@@ -994,7 +974,11 @@ $.Class(
 			sourcePickListElements.trigger('change');
 		},
 		registerLeavePageWithoutSubmit: function (form) {
-			if (typeof CKEDITOR !== 'undefined' && typeof CKEDITOR.instances !== 'undefined' && Object.keys(CKEDITOR.instances).length) {
+			if (
+				typeof CKEDITOR !== 'undefined' &&
+				typeof CKEDITOR.instances !== 'undefined' &&
+				Object.keys(CKEDITOR.instances).length
+			) {
 				CKEDITOR.on('instanceReady', function (e) {
 					let initialFormData = form.serialize();
 					window.onbeforeunload = function (e) {
@@ -1080,7 +1064,10 @@ $.Class(
 			let module = this.moduleName;
 			blocks.each(function (index, block) {
 				let currentBlock = $(block);
-				if (currentBlock.find('.js-field-block-column').length !== 0 && currentBlock.find('.js-field-block-column:not(.d-none)').length === 0) {
+				if (
+					currentBlock.find('.js-field-block-column').length !== 0 &&
+					currentBlock.find('.js-field-block-column:not(.d-none)').length === 0
+				) {
 					currentBlock.addClass('d-none');
 				}
 				let dynamicAttr = currentBlock.attr('data-dynamic');
@@ -1233,7 +1220,10 @@ $.Class(
 		getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
 			const mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
 			const mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-			if (typeof mappingRelatedModule[sourceField] !== 'undefined' && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined') {
+			if (
+				typeof mappingRelatedModule[sourceField] !== 'undefined' &&
+				typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined'
+			) {
 				return mappingRelatedModule[sourceField][sourceFieldModule];
 			}
 			return [];
@@ -1356,7 +1346,9 @@ $.Class(
 				return;
 			}
 			container
-				.find('.fieldValue input.form-control:not([type=hidden],.dateField,.clockPicker), .fieldValue input[type=checkbox], .select2-selection.form-control')
+				.find(
+					'.fieldValue input.form-control:not([type=hidden],.dateField,.clockPicker), .fieldValue input[type=checkbox], .select2-selection.form-control'
+				)
 				.each(function (i, e) {
 					let element = $(e);
 					if (!element.prop('readonly') && !element.prop('disabled')) {
@@ -1440,7 +1432,9 @@ $.Class(
 							});
 							let recordForm = self.getForm();
 							container.on('click', '.js-record-collector__select', function () {
-								container.find(`.js-record-collector__column[data-column="${this.dataset.column}"] input`).prop('checked', true);
+								container
+									.find(`.js-record-collector__column[data-column="${this.dataset.column}"] input`)
+									.prop('checked', true);
 							});
 							container.on('click', '.js-record-collector__fill_fields', function () {
 								let formData = container.find('.js-record-collector__fill_form').serializeFormData();

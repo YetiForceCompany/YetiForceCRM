@@ -236,6 +236,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewModel->set('search_params', $transformedSearchParams);
 			//To make smarty to get the details easily accesible
 			foreach ($request->getArray('search_params') as $fieldListGroup) {
+				$searchParamsRaw[] = $fieldListGroup;
 				foreach ($fieldListGroup as $fieldSearchInfo) {
 					$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 					$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
@@ -244,7 +245,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 				}
 			}
 		} else {
-			$searchParams = [];
+			$searchParamsRaw = $searchParams = [];
 		}
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $this->listViewModel->getListViewHeaders();
@@ -280,5 +281,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
+		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 	}
 }

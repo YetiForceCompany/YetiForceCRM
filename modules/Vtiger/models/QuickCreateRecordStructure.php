@@ -9,14 +9,14 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger QuickCreate Record Structure Model.
+ * QuickCreate Record Structure Model class.
  */
 class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Model
 {
 	/**
 	 * Function to get the values in structured format.
 	 *
-	 * @return array - values in structure
+	 * @return Vtiger_Field_Model[] Field instances.
 	 */
 	public function getStructure()
 	{
@@ -24,15 +24,13 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 			return $this->structuredValues;
 		}
 		Vtiger_Field_Model::$tabIndexDefaultSeq = 1000;
-		$values = [];
-		$recordModel = $this->getRecord();
-		$fieldsDependency = \App\FieldsDependency::getByRecordModel('QuickCreate', $recordModel);
+		$fieldsDependency = \App\FieldsDependency::getByRecordModel('QuickCreate', $this->record);
 		$fieldModelList = $this->getModule()->getQuickCreateFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			if ($fieldsDependency['hide']['backend'] && \in_array($fieldName, $fieldsDependency['hide']['backend'])) {
 				continue;
 			}
-			$recordModelFieldValue = $recordModel->get($fieldName);
+			$recordModelFieldValue = $this->record->get($fieldName);
 			if (!empty($recordModelFieldValue)) {
 				$fieldModel->set('fieldvalue', $recordModelFieldValue);
 			} elseif ('activitystatus' === $fieldName) {
@@ -60,10 +58,9 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 			if ($fieldsDependency['mandatory'] && \in_array($fieldName, $fieldsDependency['mandatory'])) {
 				$fieldModel->set('isMandatory', true);
 			}
-			$values[$fieldName] = $fieldModel;
+			$this->structuredValues[$fieldName] = $fieldModel;
 		}
-		$this->structuredValues = $values;
 		++Vtiger_Field_Model::$tabIndexLastSeq;
-		return $values;
+		return $this->structuredValues;
 	}
 }

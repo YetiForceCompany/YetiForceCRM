@@ -26,7 +26,7 @@ class Validator extends \Tests\Base
 	 */
 	public function testUrlNoProtocolRequired(bool $expectedValue, $value)
 	{
-		$this->assertSame($expectedValue, \App\Validator::url($value));
+		$this->assertSame($expectedValue, \App\Validator::urlDomain($value));
 	}
 
 	/**

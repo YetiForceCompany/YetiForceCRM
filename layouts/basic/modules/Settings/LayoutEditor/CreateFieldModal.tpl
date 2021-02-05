@@ -48,7 +48,7 @@
 								<input type="text" maxlength="50" name="fieldLabel" value=""
 									   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 									   class="form-control"
-									   data-validator={\App\Json::encode([['name'=>'FieldLabel']])}/>
+									   data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'FieldLabel']]))}'/>
 							</div>
 						</div>
 						<div class="form-group row align-items-center">
@@ -71,6 +71,9 @@
 							<div class="col-md-8 controls">
 								<select class="marginLeftZero form-control" name="fieldTypeList">
 									{foreach item=TABLE from=$SELECTED_MODULE_MODEL->getEntityInstance()->tab_name}
+										{if in_array($TABLE, ['vtiger_crmentity', 'vtiger_entity_stats'])}
+											{continue}
+										{/if}
 										<option value="{$TABLE}" {if $TABLE == $SELECTED_MODULE_MODEL->getEntityInstance()->table_name}selected{/if}>
 											{$TABLE}
 										</option>
@@ -110,7 +113,7 @@
 										tabindex="-1" aria-hidden="true"
 										placeholder="{App\Language::translate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}"
 										data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-										data-validator={\App\Json::encode([['name'=>'PicklistFieldValues']])}>
+										data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'PicklistFieldValues']]))}'>
 								</select>
 							</div>
 						</div>

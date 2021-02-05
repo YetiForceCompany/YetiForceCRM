@@ -89,10 +89,16 @@
 																	{if $FIELDMODEL->get('postvalue') neq ''}
 																		<strong>{$FIELDMODEL->getOldValue()}</strong>
 																	{/if}
-																{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
+																{else if $FIELDMODEL->get('postvalue') neq '' && ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 																	&nbsp;
 																	<strong>{\App\Language::translate('LBL_DELETED','ModTracker')}</strong>
-																	(
+																	&nbsp;(
+																	<del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del>
+																	)
+																{else if $FIELDMODEL->get('postvalue') eq ''}
+																	&nbsp;
+																	<strong>{\App\Language::translate('LBL_DELETED_VALUE','ModTracker')}</strong>
+																	&nbsp;(
 																	<del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del>
 																	)
 																{else}
@@ -193,7 +199,7 @@
 											</div>
 										</div>
 									</div>
-								{else if $RECENT_ACTIVITY->isDisplayed()}
+								{else if $RECENT_ACTIVITY->isDisplayed() || $RECENT_ACTIVITY->isShowHiddenData()}
 									<div class="d-flex">
 										<span class="c-circle-icon mt-2 d-sm-inline d-none text-center"
 												style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">

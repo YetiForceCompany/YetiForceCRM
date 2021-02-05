@@ -11,7 +11,9 @@
 			{foreach item=MODEL from=$MODAL_SCRIPTS}
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}
-			<script type="text/javascript">app.registerModalController();</script>
+			{if $REGISTER_EVENTS}
+				<script type="text/javascript">app.registerModalController();</script>
+			{/if}
 			<div class="modal-header{if isset($MODAL_VIEW->headerClass)} {$MODAL_VIEW->headerClass}{/if}">
 				<h5 class="modal-title">
 					{if $MODAL_VIEW->modalIcon}

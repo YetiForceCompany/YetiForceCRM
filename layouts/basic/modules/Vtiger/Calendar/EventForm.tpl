@@ -5,7 +5,7 @@
 		{foreach key=index item=jsModel from=$SCRIPTS}
 			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}
-		<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
+		<form class="form-horizontal recordEditView js-form" id="quickCreate" name="QuickCreate" method="post" action="index.php" data-js="container">
 			<input name="module" value="{$MODULE_NAME}" type="hidden"/>
 			<input name="action" value="SaveAjax" type="hidden"/>
 			{if !empty($RECORD_ID)}

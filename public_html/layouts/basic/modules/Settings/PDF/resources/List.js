@@ -79,7 +79,7 @@ Settings_Vtiger_List_Js(
 				Vtiger_Helper_Js.showConfirmationBox({
 					message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')
 				}).done(function (e) {
-					Settings_PDF_List_Js.deleteById(deleteId).done(function () {
+					Settings_PDF_List_Js.deleteById(deleteId, false).done(function () {
 						self.registerTemplateDelete(container);
 					});
 				});

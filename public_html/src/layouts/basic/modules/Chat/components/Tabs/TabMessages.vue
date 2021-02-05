@@ -25,8 +25,8 @@
         >
           <transition
             appear
-            enter-active-class="animated fadeIn"
-            leave-active-class="animated fadeOut"
+            enter-active-class="animate__animated animate__fadeIn"
+            leave-active-class="animate__animated animate__fadeOut"
           >
             <q-chat-message
               :key="row.id"

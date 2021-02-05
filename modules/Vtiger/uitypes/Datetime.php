@@ -14,9 +14,7 @@
  */
 class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -33,17 +31,13 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return empty($value) ? '' : App\Fields\DateTime::formatToDb($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -55,9 +49,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		return App\Fields\DateTime::formatToDisplay($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		if (empty($value)) {
@@ -69,9 +61,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		return \App\TextParser::textTruncate($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if ($value) {
@@ -80,40 +70,25 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		return \App\Purifier::encodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/DateTime.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/DateTime.tpl';
 	}
 
-	/**
-	 * Returns template for operator.
-	 *
-	 * @param string $operator
-	 *
-	 * @return string
-	 */
+	/** {@inheritdoc} */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		if ('bw' === $operator) {
-			return 'ConditionBuilder/DateTimeRange.tpl';
-		}
-		return 'ConditionBuilder/Date.tpl';
+		return 'bw' === $operator ? 'ConditionBuilder/DateTimeRange.tpl' : parent::getOperatorTemplateName($operator);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
 	{
 		if (!$params) {

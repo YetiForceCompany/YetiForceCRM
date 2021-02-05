@@ -9,9 +9,7 @@
  */
 class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
@@ -24,41 +22,31 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 		return implode('##', $values);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return \App\User::getCurrentUserRealId();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/Owner.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getReferenceModule($value)
+	/** {@inheritdoc} */
+	public function getReferenceModule($record): ?Vtiger_Module_Model
 	{
 		return Vtiger_Module_Model::getInstance('Users');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny', 'om'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getOperatorTemplateName(string $operator = '')
 	{
 		return 'ConditionBuilder/Owner.tpl';

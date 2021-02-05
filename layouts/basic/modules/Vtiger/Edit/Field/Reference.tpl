@@ -23,6 +23,9 @@
 		{if isset($PARAMS['searchParams'])}
 			<input name="searchParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['searchParams'])}"/>
 		{/if}
+		{if isset($PARAMS['modalParams'])}
+			<input name="modalParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['modalParams'])}"/>
+		{/if}
 		{if {$REFERENCE_LIST_COUNT} eq 1}
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}"/>
 		{/if}

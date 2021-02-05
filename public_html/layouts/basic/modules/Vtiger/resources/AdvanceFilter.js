@@ -75,14 +75,10 @@ jQuery.Class(
 		 */
 		initializeOperationMappingDetails: function () {
 			var filterContainer = this.getFilterContainer();
-			this.fieldTypeConditionMapping = jQuery(
-				'input[name="advanceFilterOpsByFieldType"]',
-				filterContainer
-			).data('value');
-			this.conditonOperatorLabelMapping = jQuery(
-				'input[name="advanceFilterOptions"]',
-				filterContainer
-			).data('value');
+			this.fieldTypeConditionMapping = jQuery('input[name="advanceFilterOpsByFieldType"]', filterContainer).data(
+				'value'
+			);
+			this.conditonOperatorLabelMapping = jQuery('input[name="advanceFilterOptions"]', filterContainer).data('value');
 			this.dateConditionInfo = jQuery('[name="date_filters"]').data('value');
 			return this;
 		},
@@ -247,12 +243,7 @@ jQuery.Class(
 				}
 				if (
 					jQuery.inArray(conditionList[key], ['s', 'ew']) != -1 &&
-					jQuery.inArray(fieldInfo.type, [
-						'taxes',
-						'multipicklist',
-						'categoryMultipicklist',
-						'sharedOwner'
-					]) != -1
+					jQuery.inArray(fieldInfo.type, ['taxes', 'multipicklist', 'categoryMultipicklist', 'sharedOwner']) != -1
 				) {
 					continue;
 				}
@@ -288,10 +279,7 @@ jQuery.Class(
 			let fieldModel = this.fieldModelInstance,
 				html;
 			if (fieldModel.get('comparatorElementVal') === 'd') {
-				html =
-					'<div class="checkbox"><label><input type="checkbox" name="' +
-					fieldModel.getName() +
-					'" value="0" ';
+				html = '<div class="checkbox"><label><input type="checkbox" name="' + fieldModel.getName() + '" value="0" ';
 				if (fieldModel.getValue() === 1 || fieldModel.getValue() === '1') {
 					html += 'checked';
 				}
@@ -301,10 +289,7 @@ jQuery.Class(
 				fieldModel.getType().toLowerCase() === 'boolean' ||
 				fieldSelectElement.find('option:selected').data('fieldtype') === 'C'
 			) {
-				let selectedValue = fieldSelectElement
-					.closest('.js-conditions-row')
-					.find('[data-value="value"]')
-					.val();
+				let selectedValue = fieldSelectElement.closest('.js-conditions-row').find('[data-value="value"]').val();
 				html = '<select class="select2" name="' + fieldModel.getName() + '">';
 				html += '<option value="0"';
 				if (selectedValue === '0') {
@@ -381,16 +366,7 @@ jQuery.Class(
 			) {
 				fieldName = fieldName + '[]';
 			}
-
-			if (fieldSpecificUi.find('.input-group-addon').length > 0) {
-				fieldSpecificUi.find('.input-group').addClass('row');
-				fieldSpecificUi.find('.input-group').addClass('row');
-				fieldSpecificUi.find('input[type="text"]').css('width', '100%');
-				fieldSpecificUi.find('input[type="text"]').addClass('form-control');
-			} else {
-				fieldSpecificUi.filter('[name="' + fieldName + '"]').addClass('form-control');
-			}
-
+			fieldSpecificUi.filter('[name="' + fieldName + '"]').addClass('form-control');
 			fieldSpecificUi
 				.filter('[name="' + fieldName + '"]')
 				.attr('data-value', 'value')
@@ -478,10 +454,7 @@ jQuery.Class(
 				//depending on the fallback option which is class
 				fieldSpecificElement
 					.addClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-					.attr(
-						'data-validation-engine',
-						'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'
-					)
+					.attr('data-validation-engine', 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
 					.attr('data-fieldinfo', JSON.stringify(selectedOption.data('fieldinfo')));
 				if (typeof validator !== 'undefined') {
 					fieldSpecificElement.attr('data-validator', validator);
@@ -533,10 +506,7 @@ jQuery.Class(
 				let groupElement = $(domElement);
 				values[index + 1] = {};
 				values[index + 1]['columns'] = {};
-				$('.conditionList .js-conditions-row', groupElement).each(function (
-					i,
-					conditionDomElement
-				) {
+				$('.conditionList .js-conditions-row', groupElement).each(function (i, conditionDomElement) {
 					let rowElement = $(conditionDomElement),
 						fieldSelectElement = $('[name="columnname"]', rowElement),
 						valueSelectElement = $('[data-value="value"]', rowElement);
@@ -561,8 +531,7 @@ jQuery.Class(
 								}
 							} else if (field === 'value' && valueSelectElement.is('input')) {
 								rowValues[field] =
-									valueSelectElement.attr('type') === 'checkbox' &&
-									valueSelectElement.prop('checked')
+									valueSelectElement.attr('type') === 'checkbox' && valueSelectElement.prop('checked')
 										? 1
 										: valueSelectElement.val();
 							} else {
@@ -587,9 +556,7 @@ jQuery.Class(
 						for (key in fieldList) {
 							field = fieldList[key];
 							if (field === 'value' && valueSelectElement.attr('type') === 'checkbox') {
-								rowValues[field] = valueSelectElement.prop('checked')
-									? 1
-									: valueSelectElement.val();
+								rowValues[field] = valueSelectElement.prop('checked') ? 1 : valueSelectElement.val();
 							} else if (field === 'value' && valueSelectElement.is('input')) {
 								let pickListValues = valueSelectElement.data('picklistvalues'),
 									valuesArr = valueSelectElement.val().split(','),
@@ -634,8 +601,7 @@ jQuery.Class(
 							field = fieldList[key];
 							if (field === 'value') {
 								rowValues[field] =
-									valueSelectElement.attr('type') === 'checkbox' &&
-									valueSelectElement.prop('checked')
+									valueSelectElement.attr('type') === 'checkbox' && valueSelectElement.prop('checked')
 										? 1
 										: valueSelectElement.val();
 							} else {
@@ -651,9 +617,7 @@ jQuery.Class(
 					columnIndex++;
 				});
 				if (groupElement.find('div.groupCondition').length > 0) {
-					values[index + 1]['condition'] = conditionGroups
-						.find('div.groupCondition [name="condition"]')
-						.val();
+					values[index + 1]['condition'] = conditionGroups.find('div.groupCondition [name="condition"]').val();
 				}
 			});
 			return values;
@@ -931,12 +895,7 @@ Vtiger_Owner_Field_Js(
 						tagsArray.push($.trim(e));
 					});
 				});
-				html =
-					'<input data-tags="' +
-					tagsArray +
-					'" type="hidden" class="row select2" name="' +
-					this.getName() +
-					'">';
+				html = '<input data-tags="' + tagsArray + '" type="hidden" class="row select2" name="' + this.getName() + '">';
 				selectContainer = $(html).val(this.getValue());
 				selectContainer.data('tags', tagsArray);
 				this.addValidationToElement(selectContainer);
@@ -1005,12 +964,7 @@ Vtiger_Date_Field_Js(
 					comparatorSelectedOptionVal === 'tomorrow' ||
 					comparatorSelectedOptionVal === 'yesterday'
 				) {
-					html =
-						'<input name="' +
-						this.getName() +
-						'" type="text" ReadOnly="true" value="' +
-						startValue +
-						'">';
+					html = '<input name="' + this.getName() + '" type="text" ReadOnly="true" value="' + startValue + '">';
 				} else {
 					html =
 						'<input name="' +

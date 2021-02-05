@@ -16,7 +16,7 @@
 	{else if $RELATED_MODULE eq 'Assets' && \App\Privilege::isPermitted('Assets', 'CreateView')}
 		<button class="btn btn-sm btn-block btn-light" type="button"
 			title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}"
-			onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Assets')">
+			onclick="App.Components.QuickCreate.createRecord('Assets')">
 			<span class="fas fa-plus-circle"></span>
 		</button>
 	{else if $RELATED_MODULE eq 'Services' && \App\Privilege::isPermitted('Services')}
@@ -34,7 +34,7 @@
 	{else if $RELATED_MODULE eq 'OSSSoldServices' && \App\Privilege::isPermitted('OSSSoldServices', 'CreateView')}
 		<button class="btn btn-sm btn-block btn-light" type="button"
 			title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"
-			onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSSoldServices')">
+			onclick="App.Components.QuickCreate.createRecord('OSSSoldServices')">
 			<span class="fas fa-plus-circle"></span>
 		</button>
 	{/if}

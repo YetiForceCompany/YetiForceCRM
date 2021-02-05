@@ -64,6 +64,7 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 		$template = $request->getInteger('template');
 		$sourceModule = $request->getByType('sourceModule', 'Alnum');
 		$sourceRecord = $request->getInteger('sourceRecord');
+		$mailNotes = $request->getForHtml('mailNotes');
 		$result = false;
 		if (!empty($template) && !empty($field)) {
 			$emails = [];
@@ -73,7 +74,7 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 					continue;
 				}
 				$emails[$row[$field]] = true;
-				if ('Campaigns' === $sourceModule) {
+				if (isset(\App\TextParser::$sourceModules[$sourceModule]) && \in_array($moduleName, \App\TextParser::$sourceModules[$sourceModule])) {
 					$result = \App\Mailer::sendFromTemplate([
 						'template' => $template,
 						'moduleName' => $sourceModule,
@@ -81,6 +82,7 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 						'to' => $row[$field],
 						'sourceModule' => $moduleName,
 						'sourceRecord' => $row['id'],
+						'massMailNotes' => $mailNotes,
 					]);
 				} else {
 					$result = \App\Mailer::sendFromTemplate([
@@ -90,6 +92,7 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 						'to' => $row[$field],
 						'sourceModule' => $sourceModule,
 						'sourceRecord' => $sourceRecord,
+						'massMailNotes' => $mailNotes,
 					]);
 				}
 				if (!$result) {

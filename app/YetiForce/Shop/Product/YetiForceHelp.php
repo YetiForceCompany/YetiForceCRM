@@ -16,30 +16,41 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceHelp extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Help';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'Support';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/marketplace/support';
+
+	/** {@inheritdoc} */
 	public $prices = [
-		'Micro' => 25,
-		'Small' => 50,
-		'Medium' => 100,
-		'Large' => 250,
-		'Corporation' => 1250
+		'Micro' => 50,
+		'Small' => 80,
+		'Medium' => 200,
+		'Large' => 400,
+		'Corporation' => 800
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function verify($cache = true): bool
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
 	{
-		return true;
+		return [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'Website',
+				'relatedModuleName' => '_Base',
+				'linkicon' => 'fas fa-globe',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => $this->website,
+				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+		];
 	}
 }

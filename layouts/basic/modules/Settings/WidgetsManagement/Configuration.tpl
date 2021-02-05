@@ -44,11 +44,11 @@
 						</button>
 					</div>
 					<div id="moduleBlocks">
-						<input type="hidden" name="filter_title" value='{\App\Json::encode($WIDGETS_WITH_FILTER_TITLE)}'>
-						<input type="hidden" name="filter_date" value='{\App\Json::encode($WIDGETS_WITH_FILTER_DATE)}'>
+						<input type="hidden" name="filter_title" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_TITLE))}'>
+						<input type="hidden" name="filter_date" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_DATE))}'>
 						<input type="hidden" name="filter_users"
-							   value='{\App\Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
-						<input type="hidden" name="filter_restrict" value='{\App\Json::encode($RESTRICT_FILTER)}'>
+							   value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_USERS))}'>
+						<input type="hidden" name="filter_restrict" value='{\App\Purifier::encodeHtml(\App\Json::encode($RESTRICT_FILTER))}'>
 						{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 							{if isset($AUTHORIZATION_INFO['name'])}
 								{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO['name']}
@@ -74,7 +74,7 @@
 													<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
-											{if $SPECIAL_WIDGETS['Rss']}
+											{if isset($SPECIAL_WIDGETS['Rss'])}
 												{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
 												<div class="btn-group ml-1">
 													<button class="btn btn-success btn-sm addRss" type="button"

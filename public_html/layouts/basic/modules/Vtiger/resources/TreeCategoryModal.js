@@ -123,9 +123,7 @@ jQuery.Class(
 				if (recordsToAdd.length > 4) {
 					bootbox.dialog({
 						title: app.vtranslate('JS_INFORMATION'),
-						message: app
-							.vtranslate('JS_SAVE_SELECTED_ITEMS_ALERT')
-							.replace('__LENGTH__', recordsToAdd.length),
+						message: app.vtranslate('JS_SAVE_SELECTED_ITEMS_ALERT').replace('__LENGTH__', recordsToAdd.length),
 						buttons: {
 							success: {
 								label: app.vtranslate('JS_LBL_SAVE'),

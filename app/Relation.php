@@ -2,9 +2,12 @@
 /**
  * Relation file.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -57,5 +60,20 @@ class Relation
 			$allRelations = $allRelations[$moduleId] ?? [];
 		}
 		return $allRelations;
+	}
+
+	/**
+	 * Get relation ID.
+	 *
+	 * @param string      $moduleName
+	 * @param string      $relModuleName
+	 * @param string|null $fieldName
+	 *
+	 * @return int|null
+	 */
+	public static function getRelationId(string $moduleName, string $relModuleName, ?string $fieldName = null): ?int
+	{
+		$relation = self::getAll(\App\Module::getModuleId($moduleName), ['related_tabid' => \App\Module::getModuleId($relModuleName), 'field_name' => $fieldName]);
+		return current($relation)['relation_id'] ?? null;
 	}
 }

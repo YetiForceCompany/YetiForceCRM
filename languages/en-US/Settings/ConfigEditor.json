@@ -6,7 +6,7 @@
     "LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW": "Maximum entries per page in List View",
     "LBL_DEFAULT_LAYOUT": "Layout",
     "LBL_SHOWING_BREADCRUMBS": "Show breadcrumbs menu",
-    "LBL_TITLE_MAX_LENGTH": "Maximum length of characters for title ",
+    "LBL_TITLE_MAX_LENGTH": "Maximum length of characters for title",
     "LBL_MINIMUM_CRON_FREQUENCY": "Minimum cron frequency [min] ",
     "LBL_LIST_MAX_ENTRIES_MASSEDIT": "Maximum number of records in mass edition",
     "LBL_BG_CLOSING_MODAL": "Enable closing of modal window by clicking on the background",

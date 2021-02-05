@@ -11,31 +11,53 @@
 
 class Vtiger_Date_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return empty($value) ? '' : DateTimeField::convertToDBFormat($value);
 	}
 
-	public function getDbConditionBuilderValue($value, string $operator)
+	/** {@inheritdoc} */
+	public function getConditionBuilderField(string $operator): Vtiger_Field_Model
 	{
-		if ('bw' === $operator) {
-			$values = explode(',', $value);
-			foreach ($values as &$val) {
-				$this->validate($val, true);
-				$val = $this->getDBValue($val);
-			}
-			return implode(',', $values);
+		$fieldModel = $this->getFieldModel();
+		if ('moreThanDaysAgo' === $operator) {
+			$fieldModel = Vtiger_Field_Model::init($fieldModel->getModuleName(), [
+				'uitype' => 7,
+				'name' => $fieldModel->getName(),
+				'label' => 'LBL_INTEGER',
+				'displaytype' => 1,
+				'typeofdata' => 'I~M'
+			]);
 		}
-		$this->validate($value, true);
-		return $this->getDBValue($value);
+		return $fieldModel;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		switch ($operator) {
+			case 'bw':
+				$values = explode(',', $value);
+				foreach ($values as &$val) {
+					$this->validate($val, true);
+					$val = $this->getDBValue($val);
+				}
+				$dbValue = implode(',', $values);
+				break;
+			case 'moreThanDaysAgo':
+				$uiTypeModel = $this->getConditionBuilderField($operator)->getUITypeModel();
+				$uiTypeModel->validate($value, true);
+				$dbValue = $uiTypeModel->getDBValue($value);
+				break;
+			default:
+				$this->validate($value, true);
+				$dbValue = $this->getDBValue($value);
+		}
+		return $dbValue;
+	}
+
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -52,9 +74,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -68,9 +88,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return $dateValue;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (empty($value) || ' ' === $value) {
@@ -94,41 +112,31 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/Date.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Date.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDefaultEditTemplateName()
 	{
 		return 'Edit/DefaultField/Date.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return null;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setDefaultValueFromRequest(App\Request $request)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
@@ -140,9 +148,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		$this->getFieldModel()->set('defaultvalue', $value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDefaultValue()
 	{
 		$defaultValue = $this->getFieldModel()->get('defaultvalue');
@@ -154,9 +160,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		return $defaultValue;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return array_merge(['e', 'n', 'bw', 'b', 'a', 'y', 'ny'], array_keys(App\Condition::DATE_OPERATORS));
@@ -171,15 +175,20 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		if ('bw' === $operator) {
-			return 'ConditionBuilder/DateRange.tpl';
+		switch ($operator) {
+			case 'bw':
+				$template = 'ConditionBuilder/DateRange.tpl';
+				break;
+			case 'moreThanDaysAgo':
+				$template = 'ConditionBuilder/Base.tpl';
+				break;
+			default:
+				$template = 'ConditionBuilder/Date.tpl';
 		}
-		return 'ConditionBuilder/Date.tpl';
+		return $template;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
 	{
 		if (!$params) {

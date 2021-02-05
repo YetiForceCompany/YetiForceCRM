@@ -56,21 +56,24 @@
 				{/if}
 			</ul>
 			<div class="tab-content layoutContent pt-3 themeTableColor overflowVisible">
-				<div class="tab-pane fade show active" id="detailViewLayout" role="tabpanel"
-					 aria-labelledby="detailViewLayout">
+				<div class="tab-pane fade show active" id="detailViewLayout" role="tabpanel" aria-labelledby="detailViewLayout">
 					{assign var=FIELD_TYPE_INFO value=$SELECTED_MODULE_MODEL->getAddFieldTypeInfo()}
 					{assign var=IS_SORTABLE value=$SELECTED_MODULE_MODEL->isSortableAllowed()}
 					{assign var=IS_BLOCK_SORTABLE value=$SELECTED_MODULE_MODEL->isBlockSortableAllowed()}
 					{assign var=ALL_BLOCK_LABELS value=[]}
 					{if $IS_SORTABLE}
 						<div class="btn-toolbar" id="layoutEditorButtons">
-							<button class="btn btn-success btn-sm addButton addCustomBlock" type="button">
-								<span class="fas fa-plus"></span>
-								<strong class="ml-1">{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
+							<button class="btn btn-success addButton addCustomBlock">
+								<span class="fas fa-plus mr-2"></span>
+								{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}
 							</button>
-							<button class="btn btn-success saveFieldSequence btn-sm ml-1 d-none" type="button">
-								<span class="fas fa-check"></span>
-								<strong class="ml-1">{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
+							<button class="btn btn-success saveFieldSequence ml-3 d-none">
+								<span class="fas fa-check mr-2"></span>
+								{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}
+							</button>
+							<button class="btn btn-default ml-3 js-inactive-fields-btn">
+								<span class="fas fa-ban mr-2"></span>
+								{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}
 							</button>
 						</div>
 					{/if}
@@ -78,18 +81,19 @@
 						{foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
 							{assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
 							{assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
+							{assign var=BLOCK_ICON value=$BLOCK_MODEL->get('icon')}
 							{$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_LABEL_KEY}
 							<div id="block_{$BLOCK_ID}"
-								 class="editFieldsTable block_{$BLOCK_ID} mb-2 border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}"
+								 class="editFieldsTable block_{$BLOCK_ID} mb-2 border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if} js-block-container"
 								 data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}"
-								 style="border-radius: 4px;background: white;">
+								 style="border-radius: 4px;background: white;" data-js="container">
 								<div class="layoutBlockHeader d-flex flex-wrap justify-content-between m-0 p-1 pt-1 w-100">
 									<div class="blockLabel u-white-space-nowrap">
 										{if $IS_BLOCK_SORTABLE}
 											<img class="align-middle" src="{\App\Layout::getImagePath('drag.png')}" alt=""/>
 											&nbsp;&nbsp;
 										{/if}
-										<strong class="align-middle" title="{$BLOCK_LABEL_KEY}">{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
+										<strong class="align-middle js-block-label" title="{$BLOCK_LABEL_KEY}" data-js="container">{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
 									</div>
 									<div class="btn-toolbar pl-1" role="toolbar" aria-label="Toolbar with button groups">
 										{if $BLOCK_MODEL->isAddCustomFieldEnabled()}
@@ -99,12 +103,6 @@
 												</button>
 											</div>
 										{/if}
-										<div class="btn-group btn-group-sm mr-1 mt-1 u-h-fit" role="group" aria-label="Third group">
-											<button class="js-inactive-fields-btn btn btn-default">
-												<span class="fas mr-1 fa-ban"></span>
-												<span>{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</span>
-											</button>
-										</div>
 										<div class="btn-group btn-group-sm btn-group-toggle mt-1" data-toggle="buttons">
 											<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if $BLOCK_MODEL->isHidden()} active{/if}" data-visible="0"
 												   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
@@ -254,7 +252,7 @@
 							</div>
 						{/foreach}
 					</div>
-					<input type="hidden" class="inActiveFieldsArray" value='{\App\Json::encode($IN_ACTIVE_FIELDS)}'/>
+					<input type="hidden" class="inActiveFieldsArray" value='{\App\Purifier::encodeHtml(\App\Json::encode($IN_ACTIVE_FIELDS))}'/>
 					{include file=\App\Layout::getTemplatePath('NewCustomBlock.tpl', $QUALIFIED_MODULE)}
 					{include file=\App\Layout::getTemplatePath('NewCustomField.tpl', $QUALIFIED_MODULE)}
 					{include file=\App\Layout::getTemplatePath('AddBlockModal.tpl', $QUALIFIED_MODULE)}

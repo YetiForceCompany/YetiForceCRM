@@ -306,9 +306,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 			foreach ($orderBy as $fieldName => $sortFlag) {
 				$field = $this->getRelationModel()->getRelationModuleModel()->getFieldByName($fieldName);
 				if ($field || 'id' === $fieldName) {
-					return $this->getRelationModel()->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+					$this->getRelationModel()->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+				} else {
+					\App\Log::warning("[RelationListView] Incorrect value of sorting: '$fieldName'");
 				}
-				\App\Log::warning("[RelationListView] Incorrect value of sorting: '$fieldName'");
 			}
 		}
 	}
@@ -346,9 +347,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 				unset($fields[$fieldName]);
 			}
 		}
-		$relationObject = $this->getRelationModel()->getTypeRelationModel();
-		if (method_exists($relationObject, 'getFields')) {
-			$fields = array_merge($fields, $relationObject->getFields());
+		$relationModel = $this->getRelationModel()->getTypeRelationModel();
+		if (method_exists($relationModel, 'getFields')) {
+			$fields = array_merge($fields, $relationModel->getFields());
 		}
 		return $fields;
 	}
@@ -562,7 +563,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'adminIcon-document-templates',
+				'linkicon' => 'yfi-document-templates',
 			]);
 		}
 		return $addLinkModel;

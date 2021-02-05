@@ -279,9 +279,7 @@ Settings_Vtiger_Edit_Js(
 					if (response.length === 0) {
 						return this.registerEditors(form);
 					}
-					const fonts = response
-						.map((font) => font.family)
-						.filter((val, index, self) => self.indexOf(val) === index);
+					const fonts = response.map((font) => font.family).filter((val, index, self) => self.indexOf(val) === index);
 					CONFIG.fonts = fonts;
 					this.registerEditors(form, fonts);
 				})

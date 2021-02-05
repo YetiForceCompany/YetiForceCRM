@@ -14,11 +14,12 @@
  */
 class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if (empty($value)) {
+			return '';
+		}
 		$rawValue = $value;
 		$value = \App\Purifier::encodeHtml($value);
 		preg_match('^[\\w]+:\\/\\/^', $value, $matches);
@@ -39,14 +40,6 @@ class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
-	{
-		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, $rawText, \App\Config::main('listview_max_textlength'));
-	}
-
-	/**
 	 * Gets URL.
 	 *
 	 * @param int|null $recordId
@@ -60,9 +53,7 @@ class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 		return "index.php?module={$fieldModel->getModuleName()}&action=Meeting&fieldName={$fieldModel->getName()}&record=" . ($recordId ?: '') . '&expField=' . ($params['exp'] ?? '');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MeetingUrl.tpl';

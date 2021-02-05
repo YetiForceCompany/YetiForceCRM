@@ -11,7 +11,7 @@
 namespace App\Db;
 
 /**
- * Class that repaire structure and data in database.
+ * Class that repair structure and data in database.
  */
 class Fixer
 {
@@ -85,7 +85,6 @@ class Fixer
 			$dbCommand->insert('vtiger_profile2utility', ['profileid' => $row['profileid'], 'tabid' => $row['tabid'], 'activityid' => $row['activityid'], 'permission' => 1])->execute();
 			++$i;
 		}
-		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
 		return $i;
 	}
 
@@ -111,7 +110,6 @@ class Fixer
 				}
 			}
 		}
-		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
 		return $i;
 	}
 
@@ -207,6 +205,8 @@ class Fixer
 
 	/**
 	 * Add missing entries in vtiger_def_org_share and vtiger_org_share_action2tab.
+	 *
+	 * @return int
 	 */
 	public static function share(): int
 	{

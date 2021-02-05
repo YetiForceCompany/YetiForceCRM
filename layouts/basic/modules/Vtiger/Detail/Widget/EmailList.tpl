@@ -46,10 +46,8 @@
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 									{if $URLDATA}
-										<a class="btn btn-sm btn-light" href="{$URLDATA}"
-											title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="fas fa-envelope"
-												title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										<a class="btn btn-sm btn-light" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+											<span class="fas fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 										</a>
 										&nbsp;
 									{/if}

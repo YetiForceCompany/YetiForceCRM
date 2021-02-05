@@ -265,7 +265,7 @@ class QueryGenerator
 	 *
 	 * @return \self
 	 */
-	public function setField($fields)
+	public function setField($fields): self
 	{
 		if (\is_array($fields)) {
 			foreach ($fields as $field) {
@@ -280,12 +280,13 @@ class QueryGenerator
 	/**
 	 * Clear fields.
 	 *
-	 * @return void
+	 * @return self
 	 */
-	public function clearFields()
+	public function clearFields(): self
 	{
 		$this->fields = ['id'];
 		$this->relatedFields = [];
+		$this->customColumns = [];
 		return $this;
 	}
 
@@ -306,7 +307,7 @@ class QueryGenerator
 	 *
 	 * @return \self
 	 */
-	public function setCustomColumn($columns)
+	public function setCustomColumn($columns): self
 	{
 		if (\is_array($columns)) {
 			foreach ($columns as $key => $column) {
@@ -699,14 +700,15 @@ class QueryGenerator
 		}
 		if ('Calendar' === $this->moduleName && !\in_array('activitytype', $this->fields)) {
 			$this->fields[] = 'activitytype';
-		}
-		if ('Documents' === $this->moduleName && \in_array('filename', $this->fields)) {
+		} elseif ('Documents' === $this->moduleName && \in_array('filename', $this->fields)) {
 			if (!\in_array('filelocationtype', $this->fields)) {
 				$this->fields[] = 'filelocationtype';
 			}
 			if (!\in_array('filestatus', $this->fields)) {
 				$this->fields[] = 'filestatus';
 			}
+		} elseif ('EmailTemplates' === $this->moduleName && !\in_array('sys_name', $this->fields)) {
+			$this->fields[] = 'sys_name';
 		}
 		if (!$onlyFields) {
 			$this->conditions = CustomView::getConditions($viewId);
@@ -957,6 +959,9 @@ class QueryGenerator
 			$subQuery->andHaving((new \yii\db\Expression('COUNT(1) > 1')));
 			$this->joins['duplicates'] = ['INNER JOIN', ['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause)];
 		}
+		uksort($this->joins, function ($a, $b) use ($moduleTableIndexList) {
+			return !isset($moduleTableIndexList[$a]) && isset($moduleTableIndexList[$b]);
+		});
 		foreach ($this->joins as $join) {
 			$on = $join[2] ?? '';
 			$params = $join[3] ?? [];

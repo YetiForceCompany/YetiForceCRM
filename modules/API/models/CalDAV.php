@@ -57,13 +57,6 @@ class API_CalDAV_Model
 	 * @var array
 	 */
 	public $davUsers = [];
-
-	/**
-	 * Max date.
-	 *
-	 * @var string
-	 */
-	const MAX_DATE = '2038-01-01';
 	/**
 	 * Cache.
 	 *

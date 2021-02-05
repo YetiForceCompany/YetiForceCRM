@@ -11,12 +11,12 @@
 			<ul id="tabs" class="nav nav-tabs my-2 mr-0" data-tabs="tabs">
 				<li class="nav-item">
 					<a class="nav-link {if $ACTIVE_TAB eq 'pass'}active{/if}" href="#pass" data-toggle="tab">
-						<span class="mdi mdi-lock-question mr-2"></span>{\App\Language::translate('LBL_PASSWORD_COMPLEXITY', $QUALIFIED_MODULE)}
+						<span class="mdi mdi-lock-question mr-2 u-fs-lg"></span>{\App\Language::translate('LBL_PASSWORD_COMPLEXITY', $QUALIFIED_MODULE)}
 					</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link {if $ACTIVE_TAB eq 'pwned'}active{/if}" href="#pwnedtab" data-toggle="tab">
-						<span class="mdi mdi-database-search mr-2"></span>{\App\Language::translate('LBL_PWNED_PASSWORD_PROVIDER', $QUALIFIED_MODULE)}
+						<span class="mdi mdi-database-search mr-2 u-fs-lg"></span>{\App\Language::translate('LBL_PWNED_PASSWORD_PROVIDER', $QUALIFIED_MODULE)}
 					</a>
 				</li>
 			</ul>
@@ -24,13 +24,13 @@
 		<div id="my-tab-content" class="tab-content">
 			<div class="tab-pane {if $ACTIVE_TAB eq 'pass'}active{/if}" id="pass">
 				<div class="alert alert-info">
-					<span class="mdi mdi-information-outline mr-2 float-left"></span>
+					<span class="mdi mdi-information-outline mr-2 u-fs-lg float-left"></span>
 					{\App\Language::translate('LBL_PASSWORD_COMPLEXITY_INFO', $QUALIFIED_MODULE)}
 				</div>
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 						<tr class="blockHeader"><th colspan="2" class="mediumWidthType">
-							<span class="mdi mdi-form-textbox-password mr-2"></span>
+							<span class="mdi mdi-form-textbox-password u-fs-lg mr-2"></span>
 							{\App\Language::translate('LBL_Password_Header', $QUALIFIED_MODULE)}
 						</th></tr>
 					</thead>
@@ -103,7 +103,7 @@
 					<thead>
 						<tr class="blockHeader">
 						<th colspan="2" class="mediumWidthType">
-							<span class="mdi mdi-lock-reset mr-2"></span>
+							<span class="mdi mdi-lock-reset mr-2 u-fs-lg"></span>
 							{\App\Language::translate('LBL_PASSWORD_CHANGE_RULES', $QUALIFIED_MODULE)}
 						</th>
 						</tr>
@@ -157,7 +157,7 @@
 			<div class="tab-pane {if $ACTIVE_TAB eq 'pwned'}active{/if}" id="pwnedtab">
 				{assign var=ACTIVE_PWNED_PROVIDER value=App\Config::module('Users', 'pwnedPasswordProvider')}
 				<div class="alert alert-info">
-					<span class="mdi mdi-information-outline mr-2 float-left"></span>
+					<span class="mdi mdi-information-outline mr-2 u-fs-lg float-left"></span>
 					{\App\Language::translate('LBL_PASSWORD_PWNED_ALERT', $QUALIFIED_MODULE)}
 				</div>
 				<div class="js-config-table table-responsive" data-js="container">

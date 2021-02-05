@@ -17,7 +17,7 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $modalIcon = 'AdditionalIcon-VideoConference';
+	public $modalIcon = 'mdi mdi-card-account-phone';
 	/**
 	 * {@inheritdoc}
 	 */
@@ -59,31 +59,36 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 
 		$meeting = \App\MeetingService::getInstance();
 		$isActive = $meeting->isActive() && $meeting->validateUrl($url);
-		$templateData = $userRoom = '';
-		$simpleUrl = 0 !== strpos($url, $meeting->get('url'));
-
+		$templateData = $userRoomUrl = '';
+		$simpleUrl = $meeting->isEmpty('url') || 0 !== strpos($url, $meeting->get('url'));
 		if ($isActive) {
 			$data = $meeting->getDataFromUrl($url);
-			$userRoom = $meeting->getUrl($data, \App\User::getCurrentUserRealId(), $this->moderator);
+			$userRoomUrl = $meeting->getUrl($data, \App\User::getCurrentUserRealId(), $this->moderator);
+			if (!empty($data['exp'])) {
+				$date = new \DateTime();
+				$date->setTimestamp($data['exp']);
+				$date->setTimezone(new \DateTimeZone(\App\User::getCurrentUserModel()->getDetail('time_zone')));
+				$expires = $date->format('Y-m-d H:i:s (T P)');
+			}
 		}
 		$sendInvitation = ($isActive || $simpleUrl) && \App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail');
-		$templateId = \App\Config::component('MeetingService', 'defaultEmailTemplate', [])[$moduleName] ?? '';
-		if ($sendInvitation && $templateId && \App\Record::isExists($templateId, 'EmailTemplates')) {
-			$templateModel = \Vtiger_Record_Model::getInstanceById($templateId, 'EmailTemplates');
+		$templateId = \App\Config::component('MeetingService', 'emailTemplateModule', [])[$moduleName] ?? \App\Config::component('MeetingService', 'emailTemplateDefault', 0);
+		if ($sendInvitation && $templateId && ($template = \App\Mail::getTemplate($templateId, false))) {
 			$textParser = \App\TextParser::getInstanceById($recordId, $moduleName);
 			$textParser->setParam('meetingUrl', $url);
-			$templateData = $textParser->setContent(\App\Utils\Completions::decode(\App\Purifier::purifyHtml($templateModel->get('content'))))->parse()->getContent();
+			$textParser->setParam('meetingExpires', $expires ?? '');
+			$templateData = $textParser->setContent(\App\Utils\Completions::decode(\App\Purifier::purifyHtml($template['content'])))->parse()->getContent();
 		}
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MEETING_URL', $userRoom);
+		$viewer->assign('MEETING_URL', $userRoomUrl);
 		$viewer->assign('MEETING_GUEST_URL', $url);
-		$viewer->assign('SEND_INVITATION', $sendInvitation);
+		$viewer->assign('SEND_INVITATION', $sendInvitation && $templateData);
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('SIMPLE_URL', $simpleUrl);
-		$viewer->assign('EMAIL_TEMPLATE', $templateData ? $templateId : '');
+		$viewer->assign('EMAIL_TEMPLATE', $templateData ? $templateId : 0);
 		$viewer->assign('EMAIL_TEMPLATE_DATA', $templateData);
-		$viewer->assign('TEMPLATE_PARAMS', \App\Json::encode(['meetingUrl' => $url]));
+		$viewer->assign('TEMPLATE_PARAMS', \App\Json::encode(['meetingUrl' => $url, 'meetingExpires' => $expires ?? '']));
 		$viewer->view('Modals/MeetingModal.tpl', $request->getModule());
 	}
 

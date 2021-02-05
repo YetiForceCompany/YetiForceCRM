@@ -179,13 +179,7 @@ jQuery.Class(
 					.fail(function (data, err) {
 						thisInstance.duplicateCheckCache[taxName] = data['success'];
 						thisInstance.duplicateCheckCache['message'] = data['message'];
-						taxLabelElement.validationEngine(
-							'showPrompt',
-							data['message'],
-							'error',
-							'bottomLeft',
-							true
-						);
+						taxLabelElement.validationEngine('showPrompt', data['message'], 'error', 'bottomLeft', true);
 						aDeferred.reject(data);
 					});
 			} else {

@@ -81,7 +81,7 @@ class Cron
 			YetiForce\Register::check();
 			YetiForce\Watchdog::send();
 		}
-		if (!(static::$logActive = \App\Config::debug('DEBUG_CRON'))) {
+		if (!(static::$logActive = Config::debug('DEBUG_CRON'))) {
 			return;
 		}
 		if (!is_dir($this->logPath) && !mkdir($this->logPath, 0777, true) && !is_dir($this->logPath)) {
@@ -140,7 +140,7 @@ class Cron
 				unlink($this->logPath . $this->logFile);
 			}
 		} else {
-			$this->log('------------------------------------' . PHP_EOL . \App\Log::getlastLogs(), 'info', false);
+			$this->log('------------------------------------' . PHP_EOL . Log::getlastLogs(), 'info', false);
 		}
 	}
 
@@ -170,9 +170,9 @@ class Cron
 			case self::STATUS_RUNNING:
 				break;
 			default:
-				throw new \App\Exceptions\AppException('Invalid status');
+				throw new Exceptions\AppException('Invalid status');
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => $status], ['name' => $name])->execute();
+		Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => $status], ['name' => $name])->execute();
 	}
 
 	/**
@@ -185,7 +185,7 @@ class Cron
 		if (isset(self::$maxExecutionCronTime)) {
 			return self::$maxExecutionCronTime;
 		}
-		$maxExecutionTime = (int) \App\Config::main('maxExecutionCronTime');
+		$maxExecutionTime = (int) Config::main('maxExecutionCronTime');
 		$iniMaxExecutionTime = (int) ini_get('max_execution_time');
 		if (0 !== $iniMaxExecutionTime && $iniMaxExecutionTime < $maxExecutionTime) {
 			$maxExecutionTime = $iniMaxExecutionTime;
@@ -201,5 +201,20 @@ class Cron
 	public function checkCronTimeout(): bool
 	{
 		return time() >= (self::getMaxExecutionTime() + self::$cronTimeStart);
+	}
+
+	/**
+	 * Check if it is active function.
+	 *
+	 * @param string $className
+	 *
+	 * @return bool
+	 */
+	public static function checkActive(string $className): bool
+	{
+		return (new Db\Query())
+			->from('vtiger_cron_task')
+			->where(['status' => [self::STATUS_ENABLED, self::STATUS_RUNNING], 'handler_class' => $className])
+			->exists();
 	}
 }

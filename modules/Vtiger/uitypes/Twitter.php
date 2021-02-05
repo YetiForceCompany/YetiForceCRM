@@ -14,9 +14,7 @@ class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 	 */
 	public const MAX_LENGTH = 15;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (isset($this->validate[$value]) || empty($value)) {
@@ -28,9 +26,7 @@ class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 		parent::validate($value, $isUserFormat);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -43,17 +39,13 @@ class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 		return "<a href=\"https://twitter.com/{$twitter}\" target='_blank'>@{$twitter}</a>";
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Twitter.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'c', 'k', 'y', 'ny'];

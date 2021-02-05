@@ -93,20 +93,21 @@ class Users_List_View extends Settings_Vtiger_List_View
 				}
 			}
 		}
-		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
-		if (empty($searchParmams) || !\is_array($searchParmams)) {
-			$searchParmams = [];
+		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
+		if (empty($searchParams) || !\is_array($searchParams)) {
+			$searchParamsRaw = $searchParams = [];
 		}
-		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
+		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
 		$this->listViewModel->set('search_params', $transformedSearchParams);
 
 		//To make smarty to get the details easily accesible
 		foreach ($request->getArray('search_params') as $fieldListGroup) {
+			$searchParamsRaw[] = $fieldListGroup;
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2] ?? '';
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0] ?? '';
 				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? '';
-				$searchParmams[$fieldName] = $fieldSearchInfo;
+				$searchParams[$fieldName] = $fieldSearchInfo;
 			}
 		}
 		if (!empty($searchResult) && \is_array($searchResult)) {
@@ -158,7 +159,8 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('SEARCH_DETAILS', $searchParmams);
+		$viewer->assign('SEARCH_DETAILS', $searchParams);
+		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 	}
 
 	/**
@@ -197,14 +199,14 @@ class Users_List_View extends Settings_Vtiger_List_View
 		}
 		$searchKey = $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
-		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
+		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		$operator = $request->getByType('operator');
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 
-		if (empty($searchParmams) || !\is_array($searchParmams)) {
-			$searchParmams = [];
+		if (empty($searchParams) || !\is_array($searchParams)) {
+			$searchParams = [];
 		}
-		$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
+		$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
 		$listViewModel->set('search_params', $transformedSearchParams);
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);

@@ -19,9 +19,7 @@ class Vtiger_Boolean_InventoryField extends Vtiger_Basic_InventoryField
 	protected $onlyOne = false;
 	protected $purifyType = \App\Purifier::BOOL;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if (!\in_array($value, [0, 1, '1', '0', 'on'])) {
@@ -29,17 +27,13 @@ class Vtiger_Boolean_InventoryField extends Vtiger_Basic_InventoryField
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditValue($value)
 	{
 		return (bool) $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return (bool) $value ? App\Language::translate('LBL_YES') : App\Language::translate('LBL_NO');

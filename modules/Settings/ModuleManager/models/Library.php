@@ -112,9 +112,9 @@ class Settings_ModuleManager_Library_Model
 			$url = $lib['url'] . "/archive/$mode.zip";
 			App\Log::trace('Started downloading library: ' . $name, 'Library');
 			try {
-				\App\Log::beginProfile("GET|Library::download|{$url}", __NAMESPACE__);
+				\App\Log::beginProfile("GET|Library::download|{$url}", 'Library');
 				(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
-				\App\Log::endProfile("GET|Library::download|{$url}", __NAMESPACE__);
+				\App\Log::endProfile("GET|Library::download|{$url}", 'Library');
 				if (\file_exists($path)) {
 					App\Log::trace('Completed downloads library: ' . $name, 'Library');
 				} else {
@@ -129,6 +129,12 @@ class Settings_ModuleManager_Library_Model
 			$zip = \App\Zip::openFile($path, ['checkFiles' => false]);
 			$zip->unzip([$compressedName => $lib['dir']]);
 			unlink($path);
+			if ('roundcube' === $name) {
+				$db = \App\Db::getInstance();
+				foreach (['roundcube_cache', 'roundcube_cache_index', 'roundcube_cache_messages', 'roundcube_cache_shared', 'roundcube_cache_thread'] as $table) {
+					$db->createCommand()->truncateTable($table)->execute();
+				}
+			}
 		} else {
 			App\Log::warning('No import file: ' . $name, 'Library');
 			$returnVal = false;

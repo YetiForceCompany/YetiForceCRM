@@ -29,7 +29,7 @@ class Users_Password_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(App\Request $request)
+	public function checkPermission(App\Request $request): bool
 	{
 		if ('demo' === App\Config::main('systemMode')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -37,8 +37,12 @@ class Users_Password_Action extends \App\Controller\Action
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		switch ($request->getMode()) {
 			case 'reset':
-			case 'change':
 				if (true === $currentUserModel->isAdminUser() || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
+					return true;
+				}
+				break;
+			case 'change':
+				if (\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() && (true === $currentUserModel->isAdminUser() || (int) $currentUserModel->get('id') === $request->getInteger('record'))) {
 					return true;
 				}
 				break;
@@ -58,7 +62,7 @@ class Users_Password_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function reset(App\Request $request)
+	public function reset(App\Request $request): void
 	{
 		$moduleName = $request->getModule();
 		$password = \App\Encryption::generateUserPassword();
@@ -67,7 +71,17 @@ class Users_Password_Action extends \App\Controller\Action
 		$userRecordModel->set('user_password', $password);
 		$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 		$userRecordModel->set('force_password_change', 0);
+
+		$eventHandler = new \App\EventHandler();
+		$eventHandler->setRecordModel($userRecordModel);
+		$eventHandler->setModuleName('Users');
+		$eventHandler->setParams(['action' => 'reset']);
+		$eventHandler->trigger('UsersBeforePasswordChange');
+
 		$userRecordModel->save();
+
+		$eventHandler->trigger('UsersAfterPasswordChange');
+
 		\App\Mailer::sendFromTemplate([
 			'template' => 'UsersResetPassword',
 			'moduleName' => $moduleName,
@@ -85,7 +99,7 @@ class Users_Password_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function change(App\Request $request)
+	public function change(App\Request $request): void
 	{
 		$moduleName = $request->getModule();
 		$password = $request->getRaw('password');
@@ -94,7 +108,7 @@ class Users_Password_Action extends \App\Controller\Action
 		$isOtherUser = App\User::getCurrentUserId() !== $request->getInteger('record');
 		if (!$isOtherUser && 'PASSWORD' !== \App\Session::get('UserAuthMethod')) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', 'Users'), 'type' => 'error']]);
-		} elseif ($password !== $request->getRaw('confirmPassword')) {
+		} elseif ($password !== $request->getRaw('confirm_password')) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', 'Users'), 'type' => 'error']]);
 		} elseif (!$isOtherUser && !$userRecordModel->verifyPassword($request->getRaw('oldPassword'))) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', 'Users'), 'type' => 'error']]);
@@ -104,12 +118,20 @@ class Users_Password_Action extends \App\Controller\Action
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 			$userRecordModel->set('force_password_change', $isOtherUser ? 1 : 0);
 			try {
+				$eventHandler = new \App\EventHandler();
+				$eventHandler->setRecordModel($userRecordModel);
+				$eventHandler->setModuleName('Users');
+				$eventHandler->setParams(['action' => 'change']);
+				$eventHandler->trigger('UsersBeforePasswordChange');
+
 				$userRecordModel->save();
+
+				$eventHandler->trigger('UsersAfterPasswordChange');
+
 				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users')]]);
 				if (\App\Session::has('ShowUserPasswordChange')) {
 					\App\Session::delete('ShowUserPasswordChange');
 				}
-				\App\Extension\PwnedPassword::afterChangePassword($userRecordModel->get('user_name'));
 			} catch (\App\Exceptions\SaveRecord $exc) {
 				$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translateSingleMod($exc->getMessage(), 'Other.Exceptions'), 'type' => 'error']]);
 			} catch (\App\Exceptions\Security $exc) {
@@ -124,7 +146,7 @@ class Users_Password_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function massReset(App\Request $request)
+	public function massReset(App\Request $request): void
 	{
 		$moduleName = $request->getModule();
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
@@ -135,7 +157,17 @@ class Users_Password_Action extends \App\Controller\Action
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 			$userRecordModel->set('force_password_change', 0);
+
+			$eventHandler = new \App\EventHandler();
+			$eventHandler->setRecordModel($userRecordModel);
+			$eventHandler->setModuleName('Users');
+			$eventHandler->setParams(['action' => 'massReset']);
+			$eventHandler->trigger('UsersBeforePasswordChange');
+
 			$userRecordModel->save();
+
+			$eventHandler->trigger('UsersAfterPasswordChange');
+
 			\App\Mailer::sendFromTemplate([
 				'template' => 'UsersResetPassword',
 				'moduleName' => $moduleName,

@@ -16,7 +16,7 @@ module.exports = {
 			}
 		}
 	],
-	printWidth: 170,
+	printWidth: 120,
 	tabWidth: 2,
 	useTabs: true,
 	trailingComma: 'none',

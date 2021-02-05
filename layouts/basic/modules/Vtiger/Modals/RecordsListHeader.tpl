@@ -20,16 +20,14 @@
 			<div class="d-flex justify-content-center justify-content-sm-between w-100 mt-2 mt-lg-0 mx-lg-2 order-3 order-lg-0 flex-wrap">
 				<div class="mb-2 mb-sm-0 btn-toolbar u-w-sm-down-100">
 					{if !empty($SWITCH)}
-					<div class="mr-2 mb-2 mb-sm-0">
+					<div class="mr-2 mb-2 mb-sm-0 {if isset($MODAL_PARAMS['hideSwitch']) && $MODAL_PARAMS['hideSwitch'] eq 'true'} d-none {/if}">
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-outline-primary active">
-								<input class="js-hierarchy-records" data-js="value|change" type="radio"
-									   name="hierarchyRecords" value="{$RELATED_PARENT_ID}" checked="">
+								<input class="js-hierarchy-records" data-js="value|change" type="radio" name="hierarchyRecords" value="{$RELATED_PARENT_ID}" checked="">
 								{$SWITCH_ON_TEXT}
 							</label>
 							<label class="btn btn-outline-primary">
-								<input class="js-hierarchy-records" data-js="value|change" type="radio"
-									   name="hierarchyRecords" value="0">
+								<input class="js-hierarchy-records" data-js="value|change" type="radio" name="hierarchyRecords" value="0">
 								{App\Language::translate('LBL_ALL',$MODULE_NAME)}
 							</label>
 						</div>

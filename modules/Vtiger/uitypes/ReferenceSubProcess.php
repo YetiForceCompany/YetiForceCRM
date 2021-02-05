@@ -9,9 +9,7 @@
  */
 class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getReferenceList()
 	{
 		$modules = \App\ModuleHierarchy::getModulesByLevel(2);
@@ -30,9 +28,7 @@ class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 		return '';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/ReferenceSubProcess.tpl';

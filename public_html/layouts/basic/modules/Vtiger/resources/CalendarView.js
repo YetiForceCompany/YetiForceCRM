@@ -5,7 +5,9 @@
  * Class representing a standard calendar.
  * @extends Calendar_Js
  */
-window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
+window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends (
+	Calendar_Js
+) {
 	constructor(container, readonly) {
 		super(container, readonly, false);
 		this.browserHistory = false;
@@ -83,10 +85,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			html = '';
 		for (let day = 0; day < daysToShow; ++day) {
 			let active = '';
-			if (
-				app.getMainParams('switchingDays') === 'workDays' &&
-				app.moduleCacheGet('defaultSwitchingDays') !== 'all'
-			) {
+			if (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all') {
 				if ($.inArray(prevDays.day(), app.getMainParams('hiddenDays', true)) !== -1) {
 					prevDays = moment(prevDays).add(1, 'days');
 					daysToShow++;
@@ -176,10 +175,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 		this.container.find('.js-dates-row .js-sub-record').on('click', (e) => {
 			let currentTarget = $(e.currentTarget);
 			currentTarget.addClass('active');
-			this.getCalendarView().fullCalendar(
-				'gotoDate',
-				moment(currentTarget.data('date'), 'YYYY-MM-DD')
-			);
+			this.getCalendarView().fullCalendar('gotoDate', moment(currentTarget.data('date'), 'YYYY-MM-DD'));
 		});
 	}
 	selectDays(startDate, endDate) {
@@ -401,13 +397,8 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	 */
 	showTodayButtonCheckbox(toolbar) {
 		let todayButton = toolbar.find('.fc-today-button'),
-			todyButtonIcon = todayButton.hasClass('fc-state-disabled')
-				? 'fa-calendar-check'
-				: 'fa-calendar',
-			popoverContent = `${app.vtranslate('JS_CURRENT')} ${toolbar
-				.find('.fc-state-active')
-				.text()
-				.toLowerCase()}`;
+			todyButtonIcon = todayButton.hasClass('fc-state-disabled') ? 'fa-calendar-check' : 'fa-calendar',
+			popoverContent = `${app.vtranslate('JS_CURRENT')} ${toolbar.find('.fc-state-active').text().toLowerCase()}`;
 		todayButton.removeClass('.fc-button');
 		todayButton.html(
 			`<div class="js-popover-tooltip--day-btn" data-toggle="popover"><span class="far fa-lg ${todyButtonIcon}"></span></div>`
@@ -456,9 +447,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				}
 			});
 			let calendarSwitch = sidebar.find('.js-switch--showType [class*="js-switch--label"]'),
-				actualUserCheckbox = sidebar.find(
-					'.js-input-user-owner-id[value=' + app.getMainParams('userId') + ']'
-				);
+				actualUserCheckbox = sidebar.find('.js-input-user-owner-id[value=' + app.getMainParams('userId') + ']');
 			calendarSwitch.last().removeClass('active');
 			calendarSwitch.first().addClass('active');
 			if (actualUserCheckbox.length) {
@@ -479,20 +468,12 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
 			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		if (!window.calendarLoaded) {
-			yearButtons
-				.first()
-				.html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText['year']}`);
-			yearButtons
-				.last()
-				.html(`${view.options.buttonText['year']}<span class="fas fa-xs fa-plus ml-1"></span>`);
+			yearButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText['year']}`);
+			yearButtons.last().html(`${view.options.buttonText['year']}<span class="fas fa-xs fa-plus ml-1"></span>`);
 		}
 		if (view.type !== 'year') {
-			nextPrevButtons
-				.first()
-				.html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText[viewType]}`);
-			nextPrevButtons
-				.last()
-				.html(`${view.options.buttonText[viewType]}<span class="fas fa-xs fa-plus ml-1"></span>`);
+			nextPrevButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText[viewType]}`);
+			nextPrevButtons.last().html(`${view.options.buttonText[viewType]}<span class="fas fa-xs fa-plus ml-1"></span>`);
 		}
 		if (view.type === 'year') {
 			nextPrevButtons.hide();
@@ -619,8 +600,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			data.find('[name="time_start"]').val(startTimeString);
 			data.find('[name="time_end"]').val(endTimeString);
 
-			let headerInstance = new Vtiger_Header_Js();
-			headerInstance.handleQuickCreateData(data, {
+			App.Components.QuickCreate.showModal(data, {
 				callbackFunction(data) {
 					self.addCalendarEvent(data.result, dateFormat);
 				}
@@ -738,21 +718,15 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			switchShowTypeVal,
 			switchContainer = $('.js-calendar__tab--filters'),
 			switchShowType = switchContainer.find('.js-switch--showType'),
-			showTypeState = switchShowType.find('.js-switch--label-on.active').length
-				? 'current'
-				: 'history',
+			showTypeState = switchShowType.find('.js-switch--label-on.active').length ? 'current' : 'history',
 			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays'),
-			switchingDaysState = switchSwitchingDays.find('.js-switch--label-on.active').length
-				? 'workDays'
-				: 'all';
+			switchingDaysState = switchSwitchingDays.find('.js-switch--label-on.active').length ? 'workDays' : 'all';
 		let historyParams = app.getMainParams('historyParams', true);
 		if (historyParams === '') {
 			isWorkDays =
-				app.getMainParams('switchingDays') === 'workDays' &&
-				app.moduleCacheGet('defaultSwitchingDays') !== 'all';
+				app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all';
 			switchShowTypeVal =
-				app.getMainParams('showType') === 'current' &&
-				app.moduleCacheGet('defaultShowType') !== 'history';
+				app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history';
 			if (!switchShowTypeVal) {
 				switchShowType.find('.js-switch--label-off').button('toggle');
 			}

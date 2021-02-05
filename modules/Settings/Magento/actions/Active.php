@@ -15,9 +15,16 @@
  */
 class Settings_Magento_Active_Action extends Settings_Vtiger_Save_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
+	{
+		parent::checkPermission($request);
+		if (!\App\YetiForce\Shop::check('YetiForceMagento')) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+	}
+
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$sSingleOrderTabId = \App\Module::getModuleId('SSingleOrders');
@@ -29,7 +36,7 @@ class Settings_Magento_Active_Action extends Settings_Vtiger_Save_Action
 				'columntype' => $importerType->integer(10)->defaultValue(0)->notNull()->unsigned(),
 				'label' => 'FL_MAGENTO_SERVER',
 				'uitype' => 325,
-				'displaytype' => 9,
+				'displaytype' => 2,
 				'maximumlength' => '4294967295',
 				'typeofdata' => 'I~O'
 			], 'magento_id' => [
@@ -82,7 +89,15 @@ class Settings_Magento_Active_Action extends Settings_Vtiger_Save_Action
 		header('Location: index.php?parent=Settings&module=Magento&view=List');
 	}
 
-	public function addFields(array $fieldsToAdd, vtlib\Block $blockModel)
+	/**
+	 * Add fields.
+	 *
+	 * @param array       $fieldsToAdd
+	 * @param vtlib\Block $blockModel
+	 *
+	 * @return void
+	 */
+	public function addFields(array $fieldsToAdd, vtlib\Block $blockModel): void
 	{
 		foreach ($fieldsToAdd as $fieldName => $fieldData) {
 			$fieldInstance = new Vtiger_Field_Model();

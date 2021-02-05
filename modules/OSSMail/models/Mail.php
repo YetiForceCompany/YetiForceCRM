@@ -281,7 +281,7 @@ class OSSMail_Mail_Model extends \App\Base
 		$return = [];
 		$cacheKey = 'MailSearchByEmails' . $moduleName . '_' . $fieldName;
 		foreach ($emails as $email) {
-			if (empty($email)) {
+			if (empty($email) || \in_array($email, ['@', 'undisclosed-recipients@', 'undisclosed-recipients'])) {
 				continue;
 			}
 			if (App\Cache::staticHas($cacheKey, $email)) {
@@ -321,6 +321,9 @@ class OSSMail_Mail_Model extends \App\Base
 		$cacheKey = 'MailSearchByDomains' . $moduleName . '_' . $fieldName;
 		$crmids = [];
 		foreach ($emails as $email) {
+			if (empty($email) || \in_array($email, ['@', 'undisclosed-recipients@', 'undisclosed-recipients'])) {
+				continue;
+			}
 			$domain = mb_strtolower(explode('@', $email)[1]);
 			if (App\Cache::staticHas($cacheKey, $domain)) {
 				$cache = App\Cache::staticGet($cacheKey, $domain);

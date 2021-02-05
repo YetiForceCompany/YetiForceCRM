@@ -21,12 +21,6 @@
 						<span class="fas fa-plus u-mr-5px"></span><strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 					</button>
 				</div>
-				<div class="btn-group btn-group-sm mr-1 mt-1 u-h-fit" role="group" aria-label="Third group">
-					<button class="js-inactive-fields-btn btn btn-default" data-js="click">
-						<span class="fas mr-1 fa-ban"></span>
-						<span>{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</span>
-					</button>
-				</div>
 				<div class="btn-group btn-group-sm btn-group-toggle mt-1" data-toggle="buttons">
 					<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if $BLOCK_MODEL->isHidden()} active{/if}" data-visible="0"
 						   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">

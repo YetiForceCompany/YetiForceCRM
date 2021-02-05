@@ -71,7 +71,9 @@
 					<optgroup label="{\App\Language::translate('LBL_SPECIAL_OPTIONS')}">
 						<option value="copyParentOwner" {if $ASSIGNED_USER_ID eq 'copyParentOwner'} selected="" {/if}>{\App\Language::translate('LBL_PARENT_OWNER')}</option>
 						<option value="currentUser" {if $ASSIGNED_USER_ID eq 'currentUser'} selected="" {/if}>{\App\Language::translate('LBL_CURRENT_USER',$QUALIFIED_MODULE)}</option>
-						<option value="triggerUser" {if $ASSIGNED_USER_ID eq 'triggerUser'} selected="" {/if}>{\App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)}</option>
+						{if $WORKFLOW_MODEL->get('execution_condition') === \VTWorkflowManager::$TRIGGER}
+							<option value="triggerUser" {if $ASSIGNED_USER_ID eq 'triggerUser'} selected="" {/if}>{\App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)}</option>
+						{/if}
                     </optgroup>
 				</select>
 			</span>

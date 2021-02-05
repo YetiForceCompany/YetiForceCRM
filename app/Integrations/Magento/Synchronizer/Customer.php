@@ -20,9 +20,7 @@ namespace App\Integrations\Magento\Synchronizer;
  */
 class Customer extends Record
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$this->lastScan = $this->config->getLastScan('customer');

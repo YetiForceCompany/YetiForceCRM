@@ -139,7 +139,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 			}
 			if ($fieldModel->isProcessStatusField()) {
-				$result = $result && $fieldModel->updateRecordStatus($id, $request->getInteger('record_state'), $request->getInteger('time_counting'));
+				$timeCounting = $request->has('time_counting') ? $request->getInteger('time_counting') : null;
+				$result = $result && $fieldModel->updateRecordStatus($id, $request->getInteger('record_state'), $timeCounting);
 			}
 			if (15 === $fieldModel->getUIType()) {
 				$result = $result && $fieldModel->updateCloseState($valueId, $value, $request->getBoolean('close_state'));

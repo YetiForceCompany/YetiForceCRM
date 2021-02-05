@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * Inventory Subunit Field Class.
+ *
+ * @package   InventoryField
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Davide Alghi <davide@penguinable.it>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+class Vtiger_Subunit_InventoryField extends Vtiger_Unit_InventoryField
+{
+	/** {@inheritdoc} */
+	protected $type = 'Subunit';
+	/** {@inheritdoc} */
+	protected $defaultLabel = 'FL_SUBUNIT';
+	/** {@inheritdoc} */
+	protected $columnName = 'subunit';
+	/** {@inheritdoc} */
+	protected $dbType = 'string';
+	/** {@inheritdoc} */
+	protected $onlyOne = true;
+	/** {@inheritdoc} */
+	protected $purifyType = \App\Purifier::TEXT;
+}

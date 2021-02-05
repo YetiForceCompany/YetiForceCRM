@@ -136,16 +136,12 @@ Settings_Workflows_Edit_Js(
 					var valueType = jQuery('[name="valuetype"]', fieldUiHolder).val();
 					if (valueType != 'rawtext') {
 						fieldValueElement.removeAttr('data-validation-engine');
-						fieldValueElement.removeClass(
-							'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'
-						);
+						fieldValueElement.removeClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
 					}
 				}
 			});
 			App.Fields.Picklist.changeSelectElementView(container);
-			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(
-				jQuery('.filterContainer', container)
-			);
+			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', container));
 			this.getPopUp();
 			if (jQuery('[name="filtersavedinnew"]', container).val() == '5') {
 				this.registerEnableFilterOption();

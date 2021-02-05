@@ -207,14 +207,15 @@ class Vtiger_Watchdog_Model extends \App\Base
 			->from('u_#__watchdog_schedule')
 			->where(['userid' => $ownerId])
 			->one();
-		$data['modules'] = explode(',', $data['modules']);
-		if ($isName) {
-			foreach ($data['modules'] as &$moduleId) {
-				$moduleId = \App\Module::getModuleName($moduleId);
+		if ($data) {
+			$data['modules'] = explode(',', $data['modules']);
+			if ($isName) {
+				foreach ($data['modules'] as &$moduleId) {
+					$moduleId = \App\Module::getModuleName($moduleId);
+				}
 			}
 		}
 		\App\Cache::staticSave('getWatchingModulesSchedule', $cacheName, $data);
-
 		return $data;
 	}
 

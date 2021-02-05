@@ -522,17 +522,17 @@ body:not(.desktop) {
 }
 
 //-------- pnotify --------//
-.pnotify-container{
-    padding: 0.75rem;
+.pnotify-container {
+	padding: 0.75rem;
 }
 .pnotify-closer {
 	visibility: visible !important;
 }
-.pnotify-title{
-line-height: 1.3rem;
+.pnotify-title {
+	line-height: 1.3rem;
 }
-.pnotify .bootstrap4-icon>*{
-    line-height: 1.5rem;
+.pnotify .bootstrap4-icon > * {
+	line-height: 1.5rem;
 }
 //-------- Material Design Icons --------//
 .mdi {
@@ -540,6 +540,11 @@ line-height: 1.3rem;
 }
 .btn .mdi::before {
 	position: relative;
+}
+.c-mdi::before {
+	width: 1.25em;
+	font-size: 1.2rem;
+	vertical-align: text-bottom;
 }
 .alert .mdi::before {
 	position: relative;
@@ -552,6 +557,6 @@ line-height: 1.3rem;
 .q-tab__icon {
 	height: unset;
 }
-.dataTables_processing{
+.dataTables_processing {
 	z-index: 4000;
 }

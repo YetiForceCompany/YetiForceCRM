@@ -77,7 +77,7 @@
     "LBL_LATEST_PHP_VERSIONS_ARE": "最新の PHP バージョン: %s",
     "BTN_CHECK_LATEST_VERSION": "最新のPHPバージョンを確認してください",
     "BTN_SERVER_SPEED_TEST": "サーバー速度テスト",
-    "BTN_DB_INFO": "データベース情報",
+    "BTN_DB_INFO": "Database information",
     "LBL_SERVER_SPEED_TEST": "サーバー速度",
     "LBL_READ_TEST": "読み",
     "LBL_WRITE_TEST": "書き",
@@ -236,6 +236,7 @@
     "LBL_IT_WORKS_PROPERLY": "正常に動作します",
     "LBL_LABEL_FOOTER": "フッター",
     "LBL_LABEL_PREMIUM_MODULES": "プレミアムモジュール",
+    "LBL_LABEL_MAGENTO": "Magento",
     "LBL_FILE_OWNER": "所有者",
     "LBL_FILE_PERMISSIONS": "アクセス許可",
     "LBL_LABEL_SCRIPT_USER": "通話中のユーザー",
@@ -254,7 +255,8 @@
     "LBL_FILE_SIZE": "表のサイズ",
     "LBL_FORMAT": "行の書式",
     "LBL_ENGINE": "エンジン",
-    "LBL_COLLATION": "照合順"
+    "LBL_COLLATION": "照合順",
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
   },
   "js": {
     "JS_SPEED_TEST_START": "速度を確認しています..."

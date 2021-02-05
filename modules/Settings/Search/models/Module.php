@@ -29,14 +29,13 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 				$query->where(['tabid' => $tabId]);
 			}
 		}
-		$query->orderBy('sequence');
+		$query->orderBy('vtiger_entityname.sequence');
 		$dataReader = $query->createCommand()->query();
 		$moduleEntity = [];
 		while ($row = $dataReader->read()) {
 			$moduleEntity[$row['tabid']] = $row;
 		}
 		$dataReader->close();
-
 		return $moduleEntity;
 	}
 

@@ -10,17 +10,13 @@
 
 class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return App\Fields\Integer::formatToDb($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$this->validate($value, true);
@@ -38,17 +34,13 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 		return $this->getDBValue($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		return App\Fields\Integer::formatToDisplay($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		return App\Fields\Integer::formatToDisplay($value);
@@ -92,17 +84,13 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 		return 'Edit/Field/Number.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return ['bigint', 'integer', 'smallint', 'tinyint'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];

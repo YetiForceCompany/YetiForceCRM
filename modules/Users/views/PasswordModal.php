@@ -32,8 +32,12 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		switch ($request->getMode()) {
 			case 'reset':
-			case 'change':
 				if (true === $currentUserModel->isAdminUser() || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
+					return true;
+				}
+				break;
+			case 'change':
+				if (\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() && (true === $currentUserModel->isAdminUser() || (int) $currentUserModel->get('id') === $request->getInteger('record'))) {
 					return true;
 				}
 				break;

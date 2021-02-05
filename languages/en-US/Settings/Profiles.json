@@ -84,16 +84,17 @@
     "Guest Profile": "Guest",
     "RemoveRelation": "Remove relation",
     "ReceivingMailNotifications": "Receiving mail notifications",
-    "ActivityCancel": "Cancel records",
-    "ActivityComplete": "Close records",
-    "ActivityPostponed": "Postpone records",
+    "ActivityCancel": "Set activity status to canceled",
+    "ActivityComplete": "Set activity status to completed",
+    "ActivityPostponed": "Set activity status to postponed",
     "Emails": "Send emails [SMTP]",
     "ModTracker": "Change history",
     "AssignToYourself": "Assign to me",
     "AutoAssignRecord": "Automatic transfer of records",
     "RecordConventer": "Record converter",
     "RecordCollector": "Record collector",
-    "MeetingUrl": "Meeting URL"
+    "MeetingUrl": "Meeting URL",
+    "InterestsConflictUsers": "Conflict of interests"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profile deleted successfully"

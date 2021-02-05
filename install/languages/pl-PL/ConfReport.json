@@ -236,6 +236,7 @@
     "LBL_IT_WORKS_PROPERLY": "Działa poprawnie",
     "LBL_LABEL_FOOTER": "Stopka",
     "LBL_LABEL_PREMIUM_MODULES": "Moduły premium",
+    "LBL_LABEL_MAGENTO": "Magento",
     "LBL_FILE_OWNER": "Właściciel",
     "LBL_FILE_PERMISSIONS": "Uprawnienia",
     "LBL_LABEL_SCRIPT_USER": "Użytkownik wywołujący skrypt",
@@ -254,7 +255,8 @@
     "LBL_FILE_SIZE": "Rozmiar tabel",
     "LBL_FORMAT": "Format wiersza",
     "LBL_ENGINE": "Silnik",
-    "LBL_COLLATION": "Porównanie"
+    "LBL_COLLATION": "Porównanie",
+    "LBL_LAMP_CONFIG_FILES": "Pliki konfiguracyjne LAMP"
   },
   "js": {
     "JS_SPEED_TEST_START": "Trwa sprawdzanie szybkości..."

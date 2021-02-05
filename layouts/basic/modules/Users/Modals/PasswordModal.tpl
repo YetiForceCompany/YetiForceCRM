@@ -55,9 +55,9 @@
 				<div class="form-group">
 					<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}</label>
 					<div class="col-sm-6 controls input-group">
-						<input type="password" name="confirmPassword" id="confirmPasswordUsersFormPassword" title="{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required,equals[passwordUsersFormPassword]]" autocomplete="off" />
+						<input type="password" name="confirm_password" id="confirmPasswordUsersFormPassword" title="{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required,equals[passwordUsersFormPassword]]" autocomplete="off" />
 						<span class="input-group-append">
-							<button class="btn btn-light js-popover-tooltip" data-content="{\App\Language::translate('LBL_SHOW_PASSWORD',$MODULE)}" type="button" onmousedown="confirmPassword.type = 'text';" onmouseup="confirmPassword.type = 'password';" onmouseout="confirmPassword.type = 'password';" data-js="popover">
+							<button class="btn btn-light js-popover-tooltip" data-content="{\App\Language::translate('LBL_SHOW_PASSWORD',$MODULE)}" type="button" onmousedown="confirm_password.type = 'text';" onmouseup="confirm_password.type = 'password';" onmouseout="confirm_password.type = 'password';" data-js="popover">
 								<span class="fas fa-eye"></span>
 							</button>
 						</span>

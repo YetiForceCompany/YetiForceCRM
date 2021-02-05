@@ -16,13 +16,16 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForcePassword extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Password Security';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'Addons';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/yetiforce-password-security-en';
+
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 5,
 		'Small' => 12,
@@ -31,16 +34,45 @@ class YetiForcePassword extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Corporation' => 100,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function verify($cache = true): bool
+	/** {@inheritdoc} */
+	public function verify(): bool
 	{
+		if (\App\YetiForce\Register::getProducts('YetiForcePassword')) {
+			return \App\YetiForce\Shop::check('YetiForcePassword');
+		}
 		return true;
+	}
+
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
+	{
+		$links = [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'Website',
+				'relatedModuleName' => '_Base',
+				'linkicon' => 'fas fa-globe',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => $this->website,
+				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+		];
+		if (\App\Security\AdminAccess::isPermitted('Password')) {
+			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_PASSWORD_CONF',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'adminIcon-passwords-configuration',
+				'linkhref' => true,
+				'linkurl' => 'index.php?module=Password&parent=Settings&view=Index',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			]);
+		}
+		return $links;
 	}
 }

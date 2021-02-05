@@ -127,14 +127,14 @@
 					{assign var=COUNT value=0}
 					<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}"
 						{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
-						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
-							<div>
-								<input type="checkbox" value="{$RELATED_RECORD->getId()}"
-								title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
-								class="relatedListViewEntriesCheckBox"/>
-							</div>
-						{/if}
-						{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
+						<div class="d-flex align-items-center">
+							{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+									<input type="checkbox" value="{$RELATED_RECORD->getId()}"
+									title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
+									class="relatedListViewEntriesCheckBox"/>
+							{/if}
+							{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
+						</div>
 					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS name=listHeaderForeach}
 						{if !empty($COLUMNS) && $COUNT == $COLUMNS }
@@ -147,7 +147,7 @@
 						{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 							<a class="modCT_{$RELATED_MODULE_NAME} js-list__field js-popover-tooltip--record" data-js="width" title=""
 							   href="{$RELATED_RECORD->getDetailViewUrl()}">
-								{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
+								{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 							</a>
 						{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 							{if $HEADER_FIELD->get('isEditable')}

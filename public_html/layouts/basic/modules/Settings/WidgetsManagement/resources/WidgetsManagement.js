@@ -100,11 +100,9 @@ jQuery.Class(
 						currentTarget.closest('li').data('id'),
 					sendByAjaxCb: () => {
 						let contentsDiv = $('.contentsDiv');
-						thisInstance
-							.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id'))
-							.done((data) => {
-								thisInstance.updateContentsDiv(contentsDiv, data);
-							});
+						thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).done((data) => {
+							thisInstance.updateContentsDiv(contentsDiv, data);
+						});
 					}
 				});
 			});
@@ -190,15 +188,16 @@ jQuery.Class(
 					enabled: true
 				}
 			});
-
 			var params = {};
+			if (typeof form.owners_all === 'string') {
+				form.owners_all = [form.owners_all];
+			}
 			params['form'] = form;
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['sourceModule'] = jQuery('#selectedModuleName').val();
 			params['action'] = 'SaveAjax';
 			params['mode'] = mode;
-
 			AppConnector.request(params)
 				.done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -253,18 +252,11 @@ jQuery.Class(
 				});
 				var name = selectWidgets.find(':first-child').data('name');
 				if ($.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
-					addFieldContainer
-						.find('.widgetFilter')
-						.removeClass('d-none')
-						.find('select')
-						.removeAttr('disabled')
-						.show();
+					addFieldContainer.find('.widgetFilter').removeClass('d-none').find('select').removeAttr('disabled').show();
 					var restrictFilter = thisInstance.restrictFilter[name];
 					if (restrictFilter) {
 						for (var i in restrictFilter) {
-							addFieldContainer
-								.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]')
-								.remove();
+							addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
 						}
 					}
 				}
@@ -277,26 +269,16 @@ jQuery.Class(
 						.show();
 				}
 				if ($.inArray(name, thisInstance.widgetWithFilterTitle) != -1) {
-					addFieldContainer
-						.find('.widgetFilterTitle')
-						.removeClass('d-none')
-						.removeAttr('disabled')
-						.show();
+					addFieldContainer.find('.widgetFilterTitle').removeClass('d-none').removeAttr('disabled').show();
 				}
 				var callBackFunction = function (data) {
 					App.Fields.Picklist.showSelect2ElementView(data.find('select'));
 					data.find('select.widgets').on('change', function () {
 						data.find('.widgetFilter').remove();
 						data.find('.widgetFilterDate').remove();
-						let elementsToFilterTitle = contents
-							.find('.createFieldModal .widgetFilterTitle')
-							.clone(true, true);
-						let elementsToFilter = contents
-							.find('.createFieldModal .widgetFilter')
-							.clone(true, true);
-						let elementsToFilterDate = contents
-							.find('.createFieldModal .widgetFilterDate')
-							.clone(true, true);
+						let elementsToFilterTitle = contents.find('.createFieldModal .widgetFilterTitle').clone(true, true);
+						let elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
+						let elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
 						data.find('.modal-body').append(elementsToFilterTitle);
 						data.find('.modal-body').append(elementsToFilter);
 						data.find('.modal-body').append(elementsToFilterDate);
@@ -306,9 +288,7 @@ jQuery.Class(
 							let restrictFilter = thisInstance.restrictFilter[name];
 							if (restrictFilter) {
 								for (var i in restrictFilter) {
-									addFieldContainer
-										.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]')
-										.remove();
+									addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
 								}
 							}
 							App.Fields.Picklist.showSelect2ElementView(elementsToFilter.find('select'));
@@ -349,15 +329,10 @@ jQuery.Class(
 											paramsForm['name'] = field.find(':selected').data('name');
 											paramsForm['height'] = form.find('[name="height"]').val();
 											paramsForm['width'] = form.find('[name="width"]').val();
-											if (form.find('[name="showFullName"]').prop('checked'))
-												paramsForm['showFullName'] = 1;
-											if (form.find('[name="isdefault"]').prop('checked'))
-												paramsForm['isdefault'] = 1;
+											if (form.find('[name="showFullName"]').prop('checked')) paramsForm['showFullName'] = 1;
+											if (form.find('[name="isdefault"]').prop('checked')) paramsForm['isdefault'] = 1;
 											if (form.find('[name="cache"]').prop('checked')) paramsForm['cache'] = 1;
-											if (
-												paramsForm['default_owner'] &&
-												typeof paramsForm['owners_all'] === 'undefined'
-											) {
+											if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === 'undefined') {
 												form
 													.find('select[name="owners_all"]')
 													.prev('div')
@@ -390,26 +365,14 @@ jQuery.Class(
 													} else {
 														errorField = form.find('[name="fieldLabel"]');
 													}
-													errorField.validationEngine(
-														'showPrompt',
-														message,
-														'error',
-														'topLeft',
-														true
-													);
+													errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 													saveButton.removeAttr('disabled');
 												}
 											});
 										} else {
 											widgets
 												.prev('div')
-												.validationEngine(
-													'showPrompt',
-													app.vtranslate('JS_FIELD_EMPTY'),
-													'error',
-													'topLeft',
-													true
-												);
+												.validationEngine('showPrompt', app.vtranslate('JS_FIELD_EMPTY'), 'error', 'topLeft', true);
 											e.preventDefault();
 											return;
 										}
@@ -447,16 +410,13 @@ jQuery.Class(
 				.attr('data-field-id', result['id'])
 				.attr('data-block-id', result['blockid'])
 				.attr('data-linkid', result['linkid']);
-			fieldContainer
-				.find('.deleteCustomField, .saveFieldDetails')
-				.attr('data-field-id', result['id']);
+			fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 			if (result['title']) {
 				fieldContainer.find('.fieldLabel').html(result['title']);
 			} else {
 				fieldContainer.find('.fieldLabel').html(result['label']);
 			}
-			if (!result['status'])
-				fieldContainer.find('input[name="limit"]').closest('div.limit').remove();
+			if (!result['status']) fieldContainer.find('input[name="limit"]').closest('div.limit').remove();
 			if (typeof result['default_owner'] !== 'undefined')
 				fieldContainer.find('.widgetFilterAll').removeClass('d-none').show();
 
@@ -549,10 +509,7 @@ jQuery.Class(
 				const basicDropDown = fieldRow.find('.basicFieldOperations');
 				const dropDownContainer = currentTarget.closest('.btn-group');
 				dropDownContainer.find('.dropdown-menu').remove();
-				const dropDown = basicDropDown
-					.clone()
-					.removeClass('basicFieldOperations d-none')
-					.addClass('dropdown-menu p-0');
+				const dropDown = basicDropDown.clone().removeClass('basicFieldOperations d-none').addClass('dropdown-menu p-0');
 				dropDownContainer.append(dropDown);
 				const dropDownMenu = dropDownContainer.find('.dropdown-menu');
 				dropDownContainer.dropdown('dispose').dropdown('toggle');
@@ -567,8 +524,7 @@ jQuery.Class(
 										return true;
 									}
 									let paramsForm = form.serializeFormData();
-									if (form.find('[name="showFullName"]').prop('checked'))
-										paramsForm['showFullName'] = 1;
+									if (form.find('[name="showFullName"]').prop('checked')) paramsForm['showFullName'] = 1;
 									if (form.find('[name="isdefault"]').prop('checked')) paramsForm['isdefault'] = 1;
 									if (form.find('[name="cache"]').prop('checked')) paramsForm['cache'] = 1;
 									let id = form.find('.saveFieldDetails').data('field-id');
@@ -580,16 +536,10 @@ jQuery.Class(
 									) {
 										paramsForm['customMultiFilter'] = [paramsForm['customMultiFilter']];
 									}
-									if (
-										paramsForm['default_owner'] &&
-										typeof paramsForm['owners_all'] === 'undefined'
-									) {
+									if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === 'undefined') {
 										let params = {};
 										params['type'] = 'error';
-										params['text'] =
-											app.vtranslate('JS_FILTERS_AVAILABLE') +
-											': ' +
-											app.vtranslate('JS_FIELD_EMPTY');
+										params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
 										Settings_Vtiger_Index_Js.showMessage(params);
 										e.preventDefault();
 										return false;
@@ -604,28 +554,20 @@ jQuery.Class(
 					)
 				);
 				let selectElements = basicDropDown.find('select[name="owners_all"]');
-				if (selectElements.length > 0) {
-					App.Fields.Picklist.showSelect2ElementView(
-						dropDownMenu.find('select[name="owners_all"]')
-					);
+				if (selectElements.length > 0 && !selectElements.hasClass('select2-hidden-accessible')) {
+					App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="owners_all"]'));
 				}
 				selectElements = basicDropDown.find('select[name="default_date"]');
 				if (selectElements.length > 0) {
-					App.Fields.Picklist.showSelect2ElementView(
-						dropDownMenu.find('select[name="default_date"]')
-					);
+					App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="default_date"]'));
 				}
 				selectElements = basicDropDown.find('select[name="customMultiFilter"]');
 				if (selectElements.length > 0) {
-					App.Fields.Picklist.showSelect2ElementView(
-						dropDownMenu.find('select[name="customMultiFilter"]')
-					);
+					App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="customMultiFilter"]'));
 				}
 				selectElements = basicDropDown.find('select[name="defaultFilter"]');
 				if (selectElements.length > 0) {
-					App.Fields.Picklist.showSelect2ElementView(
-						dropDownMenu.find('select[name="defaultFilter"]')
-					);
+					App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="defaultFilter"]'));
 				}
 				thisInstance.avoidDropDownClick(dropDownContainer);
 				dropDownMenu.on('change', ':checkbox', function (e) {
@@ -707,12 +649,7 @@ jQuery.Class(
 		addRssWidget: function (element, url) {
 			var thisInstance = this;
 			var objectToShowModal = {
-				url:
-					'index.php?module=' +
-					app.getModuleName() +
-					'&parent=' +
-					app.getParentModuleName() +
-					'&view=AddRss',
+				url: 'index.php?module=' + app.getModuleName() + '&parent=' + app.getParentModuleName() + '&view=AddRss',
 				cb: function (container) {
 					container.find('.removeChannel').on('click', function (e) {
 						var currentTarget = $(e.currentTarget);
@@ -771,9 +708,7 @@ jQuery.Class(
 		addChartFilterWidget: function (element) {
 			var thisInstance = this;
 			element = jQuery(element);
-			app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function (
-				wizardContainer
-			) {
+			app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function (wizardContainer) {
 				var form = jQuery('form', wizardContainer);
 				var chartType = jQuery('select[name="chartType"]', wizardContainer);
 				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
@@ -873,24 +808,11 @@ jQuery.Class(
 					};
 					form.find('.saveParam').each(function (index, element) {
 						element = $(element);
-						if (
-							!(
-								element.is('input') &&
-								element.prop('type') === 'checkbox' &&
-								!element.prop('checked')
-							)
-						) {
+						if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
 							data[element.attr('name')] = element.val();
 						}
 					});
-					finializeAddChart(
-						selectedModuleLabel,
-						selectedFilterId,
-						null,
-						selectedFieldLabel,
-						data,
-						form
-					);
+					finializeAddChart(selectedModuleLabel, selectedFilterId, null, selectedFieldLabel, data, form);
 				});
 			});
 
@@ -946,9 +868,7 @@ jQuery.Class(
 		addNoteBookWidget: function (element, url) {
 			var thisInstance = this;
 			element = jQuery(element);
-			app.showModalWindow(null, 'index.php?module=Home&view=AddNotePad', function (
-				wizardContainer
-			) {
+			app.showModalWindow(null, 'index.php?module=Home&view=AddNotePad', function (wizardContainer) {
 				var form = jQuery('form', wizardContainer);
 				form.validationEngine(
 					$.extend(
@@ -1002,9 +922,7 @@ jQuery.Class(
 			// 3. Add widget with URL to the page.
 			const thisInstance = this;
 			element = $(element);
-			app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function (
-				wizardContainer
-			) {
+			app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function (wizardContainer) {
 				let form = $('form', wizardContainer),
 					moduleNameSelectDOM = $('select[name="module"]', wizardContainer),
 					filteridSelectDOM = $('select[name="filterid"]', wizardContainer),
@@ -1065,27 +983,13 @@ jQuery.Class(
 						filterid: filteridSelect2.val()
 					}).done(function (res) {
 						res = $(res);
-						fieldsSelectDOM
-							.empty()
-							.html(res.find('select[name="fields"]').html())
-							.trigger('change');
-						filterFieldsSelectDOM
-							.empty()
-							.html(res.find('select[name="filter_fields"]').html())
-							.trigger('change');
+						fieldsSelectDOM.empty().html(res.find('select[name="fields"]').html()).trigger('change');
+						filterFieldsSelectDOM.empty().html(res.find('select[name="filter_fields"]').html()).trigger('change');
 						fieldsSelect2.closest('tr').show();
 						fieldHrefSelect2.closest('tr').show();
 						filterFieldsSelect2.closest('tr').show();
-						fieldsSelect2
-							.data('select2')
-							.$selection.find('.select2-search__field')
-							.parent()
-							.css('width', '100%');
-						filterFieldsSelect2
-							.data('select2')
-							.$selection.find('.select2-search__field')
-							.parent()
-							.css('width', '100%');
+						fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
+						filterFieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 					});
 				});
 				fieldsSelect2.on('change', function () {
@@ -1122,10 +1026,7 @@ jQuery.Class(
 						blockid: element.data('block-id'),
 						title: form.find('[name="widgetTitle"]').val(),
 						linkid: element.data('linkid'),
-						label:
-							moduleNameSelect2.find(':selected').text() +
-							' - ' +
-							filteridSelect2.find(':selected').text(),
+						label: moduleNameSelect2.find(':selected').text() + ' - ' + filteridSelect2.find(':selected').text(),
 						name: 'Mini List',
 						filterid: filteridSelect2.val(),
 						isdefault: 0,
@@ -1244,9 +1145,7 @@ jQuery.Class(
 			const thisInstance = this;
 			let container = $('#widgetsManagementEditorContainer');
 			let contentsDiv = container.closest('.contentsDiv');
-			App.Fields.Picklist.changeSelectElementView(
-				container.find('[name="widgetsManagementEditorModules"]')
-			);
+			App.Fields.Picklist.changeSelectElementView(container.find('[name="widgetsManagementEditorModules"]'));
 			container.on('change', '[name="widgetsManagementEditorModules"]', (e) => {
 				thisInstance
 					.getModuleLayoutEditor($(e.currentTarget).val(), thisInstance.getCurrentDashboardId())

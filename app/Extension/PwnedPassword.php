@@ -63,6 +63,23 @@ class PwnedPassword
 	}
 
 	/**
+	 * UsersAfterLogin handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function usersAfterLogin(\App\EventHandler $eventHandler): void
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		$params = $eventHandler->getParams();
+		if ('PASSWORD' === \App\Session::get('UserAuthMethod')) {
+			self::afterLogin($params['password']);
+			if (!\App\Session::has('ShowUserPwnedPasswordChange')) {
+				$recordModel->verifyPasswordChange($params['userModel']);
+			}
+		}
+	}
+
+	/**
 	 * Check the password after login.
 	 *
 	 * @param string $password
@@ -95,13 +112,11 @@ class PwnedPassword
 	}
 
 	/**
-	 * Function after change password.
+	 * UsersAfterPasswordChange handler function.
 	 *
-	 * @param string $userName
-	 *
-	 * @return void
+	 * @param App\EventHandler $eventHandler
 	 */
-	public static function afterChangePassword(string $userName): void
+	public function usersAfterPasswordChange(\App\EventHandler $eventHandler): void
 	{
 		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
 			\App\Session::delete('ShowUserPwnedPasswordChange');
@@ -109,7 +124,7 @@ class PwnedPassword
 		$file = ROOT_DIRECTORY . '/app_data/PwnedPassword.php';
 		if (file_exists($file)) {
 			$pwnedPassword = require $file;
-			unset($pwnedPassword['status'][$userName]);
+			unset($pwnedPassword['status'][$eventHandler->getRecordModel()->get('user_name')]);
 			\App\Utils::saveToFile($file, $pwnedPassword, '', 0, true);
 		}
 	}

@@ -77,7 +77,7 @@
     "LBL_LATEST_PHP_VERSIONS_ARE": "Najnovije PHP verzija: %s",
     "BTN_CHECK_LATEST_VERSION": "Provjeri najnoviju PHP verziju",
     "BTN_SERVER_SPEED_TEST": "Server test brzine",
-    "BTN_DB_INFO": "Informacije o bazi podataka",
+    "BTN_DB_INFO": "Database information",
     "LBL_SERVER_SPEED_TEST": "Brzina servera",
     "LBL_READ_TEST": "Čitaj",
     "LBL_WRITE_TEST": "Pisanje",
@@ -236,6 +236,7 @@
     "LBL_IT_WORKS_PROPERLY": "Radi kako treba",
     "LBL_LABEL_FOOTER": "Podnožje",
     "LBL_LABEL_PREMIUM_MODULES": "Premium moduli",
+    "LBL_LABEL_MAGENTO": "Magento",
     "LBL_FILE_OWNER": "Vlasnik",
     "LBL_FILE_PERMISSIONS": "Dozvole",
     "LBL_LABEL_SCRIPT_USER": "Korisnik za pozivanje skripte",
@@ -254,7 +255,8 @@
     "LBL_FILE_SIZE": "Tables size",
     "LBL_FORMAT": "Row format",
     "LBL_ENGINE": "Engine",
-    "LBL_COLLATION": "Collation"
+    "LBL_COLLATION": "Collation",
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
   },
   "js": {
     "JS_SPEED_TEST_START": "Provjeravam brzinu..."

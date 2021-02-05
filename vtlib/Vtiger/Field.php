@@ -142,7 +142,7 @@ class Field extends FieldBasic
 	public function setRelatedModules($moduleNames)
 	{
 		if (0 == \count($moduleNames)) {
-			\App\Log::trace("Setting $this->name relation with $relmodule ... ERROR: No module names", __METHOD__);
+			\App\Log::trace("Setting $this->name relation with $moduleNames ... ERROR: No module names", __METHOD__);
 
 			return false;
 		}
@@ -184,17 +184,15 @@ class Field extends FieldBasic
 	 * @param string|int    $value          mixed fieldid or fieldname
 	 * @param \vtlib\Module $moduleInstance Instance of the module if fieldname is used
 	 *
-	 * @return \vtlib\Field|null
+	 * @return \vtlib\Field|bool
 	 */
 	public static function getInstance($value, $moduleInstance = false)
 	{
-		$instance = false;
-		$moduleId = false;
+		$moduleId = $instance = false;
 		if ($moduleInstance) {
 			$moduleId = $moduleInstance->id;
 		}
-		$data = \App\Field::getFieldInfo($value, $moduleId);
-		if ($data) {
+		if ($data = \App\Field::getFieldInfo($value, $moduleId)) {
 			$instance = new self();
 			$instance->initialize($data, $moduleId);
 		}
@@ -216,11 +214,14 @@ class Field extends FieldBasic
 			return $cache->getBlockFields($blockInstance->id, $moduleInstance->id);
 		}
 		$instances = false;
-		$query = false;
+		$query = (new \App\Db\Query())
+			->from('vtiger_field')
+			->leftJoin('s_#__fields_anonymization', 'vtiger_field.fieldid = s_#__fields_anonymization.field_id')
+			->orderBy('sequence');
 		if ($moduleInstance) {
-			$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockInstance->id, 'tabid' => $moduleInstance->id])->orderBy('sequence');
+			$query->where(['block' => $blockInstance->id, 'tabid' => $moduleInstance->id]);
 		} else {
-			$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockInstance->id])->orderBy('sequence');
+			$query->where(['block' => $blockInstance->id]);
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -246,9 +247,12 @@ class Field extends FieldBasic
 		if (\App\Cache::has('AllFieldForModule', $moduleId)) {
 			$rows = \App\Cache::get('AllFieldForModule', $moduleId);
 		} else {
-			$rows = (new \App\Db\Query())->select(['vtiger_field.*'])->from('vtiger_field')
+			$rows = (new \App\Db\Query())->select(['vtiger_field.*', 's_#__fields_anonymization.*'])
+				->from('vtiger_field')
 				->leftJoin('vtiger_blocks', 'vtiger_field.block = vtiger_blocks.blockid')
-				->where(['vtiger_field.tabid' => $moduleId])->orderBy(['vtiger_blocks.sequence' => SORT_ASC, 'vtiger_field.sequence' => SORT_ASC])
+				->leftJoin('s_#__fields_anonymization', 'vtiger_field.fieldid = s_#__fields_anonymization.field_id')
+				->where(['vtiger_field.tabid' => $moduleId])
+				->orderBy(['vtiger_blocks.sequence' => SORT_ASC, 'vtiger_field.sequence' => SORT_ASC])
 				->all();
 			\App\Cache::save('AllFieldForModule', $moduleId, $rows);
 		}
@@ -306,7 +310,7 @@ class Field extends FieldBasic
 		while ($fieldId = $dataReader->readColumn(0)) {
 			$count = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => $fieldId])->count();
 			if (1 === (int) $count) {
-				$field = self::getInstance($fieldId, $moduleInstance->id);
+				$field = self::getInstance($fieldId, $moduleInstance);
 				$field->delete();
 			}
 		}

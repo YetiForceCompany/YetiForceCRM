@@ -933,8 +933,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$searchableModules = [];
 		foreach ($entityModules as $moduleModel) {
 			$moduleName = $moduleModel->getName();
-			$entityInfo = \App\Module::getEntityInfo($moduleName);
-			if ('Users' == $moduleName || !$entityInfo['turn_off']) {
+			if ('Users' == $moduleName || empty(\App\Module::getEntityInfo($moduleName)['turn_off'])) {
 				continue;
 			}
 			if ($userPrivModel->hasModuleActionPermission($moduleModel->getId(), 'DetailView')) {

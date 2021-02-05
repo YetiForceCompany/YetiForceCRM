@@ -8,6 +8,7 @@ namespace App\Conditions\QueryFields;
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class ReferenceField extends BaseField
 {
@@ -27,42 +28,40 @@ class ReferenceField extends BaseField
 			if (\App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
 				return [$this->fieldModel->getTableName() . $this->related['sourceField'] . '.' . $this->fieldModel->getColumnName()];
 			}
-			$relatedTableName = $referenceFields = [];
 			$relatedModuleModel = \Vtiger_Module_Model::getInstance($this->related['relatedModule']);
 			$fieldModel = $relatedModuleModel->getField($this->related['relatedField']);
-			$referenceFields = $fieldModel->getReferenceList();
-			foreach ($referenceFields as $moduleName) {
-				$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
-				$referenceTable = $entityFieldInfo['tablename'] . $this->related['relatedField'];
-				if (\count($entityFieldInfo['fieldnameArr']) > 1) {
-					$sqlString = 'CONCAT(';
-					foreach ($entityFieldInfo['fieldnameArr'] as $column) {
-						$sqlString .= "$referenceTable.$column,' ',";
-					}
-					$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
-				} else {
-					$formattedName = "$referenceTable.{$entityFieldInfo['fieldname']}";
-				}
-				$relatedTableName[$moduleName] = $formattedName;
-				$this->queryGenerator->addJoin(['LEFT JOIN', $entityFieldInfo['tablename'] . ' ' . $referenceTable, $this->getColumnName() . " = $referenceTable.{$entityFieldInfo['entityidfield']}"]);
-			}
-			return $relatedTableName;
+			return $this->getRelatedTables($fieldModel->getReferenceList(), $this->related['relatedField']);
 		}
+		return $this->getRelatedTables($this->getTables(), $this->fieldModel->getName());
+	}
+
+	/**
+	 * Get formatted column references from related records.
+	 *
+	 * @param array  $modules
+	 * @param string $fieldName
+	 *
+	 * @return string[]
+	 */
+	public function getRelatedTables(array $modules, string $fieldName): array
+	{
 		$relatedTableName = [];
-		foreach ($this->getTables() as $moduleName) {
+		foreach ($modules as $moduleName) {
+			$formattedTables = [];
 			$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
-			$referenceTable = $entityFieldInfo['tablename'] . $this->fieldModel->getFieldName();
-			if (\count($entityFieldInfo['fieldnameArr']) > 1) {
-				$sqlString = 'CONCAT(';
-				foreach ($entityFieldInfo['fieldnameArr'] as $column) {
-					$sqlString .= "$referenceTable.$column,' ',";
+			$relatedModuleModel = \Vtiger_Module_Model::getInstance($moduleName);
+			$relTableIndexes = $relatedModuleModel->getEntityInstance()->tab_name_index;
+			foreach ($entityFieldInfo['fieldnameArr'] as $column) {
+				if ($relField = $relatedModuleModel->getFieldByColumn($column)) {
+					$referenceTable = $relField->getTableName() . $fieldName;
+					$this->queryGenerator->addJoin(['LEFT JOIN',
+						"{$relField->getTableName()} {$referenceTable}",
+						"{$this->getColumnName()} = {$referenceTable}.{$relTableIndexes[$relField->getTableName()]}"
+					]);
+					$formattedTables[] = "{$referenceTable}.{$column}";
 				}
-				$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
-			} else {
-				$formattedName = "$referenceTable.{$entityFieldInfo['fieldname']}";
 			}
-			$relatedTableName[$moduleName] = $formattedName;
-			$this->queryGenerator->addJoin(['LEFT JOIN', $entityFieldInfo['tablename'] . ' ' . $referenceTable, $this->getColumnName() . " = $referenceTable.{$entityFieldInfo['entityidfield']}"]);
+			$relatedTableName[$moduleName] = \count($formattedTables) > 1 ? new \yii\db\Expression('CONCAT(' . implode(",' ',", $formattedTables) . ')') : current($formattedTables);
 		}
 		return $relatedTableName;
 	}

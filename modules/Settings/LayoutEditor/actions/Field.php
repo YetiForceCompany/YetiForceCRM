@@ -11,6 +11,13 @@
 
 class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 {
+	/**
+	 * @var string[] List of fields in edit view modal
+	 */
+	const EDIT_FIELDS_FORM = [
+		'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory'
+	];
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -56,10 +63,12 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	public function save(App\Request $request)
 	{
 		$fieldId = $request->getInteger('fieldid');
+		if (empty($fieldId)) {
+			throw new \App\Exceptions\AppException('Empty field ID: ' . $fieldId);
+		}
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
 		$uitypeModel = $fieldInstance->getUITypeModel();
-		$fields = ['presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory'];
-		foreach ($fields as $field) {
+		foreach (self::EDIT_FIELDS_FORM as $field) {
 			if ($request->has($field)) {
 				switch ($field) {
 					case 'mandatory':
@@ -70,8 +79,18 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 							if (!\in_array($request->getByType('header_type', 'Standard'), $uitypeModel->getHeaderTypes())) {
 								throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . 'header_type', 406);
 							}
-							$value = \App\Json::encode(['type' => $request->getByType('header_type', 'Standard'),
-								'class' => $request->getByType('header_class', 'Standard')]);
+							$data['type'] = $request->getByType('header_type', 'Standard');
+							if ('highlights' === $data['type']) {
+								$data['class'] = $request->getByType('header_class', 'Standard');
+							} elseif ('value' === $data['type'] && $fieldInstance->isReferenceField() && ($relFields = $request->getArray('header_rel_fields', \App\Purifier::ALNUM))) {
+								$relModuleModel = \Vtiger_Module_Model::getInstance(current($fieldInstance->getReferenceList()));
+								foreach ($relFields as $fieldName) {
+									if ($relModuleModel->getFieldByName($fieldName)->isViewableInDetailView()) {
+										$data['rel_fields'][] = $fieldName;
+									}
+								}
+							}
+							$value = \App\Json::encode($data);
 						} else {
 							$value = '';
 						}
@@ -93,6 +112,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		if ($request->has('fieldMask')) {
 			$fieldInstance->set('fieldparams', $request->getByType('fieldMask', 'Text'));
 		}
+		$fieldInstance->set('anonymizationTarget', $request->getArray('anonymizationTarget', \App\Purifier::STANDARD));
 		$response = new Vtiger_Response();
 		try {
 			if ($request->getBoolean('defaultvalue')) {

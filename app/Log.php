@@ -1,4 +1,11 @@
 <?php
+/**
+ * Logger files.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 namespace App;
 
@@ -6,10 +13,6 @@ use yii\log\Logger;
 
 /**
  * Logger class.
- *
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Log extends Logger
 {
@@ -18,16 +21,122 @@ class Log extends Logger
 	public static $logToProfile;
 	public $logToLevels = 0;
 	/**
-	 * Column mapping by table.
+	 * Column mapping by table for logs owasp.
 	 *
 	 * @var array
 	 */
-	public static $tableColumnMapping = [
+	public static $owaspColumnMapping = [
 		'access_for_admin' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
 		'access_for_api' => ['date', 'username', 'ip', 'url', 'agent', 'request'],
 		'access_for_user' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
 		'access_to_record' => ['date', 'username', 'ip', 'module', 'record', 'url', 'agent', 'request', 'referer'],
 		'csrf' => ['date', 'username', 'ip', 'referer', 'url', 'agent'],
+	];
+	/**
+	 * Column mapping by table for logs viewer.
+	 *
+	 * @var array
+	 */
+	public static $logsViewerColumnMapping = [
+		'magento' => [
+			'label' => 'LBL_MAGENTO',
+			'labelModule' => 'Settings:Magento',
+			'table' => 'l_#__magento',
+			'icon' => 'yfi-magento',
+			'columns' => [
+				'time' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
+				'category' => ['type' => 'Text', 'label' => 'LBL_CATEGORY'],
+				'message' => ['type' => 'Text', 'label' => 'LBL_MESSAGE'],
+				'code' => ['type' => 'Text', 'label' => 'LBL_CODE'],
+				'trace' => ['type' => 'Text', 'label' => 'LBL_BACKTRACE'],
+			],
+			'filter' => [
+				'time' => 'DateTimeRange',
+				'category' => 'Text',
+				'message' => 'Text',
+				'code' => 'Text',
+				'trace' => 'Text',
+			],
+		],
+		'switchUsers' => [
+			'label' => 'LBL_SWITCH_USERS',
+			'labelModule' => 'Settings:Users',
+			'table' => 'l_#__switch_users',
+			'icon' => 'yfi-users',
+			'columns' => [
+				'date' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
+				'status' => ['type' => 'Text', 'label' => 'LBL_STATUS'],
+				'busername' => ['type' => 'Text', 'label' => 'LBL_BASE_USER'],
+				'dusername' => ['type' => 'Text', 'label' => 'LBL_DEST_USER'],
+				'ip' => ['type' => 'Text', 'label' => 'LBL_IP_ADDRESS'],
+				'agent' => ['type' => 'Text', 'label' => 'LBL_USER_AGENT'],
+			],
+			'filter' => [
+				'date' => 'DateTimeRange',
+				'busername' => 'Text',
+				'dusername' => 'Text',
+				'ip' => 'Text',
+				'agent' => 'Text',
+			],
+		],
+		'batchMethod' => [
+			'label' => 'LBL_BATCH_METHODS',
+			'labelModule' => 'Settings:CronTasks',
+			'table' => 'l_#__batchmethod',
+			'icon' => 'fas fa-swatchbook',
+			'columns' => [
+				'date' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
+				'method' => ['type' => 'Text', 'label' => 'LBL_BATCH_NAME'],
+				'message' => ['type' => 'Text', 'label' => 'LBL_ERROR_MASAGE'],
+				'userid' => ['type' => 'Owner', 'label' => 'LBL_OWNER'],
+				'params' => ['type' => 'Text', 'label' => 'LBL_PARAMS'],
+			],
+			'filter' => [
+				'date' => 'DateTimeRange',
+				'method' => 'Text',
+				'message' => 'Text',
+				'params' => 'Text',
+			],
+		],
+		'mail' => [
+			'label' => 'LBL_MAILS_NOT_SENT',
+			'labelModule' => 'Settings:Log',
+			'table' => 'l_#__mail',
+			'icon' => 'adminIcon-mail-queue',
+			'columns' => [
+				'date' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
+				'subject' => ['type' => 'Text', 'label' => 'LBL_SUBJECT'],
+				'from' => ['type' => 'Text', 'label' => 'LBL_FROM'],
+				'to' => ['type' => 'Text', 'label' => 'LBL_TO'],
+				'owner' => ['type' => 'Owner', 'label' => 'LBL_OWNER'],
+			],
+			'filter' => [
+				'date' => 'DateTimeRange',
+				'subject' => 'Text',
+				'from' => 'Text',
+				'to' => 'Text',
+			],
+		],
+		'profile' => [
+			'label' => 'LBL_PROFILING',
+			'labelModule' => 'Settings:Log',
+			'table' => 'l_#__profile',
+			'icon' => 'fas fa-stopwatch',
+			'columns' => [
+				'category' => ['type' => 'Text', 'label' => 'Category'],
+				'info' => ['type' => 'Text', 'label' => 'LBL_PARAMS'],
+				'log_time' => ['type' => 'Text', 'label' => 'LBL_TIME'],
+				'trace' => ['type' => 'Text', 'label' => 'LBL_BACKTRACE'],
+				'duration' => ['type' => 'Text', 'label' => 'LBL_DURATION'],
+			],
+			'filter' => [
+				'category' => 'Text',
+				'subinfoject' => 'Text',
+				'log_time' => 'Text',
+				'trace' => 'Text',
+				'duration' => 'Text',
+			],
+		],
 	];
 	public static $levelMap = [
 		'error' => Logger::LEVEL_ERROR,

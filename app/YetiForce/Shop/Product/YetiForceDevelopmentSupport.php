@@ -16,52 +16,62 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Development';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'Support';
+
+	/** {@inheritdoc} */
 	public $pricesType = 'selection';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/marketplace/development-support';
+
+	/** {@inheritdoc} */
 	public $prices = [
-		'Micro' => 200,
-		'Small' => 380,
-		'Medium' => 700,
-		'Large' => 1200,
-		'Corporation' => 6000,
+		'Micro' => 225,
+		'Small' => 432,
+		'Medium' => 828,
+		'Large' => 1611,
+		'Corporation' => 3780,
+		'ExtraLarge' => 7200,
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $customPricesLabel = [
 		'Micro' => 5,
 		'Small' => 10,
 		'Medium' => 20,
 		'Large' => 40,
-		'Corporation' => 200,
+		'Corporation' => 100,
+		'ExtraLarge' => 200,
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function verify($cache = true): bool
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPriceLabel($key): string
 	{
 		return $this->customPricesLabel[$key] . ' ' . \App\Language::translate('LBL_HOURS');
+	}
+
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
+	{
+		return [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'Website',
+				'relatedModuleName' => '_Base',
+				'linkicon' => 'fas fa-globe',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => $this->website,
+				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+		];
 	}
 }

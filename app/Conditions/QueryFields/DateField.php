@@ -169,4 +169,14 @@ class DateField extends BaseField
 	{
 		return ['<', $this->getColumnName(), date('Y-m-d')];
 	}
+
+	/**
+	 * MoreThanDaysAgo operator.
+	 *
+	 * @return bool
+	 */
+	public function operatorMoreThanDaysAgo()
+	{
+		return ['<=', $this->getColumnName(), date('Y-m-d', strtotime('-' . $this->getValue() . ' days'))];
+	}
 }

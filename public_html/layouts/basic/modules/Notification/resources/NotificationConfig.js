@@ -6,8 +6,8 @@ jQuery.Class(
 	{},
 	{
 		registerEventForModal: function (container) {
-			var thisInstance = this;
-			var table = app.registerDataTables(container.find('.modalDataTable'));
+			const self = this;
+			let table = app.registerDataTables(container.find('.js-watching-data-table'));
 			app.showPopoverElementView(container.find('.infoPopover'));
 			container.on('switchChange.bootstrapSwitch', '.sendNotificationsSwitch', function (e, state) {
 				if (state) {
@@ -17,19 +17,19 @@ jQuery.Class(
 				}
 			});
 			container.find('[name="saveButton"]').on('click', function () {
-				var selectedModules = [];
-				var sendNoticeModules = [];
+				let selectedModules = [];
+				let sendNoticeModules = [];
 				table.$('[type="checkbox"]').each(function () {
-					var currentTarget = $(this);
+					let currentTarget = $(this);
 					if (currentTarget.is(':checked')) {
 						selectedModules.push(currentTarget.val());
 					}
 				});
 				table.$('.sandNoticeOn').each(function (e) {
-					var value = $(this).closest('tr').data('id');
+					let value = $(this).closest('tr').data('id');
 					sendNoticeModules.push(value);
 				});
-				var params = {
+				let params = {
 					module: 'Notification',
 					action: 'Notification',
 					mode: 'saveWatchingModules',
@@ -37,7 +37,7 @@ jQuery.Class(
 					sendNotifications: sendNoticeModules,
 					frequency: container.find('select[name="frequency"]').val()
 				};
-				var progress = jQuery.progressIndicator();
+				let progress = jQuery.progressIndicator();
 				AppConnector.request(params)
 					.done(function () {
 						progress.progressIndicator({ mode: 'hide' });
@@ -56,38 +56,38 @@ jQuery.Class(
 				e.stopPropagation();
 				let element = $(e.currentTarget).find('.fas');
 				let val = !element.hasClass('sandNoticeOn');
-				thisInstance.changeSendNoticeState(element, val);
+				self.changeSendNoticeState(element, val);
 				table.$('.sandNoticeOn,.sandNoticeOff').each(function () {
-					thisInstance.changeSendNoticeState($(this), val);
+					self.changeSendNoticeState($(this), val);
 				});
 			});
 			table.$('.sentNotice').on('click', function (e) {
 				e.stopPropagation();
 				let element = $(e.currentTarget).find('.fas');
-				thisInstance.changeSendNoticeState(element);
+				self.changeSendNoticeState(element);
 			});
 		},
 		changeSendNoticeState: function (element, val) {
 			if (val !== undefined) {
 				if (val === true) {
-					element.addClass('fa-envelope').removeClass('fa-envelope-open');
+					element.addClass('fa-bell').removeClass('fa-bell-slash');
 					element.addClass('sandNoticeOn').removeClass('sandNoticeOff');
 				} else {
-					element.addClass('fa-envelope-open').removeClass('fa-envelope');
+					element.addClass('fa-bell-slash').removeClass('fa-bell');
 					element.addClass('sandNoticeOff').removeClass('sandNoticeOn');
 				}
 			} else {
-				element.toggleClass('fa-envelope fa-envelope-open');
+				element.toggleClass('fa-bell fa-bell-slash');
 				element.toggleClass('sandNoticeOn sandNoticeOff');
 			}
 		},
 		registerEvents: function () {
-			var container = $('.modalNotificationNotificationConfig');
+			let container = $('.modalNotificationNotificationConfig');
 			this.registerEventForModal(container);
 		}
 	}
 );
 jQuery(document).ready(function () {
-	var instance = new Notification_NotificationConfig_Js();
+	let instance = new Notification_NotificationConfig_Js();
 	instance.registerEvents();
 });

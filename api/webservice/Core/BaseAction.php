@@ -83,7 +83,7 @@ class BaseAction
 		if (empty($row)) {
 			throw new \Api\Core\Exception('Invalid token', 401);
 		}
-		if ((strtotime('now') > strtotime($row['created']) + (\App\Config::security('API_CREATE_LIFETIME_SESSION') * 60)) || (strtotime('now') > strtotime($row['changed']) + (\App\Config::security('API_UPDATE_LIFETIME_SESSION') * 60))) {
+		if ((strtotime('now') > strtotime($row['created']) + (\Config\Security::$apiLifetimeSessionCreate * 60)) || (strtotime('now') > strtotime($row['changed']) + (\Config\Security::$apiLifetimeSessionUpdate * 60))) {
 			$db->createCommand()
 				->delete($sessionTable, ['id' => $this->controller->headers['x-token']])
 				->execute();

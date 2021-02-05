@@ -24,10 +24,15 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 	 */
 	public function getSearchParams($row, $time)
 	{
-		$listSearchParams = [[['actual_date', 'bw', $time]]];
-		if (isset($row['assigned_user_id'])) {
-			$listSearchParams[0][] = ['assigned_user_id', 'e', $row['assigned_user_id']];
+		$conditions = [];
+		$listSearchParams = [];
+		if (!empty($owner)) {
+			array_push($conditions, ['assigned_user_id', 'e', $owner]);
 		}
+		if (!empty($time)) {
+			array_push($conditions, ['actual_date', 'bw', implode(',', \App\Fields\Date::formatRangeToDisplay(explode(',', $time)))]);
+		}
+		$listSearchParams[] = $conditions;
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
@@ -35,34 +40,36 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 	 * Function to get data to chart.
 	 *
 	 * @param string      $time
-	 * @param string|bool $compare
+	 * @param bool $compare
+	 * @param int|string $owner
 	 *
 	 * @return array
 	 */
-	public function getEstimatedValue($time, $compare = false)
+	public function getEstimatedValue(string $timeString, bool $compare = false, $owner = false): array
 	{
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
 		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->setGroup('assigned_user_id');
-		$queryGenerator->addCondition('actual_date', $time, 'bw', true, true);
+		$queryGenerator->addCondition('actual_date', $timeString, 'bw', true, false);
+		if ('all' !== $owner) {
+		 $queryGenerator->addNativeCondition(['smownerid' => $owner]);
+		}
 		$sum = new \yii\db\Expression('SUM(actual_sale)');
 		$queryGenerator->setCustomColumn(['actual_sale' => $sum]);
 		$query = $queryGenerator->createQuery();
 		$listView = $queryGenerator->getModuleModel()->getListViewUrl();
 		$dataReader = $query->createCommand()->query();
-
-		$data = [];
-		$i = -1;
+		$chartData = [];
 		while ($row = $dataReader->read()) {
-			$i = $compare ? $row['assigned_user_id'] : $i + 1;
-			$data[$i] = [
-				$row['actual_sale'],
-				\App\Fields\Owner::getUserLabel($row['assigned_user_id']),
-				$listView . $this->getSearchParams($row, $time),
-			];
+			$chartData['datasets'][0]['data'][] = round($row['actual_sale'], 2);
+			$chartData['datasets'][0]['backgroundColor'][] = '#95a458';
+			$chartData['datasets'][0]['links'][] = $listView . $this->getSearchParams($row['assigned_user_id'], $timeString);
+			$ownerName = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
+			$chartData['labels'][] = \App\Utils::getInitials($ownerName);
+			$chartData['fullLabels'][] = $ownerName;
 		}
+		$chartData['show_chart'] = (bool) isset($chartData['datasets']);
 		$dataReader->close();
-
-		return $data;
+		return $chartData;
 	}
 }

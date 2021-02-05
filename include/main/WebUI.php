@@ -85,11 +85,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 */
 	public function process(App\Request $request)
 	{
-		if (\Config\Security::$forceHttpsRedirection && !\App\RequestUtil::getBrowserInfo()->https) {
+		if (\Config\Security::$forceHttpsRedirection && !\App\RequestUtil::isHttps()) {
 			header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
 		if (\Config\Security::$forceUrlRedirection) {
-			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
+			$requestUrl = (\App\RequestUtil::isHttps() ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
 			if (0 !== stripos($requestUrl, App\Config::main('site_URL'))) {
 				header('location: ' . App\Config::main('site_URL'), true, 301);
 			}
@@ -141,12 +141,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$componentName = $view;
 				\App\Config::setJsEnv('view', $view);
 			}
-			if ($hasLogin && 'Login' === $view && 'Users' === $moduleName) {
+			if ('Login' === $view && 'Users' === $moduleName) {
 				if (!\App\Session::has('CSP_TOKEN')) {
 					\App\Session::set('CSP_TOKEN', hash('sha256', \App\Encryption::generatePassword(10)));
 				}
-				header('location: index.php');
-				return false;
+				if ($hasLogin) {
+					header('location: index.php');
+					return false;
+				}
 			}
 			\App\Process::$processName = $componentName;
 			\App\Process::$processType = $componentType;
@@ -285,12 +287,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Content Security Policy token.
+	 *
+	 * @return void
 	 */
-	public function cspInitToken()
+	public function cspInitToken(): void
 	{
 		if (!App\Session::has('CSP_TOKEN') || App\Session::get('CSP_TOKEN_TIME') < time()) {
-			App\Session::set('CSP_TOKEN', sha1(App\Config::main('application_unique_key') . time()));
-			App\Session::set('CSP_TOKEN_TIME', strtotime('+5 minutes'));
+			App\Session::set('CSP_TOKEN', \base64_encode(\random_bytes(16)));
+			App\Session::set('CSP_TOKEN_TIME', strtotime('+' . \Config\Security::$cspHeaderTokenTime));
 		}
 	}
 }

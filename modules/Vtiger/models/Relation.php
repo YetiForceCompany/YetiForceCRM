@@ -26,7 +26,7 @@ class Vtiger_Relation_Model extends \App\Base
 	protected $parentModule = false;
 	protected $relatedModule = false;
 	/**
-	 * @var object Class that includes basic operations on relations
+	 * @var \App\Relation\RelationInterface Class that includes basic operations on relations
 	 */
 	protected $typeRelationModel;
 
@@ -34,9 +34,6 @@ class Vtiger_Relation_Model extends \App\Base
 	const RELATION_O2M = 1;
 	//Many to many and many to one
 	const RELATION_M2M = 2;
-
-	/** @var string[] */
-	protected static $RELATIONS_O2M = ['getDependentsList'];
 
 	/**
 	 * Function returns the relation id.
@@ -210,16 +207,12 @@ class Vtiger_Relation_Model extends \App\Base
 	/**
 	 * Get relation type.
 	 *
-	 * @return self::RELATION_O2M|self::RELATION_M2M
+	 * @return int|self::RELATION_O2M|self::RELATION_M2M
 	 */
 	public function getRelationType()
 	{
-		if (!$this->get('relationType')) {
-			if (\in_array($this->get('name'), self::$RELATIONS_O2M) || $this->getRelationField()) {
-				$this->set('relationType', self::RELATION_O2M);
-			} else {
-				$this->set('relationType', self::RELATION_M2M);
-			}
+		if (!$this->has('relationType')) {
+			$this->set('relationType', $this->getTypeRelationModel()->getRelationType());
 		}
 		return $this->get('relationType');
 	}
@@ -327,9 +320,11 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Gets relation object.
+	 * Get type relation model .
+	 *
+	 * @return \App\Relation\RelationInterface
 	 */
-	public function getTypeRelationModel()
+	public function getTypeRelationModel(): App\Relation\RelationInterface
 	{
 		if (!isset($this->typeRelationModel)) {
 			$name = ucfirst($this->get('name'));
@@ -340,6 +335,9 @@ class Vtiger_Relation_Model extends \App\Base
 			if (class_exists($relationClassName)) {
 				$this->typeRelationModel = new $relationClassName();
 				$this->typeRelationModel->relationModel = &$this;
+			} else {
+				App\Log::error("Not exist relation: {$name} in " . __METHOD__);
+				throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $name);
 			}
 		}
 		return $this->typeRelationModel;
@@ -354,17 +352,13 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function getQuery()
 	{
-		if (!($object = $this->getTypeRelationModel())) {
-			App\Log::error("Not exist relation: {$this->get('name')} in " . __METHOD__);
-			throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $this->get('name'));
-		}
 		if (empty($this->get('parentRecord'))) {
 			App\Log::error('No value parentRecord in ' . __METHOD__);
 			throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||parentRecord');
 		}
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->setSourceRecord($this->get('parentRecord')->getId());
-		$object->getQuery();
+		$this->getTypeRelationModel()->getQuery();
 		if ($this->showCreatorDetail()) {
 			$queryGenerator->setCustomColumn('rel_created_user');
 			$queryGenerator->setCustomColumn('rel_created_time');
@@ -556,7 +550,7 @@ class Vtiger_Relation_Model extends \App\Base
 	{
 		$result = false;
 		$sourceModuleName = $this->getParentModuleModel()->getName();
-		$typeRelation = $this->getTypeRelationModel();
+		$relationModel = $this->getTypeRelationModel();
 		if (!\is_array($destinationRecordIds)) {
 			$destinationRecordIds = [$destinationRecordIds];
 		}
@@ -573,7 +567,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$data['destinationRecordId'] = $destinationRecordId;
 			$eventHandler->setParams($data);
 			$eventHandler->trigger('EntityBeforeLink');
-			if ($result = $typeRelation->create($sourceRecordId, $destinationRecordId)) {
+			if ($result = $relationModel->create($sourceRecordId, $destinationRecordId)) {
 				\CRMEntity::trackLinkedInfo($sourceRecordId);
 				$eventHandler->trigger('EntityAfterLink');
 			}

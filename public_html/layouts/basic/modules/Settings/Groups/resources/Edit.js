@@ -103,14 +103,9 @@ Settings_Vtiger_Edit_Js(
 		 */
 		registerButtonsModule: function () {
 			const editViewForm = this.getForm();
-			editViewForm
-				.find('.js-modules-select-all, .js-modules-deselect-all')
-				.on('click', function (e) {
-					$('#modulesList option')
-						.prop('selected', $(this).hasClass('js-modules-select-all'))
-						.parent()
-						.trigger('change');
-				});
+			editViewForm.find('.js-modules-select-all, .js-modules-deselect-all').on('click', function (e) {
+				$('#modulesList option').prop('selected', $(this).hasClass('js-modules-select-all')).parent().trigger('change');
+			});
 		},
 		/**
 		 * Function which will handle the registrations for the elements

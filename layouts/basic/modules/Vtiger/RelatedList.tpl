@@ -27,6 +27,7 @@
 	<input type="hidden" id="recordsCount" value=""/>
 	<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($VIEW_MODEL->getRelationModel()->get('label'))}"/>
 	<input type="hidden" id="relationId" value="{$VIEW_MODEL->getRelationModel()->getId()}"/>
+	<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
 	{if $SHOW_HEADER}
 		<div class="relatedHeader mt-1">
 			<div class="d-inline-flex flex-wrap w-100 justify-content-between">

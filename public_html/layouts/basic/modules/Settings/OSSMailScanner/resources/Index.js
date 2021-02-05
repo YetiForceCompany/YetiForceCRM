@@ -22,10 +22,7 @@ jQuery.Class(
 		registerEditFolders: function (container) {
 			const self = this;
 			container.find('.editFolders').on('click', function () {
-				const url =
-						'index.php?module=OSSMailScanner&parent=Settings&view=Folders' +
-						'&record=' +
-						$(this).data('user'),
+				const url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + $(this).data('user'),
 					progressIndicatorElement = jQuery.progressIndicator({
 						message: app.vtranslate('LBL_LOADING_LIST_OF_FOLDERS'),
 						position: 'html',
@@ -87,15 +84,8 @@ jQuery.Class(
 			$('#exceptions select')
 				.on('select2:select', function (e) {
 					let value = e.params.data.id;
-					if (
-						!!thisIstance.domainValidateToExceptions(value) ||
-						!!thisIstance.email_validate(value)
-					) {
-						thisIstance.saveWidgetConfig(
-							jQuery(this).attr('name'),
-							jQuery(this).val().join(),
-							'exceptions'
-						);
+					if (!!thisIstance.domainValidateToExceptions(value) || !!thisIstance.email_validate(value)) {
+						thisIstance.saveWidgetConfig(jQuery(this).attr('name'), jQuery(this).val().join(), 'exceptions');
 						thisIstance.registerColorField(jQuery(this));
 					} else {
 						jQuery(this)
@@ -433,9 +423,7 @@ jQuery.Class(
 							'</td><td>';
 						if (data.result[i]['status'] === 'In progress') {
 							html +=
-								'<button type="button" class="btn btn-danger js-stop-cron" data-scan-id="' +
-								data.result[i]['id'] +
-								'"';
+								'<button type="button" class="btn btn-danger js-stop-cron" data-scan-id="' + data.result[i]['id'] + '"';
 							if (container.find('.js-run-cron').data('button-status')) {
 								html += ' disabled';
 							}

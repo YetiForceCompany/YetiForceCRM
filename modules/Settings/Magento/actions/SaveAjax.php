@@ -15,9 +15,7 @@
  */
 class Settings_Magento_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();

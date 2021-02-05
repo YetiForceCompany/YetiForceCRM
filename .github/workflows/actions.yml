@@ -1,7 +1,7 @@
 name: PHP actions
 
 on: [push, pull_request]
-  
+
 jobs:
   build:
     name: Composer
@@ -12,7 +12,7 @@ jobs:
 
     - name: Validate composer.json and composer.lock
       run: composer validate
-      
+
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
@@ -23,6 +23,10 @@ jobs:
           ${{ runner.os }}-node-
 
     - name: Install dependencies
+      with:
+        php-version: 7.4
+        coverage: none
+        extensions: intl
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
 
@@ -45,10 +49,7 @@ jobs:
          exclude: 'vendor,tests'
 
       - name: Check PHP syntax errors
-        uses: overtrue/phplint@2.0.2
-
-      - name: Fortify ScanCentral Scan
-        uses: fortify/gha-setup-scancentral-client@v1.1.0
+        uses: overtrue/phplint@2.3.5
 
       - name: DevSkim
         uses: microsoft/DevSkim-Action@v1
@@ -59,8 +60,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: PHP Security Checker
-        uses: StephaneBour/actions-php-security-checker@1.0
+        uses: StephaneBour/actions-php-security-checker@1.1
         with:
           composer-lock: './composer.lock'

@@ -41,7 +41,12 @@
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							{$COUNT = $COUNT+1}
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
-							<td class="text-left {$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}"
+							<td class="text-left {$WIDTHTYPE}
+							{if $HEADER_FIELD->getFieldDataType() eq 'documentsFileUpload' && $HEADER_FIELD->isEditable() && $RELATED_RECORD->isEditable() && 'I' === $RELATED_RECORD->getValueByField('filelocationtype') } js-drop-container{/if}"
+								data-id="{$RELATED_RECORD->getId()}"
+								data-module="{$RELATED_MODULE->getName()}"
+								data-field-name="{$RELATED_HEADERNAME}"
+							 	data-field-type="{$HEADER_FIELD->getFieldDataType()}"
 								nowrap>
 								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 									<a class="modCT_{$RELATED_MODULE_NAME}"

@@ -77,7 +77,7 @@
     "LBL_LATEST_PHP_VERSIONS_ARE": "最新 PHP 版本：%s",
     "BTN_CHECK_LATEST_VERSION": "检查最新的 PHP 版本",
     "BTN_SERVER_SPEED_TEST": "服务器速度测试",
-    "BTN_DB_INFO": "数据库信息",
+    "BTN_DB_INFO": "Database information",
     "LBL_SERVER_SPEED_TEST": "服务器速度",
     "LBL_READ_TEST": "只读",
     "LBL_WRITE_TEST": "可写",
@@ -236,6 +236,7 @@
     "LBL_IT_WORKS_PROPERLY": "工作正常",
     "LBL_LABEL_FOOTER": "底部",
     "LBL_LABEL_PREMIUM_MODULES": "高级模块",
+    "LBL_LABEL_MAGENTO": "Magento",
     "LBL_FILE_OWNER": "所有者",
     "LBL_FILE_PERMISSIONS": "权限",
     "LBL_LABEL_SCRIPT_USER": "脚本执行人",
@@ -254,7 +255,8 @@
     "LBL_FILE_SIZE": "Tables size",
     "LBL_FORMAT": "Row format",
     "LBL_ENGINE": "Engine",
-    "LBL_COLLATION": "Collation"
+    "LBL_COLLATION": "Collation",
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
   },
   "js": {
     "JS_SPEED_TEST_START": "检查速度..."

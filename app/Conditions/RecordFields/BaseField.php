@@ -87,13 +87,13 @@ class BaseField
 	}
 
 	/**
-	 * Get value.
+	 * Get value from record.
 	 *
 	 * @return mixed
 	 */
 	public function getValue()
 	{
-		return $this->recordModel->get($this->fieldModel->getFieldName());
+		return $this->recordModel->get($this->fieldModel->getName());
 	}
 
 	/**

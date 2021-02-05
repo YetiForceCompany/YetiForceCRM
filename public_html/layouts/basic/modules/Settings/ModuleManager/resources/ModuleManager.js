@@ -71,8 +71,7 @@ jQuery.Class(
 						type: 'error'
 					});
 				} else {
-					window.location.href =
-						'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
+					window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
 				}
 			});
 		},
@@ -124,14 +123,12 @@ jQuery.Class(
 		},
 		createModule: function (currentTarget) {
 			var progressIndicatorElement = jQuery.progressIndicator();
-			app.showModalWindow(
-				null,
-				'index.php?module=ModuleManager&parent=Settings&view=CreateModule',
-				function (wizardContainer) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					Settings_Module_Manager_Js.registerModalCreateModule(wizardContainer);
-				}
-			);
+			app.showModalWindow(null, 'index.php?module=ModuleManager&parent=Settings&view=CreateModule', function (
+				wizardContainer
+			) {
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				Settings_Module_Manager_Js.registerModalCreateModule(wizardContainer);
+			});
 		},
 		//This will show the notification message using pnotify
 		showNotify: function (customParams) {

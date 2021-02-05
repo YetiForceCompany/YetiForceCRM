@@ -41,6 +41,11 @@
 							</a>
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
+							<a rel="noreferrer noopener" target="_blank" href="https://doc.yetiforce.com">
+								<span class="mdi mdi-book-open-page-variant" title="YetiForce Doc"></span>
+							</a>
+						</li>
+						<li class="yetiforceDetailsLink list-inline-item">
 							<a rel="noreferrer noopener" target="_blank" href="https://www.linkedin.com/groups/8177576">
 								<span class="fab fa-linkedin"></span>
 								<span class="sr-only">Linkedin</span>
@@ -70,12 +75,6 @@
 							   href="https://github.com/YetiForceCompany/YetiForceCRM/issues">
 								<span class="fas fa-bug"></span>
 								<span class="sr-only">Issues</span>
-							</a>
-						</li>
-						<li class="yetiforceDetailsLink list-inline-item">
-							<a rel="noreferrer noopener" target="_blank" href="https://yetiforce.shop/">
-								<span class="fas fa-shopping-cart"></span>
-								<span class="sr-only">Shop</span>
 							</a>
 						</li>
 					</ul>

@@ -310,9 +310,7 @@ Settings_Vtiger_Index_Js(
 		generatePicklistValueColor: function (e) {
 			var container = jQuery('.picklistViewContentDiv');
 			var target = $(e.currentTarget);
-			var colorPreview = container.find(
-				'#calendarColorPreviewPicklistValue' + target.data('fieldvalueid')
-			);
+			var colorPreview = container.find('#calendarColorPreviewPicklistValue' + target.data('fieldvalueid'));
 			var progress = $.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				blockInfo: {
@@ -340,9 +338,7 @@ Settings_Vtiger_Index_Js(
 		removePicklistValueColor: function (e) {
 			var container = jQuery('.picklistViewContentDiv');
 			var target = $(e.currentTarget);
-			var colorPreview = container.find(
-				'#calendarColorPreviewPicklistValue' + target.data('fieldvalueid')
-			);
+			var colorPreview = container.find('#calendarColorPreviewPicklistValue' + target.data('fieldvalueid'));
 			var progress = $.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				blockInfo: {
@@ -459,23 +455,15 @@ Settings_Vtiger_Index_Js(
 				}).done(function (data) {
 					container.html(data);
 					App.Fields.Picklist.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
-					App.Fields.Picklist.changeSelectElementView(
-						jQuery('.pickListModulesPicklistSelectContainer')
-					);
+					App.Fields.Picklist.changeSelectElementView(jQuery('.pickListModulesPicklistSelectContainer'));
 					thisInstance.registerModuleChangeEvent();
 					thisInstance.registerModulePickListChangeEvent();
 					$('.UserColors .addPicklistColorColumn').on('click', thisInstance.addPicklistColorColumn);
 					$('.UserColors .updatePicklistValueColor').on('click', function (e) {
 						thisInstance.updatePicklistValueColor(e, thisInstance);
 					});
-					$('.UserColors .generatePicklistValueColor').on(
-						'click',
-						thisInstance.generatePicklistValueColor
-					);
-					$('.UserColors .removePicklistValueColor').on(
-						'click',
-						thisInstance.removePicklistValueColor
-					);
+					$('.UserColors .generatePicklistValueColor').on('click', thisInstance.generatePicklistValueColor);
+					$('.UserColors .removePicklistValueColor').on('click', thisInstance.removePicklistValueColor);
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				});
 			});

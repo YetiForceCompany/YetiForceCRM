@@ -19,9 +19,7 @@ namespace App\Integrations\Magento\Synchronizer;
  */
 class Currency extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		try {

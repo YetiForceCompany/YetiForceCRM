@@ -70,9 +70,7 @@
 						for (i = 0, j = dpc.length; i < j; i++) {
 							m[dpc[i]].state.checked =
 								m[dpc[i]].state.checked ||
-								(m[dpc[i]].original &&
-									m[dpc[i]].original.state &&
-									m[dpc[i]].original.state.checked);
+								(m[dpc[i]].original && m[dpc[i]].original.state && m[dpc[i]].original.state.checked);
 							if (m[dpc[i]].state.checked) {
 								this._data.checkbox.selected.push(dpc[i]);
 							}
@@ -107,9 +105,9 @@
 									for (i = 0, j = dpc.length; i < j; i++) {
 										m[dpc[i]].state[t ? 'selected' : 'checked'] = true;
 									}
-									this._data[t ? 'core' : 'checkbox'].selected = this._data[
-										t ? 'core' : 'checkbox'
-									].selected.concat(dpc);
+									this._data[t ? 'core' : 'checkbox'].selected = this._data[t ? 'core' : 'checkbox'].selected.concat(
+										dpc
+									);
 								} else {
 									for (i = 0, j = dpc.length; i < j; i++) {
 										if (m[dpc[i]].state[t ? 'selected' : 'checked']) {
@@ -184,12 +182,7 @@
 								for (i = 0, j = obj.children_d.length; i < j; i++) {
 									tmp = m[obj.children_d[i]];
 									tmp.state[t ? 'selected' : 'checked'] = true;
-									if (
-										tmp &&
-										tmp.original &&
-										tmp.original.state &&
-										tmp.original.state.undetermined
-									) {
+									if (tmp && tmp.original && tmp.original.state && tmp.original.state.undetermined) {
 										tmp.original.state.undetermined = false;
 									}
 								}
@@ -264,12 +257,7 @@
 								for (i = 0, j = obj.children_d.length; i < j; i++) {
 									tmp = this._model.data[obj.children_d[i]];
 									tmp.state[t ? 'selected' : 'checked'] = false;
-									if (
-										tmp &&
-										tmp.original &&
-										tmp.original.state &&
-										tmp.original.state.undetermined
-									) {
+									if (tmp && tmp.original && tmp.original.state && tmp.original.state.undetermined) {
 										tmp.original.state.undetermined = false;
 									}
 								}
@@ -280,12 +268,7 @@
 								for (i = 0, j = obj.parents.length; i < j; i++) {
 									tmp = this._model.data[obj.parents[i]];
 									tmp.state[t ? 'selected' : 'checked'] = false;
-									if (
-										tmp &&
-										tmp.original &&
-										tmp.original.state &&
-										tmp.original.state.undetermined
-									) {
+									if (tmp && tmp.original && tmp.original.state && tmp.original.state.undetermined) {
 										tmp.original.state.undetermined = false;
 									}
 									tmp = this.get_node(obj.parents[i], true);
@@ -302,8 +285,7 @@
 								// apply down + apply up
 								if (
 									(s.indexOf('down') === -1 ||
-										$.inArray(this._data[t ? 'core' : 'checkbox'].selected[i], obj.children_d) ===
-											-1) &&
+										$.inArray(this._data[t ? 'core' : 'checkbox'].selected[i], obj.children_d) === -1) &&
 									(s.indexOf('up') === -1 ||
 										$.inArray(this._data[t ? 'core' : 'checkbox'].selected[i], obj.parents) === -1)
 								) {
@@ -522,9 +504,7 @@
 				if (!m[p[i]].state[t ? 'selected' : 'checked']) {
 					s = this.get_node(p[i], true);
 					if (s && s.length) {
-						s.children('.jstree-anchor')
-							.children('.jstree-checkbox')
-							.addClass('jstree-undetermined');
+						s.children('.jstree-anchor').children('.jstree-checkbox').addClass('jstree-undetermined');
 					}
 				}
 			}
@@ -658,10 +638,7 @@
 			if (!obj.state.checkbox_disabled) {
 				obj.state.checkbox_disabled = true;
 				if (dom && dom.length) {
-					dom
-						.children('.jstree-anchor')
-						.children('.jstree-checkbox')
-						.addClass('jstree-checkbox-disabled');
+					dom.children('.jstree-anchor').children('.jstree-checkbox').addClass('jstree-checkbox-disabled');
 				}
 				/**
 				 * triggered when an node's checkbox is disabled
@@ -697,10 +674,7 @@
 			if (obj.state.checkbox_disabled) {
 				obj.state.checkbox_disabled = false;
 				if (dom && dom.length) {
-					dom
-						.children('.jstree-anchor')
-						.children('.jstree-checkbox')
-						.removeClass('jstree-checkbox-disabled');
+					dom.children('.jstree-anchor').children('.jstree-checkbox').removeClass('jstree-checkbox-disabled');
 				}
 				/**
 				 * triggered when an node's checkbox is enabled
@@ -812,10 +786,7 @@
 			dom = this.get_node(obj, true);
 			if (obj.state.checked) {
 				obj.state.checked = false;
-				this._data.checkbox.selected = $.vakata.array_remove_item(
-					this._data.checkbox.selected,
-					obj.id
-				);
+				this._data.checkbox.selected = $.vakata.array_remove_item(this._data.checkbox.selected, obj.id);
 				if (dom.length) {
 					dom.children('.jstree-anchor').removeClass('jstree-checked');
 				}

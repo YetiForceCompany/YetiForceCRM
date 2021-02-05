@@ -20,25 +20,19 @@ class Vtiger_Quantity_InventoryField extends Vtiger_Basic_InventoryField
 	protected $maximumLength = '9999999999999999999999';
 	protected $purifyType = \App\Purifier::NUMBER;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Double::formatToDisplay($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditValue($value)
 	{
 		return \App\Fields\Double::formatToDisplay($value, false);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		if (!isset($this->dbValue[$value])) {
@@ -47,9 +41,7 @@ class Vtiger_Quantity_InventoryField extends Vtiger_Basic_InventoryField
 		return $this->dbValue[$value];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($isUserFormat) {

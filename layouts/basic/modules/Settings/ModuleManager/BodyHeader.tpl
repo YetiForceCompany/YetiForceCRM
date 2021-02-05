@@ -14,7 +14,7 @@
 				</div>
 			</div>
 			{if !\App\YetiForce\Shop::verify()}
-				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
 						{if $USER_MODEL->isAdminUser()}
 							href="index.php?module=YetiForce&parent=Settings&view=Shop"
 						{else}
@@ -44,27 +44,18 @@
 		</div>
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
 			{if $PARENT_MODULE === 'Settings'}
-				<div class="mr-xxl-4 d-flex flex-sm-nowrap">
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://yetiforce.shop"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="fas fa-shopping-cart fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}"></span>
+				<div class="mr-xxl-4 d-flex flex-sm-nowrap ml-4">
+					<a class="btn btn-light c-header__btn ml-2" title="YetiForce Documentation" role="button" href="https://doc.yetiforce.com" target="_blank" rel="noreferrer noopener">
+						<span class="mdi mdi-book-open-page-variant"></span>
 					</a>
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://yetiforce.shop/#support"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="far fa-life-ring fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}"></span>
+					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}" role="button" href="index.php?module=YetiForce&parent=Settings&view=Shop&category=Support" target="_blank">
+						<span class="far fa-life-ring fa-fw"></span>
 					</a>
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="fas fa-bug fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}"></span>
+					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}" role="button" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer noopener">
+						<span class="fas fa-bug fa-fw"></span>
+					</a>
+					<a class="btn btn-light c-header__btn ml-2" title="YetiForceCRM" role="button" href="#" data-toggle="modal" data-target="#yetiforceDetails">
+						<span class="fas fa-info-circle fa-fw"></span>
 					</a>
 				</div>
 			{/if}

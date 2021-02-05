@@ -11,7 +11,7 @@
 	</button>
 </div>
 <div class="modal-body">
-	<table class="table-responsive table table-sm dataTable">
+	<table class="table-responsive table table-sm js-modal-data-table">
 		<thead>
 			<tr>
 				{if $WATCHDOG || $SRC_RECORD_ID neq 0}

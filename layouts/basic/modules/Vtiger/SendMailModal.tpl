@@ -64,6 +64,18 @@
 					</select>
 				</div>
 			</div>
+			<div class="form-group form-row">
+				<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_MASS_MAIL_NOTES')}
+					<span class="js-popover-tooltip ml-1" data-toggle="popover"
+						data-placement="top"
+						data-content="{\App\Language::translate('LBL_MASS_MAIL_NOTES_INFO')}" data-js="popover">
+						<span class="fas fa-info-circle"></span>
+					</span>
+				</label>
+				<div class="col-sm-8">
+					<textarea class="form-control js-editor" name="mail_notes" id="mail_notes" data-js="ckeditor"></textarea>
+				</div>
+			</div>
 		</form>
 		{if !$DEFAULT_SMTP}
 			<div class="alert alert-danger" role="alert">
@@ -75,10 +87,12 @@
 	<div class="modal-footer">
 		{if $DEFAULT_SMTP && $TEMPLETE_LIST && $IS_EMAIL}
 			<button class="btn btn-success" type="submit" name="saveButton">
+				<span class="fas fa-check mr-1"></span>
 				<strong>{\App\Language::translate('LBL_SEND')}</strong>
 			</button>
 		{/if}
-		<button class="btn btn-warning" type="reset" data-dismiss="modal">
+		<button class="btn btn-danger" type="reset" data-dismiss="modal">
+			<span class="fas fa-times mr-1"></span>
 			<strong>{\App\Language::translate('LBL_CANCEL')}</strong>
 		</button>
 	</div>

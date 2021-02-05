@@ -6,15 +6,14 @@ $.Class(
 		container: false,
 		/**
 		 * Function get values for request query
-		 * @returns {{module: string, view: string, convertType: integer, fieldMerge: string, onlyBody: boolean, destinyModule: string, sourceView: string}}
+		 * @returns {{module: string, view: string, fieldMerge: string, onlyBody: boolean, destinyModule: string, sourceView: string}}
 		 */
 		getParams: function () {
 			let params = {
 				module: this.container.data('module'),
 				view: this.container.data('view'),
-				convertType: this.container.find('.js-convert-type option:selected').val(),
-				onlyBody: true,
-				sourceView: app.getViewName()
+				convertId: this.container.find('.js-convert-type option:selected').val(),
+				sourceView: this.container.find('[name="sourceView"]').val()
 			};
 			if (app.getViewName() === 'List') {
 				let listInstance = Vtiger_List_Js.getInstance();
@@ -23,9 +22,7 @@ $.Class(
 				params.cvId = listInstance.getCurrentCvId();
 				if (listInstance.getListSearchInstance()) {
 					let searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
-					params.search_params = JSON.stringify(
-						listInstance.getListSearchInstance().getListSearchParams()
-					);
+					params.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
 					if (typeof searchValue != 'undefined' && searchValue.length > 0) {
 						params.search_key = listInstance.getListSearchInstance().getAlphabetSearchField();
 						params.search_value = searchValue;
@@ -46,31 +43,24 @@ $.Class(
 			const aDeferred = $.Deferred();
 			const progressIndicatorElement = $.progressIndicator({
 				blockInfo: {
-					enabled: true,
-					elementToBlock: body
+					enabled: true
 				}
 			});
-			AppConnector.request(this.getParams()).then(
-				function (responseData) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					body.html($(responseData).html());
-					App.Fields.Picklist.showSelect2ElementView(body.find('.select2'));
-					aDeferred.resolve(responseData);
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
+			app.hideModalWindow(body.closest('.js-modal-container').attr('id'));
+			app.showModalWindow({
+				url: app.convertObjectToUrl(this.getParams()),
+				cb: function (_) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				}
-			);
+			});
 			return aDeferred.promise();
 		},
 		/**
 		 * Function listener to change convert type
 		 */
 		registerChangeConvertType: function () {
-			let self = this;
-			self.container.on('change', '.js-convert-type', (e) => {
-				self.loadModalWindow();
+			this.container.on('change', '.js-convert-type', (e) => {
+				this.loadModalWindow();
 			});
 		},
 		/**
@@ -80,9 +70,9 @@ $.Class(
 		registerSubmitForm: function () {
 			let self = this;
 			self.container.on('click', "[name='saveButton']", (e) => {
-				let convertType = self.container.find('.js-convert-type option:selected').val();
-				if (convertType) {
-					let formData = self.container.find('form').serializeFormData();
+				let formMapping = self.container.find('form.js-form-converter');
+				if (formMapping.validationEngine('validate')) {
+					let formData = formMapping.serializeFormData();
 					let postData = {};
 					if (app.getViewName() === 'List') {
 						let listInstance = Vtiger_List_Js.getInstance();
@@ -95,7 +85,6 @@ $.Class(
 							selected_ids: app.getRecordId()
 						};
 					}
-					postData.convertType = convertType;
 					postData.viewInfo = app.getViewName();
 					const aDeferred = $.Deferred();
 					const progressIndicatorElement = $.progressIndicator({
@@ -107,19 +96,18 @@ $.Class(
 					AppConnector.request($.extend(formData, postData)).done(
 						function (responseData) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							let parseResult = JSON.parse(responseData);
-							if (parseResult.result.redirect) {
-								window.location.href = parseResult.result.redirect;
+							if (responseData.result.redirect) {
+								window.location.href = responseData.result.redirect;
 							} else {
-								if (parseResult.result.createdRecords) {
+								if (responseData.result.createdRecords) {
 									Vtiger_Helper_Js.showMessage({
-										text: app.vtranslate(parseResult.result.createdRecords),
+										text: app.vtranslate(responseData.result.createdRecords),
 										type: 'success'
 									});
 								}
-								if (parseResult.result.error) {
+								if (responseData.result.error) {
 									Vtiger_Helper_Js.showMessage({
-										text: app.vtranslate(parseResult.result.error),
+										text: app.vtranslate(responseData.result.error),
 										type: 'error'
 									});
 								}
@@ -144,6 +132,7 @@ $.Class(
 			this.container = modalContainer;
 			this.registerChangeConvertType();
 			this.registerSubmitForm();
+			this.container.find('form.js-form-converter').validationEngine(app.validationEngineOptions);
 		}
 	}
 );

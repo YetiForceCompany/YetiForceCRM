@@ -28,9 +28,7 @@ class Token extends Base
 	 */
 	private $token;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function authorize()
 	{
 		$url = rtrim($this->config->get('url'), '/') . '/rest/V1/integration/admin/token';
@@ -38,17 +36,16 @@ class Token extends Base
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
 			->post($url, [
 				'timeout' => 0,
+				'http_errors' => false,
 				'json' => ['username' => $this->config->get('user_name'), 'password' => $this->config->get('password')]]);
 		\App\Log::endProfile("POST|Token::authorize|{$url}", 'App\Integrations\Magento');
 		if (200 !== $response->getStatusCode()) {
-			throw new AppException();
+			throw new AppException($response->getReasonPhrase(), $response->getStatusCode());
 		}
 		$this->token = \App\Json::decode((string) $response->getBody());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function request(string $method, string $action, array $params = []): string
 	{
 		$url = rtrim($this->config->get('url'), '/') . "/rest/$action";
@@ -58,10 +55,11 @@ class Token extends Base
 				'authorization' => 'Bearer ' . $this->token
 			],
 			'timeout' => 0,
+			'http_errors' => false,
 			'json' => $params]);
 		\App\Log::endProfile("{$method}|Token::request|{$url}", 'App\Integrations\Magento');
 		if (200 !== $response->getStatusCode()) {
-			throw new AppException();
+			throw new AppException($response->getReasonPhrase(), $response->getStatusCode());
 		}
 		return (string) $response->getBody();
 	}

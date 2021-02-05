@@ -28,6 +28,7 @@ class ModTracker
 	public static $TRANSFER_DELETE = 11;
 	public static $TRANSFER_UNLINK = 12;
 	public static $TRANSFER_LINK = 13;
+	public static $SHOW_HIDDEN_DATA = 14;
 
 	/**
 	 * Icon actions.
@@ -49,6 +50,7 @@ class ModTracker
 		11 => 'fas fa-trash-alt',
 		12 => 'fas fa-unlink',
 		13 => 'fas fa-link',
+		14 => 'fas fa-eye',
 	];
 
 	/**
@@ -70,7 +72,8 @@ class ModTracker
 		10 => '#000',
 		11 => '#000',
 		12 => '#000',
-		13 => '#000'
+		13 => '#000',
+		14 => '#000',
 	];
 
 	public static function getAllActionsTypes()
@@ -90,6 +93,7 @@ class ModTracker
 			static::$TRANSFER_DELETE => 'LBL_AT_TRANSFER_DELETE',
 			static::$TRANSFER_UNLINK => 'LBL_AT_TRANSFER_UNLINK',
 			static::$TRANSFER_LINK => 'LBL_AT_TRANSFER_LINK',
+			static::$SHOW_HIDDEN_DATA => 'LBL_SHOW_HIDDEN_DATA',
 		];
 	}
 

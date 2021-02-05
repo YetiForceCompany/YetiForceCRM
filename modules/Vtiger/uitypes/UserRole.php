@@ -11,9 +11,7 @@
 
 class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -25,9 +23,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$displayValue = \App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->getFieldModel()->getModuleName());
@@ -71,33 +67,25 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 			->createCommand()->queryAllByGroup();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/UserRole.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'c'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewTemplateName()
 	{
 		return 'Detail/Field/UserRole.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getOperatorTemplateName(string $operator = '')
 	{
 		if ('e' === $operator) {

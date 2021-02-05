@@ -25,19 +25,18 @@ class OSSMailScanner_SaveActions_Action extends \App\Controller\Action
 
 	public function process(App\Request $request)
 	{
-		$userid = $request->getInteger('userid');
-		$vale = $request->get('vale');
-		if ($userid) {
-			if ('null' != $vale) {
-				$vale = implode(',', $vale);
-			}
-			$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-			$OSSMailScannerModel->setActions($userid, $vale);
+		$moduleName = $request->getModule();
+		$userId = $request->getInteger('userid');
+		$vale = $request->getArray('vale');
+		if ($userId) {
+			$vale = implode(',', $vale);
+			$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$OSSMailScannerModel->setActions($userId, $vale);
 			$success = true;
-			$data = \App\Language::translate('JS_save_info', 'OSSMailScanner');
+			$data = \App\Language::translate('JS_save_info', $moduleName);
 		} else {
 			$success = false;
-			$data = 'Error: Brak userid';
+			$data = \App\Language::translate('LBL_NO_DATA', $moduleName);
 		}
 		$result = ['success' => $success, 'data' => $data];
 		$response = new Vtiger_Response();

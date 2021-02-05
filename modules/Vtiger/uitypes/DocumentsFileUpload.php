@@ -11,21 +11,19 @@
 
 class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/DocumentsFileUpload.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if ($rawText) {
+			return \App\Purifier::encodeHtml($value);
+		}
 		$truncateValue = \App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext'));
-
 		$truncateValue = \App\Purifier::encodeHtml($truncateValue);
 		if ($recordModel && !empty($value) && $recordModel->getValueByField('filestatus')) {
 			if ('I' === $recordModel->getValueByField('filelocationtype')) {
@@ -43,9 +41,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
 	{
 		$return = [];
@@ -76,9 +72,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 		return $return;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if (null === $value) {
@@ -92,9 +86,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 		return App\Purifier::decodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];

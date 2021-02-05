@@ -12,26 +12,24 @@ Vtiger_Edit_Js(
 	{},
 	{
 		differenceDays: function () {
-			var firstDate = jQuery('input[name="date_start"]');
-			var firstDateFormat = firstDate.data('date-format');
-			var firstDateValue = firstDate.val();
-			var secondDate = jQuery('input[name="due_date"]');
-			var secondDateFormat = secondDate.data('date-format');
-			var secondDateValue = secondDate.val();
-			var firstTime = jQuery('input[name="time_start"]');
-			var secondTime = jQuery('input[name="time_end"]');
-			var firstTimeValue = firstTime.val();
-			var secondTimeValue = secondTime.val();
-			var firstDateTimeValue = firstDateValue + ' ' + firstTimeValue;
-			var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
+			let firstDate = jQuery('input[name="date_start"]');
+			let firstDateFormat = firstDate.data('date-format');
+			let firstDateValue = firstDate.val();
+			let secondDate = jQuery('input[name="due_date"]');
+			let secondDateFormat = secondDate.data('date-format');
+			let secondDateValue = secondDate.val();
+			let firstTime = jQuery('input[name="time_start"]');
+			let secondTime = jQuery('input[name="time_end"]');
+			if (firstTime.length) {
+				firstDateValue = firstDateValue + ' ' + firstTime.val();
+			}
+			if (secondTime.length) {
+				secondDateValue = secondDateValue + ' ' + secondTime.val();
+			}
+			let firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateValue, firstDateFormat);
+			let secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateValue, secondDateFormat);
 
-			var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue, firstDateFormat);
-			var secondDateInstance = Vtiger_Helper_Js.getDateInstance(
-				secondDateTimeValue,
-				secondDateFormat
-			);
-
-			var timeBetweenDates = secondDateInstance - firstDateInstance;
+			let timeBetweenDates = secondDateInstance - firstDateInstance;
 			if (timeBetweenDates >= 0) {
 				return timeBetweenDates;
 			}

@@ -10,7 +10,7 @@
     "IGDNC_IGDNEXIST_HANDLER_DESC": "Block record adding/editing when the same Goods Dispatched Note Correction already exists",
     "IGRNC_IGRNEXIST_HANDLER": "Duplicate Goods Received Note Correction",
     "IGRNC_IGRNEXIST_HANDLER_DESC": "Block record adding/editing when the same Goods Received Note Correction already exists.",
-    "OSSTIMECONTROL_TIMECONTROL_HANDLER": "Validation the length working time",
+    "OSSTIMECONTROL_TIMECONTROL_HANDLER": "Working time validation, it cannot exceed 24 hours",
     "OSSTIMECONTROL_TIMECONTROL_HANDLER_DESC": "Work time limited to 24 hours"
   }
 }

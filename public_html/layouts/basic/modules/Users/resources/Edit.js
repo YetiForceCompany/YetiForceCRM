@@ -20,9 +20,7 @@ Vtiger_Edit_Js(
 			jQuery('[name="currency_decimal_separator"]', form).on('change', function (e) {
 				let element = jQuery(e.currentTarget);
 				let selectedValue = element.val();
-				let groupingSeparatorValue = jQuery('[name="currency_grouping_separator"]', form).data(
-					'selectedValue'
-				);
+				let groupingSeparatorValue = jQuery('[name="currency_grouping_separator"]', form).data('selectedValue');
 				if (groupingSeparatorValue == selectedValue) {
 					let message = app.vtranslate('JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME');
 					let params = {
@@ -32,9 +30,7 @@ Vtiger_Edit_Js(
 					Vtiger_Helper_Js.showMessage(params);
 					let previousSelectedValue = element.data('selectedValue');
 					element.find('option').removeAttr('selected');
-					element
-						.find('option[value="' + previousSelectedValue + '"]')
-						.attr('selected', 'selected');
+					element.find('option[value="' + previousSelectedValue + '"]').attr('selected', 'selected');
 					element.trigger('change');
 				} else {
 					element.data('selectedValue', selectedValue);
@@ -43,9 +39,7 @@ Vtiger_Edit_Js(
 			jQuery('[name="currency_grouping_separator"]', form).on('change', function (e) {
 				let element = jQuery(e.currentTarget);
 				let selectedValue = element.val();
-				let decimalSeparatorValue = jQuery('[name="currency_decimal_separator"]', form).data(
-					'selectedValue'
-				);
+				let decimalSeparatorValue = jQuery('[name="currency_decimal_separator"]', form).data('selectedValue');
 				if (decimalSeparatorValue == selectedValue) {
 					let message = app.vtranslate('JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME');
 					let params = {
@@ -55,9 +49,7 @@ Vtiger_Edit_Js(
 					Vtiger_Helper_Js.showMessage(params);
 					let previousSelectedValue = element.data('selectedValue');
 					element.find('option').removeAttr('selected');
-					element
-						.find('option[value="' + previousSelectedValue + '"]')
-						.attr('selected', 'selected');
+					element.find('option[value="' + previousSelectedValue + '"]').attr('selected', 'selected');
 					element.trigger('change');
 				} else {
 					element.data('selectedValue', selectedValue);
@@ -98,14 +90,9 @@ Vtiger_Edit_Js(
 				if (typeof thisInstance.hourFormatConditionMapping === 'undefined') {
 					return false;
 				}
-				let list =
-					thisInstance.hourFormatConditionMapping['hour_format'][hourFormatVal]['start_hour'];
-				startHourElement
-					.html(thisInstance.getHourValues(list, conditionStartSelected))
-					.trigger('change');
-				endHourElement
-					.html(thisInstance.getHourValues(list, conditionEndSelected))
-					.trigger('change');
+				let list = thisInstance.hourFormatConditionMapping['hour_format'][hourFormatVal]['start_hour'];
+				startHourElement.html(thisInstance.getHourValues(list, conditionStartSelected)).trigger('change');
+				endHourElement.html(thisInstance.getHourValues(list, conditionEndSelected)).trigger('change');
 			});
 		},
 		triggerHourFormatChangeEvent(form) {
@@ -127,11 +114,7 @@ Vtiger_Edit_Js(
 						enabled: true
 					}
 				});
-				if (
-					!record &&
-					jQuery('input[name="user_password"]').val() !=
-						jQuery('input[name="confirm_password"]').val()
-				) {
+				if (!record && jQuery('input[name="user_password"]').val() != jQuery('input[name="confirm_password"]').val()) {
 					app.showNotify(app.vtranslate('JS_REENTER_PASSWORDS'));
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					e.preventDefault();
@@ -192,6 +175,7 @@ Vtiger_Edit_Js(
 					module: app.getModuleName(),
 					action: 'VerifyData',
 					mode: 'validatePassword',
+					record: form.find('[name="record"]').val(),
 					password: form.find('[name="' + $(e.currentTarget).data('field') + '"]').val()
 				}).done(function (data) {
 					if (data.success && data.result) {

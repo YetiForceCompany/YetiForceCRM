@@ -10,9 +10,7 @@
  */
 class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if (\is_array($value)) {
@@ -21,9 +19,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::decodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
@@ -36,9 +32,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		return implode('##', $values);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		$hashValue = \is_array($value) ? implode('|', $value) : $value;
@@ -64,9 +58,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		$this->validate[$hashValue] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
@@ -116,9 +108,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		return implode(', ', $displayValue);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		$values = \App\Fields\SharedOwner::getById($record);
@@ -198,57 +188,43 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		return ['users' => $users, 'group' => $group];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/SharedOwner.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/SharedOwner.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isListviewSortable()
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getRangeValues()
 	{
 		return '65535';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny', 'om', 'ogr'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getOperatorTemplateName(string $operator = '')
 	{
 		return 'ConditionBuilder/Owner.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getValueToExport($value, int $recordId)
 	{
 		$values = [];

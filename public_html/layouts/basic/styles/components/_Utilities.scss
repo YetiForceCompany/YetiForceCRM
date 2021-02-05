@@ -48,7 +48,6 @@
 	font-size: calculate-rem(15px) !important;
 }
 
-
 .u-fs-19px {
 	font-size: calculate-rem(19px) !important;
 }
@@ -272,6 +271,10 @@
 	width: 10%;
 }
 
+.u-w-24per {
+	width: 24%;
+}
+
 .u-w-30per {
 	width: 30%;
 }
@@ -361,8 +364,21 @@
 	min-width: calculate-rem(650px) !important;
 }
 
+.u-min-w-150px {
+	min-width: calculate-rem(150px) !important;
+}
+
 .u-min-w-300px {
 	min-width: calculate-rem(300px) !important;
+}
+
+.u-table-min-width-10rem table tr > td,
+.u-table-min-width-10rem table tr > th {
+	min-width: 10rem;
+}
+.u-table-min-width-5rem table tr > td,
+.u-table-min-width-5rem table tr > th {
+	min-width: 5rem;
 }
 
 .u-w-1em {
@@ -379,6 +395,10 @@
 	.u-w-xs-down-100 {
 		width: 100%;
 	}
+}
+
+.u-max-w-40px {
+	max-width: calculate-rem(40px);
 }
 
 .u-max-w-150px {

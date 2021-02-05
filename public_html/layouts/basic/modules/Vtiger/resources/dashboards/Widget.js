@@ -109,16 +109,11 @@ jQuery.Class(
 						return App.Fields.Double.formatToDisplay(value, 0);
 					}
 					if (
-						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !==
-							'undefined' &&
-						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[
-							context.dataIndex
-						] !== 'undefined'
+						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
+						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
 					) {
 						// data presented in different format usually exists in alternative dataFormatted array
-						return context.chart.data.datasets[context.datasetIndex].dataFormatted[
-							context.dataIndex
-						];
+						return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
 					}
 					if (String(value).length > 0 && isNaN(Number(value))) {
 						return App.Fields.Double.formatToDisplay(value);
@@ -153,9 +148,7 @@ jQuery.Class(
 								0
 							);
 						}
-						return App.Fields.Double.formatToDisplay(
-							data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
-						);
+						return App.Fields.Double.formatToDisplay(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
 					}
 					// return raw data at idex
 					return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
@@ -165,16 +158,12 @@ jQuery.Class(
 					// get already formatted title if exists
 					if (
 						typeof data.datasets[tooltipItem.datasetIndex].titlesFormatted !== 'undefined' &&
-						data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !==
-							'undefined'
+						data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index] !== 'undefined'
 					) {
 						return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
 					}
 					// if there is no formatted title so try to format it
-					if (
-						String(data.labels[tooltipItem.index]).length > 0 &&
-						!isNaN(Number(data.labels[tooltipItem.index]))
-					) {
+					if (String(data.labels[tooltipItem.index]).length > 0 && !isNaN(Number(data.labels[tooltipItem.index]))) {
 						if (
 							typeof this.widgetData !== 'undefined' &&
 							typeof this.widgetData.valueType !== 'undefined' &&
@@ -235,11 +224,7 @@ jQuery.Class(
 					let getDatasetsMeta = function (chart) {
 						const datasets = [];
 						const data = chart.data;
-						if (
-							typeof data !== 'undefined' &&
-							typeof data.datasets !== 'undefined' &&
-							Array.isArray(data.datasets)
-						) {
+						if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
 							for (let i = 0, len = data.datasets.length; i < len; i++) {
 								const meta = chart.getDatasetMeta(i);
 								if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
@@ -269,33 +254,23 @@ jQuery.Class(
 						}
 						for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
 							const dataItem = metaData[iItem];
-							if (
-								typeof dataItem.$datalabels !== 'undefined' &&
-								typeof dataItem.$datalabels._model !== 'undefined'
-							) {
+							if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
 								let model = dataItem.$datalabels._model;
 								if (model !== null && typeof model !== 'undefined') {
 									dataset._models[iItem] = model;
-								} else if (
-									dataset._models[iItem] !== null &&
-									typeof dataset._models[iItem] !== 'undefined'
-								) {
+								} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
 									model = dataset._models[iItem];
 								} else {
 									return false;
 								}
 								const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
-								const labelHeight =
-									model.size.height + model.padding.height + model.borderWidth * 2;
+								const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
 								const barHeight = dataItem.height();
 								let threshold = 10;
 								if (typeof chart.config.options.verticalBarLabelsThreshold !== 'undefined') {
 									threshold = chart.config.options.verticalBarLabelsThreshold;
 								}
-								if (
-									dataItem._view.width + threshold < labelWidth ||
-									barHeight + threshold < labelHeight
-								) {
+								if (dataItem._view.width + threshold < labelWidth || barHeight + threshold < labelHeight) {
 									dataItem.$datalabels._model.positioner = () => {
 										return false;
 									};
@@ -315,11 +290,7 @@ jQuery.Class(
 					let getDatasetsMeta = function (chart) {
 						const datasets = [];
 						const data = chart.data;
-						if (
-							typeof data !== 'undefined' &&
-							typeof data.datasets !== 'undefined' &&
-							Array.isArray(data.datasets)
-						) {
+						if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
 							for (let i = 0, len = data.datasets.length; i < len; i++) {
 								const meta = chart.getDatasetMeta(i);
 								if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
@@ -349,33 +320,23 @@ jQuery.Class(
 						}
 						for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
 							const dataItem = metaData[iItem];
-							if (
-								typeof dataItem.$datalabels !== 'undefined' &&
-								typeof dataItem.$datalabels._model !== 'undefined'
-							) {
+							if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
 								let model = dataItem.$datalabels._model;
 								if (model !== null && typeof model !== 'undefined') {
 									dataset._models[iItem] = model;
-								} else if (
-									dataset._models[iItem] !== null &&
-									typeof dataset._models[iItem] !== 'undefined'
-								) {
+								} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
 									model = dataset._models[iItem];
 								} else {
 									return false;
 								}
 								const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
-								const labelHeight =
-									model.size.height + model.padding.height + model.borderWidth * 2;
+								const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
 								const barWidth = dataItem.width;
 								let threshold = 10;
 								if (typeof chart.config.options.horizontalBarLabelsThreshold !== 'undefined') {
 									threshold = chart.config.options.horizontalBarLabelsThreshold;
 								}
-								if (
-									dataItem._view.height + threshold < labelHeight ||
-									barWidth + threshold < labelWidth
-								) {
+								if (dataItem._view.height + threshold < labelHeight || barWidth + threshold < labelWidth) {
 									dataItem.$datalabels._model.positioner = () => {
 										return false;
 									};
@@ -459,10 +420,7 @@ jQuery.Class(
 											// recalculate positions for smooth animation (for all datasets)
 											chart.data.datasets.forEach((dataset, index) => {
 												dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-													metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(
-														index,
-														dataIndex
-													);
+													metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
 													metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
 													metaDataItem._view.width =
 														(metaDataItem._xScale.width / dataset._meta[prop].data.length) *
@@ -524,10 +482,7 @@ jQuery.Class(
 											chart.data.datasets.forEach((dataset, index) => {
 												dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
 													if (typeof metaDataItem._xScale !== 'undefined') {
-														metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(
-															index,
-															dataIndex
-														);
+														metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
 														metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
 														metaDataItem._view.width =
 															(metaDataItem._xScale.width / dataset._meta[prop].data.length) *
@@ -562,9 +517,7 @@ jQuery.Class(
 			if (splitted.length !== 2) {
 				app.errorLog(
 					new Error(
-						"Function replacement string should look like 'function:path.to.fn' not like '" +
-							replacementStr +
-							"'"
+						"Function replacement string should look like 'function:path.to.fn' not like '" + replacementStr + "'"
 					)
 				);
 			}
@@ -614,11 +567,7 @@ jQuery.Class(
 					if (propertyName.substr(0, 1) === '_') {
 						result[propertyName] = value;
 					} else if (this.isReplacementString(value)) {
-						result[propertyName] = this.getFunctionFromReplacementString(
-							value,
-							afterInit,
-							original
-						);
+						result[propertyName] = this.getFunctionFromReplacementString(value, afterInit, original);
 					} else if (Array.isArray(value)) {
 						result[propertyName] = this.parseOptionsArray(value, original, afterInit);
 					} else if (typeof value === 'object' && value !== null) {
@@ -660,9 +609,7 @@ jQuery.Class(
 			} else if (typeof options === 'object' && options !== null) {
 				return this.parseOptionsObject(options, original, afterInit);
 			}
-			app.errorLog(
-				new Error('Unknown options format [' + typeof options + '] - should be object.')
-			);
+			app.errorLog(new Error('Unknown options format [' + typeof options + '] - should be object.'));
 		},
 		/**
 		 * Remove 'Divided' from chart sub type
@@ -1376,10 +1323,7 @@ jQuery.Class(
 			return this;
 		},
 		isEmptyData: function isEmptyData() {
-			return (
-				this.getContainer().find('.widgetData').length === 0 ||
-				this.getContainer().find('.noDataMsg').length > 0
-			);
+			return this.getContainer().find('.widgetData').length === 0 || this.getContainer().find('.noDataMsg').length > 0;
 		},
 		getUserDateFormat: function getUserDateFormat() {
 			return CONFIG.dateFormat;
@@ -1389,10 +1333,7 @@ jQuery.Class(
 				useCache = false;
 			}
 			if (this.plotContainer === false || !useCache) {
-				this.plotContainer = this.getContainer()
-					.find('.widgetChartContainer')
-					.find('canvas')
-					.get(0);
+				this.plotContainer = this.getContainer().find('.widgetChartContainer').find('canvas').get(0);
 			}
 			return this.plotContainer;
 		},
@@ -1417,8 +1358,7 @@ jQuery.Class(
 			const widget = container.closest('.dashboardWidget');
 			const content = widget.find('.dashboardWidgetContent');
 			const footer = widget.find('.dashboardWidgetFooter');
-			let adjustedHeight =
-				widget.innerHeight() - widget.find('.dashboardWidgetHeader').outerHeight();
+			let adjustedHeight = widget.innerHeight() - widget.find('.dashboardWidgetHeader').outerHeight();
 			if (footer.length) {
 				adjustedHeight -= footer.outerHeight();
 			}
@@ -1599,7 +1539,7 @@ jQuery.Class(
 				a.remove();
 			});
 			container.find('.js-widget-quick-create').on('click', function (e) {
-				Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
+				App.Components.QuickCreate.createRecord($(this).data('module-name'));
 			});
 		},
 		registerChangeSorting: function registerChangeSorting() {
@@ -1614,9 +1554,7 @@ jQuery.Class(
 		},
 		registerWidgetSwitch: function registerWidgetSwitch() {
 			var thisInstance = this;
-			var switchButtons = this.getContainer().find(
-				'.dashboardWidgetHeader .js-switch--calculations'
-			);
+			var switchButtons = this.getContainer().find('.dashboardWidgetHeader .js-switch--calculations');
 			thisInstance.setUrlSwitch(switchButtons);
 			switchButtons.on('change', (e) => {
 				var currentElement = $(e.currentTarget);
@@ -1717,14 +1655,9 @@ jQuery.Class(
 			refreshContainer.progressIndicator();
 			if (
 				this.paramCache &&
-				(additionalWidgetFilters.length ||
-					widgetFilters.length ||
-					parent.find('.listSearchContributor'))
+				(additionalWidgetFilters.length || widgetFilters.length || parent.find('.listSearchContributor'))
 			) {
-				thisInstance.setFilterToCache(
-					params.url ? params.url : params,
-					params.data ? params.data : {}
-				);
+				thisInstance.setFilterToCache(params.url ? params.url : params, params.data ? params.data : {});
 			}
 			AppConnector.request(params)
 				.done((data) => {
@@ -1810,10 +1743,7 @@ jQuery.Class(
 						searchOperator = 'e';
 					} else if (fieldInfo.type === 'date' || fieldInfo.type === 'datetime') {
 						searchOperator = 'bw';
-					} else if (
-						fieldInfo.type === 'multipicklist' ||
-						fieldInfo.type === 'categoryMultipicklist'
-					) {
+					} else if (fieldInfo.type === 'multipicklist' || fieldInfo.type === 'categoryMultipicklist') {
 						searchOperator = 'c';
 					}
 					searchInfo.push(fieldName);
@@ -1954,10 +1884,7 @@ jQuery.Class(
 		 * @return {Chart} chartInstance
 		 */
 		loadChart: function loadChart() {
-			if (
-				typeof this.chartData === 'undefined' ||
-				typeof this.getChartContainer() === 'undefined'
-			) {
+			if (typeof this.chartData === 'undefined' || typeof this.getChartContainer() === 'undefined') {
 				return false;
 			}
 			this.getWidgetData(); // load widget data for label formatters
@@ -2050,10 +1977,7 @@ jQuery.Class(
 		 * @return {Object}
 		 */
 		loadPlugins: function loadPlugins(chartData) {
-			return this.mergeOptionsArray(
-				this.getPlugins(chartData),
-				this.getDefaultPlugins(this.getSubType(), chartData)
-			);
+			return this.mergeOptionsArray(this.getPlugins(chartData), this.getDefaultPlugins(this.getSubType(), chartData));
 		},
 		/**
 		 * Format tooltip titles to user number format and push this modification to titlesFormatted
@@ -2149,8 +2073,7 @@ jQuery.Class(
 					if (
 						typeof from === 'object' &&
 						from !== null &&
-						(typeof to[index] === 'undefined' ||
-							(typeof to[index] === 'object' && to[index] !== null))
+						(typeof to[index] === 'undefined' || (typeof to[index] === 'object' && to[index] !== null))
 					) {
 						return this.mergeOptionsObject(to[index], from);
 					}
@@ -2178,8 +2101,7 @@ jQuery.Class(
 					} else if (
 						typeof from[key] === 'object' &&
 						from[key] !== null &&
-						(!to.hasOwnProperty(key) ||
-							(typeof to[key] === 'object' && to[key] !== null && !Array.isArray(to[key])))
+						(!to.hasOwnProperty(key) || (typeof to[key] === 'object' && to[key] !== null && !Array.isArray(to[key])))
 					) {
 						// if property is an object - merge recursively
 						to[key] = this.mergeOptionsObject(to[key], from[key]);
@@ -2456,13 +2378,10 @@ YetiForce_Widget_Js(
 			defaultFirstHour = explodedTime['0'];
 			var defaultDate = app.getMainParams('defaultDate');
 			if (this.paramCache && defaultDate != moment().format('YYYY-MM-DD')) {
-				defaultDate =
-					moment(defaultDate).format('D') == 1
-						? moment(defaultDate)
-						: moment(defaultDate).add(1, 'M');
+				defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
 			}
 			container.find('.js-widget-quick-create').on('click', function (e) {
-				Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
+				App.Components.QuickCreate.createRecord($(this).data('module-name'));
 			});
 			thisInstance.getCalendarView().fullCalendar({
 				header: {
@@ -2543,19 +2462,14 @@ YetiForce_Widget_Js(
 						}
 					};
 					params.callbackFunction = function () {
-						thisInstance
-							.getCalendarView()
-							.closest('.dashboardWidget')
-							.find('a[name="drefresh"]')
-							.trigger('click');
+						thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
 					};
-					Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
+					App.Components.QuickCreate.createRecord('Calendar', params);
 				});
 			var switchBtn = container.find('.js-switch--calendar');
 			switchBtn.on('change', (e) => {
 				const currentTarget = $(e.currentTarget);
-				if (typeof currentTarget.data('on-text') !== 'undefined')
-					container.find('.widgetFilterSwitch').val('current');
+				if (typeof currentTarget.data('on-text') !== 'undefined') container.find('.widgetFilterSwitch').val('current');
 				else if (typeof currentTarget.data('off-text') !== 'undefined')
 					container.find('.widgetFilterSwitch').val('history');
 				this.refreshWidget();
@@ -2630,9 +2544,7 @@ YetiForce_Widget_Js(
 							var status = parent.find('.widgetFilterSwitch').data();
 							url += '["activitystatus","e","' + status[params.time] + '"],';
 						}
-						var date = moment($(this).data('date')).format(
-							thisInstance.getUserDateFormat().toUpperCase()
-						);
+						var date = moment($(this).data('date')).format(thisInstance.getUserDateFormat().toUpperCase());
 						window.location.href =
 							url +
 							'["activitytype","e","' +
@@ -2760,11 +2672,7 @@ YetiForce_Widget_Js(
 	}
 );
 YetiForce_CalendarActivities_Widget_Js('YetiForce_CreatedNotMineActivities_Widget_Js', {}, {});
-YetiForce_CalendarActivities_Widget_Js(
-	'YetiForce_CreatedNotMineOverdueActivities_Widget_Js',
-	{},
-	{}
-);
+YetiForce_CalendarActivities_Widget_Js('YetiForce_CreatedNotMineOverdueActivities_Widget_Js', {}, {});
 YetiForce_CalendarActivities_Widget_Js('YetiForce_OverDueActivities_Widget_Js', {}, {});
 YetiForce_CalendarActivities_Widget_Js('YetiForce_OverdueActivities_Widget_Js', {}, {});
 YetiForce_Widget_Js(
@@ -2852,7 +2760,7 @@ YetiForce_Bar_Widget_Js(
 							return (
 								data.datasets[tooltipItem.datasetIndex].original_label +
 								': ' +
-								app.formatToHourText(tooltipItem.yLabel)
+								data.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index]
 							);
 						},
 						title: function (tooltipItems, data) {
@@ -2866,7 +2774,7 @@ YetiForce_Bar_Widget_Js(
 			return {
 				datalabels: {
 					formatter: function datalabelsFormatter(value, context) {
-						return app.formatToHourText(value);
+						return context.dataset.dataFormatted[context.dataIndex];
 					}
 				}
 			};
@@ -2912,13 +2820,7 @@ YetiForce_Bar_Widget_Js(
 					parseData = thisInstance.parseChartData(data[index], chartData);
 					chartData[0].push(parseData[0]);
 					chartData[3].push(parseData[3]);
-					chartData = [
-						chartData[0],
-						parseData[1],
-						parseData[2],
-						chartData[3],
-						['#CC6600', '#208CB3']
-					];
+					chartData = [chartData[0], parseData[1], parseData[2], chartData[3], ['#CC6600', '#208CB3']];
 				}
 			} else {
 				parseData = thisInstance.parseChartData(data, chartData);
@@ -3324,9 +3226,7 @@ YetiForce_Widget_Js(
 					url += '["assigned_user_id","e","' + owner.val() + '"],';
 				}
 				url +=
-					'["projecttaskstatus","e","' +
-					encodeURIComponent(container.find('[name="status"]').data('value')) +
-					'"]]]';
+					'["projecttaskstatus","e","' + encodeURIComponent(container.find('[name="status"]').data('value')) + '"]]]';
 				app.openUrl(url);
 			});
 		}
@@ -3345,9 +3245,7 @@ YetiForce_Widget_Js(
 		postRefreshWidget: function () {
 			this._super();
 			this.registerContentEvents(this.getContainer());
-			app.registerPopoverEllipsisIcon(
-				this.getContainer().find('.js-popover-tooltip--ellipsis-icon')
-			);
+			app.registerPopoverEllipsisIcon(this.getContainer().find('.js-popover-tooltip--ellipsis-icon'));
 		},
 		registerEvents: function () {
 			const container = this.getContainer();
@@ -3359,9 +3257,7 @@ YetiForce_Widget_Js(
 				let widgetData = JSON.parse(container.find('.js-widget-data').val());
 				if (widgetData) {
 					for (let i in widgetData.actions) {
-						modal
-							.find('.js-tracker-action[value="' + widgetData.actions[i] + '"]')
-							.prop('checked', true);
+						modal.find('.js-tracker-action[value="' + widgetData.actions[i] + '"]').prop('checked', true);
 					}
 					modal.find('[name="owner"]').val(widgetData.owner);
 					modal.find('[name="historyOwner"]').val(widgetData.historyOwner);
@@ -3429,9 +3325,7 @@ YetiForce_Widget_Js(
 							data.on('click', '.showMoreHistory', (e) => {
 								AppConnector.request(e.currentTarget.dataset.url).done((result) => {
 									$(e.target).parent().remove();
-									data
-										.find('.modal-body')
-										.append($(result).filter('.modal-body').get(0).childNodes);
+									data.find('.modal-body').append($(result).filter('.modal-body').get(0).childNodes);
 								});
 							});
 						});

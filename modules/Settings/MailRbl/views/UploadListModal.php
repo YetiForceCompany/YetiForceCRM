@@ -15,19 +15,13 @@
  */
 class Settings_MailRbl_UploadListModal_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalSize = 'modal-lg';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $showFooter = false;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->qualifiedModuleName = $request->getModule(false);
@@ -35,9 +29,7 @@ class Settings_MailRbl_UploadListModal_View extends \App\Controller\ModalSetting
 		parent::preProcessAjax($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

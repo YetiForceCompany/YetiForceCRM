@@ -23,18 +23,22 @@ Vtiger_Detail_Js(
 		 */
 		displayHierarchyResponseData: function (data) {
 			let callbackFunction = function () {
-				app.showScrollBar(jQuery('#hierarchyScroll'), {
+				app.showScrollBar($('#hierarchyScroll'), {
 					height: '300px',
 					railVisible: true,
 					size: '6px'
 				});
 			};
-			app.showModalWindow(data, function () {
-				if (typeof callbackFunction == 'function' && $('#hierarchyScroll').height() > 300) {
+			app.showModalWindow(data, function (modalContainer) {
+				App.Components.Scrollbar.xy($('#hierarchyScroll', modalContainer));
+				if (typeof callbackFunction == 'function' && $('#hierarchyScroll', modalContainer).height() > 300) {
 					callbackFunction();
 				}
 			});
 		},
+		/**
+		 * Registers read count of hierarchy if it is possoble
+		 */
 		registerHierarchyRecordCount: function () {
 			let hierarchyButton = $('.js-detail-hierarchy'),
 				params = {
@@ -46,7 +50,7 @@ Vtiger_Detail_Js(
 			if (hierarchyButton.length) {
 				AppConnector.request(params).then(function (response) {
 					if (response.success) {
-						hierarchyButton.append(' <span class="badge">' + response.result + '</span>');
+						$('.hierarchy .badge').html(response.result);
 					}
 				});
 			}
@@ -59,7 +63,7 @@ Vtiger_Detail_Js(
 					view: 'Hierarchy',
 					record: app.getRecordId()
 				};
-			hierarchyButton.on('click', '.js-detail__icon, .js-detail-hierarchy', function () {
+			hierarchyButton.on('click', '.js-detail-hierarchy', function () {
 				let progressIndicatorElement = $.progressIndicator({
 					position: 'html',
 					blockInfo: {

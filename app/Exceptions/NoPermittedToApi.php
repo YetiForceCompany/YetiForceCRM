@@ -26,7 +26,7 @@ class NoPermittedToApi extends Security
 				'ip' => \App\TextParser::textTruncate(\App\RequestUtil::getRemoteIP(), 100, false),
 				'url' => \App\TextParser::textTruncate(\App\RequestUtil::getBrowserInfo()->url, 300, false),
 				'agent' => \App\TextParser::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),
-				'request' => json_encode($_REQUEST),
+				'request' => json_encode((new \App\Anonymization())->setModuleName($request->getModule())->setData($_REQUEST)->anonymize()->getData()),
 			])->execute();
 	}
 

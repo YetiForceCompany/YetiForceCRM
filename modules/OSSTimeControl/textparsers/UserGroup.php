@@ -34,7 +34,7 @@ class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 			$html .= '<tr>';
 			$html .= "<td style=\"{$bodyStyle}\">" . $user . '</td>';
 			$html .= "<td style=\"{$bodyStyle} text-align:center;\">" . $data['role'] . '</td>';
-			$html .= "<td style=\"{$bodyStyle} text-align:center;\">" . \App\Fields\RangeTime::formatHourToDisplay($data['time'], 'short') . '</td>';
+			$html .= "<td style=\"{$bodyStyle} text-align:center;\">" . \App\Fields\RangeTime::displayElapseTime($data['time']) . '</td>';
 			$html .= '</tr>';
 		}
 		return $html . '</tbody></table>';

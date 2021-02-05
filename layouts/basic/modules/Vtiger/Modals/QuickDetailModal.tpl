@@ -51,10 +51,35 @@
 								{foreach key=key item=WIDGET from=$WIDGETS}
 									<div class="quickDetailWidget">
 										{if !empty($WIDGET['title'])}
-											<h4>{$WIDGET['title']}</h4>
+											{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId($WIDGET['widgetData']['id']|cat:_)}"}
+											<div class="c-detail-widget js-detail-widget" data-name="{$WIDGET['title']}" data-module-name="{$RELATED_MODULE_NAME}" {if isset($WIDGET['widgetData']['data']['relation_id'])} data-relation-id="{$WIDGET['widgetData']['data']['relation_id']}" {/if} data-type="{$WIDGET['widgetData']['type']}" data-id="{$WIDGET['widgetData']['id']}" data-js="container">
+												<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['widgetData']['url'])}" data-name="{$WIDGET['title']}" data-type="{$WIDGET['widgetData']['type']}" data-id="{$WIDGET['widgetData']['id']}">
+													<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0" data-js="container|value">
+														<div class="c-detail-widget__header__container d-flex align-items-center py-1">
+															<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse" data-target="#{$WIDGET_UID}-collapse" aria-expanded="true" aria-controls="{$WIDGET_UID}-collapse">
+																<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+															</div>
+															<div class="c-detail-widget__header__title">
+																{if $WIDGET['widgetData']['label']}
+																	{assign var="TITLE" value=\App\Language::translate($WIDGET['widgetData']['label'], $MODULE_NAME)}
+																{else}
+																	{assign var="TITLE" value=$WIDGET['title']}
+																{/if}
+																<h5 class="mb-0 text-truncate modCT_{\App\Module::getModuleName($WIDGET['widgetData']['tabid'])}">
+																	{$TITLE}
+																</h5>
+															</div>
+														</div>
+													</div>
+													<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse pt-0" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['widgetData']['id']}" aria-labelledby="{$WIDGET_UID}">
+														<div>{$WIDGET['content']}</div>
+													</div>
+												</div>
+											</div>
+										{else}
+											<div>{$WIDGET['content']}</div>
 										{/if}
-										<div>{$WIDGET['content']}</div>
-									</div>
+									 </div>
 								{/foreach}
 							</div>
 						</div>

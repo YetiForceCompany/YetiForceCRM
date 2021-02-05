@@ -127,13 +127,7 @@ Vtiger_AdvanceFilter_Js(
 		 */
 		getValues: function () {
 			const thisInstance = this;
-			let fieldList = new Array(
-					'columnname',
-					'comparator',
-					'value',
-					'valuetype',
-					'column_condition'
-				),
+			let fieldList = new Array('columnname', 'comparator', 'value', 'valuetype', 'column_condition'),
 				values = {},
 				columnIndex = 0,
 				conditionGroups = jQuery('.conditionGroup', this.getFilterContainer());
@@ -171,20 +165,12 @@ Vtiger_AdvanceFilter_Js(
 									}
 								}
 								rowValues[field] = newValuesArr.join(',');
-							} else if (
-								field === 'value' &&
-								valueSelectElement.is('select') &&
-								fieldType === 'picklist'
-							) {
+							} else if (field === 'value' && valueSelectElement.is('select') && fieldType === 'picklist') {
 								rowValues[field] = valueSelectElement.val();
 							} else if (
 								field === 'value' &&
 								valueSelectElement.is('select') &&
-								$.inArray(fieldType, [
-									'multipicklist',
-									'multiReferenceValue',
-									'categoryMultipicklist'
-								]) > -1
+								$.inArray(fieldType, ['multipicklist', 'multiReferenceValue', 'categoryMultipicklist']) > -1
 							) {
 								let value = valueSelectElement.val();
 								if (value == null) {
@@ -232,9 +218,7 @@ Vtiger_AdvanceFilter_Js(
 					values[index + 1]['columns'] = iterationValues;
 				}
 				if (groupElement.find('div.groupCondition').length > 0) {
-					values[index + 1]['condition'] = groupElement
-						.find('div.groupCondition [name="condition"]')
-						.val();
+					values[index + 1]['condition'] = groupElement.find('div.groupCondition [name="condition"]').val();
 				}
 			});
 			return values;

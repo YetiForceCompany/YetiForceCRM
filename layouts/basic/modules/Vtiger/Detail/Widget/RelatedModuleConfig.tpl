@@ -52,12 +52,12 @@
 								<div class="col-md-7 py-1">
 									<select name="relation_id"{if $RELATED_ID} readonly="readonly"{/if} class="select2 form-control form-control-sm" data-validation-engine="validate[required]">
 										{foreach from=$RELATEDMODULES item=item key=key}
-											<option value="{$item['relation_id']}" {if $RELATED_ID == $item['relation_id']}selected{/if} data-relatedmodule="{$item['related_tabid']}">
+											<option value="{$item['relation_id']}" {if $RELATED_ID == $item['relation_id']}selected{/if} data-relatedmodule="{$item['related_tabid']}" data-module-name="{$item['name']}">
 												{\App\Language::translate($item['label'], $item['name'])}
 											</option>
 										{/foreach}
 									</select>
-									<input name="relatedmodule" type="hidden" value="{$RELATED_MODULE_ID}"/>
+									<input name="relatedmodule" type="hidden" value="{$RELATED_MODULE_ID}" data-module-name="{\App\Module::getModuleName($RELATED_MODULE_ID)}"/>
 								</div>
 							</div>
 							<div class="form-group form-group-sm row">
@@ -230,6 +230,23 @@
 									<select name="checkbox" class="select2 form-control form-control-sm">
 										<option value="-">{\App\Language::translate('None', $QUALIFIED_MODULE)}</option>
 									</select>
+								</div>
+							</div>
+							<div class="form-group form-group-sm row relatedContainer">
+								<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_SORTING_SETTINGS', $QUALIFIED_MODULE)}:</label>
+								<div class="col-md-7 py-1">
+									{if empty($WIDGETINFO['data']['orderby'])}
+										{assign var=ORDER_BY value=[]}
+									{else}
+										{assign var=ORDER_BY value=$WIDGETINFO['data']['orderby']}
+									{/if}
+									<input type="hidden" id="orderBy" name="orderby" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
+									<button type="button"
+										class="ml-2 btn btn-info btn-xs js-sort-modal"
+										data-url="index.php?view=SortOrderModal&fromView=Detail"
+										data-modalid="sortOrderModal-{\App\Layout::getUniqueId()}">
+										<span class="fas fa-sort"></span>
+									</button>
 								</div>
 							</div>
 						</div>

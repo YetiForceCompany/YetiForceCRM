@@ -10,9 +10,7 @@
  */
 class Vtiger_RangeTime_UIType extends Vtiger_Integer_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$mode = 'short';
@@ -27,25 +25,19 @@ class Vtiger_RangeTime_UIType extends Vtiger_Integer_UIType
 		return \App\Purifier::encodeHtml(App\Fields\RangeTime::formatToRangeText($value, $mode, null !== $value, $unit));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isActiveSearchView()
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return ['integer'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['y', 'ny'];

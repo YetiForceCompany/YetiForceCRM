@@ -117,7 +117,7 @@ class RecordStatus
 		foreach (Fields\Picklist::getValues($fieldName) as $value) {
 			if (isset($value['record_state']) && $state === $value['record_state']) {
 				$values[$value[$primaryKey]] = $value['picklistValue'];
-			} elseif (null === $state) {
+			} elseif (null === $state && isset($value['record_state'])) {
 				$values[$value[$primaryKey]] = $value['record_state'];
 			}
 		}

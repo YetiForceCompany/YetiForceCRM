@@ -68,6 +68,7 @@ jQuery.Class(
 								jQuery.extend(postData, {
 									field: data.find('#field').val(),
 									template: data.find('#template').val(),
+									mailNotes: data.find('#mail_notes').val(),
 									action: 'Mail',
 									mode: 'sendMails'
 								});
@@ -95,9 +96,32 @@ jQuery.Class(
 		 */
 		triggerSendSms: function (massActionUrl, module) {
 			let listInstance = Vtiger_List_Js.getInstance();
-			let validationResult = listInstance.checkListRecordSelected();
-			if (validationResult != true) {
+			if (listInstance.checkListRecordSelected() != true) {
 				Vtiger_List_Js.triggerMassAction(massActionUrl);
+			} else {
+				listInstance.noRecordSelectedAlert();
+			}
+		},
+		triggerMassQuickCreate: function (moduleName, data) {
+			let listInstance = Vtiger_List_Js.getInstance();
+			if (listInstance.checkListRecordSelected() != true) {
+				let progress = $.progressIndicator({ blockInfo: { enabled: true } });
+				let params = {
+					callbackFunction: function () {},
+					noCache: true,
+					data: $.extend(data, listInstance.getSearchParams(), { sourceView: 'ListView' })
+				};
+				App.Components.QuickCreate.getForm(
+					'index.php?module=' + moduleName + '&view=MassQuickCreateModal&sourceModule=' + app.getModuleName(),
+					moduleName,
+					params
+				).done((data) => {
+					progress.progressIndicator({
+						mode: 'hide'
+					});
+					App.Components.QuickCreate.showModal(data, params);
+					app.registerEventForClockPicker();
+				});
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}
@@ -597,10 +621,7 @@ jQuery.Class(
 						$('#listViewEntriesMainCheckBox').prop('checked', false);
 						$('.listViewEntriesCheckBox').each(function (index, element) {
 							if ($.inArray($(element).val(), excludedIds) != -1) {
-								$(element)
-									.prop('checked', false)
-									.closest('tr')
-									.removeClass('highlightBackgroundColor');
+								$(element).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 							}
 						});
 					}
@@ -853,9 +874,7 @@ jQuery.Class(
 			massEditContainer.find('.selectRow').on('change', function (e) {
 				let element = jQuery(e.currentTarget);
 				let blockElement = element.closest('.js-form-row-container').find('.fieldValue');
-				let fieldElement = blockElement.find(
-					'[data-validation-engine],[data-invalid-validation-engine]'
-				);
+				let fieldElement = blockElement.find('[data-validation-engine],[data-invalid-validation-engine]');
 				let fieldInfo = fieldElement.data('fieldinfo');
 				if (element.prop('checked')) {
 					thisInstance.activeFieldValidation(fieldElement);
@@ -1016,13 +1035,7 @@ jQuery.Class(
 						newPageNumber = parseInt(element.val()),
 						totalPages = parseInt(listViewPageDiv.find('.js-page--total').text());
 					if (newPageNumber > totalPages) {
-						element.validationEngine(
-							'showPrompt',
-							app.vtranslate('JS_PAGE_NOT_EXIST'),
-							'',
-							'topLeft',
-							true
-						);
+						element.validationEngine('showPrompt', app.vtranslate('JS_PAGE_NOT_EXIST'), '', 'topLeft', true);
 						return;
 					}
 					if (newPageNumber === currentPageNumber) {
@@ -1127,9 +1140,7 @@ jQuery.Class(
 			} else if (event.type === 'mouseup') {
 				selectOptionId = event.currentTarget.id.split('-').pop();
 				selectOption = $(`#filterOptionId_${selectOptionId}`);
-				this.getFilterSelectElement()
-					.val(event.currentTarget.id.split('-').pop())
-					.trigger('change');
+				this.getFilterSelectElement().val(event.currentTarget.id.split('-').pop()).trigger('change');
 			}
 
 			if ($(`.nav-item[data-cvid='${selectOptionId}'] .nav-link`).tab('show').length === 0) {
@@ -1181,21 +1192,14 @@ jQuery.Class(
 			// select change event must be replaced by click to avoid triggering while clicking on options' buttons
 			filterSelect.on('click', 'option', this.registerChangeCustomFilterEvent.bind(this));
 			// event triggered by tab filter click
-			this.getFilterBlock().on(
-				'mouseup',
-				'.select2-results__option',
-				this.registerChangeCustomFilterEvent.bind(this)
-			);
+			this.getFilterBlock().on('mouseup', '.select2-results__option', this.registerChangeCustomFilterEvent.bind(this));
 			this.getListViewTopMenuContainer()
 				.find('.js-filter-tab')
 				.on('click', (e) => {
 					const cvId = $(e.currentTarget).data('cvid');
 					let selectOption = filterSelect.find(`[value=${cvId}]`);
 					selectOption.trigger('click');
-					$('#select2-customFilter-container span')
-						.contents()
-						.last()
-						.replaceWith(selectOption.text());
+					$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
 					filterSelect.val(cvId).trigger('change');
 				});
 		},
@@ -1254,10 +1258,7 @@ jQuery.Class(
 				} else {
 					jQuery('#selectAllMsgDiv').hide();
 					jQuery('.listViewEntriesCheckBox').each(function (index, element) {
-						jQuery(this)
-							.prop('checked', false)
-							.closest('tr')
-							.removeClass('highlightBackgroundColor');
+						jQuery(this).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 						if (selectedIds == 'all') {
 							excludedIds.push(jQuery(element).val());
 							selectedIds = 'all';
@@ -1427,9 +1428,7 @@ jQuery.Class(
 					Vtiger_Helper_Js.showConfirmationBox({
 						message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER')
 					}).done((e) => {
-						app.openUrlMethodPost(
-							thisInstance.getSelectOptionFromChosenOption(liElement).data('deleteurl')
-						);
+						app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('deleteurl'));
 					});
 					event.stopPropagation();
 				});
@@ -1446,9 +1445,7 @@ jQuery.Class(
 					//to close the dropdown
 					thisInstance.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
-					app.openUrlMethodPost(
-						thisInstance.getSelectOptionFromChosenOption(liElement).data('approveurl')
-					);
+					app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('approveurl'));
 					event.stopPropagation();
 				});
 			}
@@ -1464,9 +1461,7 @@ jQuery.Class(
 					//to close the dropdown
 					thisInstance.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
-					app.openUrlMethodPost(
-						thisInstance.getSelectOptionFromChosenOption(liElement).data('denyurl')
-					);
+					app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('denyurl'));
 					event.stopPropagation();
 				});
 			}
@@ -1486,25 +1481,17 @@ jQuery.Class(
 								currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'
 							}"></span>
 					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate" data-js="click"
-						  class="fas fa-retweet mr-1 js-filter-duplicate ${
-								$('#createFilter').length !== 0 ? '' : 'd-none'
-							}"></span>
+						  class="fas fa-retweet mr-1 js-filter-duplicate ${$('#createFilter').length !== 0 ? '' : 'd-none'}"></span>
 					<span title="${app.vtranslate('JS_EDIT')}" data-value="edit" data-js="click"
-						  class="fas fa-pencil-alt mr-1 js-filter-edit ${
-								currentOptionElement.data('editable') === 1 ? '' : 'd-none'
-							}"></span>
+						  class="fas fa-pencil-alt mr-1 js-filter-edit ${currentOptionElement.data('editable') === 1 ? '' : 'd-none'}"></span>
 					<span title="${app.vtranslate('JS_DELETE')}" data-value="delete" data-js="click"
-						  class="fas fa-trash-alt mr-1 js-filter-delete ${
-								currentOptionElement.data('deletable') === 1 ? '' : 'd-none'
-							}"></span>
+						  class="fas fa-trash-alt mr-1 js-filter-delete ${currentOptionElement.data('deletable') === 1 ? '' : 'd-none'}"></span>
 					<span title="${app.vtranslate('JS_DENY')}" data-value="deny" data-js="click"
 						  class="fas fa-exclamation-circle mr-1 js-filter-deny ${
 								currentOptionElement.data('public') === 1 ? '' : 'd-none'
 							}"></span>
 					<span title="${app.vtranslate('JS_APPROVE')}" data-value="approve" data-js="click"
-						  class="fas fa-check mr-1 js-filter-approve ${
-								currentOptionElement.data('pending') === 1 ? '' : 'd-none'
-							}"></span>
+						  class="fas fa-check mr-1 js-filter-approve ${currentOptionElement.data('pending') === 1 ? '' : 'd-none'}"></span>
 				</span>`);
 			template.appendTo(liElement.find('.js-filter__title'));
 		},
@@ -1514,20 +1501,16 @@ jQuery.Class(
 		registerCustomFilterOptionsHoverEvent: function () {
 			let filterBlock = this.getFilterBlock();
 			if (filterBlock != false) {
-				filterBlock.on(
-					'mouseenter mouseleave',
-					'li.select2-results__option[role="option"]',
-					(event) => {
-						let liElement = $(event.currentTarget);
-						let liFilterImages = liElement.find('.js-filter-actions');
-						if (liElement.hasClass('group-result')) {
-							return;
-						}
-						if (event.type === 'mouseenter' && liFilterImages.length === 0) {
-							this.appendFilterActionsTemplate(liElement);
-						}
+				filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="option"]', (event) => {
+					let liElement = $(event.currentTarget);
+					let liFilterImages = liElement.find('.js-filter-actions');
+					if (liElement.hasClass('group-result')) {
+						return;
 					}
-				);
+					if (event.type === 'mouseenter' && liFilterImages.length === 0) {
+						this.appendFilterActionsTemplate(liElement);
+					}
+				});
 			}
 		},
 		/*
@@ -1571,47 +1554,45 @@ jQuery.Class(
 							enabled: true
 						}
 					});
-					AppConnector.request(target.data('url') + '&sourceView=List&record=' + recordId).done(
-						function (data) {
-							progressIndicatorElement.progressIndicator({
-								mode: 'hide'
-							});
-							if (data && data.success) {
-								if (data.result.notify) {
-									Vtiger_Helper_Js.showMessage(data.result.notify);
-								}
-								let paginationObject = $('.pagination');
-								let totalCount = paginationObject.data('totalCount');
-								if (totalCount != '') {
-									totalCount--;
-									paginationObject.data('totalCount', totalCount);
-								}
-								let orderBy = jQuery('#orderBy').val();
-								let sortOrder = jQuery('#sortOrder').val();
-								let pageNumber = parseInt($('#pageNumber').val());
-								if ($('#noOfEntries').val() == 1 && pageNumber != 1) {
-									pageNumber--;
-								}
-								let urlParams = {
-									viewname: data.result.viewname,
-									orderby: orderBy,
-									sortorder: sortOrder,
-									page: pageNumber
-								};
-								$('#recordsCount').val('');
-								$('#totalPageCount').text('');
-								thisInstance.getListViewRecords(urlParams).done(function () {
-									thisInstance.updatePagination(pageNumber);
-								});
-							} else {
-								app.showNotify({
-									text: app.vtranslate(data.error.message),
-									title: app.vtranslate('JS_LBL_PERMISSION'),
-									type: 'error'
-								});
+					AppConnector.request(target.data('url') + '&sourceView=List&record=' + recordId).done(function (data) {
+						progressIndicatorElement.progressIndicator({
+							mode: 'hide'
+						});
+						if (data && data.success) {
+							if (data.result.notify) {
+								Vtiger_Helper_Js.showMessage(data.result.notify);
 							}
+							let paginationObject = $('.pagination');
+							let totalCount = paginationObject.data('totalCount');
+							if (totalCount != '') {
+								totalCount--;
+								paginationObject.data('totalCount', totalCount);
+							}
+							let orderBy = jQuery('#orderBy').val();
+							let sortOrder = jQuery('#sortOrder').val();
+							let pageNumber = parseInt($('#pageNumber').val());
+							if ($('#noOfEntries').val() == 1 && pageNumber != 1) {
+								pageNumber--;
+							}
+							let urlParams = {
+								viewname: data.result.viewname,
+								orderby: orderBy,
+								sortorder: sortOrder,
+								page: pageNumber
+							};
+							$('#recordsCount').val('');
+							$('#totalPageCount').text('');
+							thisInstance.getListViewRecords(urlParams).done(function () {
+								thisInstance.updatePagination(pageNumber);
+							});
+						} else {
+							app.showNotify({
+								text: app.vtranslate(data.error.message),
+								title: app.vtranslate('JS_LBL_PERMISSION'),
+								type: 'error'
+							});
 						}
-					);
+					});
 				});
 				event.stopPropagation();
 			});
@@ -1980,9 +1961,7 @@ jQuery.Class(
 				$('#recordsCount').val('');
 				$('#totalPageCount').text('');
 				$('.pagination').data('totalCount', 0);
-				$('#dropdownEntityState')
-					.find('.js-icon')
-					.attr('class', element.find('.js-icon').attr('class'));
+				$('#dropdownEntityState').find('.js-icon').attr('class', element.find('.js-icon').attr('class'));
 				thisInstance.getListViewRecords().done(function (data) {
 					thisInstance.calculatePages().done(function () {
 						thisInstance.updatePagination();
@@ -2117,10 +2096,7 @@ jQuery.Class(
 		},
 		registerMassActionModalEvents() {
 			app.event.on('MassEditModal.AfterLoad', (data, container) => {
-				if (
-					container.hasClass('js-add-comment__container') ||
-					container.hasClass('js-send-sms__container')
-				) {
+				if (container.hasClass('js-add-comment__container') || container.hasClass('js-send-sms__container')) {
 					new App.Fields.Text.Completions(container.find('.js-completions'));
 				}
 			});
@@ -2177,9 +2153,7 @@ jQuery.Class(
 			this.registerSummationEvent();
 			//Just reset all the checkboxes on page load: added for chrome issue.
 			let listViewContainer = this.getListViewContentContainer();
-			listViewContainer
-				.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox')
-				.prop('checked', false);
+			listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);
 			this.getListSearchInstance(false);
 			this.registerDesktopEvents(listViewContainer);
 			this.registerUnreviewedCountEvent();

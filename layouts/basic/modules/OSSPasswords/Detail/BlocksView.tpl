@@ -9,7 +9,7 @@
 					title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE_NAME)}"><span
 						class="fas fa-copy"></span> {\App\Language::translate('LBL_CopyToClipboard', $MODULE_NAME)}
 			</button>&nbsp;&nbsp;
-			<button class="btn btn-warning" onclick="PasswordHelper.showDetailsPassword('{$smarty.get.record}');return false;"
+			<button class="btn btn-warning" onclick="PasswordHelper.showDetailsPassword('{$RECORD->getId()}');return false;"
 					id="show-btn">
 				<span class="fas fa-eye u-mr-5px"></span>{\App\Language::translate('LBL_ShowPassword', $MODULE_NAME)}
 			</button>

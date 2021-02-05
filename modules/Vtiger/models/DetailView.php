@@ -97,7 +97,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linkdata' => ['url' => "index.php?module={$moduleName}&view=InterestsConflictModal&mode=confirmation&fromView=Detail&record={$recordId}"],
-					'linkicon' => 'fas fa-random',
+					'linkicon' => 'yfi yfi-confirm-conflict',
 					'linkhint' => 'LBL_INTERESTS_CONFLICT_CONFIRMATION',
 					'linkclass' => 'btn-outline-primary btn-sm js-show-modal',
 				]);
@@ -105,7 +105,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 						'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 						'linkdata' => ['url' => "index.php?module={$moduleName}&view=InterestsConflictModal&mode=users&fromView=Detail&record={$recordId}"],
-						'linkicon' => 'fas fa-user-lock',
+						'linkicon' => 'yfi yfi-conflict-list',
 						'linkhint' => 'LBL_INTERESTS_CONFLICT_USERS',
 						'linkclass' => 'btn-outline-primary btn-sm',
 						'modalView' => true,
@@ -180,11 +180,11 @@ class Vtiger_DetailView_Model extends \App\Base
 					'modalView' => true,
 				]);
 			}
-			if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::isActive($moduleModel->getName(), 'Detail')) {
+			if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::isAvailable($recordModel, 'Detail')) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'LBL_RECORD_CONVERTER',
-					'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&inView=Detail&selected_ids=[{$recordModel->getId()}]"],
+					'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&sourceView=Detail&selected_ids=[{$recordModel->getId()}]"],
 					'linkicon' => 'fas fa-exchange-alt',
 					'linkclass' => 'btn-outline-dark btn-sm',
 					'modalView' => true,

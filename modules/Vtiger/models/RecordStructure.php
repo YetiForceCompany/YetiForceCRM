@@ -34,7 +34,6 @@ class Vtiger_RecordStructure_Model extends \App\Base
 	public function setRecord($record)
 	{
 		$this->record = $record;
-
 		return $this;
 	}
 
@@ -87,8 +86,6 @@ class Vtiger_RecordStructure_Model extends \App\Base
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
-
-		$values = [];
 		$recordModel = $this->getRecord();
 		$recordExists = !empty($recordModel);
 		$moduleModel = $this->getModule();
@@ -96,20 +93,18 @@ class Vtiger_RecordStructure_Model extends \App\Base
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty($fieldModelList)) {
-				$values[$blockLabel] = [];
+				$this->structuredValues[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->isViewable()) {
 						if ($recordExists) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						}
-						$values[$blockLabel][$fieldName] = $fieldModel;
+						$this->structuredValues[$blockLabel][$fieldName] = $fieldModel;
 					}
 				}
 			}
 		}
-		$this->structuredValues = $values;
-
-		return $values;
+		return $this->structuredValues;
 	}
 
 	/**

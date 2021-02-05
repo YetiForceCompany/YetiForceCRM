@@ -12,13 +12,15 @@ Settings_Vtiger_List_Js(
 				$('#pageToJump').val('1');
 				$('#recordsCount').val('');
 				$('#totalPageCount').text('');
-				thisInstance.getListViewRecords({
-					module: app.getModuleName(),
-					parent: app.getParentModuleName(),
-					sourceModule: $(e.currentTarget).val()
-				}).done(function (data) {
-					thisInstance.updatePagination();
-				});
+				thisInstance
+					.getListViewRecords({
+						module: app.getModuleName(),
+						parent: app.getParentModuleName(),
+						sourceModule: $(e.currentTarget).val()
+					})
+					.done(function (data) {
+						thisInstance.updatePagination();
+					});
 			});
 		},
 		registerEvents: function () {

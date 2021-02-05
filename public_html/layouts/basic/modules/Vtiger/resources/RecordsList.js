@@ -127,9 +127,7 @@ $.Class(
 				if ($(this).hasClass('disabled')) {
 					return;
 				}
-				if (
-					self.container.find('.js-no-entries').val() == self.container.find('.js-page-limit').val()
-				) {
+				if (self.container.find('.js-no-entries').val() == self.container.find('.js-page-limit').val()) {
 					let pageNumber = self.container.find('.js-page-number');
 					let nextPageNumber = parseInt(parseFloat(pageNumber.val())) + 1;
 					pageNumber.val(nextPageNumber);
@@ -175,9 +173,7 @@ $.Class(
 					if (e.which == 13) {
 						e.stopImmediatePropagation();
 						const element = $(this);
-						const response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(
-							element
-						);
+						const response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
 						if (typeof response !== 'undefined') {
 							element.validationEngine('showPrompt', response, '', 'topLeft', true);
 						} else {
@@ -210,12 +206,7 @@ $.Class(
 		 * Register list search
 		 */
 		registerListSearch: function () {
-			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(
-				this.container,
-				false,
-				this,
-				this.moduleName
-			);
+			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.container, false, this, this.moduleName);
 			this.listSearchInstance.setViewName('RecordsList');
 		},
 		/**
@@ -230,7 +221,7 @@ $.Class(
 				}
 				let row = $(this);
 				let data = row.data();
-				if (self.container.find('.js-multi-select').val() === 'true') {
+				if (self.container.find('.js-multi-select').val()) {
 					let selected = {};
 					if (additional) {
 						selected[data.id] = [];
@@ -253,31 +244,29 @@ $.Class(
 			});
 			self.container.on('click', '.js-selected-rows', function (e) {
 				let selected = {};
-				self.container
-					.find('table tr.js-select-row .js-select-checkbox')
-					.each(function (index, element) {
-						element = $(element);
-						if (!element.is(':checked')) {
-							return true;
-						}
-						let data = element.closest('tr').data();
-						if (additional) {
-							selected[data.id] = [];
-							element
-								.closest('tr')
-								.find('td[data-field]')
-								.each(function (index, field) {
-									field = $(field);
-									selected[data.id].push({
-										value: field.text(),
-										field: field.data('field'),
-										type: field.data('type')
-									});
+				self.container.find('table tr.js-select-row .js-select-checkbox').each(function (index, element) {
+					element = $(element);
+					if (!element.is(':checked')) {
+						return true;
+					}
+					let data = element.closest('tr').data();
+					if (additional) {
+						selected[data.id] = [];
+						element
+							.closest('tr')
+							.find('td[data-field]')
+							.each(function (index, field) {
+								field = $(field);
+								selected[data.id].push({
+									value: field.text(),
+									field: field.data('field'),
+									type: field.data('type')
 								});
-						} else {
-							selected[data.id] = data.name;
-						}
-					});
+							});
+					} else {
+						selected[data.id] = data.name;
+					}
+				});
 				if (Object.keys(selected).length <= 0) {
 					app.showNotify({
 						text: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'),

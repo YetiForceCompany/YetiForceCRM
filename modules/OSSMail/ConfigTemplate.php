@@ -16,7 +16,7 @@ return [
 			}
 			$arg = (array) \App\Purifier::purify($arg);
 			foreach ($arg as $url) {
-				if (!\App\Validator::url($url)) {
+				if (!\App\Validator::urlDomain($url)) {
 					return false;
 				}
 			}
@@ -146,7 +146,7 @@ return [
 	],
 	'session_lifetime' => [
 		'default' => 30,
-		'description' => 'Set session lifetime',
+		'description' => 'Session lifetime in minutes',
 		'validation' => '\App\Validator::naturalNumber',
 		'sanitization' => function () {
 			return (int) func_get_arg(0);
@@ -163,7 +163,9 @@ return [
 		'validation' => '\App\Validator::alnum',
 	],
 	'plugins' => [
-		'default' => ['identity_smtp', 'thunderbird_labels', 'zipdownload', 'archive', 'html5_notifier', 'enigma', 'advanced_search', 'contextmenu', 'yetiforce'],
+		'default' => [
+			'identity_smtp', 'thunderbird_labels', 'zipdownload', 'archive', 'html5_notifier', 'advanced_search', 'contextmenu', 'yetiforce', //'enigma'
+		],
 		'description' => 'List of plugins',
 	],
 	'mime_param_folding' => [
@@ -175,12 +177,20 @@ return [
 		'description' => 'Auto create user.'
 	],
 	'mail_pagesize' => [
-		'default' => 40,
+		'default' => 30,
 		'description' => 'Mail page size.'
 	],
-	'addressbook_pagesize' => [
-		'default' => 50,
-		'description' => 'Address book page size.'
+	'imap_cache' => [
+		'default' => 'db',
+		'description' => "Imap cache, Values: 'db', 'apc' and 'memcache' or 'memcached'",
+	],
+	'messages_cache' => [
+		'default' => 'db',
+		'description' => "Enables messages cache. Only 'db' cache is supported.",
+	],
+	'messages_cache_threshold' => [
+		'default' => 1000,
+		'description' => "Maximum cached message size in kilobytes.\nNote: On MySQL this should be less than (max_allowed_packet - 30%)",
 	],
 	'prefer_html' => [
 		'default' => true,
@@ -218,17 +228,13 @@ return [
 		'default' => 'H:i',
 		'description' => 'Set time format',
 	],
+	'time_formats' => [
+		'default' => ['G:i', 'H:i', 'g:i a', 'h:i A', 'H:i:s (T P)'],
+		'description' => 'give this choice of time formats to the user to select from',
+	],
 	'show_images' => [
 		'default' => 0,
 		'description' => 'Display remote resources (inline images, styles). Value: 0 - Never, always ask, 1 - Ask if sender is not in address book, 2 - Always allow',
-	],
-	'imap_cache' => [
-		'default' => 'db',
-		'description' => 'Imap cache',
-	],
-	'messages_cache' => [
-		'default' => 'db',
-		'description' => 'messages_cache',
 	],
 	'reply_mode' => [
 		'default' => 1,
@@ -376,5 +382,17 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 	'address_book_type' => [
 		'default' => '',
 		'description' => 'Contact functionality is disabled'
+	],
+	'message_show_email' => [
+		'default' => true,
+		'description' => 'Enables display of email address with name instead of a name (and address in title)'
+	],
+	'addressbook_pagesize' => [
+		'default' => 50,
+		'description' => 'Address book page size.'
+	],
+	'junk_mbox' => [
+		'default' => '',
+		'description' => 'Store spam messages in this mailbox'
 	],
 ];

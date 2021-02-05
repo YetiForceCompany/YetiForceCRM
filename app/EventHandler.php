@@ -23,11 +23,66 @@ class EventHandler
 	private $moduleName;
 	private $params;
 	private $exceptions = [];
+	private $handlers = [];
 
 	/** @var string Edit view, validation before saving */
 	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
 	/** @var string Edit view, change value */
 	public const EDIT_VIEW_CHANGE_VALUE = 'EditViewChangeValue';
+	/** @var string Record converter after create record */
+	public const RECORD_CONVERTER_AFTER_SAVE = 'RecordConverterAfterSave';
+
+	/**
+	 * Handler types.
+	 *
+	 * @var array
+	 */
+	public const HANDLER_TYPES = [
+		'EditViewPreSave' => [
+			'label' => 'LBL_EDIT_VIEW_PRESAVE',
+			'icon' => 'fas fa-step-backward',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'EntityChangeState' => [
+			'label' => 'LBL_ENTITY_CHANGE_STATE',
+			'icon' => 'fas fa-compass',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'EntityBeforeSave' => [
+			'label' => 'LBL_ENTITY_BEFORE_SAVE',
+			'icon' => 'fas fa-save',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'EntityAfterSave' => [
+			'label' => 'LBL_ENTITY_AFTER_SAVE',
+			'icon' => 'far fa-save',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+	];
 
 	/**
 	 * Get all event handlers.
@@ -176,6 +231,30 @@ class EventHandler
 	}
 
 	/**
+	 * Check if it is active function.
+	 *
+	 * @param string      $className
+	 * @param string|null $eventName
+	 *
+	 * @return bool
+	 */
+	public static function checkActive(string $className, ?string $eventName = null): bool
+	{
+		$rows = (new \App\Db\Query())->from(self::$baseTable)->where(['handler_class' => $className])->all();
+		$status = false;
+		foreach ($rows as $row) {
+			if (isset($eventName) && $eventName !== $row['event_name']) {
+				continue;
+			}
+			if (empty($row['is_active'])) {
+				return false;
+			}
+			$status = true;
+		}
+		return $status;
+	}
+
+	/**
 	 * Set an event handler as inactive.
 	 *
 	 * @param string      $className
@@ -211,7 +290,7 @@ class EventHandler
 	/**
 	 * Set record model.
 	 *
-	 * @param \App\Vtiger_Record_Model $recordModel
+	 * @param \Vtiger_Record_Model $recordModel
 	 *
 	 * @return $this
 	 */
@@ -346,6 +425,11 @@ class EventHandler
 			Log::error("Handler not found, class: {$className} | {$function}");
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
-		return (new $className())->{$function}($this);
+		if (isset($this->handlers[$className])) {
+			$handler = $this->handlers[$className];
+		} else {
+			$handler = $this->handlers[$className] = new $className();
+		}
+		return $handler->{$function}($this);
 	}
 }

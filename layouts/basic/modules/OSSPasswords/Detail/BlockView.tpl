@@ -10,7 +10,7 @@
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down {if $IS_HIDDEN}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
 				</div>
 			{/if}
-			<h5>{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h5>
+			<h5>{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h5>
 		</div>
 		<div class="c-panel__body blockContent {if $IS_HIDDEN}d-none{/if}">
 			{assign var=COUNTER value=0}
@@ -49,7 +49,7 @@
 							</label>
 						</div>
 						<div class="fieldValue u-border-bottom-value-sm col-12 d-flex align-items-center justify-content-between {$WIDTHTYPE} {if $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} col-lg-9 {else} col-lg-6 {/if}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}
-						{if $FIELD_MODEL->getName() eq 'password'} onclick="PasswordHelper.showPasswordQuickEdit('{$smarty.get.record}');" {/if}>
+						{if $FIELD_MODEL->getName() eq 'password'} onclick="PasswordHelper.showPasswordQuickEdit('{$RECORD->getId()}');" {/if}>
 							<span class="value flex-grow-1" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}
 							{if $FIELD_MODEL->getName() eq 'password'} id="detailPassword" {/if}>
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD SOURCE_TPL='BlockView'}

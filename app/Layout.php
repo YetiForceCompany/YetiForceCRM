@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -50,6 +51,26 @@ class Layout
 			$basePath = 'public_html/' . $basePath;
 		}
 		return $basePath . $name;
+	}
+
+	/**
+	 * Gets layout paths.
+	 *
+	 * @return array
+	 */
+	public static function getLayoutPaths(): array
+	{
+		$basePrefix = 'layouts/' . self::getActiveLayout() . \DIRECTORY_SEPARATOR;
+		$defaultPrefix = 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . \DIRECTORY_SEPARATOR;
+		if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
+			$layoutsPath['custom/'] = 'custom/';
+			$layoutsPath["custom/{$basePrefix}"] = "custom/{$basePrefix}";
+			$layoutsPath["custom/{$defaultPrefix}"] = "custom/{$defaultPrefix}";
+		}
+		$layoutsPath[''] = '';
+		$layoutsPath[$basePrefix] = $basePrefix;
+		$layoutsPath[$defaultPrefix] = $defaultPrefix;
+		return $layoutsPath;
 	}
 
 	/**
@@ -131,16 +152,22 @@ class Layout
 	 *
 	 * @param string $text
 	 * @param int    $length
+	 * @param bool   $showIcon
 	 *
 	 * @return string
 	 */
-	public static function truncateText(string $text, int $length): string
+	public static function truncateText(string $text, int $length, bool $showIcon = false): string
 	{
 		if (\mb_strlen($text) < $length) {
 			return $text;
 		}
 		$teaser = TextParser::textTruncate($text, $length);
-		$btn = \App\Language::translate('LBL_MORE_BTN');
+		$text = nl2br($text);
+		if ($showIcon) {
+			$btn = '<span class="mdi mdi-overscan"></span>';
+		} else {
+			$btn = \App\Language::translate('LBL_MORE_BTN');
+		}
 		return "<div class=\"js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm pt-0 js-more\">{$btn}</button></span></div>";
 	}
 

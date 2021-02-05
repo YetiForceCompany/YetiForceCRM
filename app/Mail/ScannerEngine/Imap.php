@@ -23,65 +23,49 @@ class Imap extends Base
 	 */
 	public $name = 'Imap';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getActions(): array
 	{
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function findRelatedRecords(bool $onlyId = false): array
 	{
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function findRelatedRecordsByEmail(): array
 	{
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function findRelatedRecordsBySubject(): array
 	{
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getExceptions(): array
 	{
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getUserId(): int
 	{
 		return 0;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getMailType(): int
 	{
 		return 0;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getMailCrmId()
 	{
 		if ($this->has('mailCrmId')) {
@@ -99,9 +83,7 @@ class Imap extends Base
 		return  $mailCrmId;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEmailsFields(?string $searchModuleName = null): array
 	{
 		$cacheKey = $searchModuleName ?? '-';

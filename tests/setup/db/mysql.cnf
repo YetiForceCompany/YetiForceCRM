@@ -17,7 +17,12 @@ bind-address					= 0.0.0.0
 log_error 						= /var/log/mysql/error.log
 expire_logs_days       	 		= 10
 
+##
+# Best MySql configuration for YetiForceCRM
+# Created by YetiForceCompany
+##
 
+default_storage_engine			= InnoDB
 character-set-server 			= utf8
 collation-server     			= utf8_general_ci
 init-connect 					= 'SET NAMES utf8'
@@ -26,14 +31,17 @@ wait_timeout					= 600
 connect_timeout					= 600
 net_read_timeout				= 600
 net_write_timeout				= 600
+interactive_timeout				= 600
 max_allowed_packet				= 128M
 query_cache_size      	  		= 128M
 innodb_lock_wait_timeout		= 600
-innodb_file_per_table 			= 1
+innodb_file_per_table 			= ON
 innodb_ft_min_token_size		= 2
-innodb_stats_on_metadata		= 0
+innodb_stats_on_metadata		= OFF
 ft_min_word_len 				= 2
 innodb_default_row_format		= 'dynamic'
+table_open_cache				= 1000
+table_definition_cache			= 1400
 
 
 # key_buffer_size 				= 500M

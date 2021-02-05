@@ -12,22 +12,20 @@ namespace App\Session;
  */
 class File extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static function clean()
 	{
 		$time = microtime(true);
-		$lifeTime = \App\Config::security('MAX_LIFETIME_SESSION');
+		$lifeTime = \Config\Security::$maxLifetimeSession;
 		$exclusion = ['.htaccess', 'index.html', 'sess_' . session_id()];
-		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'session', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\App\Session::SESSION_PATH, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile() && !\in_array($item->getBasename(), $exclusion)) {
 				$sessionData = static::unserialize(file_get_contents($item->getPathname()));
-				if (!empty($sessionData['last_activity']) && $time - $sessionData['last_activity'] < $lifeTime) {
+				if (!empty($sessionData['last_activity']) && ($time - $sessionData['last_activity']) < $lifeTime) {
 					continue;
 				}
 				unlink($item->getPathname());
-				if (!empty($sessionData['authenticated_user_id'])) {
+				if (!empty($sessionData['baseUserId']) || !empty($sessionData['authenticated_user_id'])) {
 					$userId = empty($sessionData['baseUserId']) ? $sessionData['authenticated_user_id'] : $sessionData['baseUserId'];
 					$userName = \App\User::getUserModel($userId)->getDetail('user_name');
 					if (!empty($userName)) {
@@ -36,6 +34,31 @@ class File extends Base
 				}
 			}
 		}
+	}
+
+	/** {@inheritdoc} */
+	public static function cleanAll(): int
+	{
+		$exclusion = ['.htaccess', 'index.html', 'sess_' . session_id()];
+		$i = 0;
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\App\Session::SESSION_PATH, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			if ($item->isFile() && !\in_array($item->getBasename(), $exclusion)) {
+				unlink($item->getPathname());
+				++$i;
+			}
+		}
+		return $i;
+	}
+
+	/** {@inheritdoc} */
+	public function getById(string $sessionId): array
+	{
+		$sessionFilePath = \App\Session::SESSION_PATH . \DIRECTORY_SEPARATOR . 'sess_' . $sessionId;
+		$sessionData = [];
+		if (file_exists($sessionFilePath) && ($content = file_get_contents($sessionFilePath))) {
+			$sessionData = self::unserialize($content);
+		}
+		return $sessionData;
 	}
 
 	/**

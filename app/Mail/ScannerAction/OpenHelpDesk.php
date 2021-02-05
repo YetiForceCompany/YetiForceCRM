@@ -16,14 +16,10 @@ namespace App\Mail\ScannerAction;
  */
 class OpenHelpDesk extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $priority = 4;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(): void
 	{
 		$scanner = $this->scannerEngine;

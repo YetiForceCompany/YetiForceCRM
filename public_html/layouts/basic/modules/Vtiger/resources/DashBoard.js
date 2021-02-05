@@ -269,10 +269,7 @@ $.Class(
 					date.blur();
 				};
 				//adding clickoutside event on the dashboardWidgetHeader
-				Vtiger_Helper_Js.addClickOutSideEvent(
-					dashboardWidgetHeader.find('.dateRange'),
-					callbackFunction
-				);
+				Vtiger_Helper_Js.addClickOutSideEvent(dashboardWidgetHeader.find('.dateRange'), callbackFunction);
 				return false;
 			});
 		},
@@ -321,9 +318,7 @@ $.Class(
 				.off('click', '.addChartFilter')
 				.on('click', '.addChartFilter', function (e) {
 					let element = $(e.currentTarget);
-					app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function (
-						wizardContainer
-					) {
+					app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function (wizardContainer) {
 						let form = $('form', wizardContainer);
 						form.on('keypress', function (event) {
 							return event.keyCode != 13;
@@ -332,12 +327,9 @@ $.Class(
 						let chartType = $('select[name="chartType"]', wizardContainer);
 						let moduleNameSelectDOM = $('select[name="module"]', wizardContainer);
 						App.Fields.Picklist.showSelect2ElementView(sectorContainer.find('.select2'));
-						let moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(
-							moduleNameSelectDOM,
-							{
-								placeholder: app.vtranslate('JS_SELECT_MODULE')
-							}
-						);
+						let moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
+							placeholder: app.vtranslate('JS_SELECT_MODULE')
+						});
 						let step1 = $('.step1', wizardContainer);
 						let step2 = $('.step2', wizardContainer);
 						let step3 = $('.step3', wizardContainer);
@@ -442,13 +434,7 @@ $.Class(
 								};
 								form.find('.saveParam').each(function (index, element) {
 									element = $(element);
-									if (
-										!(
-											element.is('input') &&
-											element.prop('type') === 'checkbox' &&
-											!element.prop('checked')
-										)
-									) {
+									if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
 										data[element.attr('name')] = element.val();
 									}
 								});
@@ -466,25 +452,13 @@ $.Class(
 					});
 				});
 		},
-		saveChartFilterWidget: function (
-			data,
-			element,
-			moduleNameLabel,
-			filtersId,
-			filterLabel,
-			groupFieldName,
-			form
-		) {
+		saveChartFilterWidget: function (data, element, moduleNameLabel, filtersId, filterLabel, groupFieldName, form) {
 			const thisInstance = this;
 			let label = moduleNameLabel;
 			if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
 				label += ' - ' + filterLabel;
 			}
-			if (
-				typeof groupFieldName !== 'undefined' &&
-				groupFieldName !== null &&
-				groupFieldName !== ''
-			) {
+			if (typeof groupFieldName !== 'undefined' && groupFieldName !== null && groupFieldName !== '') {
 				label += ' - ' + groupFieldName;
 			}
 			const paramsForm = {
@@ -503,40 +477,38 @@ $.Class(
 				dashboardId: thisInstance.getCurrentDashboard()
 			};
 			const sourceModule = $('[name="selectedModuleName"]').val();
-			thisInstance
-				.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid)
-				.done(function (data) {
-					let result = data['result'],
-						params = {};
-					if (data['success']) {
-						app.hideModalWindow();
-						paramsForm['id'] = result['id'];
-						paramsForm['status'] = result['status'];
-						params['text'] = result['text'];
-						params['type'] = 'success';
-						let linkElement = element.clone();
-						linkElement.data('name', 'ChartFilter');
-						linkElement.data('id', result['wid']);
-						thisInstance.addWidget(
-							linkElement,
-							'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' +
-								element.data('linkid') +
-								'&widgetid=' +
-								result['wid'] +
-								'&active=0'
-						);
-						Vtiger_Helper_Js.showMessage(params);
+			thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function (data) {
+				let result = data['result'],
+					params = {};
+				if (data['success']) {
+					app.hideModalWindow();
+					paramsForm['id'] = result['id'];
+					paramsForm['status'] = result['status'];
+					params['text'] = result['text'];
+					params['type'] = 'success';
+					let linkElement = element.clone();
+					linkElement.data('name', 'ChartFilter');
+					linkElement.data('id', result['wid']);
+					thisInstance.addWidget(
+						linkElement,
+						'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' +
+							element.data('linkid') +
+							'&widgetid=' +
+							result['wid'] +
+							'&active=0'
+					);
+					Vtiger_Helper_Js.showMessage(params);
+				} else {
+					let message = data['error']['message'],
+						errorField;
+					if (data['error']['code'] != 513) {
+						errorField = form.find('[name="fieldName"]');
 					} else {
-						let message = data['error']['message'],
-							errorField;
-						if (data['error']['code'] != 513) {
-							errorField = form.find('[name="fieldName"]');
-						} else {
-							errorField = form.find('[name="fieldLabel"]');
-						}
-						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+						errorField = form.find('[name="fieldLabel"]');
 					}
-				});
+					errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+				}
+			});
 		},
 		registerMiniListWidget: function () {
 			const thisInstance = this;
@@ -544,139 +516,122 @@ $.Class(
 				.off('click', '.addFilter')
 				.on('click', '.addFilter', function (e) {
 					const element = $(e.currentTarget);
-					app.showModalWindow(
-						null,
-						'index.php?module=Home&view=MiniListWizard&step=step1',
-						function (wizardContainer) {
-							const form = $('form', wizardContainer);
-							form.on('keypress', function (event) {
-								return event.keyCode != 13;
-							});
-							const moduleNameSelectDOM = $('select[name="module"]', wizardContainer);
-							const filteridSelectDOM = $('select[name="filterid"]', wizardContainer);
-							const fieldHrefDOM = $('select[name="field_href"]', wizardContainer);
-							const fieldsSelectDOM = $('select[name="fields"]', wizardContainer);
-							const filterFieldsSelectDOM = $('select[name="filter_fields"]', wizardContainer);
-							const moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(
-								moduleNameSelectDOM,
-								{
-									placeholder: app.vtranslate('JS_SELECT_MODULE')
-								}
-							);
-							const filteridSelect2 = App.Fields.Picklist.showSelect2ElementView(
-								filteridSelectDOM,
-								{
-									placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
-									dropdownParent: wizardContainer
-								}
-							);
-							const fieldHrefSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldHrefDOM, {
-								allowClear: true
-							});
-							const fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldsSelectDOM, {
-								placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
-								closeOnSelect: true,
-								maximumSelectionLength: 6
-							});
-							const filterFieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(
-								filterFieldsSelectDOM,
-								{
-									placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
-								}
-							);
-							const footer = $('.modal-footer', wizardContainer);
-							filteridSelectDOM.closest('tr').hide();
-							fieldsSelectDOM.closest('tr').hide();
-							fieldHrefDOM.closest('tr').hide();
+					app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function (wizardContainer) {
+						const form = $('form', wizardContainer);
+						form.on('keypress', function (event) {
+							return event.keyCode != 13;
+						});
+						const moduleNameSelectDOM = $('select[name="module"]', wizardContainer);
+						const filteridSelectDOM = $('select[name="filterid"]', wizardContainer);
+						const fieldHrefDOM = $('select[name="field_href"]', wizardContainer);
+						const fieldsSelectDOM = $('select[name="fields"]', wizardContainer);
+						const filterFieldsSelectDOM = $('select[name="filter_fields"]', wizardContainer);
+						const moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
+							placeholder: app.vtranslate('JS_SELECT_MODULE')
+						});
+						const filteridSelect2 = App.Fields.Picklist.showSelect2ElementView(filteridSelectDOM, {
+							placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
+							dropdownParent: wizardContainer
+						});
+						const fieldHrefSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldHrefDOM, {
+							allowClear: true
+						});
+						const fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldsSelectDOM, {
+							placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
+							closeOnSelect: true,
+							maximumSelectionLength: 6
+						});
+						const filterFieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(filterFieldsSelectDOM, {
+							placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
+						});
+						const footer = $('.modal-footer', wizardContainer);
+						filteridSelectDOM.closest('tr').hide();
+						fieldsSelectDOM.closest('tr').hide();
+						fieldHrefDOM.closest('tr').hide();
+						footer.hide();
+						moduleNameSelect2.on('change', function () {
+							if (!moduleNameSelect2.val()) {
+								return;
+							}
 							footer.hide();
-							moduleNameSelect2.on('change', function () {
-								if (!moduleNameSelect2.val()) {
-									return;
-								}
+							fieldsSelectDOM.closest('tr').hide();
+							AppConnector.request({
+								module: 'Home',
+								view: 'MiniListWizard',
+								step: 'step2',
+								selectedModule: moduleNameSelect2.val()
+							}).done(function (res) {
+								filteridSelectDOM.empty().html(res).trigger('change');
+								filteridSelect2.closest('tr').show();
+							});
+						});
+						filteridSelect2.on('change', function () {
+							if (!filteridSelect2.val()) {
+								return;
+							}
+							AppConnector.request({
+								module: 'Home',
+								view: 'MiniListWizard',
+								step: 'step3',
+								selectedModule: moduleNameSelect2.val(),
+								filterid: filteridSelect2.val()
+							}).done(function (res) {
+								const responseHTML = $(res);
+								const fieldsHTML = responseHTML.find('select[name="fields"]').html();
+								const filterFieldsHTML = responseHTML.find('select[name="filter_fields"]').html();
+								fieldsSelectDOM.empty().html(fieldsHTML).trigger('change');
+								fieldsSelect2.closest('tr').show();
+								fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
+								filterFieldsSelectDOM.empty().html(filterFieldsHTML).trigger('change');
+								filterFieldsSelect2.closest('tr').show();
+								filterFieldsSelect2
+									.data('select2')
+									.$selection.find('.select2-search__field')
+									.parent()
+									.css('width', '100%');
+								fieldHrefSelect2.closest('tr').show();
+							});
+						});
+						fieldsSelect2.on('change', function () {
+							fieldHrefDOM.find('option:not([value=""]').remove();
+							$(this)
+								.find('option:checked')
+								.each(function (index, element) {
+									let option = $(element);
+									let newOption = new Option(option.text(), option.val(), true, true);
+									fieldHrefSelect2.append(newOption);
+								});
+							fieldHrefSelect2.val('').trigger('change');
+							if (!fieldsSelect2.val()) {
 								footer.hide();
-								fieldsSelectDOM.closest('tr').hide();
-								AppConnector.request({
-									module: 'Home',
-									view: 'MiniListWizard',
-									step: 'step2',
-									selectedModule: moduleNameSelect2.val()
-								}).done(function (res) {
-									filteridSelectDOM.empty().html(res).trigger('change');
-									filteridSelect2.closest('tr').show();
+							} else {
+								footer.show();
+							}
+						});
+						form.validationEngine(app.validationEngineOptions);
+						form.on('submit', (e) => {
+							e.preventDefault();
+							if (form.validationEngine('validate') === true) {
+								let selectedFields = [];
+								fieldsSelect2.select2('data').map((obj) => {
+									selectedFields.push(obj.id);
 								});
-							});
-							filteridSelect2.on('change', function () {
-								if (!filteridSelect2.val()) {
-									return;
-								}
-								AppConnector.request({
-									module: 'Home',
-									view: 'MiniListWizard',
-									step: 'step3',
-									selectedModule: moduleNameSelect2.val(),
-									filterid: filteridSelect2.val()
-								}).done(function (res) {
-									const responseHTML = $(res);
-									const fieldsHTML = responseHTML.find('select[name="fields"]').html();
-									const filterFieldsHTML = responseHTML.find('select[name="filter_fields"]').html();
-									fieldsSelectDOM.empty().html(fieldsHTML).trigger('change');
-									fieldsSelect2.closest('tr').show();
-									fieldsSelect2
-										.data('select2')
-										.$selection.find('.select2-search__field')
-										.parent()
-										.css('width', '100%');
-									filterFieldsSelectDOM.empty().html(filterFieldsHTML).trigger('change');
-									filterFieldsSelect2.closest('tr').show();
-									filterFieldsSelect2
-										.data('select2')
-										.$selection.find('.select2-search__field')
-										.parent()
-										.css('width', '100%');
-									fieldHrefSelect2.closest('tr').show();
-								});
-							});
-							fieldsSelect2.on('change', function () {
-								fieldHrefDOM.find('option:not([value=""]').remove();
-								$(this)
-									.find('option:checked')
-									.each(function (index, element) {
-										let option = $(element);
-										let newOption = new Option(option.text(), option.val(), true, true);
-										fieldHrefSelect2.append(newOption);
-									});
-								fieldHrefSelect2.val('').trigger('change');
-								if (!fieldsSelect2.val()) {
-									footer.hide();
-								} else {
-									footer.show();
-								}
-							});
-							form.validationEngine(app.validationEngineOptions);
-							form.on('submit', (e) => {
-								e.preventDefault();
-								if (form.validationEngine('validate') === true) {
-									let selectedFields = [];
-									fieldsSelect2.select2('data').map((obj) => {
-										selectedFields.push(obj.id);
-									});
-									thisInstance.saveMiniListWidget(
-										{
-											module: moduleNameSelect2.val(),
-											fields: selectedFields,
-											filterFields: filterFieldsSelect2.val(),
-											fieldHref: fieldHrefSelect2.val()
-										},
-										element,
-										moduleNameSelect2.find(':selected').text(),
-										filteridSelect2.val(),
-										filteridSelect2.find(':selected').text(),
-										form
-									);
-								}
-							});
-						}
-					);
+								thisInstance.saveMiniListWidget(
+									{
+										module: moduleNameSelect2.val(),
+										fields: selectedFields,
+										filterFields: filterFieldsSelect2.val(),
+										fieldHref: fieldHrefSelect2.val()
+									},
+									element,
+									moduleNameSelect2.find(':selected').text(),
+									filteridSelect2.val(),
+									filteridSelect2.find(':selected').text(),
+									form
+								);
+							}
+						});
+					});
 				});
 		},
 		saveMiniListWidget: function (data, element, moduleNameLabel, filterid, filterLabel, form) {
@@ -697,40 +652,38 @@ $.Class(
 					dashboardId: thisInstance.getCurrentDashboard()
 				},
 				sourceModule = $('[name="selectedModuleName"]').val();
-			thisInstance
-				.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid)
-				.done(function (data) {
-					let result = data['result'],
-						params = {};
-					if (data['success']) {
-						app.hideModalWindow();
-						paramsForm['id'] = result['id'];
-						paramsForm['status'] = result['status'];
-						params['text'] = result['text'];
-						params['type'] = 'success';
-						let linkElement = element.clone();
-						linkElement.data('name', 'MiniList');
-						linkElement.data('id', result['wid']);
-						thisInstance.addWidget(
-							linkElement,
-							'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' +
-								element.data('linkid') +
-								'&widgetid=' +
-								result['wid'] +
-								'&active=0'
-						);
-						Vtiger_Helper_Js.showMessage(params);
+			thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function (data) {
+				let result = data['result'],
+					params = {};
+				if (data['success']) {
+					app.hideModalWindow();
+					paramsForm['id'] = result['id'];
+					paramsForm['status'] = result['status'];
+					params['text'] = result['text'];
+					params['type'] = 'success';
+					let linkElement = element.clone();
+					linkElement.data('name', 'MiniList');
+					linkElement.data('id', result['wid']);
+					thisInstance.addWidget(
+						linkElement,
+						'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' +
+							element.data('linkid') +
+							'&widgetid=' +
+							result['wid'] +
+							'&active=0'
+					);
+					Vtiger_Helper_Js.showMessage(params);
+				} else {
+					let message = data['error']['message'],
+						errorField;
+					if (data['error']['code'] != 513) {
+						errorField = form.find('[name="fieldName"]');
 					} else {
-						let message = data['error']['message'],
-							errorField;
-						if (data['error']['code'] != 513) {
-							errorField = form.find('[name="fieldName"]');
-						} else {
-							errorField = form.find('[name="fieldLabel"]');
-						}
-						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+						errorField = form.find('[name="fieldLabel"]');
 					}
-				});
+					errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+				}
+			});
 		},
 		saveWidget: function (form, mode, sourceModule, linkid) {
 			let aDeferred = $.Deferred();
@@ -878,9 +831,7 @@ $.Class(
 			let width = element.data('width');
 			let height = element.data('height');
 			Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
-			Vtiger_DashBoard_Js.currentInstance.loadWidget(
-				widgetContainer.find('.grid-stack-item-content')
-			);
+			Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
 			this.showAndHideAlert('addWidget');
 		},
 

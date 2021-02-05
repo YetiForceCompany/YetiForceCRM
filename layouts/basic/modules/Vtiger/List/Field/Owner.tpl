@@ -19,7 +19,7 @@
 	{/if}
 	{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUE)}
 	{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
-		{if !empty($VIEWID) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+		{if !empty($VIEWID) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($MODULE, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)}
 			{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID, false, $FIELD_MODEL->getName())}
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}

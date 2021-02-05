@@ -18,4 +18,28 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
+	'searchPrefixInBody' => [
+		'default' => false,
+		'description' => 'Search prefix in body, type: boolean',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
+	'helpdeskCreateWithoutNoRelation' => [
+		'default' => true,
+		'description' => 'Create ticket when contact and account does not exist, type: boolean',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
+	'helpdeskCreateDefaultStatus' => [
+		'default' => 'Open',
+		'description' => 'What status should be set when a ticket is created.'
+	],
+	'helpdeskBindNextWaitForResponseStatus' => [
+		'default' => 'Answered',
+		'description' => 'What status should be set when a new mail is received regarding a ticket, whose status is awaiting response.'
+	],
+	'helpdeskBindOpenStatus' => [
+		'default' => 'Answered',
+		'description' => 'What status should be set when a ticket is closed, but a new mail regarding the ticket is received.'
+	],
 ];

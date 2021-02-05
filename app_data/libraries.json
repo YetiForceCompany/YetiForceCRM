@@ -73,7 +73,7 @@
     },
     "vue-color": {
         "name": "vue-color",
-        "version": "2.7.1",
+        "version": "2.8.1",
         "license": "MIT",
         "homepage": "https:\/\/yarnpkg.com\/en\/package\/vue-color",
         "licenseError": false,
@@ -91,7 +91,7 @@
     },
     "vuex": {
         "name": "vuex",
-        "version": "3.5.1",
+        "version": "3.6.2",
         "license": "MIT",
         "homepage": "https:\/\/github.com\/vuejs\/vuex#readme",
         "licenseError": false,

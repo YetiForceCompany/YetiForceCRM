@@ -17,13 +17,10 @@ jQuery.Class(
 			var progressIndicatorElement = jQuery.progressIndicator({ position: 'html' });
 			app.showModalWindow(
 				null,
-				'index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=' +
-					type +
-					'&tabId=' +
-					tabId,
+				'index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=' + type + '&tabId=' + tabId,
 				function (wizardContainer) {
 					app.showPopoverElementView(wizardContainer.find('.js-help-info'));
-					if (type === 'RelatedModule' || type === 'RelatedModuleChart') {
+					if (type === 'RelatedModule' || type === 'RelatedModuleChart' || type === 'Documents') {
 						thisInstance.loadFilters(wizardContainer);
 						thisInstance.relatedModuleFields(wizardContainer);
 						wizardContainer.find("select[name='relation_id']").on('change', function () {
@@ -31,6 +28,7 @@ jQuery.Class(
 							thisInstance.relatedModuleFields(wizardContainer);
 						});
 					}
+					thisInstance.registerSort(wizardContainer);
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					var form = jQuery('form', wizardContainer);
 					form.validationEngine(app.validationEngineOptions);
@@ -38,16 +36,15 @@ jQuery.Class(
 						e.preventDefault();
 						if (form.validationEngine('validate')) {
 							var save = true;
-							if (
-								form &&
-								form.hasClass('validateForm') &&
-								form.data('jqv').InvalidFields.length > 0
-							) {
+							if (form && form.hasClass('validateForm') && form.data('jqv').InvalidFields.length > 0) {
 								app.formAlignmentAfterValidation(form);
 								save = false;
 							}
 							if (save) {
 								var formData = form.serializeFormData();
+								if	(typeof formData.relatedfields === 'string') {
+									formData.relatedfields = [formData.relatedfields];
+								}
 								thisInstance
 									.registerSaveEvent('saveWidget', {
 										data: formData,
@@ -148,7 +145,7 @@ jQuery.Class(
 			let relatedModule = relatedModuleInput.val();
 			if (selected.length) {
 				relatedModule = selected.data('relatedmodule');
-				relatedModuleInput.val(selected.data('relatedmodule'));
+				relatedModuleInput.val(selected.data('relatedmodule')).data('module-name', selected.data('module-name'));
 			}
 			for (let i in types) {
 				let filters = app.getMainParams(types[i] + 'All', true);
@@ -208,14 +205,16 @@ jQuery.Class(
 			const thisInstance = this;
 			$('#massEditHeader.modal-title').text(app.vtranslate('JS_EDIT_WIDGET'));
 			app.showPopoverElementView(wizardContainer.find('.js-help-info'));
-			if (thisInstance.getType() == 'RelatedModule') {
+			let type = thisInstance.getType();
+			if (type == 'RelatedModule' || type === 'RelatedModuleChart' || type === 'Documents') {
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
-				wizardContainer.find("select[name='relatedmodule']").on('change', function () {
+				wizardContainer.find("select[name='relation_id']").on('change', function () {
 					thisInstance.changeRelatedModule(wizardContainer);
 					thisInstance.relatedModuleFields(wizardContainer);
 				});
 			}
+			this.registerSort(wizardContainer);
 			const form = $('form', wizardContainer);
 			form.validationEngine(app.validationEngineOptions);
 			form.on('submit', (e) => {
@@ -238,6 +237,34 @@ jQuery.Class(
 							progress.progressIndicator({ mode: 'hide' });
 						});
 				}
+			});
+		},
+
+		registerSort: function (container) {
+			container.find("select[name='relation_id']").on('change', (e) => {
+				container.find('#orderBy').val('[]');
+			});
+			container.find('.js-sort-modal').on('click', (e) => {
+				let relatedModule = container.find("input[name='relatedmodule']").data('module-name');
+				let url = e.currentTarget.dataset.url;
+				app.showModalWindow(
+					null,
+					url + '&module=' + relatedModule,
+					function (wizardContainer) {
+						wizardContainer.find('.js-modal__save').on('click', (el) => {
+							el.preventDefault();
+							let sortData = {};
+							wizardContainer.find('.js-sort-container_element:not(.js-base-element)').each(function () {
+								let orderBy = $(this).find('.js-orderBy').val();
+								if (orderBy) {
+									sortData[orderBy] = $(this).find('.js-sort-order').val();
+								}
+							});
+							container.find('#orderBy').val(JSON.stringify(sortData));
+						});
+					},
+					{ modalId: e.currentTarget.dataset.modalid }
+				);
 			});
 		},
 

@@ -8,9 +8,7 @@
  */
 class OSSPasswords_Save_Action extends Vtiger_Save_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function saveRecord(App\Request $request)
 	{
 		$this->getRecordModelFromRequest($request);

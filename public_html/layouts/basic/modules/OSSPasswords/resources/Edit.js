@@ -53,10 +53,7 @@ Vtiger_Edit_Js(
 						thisInstance.sending = false;
 						e.preventDefault();
 						e.stopPropagation();
-					} else if (
-						data.result.success === true &&
-						(thisInstance.sending === undefined || !thisInstance.sending)
-					) {
+					} else if (data.result.success === true && (thisInstance.sending === undefined || !thisInstance.sending)) {
 						thisInstance.sending = true;
 					} else if (thisInstance.sending) {
 						e.preventDefault();

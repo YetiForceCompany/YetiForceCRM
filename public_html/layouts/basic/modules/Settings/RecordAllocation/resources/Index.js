@@ -208,10 +208,7 @@ jQuery.Class(
 					baseData.find('tr').each(function () {
 						let mode = jQuery(this).data('type'),
 							id = jQuery(this).data('id');
-						if (
-							$.inArray(id, userData[mode]) != -1 ||
-							$.inArray(id.toString(), userData[mode]) != -1
-						) {
+						if ($.inArray(id, userData[mode]) != -1 || $.inArray(id.toString(), userData[mode]) != -1) {
 							activeData.append(jQuery(this));
 						}
 					});
@@ -219,9 +216,7 @@ jQuery.Class(
 				panel
 					.find('.js-panel-body')
 					.removeClass('d-none')
-					.append(
-						bodyContainerTable.removeClass('js-clear-tables d-none').addClass('js-active-panel')
-					);
+					.append(bodyContainerTable.removeClass('js-clear-tables d-none').addClass('js-active-panel'));
 				thisInstance.registerDataTables(bodyContainerTable);
 				thisInstance.registerDragDropEvent(bodyContainerTable);
 			});

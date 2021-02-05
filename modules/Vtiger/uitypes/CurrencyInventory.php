@@ -14,9 +14,7 @@
  */
 class Vtiger_CurrencyInventory_UIType extends Vtiger_Double_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = parent::getDisplayValue($value);

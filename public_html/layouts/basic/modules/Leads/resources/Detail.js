@@ -108,7 +108,6 @@ Vtiger_Detail_Js(
 						parent: '#leadAccordion',
 						toggle: false
 					});
-					app.showScrollBar(jQuery(data).find('#leadAccordion'), { height: '420px' });
 					editViewObj.registerBasicEvents(data);
 					var checkBoxElements = instance.getConvertLeadModules();
 					jQuery.each(checkBoxElements, function (index, element) {
@@ -194,13 +193,9 @@ Vtiger_Detail_Js(
 			container.on('click', '.convertLeadModuleSelection', function (e) {
 				var currentTarget = jQuery(e.currentTarget);
 				var currentModuleName = currentTarget.val();
-				var moduleBlock = currentTarget
-					.closest('.convertLeadModules')
-					.find('#' + currentModuleName + '_FieldInfo');
+				var moduleBlock = currentTarget.closest('.convertLeadModules').find('#' + currentModuleName + '_FieldInfo');
 				var currentTransferModuleElement = jQuery('#transfer' + currentModuleName);
-				var otherTransferModuleElement = jQuery('input[name="transferModule"]').not(
-					currentTransferModuleElement
-				);
+				var otherTransferModuleElement = jQuery('input[name="transferModule"]').not(currentTransferModuleElement);
 				var otherTransferModuleValue = jQuery(otherTransferModuleElement).val();
 				var otherModuleElement = jQuery('#' + otherTransferModuleValue + 'Module');
 
@@ -311,10 +306,15 @@ Vtiger_Detail_Js(
 				aDeferred.resolve(reponseData);
 			});
 			if (fieldDetailList && fieldDetailList.field == 'leadstatus') {
-				var btn = jQuery('.btn-convertLead');
-				var status = JSON.parse(jQuery('#conversion_available_status').val());
-				if (status.length === 0 || jQuery.inArray(fieldDetailList.value, status) != -1) {
-					btn.removeClass('d-none');
+				let btn = jQuery('.btn-convertLead');
+				let conversionAvailableStatus = jQuery('#conversion_available_status').val();
+				if (conversionAvailableStatus) {
+					let status = JSON.parse(conversionAvailableStatus);
+					if (status.length === 0 || jQuery.inArray(fieldDetailList.value, status) != -1) {
+						btn.removeClass('d-none');
+					} else {
+						btn.addClass('d-none');
+					}
 				} else {
 					btn.addClass('d-none');
 				}

@@ -19,9 +19,12 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	public function getParseField($fieldName)
 	{
 		$relatedRecords = $this->getRelatedRecord();
+		$value = $this->get($fieldName);
+		if (empty($relatedRecords['id'])) {
+			return $value;
+		}
 		$relatedModule = $relatedRecords['module'];
 		$relatedId = $relatedRecords['id'];
-		$value = $this->get($fieldName);
 		if (\App\Record::isExists($relatedId)) {
 			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
 			$textParser->setContent($value)->parse();

@@ -28,18 +28,20 @@
 		<div class="o-breadcrumb widget_header mb-2 d-flex px-2 row">
 			<div class="o-breadcrumb__container flex-md-wrap">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-				<div class="my-auto o-header-toggle__actions js-header-toggle__actions d-flex float-right flex-column flex-md-row ml-md-auto pb-md-2 pb-lg-0"
-					 id="o-view-actions__container">
-					<button class="btn btn-secondary mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0 js-download-html" data-html=".contentsDiv" data-file-name="ConfReport" data-js="click">
+				<div class="my-auto o-header-toggle__actions js-header-toggle__actions d-flex float-right flex-column flex-md-row ml-md-auto pb-md-2 pb-lg-0" id="o-view-actions__container">
+					<a class="btn btn-danger btn-sm mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0" href="https://github.com/YetiForceCompany/YetiForceCRM/tree/{App\Version::getShort()}.0/tests/setup" target="_blank" rel="noreferrer noopener">
+						<span class="fas fa-server mr-2"></span>{\App\Language::translate('LBL_LAMP_CONFIG_FILES', $MODULE_NAME)}
+					</a>
+					<button class="btn btn-primary btn-sm mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0 js-download-html" data-html=".contentsDiv" data-file-name="ConfReport" data-js="click">
 						<span class="fas fa-download mr-2"></span>{\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE_NAME)}
 					</button>
-					<button class="btn btn-info js-check-php mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0" data-js="click">
+					<button class="btn btn-success btn-sm js-check-php mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0" data-js="click">
 						<span class="fab fa-php mr-2"></span>{\App\Language::translate('BTN_CHECK_LATEST_VERSION',$QUALIFIED_MODULE)}
 					</button>
-					<button class="btn btn-primary js-test-speed mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0" data-js="click">
+					<button class="btn btn-info btn-sm js-test-speed mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0" data-js="click">
 						<span class="fas fa-stopwatch mr-2"></span>{\App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
 					</button>
-					<button class="btn btn-info js-db-info mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0" data-js="click">
+					<button class="btn btn-info btn-sm js-db-info mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0" data-js="click">
 						<span class="fas fa-database mr-2"></span>{\App\Language::translate('BTN_DB_INFO',$QUALIFIED_MODULE)}
 					</button>
 				</div>
@@ -53,12 +55,12 @@
 			<div class="alert alert-danger" role="alert">
 				<span class="fas fa-exclamation-triangle pr-2"></span>{\App\Language::translate('LBL_ERROR_DURING_VERIFICATION', $MODULE_NAME)}<br />
 				{foreach from=$ERRORS key=KEY item=ITEM}
-					{$KEY} | {$ITEM}<br />
+					{$KEY} | {\App\Purifier::encodeHtml($ITEM)}<br />
 				{/foreach}
 			</div>
 		{/if}
 		<div class="u-columns-count-3 u-columns-gap-1rem u-columns-width-36rem pt-2 text-center u-align-middle-children">
-			<div class="u-columns__item pb-3 libraries table-responsive-md">
+			<div class="u-columns__item pb-3 libraries u-table-min-width-5rem table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
@@ -103,19 +105,91 @@
 									{if !empty($ITEM['www'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
+									{if isset($ITEM['www_info'])}
+										<a href="#" class="js-show-modal-content ml-2" data-content="{\App\Purifier::encodeHtml($ITEM['www_info'])}" data-class="modal-lg u-table-min-width-10rem" data-js="modal">
+											<span class="fas fa-info-circle"></span>
+										</a>
+									{/if}
 								</td>
 							{else}
 								<td>
 									{if !empty($ITEM['www'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
+									{if isset($ITEM['www_info'])}
+										<a href="#" class="js-show-modal-content ml-2" data-content="{\App\Purifier::encodeHtml($ITEM['www_info'])}" data-class="modal-lg u-table-min-width-10rem" data-js="modal">
+											<span class="fas fa-info-circle"></span>
+										</a>
+									{/if}
 								</td>
 								<td>
 									{if !empty($ITEM['cron'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
 									{/if}
+									{if isset($ITEM['cron_info'])}
+										<a href="#" class="js-show-modal-content ml-2" data-content="{\App\Purifier::encodeHtml($ITEM['cron_info'])}" data-class="modal-lg u-table-min-width-10rem" data-js="modal">
+											<span class="fas fa-info-circle"></span>
+										</a>
+									{/if}
 								</td>
 							{/if}
+						</tr>
+					{/foreach}
+					</tbody>
+				</table>
+			</div>
+			<div class="u-columns__item pb-3 headers table-responsive-md">
+				<table class="table table-bordered table-sm m-0">
+					<thead>
+					<tr>
+						<th colspan="5">
+							{\App\Language::translate('LBL_HEADERS_SECURITY', $MODULE_NAME)}
+						</th>
+					</tr>
+					<tr>
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_PHP_VALUE', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_JS_VALUE', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_CSS_VALUE', $MODULE_NAME)}
+						</th>
+					</tr>
+					</thead>
+					<tbody class="u-word-break-all small">
+					{foreach from=$ALL['headers'] key=KEY item=ITEM}
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+							<td class="bg-light text-left u-word-break-keep-all">
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+							</td>
+							<td>
+								{if isset($ITEM['recommended'])}
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Purifier::encodeHtml($ITEM['recommended'], $MODULE_NAME)} {/if}
+								{/if}
+							</td>
+							<td class="u-w-85px">
+								{if !empty($ITEM['www'])}
+									{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Purifier::encodeHtml($ITEM['www'], $MODULE_NAME)} {/if}
+								{/if}
+							</td>
+							<td class="u-w-85px">
+								{if !empty($ITEM['js'])}
+									{if isset($ITEM['isHtml'])} {$ITEM['js']} {else} {\App\Purifier::encodeHtml($ITEM['js'], $MODULE_NAME)} {/if}
+								{/if}
+							</td>
+							<td class="u-w-85px">
+								{if !empty($ITEM['css'])}
+									{if isset($ITEM['isHtml'])} {$ITEM['css']} {else} {\App\Purifier::encodeHtml($ITEM['css'], $MODULE_NAME)} {/if}
+								{/if}
+							</td>
 						</tr>
 					{/foreach}
 					</tbody>
@@ -204,7 +278,7 @@
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
 							<td colspan="2">
-								{if $ITEM.status}
+								{if $ITEM['status']}
 									{\App\Language::translate('LBL_YES', $MODULE_NAME)}
 								{else}
 									{\App\Language::translate('LBL_NO', $MODULE_NAME)}
@@ -215,17 +289,17 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="u-columns__item pb-3 functionalVerification table-responsive-md">
+			<div class="u-columns__item pb-3 pathVerification table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
 						<th colspan="2" scope="col">
-							{\App\Language::translate('LBL_FUNCTIONAL_VERIFICATION_TITLE', $MODULE_NAME)}
+							{\App\Language::translate('LBL_PATH_VERIFICATION_TITLE', $MODULE_NAME)}
 						</th>
 					</tr>
 					<tr>
 						<th colspan="1" scope="col" class="text-left">
-							{App\Language::translate('LBL_FN_NAME', $MODULE_NAME)}
+							{App\Language::translate('LBL_PATH', $MODULE_NAME)}
 						</th>
 						<th colspan="1" scope="col">
 							{App\Language::translate('LBL_IT_WORKS_PROPERLY', $MODULE_NAME)}
@@ -233,16 +307,16 @@
 					</tr>
 					</thead>
 					<tbody class="u-word-break-all small">
-					{foreach from=$ALL['functionalVerification'] key=KEY item=ITEM}
+					{foreach from=$ALL['pathVerification'] key=KEY item=ITEM}
 						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
-							<td class="text-capitalize">
-								{if empty($ITEM['only_info'])}
-									{$ITEM['www']}
+							<td colspan="2">
+								{if $ITEM['status']}
+									{\App\Language::translate('LBL_YES', $MODULE_NAME)}
 								{else}
-									<u>{$ITEM['www']}</u>
+									{\App\Language::translate('LBL_NO', $MODULE_NAME)}
 								{/if}
 							</td>
 						</tr>
@@ -416,12 +490,47 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="u-columns__item pb-3 headers table-responsive-md">
+			<div class="u-columns__item pb-3 functionalVerification table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
-						<th colspan="5">
-							{\App\Language::translate('LBL_HEADERS_SECURITY', $MODULE_NAME)}
+						<th colspan="2" scope="col">
+							{\App\Language::translate('LBL_FUNCTIONAL_VERIFICATION_TITLE', $MODULE_NAME)}
+						</th>
+					</tr>
+					<tr>
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_FN_NAME', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_IT_WORKS_PROPERLY', $MODULE_NAME)}
+						</th>
+					</tr>
+					</thead>
+					<tbody class="u-word-break-all small">
+					{foreach from=$ALL['functionalVerification'] key=KEY item=ITEM}
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+							<td class="bg-light text-left u-word-break-keep-all">
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+							</td>
+							<td class="text-capitalize">
+								{if empty($ITEM['only_info'])}
+									{$ITEM['www']}
+								{else}
+									<u>{$ITEM['www']}</u>
+								{/if}
+							</td>
+						</tr>
+					{/foreach}
+					</tbody>
+				</table>
+			</div>
+			<div class="u-columns__item pb-3 database table-responsive-md">
+				<table class="table table-bordered table-sm m-0">
+					<thead>
+					<tr>
+						<th colspan="4">
+							{\App\Language::translate('LBL_DATABASE_INFORMATION', $MODULE_NAME)}
 						</th>
 					</tr>
 					<tr>
@@ -432,42 +541,32 @@
 							{App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
 						</th>
 						<th colspan="1" scope="col">
-							{App\Language::translate('LBL_PHP_VALUE', $MODULE_NAME)}
-						</th>
-						<th colspan="1" scope="col">
-							{App\Language::translate('LBL_JS_VALUE', $MODULE_NAME)}
-						</th>
-						<th colspan="1" scope="col">
-							{App\Language::translate('LBL_CSS_VALUE', $MODULE_NAME)}
+							<span>{App\Language::translate('LBL_VALUE', $MODULE_NAME)}</span>
 						</th>
 					</tr>
 					</thead>
 					<tbody class="u-word-break-all small">
-					{foreach from=$ALL['headers'] key=KEY item=ITEM}
+					{foreach from=$ALL['database'] key=KEY item=ITEM}
 						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
-							<td>
-								{if isset($ITEM['recommended'])}
-									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Purifier::encodeHtml($ITEM['recommended'], $MODULE_NAME)} {/if}
-								{/if}
-							</td>
-							<td class="u-w-85px">
-								{if !empty($ITEM['www'])}
-									{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Purifier::encodeHtml($ITEM['www'], $MODULE_NAME)} {/if}
-								{/if}
-							</td>
-							<td class="u-w-85px">
-								{if !empty($ITEM['js'])}
-									{if isset($ITEM['isHtml'])} {$ITEM['js']} {else} {\App\Purifier::encodeHtml($ITEM['js'], $MODULE_NAME)} {/if}
-								{/if}
-							</td>
-							<td class="u-w-85px">
-								{if !empty($ITEM['css'])}
-									{if isset($ITEM['isHtml'])} {$ITEM['css']} {else} {\App\Purifier::encodeHtml($ITEM['css'], $MODULE_NAME)} {/if}
-								{/if}
-							</td>
+							{if isset($ITEM['recommended'])}
+								<td>
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
+								</td>
+								<td>
+									{if isset($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
+								</td>
+							{else}
+								<td colspan="2">
+									{if isset($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
+								</td>
+							{/if}
 						</tr>
 					{/foreach}
 					</tbody>
@@ -525,53 +624,6 @@
 									{\App\Purifier::encodeHtml($ITEM['perms'], $MODULE_NAME)}
 								{else}-{/if}
 							</td>
-						</tr>
-					{/foreach}
-					</tbody>
-				</table>
-			</div>
-			<div class="u-columns__item pb-3 database table-responsive-md">
-				<table class="table table-bordered table-sm m-0">
-					<thead>
-					<tr>
-						<th colspan="4">
-							{\App\Language::translate('LBL_DATABASE_INFORMATION', $MODULE_NAME)}
-						</th>
-					</tr>
-					<tr>
-						<th colspan="1" scope="col" class="text-left">
-							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
-						</th>
-						<th colspan="1" scope="col">
-							{App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
-						</th>
-						<th colspan="1" scope="col">
-							<span>{App\Language::translate('LBL_VALUE', $MODULE_NAME)}</span>
-						</th>
-					</tr>
-					</thead>
-					<tbody class="u-word-break-all small">
-					{foreach from=$ALL['database'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
-							<td class="bg-light text-left u-word-break-keep-all">
-								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-							</td>
-							{if isset($ITEM['recommended'])}
-								<td>
-									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
-								</td>
-								<td>
-									{if isset($ITEM['www'])}
-										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
-									{/if}
-								</td>
-							{else}
-								<td colspan="2">
-									{if isset($ITEM['www'])}
-										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
-									{/if}
-								</td>
-							{/if}
 						</tr>
 					{/foreach}
 					</tbody>

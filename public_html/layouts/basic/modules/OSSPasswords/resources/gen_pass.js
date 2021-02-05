@@ -8,8 +8,7 @@ PasswordHelper = {
 	},
 	// Function to generate new password
 	passwordStrength(password, translations) {
-		if (password == '')
-			password = document.getElementById('OSSPasswords_editView_fieldName_password').value;
+		if (password == '') password = document.getElementById('OSSPasswords_editView_fieldName_password').value;
 
 		var desc = [];
 		if (translations == '') {
@@ -48,14 +47,10 @@ PasswordHelper = {
 
 		// password hidden
 		if (password == '') {
-			document.getElementById('passwordDescription').innerHTML = app.vtranslate(
-				'Enter the password'
-			);
+			document.getElementById('passwordDescription').innerHTML = app.vtranslate('Enter the password');
 			document.getElementById('passwordStrength').className = 'input-group-text strength0';
 		} else if (password == '**********') {
-			document.getElementById('passwordDescription').innerHTML = app.vtranslate(
-				'Password is hidden'
-			);
+			document.getElementById('passwordDescription').innerHTML = app.vtranslate('Password is hidden');
 			document.getElementById('passwordStrength').className = 'input-group-text strength0';
 		} else {
 			document.getElementById('passwordDescription').innerHTML = desc[score];

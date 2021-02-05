@@ -12,7 +12,9 @@
  *  Class representing a standard calendar.
  * @extends Calendar_Js
  */
-window.Calendar_Calendar_Js = class extends Calendar_Js {
+window.Calendar_Calendar_Js = class extends (
+	Calendar_Js
+) {
 	setCalendarModuleOptions() {
 		let self = this,
 			options = {
@@ -31,16 +33,12 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 							progressInstance.progressIndicator({ mode: 'hide' });
 						};
 						app.showModalWindow({
-							url: `index.php?module=${
-								this.module
-							}&view=ActivityStateModal&record=${link.searchParams.get('record')}`,
+							url: `index.php?module=${this.module}&view=ActivityStateModal&record=${link.searchParams.get('record')}`,
 							cb: callbackFunction
 						});
 					} else {
 						window.location.assign(
-							`index.php?module=${this.module}&view=Detail&record=${link.searchParams.get(
-								'record'
-							)}`
+							`index.php?module=${this.module}&view=Detail&record=${link.searchParams.get('record')}`
 						);
 					}
 				}
@@ -144,8 +142,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 			data.find('[name="time_start"]').val(startTimeString);
 			data.find('[name="time_end"]').val(endTimeString);
 
-			var headerInstance = new Vtiger_Header_Js();
-			headerInstance.handleQuickCreateData(data, {
+			App.Components.QuickCreate.showModal(data, {
 				callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result);
 				}
@@ -155,11 +152,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 
 	isNewEventToDisplay(eventObject) {
 		if (super.isNewEventToDisplay(eventObject)) {
-			let taskstatus = $.inArray(eventObject.activitystatus.value, [
-				'PLL_POSTPONED',
-				'PLL_CANCELLED',
-				'PLL_COMPLETED'
-			]);
+			let taskstatus = $.inArray(eventObject.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
 			var state = $('.fc-toolbar .js-switch--label-on').last().hasClass('active');
 			if ((state === true && taskstatus >= 0) || (state != true && taskstatus == -1)) {
 				return false;
@@ -198,9 +191,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 	loadCalendarCreateView() {
 		var aDeferred = jQuery.Deferred();
 		var url = `index.php?module=${this.module}&view=QuickCreateAjax`;
-		var headerInstance = Vtiger_Header_Js.getInstance();
-		headerInstance
-			.getQuickCreateForm(url, this.module)
+		App.Components.QuickCreate.getForm(url, this.module)
 			.done(function (data) {
 				aDeferred.resolve(jQuery(data));
 			})
@@ -212,18 +203,12 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 
 	switchTpl(on, off, state) {
 		return `<div class="btn-group btn-group-toggle js-switch c-calendar-switch" data-toggle="buttons">
-					<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on ${
-						state ? '' : 'active'
-					}">
-						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${
-			state ? '' : 'checked'
-		}>
+					<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on ${state ? '' : 'active'}">
+						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${state ? '' : 'checked'}>
 						${on}
 					</label>
 					<label class="btn btn-outline-primary c-calendar-switch__button ${state ? 'active' : ''}">
-						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${
-			state ? 'checked' : ''
-		}>
+						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${state ? 'checked' : ''}>
 						${off}
 					</label>
 				</div>`;
@@ -236,10 +221,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 			switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(
 				calendarview.find('.fc-center')
 			);
-		if (
-			app.getMainParams('showType') == 'current' &&
-			app.moduleCacheGet('defaultShowType') != 'history'
-		) {
+		if (app.getMainParams('showType') == 'current' && app.moduleCacheGet('defaultShowType') != 'history') {
 			switchHistory = false;
 		} else {
 			switchHistory = true;
@@ -257,10 +239,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 				}
 				this.loadCalendarData();
 			});
-		if (
-			app.getMainParams('switchingDays') === 'workDays' &&
-			app.moduleCacheGet('defaultSwitchingDays') !== 'all'
-		) {
+		if (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all') {
 			switchAllDays = false;
 		} else {
 			switchAllDays = true;

@@ -21,10 +21,10 @@ try {
 \App\Process::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
 $cronInstance = new \App\Cron();
-App\Session::init();
+\App\Session::init();
 \App\Session::set('last_activity', microtime(true));
-$authenticatedUserId = App\Session::get('authenticated_user_id');
-$appUniqueKey = App\Session::get('app_unique_key');
+$authenticatedUserId = \App\Session::get('authenticated_user_id');
+$appUniqueKey = \App\Session::get('app_unique_key');
 $user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey === App\Config::main('application_unique_key'));
 $response = '';
 $cronInstance->log('SAPI: ' . PHP_SAPI . ', User: ' . Users::getActiveAdminId(), 'info', false);

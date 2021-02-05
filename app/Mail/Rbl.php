@@ -23,9 +23,10 @@ class Rbl extends \App\Base
 	 */
 	public const REQUEST_STATUS = [
 		0 => ['label' => 'LBL_FOR_VERIFICATION', 'icon' => 'fas fa-question'],
-		1 => ['label' => 'LBL_ACCEPTED', 'icon' => 'fas fa-check text-success '],
+		1 => ['label' => 'LBL_ACCEPTED', 'icon' => 'fas fa-check text-success'],
 		2 => ['label' => 'LBL_REJECTED', 'icon' => 'fas fa-times text-danger'],
 		3 => ['label' => 'PLL_CANCELLED', 'icon' => 'fas fa-minus'],
+		4 => ['label' => 'LBL_REPORTED', 'icon' => 'fas fa-paper-plane text-primary'],
 	];
 	/**
 	 * List statuses.
@@ -33,7 +34,7 @@ class Rbl extends \App\Base
 	 * @var array
 	 */
 	public const LIST_STATUS = [
-		0 => ['label' => 'LBL_ACTIVE', 'icon' => 'fas fa-check text-success '],
+		0 => ['label' => 'LBL_ACTIVE', 'icon' => 'fas fa-check text-success'],
 		1 => ['label' => 'LBL_CANCELED', 'icon' => 'fas fa-times text-danger'],
 	];
 	/**
@@ -42,10 +43,37 @@ class Rbl extends \App\Base
 	 * @var array
 	 */
 	public const LIST_TYPES = [
-		0 => ['label' => 'LBL_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'color' => '#eaeaea'],
-		1 => ['label' => 'LBL_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'color' => '#E1FFE3'],
-		2 => ['label' => 'LBL_PUBLIC_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'color' => '#eaeaea'],
-		3 => ['label' => 'LBL_PUBLIC_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'color' => '#E1FFE3'],
+		0 => ['label' => 'LBL_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'alertColor' => '#ff555233', 'listColor' => '#ff555233'],
+		1 => ['label' => 'LBL_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'alertColor' => '#E1FFE3', 'listColor' => '#fff'],
+		2 => ['label' => 'LBL_PUBLIC_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'alertColor' => '#eaeaea', 'listColor' => '#ff555233'],
+		3 => ['label' => 'LBL_PUBLIC_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'alertColor' => '#E1FFE3', 'listColor' => '#fff'],
+	];
+	/**
+	 * List categories.
+	 *
+	 * @var array
+	 */
+	public const LIST_CATEGORIES = [
+		'Black' => [
+			'[SPAM] Single unwanted message' => 'LBL_SPAM_SINGLE_UNWANTED_MESSAGE',
+			'[SPAM] Mass unwanted message' => 'LBL_SPAM_MASS_UNWANTED_MESSAGE',
+			'[SPAM] Sending an unsolicited message repeatedly' => 'LBL_SPAM_SENDING_UNSOLICITED_MESSAGE_REPEATEDLY',
+			'[Fraud] Money scam' => 'LBL_FRAUD_MONEY_SCAM',
+			'[Fraud] Phishing' => 'LBL_FRAUD_PHISHING',
+			'[Fraud] An attempt to persuade people to buy a product or service' => 'LBL_FRAUD_ATTEMPT_TO_PERSUADE_PEOPLE_TO_BUY',
+			'[Security] An attempt to impersonate another person' => 'LBL_SECURITY_ATTEMPT_TO_IMPERSONATE_ANOTHER_PERSON',
+			'[Security] An attempt to persuade the recipient to open a resource from outside the organization' => 'LBL_SECURITY_ATTEMPT_TO_PERSUADE_FROM_ORGANIZATION',
+			'[Security] An attempt to persuade the recipient to open a resource inside the organization' => 'LBL_SECURITY_ATTEMPT_TO_PERSUADE_INSIDE_ORGANIZATION',
+			'[Security] Infrastructure and application scanning' => 'LBL_SECURITY_INFRASTRUCTURE_AND_APPLICATION_SCANNING',
+			'[Security] Attack on infrastructure or application' => 'LBL_SECURITY_ATTACK_INFRASTRUCTURE_OR_APPLICATION',
+			'[Security] Overloading infrastructure or application' => 'LBL_SECURITY_OVERLOADING_INFRASTRUCTURE_OR_APPLICATION',
+			'[Other] The message contains inappropriate words' => 'LBL_OTHER_MESSAGE_CONTAINS_INAPPROPRIATE_WORDS',
+			'[Other] The message contains inappropriate materials' => 'LBL_OTHER_MESSAGE_CONTAINS_INAPPROPRIATE_MATERIALS',
+			'[Other] Malicious message' => 'LBL_OTHER_MALICIOUS_MESSAGE'
+		],
+		'White' => [
+			'[Whitelist] Trusted sender' => 'LBL_TRUSTED_SENDER'
+		]
 	];
 	/**
 	 * RLB black list type.
@@ -234,30 +262,30 @@ class Rbl extends \App\Base
 	{
 		$rows = [];
 		foreach ($this->mailMimeParser->getAllHeadersByName('Received') as $key => $received) {
-			$row = ['key' => $key];
+			$row = ['key' => $key, 'fromIP' => $received->getFromAddress() ?? ''];
 			if ($received->getFromName()) {
-				$row['from']['Name'] = $received->getFromName();
+				$row['fromName'] = $received->getFromName();
 			}
 			if ($received->getFromHostname()) {
-				$row['from']['Hostname'] = $received->getFromHostname();
-			}
-			if ($received->getFromAddress()) {
-				$row['from']['IP'] = $received->getFromAddress();
+				$row['fromName'] .= PHP_EOL . '(' . $received->getFromHostname() . ')';
 			}
 			if ($received->getByName()) {
-				$row['by']['Name'] = $received->getByName();
+				$row['byName'] = $received->getByName();
 			}
 			if ($received->getByHostname()) {
-				$row['by']['Hostname'] = $received->getByHostname();
+				$row['byName'] .= PHP_EOL . '(' . $received->getByHostname() . ')';
 			}
 			if ($received->getByAddress()) {
-				$row['by']['IP'] = $received->getByAddress();
+				$row['byIP'] = $received->getByAddress();
 			}
 			if ($received->getValueFor('with')) {
-				$row['extra']['With'] = $received->getValueFor('with');
+				$row['extraWith'] = $received->getValueFor('with');
 			}
 			if ($received->getComments()) {
-				$row['extra']['Comments'] = preg_replace('/\s+/', ' ', trim(implode(' | ', $received->getComments())));
+				$row['extraComments'] = preg_replace('/\s+/', ' ', trim(implode(' | ', $received->getComments())));
+			}
+			if ($received->getDateTime()) {
+				$row['dateTime'] = $received->getDateTime()->format('Y-m-d H:i:s');
 			}
 			$rows[] = $row;
 		}
@@ -280,13 +308,16 @@ class Rbl extends \App\Base
 				$fromDomain = $this->getDomain($received->getFromName());
 				$byDomain = $this->getDomain($received->getByName());
 				if (!($fromIp = $received->getFromAddress())) {
-					$fromIp = $this->getIp($received->getFromName());
+					if (!($fromIp = $this->findIpByName($received, 'from'))) {
+						$fromIp = $this->getIpByName($received->getFromName(), $received->getFromHostname());
+					}
 				}
 				if (!($byIp = $received->getByAddress())) {
-					$byIp = $this->getIp($received->getByName());
+					if (!($byIp = $this->findIpByName($received, 'by'))) {
+						$byIp = $this->getIpByName($received->getByName(), $received->getByHostname());
+					}
 				}
-
-				if ($fromIp !== $byIp && ((!$fromDomain && !$byDomain) || $fromDomain !== $byDomain)) {
+				if ($fromIp && $byIp && $fromIp !== $byIp && ((!$fromDomain && !$byDomain) || $fromDomain !== $byDomain)) {
 					$row['ip'] = $fromIp;
 					$row['key'] = $key;
 					$row['from'] = $received->getFromName();
@@ -338,21 +369,65 @@ class Rbl extends \App\Base
 	}
 
 	/**
-	 * Get mail ip address.
+	 * Find mail ip address.
 	 *
-	 * @param string $url
+	 * @param \ZBateson\MailMimeParser\Header\ReceivedHeader $received
+	 * @param string                                         $type
 	 *
 	 * @return string
 	 */
-	public function getIp(string $url): string
+	public function findIpByName(\ZBateson\MailMimeParser\Header\ReceivedHeader $received, string $type): string
 	{
-		if (']' === substr($url, -1) || '[' === substr($url, 0, 1)) {
-			$url = rtrim(ltrim($url, '['), ']');
+		$value = $received->getValueFor($type);
+		$pattern = '~\[(IPv[64])?([a-f\d\.\:]+)\]~i';
+		if (preg_match($pattern, $value, $matches)) {
+			if (!empty($matches[2])) {
+				return $matches[2];
+			}
 		}
-		if (filter_var($url, FILTER_VALIDATE_IP)) {
-			return $url;
+		$lastReceivedPart = null;
+		foreach ($received->getParts() as $part) {
+			if ($part instanceof \ZBateson\MailMimeParser\Header\Part\ReceivedPart) {
+				$lastReceivedPart = $part->getName();
+			} elseif ($part instanceof \ZBateson\MailMimeParser\Header\Part\CommentPart) {
+				if ($lastReceivedPart === $type) {
+					if (preg_match($pattern, $part->getComment(), $matches)) {
+						if (!empty($matches[2])) {
+							return $matches[2];
+						}
+					}
+				}
+			}
 		}
-		return filter_var(gethostbyname($url), FILTER_VALIDATE_IP);
+		return '';
+	}
+
+	/**
+	 * Get mail ip address by hostname or ehloName.
+	 *
+	 * @param string  $fromName
+	 * @param ?string $hostName
+	 *
+	 * @return string
+	 */
+	public function getIpByName(string $fromName, ?string $hostName = null): string
+	{
+		if (']' === substr($fromName, -1) || '[' === substr($fromName, 0, 1)) {
+			$fromName = rtrim(ltrim($fromName, '['), ']');
+		}
+		if (filter_var($fromName, FILTER_VALIDATE_IP)) {
+			return $fromName;
+		}
+		if (0 === stripos($hostName, 'helo=')) {
+			$hostName = substr($hostName, 5);
+			if ($ip = \App\RequestUtil::getIpByName($hostName)) {
+				return $ip;
+			}
+		}
+		if ($ip = \App\RequestUtil::getIpByName($fromName)) {
+			return $ip;
+		}
+		return '';
 	}
 
 	/**
@@ -388,7 +463,18 @@ class Rbl extends \App\Base
 		$status = true;
 		$info = '';
 		if (($returnPathHeader = $this->mailMimeParser->getHeader('Return-Path')) && ($returnPath = $returnPathHeader->getEmail())) {
-			$status = $from === $returnPath;
+			if (0 === stripos($returnPath, 'SRS')) {
+				$separator = substr($returnPath, 4, 1);
+				$parts = explode($separator, $returnPath);
+				$mail = explode('@', array_pop($parts));
+				if (isset($mail[1])) {
+					$last = array_pop($parts);
+					$returnPathSrs = "{$mail[0]}@{$last}";
+				}
+				$status = $from === $returnPathSrs;
+			} else {
+				$status = $from === $returnPath;
+			}
 			if (!$status) {
 				$info .= "From: $from <> Return-Path: $returnPath" . PHP_EOL;
 			}
@@ -478,8 +564,7 @@ class Rbl extends \App\Base
 	{
 		$fromDomain = explode('@', $this->mailMimeParser->getHeader('from')->getEmail())[1];
 		$status = self::DMARC_NONE;
-		$dmarcRecord = $this->getDmarcRecord($fromDomain);
-		if (!$dmarcRecord) {
+		if (empty($fromDomain) || !($dmarcRecord = $this->getDmarcRecord($fromDomain))) {
 			return ['status' => $status, 'logs' => \App\Language::translateArgs('LBL_NO_DMARC_DNS', 'Settings:MailRbl', $fromDomain)] + self::DMARC[$status];
 		}
 		$logs = '';
@@ -546,10 +631,10 @@ class Rbl extends \App\Base
 		$dkimDomain = self::parseHeaderParams($this->mailMimeParser->getHeaderValue('DKIM-Signature'))['d'];
 		$status = $fromDomain === $dkimDomain;
 		if ($status || 's' === $adkim) {
-			return  ['status' => $status, 'log' => ($status ? '' : "From: $fromDomain | DKIM domain: $dkimDomain")];
+			return ['status' => $status, 'log' => ($status ? '' : "From: $fromDomain | DKIM domain: $dkimDomain")];
 		}
 		$status = (mb_strlen($fromDomain) - mb_strlen('.' . $dkimDomain)) === strpos($fromDomain, '.' . $dkimDomain) || (mb_strlen($dkimDomain) - mb_strlen('.' . $fromDomain)) === strpos($dkimDomain, '.' . $fromDomain);
-		return  ['status' => $status, 'log' => ($status ? '' : "From: $fromDomain | DKIM domain: $dkimDomain")];
+		return ['status' => $status, 'log' => ($status ? '' : "From: $fromDomain | DKIM domain: $dkimDomain")];
 	}
 
 	/**
@@ -571,7 +656,7 @@ class Rbl extends \App\Base
 		}
 		$status = $fromDomain === $mailFrom;
 		if ($status || 's' === $aspf) {
-			return  ['status' => $status, 'log' => ($status ? '' : "RFC5321.MailFrom domain: $mailFrom | RFC5322.From domain: $fromDomain")];
+			return ['status' => $status, 'log' => ($status ? '' : "RFC5321.MailFrom domain: $mailFrom | RFC5322.From domain: $fromDomain")];
 		}
 		$logs = '';
 		$status = (mb_strlen($mailFrom) - mb_strlen('.' . $fromDomain)) === strpos($mailFrom, '.' . $fromDomain);
@@ -585,7 +670,51 @@ class Rbl extends \App\Base
 				}
 			}
 		}
-		return  ['status' => $status, 'log' => trim($logs)];
+		return ['status' => $status, 'log' => trim($logs)];
+	}
+
+	/**
+	 * Update list by request id.
+	 *
+	 * @param int $record
+	 *
+	 * @return void
+	 */
+	public function updateList(int $record): void
+	{
+		$sender = $this->getSender();
+		if (!empty($sender['ip'])) {
+			$dbCommand = \App\Db::getInstance('admin')->createCommand();
+			$id = false;
+			if ($ipsList = self::findIp($sender['ip'])) {
+				foreach ($ipsList as $ipList) {
+					if (2 !== (int) $ipList['type']) {
+						$id = $ipList['id'];
+						break;
+					}
+				}
+			}
+			if ($id) {
+				$dbCommand->update('s_#__mail_rbl_list', [
+					'status' => 0,
+					'type' => $this->get('type'),
+					'request' => $record,
+				], ['id' => $id])->execute();
+			} else {
+				$dbCommand->insert('s_#__mail_rbl_list', [
+					'ip' => $sender['ip'],
+					'status' => 0,
+					'type' => $this->get('type'),
+					'request' => $record,
+					'source' => '',
+				])->execute();
+			}
+			\App\Cache::delete('MailRblIpColor', $sender['ip']);
+			\App\Cache::delete('MailRblList', $sender['ip']);
+			if (\Config\Components\Mail::$rcListSendReportAutomatically ?? false) {
+				self::sendReport(['id' => $record]);
+			}
+		}
 	}
 
 	/**
@@ -656,7 +785,7 @@ class Rbl extends \App\Base
 		$color = '';
 		foreach ($rows as $row) {
 			if (1 !== (int) $row['status']) {
-				$color = self::LIST_TYPES[$row['type']]['color'];
+				$color = self::LIST_TYPES[$row['type']]['listColor'];
 				break;
 			}
 		}
@@ -681,5 +810,145 @@ class Rbl extends \App\Base
 			}
 		}
 		return $params;
+	}
+
+	/**
+	 * Add report.
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public static function addReport(array $data): void
+	{
+		$status = 0;
+		if (\Config\Components\Mail::$rcListAcceptAutomatically ?? false) {
+			$status = 1;
+		}
+		$db = \App\Db::getInstance('admin');
+		$db->createCommand()->insert('s_#__mail_rbl_request', [
+			'status' => $status,
+			'datetime' => date('Y-m-d H:i:s'),
+			'user' => \App\User::getCurrentUserId(),
+			'type' => $data['type'],
+			'header' => $data['header'],
+			'body' => $data['body'] ?? null
+		])->execute();
+		$record = $db->getLastInsertID();
+		if ($status && $record) {
+			$rblRecord = self::getRequestById($record);
+			$rblRecord->parse();
+			$rblRecord->updateList($record);
+		}
+	}
+
+	/**
+	 * Send report.
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	public static function sendReport(array $data): array
+	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			return ['status' => false, 'message' => \App\Language::translate('ERR_NO_INTERNET_CONNECTION', 'Other:Exceptions')];
+		}
+		$id = $data['id'];
+		unset($data['id']);
+		$recordModel = self::getRequestById($id);
+		$recordModel->parse();
+		$data['type'] = $recordModel->get('type') ? 'White' : 'Black';
+		if (empty($data['category'])) {
+			$data['category'] = '[SPAM] Single unwanted message';
+		}
+		$url = 'https://soc.yetiforce.com/api/Application';
+		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
+			'http_errors' => false,
+			'headers' => [
+				'crm-ik' => \App\YetiForce\Register::getInstanceKey(),
+			],
+			'json' => array_merge($data, [
+				'ik' => \App\YetiForce\Register::getInstanceKey(),
+				'ip' => $recordModel->getSender()['ip'] ?? '-',
+				'header' => $recordModel->get('header'),
+				'body' => $recordModel->get('body')
+			])
+		]);
+		\App\Log::endProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$body = \App\Json::decode($response->getBody()->getContents());
+		if (200 == $response->getStatusCode() && 'ok' === $body['result']) {
+			\App\Db::getInstance('admin')->createCommand()->update('s_#__mail_rbl_request', [
+				'status' => 4,
+			], ['id' => $id])->execute();
+			return ['status' => true];
+		}
+		\App\Log::warning($response->getReasonPhrase() . ' | ' . ($body['error']['message'] ?? $body['result']), __METHOD__);
+		return ['status' => false, 'message' => ($body['error']['message'] ?? $body['result'])];
+	}
+
+	/**
+	 * Get IP list from public RBL.
+	 *
+	 * @param int $type
+	 *
+	 * @return array
+	 */
+	public static function getPublicList(int $type): array
+	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			return [];
+		}
+		$url = 'https://soc.yetiforce.com/list/' . (self::LIST_TYPE_PUBLIC_BLACK_LIST === $type ? 'black' : 'white');
+		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, [
+			'http_errors' => false,
+			'headers' => [
+				'crm-ik' => \App\YetiForce\Register::getInstanceKey(),
+			],
+		]);
+		\App\Log::endProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$list = [];
+		if (200 === $response->getStatusCode()) {
+			$list = \App\Json::decode($response->getBody()->getContents()) ?? [];
+		} else {
+			$body = \App\Json::decode($response->getBody()->getContents());
+			\App\Log::warning($response->getReasonPhrase() . ' | ' . $body['error']['message'], __METHOD__);
+		}
+		return $list;
+	}
+
+	/**
+	 * Public list synchronization.
+	 *
+	 * @param int $type
+	 *
+	 * @return void
+	 */
+	public static function sync(int $type): void
+	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			return;
+		}
+		$public = self::getPublicList($type);
+		$publicKeys = array_keys($public);
+		$db = \App\Db::getInstance('admin');
+		$dbCommand = $db->createCommand();
+		$query = (new \App\Db\Query())->select(['ip', 'source', 'id'])->from('s_#__mail_rbl_list')->where(['type' => $type]);
+		$rows = $query->createCommand($db)->queryAllByGroup(1);
+		$keys = array_keys($rows);
+		foreach (array_chunk(array_diff($publicKeys, $keys), 50, true) as $chunk) {
+			$insertData = [];
+			foreach ($chunk as $ip) {
+				$insertData[] = [$ip, 0, $type, $public[$ip]['source']];
+			}
+			$dbCommand->batchInsert('s_#__mail_rbl_list', ['ip', 'status', 'type', 'source'], $insertData)->execute();
+		}
+		foreach (array_diff($keys, $publicKeys) as $ip) {
+			$dbCommand->delete('s_#__mail_rbl_list', ['id' => $rows[$ip]['id']])->execute();
+		}
 	}
 }

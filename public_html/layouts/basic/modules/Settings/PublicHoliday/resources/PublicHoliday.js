@@ -1,342 +1,345 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-jQuery.Class(
+$.Class(
 	'Settings_PublicHoliday_Js',
-	{},
 	{
+		$progressiveIndicator: null,
+
 		/**
-		 * Function that deletes holiday from list
+		 * Shows progressive indicator
+		 *
+		 * @param none
+		 * @return none
 		 */
-		registerDeleteHoliday: function (element) {
-			const thisInstance = this;
-			element.find('.deleteHoliday').each(function () {
-				jQuery(this).on('click', function () {
-					thisInstance.deleteHoliday(jQuery(this).data('holiday-id'));
-				});
+		showProgressive() {
+			Settings_PublicHoliday_Js.$progressiveIndicator = $.progressIndicator({
+				position: 'html',
+				blockInfo: { enabled: true }
 			});
 		},
+
 		/**
-		 * Delete chosen holiday date
+		 * Hides progressive indicator
+		 *
+		 * @param none
+		 * @return none
 		 */
-		deleteHoliday: function (holidayId) {
-			const thisInstance = this,
-				progressIndicatorElement = jQuery.progressIndicator({
-					position: 'html',
-					blockInfo: {
-						enabled: true
-					}
-				});
+		hideProgressive() {
+			Settings_PublicHoliday_Js.$progressiveIndicator.progressIndicator({ mode: 'hide' });
+		}
+	},
+	{
+		$editModal: null,
+		$duplicateModal: null,
+		$itemsContainer: null,
+		$activeDateFilter: null,
+
+		/**
+		 * Initialises the class
+		 */
+		init() {
+			let outer = $('.contents');
+			let container = $('#moduleBlocks', outer);
+			this.$editModal = $('.publicHolidayModal', outer);
+			this.$duplicateModal = $('.publicHolidayModalMassDuplicate', outer);
+			this.$itemsContainer = $('#itemsContainer', outer);
+			$('form', this.$editModal).validationEngine($.extend({}, app.validationEngineOptions, { binded: false }));
+			$('form', this.$duplicateModal).validationEngine($.extend({}, app.validationEngineOptions, { binded: false }));
+			this.registerEvents(container);
+		},
+
+		/**
+		 * Reloads holiday items into layout
+		 *
+		 * @param none
+		 * @return none
+		 */
+		reloadItems() {
+			let thisInstance = this;
 			AppConnector.request({
-				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				action: 'Holiday',
-				mode: 'delete',
-				id: holidayId
+				module: app.getModuleName(),
+				view: 'Configuration',
+				mode: 'list',
+				date: this.$activeDateFilter ? this.$activeDateFilter.val() : ''
 			})
-				.done(function (data) {
-					AppConnector.request({
-						module: app.getModuleName(),
-						parent: app.getParentModuleName(),
-						view: 'Configuration',
-						async: false
-					}).done(function (data) {
-						jQuery('.contentsDiv').html(data);
-						thisInstance.registerEvents();
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					});
-					Settings_Vtiger_Index_Js.showMessage({ text: data.result.message });
+				.done((response) => {
+					if (response) {
+						thisInstance.$itemsContainer.html(response);
+					} else {
+						Settings_Vtiger_Index_Js.showMessage({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
+					}
+					thisInstance.$itemsContainer.trigger('items.reloaded');
 				})
-				.fail(function () {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				.fail((error) => {
+					Settings_Vtiger_Index_Js.showMessage({
+						text: error.toString(),
+						type: 'error'
+					});
 				});
 		},
+
 		/**
-		 * Function to register click event for add custom block button
+		 * Registers modal submit event (save, duplicate)
+		 *
+		 * @param container
+		 * @return none
 		 */
-		registerAddDate: function () {
-			const thisInstance = this,
-				contents = jQuery('#layoutDashBoards');
-			contents.find('.addDateWindow').on('click', function (e) {
-				let addBlockContainer = contents.find('.addDateWindowModal').clone(true, true),
-					translate = app.vtranslate('JS_ADD_NEW_HOLIDAY');
-				addBlockContainer.find('.modal-title').text(translate);
-				let callBackFunction = function (data) {
-					data.find('.addDateWindowModal').removeClass('d-none').show();
-					let form = data.find('.addDateWindowForm');
-					jQuery('[name="holidayId"]').val('');
-					jQuery(document)
-						.find('div.blockOverlay')
-						.on('click', function () {
-							let progressIndicatorElement = jQuery.progressIndicator({
-								position: 'html',
-								blockInfo: {
-									enabled: true
-								}
-							});
-							AppConnector.request({
-								module: app.getModuleName(),
-								view: 'Configuration',
-								parent: app.getParentModuleName()
-							}).done(function (data) {
-								jQuery('.contentsDiv').html(data);
-								thisInstance.registerEvents();
-								progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							});
-						});
-
-					jQuery('.cancelLink').on('click', function () {
-						let progressIndicatorElement = jQuery.progressIndicator({
-							position: 'html',
-							blockInfo: {
-								enabled: true
-							}
-						});
-						AppConnector.request({
-							module: app.getModuleName(),
-							view: 'Configuration',
-							parent: app.getParentModuleName()
-						}).done(function (data) {
-							jQuery('.contentsDiv').html(data);
-							thisInstance.registerEvents();
-							progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						});
-					});
-
-					form.on('submit', function (e) {
-						e.preventDefault();
-						let progressIndicatorElement = jQuery.progressIndicator({
-							position: 'html',
-							blockInfo: {
-								enabled: true
-							}
-						});
-						thisInstance.saveNewDate(form).done(function (data) {
-							if (data['success']) {
-								Settings_Vtiger_Index_Js.showMessage({ text: data['result']['message'] });
-								AppConnector.request({
-									module: app.getModuleName(),
-									view: 'Configuration',
-									parent: app.getParentModuleName()
-								}).done(function (data) {
-									jQuery('.contentsDiv').html(data);
-									thisInstance.registerEvents();
-									progressIndicatorElement.progressIndicator({ mode: 'hide' });
-								});
-							} else {
-								progressIndicatorElement.progressIndicator({ mode: 'hide' });
+		registerModalSubmitEvent(container) {
+			let thisInstance = this;
+			$('form', this.$editModal)
+				.add($('form', this.$duplicateModal))
+				.on('submit', (e) => {
+					e.preventDefault();
+					let $target = $(e.target);
+					let isValid = $target.validationEngine('validate');
+					if (isValid) {
+						let params = $target.serializeFormData();
+						Settings_PublicHoliday_Js.showProgressive();
+						AppConnector.request(params)
+							.done((response) => {
+								Settings_PublicHoliday_Js.hideProgressive();
 								Settings_Vtiger_Index_Js.showMessage({
-									text: data['result']['message'],
+									text: response.result.message,
+									type: response.result.success ? 'success' : 'error'
+								});
+								thisInstance.reloadItems();
+							})
+							.fail((error) => {
+								Settings_PublicHoliday_Js.hideProgressive();
+								Settings_Vtiger_Index_Js.showMessage({
+									text: error.toString(),
 									type: 'error'
 								});
-							}
-						});
-						app.hideModalWindow();
-						return true;
-					});
-				};
-				app.showModalWindow(
-					addBlockContainer,
-					function (data) {
-						if (typeof callBackFunction == 'function') {
-							callBackFunction(data);
-						}
-					},
-					{ width: '1000px' }
-				);
-			});
-		},
-
-		/**
-		 * Function to register click event for add custom block button
-		 */
-		registerEditDate: function () {
-			const thisInstance = this,
-				contents = jQuery('#layoutDashBoards');
-			contents.find('.editHoliday').on('click', function (e) {
-				let addBlockContainer = contents.find('.addDateWindowModal').clone(true, true),
-					dateElement = jQuery(this).closest('.holidayElement');
-				addBlockContainer.find('[name="holidayId"]').val(dateElement.data('holiday-id'));
-				addBlockContainer.find('[name="holidayDate"]').val(dateElement.data('holiday-date'));
-				addBlockContainer.find('[name="holidayName"]').val(dateElement.data('holiday-name'));
-				addBlockContainer.find('[name="holidayType"]').val(dateElement.data('holiday-type'));
-				let translate = app.vtranslate('JS_EDIT_HOLIDAY');
-				addBlockContainer.find('.modal-title').text(translate);
-
-				let callBackFunction = function (data) {
-					data.find('.addDateWindowModal').removeClass('d-none').show();
-					let form = data.find('.addDateWindowForm');
-					jQuery('[name="saveButton"]').on('click', function () {
-						let progressIndicatorElement = jQuery.progressIndicator({
-							position: 'html',
-							blockInfo: {
-								enabled: true
-							}
-						});
-						thisInstance.saveNewDate(form).done(function (data) {
-							if (data['success']) {
-								Settings_Vtiger_Index_Js.showMessage({ text: data['result']['message'] });
-								AppConnector.request({
-									module: app.getModuleName(),
-									view: 'Configuration',
-									parent: app.getParentModuleName()
-								}).done(function (data) {
-									jQuery('.contentsDiv').html(data);
-									thisInstance.registerEvents();
-									progressIndicatorElement.progressIndicator({ mode: 'hide' });
-								});
-							} else {
-								progressIndicatorElement.progressIndicator({ mode: 'hide' });
-								Settings_Vtiger_Index_Js.showMessage({
-									text: data['result']['message'],
-									type: 'error'
-								});
-							}
-						});
-						app.hideModalWindow();
-						return true;
-					});
-
-					jQuery(document)
-						.find('div.blockOverlay')
-						.on('click', function () {
-							let progressIndicatorElement = jQuery.progressIndicator({
-								position: 'html',
-								blockInfo: {
-									enabled: true
-								}
 							});
-							AppConnector.request({
-								module: app.getModuleName(),
-								view: 'Configuration',
-								parent: app.getParentModuleName()
-							}).done(function (data) {
-								jQuery('.contentsDiv').html(data);
-								thisInstance.registerEvents();
-								progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							});
-						});
-
-					jQuery('.cancelLink').on('click', function () {
-						let progressIndicatorElement = jQuery.progressIndicator({
-							position: 'html',
-							blockInfo: {
-								enabled: true
-							}
-						});
-						AppConnector.request({
-							module: app.getModuleName(),
-							view: 'Configuration',
-							parent: app.getParentModuleName()
-						}).done(function (data) {
-							jQuery('.contentsDiv').html(data);
-							thisInstance.registerEvents();
-							progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						});
-					});
-
-					form.on('submit', function (e) {
-						e.preventDefault();
-					});
-				};
-				app.showModalWindow(
-					addBlockContainer,
-					function (data) {
-						if (typeof callBackFunction == 'function') {
-							callBackFunction(data);
-						}
-					},
-					{ width: '1000px' }
-				);
-			});
-		},
-
-		/**
-		 * Function to save the new custom block details
-		 */
-		saveNewDate: function (form) {
-			const thisInstance = this,
-				params = form.serializeFormData();
-			params['module'] = app.getModuleName();
-			params['parent'] = app.getParentModuleName();
-			params['action'] = 'Holiday';
-			params['mode'] = 'save';
-
-			if (params['holidayName'] == '' || params['holidayDate'] == '') {
-				Settings_Vtiger_Index_Js.showMessage({
-					text: app.vtranslate('JS_FILL_FORM_ERROR'),
-					type: 'error'
-				});
-				let progressIndicatorElement = jQuery.progressIndicator({
-					position: 'html',
-					blockInfo: {
-						enabled: true
+						app.hideModalWindow();
 					}
 				});
-				AppConnector.request({
-					module: app.getModuleName(),
-					view: 'Configuration',
-					parent: app.getParentModuleName()
-				}).done(function (data) {
-					jQuery('.contentsDiv').html(data);
-					thisInstance.registerEvents();
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-				});
-			} else {
-				let aDeferred = jQuery.Deferred();
-				AppConnector.request(params)
-					.done(function (data) {
-						aDeferred.resolve(data);
+		},
+
+		/**
+		 * Registers event to add new public holiday
+		 *
+		 * @param container
+		 * @return none
+		 */
+		registerAddHolidayEvent(container) {
+			let thisInstance = this;
+			let $addPublicHoliday = $('.addPublicHoliday', container);
+			$addPublicHoliday.click((e) => {
+				let $editModalClone = thisInstance.$editModal.clone(true, true);
+				App.Fields.Picklist.showSelect2ElementView($('select', $editModalClone));
+				app.showModalWindow($editModalClone);
+			});
+		},
+
+		/**
+		 * Registers event to edit existing public holiday
+		 *
+		 * @param container
+		 * @return none
+		 */
+		registerEditHolidayEvent(container) {
+			let thisInstance = this;
+			this.$itemsContainer.on('click', '.editHoliday', (e) => {
+				let $target = $(e.target);
+				let $editModalClone = thisInstance.$editModal.clone(true, true);
+				let $holidayDetails = $target.closest('.holidayElement').data();
+				$('[name=holidayId]', $editModalClone).val($holidayDetails.holidayId);
+				$('[name=holidayDate]', $editModalClone).val($holidayDetails.holidayDate);
+				$('[name=holidayType]', $editModalClone).val($holidayDetails.holidayType);
+				$('[name=holidayName]', $editModalClone).val($holidayDetails.holidayName);
+				App.Fields.Picklist.showSelect2ElementView($('select', $editModalClone));
+				app.showModalWindow($editModalClone);
+			});
+		},
+
+		/**
+		 * Registers event to delete existing public holiday
+		 *
+		 * @param container
+		 * @return none
+		 */
+		registerDeleteHolidayEvent(container) {
+			let thisInstance = this;
+			this.$itemsContainer.on('click', '.deleteHoliday', (e) => {
+				Vtiger_Helper_Js.showConfirmationBox({
+					message: app.vtranslate('JS_DELETE_RECORD_CONFIRMATION')
+				}).done(() => {
+					let $target = $(e.target);
+					let $holidayDetails = $target.closest('.holidayElement').data();
+					Settings_PublicHoliday_Js.showProgressive();
+					AppConnector.request({
+						parent: app.getParentModuleName(),
+						module: app.getModuleName(),
+						action: 'Holiday',
+						mode: 'delete',
+						id: $holidayDetails.holidayId
 					})
-					.fail(function (error) {
-						aDeferred.reject(error);
-					});
-				return aDeferred.promise();
-			}
-
-			return true;
-		},
-
-		registerChangeDate: function () {
-			const thisInstance = this,
-				dateFilter = jQuery('.dateFilter');
-			App.Fields.Date.registerRange(dateFilter, { ranges: false });
-			dateFilter.on('apply.daterangepicker', function (ev, picker) {
-				let format = jQuery(ev.currentTarget).data('dateFormat').toUpperCase();
-				$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
-				let progressIndicatorElement = jQuery.progressIndicator({
-					position: 'html',
-					blockInfo: {
-						enabled: true
-					}
-				});
-				AppConnector.request({
-					module: app.getModuleName(),
-					view: 'Configuration',
-					parent: app.getParentModuleName(),
-					date:
-						'["' + picker.startDate.format(format) + '","' + picker.endDate.format(format) + '"]'
-				}).done(function (data) {
-					jQuery('.contentsDiv').html(data);
-					thisInstance.registerEvents();
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						.done((response) => {
+							Settings_PublicHoliday_Js.hideProgressive();
+							Settings_Vtiger_Index_Js.showMessage({
+								text: response.result.message,
+								type: response.result.success ? 'success' : 'error'
+							});
+							thisInstance.reloadItems();
+						})
+						.fail((error) => {
+							Settings_PublicHoliday_Js.hideProgressive();
+							Settings_Vtiger_Index_Js.showMessage({
+								text: error.toString(),
+								type: 'error'
+							});
+						});
 				});
 			});
 		},
 
 		/**
-		 * register events for layout editor
+		 * Registers mass action checkboxes events
+		 *
+		 * @param none
+		 * @return none
 		 */
-		registerEvents: function () {
-			this.registerDeleteHoliday(jQuery('#moduleBlocks'));
-			this.registerAddDate();
-			this.registerEditDate();
-			this.registerChangeDate();
+		registerChangeMassSelectionEvent(container) {
+			container.on('change', '.selectall', (e) => {
+				let checked = $(e.target).is(':checked');
+				$('.selectall', container).prop('checked', checked);
+				$('.mass-selector', container).prop('checked', checked);
+			});
+			container.on('change', '.mass-selector', (e) => {
+				let $target = $(e.target);
+				if ($target.is(':checked')) {
+					if ($('.mass-selector:not(:checked)', container).length <= 0) {
+						$('.selectall', container).prop('checked', true);
+					}
+				} else {
+					$('.selectall', container).prop('checked', false);
+				}
+			});
+			this.$itemsContainer.on('items.reloaded', (e) => {
+				$('.selectall', container).prop('checked', false);
+			});
+		},
+
+		/**
+		 * Registers mass actions event: duplicate and delete
+		 *
+		 * @param container
+		 * @return none
+		 */
+		registerMassActionEvent(container) {
+			let thisInstance = this;
+			$('.masscopy', container).click((e) => {
+				let isChecked = $('.mass-selector', container).is(':checked');
+				if (isChecked) {
+					let $duplicateModalClone = thisInstance.$duplicateModal.clone(true, true);
+					App.Fields.Picklist.showSelect2ElementView($('select', $duplicateModalClone));
+					let recordList = $('.mass-selector:checked', container)
+						.map((_, selector) => {
+							return $(selector).data('id');
+						})
+						.toArray();
+					$('[name=holidayIds]', $duplicateModalClone).val(JSON.stringify(recordList));
+					app.showModalWindow($duplicateModalClone);
+				} else {
+					Settings_Vtiger_Index_Js.showMessage({
+						text: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'),
+						type: 'info'
+					});
+				}
+			});
+			$('.massdelete', container).click((e) => {
+				let isChecked = $('.mass-selector', container).is(':checked');
+				if (isChecked) {
+					Vtiger_Helper_Js.showConfirmationBox({
+						message: app.vtranslate('JS_DELETE_RECORD_CONFIRMATION')
+					}).done(() => {
+						let recordList = $('.mass-selector:checked', container)
+							.map((idx, selector) => {
+								return $(selector).data('id');
+							})
+							.toArray();
+						Settings_PublicHoliday_Js.showProgressive();
+						AppConnector.request({
+							parent: app.getParentModuleName(),
+							module: app.getModuleName(),
+							action: 'Holiday',
+							mode: 'massDelete',
+							records: recordList
+						})
+							.done((response) => {
+								Settings_PublicHoliday_Js.hideProgressive();
+								Settings_Vtiger_Index_Js.showMessage({
+									text: response.result.message,
+									type: response.result.success ? 'success' : 'error'
+								});
+								thisInstance.reloadItems();
+							})
+							.fail((error) => {
+								Settings_PublicHoliday_Js.hideProgressive();
+								Settings_Vtiger_Index_Js.showMessage({
+									text: error.toString(),
+									type: 'error'
+								});
+							});
+					});
+				} else {
+					Settings_Vtiger_Index_Js.showMessage({
+						text: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'),
+						type: 'info'
+					});
+				}
+			});
+		},
+
+		/**
+		 * Registers date filter change event
+		 *
+		 * @param container
+		 * @return none
+		 */
+		registerChangeDateFilterEvent(container) {
+			$.each(container.find('.dateFilter'), (idx, dateFilter) => {
+				let $dateFilter = $(dateFilter);
+				let $form = $dateFilter.closest('form');
+				App.Fields.Date.registerRange($dateFilter, { ranges: false });
+				$form.validationEngine($.extend({}, app.validationEngineOptions, { binded: true }));
+				$dateFilter.on('change', (e) => {
+					let isValid = $form.validationEngine('validate');
+					if (isValid) {
+						this.$activeDateFilter = $dateFilter;
+						this.reloadItems();
+					}
+				});
+				$form.on('click', '.js-range-reset', (e) => {
+					$dateFilter.val('').trigger('change');
+				});
+			});
+		},
+
+		/**
+		 * Registers events for layout
+		 *
+		 * @param container
+		 * @return none
+		 */
+		registerEvents(container) {
+			this.registerModalSubmitEvent(container);
+			this.registerAddHolidayEvent(container);
+			this.registerEditHolidayEvent(container);
+			this.registerDeleteHolidayEvent(container);
+			this.registerChangeMassSelectionEvent(container);
+			this.registerMassActionEvent(container);
+			this.registerChangeDateFilterEvent(container);
 		}
 	}
 );
 
-jQuery(document).ready(function () {
-	let instance = new Settings_PublicHoliday_Js();
-	instance.registerEvents();
+$(document).ready((e) => {
+	new Settings_PublicHoliday_Js();
 });

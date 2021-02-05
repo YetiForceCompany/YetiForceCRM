@@ -183,12 +183,12 @@ class RecordHistory extends \Api\Core\BaseAction
 		foreach ($recentActivities as $recordModel) {
 			$row = [
 				'time' => $recordModel->getDisplayActivityTime(),
-				'owner' => $recordModel->getModifiedBy()->getDisplayName(),
+				'owner' => \App\Fields\Owner::getUserLabel($recordModel->get('whodid')) ?: '',
 				'status' => \App\Language::translate($recordModel->getStatusLabel(), 'ModTracker'),
 			];
 			if ($isRawData) {
 				$row['rawTime'] = $recordModel->getActivityTime();
-				$row['rawOwner'] = $recordModel->getModifiedBy()->getId();
+				$row['rawOwner'] = $recordModel->get('whodid') ?: 0;
 				$row['rawStatus'] = $recordModel->getStatusLabel();
 			}
 			if ($recordModel->isCreate() || $recordModel->isUpdate() || $recordModel->isTransferEdit()) {

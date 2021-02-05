@@ -9,7 +9,7 @@ build:
     rabbitmq: false
     postgresql: false
     php:
-      version: 7.2
+      version: 7.3
 
   tests:
     stop_on_failure: false

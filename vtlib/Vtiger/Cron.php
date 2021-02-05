@@ -329,13 +329,8 @@ class Cron
 	 */
 	public function checkTimeout(): bool
 	{
-		if ($this->cronInstance->checkCronTimeout()) {
-			return true;
-		}
-		if (!empty($this->data['max_exe_time']) && time() >= (($this->data['max_exe_time'] * 60) + \App\Cron::$cronTimeStart)) {
-			return true;
-		}
-		return false;
+		return $this->cronInstance->checkCronTimeout() ||
+		(!empty($this->data['max_exe_time']) && $this->getLastStart() && time() >= (($this->data['max_exe_time'] * 60) + $this->getLastStart()));
 	}
 
 	/**

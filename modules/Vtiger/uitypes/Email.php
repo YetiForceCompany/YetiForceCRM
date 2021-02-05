@@ -11,9 +11,7 @@
 
 class Vtiger_Email_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		if (\in_array($operator, ['e', 'n'])) {
@@ -45,9 +43,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if ($value && !$rawText) {
@@ -69,9 +65,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $length));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		if ($value && !$rawText) {
@@ -103,9 +97,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 		return 'Edit/Field/Email.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];

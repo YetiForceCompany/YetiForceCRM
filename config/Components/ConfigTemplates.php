@@ -130,17 +130,21 @@ return [
 			'default' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
 			'description' => 'List of modules from which you can choose e-mail address in the mail.'
 		],
-		'helpdeskCreatedStatus' => [
-			'default' => 'Open',
-			'description' => 'What status should be set when a ticket is created.'
+		'rcListCheckRbl' => [
+			'default' => true,
+			'description' => 'Should the message sender on the mail list be verified in the mail client?'
 		],
-		'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS' => [
-			'default' => 'Answered',
-			'description' => 'What status should be set when a new mail is received regarding a ticket, whose status is awaiting response.'
+		'rcListAcceptAutomatically' => [
+			'default' => false,
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+			'description' => 'Should the system accept spam reports automatically?'
 		],
-		'HELPDESK_OPENTICKET_STATUS' => [
-			'default' => 'Answered',
-			'description' => 'What status should be set when a ticket is closed, but a new mail regarding the ticket is received.'
+		'rcListSendReportAutomatically' => [
+			'default' => false,
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+			'description' => 'Should the system send reports automatically to https://soc.yetiforce.com?'
 		],
 		'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => [
 			'default' => false,
@@ -354,10 +358,14 @@ return [
 		],
 	],
 	'MeetingService' => [
-		'defaultEmailTemplate' => [
+		'emailTemplateDefault' => [
+			'default' => 0,
+			'description' => 'Default email templates.',
+		],
+		'emailTemplateModule' => [
 			'default' => [],
 			'description' => "List of default email templates.\n@example ['Calendar'=>1]",
-		]
+		],
 	],
 	'Phone' => [
 		'defaultPhoneCountry' => [

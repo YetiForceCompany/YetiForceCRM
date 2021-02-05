@@ -243,4 +243,27 @@ class Utils
 		$string = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $string);
 		return trim($string, $delimiter);
 	}
+
+	/**
+	 * Change the order of associative array.
+	 *
+	 * @param array $array
+	 * @param array $order
+	 *
+	 * @return array
+	 */
+	public static function changeSequence(array $array, array $order): array
+	{
+		if (!$order) {
+			return $array;
+		}
+		$returnLinks = [];
+		foreach ($order as $value) {
+			if ($array[$value]) {
+				$returnLinks[$value] = $array[$value];
+			}
+			unset($array[$value]);
+		}
+		return array_merge($returnLinks, $array);
+	}
 }

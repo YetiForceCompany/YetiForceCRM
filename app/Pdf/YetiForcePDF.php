@@ -477,8 +477,8 @@ class YetiForcePDF extends PDF
 	{
 		$html = $this->watermark ? $this->wrapWatermark($this->watermark) : '';
 		$html .= $this->header ? $this->wrapHeaderContent($this->header) : '';
-		$html .= $this->footer ? $this->wrapFooterContent($this->footer) : '';
 		$html .= $this->html;
+		$html .= $this->footer ? $this->wrapFooterContent($this->footer) : '';
 		return $html;
 	}
 
@@ -497,7 +497,7 @@ class YetiForcePDF extends PDF
 				$watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.1;">';
 			}
 		} elseif (self::WATERMARK_TYPE_TEXT === $templateModel->get('watermark_type') && '' !== trim($templateModel->get('watermark_text'))) {
-			$watermark = '<div style="opacity:0.1;display:inline-block;">' . $templateModel->get('watermark_text') . '</div>';
+			$watermark = '<div style="opacity:0.1;display:inline-block;">' . $templateModel->parseVariables($templateModel->get('watermark_text')) . '</div>';
 		}
 		return $watermark;
 	}

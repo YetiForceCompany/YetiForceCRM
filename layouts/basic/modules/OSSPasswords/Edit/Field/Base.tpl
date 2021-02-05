@@ -27,7 +27,7 @@
 					readonly
 				{/if}
 			   data-fieldinfo='{$FIELD_INFO}'
-				{if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}/>
+				{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'{/if}/>
 		{if $FIELD_NAME eq 'password' && ($VIEW eq 'Edit'  || $VIEW eq 'QuickCreateAjax')}
 			<div class="input-group-append">
 				{if $RECORD && $RECORD->getId() neq ''}

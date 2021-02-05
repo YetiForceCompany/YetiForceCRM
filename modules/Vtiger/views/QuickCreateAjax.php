@@ -27,46 +27,44 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @var Vtiger_Record_Model Record model instance.
 	 */
+	public $recordModel;
+	/**
+	 * @var Vtiger_Field_Model[] Field instances.
+	 */
+	public $fields;
+	/**
+	 * @var Vtiger_Field_Model[] Field instances.
+	 */
+	public $recordStructure;
+	/**
+	 * @var array Hidden inputs.
+	 */
+	public $hiddenInput = [];
+	/**
+	 * @var string From view name.
+	 */
+	public $fromView = 'QuickCreate';
+
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-		$moduleModel = $recordModel->getModule();
-		$fieldList = $moduleModel->getFields();
-		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
-			$fieldModel = $fieldList[$fieldName];
-			if ($fieldModel->isWritable()) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
-			}
-		}
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
-		$recordStructure = $recordStructureInstance->getStructure();
-		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
-		$fieldValues = [];
-		$sourceRelatedField = $moduleModel->getValuesFromSource($request);
-		foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
-			if (isset($recordStructure[$fieldName])) {
-				$fieldvalue = $recordStructure[$fieldName]->get('fieldvalue');
-				if (empty($fieldvalue)) {
-					$recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
-				}
-			} else {
-				if (isset($fieldList[$fieldName])) {
-					$fieldModel = $fieldList[$fieldName];
-					$fieldModel->set('fieldvalue', $fieldValue);
-					$fieldValues[$fieldName] = $fieldModel;
-				}
-			}
-		}
+		$this->recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$moduleModel = $this->recordModel->getModule();
+		$this->fields = $moduleModel->getFields();
+		$this->loadFieldValuesFromRequest($request);
+
+		$recordStructureInstance = $this->getRecordStructure();
+		$this->recordStructure = $recordStructureInstance->getStructure();
+		$fieldValues = $this->loadFieldValuesFromSource($request);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$layout = $moduleModel->getLayoutTypeForQuickCreate();
 		if ('blocks' === $layout) {
 			$blockModels = $moduleModel->getBlocks();
 			$blockRecordStructure = $blockIdFieldMap = [];
-			foreach ($recordStructure as $fieldModel) {
+			foreach ($this->recordStructure as $fieldModel) {
 				$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
 				$blockRecordStructure[$fieldModel->block->label][$fieldModel->name] = $fieldModel;
 			}
@@ -77,12 +75,14 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 			}
 			$viewer->assign('RECORD_STRUCTURE', $blockRecordStructure);
 			$viewer->assign('BLOCK_LIST', $blockModels);
+		} else {
+			$viewer->assign('RECORD_STRUCTURE', $this->recordStructure);
 		}
-		$viewer->assign('ADDRESS_BLOCK_LABELS', ['LBL_ADDRESS_INFORMATION', 'LBL_ADDRESS_MAILING_INFORMATION', 'LBL_ADDRESS_DELIVERY_INFORMATION', 'LBL_ADDRESS_BILLING', 'LBL_ADDRESS_SHIPPING']);
 		$viewer->assign('LAYOUT', $layout);
+		$viewer->assign('ADDRESS_BLOCK_LABELS', ['LBL_ADDRESS_INFORMATION', 'LBL_ADDRESS_MAILING_INFORMATION', 'LBL_ADDRESS_DELIVERY_INFORMATION', 'LBL_ADDRESS_BILLING', 'LBL_ADDRESS_SHIPPING']);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode($mappingRelatedField));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('LIST_FILTER_FIELDS', \App\Json::encode(\App\ModuleHierarchy::getFieldsForListFilter($moduleName)));
 		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
@@ -93,32 +93,87 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODE', 'edit');
-		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('RECORD', $this->recordModel);
+		$viewer->assign('HIDDEN_INPUT', $this->hiddenInput);
+		$viewer->assign('FROM_VIEW', $this->fromView);
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Config::main('upload_maxsize'));
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Load field values from request.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
 	 */
+	public function loadFieldValuesFromRequest(App\Request $request): void
+	{
+		foreach (array_intersect($request->getKeys(), array_keys($this->fields)) as $fieldName) {
+			$fieldModel = $this->fields[$fieldName];
+			if ($fieldModel->isWritable()) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->recordModel);
+			}
+		}
+	}
+
+	/**
+	 * Load field values from source.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return Vtiger_Field_Model[] Field instances
+	 */
+	public function loadFieldValuesFromSource(App\Request $request): array
+	{
+		$fieldValues = [];
+		$sourceRelatedField = $this->recordModel->getModule()->getValuesFromSource($request);
+		foreach ($sourceRelatedField as $fieldName => $fieldValue) {
+			if (isset($this->recordStructure[$fieldName])) {
+				if (empty($this->recordStructure[$fieldName]->get('fieldvalue'))) {
+					$this->recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
+				}
+			} else {
+				if (isset($this->fields[$fieldName])) {
+					$fieldModel = $this->fields[$fieldName];
+					$fieldModel->set('fieldvalue', $fieldValue);
+					$fieldValues[$fieldName] = $fieldModel;
+				}
+			}
+		}
+		return $fieldValues;
+	}
+
+	/**
+	 * Get record structure.
+	 *
+	 * @return Vtiger_RecordStructure_Model
+	 */
+	public function getRecordStructure(): Vtiger_RecordStructure_Model
+	{
+		return Vtiger_RecordStructure_Model::getInstanceFromRecordModel($this->recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
+	}
+
+	/** {@inheritdoc} */
 	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		echo $viewer->view('QuickCreate.tpl', $request->getModule(), true);
+		$viewer->view('QuickCreate.tpl', $request->getModule());
 		parent::postProcessAjax($request);
 	}
 
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$jsFileNames = [
+		return $this->checkAndConvertJsScripts([
 			"modules.$moduleName.resources.Edit",
 			"modules.$moduleName.resources.QuickCreate",
-		];
-		return $this->checkAndConvertJsScripts($jsFileNames);
+		]);
 	}
 
+	/** {@inheritdoc} */
 	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();

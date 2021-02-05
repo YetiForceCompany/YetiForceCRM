@@ -8,9 +8,7 @@
  */
 class OSSPasswords_Record_Model extends Vtiger_Record_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
 		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);

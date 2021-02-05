@@ -1,9 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	{if $FIELD_MODEL->getName() == 'date_start' && in_array($VIEW, ['Edit', 'QuickCreateAjax']) }
+	{if $FIELD_MODEL->getName() == 'date_start' && in_array($VIEW, ['Edit', 'QuickCreateAjax', 'QuickEditModal']) }
 		{assign var=MODULE_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()}
 		{assign var=TIME_FIELD value=$MODULE_MODEL->getField('time_start')}
-	{elseif $FIELD_MODEL->getName() == 'due_date' && in_array($VIEW, ['Edit', 'QuickCreateAjax'])}
+	{elseif $FIELD_MODEL->getName() == 'due_date' && in_array($VIEW, ['Edit', 'QuickCreateAjax', 'QuickEditModal'])}
 		{assign var=MODULE_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()}
 		{assign var=TIME_FIELD value=$MODULE_MODEL->getField('time_end')}
 	{/if}

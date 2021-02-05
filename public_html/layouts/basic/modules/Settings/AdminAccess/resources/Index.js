@@ -28,9 +28,7 @@ jQuery.Class(
 					}
 				},
 				initComplete: function () {
-					App.Fields.Picklist.showSelect2ElementView(
-						form.find('select.select2,select.select2noactive')
-					);
+					App.Fields.Picklist.showSelect2ElementView(form.find('select.select2,select.select2noactive'));
 					App.Fields.DateTime.register(form);
 				}
 			});
@@ -70,6 +68,7 @@ jQuery.Class(
 					progress.progressIndicator({ mode: 'hide' });
 					contentContainer.html(data);
 					this.registerTabEvents(contentContainer);
+					app.registerFormsEvents(contentContainer);
 				})
 				.fail((_) => {
 					app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });

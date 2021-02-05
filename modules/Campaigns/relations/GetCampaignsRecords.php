@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use App\Relation\RelationInterface;
 
@@ -19,6 +20,12 @@ class Campaigns_GetCampaignsRecords_Relation implements RelationInterface
 	 * Name of the table that stores relations.
 	 */
 	public const TABLE_NAME = 'vtiger_campaign_records';
+
+	/** {@inheritdoc} */
+	public function getRelationType(): int
+	{
+		return Vtiger_Relation_Model::RELATION_M2M;
+	}
 
 	/**
 	 * {@inheritdoc}

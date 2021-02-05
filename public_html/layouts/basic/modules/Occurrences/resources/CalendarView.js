@@ -1,6 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
-window.Occurrences_Calendar_Js = class Occurrences_Calendar_Js extends Vtiger_Calendar_Js {
+window.Occurrences_Calendar_Js = class Occurrences_Calendar_Js extends (
+	Vtiger_Calendar_Js
+) {
 	/**
 	 * Register day click event.
 	 * @param {string} date
@@ -46,8 +48,7 @@ window.Occurrences_Calendar_Js = class Occurrences_Calendar_Js extends Vtiger_Ca
 			data.find('[name="date_start"]').val(startDateString + ' ' + startTimeString);
 			data.find('[name="date_end"]').val(endDateString + ' ' + endTimeString);
 
-			let headerInstance = new Vtiger_Header_Js();
-			headerInstance.handleQuickCreateData(data, {
+			App.Components.QuickCreate.showModal(data, {
 				callbackFunction(data) {
 					self.loadCalendarData();
 				}

@@ -617,17 +617,6 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'roundcube_system' => [
-				'columns' => [
-					'name' => $this->stringType(64)->notNull(),
-					'value' => $this->mediumText(),
-				],
-				'primaryKeys' => [
-					['roundcube_system_pk', 'name']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'roundcube_users' => [
 				'columns' => [
 					'user_id' => $this->primaryKey(10)->unsigned(),

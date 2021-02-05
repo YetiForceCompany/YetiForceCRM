@@ -63,10 +63,13 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getFileDetails()
 	{
-		return (new \App\Db\Query())->from('vtiger_attachments')
-			->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-			->where(['crmid' => $this->get('id')])
-			->one();
+		if (!isset($this->fileDetails)) {
+			$this->fileDetails = (new \App\Db\Query())->from('vtiger_attachments')
+				->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+				->where(['crmid' => $this->get('id')])
+				->one();
+		}
+		return $this->fileDetails;
 	}
 
 	/**
@@ -242,13 +245,15 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			} else {
 				$file = $_FILES[$fileNameByField] ?? [];
 			}
-			if (!empty($file['name']) && isset($file['error']) && UPLOAD_ERR_OK === $file['error'] &&
-				($fileInstance = \App\Fields\File::loadFromRequest($file)) && $fileInstance->validateAndSecure()
-			) {
-				$this->setFieldValue('filename', \App\Purifier::decodeHtml(App\Purifier::purify($file['name'])))
-					->setFieldValue('filetype', $fileInstance->getMimeType())
-					->setFieldValue('filesize', $fileInstance->getSize())
-					->setFieldValue('filedownloadcount', 0);
+			if (!empty($file['name']) && isset($file['error'])) {
+				if (UPLOAD_ERR_OK === $file['error'] && ($fileInstance = \App\Fields\File::loadFromRequest($file)) && $fileInstance->validateAndSecure()) {
+					$this->setFieldValue('filename', \App\Purifier::decodeHtml(App\Purifier::purify($file['name'])))
+						->setFieldValue('filetype', $fileInstance->getMimeType())
+						->setFieldValue('filesize', $fileInstance->getSize())
+						->setFieldValue('filedownloadcount', 0);
+				} else {
+					\App\Log::error("Error while saving a file, saving failed. | ID: {$this->getId()} | File: {$file['name']} | Error: " . \App\Fields\File::getErrorMessage($file['error']));
+				}
 			}
 		} elseif ('E' === $this->get('filelocationtype')) {
 			$fileName = $this->get($fileNameByField);
