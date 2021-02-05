@@ -44,11 +44,11 @@
 						</button>
 					</div>
 					<div id="moduleBlocks">
-						<input type="hidden" name="filter_title" value='{\App\Json::encode($WIDGETS_WITH_FILTER_TITLE)}'>
-						<input type="hidden" name="filter_date" value='{\App\Json::encode($WIDGETS_WITH_FILTER_DATE)}'>
+						<input type="hidden" name="filter_title" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_TITLE))}'>
+						<input type="hidden" name="filter_date" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_DATE))}'>
 						<input type="hidden" name="filter_users"
-							   value='{\App\Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
-						<input type="hidden" name="filter_restrict" value='{\App\Json::encode($RESTRICT_FILTER)}'>
+							   value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_USERS))}'>
+						<input type="hidden" name="filter_restrict" value='{\App\Purifier::encodeHtml(\App\Json::encode($RESTRICT_FILTER))}'>
 						{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 							{if isset($AUTHORIZATION_INFO['name'])}
 								{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO['name']}

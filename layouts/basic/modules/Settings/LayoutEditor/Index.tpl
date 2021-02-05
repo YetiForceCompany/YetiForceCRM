@@ -252,7 +252,7 @@
 							</div>
 						{/foreach}
 					</div>
-					<input type="hidden" class="inActiveFieldsArray" value='{\App\Json::encode($IN_ACTIVE_FIELDS)}'/>
+					<input type="hidden" class="inActiveFieldsArray" value='{\App\Purifier::encodeHtml(\App\Json::encode($IN_ACTIVE_FIELDS))}'/>
 					{include file=\App\Layout::getTemplatePath('NewCustomBlock.tpl', $QUALIFIED_MODULE)}
 					{include file=\App\Layout::getTemplatePath('NewCustomField.tpl', $QUALIFIED_MODULE)}
 					{include file=\App\Layout::getTemplatePath('AddBlockModal.tpl', $QUALIFIED_MODULE)}
