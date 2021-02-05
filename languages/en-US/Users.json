@@ -401,7 +401,7 @@
     "LBL_VISIT_PURPOSE_INFO": "Enter visit purpose"
   },
   "js": {
-    "JS_DELETE_USER_CONFIRMATION": "When a User is deleted, the user will be marked as \"Inactive\" and no new records can be assigned to the User, and the user will not be able to login. Billing will stop for this user. Are you sure you want to delete?",
+    "JS_DELETE_USER_CONFIRMATION": "When a User is deleted, the user will be marked as \"Inactive\" and no new records can be assigned to the User, and the user will not be able to login. Are you sure you want to delete?",
     "JS_DELETE_USER_PERMANENT_CONFIRMATION": "Are you sure you want to delete user permanently?",
     "JS_RESTORE_CONFIRMATION": "Are you sure you want to restore user?",
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Decimal separator and grouping separator can't be the same.",
