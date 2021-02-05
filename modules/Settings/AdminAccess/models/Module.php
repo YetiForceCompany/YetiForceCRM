@@ -74,8 +74,8 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 			'askAdminAboutVisitPurpose' => [
 				'purifyType' => 'bool',
 				'uitype' => 56,
-				'label' => 'LBL_ADMIN_ABOUT_VISIT_PURPOSE',
-				'labelDesc' => 'LBL_ADMIN_ABOUT_VISIT_PURPOSE_DESC',
+				'label' => 'LBL_LOGIN_ADMIN_VISIT_PURPOSE',
+				'labelDesc' => 'LBL_LOGIN_ADMIN_VISIT_PURPOSE_DESC',
 				'fieldvalue' => $config['askAdminAboutVisitPurpose'] ?? ''
 			],
 		];
