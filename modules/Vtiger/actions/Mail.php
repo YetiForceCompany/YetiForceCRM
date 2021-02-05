@@ -148,8 +148,8 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 		$moduleModel = $queryGenerator->getModuleModel();
 		$baseTableName = $moduleModel->get('basetable');
 		$baseTableId = $moduleModel->get('basetableid');
-		$queryGenerator->setFields(['id', $request->getByType('field')]);
-		$queryGenerator->addCondition($request->getByType('field'), '', 'ny');
+		$queryGenerator->setFields(['id', $request->getByType('field', 'Alnum')]);
+		$queryGenerator->addCondition($request->getByType('field', 'Alnum'), '', 'ny');
 		$selected = $request->getArray('selected_ids', 2);
 		if ($selected && 'all' !== $selected[0]) {
 			$queryGenerator->addNativeCondition(["$baseTableName.$baseTableId" => $selected]);

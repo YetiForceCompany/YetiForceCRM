@@ -52,6 +52,7 @@ abstract class Page extends Base
 		$view->assign('REMINDER_ACTIVE', $activeReminder);
 		$view->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$view->assign('MENUS', $this->getMenu());
+		$view->assign('SHOW_FOOTER_BAR', $this->showFooter() && 8 !== \App\YetiForce\Register::getStatus());
 		if (!$request->isEmpty('mid')) {
 			$view->assign('MID', $request->getInteger('mid'));
 		}
@@ -78,7 +79,6 @@ abstract class Page extends Base
 		parent::postProcess($request, false);
 		$view = $this->getViewer($request);
 		$view->assign('ACTIVITY_REMINDER', \Users_Record_Model::getCurrentUserModel()->getCurrentUserActivityReminderInSeconds());
-		$view->assign('SHOW_FOOTER_BAR', $this->showFooter() && 8 !== \App\YetiForce\Register::getStatus());
 		$view->assign('SHOW_FOOTER', true);
 		if ($display) {
 			$view->view('PageFooter.tpl');
