@@ -17,6 +17,6 @@ class Vtiger_Cache_Cron extends \App\CronHandler
 	/** {@inheritdoc} */
 	public function process()
 	{
-		\App\Cache::cleanOldFiles();
+		\App\Cache::clearTemporaryFiles();
 	}
 }

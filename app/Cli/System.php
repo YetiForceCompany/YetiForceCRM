@@ -42,6 +42,8 @@ class System extends Base
 		}, \Settings_Updates_Module_Model::getUpdates());
 		if ($table) {
 			$this->climate->table($table);
+		} else {
+			$this->climate->lightGreen('No updates');
 		}
 		$this->cli->actionsList('System');
 	}
