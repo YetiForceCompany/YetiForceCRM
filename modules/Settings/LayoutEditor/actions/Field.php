@@ -110,7 +110,12 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			}
 		}
 		if ($request->has('fieldMask')) {
-			$fieldInstance->set('fieldparams', $request->getByType('fieldMask', 'Text'));
+			$params = $fieldInstance->getFieldParams();
+			$params['mask'] = $request->getByType('fieldMask', 'Text');
+			if (empty($params['mask'])) {
+				unset($params['mask']);
+			}
+			$fieldInstance->set('fieldparams', $params ? \App\Json::encode($params) : '');
 		}
 		$fieldInstance->set('anonymizationTarget', $request->getArray('anonymizationTarget', \App\Purifier::STANDARD));
 		$response = new Vtiger_Response();
