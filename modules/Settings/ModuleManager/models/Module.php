@@ -17,7 +17,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static $baseModuleTools = ['Import', 'Export', 'Merge', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter', 'QuickExportToExcel', 'ExportPdf', 'RecordMapping',
-		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord', 'CloseRecord', 'ReceivingMailNotifications', 'CreateDashboardChartFilter', 'TimeLineList', 'ArchiveRecord', 'ActiveRecord', 'MassTrash', 'MoveToTrash', 'RecordConventer', 'AutoAssignRecord', 'AssignToYourself', 'InterestsConflictUsers'];
+		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord', 'CloseRecord', 'ReceivingMailNotifications', 'CreateDashboardChartFilter', 'TimeLineList', 'ArchiveRecord', 'ActiveRecord', 'MassTrash', 'MoveToTrash', 'RecordConventer', 'AutoAssignRecord', 'AssignToYourself', 'InterestsConflictUsers', 'RecordCollector'];
 
 	/**
 	 * @var array Base module tools exceptions.
