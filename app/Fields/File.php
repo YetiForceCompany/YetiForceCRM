@@ -1299,26 +1299,28 @@ class File
 				$result = false;
 			}
 		} else {
-			$img = \imagecreatefromstring($file->getContents());
-			if (false !== $img) {
-				switch ($file->getExtension()) {
-					case 'jpg':
-					case 'jpeg':
-						$result = \imagejpeg($img, $file->getPath());
-						break;
-					case 'png':
-						$result = \imagepng($img, $file->getPath());
-						break;
-					case 'gif':
-						$result = \imagegif($img, $file->getPath());
-						break;
-					case 'bmp':
-						$result = \imagebmp($img, $file->getPath());
-						break;
-					default:
-						break;
+			if(in_array($file->getExtension(),['jpeg', 'png', 'gif', 'bmp', 'wbmp', 'gd2', 'webp'])){
+				$img = \imagecreatefromstring($file->getContents());
+				if (false !== $img) {
+					switch ($file->getExtension()) {
+						case 'jpg':
+						case 'jpeg':
+							$result = \imagejpeg($img, $file->getPath());
+							break;
+						case 'png':
+							$result = \imagepng($img, $file->getPath());
+							break;
+						case 'gif':
+							$result = \imagegif($img, $file->getPath());
+							break;
+						case 'bmp':
+							$result = \imagebmp($img, $file->getPath());
+							break;
+						default:
+							break;
+					}
+					\imagedestroy($img);
 				}
-				\imagedestroy($img);
 			}
 		}
 		return $result;
