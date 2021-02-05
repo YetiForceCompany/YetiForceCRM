@@ -254,6 +254,9 @@
 				</div>
 			</div>
 		</div>
+	{else}
+		<div class="js-footer" data-js="height">
+		</div>
 	{/if}
 	<!-- /tpl-Base-Footer -->
 {/strip}
