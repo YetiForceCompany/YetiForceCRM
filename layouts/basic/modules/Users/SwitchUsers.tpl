@@ -28,7 +28,7 @@
 				</div>
 				{if \App\Config::security('askAdminAboutVisitPurpose', true)}
 					<div class="form-group js-sub-container{if !$FIRST_SWITCH_USER.isAdmin} d-none{/if}">
-						<textarea id="visitPurpose" placeholder="{App\Language::translate('LBL_VISIT_PURPOSE_INFO',$MODULE_NAME)}" maxlength="501" class="js-text-element" name="visitPurpose" data-validation-engine="validate[required,maxSize[500]]" {if !$FIRST_SWITCH_USER.isAdmin} disabled="disabled"{/if}></textarea>
+						<textarea id="visitPurpose" placeholder="{App\Language::translate('LBL_VISIT_PURPOSE_INFO',$MODULE_NAME)}" maxlength="501" class="form-control js-text-element" name="visitPurpose" data-validation-engine="validate[required,maxSize[500]]" {if !$FIRST_SWITCH_USER.isAdmin} disabled="disabled"{/if}></textarea>
 					</div>
 				{/if}
 				<button type="button" class="btn btn-success js-switch-btn">

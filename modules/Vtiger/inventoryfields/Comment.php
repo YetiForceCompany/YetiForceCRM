@@ -13,20 +13,28 @@
  */
 class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 {
+	/** {@inheritdoc} */
 	protected $type = 'Comment';
+	/** {@inheritdoc} */
 	protected $defaultLabel = 'LBL_COMMENT';
+	/** {@inheritdoc} */
 	protected $colSpan = 0;
+	/** {@inheritdoc} */
 	protected $columnName = 'comment';
+	/** {@inheritdoc} */
 	protected $dbType = 'text';
+	/** {@inheritdoc} */
 	protected $params = ['width', 'height'];
+	/** {@inheritdoc} */
 	protected $onlyOne = false;
+	/** {@inheritdoc} */
 	protected $blocks = [2];
+	/** {@inheritdoc} */
 	public $isVisible = false;
+	/** {@inheritdoc} */
 	protected $purifyType = \App\Purifier::HTML;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditTemplateName()
 	{
 		return 'inventoryTypes/Comment.tpl';
@@ -39,7 +47,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getWidth(): int
 	{
-		return $this->getParamsConfig()['width'] ? $this->getParamsConfig()['width'] : 100;
+		return $this->getParamsConfig()['width'] ?? 100;
 	}
 
 	/**
@@ -49,7 +57,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getHeight(): int
 	{
-		return $this->getParamsConfig()['height'] ? $this->getParamsConfig()['height'] : 50;
+		return $this->getParamsConfig()['height'] ?? 50;
 	}
 
 	/**
