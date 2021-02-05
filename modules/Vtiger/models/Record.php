@@ -99,7 +99,9 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function setDataForSave(array $data)
 	{
+		$db = \App\Db::getInstance();
 		foreach ($data as $tableName => $tableData) {
+			$tableName = $db->quoteSql($tableName);
 			$this->dataForSave[$tableName] = isset($this->dataForSave[$tableName]) ? array_merge($this->dataForSave[$tableName], $tableData) : $tableData;
 		}
 	}
@@ -276,7 +278,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRawData()
 	{
-		return isset($this->rawData) ? $this->rawData : false;
+		return $this->rawData ?? false;
 	}
 
 	/**
@@ -478,7 +480,7 @@ class Vtiger_Record_Model extends \App\Base
 		$data = $this->getData();
 		foreach ($data as $fieldName => $value) {
 			$fieldValue = $this->getDisplayValue($fieldName);
-			$displayableValues[$fieldName] = ($fieldValue) ? $fieldValue : $value;
+			$displayableValues[$fieldName] = ($fieldValue) ?: $value;
 		}
 		return $displayableValues;
 	}
@@ -922,8 +924,8 @@ class Vtiger_Record_Model extends \App\Base
 	public function isUnlockByFields()
 	{
 		if (!isset($this->privileges['Unlock'])) {
-			$this->privileges['Unlock'] = !$this->isNew() && $this->isPermitted('EditView') && $this->isPermitted('OpenRecord') &&
-				false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && !$this->isLockByFields() && !empty($this->getUnlockFields(true));
+			$this->privileges['Unlock'] = !$this->isNew() && $this->isPermitted('EditView') && $this->isPermitted('OpenRecord')
+				&& false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && !$this->isLockByFields() && !empty($this->getUnlockFields(true));
 		}
 		return $this->privileges['Unlock'];
 	}
@@ -1692,8 +1694,8 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function isCanAssignToHimself()
 	{
-		return $this->isPermitted('AssignToYourself') && \App\PrivilegeUtil::MEMBER_TYPE_GROUPS === \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) &&
-			\array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
+		return $this->isPermitted('AssignToYourself') && \App\PrivilegeUtil::MEMBER_TYPE_GROUPS === \App\Fields\Owner::getType($this->getValueByField('assigned_user_id'))
+			&& \array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
 	}
 
 	/**
