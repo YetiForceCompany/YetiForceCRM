@@ -199,7 +199,7 @@ $.Class(
 					let response = (params.data = data['result']['data']);
 					app.event.trigger('EditView.SelectReference', params, formElement);
 					$.each(mappingRelatedField, function (key, value) {
-						if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
+						if (response[value[0]] != 0) {
 							let mapFieldElement = formElement.find('[name="' + key + '"]');
 							let fieldinfo = mapFieldElement.data('fieldinfo');
 							if (data['result']['type'][value[0]] === 'date' || data['result']['type'][value[0]] === 'datetime') {
@@ -268,19 +268,8 @@ $.Class(
 			}
 			return this.relationOperation;
 		},
-		getMappingValuesFromUrl: function (key) {
-			let relationOperation = this.getRelationOperation();
-			if (relationOperation) {
-				return app.getUrlVar(key);
-			}
-			return false;
-		},
 		proceedRegisterEvents: function () {
-			if ($('.recordEditView').length > 0) {
-				return true;
-			} else {
-				return false;
-			}
+			return $('.recordEditView').length > 0;
 		},
 		referenceModulePopupRegisterEvent: function (container) {
 			container.on('click', '.relatedPopup', (e) => {
