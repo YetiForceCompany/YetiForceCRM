@@ -15,7 +15,7 @@
 							</div>
 							<div class="col-1 col-md-3 summaryWidgetIcon">
 								<div class="float-right">
-									<button class="btn btn-light showModal" type="button"
+									<button class="btn btn-light showModal {if !$RELATIONS['Products']->isTreeRelation()} d-none {/if} " type="button"
 											data-modalid="ProductsModal"
 											data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 											<span class="fas fa-search-plus"
@@ -78,7 +78,7 @@
 							</div>
 							<div class="col-1 col-md-3 summaryWidgetIcon">
 								<div class="float-right">
-									<button class="btn btn-light showModal" type="button"
+									<button class="btn btn-light showModal {if !$RELATIONS['OutsourcedProducts']->isTreeRelation()} d-none {/if}" type="button"
 											data-modalid="OutsourcedProductsModal" data-module="OutsourcedProducts"
 											data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 											<span class="fas fa-search-plus"
@@ -172,7 +172,7 @@
 							</div>
 							<div class="col-1 col-md-3 summaryWidgetIcon">
 								<span class="float-right">
-									<button class="btn btn-light showModal" type="button" data-modalid="ServicesModal"
+									<button class="btn btn-light showModal {if !$RELATIONS['Services']->isTreeRelation()} d-none {/if}" type="button" data-modalid="ServicesModal"
 											data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 										<span class="fas fa-search-plus"
 											  title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
@@ -234,7 +234,7 @@
 							</div>
 							<div class="col-1 col-md-3 summaryWidgetIcon">
 								<div class="float-right">
-									<button class="btn btn-light showModal" type="button"
+									<button class="btn btn-light showModal {if !$RELATIONS['OSSOutsourcedServices']->isTreeRelation()} d-none {/if}" type="button"
 											data-modalid="OSSOutsourcedServicesModal"
 											data-module="OSSOutsourcedServices"
 											data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
