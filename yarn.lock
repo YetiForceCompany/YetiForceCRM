@@ -243,7 +243,7 @@ css-line-break@1.1.1:
   dependencies:
     base64-arraybuffer "^0.2.0"
 
-datatables.net-bs4@^1.10.15, datatables.net-bs4@^1.10.22:
+datatables.net-bs4@^1.10.15, datatables.net-bs4@^1.10.23:
   version "1.10.23"
   resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.10.23.tgz#bdd5d0dcb1bd68a7afe649a4424ba20647523b52"
   integrity sha512-ChUB8t5t5uzPnJYTPXx2DOvnlm2shz8OadXrKoFavOadB308OuwHVxSldYq9+KGedCeiVxEjNqcaV4nFSXkRsw==
@@ -268,7 +268,7 @@ datatables.net-responsive@2.2.7:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
-datatables.net@1.10.23, datatables.net@^1.10.15, datatables.net@^1.10.22:
+datatables.net@1.10.23, datatables.net@^1.10.15, datatables.net@^1.10.23:
   version "1.10.23"
   resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.23.tgz#59f7d7b12845183b1b379530d1385077e113ec01"
   integrity sha512-we3tlNkzpxvgkKKlTxTMXPCt35untVXNg8zUYWpQyC1U5vJc+lT0+Zdc1ztK8d3lh5CfdnuFde2p8n3XwaGl3Q==
@@ -556,10 +556,10 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-quasar@^1.6.1:
-  version "1.15.1"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.15.1.tgz#da6968f7c58d0b09daf9d85e0f4da1430ae5dda2"
-  integrity sha512-yiqxAYh/Q56ryel3yLOLulY89m2kqqX38fFhNp/qZpMeHRezCDHceg3jRTKQwGvP2LS2bhJr+mEFVXa/5zKT5w==
+quasar@^1.15.2:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.15.2.tgz#21ce2ac2910c79d5785b249435d5fcfe5a09577f"
+  integrity sha512-1cbe4iNj6BaZ5BIXjRXnMrqyuOEwd2SoIyQQmRqZNxIlXd4B/4L9+IUgeYhc80x8JvkKivNTogH6ltcMghDvUw==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
