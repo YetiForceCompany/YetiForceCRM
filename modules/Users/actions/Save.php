@@ -51,44 +51,41 @@ class Users_Save_Action extends Vtiger_Save_Action
 	 */
 	public function process(App\Request $request)
 	{
-		if ($_FILES) {
-			$result = \App\Fields\File::transform($_FILES, true);
-			$_FILES = $result['imagename'];
-			if (!empty($_FILES[0]['name'])) {
-				$request->set('imagename', $_FILES[0]['name']);
-			}
-		}
-		$moduleName = $request->getModule();
-		$message = '';
-		if (Users_Module_Model::checkMailExist($request->get('email1'), (int) $request->get('record'))) {
-			$message = \App\Language::translate('LBL_USER_MAIL_EXIST', $moduleName);
-		}
-		if (($request->isEmpty('record', true) || $this->record->get('user_name') !== $request->get('user_name')) && $checkUserName = Users_Module_Model::checkUserName($request->get('user_name'), $request->getInteger('record'))) {
-			$message = $checkUserName;
-		}
-		if ($request->isEmpty('record', true) && !$request->isEmpty('user_password', true)) {
-			$checkPassword = Settings_Password_Record_Model::checkPassword($request->getRaw('user_password'));
-			if ($checkPassword) {
-				$message = $checkPassword;
-			}
-		}
-		if ($message) {
-			App\Log::error($message);
-			header('location: index.php?module=Users&parent=Settings&view=Edit');
-
-			return false;
-		}
-		$this->saveRecord($request);
-		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
-		$settingsModuleModel->refreshSwitchUsers();
-		if ($request->getBoolean('relationOperation')) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2));
-			$loadUrl = $parentRecordModel->getDetailViewUrl();
-		} elseif ($request->getBoolean('isPreference')) {
-			$loadUrl = $this->record->getPreferenceDetailViewUrl();
+		if ($mode = $request->getMode()) {
+			$this->invokeExposedMethod($mode, $request);
 		} else {
-			$loadUrl = $this->record->getDetailViewUrl();
+			$moduleName = $request->getModule();
+			$message = '';
+			if (Users_Module_Model::checkMailExist($request->get('email1'), (int) $request->get('record'))) {
+				$message = \App\Language::translate('LBL_USER_MAIL_EXIST', $moduleName);
+			}
+			if (($request->isEmpty('record', true) || $this->record->get('user_name') !== $request->get('user_name')) && $checkUserName = Users_Module_Model::checkUserName($request->get('user_name'), $request->getInteger('record'))) {
+				$message = $checkUserName;
+			}
+			if ($request->isEmpty('record', true) && !$request->isEmpty('user_password', true)) {
+				$checkPassword = Settings_Password_Record_Model::checkPassword($request->getRaw('user_password'));
+				if ($checkPassword) {
+					$message = $checkPassword;
+				}
+			}
+			if ($message) {
+				App\Log::error($message);
+				header('location: index.php?module=Users&parent=Settings&view=Edit');
+
+				return false;
+			}
+			$this->saveRecord($request);
+			$settingsModuleModel = Settings_Users_Module_Model::getInstance();
+			$settingsModuleModel->refreshSwitchUsers();
+			if ($request->getBoolean('relationOperation')) {
+				$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2));
+				$loadUrl = $parentRecordModel->getDetailViewUrl();
+			} elseif ($request->getBoolean('isPreference')) {
+				$loadUrl = $this->record->getPreferenceDetailViewUrl();
+			} else {
+				$loadUrl = $this->record->getDetailViewUrl();
+			}
+			header("location: $loadUrl");
 		}
-		header("location: $loadUrl");
 	}
 }
