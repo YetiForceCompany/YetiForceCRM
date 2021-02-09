@@ -151,10 +151,12 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to delete the current Record Model.
+	 *
+	 * @return bool
 	 */
-	public function delete()
+	public function delete(): bool
 	{
-		\App\Db::getInstance('admin')->createCommand()
+		return \App\Db::getInstance('admin')->createCommand()
 			->delete('s_#__mail_smtp', ['id' => $this->getId()])
 			->execute();
 	}
