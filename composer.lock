@@ -1685,27 +1685,27 @@
         },
         {
             "name": "mlocati/spf-lib",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlocati/spf-lib.git",
-                "reference": "e78f541ddac0d78d614fcd4af601c7ed550ba9a5"
+                "reference": "ec49c332fcf684716e00f234013af5e01f001993"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlocati/spf-lib/zipball/e78f541ddac0d78d614fcd4af601c7ed550ba9a5",
-                "reference": "e78f541ddac0d78d614fcd4af601c7ed550ba9a5",
+                "url": "https://api.github.com/repos/mlocati/spf-lib/zipball/ec49c332fcf684716e00f234013af5e01f001993",
+                "reference": "ec49c332fcf684716e00f234013af5e01f001993",
                 "shasum": ""
             },
             "require": {
                 "mlocati/idna": "^1",
                 "mlocati/ip-lib": "^1.11",
-                "php": ">=7.2.0"
+                "php": ">=7.1.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "phpunit/phpunit": "^8.5 || ^9.4",
-                "symfony/yaml": "^5.1"
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
+                "symfony/yaml": "^4.4 || ^5.1"
             },
             "type": "library",
             "autoload": {
@@ -1750,7 +1750,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2020-11-17T17:36:33+00:00"
+            "time": "2021-02-07T15:13:08+00:00"
         },
         {
             "name": "myclabs/php-enum",
