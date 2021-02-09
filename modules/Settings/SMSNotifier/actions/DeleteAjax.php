@@ -19,15 +19,13 @@ class Settings_SMSNotifier_DeleteAjax_Action extends Settings_Vtiger_Delete_Acti
 	 */
 	public function process(App\Request $request)
 	{
-		$result = ['success' => true];
-		$recordId = $request->getInteger('record');
-		$qualifiedModuleName = $request->getModule(false);
-		$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
+		$result = true;
+		$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule(false));
 		if ($recordModel) {
-			$result = ['success' => (bool) $recordModel->delete()];
+			$result = (bool) $recordModel->delete();
 		}
 		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($result);
+		$responceToEmit->setResult(['success' => $result]);
 		$responceToEmit->emit();
 	}
 }

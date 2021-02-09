@@ -36,7 +36,7 @@ class Settings_Companies_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 		if ($request->getBoolean('detailView') && $recordModel->delete()) {
 			$result = Settings_Vtiger_Module_Model::getInstance($request->getModule(false))->getDefaultUrl();
 		} elseif ($recordModel) {
-			$result = ['success' => $recordModel->delete()];
+			$result = ['success' => (bool) $recordModel->delete()];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

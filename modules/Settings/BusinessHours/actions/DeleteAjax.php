@@ -15,13 +15,13 @@ class Settings_BusinessHours_DeleteAjax_Action extends Settings_Vtiger_Delete_Ac
 	 */
 	public function process(App\Request $request)
 	{
-		$result = ['success' => true];
+		$result = true;
 		$recordModel = Settings_BusinessHours_Record_Model::getInstanceById($request->getInteger('record'));
 		if ($recordModel) {
-			$result = ['success' => (bool) $recordModel->delete()];
+			$result = (bool) $recordModel->delete();
 		}
 		$response = new Vtiger_Response();
-		$response->setResult($result);
+		$response->setResult(['success' => $result]);
 		$response->emit();
 	}
 }

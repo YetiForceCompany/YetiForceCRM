@@ -16,12 +16,12 @@ class Settings_MailSmtp_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	 */
 	public function process(App\Request $request)
 	{
-		$result = ['success' => true];
+		$result = ['success' => false];
 		$recordModel = Settings_MailSmtp_Record_Model::getInstanceById($request->getInteger('record'));
 		if ($request->getBoolean('detailView') && $recordModel->delete()) {
 			$result = Settings_Vtiger_Module_Model::getInstance($request->getModule(false))->getDefaultUrl();
 		} elseif ($recordModel) {
-			$result = ['success' => $recordModel->delete()];
+			$result = ['success' => (bool) $recordModel->delete()];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

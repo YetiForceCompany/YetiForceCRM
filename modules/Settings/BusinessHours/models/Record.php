@@ -229,10 +229,13 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function delete(): bool
 	{
-		\App\Cache::clear();
-		return \App\Db::getInstance('admin')->createCommand()
+		$delete = \App\Db::getInstance('admin')->createCommand()
 			->delete('s_#__business_hours', ['id' => $this->getId()])
 			->execute();
+		if ($delete) {
+			\App\Cache::clear();
+		}
+		return $delete;
 	}
 
 	/**

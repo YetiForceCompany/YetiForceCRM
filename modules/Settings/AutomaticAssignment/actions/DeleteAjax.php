@@ -16,13 +16,13 @@ class Settings_AutomaticAssignment_DeleteAjax_Action extends Settings_Vtiger_Del
 	 */
 	public function process(App\Request $request)
 	{
-		$result = ['success' => true];
+		$result = true;
 		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->getInteger('record'));
 		if ($recordModel) {
-			$result = ['success' => (bool) $recordModel->delete()];
+			$result = (bool) $recordModel->delete();
 		}
 		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($result);
+		$responceToEmit->setResult(['success' => $result]);
 		$responceToEmit->emit();
 	}
 }
