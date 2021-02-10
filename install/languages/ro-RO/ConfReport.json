@@ -127,7 +127,6 @@
     "LBL_HELP_SESSION_COOKIE_HTTPONLY": "Fisierele cookie pentru sesiuni sunt disponibile numai prin intermediul protocolului HTTP. Aceasta setare poate preveni suficient furtul de identitate care rezulta din atacurile XSS.",
     "LBL_HELP_SESSION_USE_ONLY_COOKIES": "Seteaza obtinerea de cod numai din cookie-uri. Activarea acesteia previne atacurile bazate pe trimiterea ID-urilor de sesiune in URL-uri.",
     "LBL_HELP_EXPOSE_PHP": "Determina daca serverul PHP trimite numarul de versiune PHP in anteturi. Aceste informatii ar putea face serverul mai vulnerabil la atacuri, prin urmare va recomandam sa dezactivati aceasta optiune.",
-    "LBL_HELP__HTACCESS": "Fisierul .htacces este inactiv, este necesar sa se gestioneze corect toate integrarile si sa se securizeze directoarele care contin date de utilizator.",
     "LBL_HELP_PUBLIC_HTML": "Va recomandam ca domeniul sa redirectioneze catre directorul public_html, facand acest lucru va asigurati ca fisierele de sistem si datele dvs. nu sunt disponibile in mod public si nu pot fi descarcate.",
     "LBL_HELP_SESSION_REGENERATE_ID": "Va recomandam sa activati regenerarea ID-ului sesiunii, ceea ce face mai dificila interceptarea sesiunilor utilizator. Modificarile trebuie efectuate in fisierul de configurare principal.",
     "LBL_HELP_SESSION_USE_STRICT_MODE": "Serverul va respinge sesiunile neinitiate. Va recomandam sa activati aceasta optiune din motive de siguranta.",
@@ -256,7 +255,8 @@
     "LBL_FORMAT": "Row format",
     "LBL_ENGINE": "Engine",
     "LBL_COLLATION": "Collation",
-    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files",
+    "LBL_PATH_VERIFICATION_TITLE": "Path verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Verificare viteza..."

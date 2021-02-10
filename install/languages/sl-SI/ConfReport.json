@@ -127,7 +127,6 @@
     "LBL_HELP_SESSION_COOKIE_HTTPONLY": "Session cookie files are only available via HTTP protocol. This setting can sufficiently prevent identity theft resulting from XSS attacks.",
     "LBL_HELP_SESSION_USE_ONLY_COOKIES": "Sets getting ID only from cookies. Enabling it prevents from attacks based on sending session IDs in URLs.",
     "LBL_HELP_EXPOSE_PHP": "Determines if the PHP server sends PHP version number in headers. This information might make the server more vulnerable to attacks, therefore we recommend disabling this option.",
-    "LBL_HELP__HTACCESS": "The .htaccess file is inactive, it is required to properly handle all integrations and to secure the directories containing user data.",
     "LBL_HELP_PUBLIC_HTML": "We recommend that the domain directs to the public_html directory, by doing this you ensure that system files and your data are not available publicly and can not be downloaded.",
     "LBL_HELP_SESSION_REGENERATE_ID": "We recommend enabling session ID regeneration, it makes it harder to intercept users' sessions. The changes should be made in the main configuration file.",
     "LBL_HELP_SESSION_USE_STRICT_MODE": "The server will reject uninitiated sessions. We recommend enabling this option for safety reasons.",
@@ -256,7 +255,8 @@
     "LBL_FORMAT": "Row format",
     "LBL_ENGINE": "Engine",
     "LBL_COLLATION": "Collation",
-    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files",
+    "LBL_PATH_VERIFICATION_TITLE": "Preverjanje poti"
   },
   "js": {
     "JS_SPEED_TEST_START": "Preverjanje hitrosti..."

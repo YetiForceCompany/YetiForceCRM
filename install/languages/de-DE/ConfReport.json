@@ -127,7 +127,6 @@
     "LBL_HELP_SESSION_COOKIE_HTTPONLY": "Session-Cookie-Dateien sind nur über HTTP-Protokoll verfügbar. Diese Einstellung kann den Identitätsdiebstahl durch XSS-Angriffe ausreichend verhindern.",
     "LBL_HELP_SESSION_USE_ONLY_COOKIES": "Setzt die ID nur von Cookies. Das Aktivieren verhindert Angriffe, die auf dem Senden von Session-IDs in URLs basieren.",
     "LBL_HELP_EXPOSE_PHP": "Bestimmt, ob der PHP-Server PHP-Versionsnummer in Headern sendet. Diese Informationen könnten den Server anfälliger für Angriffe machen, daher empfehlen wir, diese Option zu deaktivieren.",
-    "LBL_HELP__HTACCESS": "Die .htaccess-Datei ist inaktiv, es ist erforderlich, alle Integrationen korrekt zu behandeln und die Verzeichnisse mit Benutzerdaten entsprechend abzusichern.",
     "LBL_HELP_PUBLIC_HTML": "Wir empfehlen das System so zu installieren, dass nur das öffentliche HTML Verzeichnis benutzt wird. Es erhöht die Datensicherheit, wenn auf nichtöffentliche Verzeichnisse und Dateien nicht direkt über die Adresse(URL) zugegriffen werden kann.",
     "LBL_HELP_SESSION_REGENERATE_ID": "Wir empfehlen die Erneuerung von Session IDs zu aktivieren, da diese Option es schwerer macht die Benutzersitzung zu übernehmen. Änderungen sollten in der Hauptkonfigurationsdatei durchgeführt werden..",
     "LBL_HELP_SESSION_USE_STRICT_MODE": "Der Server wird unbeabsichtigte Sitzungen ablehnen. Wir empfehlen, diese Option aus Sicherheitsgründen zu aktivieren.",
@@ -256,7 +255,8 @@
     "LBL_FORMAT": "Zeilenformat",
     "LBL_ENGINE": "Engine",
     "LBL_COLLATION": "Sortierung",
-    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files",
+    "LBL_PATH_VERIFICATION_TITLE": "Path verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Performance wird ermittelt ..."

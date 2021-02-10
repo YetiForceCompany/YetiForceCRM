@@ -127,7 +127,6 @@
     "LBL_HELP_SESSION_COOKIE_HTTPONLY": "Les fichiers de cookies de session sont uniquement disponibles via le protocole HTTP. Ce paramètre peut empêcher suffisamment le vol d'identité résultant des attaques XSS.",
     "LBL_HELP_SESSION_USE_ONLY_COOKIES": "Définit l'obtention de l'ID uniquement à partir des cookies. L'activer empêche les attaques basées sur l'envoi d'ID de session dans les URL.",
     "LBL_HELP_EXPOSE_PHP": "Détermine si le serveur PHP envoie le numéro de version PHP dans les en-têtes. Ces informations peuvent rendre le serveur plus vulnérable aux attaques, nous vous recommandons donc de désactiver cette option.",
-    "LBL_HELP__HTACCESS": "Le fichier .htaccess est inactif, il est nécessaire pour gérer correctement toutes les intégrations et sécuriser les répertoires contenant les données utilisateur.",
     "LBL_HELP_PUBLIC_HTML": "Nous vous recommandons de diriger le domaine vers le répertoire public_html, ce faisant, vous vous assurez que les fichiers système et vos données ne sont pas disponibles publiquement et ne peuvent pas être téléchargés.",
     "LBL_HELP_SESSION_REGENERATE_ID": "Nous vous recommandons d'activer la régénération de l'ID de session, cela rend plus difficile l'interception des sessions des utilisateurs. Les modifications doivent être apportées dans le fichier de configuration principal.",
     "LBL_HELP_SESSION_USE_STRICT_MODE": "Le serveur rejettera les sessions non initiées. Nous vous recommandons d'activer cette option pour des raisons de sécurité.",
@@ -256,7 +255,8 @@
     "LBL_FORMAT": "Format de la ligne",
     "LBL_ENGINE": "Moteur",
     "LBL_COLLATION": "Collecte",
-    "LBL_LAMP_CONFIG_FILES": "Fichiers de configuration LAMP"
+    "LBL_LAMP_CONFIG_FILES": "Fichiers de configuration LAMP",
+    "LBL_PATH_VERIFICATION_TITLE": "Path verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Vérification de la vitesse..."
