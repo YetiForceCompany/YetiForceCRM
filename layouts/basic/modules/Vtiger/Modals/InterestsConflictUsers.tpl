@@ -42,11 +42,11 @@
 							</th>
 							<th scope="row" class="text-center">
 								{if $ITEM['status'] == \App\Components\InterestsConflict::CONF_STATUS_CONFLICT_NO}
-									<span class="fas fa-check text-success js-popover-tooltip js-change-icon" aria-hidden="true" data-content="{\App\Language::translate('LBL_INTERESTS_CONFLICT_CONFIRM_NO')}" data-placement="top" data-js="popover"></span>
+									<span class="fas fa-times text-success js-popover-tooltip js-change-icon" aria-hidden="true" data-content="{\App\Language::translate('LBL_INTERESTS_CONFLICT_CONFIRM_NO')}" data-placement="top" data-js="popover"></span>
 								{elseif $ITEM['status'] == \App\Components\InterestsConflict::CONF_STATUS_CANCELED}
 									<span class="fas fa-slash text-dark js-popover-tooltip js-change-icon" aria-hidden="true" data-content="{\App\Language::translate('LBL_INTERESTS_CONFLICT_CONFIRM_CANCELED')}" data-placement="top" data-js="popover"></span>
 								{else}
-									<span class="fas fa-times text-danger js-popover-tooltip js-change-icon" aria-hidden="true" data-content="{\App\Language::translate('LBL_INTERESTS_CONFLICT_CONFIRM_YES')}" data-placement="top" data-js="popover"></span>
+									<span class="fas fa-check text-danger js-popover-tooltip js-change-icon" aria-hidden="true" data-content="{\App\Language::translate('LBL_INTERESTS_CONFLICT_CONFIRM_YES')}" data-placement="top" data-js="popover"></span>
 								{/if}
 								<span class="d-none" aria-hidden="true">{$ITEM['status']}</span>
 							</th>
