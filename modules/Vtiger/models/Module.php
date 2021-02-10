@@ -530,7 +530,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$type = [$type];
 		}
 		$fieldList = [];
-		foreach ($this->getFields() as &$field) {
+		foreach ($this->getFields() as $field) {
 			if (\in_array($field->getFieldDataType(), $type) && (!$active || ($active && $field->isActiveField()))) {
 				$fieldList[$field->getName()] = $field;
 			}
