@@ -30,24 +30,12 @@ class Vtiger_AddressBook_Cron extends \App\CronHandler
 		$i = ['rows' => [], 'users' => \count($usersIds)];
 		$l = 0;
 		$break = false;
-		$processOrder = ['OSSEmployees', 'Contacts'];
 		$table = OSSMail_AddressBook_Model::TABLE;
 		$last = OSSMail_AddressBook_Model::getLastRecord();
-		$rows = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
+		$workflows = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
 			->leftJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id')
 			->where(['like', 'task', 'VTAddressBookTask'])
 			->indexBy('module_name')->all();
-		$workflows = [];
-		foreach ($processOrder as $processModule) {
-			if (isset($rows[$processModule])) {
-				$workflows[] = $rows[$processModule];
-				unset($rows[$processModule]);
-			}
-		}
-		foreach ($rows as $row) {
-			$workflows = array_merge($workflows, $row);
-		}
-
 		foreach ($workflows as $row) {
 			$task = (array) unserialize($row['task']);
 			$moduleName = $row['module_name'];
