@@ -524,10 +524,10 @@ window.App.Fields = {
 				let config = {
 					language: CONFIG.langKey,
 					allowedContent: true,
+					disableNativeSpellChecker: false,
 					extraAllowedContent: 'div{page-break-after*}',
 					format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div',
 					removeButtons: '',
-					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
 					emojiEnabled: false,
@@ -542,6 +542,7 @@ window.App.Fields = {
 							}
 						}
 					},
+					removePlugins: 'scayt',
 					extraPlugins:
 						'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,ckeditor-image-to-base',
 					toolbar: 'Full',
@@ -550,7 +551,7 @@ window.App.Fields = {
 							name: 'clipboard',
 							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
 						},
-						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-'] },
 						{ name: 'links', items: ['Link', 'Unlink'] },
 						{
 							name: 'insert',
@@ -614,6 +615,32 @@ window.App.Fields = {
 							name: 'clipboard',
 							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
 						}
+					],
+					toolbar_PDF: [
+						{
+							name: 'clipboard',
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+						},
+						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-'] },
+						{ name: 'links', items: ['Link', 'Unlink'] },
+						{
+							name: 'insert',
+							items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'PageBreak']
+						},
+						{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+						{ name: 'document', items: ['Source'] },
+						'/',
+						{ name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+						{
+							name: 'basicstyles',
+							items: ['Bold', 'Italic', 'Underline', 'Strike']
+						},
+						{ name: 'colors', items: ['TextColor', 'BGColor'] },
+						{
+							name: 'paragraph',
+							items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight']
+						},
+						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
 					]
 				};
 				if (typeof customConfig !== 'undefined') {
