@@ -33,7 +33,7 @@
 						<input type="hidden" name="module" value="{$MODULE}"/>
 						<input type="hidden" name="view" value="SaveConvertLead"/>
 						<input type="hidden" name="record" value="{$RECORD->getId()}"/>
-						<input type="hidden" name="modules" value=''/>
+						<input type="hidden" name="modules" value='Accounts'/>
 						<input type="hidden" name="create_account"
 							   value="{if $CONVERSION_CONFIG['create_always'] eq 'true'}1{/if}"/>
 					<div class="quickCreateContent" id="leadAccordion">
