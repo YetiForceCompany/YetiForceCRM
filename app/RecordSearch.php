@@ -216,4 +216,14 @@ class RecordSearch
 		}
 		return $query->andWhere($where);
 	}
+
+	/**
+	 * Get field model for search mechanism.
+	 *
+	 * @return \Vtiger_Field_Model
+	 */
+	public static function getSearchField(): \Vtiger_Field_Model
+	{
+		return (new \Vtiger_Field_Model())->set('name', 'search')->set('uitype', 1)->set('typeofdata', 'V~O')->set('maximumlength', 255);
+	}
 }

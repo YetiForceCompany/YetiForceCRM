@@ -11,8 +11,8 @@
 
 class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 {
+	use \App\Controller\ClearProcess;
 	use \App\Controller\ExposeMethod;
-	use	\App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -106,7 +106,7 @@ class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 			}
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
-			$searchKey = $request->getByType('value', 'Text');
+			$searchKey = \App\RecordSearch::getSearchField()->getUITypeModel()->getDbConditionBuilderValue($request->getByType('value', 'Text'), '');
 			$limit = false;
 			if (!$request->isEmpty('limit', true) && false !== $request->getBoolean('limit')) {
 				$limit = $request->getInteger('limit');
@@ -116,12 +116,11 @@ class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 			if (!$request->isEmpty('searchModule', true) && '-' !== $request->getRaw('searchModule')) {
 				$searchModule = $request->getByType('searchModule', 2);
 			}
-			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
 			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit, $operator);
 			if (1 === App\Config::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
 				$matchingRecordsList = [];
-				foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {
+				foreach (\App\Module::getAllEntityModuleInfo(true) as $module) {
 					if (isset($matchingRecords[$module['modulename']]) && 1 == $module['turn_off']) {
 						$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
 					}

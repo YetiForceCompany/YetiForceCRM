@@ -108,8 +108,8 @@ class Vtiger_Menu_Model
 			$menu = Settings_Vtiger_MenuItem_Model::getAll();
 			foreach ($menu as $menuModel) {
 				if ($menuModel->isPermitted() && (
-						(($request->has('record') || 'Edit' === $view) && $menuModel->getModuleName() === $qualifiedModuleName) ||
-						$menuModel->isSelected($moduleName, $view, $request->getMode())
+						(($request->has('record') || 'Edit' === $view) && $menuModel->getModuleName() === $qualifiedModuleName)
+						|| $menuModel->isSelected($moduleName, $view, $request->getMode())
 					)
 				) {
 					$parent = $menuModel->getBlock();

@@ -79,7 +79,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (!\App\Record::isExists($value)) {
 			return '';
 		}
-		$label = \App\Record::getLabel($value);
+		$label = \App\Record::getLabel($value, $rawText);
 		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $label;
 		}

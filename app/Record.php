@@ -18,17 +18,20 @@ class Record
 	 * Get label.
 	 *
 	 * @param mixed $mixedId
+	 * @param bool  $raw
 	 *
 	 * @return mixed
 	 */
-	public static function getLabel($mixedId)
+	public static function getLabel($mixedId, bool $raw = false)
 	{
 		$multiMode = \is_array($mixedId);
-		$ids = $multiMode ? array_unique($mixedId) : [$mixedId];
-		$missing = [];
+		$ids = array_filter($multiMode ? array_unique($mixedId) : [$mixedId]);
+		$result = $missing = [];
 		foreach ($ids as $id) {
-			if ($id && !Cache::has('recordLabel', $id)) {
-				$missing[] = $id;
+			if (!Cache::has('recordLabel', $id)) {
+				$missing[$id] = $id;
+			} else {
+				$result[$id] = Cache::get('recordLabel', $id);
 			}
 		}
 		if (!empty($missing)) {
@@ -36,27 +39,19 @@ class Record
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				Cache::save('recordLabel', $row['crmid'], $row['label']);
+				$result[$row['crmid']] = $row['label'];
 			}
-			foreach ($ids as $id) {
-				if ($id && !Cache::has('recordLabel', $id)) {
-					$metainfo = Functions::getCRMRecordMetadata($id);
-					if (!empty($metainfo['setype'])) {
-						$computeLabel = static::computeLabels($metainfo['setype'], $id);
-						$recordLabel = TextParser::textTruncate(Purifier::encodeHtml($computeLabel[$id] ?? ''), 254, false);
-						Cache::save('recordLabel', $id, $recordLabel);
-					}
-				}
+			foreach (array_diff_key($missing, $result) as $id) {
+				$metaInfo = Functions::getCRMRecordMetadata($id);
+				$computeLabel = static::computeLabels($metaInfo['setype'] ?? '', $id)[$id] ?? '';
+				Cache::save('recordLabel', $id, $computeLabel);
+				$result[$id] = $computeLabel;
 			}
 		}
-		$result = [];
-		foreach ($ids as $id) {
-			if (Cache::has('recordLabel', $id)) {
-				$result[$id] = Cache::get('recordLabel', $id);
-			} else {
-				$result[$id] = null;
-			}
+		if (!$raw && $result) {
+			$result = array_map('\App\Purifier::encodeHtml', $result);
 		}
-		return $multiMode ? $result : array_shift($result);
+		return $multiMode ? $result : reset($result);
 	}
 
 	/**
@@ -109,14 +104,14 @@ class Record
 		$entityDisplay = [];
 		$cacheName = 'computeLabelsQuery';
 		if (!\App\Cache::staticHas($cacheName, $moduleName)) {
-			$metainfo = \App\Module::getEntityInfo($moduleName);
-			if (empty($metainfo)) {
+			$metaInfo = \App\Module::getEntityInfo($moduleName);
+			if (empty($metaInfo)) {
 				return $entityDisplay;
 			}
-			$table = $metainfo['tablename'];
-			$idColumn = $table . '.' . $metainfo['entityidfield'];
-			$columnsName = $metainfo['fieldnameArr'];
-			$columnsSearch = $metainfo['searchcolumnArr'];
+			$table = $metaInfo['tablename'];
+			$idColumn = $table . '.' . $metaInfo['entityidfield'];
+			$columnsName = $metaInfo['fieldnameArr'];
+			$columnsSearch = $metaInfo['searchcolumnArr'];
 			$columns = array_unique(array_merge($columnsName, $columnsSearch));
 
 			$moduleInfoExtend = Functions::getModuleFieldInfos($moduleName, true);
@@ -141,43 +136,38 @@ class Record
 			\App\Cache::staticSave($cacheName, $moduleName, clone $query);
 		} else {
 			$query = \App\Cache::staticGet($cacheName, $moduleName);
-			$metainfo = \App\Module::getEntityInfo($moduleName);
+			$metaInfo = \App\Module::getEntityInfo($moduleName);
 			$moduleInfoExtend = Functions::getModuleFieldInfos($moduleName, true);
-			if (empty($moduleInfoExtend) || empty($metainfo)) {
+			if (empty($moduleInfoExtend) || empty($metaInfo)) {
 				return [];
 			}
-			$columnsName = $metainfo['fieldnameArr'];
-			$columnsSearch = $metainfo['searchcolumnArr'];
-			$idColumn = $metainfo['entityidfield'];
+			$columnsName = $metaInfo['fieldnameArr'];
+			$columnsSearch = $metaInfo['searchcolumnArr'];
+			$idColumn = $metaInfo['entityidfield'];
 		}
+		$separator = $metaInfo['separator'] ?? ' ';
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$ids = array_unique($ids);
 		$query->where([$idColumn => $ids]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
+			$recordId = $row['id'];
 			$labelName = [];
 			foreach ($columnsName as $columnName) {
-				if (\in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68])) {
-					$labelName[] = static::getLabel($row[$columnName]);
-				} elseif (\in_array($moduleInfoExtend[$columnName]['uitype'], [53])) {
-					$labelName[] = \App\Fields\Owner::getLabel($row[$columnName]);
-				} else {
-					$labelName[] = $row[$columnName];
-				}
+				$fieldModel = $moduleModel->getFieldByColumn($columnName);
+				$labelName[] = $fieldModel ? $fieldModel->getDisplayValue($row[$columnName], $recordId, false, true) : '';
 			}
+			$label = TextParser::textTruncate(trim(implode($separator, $labelName)), 254, false);
 			if ($search) {
-				$labelSearch = [];
+				$labelName = [];
 				foreach ($columnsSearch as $columnName) {
-					if (\in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68])) {
-						$labelSearch[] = static::getLabel($row[$columnName]);
-					} elseif (\in_array($moduleInfoExtend[$columnName]['uitype'], [53])) {
-						$labelSearch[] = \App\Fields\Owner::getLabel($row[$columnName]);
-					} else {
-						$labelSearch[] = $row[$columnName];
-					}
+					$fieldModel = $moduleModel->getFieldByColumn($columnName);
+					$labelName[] = $fieldModel ? $fieldModel->getDisplayValue($row[$columnName], $recordId, false, true) : '';
 				}
-				$entityDisplay[$row['id']] = ['name' => implode(' ', $labelName), 'search' => implode(' ', $labelSearch)];
+				$searchLabel = TextParser::textTruncate(trim(implode($separator, $labelName)), 254, false);
+				$entityDisplay[$recordId] = ['name' => $label, 'search' => $searchLabel];
 			} else {
-				$entityDisplay[$row['id']] = trim(implode(' ', $labelName));
+				$entityDisplay[$recordId] = $label;
 			}
 		}
 		return $entityDisplay;
@@ -191,8 +181,8 @@ class Record
 			$dbCommand->delete('u_#__crmentity_label', ['crmid' => $id])->execute();
 			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $id])->execute();
 		} else {
-			$label = TextParser::textTruncate(Purifier::decodeHtml($labelInfo[$id]['name']), 254, false);
-			$search = TextParser::textTruncate(Purifier::decodeHtml($labelInfo[$id]['search']), 254, false);
+			$label = $labelInfo[$id]['name'];
+			$search = $labelInfo[$id]['search'];
 			if (!is_numeric($label) && empty($label)) {
 				$label = '';
 			}
@@ -238,14 +228,8 @@ class Record
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 		}
-		$label = Purifier::encodeHtml(TextParser::textTruncate(Purifier::decodeHtml(implode($separator, $labelName)), 250, false));
-		if (empty($label)) {
-			$label = '';
-		}
-		$search = Purifier::encodeHtml(TextParser::textTruncate(Purifier::decodeHtml(implode($separator, $labelSearch)), 250, false));
-		if (empty($search)) {
-			$search = '';
-		}
+		$label = TextParser::textTruncate(trim(implode($separator, $labelName)), 250, false) ?: '';
+		$search = TextParser::textTruncate(trim(implode($separator, $labelSearch)), 250, false) ?: '';
 		$db = \App\Db::getInstance();
 		if ($recordModel->isNew()) {
 			$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $recordModel->getId(), 'label' => $label])->execute();

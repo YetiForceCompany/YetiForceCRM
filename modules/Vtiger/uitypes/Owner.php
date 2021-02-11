@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Vtiger_Owner_UIType extends Vtiger_Base_UIType
@@ -55,15 +56,15 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$ownerName = \App\Fields\Owner::getLabel($value);
-		if (\is_int($length)) {
-			$ownerName = \App\TextParser::textTruncate($ownerName, $length);
-		}
 		if ($rawText) {
 			return $ownerName;
 		}
+		if (\is_int($length)) {
+			$ownerName = \App\TextParser::textTruncate($ownerName, $length);
+		}
 		switch (\App\Fields\Owner::getType($value)) {
 			case 'Users':
-				if(!\App\User::isExists($value, false)){
+				if (!\App\User::isExists($value, false)) {
 					$ownerName = '<span class="text-muted"><s>' . $ownerName ?: '---' . '</s></span>';
 				} else {
 					$userModel = Users_Privileges_Model::getInstanceById($value);

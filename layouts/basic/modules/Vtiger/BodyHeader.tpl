@@ -13,6 +13,7 @@
 				</div>
 			</div>
 			{if \App\Config::performance('GLOBAL_SEARCH')}
+				{assign var='SEARCH_FIELD_MODEL' value=\App\RecordSearch::getSearchField()}
 				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex mr-2"
 					 data-js="container">
 					<div class="input-group-prepend select2HeaderWidth">
@@ -36,7 +37,7 @@
 					</div>
 					<input id="global-search-__value" type="text"
 						   class="form-control js-global-search__value o-global-search__value"
-						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
+						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" maxlength="{$SEARCH_FIELD_MODEL->getMaxValue()}"
 						   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
 						   data-js="keypress | value | autocomplete"/>
 					<div class="input-group-append bg-white rounded-right">
@@ -108,7 +109,7 @@
 						</div>
 						<div class="input-group mb-3 js-global-search__input o-global-search__input"
 							 data-js="container">
-							<input id="global-search-__value--mobile" type="text"
+							<input id="global-search-__value--mobile" maxlength="{$SEARCH_FIELD_MODEL->getMaxValue()}" type="text"
 								   class="form-control js-global-search__value o-global-search__value"
 								   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 								   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
