@@ -229,8 +229,10 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	 * Check whether to activate/remove handler.
 	 *
 	 * @param int $tabId
+	 *
+	 * @return void
 	 */
-	public function checkHandler(int $tabId)
+	public function checkHandler(int $tabId): void
 	{
 		$moduleName = \App\Module::getModuleName($tabId);
 		$handlerClassName = 'Vtiger_FieldsDependency_Handler';
@@ -253,27 +255,28 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	 * @param string $handlerClassName
 	 * @param string $moduleName
 	 * @param bool   $addModule
+	 *
+	 * @return void
 	 */
-	public function updateIncludeModuleToHandler(string $handlerClassName, string $moduleName, bool $addModule)
+	public function updateIncludeModuleToHandler(string $handlerClassName, string $moduleName, bool $addModule): void
 	{
-		foreach (\App\EventHandler::getAll() as $value) {
-			if ($value['handler_class'] === $handlerClassName) {
-				if ($addModule) {
-					if (false === strpos($value['include_modules'], $moduleName)) {
-						$updateValue = $value['include_modules'] ? $value['include_modules'] . ', ' . $moduleName : $moduleName;
-					}
-				} else {
-					$removeModule = $moduleName;
-					if (false !== strpos($value['include_modules'], $moduleName) && 0 < strpos($value['include_modules'], $moduleName)) {
-						$removeModule = ', ' . $moduleName;
-					} elseif (1 < \count(explode(',', $value['include_modules']))) {
-						$removeModule = $moduleName . ', ';
-					}
-					$updateValue = str_replace($removeModule, '', $value['include_modules']);
+		foreach (\App\EventHandler::getByClassName($handlerClassName, false) as $value) {
+			if ($addModule) {
+				$includeModules = explode(',', $value['include_modules']);
+				if (!\in_array($moduleName, $includeModules)) {
+					$updateValue = implode(',', $includeModules) ? implode(',', $includeModules) . ', ' . $moduleName : $moduleName;
 				}
-				if (isset($updateValue)) {
-					\App\EventHandler::update(['include_modules' => $updateValue], $value['eventhandler_id']);
+			} else {
+				$removeModule = $moduleName;
+				if (false !== strpos($value['include_modules'], $moduleName) && 0 < strpos($value['include_modules'], $moduleName)) {
+					$removeModule = ', ' . $moduleName;
+				} elseif (1 < \count(explode(',', $value['include_modules']))) {
+					$removeModule = $moduleName . ', ';
 				}
+				$updateValue = str_replace($removeModule, '', $value['include_modules']);
+			}
+			if (isset($updateValue)) {
+				\App\EventHandler::update(['include_modules' => $updateValue], $value['eventhandler_id']);
 			}
 		}
 	}
@@ -288,11 +291,9 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	public function existsIncludeModule(string $handlerClassName): bool
 	{
 		$exists = false;
-		foreach (\App\EventHandler::getAll() as $value) {
-			if ($value['handler_class'] === $handlerClassName) {
-				if (!empty($value['include_modules'])) {
-					$exists = true;
-				}
+		foreach (\App\EventHandler::getByClassName($handlerClassName, false) as $value) {
+			if (!empty($value['include_modules'])) {
+				$exists = true;
 			}
 		}
 		return $exists;

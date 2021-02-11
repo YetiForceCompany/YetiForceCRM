@@ -101,6 +101,24 @@ class EventHandler
 	}
 
 	/**
+	 * Gets a handler by class name.
+	 *
+	 * @param string $className
+	 * @param bool   $active
+	 
+	 *
+	 * @return array
+	 */
+	public static function getByClassName(string $className, bool $active = true): array
+	{
+		$query = (new \App\Db\Query())->from(self::$baseTable)->where(['handler_class' => $className])->orderBy(['priority' => SORT_DESC]);
+		if ($active) {
+			$query->andWhere(['is_active' => 1]);
+		}
+		return $query->indexBy('eventhandler_id')->all();
+	}
+
+	/**
 	 * Get active event handlers by type (event_name).
 	 *
 	 * @param string $name
