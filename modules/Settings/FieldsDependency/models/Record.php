@@ -130,7 +130,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 			$db->createCommand()->insert('s_#__fields_dependency', $data)->execute();
 		}
 		\App\Cache::delete('FieldsDependency', $data['tabid']);
-		$this->checkHandler();
+		$this->checkHandler($data['tabid']);
 	}
 
 	/**
@@ -142,7 +142,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 			->delete('s_#__fields_dependency', ['id' => $this->getId()])
 			->execute();
 		\App\Cache::delete('FieldsDependency', $this->get('tabid'));
-		$this->checkHandler();
+		$this->checkHandler($this->get('tabid'));
 		return $return;
 	}
 
@@ -228,16 +228,73 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	/**
 	 * Check whether to activate/remove handler.
 	 *
-	 * @return void
+	 * @param int $tabId
 	 */
-	public function checkHandler()
+	public function checkHandler(int $tabId)
 	{
-		if ((new \App\Db\Query())->from('s_#__fields_dependency')->where(['status' => 0])->exists(\App\Db::getInstance('admin'))) {
-			if (!App\EventHandler::registerHandler('EditViewChangeValue', 'Vtiger_FieldsDependency_Handler') || !App\EventHandler::registerHandler('EditViewPreSave', 'Vtiger_FieldsDependency_Handler')) {
-				App\EventHandler::setActive('Vtiger_FieldsDependency_Handler');
+		$moduleName = \App\Module::getModuleName($tabId);
+		$handlerClassName = 'Vtiger_FieldsDependency_Handler';
+		if ((new \App\Db\Query())->from('s_#__fields_dependency')->where(['status' => 0, 'tabid' => $tabId])->exists(\App\Db::getInstance('admin'))) {
+			if (!App\EventHandler::registerHandler('EditViewChangeValue', $handlerClassName, $moduleName) || !App\EventHandler::registerHandler('EditViewPreSave', $handlerClassName, $moduleName)) {
+				\App\EventHandler::setActive($handlerClassName);
 			}
+			$this->updateIncludeModuleToHandler($handlerClassName, $moduleName, true);
 		} else {
-			App\EventHandler::setInActive('Vtiger_FieldsDependency_Handler');
+			$this->updateIncludeModuleToHandler($handlerClassName, $moduleName, false);
+			if (!$this->existsIncludeModule($handlerClassName)) {
+				App\EventHandler::setInActive($handlerClassName);
+			}
 		}
+	}
+
+	/**
+	 * Narrows the handler to the selected modules.
+	 *
+	 * @param string $handlerClassName
+	 * @param string $moduleName
+	 * @param bool   $addModule
+	 */
+	public function updateIncludeModuleToHandler(string $handlerClassName, string $moduleName, bool $addModule)
+	{
+		foreach (\App\EventHandler::getAll() as $value) {
+			if ($value['handler_class'] === $handlerClassName) {
+				if ($addModule) {
+					if (false === strpos($value['include_modules'], $moduleName)) {
+						$updateValue = $value['include_modules'] ? $value['include_modules'] . ', ' . $moduleName : $moduleName;
+					}
+				} else {
+					$removeModule = $moduleName;
+					if (false !== strpos($value['include_modules'], $moduleName) && 0 < strpos($value['include_modules'], $moduleName)) {
+						$removeModule = ', ' . $moduleName;
+					} elseif (1 < \count(explode(',', $value['include_modules']))) {
+						$removeModule = $moduleName . ', ';
+					}
+					$updateValue = str_replace($removeModule, '', $value['include_modules']);
+				}
+				if (isset($updateValue)) {
+					\App\EventHandler::update(['include_modules' => $updateValue], $value['eventhandler_id']);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Checks for an entry in the include module column.
+	 *
+	 * @param string $handlerClassName
+	 *
+	 * @return bool
+	 */
+	public function existsIncludeModule(string $handlerClassName): bool
+	{
+		$exists = false;
+		foreach (\App\EventHandler::getAll() as $value) {
+			if ($value['handler_class'] === $handlerClassName) {
+				if (!empty($value['include_modules'])) {
+					$exists = true;
+				}
+			}
+		}
+		return $exists;
 	}
 }
