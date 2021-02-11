@@ -105,7 +105,6 @@ class EventHandler
 	 *
 	 * @param string $className
 	 * @param bool   $active
-	 
 	 *
 	 * @return array
 	 */
