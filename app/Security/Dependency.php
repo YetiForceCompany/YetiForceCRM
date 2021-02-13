@@ -25,7 +25,7 @@ class Dependency
 	/**
 	 * @var string Symfony check url.
 	 */
-	private $checkUrl = 'https://dependencies.yetiforce.com/check_lock';
+	private $checkUrl = 'https://security.yetiforce.com/dependency_check';
 
 	/**
 	 * Security checker.
