@@ -58,7 +58,7 @@ class Shop
 	public static function getProducts(string $state = '', string $department = ''): array
 	{
 		$products = [];
-		$path = \ROOT_DIRECTORY . '/app/YetiForce/Shop/Product/' . $department;
+		$path = ROOT_DIRECTORY . '/app/YetiForce/Shop/Product/' . $department;
 		foreach ((new \DirectoryIterator($path)) as $item) {
 			if (!$item->isDir()) {
 				$fileName = $item->getBasename('.php');

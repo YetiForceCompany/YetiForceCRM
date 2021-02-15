@@ -444,11 +444,12 @@ window.App.Fields = {
 					container = $('body');
 				}
 				if (container.hasClass('js-editor') && !container.prop('disabled')) {
-					return new App.Fields.Text.Editor(container, params);
+					return new App.Fields.Text.Editor(container, $.extend(params, container.data()));
 				}
 				const instances = [];
 				container.find('.js-editor:not([disabled])').each((_, e) => {
-					instances.push(new App.Fields.Text.Editor($(e), params));
+					let element = $(e);
+					instances.push(new App.Fields.Text.Editor(element, $.extend(params, element.data())));
 				});
 				return instances;
 			}
@@ -551,7 +552,7 @@ window.App.Fields = {
 							name: 'clipboard',
 							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
 						},
-						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-'] },
+						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll'] },
 						{ name: 'links', items: ['Link', 'Unlink'] },
 						{
 							name: 'insert',
@@ -607,6 +608,18 @@ window.App.Fields = {
 							]
 						},
 						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat', 'Source'] }
+					],
+					toolbar_Micro: [
+						{
+							name: 'basicstyles',
+							items: ['Bold', 'Italic', 'Underline', 'Strike']
+						},
+						{ name: 'colors', items: ['TextColor', 'BGColor'] },
+						{
+							name: 'paragraph',
+							items: ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+						},
+						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
 					],
 					toolbar_Clipboard: [
 						{ name: 'document', items: ['Print'] },

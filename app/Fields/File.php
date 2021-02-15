@@ -204,7 +204,7 @@ class File
 	 * @param string   $url
 	 * @param string[] $param
 	 *
-	 * @return bool
+	 * @return self|bool
 	 */
 	public static function loadFromUrl($url, $param = [])
 	{
@@ -1299,7 +1299,7 @@ class File
 				$result = false;
 			}
 		} else {
-			if(in_array($file->getExtension(),['jpeg', 'png', 'gif', 'bmp', 'wbmp', 'gd2', 'webp'])){
+			if (\in_array($file->getExtension(), ['jpeg', 'png', 'gif', 'bmp', 'wbmp', 'gd2', 'webp'])) {
 				$img = \imagecreatefromstring($file->getContents());
 				if (false !== $img) {
 					switch ($file->getExtension()) {

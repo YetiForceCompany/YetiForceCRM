@@ -13,6 +13,9 @@
 		<div class="alert alert-info" role="alert">
 			<span class="fas fa-info-circle"></span>&nbsp;&nbsp;
 			{\App\Language::translate('LBL_MASS_SEND_EMAIL_INFO', $MODULE)}
+			<button type="button" class="close" data-dismiss="alert" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 		<form class="form-horizontal validateForm">
 			<div class="form-group form-row">
@@ -73,7 +76,7 @@
 					</span>
 				</label>
 				<div class="col-sm-8">
-					<textarea class="form-control js-editor" name="mail_notes" id="mail_notes" data-js="ckeditor"></textarea>
+					<textarea class="form-control js-editor js-editor--basic" name="mail_notes" id="mail_notes" data-toolbar="Micro" data-js="ckeditor"></textarea>
 				</div>
 			</div>
 		</form>
