@@ -912,34 +912,14 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return [];
 	}
 
-	public function getBodyLocks()
+	/**
+	 * Get locks content.
+	 *
+	 * @return string
+	 */
+	public function getBodyLocks(): string
 	{
-		$return = '';
-		foreach ($this->getLocks() as $lock) {
-			switch ($lock) {
-				case 'copy':
-					$return .= ' oncopy = "return false"';
-					break;
-				case 'cut':
-					$return .= ' oncut = "return false"';
-					break;
-				case 'paste':
-					$return .= ' onpaste = "return false"';
-					break;
-				case 'contextmenu':
-					$return .= ' oncontextmenu = "return false"';
-					break;
-				case 'selectstart':
-					$return .= ' onselectstart = "return false" onselect = "return false"';
-					break;
-				case 'drag':
-					$return .= ' ondragstart = "return false" ondrag = "return false"';
-					break;
-				default:
-					break;
-			}
-		}
-		return $return;
+		return \App\Utils::getLocksContent($this->getLocks());
 	}
 
 	public function getHeadLocks()
