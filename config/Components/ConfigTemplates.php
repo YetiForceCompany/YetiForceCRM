@@ -183,7 +183,13 @@ return [
 				'Products' => ['productname' => 'subject']
 			],
 			'description' => "Default auto-complete data from mail bar.\n@var array Map. Example ['Accounts' => ['accountname' => 'subject']]"
-		]
+		],
+		'showEmailsInMassMail' => [
+			'default' => false,
+			'description' => "Show emails in Mass mail view.\n@var bool",
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+		],
 	],
 	'YetiForce' => [
 		'watchdogUrl' => [
