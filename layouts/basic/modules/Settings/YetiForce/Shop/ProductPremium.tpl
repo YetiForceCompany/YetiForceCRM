@@ -34,7 +34,7 @@
 				{else}
 					{if $PRODUCT_ALERT['status']}
 						{if $PRODUCT_ALERT['type'] === 'LBL_SHOP_RENEW'}
-							<button class="btn btn-dark btn-block m-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
+							<button class="btn btn-dark btn-block m-auto js-buy-modal js-popover-tooltip" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}" data-content="{\App\Language::translate($PRODUCT_ALERT['message'], $QUALIFIED_MODULE)}" data-js="popover | modal">
 								{\App\Language::translate($PRODUCT_ALERT['type'], $QUALIFIED_MODULE)}
 							</button>
 						{else}

@@ -122,4 +122,20 @@ class Company extends Base
 		}
 		return $return;
 	}
+
+	/**
+	 * Compare company size.
+	 *
+	 * @param string $package
+	 *
+	 * @return bool
+	 */
+	public static function compareSize(string $package): bool
+	{
+		$size = self::$sizes[$package] ?? '';
+		if (0 === $size) {
+			return true;
+		}
+		return $size >= User::getNumberOfUsers();
+	}
 }

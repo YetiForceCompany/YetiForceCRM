@@ -159,7 +159,7 @@ class Shop
 				$status = strtotime(date('Y-m-d')) <= strtotime($productDetails['date']);
 			}
 			if ($status) {
-				$status = \App\Company::getSize() === $productDetails['package'];
+				$status = \App\Company::compareSize($productDetails['package']);
 			}
 		}
 		return $status;
