@@ -39,7 +39,7 @@ class Utils
 			$toImplode = [];
 			if (static::isAssoc($variable)) {
 				foreach ($variable as $key => $value) {
-					$toImplode[] = var_export($key, true) . '=>' . static::varExport($value) . PHP_EOL;
+					$toImplode[] = var_export($key, true) . '=>' . static::varExport($value);
 				}
 			} else {
 				foreach ($variable as $value) {
