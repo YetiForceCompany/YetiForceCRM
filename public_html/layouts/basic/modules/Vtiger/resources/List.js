@@ -49,7 +49,7 @@ jQuery.Class(
 		 * function to trigger send Email
 		 * @params: send email url , module name.
 		 */
-		triggerSendEmail: function (params) {
+		triggerSendEmail: function (params, callBackFunction) {
 			let listInstance = Vtiger_List_Js.getInstance();
 			let validationResult = listInstance.checkListRecordSelected();
 			if (validationResult !== true) {
@@ -77,6 +77,9 @@ jQuery.Class(
 									.done(function (response) {
 										if (response.result == true) {
 											app.hideModalWindow();
+											if (typeof callBackFunction == 'function') {
+												callBackFunction(response);
+											}
 										}
 									})
 									.fail(function (data, err) {

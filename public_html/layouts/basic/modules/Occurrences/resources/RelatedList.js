@@ -15,7 +15,10 @@ Vtiger_RelatedList_Js(
 					module: Vtiger_RelatedList_Js.relatedListInstance.moduleName,
 					sourceModule: app.getModuleName(),
 					sourceRecord: app.getRecordId()
-				})
+				}),
+				function (response) {
+					Vtiger_Detail_Js.reloadRelatedList();
+				}
 			);
 		}
 	},
