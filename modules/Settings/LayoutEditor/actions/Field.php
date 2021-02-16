@@ -28,6 +28,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('unHide');
 		$this->exposeMethod('getPicklist');
 		$this->exposeMethod('checkPicklistExist');
+		Settings_Vtiger_Tracker_Model::addBasic('save');
 	}
 
 	public function add(App\Request $request)

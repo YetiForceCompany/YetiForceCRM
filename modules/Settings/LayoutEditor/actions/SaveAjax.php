@@ -20,6 +20,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('saveSequence');
 		$this->exposeMethod('delete');
 		$this->exposeMethod('contextHelp');
+		Settings_Vtiger_Tracker_Model::addBasic('save');
 	}
 
 	/**

@@ -16,6 +16,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('save');
 		$this->exposeMethod('updateSequenceNumber');
 		$this->exposeMethod('delete');
+		Settings_Vtiger_Tracker_Model::addBasic('save');
 	}
 
 	public function save(App\Request $request)

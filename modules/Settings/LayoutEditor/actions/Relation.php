@@ -21,6 +21,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('addRelation');
 		$this->exposeMethod('removeRelation');
 		$this->exposeMethod('updateRelatedViewType');
+		Settings_Vtiger_Tracker_Model::addBasic('save');
 	}
 
 	public function changeStatusRelation(App\Request $request)
