@@ -3421,20 +3421,20 @@
         },
         {
             "name": "sonata-project/google-authenticator",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/GoogleAuthenticator.git",
-                "reference": "bb30e7cdfab4bd8a5b1d35c78e024e81060ecd99"
+                "reference": "71a4189228f93a9662574dc8c65e77ef55061b59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/GoogleAuthenticator/zipball/bb30e7cdfab4bd8a5b1d35c78e024e81060ecd99",
-                "reference": "bb30e7cdfab4bd8a5b1d35c78e024e81060ecd99",
+                "url": "https://api.github.com/repos/sonata-project/GoogleAuthenticator/zipball/71a4189228f93a9662574dc8c65e77ef55061b59",
+                "reference": "71a4189228f93a9662574dc8c65e77ef55061b59",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.3"
+                "php": "^7.3 || ^8.0"
             },
             "require-dev": {
                 "symfony/phpunit-bridge": "^5.1.8"
@@ -3476,7 +3476,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sonata-project/GoogleAuthenticator/issues",
-                "source": "https://github.com/sonata-project/GoogleAuthenticator/tree/2.3.0"
+                "source": "https://github.com/sonata-project/GoogleAuthenticator/tree/2.3.1"
             },
             "funding": [
                 {
@@ -3496,7 +3496,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-16T09:50:15+00:00"
+            "time": "2021-02-15T19:23:18+00:00"
         },
         {
             "name": "symfony/polyfill-iconv",
