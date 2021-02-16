@@ -39,7 +39,7 @@ class Utils
 			$toImplode = [];
 			if (static::isAssoc($variable)) {
 				foreach ($variable as $key => $value) {
-					$toImplode[] = var_export($key, true) . '=>' . static::varExport($value);
+					$toImplode[] = var_export($key, true) . '=>' . static::varExport($value) . PHP_EOL;
 				}
 			} else {
 				foreach ($variable as $value) {
@@ -265,5 +265,42 @@ class Utils
 			unset($array[$value]);
 		}
 		return array_merge($returnLinks, $array);
+	}
+
+	/**
+	 * Get locks content by events.
+	 *
+	 * @param array $locks
+	 *
+	 * @return string
+	 */
+	public static function getLocksContent(array $locks): string
+	{
+		$return = '';
+		foreach ($locks as $lock) {
+			switch ($lock) {
+			case 'copy':
+				$return .= ' oncopy = "return false"';
+				break;
+			case 'cut':
+				$return .= ' oncut = "return false"';
+				break;
+			case 'paste':
+				$return .= ' onpaste = "return false"';
+				break;
+			case 'contextmenu':
+				$return .= ' oncontextmenu = "return false"';
+				break;
+			case 'selectstart':
+				$return .= ' onselectstart = "return false" onselect = "return false"';
+				break;
+			case 'drag':
+				$return .= ' ondragstart = "return false" ondrag = "return false"';
+				break;
+			default:
+				break;
+		}
+		}
+		return $return;
 	}
 }
