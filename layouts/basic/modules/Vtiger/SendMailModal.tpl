@@ -63,14 +63,12 @@
 				</div>
 			</div>
 			{if $EMAIL_LIST}
-				<div class="form-group form-row">
+				<div class="form-group form-row" {\App\Utils::getLocksContent(['copy', 'cut', 'paste', 'contextmenu', 'selectstart'])}>
 					<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_EMAIL_LIST')}</label>
-					<div class="col-sm-8 ">
+					<div class="col-sm-8">
 						<div class="js-scrollbar bg-light u-h-120px card card-body p-1 pl-3" {\App\Utils::getLocksContent(['copy', 'cut', 'paste', 'contextmenu', 'selectstart'])}>
 							{foreach key=EMAIL item=COUNT from=$EMAIL_LIST name=emails}
-								{if $smarty.foreach.emails.index gt 100}
-									...{break}
-								{/if}
+								{if $smarty.foreach.emails.index gt 100}...{break}{/if}
 								{$EMAIL}<br>
 							{/foreach}
 						</div>

@@ -279,27 +279,25 @@ class Utils
 		$return = '';
 		foreach ($locks as $lock) {
 			switch ($lock) {
-			case 'copy':
-				$return .= ' oncopy = "return false"';
-				break;
-			case 'cut':
-				$return .= ' oncut = "return false"';
-				break;
-			case 'paste':
-				$return .= ' onpaste = "return false"';
-				break;
-			case 'contextmenu':
-				$return .= ' oncontextmenu = "return false"';
-				break;
-			case 'selectstart':
-				$return .= ' onselectstart = "return false" onselect = "return false"';
-				break;
-			case 'drag':
-				$return .= ' ondragstart = "return false" ondrag = "return false"';
-				break;
-			default:
-				break;
-		}
+				case 'copy':
+					$return .= ' oncopy = "return false"';
+					break;
+				case 'cut':
+					$return .= ' oncut = "return false"';
+					break;
+				case 'paste':
+					$return .= ' onpaste = "return false"';
+					break;
+				case 'contextmenu':
+					$return .= ' oncontextmenu = "return false"';
+					break;
+				case 'selectstart':
+					$return .= ' onselectstart = "return false" onselect = "return false"';
+					break;
+				case 'drag':
+					$return .= ' ondragstart = "return false" ondrag = "return false"';
+					break;
+			}
 		}
 		return $return;
 	}
