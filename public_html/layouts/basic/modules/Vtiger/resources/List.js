@@ -51,8 +51,7 @@ jQuery.Class(
 		 */
 		triggerSendEmail: function (params, callBackFunction) {
 			let listInstance = Vtiger_List_Js.getInstance();
-			let validationResult = listInstance.checkListRecordSelected();
-			if (validationResult !== true) {
+			if (params['selected_ids'] || listInstance.checkListRecordSelected() !== true) {
 				let postData = listInstance.getSearchParams();
 				delete postData.parent;
 				delete postData.mode;
@@ -65,7 +64,7 @@ jQuery.Class(
 					app.showModalWindow(response, function (data) {
 						data.find('[name="saveButton"]').on('click', function (e) {
 							if (data.find('form').validationEngine('validate')) {
-								jQuery.extend(postData, {
+								$.extend(postData, {
 									field: data.find('#field').val(),
 									template: data.find('#template').val(),
 									mailNotes: data.find('#mail_notes').val(),

@@ -192,6 +192,41 @@ jQuery.Class(
 			} else {
 				self.noRecordSelectedAlert();
 			}
+		},
+		/**
+		 * Function to trigger mass send email modal
+		 */
+		triggerSendEmail: function () {
+			let params = Vtiger_RelatedList_Js.relatedListInstance.getDefaultParams();
+			Vtiger_List_Js.triggerSendEmail(
+				$.extend(params, {
+					relatedLoad: true,
+					module: Vtiger_RelatedList_Js.relatedListInstance.moduleName,
+					sourceModule: app.getModuleName(),
+					sourceRecord: app.getRecordId()
+				}),
+				function () {
+					Vtiger_Detail_Js.reloadRelatedList();
+				}
+			);
+		},
+		/**
+		 * Function to trigger mass send email modal by row
+		 */
+		triggerSendEmailByRow: function (row) {
+			let params = Vtiger_RelatedList_Js.relatedListInstance.getDefaultParams();
+			Vtiger_List_Js.triggerSendEmail(
+				$.extend(params, {
+					relatedLoad: true,
+					module: Vtiger_RelatedList_Js.relatedListInstance.moduleName,
+					sourceModule: app.getModuleName(),
+					sourceRecord: app.getRecordId(),
+					selected_ids: '["' + $(row).closest('.js-list__row').data('id') + '"]'
+				}),
+				function () {
+					Vtiger_Detail_Js.reloadRelatedList();
+				}
+			);
 		}
 	},
 	{
