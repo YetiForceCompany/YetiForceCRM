@@ -36,7 +36,6 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($searchParams) && \is_array($searchParams)) {
 			$miniListWidgetModel->setSearchParams($searchParams);
 			foreach ($request->getArray('search_params') as $fieldListGroup) {
-				$searchParamsRaw[] = $fieldListGroup;
 				foreach ($fieldListGroup as $fieldSearchInfo) {
 					$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 					$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
