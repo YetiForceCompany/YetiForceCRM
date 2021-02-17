@@ -57,7 +57,7 @@
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName())
 											FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD SOURCE_TPL='GeneralInfoWidget'}
 										</div>
-										{if !$IS_READ_ONLY && $FIELD_MODEL->isEditable() eq 'true' &&
+										{if empty($IS_READ_ONLY) && $FIELD_MODEL->isEditable() eq 'true' &&
 										($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED &&
 										$FIELD_MODEL->isAjaxEditable() eq 'true'}
 											<div class="d-none edit input-group input-group-sm px-0">
