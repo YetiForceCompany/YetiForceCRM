@@ -134,6 +134,11 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Calendar_Model
 	 */
 	public function getCalendarTypes()
 	{
-		return $this->getModule()->getFieldByName('timecontrol_type')->getPicklistValues();
+		$calendarTypes = false;
+		$moduleTimeControlField = $this->getModule()->getFieldByName('timecontrol_type');
+		if ($moduleTimeControlField->isActiveField()) {
+			$calendarTypes = $moduleTimeControlField->getPicklistValues();
+		}
+		return $calendarTypes;
 	}
 }
