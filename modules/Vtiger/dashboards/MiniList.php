@@ -30,12 +30,22 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		} else {
 			$owner = $request->getByType('owner', 2);
 		}
-		$minilistWidgetModel = new Vtiger_MiniList_Model();
-		$minilistWidgetModel->setWidgetModel($widget);
-		$searchParams = App\Condition::validSearchParams($minilistWidgetModel->getTargetModule(), $request->getArray('search_params'));
-		if ($searchParams) {
-			$minilistWidgetModel->setSearchParams($searchParams);
+		$miniListWidgetModel = new Vtiger_MiniList_Model();
+		$miniListWidgetModel->setWidgetModel($widget);
+		$searchParams = App\Condition::validSearchParams($miniListWidgetModel->getTargetModule(), $request->getArray('search_params'));
+		if (!empty($searchParams) && \is_array($searchParams)) {
+			$miniListWidgetModel->setSearchParams($searchParams);
+			foreach ($request->getArray('search_params') as $fieldListGroup) {
+				$searchParamsRaw[] = $fieldListGroup;
+				foreach ($fieldListGroup as $fieldSearchInfo) {
+					$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
+					$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+					$fieldSearchInfo['specialOption'] = \in_array($fieldSearchInfo[1], ['ch', 'kh']) ? true : '';
+					$searchParams[$fieldName] = $fieldSearchInfo;
+				}
+			}
 		}
+
 		$fieldHref = $filterField = false;
 		if ($widget->get('data')) {
 			$widgetParams = \App\Json::decode($widget->get('data'));
@@ -44,20 +54,22 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 				$filterField = Vtiger_Field_Model::getInstanceFromFieldId($widgetParams['filterFields']);
 			}
 		}
+
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('OWNER', $owner);
-		$viewer->assign('MINILIST_WIDGET_MODEL', $minilistWidgetModel);
-		$viewer->assign('BASE_MODULE', $minilistWidgetModel->getTargetModule());
+		$viewer->assign('MINILIST_WIDGET_MODEL', $miniListWidgetModel);
+		$viewer->assign('BASE_MODULE', $miniListWidgetModel->getTargetModule());
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('DATA', $data);
 		$viewer->assign('FILTER_FIELD', $filterField);
 		$viewer->assign('FIELD_HREF', $fieldHref);
+		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/MiniListContents.tpl', $moduleName);
 			$viewer->view('dashboards/MiniListFooter.tpl', $moduleName);
 		} else {
-			$widget->set('title', $minilistWidgetModel->getTitle());
+			$widget->set('title', $miniListWidgetModel->getTitle());
 			$viewer->view('dashboards/MiniList.tpl', $moduleName);
 		}
 	}
