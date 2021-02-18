@@ -54,7 +54,7 @@ class Watchdog
 	public $cache = [];
 
 	/**
-	 * Send status informations.
+	 * Send status information's.
 	 */
 	public static function send()
 	{
@@ -75,20 +75,16 @@ class Watchdog
 		}
 		try {
 			\App\Log::beginProfile("POST|Watchdog::send|{$url}", __NAMESPACE__);
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
+			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
 				'headers' => [
 					'App-Id' => $info['insKey'],
-					'x-api-key' => 'kqUbREMJ3ydM2ns6wTNYJc3j6wMDcA8t',
 				],
-				'auth' => ['test', 'test'],
 				'allow_redirects' => false,
 				'timeout' => 5,
 				'json' => $info
 			]);
-			echo $response->getBody();
 			\App\Log::endProfile("POST|Watchdog::send|{$url}", __NAMESPACE__);
 		} catch (\Throwable $e) {
-			echo $e->__toString();
 			\App\Log::warning('Not possible to connect to the server status' . PHP_EOL . $e->getMessage(), 'YetiForceStatus');
 		}
 	}
