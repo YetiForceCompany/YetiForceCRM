@@ -44,6 +44,7 @@ class Watchdog
 		'environment' => 'bool',
 		'writableFilesAndFolders' => 'bool',
 		'database' => 'bool',
+		'pathVerification' => 'bool',
 	];
 	/**
 	 * Cache.
@@ -66,7 +67,6 @@ class Watchdog
 		$status = new self();
 		$info = [
 			'insKey' => \App\YetiForce\Register::getInstanceKey(),
-			'crmKey' => \App\YetiForce\Register::getCrmKey(),
 		];
 		foreach ($config as $name => $state) {
 			if ($state) {
@@ -75,11 +75,20 @@ class Watchdog
 		}
 		try {
 			\App\Log::beginProfile("POST|Watchdog::send|{$url}", __NAMESPACE__);
-			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
+				'headers' => [
+					'App-Id' => $info['insKey'],
+					'x-api-key' => 'kqUbREMJ3ydM2ns6wTNYJc3j6wMDcA8t',
+				],
+				'auth' => ['test', 'test'],
+				'allow_redirects' => false,
 				'timeout' => 5,
-				'body' => \App\Json::encode($info)]);
+				'json' => $info
+			]);
+			echo $response->getBody();
 			\App\Log::endProfile("POST|Watchdog::send|{$url}", __NAMESPACE__);
 		} catch (\Throwable $e) {
+			echo $e->__toString();
 			\App\Log::warning('Not possible to connect to the server status' . PHP_EOL . $e->getMessage(), 'YetiForceStatus');
 		}
 	}
@@ -142,7 +151,10 @@ class Watchdog
 		if (empty($this->cache['database'])) {
 			$this->cache['database'] = \App\Utils\ConfReport::get('database');
 		}
-		return $this->cache['database']['serverVersion']['www'] ?? '';
+		return [
+			'version' => $this->cache['database']['serverVersion']['www'] ?? '',
+			'comment' => $this->cache['database']['version_comment']['www'] ?? '',
+		];
 	}
 
 	/**
@@ -185,11 +197,14 @@ class Watchdog
 		}
 		$param = [];
 		foreach ($this->cache['security'] as $name => $values) {
-			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
+			$value = ['www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
 				$value['cron'] = $values['cron'];
 			}
-			$param[] = $value;
+			if (isset($values['recommended'])) {
+				$value['recommended'] = $values['recommended'];
+			}
+			$param[$name] = $value;
 		}
 		return $param;
 	}
@@ -206,11 +221,14 @@ class Watchdog
 		}
 		$param = [];
 		foreach ($this->cache['stability'] as $name => $values) {
-			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
+			$value = ['www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
 				$value['cron'] = $values['cron'];
 			}
-			$param[] = $value;
+			if (isset($values['recommended'])) {
+				$value['recommended'] = $values['recommended'];
+			}
+			$param[$name] = $value;
 		}
 		return $param;
 	}
@@ -227,11 +245,14 @@ class Watchdog
 		}
 		$param = [];
 		foreach ($this->cache['libraries'] as $name => $values) {
-			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
+			$value = ['www' => $values['www'] ?? '', 'status' => $values['status'], 'mandatory' => ($values['mandatory'] ?? false)];
 			if (isset($values['cron'])) {
 				$value['cron'] = $values['cron'];
 			}
-			$param[] = $value;
+			if (isset($values['mode'])) {
+				$value['mode'] = $values['mode'];
+			}
+			$param[$name] = $value;
 		}
 		return $param;
 	}
@@ -248,11 +269,14 @@ class Watchdog
 		}
 		$param = [];
 		foreach ($this->cache['performance'] as $name => $values) {
-			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
+			$value = ['www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
 				$value['cron'] = $values['cron'];
 			}
-			$param[] = $value;
+			if (isset($values['recommended'])) {
+				$value['recommended'] = $values['recommended'];
+			}
+			$param[$name] = $value;
 		}
 		return $param;
 	}
@@ -269,11 +293,14 @@ class Watchdog
 		}
 		$param = [];
 		foreach ($this->cache['publicDirectoryAccess'] as $name => $values) {
-			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
+			$value = ['www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
 				$value['cron'] = $values['cron'];
 			}
-			$param[] = $value;
+			if (isset($values['recommended'])) {
+				$value['recommended'] = $values['recommended'];
+			}
+			$param[$name] = $value;
 		}
 		return $param;
 	}
@@ -290,11 +317,17 @@ class Watchdog
 		}
 		$param = [];
 		foreach ($this->cache['environment'] as $name => $values) {
-			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
+			$value = ['www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
 				$value['cron'] = $values['cron'];
 			}
-			$param[] = $value;
+			if (isset($values['recommended'])) {
+				$value['recommended'] = $values['recommended'];
+			}
+			if (isset($values['mode'])) {
+				$value['mode'] = $values['mode'];
+			}
+			$param[$name] = $value;
 		}
 		return $param;
 	}
@@ -311,11 +344,14 @@ class Watchdog
 		}
 		$param = [];
 		foreach ($this->cache['writableFilesAndFolders'] as $name => $values) {
-			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
+			$value = ['www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
 				$value['cron'] = $values['cron'];
 			}
-			$param[] = $value;
+			if (isset($values['recommended'])) {
+				$value['recommended'] = $values['recommended'];
+			}
+			$param[$name] = $value;
 		}
 		return $param;
 	}
@@ -332,11 +368,32 @@ class Watchdog
 		}
 		$param = [];
 		foreach ($this->cache['database'] as $name => $values) {
-			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
+			$value = ['www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
 				$value['cron'] = $values['cron'];
 			}
-			$param[] = $value;
+			if (isset($values['recommended'])) {
+				$value['recommended'] = $values['recommended'];
+			}
+			$param[$name] = $value;
+		}
+		return $param;
+	}
+
+	/**
+	 * Get database param.
+	 *
+	 * @return array
+	 */
+	public function getPathVerification()
+	{
+		if (empty($this->cache['pathVerification'])) {
+			$this->cache['pathVerification'] = \App\Utils\ConfReport::get('pathVerification');
+		}
+		$param = [];
+		foreach ($this->cache['pathVerification'] as $name => $values) {
+			$value = ['www' => $values['www'] ?? '', 'status' => $values['status']];
+			$param[$name] = $value;
 		}
 		return $param;
 	}
@@ -350,7 +407,7 @@ class Watchdog
 	}
 
 	/**
-	 * Get root filesystem space.
+	 * Get CRM root directory space.
 	 *
 	 * @return array
 	 */
@@ -359,12 +416,11 @@ class Watchdog
 		if (empty($this->cache['environment'])) {
 			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
 		}
-		return ['total' => $this->cache['environment']['spaceRoot']['spaceTotal'] ?? '',
-			'free' => $this->cache['environment']['spaceRoot']['spaceFree'] ?? ''];
+		return $this->cache['environment']['spaceRoot']['spaceFree'] ?? 0;
 	}
 
 	/**
-	 * Get storage filesystem space.
+	 * Get storage directory space.
 	 *
 	 * @return array
 	 */
@@ -373,12 +429,11 @@ class Watchdog
 		if (empty($this->cache['environment'])) {
 			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
 		}
-		return ['total' => $this->cache['environment']['spaceStorage']['spaceTotal'] ?? '',
-			'free' => $this->cache['environment']['spaceStorage']['spaceFree'] ?? ''];
+		return $this->cache['environment']['spaceStorage']['spaceFree'] ?? 0;
 	}
 
 	/**
-	 * Get temporary filesystem space.
+	 * Get temporary directory space.
 	 *
 	 * @return array
 	 */
@@ -387,8 +442,20 @@ class Watchdog
 		if (empty($this->cache['environment'])) {
 			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
 		}
-		return ['total' => $this->cache['environment']['spaceTemp']['spaceTotal'] ?? '',
-			'free' => $this->cache['environment']['spaceTemp']['spaceFree'] ?? ''];
+		return $this->cache['environment']['spaceTemp']['spaceFree'] ?? 0;
+	}
+
+	/**
+	 * Get backup directory space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceBackup()
+	{
+		if (empty($this->cache['environment'])) {
+			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
+		}
+		return $this->cache['environment']['spaceBackup']['spaceFree'] ?? 0;
 	}
 
 	/**

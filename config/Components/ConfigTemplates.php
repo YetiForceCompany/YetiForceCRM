@@ -244,19 +244,25 @@ return [
 		],
 		'spaceRoot' => [
 			'default' => false,
-			'description' => 'Root space',
+			'description' => 'Root CRM directory space',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'spaceStorage' => [
 			'default' => false,
-			'description' => 'Storage space',
+			'description' => 'Storage directory space',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'spaceTemp' => [
 			'default' => false,
 			'description' => 'Temporary directory space',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'spaceBackup' => [
+			'default' => false,
+			'description' => 'Backup directory space',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -311,6 +317,12 @@ return [
 		'database' => [
 			'default' => false,
 			'description' => 'Database information',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'pathVerification' => [
+			'default' => false,
+			'description' => 'Path verification',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
