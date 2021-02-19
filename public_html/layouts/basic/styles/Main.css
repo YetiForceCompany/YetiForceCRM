@@ -14293,6 +14293,12 @@ table.dataTable .form-control {
   margin-top: 5px;
   margin-bottom: 5px; }
 
+.footer-non--active .calendarRightPanel {
+  height: 100%; }
+
+.footer-non--active .o-calendar__form {
+  height: calc(100vh - (0rem + 3.125rem)) !important; }
+
 .icon-in-history-widget {
   font-size: 1.0625rem;
   padding: 4px; }
@@ -16565,6 +16571,9 @@ table .listButtons.narrow .c-badge__icon {
   .u-w-xs-down-100 {
     width: 100%; } }
 
+.u-max-w-40px {
+  max-width: 2.5rem; }
+
 .u-max-w-150px {
   max-width: 150px; }
 
@@ -17301,6 +17310,9 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
 .contentsDiv {
   min-height: 100%; }
 
+.footer-non--active .mainContainer {
+  height: 100%; }
+
 .bodyContent {
   min-height: 100%;
   height: 100%;
@@ -17519,8 +17531,9 @@ body:not(.desktop) .bodyContent {
   font-size: 75%; }
 
 .c-img__user {
-  width: auto;
-  height: 2.5rem; }
+  width: 3rem;
+  height: 3rem;
+  min-width: 3rem; }
 
 .c-img__completion {
   width: inherit; }
@@ -18155,6 +18168,17 @@ body {
 .user-info--active.limited-footer--active .container-fluid[class$="-knowledgebase-container"] .contentsDiv, .user-info--active.limited-footer--active .container-sm[class$="-knowledgebase-container"] .contentsDiv, .user-info--active.limited-footer--active .container-md[class$="-knowledgebase-container"] .contentsDiv, .user-info--active.limited-footer--active .container-lg[class$="-knowledgebase-container"] .contentsDiv, .user-info--active.limited-footer--active .container-xl[class$="-knowledgebase-container"] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem); }
 
+.footer-non--active .c-menu__container,
+.footer-non--active .mainBody {
+  bottom: 0rem; }
+
+.footer-non--active.limited-footer--active .c-menu__container,
+.footer-non--active.limited-footer--active .mainBody {
+  bottom: 0rem; }
+
+.footer-non--active .container-fluid[class$="-knowledgebase-container"] .contentsDiv, .footer-non--active .container-sm[class$="-knowledgebase-container"] .contentsDiv, .footer-non--active .container-md[class$="-knowledgebase-container"] .contentsDiv, .footer-non--active .container-lg[class$="-knowledgebase-container"] .contentsDiv, .footer-non--active .container-xl[class$="-knowledgebase-container"] .contentsDiv {
+  min-height: 100vh; }
+
 @media (max-width: 767.98px) {
   .mainBody,
   .c-btn-fixed {
@@ -18165,6 +18189,9 @@ body {
     bottom: 2rem; }
   .user-info--active .container-fluid[class$="-knowledgebase-container"] .contentsDiv, .user-info--active .container-sm[class$="-knowledgebase-container"] .contentsDiv, .user-info--active .container-md[class$="-knowledgebase-container"] .contentsDiv, .user-info--active .container-lg[class$="-knowledgebase-container"] .contentsDiv, .user-info--active .container-xl[class$="-knowledgebase-container"] .contentsDiv {
     min-height: calc(100vh - 3.125rem - 2rem); } }
+
+.footer-non--active .mainBody {
+  bottom: 0; }
 
 .contentsDiv,
 .centerPanel {
@@ -19234,6 +19261,9 @@ ul.c-process-line {
 .limited-footer--active .c-form__action-panel {
   bottom: 1rem; }
 
+.footer-non--active .c-form__action-panel {
+  bottom: 0px; }
+
 .verticalScroll {
   position: absolute;
   left: 0;
@@ -19242,6 +19272,9 @@ ul.c-process-line {
   overflow-x: hidden;
   padding-right: 10px;
   padding-left: 10px; }
+
+.footer-non--active .verticalScroll {
+  height: 90vh; }
 
 .o-register-warning + .mainContainer .verticalScroll,
 .o-register-error + .mainContainer .verticalScroll {
