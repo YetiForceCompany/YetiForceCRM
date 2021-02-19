@@ -951,12 +951,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'multiListFields':
 			case 'mailScannerFields':
 			case 'country':
-				$pickListValues = $this->getPicklistValues();
-				if (!empty($pickListValues)) {
-					$this->fieldInfo['picklistvalues'] = $pickListValues;
-				} else {
-					$this->fieldInfo['picklistvalues'] = [];
-				}
+				$this->fieldInfo['picklistvalues'] = $this->getPicklistValues() ?: [];
 				break;
 			case 'date':
 			case 'datetime':
