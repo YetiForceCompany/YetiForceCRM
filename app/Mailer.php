@@ -474,7 +474,7 @@ class Mailer
 		} else {
 			static::$error[] = $this->mailer->ErrorInfo;
 		}
-		$eventHandler->trigger('MailerAfterSend');
+		$eventHandler->trigger('MailerAfterSendError');
 		return false;
 	}
 
