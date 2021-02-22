@@ -6,6 +6,8 @@
 				<form class="form-modalAddWidget">
 					{if !empty($WID)}<input type="hidden" name="wid" value="{$WID}" />{/if}
 					<input type="hidden" name="type" value="{$TYPE}" />
+					<input type="hidden" name="limit" value="1" />
+					<input type="hidden" name="relatedmodule" value="0" />
 					<div class="modal-header">
 						<h5 id="massEditHeader" class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</h5>
 						<button type="button" data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">&times;</button>
