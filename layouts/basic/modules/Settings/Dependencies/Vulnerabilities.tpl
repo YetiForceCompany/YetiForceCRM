@@ -26,7 +26,7 @@
 				<div class="w-100 mb-2">
 					<div class="alert alert-danger" role="alert">
 						<h4 class="alert-heading">
-							<span class="fas fa-info-circle mr-1"></span>
+							<span class="fas fa-skull-crossbones mr-3 u-fs-4x float-left"></span>
 							{\App\Language::translate('LBL_VULNERABILITIES_WARNING',$QUALIFIED_MODULE)}
 						</h4>
 						<p>{\App\Language::translate('LBL_VULNERABILITIES_WARNING_DESC',$QUALIFIED_MODULE)}</p>
@@ -71,7 +71,7 @@
 				<div class="w-100 mb-2">
 					<div class="alert alert-success" role="alert">
 						<h4 class="alert-heading">
-							<span class="fas fa-info-circle mr-1"></span>
+							<span class="far fa-thumbs-up mr-3 u-fs-4x float-left"></span>
 							{\App\Language::translate('LBL_VULNERABILITIES_OK', $QUALIFIED_MODULE)}
 						</h4>
 						<p>{\App\Language::translate('LBL_VULNERABILITIES_OK_DESC', $QUALIFIED_MODULE)}</p>
