@@ -223,9 +223,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = $params['tabid'];
 		$data = $params['data'];
 		$wid = $data['wid'] ?? '';
-		$widgetName = 'Vtiger_' . $data['type'] . '_Widget';
+		$widgetModuleName = \App\Module::getModuleName($tabid);
+		$widgetName = Vtiger_Loader::getComponentClassName('Widget', $data['type'], $widgetModuleName);
 		if (class_exists($widgetName)) {
-			$widgetInstance = new $widgetName();
+			$widgetInstance = new $widgetName($widgetModuleName);
 			$dbParams = $widgetInstance->dbParams;
 		}
 		$data = array_merge($dbParams, $data);
