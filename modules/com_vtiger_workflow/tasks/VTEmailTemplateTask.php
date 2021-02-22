@@ -45,25 +45,18 @@ class VTEmailTemplateTask extends VTTask
 				$mailerContent['to'][] = $this->address_emails;
 			}
 			if ($this->relations_email && '-' !== $this->relations_email) {
-				[$relatedModule,$relatedFieldName] = explode('::', $this->relations_email);
+				[$relatedModule,$relatedFieldName,$onlyFirst] = array_pad(explode('::', $this->relations_email), 3, false);
 				$pagingModel = new Vtiger_Paging_Model();
 				$pagingModel->set('limit', 0);
 				$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModule);
 				$relationListView->setFields(['id', $relatedFieldName]);
 				$relationListView->set('search_key', $relatedFieldName);
 				$relationListView->set('operator', 'ny');
-				foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
-					$mailerContent['to'][] = $relatedRecordModel->get($relatedFieldName);
+				if ($onlyFirst) {
+					$pagingModel->set('limit', 1);
 				}
-				if (isset($recordModel->ext['relationsEmail'])) {
-					foreach ($recordModel->ext['relationsEmail'] as $tempModule => $tempCrmId) {
-						if ($relatedModule === $tempModule) {
-							$tempRecordModel = Vtiger_Record_Model::getInstanceById($tempCrmId, $tempModule);
-							if ($tempRecordModel->get($relatedFieldName)) {
-								$mailerContent['to'][] = $tempRecordModel->get($relatedFieldName);
-							}
-						}
-					}
+				foreach ($relationListView->getEntries($pagingModel) as $relatedRecordModel) {
+					$mailerContent['to'][] = $relatedRecordModel->get($relatedFieldName);
 				}
 			}
 			unset($emailParser);
