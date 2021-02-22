@@ -519,12 +519,8 @@ class Vtiger_Record_Model extends \App\Base
 				}
 				$this->saveToDb();
 			}
-			$recordId = $this->getId();
-			Users_Privileges_Model::setSharedOwner($this->get('shownerid'), $recordId);
-			if ('link' === \App\Request::_get('createmode') && \App\Request::_has('return_module') && \App\Request::_has('return_id')) {
-				Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance(\App\Request::_get('return_module')), $this->getModule())
-					->addRelation(\App\Request::_getInteger('return_id'), $recordId);
-			}
+			Users_Privileges_Model::setSharedOwner($this->get('shownerid'), $this->getId());
+			$this->addRelations();
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
@@ -634,6 +630,41 @@ class Vtiger_Record_Model extends \App\Base
 		$this->set('modifiedtime', $row['modifiedtime']);
 		$this->set('modifiedby', $row['modifiedby']);
 		return ['vtiger_crmentity' => $row];
+	}
+
+	/**
+	 * Add relations on save.
+	 * The main purpose of the function to share relational data in workflow.
+	 *
+	 * @return void
+	 */
+	public function addRelations(): void
+	{
+		$recordId = $this->getId();
+		if (isset($this->ext['relations']) && \is_array($this->ext['relations'])) {
+			foreach ($this->ext['relations'] as $value) {
+				if ($reverse = empty($value['reverse'])) {
+					$relationModel = Vtiger_Relation_Model::getInstance($this->getModule(), Vtiger_Module_Model::getInstance($value['relatedModule']), ($value['relationId'] ?? false));
+				} else {
+					$relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($value['relatedModule']), $this->getModule(), ($value['relationId'] ?? false));
+				}
+				if ($relationModel) {
+					foreach ($value['relatedRecords'] as $record) {
+						if ($reverse) {
+							$relationModel->addRelation($this->getId(), $record, $value['params'] ?? false);
+						} else {
+							$relationModel->addRelation($record, $this->getId(), $value['params'] ?? false);
+						}
+					}
+				} else {
+					\App\Log::warning("Relation model does not exist: {$this->getModuleName()} | relatedModule: {$value['relatedModule']} (relationId: {$value['relationId']})| reverse: $reverse");
+				}
+			}
+		}
+		if ('link' === \App\Request::_get('createmode') && \App\Request::_has('return_module') && \App\Request::_has('return_id')) {
+			Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance(\App\Request::_get('return_module')), $this->getModule())
+				->addRelation(\App\Request::_getInteger('return_id'), $recordId);
+		}
 	}
 
 	/**
