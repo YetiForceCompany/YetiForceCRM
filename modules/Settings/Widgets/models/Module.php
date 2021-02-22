@@ -76,22 +76,31 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getType($module = false)
 	{
-		$dir = 'modules/Vtiger/widgets/';
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		$ffs = scandir($dir);
-		foreach ($ffs as $ff) {
-			$action = str_replace('.php', '', $ff);
-			if ('.' != $ff && '..' != $ff && !is_dir($dir . '/' . $ff) && 'Basic' != $action) {
-				$folderFiles[$action] = $action;
-				Vtiger_Loader::includeOnce('~~' . $dir . $ff);
-				$modelClassName = Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
-				$instance = new $modelClassName($module, $moduleModel);
-				if (!$instance->isPermitted()) {
-					unset($folderFiles[$action]);
+		if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
+			$loader[] = "custom/modules/{$moduleModel->getName()}/widgets/";
+			$loader[] = 'custom/modules/Vtiger/widgets/';
+		}
+		$loader[] = "modules/{$moduleModel->getName()}/widgets/";
+		$loader[] = 'modules/Vtiger/widgets/';
+		$folderFiles = $activeWidgets = [];
+		foreach ($loader as $dir) {
+			if (!is_dir($dir)) {
+				continue;
+			}
+			foreach ((new \DirectoryIterator($dir)) as $fileInfo) {
+				$type = $fileInfo->getBasename('.php');
+				if (!$fileInfo->isDir() && 'Basic' !== $type && 'php' === $fileInfo->getExtension() && !isset($folderFiles[$type])) {
+					$folderFiles[$type] = $type;
+					$className = Vtiger_Loader::getComponentClassName('Widget', $type, $moduleModel->getName());
+					$instance = new $className($moduleModel->getName(), $moduleModel);
+					if ($instance->isPermitted()) {
+						$activeWidgets[$type] = $type;
+					}
 				}
 			}
 		}
-		return $folderFiles;
+		return $activeWidgets;
 	}
 
 	/**
@@ -214,9 +223,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = $params['tabid'];
 		$data = $params['data'];
 		$wid = $data['wid'] ?? '';
-		$widgetName = 'Vtiger_' . $data['type'] . '_Widget';
+		$widgetModuleName = \App\Module::getModuleName($tabid);
+		$widgetName = Vtiger_Loader::getComponentClassName('Widget', $data['type'], $widgetModuleName);
 		if (class_exists($widgetName)) {
-			$widgetInstance = new $widgetName();
+			$widgetInstance = new $widgetName($widgetModuleName);
 			$dbParams = $widgetInstance->dbParams;
 		}
 		$data = array_merge($dbParams, $data);

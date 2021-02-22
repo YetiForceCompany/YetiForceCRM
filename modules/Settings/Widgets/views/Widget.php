@@ -45,8 +45,8 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$type = $request->getByType('type', 'Alnum');
 		$tabId = $request->getInteger('tabId');
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
-		$RelatedModule = $moduleModel->getRelatedModule($tabId);
-		$widgetName = 'Vtiger_' . $type . '_Widget';
+		$relatedModule = $moduleModel->getRelatedModule($tabId);
+		$widgetModuleName = \App\Module::getModuleName($tabId);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('SOURCE', $tabId);
 		$viewer->assign('WID', '');
@@ -54,17 +54,18 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 			'limit' => 5, 'relatedmodule' => '', 'columns' => '', 'action' => '', 'switchHeader' => '', 'filter' => '', 'checkbox' => '',
 		], 'label' => '',
 		]);
-		$viewer->assign('SOURCEMODULE', \App\Module::getModuleName($tabId));
+		$viewer->assign('SOURCEMODULE', $widgetModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('RELATEDMODULES', $RelatedModule);
+		$viewer->assign('RELATEDMODULES', $relatedModule);
 		$viewer->assign('PRIVILEGESMODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
-		if (class_exists($widgetName)) {
-			$widgetInstance = new $widgetName(\App\Module::getModuleName($tabId), null, null, []);
+		$className = Vtiger_Loader::getComponentClassName('Widget', $type, $widgetModuleName);
+		if (class_exists($className)) {
+			$widgetInstance = new $className($widgetModuleName, null, null, []);
 			$tplName = $widgetInstance->getConfigTplName();
 			$viewer->assign('WIDGET', $widgetInstance);
-			$viewer->view("Detail/Widget/$tplName.tpl", 'Vtiger');
+			$viewer->view("Detail/Widget/$tplName.tpl", $widgetModuleName);
 		}
 	}
 
@@ -74,25 +75,26 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$wid = $request->getInteger('id');
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
-		$WidgetInfo = $moduleModel->getWidgetInfo($wid);
-		$RelatedModule = $moduleModel->getRelatedModule($WidgetInfo['tabid']);
-		$type = $WidgetInfo['type'];
+		$widgetInfo = $moduleModel->getWidgetInfo($wid);
+		$relatedModule = $moduleModel->getRelatedModule($widgetInfo['tabid']);
+		$type = $widgetInfo['type'];
 		$viewer = $this->getViewer($request);
-		$viewer->assign('SOURCE', $WidgetInfo['tabid']);
-		$viewer->assign('SOURCEMODULE', \App\Module::getModuleName($WidgetInfo['tabid']));
+		$viewer->assign('SOURCE', $widgetInfo['tabid']);
+		$viewer->assign('SOURCEMODULE', \App\Module::getModuleName($widgetInfo['tabid']));
 		$viewer->assign('WID', $wid);
-		$viewer->assign('WIDGETINFO', $WidgetInfo);
+		$viewer->assign('WIDGETINFO', $widgetInfo);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('RELATEDMODULES', $RelatedModule);
-		$widgetName = 'Vtiger_' . $type . '_Widget';
-		if (class_exists($widgetName)) {
-			$widgetInstance = new $widgetName(\App\Module::getModuleName($WidgetInfo['tabid']), null, null, $WidgetInfo);
+		$viewer->assign('RELATEDMODULES', $relatedModule);
+		$widgetModuleName = \App\Module::getModuleName($widgetInfo['tabid']);
+		$className = Vtiger_Loader::getComponentClassName('Widget', $type, $widgetModuleName);
+		if (class_exists($className)) {
+			$widgetInstance = new $className($widgetModuleName, null, null, $widgetInfo);
 			$tplName = $widgetInstance->getConfigTplName();
 			$viewer->assign('WIDGET', $widgetInstance);
-			$viewer->view("Detail/Widget/$tplName.tpl", 'Vtiger');
+			$viewer->view("Detail/Widget/$tplName.tpl", $widgetModuleName);
 		}
 	}
 }
