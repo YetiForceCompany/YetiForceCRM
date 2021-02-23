@@ -294,19 +294,36 @@ class Vtiger_Inventory_Model
 	/**
 	 * Function to get data of inventory for record.
 	 *
-	 * @param int    $recordId
-	 * @param string $moduleName
+	 * @param int                       $recordId
+	 * @param string                    $moduleName
+	 * @param \Vtiger_Paging_Model|null $pagingModel
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
-	public static function getInventoryDataById(int $recordId, string $moduleName): array
+	public static function getInventoryDataById(int $recordId, string $moduleName, ?Vtiger_Paging_Model $pagingModel = null): array
 	{
 		$inventory = self::getInstance($moduleName);
 		$query = (new \App\Db\Query())->from($inventory->getTableName(self::TABLE_POSTFIX_DATA))->indexBy('id')->where(['crmid' => $recordId]);
 		if ($inventory->isField('seq')) {
 			$query->orderBy(['seq' => SORT_ASC]);
+		}
+		if ($pagingModel) {
+			$pageLimit = $pagingModel->getPageLimit();
+			if (0 !== $pagingModel->get('limit')) {
+				$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
+			}
+			$rows = $query->all();
+			$count = \count($rows);
+			if ($count > $pageLimit) {
+				array_pop($rows);
+				$pagingModel->set('nextPageExists', true);
+			} else {
+				$pagingModel->set('nextPageExists', false);
+			}
+			$pagingModel->calculatePageRange($count);
+			return $rows;
 		}
 		return $query->all();
 	}

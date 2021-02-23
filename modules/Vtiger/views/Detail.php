@@ -71,6 +71,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('processWizard');
 		$this->exposeMethod('showModTrackerByField');
 		$this->exposeMethod('showCharts');
+		$this->exposeMethod('showInventoryEntries');
 	}
 
 	/**
@@ -990,6 +991,43 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Function returns related records based on related moduleName.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
+	public function showInventoryEntries(App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		$pageNumber = $request->getInteger('page');
+		$moduleName = $request->getModule();
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
+		}
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		$limit = $request->isEmpty('limit', true) ? 10 : $request->getInteger('limit');
+		$pagingModel->set('limit', $limit);
+		$entries = \Vtiger_Inventory_Model::getInventoryDataById($recordId, $moduleName, $pagingModel);
+		$inventoryModel = \Vtiger_Inventory_Model::getInstance($moduleName);
+		$viewer = $this->getViewer($request);
+		$columns = $request->getExploded('fields');
+		$header = [];
+		foreach ($columns as $fieldName) {
+			$fieldModel = $inventoryModel->getField($fieldName);
+			if ($fieldModel && $fieldModel->isVisibleInDetail()) {
+				$header[$fieldName] = $fieldModel;
+			}
+		}
+		$viewer->assign('LIMIT', $limit);
+		$viewer->assign('ENTRIES', $entries);
+		$viewer->assign('HEADER_FIELD', $header);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
+		return $viewer->view('Detail/Widget/InventoryBlock.tpl', $moduleName, true);
 	}
 
 	/**

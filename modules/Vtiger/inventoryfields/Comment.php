@@ -82,6 +82,13 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/** {@inheritdoc} */
+	public function getListViewDisplayValue($value, array $rowData = [], bool $rawText = false)
+	{
+		$value = \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
+		return $rawText ? $value : \App\Layout::truncateHtml($value, 'mini', 50);
+	}
+
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if (!\is_string($value)) {

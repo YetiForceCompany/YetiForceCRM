@@ -63,7 +63,8 @@
     "LBL_CURRENT_HISTORY_SWITCH": "Current/History",
     "RelatedModuleChart": "Related module - chart",
     "Documents": "Documents",
-    "LBL_SHOW_DOC_RELATIONS": "List of related relationships"
+    "LBL_SHOW_DOC_RELATIONS": "List of related relationships",
+    "InventoryBlock": "Inventory block"
   },
   "js": {
     "Loading data": "Loading...",
