@@ -69,16 +69,16 @@
         },
         {
             "name": "adhocore/jwt",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/adhocore/php-jwt.git",
-                "reference": "835104c55816c3c6f61b41448612b20980160c29"
+                "reference": "6c434af7170090bb7a8880d2bc220a2254ba7899"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adhocore/php-jwt/zipball/835104c55816c3c6f61b41448612b20980160c29",
-                "reference": "835104c55816c3c6f61b41448612b20980160c29",
+                "url": "https://api.github.com/repos/adhocore/php-jwt/zipball/6c434af7170090bb7a8880d2bc220a2254ba7899",
+                "reference": "6c434af7170090bb7a8880d2bc220a2254ba7899",
                 "shasum": ""
             },
             "require": {
@@ -114,7 +114,7 @@
             ],
             "support": {
                 "issues": "https://github.com/adhocore/php-jwt/issues",
-                "source": "https://github.com/adhocore/php-jwt/tree/1.1.1"
+                "source": "https://github.com/adhocore/php-jwt/tree/1.1.2"
             },
             "funding": [
                 {
@@ -122,7 +122,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-02-02T04:29:14+00:00"
+            "time": "2021-02-20T09:56:44+00:00"
         },
         {
             "name": "ckeditor/ckeditor",
