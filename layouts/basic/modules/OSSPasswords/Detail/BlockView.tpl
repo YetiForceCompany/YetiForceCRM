@@ -1,7 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-OSSPasswrds-Detail-BlockView -->
-<div class="detailViewTable">
 	<div class="js-toggle-panel c-panel" data-js="click|data-dynamic" {if isset($IS_DYNAMIC) && $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL_KEY}">
 		<div class="blockHeader c-panel__header">
 			{if isset($BLOCK)}
@@ -59,7 +58,7 @@
 								{assign var=EDIT value=true}
 							{/if}
 							{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
-								<span class="js-detail-quick-edit u-cursor-pointer">
+								<button type="button" class="btn btn-xs btn-light js-detail-quick-edit u-cursor-pointer">
 									<span class="yfi yfi-full-editing-view" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 								</span>
 								<span class="d-none edit col-12 px-0">
