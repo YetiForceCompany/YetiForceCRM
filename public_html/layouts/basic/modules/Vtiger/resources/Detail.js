@@ -1741,7 +1741,6 @@ jQuery.Class(
 			 * Register the event to edit Description for related activities
 			 */
 			summaryViewContainer.on('click', '.editDescription', function (e) {
-				App.Fields.Text.Editor.register(thisInstance.getContentHolder(), { toolbar: 'Min' });
 				let currentTarget = jQuery(e.currentTarget),
 					currentDiv = currentTarget.closest('.activityDescription'),
 					editElement = currentDiv.find('.edit'),
@@ -1805,6 +1804,7 @@ jQuery.Class(
 						detailViewElement.removeClass('d-none');
 						currentTarget.show();
 					};
+				App.Fields.Text.Editor.register(currentDiv, { toolbar: 'Min' });
 				currentTarget.hide();
 				detailViewElement.addClass('d-none');
 				activityButtonContainer.removeClass('d-none');
