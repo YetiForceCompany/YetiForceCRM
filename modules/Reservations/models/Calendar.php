@@ -134,9 +134,13 @@ class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 	 */
 	public function getCalendarTypes()
 	{
-		$templateId = $this->getModule()->getFieldByName('type')->getFieldParams();
-		return (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
-			->where(['templateid' => $templateId])
-			->createCommand()->queryAllByGroup(0);
+		$calendarTypes = [];
+		$moduleField = $this->getModule()->getFieldByName('type');
+		if ($moduleField && $moduleField->isActiveField()) {
+			$calendarTypes = (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
+				->where(['templateid' => $moduleField->getFieldParams()])
+				->createCommand()->queryAllByGroup(0);
+		}
+		return $calendarTypes;
 	}
 }
