@@ -132,7 +132,7 @@ class YetiForcePDF extends PDF
 		$this->pdf = (new Document())->init();
 		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
-			$this->footer = $this->footerYetiForce = "<table style=\"font-family:'DejaVu Sans';font-size:6px;width:100%; margin: 0;\"><tbody><tr><td style=\"width:50%\">Powered by YetiForce</td></tr></tbody></table>";
+			$this->footer = $this->footerYetiForce = '<table style="font-size:6px;width:100%; margin: 0;"><tbody><tr><td style="width:50%">Powered by YetiForce</td></tr></tbody></table>';
 		}
 	}
 
@@ -529,7 +529,7 @@ class YetiForcePDF extends PDF
 	public function output($fileName = '', $dest = '')
 	{
 		if (empty($fileName)) {
-			$fileName = ($this->getFileName() ? $this->getFileName() : time()) . '.pdf';
+			$fileName = ($this->getFileName() ?: time()) . '.pdf';
 		}
 		if (!$dest) {
 			$dest = 'I';
