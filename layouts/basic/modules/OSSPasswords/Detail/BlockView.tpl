@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-OSSPasswrds-Detail-BlockView -->
+<div class="detailViewTable">
 	<div class="js-toggle-panel c-panel" data-js="click|data-dynamic" {if isset($IS_DYNAMIC) && $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL_KEY}">
 		<div class="blockHeader c-panel__header">
 			{if isset($BLOCK)}
