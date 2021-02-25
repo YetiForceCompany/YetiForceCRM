@@ -1406,7 +1406,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 						foreach ($referenceList as $referenceModule) {
 							if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
 								$fieldValue = $recordModel->get($fieldName);
-								if (0 != $fieldValue && \App\Record::getType($fieldValue) == $referenceModule) {
+								if (0 != $fieldValue && empty($data[$fieldMap[$referenceModule]]) && \App\Record::getType($fieldValue) == $referenceModule) {
 									$data[$fieldMap[$referenceModule]] = $fieldValue;
 								}
 							}
