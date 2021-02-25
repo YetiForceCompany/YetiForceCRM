@@ -2713,12 +2713,8 @@ jQuery.Class(
 				let nextPageUrl = url + '&page=' + requestedPage;
 				thisInstance.loadContents(nextPageUrl);
 			});
-			detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue:not(.is-edit-active)', function (e) {
-				let target = $(e.target);
-				if (target.closest('a').hasClass('btnNoFastEdit') || target.hasClass('btnNoFastEdit')) return;
-				let currentTdElement = jQuery(e.currentTarget);
-				currentTdElement.addClass('is-edit-active');
-				thisInstance.ajaxEditHandling(currentTdElement);
+			detailContentsHolder.on('click', '.js-detail-quick-edit', function (e) {
+				thisInstance.ajaxEditHandling(jQuery(e.currentTarget).closest('.fieldValue'));
 			});
 			detailContentsHolder.on('click', 'div.recordDetails span.squeezedWell', function (e) {
 				let currentElement = jQuery(e.currentTarget);

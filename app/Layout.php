@@ -188,7 +188,7 @@ class Layout
 		$teaser = $css = $btn = '';
 		$btnTemplate = function (string $popoverText = '', ?string $btnClass = ''): string {
 			$popoverText = \App\Language::translate($popoverText);
-			return "<a href=\"#\" class=\"js-more btnNoFastEdit font-weight-lighter js-popover-tooltip {$btnClass}\" data-iframe=\"true\" data-content=\"{$popoverText}\"><span class=\"mdi mdi-overscan\"></span></a>";
+			return "<a href=\"#\" class=\"js-more font-weight-lighter js-popover-tooltip {$btnClass}\" data-iframe=\"true\" data-content=\"{$popoverText}\"><span class=\"mdi mdi-overscan\"></span></a>";
 		};
 		$iframeClass = 'modal-iframe js-modal-iframe';
 		if ('full' === $size) {
@@ -215,7 +215,7 @@ class Layout
 	public static function getRecordLabel(int $record, ?string $moduleName = null): string
 	{
 		if (!$record) {
-			return  '-';
+			return '-';
 		}
 		if (null === $moduleName) {
 			$moduleName = Record::getType($record);
