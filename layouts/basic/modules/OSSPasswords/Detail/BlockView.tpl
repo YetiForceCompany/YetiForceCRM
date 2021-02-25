@@ -59,7 +59,7 @@
 								{assign var=EDIT value=true}
 							{/if}
 							{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
-								<button type="button" class="btn btn-xs btn-light js-detail-quick-edit u-cursor-pointer">
+								<button type="button" class="btn btn-sm btn-light js-detail-quick-edit u-cursor-pointer">
 									<span class="yfi yfi-full-editing-view" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 								</button>
 								<span class="d-none edit col-12 px-0">
