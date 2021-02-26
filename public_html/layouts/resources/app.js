@@ -2934,7 +2934,6 @@ $(document).ready(function () {
 	if (pageController) {
 		pageController.registerEvents();
 	}
-	app.registerBlockAnimationEvent();
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {

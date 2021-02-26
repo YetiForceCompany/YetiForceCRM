@@ -2684,6 +2684,7 @@ jQuery.Class(
 					emojiPanel: false
 				});
 			}
+			app.registerBlockAnimationEvent(this.getForm());
 			thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 			thisInstance.registerCommentEvents(detailContentsHolder);
 			thisInstance.registerEmailEvents(detailContentsHolder);
@@ -3139,7 +3140,6 @@ jQuery.Class(
 				// Not detail view page
 				return;
 			}
-
 			this.registerSetReadRecord(detailViewContainer);
 			this.registerEventForPicklistDependencySetup(this.getForm());
 			this.getForm().validationEngine(app.validationEngineOptionsForRecord);
