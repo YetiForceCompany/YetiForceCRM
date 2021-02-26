@@ -3,6 +3,7 @@
 #########################################
 cd "$(dirname "$0")/../../"
 echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
+
 if [ "$INSTALL_MODE" == "DEV" ]; then
     yarn install --force --modules-folder "./public_html/libraries"
 	yarn list
@@ -22,6 +23,7 @@ fi
 cd ../../
 
 echo " -----  Install composer -----"
+composer -V
 if [ "$INSTALL_MODE" == "DEV" ]; then
 	rm -rf composer.json
 	rm -rf composer.lock

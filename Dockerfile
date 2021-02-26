@@ -5,7 +5,7 @@ MAINTAINER m.krzaczkowski@yetiforce.com
 ARG DEBIAN_FRONTEND=noninteractive
 ARG DB_ROOT_PASS=1r2VdePVnNxluabdGuqh
 
-ENV PHP_VER 7.3
+ENV PHP_VER 7.4
 ENV DB_USER_NAME yetiforce
 ENV DB_USER_PASS Q4WK2yRUpliyjMRivDJE
 ENV DB_PORT 3306
@@ -55,7 +55,7 @@ RUN ln -s /etc/php/7.3/mods-available/yetiforce.ini /etc/php/7.3/fpm/conf.d/30-y
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 RUN chmod +x /usr/local/bin/composer
-RUN	chmod +x /var/www/html/tests/setup/dependency.sh
+RUN	chmod -R +x /var/www/html/tests/setup
 RUN	chmod +x /docker_entrypoint.sh
 RUN	/var/www/html/tests/setup/dependency.sh
 RUN php -f /var/www/html/tests/setup/docker_post_install.php
