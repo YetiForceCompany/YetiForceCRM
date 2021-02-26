@@ -15,6 +15,11 @@
  */
 class Documents_Record_Model extends Vtiger_Record_Model
 {
+	/** Types included in the preview of the file. */
+	public $filePreview = [
+		'image/png', 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/bmp', 'image/vnd.microsoft.icon', 'image/tiff', 'image/tiff'
+	];
+
 	/**
 	 * Get download file url.
 	 *
@@ -28,6 +33,25 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			return 'file.php?module=' . $this->getModuleName() . '&action=DownloadFile&record=' . $this->getId() . '&fileid=' . $fileDetails['attachmentsid'];
 		}
 		return $this->get('filename');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel, $filetype = false): array
+	{
+		$links = parent::getRecordListViewLinksLeftSide($viewModel);
+		if (\in_array($filetype, $this->filePreview)) {
+			$links['LBL_PREVIEW_FILE'] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_PREVIEW_FILE',
+				'linkhref' => true,
+				'linkurl' => $this->getDownloadFileURL() . '&show=1',
+				'linkicon' => 'far fa-eye',
+				'linkclass' => 'btn-sm btn-light',
+				'linktarget' => '_blank'
+			]);
+		}
+		return \App\Utils::changeSequence($links, App\Config::module($this->getModuleName(), 'recordRelatedListViewButtonSequence', []));
 	}
 
 	/**
