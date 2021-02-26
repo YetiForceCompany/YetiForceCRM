@@ -496,9 +496,10 @@ class TextParser
 		if (false === strpos($params, '|')) {
 			return Language::translate($params);
 		}
-		$aparams = explode('|', $params);
-		$module = array_shift($aparams);
-		return Language::translate(reset($aparams), $module, $this->language);
+		$splitParams = explode('|', $params);
+		$module = array_shift($splitParams);
+		$key = array_shift($splitParams);
+		return Language::translate($key, $module, $splitParams[0] ?? $this->language);
 	}
 
 	/**
