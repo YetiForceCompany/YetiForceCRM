@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "Thank you for making the payment. The transaction is being processed, purchased functions will be added to your system once we receive the payment.",
     "LBL_FAILED_TRANSACTION": "Transaction failed or was cancelled, please check the payment on your PayPal account and try again.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "The size of your company has changed, the purchased package is too small for the current size. Update your subscription.",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "Het abonnement is verlopen. Verleng uw abonnement om deze functionaliteit te blijven gebruiken. ",
     "LBL_PRODUCT_PREVIEW": "Product Preview",
     "LBL_SUPPORT_US": "Support us",
     "LBL_SHOP_PRODUCT_NAME": "Product name",

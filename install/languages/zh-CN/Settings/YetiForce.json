@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "感谢您付款。交易正在处理中，一旦我们收到付款，购买的功能将添加到您的系统。",
     "LBL_FAILED_TRANSACTION": "交易失败或已取消，请检查您的PayPal帐户上的付款，然后重试。",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "您公司的规模已经改变，购买的软件包对于当前的规模来说太小了。需要更新订阅。",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
     "LBL_PRODUCT_PREVIEW": "产品预览",
     "LBL_SUPPORT_US": "支持我们",
     "LBL_SHOP_PRODUCT_NAME": "产品名称",

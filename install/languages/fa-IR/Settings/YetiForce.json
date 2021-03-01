@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "با تشکر از شما برای پرداخت. معامله در حال پردازش است ، تراکنش پس از دریافت پرداختی شما ، به سیستم اضافه می شوند.",
     "LBL_FAILED_TRANSACTION": "تراکنش انجام نشد یا لغو شد ، لطفاً پرداخت را در حساب PayPal خود بررسی کنید و دوباره امتحان کنید.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "اندازه شرکت شما تغییر کرده است ، بسته خریداری شده برای اندازه فعلی خیلی کوچک است. اشتراک خود را به روز کنید.",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
     "LBL_PRODUCT_PREVIEW": "پیش نمایش محصول",
     "LBL_SUPPORT_US": "حمایت از ما",
     "LBL_SHOP_PRODUCT_NAME": "نام محصول",

@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "Děkujeme za provedení platby. Transakce se zpracovává, zakoupené funkce budou přidány do vašeho systému, jakmile obdržíme platbu.",
     "LBL_FAILED_TRANSACTION": "Transakce se nezdařila nebo byla zrušena, zkontrolujte platbu na svém účtu PayPal a zkuste to znovu.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "Velikost vaší společnosti změnilo, zakoupené balení je příliš malé na aktuální velikost. Aktualizace předplatného.",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
     "LBL_PRODUCT_PREVIEW": "Náhled produktu",
     "LBL_SUPPORT_US": "Podpoř nás",
     "LBL_SHOP_PRODUCT_NAME": "Název produktu",

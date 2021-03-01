@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "Grazie per aver effettuato il pagamento. La transazione è in fase di elaborazione, le funzioni acquistate saranno aggiunte al sistema una volta ricevuto il pagamento.",
     "LBL_FAILED_TRANSACTION": "Transazione non riuscita o annullata, si prega di controllare il pagamento sul tuo account PayPal e riprovare.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "La dimensione della vostra azienda è cambiata, il pacchetto acquistato è troppo piccolo per le dimensioni attuali. Aggiorna il tuo abbonamento.",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "L'abbonamento è scaduto. Si prega di estendere l'abbonamento per continuare a utilizzare questa funzionalità. ",
     "LBL_PRODUCT_PREVIEW": "Anteprima prodotto",
     "LBL_SUPPORT_US": "Supportaci",
     "LBL_SHOP_PRODUCT_NAME": "Nome del prodotto",

@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "Дякуємо за оплату. Транзакція обробляється, придбані функції будуть додані в систему після того, як ми отримаємо оплату.",
     "LBL_FAILED_TRANSACTION": "Транзакція не вдалася або була скасована, будь ласка, перевірте платіж на своєму акаунті PayPal і спробуйте ще раз.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "Розмір твоєї компанії змінився, куплений пакет занадто малий для теперішнього розміру. Оновіть свою підписку.",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
     "LBL_PRODUCT_PREVIEW": "Product Preview",
     "LBL_SUPPORT_US": "Підтримайте нас",
     "LBL_SHOP_PRODUCT_NAME": "Product name",

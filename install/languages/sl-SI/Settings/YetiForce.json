@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "Zahvaljujemo se vam za plačilo., ker ste izvedli plačilo. Transakcija bo obdelana in kupljene funkcije bodo po prejetem plačilu dodana v vaš sistem.",
     "LBL_FAILED_TRANSACTION": "Transakcija ni uspela ali je bila preklicana, prosimo, preverite plačilo na vašem PayPal računu in poskusite znova.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "Velikost vašega podjetja se je spremenilo, zato je kupljen paket je premajhen za sedanje velikost. Posodobite svoje naročnino.",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
     "LBL_PRODUCT_PREVIEW": "Predogled izdelka",
     "LBL_SUPPORT_US": "Podprite nas",
     "LBL_SHOP_PRODUCT_NAME": "Ime izdelka",

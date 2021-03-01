@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "Σας ευχαριστούμε για την πληρωμή. Η συναλλαγή είναι σε επεξεργασία, οι αγορές θα προστεθούν στο σύστημά σας μόλις λάβουμε την πληρωμή.",
     "LBL_FAILED_TRANSACTION": "Η πληρωμή απέτυχε ή ακυρώθηκε. Παρακαλώ ελέγξτε την πληρωμή στον λογαριασμό σας PayPal και προσπαθήστε ξανά.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "Το μέγεθος της εταιρείας σας έχει αλλάξει, το πακέτο που αγοράσατε είναι πολύ μικρό για το τρέχον μέγεθος. Ενημερώστε τη συνδρομή σας.",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
     "LBL_PRODUCT_PREVIEW": "Προεπισκόπηση Προϊόντος",
     "LBL_SUPPORT_US": "Υποστηρίξτε μας",
     "LBL_SHOP_PRODUCT_NAME": "Όνομα Προϊόντος",

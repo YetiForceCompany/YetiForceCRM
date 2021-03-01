@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "お支払いありがとうございます。取引が処理されています。お支払いを受け取ると、購入された機能がシステムに追加されます。",
     "LBL_FAILED_TRANSACTION": "トランザクションが失敗またはキャンセルされました。PayPalアカウントで支払いを確認し、もう一度やり直してください。",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "会社のサイズが変更されました。購入したパッケージは現在のサイズには小さすぎます。サブスクリプションを更新してください。",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
     "LBL_PRODUCT_PREVIEW": "商品プレビュー",
     "LBL_SUPPORT_US": "私たちを支援してください",
     "LBL_SHOP_PRODUCT_NAME": "製品名",

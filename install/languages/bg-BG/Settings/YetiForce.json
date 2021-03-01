@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "Благодарим за вашето плащане. Транзакцията е обработена и закупената функционалност ще бъде добавена към вашата система, когато получим плащането.",
     "LBL_FAILED_TRANSACTION": "Транзакцията не бе успешна или беше анулирана, моля, проверете плащането в акаунта си в PayPal и опитайте отново.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "Размерът на вашата компания се промени, закупеният пакет е твърде малък за текущия размер. Актуализирайте абонамента си.",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
     "LBL_PRODUCT_PREVIEW": "Преглед на продукта",
     "LBL_SUPPORT_US": "Подкрепете ни",
     "LBL_SHOP_PRODUCT_NAME": "Име на продукта",

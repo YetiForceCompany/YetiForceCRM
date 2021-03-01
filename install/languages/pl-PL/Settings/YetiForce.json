@@ -35,6 +35,7 @@
     "LBL_SUCCESSFUL_TRANSACTION": "Dziękujemy za dokonanie płatności. Płatność jest w trakcie księgowania, po zakończeniu wykupione funkcje zostaną dodane do Twojego systemu.",
     "LBL_FAILED_TRANSACTION": "Płatność nie powiodła się lub została anulowana. \nW celu weryfikacji problemu sprawdź płatność na swoim koncie w PayPal i spróbuj ponownie.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "Wielkość Twojej firmy uległa zmianie, wykupiony wcześniej pakiet jest za mały. Zaktualizuj subskrypcję.",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "Subskrypcja wygasła. Prosimy o przedłużenie subskrypcji, aby nadal korzystać z tej funkcjonalności,. ",
     "LBL_PRODUCT_PREVIEW": "Podgląd produktu",
     "LBL_SUPPORT_US": "Wesprzyj nasz projekt",
     "LBL_SHOP_PRODUCT_NAME": "Nazwa produktu",
