@@ -361,7 +361,7 @@ class TextParser
 	 */
 	public function setSourceRecord($record, $moduleName = false, $recordModel = false)
 	{
-		$this->sourceRecordModel = $recordModel ? $recordModel : \Vtiger_Record_Model::getInstanceById($record, $moduleName ? $moduleName : Record::getType($record));
+		$this->sourceRecordModel = $recordModel ?: \Vtiger_Record_Model::getInstanceById($record, $moduleName ?: Record::getType($record));
 		return $this;
 	}
 
@@ -719,9 +719,9 @@ class TextParser
 	{
 		[$fieldName, $relatedField, $relatedModule] = array_pad(explode('|', $params, 3), 3, '');
 		if (
-			!isset($this->recordModel) ||
-			($this->permissions && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record)) ||
-			$this->recordModel->isEmpty($fieldName)
+			!isset($this->recordModel)
+			|| ($this->permissions && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record))
+			|| $this->recordModel->isEmpty($fieldName)
 		) {
 			return '';
 		}
@@ -791,9 +791,9 @@ class TextParser
 	{
 		[$fieldName, $relatedModule, $relatedRecord] = array_pad(explode('|', $params, 3), 3, '');
 		if (
-			!isset($this->recordModel) ||
-			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
-			$this->recordModel->isEmpty($fieldName)
+			!isset($this->recordModel)
+			|| !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record)
+			|| $this->recordModel->isEmpty($fieldName)
 		) {
 			return '';
 		}
@@ -1320,10 +1320,10 @@ class TextParser
 				}
 			}
 			$relRecord = false;
-			if ($skipEmpty && $this->recordModel && !(($relId = $this->recordModel->get($field->getName())) &&
-				(
-					\in_array($field->getFieldDataType(), ['userCreator', 'owner', 'sharedOwner']) ||
-					((Record::isExists($relId)) && ($relRecord = \Vtiger_Record_Model::getInstanceById($relId))->isViewable() && ($relatedModules = [Record::getType($relId)]))
+			if ($skipEmpty && $this->recordModel && !(($relId = $this->recordModel->get($field->getName()))
+				&& (
+					\in_array($field->getFieldDataType(), ['userCreator', 'owner', 'sharedOwner'])
+					|| ((Record::isExists($relId)) && ($relRecord = \Vtiger_Record_Model::getInstanceById($relId))->isViewable() && ($relatedModules = [Record::getType($relId)]))
 				)
 			)) {
 				continue;
@@ -1334,9 +1334,9 @@ class TextParser
 				foreach (\Vtiger_Module_Model::getInstance($relatedModule)->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
 						if (
-							$fieldModel->isViewable() &&
-							!($fieldType && $fieldModel->getFieldDataType() !== $fieldType) &&
-							(!$relRecord || ($relRecord && !$relRecord->isEmpty($fieldModel->getName())))
+							$fieldModel->isViewable()
+							&& !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)
+							&& (!$relRecord || ($relRecord && !$relRecord->isEmpty($fieldModel->getName())))
 						) {
 							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($blockModel->get('label'), $relatedModule);
 							$variables[$parentFieldName][$labelGroup][] = [
@@ -1638,11 +1638,7 @@ class TextParser
 			$matches = [$text];
 		}
 		foreach ($matches as $param) {
-			$part = [];
-			foreach (explode('|', $param) as $type) {
-				[$name, $value] = explode('=', $type, 2);
-				$part[$name] = $value;
-			}
+			$part = self::parseFieldParam($param);
 			if (!empty($part['name']) && !(isset($data[$part['name']]))) {
 				$data[$part['name']] = $part;
 			}
@@ -1890,5 +1886,22 @@ class TextParser
 		}
 		$instance->setContent($variable)->parse();
 		return $instance->getContent();
+	}
+
+	/**
+	 * Parse custom params.
+	 *
+	 * @param string $param
+	 *
+	 * @return array
+	 */
+	public static function parseFieldParam(string $param): array
+	{
+		$part = [];
+		foreach (explode('|', $param) as $type) {
+			[$name, $value] = explode('=', $type, 2);
+			$part[$name] = $value;
+		}
+		return $part;
 	}
 }

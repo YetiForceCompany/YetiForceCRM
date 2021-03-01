@@ -82,7 +82,11 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 					if ('Active' !== \App\Record::getState($recordId)) {
 						$name = '<s>' . $name . '</s>';
 					}
-					$name = "<a class='modCT_{$referenceModuleName} showReferenceTooltip js-popover-tooltip--record' href='index.php?module={$referenceModuleName}&view=" . $referenceModule->getDetailViewName() . "&record={$recordId}' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>{$name}</a>";
+					$url = "index.php?module={$referenceModuleName}&view={$referenceModule->getDetailViewName()}&record={$recordId}";
+					if (!empty($this->fullUrl)) {
+						$url = Config\Main::$site_URL . $url;
+					}
+					$name = "<a class='modCT_{$referenceModuleName} showReferenceTooltip js-popover-tooltip--record' href='{$url}' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>{$name}</a>";
 				}
 				$displayValue[$recordId] = $name;
 			}

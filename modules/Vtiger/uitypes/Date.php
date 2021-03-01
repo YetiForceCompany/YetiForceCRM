@@ -194,13 +194,9 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		if (!$params) {
 			return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
 		}
-		$p = [];
-		foreach (explode('|', $params) as $row) {
-			[$key,$val] = explode('=', $row);
-			$p[$key] = $val;
-		}
-		if (isset($p['format'])) {
-			$return = (new \DateTime($value))->format($p['format']);
+		$params = \App\TextParser::parseFieldParam($params);
+		if (isset($params['format'])) {
+			$return = (new \DateTime($value))->format($params['format']);
 		} else {
 			$return = $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
 		}

@@ -90,6 +90,9 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				break;
 		}
 		if (isset($detailViewUrl)) {
+			if (!empty($this->fullUrl)) {
+				$detailViewUrl = Config\Main::$site_URL . $detailViewUrl;
+			}
 			return "<a $popoverRecordClass href=\"$detailViewUrl\"> $ownerName </a>";
 		}
 		return $ownerName;

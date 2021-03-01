@@ -100,6 +100,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					break;
 			}
 			if (!empty($detailViewUrl)) {
+				if (!empty($this->fullUrl)) {
+					$detailViewUrl = Config\Main::$site_URL . $detailViewUrl;
+				}
 				$displayValue[] = "<a $popoverRecordClass href=\"$detailViewUrl\"> $ownerName </a>";
 			} else {
 				$displayValue[] = $ownerName;
