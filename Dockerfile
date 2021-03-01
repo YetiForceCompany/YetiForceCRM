@@ -22,7 +22,8 @@ RUN	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 RUN apt-get update
-RUN apt-get install -y --no-install-recommends mariadb-server mariadb-client nginx nginx-extras "php${PHP_VER}"-fpm "php${PHP_VER}"-mysql "php${PHP_VER}"-curl "php${PHP_VER}"-intl "php${PHP_VER}"-gd "php${PHP_VER}"-fpm "php${PHP_VER}"-bcmath "php${PHP_VER}"-soap "php${PHP_VER}"-ldap "php${PHP_VER}"-imap "php${PHP_VER}"-xml "php${PHP_VER}"-cli "php${PHP_VER}"-zip "php${PHP_VER}"-json "php${PHP_VER}"-opcache "php${PHP_VER}"-mbstring php-apcu php-imagick php-sodium zip unzip mc htop openssh-server git nodejs npm yarn cron && apt-get -y autoclean
+RUN apt-get install -y --no-install-recommends mariadb-server mariadb-client nginx nginx-extras "php${PHP_VER}"-fpm "php${PHP_VER}"-mysql "php${PHP_VER}"-curl "php${PHP_VER}"-intl "php${PHP_VER}"-gd "php${PHP_VER}"-fpm "php${PHP_VER}"-bcmath "php${PHP_VER}"-soap "php${PHP_VER}"-ldap "php${PHP_VER}"-imap "php${PHP_VER}"-xml "php${PHP_VER}"-cli "php${PHP_VER}"-zip "php${PHP_VER}"-json "php${PHP_VER}"-opcache "php${PHP_VER}"-mbstring php-apcu php-imagick php-sodium zip unzip cron && apt-get -y autoclean
+RUN apt-get install -y --no-install-recommends mc htop openssh-server git nodejs npm yarn && apt-get -y autoclean
 
 # RUN apt-cache search php
 RUN dpkg --get-selections | grep php
@@ -32,7 +33,7 @@ COPY ./tests/setup/db/mysql.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./tests/setup/nginx/vhost.conf /etc/nginx/sites-available/default
 COPY ./ /var/www/html
 COPY ./tests/setup/crons.conf /etc/cron.d/yetiforcecrm
-COPY ./tests/setup/php/prod.ini /etc/php/7.3/mods-available/yetiforce.ini
+COPY ./tests/setup/php/prod.ini /etc/php/$PHP_VER/mods-available/yetiforce.ini
 COPY ./tests/setup/docker_entrypoint.sh /
 RUN rm /var/www/html/.user.ini
 RUN rm /var/www/html/public_html/.user.ini
@@ -50,8 +51,8 @@ RUN	service mysql start; \
 	echo "FLUSH PRIVILEGES;" | mysql --user=root
 
 RUN crontab /etc/cron.d/yetiforcecrm
-RUN ln -s /etc/php/7.3/mods-available/yetiforce.ini /etc/php/7.3/cli/conf.d/30-yetiforce.ini
-RUN ln -s /etc/php/7.3/mods-available/yetiforce.ini /etc/php/7.3/fpm/conf.d/30-yetiforce.ini
+RUN ln -s /etc/php/$PHP_VER/mods-available/yetiforce.ini /etc/php/$PHP_VER/cli/conf.d/30-yetiforce.ini
+RUN ln -s /etc/php/$PHP_VER/mods-available/yetiforce.ini /etc/php/$PHP_VER/fpm/conf.d/30-yetiforce.ini
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 RUN chmod +x /usr/local/bin/composer
