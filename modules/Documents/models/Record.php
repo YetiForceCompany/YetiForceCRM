@@ -15,9 +15,9 @@
  */
 class Documents_Record_Model extends Vtiger_Record_Model
 {
-	/** @var array Types included in the preview of the file. */
+	/** @var string[] Types included in the preview of the file. */
 	public $filePreview = [
-		'image/png', 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/bmp', 'image/vnd.microsoft.icon', 'image/tiff', 'image/tiff'
+		'application/pdf', 'image/png', 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/bmp', 'image/vnd.microsoft.icon', 'image/tiff', 'image/tiff'
 	];
 
 	/**
