@@ -15,7 +15,7 @@
 			</a>
 		</div>
 	{/if}
-	{assign var=LINKS value=$RELATED_RECORD->getRecordRelatedListViewLinksLeftSide($VIEW_MODEL, $RELATED_RECORD->get('filetype'))}
+	{assign var=LINKS value=$RELATED_RECORD->getRecordRelatedListViewLinksLeftSide($VIEW_MODEL)}
 	{if count($LINKS) > 0}
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}
 		<div class="actions">
