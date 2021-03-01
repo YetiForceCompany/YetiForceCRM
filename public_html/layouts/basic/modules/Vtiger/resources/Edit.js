@@ -1010,44 +1010,6 @@ $.Class(
 			}
 			app.showPopoverElementView(form.find('.js-help-info'));
 		},
-		registerBlockAnimationEvent: function () {
-			const self = this;
-			let detailContentsHolder = this.getForm();
-			detailContentsHolder.on('click', '.blockHeader', function (e) {
-				const target = $(e.target);
-				if (
-					target.is('input') ||
-					target.is('button') ||
-					target.parents().is('button') ||
-					target.hasClass('js-stop-propagation') ||
-					target.parents().hasClass('js-stop-propagation')
-				) {
-					return false;
-				}
-				let currentTarget = $(e.currentTarget).find('.js-block-toggle').not('.d-none');
-				let blockId = currentTarget.data('id');
-				let closestBlock = currentTarget.closest('.js-toggle-panel');
-				let bodyContents = closestBlock.find('.blockContent');
-				let data = currentTarget.data();
-				let hideHandler = function () {
-					bodyContents.addClass('d-none');
-					app.cacheSet(self.moduleName + '.' + blockId, 0);
-				};
-				let showHandler = function () {
-					bodyContents.removeClass('d-none');
-					app.cacheSet(self.moduleName + '.' + blockId, 1);
-				};
-				if (data.mode == 'show') {
-					hideHandler();
-					currentTarget.addClass('d-none');
-					closestBlock.find('[data-mode="hide"]').removeClass('d-none');
-				} else {
-					showHandler();
-					currentTarget.addClass('d-none');
-					closestBlock.find("[data-mode='show']").removeClass('d-none');
-				}
-			});
-		},
 		registerBlockStatusCheckOnLoad: function () {
 			let blocks = this.getForm().find('.js-toggle-panel');
 			let module = this.moduleName;
@@ -1573,7 +1535,7 @@ $.Class(
 				return;
 			}
 			this.registerInventoryController(editViewForm);
-			this.registerBlockAnimationEvent();
+			app.registerBlockAnimationEvent(editViewForm);
 			this.registerBlockStatusCheckOnLoad();
 			this.registerEventForEditor();
 			this.stretchCKEditor();
