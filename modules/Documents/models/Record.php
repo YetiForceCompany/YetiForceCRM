@@ -15,6 +15,11 @@
  */
 class Documents_Record_Model extends Vtiger_Record_Model
 {
+	/** @var array Types included in the preview of the file. */
+	public $filePreview = [
+		'image/png', 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/bmp', 'image/vnd.microsoft.icon', 'image/tiff', 'image/tiff'
+	];
+
 	/**
 	 * Get download file url.
 	 *
@@ -28,6 +33,23 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			return 'file.php?module=' . $this->getModuleName() . '&action=DownloadFile&record=' . $this->getId() . '&fileid=' . $fileDetails['attachmentsid'];
 		}
 		return $this->get('filename');
+	}
+
+	/** {@inheritdoc} */
+	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
+	{
+		$links = [];
+		if (\in_array($this->getValueByField('filetype'), $this->filePreview)) {
+			$links['LBL_PREVIEW_FILE'] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_PREVIEW_FILE',
+				'linkhref' => true,
+				'linkurl' => $this->getDownloadFileURL() . '&show=1',
+				'linkicon' => 'fas fa-binoculars',
+				'linkclass' => 'btn-sm btn-light',
+				'linktarget' => '_blank'
+			]);
+		}
+		return array_merge($links, parent::getRecordListViewLinksLeftSide($viewModel));
 	}
 
 	/**
