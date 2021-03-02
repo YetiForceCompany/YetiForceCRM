@@ -2539,7 +2539,7 @@ window.App.Fields = {
 		 */
 		static register(container) {
 			if (container.hasClass('js-changesjson-container')) {
-				return new MultiCurrency(container);
+				return new ChangesJson(container);
 			}
 			const instances = [];
 			container.find('.js-changesjson-container').each((_, e) => {
