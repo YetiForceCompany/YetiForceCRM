@@ -98,38 +98,48 @@ class Updater
 	 * Batch update rows.
 	 *
 	 * $rows = [
-	 *        ['u_#__squotes_invfield', ['colspan' => 25], ['id' => 1]],
-	 *    ];
+	 *	['table name', [ update ], [ condition ],
+	 *	['u_#__squotes_invfield', ['colspan' => 25], ['id' => 1]],
+	 * ];
 	 *
 	 * @param array $rows
+	 *
+	 * @return string
 	 */
 	public static function batchUpdate($rows)
 	{
-		$db = \App\Db::getInstance();
-		$dbCommand = $db->createCommand();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$s = $a = 0;
 		foreach ($rows as $row) {
-			$dbCommand->update($row[0], $row[1], $row[2])->execute();
+			++$a;
+			$s += $dbCommand->update($row[0], $row[1], $row[2])->execute();
 		}
+		return "$s/$a";
 	}
 
 	/**
 	 * Batch insert rows.
 	 *
 	 * $rows = [
-	 *        ['vtiger_cvcolumnlist', ['cvid' => 43, 'columnindex' => 5, 'columnname' => 'cc']],
+	 *        ['vtiger_cvcolumnlist', ['cvid' => 43, 'columnindex' => 5, 'columnname' => 'cc'], ],
 	 * ];
 	 *
 	 * @param array $rows
+	 *
+	 * @return string
 	 */
-	public static function batchInsert($rows)
+	public static function batchInsert($rows): string
 	{
-		$db = \App\Db::getInstance();
-		$dbCommand = $db->createCommand();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$s = $a = 0;
 		foreach ($rows as $row) {
+			++$a;
 			if (!isset($row[2]) || !(new \App\db\Query())->from($row[0])->where($row[2])->exists()) {
 				$dbCommand->insert($row[0], $row[1])->execute();
+				++$s;
 			}
 		}
+		return "$s/$a";
 	}
 
 	/**
@@ -140,14 +150,19 @@ class Updater
 	 * ];
 	 *
 	 * @param array $rows
+	 *
+	 *  @return string
 	 */
-	public static function batchDelete($rows)
+	public static function batchDelete($rows): string
 	{
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
+		$s = $a = 0;
 		foreach ($rows as $row) {
-			$dbCommand->delete($row[0], $row[1])->execute();
+			++$a;
+			$s += $dbCommand->delete($row[0], $row[1])->execute();
 		}
+		return "$s/$a";
 	}
 
 	/**
