@@ -68,7 +68,7 @@ class Queue extends Vtiger_CRMEntity
 	public $mandatory_fields = ['subject', 'assigned_user_id'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	protected $lockFields = ['queue_status' => ['LBL_ACCEPTED', 'PLL_CANCELLED', 'PLL_COMPLETED']];
+	protected $lockFields = ['queue_status' => ['PLL_ACCEPTED', 'PLL_CANCELLED', 'PLL_COMPLETED']];
 
 	/**
 	 * Invoked when special actions are performed on the module.
