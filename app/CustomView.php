@@ -462,7 +462,7 @@ class CustomView
 				}
 			}
 			if (Request::_has('mid')) {
-				$customViewFilters = self::getModuleFiltersByMenuId(Request::_get('mid'));
+				$customViewFilters = self::getModuleFiltersByMenuId(Request::_getInteger('mid'));
 				$viewId = $customViewFilters[0] ?? null;
 			}
 			if (empty($viewId)) {
@@ -706,8 +706,8 @@ class CustomView
 			return \App\Cache::staticGet('getModuleFiltersByMenuId', $menuId);
 		}
 		$moduleName = Request::_getModule('module');
-		$customViews = \CustomView_Record_Model::getAll($moduleName);
-		$filters = array_keys($customViews);
+		$moduleCustomViews = \CustomView_Record_Model::getAll($moduleName);
+		$filters = array_keys($moduleCustomViews);
 		$currentUser = User::getCurrentUserModel();
 		$roleMenu = 'user_privileges/menu_' . filter_var($currentUser->getDetail('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		file_exists($roleMenu) ? require $roleMenu : require 'user_privileges/menu_0.php';
@@ -717,12 +717,6 @@ class CustomView
 		if (isset($filterList[$menuId])) {
 			$filtersMenu = explode(',', $filterList[$menuId]['filters']);
 			$filters = array_intersect($filtersMenu, $filters);
-			foreach ($filters as $filtersKey => $customViewId) {
-				$exists = ( new \App\Db\Query())->from('vtiger_customview')->where(['cvid' => $customViewId])->exists();
-				if (!$exists) {
-					unset($filters[$filtersKey]);
-				}
-			}
 			if (empty($filters)) {
 				$filters = [self::getInstance($moduleName)->getDefaultCvId()];
 			}
