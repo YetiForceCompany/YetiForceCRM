@@ -882,23 +882,7 @@ class CustomView_Record_Model extends \App\Base
 		$filters = array_keys($customViews);
 		$groupedCustomViews = [];
 		if ($menuId) {
-			$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
-			if (file_exists($roleMenu)) {
-				require $roleMenu;
-			} else {
-				require 'user_privileges/menu_0.php';
-			}
-			if (0 == \count($menus)) {
-				require 'user_privileges/menu_0.php';
-			}
-			if (isset($filterList[$menuId])) {
-				$filtersMenu = explode(',', $filterList[$menuId]['filters']);
-				$filters = array_intersect($filtersMenu, $filters);
-				if (empty($filters)) {
-					$filters = [App\CustomView::getInstance($moduleName)->getDefaultCvId()];
-				}
-			}
+			$filters = \App\CustomView::getModuleFiltersByMenuId($menuId);
 		}
 		foreach ($filters as $id) {
 			$customView = $customViews[$id];
@@ -966,4 +950,5 @@ class CustomView_Record_Model extends \App\Base
 	{
 		return empty($this->get('sort')) ? [] : \App\Json::decode($this->get('sort'));
 	}
+
 }
