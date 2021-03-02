@@ -81,7 +81,6 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$label = \App\Record::getLabel($value, $rawText);
-		var_dump($rawText);
 		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $label;
 		}
