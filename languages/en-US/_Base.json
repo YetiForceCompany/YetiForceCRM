@@ -1933,6 +1933,7 @@
     "JS_EMOJI_SEARCH": "Search…",
     "JS_CANT_CLOSE_NEW_RECROD": "You cannot close a new ticket",
     "JS_MEETING_URL_CHANGED": "Meeting URL has changed",
-    "JS_ENTER_A_REASON": "Enter a reason"
+    "JS_ENTER_A_REASON": "Enter a reason",
+    "JS_LACK_INFORMATION_ABOUT_RECORD": "There is no information about the record to be changed"
   }
 }

@@ -2525,6 +2525,134 @@ window.App.Fields = {
 			}
 		}
 	},
+	/**
+	 * Changes Json
+	 */
+	ChangesJson: class ChangesJson {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-changesjson-container')) {
+				return new MultiCurrency(container);
+			}
+			const instances = [];
+			container.find('.js-changesjson-container').each((_, e) => {
+				instances.push(new ChangesJson($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			$('.js-changesjson-edit', this.container)
+				.off('click')
+				.on('click', () => {
+					let field = this.getField();
+					let value = field.val() ? JSON.parse(field.val()) : { record: 0, module: '', changes: [] };
+					let relatedField = this.getRelatedField();
+					if (relatedField.length) {
+						value.record = relatedField.val();
+						value.module = $('input[name="popupReferenceModule"]', relatedField.closest('.fieldValue')).val();
+					}
+					if (!value.record || value.record == 0) {
+						app.showNotify({ text: app.vtranslate('JS_LACK_INFORMATION_ABOUT_RECORD') });
+						return false;
+					}
+					let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+					AppConnector.request({
+						module: value.module,
+						record: value.record,
+						changes: value.changes,
+						sourceModule: field.data('module'),
+						sourceField: field.attr('name'),
+						view: 'ChangesJsonModal'
+					})
+						.done((requestData) => {
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							app.showModalWindow({
+								data: requestData,
+								css: {},
+								cb: (data) => {
+									this.saveData(data, value);
+								}
+							});
+						})
+						.fail((_) => {
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						});
+				});
+		}
+		/**
+		 * Save data to field
+		 */
+		saveData(container, data) {
+			let form = container.find('form');
+			container.on('click', '.js-modal__save', (e) => {
+				if (form.validationEngine('validate')) {
+					e.preventDefault();
+					if (!form.find('input[id^="selectRow"]:checked').length) {
+						app.showNotify({
+							text: app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT'),
+							type: 'error'
+						});
+						return;
+					}
+					let invalidFields = form.data('jqv').InvalidFields;
+					if (invalidFields.length !== 0) {
+						return;
+					}
+					form.find('[id^="selectRow"]').each(function (_, checkbox) {
+						checkbox = $(checkbox);
+						if (!checkbox.prop('checked')) {
+							checkbox
+								.closest('.js-form-row-container')
+								.find('.fieldValue [name]')
+								.each(function (_, element) {
+									element = $(element);
+									element.attr('data-element-name', element.attr('name')).removeAttr('name');
+								});
+						}
+					});
+					let changeData = form.serializeFormData();
+					delete changeData['_csrf'];
+					for (let fieldName in changeData) {
+						if (fieldName.substr(-2) === '[]') {
+							let fieldNameShort = fieldName.substr(0, fieldName.length - 2);
+							changeData[fieldNameShort] = changeData[fieldName];
+							delete changeData[fieldName];
+						}
+					}
+					data.changes = changeData;
+					this.getField().val(JSON.stringify(data));
+					app.hideModalWindow(null, form.closest('.js-modal-container').attr('id'));
+				}
+			});
+		}
+		/**
+		 * Gets field
+		 */
+		getField() {
+			return this.container.find('.js-changesjson-value');
+		}
+		/**
+		 * Gets related field
+		 */
+		getRelatedField() {
+			let relatedFieldName = this.getField().data('related-field');
+			return this.container.closest('form').find(`[name=${relatedFieldName}]`);
+		}
+	},
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);

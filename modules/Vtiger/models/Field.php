@@ -452,6 +452,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 327:
 						$fieldDataType = 'barcode';
 						break;
+					case 328:
+						$fieldDataType = 'changesJson';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
