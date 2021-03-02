@@ -49,7 +49,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 				'linktarget' => '_blank'
 			]);
 		}
-		return array_merge($links, parent::getRecordListViewLinksLeftSide($viewModel));
+		return array_merge($links, parent::getRecordRelatedListViewLinksLeftSide($viewModel));
 	}
 
 	/**
