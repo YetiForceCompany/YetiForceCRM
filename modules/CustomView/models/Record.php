@@ -882,7 +882,7 @@ class CustomView_Record_Model extends \App\Base
 		$filters = array_keys($customViews);
 		$groupedCustomViews = [];
 		if ($menuId) {
-			$filters = \App\CustomView::getModuleFiltersByMenuId($menuId);
+			$filters = \App\CustomView::getModuleFiltersByMenuId($menuId, $moduleName);
 		}
 		foreach ($filters as $id) {
 			$customView = $customViews[$id];
@@ -950,5 +950,4 @@ class CustomView_Record_Model extends \App\Base
 	{
 		return empty($this->get('sort')) ? [] : \App\Json::decode($this->get('sort'));
 	}
-
 }

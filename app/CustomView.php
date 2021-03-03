@@ -1,14 +1,19 @@
 <?php
-
-namespace App;
-
 /**
- * Custom view class.
+ * Custom view file.
+ *
+ * @package   App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App;
+
+/**
+ * Custom view class.
  */
 class CustomView
 {
@@ -462,7 +467,7 @@ class CustomView
 				}
 			}
 			if (Request::_has('mid')) {
-				$customViewFilters = self::getModuleFiltersByMenuId(Request::_getInteger('mid'));
+				$customViewFilters = self::getModuleFiltersByMenuId(Request::_getInteger('mid'), $this->moduleName);
 				$viewId = $customViewFilters[0] ?? null;
 			}
 			if (empty($viewId)) {
@@ -676,7 +681,7 @@ class CustomView
 	/**
 	 * Reset current views configuration in session.
 	 *
-	 * @param type $moduleName
+	 * @param string|bool $moduleName
 	 */
 	public static function resetCurrentView($moduleName = false)
 	{
@@ -696,16 +701,17 @@ class CustomView
 	/**
 	 * Get module filters by menu id.
 	 *
-	 * @param int $menuId
+	 * @param int         $menuId
+	 * @param string|null $moduleName
 	 *
 	 * @return array
 	 */
-	public static function getModuleFiltersByMenuId(int $menuId): array
+	public static function getModuleFiltersByMenuId(int $menuId, ?string $moduleName = null): array
 	{
-		if (\App\Cache::staticHas('getModuleFiltersByMenuId', $menuId)) {
-			return \App\Cache::staticGet('getModuleFiltersByMenuId', $menuId);
+		$cacheKey = 'getModuleFiltersByMenuId' . $moduleName ?? '';
+		if (\App\Cache::staticHas($cacheKey, $menuId)) {
+			return \App\Cache::staticGet($cacheKey, $menuId);
 		}
-		$moduleName = Request::_getModule('module');
 		$moduleCustomViews = \CustomView_Record_Model::getAll($moduleName);
 		$filters = array_keys($moduleCustomViews);
 		$currentUser = User::getCurrentUserModel();
@@ -721,7 +727,7 @@ class CustomView
 				$filters = [self::getInstance($moduleName)->getDefaultCvId()];
 			}
 		}
-		\App\Cache::staticSave('getModuleFiltersByMenuId', $menuId, $filters);
+		\App\Cache::staticSave($cacheKey, $menuId, $filters);
 		return $filters;
 	}
 }
