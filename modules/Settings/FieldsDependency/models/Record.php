@@ -14,6 +14,9 @@
  */
 class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Model
 {
+	/** @var handler class name. */
+	public $handlerClassName = 'Vtiger_FieldsDependency_Handler';
+
 	/** {@inheritdoc} */
 	public function getId()
 	{
@@ -235,16 +238,15 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	public function checkHandler(int $tabId): void
 	{
 		$moduleName = \App\Module::getModuleName($tabId);
-		$handlerClassName = 'Vtiger_FieldsDependency_Handler';
 		if ((new \App\Db\Query())->from('s_#__fields_dependency')->where(['status' => 0, 'tabid' => $tabId])->exists(\App\Db::getInstance('admin'))) {
-			if (!App\EventHandler::registerHandler('EditViewChangeValue', $handlerClassName, $moduleName) || !App\EventHandler::registerHandler('EditViewPreSave', $handlerClassName, $moduleName)) {
-				\App\EventHandler::setActive($handlerClassName);
+			if (!App\EventHandler::registerHandler('EditViewChangeValue', (string) $this->handlerClassName, $moduleName) || !App\EventHandler::registerHandler('EditViewPreSave', (string) $this->handlerClassName, $moduleName)) {
+				\App\EventHandler::setActive($this->handlerClassName);
 			}
-			$this->updateIncludeModuleToHandler($handlerClassName, $moduleName, true);
+			$this->updateIncludeModuleToHandler($moduleName, true);
 		} else {
-			$this->updateIncludeModuleToHandler($handlerClassName, $moduleName, false);
-			if (!$this->existsIncludeModule($handlerClassName)) {
-				App\EventHandler::setInActive($handlerClassName);
+			$this->updateIncludeModuleToHandler($moduleName, false);
+			if (!$this->existsIncludeModule()) {
+				App\EventHandler::setInActive($this->handlerClassName);
 			}
 		}
 	}
@@ -258,9 +260,9 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	 *
 	 * @return void
 	 */
-	public function updateIncludeModuleToHandler(string $handlerClassName, string $moduleName, bool $addModule): void
+	public function updateIncludeModuleToHandler(string $moduleName, bool $addModule): void
 	{
-		foreach (\App\EventHandler::getByClassName($handlerClassName, false) as $value) {
+		foreach (\App\EventHandler::getByClassName((string) $this->handlerClassName) as $value) {
 			if ($addModule) {
 				$includeModules = explode(',', $value['include_modules']);
 				if (!\in_array($moduleName, $includeModules)) {
@@ -284,14 +286,12 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	/**
 	 * Checks for an entry in the include module column.
 	 *
-	 * @param string $handlerClassName
-	 *
 	 * @return bool
 	 */
-	public function existsIncludeModule(string $handlerClassName): bool
+	public function existsIncludeModule(): bool
 	{
 		$exists = false;
-		foreach (\App\EventHandler::getByClassName($handlerClassName, false) as $value) {
+		foreach (\App\EventHandler::getByClassName((string) $this->handlerClassName) as $value) {
 			if (!empty($value['include_modules'])) {
 				$exists = true;
 			}
