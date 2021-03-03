@@ -104,17 +104,26 @@ class Updater
 	 *
 	 * @param array $rows
 	 *
+	 * @throws \App\Exceptions\DbException
+	 *
 	 * @return int[]
 	 */
 	public static function batchUpdate($rows): array
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$s = $a = 0;
+		$s = 0;
 		foreach ($rows as $row) {
-			++$a;
-			$s += $dbCommand->update($row[0], $row[1], $row[2])->execute();
+			try {
+				$s += $dbCommand->update($row[0], $row[1], $row[2])->execute();
+			} catch (\Throwable $th) {
+				throw new \App\Exceptions\DbException(\App\Utils::varExport([
+					'tableName' => $row[0],
+					'columns' => $row[1],
+					'conditions' => $row[2] ?? null,
+				]) . PHP_EOL . $th->__toString(), $th->getCode());
+			}
 		}
-		return ['updated' => $s, 'all' => $a];
+		return ['affected' => $s, 'all' => \count($rows)];
 	}
 
 	/**
@@ -126,20 +135,29 @@ class Updater
 	 *
 	 * @param array $rows
 	 *
+	 * @throws \App\Exceptions\DbException
+	 *
 	 * @return int[]
 	 */
 	public static function batchInsert($rows): array
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$s = $a = 0;
+		$s = 0;
 		foreach ($rows as $row) {
-			++$a;
-			if (!isset($row[2]) || !(new \App\db\Query())->from($row[0])->where($row[2])->exists()) {
-				$dbCommand->insert($row[0], $row[1])->execute();
-				++$s;
+			try {
+				if (!isset($row[2]) || !(new \App\db\Query())->from($row[0])->where($row[2])->exists()) {
+					$dbCommand->insert($row[0], $row[1])->execute();
+					++$s;
+				}
+			} catch (\Throwable $th) {
+				throw new \App\Exceptions\DbException(\App\Utils::varExport([
+					'tableName' => $row[0],
+					'columns' => $row[1],
+					'conditions' => $row[2] ?? null,
+				]) . PHP_EOL . $th->__toString(), $th->getCode());
 			}
 		}
-		return ['added' => $s, 'all' => $a];
+		return ['affected' => $s, 'all' => \count($rows)];
 	}
 
 	/**
@@ -151,18 +169,25 @@ class Updater
 	 *
 	 * @param array $rows
 	 *
+	 * @throws \App\Exceptions\DbException
+	 *
 	 * @return int[]
 	 */
 	public static function batchDelete($rows): array
 	{
-		$db = \App\Db::getInstance();
-		$dbCommand = $db->createCommand();
-		$s = $a = 0;
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$s = 0;
 		foreach ($rows as $row) {
-			++$a;
-			$s += $dbCommand->delete($row[0], $row[1])->execute();
+			try {
+				$s += $dbCommand->delete($row[0], $row[1])->execute();
+			} catch (\Throwable $th) {
+				throw new \App\Exceptions\DbException(\App\Utils::varExport([
+					'tableName' => $row[0],
+					'conditions' => $row[1] ?? null,
+				]) . PHP_EOL . $th->__toString(), $th->getCode());
+			}
 		}
-		return ['deleted' => $s, 'all' => $a];
+		return ['affected' => $s, 'all' => \count($rows)];
 	}
 
 	/**
