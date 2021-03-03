@@ -1899,7 +1899,7 @@ class TextParser
 	{
 		$part = [];
 		foreach (explode('|', $param) as $type) {
-			[$name, $value] = explode('=', $type, 2);
+			[$name, $value] = array_pad(explode('=', $type, 2),2,'');
 			$part[$name] = $value;
 		}
 		return $part;

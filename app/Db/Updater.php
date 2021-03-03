@@ -17,14 +17,14 @@ class Updater
 	/**
 	 * Function used to change picklist type field (uitype 16) to field with permissions based on role (uitype 15).
 	 *
-	 * $fiels = [
-	 *        'fieldName',
-	 *        'osstimecontrol_status',
+	 * $fields = [
+	 *     'fieldName',
+	 *     'osstimecontrol_status',
 	 * ];
 	 *
-	 * @param array $fiels
+	 * @param array $fields
 	 */
-	public static function addRoleToPicklist($fiels)
+	public static function addRoleToPicklist($fields): void
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
@@ -33,7 +33,7 @@ class Updater
 		$roleIds = (new \App\Db\Query())->select(['roleid'])->from('vtiger_role')->column();
 		$query = (new \App\Db\Query())->from('vtiger_field')
 			->where(['uitype' => 16])
-			->andWhere(['fieldname' => $fiels]);
+			->andWhere(['fieldname' => $fields]);
 
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -67,16 +67,16 @@ class Updater
 	/**
 	 * Function used to change picklist type field (uitype 15 to 16).
 	 *
-	 * @param string[] $fiels List of field names
+	 * @param string[] $fields List of field names
 	 */
-	public static function removeRoleToPicklist($fiels)
+	public static function removeRoleToPicklist($fields): void
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
 		$schema = $db->getSchema();
 		$dbCommand = $db->createCommand();
 
-		$query = (new \App\Db\Query())->from('vtiger_field')->where(['uitype' => 16])->andWhere(['fieldname' => $fiels]);
+		$query = (new \App\Db\Query())->from('vtiger_field')->where(['uitype' => 16])->andWhere(['fieldname' => $fields]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$picklistTable = 'vtiger_' . $row['fieldname'];
@@ -98,15 +98,15 @@ class Updater
 	 * Batch update rows.
 	 *
 	 * $rows = [
-	 *	['table name', [ update ], [ condition ],
-	 *	['u_#__squotes_invfield', ['colspan' => 25], ['id' => 1]],
+	 *	  ['table name', [ update ], [ condition ],
+	 *    ['u_#__squotes_invfield', ['colspan' => 25], ['id' => 1]],
 	 * ];
 	 *
 	 * @param array $rows
 	 *
-	 * @return string
+	 * @return int[]
 	 */
-	public static function batchUpdate($rows)
+	public static function batchUpdate($rows): array
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$s = $a = 0;
@@ -114,21 +114,21 @@ class Updater
 			++$a;
 			$s += $dbCommand->update($row[0], $row[1], $row[2])->execute();
 		}
-		return "$s/$a";
+		return ['updated' => $s, 'all' => $a];
 	}
 
 	/**
 	 * Batch insert rows.
 	 *
 	 * $rows = [
-	 *        ['vtiger_cvcolumnlist', ['cvid' => 43, 'columnindex' => 5, 'columnname' => 'cc'], ],
+	 *    ['vtiger_cvcolumnlist', ['cvid' => 43, 'columnindex' => 5, 'columnname' => 'cc'], ],
 	 * ];
 	 *
 	 * @param array $rows
 	 *
-	 * @return string
+	 * @return int[]
 	 */
-	public static function batchInsert($rows): string
+	public static function batchInsert($rows): array
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$s = $a = 0;
@@ -139,21 +139,21 @@ class Updater
 				++$s;
 			}
 		}
-		return "$s/$a";
+		return ['added' => $s, 'all' => $a];
 	}
 
 	/**
 	 * Batch insert rows.
 	 *
 	 * $rows = [
-	 *        ['vtiger_cvcolumnlist', ['cvid' => 43]],
+	 *     ['vtiger_cvcolumnlist', ['cvid' => 43]],
 	 * ];
 	 *
 	 * @param array $rows
 	 *
-	 *  @return string
+	 * @return int[]
 	 */
-	public static function batchDelete($rows): string
+	public static function batchDelete($rows): array
 	{
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
@@ -162,20 +162,20 @@ class Updater
 			++$a;
 			$s += $dbCommand->delete($row[0], $row[1])->execute();
 		}
-		return "$s/$a";
+		return ['deleted' => $s, 'all' => $a];
 	}
 
 	/**
 	 * Function to add and remove cron.
 	 *
 	 * $crons = [
-	 *        ['type' => 'add', 'data' => ['LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, NULL, 29, NULL]],
-	 *        ['type' => 'remove', 'data' => ['LBL_BATCH_PROCESSES']],
+	 *     ['type' => 'add', 'data' => ['LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, NULL, 29, NULL]],
+	 *     ['type' => 'remove', 'data' => ['LBL_BATCH_PROCESSES']],
 	 * ];
 	 *
-	 * @param array $crons
+	 * @param string[] $crons
 	 */
-	public static function cron($crons)
+	public static function cron($crons): array
 	{
 		if (!$crons) {
 			return [];
@@ -196,7 +196,6 @@ class Updater
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
-
 		return $cronAction;
 	}
 }

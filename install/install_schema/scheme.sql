@@ -1144,7 +1144,7 @@ CREATE TABLE `s_yf_batchmethod` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `method` varchar(255) NOT NULL,
   `params` text NOT NULL,
-  `created_time` date NOT NULL,
+  `created_time` datetime NOT NULL,
   `status` tinyint(1) unsigned NOT NULL,
   `userid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
