@@ -34,6 +34,7 @@ Vtiger_List_Js(
 			var listViewContentDiv = this.getListViewContentContainer();
 			listViewContentDiv.on('click', '.listViewEntries', function (e) {
 				if ($(e.target).closest('div').hasClass('actions')) return;
+				if ($(e.target).closest('div').hasClass('js-iframe-content')) return;
 				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
 				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
 				if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;

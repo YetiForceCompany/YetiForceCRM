@@ -814,6 +814,7 @@ jQuery.Class(
 			if (this.relatedView === 'List' || this.relatedView === 'Detail') {
 				this.content.find('.listViewEntries').on('click', function (e) {
 					if ($(e.target).closest('div').hasClass('actions')) return;
+					if ($(e.target).closest('div').hasClass('js-iframe-content')) return;
 					if ($(e.target).is('button') || $(e.target).parent().is('button') || $(e.target).is('a')) return;
 					if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
 					if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;
@@ -848,6 +849,7 @@ jQuery.Class(
 				this.content.find('.listViewEntries').on('click', function (e) {
 					let target = $(e.target);
 					if (target.closest('div').hasClass('actions')) return;
+					if (target.closest('div').hasClass('js-iframe-content')) return;
 					if (target.is('button') || target.parent().is('button')) return;
 					if (target.closest('a').hasClass('noLinkBtn')) return;
 					if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;
