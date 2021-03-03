@@ -138,9 +138,9 @@ class CustomView
 	 */
 	public static function hasViewChanged(string $moduleName, $viewId = false): bool
 	{
-		return empty($_SESSION['lvs'][$moduleName]['viewname']) ||
-		($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) ||
-		!isset($_SESSION['lvs'][$moduleName]['sortby']);
+		return empty($_SESSION['lvs'][$moduleName]['viewname'])
+		|| ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname']))
+		|| !isset($_SESSION['lvs'][$moduleName]['sortby']);
 	}
 
 	/**
@@ -461,6 +461,10 @@ class CustomView
 					$viewId = null;
 				}
 			}
+			if (Request::_has('mid')) {
+				$customViewFilters = self::getModuleFiltersByMenuId(Request::_getInteger('mid'));
+				$viewId = $customViewFilters[0] ?? null;
+			}
 			if (empty($viewId)) {
 				$viewId = $this->getDefaultCvId();
 			}
@@ -687,5 +691,37 @@ class CustomView
 				\App\Session::set('lvs', []);
 			}
 		}
+	}
+
+	/**
+	 * Get module filters by menu id.
+	 *
+	 * @param int $menuId
+	 *
+	 * @return array
+	 */
+	public static function getModuleFiltersByMenuId(int $menuId): array
+	{
+		if (\App\Cache::staticHas('getModuleFiltersByMenuId', $menuId)) {
+			return \App\Cache::staticGet('getModuleFiltersByMenuId', $menuId);
+		}
+		$moduleName = Request::_getModule('module');
+		$moduleCustomViews = \CustomView_Record_Model::getAll($moduleName);
+		$filters = array_keys($moduleCustomViews);
+		$currentUser = User::getCurrentUserModel();
+		$roleMenu = 'user_privileges/menu_' . filter_var($currentUser->getDetail('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
+		file_exists($roleMenu) ? require $roleMenu : require 'user_privileges/menu_0.php';
+		if (0 === \count($menus)) {
+			require 'user_privileges/menu_0.php';
+		}
+		if (isset($filterList[$menuId])) {
+			$filtersMenu = explode(',', $filterList[$menuId]['filters']);
+			$filters = array_intersect($filtersMenu, $filters);
+			if (empty($filters)) {
+				$filters = [self::getInstance($moduleName)->getDefaultCvId()];
+			}
+		}
+		\App\Cache::staticSave('getModuleFiltersByMenuId', $menuId, $filters);
+		return $filters;
 	}
 }
