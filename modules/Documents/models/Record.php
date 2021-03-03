@@ -39,7 +39,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
 		$links = [];
-		if (\in_array($this->getValueByField('filetype'), $this->filePreview)) {
+		if (!$this->isReadOnly() && \in_array($this->getValueByField('filetype'), $this->filePreview)) {
 			$links['LBL_PREVIEW_FILE'] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_PREVIEW_FILE',
 				'linkhref' => true,
