@@ -254,7 +254,6 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	/**
 	 * Narrows the handler to the selected modules.
 	 *
-	 * @param string $handlerClassName
 	 * @param string $moduleName
 	 * @param bool   $addModule
 	 *
