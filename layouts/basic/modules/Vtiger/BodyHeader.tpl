@@ -183,6 +183,7 @@
 									</div>
 									<div class="d-xxl-none">
 										<span class="fas fa-inbox fa-fw" title="{\App\Language::translate('LBL_EMAIL')}"></span>
+										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
 									</div>
 								</a>
 							{else}
@@ -201,8 +202,11 @@
 									</a>
 									<ul class="dropdown-menu js-mail-list" aria-labelledby="show-mail-list" role="list" data-js="click">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-											<li value="{$KEY}" data-id="{$KEY}" data-nomail="" class="dropdown-item noMails js-mail-link" data-js="click">
-												{$ITEM.username}
+											<li value="{$KEY}" data-nomail="" class="dropdown-item js-mail-link px-2" data-js="click">
+												<div class="d-flex w-100">
+													<span class="mr-2">{$ITEM.username}</span>
+													<span data-id="{$KEY}" class="noMails ml-auto"></span>
+												</div>
 											</li>
 										{/foreach}
 									</ul>
