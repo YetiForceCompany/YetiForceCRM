@@ -879,10 +879,9 @@ class CustomView_Record_Model extends \App\Base
 	public static function getAllByGroup($moduleName = '', $menuId = false)
 	{
 		$customViews = self::getAll($moduleName);
-		$filters = array_keys($customViews);
 		$groupedCustomViews = [];
-		if ($menuId) {
-			$filters = \App\CustomView::getModuleFiltersByMenuId($menuId, $moduleName);
+		if (!$menuId || empty($filters = \App\CustomView::getModuleFiltersByMenuId($menuId, $moduleName))) {
+			$filters = array_keys($customViews);
 		}
 		foreach ($filters as $id) {
 			$customView = $customViews[$id];

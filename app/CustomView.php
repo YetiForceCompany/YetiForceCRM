@@ -460,15 +460,15 @@ class CustomView
 			return $this->defaultViewId;
 		}
 		if ($noCache || Request::_isEmpty('viewname')) {
-			if (!$noCache && self::getCurrentView($this->moduleName)) {
+			$viewId = null;
+			if (Request::_has('mid')) {
+				$viewId = current(self::getModuleFiltersByMenuId(Request::_getInteger('mid'), $this->moduleName));
+			}
+			if (empty($viewId) && !$noCache && self::getCurrentView($this->moduleName)) {
 				$viewId = self::getCurrentView($this->moduleName);
 				if (empty($this->getInfoFilter($this->moduleName)[$viewId])) {
 					$viewId = null;
 				}
-			}
-			if (Request::_has('mid')) {
-				$customViewFilters = self::getModuleFiltersByMenuId(Request::_getInteger('mid'), $this->moduleName);
-				$viewId = $customViewFilters[0] ?? null;
 			}
 			if (empty($viewId)) {
 				$viewId = $this->getDefaultCvId();
@@ -701,31 +701,28 @@ class CustomView
 	/**
 	 * Get module filters by menu id.
 	 *
-	 * @param int         $menuId
-	 * @param string|null $moduleName
+	 * @param int    $menuId
+	 * @param string $moduleName
 	 *
 	 * @return array
 	 */
-	public static function getModuleFiltersByMenuId(int $menuId, ?string $moduleName = null): array
+	public static function getModuleFiltersByMenuId(int $menuId, string $moduleName = ''): array
 	{
-		$cacheKey = 'getModuleFiltersByMenuId' . $moduleName ?? '';
+		$cacheKey = 'getModuleFiltersByMenuId' . $moduleName;
 		if (\App\Cache::staticHas($cacheKey, $menuId)) {
 			return \App\Cache::staticGet($cacheKey, $menuId);
 		}
-		$moduleCustomViews = \CustomView_Record_Model::getAll($moduleName);
-		$filters = array_keys($moduleCustomViews);
-		$currentUser = User::getCurrentUserModel();
-		$roleMenu = 'user_privileges/menu_' . filter_var($currentUser->getDetail('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
+		$filters = [];
+		$userModel = User::getCurrentUserModel();
+		$roleMenu = 'user_privileges/menu_' . filter_var($userModel->getDetail('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		file_exists($roleMenu) ? require $roleMenu : require 'user_privileges/menu_0.php';
-		if (0 === \count($menus)) {
+		if (0 === \count($menus) && file_exists($roleMenu)) {
 			require 'user_privileges/menu_0.php';
 		}
 		if (isset($filterList[$menuId])) {
 			$filtersMenu = explode(',', $filterList[$menuId]['filters']);
-			$filters = array_intersect($filtersMenu, $filters);
-			if (empty($filters)) {
-				$filters = [self::getInstance($moduleName)->getDefaultCvId()];
-			}
+			$filtersCustomView = array_keys(\CustomView_Record_Model::getAll($moduleName));
+			$filters = array_intersect($filtersMenu, $filtersCustomView);
 		}
 		\App\Cache::staticSave($cacheKey, $menuId, $filters);
 		return $filters;
