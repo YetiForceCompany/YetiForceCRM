@@ -28,35 +28,35 @@ class Base
 	 *
 	 * @var array
 	 */
-	public $tables;
+	public $tables = [];
 
 	/**
 	 * Drop tables.
 	 *
 	 * @var array
 	 */
-	public $dropTables;
+	public $dropTables = [];
 
 	/**
 	 * Drop columns.
 	 *
 	 * @var array
 	 */
-	public $dropColumns;
+	public $dropColumns = [];
 
 	/**
 	 * Foreign keys.
 	 *
 	 * @var array
 	 */
-	public $foreignKey;
+	public $foreignKey = [];
 
 	/**
 	 * Data to import.
 	 *
 	 * @var array
 	 */
-	public $data;
+	public $data = [];
 
 	/**
 	 * Db.
