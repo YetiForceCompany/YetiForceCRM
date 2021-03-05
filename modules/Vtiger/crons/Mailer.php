@@ -14,9 +14,7 @@
  */
 class Vtiger_Mailer_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$limit = (int) App\Config::performance('CRON_MAX_NUMBERS_SENDING_MAILS', 1000);
@@ -26,8 +24,11 @@ class Vtiger_Mailer_Cron extends \App\CronHandler
 			foreach ($rows as $row) {
 				\App\Mailer::sendByRowQueue($row);
 				--$limit;
+				if (0 >= $limit) {
+					return;
+				}
 			}
-			if ($this->checkTimeout() || 0 >= $limit) {
+			if ($this->checkTimeout()) {
 				return;
 			}
 		}
