@@ -1521,14 +1521,14 @@ jQuery.Class(
 		registerRowClickEvent: function () {
 			let listViewContentDiv = this.getListViewContentContainer();
 			listViewContentDiv.on('click', '.listViewEntries', function (e) {
-				if (jQuery(e.target).closest('div').hasClass('actions')) return;
-				if (jQuery(e.target).is('button') || jQuery(e.target).parent().is('button')) return;
-				if (jQuery(e.target).closest('a').hasClass('noLinkBtn')) return;
-				if (jQuery(e.target, jQuery(e.currentTarget)).is('td:first-child')) return;
-				if (jQuery(e.target).is('input[type="checkbox"]')) return;
-				if ($.contains(jQuery(e.currentTarget).find('td:last-child').get(0), e.target)) return;
-				if ($.contains(jQuery(e.currentTarget).find('td:first-child').get(0), e.target)) return;
-				let elem = jQuery(e.currentTarget);
+				if ($(e.target).closest('div').hasClass('actions')) return;
+				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
+				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
+				if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;
+				if ($(e.target).is('input[type="checkbox"]')) return;
+				if ($.contains($(e.currentTarget).find('td:last-child').get(0), e.target)) return;
+				if ($.contains($(e.currentTarget).find('td:first-child').get(0), e.target)) return;
+				let elem = $(e.currentTarget);
 				let recordUrl = elem.data('recordurl');
 				if (typeof recordUrl === 'undefined') {
 					return;
