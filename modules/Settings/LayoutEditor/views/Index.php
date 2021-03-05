@@ -97,6 +97,11 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RELATED_MODULES', $moduleModel->getRelations());
 		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->assign('BASE_CUSTOM_VIEW', [
+			'relation' => \App\Language::translate('LBL_RECORDS_FROM_RELATION'),
+			'private' => \App\Language::translate('LBL_RCV_PRIVATE', $qualifiedModule),
+			'all' => \App\Language::translate('LBL_RCV_ALL', $qualifiedModule),
+		]);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('RelatedList.tpl', $qualifiedModule);
 	}

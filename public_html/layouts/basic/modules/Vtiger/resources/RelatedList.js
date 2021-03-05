@@ -314,7 +314,8 @@ jQuery.Class(
 				relatedModule: this.moduleName,
 				relatedView: this.relatedView,
 				mode: 'showRelatedList',
-				tab_label: container.find('#tab_label').val()
+				tab_label: container.find('#tab_label').val(),
+				cvId: container.find('.js-relation-cv-id').val()
 			};
 			return $.extend(this.getDefaultParams(), params);
 		},
@@ -1034,7 +1035,7 @@ jQuery.Class(
 					thisInstance.deleteRelation(target);
 				});
 			});
-			this.content.find('.js-switch--calendar').on('change', function (e) {
+			this.content.find('.js-switch--calendar,select.js-relation-cv-id').on('change', function (e) {
 				thisInstance.loadRelatedList();
 			});
 		},

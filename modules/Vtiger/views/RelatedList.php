@@ -71,6 +71,9 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
+		if ($request->has('cvId')) {
+			$relationListView->set('cvId', $request->getByType('cvId', 'Alnum'));
+		}
 		$viewer = $this->getViewer($request);
 		$operator = 's';
 		if (!$request->isEmpty('operator', true)) {

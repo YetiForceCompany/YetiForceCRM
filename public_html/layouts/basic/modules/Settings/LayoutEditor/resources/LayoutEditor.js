@@ -103,12 +103,24 @@ $.Class(
 		registerRelatedListEvents: function () {
 			const thisInstance = this,
 				relatedList = $('#relatedTabOrder');
-			App.Fields.Picklist.showSelect2ElementView(relatedList.find('.relatedTabModulesList .select2_container'), {
-				sortable: true,
-				sortableCb: (currentTarget) => {
-					thisInstance.updateSelectedFields(currentTarget);
+			App.Fields.Picklist.showSelect2ElementView(
+				relatedList.find('.relatedTabModulesList .js-related-column-list-container .select2_container'),
+				{
+					sortable: true,
+					sortableCb: (currentTarget) => {
+						thisInstance.updateSelectedFields(currentTarget);
+					}
 				}
-			});
+			);
+			App.Fields.Picklist.showSelect2ElementView(
+				relatedList.find('.relatedTabModulesList .js-related-custom-view-container .select2_container'),
+				{
+					sortable: true,
+					sortableCb: (currentTarget) => {
+						thisInstance.updateCustomView(currentTarget);
+					}
+				}
+			);
 			relatedList.on('click', '.inActiveRelationModule', function (e) {
 				var currentTarget = $(e.currentTarget);
 				var relatedModule = currentTarget.closest('.relatedModule');
@@ -144,6 +156,9 @@ $.Class(
 			});
 			relatedList.find('.js-related-column-list').on('change', function (e) {
 				thisInstance.updateSelectedFields($(e.currentTarget));
+			});
+			relatedList.find('.js-related-custom-view').on('change', function (e) {
+				thisInstance.updateCustomView($(e.currentTarget));
 			});
 			relatedList.on('click', '.addRelation', function (e) {
 				var currentTarget = $(e.currentTarget);
@@ -405,6 +420,34 @@ $.Class(
 					let params = {};
 					params['text'] = error;
 					Settings_Vtiger_Index_Js.showMessage(params);
+				});
+		},
+		updateCustomView: function (target) {
+			const thisInstance = this;
+			let params = {},
+				relatedModule = $(target).closest('.relatedModule'),
+				progressIndicatorElement = $.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+			params['module'] = app.getModuleName();
+			params['parent'] = app.getParentModuleName();
+			params['action'] = 'Relation';
+			params['mode'] = 'updateCustomView';
+			params['relationId'] = relatedModule.data('relation-id');
+			params['cv'] = target.val();
+			AppConnector.request(params)
+				.done(function () {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				})
+				.fail(function (error) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					app.showNotify({
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					});
 				});
 		},
 		/**

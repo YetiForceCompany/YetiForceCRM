@@ -29,6 +29,10 @@ class Vtiger_Relation_Model extends \App\Base
 	 * @var \App\Relation\RelationInterface Class that includes basic operations on relations
 	 */
 	protected $typeRelationModel;
+	/**
+	 * @var array Custom view list
+	 */
+	protected $customViewList;
 
 	//one to many
 	const RELATION_O2M = 1;
@@ -166,6 +170,26 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
+	 * Check favorite.
+	 */
+	public function isFavorites()
+	{
+		return 1 == $this->get('favorites') ? true : false;
+	}
+
+	/**
+	 * Check related view type.
+	 *
+	 * @param string $type
+	 *
+	 * @return bool
+	 */
+	public function isRelatedViewType($type)
+	{
+		return false !== strpos($this->get('view_type'), $type);
+	}
+
+	/**
 	 * Show user who created relation.
 	 *
 	 * @return bool
@@ -222,21 +246,22 @@ class Vtiger_Relation_Model extends \App\Base
 	 *
 	 * @return string[]
 	 */
-	public function getRelatedViewType()
+	public function getRelatedViewType(): array
 	{
-		return explode(',', $this->get('view_type'));
+		return explode(',', $this->get('view_type')) ?? [];
 	}
 
 	/**
-	 * Check related view type.
+	 * Get custom view.
 	 *
-	 * @param string $type
-	 *
-	 * @return bool
+	 * @return string[]
 	 */
-	public function isRelatedViewType($type)
+	public function getCustomView(): array
 	{
-		return false !== strpos($this->get('view_type'), $type);
+		if ($this->isEmpty('custom_view')) {
+			return [];
+		}
+		return explode(',', $this->get('custom_view')) ?? [];
 	}
 
 	/**
@@ -455,7 +480,7 @@ class Vtiger_Relation_Model extends \App\Base
 				}
 			}
 		}
-		$this->set('RelationField', $relationField ? $relationField : false);
+		$this->set('RelationField', $relationField ?: false);
 		return $relationField;
 	}
 
@@ -875,6 +900,18 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
+	 * Function to set presence relation.
+	 *
+	 * @param int   $relationId
+	 * @param array $customView
+	 */
+	public static function updateRelationCustomView(int $relationId, array $customView): void
+	{
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['custom_view' => implode(',', $customView)], ['relation_id' => $relationId])->execute();
+		\App\Cache::clear();
+	}
+
+	/**
 	 * Removes relation between modules.
 	 *
 	 * @param int $relationId
@@ -1034,8 +1071,44 @@ class Vtiger_Relation_Model extends \App\Base
 		\App\Cache::clear();
 	}
 
-	public function isFavorites()
+	/**
+	 * Get custom view list.
+	 *
+	 * @return string[]
+	 */
+	public function getCustomViewList(): array
 	{
-		return 1 == $this->get('favorites') ? true : false;
+		if (isset($this->customViewList)) {
+			return $this->customViewList;
+		}
+		$cv = [];
+		$selectedCv = $this->getCustomView();
+		if (empty($selectedCv) || \in_array('relation', $selectedCv)) {
+			$cv['relation'] = \App\Language::translate('LBL_RECORDS_FROM_RELATION');
+			unset($selectedCv[array_search('relation', $selectedCv)]);
+		}
+		if ($selectedCv) {
+			$moduleName = $this->getRelationModuleName();
+			$all = CustomView_Record_Model::getAll($moduleName);
+			if (\in_array('all', $selectedCv)) {
+				unset($selectedCv[array_search('all', $selectedCv)]);
+				foreach ($all as $cvId => $cvModel) {
+					$cv[$cvId] = \App\Language::translate($cvModel->get('viewname'), $moduleName);
+				}
+			} elseif (\in_array('private', $selectedCv)) {
+				unset($selectedCv[array_search('private', $selectedCv)]);
+				foreach ($all as $cvId => $cvModel) {
+					if ($cvModel->isMine()) {
+						$cv[$cvId] = \App\Language::translate($cvModel->get('viewname'), $moduleName);
+					}
+				}
+			}
+			foreach ($selectedCv as $cvId) {
+				if (isset($all[$cvId])) {
+					$cv[$cvId] = \App\Language::translate($all[$cvId]->get('viewname'), $moduleName);
+				}
+			}
+		}
+		return $this->customViewList = $cv;
 	}
 }

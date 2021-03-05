@@ -157,8 +157,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$instance->setRelatedModuleModel($relationModelInstance->getRelationModuleModel());
 		$queryGenerator = new \App\QueryGenerator($relationModelInstance->getRelationModuleModel()->getName());
 		if ($cvId) {
-			$instance->set('viewId', $cvId);
-			$queryGenerator->initForCustomViewById($cvId);
+			$instance->set('cvId', $cvId);
 		}
 		$relationModelInstance->set('query_generator', $queryGenerator);
 		$relationModelInstance->set('parentRecord', $parentRecordModel);
@@ -178,6 +177,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		if ($this->has('Query')) {
 			return $this->get('Query');
 		}
+		$this->loadCustomView();
 		$this->loadCondition();
 		$this->loadOrderBy();
 		$relationModelInstance = $this->getRelationModel();
@@ -217,6 +217,21 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		if (!$this->isEmpty('search_key')) {
 			$queryGenerator->addCondition($this->get('search_key'), $this->get('search_value'), $this->get('operator'));
+		}
+	}
+
+	/**
+	 * Load custom view.
+	 */
+	public function loadCustomView()
+	{
+		if ($this->has('cvId')) {
+			$cvId = $this->get('cvId');
+		} else {
+			$cvId = array_key_first($this->getRelationModel()->getCustomViewList());
+		}
+		if ('relation' !== $cvId) {
+			$this->getRelationModel()->getQueryGenerator()->initForCustomViewById($cvId);
 		}
 	}
 
