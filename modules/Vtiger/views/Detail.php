@@ -72,6 +72,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showModTrackerByField');
 		$this->exposeMethod('showCharts');
 		$this->exposeMethod('showInventoryEntries');
+		$this->exposeMethod('showPDF');
 	}
 
 	/**
@@ -1028,6 +1029,25 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('HEADER_FIELD', $header);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		return $viewer->view('Detail/Widget/InventoryBlock.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Function shows PDF.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
+	public function showPDF(App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		$templateId = $request->getInteger('template');
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD_ID', $recordId);
+		$viewer->assign('TEMPLATE', $templateId);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		return $viewer->view('Detail/Widget/PDFViewer.tpl', $moduleName, true);
 	}
 
 	/**

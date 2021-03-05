@@ -42,6 +42,8 @@ class Vtiger_Basic_Widget
 
 	public function getWidget()
 	{
-		return $this->Config;
+		$widget = $this->Config;
+		$widget['instance'] = $this;
+		return $widget;
 	}
 }
