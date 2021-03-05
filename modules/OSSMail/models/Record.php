@@ -170,7 +170,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return bool
 	 */
-	public static function updateMailBoxmsgInfo($users)
+	public static function updateMailBoxmsgInfo($users): bool
 	{
 		\App\Log::trace(__METHOD__ . ' - Start');
 		$dbCommand = \App\Db::getInstance()->createCommand();
@@ -201,7 +201,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		\App\Log::trace(__METHOD__ . ' - End');
-
 		return true;
 	}
 
@@ -212,10 +211,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return array
 	 */
-	public static function getMailBoxmsgInfo($users)
+	public static function getMailBoxmsgInfo($users): array
 	{
 		$query = (new \App\Db\Query())->select(['userid', 'num'])->from('yetiforce_mail_quantities')->where(['userid' => $users]);
-
 		return $query->createCommand()->queryAllByGroup(0);
 	}
 
@@ -301,9 +299,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			return self::$usersCache[$userid];
 		}
 		$user = (new \App\Db\Query())->from('roundcube_users')->where(['user_id' => $userid])->one();
-
 		self::$usersCache[$userid] = $user;
-
 		return $user;
 	}
 
