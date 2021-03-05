@@ -227,6 +227,9 @@ jQuery.Class(
 		save: function (mode, data) {
 			var aDeferred = jQuery.Deferred();
 			var params = {};
+			if (typeof data['filters'] !== 'undefined' && !$.isArray(data['filters'])) {
+				data['filters'] = [data['filters']];
+			}
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['action'] = 'SaveAjax';
