@@ -1052,6 +1052,7 @@ jQuery.Class(
 			detailContentsHolder.find('.detailViewBlockLink').each(function (n, block) {
 				block = $(block);
 				let blockContent = block.find('.blockContent');
+
 				if (blockContent.is(':visible')) {
 					AppConnector.request({
 						type: 'GET',
@@ -1084,7 +1085,7 @@ jQuery.Class(
 				const blockContent = block.find('.blockContent');
 				const isEmpty = blockContent.is(':empty');
 				let url = block.data('url');
-				if (!blockContent.is(':visible') && url) {
+				if (blockContent.is(':visible') && url) {
 					blockContent.progressIndicator();
 					AppConnector.request(url).done(function (response) {
 						blockContent.html(response);
