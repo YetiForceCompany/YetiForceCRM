@@ -97,7 +97,7 @@
 				</div>
 				{assign var=CUSTOM_VIEW_LIST value=$RELATION_MODEL->getCustomViewList()}
 				{if $CUSTOM_VIEW_LIST}
-					<div class="d-flex justify-content-start">
+					<div class="mr-auto">
 						{if count($CUSTOM_VIEW_LIST) === 1}
 							<input type="hidden" class="js-relation-cv-id" value="{array_key_first($CUSTOM_VIEW_LIST)}" data-js="value" />
 						{else}
@@ -107,7 +107,7 @@
 										<span class="fas fa-filter"></span>
 									</div>
 								</div>
-								<div class="input-group-append">
+								<div class="input-group-append u-min-w-200px">
 									<select class="form-control select2 js-relation-cv-id" data-js="change|select2|value">
 										{foreach key=CV_ID item=CV_NAME from=$CUSTOM_VIEW_LIST}
 											<option value="{$CV_ID}" {if $CV_ID == $VIEW_MODEL->get('cvId')}selected{/if}>{$CV_NAME}</option>
