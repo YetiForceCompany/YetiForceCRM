@@ -9,7 +9,7 @@
 				<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 			</div>
 			<div class="c-detail-widget__header__title">
-				<h5 class="mb-0" title="{$TRANSLATED_LABEL}">{$TRANSLATED_LABEL}</h5>
+				<h5 class="mb-0" title="{$TRANSLATED_LABEL}">{$TRANSLATED_LABEL|unescape}</h5>
 			</div>
 			{if !$IS_READ_ONLY}
 				<div class="row inline justify-center js-hb__container ml-auto">

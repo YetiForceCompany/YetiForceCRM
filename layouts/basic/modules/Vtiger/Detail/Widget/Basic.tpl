@@ -14,9 +14,9 @@
 				<div class="c-detail-widget__header__title">
 					<h5 class="mb-0 text-truncate modCT_{$WIDGET['label']}">
 						{if $WIDGET['label'] eq ''}
-							{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
+							{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)|unescape}
 						{else}
-							{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
+							{\App\Language::translate($WIDGET['label'],$MODULE_NAME)|unescape}
 						{/if}
 					</h5>
 				</div>

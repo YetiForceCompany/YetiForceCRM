@@ -13,7 +13,7 @@
 				</div>
 				<div class="c-detail-widget__header__title">
 					<h5 class="mb-0 modCT_{$WIDGET['label']}">
-						{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+						{\App\Language::translate($WIDGET['label'],$MODULE_NAME)|unescape}</h5>
 				</div>
 				<div
 					class="row inline justify-center js-hb__container ml-auto">

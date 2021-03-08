@@ -42,9 +42,9 @@
 									</div>
 									<div class="col-md-4">
 										{if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
-											{\App\Language::translate(\App\Module::getModuleName($WIDGET['data']['relatedmodule']),\App\Module::getModuleName($WIDGET['data']['relatedmodule']))}
+											{\App\Language::translate(\App\Module::getModuleName($WIDGET['data']['relatedmodule']),\App\Module::getModuleName($WIDGET['data']['relatedmodule']))|unescape}
 										{else}
-											{\App\Language::translate($WIDGET['label'], $SOURCEMODULE)}&nbsp;
+											{\App\Language::translate($WIDGET['label'], $SOURCEMODULE)|unescape}&nbsp;
 										{/if}
 									</div>
 									<div class="col-md-4">

@@ -66,7 +66,7 @@
 																	{assign var="TITLE" value=$WIDGET['title']}
 																{/if}
 																<h5 class="mb-0 text-truncate modCT_{\App\Module::getModuleName($WIDGET['widgetData']['tabid'])}">
-																	{$TITLE}
+																	{$TITLE|unescape}
 																</h5>
 															</div>
 														</div>
