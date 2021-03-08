@@ -96,28 +96,28 @@
 					{/if}
 				</div>
 				{assign var=CUSTOM_VIEW_LIST value=$RELATION_MODEL->getCustomViewList()}
-					{if $CUSTOM_VIEW_LIST}
-						<div class="d-flex justify-content-start">
-							{if count($CUSTOM_VIEW_LIST) === 1}
-								<input type="hidden" class="js-relation-cv-id" value="{array_key_first($CUSTOM_VIEW_LIST)}" data-js="value" />
-							{else}
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<div class="input-group-text">
-											<span class="fas fa-filter"></span>
-										</div>
-									</div>
-									<div class="input-group-append">
-										<select class="form-control select2 js-relation-cv-id" data-js="change|select2|value">
-											{foreach key=CV_ID item=CV_NAME from=$CUSTOM_VIEW_LIST}
-												<option value="{$CV_ID}" {if $CV_ID == $VIEW_MODEL->get('cvId')}selected{/if}>{$CV_NAME}</option>
-											{/foreach}
-										</select>
+				{if $CUSTOM_VIEW_LIST}
+					<div class="d-flex justify-content-start">
+						{if count($CUSTOM_VIEW_LIST) === 1}
+							<input type="hidden" class="js-relation-cv-id" value="{array_key_first($CUSTOM_VIEW_LIST)}" data-js="value" />
+						{else}
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<span class="fas fa-filter"></span>
 									</div>
 								</div>
-							{/if}
-						</div>
-					{/if}
+								<div class="input-group-append">
+									<select class="form-control select2 js-relation-cv-id" data-js="change|select2|value">
+										{foreach key=CV_ID item=CV_NAME from=$CUSTOM_VIEW_LIST}
+											<option value="{$CV_ID}" {if $CV_ID == $VIEW_MODEL->get('cvId')}selected{/if}>{$CV_NAME}</option>
+										{/foreach}
+									</select>
+								</div>
+							</div>
+						{/if}
+					</div>
+				{/if}
 				<div class="d-flex flex-wrap u-w-sm-down-100 justify-content-between justify-content-md-end">
 					<div class="paginationDiv">
 						{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME) VIEWNAME='related'}
