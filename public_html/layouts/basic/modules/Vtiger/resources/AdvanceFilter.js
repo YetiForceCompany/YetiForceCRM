@@ -791,7 +791,7 @@ Vtiger_Categorymultipicklist_Field_Js(
 		 * Function to get the user date format
 		 */
 		getModuleName: function () {
-			return $('[name="module_name"]').val();
+			return this.get('modulename');
 		},
 		getUi: function () {
 			let pickListValues = this.getPickListValues();
