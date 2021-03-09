@@ -136,11 +136,11 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 * @param Vtiger_Record_Model $parentRecordModel
 	 * @param string              $relationModuleName
 	 * @param bool|int            $relationId
-	 * @param int                 $cvId
+	 * @param int|string          $cvId
 	 *
 	 * @return self
 	 */
-	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $relationId = false, int $cvId = 0)
+	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $relationId = false, $cvId = 0)
 	{
 		$parentModuleModel = $parentRecordModel->getModule();
 		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleModel->getName());

@@ -50,7 +50,7 @@ class Vtiger_ChangeRelationData_View extends \App\Controller\Modal
 		$recordId = $request->getInteger('record');
 		$parentRecordId = $request->getInteger('fromRecord');
 		$relationId = $request->getInteger('relationId');
-		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getInteger('cvId');
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
 		$parentRecord = \Vtiger_Record_Model::getInstanceById($parentRecordId);
 		$relationView = \Vtiger_RelationListView_Model::getInstance($parentRecord, $moduleName, $relationId, $cvId);
 		$relationModel = $relationView->getRelationModel()->getTypeRelationModel();

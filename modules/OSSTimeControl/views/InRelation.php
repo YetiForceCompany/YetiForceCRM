@@ -29,7 +29,7 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		if ($request->has('limit')) {
 			$pagingModel->set('limit', $request->getInteger('limit'));
 		}
-		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getInteger('cvId');
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'), $cvId);
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);

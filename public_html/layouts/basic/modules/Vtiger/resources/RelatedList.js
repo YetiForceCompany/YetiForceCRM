@@ -1462,13 +1462,19 @@ jQuery.Class(
 				let selectedIds = self.readSelectedIds(),
 					excludedIds = self.readExcludedIds();
 				if ($('#relatedListViewEntriesMainCheckBox').is(':checked')) {
+					let progress = $.progressIndicator({ blockInfo: { enabled: true } });
 					let recordCountObj = self.getRecordsCount();
-					recordCountObj.done(function (data) {
-						$('#totalRecordsCount').text(data);
-						if ($('#deSelectAllMsgDiv').css('display') == 'none') {
-							$('#selectAllMsgDiv').show();
-						}
-					});
+					recordCountObj
+						.done(function (data) {
+							progress.progressIndicator({ mode: 'hide' });
+							$('#totalRecordsCount').text(data);
+							if ($('#deSelectAllMsgDiv').css('display') == 'none') {
+								$('#selectAllMsgDiv').show();
+							}
+						})
+						.fail(function () {
+							progress.progressIndicator({ mode: 'hide' });
+						});
 					$('.relatedListViewEntriesCheckBox').each(function (index, element) {
 						$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 						if (selectedIds == 'all' && $.inArray($(element).val(), excludedIds) != -1) {

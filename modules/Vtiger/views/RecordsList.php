@@ -257,7 +257,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if ($this->relatedParentId && !\App\Record::isExists($this->relatedParentId)) {
 			$this->relatedParentId = $this->relatedParentModule = '';
 		}
-		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getInteger('cvId');
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
 		if (!empty($this->relatedParentModule) && !empty($this->relatedParentId)) {
 			$this->showSwitch = !$request->has('showSwitch') || $request->getBoolean('showSwitch');
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->relatedParentId, $this->relatedParentModule);
