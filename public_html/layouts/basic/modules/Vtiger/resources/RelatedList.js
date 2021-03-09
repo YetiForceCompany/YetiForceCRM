@@ -282,6 +282,9 @@ jQuery.Class(
 			if (container.find('#relationId').val()) {
 				params['relationId'] = container.find('#relationId').val();
 			}
+			if (container.find('#relationId').val()) {
+				params['cvId'] = container.find('.js-relation-cv-id').val();
+			}
 			if (container.find('.pagination').length) {
 				params['totalCount'] = container.find('.pagination').data('totalCount');
 			}
@@ -314,8 +317,7 @@ jQuery.Class(
 				relatedModule: this.moduleName,
 				relatedView: this.relatedView,
 				mode: 'showRelatedList',
-				tab_label: container.find('#tab_label').val(),
-				cvId: container.find('.js-relation-cv-id').val()
+				tab_label: container.find('#tab_label').val()
 			};
 			return $.extend(this.getDefaultParams(), params);
 		},
@@ -1524,7 +1526,7 @@ jQuery.Class(
 					if (element.closest('.js-detail-widget').length) {
 						Vtiger_Detail_Js.getInstance().postSummaryWidgetAddRecord(data, element);
 					} else {
-						this.loadRelatedList(data.result);
+						this.loadRelatedList();
 					}
 				}
 			});

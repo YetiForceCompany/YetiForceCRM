@@ -12,9 +12,8 @@
 
 class Vtiger_RelationAjax_Action extends \App\Controller\Action
 {
-	use
-		\App\Controller\ExposeMethod;
 	use App\Controller\ClearProcess;
+	use \App\Controller\ExposeMethod;
 
 	/**
 	 * {@inheritdoc}
@@ -80,7 +79,8 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 'Alnum'), $relationId);
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getInteger('cvId');
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 'Alnum'), $relationId, $cvId);
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
@@ -203,7 +203,8 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$sourceRecordId = $request->getInteger('src_record');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getInteger('cvId');
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId, $cvId);
 		$rows = $this->getRecordsListFromRequest($request);
 		$relationModel = $relationListView->getRelationModel();
 		foreach ($rows as $relatedRecordId) {
@@ -229,7 +230,8 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$sourceRecordId = $request->getInteger('src_record');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getInteger('cvId');
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId, $cvId);
 		$rows = $this->getRecordsListFromRequest($request);
 		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
@@ -384,13 +386,14 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getInteger('cvId');
 		$totalCount = 0;
 		$pageCount = 0;
 		if ('ModComments' === $firstRelatedModuleName) {
 			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
 		} elseif ('ModTracker' === $firstRelatedModuleName) {
 			$count = (int) ($unreviewed = current(ModTracker_Record_Model::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
-			$totalCount = $count ? $count : '';
+			$totalCount = $count ?: '';
 		} else {
 			$relModules = !empty($relatedModuleName) && \is_array($relatedModuleName) ? $relatedModuleName : [];
 			if ('ProductsAndServices' === $firstRelatedModuleName) {
@@ -404,7 +407,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				if (!$currentUserPriviligesModel->hasModulePermission($relModule)) {
 					continue;
 				}
-				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $relationId);
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $relationId, $cvId);
 				if (!$relationListView) {
 					continue;
 				}

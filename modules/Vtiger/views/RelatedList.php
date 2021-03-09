@@ -58,7 +58,8 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$pagingModel->set('limit', $request->getInteger('limit'));
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'));
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getInteger('cvId');
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'), $cvId);
 
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
