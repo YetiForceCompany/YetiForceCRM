@@ -207,7 +207,7 @@ class Card
 				$record->set('jobtitle', $fieldModel->getDBValue(\App\Purifier::purify((string) $this->vcard->TITLE)));
 			}
 			if (isset($this->vcard->BDAY) && 8 === \strlen($this->vcard->BDAY) && ($fieldModel = $record->getField('birthday'))) {
-				$record->set('birthday', $fieldModel->getDBValue(date('Y-m-d', strtotime($this->vcard->BDAY))));
+				$record->set('birthday', date('Y-m-d', strtotime($this->vcard->BDAY)));
 			}
 			if (isset($this->vcard->GENDER) && ($fieldModel = $record->getField('salutationtype'))) {
 				$record->set('salutationtype', $fieldModel->getDBValue($this->getCardGender((string) $this->vcard->GENDER)));
@@ -220,7 +220,7 @@ class Card
 				$record->set('last_name', $fieldModel->getDBValue(\App\Purifier::purify($head[0])));
 			}
 			if (isset($this->vcard->BDAY) && ($fieldModel = $record->getField('birth_date'))) {
-				$record->set('birth_date', $fieldModel->getDBValue(date('Y-m-d', strtotime($this->vcard->BDAY))));
+				$record->set('birth_date', date('Y-m-d', strtotime($this->vcard->BDAY)));
 			}
 		}
 		if (isset($this->vcard->NOTE) && ($fieldModel = $record->getField('description'))) {
