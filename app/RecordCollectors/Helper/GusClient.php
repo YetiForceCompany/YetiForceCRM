@@ -208,7 +208,7 @@ class GusClient extends \SoapClient
 	 *
 	 * @return void
 	 */
-	public function getAdvanceData(&$response)
+	public function getAdvanceData(array &$response): void
 	{
 		if (isset($response['Typ'], $response['SilosID']) && $reportName = $this->getReportName($response['Typ'], $response['SilosID'])) {
 			$this->startSession();
@@ -219,30 +219,42 @@ class GusClient extends \SoapClient
 			$this->__setSoapHeaders($header);
 			$result = $this->DanePobierzPelnyRaport(['pRegon' => $response['Regon'], 'pNazwaRaportu' => $reportName]);
 			$responseFromGus = $this->parseResponse($result->DanePobierzPelnyRaportResult);
+			if (empty($responseFromGus)) {
+				return;
+			}
+			$responseFromGus = reset($responseFromGus);
 			$prefixName = $this->reportPrefix[$reportName] ?? 'fiz_';
-			if (isset($responseFromGus[0][$prefixName . 'nip'])) {
-				$nip = $responseFromGus[0][$prefixName . 'nip'];
+			if (isset($responseFromGus[$prefixName . 'nip'])) {
+				$nip = $responseFromGus[$prefixName . 'nip'];
 			}
 			if ('fiz_' === $prefixName) {
 				$resultFiz = $this->DanePobierzPelnyRaport(['pRegon' => $response['Regon'], 'pNazwaRaportu' => 'BIR11OsFizycznaDaneOgolne']);
 				$responseFromGusFiz = $this->parseResponse($resultFiz->DanePobierzPelnyRaportResult);
 				$nip = $responseFromGusFiz[0][$prefixName . 'nip'];
 			}
-			$response['NumerBudynku'] = $responseFromGus[0][$this->reportToNumberLocal[$reportName]];
-			$response['NumerLokalu'] = $responseFromGus[0][$prefixName . 'adSiedzNumerLokalu'] ?? '';
-			$response['Krs'] = $responseFromGus[0][$prefixName . 'numerWrejestrzeEwidencji'] ?? '';
+			$response['NumerBudynku'] = $responseFromGus[$this->reportToNumberLocal[$reportName]];
+			$response['NumerLokalu'] = $responseFromGus[$prefixName . 'adSiedzNumerLokalu'] ?? '';
+			$response['Krs'] = $responseFromGus[$prefixName . 'numerWrejestrzeEwidencji'] ?? '';
 			$response['Nip'] = $nip ?? '';
-			$response['Kraj'] = $responseFromGus[0][$prefixName . 'adSiedzKraj_Nazwa'] ?? '';
+			$response['Kraj'] = $responseFromGus[$prefixName . 'adSiedzKraj_Nazwa'] ?? '';
 			$response['Kraj'] = 'POLSKA' === $response['Kraj'] ? 'Poland' : $response['Kraj'];
-			$response['NumerTelefonu'] = $responseFromGus[0][$prefixName . 'numerTelefonu'] ?? '';
-			$response['NumerFaksu'] = $responseFromGus[0][$prefixName . 'numerFaksu'] ?? '';
-			$response['AdresEmail'] = $responseFromGus[0][$prefixName . 'adresEmail'] ?? '';
-			$response['PodstawowaFormaPrawna'] = mb_convert_case($responseFromGus[0][$prefixName . 'podstawowaFormaPrawna_Nazwa'] ?? '', MB_CASE_TITLE, 'UTF-8');
-			$response['PodstawowaFormaPrawnaKod'] = $responseFromGus[0][$prefixName . 'podstawowaFormaPrawna_Symbol'] ?? '';
-			$response['SzczegolnaFormaPrawna'] = mb_convert_case($responseFromGus[0][$prefixName . 'szczegolnaFormaPrawna_Nazwa'] ?? '', MB_CASE_TITLE, 'UTF-8');
-			$response['SzczegolnaFormaPrawnaKod'] = $responseFromGus[0][$prefixName . 'szczegolnaFormaPrawna_Symbol'] ?? '';
-			$response['DataRozpoczeciaDzialalnosci'] = $responseFromGus[0][$prefixName . 'dataRozpoczeciaDzialalnosci'] ?? '';
-			$response['NumerWrejestrzeEwidencji'] = $responseFromGus[0][$prefixName . 'numerWrejestrzeEwidencji'] ?? '';
+			$response['NumerTelefonu'] = $responseFromGus[$prefixName . 'numerTelefonu'] ?? '';
+			$response['NumerFaksu'] = $responseFromGus[$prefixName . 'numerFaksu'] ?? '';
+			$response['AdresEmail'] = mb_strtolower($responseFromGus[$prefixName . 'adresEmail'] ?? '');
+			$response['PodstawowaFormaPrawnaNazwa'] = mb_convert_case($responseFromGus[$prefixName . 'podstawowaFormaPrawna_Nazwa'] ?? '', MB_CASE_TITLE, 'UTF-8');
+			$response['PodstawowaFormaPrawnaKod'] = $responseFromGus[$prefixName . 'podstawowaFormaPrawna_Symbol'] ?? '';
+			$response['PodstawowaFormaPrawna'] = "{$response['PodstawowaFormaPrawnaKod']} - {$response['PodstawowaFormaPrawnaNazwa']}";
+			$response['SzczegolnaFormaPrawnaNazwa'] = mb_convert_case($responseFromGus[$prefixName . 'szczegolnaFormaPrawna_Nazwa'] ?? '', MB_CASE_TITLE, 'UTF-8');
+			$response['SzczegolnaFormaPrawnaKod'] = $responseFromGus[$prefixName . 'szczegolnaFormaPrawna_Symbol'] ?? '';
+			$response['SzczegolnaFormaPrawna'] = "{$response['SzczegolnaFormaPrawnaKod']} - {$response['SzczegolnaFormaPrawnaNazwa']}";
+			$response['DataRozpoczeciaDzialalnosci'] = $responseFromGus[$prefixName . 'dataRozpoczeciaDzialalnosci'] ?? '';
+			$response['FormaFinansowania'] = $responseFromGus[$prefixName . 'formaFinansowania_Nazwa'] ?? '';
+			$response['FormaWlasnosci'] = $responseFromGus[$prefixName . 'formaWlasnosci_Nazwa'] ?? '';
+			$response['DataPowstania'] = $responseFromGus[$prefixName . 'dataPowstania'] ?? '';
+			$response['DataRozpoczeciaDzialalnosci'] = $responseFromGus[$prefixName . 'dataRozpoczeciaDzialalnosci'] ?? '';
+			$response['DataWpisuDoREGON'] = $responseFromGus[$prefixName . 'dataWpisuDoREGON'] ?? '';
+			$response['DataZaistnieniaZmiany'] = $responseFromGus[$prefixName . 'dataZaistnieniaZmiany'] ?? '';
+			$response['DataWpisuDoRejestruEwidencji'] = $responseFromGus[$prefixName . 'dataWpisuDoRejestruEwidencji'] ?? '';
 			$this->endSession();
 		} else {
 			$response = [];

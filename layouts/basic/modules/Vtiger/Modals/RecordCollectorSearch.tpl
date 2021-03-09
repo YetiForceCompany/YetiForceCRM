@@ -77,6 +77,25 @@
 				</tbody>
 			</table>
 		</form>
+		{if !empty($SEARCH_DATA['additional'])}
+			<table class="table table-bordered mt-2">
+				<thead>
+					<tr>
+						<th class="text-center" colspan="{count($SEARCH_DATA['additional'])+1}">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>
+					</tr>
+				</thead>
+				<tbody>
+				{foreach from=$SEARCH_DATA['additional'] key=NAME item=VALUES}
+					<tr>
+						<td>{\App\Language::translate($NAME, $MODULE_NAME)}</td>
+						{foreach from=$VALUES item=VALUE}
+							<td>{$VALUE}</td>
+						{/foreach}
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+		{/if}
 		{if !empty($SEARCH_DATA['skip'])}
 			<table class="table table-bordered mt-2">
 				<thead>

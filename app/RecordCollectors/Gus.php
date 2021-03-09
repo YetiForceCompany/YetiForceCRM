@@ -73,10 +73,11 @@ class Gus extends Base
 	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
+			'Nazwa' => 'accountname',
+			'SzczegolnaFormaPrawna' => 'legal_form',
 			'Regon' => 'registration_number_2',
 			'Krs' => 'registration_number_1',
 			'Nip' => 'vat_id',
-			'Nazwa' => 'accountname',
 			'Wojewodztwo' => 'addresslevel2a',
 			'Powiat' => 'addresslevel3a',
 			'Gmina' => 'addresslevel4a',
@@ -87,17 +88,24 @@ class Gus extends Base
 			'NumerLokalu' => 'localnumbera',
 			'FormaPrawna' => 'legal_form',
 			'Kraj' => 'addresslevel1a',
+			'NumerTelefonu' => 'phone',
+			'NumerFaksu' => 'fax',
+			'AdresEmail' => 'email1',
 		],
 		'Leads' => [
-			'Regon' => 'registration_number_2',
 			'Nazwa' => 'company',
+			'SzczegolnaFormaPrawna' => 'legal_form',
+			'Regon' => 'registration_number_2',
 			'Wojewodztwo' => 'addresslevel2a',
 			'Powiat' => 'addresslevel3a',
 			'Gmina' => 'addresslevel4a',
 			'Miejscowosc' => 'addresslevel5a',
 			'KodPocztowy' => 'addresslevel7a',
 			'Ulica' => 'addresslevel8a',
-			'NumerBudynku' => 'buildingnumbera'
+			'NumerBudynku' => 'buildingnumbera',
+			'NumerTelefonu' => 'phone',
+			'NumerFaksu' => 'fax',
+			'AdresEmail' => 'email',
 		],
 		'Partners' => [
 			'Nazwa' => 'subject',
@@ -163,7 +171,7 @@ class Gus extends Base
 				$fields = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
 			}
 			if ($infoFromGus && isset($this->formFieldsToRecordMap[$moduleName])) {
-				$data = $skip = [];
+				$additional = $data = $skip = [];
 				foreach ($infoFromGus as $key => &$row) {
 					foreach ($this->formFieldsToRecordMap[$moduleName] as $apiName => $fieldName) {
 						if (empty($fields[$fieldName]) || !$fields[$fieldName]->isActiveField()) {
@@ -171,6 +179,7 @@ class Gus extends Base
 								$skip[$fieldName]['label'] = \App\Language::translate($fields[$fieldName]->getFieldLabel(), $moduleName);
 							}
 							$skip[$fieldName]['data'][$key]['display'] = $row[$apiName] ?? '';
+							unset($row[$apiName]);
 							continue;
 						}
 						if (isset($row[$apiName])) {
@@ -181,10 +190,15 @@ class Gus extends Base
 								'raw' => $row[$apiName],
 								'display' => $fields[$fieldName]->getDisplayValue($row[$apiName]),
 							];
+							unset($row[$apiName]);
 						}
+					}
+					foreach ($row as $name => $value) {
+						$additional[$name][$key] = \App\Purifier::encodeHtml($value);
 					}
 				}
 				$response['fields'] = $data;
+				$response['additional'] = $additional;
 				$response['keys'] = array_keys($infoFromGus);
 				$response['skip'] = $skip;
 			}
