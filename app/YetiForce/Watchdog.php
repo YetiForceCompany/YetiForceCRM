@@ -54,7 +54,7 @@ class Watchdog
 	public $cache = [];
 
 	/**
-	 * Send status information's.
+	 * Send status informations.
 	 */
 	public static function send()
 	{
@@ -176,7 +176,10 @@ class Watchdog
 		$cron = \App\Utils\ConfReport::getCronVariables('last_start');
 		$value = '-';
 		if ($cron) {
-			$value = date('Y-m-d H:i:s', $cron);
+			$datetime = new \DateTime();
+			$datetime->setTimestamp($cron);
+			$datetime->setTimezone(new \DateTimeZone('Europe/Warsaw'));
+			$value = $datetime->format('Y-m-d H:i:s');
 		}
 		return $value;
 	}
