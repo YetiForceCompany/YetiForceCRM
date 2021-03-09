@@ -255,10 +255,6 @@ var App = (window.App = {
 									if (modalContainer.length) {
 										app.hideModalWindow(false, modalContainer[0].id);
 									}
-									if ('List' === app.getViewName()) {
-										let listInstance = new Vtiger_List_Js();
-										listInstance.getListViewRecords();
-									}
 									submitSuccessCallback(data);
 									app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
 									progress.progressIndicator({ mode: 'hide' });
@@ -267,6 +263,16 @@ var App = (window.App = {
 											text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 											type: 'success'
 										});
+										if ('List' === app.getViewName()) {
+											let listInstance = new Vtiger_List_Js();
+											listInstance.getListViewRecords();
+										} else if ('Detail' === app.getViewName()) {
+											if (app.getUrlVar('mode') === 'showRelatedList') {
+												Vtiger_Detail_Js.getInstance().loadRelatedList(params);
+											} else {
+												window.location.reload();
+											}
+										}
 									}
 								})
 								.fail(function (textStatus, errorThrown) {
