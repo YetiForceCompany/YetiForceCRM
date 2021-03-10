@@ -757,7 +757,8 @@ window.App.Fields = {
 						records: true,
 						users: true,
 						emojis: true
-					}
+					},
+					autolink: true
 				};
 				this.params = Object.assign(basicParams, inputDiv.data(), params);
 				this.inputDiv = inputDiv;
@@ -837,7 +838,6 @@ window.App.Fields = {
 					}
 				};
 			}
-
 			/*
 			 * Mention template
 			 */
@@ -863,7 +863,108 @@ window.App.Fields = {
 							</div>
 						</div>`;
 			}
+			/**
+			 * Auto link
+			 */
+			autoLink() {
+				let fillChar = '\u200B';
+				let sel = window.getSelection(),
+					range = sel.getRangeAt(0).cloneRange(),
+					offset,
+					charCode,
+					getParentByTagName = function (node, tags) {
+						if (node && !isBody(node)) {
+							while (node) {
+								if (tags[node.tagName] || isBody(node)) {
+									return !tags[node.tagName] && isBody(node) ? null : node;
+								}
+								node = node.parentNode;
+							}
+						}
+						return null;
+					},
+					isBody = function (node) {
+						return node && node.nodeType == 1 && node.tagName.toLowerCase() == 'body';
+					},
+					html = function (str) {
+						return str.replace(/&((g|l|quo)t|amp|#39);/g, function (m) {
+							return { '&lt;': '<', '&amp;': '&', '&quot;': '"', '&gt;': '>', '&#39;': "'" }[m];
+						});
+					},
+					isFillChar = function (node) {
+						return node.nodeType == 3 && !node.nodeValue.replace(new RegExp('' + fillChar), '').length;
+					};
 
+				let start = range.startContainer;
+				while (start.nodeType == 1 && range.startOffset > 0) {
+					start = range.startContainer.childNodes[range.startOffset - 1];
+					if (!start) break;
+					range.setStart(start, start.nodeType == 1 ? start.childNodes.length : start.nodeValue.length);
+					range.collapse(true);
+					start = range.startContainer;
+				}
+				do {
+					if (range.startOffset == 0) {
+						start = range.startContainer.previousSibling;
+						while (start && start.nodeType == 1) {
+							start = start.lastChild;
+						}
+						if (!start || isFillChar(start)) break;
+						offset = start.nodeValue.length;
+					} else {
+						start = range.startContainer;
+						offset = range.startOffset;
+					}
+					range.setStart(start, offset - 1);
+					charCode = range.toString().charCodeAt(0);
+				} while (charCode != 160 && charCode != 32);
+				if (
+					range
+						.toString()
+						.replace(new RegExp(fillChar, 'g'), '')
+						.match(/(?:https?:\/\/|ssh:\/\/|ftp:\/\/|file:\/|www\.)/i)
+				) {
+					while (range.toString().length) {
+						if (/^(?:https?:\/\/|ssh:\/\/|ftp:\/\/|file:\/|www\.)/i.test(range.toString())) break;
+						try {
+							range.setStart(range.startContainer, range.startOffset + 1);
+						} catch (e) {
+							let startCont = range.startContainer,
+								next;
+							while (!(next = startCont.nextSibling)) {
+								if (isBody(startCont)) return;
+								startCont = startCont.parentNode;
+							}
+							range.setStart(next, 0);
+						}
+					}
+					if (getParentByTagName(range.startContainer, { a: 1, A: 1 })) return;
+					let href = range
+							.toString()
+							.replace(/<[^>]+>/g, '')
+							.replace(new RegExp(fillChar, 'g'), ''),
+						hrefFull = /^(?:https?:\/\/)/gi.test(href) ? href : 'http://' + href,
+						url = new URL(hrefFull);
+					let allowedHosts = CONFIG.purifierAllowedDomains;
+					if (allowedHosts !== false && allowedHosts.indexOf(url.host) === -1) {
+						return;
+					}
+					let a = document.createElement('a'),
+						text = document.createTextNode(' ');
+					a.appendChild(range.extractContents());
+					a.innerHTML = href;
+					a.href = hrefFull ? html(hrefFull) : '';
+					a.setAttribute('rel', 'noopener noreferrer');
+					a.setAttribute('target', '_blank');
+
+					range.insertNode(a);
+					a.parentNode.insertBefore(text, a.nextSibling);
+					range.setStart(text.nextSibling, 0);
+					range.collapse(true);
+					sel.removeAllRanges();
+					sel.addRange(range);
+				}
+			}
 			/**
 			 * Register
 			 * @param {jQuery} inputDiv - contenteditable div
@@ -882,6 +983,9 @@ window.App.Fields = {
 				if (this.params.completionsButtons !== undefined) {
 					this.registerCompletionsButtons();
 				}
+				if (this.params.autolink) {
+					this.registerAutoLinker(inputDiv);
+				}
 				if (this.params.emojiPanel) {
 					this.registerEmojiPanel(this.inputDiv, this.inputDiv.parents().eq(3).find('.js-completions__emojis'));
 				}
@@ -894,6 +998,18 @@ window.App.Fields = {
 						.catch((error) => console.error('Error:', error));
 				}
 				this.registerTagClick(inputDiv);
+			}
+
+			/**
+			 * Register autolink
+			 * @param {jQuery} inputDiv - contenteditable div
+			 */
+			registerAutoLinker(inputDiv) {
+				inputDiv.on('keypress', (e) => {
+					if (e.keyCode === 32 || e.keyCode === 13) {
+						this.autoLink();
+					}
+				});
 			}
 
 			/**
