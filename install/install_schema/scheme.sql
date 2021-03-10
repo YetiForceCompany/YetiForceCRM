@@ -6119,7 +6119,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3079 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3080 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -7540,9 +7540,11 @@ CREATE TABLE `vtiger_osspasswords` (
   `link_adres` varchar(255) DEFAULT NULL,
   `linkto` int(10) DEFAULT NULL,
   `linkextend` int(10) DEFAULT NULL,
+  `multicompanyid` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`osspasswordsid`),
   KEY `linkto` (`linkto`),
   KEY `linkextend` (`linkextend`),
+  KEY `vtiger_osspasswords_multicompanyid_idx` (`multicompanyid`),
   CONSTRAINT `fk_1_vtiger_osspasswords` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -8261,7 +8263,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=658 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=659 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
