@@ -603,7 +603,6 @@ jQuery.Class(
 		 */
 		addRelatedRecord: function (element, callback) {
 			let aDeferred = jQuery.Deferred();
-			let thisInstance = this;
 			let referenceModuleName = this.moduleName;
 			let parentId = this.getParentId();
 			let parentModule = this.parentModuleName;
@@ -661,12 +660,6 @@ jQuery.Class(
 					callback();
 				}
 			};
-			let postQuickCreateSave = function (data) {
-				thisInstance.loadRelatedList().done(function (data) {
-					aDeferred.resolve(data);
-				});
-			};
-
 			//If url contains params then seperate them and make them as relatedParams
 			if (typeof fullFormUrl !== 'undefined' && fullFormUrl.indexOf('?') !== -1) {
 				let urlSplit = fullFormUrl.split('?');
@@ -682,7 +675,9 @@ jQuery.Class(
 			}
 
 			quickCreateParams['data'] = relatedParams;
-			quickCreateParams['callbackFunction'] = postQuickCreateSave;
+			quickCreateParams['callbackFunction'] = function (data) {
+				aDeferred.resolve(data);
+			};
 			quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			quickCreateParams['noCache'] = true;
 			App.Components.QuickCreate.createRecord(referenceModuleName, quickCreateParams);

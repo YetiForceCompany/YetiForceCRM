@@ -268,7 +268,7 @@ var App = (window.App = {
 											listInstance.getListViewRecords();
 										} else if ('Detail' === app.getViewName()) {
 											if (app.getUrlVar('mode') === 'showRelatedList') {
-												Vtiger_Detail_Js.getInstance().loadRelatedList(params);
+												Vtiger_Detail_Js.getInstance().loadRelatedList();
 											} else {
 												window.location.reload();
 											}
