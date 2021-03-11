@@ -176,10 +176,7 @@ class Watchdog
 		$cron = \App\Utils\ConfReport::getCronVariables('last_start');
 		$value = '-';
 		if ($cron) {
-			$datetime = new \DateTime();
-			$datetime->setTimestamp($cron);
-			$datetime->setTimezone(new \DateTimeZone('Europe/Warsaw'));
-			$value = $datetime->format('Y-m-d H:i:s');
+			$value = $cron;
 		}
 		return $value;
 	}
