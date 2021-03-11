@@ -282,7 +282,7 @@ jQuery.Class(
 			if (container.find('#relationId').val()) {
 				params['relationId'] = container.find('#relationId').val();
 			}
-			if (container.find('#relationId').val()) {
+			if (container.find('.js-relation-cv-id').val()) {
 				params['cvId'] = container.find('.js-relation-cv-id').val();
 			}
 			if (container.find('.pagination').length) {
