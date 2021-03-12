@@ -113,7 +113,7 @@
 							{foreach item=CV_ID from=$WIDGET['data']['customView']}
 								{if isset($CUSTOM_VIEWS_DETAILS[$CV_ID])}
 									<option value="{$CV_ID}">
-										{\App\Language::translate($CUSTOM_VIEWS_DETAILS[$CV_ID]['viewname'], $RELATED_MODULE_NAME)} - {$CV_ID}
+										{\App\Language::translate($CUSTOM_VIEWS_DETAILS[$CV_ID]['viewname'], $RELATED_MODULE_NAME)}
 									</option>
 								{/if}
 							{/foreach}
