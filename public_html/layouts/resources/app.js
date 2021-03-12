@@ -2970,16 +2970,11 @@ $(document).ready(function () {
 		let data = {};
 		if (values) {
 			$(values).each(function (k, v) {
-				if (v.name in data && typeof data[v.name] !== 'object') {
-					let element = form.find('[name="' + v.name + '"]');
-					//Only for muti select element we need to send array of values
-					if (element.is('select') && element.attr('multiple') != undefined) {
-						let prevValue = data[v.name];
+				let element = form.find('[name="' + v.name + '"]');
+				if (element.is('select') && element.attr('multiple') != undefined) {
+					if (data[v.name] == undefined) {
 						data[v.name] = [];
-						data[v.name].push(prevValue);
 					}
-				}
-				if (typeof data[v.name] === 'object') {
 					data[v.name].push(v.value);
 				} else {
 					data[v.name] = v.value;
