@@ -38,13 +38,13 @@
 										<label class="btn btn-sm btn-outline-primary {if $DEFAULT_ACTIVE} active{/if}">
 											<input type="radio" name="action"
 												   id="option1" autocomplete="off" value="1"
-												   {if $DEFAULT_ACTIVE}checked{/if}
+												   {if $DEFAULT_ACTIVE} checked="true" {/if}
 											> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
 										</label>
 										<label class="btn btn-sm btn-outline-primary {if !$DEFAULT_ACTIVE} active{/if}">
 											<input type="radio" name="action"
 												   id="option2" autocomplete="off" value="0"
-												   {if !$DEFAULT_ACTIVE}checked{/if}
+												   {if !$DEFAULT_ACTIVE} checked="true" {/if}
 											> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
 										</label>
 									</div>

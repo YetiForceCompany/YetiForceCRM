@@ -88,6 +88,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
 			// To Delete the mini list widget associated with the filter
 			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['filterid' => $cvId])->execute();
+			\App\Cache::delete('CustomViewDetails', $cvId);
 		}
 	}
 
@@ -109,6 +110,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 				$dbCommand->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $params['mod']])->execute();
 			}
 			$dbCommand->update('vtiger_customview', [$name => $params['value']], ['cvid' => $cvid])->execute();
+			\App\Cache::delete('CustomViewDetails', $cvid);
 			return true;
 		}
 		return false;

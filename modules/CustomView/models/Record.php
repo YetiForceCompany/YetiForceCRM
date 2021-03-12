@@ -631,6 +631,7 @@ class CustomView_Record_Model extends \App\Base
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 		$this->setDuplicateFields();
+		\App\Cache::delete('CustomViewDetails', $cvId);
 	}
 
 	/**
