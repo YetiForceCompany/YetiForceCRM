@@ -23,7 +23,7 @@
 							data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}'
 							data-return="value" data-urlparams="{$FIELD_MODEL->getName()}" data-js="change">
 							<optgroup class="p-0">
-								<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
+								<option value="0">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 							</optgroup>
 							{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$FIELD_MODEL->getPicklistValues()}
 								<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq
