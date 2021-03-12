@@ -30,6 +30,26 @@
 															 data-validation-engine="validate[required]"
 															 value="{$WIDGETINFO['label']}"/></div>
 							</div>
+							<div class="form-group form-group-sm form-switch-mini row">
+								<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_DEFAULT_ACTIVE', $QUALIFIED_MODULE)}:</label>
+								<div class="col-md-7">
+									{assign var=DEFAULT_ACTIVE value=isset($WIDGETINFO['data']['action']) && $WIDGETINFO['data']['action'] == 1}
+									<div class="btn-group btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-sm btn-outline-primary {if $DEFAULT_ACTIVE} active{/if}">
+											<input type="radio" name="action"
+												   id="option1" autocomplete="off" value="1"
+												   {if $DEFAULT_ACTIVE}checked{/if}
+											> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
+										</label>
+										<label class="btn btn-sm btn-outline-primary {if !$DEFAULT_ACTIVE} active{/if}">
+											<input type="radio" name="action"
+												   id="option2" autocomplete="off" value="0"
+												   {if !$DEFAULT_ACTIVE}checked{/if}
+											> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
+										</label>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}

@@ -28,6 +28,9 @@ class Vtiger_PDFViewer_Widget extends Vtiger_Basic_Widget
 	{
 		$this->Config['url'] = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showPDF';
 		$this->Config['tpl'] = 'PDFViewerContainer.tpl';
+		if (!empty($this->Data['action']) && $this->Record && ($fields = $this->getCustomFields())) {
+			$this->Config['url'] .= '&template=' . $fields['template']->get('fieldvalue');
+		}
 		return parent::getWidget();
 	}
 
@@ -46,8 +49,8 @@ class Vtiger_PDFViewer_Widget extends Vtiger_Basic_Widget
 	 */
 	public function getCustomFields(): array
 	{
-		$fields = [];
-		if ($this->Record) {
+		if ($this->Record && !isset($this->fields)) {
+			$this->fields = [];
 			$handlerClass = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $this->moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$params['uitype'] = 16;
@@ -56,8 +59,12 @@ class Vtiger_PDFViewer_Widget extends Vtiger_Basic_Widget
 			foreach ($templates as $key => $pdfTemplate) {
 				$params['picklistValues'][$key] = \App\Language::translate($pdfTemplate->get('primary_name'), $this->moduleModel->getName());
 			}
-			$fields[] = \Vtiger_Field_Model::init($this->moduleModel->getName(), $params, 'template');
+			if (!empty($this->Data['action'])) {
+				$params['fieldvalue'] = array_key_first($templates);
+			}
+			$this->fields['template'] = \Vtiger_Field_Model::init($this->moduleModel->getName(), $params, 'template');
 		}
-		return $fields;
+
+		return $this->fields ?? [];
 	}
 }
