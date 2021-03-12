@@ -660,6 +660,7 @@ class CustomView
 			$info['presence'] = (int) ($info['presence'] ?? 0);
 			$info['sequence'] = (int) ($info['sequence'] ?? 0);
 			$info['userid'] = (int) ($info['userid'] ?? 0);
+			Cache::save('CustomViewDetails', $info['cvid'], $info);
 		} else {
 			$info = $query->where(['entitytype' => $mixed])->indexBy('cvid')->all();
 			foreach ($info as &$item) {
@@ -672,9 +673,9 @@ class CustomView
 				$item['presence'] = (int) $item['presence'];
 				$item['sequence'] = (int) $item['sequence'];
 				$item['userid'] = (int) $item['userid'];
+				Cache::save('CustomViewDetails', $item['cvid'], $item);
 			}
 		}
-		Cache::save('CustomViewDetails', $item['cvid'], $item);
 		Cache::save('CustomViewInfo', $mixed, $info);
 		return $info;
 	}

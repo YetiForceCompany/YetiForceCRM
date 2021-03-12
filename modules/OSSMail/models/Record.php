@@ -147,19 +147,20 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		\App\Log::beginProfile(__METHOD__ . '|imap_open', 'Mail|IMAP');
 		$mbox = imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params);
 		\App\Log::endProfile(__METHOD__ . '|imap_open', 'Mail|IMAP');
-		if (!$mbox) {
+		self::$imapConnectCache[$cacheName] = $mbox;
+		if ($mbox) {
+			\App\Log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
+			register_shutdown_function(function () use ($mbox) {
+				\App\Log::beginProfile(__METHOD__ . '|imap_close', 'Mail|IMAP');
+				imap_close($mbox);
+				\App\Log::endProfile(__METHOD__ . '|imap_close', 'Mail|IMAP');
+			});
+		} else {
 			\App\Log::error('Error OSSMail_Record_Model::imapConnect(' . static::$imapConnectMailbox . '): ' . imap_last_error());
 			if ($dieOnError) {
 				throw new \App\Exceptions\AppException('IMAP_ERROR' . ': ' . imap_last_error());
 			}
 		}
-		self::$imapConnectCache[$cacheName] = $mbox;
-		\App\Log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
-		register_shutdown_function(function () use ($mbox) {
-			\App\Log::beginProfile(__METHOD__ . '|imap_close', 'Mail|IMAP');
-			imap_close($mbox);
-			\App\Log::endProfile(__METHOD__ . '|imap_close', 'Mail|IMAP');
-		});
 		return $mbox;
 	}
 
