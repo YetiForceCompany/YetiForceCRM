@@ -66,7 +66,8 @@
     "RelatedModuleChart": "Related module - chart",
     "Documents": "Documents",
     "LBL_SHOW_DOC_RELATIONS": "List of related relationships",
-    "InventoryBlock": "Inventory block"
+    "InventoryBlock": "Inventory block",
+    "LBL_DEFAULT_ACTIVE": "Active by default"
   },
   "js": {
     "Loading data": "Loading...",
