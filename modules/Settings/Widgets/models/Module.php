@@ -3,8 +3,11 @@
 /**
  * Settings Widgets Module Model class.
  *
+ * @package   Settings.Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -286,7 +289,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			->where(['id' => $wid])
 			->one();
 		$resultrow['data'] = \App\Json::decode($resultrow['data']);
-
 		return $resultrow;
 	}
 
@@ -375,5 +377,24 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			return $data[$index[0]][$index[1]];
 		}
 		return [];
+	}
+
+	/**
+	 * Get custom views from related modules.
+	 *
+	 * @param array $modules
+	 *
+	 * @return array
+	 */
+	public function getCustomView(array $modules): array
+	{
+		$customView = [];
+		foreach ($modules as $module) {
+			$moduleName = \App\Module::getModuleName($module['related_tabid']);
+			foreach (CustomView_Record_Model::getAll($moduleName) as $cvId => $cvModel) {
+				$customView[$module['related_tabid']][$cvId] = \App\Language::translate($cvModel->get('viewname'), $moduleName);
+			}
+		}
+		return $customView;
 	}
 }

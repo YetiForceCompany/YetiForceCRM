@@ -48,6 +48,8 @@
     "LBL_VIEW_TYPE": "View",
     "LBL_VIEW_TYPE_INFO": "Widget display type.",
     "LBL_LIST": "List",
+    "LBL_CUSTOM_VIEW": "Custom views",
+    "LBL_CUSTOM_VIEW_INFO": "It allows adding additional conditions from module filters, the selection list will appear after choosing more than one.",
     "LBL_SUMMARY": "Summary",
     "LBL_SELECT_BUTTON_INFO": "Enable visible select button",
     "LBL_CONDITION": "Condition",

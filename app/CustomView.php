@@ -674,6 +674,7 @@ class CustomView
 				$item['userid'] = (int) $item['userid'];
 			}
 		}
+		Cache::save('CustomViewDetails', $item['cvid'], $item);
 		Cache::save('CustomViewInfo', $mixed, $info);
 		return $info;
 	}
@@ -726,5 +727,43 @@ class CustomView
 		}
 		\App\Cache::staticSave($cacheKey, $menuId, $filters);
 		return $filters;
+	}
+
+	/**
+	 * Get custom views details by cv ids.
+	 *
+	 * @param int[] $cvIds
+	 *
+	 * @return array
+	 */
+	public static function getCustomViewsDetails(array $cvIds): array
+	{
+		$result = $missing = [];
+		foreach ($cvIds as $id) {
+			if (Cache::has('CustomViewDetails', $id)) {
+				$result[$id] = Cache::get('CustomViewDetails', $id);
+			} else {
+				$missing[] = $id;
+				$result[$id] = null;
+			}
+		}
+		if (!empty($missing)) {
+			$query = (new Db\Query())->from('vtiger_customview')->where(['cvid' => $missing]);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$row['cvid'] = (int) $row['cvid'];
+				$row['setdefault'] = (int) $row['setdefault'];
+				$row['setmetrics'] = (int) $row['setmetrics'];
+				$row['status'] = (int) $row['status'];
+				$row['privileges'] = (int) $row['privileges'];
+				$row['featured'] = (int) $row['featured'];
+				$row['presence'] = (int) $row['presence'];
+				$row['sequence'] = (int) $row['sequence'];
+				$row['userid'] = (int) $row['userid'];
+				Cache::save('CustomViewDetails', $row['cvid'], $row);
+				$result[$row['cvid']] = $row;
+			}
+		}
+		return $result;
 	}
 }

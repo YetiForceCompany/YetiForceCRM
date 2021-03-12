@@ -15,6 +15,10 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 		if (isset($this->Data['no_result_text'])) {
 			$url .= '&no_result_text=' . $this->Data['no_result_text'];
 		}
+		if (!empty($this->Data['customView'])) {
+			$cvId = reset($this->Data['customView']);
+			$url .= '&cvId=' . $cvId;
+		}
 		if (!empty($this->Data['orderby'])) {
 			$url .= '&orderby=' . \App\Json::encode($this->Data['orderby']);
 		}

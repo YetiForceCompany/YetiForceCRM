@@ -3,11 +3,14 @@
 /**
  * Settings OSSMailView index view class.
  *
+ * @package   Settings.View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 {
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
@@ -37,6 +40,11 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$viewer->view('WidgetList.tpl', $qualifiedModuleName);
 	}
 
+	/**
+	 * Create widget - second step.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function createStep2(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -50,9 +58,13 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('SOURCE', $tabId);
 		$viewer->assign('WID', '');
-		$viewer->assign('WIDGETINFO', ['data' => [
-			'limit' => 5, 'relatedmodule' => '', 'columns' => '', 'action' => '', 'switchHeader' => '', 'filter' => '', 'checkbox' => '',
-		], 'label' => '',
+		$viewer->assign('WIDGETINFO', [
+			'data' => [
+				'limit' => 5, 'relatedmodule' => '',  'columns' => '',
+				'action' => '', 'switchHeader' => '', 'filter' => '',
+				'checkbox' => '', 'customView' => '[]',
+			],
+			'label' => '',
 		]);
 		$viewer->assign('SOURCEMODULE', $widgetModuleName);
 		$viewer->assign('MODULE', $moduleName);
@@ -69,6 +81,11 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		}
 	}
 
+	/**
+	 * Edit widget.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function edit(App\Request $request)
 	{
 		$moduleName = $request->getModule();

@@ -15,10 +15,10 @@
  */
 class Vtiger_RecordCollector_View extends \App\Controller\Modal
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $showFooter = false;
+	/** {@inheritdoc} */
+	public $modalSize = 'modal-xl';
 	/**
 	 * Record collector instance.
 	 *
@@ -26,9 +26,7 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 	 */
 	private $recordCollector;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
@@ -36,9 +34,7 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->recordCollector = \App\RecordCollector::getInstance($request->getByType('collectorType', 'ClassName'), $request->getModule());
@@ -50,9 +46,7 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
