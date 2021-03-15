@@ -30,7 +30,7 @@
 
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/big.png)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 <a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
-<img width="35%" src="https://support.crowdin.com/assets/badges/localization-at-white-rounded-bordered@1x.svg" alt="crowdin Localization Management Platform">
+<img width="20%" src="https://support.crowdin.com/assets/badges/localization-at-transparent@1x.svg" alt="crowdin Localization Management Platform">
 </a>
 [![Download YetiForce CRM](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/yetiforce/files/latest/download)
 
