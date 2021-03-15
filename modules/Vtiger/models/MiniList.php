@@ -97,7 +97,8 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
 			$suffix = '';
-			$viewName = (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $this->widgetModel->get('filterid')])->scalar();
+			$cvId = $this->widgetModel->get('filterid');
+			$viewName = \App\CustomView::getCustomViewsDetails([$cvId])[$cvId]['viewname'] ?? '';
 			if ($viewName) {
 				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
 			}

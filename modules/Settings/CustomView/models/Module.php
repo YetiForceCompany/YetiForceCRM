@@ -88,7 +88,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
 			// To Delete the mini list widget associated with the filter
 			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['filterid' => $cvId])->execute();
-			\App\Cache::delete('CustomViewDetails', $cvId);
+			\App\CustomView::clearCacheById($cvId);
 		}
 	}
 
@@ -110,7 +110,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 				$dbCommand->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $params['mod']])->execute();
 			}
 			$dbCommand->update('vtiger_customview', [$name => $params['value']], ['cvid' => $cvid])->execute();
-			\App\Cache::delete('CustomViewDetails', $cvid);
+			\App\CustomView::clearCacheById($cvid);
 			return true;
 		}
 		return false;
@@ -124,8 +124,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			$caseSequence .= ' WHEN ' . $db->quoteColumnName('cvid') . ' = ' . $db->quoteValue($cvId) . ' THEN ' . $db->quoteValue($sequence);
 		}
 		$caseSequence .= ' END';
-
-		return $db->createCommand()->update('vtiger_customview', ['sequence' => new yii\db\Expression($caseSequence)], ['cvid' => $params])->execute();
+		$i = $db->createCommand()->update('vtiger_customview', ['sequence' => new yii\db\Expression($caseSequence)], ['cvid' => $params])->execute();
+		foreach ($params as $cvId) {
+			\App\CustomView::clearCacheById($cvId);
+		}
+		return $i;
 	}
 
 	public function getUrlToEdit($module, $record)

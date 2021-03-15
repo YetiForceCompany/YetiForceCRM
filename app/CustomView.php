@@ -767,4 +767,20 @@ class CustomView
 		}
 		return $result;
 	}
+
+	/**
+	 * Function clear cache by custom view ID.
+	 * App\Cache::has('getAllFilters' ???
+	 *
+	 * @param int $cvId
+	 *
+	 * @return void
+	 */
+	public static function clearCacheById(int $cvId): void
+	{
+		Cache::delete('CustomViewDetails', $cvId);
+		Cache::delete('getAllFilterColors', false);
+		Cache::delete('getAllFilterColors', true);
+		Cache::delete('CustomView_Record_ModelgetInstanceById', $cvId);
+	}
 }

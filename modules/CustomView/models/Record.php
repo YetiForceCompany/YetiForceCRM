@@ -572,7 +572,7 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Function to add the custom view record in db.
 	 */
-	public function addCustomView()
+	protected function addCustomView()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $this->getModule()->get('name');
@@ -612,7 +612,7 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Function to update the custom view record in db.
 	 */
-	public function updateCustomView()
+	protected function updateCustomView()
 	{
 		$db = App\Db::getInstance();
 		$dbCommand = $db->createCommand();
@@ -631,7 +631,6 @@ class CustomView_Record_Model extends \App\Base
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 		$this->setDuplicateFields();
-		\App\Cache::delete('CustomViewDetails', $cvId);
 	}
 
 	/**
@@ -749,6 +748,7 @@ class CustomView_Record_Model extends \App\Base
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PUBLIC], ['cvid' => $this->getId()])
 			->execute();
+		\App\CustomView::clearCacheById($this->getId());
 	}
 
 	/**
@@ -759,6 +759,7 @@ class CustomView_Record_Model extends \App\Base
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PRIVATE], ['cvid' => $this->getId()])
 			->execute();
+		\App\CustomView::clearCacheById($this->getId());
 	}
 
 	/**
@@ -859,7 +860,7 @@ class CustomView_Record_Model extends \App\Base
 		if (\App\Cache::has('CustomView_Record_ModelgetInstanceById', $cvId)) {
 			$row = \App\Cache::get('CustomView_Record_ModelgetInstanceById', $cvId);
 		} else {
-			$row = (new \App\Db\Query())->from('vtiger_customview')->where(['cvid' => $cvId])->one();
+			$row = \App\CustomView::getCustomViewsDetails([$cvId])[$cvId] ?? [];
 			\App\Cache::save('CustomView_Record_ModelgetInstanceById', $cvId, $row, \App\Cache::LONG);
 		}
 		if ($row) {

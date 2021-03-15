@@ -40,7 +40,7 @@ class Filter
 	{
 		$this->id = $valuemap['cvid'];
 		$this->name = $valuemap['viewname'];
-		$this->module = Module::getInstance($module ? $module : $valuemap['tabid']);
+		$this->module = Module::getInstance($module ?: $valuemap['tabid']);
 	}
 
 	/**
@@ -97,6 +97,7 @@ class Filter
 	public function __delete()
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_customview', ['cvid' => $this->id])->execute();
+		\App\CustomView::clearCacheById($this->id);
 	}
 
 	/**
@@ -196,11 +197,10 @@ class Filter
 		$instance = false;
 		$moduleName = is_numeric($module) ? \App\Module::getModuleName($module) : $module;
 		if (Utils::isNumber($value)) {
-			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['cvid' => $value]);
+			$result = \App\CustomView::getCustomViewsDetails([$value])[$value] ?? [];
 		} else {
-			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleName]);
+			$result = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleName])->one();
 		}
-		$result = $query->one();
 		if ($result) {
 			$instance = new self();
 			$instance->initialize($result, $module);
@@ -236,6 +236,10 @@ class Filter
 	 */
 	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
+		$cvIds = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleInstance->name])->column();
 		\App\Db::getInstance()->createCommand()->delete('vtiger_customview', ['entitytype' => $moduleInstance->name])->execute();
+		foreach ($cvIds as $cvId) {
+			\App\CustomView::clearCacheById($cvId);
+		}
 	}
 }
