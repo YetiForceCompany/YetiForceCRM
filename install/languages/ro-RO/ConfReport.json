@@ -256,7 +256,7 @@
     "LBL_ENGINE": "Engine",
     "LBL_COLLATION": "Collation",
     "LBL_LAMP_CONFIG_FILES": "LAMP config files",
-    "LBL_PATH_VERIFICATION_TITLE": "Path verification"
+    "LBL_PATH_VERIFICATION_TITLE": "Verificare cale"
   },
   "js": {
     "JS_SPEED_TEST_START": "Verificare viteza..."
