@@ -4,7 +4,7 @@
 ![PHP Version](https://img.shields.io/packagist/php-v/yetiforce/yetiforce-crm)
 [![Build Status](https://travis-ci.com/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.com/YetiForceCompany/YetiForceCRM)
 [![Download YetiForce CRM](https://img.shields.io/sourceforge/dt/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
-[![Crowdin](https://support.crowdin.com/assets/badges/localization-at-transparent@1x.svg)](https://crowdin.com/project/yetiforcecrm)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors)
 [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
@@ -30,7 +30,7 @@
 
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/big.png)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 <a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
-<img width="35%" src="https://support.crowdin.com/assets/logos/crowdin-CollaborativeTranslationTool-logo.png" alt="crowdin Localization Management Platform">
+<img width="35%" src="https://support.crowdin.com/assets/badges/localization-at-white-rounded-bordered@1x.svg" alt="crowdin Localization Management Platform">
 </a>
 [![Download YetiForce CRM](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/yetiforce/files/latest/download)
 
