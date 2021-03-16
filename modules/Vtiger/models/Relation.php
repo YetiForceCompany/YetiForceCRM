@@ -796,6 +796,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public static function getAllRelations(Vtiger_Module_Model $moduleModel, bool $selected = true, bool $onlyActive = true, bool $permissions = true, string $key = 'relation_id')
 	{
+		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $moduleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach (\App\Relation::getByModule($moduleModel->getName(), $onlyActive) as $row) {

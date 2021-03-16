@@ -71,14 +71,14 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 					$userModel->setModule('Users');
 					if ('Inactive' === $userModel->get('status')) {
 						$ownerName = '<span class="redColor"><s>' . $ownerName . '</s></span>';
-					} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $value)) {
+					} elseif (\App\User::getCurrentUserModel()->isAdmin()) {
 						$detailViewUrl = 'index.php?module=Users&view=Detail&record=' . $value;
 						$popoverRecordClass = 'class="js-popover-tooltip--record"';
 					}
 				}
 				break;
 			case 'Groups':
-				if (App\User::getCurrentUserModel()->isAdmin()) {
+				if (\App\User::getCurrentUserModel()->isAdmin()) {
 					$recordModel = new Settings_Groups_Record_Model();
 					$recordModel->set('groupid', $value);
 					$detailViewUrl = $recordModel->getDetailViewUrl();
