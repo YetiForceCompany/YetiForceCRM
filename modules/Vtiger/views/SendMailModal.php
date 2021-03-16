@@ -54,6 +54,7 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('EMAILS_BY_FIELD', $emailsByField);
 		$viewer->assign('EMAIL_LIST', $emails);
 		$viewer->assign('FIELDS', $this->fields);
+		$viewer->assign('TEMPLATE_LIST', $this->getTemplateList($templateModule, $request));
 		$viewer->view('SendMailModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}
@@ -152,5 +153,35 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excluded]);
 		}
 		return $queryGenerator->createQuery();
+	}
+
+	/**
+	 * Get template list.
+	 *
+	 * @param string       $templateModule
+	 * @param \App\Request $request
+	 *
+	 * @return array
+	 */
+	public function getTemplateList(string $templateModule, App\Request $request): array
+	{
+		$templateList = [];
+		if (!$request->isEmpty('sourceRecord', true) && \App\Record::isExists($request->getInteger('sourceRecord'))) {
+			$sourceModule = $request->getByType('sourceModule', 2);
+			if ($relations = \App\Relation::getByModule($sourceModule, true, 'EmailTemplates')) {
+				$relations = reset($relations);
+				$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $sourceModule);
+				if (!$parentRecordModel->isViewable()) {
+					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				}
+				$recordListModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, '', $relations['relation_id']);
+				$recordListModel->setFields(['id', 'name']);
+				$templateList = $recordListModel->getRelationQuery()->all();
+			}
+		}
+		if (!$templateList) {
+			$templateList = App\Mail::getTemplateList($templateModule);
+		}
+		return $templateList;
 	}
 }
