@@ -117,32 +117,15 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get related modules for module.
-	 *
-	 * @param int $tabid
-	 *
-	 * @return array
-	 */
-	public function getRelatedModule($tabid)
-	{
-		return (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'vtiger_tab.name'])
-			->from('vtiger_relatedlists')
-			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_relatedlists.related_tabid')
-			->where(['and', ['vtiger_relatedlists.tabid' => $tabid], ['<>', 'vtiger_relatedlists.related_tabid', '0']])
-			->indexBy('relation_id')->all();
-	}
-
-	/**
 	 * Function to get filters.
 	 *
 	 * @param array $modules
 	 *
 	 * @return array
 	 */
-	public function getFiletrs($modules)
+	public function getFiletrs(array $modules): array
 	{
-		$filetrs = [];
-		$tabid = [];
+		$filetrs = $tabid = [];
 		foreach ($modules as $value) {
 			if (!\in_array($value['related_tabid'], $tabid)) {
 				$dataReader = (new \App\Db\Query())->select(['columnname', 'tablename', 'fieldlabel', 'fieldname'])
@@ -150,7 +133,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 					->where(['tabid' => $value['related_tabid'], 'uitype' => [15, 16]])
 					->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$filetrs[$value['related_tabid']][$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
+					$filetrs[$value['related_tabid']][$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['related_modulename']);
 				}
 				$dataReader->close();
 				$tabid[] = $value['related_tabid'];
@@ -166,9 +149,9 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return array
 	 */
-	public function getCheckboxs($modules)
+	public function getCheckboxs(array $modules): array
 	{
-		$checkboxs = [];
+		$checkBoxs = [];
 		$tabid = [];
 		foreach ($modules as $value) {
 			if (!\in_array($value['related_tabid'], $tabid)) {
@@ -178,13 +161,13 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 					->andWhere(['<>', 'columnname', 'was_read'])
 					->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
+					$checkBoxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['related_modulename']);
 				}
 				$dataReader->close();
 				$tabid[] = $value['related_tabid'];
 			}
 		}
-		return $checkboxs;
+		return $checkBoxs;
 	}
 
 	/**
@@ -356,10 +339,9 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getHeaderSwitch($sourceModule, $index = [])
 	{
 		$data = [];
-		$moduleId = is_numeric($sourceModule) ? $sourceModule : \App\Module::getModuleId($sourceModule);
-		$relatedList = (new self())->getRelatedModule($moduleId);
-		foreach ($relatedList as $moduleData) {
-			$moduleName = $moduleData['name'];
+		$moduleName = is_numeric($sourceModule) ? \App\Module::getModuleName($sourceModule) : $sourceModule;
+		foreach (\App\Relation::getByModule($moduleName) as $moduleData) {
+			$moduleName = $moduleData['related_modulename'];
 			if (($fieldName = \App\RecordStatus::getFieldName($moduleName)) && ($statuses = \App\RecordStatus::getStates($moduleName, \App\RecordStatus::RECORD_STATE_CLOSED))) {
 				$data[$moduleData['related_tabid']] = [
 					[
@@ -390,9 +372,8 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$customView = [];
 		foreach ($modules as $module) {
-			$moduleName = \App\Module::getModuleName($module['related_tabid']);
-			foreach (CustomView_Record_Model::getAll($moduleName) as $cvId => $cvModel) {
-				$customView[$module['related_tabid']][$cvId] = \App\Language::translate($cvModel->get('viewname'), $moduleName);
+			foreach (CustomView_Record_Model::getAll($module['related_modulename']) as $cvId => $cvModel) {
+				$customView[$module['related_tabid']][$cvId] = \App\Language::translate($cvModel->get('viewname'), $module['related_modulename']);
 			}
 		}
 		return $customView;

@@ -10,17 +10,13 @@
  */
 class Vtiger_Documents_Widget extends Vtiger_RelatedModule_Widget
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isPermitted(): bool
 	{
-		return parent::isPermitted() && \App\Relation::getAll($this->moduleModel->getId(), ['related_tabid' => \App\Module::getModuleId('Documents')]);
+		return parent::isPermitted() && \App\Relation::getByModule($this->moduleModel->getName(), false, 'Documents');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getWidget()
 	{
 		$this->Config['buttonHeader'] = $this->getHeaderButtons();
@@ -28,9 +24,7 @@ class Vtiger_Documents_Widget extends Vtiger_RelatedModule_Widget
 		return parent::getWidget();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getConfigTplName()
 	{
 		return 'DocumentsConfig';

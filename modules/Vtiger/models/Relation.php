@@ -290,20 +290,22 @@ class Vtiger_Relation_Model extends \App\Base
 			self::$cachedInstances[$relKey] = $relationModel;
 			return clone $relationModel;
 		}
-		$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
-			->from('vtiger_relatedlists')
-			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
-			->andWhere(['<>', 'vtiger_tab.presence', 1]);
-		if (!empty($relationId)) {
-			$query->andWhere(['vtiger_relatedlists.relation_id' => $relationId]);
+		if (empty($relationId)) {
+			if ($rows = \App\Relation::getByModule($parentModuleModel->getName(), true, $relatedModuleModel->getName())) {
+				$row = reset($rows);
+			}
+		} else {
+			$row = \App\Relation::getById($relationId);
+			if (1 === $row['presence'] || $row['tabid'] !== $parentModuleModel->getId() || $row['related_tabid'] !== $relatedModuleModel->getId()) {
+				$row = [];
+			}
 		}
-		$row = $query->one();
 		if ($row) {
+			$row['modulename'] = $row['related_modulename'];
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
-			$relationModel->set('relatedModuleName', $row['modulename']);
+			$relationModel->set('relatedModuleName', $row['related_modulename']);
 			self::$cachedInstances[$relKey] = $relationModel;
 			self::$cachedInstancesById[$row['relation_id']] = $relationModel;
 			return clone $relationModel;
@@ -322,19 +324,18 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function getInstanceById(int $relationId)
 	{
 		if (!isset(self::$cachedInstancesById[$relationId])) {
-			$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
-				->from('vtiger_relatedlists')
-				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-				->where(['<>', 'vtiger_tab.presence', 1]);
-			$query->andWhere(['vtiger_relatedlists.relation_id' => $relationId]);
+			$row = \App\Relation::getById($relationId);
+			if (1 === $row['presence']) {
+				$row = [];
+			}
 			$relationModel = false;
-			if ($row = $query->one()) {
-				$relatedModuleName = \App\Module::getModuleName($row['related_tabid']);
+			if ($row) {
+				$row['modulename'] = $row['related_modulename'];
 				$parentModuleModel = Vtiger_Module_Model::getInstance($row['tabid']);
 				$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
 				$relationModel = new $relationModelClassName();
-				$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel(Vtiger_Module_Model::getInstance($relatedModuleName));
-				$relationModel->set('relatedModuleName', $row['modulename']);
+				$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel(Vtiger_Module_Model::getInstance($row['related_modulename']));
+				$relationModel->set('relatedModuleName', $row['related_modulename']);
 				if (method_exists($relationModel, 'setExceptionData')) {
 					$relationModel->setExceptionData();
 				}
@@ -795,34 +796,20 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public static function getAllRelations(Vtiger_Module_Model $moduleModel, bool $selected = true, bool $onlyActive = true, bool $permissions = true, string $key = 'relation_id')
 	{
-		$cacheName = "{$moduleModel->getId()}:$selected:$onlyActive";
-		if (\App\Cache::has('getAllRelations', $cacheName)) {
-			$relationList = \App\Cache::get('getAllRelations', $cacheName);
-		} else {
-			$query = new \App\Db\Query();
-			$query->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name', 'moduleid' => 'vtiger_tab.tabid'])
-				->from('vtiger_relatedlists')
-				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-				->where(['vtiger_relatedlists.tabid' => $moduleModel->getId()]);
-			if ($selected) {
-				$query->andWhere(['<>', 'vtiger_relatedlists.presence', 1]);
-			}
-			if ($onlyActive) {
-				$query->andWhere(['<>', 'vtiger_tab.presence', 1]);
-			}
-			$relationList = $query->orderBy('sequence')->all();
-			\App\Cache::save('getAllRelations', $cacheName, $relationList);
-		}
-		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $moduleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		foreach ($relationList as $row) {
+		foreach (\App\Relation::getByModule($moduleModel->getName(), $onlyActive) as $row) {
+			if ($selected && 1 === $row['presence']) {
+				continue;
+			}
+			$row['modulename'] = $row['related_modulename'];
+			$row['moduleid'] = $row['related_tabid'];
 			// Skip relation where target module does not exits or is no permitted for view.
-			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['modulename'], 'DetailView')) {
+			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['related_modulename'], 'DetailView')) {
 				continue;
 			}
 			$relationModel = new $relationModelClassName();
-			$relationModel->setData($row)->setParentModuleModel($moduleModel)->set('relatedModuleName', $row['modulename']);
+			$relationModel->setData($row)->setParentModuleModel($moduleModel)->set('relatedModuleName', $row['related_modulename']);
 			$relationModels[$row[$key]] = $relationModel;
 		}
 		return $relationModels;
@@ -896,7 +883,7 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function updateRelationPresence($relationId, $status)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => !$status ? 1 : 0], ['relation_id' => $relationId])->execute();
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
 	}
 
 	/**
@@ -908,7 +895,7 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function updateRelationCustomView(int $relationId, array $customView): void
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['custom_view' => implode(',', $customView)], ['relation_id' => $relationId])->execute();
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
 	}
 
 	/**
@@ -924,7 +911,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$dbCommand->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
 			App\Db::getInstance('admin')->createCommand()->delete('a_yf_relatedlists_inv_fields', ['relation_id' => $relationId])->execute();
 		}
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
 	}
 
 	/**
@@ -937,8 +924,8 @@ class Vtiger_Relation_Model extends \App\Base
 		$dbCommand = App\Db::getInstance()->createCommand();
 		foreach ($modules as $module) {
 			$dbCommand->update('vtiger_relatedlists', ['sequence' => (int) $module['index'] + 1], ['relation_id' => $module['relationId']])->execute();
+			\App\Relation::clearCacheById($module['relationId']);
 		}
-		\App\Cache::clear();
 	}
 
 	/**
@@ -974,7 +961,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$transaction->rollBack();
 			throw $e;
 		}
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
 	}
 
 	public static function updateModuleRelatedInventoryFields($relationId, $fields)
@@ -1068,7 +1055,7 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function updateStateFavorites($relationId, $status)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['favorites' => $status], ['relation_id' => $relationId])->execute();
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
 	}
 
 	/**

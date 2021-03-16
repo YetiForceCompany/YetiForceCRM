@@ -1,7 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=DEFAULT_SMTP value=App\Mail::getDefaultSmtp()}
-	{assign var=TEMPLETE_LIST value=App\Mail::getTemplateList($TEMPLATE_MODULE)}
 	{assign var=IS_EMAIL value=false}
 	{assign var=EMAILS_NUMBER value=array_sum($EMAILS_BY_FIELD)}
 	<div class="modal-header align-items-center">
@@ -79,7 +78,7 @@
 				<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_EMAIL_TEMPLATE')}</label>
 				<div class="col-sm-8">
 					<select class="select2" id="template" data-validation-engine="validate[required]">
-						{foreach item=ROW from=$TEMPLETE_LIST}
+						{foreach item=ROW from=$TEMPLATE_LIST}
 							<option value="{$ROW['id']}">{$ROW['name']}</option>
 						{/foreach}
 					</select>
@@ -106,7 +105,7 @@
 		{/if}
 	</div>
 	<div class="modal-footer">
-		{if $DEFAULT_SMTP && $TEMPLETE_LIST && $IS_EMAIL}
+		{if $DEFAULT_SMTP && $TEMPLATE_LIST && $IS_EMAIL}
 			<button class="btn btn-success" type="submit" name="saveButton">
 				<span class="fas fa-check mr-1"></span>
 				<strong>{\App\Language::translate('LBL_SEND')}</strong>

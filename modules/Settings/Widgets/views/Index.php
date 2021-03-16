@@ -21,11 +21,12 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 			$source = \App\Module::getModuleId('Accounts');
 		}
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
-		$relatedModule = $moduleModel->getRelatedModule($source);
+		$sourceModuleName = App\Module::getModuleName($source);
+		$relatedModule = \App\Relation::getByModule($sourceModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('SOURCE', $source);
-		$viewer->assign('SOURCEMODULE', App\Module::getModuleName($source));
+		$viewer->assign('SOURCEMODULE', $sourceModuleName);
 		$viewer->assign('WIDGETS', $moduleModel->getWidgets($source));
 		$viewer->assign('RELATEDMODULES', $relatedModule);
 		$viewer->assign('FILTERS', \App\Json::encode($moduleModel->getFiletrs($relatedModule)));

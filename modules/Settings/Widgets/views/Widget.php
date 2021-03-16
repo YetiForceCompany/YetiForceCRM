@@ -53,7 +53,6 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$type = $request->getByType('type', 'Alnum');
 		$tabId = $request->getInteger('tabId');
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
-		$relatedModule = $moduleModel->getRelatedModule($tabId);
 		$widgetModuleName = \App\Module::getModuleName($tabId);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('SOURCE', $tabId);
@@ -70,7 +69,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('RELATEDMODULES', $relatedModule);
+		$viewer->assign('RELATEDMODULES', \App\Relation::getByModule($widgetModuleName));
 		$viewer->assign('PRIVILEGESMODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
 		$className = Vtiger_Loader::getComponentClassName('Widget', $type, $widgetModuleName);
 		if (class_exists($className)) {
@@ -93,19 +92,19 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$wid = $request->getInteger('id');
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
 		$widgetInfo = $moduleModel->getWidgetInfo($wid);
-		$relatedModule = $moduleModel->getRelatedModule($widgetInfo['tabid']);
+		$widgetModuleName = \App\Module::getModuleName($widgetInfo['tabid']);
 		$type = $widgetInfo['type'];
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE', $widgetInfo['tabid']);
-		$viewer->assign('SOURCEMODULE', \App\Module::getModuleName($widgetInfo['tabid']));
+		$viewer->assign('SOURCEMODULE', $widgetModuleName);
 		$viewer->assign('WID', $wid);
 		$viewer->assign('WIDGETINFO', $widgetInfo);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('RELATEDMODULES', $relatedModule);
-		$widgetModuleName = \App\Module::getModuleName($widgetInfo['tabid']);
+		$viewer->assign('RELATEDMODULES', \App\Relation::getByModule($widgetModuleName));
+
 		$className = Vtiger_Loader::getComponentClassName('Widget', $type, $widgetModuleName);
 		if (class_exists($className)) {
 			$widgetInstance = new $className($widgetModuleName, null, null, $widgetInfo);

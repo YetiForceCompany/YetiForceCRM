@@ -684,7 +684,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public static function updateRelatedViewType($relationId, $type)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['view_type' => implode(',', $type)], ['relation_id' => $relationId])->execute();
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
 	}
 
 	/**
