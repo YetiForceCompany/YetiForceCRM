@@ -172,7 +172,7 @@ This file is auto-generated.
 			return $status;
 		}
 		if (!isset($this->template[$key]['validation']) || !\is_callable($this->template[$key]['validation'])) {
-			throw new Exceptions\AppException("ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION ||{$this->template[$key]['validation']}", 406);
+			throw new Exceptions\AppException("ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION||{$key}||{$this->template[$key]['validation']}", 406);
 		}
 		return true === \call_user_func_array($this->template[$key]['validation'], [$value]);
 	}
