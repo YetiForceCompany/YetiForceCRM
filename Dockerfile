@@ -9,7 +9,7 @@ ENV PHP_VER 7.4
 ENV DB_USER_NAME yetiforce
 ENV DB_USER_PASS Q4WK2yRUpliyjMRivDJE
 ENV DB_PORT 3306
-#INSTALL_MODE = PROD , DEV
+#INSTALL_MODE = PROD , DEV , TEST
 ENV INSTALL_MODE PROD
 
 ENV PROVIDER docker
@@ -59,8 +59,8 @@ RUN chmod +x /usr/local/bin/composer
 RUN	chmod -R +x /var/www/html/tests/setup
 RUN	chmod +x /docker_entrypoint.sh
 RUN	/var/www/html/tests/setup/dependency.sh
-RUN php -f /var/www/html/tests/setup/docker_post_install.php
 RUN chown -R www-data:www-data /var/www/
+RUN php -f /var/www/html/tests/setup/docker_post_install.php
 RUN echo "PROVIDER=docker" > /etc/environment
 
 WORKDIR /var/www/html
