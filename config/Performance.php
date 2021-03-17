@@ -75,7 +75,7 @@ class Performance
 	public static $CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER = 10000;
 
 	/** The maximum number of record labels that cron can update during a single execution */
-	public static $CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER = 1000;
+	public static $CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER = 10000;
 
 	/** The maximum number of emails that cron can send during a single execution. Pay attention to the server limits. */
 	public static $CRON_MAX_NUMBERS_SENDING_MAILS = 1000;

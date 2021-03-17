@@ -656,7 +656,7 @@ return [
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => [
-			'default' => 1000,
+			'default' => 100,
 			'description' => 'The numbers of emails downloaded during one scanning',
 			'validation' => '\App\Validator::naturalNumber'
 		],
@@ -671,7 +671,7 @@ return [
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER' => [
-			'default' => 1000,
+			'default' => 10000,
 			'description' => 'The maximum number of record labels that cron can update during a single execution',
 			'validation' => '\App\Validator::naturalNumber'
 		],
