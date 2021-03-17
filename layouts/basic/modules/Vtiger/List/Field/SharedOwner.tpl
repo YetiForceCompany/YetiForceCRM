@@ -20,7 +20,7 @@
 			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 			{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 		{/if}
-		<select id="{$ASSIGNED_USER_ID}" class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"
+		<select class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"
 				name="{$ASSIGNED_USER_ID}" multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}'
 				{if !empty($FIELD_MODEL->get('source_field_name'))}
 					data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
