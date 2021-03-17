@@ -178,8 +178,7 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 				$recordListModel->setFields(['id', 'name']);
 				$templateList = $recordListModel->getRelationQuery()->all();
 			}
-		}
-		if (!$templateList) {
+		} else {
 			$templateList = App\Mail::getTemplateList($templateModule);
 		}
 		return $templateList;
