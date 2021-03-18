@@ -469,7 +469,14 @@ class Owner
 			}
 		}
 		$users = $groups = [];
-		$ids = $queryGenerator->setFields([$fieldName])->createQuery()->distinct()->column();
+		$queryGenerator->clearFields();
+		if (false !== strpos($fieldName, ':')) {
+			$queryField = $queryGenerator->getQueryRelatedField($fieldName);
+			$queryGenerator->setFields([])->setCustomColumn($queryField->getColumnName())->addRelatedJoin($queryField->getRelated());
+		} else {
+			$queryGenerator->setFields([$fieldName]);
+		}
+		$ids = $queryGenerator->createQuery()->distinct()->column();
 		$adminInList = \App\Config::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
 			$userModel = \App\User::getUserModel($id);

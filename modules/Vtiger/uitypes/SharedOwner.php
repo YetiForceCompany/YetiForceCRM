@@ -164,13 +164,29 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		return implode(', ', $display);
 	}
 
-	public static function getSearchViewList($moduleName, $cvId)
+	/**
+	 * Get users and group for module list.
+	 *
+	 * @param string $moduleName
+	 * @param int    $cvId
+	 * @param string $fieldName
+	 *
+	 * @return array
+	 */
+	public static function getSearchViewList($moduleName, $cvId, $fieldName = 'id'): array
 	{
 		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->initForCustomViewById($cvId);
-		$queryGenerator->setFields([]);
-		$queryGenerator->setCustomColumn('u_#__crmentity_showners.userid');
-		$queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "{$queryGenerator->getColumnName('id')} = u_#__crmentity_showners.crmid"]);
+
+		if (false !== strpos($fieldName, ':')) {
+			$queryField = $queryGenerator->getQueryRelatedField($fieldName);
+			$queryGenerator->addRelatedJoin($queryField->getRelated());
+			$fieldName = $queryField->getRelated()['sourceField'];
+		} else {
+			$fieldName = 'id';
+		}
+		$queryGenerator->clearFields()->setFields([])->setCustomColumn('u_#__crmentity_showners.userid');
+		$queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "{$queryGenerator->getColumnName($fieldName)} = u_#__crmentity_showners.crmid"]);
 		$dataReader = $queryGenerator->createQuery()->distinct()->createCommand()->query();
 		$users = $group = [];
 		while ($id = $dataReader->readColumn(0)) {
@@ -182,7 +198,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			$name = \App\Fields\Owner::getGroupName($id);
 			if (false !== $name) {
 				$group[$id] = $name;
-				continue;
 			}
 		}
 		asort($users);

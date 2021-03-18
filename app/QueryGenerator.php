@@ -125,7 +125,7 @@ class QueryGenerator
 		$this->moduleName = $moduleName;
 		$this->moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$this->entityModel = \CRMEntity::getInstance($moduleName);
-		$this->user = User::getUserModel($userId ? $userId : User::getCurrentUserId());
+		$this->user = User::getUserModel($userId ?: User::getCurrentUserId());
 	}
 
 	/**
@@ -393,11 +393,11 @@ class QueryGenerator
 				$this->addJoin(['INNER JOIN', $joinTableName, "{$baseTable}.{$moduleTableIndexList[$baseTable]} = {$joinTableName}.{$moduleTableIndexList[$joinTableName]}"]);
 			}
 			$relatedFieldModel = $this->addRelatedJoin($field);
+			$fields["{$field['sourceField']}{$field['relatedModule']}{$relatedFieldModel->getName()}"] = "{$relatedFieldModel->getTableName()}{$field['sourceField']}.{$relatedFieldModel->getColumnName()}";
 			if (!isset($checkIds[$field['sourceField']][$field['relatedModule']])) {
 				$checkIds[$field['sourceField']][$field['relatedModule']] = $field['relatedModule'];
 				$fields["{$field['sourceField']}{$field['relatedModule']}id"] = $relatedFieldModel->getTableName() . $field['sourceField'] . '.' . \Vtiger_CRMEntity::getInstance($field['relatedModule'])->tab_name_index[$relatedFieldModel->getTableName()];
 			}
-			$fields["{$field['sourceField']}{$field['relatedModule']}{$relatedFieldModel->getName()}"] = "{$relatedFieldModel->getTableName()}{$field['sourceField']}.{$relatedFieldModel->getColumnName()}";
 		}
 		return $fields;
 	}
@@ -1187,7 +1187,7 @@ class QueryGenerator
 	 *
 	 * @return bool|\Vtiger_Field_Model
 	 */
-	protected function addRelatedJoin($fieldDetail)
+	public function addRelatedJoin($fieldDetail)
 	{
 		$relatedFieldModel = $this->getRelatedModuleField($fieldDetail['relatedField'], $fieldDetail['relatedModule']);
 		if (!$relatedFieldModel || !$relatedFieldModel->isActiveField()) {
@@ -1207,15 +1207,23 @@ class QueryGenerator
 	/**
 	 * Get query related field instance.
 	 *
-	 * @param array               $relatedInfo
+	 * @param array|string        $relatedInfo
 	 * @param \Vtiger_Field_Model $field
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return \App\Conditions\QueryFields\BaseField
 	 */
-	public function getQueryRelatedField(array $relatedInfo, ?\Vtiger_Field_Model $field = null)
+	public function getQueryRelatedField($relatedInfo, ?\Vtiger_Field_Model $field = null)
 	{
+		if (!\is_array($relatedInfo)) {
+			[$fieldName, $relatedModule, $sourceFieldName] = array_pad(explode(':', $relatedInfo), 3, false);
+			$relatedInfo = [
+				'sourceField' => $sourceFieldName,
+				'relatedModule' => $relatedModule,
+				'relatedField' => $fieldName
+			];
+		}
 		$relatedModule = $relatedInfo['relatedModule'];
 		$fieldName = $relatedInfo['relatedField'];
 

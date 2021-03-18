@@ -49,7 +49,7 @@ class BaseField
 	/**
 	 * @var array Related detail
 	 */
-	protected $related = false;
+	protected $related = [];
 
 	/**
 	 * Constructor.
@@ -93,6 +93,16 @@ class BaseField
 	public function setRelated($relatedInfo)
 	{
 		$this->related = $relatedInfo;
+	}
+
+	/**
+	 * Get related details.
+	 *
+	 * @return array
+	 */
+	public function getRelated(): array
+	{
+		return $this->related;
 	}
 
 	/**

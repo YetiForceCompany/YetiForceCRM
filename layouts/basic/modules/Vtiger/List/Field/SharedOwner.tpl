@@ -13,7 +13,7 @@
 		{/if}
 		{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
 		{if !empty($VIEWID) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($MODULE, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)}
-			{assign var=USERS_GROUP_LIST value=Vtiger_SharedOwner_UIType::getSearchViewList($MODULE, $VIEWID)}
+			{assign var=USERS_GROUP_LIST value=Vtiger_SharedOwner_UIType::getSearchViewList($MODULE, $VIEWID, $FIELD_MODEL->getFullName())}
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
 		{else}
