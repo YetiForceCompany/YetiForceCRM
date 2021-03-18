@@ -8562,11 +8562,11 @@ CREATE TABLE `vtiger_servicecontractscf` (
 
 CREATE TABLE `vtiger_settings_blocks` (
   `blockid` int(10) NOT NULL AUTO_INCREMENT,
-  `label` varchar(250) DEFAULT NULL,
-  `sequence` int(10) DEFAULT NULL,
+  `label` varchar(255) NOT NULL,
+  `sequence` tinyint(3) unsigned NOT NULL DEFAULT 0,
   `icon` varchar(255) DEFAULT NULL,
-  `type` tinyint(1) DEFAULT NULL,
-  `linkto` text DEFAULT NULL,
+  `type` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `linkto` varchar(255) DEFAULT NULL,
   `admin_access` text DEFAULT NULL,
   PRIMARY KEY (`blockid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
@@ -8576,13 +8576,14 @@ CREATE TABLE `vtiger_settings_blocks` (
 CREATE TABLE `vtiger_settings_field` (
   `fieldid` int(10) NOT NULL AUTO_INCREMENT,
   `blockid` int(10) DEFAULT NULL,
-  `name` varchar(250) DEFAULT NULL,
-  `iconpath` varchar(300) DEFAULT NULL,
-  `description` varchar(250) DEFAULT NULL,
-  `linkto` text DEFAULT NULL,
-  `sequence` tinyint(3) unsigned DEFAULT NULL,
-  `active` tinyint(1) unsigned DEFAULT 0,
-  `pinned` tinyint(1) unsigned DEFAULT 0,
+  `name` varchar(255) NOT NULL,
+  `iconpath` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `linkto` varchar(255) NOT NULL,
+  `sequence` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `pinned` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `premium` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `admin_access` text DEFAULT NULL,
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
