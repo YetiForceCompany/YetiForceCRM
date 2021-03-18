@@ -19,12 +19,11 @@ if (file_exists($path)) {
 	'pm.process_idle_timeout = 600s;';
 	file_put_contents($path, $conf, FILE_APPEND);
 }
-$version = require __DIR__ . '/../../config/version.php';
-if ($version && 0 != explode('.', $version['appVersion'])[2]) {
-	copy(__DIR__ . '/../../tests/setup/config/Developer.txt', __DIR__ . '/../../config/Developer.php');
-}
 
 if ('TEST' === getenv('INSTALL_MODE')) {
+	chdir(__DIR__ . '/../../');
+	include_once 'include/main/WebUI.php';
+
 	$configFile = new \App\ConfigFile('db');
 	$configFile->set('db_server', 'localhost');
 	$configFile->set('db_port', 3306);
