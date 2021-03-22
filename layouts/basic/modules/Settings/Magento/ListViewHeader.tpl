@@ -12,19 +12,20 @@
 			</a>
 		</div>
 	</div>
-	{if !\App\YetiForce\Shop::check('YetiForceMagento')}
+	{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert('YetiForceMagento')}
+	{if $CHECK_ALERT}
 		<div class="alert alert-warning">
 			<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
-			{\App\Language::translate('LBL_PAID_FUNCTIONALITY', $QUALIFIED_MODULE)} <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceMagento&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
+			{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')} <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceMagento&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
 		</div>
-	{elseif !Settings_Magento_Module_Model::isActive()}
+	{/if}
+	{if !Settings_Magento_Module_Model::isActive()}
 		<div class="alert alert-danger">
 			<form action='index.php' method="POST" enctype="multipart/form-data">
 				<input type="hidden" name="module" value="Magento"/>
 				<input type="hidden" name="parent" value="Settings"/>
 				<input type="hidden" name="action" value="Active"/>
-
-				<span class="mdi mdi-alert-outline mr-2 u-fs-2em float-left"></span>
+				<span class="mdi mdi-alert-outline mr-2 u-fs-3x float-left"></span>
 				{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE,'Magento')}
 				<button type="submit" class="btn btn-primary btn-sm ml-3">
 					<span class="mdi mdi-check mr-2 float-left"></span>

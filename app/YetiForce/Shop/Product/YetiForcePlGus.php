@@ -38,14 +38,20 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify(): bool
+	public function verify(): array
 	{
+		$message = $status = true;
 		if (\App\YetiForce\Register::getProducts('YetiForcePlGus')) {
-			return \App\YetiForce\Shop::check('YetiForcePlGus');
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForcePlGus');
+		} else {
+			$instance = new \App\RecordCollectors\Gus();
+			$instance->moduleName = reset(\App\RecordCollectors\Gus::$allowedModules);
+			if ($instance->isActive()) {
+				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
+				$status = false;
+			}
 		}
-		$instance = new \App\RecordCollectors\Gus();
-		$instance->moduleName = reset(\App\RecordCollectors\Gus::$allowedModules);
-		return !$instance->isActive();
+		return ['status' => $status, 'message' => $message];
 	}
 
 	/** {@inheritdoc} */

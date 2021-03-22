@@ -1391,7 +1391,6 @@
     "LBL_IS_RECORD_CLOSED": "Record is closed",
     "LBL_PAID_FUNCTIONALITY": "This is an additional and paid functionality. Proceed to Marketplace to make a payment and activate it.",
     "LBL_PAID_FUNCTIONALITY_IS_ACTIVE": "Paid functionality has been activated without purchasing the right product in the store. You violate the terms of the software license.",
-    "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "One of the purchased products has expired or requires changing a package. The product has been temporarily canceled.",
     "LBL_YETIFORCE_SHOP": "Yetiforce shop",
     "LBL_USER_CURRENTLY_NOT_LOGGED": "user currently not logged",
     "LBL_CREATEDMAIL": "Create email message",

@@ -83,31 +83,37 @@
 					{/if}
 				</ul>
 				<div class="float-right p-0">
-					<ul class="pagination">
+					<ul class="pagination {if $DISABLE_BRANDING }mt-1{/if}">
 						{if !\App\YetiForce\Register::verify(true)}
 							{if \App\Security\AdminAccess::isPermitted('Companies')}
 								{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
 							{else}
 								{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
 							{/if}
-							<a class="d-flex align-items-center text-center text-warning p-0 mr-2 text-danger js-popover-tooltip c-header__btn" role="button"
-									data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
-									title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
-									{if \App\Security\AdminAccess::isPermitted('Companies')}
-										href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
-									{else}
-										href="#"
-									{/if} >
-								<span class="yfi yfi-yeti-register-alert fa-2x">
-								</span>
-							</a>
+							<li class="page-item">
+								<a class="page-link text-warning p-0 mr-md-1 text-danger js-popover-tooltip c-header__btn" role="button"
+										data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
+										title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
+										{if \App\Security\AdminAccess::isPermitted('Companies')}
+											href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
+										{else}
+											href="#"
+										{/if} >
+									<span class="yfi yfi-yeti-register-alert fa-2x">
+									</span>
+								</a>
+							</li>
 						{/if}
-						{if !\App\YetiForce\Shop::verify()}
-							<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}" {if $IS_ADMIN} href="index.php?module=YetiForce&parent=Settings&view=Shop" {else} href="#" {/if} >
-								<span class="yfi yfi-shop-alert fa-2x"></span>
-							</a>
+						{assign var=VERIFY value=\App\YetiForce\Shop::verify()}
+						{if $VERIFY}
+							<li class="page-item">
+								<a class="page-link text-warning mr-md-1 js-popover-tooltip" role="button" data-content="{$VERIFY}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+									{if $IS_ADMIN} href="index.php?module=YetiForce&parent=Settings&view=Shop"{else} href="#"{/if}>
+									<span class="yfi yfi-shop-alert {if !$DISABLE_BRANDING }fa-2x{/if}"></span>
+								</a>
+							</li>
 						{/if}
-						{if !$DISABLE_BRANDING }
+						{if !$DISABLE_BRANDING}
 							{if $IS_ADMIN}
 								<li class="page-item">
 									<a class="page-link mr-md-1" href="index.php?module=YetiForce&parent=Settings&view=Shop" target="_blank" rel="noreferrer noopener">

@@ -13,6 +13,8 @@
 
 namespace App\YetiForce;
 
+use App\Cache;
+
 /**
  * YetiForce shop class.
  */
@@ -40,12 +42,6 @@ class Shop
 	 * @var \App\YetiForce\Shop\AbstractBaseProduct[]
 	 */
 	public static $productCache = [];
-	/**
-	 * Invalid Product Name.
-	 *
-	 * @var string
-	 */
-	public static $verifyProduct = '';
 
 	/**
 	 * Get products.
@@ -130,15 +126,15 @@ class Shop
 	 */
 	public static function getConfig(string $name): array
 	{
-		$config = [];
-		if (\is_dir(ROOT_DIRECTORY . '/app_data/shop/') && \file_exists(ROOT_DIRECTORY . "/app_data/shop/{$name}.php")) {
+		$config = \App\YetiForce\Register::getProducts($name);
+		if (!$config && \is_dir(ROOT_DIRECTORY . '/app_data/shop/') && \file_exists(ROOT_DIRECTORY . "/app_data/shop/{$name}.php")) {
 			$config = require ROOT_DIRECTORY . "/app_data/shop/{$name}.php";
 		}
-		return \App\YetiForce\Register::getProducts($name) ?? $config;
+		return $config;
 	}
 
 	/**
-	 * Verification of product activity.
+	 * Verification of product.
 	 *
 	 * @param string $productName
 	 *
@@ -146,23 +142,58 @@ class Shop
 	 */
 	public static function check(string $productName): bool
 	{
-		$productDetails = false;
-		if (($products = \App\YetiForce\Register::getProducts()) && isset($products[$productName])) {
-			$productDetails = $products[$productName];
-		} elseif (file_exists(ROOT_DIRECTORY . "/app_data/shop/$productName.php")) {
-			$productDetails = require ROOT_DIRECTORY . "/app_data/shop/$productName.php";
+		return self::checkWithMessage($productName)[0] ?? false;
+	}
+
+	/**
+	 * Verification of product with a message.
+	 *
+	 * @param string $productName
+	 *
+	 * @return array
+	 */
+	public static function checkWithMessage(string $productName): array
+	{
+		if (Cache::staticHas('Shop|checkWithMessage', $productName)) {
+			return Cache::staticGet('Shop|checkWithMessage', $productName);
 		}
-		$status = false;
-		if ($productDetails) {
+		$status = $message = false;
+		if ($productDetails = self::getConfig($productName)) {
 			$status = self::verifyProductKey($productDetails['key']);
 			if ($status) {
 				$status = strtotime(date('Y-m-d')) <= strtotime($productDetails['date']);
+				if (!$status) {
+					$message = 'LBL_SUBSCRIPTION_HAS_EXPIRED';
+				}
 			}
 			if ($status) {
 				$status = \App\Company::compareSize($productDetails['package']);
+				if (!$status) {
+					$message = 'LBL_SUBSCRIPTION_COMPANY_SIZE_HAS_CHANGED';
+				}
 			}
 		}
-		return $status;
+		Cache::staticSave('Shop|checkWithMessage', $productName, [$status, $message]);
+		return [$status, $message];
+	}
+
+	/**
+	 * Check alert to show for product.
+	 *
+	 * @param string $productName
+	 *
+	 * @return string
+	 */
+	public static function checkAlert(string $productName): string
+	{
+		$message = '';
+		$check = self::getProduct($productName)->verify();
+		if (false === $check['status']) {
+			$message = $check['message'];
+		} elseif (!self::getConfig($productName)) {
+			$message = 'LBL_PAID_FUNCTIONALITY';
+		}
+		return $message;
 	}
 
 	/**
@@ -204,39 +235,43 @@ class Shop
 	 *
 	 * @param bool $cache
 	 *
-	 * @return bool
+	 * @return string
 	 */
-	public static function verify(bool $cache = true): bool
+	public static function verify(bool $cache = true): string
 	{
+		$products = '';
 		if ($cache && ($cacheData = self::getFromCache())) {
-			foreach ($cacheData as $product => $status) {
-				if (!$status) {
-					self::$verifyProduct .= \App\Language::translate('LBL_SHOP_' . \strtoupper($product), 'Settings:YetiForce') . PHP_EOL;
-					return false;
+			foreach ($cacheData as $product => $verify) {
+				if (!$verify['status']) {
+					$products .= \App\Language::translate($product, 'Settings::YetiForce') . '<br>' . \App\Language::translate(($verify['message'] ?? 'LBL_YETIFORCE_SHOP_PRODUCT_CANCELED'), 'Settings::YetiForce') . '<hr>';
 				}
 			}
 		} else {
 			foreach (self::getProducts() as $product) {
-				if (!$product->verify()) {
-					self::$verifyProduct .= $product->getLabel() . PHP_EOL;
-					return false;
+				$verify = $product->verify();
+				if (!$verify['status']) {
+					$products .= \App\Language::translate($product->getLabel(), 'Settings::YetiForce') . '<br>' . \App\Language::translate(($verify['message'] ?? 'LBL_YETIFORCE_SHOP_PRODUCT_CANCELED'), 'Settings::YetiForce') . '<hr>';
 				}
 			}
 		}
-		return true;
+		return rtrim($products, '<hr>');
 	}
 
 	/**
 	 * Generate cache.
 	 */
-	public static function generateCache()
+	public static function generateCache(): void
 	{
 		$content = [];
-		foreach (self::getProducts() as $key => $product) {
-			$content[$key] = $product->verify();
+		foreach (self::getProducts() as $product) {
+			$verify = $product->verify();
+			if ($verify['status']) {
+				unset($verify['message']);
+			}
+			$content['products'][$product->getLabel()] = $verify;
 		}
-		$content['key'] = md5(json_encode($content));
-		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shop.php', $content, 'Modifying this file will breach the licence terms!!!', 0, true);
+		$content['key'] = md5(json_encode($content['products']));
+		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shopCache.php', $content, 'Modifying this file will breach the licence terms!!!', 0, true);
 	}
 
 	/**
@@ -247,12 +282,12 @@ class Shop
 	public static function getFromCache(): array
 	{
 		$content = [];
-		if (\file_exists(ROOT_DIRECTORY . '/app_data/shop.php')) {
-			$content = include ROOT_DIRECTORY . '/app_data/shop.php';
+		if (\file_exists(ROOT_DIRECTORY . '/app_data/shopCache.php')) {
+			$content = include ROOT_DIRECTORY . '/app_data/shopCache.php';
 		}
-		if (($content['key'] ?? '') !== md5(json_encode($content))) {
+		if (($content['key'] ?? '') !== md5(json_encode($content['products']))) {
 			return [];
 		}
-		return $content;
+		return $content['products'];
 	}
 }

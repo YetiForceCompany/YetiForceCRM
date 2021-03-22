@@ -175,7 +175,7 @@
 								<tr {if $ACTIVE}disabled{/if}>
 									<th scope="row">
 										{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
-										{if $KEY === 'YetiForce'}<span class="yfi-premium color-red-600 ml-2"></span>{/if}
+										{if $KEY === 'YetiForce'}<span class="yfi-premium color-yellow-600 ml-2"></span>{/if}
 										{if isset($ITEM->infoUrl)}
 											<a href="{$ITEM->infoUrl}" rel="noreferrer noopener" target="_blank" class="float-right">
 												<span class="mdi mdi-link-variant"></span>

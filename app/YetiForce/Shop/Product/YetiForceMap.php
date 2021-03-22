@@ -38,12 +38,13 @@ class YetiForceMap extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify(): bool
+	public function verify(): array
 	{
+		$message = $status = true;
 		if (\App\YetiForce\Register::getProducts('YetiForceMap')) {
-			return \App\YetiForce\Shop::check('YetiForceMap');
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceMap');
 		}
-		return true;
+		return ['status' => $status, 'message' => $message];
 	}
 
 	/** {@inheritdoc} */

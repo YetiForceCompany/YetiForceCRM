@@ -105,11 +105,11 @@ abstract class AbstractBaseProduct
 	/**
 	 * Verify the product.
 	 *
-	 * @return bool
+	 * @return array
 	 */
-	public function verify(): bool
+	public function verify(): array
 	{
-		return true;
+		return ['status' => true];
 	}
 
 	/**

@@ -38,12 +38,16 @@ class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify(): bool
+	public function verify(): array
 	{
+		$message = $status = true;
 		if (\App\YetiForce\Register::getProducts('YetiForceMagento')) {
-			return \App\YetiForce\Shop::check('YetiForceMagento');
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceMagento');
+		} else {
+			$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
+			$status = !(new \App\Db\Query())->from('i_#__magento_servers')->exists();
 		}
-		return true;
+		return ['status' => $status, 'message' => $message];
 	}
 
 	/** {@inheritdoc} */

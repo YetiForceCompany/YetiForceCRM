@@ -38,12 +38,17 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify(): bool
+	public function verify(): array
 	{
+		$message = $status = true;
 		if (\App\YetiForce\Register::getProducts('YetiForceOutlook')) {
-			return \App\YetiForce\Shop::check('YetiForceOutlook');
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceOutlook');
+		} else {
+			$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
+			$status = \in_array('https://appsforoffice.microsoft.com', \Config\Security::$allowedScriptDomains)
+			|| \in_array('https://ajax.aspnetcdn.com', \Config\Security::$allowedScriptDomains);
 		}
-		return true;
+		return ['status' => $status, 'message' => $message];
 	}
 
 	/** {@inheritdoc} */
