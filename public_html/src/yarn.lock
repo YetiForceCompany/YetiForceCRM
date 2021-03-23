@@ -54,7 +54,8 @@ vue-color@^2.8.1:
 
 "vue-drag-resize@https://github.com/kirillmurashov/vue-drag-resize#master":
   version "1.4.2"
-  resolved "https://github.com/kirillmurashov/vue-drag-resize#2fa43740c76946f95d55ec786ef3354192fd8a3c"
+  uid e8da62224fc45057e1ddba71fc94afdfa4bb0c89
+  resolved "https://github.com/kirillmurashov/vue-drag-resize#e8da62224fc45057e1ddba71fc94afdfa4bb0c89"
 
 vuex@^3.6.2:
   version "3.6.2"
