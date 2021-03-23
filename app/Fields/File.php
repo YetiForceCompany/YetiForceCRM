@@ -223,7 +223,7 @@ class File
 				Log::warning('Error when downloading content: ' . $url . ' | Status code: ' . $response->getStatusCode(), __CLASS__);
 				return false;
 			}
-			$contents = $response->getBody();
+			$contents = $response->getBody()->getContents();
 		} catch (\Throwable $exc) {
 			Log::warning('Error when downloading content: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
 			return false;
