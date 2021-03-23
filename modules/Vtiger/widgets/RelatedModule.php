@@ -88,10 +88,21 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			if (!empty($whereCondition)) {
 				$this->Config['url'] .= '&search_params=' . \App\Json::encode($whereCondition);
 			}
+			$this->Config['buttonHeader'] = $this->getHeaderButtons();
 			$widget = $this->Config;
 			$widget['instance'] = $this;
 		}
 		return $widget;
+	}
+
+	/**
+	 * Gets buttons.
+	 *
+	 * @return array
+	 */
+	public function getHeaderButtons()
+	{
+		return [];
 	}
 
 	public function getCheckboxLables($model, $type, $prefix)
