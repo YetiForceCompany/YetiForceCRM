@@ -285,8 +285,8 @@ class Shop
 		if (\file_exists(ROOT_DIRECTORY . '/app_data/shopCache.php')) {
 			$content = include ROOT_DIRECTORY . '/app_data/shopCache.php';
 		}
-		if (($content['key'] ?? '') !== md5(json_encode($content['products']))) {
-			return [];
+		if (empty($content['products']) || ($content['key'] ?? '') !== md5(json_encode($content['products']))) {
+			$content['products'] = [];
 		}
 		return $content['products'];
 	}
