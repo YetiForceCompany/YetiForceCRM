@@ -24,7 +24,7 @@ class File
 	 *
 	 * @var string[]
 	 */
-	public static $allowedFormats = ['image' => ['jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp', 'x-ms-bmp']];
+	public static $allowedFormats = ['image' => ['jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp', 'x-ms-bmp', 'webp']];
 
 	/**
 	 * Mime types.
