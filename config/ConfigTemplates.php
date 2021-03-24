@@ -154,7 +154,7 @@ return [
 			'validation' => '\App\Validator::languageTag',
 		],
 		'application_unique_key' => [
-			'default' => '',
+			'default' => sha1(time() + random_int(1, 9999999)),
 			'description' => 'Unique Application Key',
 			'validation' => function () {
 				return !class_exists('\\Config\\Main');
