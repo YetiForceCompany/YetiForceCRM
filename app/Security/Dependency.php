@@ -25,21 +25,23 @@ class Dependency
 	/**
 	 * @var string Symfony check url.
 	 */
-	private $checkUrl = 'https://security.yetiforce.com/dependency_check';
+	private $checkUrl = 'https://security.yetiforce.com/vulnerabilities';
 
 	/**
 	 * Security checker.
+	 *
+	 * @param bool $cache
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
-	public function securityChecker(): array
+	public function securityChecker(bool $cache = true): array
 	{
 		$result = [];
-		if ($this->hasCache()) {
+		if ($cache && $this->hasCache()) {
 			$result = $this->getCache();
-		} elseif (\App\RequestUtil::isNetConnection()) {
+		} else {
 			$result = $this->check();
 			$this->saveCache($result);
 		}
@@ -86,23 +88,31 @@ class Dependency
 	public function check(): array
 	{
 		$result = [];
+		if (!\App\YetiForce\Shop::check('YetiForceVulnerabilities')) {
+			return $result;
+		}
 		if (\App\RequestUtil::isNetConnection() && !empty($lockFile = $this->getLockFile(ROOT_DIRECTORY))) {
 			$options = \App\RequestHttp::getOptions();
 			$options['http_errors'] = false;
 			$options['allow_redirects'] = false;
 			$options['headers']['APP-ID'] = \App\YetiForce\Register::getInstanceKey();
-			$options['headers']['Content-Type'] = 'application/octet-stream';
-			$options['headers']['Content-Disposition'] = 'form-data; name="lock"; filename="composer.lock"';
-			$options['headers']['Accept'] = 'application/json';
 			\App\Log::beginProfile("POST|Dependency::check|{$this->checkUrl}", __NAMESPACE__);
-			$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, [
-				'body' => $lockFile
-			]);
-			\App\Log::endProfile("POST|Dependency::check|{$this->checkUrl}", __NAMESPACE__);
-			if (200 === $response->getStatusCode()) {
-				$result = (array) \App\Json::decode($response->getBody());
-				$result = (\is_array($result) && !empty($result)) ? $result : [];
+			try {
+				$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, [
+					'json' => [
+						'php' => PHP_VERSION,
+						'os' => php_uname(),
+						'dependencies' => $lockFile,
+					]
+				]);
+				if (200 === $response->getStatusCode()) {
+					$result = (array) \App\Json::decode($response->getBody());
+					$result = (\is_array($result) && !empty($result)) ? $result : [];
+				}
+			} catch (\Throwable $e) {
+				\App\Log::warning($e->__toString(), __CLASS__);
 			}
+			\App\Log::endProfile("POST|Dependency::check|{$this->checkUrl}", __NAMESPACE__);
 		}
 		return $result;
 	}
@@ -112,16 +122,19 @@ class Dependency
 	 *
 	 * @param string $lock
 	 *
-	 * @return string
+	 * @return array
 	 */
-	private function getLockFile($lock): string
+	private function getLockFile(string $lock): array
 	{
 		if (is_dir($lock) && file_exists($lock . \DIRECTORY_SEPARATOR . 'composer.lock')) {
 			$lock = $lock . \DIRECTORY_SEPARATOR . 'composer.lock';
 		} elseif (preg_match('/composer\.json$/', $lock)) {
 			$lock = str_replace('composer.json', 'composer.lock', $lock);
 		}
-		return is_file($lock) ? $this->getLockContent($lock) : '';
+		if (is_file($lock)) {
+			return $this->getLockContent($lock);
+		}
+		return [];
 	}
 
 	/**
@@ -129,23 +142,21 @@ class Dependency
 	 *
 	 * @param string $lock
 	 *
-	 * @return string
+	 * @return array
 	 */
-	private function getLockContent($lock): string
+	private function getLockContent(string $lock): array
 	{
 		$contents = json_decode(file_get_contents($lock), true);
-		$hash = $contents['content-hash'] ?? ($contents['hash'] ?? '');
-		$packages = ['content-hash' => $hash, 'packages' => []];
+		$packages = ['packages' => []];
 		if (\is_array($contents['packages'])) {
 			foreach ($contents['packages'] as $package) {
-				$data = [
+				$packages['packages'][] = [
 					'name' => $package['name'],
 					'version' => $package['version'],
 					'time' => $package['time'],
 				];
-				$packages['packages'][] = $data;
 			}
 		}
-		return json_encode($packages);
+		return $packages;
 	}
 }
