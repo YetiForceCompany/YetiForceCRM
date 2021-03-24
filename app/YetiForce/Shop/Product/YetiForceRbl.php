@@ -23,7 +23,7 @@ class YetiForceRbl extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-dav-integration';
+	public $website = 'https://yetiforce.com/en/yetiforce-rbl';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -50,7 +50,7 @@ class YetiForceRbl extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
-		$links = [
+		return [
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'Website',
 				'relatedModuleName' => '_Base',
@@ -63,6 +63,5 @@ class YetiForceRbl extends \App\YetiForce\Shop\AbstractBaseProduct
 				'showLabel' => 1,
 			]),
 		];
-		return $links;
 	}
 }

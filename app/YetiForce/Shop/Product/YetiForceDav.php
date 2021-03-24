@@ -23,7 +23,7 @@ class YetiForceDav extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/pl/yetiforce-dav-integration';
+	public $website = 'https://yetiforce.com/en/yetiforce-dav-integration';
 
 	/** {@inheritdoc} */
 	public $prices = [
