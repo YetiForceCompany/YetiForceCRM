@@ -208,6 +208,13 @@ class TextParser
 	public $isHtml = true;
 
 	/**
+	 * Use extended parsing.
+	 *
+	 * @var bool
+	 */
+	public $useExtension = false;
+
+	/**
 	 * Variable parser regex.
 	 *
 	 * @var string
@@ -440,6 +447,22 @@ class TextParser
 	 */
 	public function parseData(string $content)
 	{
+		if ($this->useExtension) {
+			$loader = new \Twig\Loader\ArrayLoader([
+				'index' => $content
+			]);
+			$twig = new \Twig\Environment($loader, ['debug' => true]);
+			$twig->addFunction(new \Twig\TwigFunction('YFParser', function ($text) {
+				$value = '';
+				preg_match(static::VARIABLE_REGEX, $text, $matches);
+				if ($matches) {
+					[, $function, $params] = array_pad($matches, 3, '');
+					$value = \in_array($function, static::$baseFunctions) ? $this->{$function}($params) : '';
+				}
+				return $value;
+			}));
+			$content = $twig->render('index');
+		}
 		return preg_replace_callback(static::VARIABLE_REGEX, function ($matches) {
 			[, $function, $params] = array_pad($matches, 3, '');
 			return \in_array($function, static::$baseFunctions) ? $this->{$function}($params) : '';
@@ -1899,7 +1922,7 @@ class TextParser
 	{
 		$part = [];
 		foreach (explode('|', $param) as $type) {
-			[$name, $value] = array_pad(explode('=', $type, 2),2,'');
+			[$name, $value] = array_pad(explode('=', $type, 2), 2, '');
 			$part[$name] = $value;
 		}
 		return $part;

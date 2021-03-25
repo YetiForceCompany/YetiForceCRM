@@ -518,6 +518,7 @@ class Vtiger_PDF_Model extends \App\Base
 				$this->textParser->setLanguage($this->get('language'));
 			}
 			$this->textParser->setType('pdf');
+			$this->textParser->useExtension = true;
 			$this->textParser->setParams(['pdf' => $this]);
 		} elseif (($this->variables['recordId'] ?? null) !== $this->textParser->record) {
 			$this->textParser = null;
