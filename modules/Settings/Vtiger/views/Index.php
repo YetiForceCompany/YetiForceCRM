@@ -11,27 +11,24 @@
 
 class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 {
-	use \App\Controller\ExposeMethod, \App\Controller\Traits\SettingsPermission;
+	use \App\Controller\ExposeMethod;
+	use \App\Controller\Traits\SettingsPermission;
 
-	/**
-	 * Page title.
-	 *
-	 * @var type
-	 */
-	protected $pageTitle = 'LBL_SYSTEM_SETTINGS';
-
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
 	}
 
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
 	}
 
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$this->postProcessSettings($request);
@@ -57,9 +54,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -142,9 +137,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -173,9 +166,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 		);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertCssStyles([
@@ -185,6 +176,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 		]), parent::getHeaderCss($request));
 	}
 
+	/** {@inheritdoc} */
 	public function validateRequest(App\Request $request)
 	{
 		$request->validateReadAccess();

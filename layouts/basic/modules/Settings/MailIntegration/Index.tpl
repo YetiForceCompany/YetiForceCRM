@@ -17,6 +17,15 @@
 </div>
 <div id="my-tab-content" class="tab-content">
 	<div class="tab-pane {if $ACTIVE_TAB eq 'outlook'}active{/if}" id="outlook">
+	{if !\App\YetiForce\Register::isRegistered()}
+		<div class="col-md-12">
+			<div class="alert alert-danger">
+				<span class="yfi yfi-yeti-register-alert color-red-600 u-fs-5x mr-4 float-left"></span>
+				<h1 class="alert-heading">{\App\Language::translate('LBL_YETIFORCE_NOT_REGISTRATION_TITLE')}</h1>
+				{\App\Language::translate('LBL_YETIFORCE_NOT_REGISTRATION_DESC')}
+			</div>
+		</div>
+	{else}
 		{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert('YetiForceOutlook')}
 		{if $CHECK_ALERT}
 			<div class="alert alert-warning">
@@ -55,7 +64,7 @@
 			<input type="hidden" name="action" value="SaveConfigForm">
 			{include file=\App\Layout::getTemplatePath('ConfigForm.tpl','Vtiger/Utils')}
 		</form>
-		</table>
+	{/if}
 	</div>
 </div>
 <!-- /tpl-Settings-MailIntegration-Index -->

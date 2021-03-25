@@ -41,7 +41,7 @@ class Register
 	 *
 	 * @var string
 	 */
-	private const REGISTRATION_FILE = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
+	private const REGISTRATION_FILE = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
 	/**
 	 * Status messages.
 	 *
@@ -336,6 +336,16 @@ class Register
 	}
 
 	/**
+	 * Is the system is properly registered.
+	 *
+	 * @return bool
+	 */
+	public static function isRegistered(): bool
+	{
+		return static::getStatus() > 6;
+	}
+
+	/**
 	 * Get registration products.
 	 *
 	 * @param mixed $name
@@ -384,7 +394,7 @@ class Register
 	 */
 	public static function getProvider(): string
 	{
-		$path = \ROOT_DIRECTORY . '/app_data/installSource.txt';
+		$path = ROOT_DIRECTORY . '/app_data/installSource.txt';
 		if (\file_exists($path)) {
 			return trim(file_get_contents($path));
 		}
