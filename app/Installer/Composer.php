@@ -139,6 +139,10 @@ class Composer
 		'yetiforce/yii2' => [
 			'yii'
 		],
+		'twig/twig' => [
+			'doc',
+			'drupal_test.sh'
+		],
 	];
 	/**
 	 * Copy directories.
