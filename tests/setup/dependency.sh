@@ -1,3 +1,4 @@
+#!/bin/bash
 #########################################
 # Installation dependency
 #########################################
@@ -33,7 +34,6 @@ if [ "$INSTALL_MODE" != "PROD" ]; then
 else
 	composer install --no-interaction --no-dev --no-interaction
 fi
-
 
 if [ "$INSTALL_MODE" == "TEST" ]; then
 	mysql -u root yetiforce < install/install_schema/scheme.sql

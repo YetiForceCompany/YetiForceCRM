@@ -427,8 +427,7 @@ class ConfReport
 	 */
 	public static $functionalVerification = [
 		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER', 'mode' => 'onlyText'],
-		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES', 'mode' => 'onlyText'],
-		'magento' => ['type' => 'Magento',  'testCli' => false, 'label' => 'MAGENTO', 'mode' => 'onlyText'],
+		'shop' => ['type' => 'ShopProducts',  'testCli' => false, 'label' => 'PREMIUM_MODULES', 'mode' => 'onlyText'],
 	];
 	/**
 	 * Php variables.
@@ -1491,7 +1490,7 @@ class ConfReport
 	}
 
 	/**
-	 * Validate premium modules value.
+	 * Validate shop products.
 	 *
 	 * @param string $name
 	 * @param array  $row
@@ -1499,28 +1498,19 @@ class ConfReport
 	 *
 	 * @return array
 	 */
-	private static function validatePremiumModules(string $name, array $row, string $sapi)
+	private static function validateShopProducts(string $name, array $row, string $sapi)
 	{
 		unset($name);
 		$row['status'] = true;
-		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
-		return $row;
-	}
-
-	/**
-	 * Validate magento value.
-	 *
-	 * @param string $name
-	 * @param array  $row
-	 * @param string $sapi
-	 *
-	 * @return array
-	 */
-	private static function validateMagento(string $name, array $row, string $sapi)
-	{
-		unset($name);
-		$row['status'] = !(\Settings_Magento_Module_Model::isActive() && !\App\YetiForce\Shop::check('YetiForceMagento'));
-		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
+		$status = '';
+		foreach (\App\YetiForce\Shop::getProducts() as $name => $product) {
+			$verify = $product->verify();
+			if (!$verify['status']) {
+				$status .= $name . '(' . \strlen($verify['message']) . '), ';
+				$row['status'] = false;
+			}
+		}
+		$row[$sapi] = $status ? trim($status, ', ') : \App\Language::translate('LBL_YES');
 		return $row;
 	}
 
