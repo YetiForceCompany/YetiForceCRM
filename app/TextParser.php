@@ -448,10 +448,7 @@ class TextParser
 	public function parseData(string $content)
 	{
 		if ($this->useExtension) {
-			$loader = new \Twig\Loader\ArrayLoader([
-				'index' => $content
-			]);
-			$twig = new \Twig\Environment($loader, ['debug' => true]);
+			$twig = new \Twig\Environment(new \Twig\Loader\ArrayLoader(['index' => $content]));
 			$twig->addFunction(new \Twig\TwigFunction('YFParser', function ($text) {
 				$value = '';
 				preg_match(static::VARIABLE_REGEX, $text, $matches);
