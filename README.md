@@ -99,7 +99,9 @@ Testing Supported By<br/>
 ## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors"><img src="https://opencollective.com/YetiForceCRM/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=YetiForceCompany/YetiForceCRM" />
+</a>
 
 ## Backers
 
