@@ -547,7 +547,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isNameField()
 	{
 		$moduleModel = $this->getModule();
-		return $moduleModel && !$this->isReferenceField() && \in_array($this->getFieldName(), $moduleModel->getNameFields());
+		return $moduleModel && !$this->isReferenceField() && !\in_array($this->getFieldDataType(), ['email', 'url', 'phone']) && \in_array($this->getFieldName(), $moduleModel->getNameFields());
 	}
 
 	/**

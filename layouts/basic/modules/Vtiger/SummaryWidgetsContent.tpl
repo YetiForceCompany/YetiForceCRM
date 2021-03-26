@@ -50,9 +50,8 @@
 								nowrap>
 								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 									<a class="modCT_{$RELATED_MODULE_NAME}"
-									   title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}"
 									   href="{$RELATED_RECORD->getDetailViewUrl()}">
-										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
+										{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 									</a>
 								{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 									{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
@@ -158,9 +157,8 @@
 												<div class="value u-word-break pr-0">
 													{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
 														<a class="modCT_{$RELATED_MODULE_NAME}"
-														   title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}"
 														   href="{$RELATED_RECORD->getDetailViewUrl()}">
-															{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
+															{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 														</a>
 													{else}
 														{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
