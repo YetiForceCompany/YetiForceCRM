@@ -45,8 +45,8 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceOutlook');
 		} else {
 			$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
-			$status = \in_array('https://appsforoffice.microsoft.com', \Config\Security::$allowedScriptDomains)
-			|| \in_array('https://ajax.aspnetcdn.com', \Config\Security::$allowedScriptDomains);
+			$status = !\in_array('https://appsforoffice.microsoft.com', \Config\Security::$allowedScriptDomains)
+			&& !\in_array('https://ajax.aspnetcdn.com', \Config\Security::$allowedScriptDomains);
 		}
 		return ['status' => $status, 'message' => $message];
 	}
