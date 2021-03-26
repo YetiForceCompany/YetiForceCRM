@@ -1,6 +1,7 @@
 {
   "php": {
     "YetiForce": "YetiForce",
+    "LBL_VIEW_SHOP": "Marketplace",
     "LBL_REGISTRATION_ONLINE_MODAL": "Ηλεκτρονική εγγραφή",
     "LBL_REGISTRATION_OFFLINE_MODAL": "OffLine εγγραφή",
     "LBL_REGISTER": "Εγγραφή",
@@ -36,6 +37,9 @@
     "LBL_FAILED_TRANSACTION": "Η πληρωμή απέτυχε ή ακυρώθηκε. Παρακαλώ ελέγξτε την πληρωμή στον λογαριασμό σας PayPal και προσπαθήστε ξανά.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "Το μέγεθος της εταιρείας σας έχει αλλάξει, το πακέτο που αγοράσατε είναι πολύ μικρό για το τρέχον μέγεθος. Ενημερώστε τη συνδρομή σας.",
     "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
+    "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "One of the purchased products has expired or requires changing a package. The product has been temporarily canceled.",
+    "LBL_PAID_FUNCTIONALITY_ACTIVATED": "A paid functionality has been activated without purchasing a subscription!!!",
+    "LBL_SUBSCRIPTION_COMPANY_SIZE_HAS_CHANGED": "The company size has changed and it requires a higher tier of the subscription package",
     "LBL_PRODUCT_PREVIEW": "Προεπισκόπηση Προϊόντος",
     "LBL_SUPPORT_US": "Υποστηρίξτε μας",
     "LBL_SHOP_PRODUCT_NAME": "Όνομα Προϊόντος",

@@ -77,7 +77,7 @@
     "LBL_LATEST_PHP_VERSIONS_ARE": "Neueste PHP-Versionen: %s",
     "BTN_CHECK_LATEST_VERSION": "Letzte PHP Version prüfen",
     "BTN_SERVER_SPEED_TEST": "Server Performance Test",
-    "BTN_DB_INFO": "Database information",
+    "BTN_DB_INFO": "Datenbank Information",
     "LBL_SERVER_SPEED_TEST": "Server Geschwindigkeit",
     "LBL_READ_TEST": "Lesen",
     "LBL_WRITE_TEST": "Schreiben",
@@ -255,7 +255,7 @@
     "LBL_FORMAT": "Zeilenformat",
     "LBL_ENGINE": "Engine",
     "LBL_COLLATION": "Sortierung",
-    "LBL_LAMP_CONFIG_FILES": "LAMP config files",
+    "LBL_LAMP_CONFIG_FILES": "LAMP Konfigurationsdateien",
     "LBL_PATH_VERIFICATION_TITLE": "Path verification"
   },
   "js": {

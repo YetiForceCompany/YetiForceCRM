@@ -1,6 +1,7 @@
 {
   "php": {
     "YetiForce": "YetiForce",
+    "LBL_VIEW_SHOP": "Marketplace",
     "LBL_REGISTRATION_ONLINE_MODAL": "ثبت‌نام آنلاین",
     "LBL_REGISTRATION_OFFLINE_MODAL": "ثبت نام آفلاین",
     "LBL_REGISTER": "ثبت نام",
@@ -36,6 +37,9 @@
     "LBL_FAILED_TRANSACTION": "تراکنش انجام نشد یا لغو شد ، لطفاً پرداخت را در حساب PayPal خود بررسی کنید و دوباره امتحان کنید.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "اندازه شرکت شما تغییر کرده است ، بسته خریداری شده برای اندازه فعلی خیلی کوچک است. اشتراک خود را به روز کنید.",
     "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
+    "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "One of the purchased products has expired or requires changing a package. The product has been temporarily canceled.",
+    "LBL_PAID_FUNCTIONALITY_ACTIVATED": "A paid functionality has been activated without purchasing a subscription!!!",
+    "LBL_SUBSCRIPTION_COMPANY_SIZE_HAS_CHANGED": "The company size has changed and it requires a higher tier of the subscription package",
     "LBL_PRODUCT_PREVIEW": "پیش نمایش محصول",
     "LBL_SUPPORT_US": "حمایت از ما",
     "LBL_SHOP_PRODUCT_NAME": "نام محصول",

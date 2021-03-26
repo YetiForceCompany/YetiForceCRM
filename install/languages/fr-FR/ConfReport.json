@@ -256,7 +256,7 @@
     "LBL_ENGINE": "Moteur",
     "LBL_COLLATION": "Collecte",
     "LBL_LAMP_CONFIG_FILES": "Fichiers de configuration LAMP",
-    "LBL_PATH_VERIFICATION_TITLE": "Path verification"
+    "LBL_PATH_VERIFICATION_TITLE": "Vérification du chemin d'accès"
   },
   "js": {
     "JS_SPEED_TEST_START": "Vérification de la vitesse..."

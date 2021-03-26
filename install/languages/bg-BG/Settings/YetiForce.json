@@ -1,6 +1,7 @@
 {
   "php": {
     "YetiForce": "YetiForce",
+    "LBL_VIEW_SHOP": "Marketplace",
     "LBL_REGISTRATION_ONLINE_MODAL": "Онлайн регистрация",
     "LBL_REGISTRATION_OFFLINE_MODAL": "Офлайн Регистрация",
     "LBL_REGISTER": "Регистрация",
@@ -36,6 +37,9 @@
     "LBL_FAILED_TRANSACTION": "Транзакцията не бе успешна или беше анулирана, моля, проверете плащането в акаунта си в PayPal и опитайте отново.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "Размерът на вашата компания се промени, закупеният пакет е твърде малък за текущия размер. Актуализирайте абонамента си.",
     "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
+    "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "One of the purchased products has expired or requires changing a package. The product has been temporarily canceled.",
+    "LBL_PAID_FUNCTIONALITY_ACTIVATED": "A paid functionality has been activated without purchasing a subscription!!!",
+    "LBL_SUBSCRIPTION_COMPANY_SIZE_HAS_CHANGED": "The company size has changed and it requires a higher tier of the subscription package",
     "LBL_PRODUCT_PREVIEW": "Преглед на продукта",
     "LBL_SUPPORT_US": "Подкрепете ни",
     "LBL_SHOP_PRODUCT_NAME": "Име на продукта",

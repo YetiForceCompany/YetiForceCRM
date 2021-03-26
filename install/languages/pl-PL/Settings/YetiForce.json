@@ -1,6 +1,7 @@
 {
   "php": {
     "YetiForce": "YetiForce",
+    "LBL_VIEW_SHOP": "Sklep",
     "LBL_REGISTRATION_ONLINE_MODAL": "Rejestracja OnLine",
     "LBL_REGISTRATION_OFFLINE_MODAL": "Rejestracja OffLine",
     "LBL_REGISTER": "Zarejestruj",
@@ -36,6 +37,9 @@
     "LBL_FAILED_TRANSACTION": "Płatność nie powiodła się lub została anulowana. \nW celu weryfikacji problemu sprawdź płatność na swoim koncie w PayPal i spróbuj ponownie.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "Wielkość Twojej firmy uległa zmianie, wykupiony wcześniej pakiet jest za mały. Zaktualizuj subskrypcję.",
     "LBL_SUBSCRIPTION_HAS_EXPIRED": "Subskrypcja wygasła. Prosimy o przedłużenie subskrypcji, aby nadal korzystać z tej funkcjonalności,. ",
+    "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "Jeden z wykupionych produktów stracił ważność lub wymaga zmiany pakietu. Produkt został tymczasowo anulowany.",
+    "LBL_PAID_FUNCTIONALITY_ACTIVATED": "Płatna funkcjonalność została aktywowana bez zakupu subskrypcji!!!",
+    "LBL_SUBSCRIPTION_COMPANY_SIZE_HAS_CHANGED": "Rozmiar firmy uległ zmianie i wymaga wyższego poziomu pakietu subskrypcji",
     "LBL_PRODUCT_PREVIEW": "Podgląd produktu",
     "LBL_SUPPORT_US": "Wesprzyj nasz projekt",
     "LBL_SHOP_PRODUCT_NAME": "Nazwa produktu",

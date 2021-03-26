@@ -1,6 +1,7 @@
 {
   "php": {
     "YetiForce": "YetiForce",
+    "LBL_VIEW_SHOP": "Marketplace",
     "LBL_REGISTRATION_ONLINE_MODAL": "在线注册",
     "LBL_REGISTRATION_OFFLINE_MODAL": "离线注册",
     "LBL_REGISTER": "注册",
@@ -36,6 +37,9 @@
     "LBL_FAILED_TRANSACTION": "交易失败或已取消，请检查您的PayPal帐户上的付款，然后重试。",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "您公司的规模已经改变，购买的软件包对于当前的规模来说太小了。需要更新订阅。",
     "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
+    "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "One of the purchased products has expired or requires changing a package. The product has been temporarily canceled.",
+    "LBL_PAID_FUNCTIONALITY_ACTIVATED": "A paid functionality has been activated without purchasing a subscription!!!",
+    "LBL_SUBSCRIPTION_COMPANY_SIZE_HAS_CHANGED": "The company size has changed and it requires a higher tier of the subscription package",
     "LBL_PRODUCT_PREVIEW": "产品预览",
     "LBL_SUPPORT_US": "支持我们",
     "LBL_SHOP_PRODUCT_NAME": "产品名称",
