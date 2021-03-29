@@ -177,7 +177,9 @@ class File
 			}
 			$name = uniqid() . '.' . $extension;
 		} elseif ('tmp' === $extension) {
-			if (($fileExt = pathinfo($name, PATHINFO_EXTENSION)) && \in_array($fileExt, self::$mimeTypes)) {
+			var_dump(pathinfo($name, PATHINFO_EXTENSION));
+			var_dump(self::$mimeTypes);
+			if (($fileExt = pathinfo($name, PATHINFO_EXTENSION)) && isset(self::$mimeTypes[$fileExt])) {
 				$extension = $fileExt;
 			} elseif (!empty($param['mimeShortType']) && !($extension = array_search($param['mimeShortType'], self::$mimeTypes))) {
 				[, $extension] = explode('/', $param['mimeShortType']);
