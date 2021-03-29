@@ -84,7 +84,7 @@ class Outlook extends Base
 		$this->set('headers', $request->isEmpty('mailHeaders') ? '' : \App\TextParser::textTruncate($request->getRaw('mailHeaders'), 16777215, false));
 		$this->set('from_email', $request->getByType('mailFrom', 'Email'));
 		$this->set('date', $request->getByType('mailDateTimeCreated', 'DateTimeInIsoFormat'));
-		$this->set('message_id', \App\Purifier::decodeHtml($request->getByType('mailMessageId', 'Text')));
+		$this->set('message_id', $request->getByType('mailMessageId', 'MailId'));
 		if (!$request->isEmpty('mailTo')) {
 			$this->set('to_email', $request->getArray('mailTo', 'Email'));
 		}

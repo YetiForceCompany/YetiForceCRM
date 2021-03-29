@@ -449,6 +449,9 @@ class Purifier
 					case 'Url':
 						$value = Validator::url($input) ? $input : null;
 						break;
+					case 'MailId':
+							$value = preg_match('/^[\sA-Za-z0-9\<\>\_\[\.\]\=\-\+\@\$\!\#\%\&\'\*\+\/\?\^\_\`\{\|\}\~\-\"\:\(\)]+$/', $input) ? $input : null;
+							break;
 					case 'ClassName':
 						$value = preg_match('/^[a-z\\\_]+$/i', $input) ? $input : null;
 						break;
