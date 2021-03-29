@@ -84,7 +84,7 @@ class Outlook extends Base
 		$this->set('headers', $request->isEmpty('mailHeaders') ? '' : \App\TextParser::textTruncate($request->getRaw('mailHeaders'), 16777215, false));
 		$this->set('from_email', $request->getByType('mailFrom', 'Email'));
 		$this->set('date', $request->getByType('mailDateTimeCreated', 'DateTimeInIsoFormat'));
-		$this->set('message_id', $request->getByType('mailMessageId', 'MailId'));
+		$this->set('message_id', \App\Purifier::decodeHtml($request->getByType('mailMessageId', 'Text')));
 		if (!$request->isEmpty('mailTo')) {
 			$this->set('to_email', $request->getArray('mailTo', 'Email'));
 		}
@@ -122,7 +122,7 @@ class Outlook extends Base
 	public function findRelatedRecordsByEmail(): array
 	{
 		if (isset($this->processData['findByEmail'])) {
-			return  $this->processData['findByEmail'];
+			return $this->processData['findByEmail'];
 		}
 		$emails = $this->get('to_email');
 		$emails[] = $this->get('from_email');
@@ -139,7 +139,7 @@ class Outlook extends Base
 	public function findRelatedRecordsBySubject(): array
 	{
 		if (isset($this->processData['findBySubject'])) {
-			return  $this->processData['findBySubject'];
+			return $this->processData['findBySubject'];
 		}
 		return $this->processData['findBySubject'] = \App\Mail\RecordFinder::findBySubject($this->get('subject'), $this->getNumberFields());
 	}
