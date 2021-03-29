@@ -250,6 +250,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$rows = $query->all();
+
 		$count = \count($rows);
 		if ($count > $pageLimit) {
 			array_pop($rows);

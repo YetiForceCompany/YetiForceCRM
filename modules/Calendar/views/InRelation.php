@@ -35,7 +35,12 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
 			$moduleInstance = $relationListView->getRelatedModuleModel()->getEntityInstance();
-			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
+			if ($moduleInstance->default_order_by && $moduleInstance->default_sort_order) {
+				$orderBy = [];
+				foreach ((array) $moduleInstance->default_order_by as $value) {
+					$orderBy[$value] = $moduleInstance->default_sort_order;
+				}
+			}
 		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);

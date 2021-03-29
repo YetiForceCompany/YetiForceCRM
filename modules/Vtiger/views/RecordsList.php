@@ -151,7 +151,12 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
 			$moduleInstance = CRMEntity::getInstance($this->moduleName);
-			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
+			if ($moduleInstance->default_order_by && $moduleInstance->default_sort_order) {
+				$orderBy = [];
+				foreach ((array) $moduleInstance->default_order_by as $value) {
+					$orderBy[$value] = $moduleInstance->default_sort_order;
+				}
+			}
 		}
 		if (!empty($orderBy)) {
 			$this->recordListModel->set('orderby', $orderBy);

@@ -126,7 +126,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 			if (App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
 				if ($orderBy || ($customViewModel = CustomView_Record_Model::getInstanceById($this->viewName))) {
-					App\CustomView::setSortBy($moduleName, $orderBy ? $orderBy : $customViewModel->getSortOrderBy());
+					App\CustomView::setSortBy($moduleName, $orderBy ?: $customViewModel->getSortOrderBy());
 				}
 				App\CustomView::setCurrentView($moduleName, $this->viewName);
 			} else {
@@ -195,7 +195,12 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy) && !($orderBy = App\CustomView::getSortBy($moduleName))) {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
-			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
+			if ($moduleInstance->default_order_by && $moduleInstance->default_sort_order) {
+				$orderBy = [];
+				foreach ((array) $moduleInstance->default_order_by as $value) {
+					$orderBy[$value] = $moduleInstance->default_sort_order;
+				}
+			}
 		}
 		if (empty($pageNumber)) {
 			$pageNumber = App\CustomView::getCurrentPage($moduleName, $this->viewName);

@@ -169,7 +169,9 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 					}
 				}
 			} elseif ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
-				$this->queryGenerator->setOrder($targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
+				foreach ((array) $targetModuleFocus->default_order_by as $value) {
+					$this->queryGenerator->setOrder($value, $targetModuleFocus->default_sort_order);
+				}
 			}
 			$query = $this->queryGenerator->createQuery();
 			$query->limit($this->getRecordLimit());
