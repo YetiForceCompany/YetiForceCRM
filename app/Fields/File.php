@@ -169,21 +169,28 @@ class File
 	 */
 	public static function loadFromContent($contents, $name = false, $param = [])
 	{
+		static::initMimeTypes();
 		$extension = 'tmp';
 		if (empty($name)) {
-			static::initMimeTypes();
 			if (!empty($param['mimeShortType']) && !($extension = array_search($param['mimeShortType'], self::$mimeTypes))) {
 				[, $extension] = explode('/', $param['mimeShortType']);
 			}
 			$name = uniqid() . '.' . $extension;
-		} elseif ('tmp' === $extension && ($fileExt = pathinfo($name, PATHINFO_EXTENSION))) {
-			$extension = $fileExt;
+		} elseif ('tmp' === $extension) {
+			if (($fileExt = pathinfo($name, PATHINFO_EXTENSION)) && \in_array($fileExt, self::$mimeTypes)) {
+				$extension = $fileExt;
+			} elseif (!empty($param['mimeShortType']) && !($extension = array_search($param['mimeShortType'], self::$mimeTypes))) {
+				[, $extension] = explode('/', $param['mimeShortType']);
+			}
 		}
 		$path = tempnam(static::getTmpPath(), 'YFF');
 		$success = file_put_contents($path, $contents);
 		if (!$success) {
 			Log::error('Error while saving the file: ' . $path, __CLASS__);
 			return false;
+		}
+		if (mb_strlen($name) > 180) {
+			$name = \App\TextParser::textTruncate($name, 180, false) . '_' . uniqid() . ".$extension";
 		}
 		$instance = new self();
 		$instance->name = $name;
@@ -195,6 +202,7 @@ class File
 		foreach ($param as $key => $value) {
 			$instance->{$key} = $value;
 		}
+
 		return $instance;
 	}
 
@@ -224,6 +232,8 @@ class File
 				return false;
 			}
 			$contents = $response->getBody()->getContents();
+			$param['mimeShortType'] = $response->getHeaderLine('Content-Type');
+			$param['size'] = \strlen($contents);
 		} catch (\Throwable $exc) {
 			Log::warning('Error when downloading content: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
 			return false;
@@ -905,7 +915,6 @@ class File
 			$fileName = \App\TextParser::textTruncate($fileName, $maxLength - $extLength, false) . $ext;
 		}
 		$fileName = \App\Purifier::decodeHtml(\App\Purifier::purify($fileName));
-
 		$record->setData($params);
 		$record->set('notes_title', $fileName);
 		$record->set('filename', $fileName);
