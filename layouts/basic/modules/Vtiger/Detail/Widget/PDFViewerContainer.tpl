@@ -12,6 +12,13 @@
 				<div class="c-detail-widget__header__title">
 					<h5 class="mb-0 text-truncate">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 				</div>
+				{if \App\Privilege::isPermitted('OSSMail')}
+					<div class="row inline justify-center js-hb__container ml-auto">
+						<button  type="button" class="btn btn-info mr-0 js-email-pdf btn-sm"  data-js="click">
+							<span class="fas fa-envelope mr-1"></span>{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
+						</button>
+					</div>
+				{/if}
 			</div>
 		</div>
 		<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse pt-0" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}">
@@ -19,7 +26,7 @@
 				{foreach from=$WIDGET['instance']->getCustomFields() item=FIELD_MODEL}
 					{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 					<div class="form-group-sm w-100 mr-1 mb-1">
-						<select name="{$FIELD_MODEL->getName()}" class="select2 form-control form-control-sm js-filter_field"
+						<select name="{$FIELD_MODEL->getName()}" class="select2 form-control form-control-sm js-filter_field js-pdf-viewer-template"
 							data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}'
 							data-return="value" data-urlparams="{$FIELD_MODEL->getName()}" data-js="change">
 							<optgroup class="p-0">

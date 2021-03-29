@@ -3125,6 +3125,23 @@ jQuery.Class(
 			panelsStorage[id] = type;
 			Quasar.plugins.LocalStorage.set(storageName, panelsStorage);
 		},
+		registerSendPdfFromPdfViewer: function (container) {
+			container.find('.js-email-pdf').on('click', function (e) {
+				let selectedPdfTemplate = container.find('.js-pdf-viewer-template').val();
+				if (selectedPdfTemplate && selectedPdfTemplate > 0) {
+					window.open(
+						'index.php?module=' +
+							app.getModuleName() +
+							'&action=PDF&mode=generate&record=' +
+							app.getRecordId() +
+							'&email_pdf=1&single_pdf=0&pdf_template[]=' +
+							selectedPdfTemplate +
+							'&fromview=Detail',
+						'_blank'
+					);
+				}
+			});
+		},
 		registerEvents: function () {
 			//this.triggerDisplayTypeEvent();
 			this.registerSendSmsSubmitEvent();
@@ -3150,6 +3167,7 @@ jQuery.Class(
 			this.registerEventForTotalRecordsCount();
 			this.registerProgress();
 			this.registerChat(detailViewContainer);
+			this.registerSendPdfFromPdfViewer(detailViewContainer);
 		}
 	}
 );
