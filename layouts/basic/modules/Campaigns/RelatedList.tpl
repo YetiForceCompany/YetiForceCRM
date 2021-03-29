@@ -11,26 +11,22 @@
 -->*}
 {strip}
 {if !empty($CUSTOM_VIEWS)}
-	<div class="relatedContainer listViewPageDiv m-0">
+	<div class="relatedContainer listViewPageDiv m-0 js-list__form" data-js="container">
 		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
 		{assign var=RELATION_MODEL value=$VIEW_MODEL->getRelationModel()}
 		<input type="hidden" name="emailEnabledModules" value=true/>
 		<input type="hidden" id="view" value="{$VIEW}"/>
 		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}"/>
-		<input type="hidden" name="relatedModuleName" class="relatedModuleName"
-				value="{$RELATED_MODULE_NAME}"/>
+		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE_NAME}"/>
 		<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries"/>
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'/>
 		<input type="hidden" id="recordsCount" value=""/>
-		<input type="hidden" id="selectedIds" name="selectedIds"
-				data-selected-ids="{if $SELECTED_IDS === 'all'}all{else}{App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}{/if}"/>
-		<input type="hidden" id="excludedIds" name="excludedIds"
-				data-excluded-ids="{App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}"/>
+		<input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids="{if $SELECTED_IDS === 'all'}all{else}{App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}{/if}"/>
+		<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="{App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}"/>
 		<input type="hidden" id="recordsCount" name="recordsCount"/>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'/>
-		<input type="hidden" id="autoRefreshListOnChange"
-				value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		<input type="hidden" id="autoRefreshListOnChange" value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
 		<div class="relatedHeader">
 			<div class="btn-toolbar row">

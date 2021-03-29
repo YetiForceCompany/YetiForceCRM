@@ -213,14 +213,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function getHeaderCss(App\Request $request)
 	{
-		$cssFileNames = [
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/leaflet/dist/leaflet.css',
 			'~libraries/leaflet.markercluster/dist/MarkerCluster.Default.css',
 			'~libraries/leaflet.markercluster/dist/MarkerCluster.css',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.css',
-		];
-
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
+		]));
 	}
 
 	/**
@@ -235,11 +233,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			'~libraries/split.js/dist/split.js',
+			'modules.Vtiger.resources.List',
+			'modules.Vtiger.resources.ListSearch',
+			"modules.$moduleName.resources.ListSearch",
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Vtiger.resources.Widgets',
-			'modules.Vtiger.resources.ListSearch',
-			"modules.$moduleName.resources.ListSearch",
 			'~libraries/leaflet/dist/leaflet.js',
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',

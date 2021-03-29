@@ -214,6 +214,9 @@ jQuery.Class(
 		 * Function to trigger mass send email modal by row
 		 */
 		triggerSendEmailByRow: function (row) {
+			if (!(row instanceof jQuery)) {
+				row = $(row);
+			}
 			let params = Vtiger_RelatedList_Js.relatedListInstance.getDefaultParams();
 			Vtiger_List_Js.triggerSendEmail(
 				$.extend(params, {
@@ -225,7 +228,8 @@ jQuery.Class(
 				}),
 				function () {
 					Vtiger_Detail_Js.reloadRelatedList();
-				}
+				},
+				row
 			);
 		}
 	},
