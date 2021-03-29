@@ -43,7 +43,7 @@
 											<td>
 												{foreach from=explode(',',$ITEM['include_modules']) item=VALUE name=LIST}
 													{\App\Language::translate($VALUE, $VALUE)}
-													{if not $smarty.foreach.LIST.last},{/if}
+													{if not $smarty.foreach.LIST.last}, {/if}
 												{/foreach}
 											</td>
 											<td>
