@@ -43,7 +43,7 @@
 											<td>
 												{foreach from=explode(',',$ITEM['include_modules']) item=VALUE name=LIST}
 													{\App\Language::translate($VALUE, $VALUE)}
-													{if not $smarty.foreach.LIST.last},{/if}
+													{if not $smarty.foreach.LIST.last}, {/if}
 												{/foreach}
 											</td>
 											<td>
@@ -53,7 +53,7 @@
 												{/foreach}
 											</td>
 											<td class="text-center">
-												<input name="{$ITEM['handler_class']}" value="1" type="checkbox" {if $ITEM['is_active'] eq 1}checked{/if}>
+												<input name="{$ITEM['handler_class']}" {if $ITEM['privileges'] == \App\EventHandler::SYSTEM} disabled {/if}value="1" type="checkbox" {if $ITEM['is_active'] eq 1}checked{/if}>
 											</td>
 										</tr>
 									{/foreach}
