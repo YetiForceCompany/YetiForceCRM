@@ -3297,16 +3297,16 @@
         },
         {
             "name": "simshaun/recurr",
-            "version": "v4.0.2",
+            "version": "v4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simshaun/recurr.git",
-                "reference": "d6f85ec8652366f45f6d1ba07292c9653939631a"
+                "reference": "08b0b46879f598cd11dd42b4c1a9c221a0562749"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simshaun/recurr/zipball/d6f85ec8652366f45f6d1ba07292c9653939631a",
-                "reference": "d6f85ec8652366f45f6d1ba07292c9653939631a",
+                "url": "https://api.github.com/repos/simshaun/recurr/zipball/08b0b46879f598cd11dd42b4c1a9c221a0562749",
+                "reference": "08b0b46879f598cd11dd42b4c1a9c221a0562749",
                 "shasum": ""
             },
             "require": {
@@ -3314,7 +3314,7 @@
                 "php": ">=5.5.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.5"
+                "phpunit/phpunit": "~5.7"
             },
             "type": "library",
             "extra": {
@@ -3349,9 +3349,9 @@
             ],
             "support": {
                 "issues": "https://github.com/simshaun/recurr/issues",
-                "source": "https://github.com/simshaun/recurr/tree/v4.0.2"
+                "source": "https://github.com/simshaun/recurr/tree/v4.0.5"
             },
-            "time": "2019-11-18T17:48:08+00:00"
+            "time": "2021-03-25T23:00:49+00:00"
         },
         {
             "name": "smarty/smarty",
