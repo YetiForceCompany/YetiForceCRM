@@ -448,6 +448,9 @@ class TextParser
 	public function parseData(string $content)
 	{
 		if ($this->useExtension) {
+			$content = preg_replace_callback('/<!--[\s]+({% [\s\S]+? %})[\s]+-->/u', function ($matches) {
+				return $matches[1] ?? '';
+			}, $content);
 			$twig = new \Twig\Environment(new \Twig\Loader\ArrayLoader(['index' => $content]));
 			$twig->addFunction(new \Twig\TwigFunction('YFParser', function ($text) {
 				$value = '';

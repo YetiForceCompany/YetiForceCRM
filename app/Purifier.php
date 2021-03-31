@@ -66,6 +66,10 @@ class Purifier
 	 */
 	public const ALNUM_EXTENDED = 'AlnumExtended';
 	/**
+	 * Purify type HTML text parser.
+	 */
+	public const HTML_TEXT_PARSER = 'HtmlTextParser';
+	/**
 	 * Default charset.
 	 *
 	 * @var string
@@ -85,6 +89,9 @@ class Purifier
 	 * @var bool|\HTMLPurifier
 	 */
 	private static $purifyHtmlInstanceCache = false;
+
+	/** @var bool|\HTMLPurifier Cache for Html template purify instance. */
+	private static $purifyTextParserInstanceCache = false;
 
 	/**
 	 * Html events attributes.
@@ -201,6 +208,42 @@ class Purifier
 	}
 
 	/**
+	 * Purify HTML (Cleanup) malicious snippets of code from text parser.
+	 *
+	 * @param string $input
+	 * @param bool   $loop  Purify values in the loop
+	 *
+	 * @return string
+	 */
+	public static function purifyTextParser($input, $loop = true): string
+	{
+		if (empty($input)) {
+			return $input;
+		}
+		$cacheKey = md5($input);
+		if (Cache::has('purifyTextParser', $cacheKey)) {
+			return Cache::get('purifyTextParser', $cacheKey);
+		}
+		if (!static::$purifyTextParserInstanceCache) {
+			$config = static::getHtmlConfig(['directives' => ['HTML.AllowedCommentsRegexp' => '/^(\s+{% |{% )[\s\S]+( %}| %}\s+)$/u']]);
+			static::$purifyTextParserInstanceCache = new \HTMLPurifier($config);
+		}
+		$value = static::$purifyTextParserInstanceCache->purify($input);
+		$value = static::removeUnnecessaryCode($value);
+		static::purifyHtmlEventAttributes($value);
+		if ($loop) {
+			$last = '';
+			while ($last !== $value) {
+				$last = $value;
+				$value = static::purifyTextParser($value, false);
+			}
+		}
+		$value = preg_replace("/(^[\r\n]*|[\r\n]+)[\\s\t]*[\r\n]+/", "\n", $value);
+		Cache::save('purifyTextParser', $cacheKey, $value, Cache::SHORT);
+		return $value;
+	}
+
+	/**
 	 * To purify malicious html event attributes.
 	 *
 	 * @param string $value
@@ -241,9 +284,11 @@ class Purifier
 	/**
 	 * Get html config.
 	 *
+	 * @param array $options
+	 *
 	 * @return \HTMLPurifier_Config
 	 */
-	public static function getHtmlConfig()
+	public static function getHtmlConfig(array $options = [])
 	{
 		$config = \HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', static::$defaultCharset);
@@ -269,6 +314,9 @@ class Purifier
 			'tel' => true,
 			'data' => true,
 		]);
+		foreach ($options['directives'] ?? [] as $key => $value) {
+			$config->set($key, $value);
+		}
 		if ($def = $config->getHTMLDefinition(true)) {
 			$def->addElement('section', 'Block', 'Flow', 'Common');
 			$def->addElement('nav', 'Block', 'Flow', 'Common');
@@ -493,6 +541,9 @@ class Purifier
 						break;
 					case self::SQL:
 						$value = $input && Validator::sql($input) ? $input : null;
+						break;
+					case self::HTML_TEXT_PARSER:
+						$value = self::purifyTextParser($input);
 						break;
 					case 'Text':
 					default:
