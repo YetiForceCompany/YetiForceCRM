@@ -99,6 +99,15 @@ class Purifier
 	'onresizeend|onmovestart|onmoveend|onmove|onbeforecopy|onbeforecut|onbeforeunload|onhashchange|onoffline|ononline|onreadystatechange|onstop|onlosecapture';
 
 	/**
+	 * Remove unnecessary code list.
+	 *
+	 * @var string[]
+	 */
+	private static $removeUnnecessaryCode = [
+		'href="javascript:window.history.back();"'
+	];
+
+	/**
 	 * Purify (Cleanup) malicious snippets of code from the input.
 	 *
 	 * @param string $input
@@ -158,7 +167,7 @@ class Purifier
 	 *
 	 * @return string
 	 */
-	public static function purifyHtml($input, $loop = true)
+	public static function purifyHtml(string $input, $loop = true): string
 	{
 		if (empty($input)) {
 			return $input;
@@ -175,6 +184,7 @@ class Purifier
 		}
 		if (static::$purifyHtmlInstanceCache) {
 			$value = static::$purifyHtmlInstanceCache->purify($input);
+			$value = static::removeUnnecessaryCode($value);
 			static::purifyHtmlEventAttributes($value);
 			if ($loop) {
 				$last = '';
@@ -194,12 +204,29 @@ class Purifier
 	 *
 	 * @param string $value
 	 */
-	public static function purifyHtmlEventAttributes($value)
+	public static function purifyHtmlEventAttributes(string $value): void
 	{
 		if (preg_match('#<([^><]+?)([^a-z_\\-]on\\w*|xmlns)(\\s*=\\s*[^><]*)([>]*)#i', $value) || preg_match('/\\b(' . static::$htmlEventAttributes . ')\\s*=/i', $value) || preg_match('/javascript:[\w\.]+\(/i', $value)) {
 			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
 		}
+	}
+
+	/**
+	 * Remove unnecessary code.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public static function removeUnnecessaryCode(string $value): string
+	{
+		foreach (self::$removeUnnecessaryCode as $code) {
+			if (false !== strpos($value, $code)) {
+				$value = str_replace($code, '', $value);
+			}
+		}
+		return $value;
 	}
 
 	/**
