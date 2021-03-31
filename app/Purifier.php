@@ -104,7 +104,8 @@ class Purifier
 	 * @var string[]
 	 */
 	private static $removeUnnecessaryCode = [
-		'href="javascript:window.history.back();"'
+		'href="javascript:window.history.back();"',
+		'href="javascript:void(0);"',
 	];
 
 	/**
@@ -206,9 +207,17 @@ class Purifier
 	 */
 	public static function purifyHtmlEventAttributes(string $value): void
 	{
-		if (preg_match('#<([^><]+?)([^a-z_\\-]on\\w*|xmlns)(\\s*=\\s*[^><]*)([>]*)#i', $value) || preg_match('/\\b(' . static::$htmlEventAttributes . ')\\s*=/i', $value) || preg_match('/javascript:[\w\.]+\(/i', $value)) {
+		if (preg_match('#(<[^><]+?[\x00-\x20"\'])([^a-z_\\-]on\\w*|xmlns)(\\s*=\\s*[^><]*)([><]*)#i', $value, $matches)) {
 			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
-			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
+			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE|1|' . print_r($matches, true) . "||$value", 406);
+		}
+		if (preg_match('#<([^><]+?)(' . static::$htmlEventAttributes . ')(\\s*=\\s*[^><]*)([>]*)#i', $value, $matches)) {
+			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
+			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE|2|' . print_r($matches, true) . "||$value", 406);
+		}
+		if (preg_match('#<([^><]+?)javascript:[\w\.]+\(([>]*)#i', $value, $matches)) {
+			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
+			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE|3|' . print_r($matches, true) . "||$value", 406);
 		}
 	}
 
@@ -222,8 +231,8 @@ class Purifier
 	public static function removeUnnecessaryCode(string $value): string
 	{
 		foreach (self::$removeUnnecessaryCode as $code) {
-			if (false !== strpos($value, $code)) {
-				$value = str_replace($code, '', $value);
+			if (false !== stripos($value, $code)) {
+				$value = str_ireplace($code, '', $value);
 			}
 		}
 		return $value;
