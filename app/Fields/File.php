@@ -169,6 +169,10 @@ class File
 	 */
 	public static function loadFromContent(string $contents, $name = false, array $param = [])
 	{
+		if (empty($contents)) {
+			Log::error("Empty content, unable to create file: $name | Size: " . strlen($contents) , __CLASS__);
+			return false;
+		}
 		static::initMimeTypes();
 		$extension = 'tmp';
 		if (empty($name)) {
@@ -188,9 +192,8 @@ class File
 			}
 		}
 		$path = tempnam(static::getTmpPath(), 'YFF');
-		$success = file_put_contents($path, $contents);
-		if (!$success) {
-			Log::error('Error while saving the file: ' . $path, __CLASS__);
+		if (!file_put_contents($path, $contents)) {
+			Log::error("Error while saving the file: $path | Size: " . strlen($contents) , __CLASS__);
 			return false;
 		}
 		if (mb_strlen($name) > 180) {
