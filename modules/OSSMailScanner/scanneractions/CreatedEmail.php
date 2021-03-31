@@ -123,20 +123,21 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			'modifiedby' => $mail->getAccountOwner(),
 			'createdtime' => $mail->get('date'),
 			'modifiedtime' => $mail->get('date'),
-			'folderid' => 'T2'
+			'folderid' => 'T2',
 		];
 
 		$files = [];
 		foreach ($doc->getElementsByTagName('img') as $img) {
 			$src = trim($img->getAttribute('src'), '\'');
 			if ('data:' === substr($src, 0, 5)) {
-				if (($fileInstance = \App\Fields\File::saveFromString($src)) && ($ids = \App\Fields\File::saveFromContent($fileInstance, $params))) {
+				if (($fileInstance = \App\Fields\File::saveFromString($src, ['validateAllowedFormat' => 'image'])) && ($ids = \App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 					$img->setAttribute('alt', '-');
 					$files[] = $ids;
 					continue;
 				}
 			} elseif (filter_var($src, FILTER_VALIDATE_URL)) {
+				$params['param'] = ['validateAllowedFormat' => 'image'];
 				if ($ids = App\Fields\File::saveFromUrl($src, $params)) {
 					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 					$img->setAttribute('alt', '-');
@@ -146,7 +147,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			} elseif ('cid:' === substr($src, 0, 4)) {
 				$src = substr($src, 4);
 				if (isset($attachments[$src])) {
-					$fileInstance = App\Fields\File::loadFromContent($attachments[$src]['attachment'], $attachments[$src]['filename']);
+					$fileInstance = App\Fields\File::loadFromContent($attachments[$src]['attachment'], $attachments[$src]['filename'], ['validateAllowedFormat' => 'image']);
 					if ($fileInstance && $fileInstance->validateAndSecure() && ($ids = App\Fields\File::saveFromContent($fileInstance, $params))) {
 						$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 						if (!$img->hasAttribute('alt')) {
