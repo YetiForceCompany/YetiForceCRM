@@ -18,7 +18,7 @@ class EventHandler
 	 * @var string
 	 */
 	protected static $baseTable = 'vtiger_eventhandlers';
-	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler', 'Vtiger_RecordLabelUpdater_Handler'];
+	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler'];
 	private $recordModel;
 	private $moduleName;
 	private $params;

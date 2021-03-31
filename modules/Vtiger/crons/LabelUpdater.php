@@ -15,69 +15,133 @@
 class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 {
 	/**
-	 * {@inheritdoc}
+	 * The maximum number of record labels that cron can update during a single execution.
+	 *
+	 * @var int
 	 */
+	private $limit;
+
+	/** {@inheritdoc} */
 	public function process()
 	{
-		$limit = App\Config::performance('CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER');
-		$dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype',
+		$this->limit = App\Config::performance('CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER');
+		$this->newEntries();
+		$this->blankEntries();
+		$this->updateEntries();
+	}
+
+	/**
+	 * Generate labels for new entries.
+	 *
+	 * @return void
+	 */
+	public function newEntries(): void
+	{
+		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype',
 			'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel', ])
 			->from('vtiger_crmentity')
 			->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
 			->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
 			->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
-			->where(['and', ['vtiger_crmentity.deleted' => 0], ['or', ['u_#__crmentity_label.label' => null], ['u_#__crmentity_search_label.searchlabel' => null]], ['vtiger_tab.presence' => 0]])
-			->limit($limit)
-			->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$updater = false;
-			if (null === $row['label'] && null !== $row['searchlabel']) {
-				$updater = 'label';
-			} elseif (null === $row['searchlabel'] && null !== $row['label']) {
-				$updater = 'searchlabel';
+			->where(['and',
+				['vtiger_crmentity.deleted' => 0],
+				['or',
+					['u_#__crmentity_label.label' => null],
+					['u_#__crmentity_search_label.searchlabel' => null]
+				],
+				['vtiger_tab.presence' => 0]
+			])
+			->limit($this->limit);
+		foreach ($query->batch(100) as $rows) {
+			foreach ($rows as $row) {
+				$updater = false;
+				if (null === $row['label'] && null !== $row['searchlabel']) {
+					$updater = 'label';
+				} elseif (null === $row['searchlabel'] && null !== $row['label']) {
+					$updater = 'searchlabel';
+				}
+				\App\Record::updateLabel($row['setype'], $row['crmid'], true, $updater);
+				--$this->limit;
+				if (0 === $this->limit) {
+					return;
+				}
 			}
-			\App\Record::updateLabel($row['setype'], $row['crmid'], true, $updater);
-			--$limit;
-			if (0 === $limit) {
+			if ($this->checkTimeout()) {
 				return;
 			}
 		}
-		$dataReader->close();
-		$dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
+	}
+
+	/**
+	 * Generate labels for blank entries.
+	 *
+	 * @return void
+	 */
+	public function blankEntries(): void
+	{
+		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
 			->from('vtiger_crmentity')
 			->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
 			->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
 			->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
-			->where(['and', ['vtiger_crmentity.deleted' => 0], ['or', ['u_#__crmentity_label.label' => ''], ['u_#__crmentity_search_label.searchlabel' => '']], ['vtiger_tab.presence' => 0]])
-			->limit($limit)
-			->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			\App\Record::updateLabel($row['setype'], $row['crmid']);
-			--$limit;
-			if (0 === $limit) {
+			->where(['and',
+				['vtiger_crmentity.deleted' => 0],
+				['or',
+					['u_#__crmentity_label.label' => ''],
+					['u_#__crmentity_search_label.searchlabel' => '']
+				],
+				['vtiger_tab.presence' => 0]
+			])
+			->limit($this->limit);
+		foreach ($query->batch(100) as $rows) {
+			foreach ($rows as $row) {
+				\App\Record::updateLabel($row['setype'], $row['crmid']);
+				--$this->limit;
+				if (0 === $this->limit) {
+					return;
+				}
+			}
+			if ($this->checkTimeout()) {
 				return;
 			}
 		}
-		$dataReader->close();
-		$dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel'])
+	}
+
+	/**
+	 * Generate labels for update entries.
+	 *
+	 * @return void
+	 */
+	public function updateEntries(): void
+	{
+		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel'])
 			->from('vtiger_crmentity')
 			->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
 			->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
-			->where(['and', ['vtiger_crmentity.deleted' => 1], ['or', ['not', ['u_#__crmentity_label.label' => null]], ['not', ['u_#__crmentity_search_label.searchlabel' => null]]]])
-			->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$db = App\Db::getInstance();
-			if (null !== $row['label']) {
-				$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $row['crmid']])->execute();
+			->where(['and',
+				['vtiger_crmentity.deleted' => 1],
+				['or',
+					['not', ['u_#__crmentity_label.label' => null]],
+					['not', ['u_#__crmentity_search_label.searchlabel' => null]]
+				]
+			])
+			->limit($this->limit);
+		foreach ($query->batch(100) as $rows) {
+			foreach ($rows as $row) {
+				$db = App\Db::getInstance();
+				if (null !== $row['label']) {
+					$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $row['crmid']])->execute();
+				}
+				if (null !== $row['searchlabel']) {
+					$db->createCommand()->delete('u_#__crmentity_search_label', ['crmid' => $row['crmid']])->execute();
+				}
+				if (0 === $this->limit) {
+					return;
+				}
 			}
-			if (null !== $row['searchlabel']) {
-				$db->createCommand()->delete('u_#__crmentity_search_label', ['crmid' => $row['crmid']])->execute();
-			}
-			--$limit;
-			if (0 === $limit) {
+			if ($this->checkTimeout()) {
 				return;
 			}
 		}
-		$dataReader->close();
 	}
 }
