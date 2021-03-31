@@ -1,22 +1,25 @@
 <?php
 
-use PHPUnit\Framework\AssertionFailedError;
-use PHPUnit\Framework\PhptTestCase;
-use PHPUnit\Framework\Test;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\TestResult;
-use PHPUnit\Framework\TestSuite;
-use PHPUnit\Framework\Warning;
-
 /**
  * Travis CI result printer class.
+ *
+ * @package   Tests
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestResult;
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\Warning;
+use PHPUnit\Runner\PhptTestCase;
+
 /** @codeCoverageIgnoreStart */
-class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
+class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 {
 	public function getTestName(Test $test): string
 	{
