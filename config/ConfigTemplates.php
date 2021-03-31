@@ -285,6 +285,7 @@ return [
 			'description' => "Phone number display format. Values:\nfalse - formatting is disabled \n\\libphonenumber\\PhoneNumberFormat::RFC3966 - +48-44-668-18-00\n\\libphonenumber\\PhoneNumberFormat::E164 - +48446681800 \n\\libphonenumber\\PhoneNumberFormat::INTERNATIONAL - 044 668 18 00\n\\libphonenumber\\PhoneNumberFormat::NATIONAL - +48 44 668 18 00",
 			'validation' => function () {
 				return \in_array(func_get_arg(0), [
+					false,
 					\libphonenumber\PhoneNumberFormat::RFC3966,
 					\libphonenumber\PhoneNumberFormat::E164,
 					\libphonenumber\PhoneNumberFormat::INTERNATIONAL,

@@ -53,22 +53,19 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	{
 		$extra = '';
 		$href = $international = \App\Purifier::encodeHtml($value);
-		if (\Config\Main::$phoneFieldAdvancedVerification ?? false) {
+		if ((\Config\Main::$phoneFieldAdvancedVerification ?? false) && ($format = \App\Config::main('phoneFieldAdvancedHrefFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
 			if ($recordModel) {
 				$extra = $recordModel->getDisplayValue($this->getFieldModel()->getName() . '_extra');
 				if ($extra) {
 					$extra = ' ' . $extra;
 				}
 			}
-			$format = \App\Config::main('phoneFieldAdvancedHrefFormat', \libphonenumber\PhoneNumberFormat::RFC3966);
-			if (false !== $format) {
-				$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-				try {
-					$swissNumberProto = $phoneUtil->parse($value);
-					$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
-					$href = $phoneUtil->format($swissNumberProto, $format);
-				} catch (\libphonenumber\NumberParseException $e) {
-				}
+			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+			try {
+				$swissNumberProto = $phoneUtil->parse($value);
+				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+				$href = $phoneUtil->format($swissNumberProto, $format);
+			} catch (\libphonenumber\NumberParseException $e) {
 			}
 			if (\libphonenumber\PhoneNumberFormat::RFC3966 !== $format) {
 				$href = 'tel:' . $href;
@@ -88,23 +85,26 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
-		if (\Config\Main::$phoneFieldAdvancedVerification ?? false) {
+		$href = $international = \App\Purifier::encodeHtml($value);
+		if ((\Config\Main::$phoneFieldAdvancedVerification ?? false) && ($format = \App\Config::main('phoneFieldAdvancedHrefFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
 				$swissNumberProto = $phoneUtil->parse($value);
 				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
-				$rfc3966 = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::RFC3966);
+				$href = $phoneUtil->format($swissNumberProto, $format);
 			} catch (\libphonenumber\NumberParseException $e) {
 			}
+			if (\libphonenumber\PhoneNumberFormat::RFC3966 !== $format) {
+				$href = 'tel:' . $href;
+			}
 		} else {
-			$rfc3966 = 'tel:' . $rfc3966;
+			$href = 'tel:' . $href;
 		}
 		if ($rawText) {
 			return $international;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {
-			return '<a href="' . $rfc3966 . '">' . $international . '</a>';
+			return '<a href="' . $href . '">' . $international . '</a>';
 		}
 		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . '</a>';
 	}
