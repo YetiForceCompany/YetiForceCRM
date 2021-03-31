@@ -170,7 +170,7 @@ class File
 	public static function loadFromContent(string $contents, $name = false, array $param = [])
 	{
 		if (empty($contents)) {
-			Log::warning("Empty content, unable to create file: $name | Size: " . strlen($contents) , __CLASS__);
+			Log::warning("Empty content, unable to create file: $name | Size: " . \strlen($contents), __CLASS__);
 			return false;
 		}
 		static::initMimeTypes();
@@ -193,7 +193,7 @@ class File
 		}
 		$path = tempnam(static::getTmpPath(), 'YFF');
 		if (!file_put_contents($path, $contents)) {
-			Log::error("Error while saving the file: $path | Size: " . strlen($contents) , __CLASS__);
+			Log::error("Error while saving the file: $path | Size: " . \strlen($contents), __CLASS__);
 			return false;
 		}
 		if (mb_strlen($name) > 180) {
@@ -235,7 +235,7 @@ class File
 				return false;
 			}
 			$contents = $response->getBody()->getContents();
-			$param['mimeType'] = $response->getHeaderLine('Content-Type');
+			$param['mimeType'] = explode(';', $response->getHeaderLine('Content-Type'))[0];
 			$param['size'] = \strlen($contents);
 		} catch (\Throwable $exc) {
 			Log::warning('Error when downloading content: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
