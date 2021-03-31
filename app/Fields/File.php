@@ -170,7 +170,7 @@ class File
 	public static function loadFromContent(string $contents, $name = false, array $param = [])
 	{
 		if (empty($contents)) {
-			Log::error("Empty content, unable to create file: $name | Size: " . strlen($contents) , __CLASS__);
+			Log::warning("Empty content, unable to create file: $name | Size: " . strlen($contents) , __CLASS__);
 			return false;
 		}
 		static::initMimeTypes();
