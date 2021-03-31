@@ -60,7 +60,9 @@ class G_Cron extends \Tests\Base
 	 */
 	public function test()
 	{
-		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'OpenStreetMap');
+		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'OpenStreetMap_UpdaterRecordsCoordinates_Cron');
+		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'OpenStreetMap_UpdaterCoordinates_Cron');
+		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'Vtiger_SystemWarnings_Cron');
 		echo PHP_EOL;
 		require_once 'cron.php';
 		$rows = (new \App\Db\Query())->select(['modue' => 'setype', 'rows' => 'count(*)'])->from('vtiger_crmentity')->groupBy('setype')->orderBy(['rows' => SORT_DESC])->all();
