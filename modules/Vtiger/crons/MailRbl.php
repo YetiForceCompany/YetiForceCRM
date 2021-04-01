@@ -18,7 +18,6 @@ class Vtiger_MailRbl_Cron extends \App\CronHandler
 	public function process()
 	{
 		if (\App\YetiForce\Shop::check('YetiForceRbl')) {
-			var_dump(2);
 			\App\Mail\Rbl::sync(\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST);
 			\App\Mail\Rbl::sync(\App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST);
 		}
