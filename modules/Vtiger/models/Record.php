@@ -32,10 +32,6 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	protected $changesInventory = [];
 	/**
-	 * @var string Record label
-	 */
-	protected $label;
-	/**
 	 * @var array Data for save
 	 */
 	protected $dataForSave = [];
@@ -46,6 +42,10 @@ class Vtiger_Record_Model extends \App\Base
 	protected $handler;
 	protected $privileges = [];
 	protected $fullForm = true;
+	/**
+	 * @var string Record label
+	 */
+	public $label;
 	public $summaryRowCount = 4;
 	public $isNew = true;
 	public $ext = [];
