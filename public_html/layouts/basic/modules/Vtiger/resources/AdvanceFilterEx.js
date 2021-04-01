@@ -20,7 +20,7 @@ Vtiger_AdvanceFilter_Js(
 		//Hols field type for which there is validations always needed
 		allConditionValidationNeededFieldList: ['double', 'integer'],
 		// comparators which do not have any field Specific UI.
-		comparatorsWithNoValueBoxMap: ['has changed', 'is empty', 'is not empty', 'is added'],
+		comparatorsWithNoValueBoxMap: ['has changed', 'not has changed', 'is empty', 'is not empty', 'is added'],
 		init: function (container) {
 			if (typeof container === 'undefined') {
 				container = jQuery('#advanceFilterContainer');

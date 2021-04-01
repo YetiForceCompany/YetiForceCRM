@@ -339,6 +339,8 @@ class VTJsonCondition
 					return false;
 				}
 				return $fieldValue != $hasChanged;
+			case 'not has changed':
+				return false === $recordModel->getPreviousValue($cond['fieldname']);
 			case 'is empty':
 				if (empty($fieldValue)) {
 					return true;
@@ -507,16 +509,16 @@ class VTJsonCondition
 				return true;
 			case 'is record open':
 				if (
-					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName())) &&
-				\in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_OPEN))
+					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName()))
+				&& \in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_OPEN))
 				) {
 					return true;
 				}
 				return false;
 			case 'is record closed':
 				if (
-					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName())) &&
-				\in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED))
+					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName()))
+				&& \in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED))
 				) {
 					return false;
 				}

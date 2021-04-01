@@ -165,7 +165,7 @@ class WorkFlowScheduler
 				$sourceField = '';
 				$operation = $condition['operation'];
 				//Cannot handle this condition for scheduled workflows
-				if ('has changed' === $operation) {
+				if ('has changed' === $operation || 'not has changed' === $operation) {
 					continue;
 				}
 				$value = $condition['value'];
