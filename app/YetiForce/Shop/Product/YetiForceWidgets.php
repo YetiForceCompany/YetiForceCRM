@@ -17,7 +17,7 @@ namespace App\YetiForce\Shop\Product;
 class YetiForceWidgets extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce Widgets Premium';
+	public $label = 'YetiForce Premium Widgets';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
@@ -43,6 +43,17 @@ class YetiForceWidgets extends \App\YetiForce\Shop\AbstractBaseProduct
 		$message = $status = true;
 		if (\App\YetiForce\Register::getProducts('YetiForceWidgets')) {
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceWidgets');
+		} else {
+			$dashboardUpdates = (new \App\Db\Query())
+				->from('vtiger_module_dashboard')
+				->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard.linkid')
+				->where(['vtiger_links.linkurl' => 'index.php?module=ModTracker&view=ShowWidget&name=Updates'])
+				->exists();
+			$pdfViewer = (new \App\Db\Query())->from('vtiger_widgets')->where(['type' => 'PDFViewer'])->exists();
+			if ($dashboardUpdates || $pdfViewer) {
+				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
+				$status = false;
+			}
 		}
 		return ['status' => $status, 'message' => $message];
 	}
