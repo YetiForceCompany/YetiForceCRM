@@ -803,8 +803,6 @@ insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,
 
 /*Data for the table `u_yf_crmentity_label` */
 
-/*Data for the table `u_yf_crmentity_last_changes` */
-
 /*Data for the table `u_yf_crmentity_rel_tree` */
 
 /*Data for the table `u_yf_crmentity_search_label` */
@@ -3383,7 +3381,6 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (50,'EntityAfterSave','Calendar_CalendarHandler_Handler',1,'Calendar,Events,Activity','',3,9,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (51,'EntityChangeState','Calendar_CalendarHandler_Handler',1,'Calendar,Events,Activity','',5,9,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (52,'EntityAfterSave','IStorages_RecalculateStockHandler_Handler',1,'IGRN,IIDN,IGDN,IGIN,IPreOrder,ISTDN,ISTRN,IGRNC,IGDNC','',3,97,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (53,'EntityAfterSave','Accounts_SaveChanges_Handler',1,'Accounts','',3,6,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (54,'EntityAfterSave','OpenStreetMap_OpenStreetMapHandler_Handler',1,'Accounts,Leads,Partners,Vendors,Competition,Contacts','',3,110,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (55,'EntitySystemAfterCreate','Vtiger_AutomaticAssignment_Handler',0,'','',5,0,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (56,'EntityAfterSave','ModTracker_ModTrackerHandler_Handler',1,'','',8,32,0);
