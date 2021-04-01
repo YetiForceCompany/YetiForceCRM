@@ -117,6 +117,7 @@ class Vtiger_Menu_Model
 					$breadcrumbs[] = [
 						'name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
 						'url' => $menuModel->getUrl(),
+						'icon' => $menuModel->get('iconpath'),
 					];
 					break;
 				}

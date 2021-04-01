@@ -39,6 +39,9 @@
 						<li class="breadcrumb-item u-text-ellipsis">
 							{if \App\Config::layout('breadcrumbsHref')}
 								<a href="{$item['url']}">
+									{if isset($item['icon'])}
+										<span class="{$item['icon']} mr-2"></span>
+									{/if}
 									{$item['name']}
 								</a>
 							{else}
