@@ -130,8 +130,6 @@ class Vtiger_Menu_Model
 					$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $qualifiedModuleName)];
 				} elseif ('Edit' === $view && $request->isEmpty('record') && $request->isEmpty('parent_roleid')) {
 					$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
-				} elseif (!empty($view) && !\in_array($view, ['List', 'Index'])) {
-					$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 				}
 				if (!$request->isEmpty('record') && 'Users' === $moduleName) {
 					$recordLabel = \App\Fields\Owner::getUserLabel($request->getInteger('record'));
