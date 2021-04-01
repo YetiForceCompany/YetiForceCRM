@@ -206,7 +206,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return string - Record Module Name
 	 */
-	public function getModule()
+	public function getModule(): Vtiger_Module_Model
 	{
 		if (empty($this->parent)) {
 			return Vtiger_Module_Model::getInstance($this->getModuleName());
@@ -219,7 +219,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return string - Record Module Name
 	 */
-	public function getModuleName()
+	public function getModuleName():string
 	{
 		return $this->get('module');
 	}

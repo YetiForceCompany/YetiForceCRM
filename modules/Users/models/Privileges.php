@@ -19,14 +19,19 @@ class Users_Privileges_Model extends Users_Record_Model
 	 *
 	 * @return string - Entity Display Name for the record
 	 */
-	public function getName()
+	public function getName(): string
 	{
-		$entityData = \App\Module::getEntityInfo('Users');
-		$colums = [];
-		foreach ($entityData['fieldnameArr'] as $fieldname) {
-			$colums[] = $this->get($fieldname);
+		if (!isset($this->label)) {
+			$entityData = \App\Module::getEntityInfo('Users');
+			$separator = $entityData['separator'] ?? ' ';
+			$labelName = [];
+			foreach ($entityData['fieldnameArr'] as $columnName) {
+				$fieldModel = $this->getModule()->getFieldByColumn($columnName);
+				$labelName[] = $fieldModel->getDisplayValue($this->get($fieldModel->getName()), $this->getId(), $this, true);
+			}
+			$this->label = \App\Purifier::encodeHtml(implode($separator, $labelName));
 		}
-		return implode(' ', $colums);
+		return $this->label;
 	}
 
 	/**
@@ -60,9 +65,9 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public function hasGlobalReadPermission()
 	{
-		return $this->isAdminUser() ||
-			Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $this->getGlobalReadPermission() ||
-			Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $this->getGlobalWritePermission();
+		return $this->isAdminUser()
+			|| Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $this->getGlobalReadPermission()
+			|| Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $this->getGlobalWritePermission();
 	}
 
 	/**

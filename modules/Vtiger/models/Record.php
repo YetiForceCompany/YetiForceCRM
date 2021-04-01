@@ -15,18 +15,40 @@
  */
 class Vtiger_Record_Model extends \App\Base
 {
-	protected $module = false;
-	private $inventoryData;
+	/**
+	 * @var Vtiger_Module_Model Module model
+	 */
+	protected $module;
+	/**
+	 * @var array Inventory data
+	 */
+	protected $inventoryData;
+	/**
+	 * @var array Record changes
+	 */
+	protected $changes = [];
+	/**
+	 * @var array Record inventory changes
+	 */
+	protected $changesInventory = [];
+	/**
+	 * @var string Record label
+	 */
+	protected $label;
+	/**
+	 * @var array Data for save
+	 */
+	protected $dataForSave = [];
+	/**
+	 * @var array Event handler exceptions
+	 */
+	protected $handlerExceptions = [];
+	protected $handler;
 	protected $privileges = [];
 	protected $fullForm = true;
-	protected $changes = [];
-	private $changesInventory = [];
-	protected $handlerExceptions;
 	public $summaryRowCount = 4;
 	public $isNew = true;
 	public $ext = [];
-	protected $dataForSave = [];
-	protected $handler;
 
 	/**
 	 * Function to get the id of the record.
@@ -117,21 +139,20 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Fuction to get the Name of the record.
+	 * Function to get the Name of the record.
 	 *
 	 * @return string - Entity Name of the record
 	 */
-	public function getName()
+	public function getName(): string
 	{
-		$displayName = $this->get('label');
-		if (empty($displayName)) {
-			return $this->getDisplayName();
+		if (!isset($this->label)) {
+			$this->label = $this->getDisplayName();
 		}
-		return \App\Purifier::encodeHtml($displayName);
+		return $this->label;
 	}
 
 	/**
-	 * Get pevious value by field.
+	 * Get pervious value by field.
 	 *
 	 * @param string $fieldName
 	 *
@@ -213,8 +234,11 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return Vtiger_Module_Model
 	 */
-	public function getModule()
+	public function getModule(): Vtiger_Module_Model
 	{
+		if (!isset($this->module)) {
+			$this->module = Vtiger_Module_Model::getInstance($this->getModuleName());
+		}
 		return $this->module;
 	}
 
@@ -223,12 +247,11 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @param string $moduleName
 	 *
-	 * @return Vtiger_Record_Model or Module Specific Record Model instance
+	 * @return Vtiger_Record_Model Record Model instance
 	 */
-	public function setModule($moduleName)
+	public function setModule(string $moduleName): self
 	{
 		$this->module = Vtiger_Module_Model::getInstance($moduleName);
-
 		return $this;
 	}
 
@@ -237,9 +260,9 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @param Vtiger_Module_Model $module
 	 *
-	 * @return Vtiger_Record_Model or Module Specific Record Model instance
+	 * @return Vtiger_Record_Model Record Model instance
 	 */
-	public function setModuleFromInstance($module)
+	public function setModuleFromInstance(Vtiger_Module_Model $module): self
 	{
 		$this->module = $module;
 		return $this;
@@ -384,7 +407,7 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return string - Record Module Name
 	 */
-	public function getModuleName()
+	public function getModuleName(): string
 	{
 		return $this->getModule()->get('name');
 	}
@@ -520,6 +543,7 @@ class Vtiger_Record_Model extends \App\Base
 				$this->saveToDb();
 			}
 			Users_Privileges_Model::setSharedOwner($this->get('shownerid'), $this->getId());
+			\App\Record::updateLabelOnSave($this);
 			$this->addRelations();
 			$transaction->commit();
 		} catch (\Exception $e) {
@@ -531,7 +555,6 @@ class Vtiger_Record_Model extends \App\Base
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 			$this->isNew = false;
 		}
-		\App\Cache::delete('recordLabel', $this->getId());
 		\App\Cache::staticDelete('UnlockFields', $this->getId());
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
 	}
@@ -680,10 +703,7 @@ class Vtiger_Record_Model extends \App\Base
 			$eventHandler->setRecordModel($this);
 			$eventHandler->setModuleName($moduleName);
 			$eventHandler->trigger('EntityBeforeDelete');
-			$dbCommand = $db->createCommand();
-			$dbCommand->delete('u_#__crmentity_label', ['crmid' => $this->getId()])->execute();
-			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $this->getId()])->execute();
-			$dbCommand->delete('vtiger_crmentity', ['crmid' => $this->getId()])->execute();
+			$db->createCommand()->delete('vtiger_crmentity', ['crmid' => $this->getId()])->execute();
 			\App\Db::getInstance('admin')->createCommand()->delete('s_#__privileges_updater', ['crmid' => $this->getId()])->execute();
 			Vtiger_MultiImage_UIType::deleteRecord($this);
 			$eventHandler->trigger('EntityAfterDelete');
@@ -1364,7 +1384,7 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @param array $exceptions
 	 */
-	public function setHandlerExceptions($exceptions)
+	public function setHandlerExceptions($exceptions): void
 	{
 		$this->handlerExceptions = $exceptions;
 	}
@@ -1374,7 +1394,7 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return array
 	 */
-	public function getHandlerExceptions()
+	public function getHandlerExceptions(): array
 	{
 		return $this->handlerExceptions;
 	}

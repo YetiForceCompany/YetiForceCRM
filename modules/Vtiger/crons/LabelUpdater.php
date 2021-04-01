@@ -25,22 +25,22 @@ class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 	public function process()
 	{
 		$this->limit = App\Config::performance('CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER');
-		$this->newEntries();
-		$this->blankEntries();
+		if (!$this->newEntries()) {
+			return;
+		}
 		$this->updateEntries();
 	}
 
 	/**
 	 * Generate labels for new entries.
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	public function newEntries(): void
+	public function newEntries(): bool
 	{
 		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype',
 			'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel', ])
 			->from('vtiger_crmentity')
-			->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
 			->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
 			->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
 			->where(['and',
@@ -49,9 +49,21 @@ class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 					['u_#__crmentity_label.label' => null],
 					['u_#__crmentity_search_label.searchlabel' => null]
 				],
-				['vtiger_tab.presence' => 0]
 			])
 			->limit($this->limit);
+		$skipModules = (new App\Db\Query())->select(['vtiger_tab.name'])->from('vtiger_tab')
+			->leftJoin('vtiger_entityname', 'vtiger_tab.tabid = vtiger_entityname.tabid')
+			->where(['vtiger_tab.isentitytype' => 1])
+			->andWhere([
+				'or',
+				['vtiger_tab.presence' => 1],
+				['vtiger_entityname.modulename' => null],
+				['vtiger_entityname.fieldname' => '', 'vtiger_entityname.searchcolumn' => ''],
+			])
+			->column();
+		if ($skipModules) {
+			$query->andWhere(['not in', 'vtiger_crmentity.setype', $skipModules]);
+		}
 		foreach ($query->batch(100) as $rows) {
 			foreach ($rows as $row) {
 				$updater = false;
@@ -62,86 +74,36 @@ class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 				}
 				\App\Record::updateLabel($row['setype'], $row['crmid'], true, $updater);
 				--$this->limit;
-				if (0 === $this->limit) {
-					return;
-				}
 			}
 			if ($this->checkTimeout()) {
-				return;
+				return false;
 			}
 		}
-	}
-
-	/**
-	 * Generate labels for blank entries.
-	 *
-	 * @return void
-	 */
-	public function blankEntries(): void
-	{
-		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
-			->from('vtiger_crmentity')
-			->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
-			->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
-			->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
-			->where(['and',
-				['vtiger_crmentity.deleted' => 0],
-				['or',
-					['u_#__crmentity_label.label' => ''],
-					['u_#__crmentity_search_label.searchlabel' => '']
-				],
-				['vtiger_tab.presence' => 0]
-			])
-			->limit($this->limit);
-		foreach ($query->batch(100) as $rows) {
-			foreach ($rows as $row) {
-				\App\Record::updateLabel($row['setype'], $row['crmid']);
-				--$this->limit;
-				if (0 === $this->limit) {
-					return;
-				}
-			}
-			if ($this->checkTimeout()) {
-				return;
-			}
-		}
+		return true;
 	}
 
 	/**
 	 * Generate labels for update entries.
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	public function updateEntries(): void
+	public function updateEntries(): bool
 	{
-		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel'])
+		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid'])
 			->from('vtiger_crmentity')
-			->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
 			->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
 			->where(['and',
 				['vtiger_crmentity.deleted' => 1],
-				['or',
-					['not', ['u_#__crmentity_label.label' => null]],
-					['not', ['u_#__crmentity_search_label.searchlabel' => null]]
-				]
+				['not', ['u_#__crmentity_search_label.searchlabel' => null]]
 			])
 			->limit($this->limit);
-		foreach ($query->batch(100) as $rows) {
-			foreach ($rows as $row) {
-				$db = App\Db::getInstance();
-				if (null !== $row['label']) {
-					$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $row['crmid']])->execute();
-				}
-				if (null !== $row['searchlabel']) {
-					$db->createCommand()->delete('u_#__crmentity_search_label', ['crmid' => $row['crmid']])->execute();
-				}
-				if (0 === $this->limit) {
-					return;
-				}
-			}
+		$createCommand = App\Db::getInstance()->createCommand();
+		foreach ($query->batch(50) as $rows) {
+			$createCommand->delete('u_#__crmentity_search_label', ['crmid' => array_column($rows, 'crmid')])->execute();
 			if ($this->checkTimeout()) {
-				return;
+				return false;
 			}
 		}
+		return true;
 	}
 }

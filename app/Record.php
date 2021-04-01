@@ -91,38 +91,36 @@ class Record
 	 * @param array|int $ids
 	 * @param bool      $search
 	 *
-	 * @return string[]
+	 * @return string[]|null
 	 */
-	public static function computeLabels($moduleName, $ids, $search = false)
+	public static function computeLabels($moduleName, $ids, $search = false): ?array
 	{
 		if (empty($moduleName) || empty($ids)) {
 			return [];
 		}
+		$metaInfo = \App\Module::getEntityInfo($moduleName);
+		if (!$metaInfo || (empty($metaInfo['fieldnameArr']) && empty($metaInfo['searchcolumnArr']))) {
+			return null;
+		}
 		if (!\is_array($ids)) {
 			$ids = [$ids];
 		}
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$entityDisplay = [];
 		$cacheName = 'computeLabelsQuery';
 		if (!\App\Cache::staticHas($cacheName, $moduleName)) {
-			$metaInfo = \App\Module::getEntityInfo($moduleName);
-			if (empty($metaInfo)) {
-				return $entityDisplay;
-			}
 			$table = $metaInfo['tablename'];
 			$idColumn = $table . '.' . $metaInfo['entityidfield'];
 			$columnsName = $metaInfo['fieldnameArr'];
 			$columnsSearch = $metaInfo['searchcolumnArr'];
 			$columns = array_unique(array_merge($columnsName, $columnsSearch));
-
-			$moduleInfoExtend = Functions::getModuleFieldInfos($moduleName, true);
-			$leftJoinTables = [];
-			$paramsCol = [];
+			$leftJoinTables = $paramsCol = [];
 			$query = new \App\Db\Query();
-			$focus = \CRMEntity::getInstance($moduleName);
+			$focus = $moduleModel->getEntityInstance();
+			$moduleInfoExtend = Functions::getModuleFieldInfos($moduleName, true);
 			foreach (array_filter($columns) as $column) {
 				if (\array_key_exists($column, $moduleInfoExtend)) {
 					$otherTable = $moduleInfoExtend[$column]['tablename'];
-
 					$paramsCol[] = $otherTable . '.' . $column;
 					if ($otherTable !== $table && !\in_array($otherTable, $leftJoinTables)) {
 						$leftJoinTables[] = $otherTable;
@@ -136,17 +134,11 @@ class Record
 			\App\Cache::staticSave($cacheName, $moduleName, clone $query);
 		} else {
 			$query = \App\Cache::staticGet($cacheName, $moduleName);
-			$metaInfo = \App\Module::getEntityInfo($moduleName);
-			$moduleInfoExtend = Functions::getModuleFieldInfos($moduleName, true);
-			if (empty($moduleInfoExtend) || empty($metaInfo)) {
-				return [];
-			}
 			$columnsName = $metaInfo['fieldnameArr'];
 			$columnsSearch = $metaInfo['searchcolumnArr'];
 			$idColumn = $metaInfo['entityidfield'];
 		}
 		$separator = $metaInfo['separator'] ?? ' ';
-		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$ids = array_unique($ids);
 		$query->where([$idColumn => $ids]);
 		$dataReader = $query->createCommand()->query();
@@ -157,14 +149,14 @@ class Record
 				$fieldModel = $moduleModel->getFieldByColumn($columnName);
 				$labelName[] = $fieldModel ? $fieldModel->getDisplayValue($row[$columnName], $recordId, false, true) : '';
 			}
-			$label = TextParser::textTruncate(trim(implode($separator, $labelName)), 254, false);
+			$label = TextParser::textTruncate(trim(implode($separator, $labelName)), 250, false);
 			if ($search) {
 				$labelName = [];
 				foreach ($columnsSearch as $columnName) {
 					$fieldModel = $moduleModel->getFieldByColumn($columnName);
 					$labelName[] = $fieldModel ? $fieldModel->getDisplayValue($row[$columnName], $recordId, false, true) : '';
 				}
-				$searchLabel = TextParser::textTruncate(trim(implode($separator, $labelName)), 254, false);
+				$searchLabel = TextParser::textTruncate(trim(implode($separator, $labelName)), 250, false);
 				$entityDisplay[$recordId] = ['name' => $label, 'search' => $searchLabel];
 			} else {
 				$entityDisplay[$recordId] = $label;
@@ -173,29 +165,31 @@ class Record
 		return $entityDisplay;
 	}
 
-	public static function updateLabel($moduleName, $id, $insertMode = false, $updater = false)
+	/**
+	 * Update record label.
+	 *
+	 * @param string      $moduleName
+	 * @param int         $id
+	 * @param bool        $insertMode
+	 * @param string|null $updater
+	 *
+	 * @return void
+	 */
+	public static function updateLabel(string $moduleName, int $id, bool $insertMode = false, ?string $updater = null): void
 	{
-		$labelInfo = static::computeLabels($moduleName, $id, true);
+		$metaInfo = static::computeLabels($moduleName, $id, true);
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		if (empty($labelInfo)) {
+		if (!$metaInfo || (empty($metaInfo['fieldnameArr']) && empty($metaInfo['searchcolumnArr']))) {
 			$dbCommand->delete('u_#__crmentity_label', ['crmid' => $id])->execute();
 			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $id])->execute();
 		} else {
-			$label = $labelInfo[$id]['name'];
-			$search = $labelInfo[$id]['search'];
-			if (!is_numeric($label) && empty($label)) {
-				$label = '';
-			}
-			if (!is_numeric($search) && empty($search)) {
-				$search = '';
-			}
+			$label = $metaInfo[$id]['name'];
+			$search = $metaInfo[$id]['search'];
 			if (!$insertMode) {
-				$labelRowCount = $dbCommand->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $id])->execute();
-				if (!$labelRowCount) {
+				if (!($labelRowCount = $dbCommand->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $id])->execute())) {
 					$labelRowCount = (new Db\Query())->from('u_#__crmentity_label')->where(['crmid' => $id])->count();
 				}
-				$searchRowCount = $dbCommand->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $id])->execute();
-				if (!$searchRowCount) {
+				if (!($searchRowCount = $dbCommand->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $id])->execute())) {
 					$searchRowCount = (new Db\Query())->from('u_#__crmentity_search_label')->where(['crmid' => $id])->count();
 				}
 			}
@@ -205,7 +199,7 @@ class Record
 			if (($insertMode || !$searchRowCount) && 'label' !== $updater) {
 				$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName])->execute();
 			}
-			Cache::save('recordLabel', $id, $labelInfo[$id]['name']);
+			Cache::save('recordLabel', $id, $metaInfo[$id]['name']);
 		}
 	}
 
@@ -213,35 +207,40 @@ class Record
 	 * Update record label on save.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return void
 	 */
-	public static function updateLabelOnSave(\Vtiger_Record_Model $recordModel)
+	public static function updateLabelOnSave(\Vtiger_Record_Model $recordModel): void
 	{
+		$label = '';
 		$metaInfo = \App\Module::getEntityInfo($recordModel->getModuleName());
-		$separator = $metaInfo['separator'] ?? ' ';
-		$labelName = [];
-		foreach ($metaInfo['fieldnameArr'] as $columnName) {
-			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
-			$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
-		}
-		$labelSearch = [];
-		foreach ($metaInfo['searchcolumnArr'] as $columnName) {
-			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
-			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
-		}
-		$label = TextParser::textTruncate(trim(implode($separator, $labelName)), 250, false) ?: '';
-		$search = TextParser::textTruncate(trim(implode($separator, $labelSearch)), 250, false) ?: '';
-		$db = \App\Db::getInstance();
-		if ($recordModel->isNew()) {
-			$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $recordModel->getId(), 'label' => $label])->execute();
-			$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $recordModel->getId(), 'searchlabel' => $search, 'setype' => $recordModel->getModuleName()])->execute();
+		$dbCommand = Db::getInstance()->createCommand();
+		if (!$metaInfo || (empty($metaInfo['fieldnameArr']) && empty($metaInfo['searchcolumnArr']))) {
+			$dbCommand->delete('u_#__crmentity_label', ['crmid' => $recordModel->getId()])->execute();
+			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $recordModel->getId()])->execute();
 		} else {
-			$db->createCommand()
-				->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $recordModel->getId()])
-				->execute();
-			$db->createCommand()
-				->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $recordModel->getId()])
-				->execute();
+			$separator = $metaInfo['separator'] ?? ' ';
+			$labelName = [];
+			foreach ($metaInfo['fieldnameArr'] as $columnName) {
+				$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
+				$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
+			}
+			$labelSearch = [];
+			foreach ($metaInfo['searchcolumnArr'] as $columnName) {
+				$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
+				$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
+			}
+			$label = TextParser::textTruncate(trim(implode($separator, $labelName)), 250, false) ?: '';
+			$search = TextParser::textTruncate(trim(implode($separator, $labelSearch)), 250, false) ?: '';
+			if ($recordModel->isNew()) {
+				$dbCommand->insert('u_#__crmentity_label', ['crmid' => $recordModel->getId(), 'label' => $label])->execute();
+				$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $recordModel->getId(), 'searchlabel' => $search, 'setype' => $recordModel->getModuleName()])->execute();
+			} else {
+				$dbCommand->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $recordModel->getId()])->execute();
+				$dbCommand->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $recordModel->getId()])->execute();
+			}
 		}
+		$recordModel->label = \App\Purifier::encodeHtml($label);
 		Cache::save('recordLabel', $recordModel->getId(), $label);
 	}
 

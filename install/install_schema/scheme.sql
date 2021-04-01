@@ -1870,11 +1870,12 @@ CREATE TABLE `u_yf_countries` (
 /*Table structure for table `u_yf_crmentity_label` */
 
 CREATE TABLE `u_yf_crmentity_label` (
-  `crmid` int(10) unsigned NOT NULL,
+  `crmid` int(10) NOT NULL,
   `label` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`crmid`),
   KEY `crmentity_label` (`label`),
-  FULLTEXT KEY `crmentity_label_fulltext` (`label`)
+  FULLTEXT KEY `crmentity_label_fulltext` (`label`),
+  CONSTRAINT `fk_u_yf_crmentity_label` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_rel_tree` */
@@ -1892,13 +1893,14 @@ CREATE TABLE `u_yf_crmentity_rel_tree` (
 /*Table structure for table `u_yf_crmentity_search_label` */
 
 CREATE TABLE `u_yf_crmentity_search_label` (
-  `crmid` int(10) unsigned NOT NULL,
+  `crmid` int(10) NOT NULL,
   `searchlabel` varchar(255) NOT NULL,
   `setype` varchar(30) NOT NULL,
   `userid` text DEFAULT NULL,
   PRIMARY KEY (`crmid`),
   KEY `crmentity_searchlabel_setype` (`searchlabel`,`setype`),
-  FULLTEXT KEY `crmentity_searchlabel_fulltext` (`searchlabel`)
+  FULLTEXT KEY `crmentity_searchlabel_fulltext` (`searchlabel`),
+  CONSTRAINT `fk_u_yf_crmentity_search_label` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_showners` */

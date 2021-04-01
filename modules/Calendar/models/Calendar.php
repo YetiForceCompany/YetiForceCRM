@@ -29,19 +29,6 @@ class Calendar_Calendar_Model extends App\Base
 	}
 
 	/**
-	 * Get module name.
-	 *
-	 * @return string
-	 */
-	public function getModule()
-	{
-		if (!isset($this->module)) {
-			$this->module = Vtiger_Module_Model::getInstance($this->getModuleName());
-		}
-		return $this->module;
-	}
-
-	/**
 	 * Get query.
 	 *
 	 * @return \App\Db\Query
