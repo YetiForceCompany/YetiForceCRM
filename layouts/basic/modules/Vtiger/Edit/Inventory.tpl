@@ -62,7 +62,7 @@
 					{/foreach}
 				</colgroup>
 				<thead>
-				<tr data-rownumber="0" class="u-min-w-650px">
+				<tr data-rownumber="0" class="u-min-w-650pxr">
 					<th class="border-bottom-0">
 						<span class="inventoryLineItemHeader">{\App\Language::translate('LBL_ADD', $MODULE)}</span>&nbsp;&nbsp;
 						<div class="d-flex">

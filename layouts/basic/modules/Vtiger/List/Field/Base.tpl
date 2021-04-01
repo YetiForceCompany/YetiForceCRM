@@ -18,7 +18,7 @@
 {else}
 	{assign var=SEARCH_VALUE value=''}
 {/if}
-<div class="searchField {if isset($CLASS_SIZE)}{$CLASS_SIZE}{/if} u-min-w-150px">
+<div class="searchField {if isset($CLASS_SIZE)}{$CLASS_SIZE}{/if} u-min-w-150pxr">
 	{if !empty($MODULE_MODEL) && $MODULE_MODEL->getAlphabetSearchField() eq $FIELD_MODEL->getName()}
 		<div class="input-group col-12 px-0">
 			<input type="text" name="{$FIELD_MODEL->getName()}" {if !empty($FIELD_MODEL->get('source_field_name'))} data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}" {/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>

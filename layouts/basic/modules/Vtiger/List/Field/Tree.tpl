@@ -10,7 +10,7 @@
 	{assign var="SEARCH_VALUES" value=''}
 {/if}
 {assign var="DISPLAY_VALUE" value=$FIELD_MODEL->getDisplayValue($SEARCH_VALUES)}
-<div class="js-tree-container fieldValue u-min-w-150px" data-js="container">
+<div class="js-tree-container fieldValue u-min-w-150pxr" data-js="container">
 	<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$SEARCH_VALUES}" class="sourceField listSearchContributor" data-displayvalue='{$DISPLAY_VALUE}' data-fieldinfo='{$FIELD_INFO}' data-multiple="1" data-treetemplate="{$FIELD_MODEL->getFieldParams()}" data-modulename="{$FIELD_MODEL->getModuleName()}">
 	<div class="input-group {$WIDTHTYPE_GROUP}">
 		{if $FIELD_MODEL->get('displaytype') != 10}
