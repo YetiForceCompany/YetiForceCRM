@@ -3,68 +3,23 @@ name: PHP actions
 on: [push, pull_request]
 
 jobs:
-  php73:
-    name: Composer 7.3
+  composer:
+    name: Composer
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate
+      - name: Validate composer.json and composer.lock
+        run: composer validate
 
-    - name: Cache Composer dependencies
-      uses: actions/cache@v2
-      with:
-        path: /tmp/composer-cache
-        key: ${{ runner.os }}-7.3-${{ hashFiles('**/composer.lock') }}
+      - name: Cache Composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
-    - name: Install dependencies PHP 7.3
-    - uses: php-actions/composer@v5
-      with:
-        php-version: 7.3
-        coverage: none
-        extensions: intl
-
-  php74:
-    name: Composer 7.4
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Cache Composer dependencies
-      uses: actions/cache@v2
-      with:
-        path: /tmp/composer-cache
-        key: ${{ runner.os }}-7.4-${{ hashFiles('**/composer.lock') }}
-
-    - name: Install dependencies PHP 7.4
-    - uses: php-actions/composer@v5
-      with:
-        php-version: 7.4
-        coverage: none
-        extensions: intl
-
-  php80:
-    name: Composer 8.0
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Cache Composer dependencies
-      uses: actions/cache@v2
-      with:
-        path: /tmp/composer-cache
-        key: ${{ runner.os }}-8.0-${{ hashFiles('**/composer.lock') }}
-
-    - name: Install dependencies PHP 8.0
-    - uses: php-actions/composer@v5
-      with:
-        php-version: 8.0
-        coverage: none
-        extensions: intl
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
 
   code:
     name: Code
