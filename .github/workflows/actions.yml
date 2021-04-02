@@ -3,7 +3,7 @@ name: PHP actions
 on: [push, pull_request]
 
 jobs:
-  build:
+  php-7-3:
     name: Composer
     runs-on: ubuntu-latest
 
@@ -17,7 +17,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: /tmp/composer-cache
-        key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-7.3-${{ hashFiles('**/composer.lock') }}
 
     - name: Install dependencies PHP 7.3
       with:
@@ -26,12 +26,38 @@ jobs:
         extensions: intl
     - uses: php-actions/composer@v5
 
+  php-7-4:
+    name: Composer
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v2
+      with:
+        path: /tmp/composer-cache
+        key: ${{ runner.os }}-7.4-${{ hashFiles('**/composer.lock') }}
+
     - name: Install dependencies PHP 7.4
       with:
         php-version: 7.4
         coverage: none
         extensions: intl
     - uses: php-actions/composer@v5
+
+  php-8-0:
+    name: Composer
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v2
+      with:
+        path: /tmp/composer-cache
+        key: ${{ runner.os }}-8.0-${{ hashFiles('**/composer.lock') }}
 
     - name: Install dependencies PHP 8.0
       with:
