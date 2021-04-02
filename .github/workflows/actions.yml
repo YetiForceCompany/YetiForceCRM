@@ -3,8 +3,8 @@ name: PHP actions
 on: [push, pull_request]
 
 jobs:
-  php-7-3:
-    name: Composer
+  php73:
+    name: Composer 7.3
     runs-on: ubuntu-latest
 
     steps:
@@ -26,8 +26,8 @@ jobs:
         coverage: none
         extensions: intl
 
-  php-7-4:
-    name: Composer
+  php74:
+    name: Composer 7.4
     runs-on: ubuntu-latest
 
     steps:
@@ -46,8 +46,8 @@ jobs:
         coverage: none
         extensions: intl
 
-  php-8-0:
-    name: Composer
+  php80:
+    name: Composer 8.0
     runs-on: ubuntu-latest
 
     steps:
