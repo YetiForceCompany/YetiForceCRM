@@ -20,11 +20,11 @@ jobs:
         key: ${{ runner.os }}-7.3-${{ hashFiles('**/composer.lock') }}
 
     - name: Install dependencies PHP 7.3
+    - uses: php-actions/composer@v5
       with:
         php-version: 7.3
         coverage: none
         extensions: intl
-    - uses: php-actions/composer@v5
 
   php-7-4:
     name: Composer
@@ -40,11 +40,11 @@ jobs:
         key: ${{ runner.os }}-7.4-${{ hashFiles('**/composer.lock') }}
 
     - name: Install dependencies PHP 7.4
+    - uses: php-actions/composer@v5
       with:
         php-version: 7.4
         coverage: none
         extensions: intl
-    - uses: php-actions/composer@v5
 
   php-8-0:
     name: Composer
@@ -60,11 +60,11 @@ jobs:
         key: ${{ runner.os }}-8.0-${{ hashFiles('**/composer.lock') }}
 
     - name: Install dependencies PHP 8.0
+    - uses: php-actions/composer@v5
       with:
         php-version: 8.0
         coverage: none
         extensions: intl
-    - uses: php-actions/composer@v5
 
   code:
     name: Code
