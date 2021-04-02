@@ -50,16 +50,15 @@ class E_TestModule extends \Tests\Base
 	{
 		if (\file_exists(static::$testDataPath)) {
 			$this->fileUrl = static::$testDataPath;
-		} elseif (!empty($_SERVER['YETI_KEY'])) {
+		} elseif (!empty($_SERVER['YETI_TEST_MODULE_KEY'])) {
 			if (\App\RequestUtil::isNetConnection()) {
-				$guzzle = new \GuzzleHttp\Client(['base_uri' => static::$testDataUrl]);
+				$path = sys_get_temp_dir() . \DIRECTORY_SEPARATOR . static::$testModuleFile;
 				try {
-					$response = $guzzle->head($_SERVER['YETI_KEY']);
+					(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', static::$testDataUrl . $_SERVER['YETI_TEST_MODULE_KEY'], ['sink' => $path]);
 				} catch (\Exception $e) {
-					$response = false;
 				}
-				if ($response && 200 === $response->getStatusCode()) {
-					$this->fileUrl = static::$testDataUrl . $_SERVER['YETI_KEY'];
+				if (file_exists($path)) {
+					$this->fileUrl = $path;
 				} else {
 					static::$skipTest = 'TestData package not available - bad response from remote server, no sample data to install.';
 				}
@@ -83,7 +82,7 @@ class E_TestModule extends \Tests\Base
 		try {
 			\copy($this->fileUrl, static::$testModuleFile);
 			(new \vtlib\Package())->import(static::$testModuleFile);
-			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists(), 'TestData instalation from ' . ($this->fileUrl === static::$testDataPath ? '_private' : 'YETI_KEY') . ' failed.');
+			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists(), 'TestData instalation failed.');
 			$db = \App\Db::getInstance();
 			$db->createCommand()
 				->update('vtiger_cron_task', [
@@ -91,7 +90,7 @@ class E_TestModule extends \Tests\Base
 				], ['name' => 'TestData'])
 				->execute();
 		} catch (\Exception $exc) {
-			echo 'TestData instalation from ' . ($this->fileUrl === static::$testDataPath ? '_private' : 'YETI_KEY') . ' failed';
+			echo 'TestData instalation failed' . PHP_EOL . $exc->__toString();
 		}
 	}
 }

@@ -61,9 +61,9 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		$this->lastTestFailed = false;
 		if ($test instanceof TestCase) {
 			if (!$test->hasExpectationOnOutput() && ($out = $test->getActualOutput())) {
-				$this->write("\n+++++++  {$this->getTestName($test)} | Test output   ++++++++\n");
+				$this->write("+++++++  {$this->getTestName($test)} | Test output   ++++++++");
 				$this->write($out);
-				$this->write("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+				$this->write("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 			}
 		}
 		if ($this->debug) {
@@ -95,7 +95,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function addError(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
-		echo '! Test ' . $test->getName() . " error.\n";
+		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . " error.\n");
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
 		parent::addError($test, $t, $time);
@@ -104,7 +104,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function addWarning(Test $test, Warning $e, float $time): void
 	{
 		$time = round($time, 2);
-		echo '! Test ' . $test->getName() . " warning.\n";
+		$this->writeProgressWithColor('fg-yellow', '! Test ' . $test->getName() . " warning !!!.\n");
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
 		parent::addWarning($test, $e, $time);
@@ -112,10 +112,10 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 
 	public function addFailure(Test $test, AssertionFailedError $e, float $time): void
 	{
-		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName($test) . 'failed.' . PHP_EOL . $e->__toString());
+		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName($test) . ' failed !!!' . PHP_EOL . $e->__toString());
 		$this->lastTestFailed = true;
 		$time = round($time, 2);
-		echo '! Test ' . $test->getName() . " failed.\n";
+		echo '!!! Test ' . $test->getName() . " failed.\n";
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
 		//parent::addFailure($test, $e, $time);
