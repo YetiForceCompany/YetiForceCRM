@@ -13,27 +13,32 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-    - name: Cache Composer packages
-      id: composer-cache
+    - name: Cache Composer dependencies
       uses: actions/cache@v2
       with:
-        path: vendor
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
+        path: /tmp/composer-cache
+        key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
-    - name: Install dependencies
+    - name: Install dependencies PHP 7.3
+      with:
+        php-version: 7.3
+        coverage: none
+        extensions: intl
+    - uses: php-actions/composer@v5
+
+    - name: Install dependencies PHP 7.4
       with:
         php-version: 7.4
         coverage: none
         extensions: intl
-      run: composer install --prefer-dist --no-progress --no-suggest
+    - uses: php-actions/composer@v5
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-    # - name: Run test suite
-    #   run: composer run-script test
+    - name: Install dependencies PHP 8.0
+      with:
+        php-version: 8.0
+        coverage: none
+        extensions: intl
+    - uses: php-actions/composer@v5
 
   code:
     name: Code
