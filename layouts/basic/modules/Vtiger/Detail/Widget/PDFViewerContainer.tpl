@@ -14,7 +14,7 @@
 				</div>
 				{if \App\Privilege::isPermitted('OSSMail')}
 					<div class="row inline justify-center js-hb__container ml-auto">
-						<button  type="button" class="btn btn-info mr-0 js-email-pdf btn-sm"  data-js="click">
+						<button type="button" class="btn btn-info mr-0 js-email-pdf btn-sm" data-js="click" data-url="index.php?module={$MODULE_NAME}&action=PDF&mode=generate&email_pdf=1&single_pdf=0&fromview=Detail&record={$RECORD->getId()}&pdf_template[]=">
 							<span class="fas fa-envelope mr-1"></span>{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
 						</button>
 					</div>
