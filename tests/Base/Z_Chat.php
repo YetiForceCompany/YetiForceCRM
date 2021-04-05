@@ -316,7 +316,8 @@ class Z_Chat extends \Tests\Base
 		$rooms = \App\Chat::getRoomsByUser();
 		$key = static::getKeyRoom($rooms, 'crm', (int) $recordModel->getId());
 		$this->assertNotFalse($key, 'Problem with the method "getRoomsByUser". Crm id=' . $recordModel->getId());
-		$this->assertSame($recordModel->getName(), $rooms['crm'][$key]['name']);
+		$this->assertSame($recordModel->getModuleName(), $rooms['crm'][$key]['moduleName']);
+		$this->assertSame($recordModel->getId(), $rooms['crm'][$key]['recordid']);
 	}
 
 	/**

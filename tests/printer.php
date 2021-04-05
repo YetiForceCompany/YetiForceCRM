@@ -95,19 +95,21 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function addError(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
-		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . " error.\n");
+		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . ' error.');
+		$this->lastTestFailed = true;
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
-		parent::addError($test, $t, $time);
+		// parent::addError($test, $t, $time);
 	}
 
 	public function addWarning(Test $test, Warning $e, float $time): void
 	{
 		$time = round($time, 2);
-		$this->writeProgressWithColor('fg-yellow', '! Test ' . $test->getName() . " warning !!!.\n");
+		$this->writeProgressWithColor('fg-yellow', '! Test ' . $test->getName() . ' warning !!!.');
+		$this->lastTestFailed = true;
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
-		parent::addWarning($test, $e, $time);
+		// parent::addWarning($test, $e, $time);
 	}
 
 	public function addFailure(Test $test, AssertionFailedError $e, float $time): void

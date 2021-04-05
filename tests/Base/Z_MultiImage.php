@@ -2,7 +2,9 @@
 
 /**
  * MultiImage test class.
+ *
  * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -34,7 +36,7 @@ class Z_MultiImage extends \Tests\Base
 	 */
 	public static function setUpBeforeClass(): void
 	{
-		\mkdir(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage', 0777, true);
+		\mkdir(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage', 0777, true);
 	}
 
 	/**
