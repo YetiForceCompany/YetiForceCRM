@@ -6,8 +6,7 @@
 		<div class="o-navbar__left d-inline-flex">
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">
-					<a class="btn btn-light c-header__btn ml-0 js-sidebar-btn" role="button" href="#" data-js="click"
-					   aria-haspopup="true" aria-expanded="false">
+					<a class="btn btn-light c-header__btn ml-0 js-sidebar-btn" role="button" href="#" data-js="click" aria-haspopup="true" aria-expanded="false">
 						<span class="fas fa-bars fa-fw" title="{\App\Language::translate('LBL_MENU')}"></span>
 					</a>
 				</div>
@@ -21,8 +20,7 @@
 						{assign var="DEFAULT_OVERRIDE" value=$USER_MODEL->get('default_search_override')}
 						{assign var="SELECTABLE_ACTUAL_MODULE" value="{array_key_exists($MODULE_NAME,$SEARCHABLE_MODULES)}"}
 						{assign var="SELECTABLE_USER_MODULE" value="{array_key_exists($USER_DEFAULT_MODULE,$SEARCHABLE_MODULES)}"}
-						<select class="select2 basicSearchModulesList form-control"
-								title="{\App\Language::translate('LBL_SEARCH_MODULE')}" data-dropdown-auto-width="true">
+						<select class="select2 basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}" data-dropdown-auto-width="true">
 							<option value="-">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 							{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
 								{assign var="SELECTED" value=""}
@@ -159,7 +157,7 @@
 		{if !empty(\Config\Main::$headerAlertMessage)}
 			<div class="alert {if empty(\Config\Main::$headerAlertType)}alert-danger{else}{\Config\Main::$headerAlertType}{/if} m-auto mb-0 px-3 py-1 text-center u-font-size-19px text-nowrap" role="alert">
 				<i class="{if empty(\Config\Main::$headerAlertIcon)}fas fa-exclamation-triangle{else}{\Config\Main::$headerAlertIcon}{/if}"></i>
-				<span class="font-weight-bold mx-5">{\Config\Main::$headerAlertMessage}</span>
+				<span class="font-weight-bold mx-3">{\Config\Main::$headerAlertMessage}</span>
 				<i class="{if empty(\Config\Main::$headerAlertIcon)}fas fa-exclamation-triangle{else}{\Config\Main::$headerAlertIcon}{/if}"></i>
 			</div>
 		{/if}

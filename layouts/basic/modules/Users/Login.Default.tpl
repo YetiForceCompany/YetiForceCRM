@@ -18,6 +18,13 @@
 			<div class="logo mb-2">
 				<img class="logo__img" title="Logo" class="logo" alt="Logo" src="{\App\Layout::getPublicUrl('layouts/resources/Logo/logo')}">
 			</div>
+			{if !empty(\Config\Main::$loginPageAlertMessage)}
+				<div class="alert {if empty(\Config\Main::$loginPageAlertType)}alert-danger{else}{\Config\Main::$loginPageAlertType}{/if} mb-3 px-3 py-1 text-center" role="alert">
+					<i class="{if empty(\Config\Main::$loginPageAlertIcon)}fas fa-exclamation-triangle{else}{\Config\Main::$loginPageAlertIcon}{/if}"></i>
+					<span class="font-weight-bold mx-2">{\Config\Main::$loginPageAlertMessage}</span>
+					<i class="{if empty(\Config\Main::$loginPageAlertIcon)}fas fa-exclamation-triangle{else}{\Config\Main::$loginPageAlertIcon}{/if}"></i>
+				</div>
+			{/if}
 			<div class="" id="loginDiv">
 				{if !$IS_BLOCKED_IP}
 					<form class="login-form row" action="index.php?module=Users&action=Login" method="POST"

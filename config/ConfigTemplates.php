@@ -305,6 +305,18 @@ return [
 			'default' => '',
 			'description' => 'Header alert icon'
 		],
+		'loginPageAlertMessage' => [
+			'default' => '',
+			'description' => 'Login page alert message'
+		],
+		'loginPageAlertType' => [
+			'default' => '',
+			'description' => 'Login page alert type'
+		],
+		'loginPageAlertIcon' => [
+			'default' => '',
+			'description' => 'Login page alert icon'
+		],
 	],
 	'debug' => [
 		'LOG_TO_FILE' => [
