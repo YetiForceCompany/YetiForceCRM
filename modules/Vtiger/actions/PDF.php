@@ -165,13 +165,13 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 
 					$filePath = $template->getPath();
 					$saveFlag = 'F';
-					$pdfFiles[] = ['path' => $filePath,	'name' => $fileName];
+					$pdfFiles[] = ['name' => $fileName, 'path' => $filePath, 'recordId' => $recordId, 'moduleName' => $moduleName];
 					foreach ($attach as $info) {
 						if (!isset($pdfFiles[$info['path']])) {
 							$tmpFileName = 'cache' . \DIRECTORY_SEPARATOR . 'pdf' . \DIRECTORY_SEPARATOR;
 							$tmpFileName = $tmpFileName . basename(tempnam($tmpFileName, 'Attach' . time()));
 							if (\copy($info['path'], $tmpFileName)) {
-								$pdfFiles[$info['path']] = ['name' => $info['name'], 'path' => $tmpFileName];
+								$pdfFiles[$info['path']] = ['name' => $info['name'], 'path' => $tmpFileName, 'recordId' => $recordId, 'moduleName' => $moduleName];
 							}
 						}
 					}
