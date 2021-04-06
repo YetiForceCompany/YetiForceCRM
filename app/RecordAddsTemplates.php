@@ -36,11 +36,14 @@ class RecordAddsTemplates
 	public static function getTemplatesList(): array
 	{
 		$listTemplates = [];
-		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app' . \DIRECTORY_SEPARATOR . 'RecordAddsTemplates', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			if ($item->isFile()) {
-				$fileName = $item->getBasename('.php');
-				$instance = static::getInstance($fileName);
-				$listTemplates[] = ['templateName' => $fileName, 'label' => $instance->label, 'icon' => $instance->icon];
+		$pathDirectory = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app' . \DIRECTORY_SEPARATOR . 'RecordAddsTemplates';
+		if (file_exists($pathDirectory)) {
+			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($pathDirectory, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+				if ($item->isFile()) {
+					$fileName = $item->getBasename('.php');
+					$instance = static::getInstance($fileName);
+					$listTemplates[] = ['templateName' => $fileName, 'label' => $instance->label, 'icon' => $instance->icon];
+				}
 			}
 		}
 		return $listTemplates;
