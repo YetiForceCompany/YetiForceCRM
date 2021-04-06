@@ -21,7 +21,7 @@ class RecordAddsTemplates
 	 *
 	 * @param string $className
 	 *
-	 * @return RecordAddsTemplates\Paccar|null
+	 * @return RecordAddsTemplates\
 	 */
 	public static function getInstance(string $className)
 	{
@@ -33,13 +33,13 @@ class RecordAddsTemplates
 	 *
 	 * @return array
 	 */
-	public static function getTemplatesList()
+	public static function getTemplatesList(): array
 	{
 		$listTemplates = [];
 		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app' . \DIRECTORY_SEPARATOR . 'RecordAddsTemplates', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile()) {
 				$fileName = $item->getBasename('.php');
-				$instance = static::getInstance("\\App\\RecordAddsTemplates\\$fileName");
+				$instance = static::getInstance($fileName);
 				$listTemplates[] = ['templateName' => $fileName, 'label' => $instance->label, 'icon' => $instance->icon];
 			}
 		}

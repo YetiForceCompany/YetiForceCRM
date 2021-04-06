@@ -6,7 +6,7 @@ $.Class(
 		editInstance: false,
 		/**
 		 * Function listener to send a form
-		 * @param container
+		 * @param {jQuery} container
 		 */
 		registerSubmitForm: function (container) {
 			const aDeferred = $.Deferred();
@@ -68,7 +68,7 @@ $.Class(
 
 		/**
 		 * Register events function
-		 * @param modalContainer
+		 * @param {jQuery} modalContainer
 		 */
 		registerEvents: function (modalContainer) {
 			this.editInstance = Vtiger_Edit_Js.getInstance();

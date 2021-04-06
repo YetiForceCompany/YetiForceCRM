@@ -27,7 +27,10 @@ class Vtiger_RecordAddsTemplates_View extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		$this->recordAddsInstance = \App\RecordAddsTemplates::getInstance("\\App\\RecordAddsTemplates\\{$request->getByType('recordAddsType', 'ClassName')}");
+		if (!\App\Config::main('isActiveRecordTemplate')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+		$this->recordAddsInstance = \App\RecordAddsTemplates::getInstance($request->getByType('recordAddsType', 'ClassName'));
 		$this->recordAddsInstance->checkPermission();
 	}
 
@@ -53,13 +56,5 @@ class Vtiger_RecordAddsTemplates_View extends \App\Controller\Modal
 		$viewer->assign('RECORD', null);
 		$viewer->assign('SCRIPTS', $this->getModalScripts($request));
 		$viewer->view('RecordAddsTemplates.tpl');
-	}
-
-	/** {@inheritdoc} */
-	public function getModalScripts(App\Request $request)
-	{
-		return $this->checkAndConvertJsScripts([
-			'modules.Vtiger.resources.RecordAddsTemplates'
-		]);
 	}
 }
