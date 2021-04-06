@@ -249,6 +249,10 @@ return [
 			'default' => true,
 			'description' => 'Is sending emails active?'
 		],
+		'isActiveRecordTemplate' => [
+			'default' => false,
+			'description' => 'Activates / deactivates batch adding of records'
+		],
 		'unblockedTimeoutCronTasks' => [
 			'default' => true,
 			'description' => 'Should the task in cron be unblocked if the script execution time was exceeded?'
