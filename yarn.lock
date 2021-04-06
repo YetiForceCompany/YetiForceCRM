@@ -611,10 +611,10 @@ setimmediate@^1.0.5:
   resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
   integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=
 
-split.js@^1.5.10:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.6.3.tgz#dd53c55cafd9d39c82ad77d3740d2da710d48dde"
-  integrity sha512-bn/1jexh5934FcKVcEPSHwLiMLBikIpuf9bSxa+ItDXgD7ng+5bGCisprT53VE61mRsXjicm/O0r66SwSsEfxA==
+split.js@^1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.6.4.tgz#13d47cba53382adef230a53294ce5dacb2a2f2e1"
+  integrity sha512-kYmQZprRJrF1IOjg/E+gdBEsKFv5kbgUE6RJVJZvrIzTOK/IHzKSqIeiJnWs7IP5D9TnpTQ2CbanuDuIWcyDUQ==
 
 store@^2.0.12:
   version "2.0.12"
