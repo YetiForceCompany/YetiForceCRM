@@ -1011,6 +1011,51 @@ class Vtiger_Relation_Model extends \App\Base
 		return $fields;
 	}
 
+	/**
+	 * Gets relation data fields
+	 *
+	 * @return array
+	 */
+	public function getRelationFields(): array
+	{
+		return method_exists($this->getTypeRelationModel(), 'getFields') ? $this->getTypeRelationModel()->getFields() : [];
+	}
+
+	/**
+	 * Set conditions for relation fields
+	 *
+	 * @param array $conditions
+	 * @return self
+	 */
+	public function setRelationConditions(array $conditions): self
+	{
+		$group = 'and';
+		$relFields = $this->getRelationFields();
+		foreach($conditions as $groupInfo){
+			if (empty($groupInfo) || !array_filter($groupInfo)) {
+				$group = 'or';
+				continue;
+			}
+			$dataGroup = [$group];
+			foreach ($groupInfo as $fieldSearchInfo) {
+				[$fieldName, $operator, $fieldValue] = array_pad($fieldSearchInfo, 3, false);
+				$field = $relFields[$fieldName] ?? null;
+				if(!$field || (($className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field') && !class_exists($className))){
+					continue;
+				}
+				$queryField = new $className($this->getQueryGenerator(), $field);
+				$queryField->setValue($fieldValue);
+				$queryField->setOperator($operator);
+				$condition = $queryField->getCondition();
+				if($condition){
+					$dataGroup[] = $condition;
+				}
+			}
+			$this->getQueryGenerator()->addNativeCondition($dataGroup);
+		}
+		return $this;
+	}
+
 	public static function getReferenceTableInfo($moduleName, $refModuleName)
 	{
 		$temp = [$moduleName, $refModuleName];

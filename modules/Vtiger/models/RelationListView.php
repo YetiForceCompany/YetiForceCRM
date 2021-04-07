@@ -218,6 +218,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 		if (!$this->isEmpty('search_key')) {
 			$queryGenerator->addCondition($this->get('search_key'), $this->get('search_value'), $this->get('operator'));
 		}
+		if ($searchParams = $this->getArray('search_rel_params')) {
+			$this->getRelationModel()->setRelationConditions($searchParams);
+		}
 	}
 
 	/**
@@ -363,9 +366,8 @@ class Vtiger_RelationListView_Model extends \App\Base
 				unset($fields[$fieldName]);
 			}
 		}
-		$relationModel = $this->getRelationModel()->getTypeRelationModel();
-		if (method_exists($relationModel, 'getFields')) {
-			$fields = array_merge($fields, $relationModel->getFields());
+		if ($relFields = $this->getRelationModel()->getRelationFields()) {
+			$fields = array_merge($fields, $relFields);
 		}
 		return $fields;
 	}
