@@ -372,10 +372,10 @@ class ModuleManager extends \Tests\Base
 		\App\Db::getInstance()->getSchema()->refresh();
 		$moduleInstance = \vtlib\Module::getInstance('TestModule');
 		$moduleInstance->delete();
-		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/TestModule/TestModule.php');
+		$this->assertFileDoesNotExist(ROOT_DIRECTORY . '/modules/TestModule/TestModule.php');
 		$langFileToCheck = $this->getLangPathToFile('TestModule.json');
 		foreach ($langFileToCheck as $pathToFile) {
-			$this->assertFileNotExists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $pathToFile);
+			$this->assertFileDoesNotExist(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $pathToFile);
 		}
 		$this->assertFalse(
 			(new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestModule'])->exists(),

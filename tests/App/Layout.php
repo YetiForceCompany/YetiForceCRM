@@ -27,8 +27,8 @@ class Layout extends \Tests\Base
 	public function testGetLayoutFile()
 	{
 		$this->assertFileExists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Layout::getLayoutFile('modules/Accounts/resources/Detail.js'), 'Expected file in provided path');
-		$this->assertFileNotExists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Layout::getLayoutFile('styles/NxFile.css'), 'Expected file in provided path not exists');
-		$this->assertFileNotExists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Layout::getLayoutFile('modules/Accounts/AccountHierarchy.tpl'), 'Expected file in provided path not exists');
+		$this->assertFileDoesNotExist(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Layout::getLayoutFile('styles/NxFile.css'), 'Expected file in provided path not exists');
+		$this->assertFileDoesNotExist(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Layout::getLayoutFile('modules/Accounts/AccountHierarchy.tpl'), 'Expected file in provided path not exists');
 	}
 
 	/**

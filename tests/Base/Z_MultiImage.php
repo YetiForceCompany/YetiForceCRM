@@ -48,7 +48,7 @@ class Z_MultiImage extends \Tests\Base
 	public function providerImageForRecord()
 	{
 		$data = [];
-		foreach (static::$files as $i => $name) {
+		for ($i = 0; $i < 4; ++$i) {
 			$data[] = ['Users', 'imagename', $i];
 			$data[] = ['Contacts', 'imagename', $i];
 			$data[] = ['Products', 'imagename', $i];
@@ -162,7 +162,7 @@ class Z_MultiImage extends \Tests\Base
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
 		$data = \App\Json::decode($recordModel->get($field));
 		\Vtiger_MultiImage_UIType::deleteRecord($recordModel);
-		$this->assertFileNotExists($data[0]['path'], 'File should be removed');
+		$this->assertFileDoesNotExist($data[0]['path'], 'File should be removed');
 		$recordModel->set($field, \App\Json::encode([]));
 		$recordModel->save();
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
@@ -210,7 +210,7 @@ class Z_MultiImage extends \Tests\Base
 		}
 		\Vtiger_MultiImage_UIType::deleteRecord($recordModel);
 		foreach (\App\Json::decode($recordModel->get('imagename')) as $info) {
-			$this->assertFileNotExists($info['path'], 'File should be removed');
+			$this->assertFileDoesNotExist($info['path'], 'File should be removed');
 		}
 	}
 
