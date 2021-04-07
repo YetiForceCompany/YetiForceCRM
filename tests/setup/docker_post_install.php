@@ -82,6 +82,7 @@ if ('TEST' === getenv('INSTALL_MODE')) {
 	$configFile->set('loginSessionRegenerate', false);
 	$configFile->set('cookieForceHttpOnly', false);
 	$configFile->set('askAdminAboutVisitPurpose', false);
+	$configFile->set('askSuperUserAboutVisitPurpose', false);
 	$configFile->create();
 
 	\App\Config::set('module', 'OSSMail', 'root_directory', new \Nette\PhpGenerator\PhpLiteral('ROOT_DIRECTORY . DIRECTORY_SEPARATOR'));

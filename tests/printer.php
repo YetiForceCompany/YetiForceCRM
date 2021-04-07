@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Travis CI result printer class.
+ * Tests result printer class.
  *
  * @package   Tests
  *
@@ -21,6 +21,31 @@ use PHPUnit\Runner\PhptTestCase;
 /** @codeCoverageIgnoreStart */
 class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 {
+	/**
+	 * Logs files to show.
+	 *
+	 * @var string[]
+	 */
+	private $logFiles = [
+		'/var/log/fpm-php.www.log',
+		'/var/log/php_error.log',
+		'/var/log/nginx/localhost_access.log',
+		'/var/log/nginx/localhost_error.log',
+		'/var/log/nginx/error.log',
+		'/var/log/mysql/localhost_access.log',
+		'/var/log/mysql/error.log',
+		'cache/logs/system.log',
+		'cache/logs/errors.log',
+		'cache/logs/cron.log',
+	];
+
+	/**
+	 * Get test name.
+	 *
+	 * @param PHPUnit\Framework\Test $test
+	 *
+	 * @return string
+	 */
 	public function getTestName(Test $test): string
 	{
 		return str_replace(['Tests\\', '\\'], ['', ' '], \get_class($test)) . ' -> ' . $test->getName();
@@ -29,7 +54,9 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	/**
 	 * A test started.
 	 *
-	 * @param Test $test
+	 * @param PHPUnit\Framework\Test $test
+	 *
+	 *  @return void
 	 */
 	public function startTest(Test $test): void
 	{
@@ -41,8 +68,10 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	/**
 	 * A test ended.
 	 *
-	 * @param Test  $test
-	 * @param float $time
+	 * @param PHPUnit\Framework\Test $test
+	 * @param float                  $time
+	 *
+	 * @return void
 	 */
 	public function endTest(Test $test, float $time): void
 	{
@@ -63,29 +92,48 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 			if (!$test->hasExpectationOnOutput() && ($out = $test->getActualOutput())) {
 				$this->write("+++++++  {$this->getTestName($test)} | Test output   ++++++++");
 				$this->write($out);
-				$this->write("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+				$this->write(str_repeat('+', 100) . PHP_EOL);
 			}
 		}
 		if ($this->debug) {
-			$this->write("\n");
+			$this->write(PHP_EOL);
 		}
 	}
 
 	/**
-	 * @param TestResult $result
+	 * Print result.
+	 *
+	 * @param PHPUnit\Framework\TestResult $result
+	 *
+	 * @return void
 	 */
 	public function printResult(TestResult $result): void
 	{
-		$this->write("\n==========================================================================================================");
+		$this->write(str_repeat('*', 140));
 		parent::printResult($result);
-		$this->write("\n==========================================================================================================");
+		$this->write(PHP_EOL . str_repeat('*', 140));
+		$this->showLogs();
 	}
 
+	/**
+	 * Start test suite.
+	 *
+	 * @param PHPUnit\Framework\TestSuite $suite
+	 *
+	 * @return void
+	 */
 	public function startTestSuite(TestSuite $suite): void
 	{
 		parent::startTestSuite($suite);
 	}
 
+	/**
+	 * End test suite.
+	 *
+	 * @param PHPUnit\Framework\TestSuite $suite
+	 *
+	 * @return void
+	 */
 	public function endTestSuite(TestSuite $suite): void
 	{
 		//printf("Ended all tests: %s.\n", $suite->getName());
@@ -143,6 +191,22 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		$time = round($time, 2);
 		$this->writeProgressWithColor('fg-cyan, bold', "! Test '{$this->getTestName($test)}' has been skipped. ($time second(s))\n" . PHP_EOL . $t->__toString());
 		$this->lastTestFailed = true;
+	}
+
+	private function showLogs(): void
+	{
+		array_unshift($this->logFiles, '/var/log/php' . getenv('PHP_VER') . '-fpm.log');
+		foreach ($this->logFiles as $file) {
+			if (false === strpos($file, '/var/log')) {
+				$file = realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file);
+			}
+			if (file_exists($file)) {
+				$this->write("\nLogs:  $file");
+				$this->write(PHP_EOL . str_repeat('+', 100) . PHP_EOL);
+				readfile($file);
+				$this->write(PHP_EOL . str_repeat('+', 100));
+			}
+		}
 	}
 }
 
