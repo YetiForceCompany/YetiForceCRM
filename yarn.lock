@@ -151,7 +151,12 @@ bootstrap@^4.3.1, bootstrap@^4.4.0:
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.6.0.tgz#97b9f29ac98f98dfa43bf7468262d84392552fd7"
   integrity sha512-Io55IuQY3kydzHtbGvQya3H+KorS/M9rSNyfCGCg9WZ4pyT/lCxIlpJgG1GXW/PswzC84Tr2fBYi+7+jFVQQBw==
 
-chart.js@>2.7.0, chart.js@^2.9.4:
+chart.js@>2.7.0:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.0.2.tgz#5893b0548714445b5190cbda9ac307357a56a0c7"
+  integrity sha512-DR0GmFSlxcFJp/w//ZmbxSduAkH/AqwxoiZxK97KHnWZf6gvsKWS3160WvNMMHYvzW9OXqGWjPjVh1Qu+xDabg==
+
+chart.js@^2.9.4:
   version "2.9.4"
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.9.4.tgz#0827f9563faffb2dc5c06562f8eb10337d5b9684"
   integrity sha512-B07aAzxcrikjAPyV+01j7BmOpxtQETxTSlQ26BEYJ+3iUkbNKaOJ/nDbT6JjyqYxseM0ON12COHYdU2cTIjC7A==
@@ -557,9 +562,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.15.9"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.15.9.tgz#fad22575387c630f36c249ff4bedd49b14decde3"
-  integrity sha512-Bx+EtUaN4fvU4EiQRkC28A7lt5WHeTE1rmP4a0BAUgg92iZkRjDZfm+OVlqjjCgOYQdcb8pitkvg/L9xxvNLdg==
+  version "1.15.10"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.15.10.tgz#83325993a500fbe37537f773f5089b648f22fcfd"
+  integrity sha512-75NXx4EHN2oWxQwbCBxfICs8xbZ5QWHNf5+09CY3YDo4gTAYITtJGdEu2hqxKUTstYAdJ/996HzKq88G0Kq7rQ==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
@@ -612,9 +617,9 @@ setimmediate@^1.0.5:
   integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=
 
 split.js@^1.5.10:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.6.3.tgz#dd53c55cafd9d39c82ad77d3740d2da710d48dde"
-  integrity sha512-bn/1jexh5934FcKVcEPSHwLiMLBikIpuf9bSxa+ItDXgD7ng+5bGCisprT53VE61mRsXjicm/O0r66SwSsEfxA==
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.6.4.tgz#13d47cba53382adef230a53294ce5dacb2a2f2e1"
+  integrity sha512-kYmQZprRJrF1IOjg/E+gdBEsKFv5kbgUE6RJVJZvrIzTOK/IHzKSqIeiJnWs7IP5D9TnpTQ2CbanuDuIWcyDUQ==
 
 store@^2.0.12:
   version "2.0.12"

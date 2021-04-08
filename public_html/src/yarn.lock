@@ -52,9 +52,11 @@ vue-color@^2.8.1:
     material-colors "^1.0.0"
     tinycolor2 "^1.1.2"
 
-"vue-drag-resize@https://github.com/kirillmurashov/vue-drag-resize#master":
-  version "1.4.2"
-  resolved "https://github.com/kirillmurashov/vue-drag-resize#e8da62224fc45057e1ddba71fc94afdfa4bb0c89"
+vue-drag-resize@^1.5.0-rc3, "vue-drag-resize@https://github.com/kirillmurashov/vue-drag-resize#master":
+  version "1.5.1"
+  resolved "https://github.com/kirillmurashov/vue-drag-resize#e2537c2641cfc802e2e07782670591f4db376873"
+  dependencies:
+    vue-drag-resize "^1.5.0-rc3"
 
 vuex@^3.6.2:
   version "3.6.2"
