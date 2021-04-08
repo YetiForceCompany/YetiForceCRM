@@ -52,7 +52,7 @@ class CurrencyUpdate extends \Tests\Base
 		try {
 			foreach (['CBR', 'ECB', 'NBR', 'NBP'] as $bankCode) {
 				if (\in_array($bankCode, ['CBR'])) {
-					echo $bankCode . ' - Disabled due to data source instability' . PHP_EOL;
+					echo "\n$bankCode - Disabled due to data source instability";
 					continue;
 				}
 				$bankClass = '\Settings_CurrencyUpdate_' . $bankCode . '_BankModel';
