@@ -167,7 +167,7 @@ class Record extends \Api\Core\BaseAction
 				'moveToTrash' => false
 			]
 		];
-		if (1 === (int) $this->controller->headers['x-raw-data']) {
+		if (1 === (int) $this->controller->headers['x-raw-data'] ?? 0) {
 			$response['rawData'] = $rawData;
 		}
 		return $response;

@@ -253,7 +253,7 @@ class Record extends \Api\Core\BaseAction
 			$response['summaryInventory'] = $summaryInventory;
 		}
 
-		if (1 === (int) $this->controller->headers['x-raw-data']) {
+		if (1 === (int) $this->controller->headers['x-raw-data']??0) {
 			$response['rawData'] = $rawData;
 			if ($rawInventory) {
 				$response['rawInventory'] = $rawInventory;
