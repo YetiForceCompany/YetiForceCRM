@@ -70,7 +70,7 @@ class G_Cron extends \Tests\Base
 		$rows = (new \App\Db\Query())->select(['modue' => 'setype', 'rows' => 'count(*)'])->from('vtiger_crmentity')->groupBy('setype')->orderBy(['rows' => SORT_DESC])->all();
 		$c = '';
 		foreach ($rows as $value) {
-			$c .= "{$value['modue']} = {$value['rows']}" . PHP_EOL;
+			$c .= "{$value['modue']} = {$value['rows']},	| ";
 		}
 		\file_put_contents('tests/records.log', $c, FILE_APPEND);
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_cron_task')->where(['status' => 2])->exists());
