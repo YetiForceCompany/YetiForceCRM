@@ -148,7 +148,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function addError(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
-		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . ' error.');
+		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . ' error.' . PHP_EOL);
 		$this->lastTestFailed = true;
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
@@ -158,7 +158,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function addWarning(Test $test, Warning $e, float $time): void
 	{
 		$time = round($time, 2);
-		$this->writeProgressWithColor('fg-yellow', '! Test ' . $test->getName() . ' warning !!!.');
+		$this->writeProgressWithColor('fg-yellow', '! Test ' . $test->getName() . ' warning !!!.' . PHP_EOL);
 		$this->lastTestFailed = true;
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
@@ -167,10 +167,10 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 
 	public function addFailure(Test $test, AssertionFailedError $e, float $time): void
 	{
-		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName($test) . ' failed !!!' . PHP_EOL . $e->__toString());
+		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName($test) . ' failed !!!' . PHP_EOL . $e->__toString() . PHP_EOL);
 		$this->lastTestFailed = true;
 		$time = round($time, 2);
-		echo '!!! Test ' . $test->getName() . " failed.\n";
+		// echo '!!! Test ' . $test->getName() . " failed.\n";
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
 		//parent::addFailure($test, $e, $time);
@@ -209,7 +209,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 				$this->write("\nLogs:  $file");
 				$this->write(PHP_EOL . str_repeat('+', 100) . PHP_EOL);
 				readfile($file);
-				$this->write(PHP_EOL . str_repeat('+', 100));
+				$this->write(str_repeat('+', 100));
 			}
 		}
 	}
