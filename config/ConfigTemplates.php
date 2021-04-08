@@ -1224,6 +1224,12 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
+		'askSuperUserAboutVisitPurpose' => [
+			'default' => true,
+			'description' => '@var bool Ask super user about visit purpose, only for the settings part',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
 	],
 	'sounds' => [
 		'IS_ENABLED' => [
