@@ -76,6 +76,12 @@ if ('TEST' === getenv('INSTALL_MODE')) {
 	$configFile->set('SHOW_RECORDS_COUNT', true);
 	$configFile->create();
 
+	$configFile = new \App\ConfigFile('api');
+	$configFile->set('enabledServices', ['dav', 'webservice']);
+	$configFile->set('enableCardDAV', true);
+	$configFile->set('enableCalDAV', true);
+	$configFile->create();
+
 	$configFile = new \App\ConfigFile('security');
 	$configFile->set('RESET_LOGIN_PASSWORD', true);
 	$configFile->set('PERMITTED_BY_PRIVATE_FIELD', false);

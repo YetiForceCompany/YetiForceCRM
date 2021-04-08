@@ -48,7 +48,7 @@ class Process
 	/**
 	 * Request process name.
 	 *
-	 * @var string @return \Generator
+	 * @var string
 	 */
 	public static $processName;
 
