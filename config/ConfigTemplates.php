@@ -317,6 +317,12 @@ return [
 			'default' => '',
 			'description' => 'Login page alert icon'
 		],
+		'showRegistrationAlert' => [
+			'default' => true,
+			'description' => 'Show the alert when the system is incorrectly registered',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
 	],
 	'debug' => [
 		'LOG_TO_FILE' => [

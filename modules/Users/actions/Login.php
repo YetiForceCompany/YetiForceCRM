@@ -209,7 +209,7 @@ class Users_Login_Action extends \App\Controller\Action
 				'url' => 'index.php?module=Users&view=YetiForce&view=YetiForce&mode=shop'
 			]);
 		}
-		if (!\App\YetiForce\Register::isRegistered()) {
+		if (!empty(\Config\Main::$showRegistrationAlert) && !\App\YetiForce\Register::isRegistered()) {
 			\App\Process::addEvent([
 				'name' => 'YetiForceRegistrationAlert',
 				'type' => 'modal',
