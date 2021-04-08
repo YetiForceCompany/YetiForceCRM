@@ -262,6 +262,6 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 */
 	protected function isRawData(): bool
 	{
-		return 1 === (int) $this->controller->headers['x-raw-data'];
+		return 1 === (int) $this->controller->headers['x-raw-data'] ?? 0;
 	}
 }
