@@ -18,7 +18,7 @@ class Vtiger_PDFViewer_Widget extends Vtiger_Basic_Widget
 	 */
 	public function isPermitted(): bool
 	{
-		return parent::isPermitted() && \Vtiger_PDF_Model::getTemplatesByModule($this->Module);
+		return parent::isPermitted() && Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($this->Module, 'ExportPdf') && \Vtiger_PDF_Model::getTemplatesByModule($this->Module);
 	}
 
 	/**
