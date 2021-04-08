@@ -209,10 +209,13 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 				$file = realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file);
 			}
 			if (file_exists($file)) {
-				$this->write("\nLogs:  $file");
-				$this->write(PHP_EOL . str_repeat('+', 100) . PHP_EOL);
-				readfile($file);
-				$this->write(str_repeat('+', 100));
+				$content = file_get_contents($file);
+				if ($content) {
+					$this->write("\nLogs:  $file");
+					$this->write(PHP_EOL . str_repeat('+', 100) . PHP_EOL);
+					echo $content;
+					$this->write(str_repeat('+', 100));
+				}
 			}
 		}
 	}
