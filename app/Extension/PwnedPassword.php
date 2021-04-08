@@ -69,12 +69,11 @@ class PwnedPassword
 	 */
 	public function usersAfterLogin(\App\EventHandler $eventHandler): void
 	{
-		$recordModel = $eventHandler->getRecordModel();
-		$params = $eventHandler->getParams();
 		if ('PASSWORD' === \App\Session::get('UserAuthMethod')) {
-			self::afterLogin($params['password']);
-			if (!\App\Session::has('ShowUserPwnedPasswordChange')) {
-				$recordModel->verifyPasswordChange($params['userModel']);
+			$params = $eventHandler->getParams();
+			self::afterLogin($params);
+			if (!\App\Process::hasEvent('ShowUserPwnedPasswordChange')) {
+				$eventHandler->getRecordModel()->verifyPasswordChange($params['userModel']);
 			}
 		}
 	}
@@ -82,11 +81,11 @@ class PwnedPassword
 	/**
 	 * Check the password after login.
 	 *
-	 * @param string $password
+	 * @param array $params
 	 *
 	 * @return void
 	 */
-	public static function afterLogin(string $password): void
+	public static function afterLogin(array $params): void
 	{
 		$file = ROOT_DIRECTORY . '/app_data/PwnedPassword.php';
 		$userName = \App\Session::get('user_name');
@@ -100,14 +99,24 @@ class PwnedPassword
 			$pwnedPassword = require $file;
 		}
 		if (empty($pwnedPassword['dates'][$userName]) || strtotime($pwnedPassword['dates'][$userName]) < strtotime("-$time day")) {
-			if (($passStatus = self::check($password)) && !$passStatus['status']) {
-				\App\Session::set('ShowUserPwnedPasswordChange', 1);
+			if (($passStatus = self::check($params['password'])) && !$passStatus['status']) {
 				$pwnedPassword['status'][$userName] = true;
+				\App\Process::addEvent([
+					'name' => 'ShowUserPwnedPasswordChange',
+					'priority' => 4,
+					'type' => 'modal',
+					'url' => 'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' . $params['userModel']->getId()
+				]);
 			}
 			$pwnedPassword['dates'][$userName] = date('Y-m-d H:i:s');
 			\App\Utils::saveToFile($file, $pwnedPassword, '', 0, true);
 		} elseif (isset($pwnedPassword['status'][$userName]) && true === $pwnedPassword['status'][$userName]) {
-			\App\Session::set('ShowUserPwnedPasswordChange', 1);
+			\App\Process::addEvent([
+				'name' => 'ShowUserPwnedPasswordChange',
+				'priority' => 4,
+				'type' => 'modal',
+				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' . $params['userModel']->getId()
+			]);
 		}
 	}
 
@@ -118,8 +127,8 @@ class PwnedPassword
 	 */
 	public function usersAfterPasswordChange(\App\EventHandler $eventHandler): void
 	{
-		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
-			\App\Session::delete('ShowUserPwnedPasswordChange');
+		if (\App\Process::hasEvent('ShowUserPwnedPasswordChange')) {
+			\App\Process::removeEvent('ShowUserPwnedPasswordChange');
 		}
 		$file = ROOT_DIRECTORY . '/app_data/PwnedPassword.php';
 		if (file_exists($file)) {

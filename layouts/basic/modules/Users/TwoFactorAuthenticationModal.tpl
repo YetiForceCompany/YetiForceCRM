@@ -45,12 +45,13 @@
 					</button>
 				</div>
 			{/if}
-				<div class="alert alert-info alert-dismissible show mt-3 mb-0" role="alert">
-					<span class="fas fa-info-circle mr-1"></span>
+				<div class="alert alert-info show mt-3 mb-0" role="alert">
+					<a href="https://doc.yetiforce.com/apps/#2FA" target="_blank" class="btn btn-outline-info float-right js-popover-tooltip" data-content="{App\Language::translate('BTM_GOTO_YETIFORCE_DOCUMENTATION')}" rel="noreferrer noopener" data-js="popover">
+						<span class="mdi mdi-book-open-page-variant u-fs-lg"></span>
+					</a>
+					<span class="mdi mdi-information-outline u-fs-38px mr-2 float-left"></span>
 					{\App\Language::translate('LBL_2FA_TOTP_DESC', $MODULE_NAME)}<br />
-					<a rel="noreferrer noopener" target="_blank" href="https://authy.com/download/" class="mr-1">Authy</a>,
-					<a rel="noreferrer noopener" target="_blank" href="https://support.google.com/accounts/answer/1066447?hl={\App\Language::getShortLanguageName()}" class="mr-1">Google Authenticator</a>,
-					<a rel="noreferrer noopener" target="_blank" href="https://www.microsoft.com/en-us/account/authenticator" >Microsoft Authenticator</a>
+
 				</div>
 		</div>
 		<div class="modal-footer">

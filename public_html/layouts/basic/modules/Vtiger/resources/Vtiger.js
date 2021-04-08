@@ -541,57 +541,12 @@ var Vtiger_Index_Js = {
 			Vtiger_Helper_Js.showMessage({ text: response.result });
 		});
 	},
-	registerAfterLoginEvents: function () {
-		const thisInstance = this;
-		let modalContainer = false;
-		if (typeof CONFIG.ShowAuthy2faModal !== 'undefined') {
-			modalContainer = app.showModalWindow(
-				null,
-				'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' + CONFIG.userId,
-				() => {
-					delete CONFIG.ShowAuthy2faModal;
-				}
-			);
-		} else if (typeof CONFIG.showVisitPurpose !== 'undefined') {
-			modalContainer = app.showModalWindow(null, 'index.php?module=Users&view=VisitPurpose', () => {
-				delete CONFIG.showVisitPurpose;
-			});
-		} else if (typeof CONFIG.ShowUserPwnedPasswordChange !== 'undefined') {
-			modalContainer = app.showModalWindow(
-				null,
-				'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' + CONFIG.userId,
-				() => {
-					delete CONFIG.ShowUserPwnedPasswordChange;
-				}
-			);
-		} else if (typeof CONFIG.ShowUserPasswordChange !== 'undefined') {
-			modalContainer = app.showModalWindow(
-				null,
-				'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId,
-				() => {
-					delete CONFIG.ShowUserPasswordChange;
-				}
-			);
-		} else {
-			$('.js-system-modal[data-url]').each((_, e) => {
-				modalContainer = app.showModalWindow(null, e.dataset.url, () => {
-					e.remove();
-				});
-			});
-		}
-		if (modalContainer) {
-			modalContainer.one('hidden.bs.modal', function () {
-				thisInstance.registerAfterLoginEvents();
-			});
-		}
-	},
 	registerEvents: function () {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerReminders();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();
-		Vtiger_Index_Js.registerAfterLoginEvents();
 	}
 };
 //On Page Load

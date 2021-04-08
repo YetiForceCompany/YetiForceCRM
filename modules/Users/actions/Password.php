@@ -3,6 +3,8 @@
 /**
  * Reset password action class.
  *
+ * @package   Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -131,6 +133,7 @@ class Users_Password_Action extends \App\Controller\Action
 				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users')]]);
 				if (\App\Session::has('ShowUserPasswordChange')) {
 					\App\Session::delete('ShowUserPasswordChange');
+					\App\Process::removeEvent('ShowUserPasswordChange');
 				}
 			} catch (\App\Exceptions\SaveRecord $exc) {
 				$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translateSingleMod($exc->getMessage(), 'Other.Exceptions'), 'type' => 'error']]);

@@ -1062,6 +1062,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$time = (int) $passConfig['change_time'];
 		if (1 === (int) $userModel->getDetail('force_password_change')) {
 			\App\Session::set('ShowUserPasswordChange', 2);
+			\App\Process::addEvent([
+				'name' => 'ShowUserPasswordChange',
+				'priority' => 3,
+				'type' => 'modal',
+				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId()
+			]);
 			return;
 		}
 		$lastChange = strtotime($userModel->getDetail('date_password_change'));
@@ -1072,6 +1078,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 			} else {
 				\App\Session::set('ShowUserPasswordChange', 1);
 			}
+			\App\Process::addEvent([
+				'name' => 'ShowUserPasswordChange',
+				'priority' => 3,
+				'type' => 'modal',
+				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId()
+			]);
 		}
 	}
 

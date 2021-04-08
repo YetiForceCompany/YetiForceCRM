@@ -159,7 +159,13 @@ class Users_Login_Action extends \App\Controller\Action
 		if ($this->isMultiFactorAuthentication()) {
 			if (Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
 				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
-				\App\Session::set('ShowAuthy2faModal', true);
+				\App\Process::addEvent([
+					'name' => 'ShowAuthy2faModal',
+					'priority' => 7,
+					'execution' => 'TOTP_OPTIONAL' === \App\Config::security('USER_AUTHY_MODE') ? 'once' : 'constant',
+					'type' => 'modal',
+					'url' => 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' . $this->userRecordModel->getId()
+				]);
 			} else {
 				\App\Session::set('LoginAuthyMethod', '2fa');
 				\App\Session::set('2faUserId', $this->userRecordModel->getId());
@@ -183,7 +189,11 @@ class Users_Login_Action extends \App\Controller\Action
 		$eventHandler->trigger('UsersAfterLogin');
 
 		if ($this->userModel->isAdmin() && \App\Config::security('askAdminAboutVisitPurpose', true)) {
-			\App\Session::set('showVisitPurpose', $this->userModel->isAdmin());
+			\App\Process::addEvent([
+				'name' => 'showVisitPurpose',
+				'type' => 'modal',
+				'url' => 'index.php?module=Users&view=VisitPurpose'
+			]);
 		}
 		if ($request->has('loginLanguage') && App\Config::main('langInLoginView')) {
 			\App\Session::set('language', $request->getByType('loginLanguage'));

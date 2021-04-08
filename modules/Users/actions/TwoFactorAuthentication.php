@@ -3,9 +3,12 @@
 /**
  * Two factor authentication action class.
  *
+ * @package   Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 {
@@ -68,8 +71,8 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 				$userRecordModel->set('authy_secret_totp', $secret);
 				$userRecordModel->set('authy_methods', 'PLL_AUTHY_TOTP');
 				$userRecordModel->save();
-				if (\App\Session::has('ShowAuthy2faModal')) {
-					\App\Session::delete('ShowAuthy2faModal');
+				if (\App\Process::hasEvent('ShowAuthy2faModal')) {
+					\App\Process::removeEvent('ShowAuthy2faModal');
 				}
 			}
 		} catch (\Throwable $e) {

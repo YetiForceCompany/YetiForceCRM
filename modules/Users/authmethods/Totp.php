@@ -4,9 +4,12 @@
  * TOTP authentication method class.
  * TOTP - Time-based One-time Password.
  *
+ * @package AuthMethod
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 
@@ -92,7 +95,7 @@ class Users_Totp_Authmethod
 			case 'SVG':
 				return $qrCodeGenerator->getBarcodeSVG($otpAuthUrl, 'QRCODE');
 			case 'PNG':
-				return '<img src="data:image/png;base64,' . $qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE', 14, 14) . '" alt="QR code" class="col-auto p-0" />';
+				return '<img src="data:image/png;base64,' . $qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE', 10, 10) . '" alt="QR code" class="col-auto p-0" />';
 			default:
 				break;
 		}

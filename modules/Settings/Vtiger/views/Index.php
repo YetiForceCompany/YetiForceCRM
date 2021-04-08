@@ -43,14 +43,12 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 	public function preProcessSettings(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$userModel = \App\User::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$view = $request->getByType('view', \App\Purifier::STANDARD, '');
 		$qualifiedModuleName = $request->getModule(false);
 		$selected = null;
 		$viewer->assign('MENUS', Settings_Vtiger_Menu_Model::getMenu($moduleName, $view, $request->getMode(), $selected));
 		$viewer->assign('SELECTED_PAGE', $selected);
-		$viewer->assign('SHOW_MODAL_VISIT_PURPOSE', !$userModel->isAdmin() && !(\App\Session::get('showedModalVisitPurpose')[$userModel->getId()] ?? null));
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 

@@ -17,31 +17,25 @@ namespace App\Controller\View;
  */
 abstract class Page extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function showBodyHeader()
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function showFooter()
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$view = $this->getViewer($request);
 		if (\App\Config::performance('BROWSING_HISTORY_WORKING')) {
-			\Vtiger_BrowsingHistory_Helper::saveHistory((string) $view->getVariable('PAGETITLE'));
+			\Vtiger_BrowsingHistory_Helper::saveHistory($view->getTemplateVars('PAGETITLE'));
 		}
 		$view->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
 		$view->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
@@ -71,9 +65,7 @@ abstract class Page extends Base
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(\App\Request $request, $display = true)
 	{
 		parent::postProcess($request, false);
@@ -85,9 +77,7 @@ abstract class Page extends Base
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -126,9 +116,7 @@ abstract class Page extends Base
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
@@ -143,29 +131,6 @@ abstract class Page extends Base
 			}
 		}
 		return $headerCssInstances;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function loadJsConfig(\App\Request $request)
-	{
-		parent::loadJsConfig($request);
-		if (\App\Session::has('ShowAuthy2faModal')) {
-			\App\Config::setJsEnv('ShowAuthy2faModal', \App\Session::get('ShowAuthy2faModal'));
-			if ('TOTP_OPTIONAL' === \App\Config::security('USER_AUTHY_MODE')) {
-				\App\Session::delete('ShowAuthy2faModal');
-			}
-		}
-		if (\App\Session::has('ShowUserPasswordChange')) {
-			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-		}
-		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
-			\App\Config::setJsEnv('ShowUserPwnedPasswordChange', \App\Session::get('ShowUserPwnedPasswordChange'));
-		}
-		if (\App\Session::has('showVisitPurpose')) {
-			\App\Config::setJsEnv('showVisitPurpose', \App\Session::get('showVisitPurpose'));
-		}
 	}
 
 	/**
