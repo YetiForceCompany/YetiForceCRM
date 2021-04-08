@@ -29,19 +29,19 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	private $logFiles = [
 		'/var/log/fpm-php.www.log',
 		'/var/log/php_error.log',
-		'/var/log/nginx/localhost_access.log',
+		// '/var/log/nginx/localhost_access.log',
 		'/var/log/nginx/localhost_error.log',
 		'/var/log/nginx/error.log',
-		'/var/log/mysql/localhost_access.log',
+		// '/var/log/mysql/localhost_access.log',
 		'/var/log/mysql/error.log',
 		'cache/logs/system.log',
 		'cache/logs/errors.log',
-		'tests/records.log',
-		'cache/logs/request.log',
+		// 'cache/logs/request.log',
 		'cache/logs/phpError.log',
 		'cache/logs/Importer.log',
-		'cache/logs/webserviceDebug.log',
 		'cache/logs/webserviceErrors.log',
+		// 'cache/logs/webserviceDebug.log',
+		'tests/records.log',
 	];
 
 	/**
