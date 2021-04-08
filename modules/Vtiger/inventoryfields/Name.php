@@ -92,12 +92,15 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
-		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value)) || !\App\Record::isExists($value)) {
+		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value))) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+		}
+		if (!\App\Record::isExists($value)) {
+			throw new \App\Exceptions\AppException("ERR_RECORD_NOT_FOUND||$value||$columnName", 406);
 		}
 		$rangeValues = explode(',', $this->maximumLength);
 		if ($value && ($rangeValues[1] < $value || $rangeValues[0] > $value)) {
-			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			throw new \App\Exceptions\AppException("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}
 
