@@ -455,7 +455,7 @@ class ModuleBasic
 			$db->createCommand()->delete('a_#__relatedlists_inv_fields', ['relation_id' => $ids])->execute();
 		}
 		foreach ($ids as $id) {
-			\App\Relation::clearCacheById($id);
+			\App\Relation::clearCacheById((int) $id);
 		}
 		\App\Log::trace('End', __METHOD__);
 	}

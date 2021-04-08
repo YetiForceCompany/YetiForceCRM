@@ -143,12 +143,10 @@ class Relation
 	 *
 	 * @return void
 	 */
-	public static function clearCacheById(string $relationId, bool $parent = true): void
+	public static function clearCacheById(int $relationId, bool $parent = true): void
 	{
-		if ($parent) {
-			if ($relation = self::getById($relationId)) {
-				self::clearCacheByModule($relation['related_modulename'], false);
-			}
+		if ($parent && ($relation = self::getById($relationId))) {
+			self::clearCacheByModule($relation['related_modulename'], false);
 		}
 		Cache::delete('App\Relation::getById', $relationId);
 		Cache::delete('getFieldsFromRelation', $relationId);

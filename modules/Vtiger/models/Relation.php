@@ -925,7 +925,7 @@ class Vtiger_Relation_Model extends \App\Base
 		$dbCommand = App\Db::getInstance()->createCommand();
 		foreach ($modules as $module) {
 			$dbCommand->update('vtiger_relatedlists', ['sequence' => (int) $module['index'] + 1], ['relation_id' => $module['relationId']])->execute();
-			\App\Relation::clearCacheById($module['relationId']);
+			\App\Relation::clearCacheById((int) $module['relationId']);
 		}
 	}
 
