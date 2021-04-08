@@ -14,15 +14,6 @@ jobs:
       env:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
 
-    - name: List
-      run: ls -all /home/runner/work/YetiForceCRM/YetiForceCRM/cache/logs
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-          name: Logs
-          path: /home/runner/work/YetiForceCRM/YetiForceCRM/cache/logs
-
   tests74:
     runs-on: ubuntu-latest
     name: PHP 7.4
@@ -34,15 +25,6 @@ jobs:
       env:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
 
-    - name: List
-      run: ls -all /home/runner/work/YetiForceCRM/YetiForceCRM/cache/logs
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-          name: Logs
-          path: /home/runner/work/YetiForceCRM/YetiForceCRM/cache/logs
-
   tests80:
     runs-on: ubuntu-latest
     name: PHP 8.0
@@ -53,9 +35,3 @@ jobs:
       uses: YetiForceCompany/YetiForceCRM-Tests/8.0@main
       env:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-          name: Logs
-          path: /var/www/html/cache/logs
