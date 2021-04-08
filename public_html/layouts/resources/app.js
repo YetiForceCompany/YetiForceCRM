@@ -1235,12 +1235,12 @@ var app = (window.app = {
 			return false;
 		}
 		const thisInstance = this;
-		let sendByAjaxCb;
-		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
+		let sendByAjaxCb, modalId;
+		modalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
 		if (typeof data === 'object' && data != null && !(data instanceof $)) {
 			if (data.id != undefined) {
-				Window.lastModalId = data.id;
+				modalId = data.id;
 			}
 			paramsObject = data.css;
 			cb = data.cb;
@@ -1249,6 +1249,11 @@ var app = (window.app = {
 				sendByAjaxCb = data.sendByAjaxCb;
 			}
 			data = data.data;
+		} else if (typeof data === 'string') {
+			let modalData = $(data).last();
+			if (modalData.data('modalid')) {
+				modalId = modalData.data('modalid');
+			}
 		}
 		if (typeof url === 'function') {
 			if (typeof cb === 'object') {
@@ -1268,15 +1273,15 @@ var app = (window.app = {
 			sendByAjaxCb = function () {};
 		}
 		if (paramsObject !== undefined && paramsObject.modalId !== undefined) {
-			Window.lastModalId = paramsObject.modalId;
+			modalId = paramsObject.modalId;
 		}
 		// prevent duplicate hash generation
-		let container = $('#' + Window.lastModalId);
+		let container = $('#' + modalId);
 		if (container.length) {
 			container.remove();
 		}
 		container = $('<div></div>');
-		container.attr('id', Window.lastModalId).addClass('modalContainer js-modal-container');
+		container.attr('id', modalId).addClass('modalContainer js-modal-container');
 		container.one('hidden.bs.modal', function () {
 			container.remove();
 			let backdrop = $('.modal-backdrop');
@@ -1287,6 +1292,7 @@ var app = (window.app = {
 				$('body').addClass('modal-open');
 			}
 		});
+		Window.lastModalId = modalId;
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
 		} else {
