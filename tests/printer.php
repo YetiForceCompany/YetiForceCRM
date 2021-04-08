@@ -148,7 +148,8 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function addError(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
-		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . ' error.' . PHP_EOL);
+		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . ' error.');
+		$this->write(PHP_EOL);
 		$this->lastTestFailed = true;
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
@@ -158,7 +159,8 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function addWarning(Test $test, Warning $e, float $time): void
 	{
 		$time = round($time, 2);
-		$this->writeProgressWithColor('fg-yellow', '! Test ' . $test->getName() . ' warning !!!.' . PHP_EOL);
+		$this->writeProgressWithColor('fg-yellow', '! Test ' . $test->getName() . ' warning !!!.');
+		$this->write(PHP_EOL);
 		$this->lastTestFailed = true;
 		//echo "Exception Message: " . $e->getMessage() . "\n";
 		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
@@ -167,7 +169,8 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 
 	public function addFailure(Test $test, AssertionFailedError $e, float $time): void
 	{
-		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName($test) . ' failed !!!' . PHP_EOL . $e->__toString() . PHP_EOL);
+		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName($test) . ' failed !!!' . PHP_EOL . $e->__toString());
+		$this->write(PHP_EOL);
 		$this->lastTestFailed = true;
 		$time = round($time, 2);
 		// echo '!!! Test ' . $test->getName() . " failed.\n";
