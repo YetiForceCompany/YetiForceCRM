@@ -3127,7 +3127,7 @@ jQuery.Class(
 		},
 		registerSendPdfFromPdfViewer: function (container) {
 			container.find('.js-email-pdf').on('click', function (e) {
-				let selectedPdfTemplate = container.find('.js-pdf-viewer-template').val();
+				let selectedPdfTemplate = $(e.currentTarget).closest('.js-detail-widget').find('.js-pdf-viewer-template').val();
 				let url = $(this).attr('data-url');
 				if (url && selectedPdfTemplate && selectedPdfTemplate > 0) {
 					window.open(url + selectedPdfTemplate, '_blank');
