@@ -26,6 +26,7 @@ class Companies extends \Tests\Base
 	{
 		$recordModel = new \Settings_Companies_Record_Model();
 		$recordModel->set('name', 'Name');
+		$recordModel->set('type', 1);
 		$recordModel->set('industry', 'Industry');
 		$recordModel->set('city', 'City');
 		$recordModel->set('country', 'Country');
@@ -39,6 +40,7 @@ class Companies extends \Tests\Base
 		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['name'], 'Name');
+		$this->assertSame($row['type'], 1);
 		$this->assertSame($row['industry'], 'Industry');
 		$this->assertSame($row['city'], 'City');
 		$this->assertSame($row['country'], 'Country');
