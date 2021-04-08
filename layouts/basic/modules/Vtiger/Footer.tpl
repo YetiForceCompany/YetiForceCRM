@@ -22,7 +22,7 @@
 	</div>
 	</div>
 	</div>
-	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
+	<input class="d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
 	{assign var="IS_ADMIN" value=$USER_MODEL->isAdminUser()}
 	{if $SHOW_FOOTER_BAR}
 		{assign var="DISABLE_BRANDING" value=\App\YetiForce\Shop::check('YetiForceDisableBranding')}

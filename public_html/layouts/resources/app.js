@@ -2902,10 +2902,47 @@ var app = (window.app = {
 		container.find('.js-fab__container').on('clickoutside', (e) => {
 			$(e.currentTarget).removeClass('u-hidden-block__opened');
 		});
+	},
+	processEvents: false,
+	registerAfterLoginEvents: function () {
+		if (this.processEvents === false) {
+			let processEvents = $('#processEvents');
+			if (processEvents.length === 0) {
+				return;
+			}
+			this.processEvents = JSON.parse(processEvents.val());
+		}
+		if (this.processEvents.length === 0) {
+			return;
+		}
+		let event = this.processEvents.shift();
+		switch (event.type) {
+			case 'modal':
+				AppConnector.request(event.url)
+					.done(function (requestData) {
+						app.showModalWindow(requestData).one('hidden.bs.modal', function () {
+							app.registerAfterLoginEvents();
+						});
+					})
+					.fail(function (textStatus, errorThrown) {
+						app.showNotify({
+							title: app.vtranslate('JS_ERROR'),
+							text: errorThrown,
+							type: 'error'
+						});
+					});
+				break;
+			case 'notify':
+				app.showNotify(event.notify);
+				app.registerAfterLoginEvents();
+				break;
+			default:
+				return;
+		}
 	}
 });
 CKEDITOR.disableAutoInline = true;
-$(document).ready(function () {
+$(function () {
 	Quasar.iconSet.set(Quasar.iconSet.mdiV3);
 	let document = $(this);
 	app.registerToggleIconClick(document);
@@ -2924,6 +2961,7 @@ $(document).ready(function () {
 	app.registesterScrollbar(document);
 	app.registerHtmlToImageDownloader(document);
 	app.registerShowHideBlock(document);
+	app.registerAfterLoginEvents(document);
 	app.registerFormsEvents(document);
 	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();

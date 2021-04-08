@@ -96,6 +96,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		}
 		try {
 			App\Session::init();
+			App\Process::init();
 			// common utils api called, depend on this variable right now
 			$this->getLogin();
 			App\Debuger::initConsole();
