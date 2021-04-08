@@ -35,6 +35,6 @@ if [ "$INSTALL_MODE" != "PROD" ]; then
 	echo " -----  composer install --no-interaction --no-interaction -----"
 	composer install --no-interaction --no-interaction
 else
-	echo " -----  composer install --no-interaction --no-dev --no-interaction -----"
-	composer install --no-interaction --no-dev --no-interaction
+	echo " -----  composer install --no-interaction --no-dev --no-interaction --quiet -----"
+	composer install --no-interaction --no-dev --no-interaction  --quiet
 fi
