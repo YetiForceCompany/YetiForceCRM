@@ -234,27 +234,38 @@ class Shop
 	 * Verify or show a message about invalid products.
 	 *
 	 * @param bool $cache
+	 * @param bool $onlyNames
 	 *
 	 * @return string
 	 */
-	public static function verify(bool $cache = true): string
+	public static function verify(bool $cache = true, bool $onlyNames = false): string
 	{
 		$products = '';
 		if ($cache && ($cacheData = self::getFromCache())) {
 			foreach ($cacheData as $product => $verify) {
 				if (!$verify['status']) {
-					$products .= \App\Language::translate($product, 'Settings::YetiForce') . '<br>' . \App\Language::translate(($verify['message'] ?? 'LBL_YETIFORCE_SHOP_PRODUCT_CANCELED'), 'Settings::YetiForce') . '<hr>';
+					$products .= \App\Language::translate($product, 'Settings::YetiForce');
+					if ($onlyNames) {
+						$products .= ',';
+					} else {
+						$products .= '<br>' . \App\Language::translate(($verify['message'] ?? 'LBL_YETIFORCE_SHOP_PRODUCT_CANCELED'), 'Settings::YetiForce') . '<hr>';
+					}
 				}
 			}
 		} else {
 			foreach (self::getProducts() as $product) {
 				$verify = $product->verify();
 				if (!$verify['status']) {
-					$products .= \App\Language::translate($product->getLabel(), 'Settings::YetiForce') . '<br>' . \App\Language::translate(($verify['message'] ?? 'LBL_YETIFORCE_SHOP_PRODUCT_CANCELED'), 'Settings::YetiForce') . '<hr>';
+					$products .= \App\Language::translate($product->getLabel(), 'Settings::YetiForce');
+					if ($onlyNames) {
+						$products .= ',';
+					} else {
+						$products .= '<br>' . \App\Language::translate(($verify['message'] ?? 'LBL_YETIFORCE_SHOP_PRODUCT_CANCELED'), 'Settings::YetiForce') . '<hr>';
+					}
 				}
 			}
 		}
-		return rtrim($products, '<hr>');
+		return rtrim($products, '<hr>,');
 	}
 
 	/**

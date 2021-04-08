@@ -49,7 +49,9 @@
     "LBL_REGISTRATION_DATA": "Registration data",
     "LBL_BRAND_DATA": "Brand data",
     "LBL_BRAND_DATA_INFO": "Block used when YetiForce Branding is purchased allows you to enter custom data visible in the footer.",
-    "LBL_BILLING_DATA": "Billing data"
+    "LBL_BILLING_DATA": "Billing data",
+    "LBL_SYSTEM_NOT_REGISTERED": "The YetiForce system has not been properly registered or the provided data is incorrect.",
+    "LBL_PAID_FN_NO_SUBSCRIPTION": "Paid functionalities have been enabled in the system %s, please purchase a subscription."
   },
   "js": {
     "JS_ENTER_REGISTRATION_KEY": "Enter registration key",

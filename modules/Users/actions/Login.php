@@ -188,6 +188,12 @@ class Users_Login_Action extends \App\Controller\Action
 		$eventHandler->setModuleName('Users');
 		$eventHandler->trigger('UsersAfterLogin');
 
+		if ($request->has('loginLanguage') && App\Config::main('langInLoginView')) {
+			\App\Session::set('language', $request->getByType('loginLanguage'));
+		}
+		if ($request->has('layout')) {
+			\App\Session::set('layout', $request->getByType('layout'));
+		}
 		if ($this->userModel->isAdmin() && \App\Config::security('askAdminAboutVisitPurpose', true)) {
 			\App\Process::addEvent([
 				'name' => 'showVisitPurpose',
@@ -195,11 +201,21 @@ class Users_Login_Action extends \App\Controller\Action
 				'url' => 'index.php?module=Users&view=VisitPurpose'
 			]);
 		}
-		if ($request->has('loginLanguage') && App\Config::main('langInLoginView')) {
-			\App\Session::set('language', $request->getByType('loginLanguage'));
+		if (\App\YetiForce\Shop::verify(false, true)) {
+			\App\Process::addEvent([
+				'name' => 'YetiForceShopAlert',
+				'type' => 'modal',
+				'execution' => 'once',
+				'url' => 'index.php?module=Users&view=YetiForce&view=YetiForce&mode=shop'
+			]);
 		}
-		if ($request->has('layout')) {
-			\App\Session::set('layout', $request->getByType('layout'));
+		if (!\App\YetiForce\Register::isRegistered()) {
+			\App\Process::addEvent([
+				'name' => 'YetiForceRegistrationAlert',
+				'type' => 'modal',
+				'execution' => 'once',
+				'url' => 'index.php?module=Users&view=YetiForce&view=YetiForce&mode=registration'
+			]);
 		}
 	}
 
