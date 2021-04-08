@@ -32,8 +32,8 @@ if [ "$INSTALL_MODE" != "PROD" ]; then
 	rm -rf composer.lock
 	mv composer_dev.json composer.json
 	mv composer_dev.lock composer.lock
-	echo " -----  composer install --no-interaction --no-interaction -----"
-	composer install --no-interaction --no-interaction
+	echo " -----  composer install --no-interaction --no-interaction --quiet -----"
+	composer install --no-interaction --no-interaction --quiet
 else
 	echo " -----  composer install --no-interaction --no-dev --no-interaction -----"
 	composer install --no-interaction --no-dev --no-interaction

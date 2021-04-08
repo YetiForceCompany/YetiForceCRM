@@ -481,7 +481,7 @@ class Owner
 		foreach ($ids as $id) {
 			$userModel = \App\User::getUserModel($id);
 			$name = $userModel->getName();
-			if (!empty($name) && ($adminInList || (!$adminInList && !$userModel->isAdmin()))) {
+			if ($userModel->isActive() && !empty($name) && ($adminInList || (!$adminInList && !$userModel->isAdmin()))) {
 				$users[$id] = $name;
 				if ($this->showRoleName) {
 					$roleName = \App\Language::translate($userModel->getRoleInstance()->getName());
