@@ -302,6 +302,11 @@ abstract class AbstractBaseProduct
 			} elseif ($analyze = $this->analyzeConfiguration()) {
 				$return = array_merge(['status' => true], $analyze);
 			}
+		} else {
+			$check = $this->verify();
+			if (!$check['status']) {
+				$return = ['status' => true, 'type' => 'LBL_SHOP_RENEW', 'message' => $check['message']];
+			}
 		}
 		return $return;
 	}

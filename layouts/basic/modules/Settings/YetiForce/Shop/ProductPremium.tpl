@@ -3,11 +3,11 @@
 <!-- tpl-Settings-YetiForce-Shop-ProductPremium -->
 {assign var=PRODUCT_ALERT value=$PRODUCT->showAlert()}
 <div class="dashboardWidget marketplace-product mt-3 mr-3 flex-grow-1 js-product position-relative" data-js="showProductModal|click|container" data-category="{$PRODUCT->category}" data-product="{$PRODUCT->getName()}">
-	{if !empty($PRODUCT->expirationDate) && $PRODUCT_ALERT['status']}
+	{if $PRODUCT_ALERT['status']}
 		<span class="text-danger fas fa-exclamation-circle animate__animated animate__infinite animate__flash animate__slow mr-1 mt-1 u-cursor-pointer js-popover-tooltip position-absolute u-position-r-0" data-toggle="popover" data-js="popover | mouseenter" data-content="{\App\Language::translate($PRODUCT_ALERT['message'], $QUALIFIED_MODULE)}"></span>
 	{/if}
-	<div class="o-small-product pl-2 {if empty($PRODUCT->expirationDate)}bg-light u-bg-light-darken{elseif $PRODUCT_ALERT['status']}bg-danger{else}bg-yellow{/if}">
-		<div class="o-small-product__container d-flex u-min-h-120px-rem no-wrap py-2 px-1{if !empty($PRODUCT->expirationDate)} bg-white u-bg-white-darken{/if}">
+	<div class="o-small-product pl-2 {if empty($PRODUCT->expirationDate) && $PRODUCT_ALERT['status']}bg-color-red-100{elseif empty($PRODUCT->expirationDate)}bg-light u-bg-light-darken{elseif $PRODUCT_ALERT['status']}bg-danger{else}bg-yellow{/if}">
+		<div class="o-small-product__container d-flex u-min-h-120px-rem no-wrap py-2 px-1 {if !empty($PRODUCT->expirationDate)} bg-white u-bg-white-darken{/if}">
 			<div class="o-small-product__img d-flex">
 				{if $PRODUCT->getImage()}
 					<img src="{$PRODUCT->getImage()}" class="my-auto grow thumbnail-image card-img-top intrinsic-item" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" />
