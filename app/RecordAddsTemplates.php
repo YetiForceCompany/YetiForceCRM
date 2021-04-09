@@ -21,7 +21,7 @@ class RecordAddsTemplates
 	 *
 	 * @param string $className
 	 *
-	 * @return RecordAddsTemplates\
+	 * @return RecordAddsTemplates\Object
 	 */
 	public static function getInstance(string $className)
 	{

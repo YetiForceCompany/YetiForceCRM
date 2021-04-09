@@ -21,7 +21,7 @@ class Vtiger_RecordAddsTemplates_View extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	public $modalSize = 'c-modal-xxl';
 
-	/** Record adds instance @var \App\RecordAddsTemplates\ */
+	/** @var \App\RecordAddsTemplates\Object Record adds instance. */
 	private $recordAddsInstance;
 
 	/** {@inheritdoc} */
