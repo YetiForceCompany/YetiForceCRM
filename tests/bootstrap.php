@@ -58,7 +58,7 @@ if ($installDatabase) {
 	echo 'Skipped test database install ...' . PHP_EOL;
 }
 if ($debug) {
-	echo 'error_reporting: ' . error_reporting() . ' | ' . \App\ErrorHandler::error2string(error_reporting()) . PHP_EOL;
+	echo 'error_reporting: ' . error_reporting() . ' | ' . print_r(\App\ErrorHandler::error2string(error_reporting()), true) . PHP_EOL;
 	echo 'log_errors: ' . ini_get('log_errors') . PHP_EOL;
 	echo 'max_execution_time: ' . ini_get('max_execution_time') . PHP_EOL;
 	echo 'display_errors: ' . ini_get('display_errors') . PHP_EOL;
