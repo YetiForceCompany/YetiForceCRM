@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-EmailList -->
-{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
+{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId($WIDGET['id']|cat:_)}"}
 {assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 <div class="c-detail-widget js-detail-widget" data-js="container">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}"
@@ -17,7 +17,7 @@
 
 				</div>
 				<div class="c-detail-widget__header__title">
-					<h5 class="mb-0 modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+					<h5 class="mb-0 modCT_{$WIDGET['data']['relatedmodule']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 				</div>
 				<div
 					class="row inline justify-center js-hb__container ml-auto">
