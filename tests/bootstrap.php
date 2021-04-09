@@ -52,7 +52,7 @@ if ($installDatabase) {
 
 	$initSchema = new \Install_InitSchema_Model();
 	$initSchema->initialize();
-	echo round(microtime(true) - $startTime, 5) . PHP_EOL;
+	echo round(microtime(true) - $startTime, 1) . ' sec.' . PHP_EOL;
 	if (!($_SESSION['installation_success'] ?? false)) {
 		echo 'Some exceptions occurred in database install queries, verify if database was empty before run.' . PHP_EOL;
 	}

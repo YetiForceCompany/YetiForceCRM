@@ -21,6 +21,8 @@ abstract class Base extends \PHPUnit\Framework\TestCase
 	public $logs;
 
 	/**
+	 * This method is called when a test method did not execute successfully.
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param \Throwable $t
