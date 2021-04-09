@@ -48,7 +48,6 @@ class Utils
 					$toImplode[] = static::varExport($value);
 				}
 			}
-
 			return '[' . implode(',', $toImplode) . ']';
 		}
 		return var_export($variable, true);

@@ -468,9 +468,7 @@ class ModuleBasic
 	 */
 	public function deleteGroup2Modules()
 	{
-		\App\Log::trace('Start', __METHOD__);
 		\App\Db::getInstance()->createCommand()->delete('vtiger_group2modules', ['tabid' => $this->id])->execute();
-		\App\Log::trace('End', __METHOD__);
 	}
 
 	/**
@@ -501,9 +499,7 @@ class ModuleBasic
 	 */
 	public function deleteFromModentityNum()
 	{
-		\App\Log::trace('Start', __METHOD__);
 		\App\Db::getInstance()->createCommand()->delete('vtiger_modentity_num', ['tabid' => $this->id])->execute();
-		\App\Log::trace('End', __METHOD__);
 	}
 
 	/**
