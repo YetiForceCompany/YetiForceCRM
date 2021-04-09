@@ -16,7 +16,7 @@ use App\Request;
  */
 class Vtiger_RecordAddsTemplates_Action extends \App\Controller\Action
 {
-	/** @var \App\RecordAddsTemplates\Object Record adds instance. */
+	/** @var object Record adds instance. */
 	public $recordAddsInstance;
 
 	/** {@inheritdoc} */
@@ -30,7 +30,7 @@ class Vtiger_RecordAddsTemplates_Action extends \App\Controller\Action
 	}
 
 	/** {@inheritdoc} */
-	public function process(Request $request)
+	public function process(Request $request): void
 	{
 		$response = new Vtiger_Response();
 		$response->setResult($this->recordAddsInstance->save($request));

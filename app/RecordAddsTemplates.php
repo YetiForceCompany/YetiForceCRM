@@ -19,12 +19,13 @@ class RecordAddsTemplates
 	/**
 	 * Get record adds templates instance.
 	 *
-	 * @param string $className
+	 * @param string $name
 	 *
-	 * @return RecordAddsTemplates\Object
+	 * @return object
 	 */
-	public static function getInstance(string $className)
+	public static function getInstance(string $name)
 	{
+		$className = '\\App\\RecordAddsTemplates\\' . $name;
 		return new $className();
 	}
 
@@ -41,8 +42,7 @@ class RecordAddsTemplates
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($pathDirectory, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isFile()) {
 					$fileName = $item->getBasename('.php');
-					$instance = static::getInstance($fileName);
-					$listTemplates[] = ['templateName' => $fileName, 'label' => $instance->label, 'icon' => $instance->icon];
+					$listTemplates[] = static::getInstance($fileName);
 				}
 			}
 		}

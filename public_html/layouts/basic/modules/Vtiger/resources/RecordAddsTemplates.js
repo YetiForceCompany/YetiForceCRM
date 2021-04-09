@@ -12,15 +12,15 @@ $.Class(
 			const aDeferred = $.Deferred();
 			let instanse = this;
 			container.on('click', '.js-modal__save', () => {
-				let params = {};
-				params.action = 'RecordAddsTemplates';
+				let params = {
+					action: 'RecordAddsTemplates',
+					recordAddsType: container.find('.js-modal-body').find("[name='recordAddsType']").val()
+				};
 				let validate = true;
 				container.find('form.js-record-template').each(function () {
 					let form = $(this);
 					instanse.editInstance.registerValidationsFields(form);
 					let formSerializeData = form.serializeFormData();
-					params.module = formSerializeData.module;
-					params.recordAddsType = formSerializeData.recordAddsType;
 					params[formSerializeData.module] = formSerializeData;
 					if (!form.validationEngine('validate')) {
 						validate = false;

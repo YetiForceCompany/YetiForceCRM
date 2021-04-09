@@ -14,7 +14,6 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	 *
 	 * @var string[]
 	 */
-	public $referenceList = [];
 	public $picklistValues = [];
 
 	/**
@@ -23,16 +22,6 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	public function getPicklistValues($skipCheckingRole = false)
 	{
 		return $this->picklistValues;
-	}
-
-	/**
-	 * Function to get list of modules the field refernced to.
-	 *
-	 * @return string[] list of modules for which field is refered to
-	 */
-	public function getReferenceList()
-	{
-		return $this->referenceList;
 	}
 
 	/**

@@ -21,7 +21,7 @@ class Vtiger_RecordAddsTemplates_View extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	public $modalSize = 'c-modal-xxl';
 
-	/** @var \App\RecordAddsTemplates\Object Record adds instance. */
+	/** @var object Record adds instance. */
 	private $recordAddsInstance;
 
 	/** {@inheritdoc} */
@@ -43,18 +43,16 @@ class Vtiger_RecordAddsTemplates_View extends \App\Controller\Modal
 	}
 
 	/** {@inheritdoc} */
-	public function process(App\Request $request)
+	public function process(App\Request $request): void
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_NAME', $request->getModule());
 		$viewer->assign('RECORD_STRUCTURE', $this->recordAddsInstance->getFields());
 		$viewer->assign('MODULE_FORM', array_keys($this->recordAddsInstance->modulesFieldsMap));
 		$viewer->assign('VIEW', 'recordTemplate');
 		$viewer->assign('MODE', '');
-		$viewer->assign('RECORD_TEMPLATE', $request->getByType('recordAddsType', 'ClassName'));
+		$viewer->assign('RECORD_TEMPLATE', $this->recordAddsInstance->name);
 		$viewer->assign('BLOCK_LIST', $this->recordAddsInstance->getBlocks());
 		$viewer->assign('RECORD', null);
-		$viewer->assign('SCRIPTS', $this->getModalScripts($request));
-		$viewer->view('RecordAddsTemplates.tpl');
+		$viewer->view('Modals/RecordAddsTemplates.tpl');
 	}
 }
