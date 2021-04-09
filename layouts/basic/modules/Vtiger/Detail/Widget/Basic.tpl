@@ -12,7 +12,7 @@
 					<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				</div>
 				<div class="c-detail-widget__header__title">
-					<h5 class="mb-0 text-truncate modCT_{$WIDGET['label']}">
+					<h5 class="mb-0 text-truncate modCT_{$RELATED_MODULE_NAME}">
 						{if $WIDGET['label'] eq ''}
 							{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
 						{else}
