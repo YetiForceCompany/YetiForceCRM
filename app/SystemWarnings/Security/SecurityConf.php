@@ -38,22 +38,22 @@ class SecurityConf extends \App\SystemWarnings\Template
 		if (!empty($errorsSecurity)) {
 			$errorsText .= '<strong>' . \App\Language::translate('LBL_SECURITY', 'Settings:SystemWarnings') . ':</strong>';
 			foreach ($errorsSecurity as $key => $value) {
-				$errorsText .= \PHP_EOL . "  {$key} = " . \yii\helpers\VarDumper::dumpAsString($value['val']) .
+				$errorsText .= PHP_EOL . "  {$key} = " . \yii\helpers\VarDumper::dumpAsString($value['val']) .
 					' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') .
 					": '" . ($value['recommended'] ?? '') . "')";
 			}
-			$errorsText .= \PHP_EOL . \PHP_EOL;
+			$errorsText .= PHP_EOL . PHP_EOL;
 			$this->status = 0;
 		}
 		$errorsWritableFilesAndFolders = \App\Utils\ConfReport::getErrors('writableFilesAndFolders');
 		if (!empty($errorsWritableFilesAndFolders)) {
 			$errorsText .= '<strong>' . \App\Language::translate('LBL_NO_FILE_WRITE_RIGHTS', 'Settings:SystemWarnings') . ':</strong>';
 			foreach ($errorsWritableFilesAndFolders as $key => $value) {
-				$errorsText .= \PHP_EOL . "  {$key}";
+				$errorsText .= PHP_EOL . "  {$key}";
 			}
 			$this->status = 0;
 		}
-		$errorsText .= \PHP_EOL . \PHP_EOL;
+		$errorsText .= PHP_EOL . PHP_EOL;
 		if (!$this->status) {
 			$errorsText .= '</pre>';
 			$this->link = 'https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements';

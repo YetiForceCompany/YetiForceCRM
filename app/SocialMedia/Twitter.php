@@ -59,9 +59,9 @@ class Twitter extends Base
 	public static function isActive()
 	{
 		$configTitter = \App\SocialMedia::getInstance(static::$socialMediaType);
-		return class_exists('\Abraham\TwitterOAuth\TwitterOAuth') &&
-			!empty($configTitter->get('twitter_api_key')) &&
-			!empty($configTitter->get('twitter_api_secret'));
+		return class_exists('\Abraham\TwitterOAuth\TwitterOAuth')
+			&& !empty($configTitter->get('twitter_api_key'))
+			&& !empty($configTitter->get('twitter_api_secret'));
 	}
 
 	/**

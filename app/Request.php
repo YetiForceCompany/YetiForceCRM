@@ -490,7 +490,7 @@ class Request
 				}
 			}
 		} else {
-			$data = array_change_key_case(apache_request_headers(), \CASE_LOWER);
+			$data = array_change_key_case(apache_request_headers(), CASE_LOWER);
 			foreach ($data as $key => &$value) {
 				$value = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
 			}
@@ -510,7 +510,7 @@ class Request
 		if (!isset($this->headers)) {
 			$this->getHeaders();
 		}
-		return isset($this->headers[$key]) ? $this->headers[$key] : null;
+		return $this->headers[$key] ?? null;
 	}
 
 	/**
@@ -743,7 +743,7 @@ class Request
 	public static function init($request = false)
 	{
 		if (!static::$request) {
-			static::$request = new self($request ? $request : $_REQUEST);
+			static::$request = new self($request ?: $_REQUEST);
 		}
 		return static::$request;
 	}

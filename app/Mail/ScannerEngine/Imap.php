@@ -80,7 +80,7 @@ class Imap extends Base
 		}
 		$mailCrmId = $query->scalar();
 		$this->set('mailCrmId', $mailCrmId);
-		return  $mailCrmId;
+		return $mailCrmId;
 	}
 
 	/** {@inheritdoc} */

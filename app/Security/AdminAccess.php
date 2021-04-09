@@ -48,14 +48,14 @@ class AdminAccess
 		}
 		$userModel = \App\User::getUserModel($userId);
 		return ($userModel->isAdmin() || $userModel->isSuperUser()) && (
-				\in_array($moduleName, self::EXCEPTIONS) ||
-				(
+				\in_array($moduleName, self::EXCEPTIONS)
+				|| (
 					\in_array($moduleName, self::getActiveModules()) && (
-						$userModel->isAdmin() ||
-						\in_array($moduleName, self::getPermittedModulesByUser($userId))
+						$userModel->isAdmin()
+						|| \in_array($moduleName, self::getPermittedModulesByUser($userId))
 					)
-				) ||
-				($userModel->isAdmin() && 'AdminAccess' === $moduleName)
+				)
+				|| ($userModel->isAdmin() && 'AdminAccess' === $moduleName)
 			);
 	}
 

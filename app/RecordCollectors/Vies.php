@@ -1,10 +1,7 @@
 <?php
 /**
  * Vies record collector file.
- *
- * @package   App
- *
- * http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl
+ * http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl.
  *
  * @package App
  *

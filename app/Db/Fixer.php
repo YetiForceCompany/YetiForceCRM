@@ -177,7 +177,7 @@ class Fixer
 						}
 						break;
 					case 'decimal':
-						$range = pow(10, ((int) $column->size) - ((int) $column->scale)) - 1;
+						$range = 10 ** (((int) $column->size) - ((int) $column->scale)) - 1;
 						break;
 					default:
 						$range = false;

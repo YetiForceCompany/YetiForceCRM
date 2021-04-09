@@ -732,10 +732,10 @@ class PrivilegeUtil
 			$parRoleList = [];
 			if (\is_array($parentRoles)) {
 				foreach ($parentRoles as $par_role_id) {
-					array_push($parRoleList, $par_role_id);
+					$parRoleList[] = $par_role_id;
 				}
 			}
-			array_push($parRoleList, $currentUserRoles);
+			$parRoleList[] = $currentUserRoles;
 			foreach (static::getDatashare('role2rs', $modTabId, $parRoleList) as $row) {
 				$shareRoleId = $row['share_roleid'];
 				$shareIdRoles = [];

@@ -31,7 +31,7 @@ class ScannerAction
 	public static function getActions(): array
 	{
 		$actions = [];
-		foreach ((new \DirectoryIterator(\ROOT_DIRECTORY . self::$actionsDir)) as $fileinfo) {
+		foreach ((new \DirectoryIterator(ROOT_DIRECTORY . self::$actionsDir)) as $fileinfo) {
 			if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php'))) {
 				$class = "App\\Mail\\ScannerAction\\{$fileName}";
 				$actions[$class::$priority][] = $fileName;
