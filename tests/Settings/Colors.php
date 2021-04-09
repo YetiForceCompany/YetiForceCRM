@@ -49,7 +49,7 @@ class Colors extends \Tests\Base
 	public function testUpdateUserColor()
 	{
 		\App\Colors::updateUserColor(\App\User::getActiveAdminId(), '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['cal_color'])->from('vtiger_users')->where(['id' => \App\User::getActiveAdminId()])->scalar(), '#A0B584', 'Returned user color is different from provided');
+		$this->assertSame((new \App\Db\Query())->select(['cal_color'])->from('vtiger_users')->where(['id' => \App\User::getActiveAdminId()])->scalar(), '#A0B584', 'Returned user color is different from provided');
 	}
 
 	/**
@@ -57,9 +57,9 @@ class Colors extends \Tests\Base
 	 */
 	public function testUpdateGroupColor()
 	{
-		$groupId = (new\App\Db\Query())->select(['groupid'])->from('vtiger_groups')->scalar();
+		$groupId = (new \App\Db\Query())->select(['groupid'])->from('vtiger_groups')->scalar();
 		\App\Colors::updateGroupColor($groupId, '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['color'])->from('vtiger_groups')->where(['groupid' => $groupId])->scalar(), '#A0B584', 'Returned group color is different from provided');
+		$this->assertSame((new \App\Db\Query())->select(['color'])->from('vtiger_groups')->where(['groupid' => $groupId])->scalar(), '#A0B584', 'Returned group color is different from provided');
 	}
 
 	/**
@@ -69,7 +69,7 @@ class Colors extends \Tests\Base
 	{
 		$moduleId = \App\Module::getModuleId('Leads');
 		\App\Colors::updateModuleColor($moduleId, '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['color'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 'A0B584', 'Returned module color is different from provided');
+		$this->assertSame((new \App\Db\Query())->select(['color'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 'A0B584', 'Returned module color is different from provided');
 	}
 
 	/**
@@ -77,12 +77,12 @@ class Colors extends \Tests\Base
 	 */
 	public function testUpdatePicklistValueColor()
 	{
-		$picklistValueId = (new\App\Db\Query())->select(['activitytypeid'])->from('vtiger_activitytype')->where(['activitytype' => 'Call'])->scalar();
-		\App\Colors::updatePicklistValueColor((new\App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('Calendar'), 'fieldname' => 'activitytype'])->scalar(), $picklistValueId, '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['color'])->from('vtiger_activitytype')->where(['activitytypeid' => $picklistValueId])->scalar(), 'A0B584', 'Returned picklist value color is different from provided');
+		$picklistValueId = (new \App\Db\Query())->select(['activitytypeid'])->from('vtiger_activitytype')->where(['activitytype' => 'Call'])->scalar();
+		\App\Colors::updatePicklistValueColor((new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('Calendar'), 'fieldname' => 'activitytype'])->scalar(), $picklistValueId, '#A0B584');
+		$this->assertSame((new \App\Db\Query())->select(['color'])->from('vtiger_activitytype')->where(['activitytypeid' => $picklistValueId])->scalar(), 'A0B584', 'Returned picklist value color is different from provided');
 
-		\App\Colors::updatePicklistValueColor((new\App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('Calendar'), 'fieldname' => 'activitytype'])->scalar(), $picklistValueId, '#80B584');
-		$this->assertSame((new\App\Db\Query())->select(['color'])->from('vtiger_activitytype')->where(['activitytypeid' => $picklistValueId])->scalar(), '80B584', 'Returned picklist value color is different from default');
+		\App\Colors::updatePicklistValueColor((new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('Calendar'), 'fieldname' => 'activitytype'])->scalar(), $picklistValueId, '#80B584');
+		$this->assertSame((new \App\Db\Query())->select(['color'])->from('vtiger_activitytype')->where(['activitytypeid' => $picklistValueId])->scalar(), '80B584', 'Returned picklist value color is different from default');
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Colors extends \Tests\Base
 	{
 		$moduleId = \App\Module::getModuleId('Leads');
 		\App\Colors::activeModuleColor($moduleId, true, '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 1, 'Returned module color state is different from provided');
+		$this->assertSame((new \App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 1, 'Returned module color state is different from provided');
 		$this->assertNotEmpty(\App\Colors::activeModuleColor($moduleId, true, ''), 'Returned module color should be random generated if provided empty string');
 	}
 
@@ -145,7 +145,7 @@ class Colors extends \Tests\Base
 			$column = $tableSchema->getColumn((string) 'color');
 			$this->assertEmpty($column, 'column color in vtiger_contract_priority should not exists');
 			if (null === $column) {
-				\App\Colors::addPicklistColorColumn((new\App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('ServiceContracts'), 'fieldname' => 'contract_priority'])->scalar());
+				\App\Colors::addPicklistColorColumn((new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('ServiceContracts'), 'fieldname' => 'contract_priority'])->scalar());
 				\App\Cache::clear();
 				$tableSchema = $db->getSchema()->getTableSchema('vtiger_contract_priority', true);
 				$column = $tableSchema->getColumn((string) 'color');
@@ -167,9 +167,9 @@ class Colors extends \Tests\Base
 	{
 		$moduleId = \App\Module::getModuleId('Leads');
 		\App\Colors::updateUserColor(\App\User::getActiveAdminId(), '#E6FAD8');
-		\App\Colors::updateGroupColor((new\App\Db\Query())->select(['groupid'])->from('vtiger_groups')->scalar(), '#E6FAD8');
+		\App\Colors::updateGroupColor((new \App\Db\Query())->select(['groupid'])->from('vtiger_groups')->scalar(), '#E6FAD8');
 		\App\Colors::activeModuleColor($moduleId, false, '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 0, 'Returned module color state is different from provided');
+		$this->assertSame((new \App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 0, 'Returned module color state is different from provided');
 		\App\Colors::updateModuleColor($moduleId, '');
 	}
 }
