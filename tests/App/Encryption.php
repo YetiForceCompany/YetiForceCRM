@@ -78,7 +78,7 @@ class Encryption extends \Tests\Base
 		$instance->set('pass', \App\Config::securityKeys('encryptionPass'));
 		if (!$instance->isActive()) {
 			echo 'function_exists(\'openssl_encrypt\'): ' . var_export(\function_exists('openssl_encrypt'), true) . PHP_EOL;
-			echo 'isEmpty(\'method\'): ' . var_export($this->isEmpty('method'), true) . PHP_EOL;
+			echo 'isEmpty(\'method\'): ' . var_export($instance->isEmpty('method'), true) . PHP_EOL;
 			echo 'method !== : securityKeys(\'encryptionMethod\'): ' . var_export($instance->get('method') !== \App\Config::securityKeys('encryptionMethod'), true) . PHP_EOL;
 			echo 'method in getMethods: ' . var_export(\in_array($instance->get('method'), \App\Encryption::getMethods()), true) . PHP_EOL;
 			if (!\in_array($instance->get('method'), \App\Encryption::getMethods())) {
