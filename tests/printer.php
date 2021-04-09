@@ -95,8 +95,8 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		$this->lastTestFailed = false;
 		if ($test instanceof TestCase) {
 			if (!$test->hasExpectationOnOutput() && ($out = $test->getActualOutput())) {
-				$this->writeWithColor('bold,fg-green', "+++++++  {$this->getTestName($test)} | Test output   ++++++++\n", false);
-				$this->write($out);
+				$this->writeWithColor('bold,fg-green', "+++++++  {$this->getTestName($test)} | Test output   ++++++++", false);
+				$this->write(PHP_EOL . $out);
 				$this->write(str_repeat('+', 100) . PHP_EOL);
 			}
 		}

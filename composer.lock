@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5f395603e22ab33209f1d10d7745e98",
+    "content-hash": "824fd39de1d86efeccaf87811bd25c62",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -4279,16 +4279,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.31",
+            "version": "0.1.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "9b77de9ee7493383f2b1ec964740e00804fcb044"
+                "reference": "39e817135c14198b474275e21ae109a74c72a517"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/9b77de9ee7493383f2b1ec964740e00804fcb044",
-                "reference": "9b77de9ee7493383f2b1ec964740e00804fcb044",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/39e817135c14198b474275e21ae109a74c72a517",
+                "reference": "39e817135c14198b474275e21ae109a74c72a517",
                 "shasum": ""
             },
             "require": {
@@ -4329,7 +4329,7 @@
             ],
             "support": {
                 "issues": "https://github.com/YetiForceCompany/YetiForcePDF/issues",
-                "source": "https://github.com/YetiForceCompany/YetiForcePDF/tree/0.1.31"
+                "source": "https://github.com/YetiForceCompany/YetiForcePDF/tree/0.1.32"
             },
             "funding": [
                 {
@@ -4337,7 +4337,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2020-12-21T12:33:17+00:00"
+            "time": "2021-04-09T09:59:12+00:00"
         },
         {
             "name": "yetiforce/yii2",
