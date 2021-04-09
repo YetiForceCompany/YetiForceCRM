@@ -51,12 +51,12 @@ class Encryption extends \Tests\Base
 	public function encryptionProvider()
 	{
 		return [
-			['AES-256-CBC', '1234567890123456'],
-			['AES-256-CTR', '1234567890123456'],
-			['AES-192-CBC', '1234567890123456'],
-			['AES-192-CTR', '1234567890123456'],
-			['DES-EDE3-CBC', '12354678'],
-			['DES-EDE3-CFB', '12354678']
+			['aes-256-cbc', '1234567890123456'],
+			['aes-256-ctr', '1234567890123456'],
+			['aes-192-cbc', '1234567890123456'],
+			['aes-192-ctr', '1234567890123456'],
+			['des-ede3-cbc', '12354678'],
+			['des-ede3-cfb', '12354678']
 		];
 	}
 
