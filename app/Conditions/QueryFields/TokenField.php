@@ -1,8 +1,8 @@
 <?php
 /**
- * Token Query Field Class.
+ * Token Query Field file.
  *
- * @package UIType
+ * @package UIType UIType
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
