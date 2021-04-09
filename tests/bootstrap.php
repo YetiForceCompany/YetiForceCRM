@@ -42,7 +42,8 @@ if (empty($_SERVER['YETI_TEST_MODULE_KEY'])) {
 	echo 'TestData package not available, no sample data to install.' . PHP_EOL;
 }
 if ($installDatabase) {
-	echo 'Installing test database ...' . PHP_EOL;
+	$startTime = microtime(true);
+	echo 'Installing test database ';
 	require_once 'install/models/InitSchema.php';
 
 	$_SESSION['config_file_info']['currency_name'] = 'Poland, Zlotych';
@@ -51,6 +52,7 @@ if ($installDatabase) {
 
 	$initSchema = new \Install_InitSchema_Model();
 	$initSchema->initialize();
+	echo round(microtime(true) - $startTime, 5) . PHP_EOL;
 	if (!($_SESSION['installation_success'] ?? false)) {
 		echo 'Some exceptions occurred in database install queries, verify if database was empty before run.' . PHP_EOL;
 	}
@@ -58,9 +60,12 @@ if ($installDatabase) {
 	echo 'Skipped test database install ...' . PHP_EOL;
 }
 if ($debug) {
-	echo 'error_reporting: ' . error_reporting() . ' | ' . print_r(\App\ErrorHandler::error2string(error_reporting()), true) . PHP_EOL;
+	echo 'error_reporting: ' . error_reporting() . ' | ' . \App\Utils::varExport(\App\ErrorHandler::error2string(error_reporting()), true) . PHP_EOL;
+	echo 'error_log: ' . ini_get('error_log') . PHP_EOL;
 	echo 'log_errors: ' . ini_get('log_errors') . PHP_EOL;
 	echo 'max_execution_time: ' . ini_get('max_execution_time') . PHP_EOL;
 	echo 'display_errors: ' . ini_get('display_errors') . PHP_EOL;
 	echo 'disable_functions: ' . ini_get('disable_functions') . PHP_EOL;
+	echo 'xdebug.enable: ' . ini_get('xdebug.enable') . PHP_EOL;
+	echo 'cgi.fix_pathinfo: ' . ini_get('cgi.fix_pathinfo') . PHP_EOL;
 }
