@@ -58,7 +58,10 @@ $.Class(
 							}
 						})
 						.fail((textStatus, errorThrown) => {
-							app.showNotify(app.vtranslate('JS_ERROR'));
+							app.showNotify({
+								text: errorThrown,
+								type: textStatus
+							});
 							app.errorLog(textStatus, errorThrown);
 							aDeferred.resolve(false);
 						});
