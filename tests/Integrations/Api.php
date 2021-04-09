@@ -74,7 +74,7 @@ class Api extends \Tests\Base
 		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . '/public_html/api/Portal.json')));
 	}
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		static::$url = \App\Config::main('site_URL') . 'webservice/';
 		$this->httpClient = new \GuzzleHttp\Client(\App\RequestHttp::getOptions());

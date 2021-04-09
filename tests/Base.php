@@ -11,7 +11,9 @@
 
 namespace Tests;
 
-abstract class Base extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class Base extends TestCase
 {
 	/**
 	 * Last logs.

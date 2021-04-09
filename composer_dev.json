@@ -1,129 +1,135 @@
 {
-  "name": "yetiforce/yetiforce-crm",
-  "description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
-  "keywords": [
-    "YetiForceCRM",
-    "CRM",
-    "open source crm",
-    "best crm",
-    "YetiForce",
-    "ERP",
-    "PHP",
-    "Customer Relation Management",
-    "System CRM"
-  ],
-  "homepage": "https://yetiforce.com/",
-  "support": {
-    "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
-    "wiki": "https://yetiforce.com/en/documentation.html",
-    "source": "https://github.com/YetiForceCompany/YetiForceCRM"
-  },
-  "authors": [
-    {
-      "name": "YetiForceCompany",
-      "email": "info@yetiforce.com",
-      "homepage": "https://yetiforce.com/"
+    "name": "yetiforce/yetiforce-crm",
+    "description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
+    "keywords": [
+        "YetiForceCRM",
+        "CRM",
+        "open source crm",
+        "best crm",
+        "YetiForce",
+        "ERP",
+        "PHP",
+        "Customer Relation Management",
+        "System CRM"
+    ],
+    "homepage": "https://yetiforce.com/",
+    "support": {
+        "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
+        "wiki": "https://yetiforce.com/en/documentation.html",
+        "source": "https://github.com/YetiForceCompany/YetiForceCRM"
+    },
+    "authors": [
+        {
+            "name": "YetiForceCompany",
+            "email": "info@yetiforce.com",
+            "homepage": "https://yetiforce.com/"
+        }
+    ],
+    "funding": [
+        {
+            "type": "opencollective",
+            "url": "https://opencollective.com/yetiforcecrm"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "ext-imap": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-openssl": "*",
+        "ext-curl": "*",
+        "ext-gd": "*",
+        "ext-pcre": "*",
+        "ext-xml": "*",
+        "ext-json": "*",
+        "ext-session": "*",
+        "ext-dom": "*",
+        "ext-zip": "*",
+        "ext-mbstring": "*",
+        "ext-ctype": "*",
+        "ext-soap": "*",
+        "ext-fileinfo": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-spl": "*",
+        "ext-simplexml": "*",
+        "ext-bcmath": "*",
+        "ext-filter": "*",
+        "ext-zlib": "*",
+        "ext-hash": "*",
+        "composer/ca-bundle": "^1.1",
+        "sabre/dav": "^4.1",
+        "smarty/smarty": "^v3.1.39",
+        "phpmailer/phpmailer": "^v6.1",
+        "ezyang/htmlpurifier": "^v4.11.0",
+        "simshaun/recurr": "^v4.0",
+        "giggsey/libphonenumber-for-php": "^8.8.11",
+        "dg/rss-php": "^1.2",
+        "phpoffice/phpspreadsheet": "^1.3.1",
+        "sonata-project/google-authenticator": "^2.3.0",
+        "milon/barcode": "^8.0.0",
+        "ckeditor/ckeditor": "^4.9.2",
+        "parsecsv/php-parsecsv": "^1.1.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "nette/php-generator": "^3.2.1",
+        "yetiforce/csrf-magic": "^v1.1.1",
+        "maximebf/debugbar": "1.*",
+        "yetiforce/yii2": "2.0.39.2",
+        "yetiforce/yetiforcepdf": "0.1.31",
+        "abraham/twitteroauth": "^2.0",
+        "adhocore/jwt": "^1.0",
+        "zbateson/mail-mime-parser": "^1.2",
+        "mlocati/spf-lib": "^3",
+        "phpmailer/dkimvalidator": "^v0.3",
+        "league/climate": "^3.6",
+        "twig/twig": "^3.0"
+    },
+    "require-dev": {
+        "zircote/swagger-php": "^3.0",
+        "php-webdriver/webdriver": "^1.8",
+        "phpunit/phpunit": "^9.5.4",
+        "seld/jsonlint": "*",
+        "php-console/php-console": "^3.1",
+        "fr3d/swagger-assertions": "*"
+    },
+    "suggest": {
+        "ext-imagick": "Library recommended for securing potentially dangerous graphic files",
+        "ext-exif": "Improves security of uploaded files",
+        "ext-apcu": "Cache meta data in apcu to improve system performance",
+        "ext-ldap": "Protocol used to access databases that store information in a tree structure.",
+        "ext-opcache": "Improve system performance"
+    },
+    "archive": {
+        "exclude": [
+            "tests"
+        ]
+    },
+    "config": {
+        "autoloader-suffix": "YT",
+        "optimize-autoloader": true,
+        "classmap-authoritative": false
+    },
+    "autoload": {
+        "files": [
+            "app/Loader.php"
+        ],
+        "psr-4": {
+            "vtlib\\": "vtlib/Vtiger/",
+            "includes\\": "include/",
+            "App\\": "app/",
+            "Api\\": "api/webservice/",
+            "Config\\": "config/",
+            "Cron\\": "cron/",
+            "Exception\\": "include/exceptions/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-update-cmd": "App\\Installer\\Composer::install",
+        "post-install-cmd": "App\\Installer\\Composer::install"
     }
-  ],
-  "funding": [
-    {
-      "type": "opencollective",
-      "url": "https://opencollective.com/yetiforcecrm"
-    }
-  ],
-  "require": {
-    "php": ">=7.3",
-    "ext-imap": "*",
-    "ext-pdo": "*",
-    "ext-pdo_mysql": "*",
-    "ext-openssl": "*",
-    "ext-curl": "*",
-    "ext-gd": "*",
-    "ext-pcre": "*",
-    "ext-xml": "*",
-    "ext-json": "*",
-    "ext-session": "*",
-    "ext-dom": "*",
-    "ext-zip": "*",
-    "ext-mbstring": "*",
-    "ext-ctype": "*",
-    "ext-soap": "*",
-    "ext-fileinfo": "*",
-    "ext-iconv": "*",
-    "ext-intl": "*",
-    "ext-spl": "*",
-    "ext-simplexml": "*",
-    "ext-bcmath": "*",
-    "ext-filter": "*",
-    "ext-zlib": "*",
-    "ext-hash": "*",
-    "composer/ca-bundle": "^1.1",
-    "sabre/dav": "^4.1",
-    "smarty/smarty": "^v3.1.39",
-    "phpmailer/phpmailer": "^v6.1",
-    "ezyang/htmlpurifier": "^v4.11.0",
-    "simshaun/recurr": "^v4.0",
-    "giggsey/libphonenumber-for-php": "^8.8.11",
-    "dg/rss-php": "^1.2",
-    "phpoffice/phpspreadsheet": "^1.3.1",
-    "sonata-project/google-authenticator": "^2.3.0",
-    "milon/barcode": "^8.0.0",
-    "ckeditor/ckeditor": "^4.9.2",
-    "parsecsv/php-parsecsv": "^1.1.0",
-    "guzzlehttp/guzzle": "^7.0",
-    "nette/php-generator": "^3.2.1",
-    "yetiforce/csrf-magic": "^v1.1.1",
-    "maximebf/debugbar": "1.*",
-    "yetiforce/yii2": "2.0.39.2",
-    "yetiforce/yetiforcepdf": "0.1.31",
-    "abraham/twitteroauth": "^2.0",
-    "adhocore/jwt": "^1.0",
-    "zbateson/mail-mime-parser": "^1.2",
-    "mlocati/spf-lib": "^3",
-    "phpmailer/dkimvalidator": "^v0.3",
-    "league/climate": "^3.6",
-    "twig/twig": "^3.0"
-  },
-  "require-dev": {
-    "zircote/swagger-php": "^3.0",
-    "php-webdriver/webdriver": "^1.8",
-    "phpunit/phpunit": "9.*",
-    "seld/jsonlint": "*",
-    "php-console/php-console": "^3.1",
-    "fr3d/swagger-assertions": "*"
-  },
-  "suggest": {
-    "ext-imagick": "Library recommended for securing potentially dangerous graphic files",
-    "ext-exif": "Improves security of uploaded files",
-    "ext-apcu": "Cache meta data in apcu to improve system performance",
-    "ext-ldap": "Protocol used to access databases that store information in a tree structure.",
-    "ext-opcache": "Improve system performance"
-  },
-  "archive": {
-    "exclude": [
-      "tests"
-    ]
-  },
-  "config": {
-    "autoloader-suffix": "YT",
-    "optimize-autoloader": true,
-    "classmap-authoritative": false
-  },
-  "autoload": {
-    "files": ["app/Loader.php"],
-    "psr-4": {
-      "vtlib\\": "vtlib/Vtiger/",
-      "includes\\": "include/",
-      "App\\": "app/",
-      "Api\\": "api/webservice/",
-      "Config\\": "config/",
-      "Cron\\": "cron/",
-      "Tests\\": "tests/",
-      "Exception\\": "include/exceptions/"
-    }
-  },
-  "scripts": {
-    "post-update-cmd": "App\\Installer\\Composer::install",
-    "post-install-cmd": "App\\Installer\\Composer::install"
-  }
 }
