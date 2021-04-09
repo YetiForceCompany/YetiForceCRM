@@ -7,8 +7,6 @@
  *
  * @package Integration
  *
- * @package App
- *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -77,7 +75,7 @@ class InventoryStock extends Base
 	public function getStockFromStorage()
 	{
 		$referenceInfo = \Vtiger_Relation_Model::getReferenceTableInfo('Products', 'IStorages');
-		return(new \App\Db\Query())->select([
+		return (new \App\Db\Query())->select([
 			'id' => $referenceInfo['table'] . '.' . $referenceInfo['rel'],
 			'qtyinstock' => $referenceInfo['table'] . '.qtyinstock',
 			'ean' => 'vtiger_products.ean'])

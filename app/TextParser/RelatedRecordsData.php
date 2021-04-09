@@ -2,7 +2,7 @@
 /**
  * Related records data.
  *
- * @package App
+ * @package TextParser
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -34,9 +34,9 @@ class RelatedRecordsData extends Base
 	{
 		$data = [];
 		[$relationId, $fields, $conditions, $limit, $orderBy, $relConditions] = array_pad($this->params, 6, '');
-		if(is_numeric($relationId)){
+		if (is_numeric($relationId)) {
 			$relatedModuleName = \App\Relation::getById($relationId)['related_modulename'] ?? '';
-		}else{
+		} else {
 			$relatedModuleName = $relationId;
 			$relationId = \App\Relation::getRelationId($this->textParser->moduleName, $relatedModuleName);
 		}
@@ -46,19 +46,19 @@ class RelatedRecordsData extends Base
 		) {
 			return $data;
 		}
-		if($conditions){
+		if ($conditions) {
 			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(\App\Json::decode($conditions));
 			$relationListView->set('search_params', $transformedSearchParams);
 		}
 		$pagingModel = new \Vtiger_Paging_Model();
-		if(!empty($limit)){
+		if (!empty($limit)) {
 			$relationListView->getQueryGenerator()->setLimit((int) $limit);
 			$pagingModel->set('limit', (int) $limit);
 		}
-		if($relConditions){
+		if ($relConditions) {
 			$relationListView->set('search_rel_params', \App\Json::decode($relConditions));
 		}
-		if($orderBy){
+		if ($orderBy) {
 			$relationListView->set('orderby', $orderBy);
 		}
 
@@ -67,7 +67,7 @@ class RelatedRecordsData extends Base
 		$fieldsModel = array_intersect_key($relationListView->getHeaders(), array_flip($fields));
 		$data = [];
 		foreach ($relationListView->getEntries($pagingModel) as $id => $relatedRecordModel) {
-			if($id === $this->textParser->recordModel->getId()){
+			if ($id === $this->textParser->recordModel->getId()) {
 				continue;
 			}
 			foreach ($fieldsModel as $fieldModel) {

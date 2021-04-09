@@ -2,11 +2,11 @@
 /**
  * CalDav calendar file.
  *
- * @package   Integrations
+ * @package Integration
  *
  * @see   https://tools.ietf.org/html/rfc5545
  *
- * @package App
+ * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -268,7 +268,7 @@ class Calendar
 		$this->parseState();
 		$this->parseType();
 		$this->parseDateTime();
-		$this->parseAttendees();
+		// $this->parseAttendees();
 		$this->parseCustomValues();
 	}
 

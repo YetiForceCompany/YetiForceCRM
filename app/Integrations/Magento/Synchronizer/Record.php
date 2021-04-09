@@ -6,8 +6,6 @@
  *
  * @package Integration
  *
- * @package App
- *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
@@ -107,7 +105,7 @@ abstract class Record extends Base
 		}
 		$recordModel->set('accountname', $companyName);
 		$recordModel->set('vat_id', $data['vat_id_a'] ?: $data['vat_id_b'] ?: '');
-		foreach ($this->accountFieldsMap as  $target => $source) {
+		foreach ($this->accountFieldsMap as $target => $source) {
 			if (isset($data[$source], $fields[$target])) {
 				$recordModel->set($target, $data[$source]);
 			}
@@ -175,7 +173,7 @@ abstract class Record extends Base
 				\App\Cache::staticSave($cacheKey, $email, $id);
 			}
 		}
-		return 	$id;
+		return $id;
 	}
 
 	/**
@@ -199,7 +197,7 @@ abstract class Record extends Base
 		if (empty($data['lastname'])) {
 			$data['lastname'] = $data['last_name_a'] ?? $data['last_name_b'];
 		}
-		foreach ($data as  $fieldName => $value) {
+		foreach ($data as $fieldName => $value) {
 			if (isset($fields[$fieldName])) {
 				$recordModel->set($fieldName, $value);
 			}

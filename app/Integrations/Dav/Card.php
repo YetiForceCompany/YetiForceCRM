@@ -2,12 +2,12 @@
 /**
  * CardDav address books file.
  *
- * @package   Integrations
+ * @package Integration
  *
  * @see https://en.wikipedia.org/wiki/VCard#Properties
  * @see https://tools.ietf.org/id/draft-calconnect-vobject-vformat-00.html
  *
- * @package App
+ * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)

@@ -23,8 +23,8 @@ class PicklistField extends BaseField
 	 */
 	public function operatorRo()
 	{
-		return ($fieldName = \App\RecordStatus::getFieldName($this->recordModel->getModule()->getName())) &&
-		\in_array($this->recordModel->get($fieldName), \App\RecordStatus::getStates($this->recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN);
+		return ($fieldName = \App\RecordStatus::getFieldName($this->recordModel->getModule()->getName()))
+		&& \in_array($this->recordModel->get($fieldName), \App\RecordStatus::getStates($this->recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN);
 	}
 
 	/**
@@ -34,7 +34,7 @@ class PicklistField extends BaseField
 	 */
 	public function operatorRc()
 	{
-		return !(($fieldName = \App\RecordStatus::getFieldName($this->recordModel->getModule()->getName())) &&
-		\in_array($this->recordModel->get($fieldName), \App\RecordStatus::getStates($this->recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED)));
+		return !(($fieldName = \App\RecordStatus::getFieldName($this->recordModel->getModule()->getName()))
+		&& \in_array($this->recordModel->get($fieldName), \App\RecordStatus::getStates($this->recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED)));
 	}
 }

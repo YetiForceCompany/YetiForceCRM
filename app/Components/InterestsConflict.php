@@ -98,7 +98,7 @@ class InterestsConflict
 			->from('u_#__interests_conflict_conf')
 			->where(['user_id' => $userId, 'related_id' => $record])
 			->andWhere(['<>', 'status', self::CONF_STATUS_CANCELED])
-			->orderBy(['id' => \SORT_DESC])
+			->orderBy(['id' => SORT_DESC])
 			->one() ?: null;
 		return \App\Cache::save($cacheName, $record, $row);
 	}

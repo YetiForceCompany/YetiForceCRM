@@ -167,7 +167,7 @@ final class Chat
 			->select(['type'])
 			->from(['u_#__chat_rooms'])
 			->where(['active' => 1])
-			->orderBy(['sequence' => \SORT_ASC])
+			->orderBy(['sequence' => SORT_ASC])
 			->column();
 	}
 
@@ -616,7 +616,7 @@ final class Chat
 		return (array) (new Db\Query())
 			->from(static::TABLE_NAME['message'][$roomType])
 			->where([static::COLUMN_NAME['message'][$roomType] => $roomId])
-			->orderBy(['id' => \SORT_DESC])
+			->orderBy(['id' => SORT_DESC])
 			->one();
 	}
 
@@ -631,7 +631,7 @@ final class Chat
 	{
 		return (array) (new Db\Query())
 			->from(static::TABLE_NAME['message'][$roomType])
-			->orderBy(['id' => \SORT_DESC])
+			->orderBy(['id' => SORT_DESC])
 			->one();
 	}
 
@@ -837,10 +837,10 @@ final class Chat
 	public static function isNewMessages(): bool
 	{
 		$userId = User::getCurrentUserId();
-		return static::isNewMessagesForGlobal($userId) ||
-			static::isNewMessagesForCrm($userId) ||
-			static::isNewMessagesForGroup($userId) ||
-			static::isNewMessagesForPrivate($userId);
+		return static::isNewMessagesForGlobal($userId)
+			|| static::isNewMessagesForCrm($userId)
+			|| static::isNewMessagesForGroup($userId)
+			|| static::isNewMessagesForPrivate($userId);
 	}
 
 	/**
@@ -1075,7 +1075,7 @@ final class Chat
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
 			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$roomNameId} = GL.{$columnMessage}")
 			->where(['GL.userid' => $this->userId])
-			->orderBy(['id' => \SORT_DESC])
+			->orderBy(['id' => SORT_DESC])
 			->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		if (null !== $messageId) {
 			$query->andWhere(['<', 'id', $messageId]);
@@ -1166,7 +1166,7 @@ final class Chat
 				->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 		}
 		return $query->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]])
-			->orderBy(["M.{$columnMessage}" => \SORT_ASC, 'id' => \SORT_DESC]);
+			->orderBy(["M.{$columnMessage}" => SORT_ASC, 'id' => SORT_DESC]);
 	}
 
 	/**
@@ -1550,7 +1550,7 @@ final class Chat
 		if ($isLimit) {
 			$query->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		}
-		return $query->orderBy(['id' => \SORT_DESC]);
+		return $query->orderBy(['id' => SORT_DESC]);
 	}
 
 	/**

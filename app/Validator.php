@@ -153,8 +153,8 @@ class Validator
 		if (($arrInput = \explode(' ', $input)) && 2 === \count($arrInput)) {
 			[$dateInput, $timeInput] = $arrInput;
 			[$y, $m, $d] = Fields\Date::explode($dateInput);
-			$result = checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d) &&
-				preg_match('/(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9]):([0-5][0-9])/', $timeInput);
+			$result = checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)
+				&& preg_match('/(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9]):([0-5][0-9])/', $timeInput);
 		}
 		return $result;
 	}

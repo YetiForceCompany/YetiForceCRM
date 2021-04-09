@@ -89,7 +89,7 @@ class Address
 		if (self::$providersCache) {
 			return self::$providersCache;
 		}
-		foreach ((new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address')) as $fileinfo) {
+		foreach ((new \DirectoryIterator(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address')) as $fileinfo) {
 			if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php'))) {
 				self::$providersCache[$fileName] = static::getInstance($fileName);
 			}
