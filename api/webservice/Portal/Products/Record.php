@@ -16,9 +16,7 @@ namespace Api\Portal\Products;
  */
 class Record extends \Api\Portal\BaseModule\Record
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedHeaders = ['x-parent-id', 'x-unit-price', 'x-unit-gross', 'x-product-bundles'];
 	/**
 	 * Is user permissions.
@@ -42,9 +40,7 @@ class Record extends \Api\Portal\BaseModule\Record
 		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === (int) \App\User::getCurrentUserModel()->get('permission_type');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public function get(): array
 	{
 		$response = parent::get();

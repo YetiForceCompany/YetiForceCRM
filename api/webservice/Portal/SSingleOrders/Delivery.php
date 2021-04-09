@@ -19,9 +19,7 @@ class Delivery extends \Api\Core\BaseAction
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['GET'];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public function get(): array
 	{
 		return ['price' => 0];

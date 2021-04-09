@@ -19,13 +19,9 @@ use OpenApi\Annotations as OA;
  */
 class RecordsList extends \Api\ManageConsents\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-condition'];
 
 	/**
@@ -262,6 +258,6 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 */
 	protected function isRawData(): bool
 	{
-		return 1 === (int) $this->controller->headers['x-raw-data'] ?? 0;
+		return 1 === (int) ($this->controller->headers['x-raw-data'] ?? 0);
 	}
 }

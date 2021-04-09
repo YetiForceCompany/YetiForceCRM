@@ -16,13 +16,9 @@ use OpenApi\Annotations as OA;
  */
 class Files extends \Api\Core\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['PUT'];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $responseType = 'file';
 
 	/**

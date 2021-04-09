@@ -19,9 +19,7 @@ use OpenApi\Annotations as OA;
  */
 class SendEmail extends \Api\ManageConsents\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['POST'];
 
 	/**

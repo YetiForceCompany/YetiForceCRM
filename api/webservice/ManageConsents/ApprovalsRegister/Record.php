@@ -18,9 +18,7 @@ use OpenApi\Annotations as OA;
  */
 class Record extends \Api\ManageConsents\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['POST'];
 
 	/**
@@ -30,9 +28,7 @@ class Record extends \Api\ManageConsents\BaseAction
 	 */
 	protected $recordModel;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public function checkPermission()
 	{
 		parent::checkPermission();

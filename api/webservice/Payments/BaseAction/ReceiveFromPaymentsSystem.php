@@ -16,14 +16,10 @@ namespace Api\Payments\BaseAction;
  */
 class ReceiveFromPaymentsSystem extends \Api\Core\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['PUT'];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public function checkPermission()
 	{
 		return true;

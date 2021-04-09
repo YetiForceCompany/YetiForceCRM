@@ -20,9 +20,7 @@ class RecordsList extends \Api\Core\BaseAction
 {
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['GET'];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-parent-id'];
 	/**
 	 * Get query generator instance.
@@ -289,7 +287,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	protected function isRawData(): bool
 	{
-		return 1 === (int) $this->controller->headers['x-raw-data'] ?? 0;
+		return 1 === (int) ($this->controller->headers['x-raw-data'] ?? 0);
 	}
 
 	/**

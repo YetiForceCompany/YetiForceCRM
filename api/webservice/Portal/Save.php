@@ -50,9 +50,7 @@ class Save extends \Vtiger_Save_Action
 		$this->record = $record->recordModel;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		$fieldModelList = $this->record->getModule()->getFields();

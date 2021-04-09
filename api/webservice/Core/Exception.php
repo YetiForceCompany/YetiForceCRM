@@ -11,9 +11,7 @@ namespace Api\Core;
  */
 class Exception extends \Exception
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public function __construct($message, $code = 500, \Throwable $previous = null)
 	{
 		if (!empty($previous)) {

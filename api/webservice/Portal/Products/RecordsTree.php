@@ -46,9 +46,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->permissionType;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public function createQuery(): void
 	{
 		if ($this->isUserPermissions) {
@@ -83,17 +81,13 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	protected function isRawData(): bool
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	protected function getRecordFromRow(array $row): array
 	{
 		$record = parent::getRecordFromRow($row);
@@ -117,9 +111,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 		return $record;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	protected function getRawDataFromRow(array $row): array
 	{
 		$row = parent::getRawDataFromRow($row);
@@ -143,9 +135,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 		return $row;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	protected function getColumnNames(): array
 	{
 		$headers = parent::getColumnNames();

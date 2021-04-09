@@ -20,13 +20,9 @@ use OpenApi\Annotations as OA;
  */
 class Record extends \Api\Core\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET', 'DELETE', 'PUT', 'POST'];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedHeaders = ['x-parent-id'];
 	/**
 	 * Record model.

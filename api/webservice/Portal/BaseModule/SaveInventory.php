@@ -17,9 +17,7 @@ namespace Api\Portal\BaseModule;
  */
 class SaveInventory extends \Api\Core\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['POST'];
 
 	/**

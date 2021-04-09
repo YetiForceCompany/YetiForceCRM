@@ -19,9 +19,7 @@ class Install extends \Api\Core\BaseAction
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['PUT'];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public function checkPermission()
 	{
 		return true;

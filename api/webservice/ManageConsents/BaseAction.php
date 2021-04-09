@@ -34,9 +34,7 @@ use OpenApi\Annotations as OA;
  */
 class BaseAction extends \Api\Core\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public function checkPermission()
 	{
 		$db = \App\Db::getInstance('webservice');

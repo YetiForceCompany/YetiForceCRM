@@ -18,9 +18,7 @@ use OpenApi\Annotations as OA;
  */
 class Record extends \Api\Core\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
 	/**
 	 * User record model.

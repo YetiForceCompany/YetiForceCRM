@@ -451,11 +451,14 @@ class ModuleBasic
 		$ids = (new \App\Db\Query())->select(['relation_id'])->from('vtiger_relatedlists')->where(['or', ['tabid' => $this->id], ['related_tabid' => $this->id]])->column();
 		$db->createCommand()->delete('vtiger_relatedlists', ['or', ['tabid' => $this->id], ['related_tabid' => $this->id]])->execute();
 		if ($ids) {
+			foreach ($ids as $id) {
+				\App\Relation::getById((int) $id);
+			}
 			$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $ids])->execute();
 			$db->createCommand()->delete('a_#__relatedlists_inv_fields', ['relation_id' => $ids])->execute();
-		}
-		foreach ($ids as $id) {
-			\App\Relation::clearCacheById((int) $id);
+			foreach ($ids as $id) {
+				\App\Relation::clearCacheById((int) $id);
+			}
 		}
 		\App\Log::trace('End', __METHOD__);
 	}

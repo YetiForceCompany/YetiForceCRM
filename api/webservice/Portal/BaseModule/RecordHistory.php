@@ -20,9 +20,7 @@ class RecordHistory extends \Api\Core\BaseAction
 {
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['GET'];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-start-with'];
 	/**
 	 * Record model.
@@ -31,9 +29,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 */
 	protected $recordModel;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public function checkAction()
 	{
 		parent::checkAction();
@@ -227,6 +223,6 @@ class RecordHistory extends \Api\Core\BaseAction
 	 */
 	protected function isRawData(): bool
 	{
-		return 1 === (int) $this->controller->headers['x-raw-data'] ?? 0;
+		return 1 === (int) ($this->controller->headers['x-raw-data'] ?? 0);
 	}
 }
