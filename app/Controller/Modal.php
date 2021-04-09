@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Controller;
-
 /**
- * Abstract modal controller class.
+ * Abstract modal controller file.
  *
  * @package   Controller
  *
@@ -11,6 +9,12 @@ namespace App\Controller;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App\Controller;
+
+/**
+ * Abstract modal controller class.
  */
 abstract class Modal extends View\Base
 {

@@ -3,7 +3,7 @@
  * YetiForce watchdog class.
  * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)

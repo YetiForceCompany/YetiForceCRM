@@ -4,6 +4,10 @@
  *
  * @package   Integrations
  *
+ * @see   https://tools.ietf.org/html/rfc5545
+ *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -239,14 +243,15 @@ class Calendar
 				$this->parseComponent();
 			}
 		}
-
 		return $this->records;
 	}
 
 	/**
 	 * Parse component.
+	 *
+	 * @return void
 	 */
-	private function parseComponent()
+	private function parseComponent(): void
 	{
 		$uid = (string) $this->vcomponent->UID;
 		if (isset($this->records[$uid])) {
@@ -263,6 +268,7 @@ class Calendar
 		$this->parseState();
 		$this->parseType();
 		$this->parseDateTime();
+		$this->parseAttendees();
 		$this->parseCustomValues();
 	}
 
@@ -272,8 +278,10 @@ class Calendar
 	 * @param string               $fieldName
 	 * @param string               $davName
 	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return void
 	 */
-	private function parseText(string $fieldName, string $davName)
+	private function parseText(string $fieldName, string $davName): void
 	{
 		$value = \str_replace([
 			'-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-'
@@ -286,8 +294,10 @@ class Calendar
 
 	/**
 	 * Parse status.
+	 *
+	 * @return void
 	 */
-	private function parseStatus()
+	private function parseStatus(): void
 	{
 		$davValue = null;
 		if (isset($this->vcomponent->STATUS)) {
@@ -316,8 +326,10 @@ class Calendar
 
 	/**
 	 * Parse visibility.
+	 *
+	 * @return void
 	 */
-	private function parseVisibility()
+	private function parseVisibility(): void
 	{
 		$davValue = null;
 		$value = 'Private';
@@ -336,8 +348,10 @@ class Calendar
 
 	/**
 	 * Parse state.
+	 *
+	 * @return void
 	 */
-	private function parseState()
+	private function parseState(): void
 	{
 		$davValue = null;
 		$value = '';
@@ -356,8 +370,10 @@ class Calendar
 
 	/**
 	 * Parse priority.
+	 *
+	 * @return void
 	 */
-	private function parsePriority()
+	private function parsePriority(): void
 	{
 		$davValue = null;
 		$value = 'Medium';
@@ -377,8 +393,10 @@ class Calendar
 
 	/**
 	 * Parse type.
+	 *
+	 * @return void
 	 */
-	private function parseType()
+	private function parseType(): void
 	{
 		if ($this->record->isEmpty('activitytype')) {
 			$this->record->set('activitytype', 'VTODO' === (string) $this->vcomponent->name ? 'Task' : 'Meeting');
@@ -387,8 +405,10 @@ class Calendar
 
 	/**
 	 * Parse date time.
+	 *
+	 * @return void
 	 */
-	private function parseDateTime()
+	private function parseDateTime(): void
 	{
 		$allDay = 0;
 		$endHasTime = $startHasTime = false;
@@ -440,6 +460,38 @@ class Calendar
 		$this->record->set('due_date', $dueDate);
 		$this->record->set('time_start', $timeStart);
 		$this->record->set('time_end', $timeEnd);
+	}
+
+	/**
+	 * Parse parse Attendees.
+	 *
+	 * @return void
+	 */
+	public function parseAttendees(): void
+	{
+		$attendees = [];
+		foreach ($this->vcomponent->select('ATTENDEE') as $calAddress) {
+			$attendee = [];
+			$value = $calAddress->getValue();
+			if (0 === stripos($value, 'mailto:')) {
+				$attendee['email'] = \App\Purifier::purify(substr($value, 7, \strlen($value) - 7));
+			} else {
+				$attendee['value'] = \App\Purifier::purify($value);
+			}
+			foreach ($calAddress->parameters as $name => $parameter) {
+				if ('CN' === $name) {
+					$attendee['name'] = \App\Purifier::purify($parameter->getValue());
+				} else {
+					$attendee[strtolower($name)] = \App\Purifier::purify(strtolower($parameter->getValue()));
+				}
+			}
+			if (isset($attendee['email'])) {
+				// $records = $this->findRecordByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(4))));
+				// var_dump($users);
+			}
+			$attendees[] = $attendee;
+		}
+		$this->record->set('attendee', \App\Json::encode($attendees));
 	}
 
 	/**

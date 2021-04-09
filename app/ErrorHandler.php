@@ -2,6 +2,8 @@
 /**
  * Exception error handler class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -36,8 +38,10 @@ class ErrorHandler
 
 	/**
 	 * Error init.
+	 *
+	 * @return void.
 	 */
-	public static function init()
+	public static function init(): void
 	{
 		if (\class_exists('rcmail')) {
 			return;
@@ -48,8 +52,10 @@ class ErrorHandler
 
 	/**
 	 * PHP fatal handler function.
+	 *
+	 * @return void.
 	 */
-	public static function fatalHandler()
+	public static function fatalHandler(): void
 	{
 		$error = error_get_last();
 		if (isset($error['type']) && \in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING])) {
@@ -60,14 +66,16 @@ class ErrorHandler
 	/**
 	 * PHP error handler function.
 	 *
+	 * @see https://secure.php.net/manual/en/function.set-error-handler.php
+	 *
 	 * @param int    $errno
 	 * @param string $errstr
 	 * @param string $errfile
 	 * @param int    $errline
 	 *
-	 * @see https://secure.php.net/manual/en/function.set-error-handler.php
+	 * @return void
 	 */
-	public static function errorHandler($errno, $errstr, $errfile, $errline)
+	public static function errorHandler(int $errno, string $errstr, string $errfile, int $errline): void
 	{
 		$errorString = static::error2string($errno);
 		$msg = reset($errorString) . ": $errstr in $errfile, line $errline";
@@ -88,7 +96,7 @@ class ErrorHandler
 	 *
 	 * @return string[]
 	 */
-	public static function error2string($value)
+	public static function error2string(int $value): array
 	{
 		$levels = [];
 		if (E_ALL == ($value & E_ALL)) {

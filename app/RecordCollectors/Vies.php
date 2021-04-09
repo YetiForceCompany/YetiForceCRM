@@ -6,6 +6,8 @@
  *
  * http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>

@@ -152,7 +152,7 @@ class InterestsConflict extends \App\Controller\Action
 			$row['info'] = \App\Purifier::encodeHtml($info);
 		}
 		$query->limit(null)->offset(null)->orderBy(null);
-		return  [
+		return [
 			'draw' => $request->getInteger('draw'),
 			'iTotalRecords' => (new \App\Db\Query())->from('u_#__interests_conflict_unlock')->count(),
 			'iTotalDisplayRecords' => $query->count(),
@@ -178,7 +178,7 @@ class InterestsConflict extends \App\Controller\Action
 		$query->offset($request->getInteger('start'));
 		$order = current($request->getArray('order', 'Alnum'));
 		if ($order && isset($columns[$order['column']])) {
-			$query->orderBy([$columns[$order['column']] => 'asc' === $order['dir'] ? \SORT_ASC : \SORT_DESC]);
+			$query->orderBy([$columns[$order['column']] => 'asc' === $order['dir'] ? SORT_ASC : SORT_DESC]);
 		}
 		if (!$request->isEmpty('date') && ($date = $request->getDateRange('date'))) {
 			$query->andWhere(['between', 'date_time', $date[0] . ' 00:00:00', $date[1] . ' 23:59:59']);
@@ -283,7 +283,7 @@ class InterestsConflict extends \App\Controller\Action
 		$query->offset($request->getInteger('start'));
 		$order = current($request->getArray('order', 'Alnum'));
 		if ($order && isset($columns[$order['column']])) {
-			$query->orderBy([$columns[$order['column']] => 'asc' === $order['dir'] ? \SORT_ASC : \SORT_DESC]);
+			$query->orderBy([$columns[$order['column']] => 'asc' === $order['dir'] ? SORT_ASC : SORT_DESC]);
 		}
 		if (!$request->isEmpty('date') && ($date = $request->getDateRange('date'))) {
 			$query->andWhere(['between', 'date_time', $date[0] . ' 00:00:00', $date[1] . ' 23:59:59']);
