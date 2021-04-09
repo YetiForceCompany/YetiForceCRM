@@ -59,26 +59,25 @@ class G_Cron extends \Tests\Base
 	/**
 	 * Cron testing.
 	 */
-	public function test()
+	public function test(): void
 	{
 		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'OpenStreetMap_UpdaterRecordsCoordinates_Cron');
 		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'OpenStreetMap_UpdaterCoordinates_Cron');
 		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'Vtiger_SystemWarnings_Cron');
-		echo PHP_EOL;
 		require_once 'cron.php';
 		$rows = (new \App\Db\Query())->select(['modue' => 'setype', 'rows' => 'count(*)'])->from('vtiger_crmentity')->groupBy('setype')->orderBy(['rows' => SORT_DESC])->all();
 		$c = '';
 		foreach ($rows as $value) {
 			$c .= "{$value['modue']} = {$value['rows']}, | ";
 		}
-		\file_put_contents('tests/records.log', $c . PHP_EOL, FILE_APPEND);
+		\file_put_contents(ROOT_DIRECTORY . '/tests/records.log', $c . PHP_EOL, FILE_APPEND);
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_cron_task')->where(['status' => 2])->exists());
 	}
 
 	/**
 	 * Testing last cron start getter.
 	 */
-	public function testGetLastCronStart()
+	public function testGetLastCronStart(): void
 	{
 		$module = \Settings_CronTasks_Module_Model::getInstance('Settings:CronTasks');
 		$this->assertNotSame(0, $module->getLastCronStart(), 'Last cron start is 0');

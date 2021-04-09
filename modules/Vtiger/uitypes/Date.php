@@ -63,13 +63,8 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if ($isUserFormat) {
-			[$y, $m, $d] = App\Fields\Date::explode($value, App\User::getCurrentUserModel()->getDetail('date_format'));
-		} else {
-			[$y, $m, $d] = explode('-', $value);
-		}
-		if (!is_numeric($m) || !is_numeric($d) || !is_numeric($y) || !checkdate($m, $d, $y)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+		if (!App\Fields\Date::isValid($value, $isUserFormat ? App\User::getCurrentUserModel()->getDetail('date_format') : null)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}

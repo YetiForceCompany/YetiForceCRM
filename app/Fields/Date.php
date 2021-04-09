@@ -377,4 +377,25 @@ class Date
 
 		return $dbDate;
 	}
+
+	/**
+	 * Check if the date is correct.
+	 *
+	 * @param string      $date
+	 * @param string|null $format
+	 *
+	 * @return bool
+	 */
+	public static function isValid(string $date, ?string $format = null): bool
+	{
+		if (!strtotime($date) || !(false !== strpos($date, '-') || false !== strpos($date, '.') || false !== strpos($date, '/'))) {
+			return false;
+		}
+		if ($format) {
+			[$y, $m, $d] = self::explode($date, $format);
+		} else {
+			[$y, $m, $d] = explode('-', $date);
+		}
+		return is_numeric($m) && is_numeric($d) && is_numeric($y) && checkdate($m, $d, $y);
+	}
 }
