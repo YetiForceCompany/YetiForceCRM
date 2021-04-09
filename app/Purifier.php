@@ -456,6 +456,10 @@ class Purifier
 						$dateFormat = User::getCurrentUserModel()->getDetail('date_format');
 						$v = [];
 						foreach (explode(',', $input) as $i) {
+							if (!Validator::dateInUserFormat($i)) {
+								$v = [];
+								break;
+							}
 							[$y, $m, $d] = Fields\Date::explode($i, $dateFormat);
 							if (checkdate((int) $m, (int) $d, (int) $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 								$v[] = \DateTimeField::convertToDBFormat($i);

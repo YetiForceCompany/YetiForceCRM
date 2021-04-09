@@ -73,8 +73,7 @@ class Validator
 	 */
 	public static function date(string $input): bool
 	{
-		[$y, $m, $d] = Fields\Date::explode($input);
-		return checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d);
+		return Fields\Date::isValid($input);
 	}
 
 	/**
@@ -90,8 +89,7 @@ class Validator
 		if (null === $userId) {
 			$userId = User::getCurrentUserId();
 		}
-		[$y, $m, $d] = Fields\Date::explode($input, User::getUserModel($userId)->getDetail('date_format'));
-		return checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d);
+		return Fields\Date::isValid($input, User::getUserModel($userId)->getDetail('date_format'));
 	}
 
 	/**
