@@ -13,6 +13,7 @@ jobs:
       uses: YetiForceCompany/YetiForceCRM-Tests/7.3@main
       env:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+        YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
   tests74:
     runs-on: ubuntu-latest
@@ -24,6 +25,7 @@ jobs:
       uses: YetiForceCompany/YetiForceCRM-Tests/7.4@main
       env:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+        YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
   tests80:
     runs-on: ubuntu-latest
@@ -35,3 +37,4 @@ jobs:
       uses: YetiForceCompany/YetiForceCRM-Tests/8.0@main
       env:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+        YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
