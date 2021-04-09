@@ -90,6 +90,8 @@ class Relation
 			$row['favorites'] = (int) $row['favorites'];
 			$row['creator_detail'] = (int) $row['creator_detail'];
 			$row['relation_comment'] = (int) $row['relation_comment'];
+		}else{
+			$row = [];
 		}
 		Cache::save('App\Relation::getById', $relationId, $row, Cache::LONG);
 		return $row;
