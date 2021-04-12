@@ -239,6 +239,48 @@
 				</a>
 				<div class="o-action-menu__container d-flex flex-md-nowrap flex-column flex-md-row" id="o-action-menu__container">
 					{assign var=QUICKCREATE_MODULES_PARENT value=Vtiger_Module_Model::getQuickCreateModules(true, true)}
+					{if \App\Config::main('isActiveRecordTemplate')}
+						{assign var=LIST_TEMPLATES value=\App\RecordAddsTemplates::getTemplatesList()}
+						{if count($LIST_TEMPLATES) > 1}
+							<div class="o-action-menu__item">
+								<div class="dropdown">
+									<a class="c-header__btn ml-2 btn btn-light btn js-popover-tooltip dropdownMenu" id="recordAddsTemplate"   data-js="popover" data-toggle="dropdown" data-boundary="window"
+									data-content="{\App\Language::translate('LBL_BATCH_ADDING_RECORDS')}"
+									href="#"
+									role="button">
+										<span class="mdi mdi-plus-box-multiple" title="{\App\Language::translate('LBL_BATCH_ADDING_RECORDS')}"></span>
+									</a>
+									<div class="dropdown-menu p-0 u-max-w-sm-100 u-min-w-300px" aria-labelledby="recordAddsTemplate" role="list">
+										<div class="container-fluid d-block p-2 u-max-w-xsm-100 px-2">
+											{foreach from=$LIST_TEMPLATES item=TEMPLATE_VALUE}
+												<div class="row">
+													<div class="col-12 u-bg-light-darken">
+														<a class="showModal text-decoration-none u-fs-sm text-secondary  d-block" data-url="index.php?module={$MODULE_NAME}&view=RecordAddsTemplates&recordAddsType={$TEMPLATE_VALUE->name}"
+															data-js="popover" data-toggle="modal"
+															data-placement="bottom" data-content="{\App\Language::translate($TEMPLATE_VALUE->label)}"
+															href="#">
+															<span class="{$TEMPLATE_VALUE->icon}"></span>
+															<span class="ml-2">{\App\Language::translate($TEMPLATE_VALUE->label)}</span>
+														</a>
+													</div>
+												</div>
+											{/foreach}
+										</div>
+									</div>
+								</div>
+							</div>
+						{elseif $LIST_TEMPLATES}
+							<div class="o-action-menu__item">
+								<a class="c-header__btn ml-2 showModal btn-light btn js-popover-tooltip" role="button" data-url="index.php?module={$MODULE_NAME}&view=RecordAddsTemplates&recordAddsType={$LIST_TEMPLATES[0]->name}"
+									data-js="popover" data-toggle="modal"
+									data-placement="bottom" data-content="{\App\Language::translate($LIST_TEMPLATES[0]->label)}"
+									href="#">
+									<span class="{$LIST_TEMPLATES[0]->icon}"></span>
+									<span class="ml-2">{\App\Language::translate($LIST_TEMPLATES[0]->label)}</span>
+								</a>
+							</div>
+						{/if}
+				 	{/if}
 					{if !empty($QUICKCREATE_MODULES_PARENT)}
 						<div class="o-action-menu__item commonActionsContainer">
 							<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip dropdownMenu" role="button"
