@@ -74,13 +74,13 @@ class Products_SummaryWidget_Model
 	public static function getModulesAndCount(Vtiger_Record_Model $parentRecordModel)
 	{
 		$modules = [];
-		foreach (self::MODULES as &$moduleName) {
+		foreach (self::MODULES as $moduleName) {
 			$count = 0;
 			if (!\App\Privilege::isPermitted($moduleName)) {
 				continue;
 			}
 			$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
-			if (!$relationListView->getRelationModel()) {
+			if (!$relationListView || !$relationListView->getRelationModel()) {
 				continue;
 			}
 			if (\in_array($moduleName, self::CATEGORY_MODULES)) {

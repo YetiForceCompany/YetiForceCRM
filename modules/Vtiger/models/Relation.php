@@ -291,9 +291,7 @@ class Vtiger_Relation_Model extends \App\Base
 			return clone $relationModel;
 		}
 		if (empty($relationId)) {
-			if ($rows = \App\Relation::getByModule($parentModuleModel->getName(), true, $relatedModuleModel->getName())) {
-				$row = reset($rows);
-			}
+			$row = current(\App\Relation::getByModule($parentModuleModel->getName(), true, $relatedModuleModel->getName()));
 		} else {
 			$row = \App\Relation::getById($relationId);
 			if (1 === $row['presence'] || $row['tabid'] !== $parentModuleModel->getId() || $row['related_tabid'] !== $relatedModuleModel->getId()) {
