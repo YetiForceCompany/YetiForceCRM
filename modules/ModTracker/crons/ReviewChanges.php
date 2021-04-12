@@ -96,7 +96,7 @@ class ModTracker_ReviewChanges_Cron extends \App\CronHandler
 	private function getRecords()
 	{
 		$data = $this->get('data');
-		if ('all' === $this->get('selected_ids')) {
+		if ('all' === ($this->get('selected_ids')[0] ?? '')) {
 			$data['module'] = \App\Module::getModuleName($this->get('tabid'));
 			$request = new \App\Request($data, false);
 			$this->recordList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
