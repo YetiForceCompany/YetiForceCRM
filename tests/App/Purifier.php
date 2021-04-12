@@ -187,9 +187,9 @@ class Purifier extends \Tests\Base
 	{
 		return [
 			['<div>Test-text-string-for-purifier</div>', '<div>Test-text-string-for-purifier</div>', true],
-			['<img src="1"onload=alert(1)>', '<img src="1" alt="1">', true],
-			['&lt;svg/onload=alert(1)onabort=alert(2)//', '&lt;svg/onload=alert(1)onabort=alert(2)//', false],
-			['<img src="1" onerror=alert(1)>', '<img src="1" alt="1">', true],
+			['<img src="1"onload=alert(1)>', '<img src="1" alt="1">', false],
+			['&lt;svg/onload=alert(1);onabort=alert(2)//', '&lt;svg/onload=alert(1)onabort=alert(2)//', false],
+			['<img src="1" onerror=alert(1)>', '<img src="1" alt="1">', false],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)(*&amp;^%$#@!)', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//', false],
@@ -202,11 +202,11 @@ class Purifier extends \Tests\Base
 	 *
 	 * @dataProvider purifyHtmlProvider
 	 *
-	 * @param mixed $text
-	 * @param mixed $expected
-	 * @param mixed $notThrowException
+	 * @param string $text
+	 * @param string $expected
+	 * @param bool   $notThrowException
 	 */
-	public function testPurifyHtml($text, $expected, $notThrowException)
+	public function testPurifyHtml(string $text, string $expected, bool $notThrowException)
 	{
 		if ($notThrowException) {
 			$this->assertSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be unchanged');
