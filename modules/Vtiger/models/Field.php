@@ -20,7 +20,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * @var string[] List of modules the field referenced to.
 	 */
-	public $referenceList = [];
+	public $referenceList;
 	/**
 	 * @var string[] Picklist values only for custom fields;.
 	 */
