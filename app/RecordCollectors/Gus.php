@@ -159,9 +159,6 @@ class Gus extends Base
 		$client = \App\RecordCollectors\Helper\GusClient::getInstance();
 		try {
 			$infoFromGus = $client->search($vatId, $ncr, $taxNumber);
-			foreach ($infoFromGus as &$info) {
-				$client->getAdvanceData($info);
-			}
 			$moduleName = $this->request->getModule();
 			if ($recordId = $this->request->getInteger('record')) {
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);

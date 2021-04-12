@@ -197,6 +197,9 @@ class GusClient extends \SoapClient
 		$this->__setSoapHeaders($header);
 		$result = $this->DaneSzukajPodmioty(['pParametryWyszukiwania' => ['Nip' => $vatId,  'Krs' => $ncr, 'Regon' => $taxNumber]]);
 		$response = $this->parseResponse($result->DaneSzukajPodmiotyResult);
+		foreach ($response as &$info) {
+			$this->getAdvanceData($info);
+		}
 		$this->endSession();
 		return $response;
 	}
@@ -211,10 +214,8 @@ class GusClient extends \SoapClient
 	public function getAdvanceData(array &$response): void
 	{
 		if (isset($response['Typ'], $response['SilosID']) && $reportName = $this->getReportName($response['Typ'], $response['SilosID'])) {
-			$this->startSession();
 			$header[] = new \SoapHeader(self::$namespaceHeader, 'Action', $this->getAddressToAction('DanePobierzPelnyRaport'), true);
 			$header[] = new \SoapHeader(self::$namespaceHeader, 'To', self::$config['addressToService'], true);
-			stream_context_set_option($this->streamContext, ['http' => ['header' => 'sid: ' . $this->sessionId]]);
 			$this->__setSoapHeaders();
 			$this->__setSoapHeaders($header);
 			$result = $this->DanePobierzPelnyRaport(['pRegon' => $response['Regon'], 'pNazwaRaportu' => $reportName]);
@@ -255,7 +256,6 @@ class GusClient extends \SoapClient
 			$response['DataWpisuDoREGON'] = $responseFromGus[$prefixName . 'dataWpisuDoREGON'] ?? '';
 			$response['DataZaistnieniaZmiany'] = $responseFromGus[$prefixName . 'dataZaistnieniaZmiany'] ?? '';
 			$response['DataWpisuDoRejestruEwidencji'] = $responseFromGus[$prefixName . 'dataWpisuDoRejestruEwidencji'] ?? '';
-			$this->endSession();
 		} else {
 			$response = [];
 		}
