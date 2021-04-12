@@ -193,7 +193,7 @@ class Purifier
 		if (static::$purifyHtmlInstanceCache) {
 			$value = static::$purifyHtmlInstanceCache->purify($input);
 			$value = static::removeUnnecessaryCode($value);
-			static::purifyHtmlEventAttributes($value);
+			static::purifyHtmlEventAttributes(static::decodeHtml($input));
 			if ($loop) {
 				$last = '';
 				while ($last !== $value) {
