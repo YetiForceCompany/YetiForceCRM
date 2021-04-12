@@ -17,6 +17,8 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
+	/** @var string[] List of modules the field referenced to. */
+	public $referenceList = [];
 	/**
 	 * Picklist values only for custom fields;.
 	 *
