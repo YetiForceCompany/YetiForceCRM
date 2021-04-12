@@ -17,16 +17,16 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
-	/** @var string[] List of modules the field referenced to. */
+	/**
+	 * @var string[] List of modules the field referenced to.
+	 */
 	public $referenceList = [];
 	/**
-	 * Picklist values only for custom fields;.
-	 *
-	 * @var string[]
+	 * @var string[] Picklist values only for custom fields;.
 	 */
 	public $picklistValues;
 	/**
-	 * @var bool
+	 * @var bool Is calculate field
 	 */
 	protected $isCalculateField = true;
 	/**

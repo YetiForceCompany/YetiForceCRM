@@ -10,21 +10,6 @@
 class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 {
 	/**
-	 * Variables.
-	 *
-	 * @var string[]
-	 */
-	public $picklistValues = [];
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getPicklistValues($skipCheckingRole = false)
-	{
-		return $this->picklistValues;
-	}
-
-	/**
 	 * Function to check if the field is named field of the module.
 	 *
 	 * @return bool
