@@ -38,3 +38,28 @@ jobs:
       env:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
         YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+
+  tests74MySQL57:
+    runs-on: ubuntu-latest
+    name: Percona MySQL 5.7
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Tests
+      uses: YetiForceCompany/YetiForceCRM-Tests/percona-mysql-5.7@main
+      env:
+        YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+        YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+        
+  tests74MySQL80:
+    runs-on: ubuntu-latest
+    name: Percona MySQL 8.0
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Tests
+      uses: YetiForceCompany/YetiForceCRM-Tests/percona-mysql-8.0@main
+      env:
+        YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+        YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+        
