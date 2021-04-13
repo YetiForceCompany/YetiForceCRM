@@ -183,37 +183,67 @@ class Purifier extends \Tests\Base
 	 *
 	 * @return array
 	 */
-	public function purifyHtmlProvider()
+	public function purifyHtmlProviderFailure(): array
+	{
+		$rows = [];
+		$file = \App\Fields\File::loadFromUrl('https://raw.githubusercontent.com/YetiForceCompany/YetiForceCRM-Tests/main/xss-payload.txt');
+		$fileRows = explode("\n", $file->getContents());
+		// $fileRows = explode("\n", file_get_contents('c:\www\YetiForceCRM-Tests\xss-payload.txt'));
+		foreach ($fileRows as $row) {
+			if ($row) {
+				$rows[] = [$row];
+			}
+		}
+		return $rows;
+	}
+
+	/**
+	 * Testing html purifier failure.
+	 *
+	 * @dataProvider purifyHtmlProviderFailure
+	 *
+	 * @param string $text
+	 */
+	public function testPurifyHtmlFailure(string $text): void
+	{
+		$this->expectException(\App\Exceptions\IllegalValue::class);
+		try {
+			$purifyHtml = \App\Purifier::purifyHtml($text);
+			if ($purifyHtml !== $text) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
+			}
+			throw new \Exception('Illegal value !!!');
+		} catch (\Throwable $th) {
+			echo \get_class($th);
+			throw $th;
+		}
+	}
+
+	/**
+	 * @codeCoverageIgnore
+	 *
+	 * @return array
+	 */
+	public function purifyHtmlProviderSuccess(): array
 	{
 		return [
 			['<div>Test-text-string-for-purifier</div>', '<div>Test-text-string-for-purifier</div>', true],
-			['<img src="1"onload=alert(1)>', '<img src="1" alt="1">', false],
-			['&lt;svg/onload=alert(1);onabort=alert(2)//', '&lt;svg/onload=alert(1)onabort=alert(2)//', false],
-			['<img src="1" onerror=alert(1)>', '<img src="1" alt="1">', false],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)(*&amp;^%$#@!)', true],
-			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//', false],
-			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', false]
 		];
 	}
 
 	/**
-	 * Testing html purifier.
+	 * Testing html purifier success.
 	 *
-	 * @dataProvider purifyHtmlProvider
+	 * @dataProvider purifyHtmlProviderSuccess
 	 *
 	 * @param string $text
 	 * @param string $expected
-	 * @param bool   $notThrowException
 	 */
-	public function testPurifyHtml(string $text, string $expected, bool $notThrowException)
+	public function testPurifyHtmlSuccess(string $text, string $expected): void
 	{
-		if ($notThrowException) {
-			$this->assertSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be unchanged');
-		} else {
-			$this->expectException(\App\Exceptions\IllegalValue::class);
-			$this->assertNotSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be purified');
-		}
+		$this->assertSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be unchanged');
 	}
 
 	/**
