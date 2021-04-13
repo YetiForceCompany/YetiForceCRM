@@ -145,40 +145,66 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		parent::endTestSuite($suite);
 	}
 
+	/**
+	 * An error occurred.
+	 *
+	 * @param PHPUnit\Framework\Test $test
+	 * @param Throwable              $t
+	 * @param float                  $time
+	 *
+	 * @return void
+	 */
 	public function addError(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
 		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . ' error.');
 		$this->write(PHP_EOL);
 		$this->lastTestFailed = true;
-		//echo "Exception Message: " . $e->getMessage() . "\n";
-		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
-		// parent::addError($test, $t, $time);
 	}
 
+	/**
+	 * A warning occurred.
+	 *
+	 * @param PHPUnit\Framework\Test $test
+	 * @param Warning                $e
+	 * @param float                  $time
+	 *
+	 * @return void
+	 */
 	public function addWarning(Test $test, Warning $e, float $time): void
 	{
 		$time = round($time, 2);
 		$this->writeProgressWithColor('fg-yellow', '! Test ' . $test->getName() . ' warning !!!.');
 		$this->write(PHP_EOL);
 		$this->lastTestFailed = true;
-		//echo "Exception Message: " . $e->getMessage() . "\n";
-		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
-		// parent::addWarning($test, $e, $time);
 	}
 
+	/**
+	 * A failure occurred.
+	 *
+	 * @param PHPUnit\Framework\Test $test
+	 * @param AssertionFailedError   $e
+	 * @param float                  $time
+	 *
+	 * @return void
+	 */
 	public function addFailure(Test $test, AssertionFailedError $e, float $time): void
 	{
 		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName($test) . ' failed !!!' . PHP_EOL . $e->__toString());
 		$this->write(PHP_EOL);
 		$this->lastTestFailed = true;
 		$time = round($time, 2);
-		// echo '!!! Test ' . $test->getName() . " failed.\n";
-		//echo "Exception Message: " . $e->getMessage() . "\n";
-		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
-		//parent::addFailure($test, $e, $time);
 	}
 
+	/**
+	 * Incomplete test.
+	 *
+	 * @param PHPUnit\Framework\Test $test
+	 * @param Throwable              $t
+	 * @param float                  $time
+	 *
+	 * @return void
+	 */
 	public function addIncompleteTest(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
@@ -186,14 +212,30 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		parent::addIncompleteTest($test, $t, $time);
 	}
 
+	/**
+	 * Risky test.
+	 *
+	 * @param PHPUnit\Framework\Test $test
+	 * @param Throwable              $t
+	 * @param float                  $time
+	 *
+	 * @return void
+	 */
 	public function addRiskyTest(Test $test, Throwable $t, float $time): void
 	{
 		printf("! Test %s is deemed risky.\n", $test->getName());
-		//echo "Exception Message: " . $e->getMessage() . "\n";
-		//echo "Exception Trace:\n" . $e->getTraceAsString() . "\n";
 		parent::addRiskyTest($test, $t, $time);
 	}
 
+	/**
+	 * Skipped test.
+	 *
+	 * @param PHPUnit\Framework\Test $test
+	 * @param Throwable              $t
+	 * @param float                  $time
+	 *
+	 * @return void
+	 */
 	public function addSkippedTest(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
@@ -201,6 +243,11 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		$this->lastTestFailed = true;
 	}
 
+	/**
+	 * Show tests logs.
+	 *
+	 * @return void
+	 */
 	private function showLogs(): void
 	{
 		array_unshift($this->logFiles, '/var/log/php' . getenv('PHP_VER') . '-fpm.log');
