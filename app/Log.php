@@ -270,7 +270,9 @@ class Log extends Logger
 	 */
 	public static function error($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, Logger::LEVEL_ERROR, $category);
+		if (static::$logToFile) {
+			\Yii::getLogger()->log($message, Logger::LEVEL_ERROR, $category);
+		}
 	}
 
 	/**
