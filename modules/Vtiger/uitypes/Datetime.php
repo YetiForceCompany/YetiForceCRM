@@ -94,7 +94,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		if (!$params) {
 			return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
 		}
-		$params = \App\TextParser::parseFieldParam($params ?? '');
+		$params = \App\TextParser::parseFieldParam($params);
 		if (isset($params['format'])) {
 			$return = \DateTimeField::convertToUserTimeZone($value)->format($params['format']);
 		} else {

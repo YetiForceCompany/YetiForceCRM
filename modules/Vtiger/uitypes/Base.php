@@ -275,7 +275,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
 	{
-		$params = \App\TextParser::parseFieldParam($params ?? '');
+		$params = $params ? \App\TextParser::parseFieldParam($params) : [];
 		$this->fullUrl = true;
 		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, isset($params['raw']) ? ((bool) $params['raw']) : true);
 	}
