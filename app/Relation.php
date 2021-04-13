@@ -90,7 +90,7 @@ class Relation
 			$row['favorites'] = (int) $row['favorites'];
 			$row['creator_detail'] = (int) $row['creator_detail'];
 			$row['relation_comment'] = (int) $row['relation_comment'];
-		}else{
+		} else {
 			$row = [];
 		}
 		Cache::save('App\Relation::getById', $relationId, $row, Cache::LONG);
@@ -147,8 +147,8 @@ class Relation
 	 */
 	public static function clearCacheById(int $relationId, bool $parent = true): void
 	{
-		if ($parent && ($relation = self::getById($relationId))) {
-			self::clearCacheByModule($relation['related_modulename'], false);
+		if ($parent && ($relation = self::getById($relationId)) && ($moduleName = \App\Module::getModuleName($relation['tabid']))) {
+			self::clearCacheByModule($moduleName, false);
 		}
 		Cache::delete('App\Relation::getById', $relationId);
 		Cache::delete('getFieldsFromRelation', $relationId);

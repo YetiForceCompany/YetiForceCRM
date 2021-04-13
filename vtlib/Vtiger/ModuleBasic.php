@@ -448,17 +448,19 @@ class ModuleBasic
 	{
 		\App\Log::trace('Start', __METHOD__);
 		$db = \App\Db::getInstance();
-		$ids = (new \App\Db\Query())->select(['relation_id'])->from('vtiger_relatedlists')->where(['or', ['tabid' => $this->id], ['related_tabid' => $this->id]])->column();
+		$relations = (new \App\Db\Query())->select(['relation_id', 'tabid'])->from('vtiger_relatedlists')->where(['or', ['tabid' => $this->id], ['related_tabid' => $this->id]])->createCommand()->queryAllByGroup();
 		$db->createCommand()->delete('vtiger_relatedlists', ['or', ['tabid' => $this->id], ['related_tabid' => $this->id]])->execute();
-		if ($ids) {
-			foreach ($ids as $id) {
-				\App\Relation::getById((int) $id);
-			}
+		if ($relations) {
+			$ids = array_keys($relations);
 			$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $ids])->execute();
 			$db->createCommand()->delete('a_#__relatedlists_inv_fields', ['relation_id' => $ids])->execute();
 			foreach ($ids as $id) {
-				\App\Relation::clearCacheById((int) $id);
+				\App\Relation::clearCacheById((int) $id, false);
 			}
+			foreach (array_unique($relations) as $tabId) {
+				\App\Relation::clearCacheByModule((string) \App\Module::getModuleName($tabId), false);
+			}
+			\App\Relation::clearCacheByModule($this->name, false);
 		}
 		\App\Log::trace('End', __METHOD__);
 	}
