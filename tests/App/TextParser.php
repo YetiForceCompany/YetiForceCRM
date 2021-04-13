@@ -131,7 +131,7 @@ class TextParser extends \Tests\Base
 			'Clean instance: $(general : BaseTimeZone)$ should return system timezone');
 		$user = \App\User::getCurrentUserModel();
 		$this->assertSame(
-			'+ ' . ($user->getDetail('time_zone') ? $user->getDetail('time_zone') : \App\Config::main('default_timezone')) . ' +',
+			'+ ' . ($user->getDetail('time_zone') ?: \App\Config::main('default_timezone')) . ' +',
 			static::$parserClean->setContent('+ $(general : UserTimeZone)$ +')->parse()->getContent(),
 			'Clean instance: $(general : UserTimeZone)$ should return user timezone'
 		);
@@ -653,13 +653,21 @@ class TextParser extends \Tests\Base
 	 */
 	public function testRelatedRecord()
 	{
+		echo 11;
 		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceByModel(\Tests\Base\C_RecordActions::createContactRecord())->setContent('+$(relatedRecord : parent_id|accountname|Accounts)$+')->parse()->getContent() . ' +', 'Account name should be not empty');
+		echo 22;
 		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceByModel(\Tests\Base\C_RecordActions::createContactRecord())->setContent('+$(relatedRecord : parent_id|accountname)$+')->parse()->getContent() . ' +', 'Account name should be not empty(without module)');
+		echo 33;
 		$this->assertNotSame('+  +', '+ ' . static::$parserRecord->setContent('+$(relatedRecord : assigned_user_id|user_name|Users)$+')->parse()->getContent() . ' +', 'Lead creator user_name should be not empty');
+		echo 44;
 		$comment = \Vtiger_Record_Model::getCleanInstance('ModComments');
+		echo 55;
 		$comment->set('commentcontent', 'TestComment');
 		$comment->set('related_to', \Tests\Base\C_RecordActions::createLeadRecord()->getId());
+		echo 66;
 		$comment->save();
+		echo 77;
 		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceById($comment->getId(), 'ModComments')->setContent('+ $(relatedRecord : related_to|company)$ +')->parse()->getContent() . ' +', 'Lead creator email should be not empty');
+		echo 88;
 	}
 }
