@@ -251,6 +251,14 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	 */
 	private function showLogs(): void
 	{
+		echo 'error_reporting: ' . error_reporting() . ' | ' . \App\Utils::varExport(\App\ErrorHandler::error2string(error_reporting()), true) . PHP_EOL;
+		echo 'error_log: ' . ini_get('error_log') . PHP_EOL;
+		echo 'log_errors: ' . ini_get('log_errors') . PHP_EOL;
+		echo 'max_execution_time: ' . ini_get('max_execution_time') . PHP_EOL;
+		echo 'display_errors: ' . ini_get('display_errors') . PHP_EOL;
+		echo 'disable_functions: ' . ini_get('disable_functions') . PHP_EOL;
+		echo 'xdebug.enable: ' . ini_get('xdebug.enable') . PHP_EOL;
+		echo 'cgi.fix_pathinfo: ' . ini_get('cgi.fix_pathinfo') . PHP_EOL;
 		array_unshift($this->logFiles, '/var/log/php' . getenv('PHP_VER') . '-fpm.log');
 		foreach ($this->logFiles as $file) {
 			if (false === strpos($file, '/var/log')) {
