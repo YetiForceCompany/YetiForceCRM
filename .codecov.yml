@@ -10,6 +10,4 @@ coverage:
         target: 39%
         paths: "app/"
     patch: off
-ignore:
-- tests/copy/.*
 comment: off
