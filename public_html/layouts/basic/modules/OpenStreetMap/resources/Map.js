@@ -660,7 +660,7 @@ jQuery.Class(
 							.find('.descriptionContent .travelTime')
 							.html(App.Fields.Double.formatToDisplay(response.result.properties.traveltime / 60));
 					})
-					.fail(function (error, title, fff) {
+					.fail(function (error, title) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						app.showNotify({
 							title: title,
