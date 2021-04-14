@@ -27,6 +27,12 @@ jobs:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
         YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+          name: Coverages
+          path: /home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages
+
   tests80:
     runs-on: ubuntu-latest
     name: PHP 8.0 - MariaDB 10.x

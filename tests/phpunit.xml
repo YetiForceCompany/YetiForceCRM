@@ -3,45 +3,6 @@
 	<php>
 		<includePath>.</includePath>
 	</php>
-	<coverage processUncoveredFiles="true">
-		<include>
-			<directory suffix=".php">.</directory>
-			<directory suffix=".php">../api</directory>
-			<directory suffix=".php">../app</directory>
-			<directory suffix=".php">../modules/Settings</directory>
-			<directory suffix=".php">../modules</directory>
-			<directory suffix=".php">../include</directory>
-			<directory suffix=".php">../api</directory>
-			<directory suffix=".php">../vtlib/Vtiger</directory>
-		</include>
-		<exclude>
-			<directory suffix=".php">../modules/Vtiger/pdfs</directory>
-			<directory suffix=".php">../modules/OSSMail</directory>
-			<directory suffix=".php">../modules/MailIntegration/html/outlook</directory>
-			<file>../modules/API/cron/CalDav.php</file>
-			<file>../modules/API/cron/CardDav.php</file>
-			<file>../modules/Assets/cron/Renewal.php</file>
-			<file>../modules/Calendar/cron/ActivityState.php</file>
-			<file>../modules/Calendar/cron/SetCrmActivity.php</file>
-			<file>../modules/Events/cron/RecurringEvents.php</file>
-			<file>../modules/ModTracker/cron/ReviewChanges.php</file>
-			<file>../modules/Notification/cron/Notifications.php</file>
-			<file>../modules/OpenStreetMap/cron/UpdaterCoordinates.php</file>
-			<file>../modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php</file>
-			<file>../modules/OSSMailScanner/cron/action.php</file>
-			<file>../modules/OSSMailScanner/cron/bind.php</file>
-			<file>../modules/OSSMailScanner/cron/verification.php</file>
-			<file>../modules/OSSSoldServices/cron/Renewal.php</file>
-			<file>../modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php</file>
-			<file>../modules/SMSNotifier/cron/SMSNotifier.php</file>
-			<file>../modules/Leads/summary_blocks/TotalTimeWorked.php</file>
-			<file>../dav.php</file>
-			<file>../webservice.php</file>
-			<file>../tests/GuiBase.php</file>
-			<file>../tests/bootstrap.php</file>
-			<file>../tests/setup/docker_post_install.php</file>
-		</exclude>
-	</coverage>
 	<testsuites>
 		<testsuite name="Init">
 			<directory suffix=".php">./Init/</directory>
