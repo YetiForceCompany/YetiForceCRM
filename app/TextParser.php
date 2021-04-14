@@ -759,7 +759,7 @@ class TextParser
 			$return = [];
 			foreach (explode(',', $relatedId) as $relatedValueId) {
 				if ('Users' === Fields\Owner::getType($relatedValueId)) {
-					$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedValueId);
+					$userRecordModel = \Vtiger_Record_Model::getInstanceById($relatedValueId, $relatedModule);
 					if ('Active' === $userRecordModel->get('status')) {
 						$instance = static::getInstanceByModel($userRecordModel);
 						foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
@@ -772,7 +772,7 @@ class TextParser
 					continue;
 				}
 				foreach (PrivilegeUtil::getUsersByGroup($relatedValueId) as $userId) {
-					$userRecordModel = \Users_Privileges_Model::getInstanceById($userId);
+					$userRecordModel = \Vtiger_Record_Model::getInstanceById($userId, $relatedModule);
 					if ('Active' === $userRecordModel->get('status')) {
 						$instance = static::getInstanceByModel($userRecordModel);
 						foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
