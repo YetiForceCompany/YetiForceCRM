@@ -1354,10 +1354,10 @@ var app = (window.app = {
 	},
 	registerModalController: function (modalId, modalContainer, cb) {
 		let windowParent = this.childFrame ? window.parent : window;
-		if (modalId === undefined) {
+		if (!modalId) {
 			modalId = Window.lastModalId;
 		}
-		if (modalContainer === undefined) {
+		if (!modalContainer) {
 			modalContainer = $('#' + modalId + ' .js-modal-data');
 		}
 		let moduleName = modalContainer.data('module') || 'Base';
