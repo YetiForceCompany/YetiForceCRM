@@ -259,6 +259,9 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		echo 'disable_functions: ' . ini_get('disable_functions') . PHP_EOL;
 		echo 'xdebug.enable: ' . ini_get('xdebug.enable') . PHP_EOL;
 		echo 'cgi.fix_pathinfo: ' . ini_get('cgi.fix_pathinfo') . PHP_EOL;
+		echo 'php_ini_loaded_file:' . php_ini_loaded_file() ?: '-';
+		echo 'php_ini_scanned_files:' . php_ini_scanned_files() ?: '-';
+
 		array_unshift($this->logFiles, '/var/log/php' . getenv('PHP_VER') . '-fpm.log');
 		foreach ($this->logFiles as $file) {
 			if (false === strpos($file, '/var/log')) {
