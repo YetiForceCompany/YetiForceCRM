@@ -22,7 +22,7 @@ namespace App\Integrations\Dav;
 class Card
 {
 	/**
-	 * Address mapping for modules.
+	 * @var array Address mapping for modules.
 	 */
 	const ADDRESS_MAPPING = [
 		'Contacts' => [
@@ -61,18 +61,14 @@ class Card
 		],
 	];
 	/**
-	 * Mail fields.
-	 *
-	 * @var array
+	 * @var array Mail fields.
 	 */
 	public static $mailFields = [
 		'Contacts' => ['email' => 'WORK', 'secondary_email' => 'HOME'],
 		'OSSEmployees' => ['business_mail' => 'WORK', 'private_mail' => 'HOME'],
 	];
 	/**
-	 * $Phone fields.
-	 *
-	 * @var array
+	 * @var array Phone fields.
 	 */
 	public static $telFields = [
 		'Contacts' => ['phone' => 'WORK', 'mobile' => 'CELL'],
