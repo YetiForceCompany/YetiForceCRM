@@ -31,31 +31,31 @@ class Groups extends \Tests\Base
 		$recordModel->set('modules', $modules);
 		$recordModel->save();
 
-		static::$id = $recordModel->getId();
-		$this->assertIsInt(static::$id);
+		self::$id = $recordModel->getId();
+		$this->assertIsInt(self::$id);
 
-		$row = (new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => static::$id])->one();
+		$row = (new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => self::$id])->one();
 
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['groupname'], 'Test groups');
 		$this->assertSame($row['description'], 'Test description');
 
-		$modulesFromDb = (new \App\Db\Query())->from('vtiger_group2modules')->select(['tabid'])->where(['groupid' => static::$id])->column();
+		$modulesFromDb = (new \App\Db\Query())->from('vtiger_group2modules')->select(['tabid'])->where(['groupid' => self::$id])->column();
 		$this->assertCount(0, array_diff($modules, $modulesFromDb));
 
-		$users2Group = (new \App\Db\Query())->from('vtiger_users2group')->select(['userid'])->where(['groupid' => static::$id])->column();
+		$users2Group = (new \App\Db\Query())->from('vtiger_users2group')->select(['userid'])->where(['groupid' => self::$id])->column();
 		$this->assertCount(1, $users2Group);
 		$this->assertSame($users2Group[0], 1);
 
-		$group2Grouprel = (new \App\Db\Query())->from('vtiger_group2grouprel')->select(['containsgroupid'])->where(['groupid' => static::$id])->column();
+		$group2Grouprel = (new \App\Db\Query())->from('vtiger_group2grouprel')->select(['containsgroupid'])->where(['groupid' => self::$id])->column();
 		$this->assertCount(1, $group2Grouprel);
 		$this->assertSame($group2Grouprel[0], 2);
 
-		$group2Rs = (new \App\Db\Query())->from('vtiger_group2rs')->select(['roleandsubid'])->where(['groupid' => static::$id])->column();
+		$group2Rs = (new \App\Db\Query())->from('vtiger_group2rs')->select(['roleandsubid'])->where(['groupid' => self::$id])->column();
 		$this->assertCount(1, $group2Rs);
 		$this->assertSame($group2Rs[0], 'H34');
 
-		$group2Role = (new \App\Db\Query())->from('vtiger_group2role')->select(['roleid'])->where(['groupid' => static::$id])->column();
+		$group2Role = (new \App\Db\Query())->from('vtiger_group2role')->select(['roleid'])->where(['groupid' => self::$id])->column();
 		$this->assertCount(1, $group2Role);
 		$this->assertSame($group2Role[0], 'H6');
 	}
@@ -65,7 +65,7 @@ class Groups extends \Tests\Base
 	 */
 	public function testEditGroups()
 	{
-		$recordModel = \Settings_Groups_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_Groups_Record_Model::getInstance(self::$id);
 
 		$modules = ['7'];
 		$recordModel->set('groupname', 'Test groups edit');
@@ -74,25 +74,25 @@ class Groups extends \Tests\Base
 		$recordModel->set('modules', $modules);
 		$recordModel->save();
 
-		$row = (new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => static::$id])->one();
+		$row = (new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => self::$id])->one();
 
 		$this->assertSame($row['groupname'], 'Test groups edit');
 		$this->assertSame($row['description'], 'Test description edit');
 
 		$modulesFromDb = (new \App\Db\Query())->from('vtiger_group2modules')->select(['tabid'])
-			->where(['groupid' => static::$id])->column();
+			->where(['groupid' => self::$id])->column();
 
 		$this->assertCount(0, array_diff($modules, $modulesFromDb));
 
 		$users2Group = (new \App\Db\Query())->from('vtiger_users2group')->select(['userid'])
-			->where(['groupid' => static::$id])->column();
+			->where(['groupid' => self::$id])->column();
 
 		$this->assertCount(1, $users2Group);
 		$this->assertSame($users2Group[0], 1);
 
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_group2grouprel')->where(['groupid' => static::$id])->exists(), 'Record in the database should not exist');
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_group2rs')->where(['groupid' => static::$id])->exists(), 'Record in the database should not exist');
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_group2role')->where(['groupid' => static::$id])->exists(), 'Record in the database should not exist');
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_group2grouprel')->where(['groupid' => self::$id])->exists(), 'Record in the database should not exist');
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_group2rs')->where(['groupid' => self::$id])->exists(), 'Record in the database should not exist');
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_group2role')->where(['groupid' => self::$id])->exists(), 'Record in the database should not exist');
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Groups extends \Tests\Base
 	 */
 	public function testDeleteGroups()
 	{
-		$recordModel = \Settings_Groups_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_Groups_Record_Model::getInstance(self::$id);
 
 		$transferRecordId = 1;
 		$transferToOwner = \Settings_Groups_Record_Model::getInstance($transferRecordId);
@@ -109,6 +109,6 @@ class Groups extends \Tests\Base
 		}
 
 		$recordModel->delete($transferToOwner);
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => self::$id])->exists(), 'The record was not removed from the database ID: ' . self::$id);
 	}
 }

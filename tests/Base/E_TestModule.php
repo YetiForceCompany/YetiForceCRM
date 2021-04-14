@@ -50,25 +50,25 @@ class E_TestModule extends \Tests\Base
 	 */
 	protected function setUp(): void
 	{
-		if (\file_exists(static::$testDataPath)) {
-			$this->fileUrl = static::$testDataPath;
+		if (\file_exists(self::$testDataPath)) {
+			$this->fileUrl = self::$testDataPath;
 		} elseif (!empty($_SERVER['YETI_TEST_MODULE_KEY'])) {
 			if (\App\RequestUtil::isNetConnection()) {
-				$path = sys_get_temp_dir() . \DIRECTORY_SEPARATOR . static::$testModuleFile;
+				$path = sys_get_temp_dir() . \DIRECTORY_SEPARATOR . self::$testModuleFile;
 				try {
-					(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', static::$testDataUrl . $_SERVER['YETI_TEST_MODULE_KEY'], ['sink' => $path]);
+					(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', self::$testDataUrl . $_SERVER['YETI_TEST_MODULE_KEY'], ['sink' => $path]);
 				} catch (\Exception $e) {
 				}
 				if (file_exists($path)) {
 					$this->fileUrl = $path;
 				} else {
-					static::$skipTest = 'TestData package not available - bad response from remote server, no sample data to install.';
+					self::$skipTest = 'TestData package not available - bad response from remote server, no sample data to install.';
 				}
 			} else {
-				static::$skipTest = 'TestData package not available - no internet connection, no sample data to install.';
+				self::$skipTest = 'TestData package not available - no internet connection, no sample data to install.';
 			}
 		} else {
-			static::$skipTest = 'TestData package not available, no sample data to install.';
+			self::$skipTest = 'TestData package not available, no sample data to install.';
 		}
 	}
 
@@ -77,13 +77,13 @@ class E_TestModule extends \Tests\Base
 	 */
 	public function testInstallSampleData(): void
 	{
-		if (static::$skipTest) {
-			$this->markTestSkipped(static::$skipTest);
+		if (self::$skipTest) {
+			$this->markTestSkipped(self::$skipTest);
 			return;
 		}
 		try {
-			\copy($this->fileUrl, static::$testModuleFile);
-			(new \vtlib\Package())->import(static::$testModuleFile);
+			\copy($this->fileUrl, self::$testModuleFile);
+			(new \vtlib\Package())->import(self::$testModuleFile);
 			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists(), 'TestData instalation failed.');
 			$db = \App\Db::getInstance();
 			$db->createCommand()

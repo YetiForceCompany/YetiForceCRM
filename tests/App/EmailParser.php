@@ -37,16 +37,16 @@ class EmailParser extends \Tests\Base
 	 */
 	public function testInstancesCreation()
 	{
-		static::$parserClean = \App\EmailParser::getInstance();
-		$this->assertInstanceOf('\App\EmailParser', static::$parserClean, 'Expected clean instance without module of \App\EmailParser');
+		self::$parserClean = \App\EmailParser::getInstance();
+		$this->assertInstanceOf('\App\EmailParser', self::$parserClean, 'Expected clean instance without module of \App\EmailParser');
 
-		static::$parserCleanModule = \App\EmailParser::getInstance('Leads');
-		$this->assertInstanceOf('\App\EmailParser', static::$parserCleanModule, 'Expected clean instance with module Leads of \App\EmailParser');
+		self::$parserCleanModule = \App\EmailParser::getInstance('Leads');
+		$this->assertInstanceOf('\App\EmailParser', self::$parserCleanModule, 'Expected clean instance with module Leads of \App\EmailParser');
 
 		$this->assertInstanceOf('\App\EmailParser', \App\EmailParser::getInstanceById(\Tests\Base\C_RecordActions::createLeadRecord()->getId(), 'Leads'), 'Expected instance from lead id and module string of \App\TextParser');
 
-		static::$parserRecord = \App\EmailParser::getInstanceByModel(\Tests\Base\C_RecordActions::createLeadRecord());
-		$this->assertInstanceOf('\App\EmailParser', static::$parserRecord, 'Expected instance from record model of \App\EmailParser');
+		self::$parserRecord = \App\EmailParser::getInstanceByModel(\Tests\Base\C_RecordActions::createLeadRecord());
+		$this->assertInstanceOf('\App\EmailParser', self::$parserRecord, 'Expected instance from record model of \App\EmailParser');
 	}
 
 	/**
@@ -54,7 +54,7 @@ class EmailParser extends \Tests\Base
 	 */
 	public function testEmptyContent()
 	{
-		$this->assertSame('', static::$parserClean
+		$this->assertSame('', self::$parserClean
 			->setContent('')
 			->parse()
 			->getContent(), 'Clean instance: empty content should return empty result');
@@ -65,7 +65,7 @@ class EmailParser extends \Tests\Base
 	 */
 	public function testGetContent()
 	{
-		$this->assertSame(['test0@yetiforce.com', 'test1@yetiforce.com' => 'Test One ', 'test2@yetiforce.com'], static::$parserClean
+		$this->assertSame(['test0@yetiforce.com', 'test1@yetiforce.com' => 'Test One ', 'test2@yetiforce.com'], self::$parserClean
 			->setContent('test0@yetiforce.com,Test One &lt;test1@yetiforce.com&gt;,test2@yetiforce.com,-,')
 			->parse()
 			->getContent(true), 'Clean instance: content should be equal');

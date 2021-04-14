@@ -34,11 +34,11 @@ class Companies extends \Tests\Base
 		$recordModel->set('email', 'email@gmail.com');
 		$recordModel->set('logo', 'logo_two.png');
 		$recordModel->save();
-		static::$id = $recordModel->getId();
-		$this->assertNotNull(static::$id, 'Id is null');
+		self::$id = $recordModel->getId();
+		$this->assertNotNull(self::$id, 'Id is null');
 
-		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['name'], 'Name');
 		$this->assertSame($row['type'], 1);
 		$this->assertSame($row['industry'], 'Industry');
@@ -54,7 +54,7 @@ class Companies extends \Tests\Base
 	 */
 	public function testEditCompanies()
 	{
-		$recordModel = \Settings_Companies_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_Companies_Record_Model::getInstance(self::$id);
 		$recordModel->set('name', 'Company');
 		$recordModel->set('industry', 'Ingenuity');
 		$recordModel->set('city', 'Town');
@@ -63,10 +63,10 @@ class Companies extends \Tests\Base
 		$recordModel->set('email', 'emailtwo@gmail.com');
 		$recordModel->set('logo', 'logo_main.png');
 		$recordModel->save();
-		static::$id = $recordModel->getId();
+		self::$id = $recordModel->getId();
 
-		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['name'], 'Company');
 		$this->assertSame($row['industry'], 'Ingenuity');
 		$this->assertSame($row['city'], 'Town');
@@ -81,9 +81,9 @@ class Companies extends \Tests\Base
 	 */
 	public function testDeleteCompanies()
 	{
-		$recordModel = \Settings_Companies_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_Companies_Record_Model::getInstance(self::$id);
 		$recordModel->delete();
-		$this->assertFalse((new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->exists(), 'Company should not exists');
+		$this->assertFalse((new \App\Db\Query())->from('s_#__companies')->where(['id' => self::$id])->exists(), 'Company should not exists');
 	}
 
 	/**

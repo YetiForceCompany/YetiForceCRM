@@ -81,7 +81,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 */
 	public static function setUpBeforeClass(): void
 	{
-		static::$transaction = \App\Db::getInstance()->beginTransaction();
+		self::$transaction = \App\Db::getInstance()->beginTransaction();
 	}
 
 	/**
@@ -363,7 +363,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 */
 	public static function tearDownAfterClass(): void
 	{
-		static::$transaction->rollBack();
+		self::$transaction->rollBack();
 		\App\Cache::clear();
 	}
 }

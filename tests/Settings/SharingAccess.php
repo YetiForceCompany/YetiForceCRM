@@ -35,14 +35,14 @@ class SharingAccess extends \Tests\Base
 		$forModule = 'Accounts';
 		$ruleModel = $this->saveRule($forModule, $ruleId, $permission, $sourceId, $targetId);
 
-		static::$shareId = $ruleModel->get('shareid');
-		static::$relationType = $ruleModel->get('relationtype');
-		$relationTypeComponents = \explode('::', static::$relationType);
+		self::$shareId = $ruleModel->get('shareid');
+		self::$relationType = $ruleModel->get('relationtype');
+		$relationTypeComponents = \explode('::', self::$relationType);
 		$sourceType = $relationTypeComponents[0];
 		$targetType = $relationTypeComponents[1];
 
-		$row = (new \App\Db\Query())->from('vtiger_datashare_module_rel')->where(['shareid' => static::$shareId])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$shareId);
+		$row = (new \App\Db\Query())->from('vtiger_datashare_module_rel')->where(['shareid' => self::$shareId])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$shareId);
 		$relationType = implode('::', [$sourceType, $targetType]);
 
 		$this->assertSame($ruleModel->getModule()->getId(), $row['tabid']);
@@ -52,8 +52,8 @@ class SharingAccess extends \Tests\Base
 		$tableName = $tableColumnInfo['table'];
 		$sourceColumnName = $tableColumnInfo['source_id'];
 		$targetColumnName = $tableColumnInfo['target_id'];
-		$row2 = (new \App\Db\Query())->from($tableName)->where(['shareid' => static::$shareId])->one();
-		$this->assertNotFalse($row2, 'No record id: ' . static::$shareId);
+		$row2 = (new \App\Db\Query())->from($tableName)->where(['shareid' => self::$shareId])->one();
+		$this->assertNotFalse($row2, 'No record id: ' . self::$shareId);
 
 		$sourceIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($sourceId);
 		$targetIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($targetId);
@@ -109,15 +109,15 @@ class SharingAccess extends \Tests\Base
 		$targetId = 'Roles:H6';
 		$permission = 1;
 		$forModule = 'Accounts';
-		$ruleModel = $this->saveRule($forModule, static::$shareId, $permission, $sourceId, $targetId);
+		$ruleModel = $this->saveRule($forModule, self::$shareId, $permission, $sourceId, $targetId);
 
-		$relationTypeComponents = explode('::', static::$relationType);
+		$relationTypeComponents = explode('::', self::$relationType);
 		$sourceType = $relationTypeComponents[0];
 		$targetType = $relationTypeComponents[1];
 		$tableColumnInfo = \Settings_SharingAccess_Rule_Model::$dataShareTableColArr[$sourceType][$targetType];
 		$tableName = $tableColumnInfo['table'];
 
-		$this->assertFalse((new \App\Db\Query())->from($tableName)->where(['shareid' => static::$shareId])->exists(), 'Record id ' . static::$shareId . ' from table ' . $tableName . ' should not exist');
+		$this->assertFalse((new \App\Db\Query())->from($tableName)->where(['shareid' => self::$shareId])->exists(), 'Record id ' . self::$shareId . ' from table ' . $tableName . ' should not exist');
 
 		$relationTypeComponents = \explode('::', $ruleModel->get('relationtype'));
 		$sourceType = $relationTypeComponents[0];
@@ -127,8 +127,8 @@ class SharingAccess extends \Tests\Base
 		$sourceColumnName = $tableColumnInfo['source_id'];
 		$targetColumnName = $tableColumnInfo['target_id'];
 
-		$row2 = (new \App\Db\Query())->from($tableName)->where(['shareid' => static::$shareId])->one();
-		$this->assertNotFalse($row2, 'No record id: ' . static::$shareId);
+		$row2 = (new \App\Db\Query())->from($tableName)->where(['shareid' => self::$shareId])->one();
+		$this->assertNotFalse($row2, 'No record id: ' . self::$shareId);
 
 		$sourceIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($sourceId);
 		$targetIdComponents = \Settings_SharingAccess_RuleMember_Model::getIdComponentsFromQualifiedId($targetId);
@@ -148,15 +148,15 @@ class SharingAccess extends \Tests\Base
 		$forModule = 'Accounts';
 
 		$moduleModel = \Settings_SharingAccess_Module_Model::getInstance($forModule);
-		$ruleModel = \Settings_SharingAccess_Rule_Model::getInstance($moduleModel, static::$shareId);
+		$ruleModel = \Settings_SharingAccess_Rule_Model::getInstance($moduleModel, self::$shareId);
 		$relationType = $ruleModel->get('relationtype');
 		$ruleModel->delete();
 
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_datashare_module_rel')->where(['shareid' => static::$shareId])->exists(), 'Record id ' . static::$shareId . ' should not exist');
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_datashare_module_rel')->where(['shareid' => self::$shareId])->exists(), 'Record id ' . self::$shareId . ' should not exist');
 
 		$relationTypeComponents = explode('::', $relationType);
 		$tableColumnInfo = \Settings_SharingAccess_Rule_Model::$dataShareTableColArr[$relationTypeComponents[0]][$relationTypeComponents[1]];
-		$this->assertFalse((new \App\Db\Query())->from($tableColumnInfo['table'])->where(['shareid' => static::$shareId])->exists(), 'Record id ' . static::$shareId . ' from table ' . $tableColumnInfo['table'] . ' should not exist');
+		$this->assertFalse((new \App\Db\Query())->from($tableColumnInfo['table'])->where(['shareid' => self::$shareId])->exists(), 'Record id ' . self::$shareId . ' from table ' . $tableColumnInfo['table'] . ' should not exist');
 	}
 
 	/**

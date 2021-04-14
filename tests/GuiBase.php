@@ -55,7 +55,7 @@ abstract class GuiBase extends TestCase
 		if (null === $this->driver) {
 			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
 		}
-		if (!static::$isLogin) {
+		if (!self::$isLogin) {
 			$this->login();
 		}
 	}

@@ -27,12 +27,12 @@ class Inventory extends \Tests\Base
 		$name = 'test';
 		$value = 3.14;
 		$status = $default = 0;
-		static::$id = $this->save(0, $type, $name, $value, $status, $default);
-		$this->assertNotNull(static::$id, 'Id is null');
+		self::$id = $this->save(0, $type, $name, $value, $status, $default);
+		$this->assertNotNull(self::$id, 'Id is null');
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from($tableName)->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
 		$this->assertSame((int) $row['status'], $status);
@@ -84,11 +84,11 @@ class Inventory extends \Tests\Base
 		$name = 'test edit';
 		$value = 1.16;
 		$status = $default = 1;
-		$this->save(static::$id, $type, $name, $value, $status, $default);
+		$this->save(self::$id, $type, $name, $value, $status, $default);
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from($tableName)->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
 		$this->assertSame((int) $row['status'], $status);
@@ -101,11 +101,11 @@ class Inventory extends \Tests\Base
 	public function testDeleteTaxes()
 	{
 		$type = 'Taxes';
-		$recordModel = \Settings_Inventory_Record_Model::getInstanceById(static::$id, $type);
+		$recordModel = \Settings_Inventory_Record_Model::getInstanceById(self::$id, $type);
 		$recordModel->delete();
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$this->assertFalse((new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+		$this->assertFalse((new \App\Db\Query())->from($tableName)->where(['id' => self::$id])->exists(), 'The record was not removed from the database ID: ' . self::$id);
 	}
 
 	/**
@@ -117,12 +117,12 @@ class Inventory extends \Tests\Base
 		$name = 'test name';
 		$value = 3.14;
 		$status = 0;
-		static::$id = $this->save('', $type, $name, $value, $status);
-		$this->assertNotNull(static::$id, 'Id is null');
+		self::$id = $this->save('', $type, $name, $value, $status);
+		$this->assertNotNull(self::$id, 'Id is null');
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from($tableName)->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
 		$this->assertSame((int) $row['status'], $status);
@@ -137,11 +137,11 @@ class Inventory extends \Tests\Base
 		$name = 'test edit';
 		$value = 2.62;
 		$status = 1;
-		$this->save(static::$id, $type, $name, $value, $status);
+		$this->save(self::$id, $type, $name, $value, $status);
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from($tableName)->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
 		$this->assertSame((int) $row['status'], $status);
@@ -153,11 +153,11 @@ class Inventory extends \Tests\Base
 	public function testDeleteDiscount()
 	{
 		$type = 'Discounts';
-		$recordModel = \Settings_Inventory_Record_Model::getInstanceById(static::$id, $type);
+		$recordModel = \Settings_Inventory_Record_Model::getInstanceById(self::$id, $type);
 		$recordModel->delete();
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$this->assertFalse((new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+		$this->assertFalse((new \App\Db\Query())->from($tableName)->where(['id' => self::$id])->exists(), 'The record was not removed from the database ID: ' . self::$id);
 	}
 
 	/**
@@ -169,12 +169,12 @@ class Inventory extends \Tests\Base
 		$name = 'test';
 		$value = 500;
 		$status = 0;
-		static::$id = $this->save('', $type, $name, $value, $status);
-		$this->assertNotNull(static::$id, 'Id is null');
+		self::$id = $this->save('', $type, $name, $value, $status);
+		$this->assertNotNull(self::$id, 'Id is null');
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from($tableName)->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((int) $row['value'], $value);
 		$this->assertSame((int) $row['status'], $status);
@@ -189,11 +189,11 @@ class Inventory extends \Tests\Base
 		$name = 'test edit';
 		$value = 1410;
 		$status = 1;
-		$this->save(static::$id, $type, $name, $value, $status);
+		$this->save(self::$id, $type, $name, $value, $status);
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from($tableName)->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((int) $row['value'], $value);
 		$this->assertSame((int) $row['status'], $status);
@@ -205,10 +205,10 @@ class Inventory extends \Tests\Base
 	public function testDeleteCreditLimits()
 	{
 		$type = 'CreditLimits';
-		$recordModel = \Settings_Inventory_Record_Model::getInstanceById(static::$id, $type);
+		$recordModel = \Settings_Inventory_Record_Model::getInstanceById(self::$id, $type);
 		$recordModel->delete();
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
-		$this->assertFalse((new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+		$this->assertFalse((new \App\Db\Query())->from($tableName)->where(['id' => self::$id])->exists(), 'The record was not removed from the database ID: ' . self::$id);
 	}
 }

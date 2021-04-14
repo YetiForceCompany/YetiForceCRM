@@ -89,24 +89,24 @@ class Z_MultiImage extends \Tests\Base
 				$record = \App\User::getUserIdByName('admin');
 				break;
 			case 'Contacts':
-				$record = \Tests\Base\C_RecordActions::createContactRecord(static::$cacheContact)->getId();
-				static::$cacheContact = true;
+				$record = \Tests\Base\C_RecordActions::createContactRecord(self::$cacheContact)->getId();
+				self::$cacheContact = true;
 				break;
 			case 'Products':
-				$record = \Tests\Base\C_RecordActions::createProductRecord(static::$cacheProduct)->getId();
-				static::$cacheProduct = true;
+				$record = \Tests\Base\C_RecordActions::createProductRecord(self::$cacheProduct)->getId();
+				self::$cacheProduct = true;
 				break;
 			default:
 				return; // @codeCoverageIgnore
 				break;
 		}
-		$filePathSrc = 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . static::$files[$file];
-		$filePathDst = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . md5(rand(0, 9999)) . substr(static::$files[$file], \strpos(static::$files[$file], '.'));
+		$filePathSrc = 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . self::$files[$file];
+		$filePathDst = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . md5(rand(0, 9999)) . substr(self::$files[$file], \strpos(self::$files[$file], '.'));
 		\copy($filePathSrc, $filePathDst);
 		$fileObj = \App\Fields\File::loadFromPath($filePathDst);
 		$hash = $fileObj->generateHash(true, $filePathDst);
 		$attach[] = [
-			'name' => static::$files[$file],
+			'name' => self::$files[$file],
 			'size' => \vtlib\Functions::showBytes($fileObj->getSize()),
 			'key' => $hash,
 			'path' => $fileObj->getPath()
@@ -119,7 +119,7 @@ class Z_MultiImage extends \Tests\Base
 		$fieldModel = $recordModel->getField($field);
 		$data = \App\Json::decode(\App\Purifier::decodeHtml($fieldModel->getUITypeModel()->getDisplayValueEncoded($recordModel->get($field), $recordModel->getId(), $fieldModel->getFieldInfo()['limit'])));
 		$this->assertNotEmpty($data);
-		$this->assertSame(static::$files[$file], $data[0]['name'], 'File name should be equal');
+		$this->assertSame(self::$files[$file], $data[0]['name'], 'File name should be equal');
 		$this->assertSame(\vtlib\Functions::showBytes($fileObj->getSize()), $data[0]['size'], 'File size should be equal');
 		$this->assertFileExists($fileObj->getPath(), 'File should exists');
 		$this->assertSame($hash, $data[0]['key'], 'Key should be equal');
@@ -148,12 +148,12 @@ class Z_MultiImage extends \Tests\Base
 				$record = \App\User::getUserIdByName('admin');
 				break;
 			case 'Contacts':
-				$record = \Tests\Base\C_RecordActions::createContactRecord(static::$cacheContact)->getId();
-				static::$cacheContact = true;
+				$record = \Tests\Base\C_RecordActions::createContactRecord(self::$cacheContact)->getId();
+				self::$cacheContact = true;
 				break;
 			case 'Products':
-				$record = \Tests\Base\C_RecordActions::createProductRecord(static::$cacheProduct)->getId();
-				static::$cacheProduct = true;
+				$record = \Tests\Base\C_RecordActions::createProductRecord(self::$cacheProduct)->getId();
+				self::$cacheProduct = true;
 				break;
 			default:
 				return; // @codeCoverageIgnore
@@ -178,7 +178,7 @@ class Z_MultiImage extends \Tests\Base
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById(\Tests\Base\C_RecordActions::createProductRecord(false)->getId(), 'Products');
 		$attach = [];
-		foreach (static::$files as $i => $name) {
+		foreach (self::$files as $i => $name) {
 			$filePathSrc = 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . $name;
 			$filePathDst = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . md5(rand(0, 9999)) . substr($name, \strpos($name, '.'));
 			\copy($filePathSrc, $filePathDst);
@@ -197,7 +197,7 @@ class Z_MultiImage extends \Tests\Base
 		$fieldModel = $recordModel->getField('imagename');
 		$data = \App\Json::decode(\App\Purifier::decodeHtml($fieldModel->getUITypeModel()->getDisplayValueEncoded($recordModel->get('imagename'), $recordModel->getId(), $fieldModel->getFieldInfo()['limit'])));
 		$this->assertNotEmpty($data);
-		foreach (static::$files as $i => $name) {
+		foreach (self::$files as $i => $name) {
 			$this->assertSame($name, $data[$i]['name'], 'File name should be equal');
 			$this->assertSame($attach[$i]['size'], $data[$i]['size'], 'File size should be equal');
 			$this->assertFileExists($attach[$i]['path'], 'File should exists');

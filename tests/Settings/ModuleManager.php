@@ -127,10 +127,10 @@ class ModuleManager extends \Tests\Base
 		$blockInstance = new \Settings_LayoutEditor_Block_Model();
 		$blockInstance->set('label', 'label block');
 		$blockInstance->set('iscustom', 1);
-		static::$blockId = $blockInstance->save($moduleModel);
+		self::$blockId = $blockInstance->save($moduleModel);
 
-		$row = (new \App\Db\Query())->from('vtiger_blocks')->where(['blockid' => static::$blockId])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$blockId);
+		$row = (new \App\Db\Query())->from('vtiger_blocks')->where(['blockid' => self::$blockId])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$blockId);
 		$this->assertSame($row['blocklabel'], 'label block');
 		$this->assertSame($row['iscustom'], 1);
 	}
@@ -149,64 +149,64 @@ class ModuleManager extends \Tests\Base
 		$param['fieldType'] = $type;
 		$param['fieldLabel'] = $type . 'FL' . $suffix;
 		$param['fieldName'] = strtolower($type . 'FL' . $suffix);
-		$param['blockid'] = static::$blockId;
+		$param['blockid'] = self::$blockId;
 		$param['sourceModule'] = 'TestModule';
 		if ('Tree' === $type || 'CategoryMultipicklist' === $type) {
 			//Add a tree if it does not exist
-			if (empty(static::$treeId)) {
-				static::$treeId = (new TreesManager())->testAddTree(1, \Settings_LayoutEditor_Module_Model::getInstanceByName('TestModule')->getId());
+			if (empty(self::$treeId)) {
+				self::$treeId = (new TreesManager())->testAddTree(1, \Settings_LayoutEditor_Module_Model::getInstanceByName('TestModule')->getId());
 			}
-			$param['tree'] = static::$treeId;
+			$param['tree'] = self::$treeId;
 		} elseif ('MultiReferenceValue' === $type) {
 			$param['MRVField'] = $this->getMRVField();
 		}
 
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
-		$fieldModel = $moduleModel->addField($param['fieldType'], static::$blockId, $param);
-		static::$fieldsId[$key] = $fieldModel->getId();
+		$fieldModel = $moduleModel->addField($param['fieldType'], self::$blockId, $param);
+		self::$fieldsId[$key] = $fieldModel->getId();
 		$details = $moduleModel->getTypeDetailsForAddField($type, $param);
-		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$key], 'tabid' => $moduleModel->getId()])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$fieldsId[$key]);
+		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => self::$fieldsId[$key], 'tabid' => $moduleModel->getId()])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$fieldsId[$key]);
 		$this->assertSame($row['fieldname'], $param['fieldName']);
 		$this->assertSame($row['fieldlabel'], $param['fieldLabel']);
 		$this->assertSame($row['typeofdata'], $details['typeofdata']);
 		$this->assertSame($row['uitype'], $details['uitype']);
 
 		$profilesId = \vtlib\Profile::getAllIds();
-		$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => static::$fieldsId[$key]])->count(), $profilesId, "The field \"$type\" did not add correctly to the profiles");
+		$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => self::$fieldsId[$key]])->count(), $profilesId, "The field \"$type\" did not add correctly to the profiles");
 
 		switch ($row['uitype']) {
 			case 11: //Phone
 				$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $param['fieldName'] . '_extra'])->one();
 				$this->assertNotFalse($rowExtra, 'No "extra" record for uitype: ' . $row['uitype']);
 				$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => $rowExtra['fieldid']])->count(), $profilesId, "The \"extra\" field \"$type\" did not add correctly to the profiles");
-				static::$fieldsExtraId[$key] = $rowExtra['fieldid'];
+				self::$fieldsExtraId[$key] = $rowExtra['fieldid'];
 				break;
 			case 10: //Related1M
-				$this->assertCount((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => static::$fieldsId[$key]])->count(), $param['referenceModule'], 'Problem with table "vtiger_fieldmodulerel" in database');
+				$this->assertCount((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => self::$fieldsId[$key]])->count(), $param['referenceModule'], 'Problem with table "vtiger_fieldmodulerel" in database');
 				break;
 			case 16: //Picklist
-				static::$tablesName[$key] = 'vtiger_' . $param['fieldName'];
-				$this->assertNotNull(\App\Db::getInstance()->getTableSchema(static::$tablesName[$key]), 'Table "' . static::$tablesName[$key] . '" does not exist');
-				$this->assertCount(0, array_diff($param['pickListValues'], (new \App\Db\Query())->select($param['fieldName'])->from(static::$tablesName[$key])->column()), 'Bad values in the table "' . static::$tablesName[$key] . '"');
+				self::$tablesName[$key] = 'vtiger_' . $param['fieldName'];
+				$this->assertNotNull(\App\Db::getInstance()->getTableSchema(self::$tablesName[$key]), 'Table "' . self::$tablesName[$key] . '" does not exist');
+				$this->assertCount(0, array_diff($param['pickListValues'], (new \App\Db\Query())->select($param['fieldName'])->from(self::$tablesName[$key])->column()), 'Bad values in the table "' . self::$tablesName[$key] . '"');
 				break;
 			case 15: //Picklist
 			case 33: //MultiSelectCombo
-				static::$tablesName[$key] = 'vtiger_' . $param['fieldName'];
+				self::$tablesName[$key] = 'vtiger_' . $param['fieldName'];
 				$this->assertNotNull(
-					\App\Db::getInstance()->getTableSchema(static::$tablesName[$key]),
-					'Table "' . static::$tablesName[$key] . '" does not exist'
+					\App\Db::getInstance()->getTableSchema(self::$tablesName[$key]),
+					'Table "' . self::$tablesName[$key] . '" does not exist'
 				);
 				$this->assertCount(
 					0,
 					array_diff(
 						$param['pickListValues'],
-						(new \App\Db\Query())->select($param['fieldName'])->from(static::$tablesName[$key])->column()
+						(new \App\Db\Query())->select($param['fieldName'])->from(self::$tablesName[$key])->column()
 					),
-					'Bad values in the table "' . static::$tablesName[$key] . '"'
+					'Bad values in the table "' . self::$tablesName[$key] . '"'
 				);
 				$rowPicklist = (new \App\Db\Query())->from('vtiger_picklist')->where(['name' => $param['fieldName']])->one();
-				static::$pickList[$key] = $param['pickListValues'];
+				self::$pickList[$key] = $param['pickListValues'];
 				$this->assertNotFalse(
 					$rowPicklist,
 					'The record from "vtiger_picklist" not exists NAME: ' . $param['fieldName']
@@ -290,33 +290,33 @@ class ModuleManager extends \Tests\Base
 	public function testDeleteNewField($type, $param, $suffix = '')
 	{
 		$key = $type . $suffix;
-		$fieldInstance = \Settings_LayoutEditor_Field_Model::getInstance(static::$fieldsId[$key]);
+		$fieldInstance = \Settings_LayoutEditor_Field_Model::getInstance(self::$fieldsId[$key]);
 		$uitype = $fieldInstance->getUIType();
 		$columnName = $fieldInstance->getColumnName();
 		$this->assertTrue($fieldInstance->isCustomField(), 'Field is not customized');
 		$fieldInstance->delete();
 
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$key]])->exists(), 'The record was not removed from the database ID: ' . static::$fieldsId[$key]);
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => self::$fieldsId[$key]])->exists(), 'The record was not removed from the database ID: ' . self::$fieldsId[$key]);
 		$schema = \App\Db::getInstance()->getSchema();
 		$schema->refresh();
 		switch ($uitype) {
 			case 11: //Phone
-				$this->assertFalse((new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsExtraId[$key]])->exists(), 'The record "extra" was not removed from the database ID: ' . static::$fieldsExtraId[$key]);
+				$this->assertFalse((new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => self::$fieldsExtraId[$key]])->exists(), 'The record "extra" was not removed from the database ID: ' . self::$fieldsExtraId[$key]);
 				break;
 			case 10: //Related1M
-				$this->assertSame((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => static::$fieldsId[$key]])->count(), 0, 'Problem with table "vtiger_fieldmodulerel" in database');
+				$this->assertSame((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => self::$fieldsId[$key]])->count(), 0, 'Problem with table "vtiger_fieldmodulerel" in database');
 				break;
 			case 16: //Picklist
-				$this->assertNull($schema->getTableSchema(static::$tablesName[$key]), 'Table "' . static::$tablesName[$key] . '" exist');
+				$this->assertNull($schema->getTableSchema(self::$tablesName[$key]), 'Table "' . self::$tablesName[$key] . '" exist');
 				break;
 			case 15: //Picklist
 			case 33: //MultiSelectCombo
-				$this->assertNull($schema->getTableSchema(static::$tablesName[$key]), 'Table "' . static::$tablesName[$key] . '" exist');
+				$this->assertNull($schema->getTableSchema(self::$tablesName[$key]), 'Table "' . self::$tablesName[$key] . '" exist');
 				$this->assertFalse(
 					(new \App\Db\Query())->from('vtiger_picklist')->where(['name' => $columnName])->exists(),
 					"The record from \"vtiger_picklist\" was not removed from the database: {$columnName}"
 				);
-				$this->assertSame(0, (new \App\Db\Query())->from('vtiger_role2picklist')->where(['picklistid' => static::$pickList[$key]])->count(), 'All rows in the table "vtiger_role2picklist" have not been deleted');
+				$this->assertSame(0, (new \App\Db\Query())->from('vtiger_role2picklist')->where(['picklistid' => self::$pickList[$key]])->count(), 'All rows in the table "vtiger_role2picklist" have not been deleted');
 				break;
 			case 305: //MultiReferenceValue
 				$this->assertFalse((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'TestModule', 'dest_module' => 'Contacts'])->exists(), 'The record from "s_#__multireference" was not removed.');
@@ -329,8 +329,8 @@ class ModuleManager extends \Tests\Base
 	 */
 	public function testDeleteNewBlock()
 	{
-		$this->assertFalse(\Vtiger_Block_Model::checkFieldsExists(static::$blockId), 'Fields exists');
-		$blockInstance = \Vtiger_Block_Model::getInstance(static::$blockId);
+		$this->assertFalse(\Vtiger_Block_Model::checkFieldsExists(self::$blockId), 'Fields exists');
+		$blockInstance = \Vtiger_Block_Model::getInstance(self::$blockId);
 		$this->assertTrue($blockInstance->isCustomized(), 'Block is not customized');
 		$blockInstance->delete(false);
 	}
@@ -347,10 +347,10 @@ class ModuleManager extends \Tests\Base
 		$packageExport = new \vtlib\PackageExport();
 
 		$packageExport->export($moduleModel, '', '', false);
-		static::$zipFileName = $packageExport->getZipFileName();
-		$this->assertFileExists(static::$zipFileName);
+		self::$zipFileName = $packageExport->getZipFileName();
+		$this->assertFileExists(self::$zipFileName);
 
-		$zip = \App\Zip::openFile(static::$zipFileName, ['checkFiles' => false]);
+		$zip = \App\Zip::openFile(self::$zipFileName, ['checkFiles' => false]);
 		$zipFiles = [];
 		for ($i = 0; $i < $zip->numFiles; ++$i) {
 			$fileName = $zip->getNameIndex($i);
@@ -384,7 +384,7 @@ class ModuleManager extends \Tests\Base
 			'The test module exists in the database'
 		);
 		$this->assertFalse(
-			(new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treeId])->exists(),
+			(new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => self::$treeId])->exists(),
 			'The tree was not removed'
 		);
 	}

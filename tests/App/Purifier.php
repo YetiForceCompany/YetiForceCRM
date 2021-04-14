@@ -61,15 +61,15 @@ class Purifier extends \Tests\Base
 	{
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$userModel = \App\User::getCurrentUserModel();
-		static::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
-		static::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
-		static::$symbolPlacement = $userModel->getDetail('currency_symbol_placement');
-		static::$patternGrouping = $userModel->getDetail('currency_grouping_pattern');
-		static::$decimalNum = $userModel->getDetail('no_of_currency_decimals');
-		static::$hourFormat = $userModel->getDetail('hour_format');
-		static::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
-		static::$userTimeZone = $userModel->getDetail('time_zone');
-		static::$timeZone = date_default_timezone_get();
+		self::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
+		self::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
+		self::$symbolPlacement = $userModel->getDetail('currency_symbol_placement');
+		self::$patternGrouping = $userModel->getDetail('currency_grouping_pattern');
+		self::$decimalNum = $userModel->getDetail('no_of_currency_decimals');
+		self::$hourFormat = $userModel->getDetail('hour_format');
+		self::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
+		self::$userTimeZone = $userModel->getDetail('time_zone');
+		self::$timeZone = date_default_timezone_get();
 		$userRecordModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userRecordModel->set('currency_decimal_separator', '.');
 		$userRecordModel->set('currency_grouping_separator', ' ');
@@ -268,16 +268,16 @@ class Purifier extends \Tests\Base
 	public static function tearDownAfterClass(): void
 	{
 		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
-		$userModel->set('currency_decimal_separator', static::$separatorDecimal);
-		$userModel->set('currency_grouping_separator', static::$separatorGrouping);
-		$userModel->set('currency_symbol_placement', static::$symbolPlacement);
-		$userModel->set('currency_grouping_pattern', static::$patternGrouping);
-		$userModel->set('no_of_currency_decimals', static::$decimalNum);
-		$userModel->set('truncate_trailing_zeros', static::$truncateTrailingZeros);
-		$userModel->set('hour_format', static::$hourFormat);
-		$userModel->set('time_zone', static::$userTimeZone);
+		$userModel->set('currency_decimal_separator', self::$separatorDecimal);
+		$userModel->set('currency_grouping_separator', self::$separatorGrouping);
+		$userModel->set('currency_symbol_placement', self::$symbolPlacement);
+		$userModel->set('currency_grouping_pattern', self::$patternGrouping);
+		$userModel->set('no_of_currency_decimals', self::$decimalNum);
+		$userModel->set('truncate_trailing_zeros', self::$truncateTrailingZeros);
+		$userModel->set('hour_format', self::$hourFormat);
+		$userModel->set('time_zone', self::$userTimeZone);
 		$userModel->save();
-		\date_default_timezone_set(static::$timeZone);
+		\date_default_timezone_set(self::$timeZone);
 		parent::tearDownAfterClass();
 	}
 }

@@ -46,10 +46,10 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public static function setUpBeforeClass(): void
 	{
-		static::$backupDir = \App\Utils\Backup::getBackupCatalogPath();
-		static::$testDir = App\Fields\File::getTmpPath() . 'backups' . DIRECTORY_SEPARATOR;
-		if (!is_dir(static::$testDir) && !mkdir(static::$testDir)) {
-			throw new \Exception('I can not create a directory: ' . static::$testDir);
+		self::$backupDir = \App\Utils\Backup::getBackupCatalogPath();
+		self::$testDir = App\Fields\File::getTmpPath() . 'backups' . DIRECTORY_SEPARATOR;
+		if (!is_dir(self::$testDir) && !mkdir(self::$testDir)) {
+			throw new \Exception('I can not create a directory: ' . self::$testDir);
 		}
 	}
 
@@ -62,9 +62,9 @@ class Gui_BackupManager extends \Tests\GuiBase
 	public function testSetConfig(): void
 	{
 		$config = new \App\ConfigFile('component', 'Backup');
-		$config->set('BACKUP_PATH', static::$testDir);
+		$config->set('BACKUP_PATH', self::$testDir);
 		$config->create();
-		$this->assertSame(\App\Utils\Backup::getBackupCatalogPath(), static::$testDir);
+		$this->assertSame(\App\Utils\Backup::getBackupCatalogPath(), self::$testDir);
 	}
 
 	/**
@@ -74,18 +74,18 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public function testCreateBackup(): void
 	{
-		static::$fileName = date('Ymd_His') . '.zip';
-		static::$catalogName = 'backup_catalog_' . date('Ymd_His');
-		$zip = \App\Zip::createFile(static::$testDir . static::$fileName);
+		self::$fileName = date('Ymd_His') . '.zip';
+		self::$catalogName = 'backup_catalog_' . date('Ymd_His');
+		$zip = \App\Zip::createFile(self::$testDir . self::$fileName);
 		$zip->addFromString('filename.txt', '<minimal content>');
 		$zip->close();
-		if (!is_dir(static::$testDir . static::$catalogName)) {
-			mkdir(static::$testDir . static::$catalogName);
+		if (!is_dir(self::$testDir . self::$catalogName)) {
+			mkdir(self::$testDir . self::$catalogName);
 		}
-		$this->assertDirectoryExists(static::$testDir);
-		$this->assertDirectoryIsReadable(static::$testDir);
-		$this->assertDirectoryIsWritable(static::$testDir);
-		$this->assertFileExists(static::$testDir . static::$fileName, 'File not exists: ' . static::$testDir . static::$fileName);
+		$this->assertDirectoryExists(self::$testDir);
+		$this->assertDirectoryIsReadable(self::$testDir);
+		$this->assertDirectoryIsWritable(self::$testDir);
+		$this->assertFileExists(self::$testDir . self::$fileName, 'File not exists: ' . self::$testDir . self::$fileName);
 	}
 
 	/**
@@ -96,12 +96,12 @@ class Gui_BackupManager extends \Tests\GuiBase
 		$this->login();
 		$this->url('index.php?module=Backup&parent=Settings&view=Index');
 		$this->assertSame(
-			static::$catalogName,
+			self::$catalogName,
 			$this->driver->findElement(WebDriverBy::cssSelector('.listViewContentDiv table:first-child td:first-child'))->getText(),
 			'Catalog does not exist'
 		);
 		$this->assertSame(
-			static::$fileName,
+			self::$fileName,
 			$this->driver->findElement(WebDriverBy::cssSelector('.listViewContentDiv div:nth-child(2) td:first-child'))->getText(),
 			'File does not exist'
 		);
@@ -117,9 +117,9 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public function testDir(): void
 	{
-		$this->assertDirectoryExists(static::$testDir);
-		$this->assertDirectoryIsReadable(static::$testDir);
-		$this->assertDirectoryIsWritable(static::$testDir);
+		$this->assertDirectoryExists(self::$testDir);
+		$this->assertDirectoryIsReadable(self::$testDir);
+		$this->assertDirectoryIsWritable(self::$testDir);
 	}
 
 	/**
@@ -128,9 +128,9 @@ class Gui_BackupManager extends \Tests\GuiBase
 	public function testRestoreConfig(): void
 	{
 		$config = new \App\ConfigFile('component', 'Backup');
-		$config->set('BACKUP_PATH', static::$backupDir);
+		$config->set('BACKUP_PATH', self::$backupDir);
 		$config->create();
-		$this->assertSame(\App\Utils\Backup::getBackupCatalogPath(), static::$backupDir);
+		$this->assertSame(\App\Utils\Backup::getBackupCatalogPath(), self::$backupDir);
 	}
 
 	/**
@@ -139,10 +139,10 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 */
 	public static function tearDownAfterClass(): void
 	{
-		if (\App\Fields\File::isAllowedDirectory(static::$testDir)) {
-			\vtlib\Functions::recurseDelete(static::$testDir, true);
+		if (\App\Fields\File::isAllowedDirectory(self::$testDir)) {
+			\vtlib\Functions::recurseDelete(self::$testDir, true);
 		} else {
-			echo 'Problem with directory' . static::$testDir . PHP_EOL;
+			echo 'Problem with directory' . self::$testDir . PHP_EOL;
 		}
 	}
 }
