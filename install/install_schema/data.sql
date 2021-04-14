@@ -446,6 +446,8 @@ insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`
 
 /*Data for the table `s_yf_multireference` */
 
+/*Data for the table `s_yf_pauser` */
+
 /*Data for the table `s_yf_pbx` */
 
 /*Data for the table `s_yf_privileges_updater` */
@@ -2222,7 +2224,7 @@ insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`max_exe_time`,`laststart`,`lastend`,`sequence`,`module`,`description`,`lase_error`) values (15,1,'LBL_CAL_DAV','Calendar_CalDav_Cron',300,NULL,NULL,NULL,8,'Calendar',NULL,NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`max_exe_time`,`laststart`,`lastend`,`sequence`,`module`,`description`,`lase_error`) values (16,1,'LBL_ACTIVITY_STATE','Calendar_ActivityState_Cron',1800,NULL,NULL,NULL,9,'Calendar','',NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`max_exe_time`,`laststart`,`lastend`,`sequence`,`module`,`description`,`lase_error`) values (17,1,'LBL_MULTI_REFERENCE_VALUE','Vtiger_MultiReference_Cron',900,NULL,NULL,NULL,12,'com_vtiger_workflow',NULL,NULL);
-insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`max_exe_time`,`laststart`,`lastend`,`sequence`,`module`,`description`,`lase_error`) values (18,1,'LBL_CRMACTIVITY_DAYS','Calendar_SetCrmActivity_Cron',86400,NULL,NULL,NULL,13,'Calendar','',NULL);
+insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`max_exe_time`,`laststart`,`lastend`,`sequence`,`module`,`description`,`lase_error`) values (18,1,'LBL_CRMACTIVITY_DAYS','Calendar_SetCrmActivity_Cron',86400,5,NULL,NULL,13,'Calendar','',NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`max_exe_time`,`laststart`,`lastend`,`sequence`,`module`,`description`,`lase_error`) values (19,1,'LBL_ASSETS_RENEWAL','Assets_Renewal_Cron',86400,NULL,NULL,NULL,14,'Assets','',NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`max_exe_time`,`laststart`,`lastend`,`sequence`,`module`,`description`,`lase_error`) values (20,1,'LBL_SOLD_SERVICES_RENEWAL','OSSSoldServices_Renewal_Cron',86400,NULL,NULL,NULL,15,'OSSSoldServices','',NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`max_exe_time`,`laststart`,`lastend`,`sequence`,`module`,`description`,`lase_error`) values (21,1,'LBL_SEND_NOTIFICATIONS','Notification_Notifications_Cron',900,NULL,NULL,NULL,11,'Notification','',NULL);
