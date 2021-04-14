@@ -62,8 +62,5 @@
 		<testsuite name="Gui">
 			<directory suffix=".php">./Gui/</directory>
 		</testsuite>
-		<testsuite name="Finish">
-			<directory suffix=".php">./Finish/</directory>
-		</testsuite>
 	</testsuites>
 </phpunit>
