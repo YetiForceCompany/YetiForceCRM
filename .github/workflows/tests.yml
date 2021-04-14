@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   tests73:
     runs-on: ubuntu-latest
-    name: PHP 7.3
+    name: PHP 7.3 - MariaDB 10.x
     steps:
     - uses: actions/checkout@v2
 
@@ -17,7 +17,7 @@ jobs:
 
   tests74:
     runs-on: ubuntu-latest
-    name: PHP 7.4
+    name: PHP 7.4 - MariaDB 10.x
     steps:
     - uses: actions/checkout@v2
 
@@ -29,7 +29,7 @@ jobs:
 
   tests80:
     runs-on: ubuntu-latest
-    name: PHP 8.0
+    name: PHP 8.0 - MariaDB 10.x
     steps:
     - uses: actions/checkout@v2
 
@@ -41,7 +41,7 @@ jobs:
 
   tests74MySQL57:
     runs-on: ubuntu-latest
-    name: Percona MySQL 5.7
+    name: PHP 7.4 - Percona MySQL 5.7
     steps:
     - uses: actions/checkout@v2
 
@@ -50,10 +50,10 @@ jobs:
       env:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
         YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-        
+
   tests74MySQL80:
     runs-on: ubuntu-latest
-    name: Percona MySQL 8.0
+    name: PHP 7.4 - Percona MySQL 8.0
     steps:
     - uses: actions/checkout@v2
 
@@ -62,4 +62,3 @@ jobs:
       env:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
         YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-        
