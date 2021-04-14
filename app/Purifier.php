@@ -505,6 +505,9 @@ class Purifier
 						$value = preg_match('/^[\s0-9+\-()]+$/', $input) ? $input : null;
 						break;
 					case 'Email':
+						if (!$input) {
+							return '';
+						}
 						$value = Validator::email($input) ? $input : null;
 						break;
 					case 'Html':
@@ -535,6 +538,9 @@ class Purifier
 						$value = Fields\File::checkFilePath($input) ? static::encodeHtml(static::purify($input)) : null;
 						break;
 					case 'Url':
+						if (!$input) {
+							return '';
+						}
 						$value = Validator::url($input) ? $input : null;
 						break;
 					case 'MailId':
