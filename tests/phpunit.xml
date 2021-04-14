@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" colors="true" processIsolation="false" convertErrorsToExceptions="true" convertWarningsToExceptions="true" stopOnError="true" stopOnFailure="true" stopOnIncomplete="true" printerClass="YtResultPrinter" printerFile="printer.php" bootstrap="bootstrap.php" timeoutForLargeTests="1000" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
 	<php>
-		<includePath>.</includePath>
-		<ini name="max_execution_time" value="0"/>
-		<ini name="default_socket_timeout" value="60"/>
-		<ini name="xdebug.enable" value="On"/>
-		<ini name="xdebug.mode" value="coverage" />
-		<env name="XDEBUG_MODE" value="coverage" />
+		<includePath>/var/www/html/</includePath>
 	</php>
 	<coverage processUncoveredFiles="true">
 		<include>
