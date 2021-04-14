@@ -1339,6 +1339,14 @@ CREATE TABLE `s_yf_multireference` (
   KEY `source_module` (`source_module`,`dest_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_pauser` */
+
+CREATE TABLE `s_yf_pauser` (
+  `key` varchar(50) NOT NULL,
+  `value` varchar(100) NOT NULL,
+  UNIQUE KEY `key` (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_pbx` */
 
 CREATE TABLE `s_yf_pbx` (
