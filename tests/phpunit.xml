@@ -18,7 +18,6 @@
 			<directory suffix=".php">../modules/Vtiger/pdfs</directory>
 			<directory suffix=".php">../modules/OSSMail</directory>
 			<directory suffix=".php">../modules/MailIntegration/html/outlook</directory>
-			<directory suffix=".php">../tests</directory>
 			<file>../modules/API/cron/CalDav.php</file>
 			<file>../modules/API/cron/CardDav.php</file>
 			<file>../modules/Assets/cron/Renewal.php</file>
@@ -40,6 +39,7 @@
 			<file>../webservice.php</file>
 			<file>../tests/GuiBase.php</file>
 			<file>../tests/bootstrap.php</file>
+			<file>../tests/setup/docker_post_install.php</file>
 		</exclude>
 	</coverage>
 	<testsuites>
