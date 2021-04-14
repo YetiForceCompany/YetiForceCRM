@@ -278,56 +278,6 @@ class Users_Privileges_Model extends Users_Record_Model
 	}
 
 	/**
-	 * Function to get set Shared Owner Recursively.
-	 *
-	 * @param mixed $recordId
-	 * @param mixed $moduleName
-	 */
-	public static function getSharedRecordsRecursively($recordId, $moduleName)
-	{
-		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
-		$db = \App\Db::getInstance();
-		$modulesSchema = [];
-		$modulesSchema[$moduleName] = [];
-		$modulesSchema['Accounts'] = [
-			'Contacts' => ['key' => 'contactid', 'table' => 'vtiger_contactdetails', 'relfield' => 'parentid'],
-			'Campaigns' => ['key' => 'campaignid', 'table' => 'vtiger_campaign_records', 'relfield' => 'crmid'],
-			'Project' => ['key' => 'projectid', 'table' => 'vtiger_project', 'relfield' => 'linktoaccountscontacts'],
-			'HelpDesk' => ['key' => 'ticketid', 'table' => 'vtiger_troubletickets', 'relfield' => 'parent_id'],
-		];
-		$modulesSchema['Project'] = [
-			'ProjectMilestone' => ['key' => 'projectmilestoneid', 'table' => 'vtiger_projectmilestone', 'relfield' => 'projectid'],
-			'ProjectTask' => ['key' => 'projecttaskid', 'table' => 'vtiger_projecttask', 'relfield' => 'projectid'],
-		];
-		$modulesSchema['HelpDesk'] = [
-			'OSSTimeControl' => ['key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'link'],
-		];
-		$data = [];
-		$query = null;
-		foreach ($modulesSchema[$moduleName] as $key => $module) {
-			$subQuery = (new \App\Db\Query())->select(['id' => $module['key'], 'module' => new yii\db\Expression($db->quoteValue($key))])
-				->from($module['table'])
-				->where([$module['relfield'] => $recordId]);
-			if ($query) {
-				$query->union($subQuery);
-			} else {
-				$query = $subQuery;
-			}
-		}
-		if ($query) {
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$data = array_merge($data, self::getSharedRecordsRecursively($row['id'], $row['module']));
-				$data[$row['module']][] = $row['id'];
-			}
-			$dataReader->close();
-		}
-		\App\Log::trace('Exiting getSharedRecordsRecursively()');
-
-		return $data;
-	}
-
-	/**
 	 * Get parent record id.
 	 *
 	 * @param int         $record
