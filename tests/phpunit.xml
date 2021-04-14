@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" colors="true" processIsolation="false" convertErrorsToExceptions="true" convertWarningsToExceptions="true" stopOnError="true" stopOnFailure="true" stopOnIncomplete="true" printerClass="YtResultPrinter" printerFile="printer.php" bootstrap="bootstrap.php" timeoutForLargeTests="1000" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
 	<php>
-		<includePath>/var/www/html/</includePath>
+		<includePath>.</includePath>
 	</php>
 	<coverage processUncoveredFiles="true">
 		<include>
