@@ -169,7 +169,8 @@ class System extends Base
 		} catch (\Throwable $th) {
 			$this->climate->lightRed($th->__toString());
 		}
-		$this->climate->lightBlue('Update time: ' . round(microtime(true) - $startTime, 2));
+		$message = 'Update time: ' . round(microtime(true) - $startTime, 2);
+		$this->climate->lightBlue($message);
 	}
 
 	/**
