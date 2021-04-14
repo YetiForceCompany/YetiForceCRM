@@ -34,6 +34,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		'/var/log/nginx/error.log',
 		// '/var/log/mysql/localhost_access.log',
 		'/var/log/mysql/error.log',
+		'/var/log/mysql.err',
 		'cache/logs/system.log',
 		'cache/logs/errors.log',
 		// 'cache/logs/request.log',
