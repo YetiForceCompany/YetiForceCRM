@@ -18,7 +18,7 @@ class Zip extends \Tests\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function testInstanceOpenNoFileName()
+	public function testInstanceOpenNoFileName(): void
 	{
 		$this->expectException(\App\Exceptions\AppException::class);
 		\App\Zip::openFile(false);
@@ -29,7 +29,7 @@ class Zip extends \Tests\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function testInstanceOpenFileNotExists()
+	public function testInstanceOpenFileNotExists(): void
 	{
 		$this->expectException(\App\Exceptions\AppException::class);
 		\App\Zip::openFile('tests/data/NxFile.zip')->close();
@@ -40,7 +40,7 @@ class Zip extends \Tests\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function testInstanceOpenLinuxFile()
+	public function testInstanceOpenLinuxFile(): void
 	{
 		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip');
 		$this->assertInstanceOf('\App\Zip', $instanceOpen, 'Expected zip object instance');
@@ -51,9 +51,9 @@ class Zip extends \Tests\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function testUnzipLinuxFile()
+	public function testUnzipLinuxFile(): void
 	{
-		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip');
+		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip', ['checkFiles' => false]);
 		$instanceOpen->unzip('tests/tmp/TestLinux/');
 		$this->assertFileExists('tests/tmp/TestLinux/manifest.xml');
 		$this->assertFileExists('tests/tmp/TestLinux/languages/pl-PL/TestLinux.json');
@@ -65,9 +65,9 @@ class Zip extends \Tests\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function testExtractLinuxFile()
+	public function testExtractLinuxFile(): void
 	{
-		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip');
+		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip', ['checkFiles' => false]);
 		$instanceOpen->extract('tests/tmp/TestLinux/');
 		$this->assertFileExists('tests/tmp/TestLinux/manifest.xml');
 		$this->assertFileExists('tests/tmp/TestLinux/languages/pl-PL/TestLinux.json');
@@ -79,10 +79,11 @@ class Zip extends \Tests\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function testCreateFileBadDir()
+	public function testCreateFileBadDir(): void
 	{
 		$zip = \App\Zip::createFile('tests/data/NxDir/NxFile.zip');
 		$zip->addFromString('filename.txt', '<minimal content>');
+		$this->expectWarning();
 		$this->assertFalse($zip->close());
 		$this->assertFileDoesNotExist('tests/data/NxDir/NxFile.zip');
 	}
