@@ -268,7 +268,6 @@ class Calendar
 		$this->parseState();
 		$this->parseType();
 		$this->parseDateTime();
-		// $this->parseAttendees();
 		$this->parseCustomValues();
 	}
 
@@ -460,38 +459,6 @@ class Calendar
 		$this->record->set('due_date', $dueDate);
 		$this->record->set('time_start', $timeStart);
 		$this->record->set('time_end', $timeEnd);
-	}
-
-	/**
-	 * Parse parse Attendees.
-	 *
-	 * @return void
-	 */
-	public function parseAttendees(): void
-	{
-		$attendees = [];
-		foreach ($this->vcomponent->select('ATTENDEE') as $calAddress) {
-			$attendee = [];
-			$value = $calAddress->getValue();
-			if (0 === stripos($value, 'mailto:')) {
-				$attendee['email'] = \App\Purifier::purify(substr($value, 7, \strlen($value) - 7));
-			} else {
-				$attendee['value'] = \App\Purifier::purify($value);
-			}
-			foreach ($calAddress->parameters as $name => $parameter) {
-				if ('CN' === $name) {
-					$attendee['name'] = \App\Purifier::purify($parameter->getValue());
-				} else {
-					$attendee[strtolower($name)] = \App\Purifier::purify(strtolower($parameter->getValue()));
-				}
-			}
-			if (isset($attendee['email'])) {
-				// $records = $this->findRecordByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(4))));
-				// var_dump($users);
-			}
-			$attendees[] = $attendee;
-		}
-		$this->record->set('attendee', \App\Json::encode($attendees));
 	}
 
 	/**
