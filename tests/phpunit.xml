@@ -5,6 +5,8 @@
 		<ini name="max_execution_time" value="0"/>
 		<ini name="default_socket_timeout" value="60"/>
 		<ini name="xdebug.enable" value="On"/>
+		<ini name="xdebug.mode" value="coverage" />
+		<env name="XDEBUG_MODE" value="coverage" />
 	</php>
 	<coverage processUncoveredFiles="true">
 		<include>
