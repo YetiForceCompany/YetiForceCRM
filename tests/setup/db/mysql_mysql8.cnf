@@ -33,7 +33,6 @@ net_read_timeout				= 600
 net_write_timeout				= 600
 interactive_timeout				= 600
 max_allowed_packet				= 128M
-query_cache_size      	  		= 128M
 innodb_lock_wait_timeout		= 600
 innodb_file_per_table 			= ON
 innodb_ft_min_token_size		= 2
