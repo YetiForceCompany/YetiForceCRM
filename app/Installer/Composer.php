@@ -170,7 +170,7 @@ class Composer
 		static::clear();
 		$event->getComposer();
 		if (isset($_SERVER['SENSIOLABS_EXECUTION_NAME'])) {
-			return true;
+			return;
 		}
 		$publicDir = $rootDir . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR;
 		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg', 'json'];
