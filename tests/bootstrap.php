@@ -34,10 +34,6 @@ App\Session::init();
 if (IS_WINDOWS) {
 	App\User::setCurrentUserId(1);
 }
-echo 'CodeCoverage: ' . getenv('COVERAGE') . PHP_EOL;
-if (getenv('COVERAGE') && 'true' === getenv('COVERAGE')) {
-	include_once 'tests/codecoverage.php';
-}
 if (empty($_SERVER['YETI_MAIL_PASS'])) {
 	echo 'No mailbox password provided, please set YETI_MAIL_PASS in $_SERVER array' . PHP_EOL;
 }
