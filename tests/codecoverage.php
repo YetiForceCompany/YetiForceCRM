@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// echo 'Initiation CodeCoverage...' . PHP_EOL;
+file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' Initiation CodeCoverage...' . PHP_EOL, FILE_APPEND);
 
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Driver\Selector;
@@ -27,11 +27,15 @@ $filter->excludeFile(ROOT_DIRECTORY . '/tests/bootstrap.php');
 $filter->excludeFile(ROOT_DIRECTORY . '/tests/setup/docker_post_install.php');
 
 $driver = (new Selector())->forLineCoverage($filter);
-// echo 'CodeCoverage driver: ' . $driver->nameAndVersion() . PHP_EOL;
+
+file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . 'CodeCoverage driver: ' . $driver->nameAndVersion() . PHP_EOL, FILE_APPEND);
+
 $coverage = new CodeCoverage($driver, $filter);
 $name = \App\Encryption::generatePassword(10);
 $coverage->start($name);
-// echo 'CodeCoverage started' . PHP_EOL;
+
+file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . 'CodeCoverage started . ' . $name . PHP_EOL, FILE_APPEND);
+
 class YetiCodeCoverage
 {
 	private $driver;
@@ -48,11 +52,10 @@ class YetiCodeCoverage
 
 	public function __destruct()
 	{
-		echo 'CodeCoverage stop' . PHP_EOL;
 		try {
 			$this->coverage->stop();
+			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . 'CodeCoverage stop' . PHP_EOL, FILE_APPEND);
 			$startTime = microtime(true);
-			echo 'CodeCoverage driver: ' . $this->driver->nameAndVersion() . PHP_EOL;
 
 			// $writer = new Report\Html\Facade();
 			// $writer->process($this->coverage, $this->dir . '/tests/coverages/html/');
@@ -65,7 +68,8 @@ class YetiCodeCoverage
 
 			// $writer = new Report\Text();
 			// file_put_contents("{$this->dir}/tests/coverages/text/coverage{$this->name}.txt", $writer->process($this->coverage));
-			echo 'CodeCoverage finish ' . round(microtime(true) - $startTime, 1) . PHP_EOL;
+
+			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . 'CodeCoverage finish ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
 		} catch (Exception $ex) {
 			file_put_contents($this->dir . '/tests/coverages/exception.log', $ex);
 		}
