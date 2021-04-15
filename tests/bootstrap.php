@@ -35,7 +35,7 @@ if (IS_WINDOWS) {
 	App\User::setCurrentUserId(1);
 }
 echo 'CodeCoverage: ' . getenv('COVERAGE') . PHP_EOL;
-if (!getenv('COVERAGE') && 'true' === getenv('COVERAGE')) {
+if (getenv('COVERAGE') && 'true' === getenv('COVERAGE')) {
 	include_once 'tests/codecoverage.php';
 }
 if (empty($_SERVER['YETI_MAIL_PASS'])) {
