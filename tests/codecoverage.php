@@ -1,6 +1,9 @@
 <?php
 
 declare(strict_types=1);
+
+echo 'Initiation CodeCoverage...' . PHP_EOL;
+
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Driver\Selector;
 use SebastianBergmann\CodeCoverage\Filter;
@@ -23,14 +26,12 @@ $filter->excludeFile(ROOT_DIRECTORY . '/tests/codecoverage.php');
 $filter->excludeFile(ROOT_DIRECTORY . '/tests/bootstrap.php');
 $filter->excludeFile(ROOT_DIRECTORY . '/tests/setup/docker_post_install.php');
 
-$coverage = new CodeCoverage(
-	(new Selector())->forLineCoverage($filter),
-	$filter
-);
-
+$driver = (new Selector())->forLineCoverage($filter);
+echo 'CodeCoverage driver: ' . $driver->nameAndVersion() . PHP_EOL;
+$coverage = new CodeCoverage($driver, $filter);
 $name = \App\Encryption::generatePassword(10);
 $coverage->start($name);
-
+echo 'CodeCoverage started' . PHP_EOL;
 class YetiCodeCoverage
 {
 	private $coverage;
@@ -46,6 +47,7 @@ class YetiCodeCoverage
 
 	public function __destruct()
 	{
+		echo 'CodeCoverage stop' . PHP_EOL;
 		try {
 			$this->coverage->stop();
 

@@ -16,7 +16,10 @@ set_include_path(getcwd());
 if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
 }
-include_once 'tests/codecoverage.php';
+
+if (!getenv('COVERAGE') && 'true' === getenv('COVERAGE')) {
+	include_once 'tests/codecoverage.php';
+}
 
 $installDatabase = true;
 \App\Process::$requestMode = 'TEST';
