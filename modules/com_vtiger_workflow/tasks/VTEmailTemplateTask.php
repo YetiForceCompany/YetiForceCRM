@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class VTEmailTemplateTask extends VTTask
 {
@@ -46,16 +47,14 @@ class VTEmailTemplateTask extends VTTask
 			}
 			if ($this->relations_email && '-' !== $this->relations_email) {
 				[$relatedModule,$relatedFieldName,$onlyFirst] = array_pad(explode('::', $this->relations_email), 3, false);
-				$pagingModel = new Vtiger_Paging_Model();
-				$pagingModel->set('limit', 0);
 				$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModule);
 				$relationListView->setFields(['id', $relatedFieldName]);
 				$relationListView->set('search_key', $relatedFieldName);
 				$relationListView->set('operator', 'ny');
 				if ($onlyFirst) {
-					$pagingModel->set('limit', 1);
+					$relationListView->getQueryGenerator()->setLimit(1);
 				}
-				foreach ($relationListView->getEntries($pagingModel) as $relatedRecordModel) {
+				foreach ($relationListView->getAllEntries() as $relatedRecordModel) {
 					$mailerContent['to'][] = $relatedRecordModel->get($relatedFieldName);
 				}
 			}

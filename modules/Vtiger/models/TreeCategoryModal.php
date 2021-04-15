@@ -175,9 +175,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	{
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
-		$entries = $relationListView->getEntries($pagingModel);
+		$entries = $relationListView->getAllEntries();
 		if ($onlyKeys) {
 			return array_keys($entries);
 		}
