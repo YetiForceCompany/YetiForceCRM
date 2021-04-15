@@ -16,7 +16,7 @@ class Composer
 	/**
 	 * List of public packages.
 	 *
-	 * @var atring[]
+	 * @var string[]
 	 */
 	public static $publicPackage = [
 		'yetiforce/csrf-magic' => 'move',

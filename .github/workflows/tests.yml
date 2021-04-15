@@ -17,7 +17,7 @@ jobs:
 
   tests74:
     runs-on: ubuntu-latest
-    name: PHP 7.4 - MariaDB 10.x, xdebug , coverage
+    name: PHP 7.4 - MariaDB 10.x , Code Coverage
     steps:
     - uses: actions/checkout@v2
 
