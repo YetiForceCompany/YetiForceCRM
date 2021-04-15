@@ -54,8 +54,8 @@ class YetiCodeCoverage
 			$startTime = microtime(true);
 			echo 'CodeCoverage driver: ' . $this->driver->nameAndVersion() . PHP_EOL;
 
-			$writer = new Report\Html\Facade();
-			$writer->process($this->coverage, $this->dir . '/tests/coverages/html/');
+			// $writer = new Report\Html\Facade();
+			// $writer->process($this->coverage, $this->dir . '/tests/coverages/html/');
 
 			$writer = new Report\Xml\Facade('9.5.4');
 			$writer->process($this->coverage, $this->dir . '/tests/coverages/xml/');
