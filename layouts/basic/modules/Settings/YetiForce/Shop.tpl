@@ -12,8 +12,8 @@
 			<div class="col-md-12">
 				<div class="alert alert-danger">
 					<span class="yfi yfi-yeti-register-alert color-red-600 u-fs-5x mr-4 float-left"></span>
-					<h1 class="alert-heading">{\App\Language::translate('LBL_YETIFORCE_NOT_REGISTRATION_TITLE')}</h1>
-					{\App\Language::translate('LBL_YETIFORCE_NOT_REGISTRATION_DESC')}
+					<h1 class="alert-heading">{\App\Language::translate('LBL_YETIFORCE_NOT_REGISTRATION_TITLE',$QUALIFIED_MODULE)}</h1>
+					{\App\Language::translate('LBL_YETIFORCE_NOT_REGISTRATION_DESC',$QUALIFIED_MODULE)}
 				</div>
 			</div>
 		{else}
