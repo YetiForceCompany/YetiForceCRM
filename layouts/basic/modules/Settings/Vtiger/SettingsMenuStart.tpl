@@ -30,7 +30,7 @@
 				</span>
 		</div>
 	{/if}
-	{if $USER_MODEL->isAdminUser() && (!\App\YetiForce\Register::verify(true) || !\App\SystemWarnings\YetiForce\Newsletter::emailProvided())}
+	{if $USER_MODEL->isAdminUser() && !\App\SystemWarnings\YetiForce\Newsletter::emailProvided()}
 		{assign var=COMPANIES_LINK value=\App\Language::translate('LBL_YETIFORCE_NEWSLETTER_FILL_DATA', $MODULE_NAME)}
 		{if \App\Security\AdminAccess::isPermitted('Companies')}
 			{assign var=COMPANIES_LINK value="<a href=\"index.php?module=Companies&parent=Settings&view=List&displayModal=online\">{\App\Language::translate('LBL_YETIFORCE_NEWSLETTER_FILL_DATA', $MODULE_NAME)}</a>"}
