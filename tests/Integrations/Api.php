@@ -48,7 +48,9 @@ class Api extends \Tests\Base
 	private static $requestOptions = [
 		'auth' => ['portal', 'portal'],
 		'Content-Type' => 'application/json',
-		'Accept' => 'application/json'
+		'Accept' => 'application/json',
+		'timeout' => 60,
+		'connect_timeout' => 60,
 	];
 
 	/**

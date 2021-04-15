@@ -16,7 +16,7 @@ class Composer
 	/**
 	 * List of public packages.
 	 *
-	 * @var string[]
+	 * @var atring[]
 	 */
 	public static $publicPackage = [
 		'yetiforce/csrf-magic' => 'move',
@@ -160,7 +160,7 @@ class Composer
 	 *
 	 * @param \Composer\Script\Event $event
 	 */
-	public static function install(\Composer\Script\Event $event)
+	public static function install(\Composer\Script\Event $event): void
 	{
 		$rootDir = realpath(__DIR__ . '/../../');
 		if (!\defined('ROOT_DIRECTORY')) {
@@ -208,7 +208,7 @@ class Composer
 	/**
 	 * Parse credits vue.
 	 */
-	public static function parseCreditsVue()
+	public static function parseCreditsVue(): void
 	{
 		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR;
 		$dirLibraries = $rootDir . 'public_html' . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR . 'node_modules' . \DIRECTORY_SEPARATOR;
@@ -228,7 +228,7 @@ class Composer
 	/**
 	 * Custom copy.
 	 */
-	public static function customCopy()
+	public static function customCopy(): void
 	{
 		$list = '';
 		foreach (static::$copyDirectories as $src => $dest) {
@@ -244,8 +244,11 @@ class Composer
 	/**
 	 * Delete redundant files.
 	 */
-	public static function clear()
+	public static function clear(): void
 	{
+		if ('TEST' === getenv('INSTALL_MODE')) {
+			return;
+		}
 		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR . 'vendor' . \DIRECTORY_SEPARATOR;
 		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($rootDir), \RecursiveIteratorIterator::SELF_FIRST);
 		$deleted = [];

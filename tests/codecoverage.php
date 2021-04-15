@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-
+$startTime = microtime(true);
 file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' Initiation CodeCoverage...' . PHP_EOL, FILE_APPEND);
 
 use SebastianBergmann\CodeCoverage\CodeCoverage;
@@ -28,13 +28,13 @@ $filter->excludeFile(ROOT_DIRECTORY . '/tests/setup/docker_post_install.php');
 
 $driver = (new Selector())->forLineCoverage($filter);
 
-file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . 'CodeCoverage driver: ' . $driver->nameAndVersion() . PHP_EOL, FILE_APPEND);
+file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage driver: ' . $driver->nameAndVersion() . PHP_EOL, FILE_APPEND);
 
 $coverage = new CodeCoverage($driver, $filter);
 $name = \App\Encryption::generatePassword(10);
 $coverage->start($name);
 
-file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . 'CodeCoverage started . ' . $name . PHP_EOL, FILE_APPEND);
+file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage started . ' . $name . PHP_EOL, FILE_APPEND);
 
 class YetiCodeCoverage
 {
@@ -42,6 +42,7 @@ class YetiCodeCoverage
 	private $coverage;
 	private $dir;
 	private $name;
+	private $startTime;
 
 	public function __construct(array $config)
 	{
@@ -54,22 +55,30 @@ class YetiCodeCoverage
 	{
 		try {
 			$this->coverage->stop();
-			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . 'CodeCoverage stop' . PHP_EOL, FILE_APPEND);
-			$startTime = microtime(true);
+			$startTimeBase = microtime(true);
+			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage stop' . PHP_EOL, FILE_APPEND);
 
+			// $startTime = microtime(true);
 			// $writer = new Report\Html\Facade();
 			// $writer->process($this->coverage, $this->dir . '/tests/coverages/html/');
+			// file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage HTML ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
 
-			$writer = new Report\Xml\Facade('9.5.4');
-			$writer->process($this->coverage, $this->dir . '/tests/coverages/xml/');
+			// $startTime = microtime(true);
+			// $writer = new Report\Xml\Facade('9.5.4');
+			// $writer->process($this->coverage, $this->dir . '/tests/coverages/xml/');
+			// file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage XML ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
 
+			// $startTime = microtime(true);
 			// $writer = new Report\PHP();
 			// $writer->process($this->coverage, "{$this->dir}/tests/coverages/php/coverage{$this->name}.php");
+			// file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage PHP ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
 
-			// $writer = new Report\Text();
-			// file_put_contents("{$this->dir}/tests/coverages/text/coverage{$this->name}.txt", $writer->process($this->coverage));
+			$startTime = microtime(true);
+			$writer = new Report\Text();
+			file_put_contents("{$this->dir}/tests/coverages/text/coverage{$this->name}.txt", $writer->process($this->coverage));
+			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage Text ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
 
-			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . 'CodeCoverage finish ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
+			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage finish ' . round(microtime(true) - $startTimeBase, 1) . '/' . round(microtime(true) - $this->startTime, 1) . PHP_EOL, FILE_APPEND);
 		} catch (Exception $ex) {
 			file_put_contents($this->dir . '/tests/coverages/exception.log', $ex);
 		}
@@ -81,4 +90,5 @@ new YetiCodeCoverage([
 	'coverage' => $coverage,
 	'dir' => ROOT_DIRECTORY,
 	'name' => $name,
+	'startTime' => $startTime,
 ]);
