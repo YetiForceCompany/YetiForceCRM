@@ -191,6 +191,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		$relationListView->setFields(['id', 'subject', 'introduction', 'assigned_user_id', 'category', 'modifiedtime']);
 		$relationListView->getQueryGenerator()->addNativeCondition($this->queryCondition);
 		$related = [];
+		foreach ($relationListView->getAllEntries() as $key => $relatedRecordModel) {
 			$related[$key] = [
 				'assigned_user_id' => $relatedRecordModel->getDisplayValue('assigned_user_id'),
 				'subject' => $relatedRecordModel->get('subject'),
