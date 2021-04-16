@@ -30,7 +30,11 @@ $driver = (new Selector())->forLineCoverage($filter);
 
 file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage driver: ' . $driver->nameAndVersion() . PHP_EOL, FILE_APPEND);
 
+file_put_contents(ROOT_DIRECTORY . '/xxxx_codeCoverageDriver2.txt', print_r([$driver], true), FILE_APPEND);
+file_put_contents(ROOT_DIRECTORY . '/xxxx_codeCoverageFilter2.txt', print_r([$filter], true), FILE_APPEND);
+
 $coverage = new CodeCoverage($driver, $filter);
+file_put_contents(ROOT_DIRECTORY . '/xxxx_codeCoverage1112.txt', print_r([$coverage], true), FILE_APPEND);
 $name = \App\Encryption::generatePassword(10);
 $coverage->start($name);
 
@@ -56,31 +60,37 @@ class YetiCodeCoverage
 		try {
 			$this->coverage->stop();
 			$startTimeBase = microtime(true);
-			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage stop' . PHP_EOL, FILE_APPEND);
+			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' stop' . PHP_EOL, FILE_APPEND);
 
 			// $startTime = microtime(true);
 			// $writer = new Report\Html\Facade();
 			// $writer->process($this->coverage, $this->dir . '/tests/coverages/html/');
-			// file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage HTML ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
+			// file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' HTML ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
 
 			// $startTime = microtime(true);
 			// $writer = new Report\Xml\Facade('9.5.4');
 			// $writer->process($this->coverage, $this->dir . '/tests/coverages/xml/');
-			// file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage XML ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
+			// file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' XML ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
+
+			$startTime = microtime(true);
+			$writer = new Report\Clover();
+			// file_put_contents(ROOT_DIRECTORY . '/xxxx_arguments.txt', print_r([$arguments], true), FILE_APPEND);
+			$writer->process($this->coverage, "{$this->dir}/tests/coverages/xml/coverage{$this->name}.php");
+			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' Clover ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
 
 			// $startTime = microtime(true);
 			// $writer = new Report\PHP();
 			// $writer->process($this->coverage, "{$this->dir}/tests/coverages/php/coverage{$this->name}.php");
-			// file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage PHP ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
+			// file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' PHP ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
 
-			$startTime = microtime(true);
-			$writer = new Report\Text();
-			file_put_contents("{$this->dir}/tests/coverages/text/coverage{$this->name}.txt", $writer->process($this->coverage));
-			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage Text ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
+			// $startTime = microtime(true);
+			// $writer = new Report\Text();
+			// file_put_contents("{$this->dir}/tests/coverages/text/coverage{$this->name}.txt", $writer->process($this->coverage));
+			// file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' Text ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
 
-			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' CodeCoverage finish ' . round(microtime(true) - $startTimeBase, 1) . '/' . round(microtime(true) - $this->startTime, 1) . PHP_EOL, FILE_APPEND);
+			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' finish ' . round(microtime(true) - $startTimeBase, 1) . '/' . round(microtime(true) - $this->startTime, 1) . PHP_EOL, FILE_APPEND);
 		} catch (Exception $ex) {
-			file_put_contents($this->dir . '/tests/coverages/exception.log', $ex);
+			file_put_contents($this->dir . '/tests/codecoverage_exception.log', $ex->__toString());
 		}
 	}
 }
