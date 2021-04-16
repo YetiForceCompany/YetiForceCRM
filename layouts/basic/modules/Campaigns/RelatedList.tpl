@@ -31,53 +31,9 @@
 		<div class="relatedHeader">
 			<div class="btn-toolbar row">
 				<div class="col-lg-9">
-					<div class="btn-group listViewMassActions btn-group pr-2 mb-2">
-						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
-							<button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
-								<strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span
-										class="caret"></span></button>
-							<ul class="dropdown-menu">
-								{foreach item="LISTVIEW_MASSACTION" from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] name=actionCount}
-									<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
-										<a class="dropdown-item" href="javascript:void(0);"
-											{if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else}
-											onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >
-											{if $LISTVIEW_MASSACTION->get('linkicon') neq ''}
-												<span class="{$LISTVIEW_MASSACTION->get('linkicon')} mr-1"></span>
-											{/if}
-											{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}
-										</a>
-									</li>
-									{if $smarty.foreach.actionCount.last eq true}
-										<li class="dropdown-divider"></li>
-									{/if}
-								{/foreach}
-								{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS_ADV'])}
-									{foreach item=LISTVIEW_ADVANCEDACTIONS from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS_ADV']}
-										<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
-											<a
-												{if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0}
-													href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
-												{else}
-													href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
-												{/if}
-												class="dropdown-item{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''} {$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}{/if}"
-												{if isset($LISTVIEW_ADVANCEDACTIONS->get('linkdata'))}
-													{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
-														data-{$NAME}="{$DATA}"
-													{/foreach}
-												{/if}
-											>
-											{if $LISTVIEW_ADVANCEDACTIONS->get('linkicon') neq ''}
-												<span class="{$LISTVIEW_ADVANCEDACTIONS->get('linkicon')} mr-1"></span>
-											{/if}
-											{\App\Language::translate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
-										</li>
-									{/foreach}
-								{/if}
-							</ul>
-						{/if}
-					</div>
+					{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0'}
+					{/if}
 					<div class="btn-group col-md-3 mb-2">
 						<span class="customFilterMainSpan">
 							{if isset($CUSTOM_VIEWS)}

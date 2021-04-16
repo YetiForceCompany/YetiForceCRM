@@ -537,6 +537,15 @@ class Vtiger_RelationListView_Model extends \App\Base
 					'linkicon' => 'fas fa-download'
 				]);
 			}
+			if ($relationModelInstance->getRelationModuleModel()->isPermitted('QuickExportToExcel')) {
+				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'RELATEDLIST_MASSACTIONS',
+					'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
+					'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=exportToExcel&src_record={$parentRecordModel->getId()}&relatedModule={$relationModelInstance->getRelationModuleModel()->getName()}&relationId={$this->getRelationModel()->getId()}&isSortActive=true','sendByForm')",
+					'linkclass' => '',
+					'linkicon' => 'fas fa-file-excel',
+				]);
+			}
 		}
 		return $relatedLink;
 	}
