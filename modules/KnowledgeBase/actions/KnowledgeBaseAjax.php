@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 {
@@ -186,12 +187,10 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 	 */
 	public function getRelated(Vtiger_Record_Model $recordModel): array
 	{
-		$pagingModel = new Vtiger_Paging_Model();
 		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $recordModel->getModuleName());
 		$relationListView->setFields(['id', 'subject', 'introduction', 'assigned_user_id', 'category', 'modifiedtime']);
 		$relationListView->getQueryGenerator()->addNativeCondition($this->queryCondition);
 		$related = [];
-		foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
 			$related[$key] = [
 				'assigned_user_id' => $relatedRecordModel->getDisplayValue('assigned_user_id'),
 				'subject' => $relatedRecordModel->get('subject'),
@@ -251,12 +250,11 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($moduleName)) {
 			return [];
 		}
-		$pagingModel = new Vtiger_Paging_Model();
 		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $moduleName);
 		$fields = $relationListView->getRelatedModuleModel()->getNameFields();
 		$relationListView->setFields(array_merge(['id'], $fields));
 		$related = [];
-		foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
+		foreach ($relationListView->getAllEntries() as $key => $relatedRecordModel) {
 			$name = [];
 			foreach ($fields as $fieldName) {
 				$name[] = $relatedRecordModel->getDisplayName($fieldName);

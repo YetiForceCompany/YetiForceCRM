@@ -267,6 +267,16 @@ class Vtiger_RelationListView_Model extends \App\Base
 	}
 
 	/**
+	 * Gets all entries.
+	 *
+	 * @return \Vtiger_Record_Model[]
+	 */
+	public function getAllEntries(): array
+	{
+		return $this->getRecordsFromArray($this->getRelationQuery()->all());
+	}
+
+	/**
 	 * Get models of records from array.
 	 *
 	 * @param array $rows

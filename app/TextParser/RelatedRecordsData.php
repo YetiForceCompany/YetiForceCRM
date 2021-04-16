@@ -50,10 +50,8 @@ class RelatedRecordsData extends Base
 			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(\App\Json::decode($conditions));
 			$relationListView->set('search_params', $transformedSearchParams);
 		}
-		$pagingModel = new \Vtiger_Paging_Model();
 		if (!empty($limit)) {
 			$relationListView->getQueryGenerator()->setLimit((int) $limit);
-			$pagingModel->set('limit', (int) $limit);
 		}
 		if ($relConditions) {
 			$relationListView->set('search_rel_params', \App\Json::decode($relConditions));
@@ -66,7 +64,7 @@ class RelatedRecordsData extends Base
 		$relationListView->setFields($fields);
 		$fieldsModel = array_intersect_key($relationListView->getHeaders(), array_flip($fields));
 		$data = [];
-		foreach ($relationListView->getEntries($pagingModel) as $id => $relatedRecordModel) {
+		foreach ($relationListView->getAllEntries() as $id => $relatedRecordModel) {
 			if ($id === $this->textParser->recordModel->getId()) {
 				continue;
 			}

@@ -43,7 +43,6 @@ class RelatedAttachments extends Base
 
 		[$fields, $conditions, $attachFiles] = array_pad($this->params, 3, '');
 		$pdf = $attachFiles ? $this->textParser->getParam('pdf') : null;
-		$pagingModel = new \Vtiger_Paging_Model();
 		if (trim($conditions)) {
 			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(\App\Json::decode($conditions));
 			$relationListView->set('search_params', $transformedSearchParams);
@@ -58,7 +57,7 @@ class RelatedAttachments extends Base
 		$relationListView->setFields(array_unique(array_merge($fields, ['notes_title', 'filename', 'filelocationtype'])));
 		$rows = [];
 		$counter = 0;
-		foreach ($relationListView->getEntries($pagingModel) as $relatedRecordModel) {
+		foreach ($relationListView->getAllEntries() as $relatedRecordModel) {
 			++$counter;
 			$row = [];
 			foreach ($fields as $fieldName) {
