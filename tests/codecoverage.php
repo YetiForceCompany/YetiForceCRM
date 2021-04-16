@@ -75,7 +75,7 @@ class YetiCodeCoverage
 			$startTime = microtime(true);
 			$writer = new Report\Clover();
 			// file_put_contents(ROOT_DIRECTORY . '/xxxx_arguments.txt', print_r([$arguments], true), FILE_APPEND);
-			$writer->process($this->coverage, "{$this->dir}/tests/coverages/xml/coverage{$this->name}.php");
+			$writer->process($this->coverage, "{$this->dir}/tests/coverages/xml/coverage{$this->name}.xml");
 			file_put_contents(ROOT_DIRECTORY . '/tests/codecoverage.log', date('H:i:s') . ' Clover ' . round(microtime(true) - $startTime, 1) . PHP_EOL, FILE_APPEND);
 
 			// $startTime = microtime(true);
