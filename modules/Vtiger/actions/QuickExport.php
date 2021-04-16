@@ -79,13 +79,18 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 				//phone numbers need to be explicit strings
 				switch ($fieldModel->getFieldDataType()) {
 					case 'integer':
-						$value = $record->get($fieldModel->getName());
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+						$value = $record->getValueByFieldModel($fieldModel);
+						$worksheet->setCellValueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 						$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER);
 						break;
 					case 'currencyInventory':
-						$value = number_format((float) $record->get($fieldModel->getName()), $userModel->getDetail('no_of_currency_decimals'), '.', '');
-						$currencyId = current($record->getInventoryData())['currency'] ?? null;
+						$value = number_format((float) $record->getValueByFieldModel($fieldModel), $userModel->getDetail('no_of_currency_decimals'), '.', '');
+						if ($fieldModel->get('source_field_name')) {
+							$recordRel = $record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()] ?? null;
+							$currencyId = $recordRel ? (current($record->getInventoryData())['currency'] ?? null) : null;
+						} else {
+							$currencyId = current($record->getInventoryData())['currency'] ?? null;
+						}
 						$type = \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_00;
 						if ($currencyId && ($currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'] ?? '')) {
 							$currencySymbolPlacement = $userModel->getDetail('currency_symbol_placement');
@@ -96,38 +101,38 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 							}
 						}
 						if (is_numeric($value)) {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode($type);
 						} else {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 						}
 						break;
 					case 'double':
 					case 'currency':
-						$value = $record->get($fieldModel->getName());
+						$value = $record->getValueByFieldModel($fieldModel);
 						if (is_numeric($value)) {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_00);
 						} else {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 						}
 						break;
 					case 'date':
-						$value = $record->get($fieldModel->getName());
+						$value = $record->getValueByFieldModel($fieldModel);
 						if ($value) {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
 						} else {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 						}
 						break;
 					case 'datetime':
-						$value = $record->get($fieldModel->getName());
+						$value = $record->getValueByFieldModel($fieldModel);
 						if ($value) {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM');
 						} else {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 						}
 						break;
 					default:

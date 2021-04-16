@@ -1793,6 +1793,21 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Function gets the value from this record.
+	 *
+	 * @param \Vtiger_Field_Model $fieldModel
+	 *
+	 * @return mixed
+	 */
+	public function getValueByFieldModel(Vtiger_Field_Model $fieldModel)
+	{
+		if ($fieldModel->get('source_field_name')) {
+			return isset($this->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()]) ? $this->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()]->get($fieldModel->getName()) : null;
+		}
+		return $this->get($fieldModel->getName());
+	}
+
+	/**
 	 * Change record state.
 	 *
 	 * @param type $state
