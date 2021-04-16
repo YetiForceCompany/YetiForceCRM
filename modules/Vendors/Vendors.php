@@ -27,13 +27,7 @@ class Vendors extends CRMEntity
 	];
 	//Pavani: Assign value to entity_table
 	public $entity_table = 'vtiger_crmentity';
-	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = [
-		'Vendor Name' => ['vendor' => 'vendorname'],
-		'Phone' => ['vendor' => 'phone'],
-		'Email' => ['vendor' => 'email'],
-		'Category' => ['vendor' => 'category'],
-	];
+
 	public $list_fields_name = [
 		'Vendor Name' => 'vendorname',
 		'Phone' => 'phone',
@@ -45,7 +39,7 @@ class Vendors extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	public $list_link_field = 'vendorname';
+
 	public $search_fields = [
 		'Vendor Name' => ['vendor' => 'vendorname'],
 		'Phone' => ['vendor' => 'phone'],

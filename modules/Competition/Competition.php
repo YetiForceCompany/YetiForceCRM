@@ -53,18 +53,6 @@ class Competition extends Vtiger_CRMEntity
 	];
 
 	/**
-	 * Mandatory for Listing (Related listview).
-	 *
-	 * @var array
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'LBL_SUBJECT' => ['competition', 'subject'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-	];
-
-	/**
 	 * List fields name.
 	 *
 	 * @var array
@@ -81,13 +69,6 @@ class Competition extends Vtiger_CRMEntity
 	 * @var string[]
 	 */
 	public $relationFields = [];
-
-	/**
-	 * Make the field link to detail view.
-	 *
-	 * @var string
-	 */
-	public $list_link_field = 'subject';
 
 	/**
 	 * For Popup listview and UI type support.

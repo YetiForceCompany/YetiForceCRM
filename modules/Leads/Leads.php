@@ -29,14 +29,7 @@ class Leads extends CRMEntity
 	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = ['smcreatorid', 'smownerid', 'contactid', 'crmid'];
-	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = [
-		'Company' => ['leaddetails' => 'company'],
-		'Phone' => ['leadaddress' => 'phone'],
-		'Website' => ['leadsubdetails' => 'website'],
-		'Email' => ['leaddetails' => 'email'],
-		'Assigned To' => ['crmentity' => 'smownerid'],
-	];
+
 	public $list_fields_name = [
 		'Company' => 'company',
 		'Phone' => 'phone',
@@ -49,7 +42,6 @@ class Leads extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	public $list_link_field = 'company';
 	public $search_fields = [
 		'Company' => ['leaddetails' => 'company'],
 	];

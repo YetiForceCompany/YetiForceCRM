@@ -32,18 +32,7 @@ class Faq extends CRMEntity
 	public $customFieldTable = ['vtiger_faqcf', 'faqid'];
 	public $entity_table = 'vtiger_crmentity';
 	public $column_fields = [];
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'FL_SUBJECT' => ['faq', 'subject'],
-		'FL_CATEGORY' => ['faq', 'category'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'FL_INTRODUCTION' => ['faq', 'introduction'],
-		'FL_STATUS' => ['faq', 'faqstatus'],
-	];
+
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'FL_SUBJECT' => 'subject',
@@ -56,7 +45,6 @@ class Faq extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	public $list_link_field = 'subject';
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'

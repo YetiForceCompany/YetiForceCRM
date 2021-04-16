@@ -32,19 +32,6 @@ class MultiCompany extends Vtiger_CRMEntity
 		'u_yf_multicompanycf' => 'multicompanyid',
 	];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'FL_COMPANY_NAME' => ['multicompany', 'company_name'],
-		'FL_STATUS' => ['multicompany', 'mulcomp_status'],
-		'FL_EMAIL_1' => ['multicompany', 'email1'],
-		'FL_PHONE' => ['multicompany', 'phone'],
-		'FL_VATID' => ['multicompany', 'vat'],
-		'AddressLevel5' => ['multicompany', 'addresslevel5a'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'FL_COMPANY_NAME' => 'company_name',
@@ -54,8 +41,7 @@ class MultiCompany extends Vtiger_CRMEntity
 		'FL_VATID' => 'vat',
 		'AddressLevel5' => 'addresslevel5a',
 	];
-	// Make the field link to detail view
-	public $list_link_field = 'company_name';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

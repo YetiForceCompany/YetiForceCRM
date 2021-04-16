@@ -34,19 +34,6 @@ class OSSMailView extends CRMEntity
 		'vtiger_ossmailview' => 'ossmailviewid',
 		'vtiger_ossmailviewcf' => 'ossmailviewid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'number' => ['ossmailview' => 'ossmailview_no'],
-		'From' => ['ossmailview' => 'from_email'],
-		'Subject' => ['ossmailview' => 'subject'],
-		'To' => ['ossmailview' => 'to_email'],
-		'SendType' => ['ossmailview' => 'ossmailview_sendtype'],
-		'Assigned To' => ['ossmailview' => 'assigned_user_id'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'number' => 'ossmailview_no',
@@ -61,8 +48,7 @@ class OSSMailView extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view
-	public $list_link_field = 'subject';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

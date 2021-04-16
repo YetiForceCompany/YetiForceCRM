@@ -36,19 +36,6 @@ class Project extends CRMEntity
 		'vtiger_projectcf' => 'projectid',
 		'vtiger_entity_stats' => 'crmid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'Project Name' => ['project', 'projectname'],
-		'Start Date' => ['project', 'startdate'],
-		'Status' => ['project', 'projectstatus'],
-		'Type' => ['project', 'projecttype'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'Total time [Sum]' => ['project', 'sum_time_all'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Project Name' => 'projectname',
@@ -63,8 +50,7 @@ class Project extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view from list view (Fieldname)
-	public $list_link_field = 'projectname';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

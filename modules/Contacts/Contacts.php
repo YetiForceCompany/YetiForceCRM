@@ -34,17 +34,7 @@ class Contacts extends CRMEntity
 	 */
 	public $customFieldTable = ['vtiger_contactscf', 'contactid'];
 	public $column_fields = [];
-	public $list_link_field = 'lastname';
-	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = [
-		'First Name' => ['contactdetails' => 'firstname'],
-		'Last Name' => ['contactdetails' => 'lastname'],
-		'Title' => ['contactdetails' => 'title'],
-		'Member Of' => ['account' => 'parentid'],
-		'Email' => ['contactdetails' => 'email'],
-		'Office Phone' => ['contactdetails' => 'phone'],
-		'Assigned To' => ['crmentity' => 'smownerid'],
-	];
+
 	public $list_fields_name = [
 		'First Name' => 'firstname',
 		'Last Name' => 'lastname',

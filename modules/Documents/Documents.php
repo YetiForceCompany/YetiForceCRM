@@ -24,14 +24,7 @@ class Documents extends CRMEntity
 	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = ['', '', '', ''];
-	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = [
-		'Title' => ['notes' => 'title'],
-		'File Name' => ['notes' => 'filename'],
-		'Modified Time' => ['crmentity' => 'modifiedtime'],
-		'Assigned To' => ['crmentity' => 'smownerid'],
-		'Folder Name' => ['attachmentsfolder' => 'folderid'],
-	];
+
 	public $list_fields_name = [
 		'Title' => 'notes_title',
 		'File Name' => 'filename',
@@ -51,7 +44,6 @@ class Documents extends CRMEntity
 		'Folder Name' => ['attachmentsfolder' => 'foldername'],
 	];
 	public $search_fields_name = [];
-	public $list_link_field = 'notes_title';
 	public $old_filename = '';
 	public $mandatory_fields = ['notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id'];
 	//Added these variables which are used as default order by and sortorder in ListView
