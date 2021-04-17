@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Tests result printer class.
+ * Tests result printer file.
  *
  * @package   Tests
  *
@@ -18,6 +18,9 @@ use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Warning;
 use PHPUnit\Runner\PhptTestCase;
 
+/**
+ * Tests result printer class.
+ */
 /** @codeCoverageIgnoreStart */
 class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 {

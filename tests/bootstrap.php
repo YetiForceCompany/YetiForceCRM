@@ -1,8 +1,7 @@
 <?php
 /**
- * Travis CI test script.
+ * phpunit bootstrap script.
  *
- * @package Tests
  * @package   Tests
  *
  * @copyright YetiForce Sp. z o.o
@@ -11,8 +10,9 @@
  */
 chdir(__DIR__ . '/../');
 set_include_path(getcwd());
-\define('ROOT_DIRECTORY', getcwd());
-
+if (!\defined('ROOT_DIRECTORY')) {
+	\define('ROOT_DIRECTORY', getcwd());
+}
 if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
 }
