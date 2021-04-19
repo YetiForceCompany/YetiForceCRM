@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-chdir(__DIR__ . '/../');
+chdir(__DIR__ . '/../../');
 set_include_path(getcwd());
 if (!\defined('ROOT_DIRECTORY')) {
 	\define('ROOT_DIRECTORY', getcwd());
