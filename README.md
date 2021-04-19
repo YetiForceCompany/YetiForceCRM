@@ -1,4 +1,6 @@
 ![awards_all_eng_new](https://user-images.githubusercontent.com/10197525/47670510-aa6e9880-dbad-11e8-9720-be7f34dba9e1.jpg)
+
+[![Tests](https://github.com/YetiForceCompany/YetiForceCRM/workflows/Tests/badge.svg)](https://github.com/YetiForceCompany/YetiForceCRM/actions/workflows/tests.yml?query=workflow)
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
 ![release date](https://img.shields.io/github/release-date/YetiForceCompany/YetiForceCRM)
 ![PHP Version](https://img.shields.io/packagist/php-v/yetiforce/yetiforce-crm)
