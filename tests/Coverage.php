@@ -57,21 +57,20 @@ class Coverage
 			$filter = new \SebastianBergmann\CodeCoverage\Filter();
 			$filter->includeDirectory(ROOT_DIRECTORY . '/api');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/app');
-			$filter->includeDirectory(ROOT_DIRECTORY . '/modules/Settings');
-			$filter->includeDirectory(ROOT_DIRECTORY . '/modules');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/config');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/include');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/install');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/modules');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/vtlib/Vtiger');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/tests');
 
+			$filter->excludeDirectory(ROOT_DIRECTORY . '/tests/setup');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/modules/Vtiger/pdfs');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/modules/OSSMail');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/modules/MailIntegration/html/outlook');
 
 			$filter->excludeFile(ROOT_DIRECTORY . '/tests/GuiBase.php');
 			$filter->excludeFile(ROOT_DIRECTORY . '/tests/Coverage.php');
-			$filter->excludeFile(ROOT_DIRECTORY . '/tests/bootstrap.php');
-			$filter->excludeFile(ROOT_DIRECTORY . '/tests/auto_prepend_file.php');
-			$filter->excludeFile(ROOT_DIRECTORY . '/tests/codeCoverageReport.php');
-			$filter->excludeFile(ROOT_DIRECTORY . '/tests/setup/docker_post_install.php');
 			$this->filter = $filter;
 		}
 		return $this->filter;
