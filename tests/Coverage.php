@@ -123,7 +123,7 @@ class Coverage
 			}
 			$startTime = microtime(true);
 			$writer = new \SebastianBergmann\CodeCoverage\Report\Clover();
-			$writer->process($this->coverage, "{$this->dir}xml/{$this->name}.xml");
+			$writer->process($this->coverage, "{$this->dir}coverage.xml");
 			self::log('Clover Report time: ' . round(microtime(true) - $startTime, 1) . ' s.');
 
 			$startTime = microtime(true);
