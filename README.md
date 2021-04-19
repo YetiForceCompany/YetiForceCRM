@@ -94,7 +94,6 @@ Testing Supported By<br/>
 [![sonarcloud.io sqale](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![sonarcloud.io security](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=security_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![sonarcloud.io vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
-[![Greenkeeper badge](https://badges.greenkeeper.io/YetiForceCompany/YetiForceCRM.svg)](https://greenkeeper.io/)
 [![DepShield Badge](https://depshield.sonatype.org/badges/owner/repository/depshield.svg)](https://depshield.github.io)
 
 ## Contributors
