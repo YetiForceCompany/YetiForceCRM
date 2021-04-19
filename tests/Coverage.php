@@ -131,11 +131,6 @@ class Coverage
 			$writer = new \SebastianBergmann\CodeCoverage\Report\Html\Facade();
 			$writer->process($this->coverage, $this->dir . 'html/');
 			self::log('Clover Html time: ' . round(microtime(true) - $startTime, 1) . ' s.');
-
-			// $startTime = microtime(true);
-			// $writer = new \SebastianBergmann\CodeCoverage\Report\Text();
-			// file_put_contents("{$this->dir}coverage{$this->name}.txt", $writer->process($this->coverage));
-			// self::log('Clover Text time: ' . round(microtime(true) - $startTime, 1).' s.');
 		} catch (\Exception $ex) {
 			self::log('Generate report exception !!!');
 			self::log($ex->__toString());

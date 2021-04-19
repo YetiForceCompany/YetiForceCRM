@@ -99,7 +99,7 @@ class Pauser
 	}
 
 	/**
-	 * Remove key form database.
+	 * Remove key from database.
 	 *
 	 * @return bool
 	 */

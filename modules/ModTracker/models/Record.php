@@ -219,7 +219,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return string - Record Module Name
 	 */
-	public function getModuleName():string
+	public function getModuleName(): string
 	{
 		return $this->get('module');
 	}
