@@ -50,6 +50,10 @@ class Record extends \Api\Portal\BaseModule\Record
 		if (1 === $this->controller->request->getHeader('x-unit-gross')) {
 			$response['ext']['unit_gross'] = $this->getUnitGross($response);
 		}
+		if ($storage = $this->getUserStorageId()) {
+			$stock = (new \App\Db\Query())->select(['qtyinstock'])->from('u_#__istorages_products')->where(['crmid' => $storage, 'relcrmid' => $response['id']])->scalar();
+			$response['ext']['qtyinstock'] = (int) ($stock ?? 0);
+		}
 		if (1 === $this->controller->request->getHeader('x-product-bundles')) {
 			$response['productBundles'] = $this->getProductBundles();
 		}
