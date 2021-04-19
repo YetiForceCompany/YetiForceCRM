@@ -25,7 +25,7 @@ class Coverage
 	/** @var string */
 	public $dir;
 	/** @var \SebastianBergmann\CodeCoverage\CodeCoverage */
-	private $coverage;
+	public $coverage;
 
 	/**
 	 * Get instance and Initialize.
@@ -41,6 +41,10 @@ class Coverage
 			$self->startTime = microtime(true);
 			$self->dir = ROOT_DIRECTORY . '/tests/coverages/';
 			$self->name = date('Ymd_H_i_s') . '_' . \App\Encryption::generatePassword(10);
+			$filter = $self->getFilter();
+			$driver = (new \SebastianBergmann\CodeCoverage\Driver\Selector())->forLineCoverage($filter);
+			self::log('Driver: ' . $driver->nameAndVersion());
+			$self->coverage = new \SebastianBergmann\CodeCoverage\CodeCoverage($driver, $filter);
 			self::$self = $self;
 		}
 		return self::$self;
@@ -83,10 +87,6 @@ class Coverage
 	 */
 	public function start(): void
 	{
-		$filter = $this->getFilter();
-		$driver = (new \SebastianBergmann\CodeCoverage\Driver\Selector())->forLineCoverage($filter);
-		self::log('Driver: ' . $driver->nameAndVersion());
-		$this->coverage = new \SebastianBergmann\CodeCoverage\CodeCoverage($driver, $filter);
 		$this->coverage->start($this->name);
 		self::log('Started');
 	}
