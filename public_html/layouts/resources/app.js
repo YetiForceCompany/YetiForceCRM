@@ -3006,7 +3006,7 @@ $(function () {
 		this.removeAttr('disabled');
 	};
 	$.fn.serializeFormData = function () {
-		let form = $(this);
+		let form = this;
 		for (var instance in CKEDITOR.instances) {
 			CKEDITOR.instances[instance].updateElement();
 		}

@@ -1459,7 +1459,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		$fieldModel = new $className();
 		$fieldModel->initialize($field, $field['tabid']);
 		Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
-
 		return $fieldModel;
 	}
 
