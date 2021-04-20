@@ -214,7 +214,7 @@ CREATE TABLE `a_yf_record_list_filter` (
   CONSTRAINT `a_yf_record_list_filter_dest_relationid_idx` FOREIGN KEY (`dest_relationid`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE,
   CONSTRAINT `a_yf_record_list_filter_rel_relationid_idx` FOREIGN KEY (`rel_relationid`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE,
   CONSTRAINT `a_yf_record_list_filter_relationid_idx` FOREIGN KEY (`relationid`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_relatedlists_inv_fields` */
 
@@ -8263,7 +8263,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=661 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=662 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 

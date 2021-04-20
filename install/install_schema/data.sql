@@ -123,6 +123,7 @@ insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_
 insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (6,604,218,95);
 insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (7,601,95,117);
 insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (8,602,95,218);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (9,661,452,452);
 
 /*Data for the table `a_yf_relatedlists_inv_fields` */
 
@@ -13479,6 +13480,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`) values (658,119,60,'getDependentsList',3,'OSSPasswords',0,'ADD',0,0,0,'RelatedTab','multicompanyid',NULL);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`) values (659,34,4,'getRelatedList',1,'Contacts',0,'SELECT',0,0,0,'RelatedTab',NULL,NULL);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`) values (660,4,34,'getRelatedList',13,'ServiceContracts',0,'SELECT',0,0,0,'RelatedTab',NULL,NULL);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`) values (661,86,86,'getDependentsList',25,'SSalesProcesses',1,'',0,0,0,'RelatedTab','parentid',NULL);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
