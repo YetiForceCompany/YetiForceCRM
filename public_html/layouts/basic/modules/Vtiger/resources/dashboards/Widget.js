@@ -2961,6 +2961,15 @@ YetiForce_Widget_Js(
 	}
 );
 YetiForce_Widget_Js(
+	'YetiForce_UpcomingEvents_Widget_Js',
+	{},
+	{
+		postLoadWidget: function () {
+			this.registerFilterChangeEvent();
+		}
+	}
+);
+YetiForce_Widget_Js(
 	'YetiForce_Notebook_Widget_Js',
 	{},
 	{

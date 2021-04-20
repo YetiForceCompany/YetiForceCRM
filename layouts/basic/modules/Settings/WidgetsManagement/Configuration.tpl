@@ -46,6 +46,7 @@
 					<div id="moduleBlocks">
 						<input type="hidden" name="filter_title" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_TITLE))}'>
 						<input type="hidden" name="filter_date" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_DATE))}'>
+						<input type="hidden" name="record_limit" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_RECORD_LIMIT))}'>
 						<input type="hidden" name="filter_users"
 							   value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_USERS))}'>
 						<input type="hidden" name="filter_restrict" value='{\App\Purifier::encodeHtml(\App\Json::encode($RESTRICT_FILTER))}'>
@@ -378,6 +379,44 @@
 												<input type="checkbox" class="middle" name="isdefault">
 											</div>
 										</div>
+										<div class="row mb-2 d-none" data-widgets="Upcoming events">
+											<div class="col-sm-4 col-form-label">
+												{\App\Language::translate('LBL_SKIP_YEAR', $QUALIFIED_MODULE)}
+												<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer popover-triggered" data-placement="top" data-content="{\App\Language::translate('LBL_SKIP_YEAR_DESC', $QUALIFIED_MODULE)}" data-original-title="{{\App\Language::translate('LBL_SKIP_YEAR', $QUALIFIED_MODULE)}}">
+													<span class="fas fa-info-circle"></span>
+												</div>
+											</div>
+											<div class="col-sm-2 controls">
+												<input value="1" type="checkbox" class="middle" name="skip_year">
+											</div>
+										</div>
+										<div class="row mb-2 d-none" data-widgets="Upcoming events">
+											<div class="col-sm-4 col-form-label">
+												{\App\Language::translate('LBL_FIELD_DATE', $QUALIFIED_MODULE)}
+												<span class="redColor">*</span>
+											</div>
+											<div class="col-sm-8 controls">
+												<select class="form-control" name="date_fields" data-validation-engine="validate[required]">
+													{foreach key=FIELD_MODULE item=FIELDS from=$SELECT_FIELD_TYPE_DATE}
+														<optgroup label="{\App\Language::translate($FIELD_MODULE,$FIELD_MODULE)}">
+															{foreach key=FIELD_ID item=FIELD_LABEL  from=$FIELDS}
+																<option value="{$FIELD_ID}" data-module="{$FIELD_MODULE}">
+																	{\App\Language::translate($FIELD_LABEL, $FIELD_MODULE)}
+																</option>
+															{/foreach}
+														</optgroup>
+													{/foreach}
+												</select>
+											</div>
+										</div>
+										<div class="row mb-2 widgetLimit d-none">
+												<div class="col-sm-8 col-form-label">
+													{\App\Language::translate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}
+												</div>
+												<div class="col-sm-4 controls">
+													<input type="text" name="limit" class="form-control" value="10">
+												</div>
+											</div>
 										<div class="row mb-2 widgetFilter d-none">
 											<div class="col-sm-4 col-form-label">
 												{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}

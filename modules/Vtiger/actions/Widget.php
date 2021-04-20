@@ -108,6 +108,8 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 				'Standard',
 				'Standard',
 			],
+			'skip_year' => 'Integer',
+			'date_fields' => 'Integer',
 			'default_owner' => 'Standard',
 			'dashboardId' => 'Integer',
 			'limit' => 'Integer',

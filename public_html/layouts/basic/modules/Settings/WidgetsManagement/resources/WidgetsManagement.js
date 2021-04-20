@@ -13,13 +13,20 @@ jQuery.Class(
 			else thisInstance.widgetWithFilterUsers = [];
 		},
 		widgetWithFilterDate: [],
-		setWidgetWithFilterDate: function () {
+		widgetWithRecordLimit: [],
+		setWidgetData: function () {
 			let thisInstance = this;
 			let element = $('[name="filter_date"]').val();
 			if (element) {
 				thisInstance.widgetWithFilterDate = JSON.parse(element);
 			} else {
 				thisInstance.widgetWithFilterDate = [];
+			}
+			let recordLimit = $('[name="record_limit"]').val();
+			if (recordLimit) {
+				thisInstance.widgetWithRecordLimit = JSON.parse(recordLimit);
+			} else {
+				thisInstance.widgetWithRecordLimit = [];
 			}
 		},
 		setWidgetWithFilterTitle: function () {
@@ -57,7 +64,7 @@ jQuery.Class(
 			return fields;
 		},
 		multipleWidgets: function () {
-			return ['Multifilter'];
+			return ['Multifilter', 'Upcoming events'];
 		},
 		getCurrentDashboardId() {
 			return $('.selectDashboard li a.active').parent().data('id');
@@ -276,12 +283,17 @@ jQuery.Class(
 					data.find('select.widgets').on('change', function () {
 						data.find('.widgetFilter').remove();
 						data.find('.widgetFilterDate').remove();
+						data.find('[data-widgets]').remove();
+						data.find('.widgetLimit').remove();
 						let elementsToFilterTitle = contents.find('.createFieldModal .widgetFilterTitle').clone(true, true);
 						let elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
 						let elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
+						let elementsToDataWidgets = contents.find('.createFieldModal [data-widgets]').clone(true, true);
+						let elementsToLimit = contents.find('.createFieldModal .widgetLimit').clone(true, true);
 						data.find('.modal-body').append(elementsToFilterTitle);
 						data.find('.modal-body').append(elementsToFilter);
-						data.find('.modal-body').append(elementsToFilterDate);
+						data.find('.modal-body').append(elementsToDataWidgets);
+						data.find('.modal-body').append(elementsToLimit);
 						let name = $(this).find(':selected').data('name');
 						if ($.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
 							elementsToFilter.removeClass('d-none').find('select').prop('disabled', false);
@@ -295,11 +307,30 @@ jQuery.Class(
 						} else {
 							elementsToFilter.addClass('d-none').find('select').prop('disabled', true);
 						}
+						data.find('[data-widgets]').each(function () {
+							let element = $(this);
+							let widgets = element.data('widgets');
+							if (name === widgets || $.inArray(name, widgets) != -1) {
+								element.removeClass('d-none');
+								let select = element.find('select');
+								if (select.length) {
+									select.prop('disabled', false);
+									App.Fields.Picklist.showSelect2ElementView(select);
+								}
+							} else {
+								element.addClass('d-none').find('select').prop('disabled', true);
+							}
+						});
 						if ($.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
 							elementsToFilterDate.removeClass('d-none').find('select').prop('disabled', false);
 							App.Fields.Picklist.showSelect2ElementView(elementsToFilterDate.find('select'));
 						} else {
 							elementsToFilterDate.addClass('d-none').find('select').prop('disabled', true);
+						}
+						if ($.inArray(name, thisInstance.widgetWithRecordLimit) != -1) {
+							data.find('.widgetLimit').removeClass('d-none');
+						} else {
+							data.find('.widgetLimit').addClass('d-none');
 						}
 						if ($.inArray(name, thisInstance.widgetWithFilterTitle) != -1) {
 							elementsToFilterTitle.removeClass('d-none').find('input').prop('disabled', false);
@@ -1208,7 +1239,7 @@ jQuery.Class(
 			thisInstance.registerModulesChangeEvent();
 			thisInstance.setWidgetWithFilterUsers();
 			thisInstance.setRestrictFilter();
-			thisInstance.setWidgetWithFilterDate();
+			thisInstance.setWidgetData();
 			thisInstance.setWidgetWithFilterTitle();
 			thisInstance.registerAddedDashboard();
 			thisInstance.registerSelectDashboard();

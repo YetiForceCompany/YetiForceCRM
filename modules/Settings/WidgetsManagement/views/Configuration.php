@@ -45,9 +45,11 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('FILTER_SELECT', $filterSelect);
 		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
+		$viewer->assign('SELECT_FIELD_TYPE_DATE', $widgetsManagementModel->getFieldsByTypeDate());
 		$viewer->assign('DATE_SELECT_DEFAULT', Settings_WidgetsManagement_Module_Model::getDateSelectDefault());
 		$viewer->assign('WIDGETS_WITH_FILTER_TITLE', Settings_WidgetsManagement_Module_Model::getWidgetsWithTitle());
 		$viewer->assign('WIDGETS_WITH_FILTER_DATE', Settings_WidgetsManagement_Module_Model::getWidgetsWithDate());
+		$viewer->assign('WIDGETS_WITH_RECORD_LIMIT', Settings_WidgetsManagement_Module_Model::getWidgetsWithRecordLimit());
 		$viewer->assign('WIDGETS_WITH_FILTER_USERS', $widgetsWithFilterUsers);
 		$viewer->assign('ALL_AUTHORIZATION', $authorization);
 		$viewer->assign('ALL_SERVERS', Settings_WebserviceApps_Module_Model::getServers());

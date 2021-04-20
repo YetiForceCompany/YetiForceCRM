@@ -20,17 +20,20 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		];
 	}
 
-	public function getWidgetsWithLimit()
+	public function getWidgetsWithLimit(): array
 	{
-		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'LBL_EXPIRING_SOLD_PRODUCTS', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter', 'LBL_UPDATES'];
+		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks',
+			'LBL_EXPIRING_SOLD_PRODUCTS', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES',
+			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter', 'LBL_UPDATES', 'Upcoming events'
+		];
 	}
 
-	public static function getWidgetSpecial()
+	public static function getWidgetSpecial(): array
 	{
 		return ['Mini List', 'Notebook', 'Chart', 'ChartFilter', 'Rss'];
 	}
 
-	public static function getDateSelectDefault()
+	public static function getDateSelectDefault(): array
 	{
 		return [
 			'day' => 'PLL_CURRENT_DAY',
@@ -38,6 +41,80 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'month' => 'PLL_CURRENT_MONTH',
 			'year' => 'PLL_CURRENT_YEAR',
 		];
+	}
+
+	public static function getDataKeys(): array
+	{
+		return ['skip_year', 'date_fields'];
+	}
+
+	/**
+	 * Function to get available filters.
+	 *
+	 * @return string[]
+	 */
+	public function getFilterSelect(): array
+	{
+		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups'];
+	}
+
+	public function getFilterSelectDefault(): array
+	{
+		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all'];
+	}
+
+	/**
+	 * Function to get filters with customizable title.
+	 *
+	 * @return string[]
+	 */
+	public static function getWidgetsWithTitle(): array
+	{
+		return [
+			'Multifilter', 'Upcoming events'
+		];
+	}
+
+	public static function getWidgetsWithDate(): array
+	{
+		return [
+			'LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT', 'DW_SUMMATION_BY_USER', 'Leads by Status',
+			'Leads by Industry', 'Leads by Source', 'Leads by Status Converted', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
+			'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_CLOSED_TICKETS_BY_USER', 'LBL_ACCOUNTS_BY_INDUSTRY'
+		];
+	}
+
+	public static function getWidgetsWithRecordLimit(): array
+	{
+		return [
+			'LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT', 'DW_SUMMATION_BY_USER', 'Leads by Status',
+			'Leads by Industry', 'Leads by Source', 'Leads by Status Converted', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
+			'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_CLOSED_TICKETS_BY_USER', 'LBL_ACCOUNTS_BY_INDUSTRY', 'Upcoming events'
+		];
+	}
+
+	public function getWidgetsWithFilterUsers(): array
+	{
+		return [
+			'Leads by Status Converted', 'Graf', 'Tickets by Status', 'Leads by Industry',
+			'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities',
+			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Calendar',
+			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
+			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_ACCOUNTS_BY_INDUSTRY',
+			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'LBL_UPCOMING_PROJECT_TASKS', 'LBL_COMPLETED_PROJECT_TASKS', 'LBL_UPDATES', 'DW_TEAMS_ESTIMATED_SALES', 'DW_ACTUAL_SALES_OF_TEAM',
+		];
+	}
+
+	public function getSize(): array
+	{
+		$width = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+		$height = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+		return ['width' => $width, 'height' => $height];
+	}
+
+	public function getDefaultValues(): array
+	{
+		return ['width' => 4, 'height' => 4];
 	}
 
 	/**
@@ -62,6 +139,20 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$timeStart = date('Y-m-d', strtotime('-1 month'));
 		}
 		return [$timeStart, date('Y-m-d', mktime(23, 59, 59, (int) date('n'), (int) date('j'), (int) date('Y')))];
+	}
+
+	/**
+	 * Get a date field.
+	 */
+	public function getFieldsByTypeDate(): array
+	{
+		$query = (new \App\Db\Query())->select(['fieldid', 'fieldlabel', 'tabid'])->from('vtiger_field')->where(['uitype' => [5, 6, 23]]);
+		$dataReader = $query->createCommand()->query();
+		$fields = [];
+		while ($row = $dataReader->read()) {
+			$fields[App\Module::getModuleName($row['tabid'])][$row['fieldid']] = $row['fieldlabel'];
+		}
+		return $fields;
 	}
 
 	/**
@@ -191,77 +282,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		return $user;
 	}
 
-	/**
-	 * Function to get available filters.
-	 *
-	 * @return string[]
-	 */
-	public function getFilterSelect()
-	{
-		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups'];
-	}
-
-	public function getFilterSelectDefault()
-	{
-		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all'];
-	}
-
-	/**
-	 * Function to get filters with customizable title.
-	 *
-	 * @return string[]
-	 */
-	public static function getWidgetsWithTitle()
-	{
-		return [
-			'Multifilter'
-		];
-	}
-
-	public static function getWidgetsWithDate()
-	{
-		return [
-			'LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT', 'DW_SUMMATION_BY_USER', 'Leads by Status',
-			'Leads by Industry', 'Leads by Source', 'Leads by Status Converted', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
-			'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_CLOSED_TICKETS_BY_USER', 'LBL_ACCOUNTS_BY_INDUSTRY',
-		];
-	}
-
-	public function getWidgetsWithFilterUsers()
-	{
-		return [
-			'Leads by Status Converted', 'Graf', 'Tickets by Status', 'Leads by Industry',
-			'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities',
-			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Calendar',
-			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
-			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_ACCOUNTS_BY_INDUSTRY',
-			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'LBL_UPCOMING_PROJECT_TASKS', 'LBL_COMPLETED_PROJECT_TASKS', 'LBL_UPDATES', 'DW_TEAMS_ESTIMATED_SALES', 'DW_ACTUAL_SALES_OF_TEAM'
-		];
-	}
-
-	public function getSize()
-	{
-		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::getSize() method ...');
-
-		$width = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-		$height = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::getSize() method ...');
-
-		return ['width' => $width, 'height' => $height];
-	}
-
-	public function getDefaultValues()
-	{
-		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...');
-
-		$defaultValues = ['width' => 4, 'height' => 4];
-
-		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...');
-
-		return $defaultValues;
-	}
-
 	public function getSelectableDashboard()
 	{
 		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...');
@@ -388,6 +408,12 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			}
 		}
 		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data'] ?? ''));
+		foreach (self::getDataKeys() as $key) {
+			if (isset($data[$key])) {
+				$data['data'][$key] = $data[$key];
+				unset($data[$key]);
+			}
+		}
 		if (!empty($data['data']['additionalFiltersFields']) && \count($data['data']['additionalFiltersFields']) > \App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
 			throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||additionalFiltersFields||' . implode(',', $data['data']['additionalFiltersFields']), 406);
 		}
