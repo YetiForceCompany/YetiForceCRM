@@ -89,9 +89,14 @@ class Vtiger_UpcomingEvents_Dashboard extends Vtiger_IndexAjax_View
 		$dataReader = $query->createCommand()->query();
 		$records = [];
 		while ($row = $dataReader->read()) {
+			$val = $uiTypeModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
+			if ($this->skipYear) {
+				[, $m, $d] = App\Fields\Date::explode($row[$fieldName]);
+				$val = '<span title="' . $val . '">' . \Vtiger_Util_Helper::formatDateDiffInStrings(date('Y') . "-$m-$d") . '</span>';
+			}
 			$records[] = [
 				'id' => $row['id'],
-				'value' => $uiTypeModel->getDisplayValue($row[$fieldName], $row['id'], false, true),
+				'value' => $val,
 				'name' => App\Record::getLabel($row['id']),
 				'url' => "index.php?module={$moduleName}&view=Detail&record={$row['id']}",
 			];
