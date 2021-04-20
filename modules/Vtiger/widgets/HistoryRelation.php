@@ -94,7 +94,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				$row['userModel'] = $groups[$row['user']];
 			} else {
 				$row['isGroup'] = false;
-				$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
+				$row['userModel'] = Vtiger_Record_Model::getInstanceById($row['user'], 'Users');
 			}
 			$row['class'] = self::$colors[$row['type']];
 			if (false !== strpos($row['type'], 'OSSMailView')) {
