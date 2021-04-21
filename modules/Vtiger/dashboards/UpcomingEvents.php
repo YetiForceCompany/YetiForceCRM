@@ -3,21 +3,24 @@
 /**
  * Upcoming events dashboard file.
  *
- * @package DashboardWidgets
+ * @package Dashboard
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
  * Upcoming events dashboard class.
  */
 class Vtiger_UpcomingEvents_Dashboard extends Vtiger_IndexAjax_View
 {
+	/**
+	 * @var bool Skip the year
+	 */
 	private $skipYear;
 	/**
-	 * @var Vtiger_Field_Model
+	 * @var Vtiger_Field_Model Filter field model
 	 */
 	private $fieldModel;
 
@@ -54,6 +57,8 @@ class Vtiger_UpcomingEvents_Dashboard extends Vtiger_IndexAjax_View
 	 * Parse widget data.
 	 *
 	 * @param array $data
+	 *
+	 * @return void
 	 */
 	public function parseDataWidget(array $data): void
 	{
@@ -79,9 +84,9 @@ class Vtiger_UpcomingEvents_Dashboard extends Vtiger_IndexAjax_View
 		$queryGenerator->addCondition($fieldName, '', 'ny');
 		$query = $queryGenerator->createQuery();
 		if ($this->skipYear) {
-			$now = date('m,d');
-			$query->andWhere(new \yii\db\Expression("(MONTH($columnName), DAY($columnName)) > ($now)"));
-			$query->orderBy(new \yii\db\Expression("MONTH($columnName), DAY($columnName)"));
+			$now = date('m, d');
+			$query->andWhere(new \yii\db\Expression("(EXTRACT(MONTH FROM $columnName), EXTRACT(DAY FROM $columnName)) >= ($now)"));
+			$query->orderBy(new \yii\db\Expression("EXTRACT(MONTH FROM $columnName), EXTRACT(DAY FROM $columnName)"));
 		} else {
 			$query->orderBy([$columnName => SORT_ASC]);
 		}
