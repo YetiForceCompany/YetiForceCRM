@@ -6,7 +6,7 @@
 	{foreach from=$MODULE_FORM item=FORM_MODULE_NAME}
 		<form class="form-horizontal js-record-template" data-js="container">
 			<input type="hidden" name="module" value="{$FORM_MODULE_NAME}"/>
-			{include file=\App\Layout::getTemplatePath('EditBlocks.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE[$FORM_MODULE_NAME]}
+			{include file=\App\Layout::getTemplatePath('EditBlocks.tpl') MODULE_NAME=$FORM_MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE[$FORM_MODULE_NAME]}
 		</form>
 	{/foreach}
 </div>
