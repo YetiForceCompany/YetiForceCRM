@@ -44,6 +44,7 @@ $.Class(
 										text: response.message ? response.message : app.vtranslate('JS_SAVE_NOTIFY_OK'),
 										type: 'success'
 									});
+									window.location.reload();
 								} else {
 									app.showNotify({
 										text: response.message ? response.message : app.vtranslate('JS_ERROR'),
