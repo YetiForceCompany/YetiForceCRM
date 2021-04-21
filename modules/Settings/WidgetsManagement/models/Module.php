@@ -30,7 +30,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public static function getWidgetSpecial(): array
 	{
-		return ['Mini List', 'Notebook', 'Chart', 'ChartFilter', 'Rss'];
+		return ['Mini List', 'Notebook', 'Chart', 'ChartFilter', 'Rss', 'Upcoming events'];
 	}
 
 	public static function getDateSelectDefault(): array
