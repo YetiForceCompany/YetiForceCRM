@@ -251,7 +251,9 @@ return [
 		],
 		'isActiveRecordTemplate' => [
 			'default' => false,
-			'description' => 'Activates / deactivates batch adding of records'
+			'description' => 'Activates / deactivates batch adding of records',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'unblockedTimeoutCronTasks' => [
 			'default' => true,
