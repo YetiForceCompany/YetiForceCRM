@@ -241,56 +241,44 @@ $.Class(
 					return true;
 				};
 			}
-			let listInstance = Vtiger_List_Js.getInstance();
-			let validationResult = listInstance.checkListRecordSelected();
-			if (validationResult != true) {
-				let progressIndicatorElement = $.progressIndicator();
-				let actionParams = {
-					type: 'POST',
-					url: massActionUrl,
-					dataType: 'html',
-					data: listInstance.getSearchParams()
-				};
-				if (typeof css === 'undefined') {
-					css = {};
-				}
-				css = $.extend({ 'text-align': 'left' }, css);
-				AppConnector.request(actionParams)
-					.done(function (data) {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						if (data) {
-							let result = beforeShowCb(data);
-							if (!result) {
-								return;
-							}
-							app.showModalWindow(
-								data,
-								function (data) {
-									app.event.trigger('MassEditModal.AfterLoad', data, massActionUrl);
-									if (typeof callBackFunction == 'function') {
-										callBackFunction(data);
-										//listInstance.triggerDisplayTypeEvent();
-									}
-								},
-								css
-							);
-							//register inactive fields for massedit modal
-							if ($('#massEditContainer').length) {
-								listInstance.inactiveFieldsValidation($('#massEditContainer').find('form'));
-							}
-						}
-					})
-					.fail(function (error, err) {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						app.showNotify({
-							title: app.vtranslate('JS_MESSAGE'),
-							text: err,
-							type: 'error'
-						});
-					});
-			} else {
-				listInstance.noRecordSelectedAlert();
+			let progressIndicatorElement = $.progressIndicator();
+			let actionParams = {
+				type: 'POST',
+				url: massActionUrl,
+				dataType: 'html',
+				data: Vtiger_List_Js.getInstance().getSearchParams()
+			};
+			if (typeof css === 'undefined') {
+				css = {};
 			}
+			css = $.extend({ 'text-align': 'left' }, css);
+			AppConnector.request(actionParams)
+				.done(function (data) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					if (data) {
+						let result = beforeShowCb(data);
+						if (!result) {
+							return;
+						}
+						app.showModalWindow(
+							data,
+							function (data) {
+								if (typeof callBackFunction == 'function') {
+									callBackFunction(data);
+								}
+							},
+							css
+						);
+					}
+				})
+				.fail(function (error, err) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					app.showNotify({
+						title: app.vtranslate('JS_MESSAGE'),
+						text: err,
+						type: 'error'
+					});
+				});
 		},
 		triggerMassEdit: function (massEditUrl) {
 			let selectedCount = this.getSelectedRecordCount();
@@ -306,6 +294,7 @@ $.Class(
 			Vtiger_List_Js.triggerMassAction(
 				massEditUrl,
 				function (container) {
+					app.event.trigger('MassEditModal.AfterLoad', container, massEditUrl);
 					let massEditForm = container.find('#massEdit');
 					massEditForm.validationEngine(app.validationEngineOptions);
 					let listInstance = Vtiger_List_Js.getInstance();
@@ -314,6 +303,11 @@ $.Class(
 					editInstance.registerBasicEvents(massEditForm);
 					listInstance.postMassEdit(container);
 					listInstance.registerSlimScrollMassEdit();
+
+					//register inactive fields for massedit modal
+					if ($('#massEditContainer').length) {
+						listInstance.inactiveFieldsValidation($('#massEditContainer').find('form'));
+					}
 				},
 				{ width: '65%' }
 			);
@@ -2063,7 +2057,10 @@ $.Class(
 				let element = $(e.currentTarget);
 				let url = element.data('url');
 				if (typeof url != 'undefined') {
-					if (this.checkListRecordSelected() !== true) {
+					if (
+						(element.data('checkSelected') !== undefined && element.data('checkSelected') == 0) ||
+						this.checkListRecordSelected() !== true
+					) {
 						switch (element.data('type')) {
 							case 'modal':
 								Vtiger_List_Js.triggerMassAction(url);
