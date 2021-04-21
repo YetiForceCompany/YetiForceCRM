@@ -52,6 +52,4 @@
 			</div>
 		</div>
 	{/if}
-	<input type="hidden" id="recordsCount" value=""/>
-	<input type="hidden" id="excludedIds" name="excludedIds"/>
 {/strip}
