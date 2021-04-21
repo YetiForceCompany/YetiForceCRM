@@ -30,7 +30,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public static function getWidgetSpecial(): array
 	{
-		return ['Mini List', 'Notebook', 'Chart', 'ChartFilter', 'Rss', 'Upcoming events'];
+		return ['Mini List', 'Notebook', 'Chart', 'ChartFilter', 'Rss'];
 	}
 
 	public static function getDateSelectDefault(): array
@@ -143,10 +143,16 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	/**
 	 * Get a date field.
+	 *
+	 * @return array
 	 */
 	public function getFieldsByTypeDate(): array
 	{
-		$query = (new \App\Db\Query())->select(['fieldid', 'fieldlabel', 'tabid'])->from('vtiger_field')->where(['uitype' => [5, 6, 23]]);
+		$query = (new \App\Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.fieldlabel', 'vtiger_field.tabid'])
+			->from('vtiger_field')
+			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
+			->where(['vtiger_field.presence' => [0, 2], 'vtiger_field.uitype' => [5, 6, 23]])
+			->andWhere(['<>', 'vtiger_tab.presence', 1]);
 		$dataReader = $query->createCommand()->query();
 		$fields = [];
 		while ($row = $dataReader->read()) {
