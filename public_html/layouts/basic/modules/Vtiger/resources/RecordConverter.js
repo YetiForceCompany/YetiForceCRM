@@ -96,6 +96,7 @@ $.Class(
 					AppConnector.request($.extend(formData, postData)).done(
 						function (responseData) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							responseData = JSON.parse(responseData);
 							if (responseData.result.redirect) {
 								window.location.href = responseData.result.redirect;
 							} else {

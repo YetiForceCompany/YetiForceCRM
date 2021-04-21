@@ -19,6 +19,7 @@
 	<input type="hidden" id="listMaxEntriesMassEdit" value="{\App\Config::main('listMaxEntriesMassEdit')}"/>
 	<input type="hidden" id="autoRefreshListOnChange" value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
+	<input type="hidden" id="selectedIds" name="selectedIds"/>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE_NAME)}
