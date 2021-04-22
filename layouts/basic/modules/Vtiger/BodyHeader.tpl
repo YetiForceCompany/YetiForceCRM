@@ -255,7 +255,7 @@
 											{foreach from=$LIST_TEMPLATES item=TEMPLATE_VALUE}
 												<div class="row">
 													<div class="col-12 u-bg-light-darken">
-														<a class="showModal text-decoration-none u-fs-sm text-secondary  d-block" data-url="index.php?module={$MODULE_NAME}&view=RecordAddsTemplates&recordAddsType={$TEMPLATE_VALUE->name}"
+														<a class="showModal text-decoration-none u-fs-sm text-secondary  d-block" data-url="index.php?module=Users&view=RecordAddsTemplates&recordAddsType={$TEMPLATE_VALUE->name}"
 															data-js="popover" data-toggle="modal"
 															data-placement="bottom" data-content="{\App\Language::translate($TEMPLATE_VALUE->label)}"
 															href="#">
@@ -271,12 +271,11 @@
 							</div>
 						{elseif $LIST_TEMPLATES}
 							<div class="o-action-menu__item">
-								<a class="c-header__btn ml-2 showModal btn-light btn js-popover-tooltip" role="button" data-url="index.php?module={$MODULE_NAME}&view=RecordAddsTemplates&recordAddsType={$LIST_TEMPLATES[0]->name}"
+								<a class="c-header__btn ml-2 showModal btn-light btn js-popover-tooltip" role="button" data-url="index.php?module=Users&view=RecordAddsTemplates&recordAddsType={$LIST_TEMPLATES[0]->name}"
 									data-js="popover" data-toggle="modal"
 									data-placement="bottom" data-content="{\App\Language::translate($LIST_TEMPLATES[0]->label)}"
 									href="#">
 									<span class="{$LIST_TEMPLATES[0]->icon}"></span>
-									<span class="ml-2">{\App\Language::translate($LIST_TEMPLATES[0]->label)}</span>
 								</a>
 							</div>
 						{/if}
