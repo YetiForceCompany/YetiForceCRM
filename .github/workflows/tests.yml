@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
 
       - name: Tests
         uses: YetiForceCompany/YetiForceCRM-Tests/7.3@main
@@ -55,6 +55,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
           coverageLocations: ${{github.workspace}}/tests/coverages/coverage.xml:clover
+          debug: true
 
   tests80:
     runs-on: ubuntu-latest
