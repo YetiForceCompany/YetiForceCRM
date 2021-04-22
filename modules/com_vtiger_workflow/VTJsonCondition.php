@@ -507,6 +507,10 @@ class VTJsonCondition
 					return false;
 				}
 				return true;
+			case 'om':
+				return (int) $value !== \App\User::getCurrentUserId() ? false : true;
+			case 'nom':
+				return (int) $value === \App\User::getCurrentUserId() ? false : true;
 			case 'is record open':
 				if (
 					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName()))

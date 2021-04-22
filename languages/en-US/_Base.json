@@ -893,6 +893,8 @@
     "in more than": "in more than",
     "days ago": "days ago",
     "days later": "days later",
+    "currently logged in user": "Currently logged in user",
+    "user currently not logged": "User currently not logged",
     "Users": "Users",
     "Service Requests": "Service Requests",
     "LBL_NULL_VALUE": "(No value)",
