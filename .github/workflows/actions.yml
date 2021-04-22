@@ -45,7 +45,7 @@ jobs:
          java-version: 1.8
 
       - name: Upload to CoPilot
-        run: bash <(curl -s https://copilot-test.blackducksoftware.com/ci/githubactions/scripts/upload)
+        run: bash <(curl -s https://copilot.blackducksoftware.com/ci/githubactions/scripts/upload)
 
   security:
     name: Security
