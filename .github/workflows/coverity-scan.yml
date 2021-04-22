@@ -1,8 +1,10 @@
 name: coverity-scan
 
-on:
-  schedule:
-    - cron: '0 18 * * *' # Daily at 18:00 UTC
+#on:
+#  schedule:
+#    - cron: '0 18 * * *' # Daily at 18:00 UTC
+
+on: [push, pull_request]
 
 jobs:
   latest:
@@ -16,9 +18,11 @@ jobs:
         run: |
           cd ..
           wget -q https://scan.coverity.com/download/linux64 --post-data "token=${TOKEN}&project=YetiForceCompany%2FYetiForceCRM" -O coverity_tool.tgz
-          mkdir coverity
-          tar xzf coverity_tool.tgz --strip 1 -C coverity
-          echo "$(pwd)/coverity/bin" >> $GITHUB_PATH
+          tar xzf coverity_tool.tgz
+          COVBIN=$(echo $(pwd)/cov-analysis*/bin)
+          export PATH=$COVBIN:$PATH
+          popd
+
         env:
           TOKEN: ${{ secrets.COVERITY_TOKEN }}
 
