@@ -1,0 +1,42 @@
+name: coverity-scan
+#on:
+#  schedule:
+#    - cron: '0 18 * * *' # Daily at 18:00 UTC
+
+on: [push, pull_request]
+
+jobs:
+  latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download Coverity Build Tool
+        run: |
+          cd ..
+          wget -q https://scan.coverity.com/download/linux64 --post-data "token=${TOKEN}&project=YetiForceCompany%2FYetiForceCRM" -O coverity_tool.tgz
+          mkdir coverity
+          tar xzf coverity_tool.tgz --strip 1 -C coverity
+          echo "$(pwd)/coverity/bin" >> $GITHUB_PATH
+        env:
+          TOKEN: ${{ secrets.COVERITY_TOKEN }}
+
+      - name: Configure
+        run: ./configure
+
+      - name: Build with cov-build
+        run: cov-build --dir cov-int make
+
+      - name: Submit the result to Coverity Scan
+        run: |
+          tar czvf YetiForceCRM.tgz cov-int
+          curl --form token=$TOKEN \
+            --form email=m.krzaczkowski@yetiforce.com \
+            --form file=@YetiForceCRM.tgz \
+            --form version=trunk \
+            --form description="YetiForceCRM Description" \
+            https://scan.coverity.com/builds?project=YetiForceCompany%2FYetiForceCRM
+        env:
+          TOKEN: ${{ secrets.COVERITY_SCAN_TOKEN }}

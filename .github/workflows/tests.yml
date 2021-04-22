@@ -3,97 +3,97 @@ name: Tests
 on: [push, pull_request]
 
 jobs:
-    tests73:
-        runs-on: ubuntu-latest
-        name: PHP 7.3 - MariaDB 10.x
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+  tests73:
+    runs-on: ubuntu-latest
+    name: PHP 7.3 - MariaDB 10.x
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-            - name: Tests
-              uses: YetiForceCompany/YetiForceCRM-Tests/7.3@main
-              env:
-                  YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-                  YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+      - name: Tests
+        uses: YetiForceCompany/YetiForceCRM-Tests/7.3@main
+        env:
+          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
-    tests74:
-        runs-on: ubuntu-latest
-        name: PHP 7.4 - MariaDB 10.x , Code Coverage
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+  tests74:
+    runs-on: ubuntu-latest
+    name: PHP 7.4 - MariaDB 10.x , Code Coverage
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-            - name: Tests
-              uses: YetiForceCompany/YetiForceCRM-Tests/7.4@main
-              env:
-                  YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-                  YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-                  CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
+      - name: Tests
+        uses: YetiForceCompany/YetiForceCRM-Tests/7.4@main
+        env:
+          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+          CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
 
-            - name: Upload artifact
-              uses: actions/upload-artifact@v2
-              with:
-                  name: Coverages
-                  path: ${{github.workspace}}/tests/coverages
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Coverages
+          path: ${{github.workspace}}/tests/coverages
 
-            - name: SonarCloud Scan
-              uses: SonarSource/sonarcloud-github-action@master
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-              with:
-                  projectBaseDir: ${{github.workspace}}
-                  args: >
-                      -Dsonar.php.coverage.reportPath=${{github.workspace}}/tests/coverages/coverage.xml
-                      -Dsonar.php.tests.reportPath=${{github.workspace}}/tests/coverages/execution.xml
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: ${{github.workspace}}
+          args: >
+            -Dsonar.php.coverage.reportPath=${{github.workspace}}/tests/coverages/coverage.xml
+            -Dsonar.php.tests.reportPath=${{github.workspace}}/tests/coverages/execution.xml
 
-            - name: Test & publish code coverage
-              uses: paambaati/codeclimate-action@v2.7.5
-              env:
-                  CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-              with:
-                  coverageLocations: ${{github.workspace}}/tests/coverages/coverage.xml:clover
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+          coverageLocations: ${{github.workspace}}/tests/coverages/coverage.xml:clover
 
-    tests80:
-        runs-on: ubuntu-latest
-        name: PHP 8.0 - MariaDB 10.x
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+  tests80:
+    runs-on: ubuntu-latest
+    name: PHP 8.0 - MariaDB 10.x
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-            - name: Tests
-              uses: YetiForceCompany/YetiForceCRM-Tests/8.0@main
-              env:
-                  YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-                  YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+      - name: Tests
+        uses: YetiForceCompany/YetiForceCRM-Tests/8.0@main
+        env:
+          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
-    tests74MySQL57:
-        runs-on: ubuntu-latest
-        name: PHP 7.4 - Percona MySQL 5.7
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+  tests74MySQL57:
+    runs-on: ubuntu-latest
+    name: PHP 7.4 - Percona MySQL 5.7
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-            - name: Tests
-              uses: YetiForceCompany/YetiForceCRM-Tests/percona-mysql-5.7@main
-              env:
-                  YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-                  YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+      - name: Tests
+        uses: YetiForceCompany/YetiForceCRM-Tests/percona-mysql-5.7@main
+        env:
+          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
-    tests74MySQL80:
-        runs-on: ubuntu-latest
-        name: PHP 7.4 - Percona MySQL 8.0
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+  tests74MySQL80:
+    runs-on: ubuntu-latest
+    name: PHP 7.4 - Percona MySQL 8.0
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-            - name: Tests
-              uses: YetiForceCompany/YetiForceCRM-Tests/percona-mysql-8.0@main
-              env:
-                  YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-                  YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+      - name: Tests
+        uses: YetiForceCompany/YetiForceCRM-Tests/percona-mysql-8.0@main
+        env:
+          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
