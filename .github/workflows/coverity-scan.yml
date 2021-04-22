@@ -1,9 +1,8 @@
 name: coverity-scan
-#on:
-#  schedule:
-#    - cron: '0 18 * * *' # Daily at 18:00 UTC
 
-on: [push, pull_request]
+on:
+  schedule:
+    - cron: '0 18 * * *' # Daily at 18:00 UTC
 
 jobs:
   latest:
