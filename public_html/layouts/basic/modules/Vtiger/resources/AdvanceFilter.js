@@ -413,6 +413,7 @@ jQuery.Class(
 				'greaterthannow',
 				'ny',
 				'om',
+				'nom',
 				'wr',
 				'nwr'
 			];

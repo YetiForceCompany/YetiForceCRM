@@ -135,6 +135,8 @@ class WorkFlowScheduler
 			'ends with' => 'ew',
 			'is not' => 'n',
 			'is empty' => 'y',
+			'om' => 'om',
+			'nom' => 'nom',
 			'is not empty' => 'ny',
 			'before' => 'l',
 			'after' => 'g',
