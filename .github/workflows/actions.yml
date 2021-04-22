@@ -39,6 +39,14 @@ jobs:
       - name: DevSkim
         uses: microsoft/DevSkim-Action@v1
 
+      - name: Set up Java (CoPilot)
+        uses: actions/setup-java@v1
+        with:
+         java-version: 1.8
+
+      - name: Upload to CoPilot
+        run: bash <(curl -s https://copilot-test.blackducksoftware.com/ci/githubactions/scripts/upload)
+
   security:
     name: Security
     runs-on: ubuntu-latest
