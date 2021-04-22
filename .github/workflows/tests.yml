@@ -35,6 +35,9 @@ jobs:
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
+      env:
+        CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
+
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         base-path: /home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages
