@@ -285,6 +285,7 @@ jQuery.Class(
 						data.find('.widgetFilterDate').remove();
 						data.find('[data-widgets]').remove();
 						data.find('.widgetLimit').remove();
+						data.find('.widgetFilterTitle').remove();
 						let elementsToFilterTitle = contents.find('.createFieldModal .widgetFilterTitle').clone(true, true);
 						let elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
 						let elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
