@@ -70,6 +70,3 @@ jobs:
 
       - name: Upload to CoPilot
         run: bash <(curl -s https://copilot.blackducksoftware.com/ci/githubactions/scripts/upload)
-
-      - name: Polaris
-        uses: blackducksoftware/github-action@2.0.0

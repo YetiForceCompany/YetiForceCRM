@@ -36,7 +36,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
           name: Coverages
-          path: /home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages
+          path: ${{github.workspace}}/tests/coverages
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
@@ -44,7 +44,15 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        projectBaseDir: /home/runner/work/YetiForceCRM/YetiForceCRM
+        projectBaseDir: ${{github.workspace}}
+
+    - name: Test & publish code coverage
+      uses: paambaati/codeclimate-action@master
+      env:
+       CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+      with:
+       coverageLocations: ${{github.workspace}}/tests/coverages/coverage.xml:clover
+
 
   tests80:
     runs-on: ubuntu-latest
