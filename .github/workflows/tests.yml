@@ -33,6 +33,12 @@ jobs:
           name: Coverages
           path: /home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages
 
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        base-path: /home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages
+
   tests80:
     runs-on: ubuntu-latest
     name: PHP 8.0 - MariaDB 10.x
