@@ -82,7 +82,8 @@
     "mlocati/spf-lib": "^3",
     "phpmailer/dkimvalidator": "^v0.3",
     "league/climate": "^3.6",
-    "twig/twig": "^3.0"
+    "twig/twig": "^3.0",
+    "illuminate/support": "^8.0"
   },
   "suggest": {
     "ext-imagick": "Library recommended for securing potentially dangerous graphic files",
@@ -92,7 +93,9 @@
     "ext-opcache": "Improve system performance"
   },
   "archive": {
-    "exclude": ["tests"]
+    "exclude": [
+      "tests"
+    ]
   },
   "config": {
     "autoloader-suffix": "YT",
@@ -100,7 +103,9 @@
     "classmap-authoritative": false
   },
   "autoload": {
-    "files": ["app/Loader.php"],
+    "files": [
+      "app/Loader.php"
+    ],
     "psr-4": {
       "vtlib\\": "vtlib/Vtiger/",
       "includes\\": "include/",
