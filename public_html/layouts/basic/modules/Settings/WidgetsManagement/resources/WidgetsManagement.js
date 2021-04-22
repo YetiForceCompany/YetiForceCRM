@@ -295,6 +295,7 @@ jQuery.Class(
 						data.find('.modal-body').append(elementsToFilter);
 						data.find('.modal-body').append(elementsToDataWidgets);
 						data.find('.modal-body').append(elementsToLimit);
+						app.showPopoverElementView();
 						let name = $(this).find(':selected').data('name');
 						if ($.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
 							elementsToFilter.removeClass('d-none').find('select').prop('disabled', false);
