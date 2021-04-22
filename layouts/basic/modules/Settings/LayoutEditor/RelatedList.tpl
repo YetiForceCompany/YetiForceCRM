@@ -177,7 +177,7 @@
 									</div>
 									{if $INVENTORY_MODEL}
 										{assign var=INVENTORY_FIELDS value=$INVENTORY_MODEL->getFields()}
-										<div class="form-horizontal">
+										<div class="form-horizontal js-related-column-list-container" data-js="container">
 											<div class="form-group row">
 												<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}
 													:</label>
