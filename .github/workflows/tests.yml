@@ -8,6 +8,8 @@ jobs:
     name: PHP 7.3 - MariaDB 10.x
     steps:
     - uses: actions/checkout@v2
+      with:
+       fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
     - name: Tests
       uses: YetiForceCompany/YetiForceCRM-Tests/7.3@main
@@ -20,6 +22,8 @@ jobs:
     name: PHP 7.4 - MariaDB 10.x , Code Coverage
     steps:
     - uses: actions/checkout@v2
+      with:
+       fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
     - name: Tests
       uses: YetiForceCompany/YetiForceCRM-Tests/7.4@main
@@ -35,7 +39,7 @@ jobs:
           path: /home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages
 
     - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@v1.6
+      uses: SonarSource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -47,6 +51,8 @@ jobs:
     name: PHP 8.0 - MariaDB 10.x
     steps:
     - uses: actions/checkout@v2
+      with:
+       fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
     - name: Tests
       uses: YetiForceCompany/YetiForceCRM-Tests/8.0@main
@@ -59,6 +65,8 @@ jobs:
     name: PHP 7.4 - Percona MySQL 5.7
     steps:
     - uses: actions/checkout@v2
+      with:
+       fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
     - name: Tests
       uses: YetiForceCompany/YetiForceCRM-Tests/percona-mysql-5.7@main
@@ -71,6 +79,8 @@ jobs:
     name: PHP 7.4 - Percona MySQL 8.0
     steps:
     - uses: actions/checkout@v2
+      with:
+       fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
     - name: Tests
       uses: YetiForceCompany/YetiForceCRM-Tests/percona-mysql-8.0@main
