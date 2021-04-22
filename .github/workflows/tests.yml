@@ -26,6 +26,7 @@ jobs:
       env:
         YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
         YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+        CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
@@ -33,14 +34,6 @@ jobs:
           name: Coverages
           path: /home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      env:
-        CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
-
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        base-path: /home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages
 
   tests80:
     runs-on: ubuntu-latest
