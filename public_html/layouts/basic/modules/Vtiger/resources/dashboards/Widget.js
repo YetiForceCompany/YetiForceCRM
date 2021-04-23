@@ -2949,7 +2949,6 @@ YetiForce_Widget_Js(
 	{},
 	{
 		postLoadWidget: function () {
-			app.hideModalWindow();
 			this.restrictContentDrag();
 			this.registerFilter();
 			this.registerFilterChangeEvent();
