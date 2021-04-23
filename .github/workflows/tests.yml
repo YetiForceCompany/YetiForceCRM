@@ -55,6 +55,9 @@ jobs:
       - name: Replace path
         run: php -r "file_put_contents('${{github.workspace}}/tests/coverages/coverage.xml', str_replace('/var/www/html', '${{github.workspace}}', file_get_contents('${{github.workspace}}/tests/coverages/coverage.xml')));"
 
+      - name: LS
+        run: ls -all ${{github.workspace}}
+
       - name: Code Climate - Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
