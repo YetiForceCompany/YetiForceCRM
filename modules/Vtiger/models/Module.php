@@ -1409,7 +1409,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 					if (!empty($fieldValue)) {
 						$data[$fieldName] = $fieldValue;
 					}
-				} else {
+				} elseif ($fieldModel->isReferenceField()) {
 					if ($fieldModel->isReferenceField()) {
 						$referenceList = $fieldModel->getReferenceList();
 						if (!empty($referenceList)) {
