@@ -53,7 +53,7 @@ jobs:
       #            -Dsonar.php.tests.reportPath=${{github.workspace}}/tests/coverages/execution.xml
 
       - name: Replace path
-        run: sed -i "s+/var/www/html+/github/workspace+g" ${{github.workspace}}/tests/coverages/coverage.xml
+        run: php -r "file_put_contents('/home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages/coverage.xml', str_replace('/var/www/html', '/github/workspace', file_get_contents('/home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages/coverage.xml')));"
 
       - name: Code Climate - Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
