@@ -1403,7 +1403,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
 				if ($fillFields) {
 					$fieldValue = $recordModel->get($fieldName);
-					if (!empty($fieldValue)) {
+					if ('' !== $fieldValue) {
 						$data[$fieldName] = $fieldValue;
 					}
 				} elseif ($fieldModel->isReferenceField()) {
@@ -1427,7 +1427,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 						if ($relatedModule == $sourceModule) {
 							foreach ($relatedFields as $to => $from) {
 								$fieldValue = $recordModel->get($from[0]);
-								if (!empty($fieldValue)) {
+								if ('' !== $fieldValue) {
 									$data[$to] = $fieldValue;
 								}
 							}
