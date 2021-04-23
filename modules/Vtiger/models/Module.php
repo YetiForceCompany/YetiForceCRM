@@ -1399,7 +1399,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 
 			$sourceModelFields = $sourceModuleModel->getFields();
-			$fillFields = false;
+			$fillFields ='all' === $request->getRaw('fillFields');
 			if ('all' === $request->getByType('fillFields', 'Text')) {
 				$fillFields = true;
 			}
