@@ -21,6 +21,9 @@ jobs:
           tar xzf coverity_tool.tgz
           COVBIN=$(echo $(pwd)/cov-analysis*/bin)
           export PATH=$COVBIN:$PATH
+          pwd
+          ls -all
+          ls -all $COVBIN
           popd
 
         env:

@@ -49,12 +49,17 @@ jobs:
             -Dsonar.php.coverage.reportPath=${{github.workspace}}/tests/coverages/coverage.xml
             -Dsonar.php.tests.reportPath=${{github.workspace}}/tests/coverages/execution.xml
 
+      - name: Copy
+        run: |
+          mkdir -p /var/www/html/
+          cp -R ${{github.workspace}} /var/www/html/
+
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
-          coverageLocations: ${{github.workspace}}/tests/coverages/coverage.xml:clover
+          coverageLocations: /var/www/html/tests/coverages/coverage.xml:clover
           debug: true
 
   tests80:
