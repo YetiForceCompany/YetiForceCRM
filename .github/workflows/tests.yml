@@ -53,14 +53,16 @@ jobs:
       #            -Dsonar.php.tests.reportPath=${{github.workspace}}/tests/coverages/execution.xml
 
       - name: Replace path
-        run: php -r "file_put_contents('/home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages/coverage.xml', str_replace('/var/www/html', '/github/workspace', file_get_contents('/home/runner/work/YetiForceCRM/YetiForceCRM/tests/coverages/coverage.xml')));"
+        run: |
+          cp ${{github.workspace}}/tests/coverages/coverage.xml ${{github.workspace}}/tests/coverages/coverage2.xml
+          php -r "file_put_contents('${{github.workspace}}/tests/coverages/coverage2.xml', str_replace('/var/www/html', '/github/workspace', file_get_contents('${{github.workspace}}/tests/coverages/coverage2.xml')));"
 
       - name: Code Climate - Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
-          coverageLocations: ${{github.workspace}}/tests/coverages/coverage.xml:clover
+          coverageLocations: ${{github.workspace}}/tests/coverages/coverage2.xml:clover
           debug: true
 
   tests80:
