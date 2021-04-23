@@ -38,6 +38,9 @@ jobs:
           name: Coverages
           path: ${{github.workspace}}/tests/coverages
 
+      - name: LS
+        run: ls -all ${{github.workspace}}/tests/coverages/
+
       - name: SonarCloud - Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -52,7 +55,7 @@ jobs:
       - name: Replace path
         run: |
           mv ${{github.workspace}}/tests/coverages/  /home/runner/work/coverages/
-          sed -i 's+/var/www/html+/github/workspace+g' /home/runner/work/coverages//coverage.xml
+          sed -i 's+/var/www/html+/github/workspace+g' /home/runner/work/coverages/coverage.xml
 
       - name: Code Climate - Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
