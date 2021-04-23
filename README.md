@@ -14,7 +14,6 @@
 [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.svg)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/161d09ea3c824405b762a0c9edc2845e)](https://www.codacy.com/app/mariuszkrzaczkowski/YetiForceCRM?utm_source=github.com&utm_medium=referral&utm_content=YetiForceCompany/YetiForceCRM&utm_campaign=Badge_Grade)
 [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM 'Average time to resolve an issue')
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM 'Percentage of issues still open')
