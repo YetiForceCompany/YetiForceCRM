@@ -38,8 +38,10 @@ jobs:
           name: Coverages
           path: ${{github.workspace}}/tests/coverages
 
-      - name: LS
-        run: ls -all ${{github.workspace}}/tests/coverages/
+      - name: Scrutinizer
+        run: |
+          wget https://scrutinizer-ci.com/ocular.phar
+          php ocular.phar code-coverage:upload --format=php-clover ${{github.workspace}}/tests/coverages/coverage.xml
 
       - name: SonarCloud - Scan
         uses: SonarSource/sonarcloud-github-action@master
