@@ -1399,10 +1399,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 
 			$sourceModelFields = $sourceModuleModel->getFields();
-			$fillFields ='all' === $request->getRaw('fillFields');
-			if ('all' === $request->getByType('fillFields', 'Text')) {
-				$fillFields = true;
-			}
+			$fillFields = 'all' === $request->getRaw('fillFields');
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
 				if ($fillFields) {
 					$fieldValue = $recordModel->get($fieldName);
@@ -1410,15 +1407,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 						$data[$fieldName] = $fieldValue;
 					}
 				} elseif ($fieldModel->isReferenceField()) {
-					if ($fieldModel->isReferenceField()) {
-						$referenceList = $fieldModel->getReferenceList();
-						if (!empty($referenceList)) {
-							foreach ($referenceList as $referenceModule) {
-								if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
-									$fieldValue = $recordModel->get($fieldName);
-									if (0 != $fieldValue && empty($data[$fieldMap[$referenceModule]]) && \App\Record::getType($fieldValue) == $referenceModule) {
-										$data[$fieldMap[$referenceModule]] = $fieldValue;
-									}
+					$referenceList = $fieldModel->getReferenceList();
+					if (!empty($referenceList)) {
+						foreach ($referenceList as $referenceModule) {
+							if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
+								$fieldValue = $recordModel->get($fieldName);
+								if (0 != $fieldValue && empty($data[$fieldMap[$referenceModule]]) && \App\Record::getType($fieldValue) == $referenceModule) {
+									$data[$fieldMap[$referenceModule]] = $fieldValue;
 								}
 							}
 						}
