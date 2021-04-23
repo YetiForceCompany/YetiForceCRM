@@ -1399,8 +1399,14 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 
 			$sourceModelFields = $sourceModuleModel->getFields();
+			$fillFields = 'all' === $request->getRaw('fillFields');
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField()) {
+				if ($fillFields) {
+					$fieldValue = $recordModel->get($fieldName);
+					if ('' !== $fieldValue) {
+						$data[$fieldName] = $fieldValue;
+					}
+				} elseif ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (!empty($referenceList)) {
 						foreach ($referenceList as $referenceModule) {
@@ -1421,7 +1427,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 						if ($relatedModule == $sourceModule) {
 							foreach ($relatedFields as $to => $from) {
 								$fieldValue = $recordModel->get($from[0]);
-								if (!empty($fieldValue)) {
+								if ('' !== $fieldValue) {
 									$data[$to] = $fieldValue;
 								}
 							}
