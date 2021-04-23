@@ -2949,7 +2949,6 @@ YetiForce_Widget_Js(
 	{},
 	{
 		postLoadWidget: function () {
-			app.hideModalWindow();
 			this.restrictContentDrag();
 			this.registerFilter();
 			this.registerFilterChangeEvent();
@@ -3123,7 +3122,7 @@ YetiForce_Widget_Js(
 					filterid: element.val()
 				});
 			});
-			this.loadListData(params);
+			// this.loadListData(params);
 		},
 		loadListData(params) {
 			if (!params.length) {
