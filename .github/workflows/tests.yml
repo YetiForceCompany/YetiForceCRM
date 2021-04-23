@@ -38,7 +38,7 @@ jobs:
           name: Coverages
           path: ${{github.workspace}}/tests/coverages
 
-      - name: SonarCloud Scan
+      - name: SonarCloud - Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,10 +49,10 @@ jobs:
             -Dsonar.php.coverage.reportPath=${{github.workspace}}/tests/coverages/coverage.xml
             -Dsonar.php.tests.reportPath=${{github.workspace}}/tests/coverages/execution.xml
 
-      - name: Copy
-        run: sed -i 's+/var/www/html+/github/workspace+g' ${{github.workspace}}/tests/coverages/coverage.xml
+      - name: Replace path
+        run: sed -i 's+/var/www/html+/github/workspace+g' /github/workspace/tests/coverages/coverage.xml
 
-      - name: Test & publish code coverage
+      - name: Code Climate - Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
