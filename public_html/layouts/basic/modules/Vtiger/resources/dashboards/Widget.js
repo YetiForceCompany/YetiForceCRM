@@ -3122,7 +3122,7 @@ YetiForce_Widget_Js(
 					filterid: element.val()
 				});
 			});
-			// this.loadListData(params);
+			this.loadListData(params);
 		},
 		loadListData(params) {
 			if (!params.length) {
