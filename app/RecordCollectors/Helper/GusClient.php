@@ -233,7 +233,7 @@ class GusClient extends \SoapClient
 				$responseFromGusFiz = $this->parseResponse($resultFiz->DanePobierzPelnyRaportResult);
 				$nip = $responseFromGusFiz[0][$prefixName . 'nip'];
 			}
-			$response['NumerBudynku'] = $responseFromGus[$this->reportToNumberLocal[$reportName]];
+			$response['NumerBudynku'] = $responseFromGus[$this->reportToNumberLocal[$reportName]] ?? '';
 			$response['NumerLokalu'] = $responseFromGus[$prefixName . 'adSiedzNumerLokalu'] ?? '';
 			$response['Krs'] = $responseFromGus[$prefixName . 'numerWrejestrzeEwidencji'] ?? '';
 			$response['Nip'] = $nip ?? '';
@@ -254,8 +254,12 @@ class GusClient extends \SoapClient
 			$response['DataPowstania'] = $responseFromGus[$prefixName . 'dataPowstania'] ?? '';
 			$response['DataRozpoczeciaDzialalnosci'] = $responseFromGus[$prefixName . 'dataRozpoczeciaDzialalnosci'] ?? '';
 			$response['DataWpisuDoREGON'] = $responseFromGus[$prefixName . 'dataWpisuDoREGON'] ?? '';
+			$response['DataZawieszeniaDzialalnosci'] = $responseFromGus[$prefixName . 'dataZawieszeniaDzialalnosci'] ?? '';
+			$response['DataWznowieniaDzialalnosci'] = $responseFromGus[$prefixName . 'dataWznowieniaDzialalnosci'] ?? '';
 			$response['DataZaistnieniaZmiany'] = $responseFromGus[$prefixName . 'dataZaistnieniaZmiany'] ?? '';
+			$response['DataZakonczeniaDzialalnosci'] = $responseFromGus[$prefixName . 'dataZakonczeniaDzialalnosci'] ?? '';
 			$response['DataWpisuDoRejestruEwidencji'] = $responseFromGus[$prefixName . 'dataWpisuDoRejestruEwidencji'] ?? '';
+			$response['DataSkresleniazRegon'] = $responseFromGus[$prefixName . 'dataSkresleniazRegon'] ?? '';
 		} else {
 			$response = [];
 		}

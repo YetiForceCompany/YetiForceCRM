@@ -172,16 +172,20 @@ class Gus extends Base
 				foreach ($infoFromGus as $key => &$row) {
 					foreach ($this->formFieldsToRecordMap[$moduleName] as $apiName => $fieldName) {
 						if (empty($fields[$fieldName]) || !$fields[$fieldName]->isActiveField()) {
-							if (empty($skip[$fieldName]['label'])) {
+							if (isset($fields[$fieldName]) && empty($skip[$fieldName]['label'])) {
 								$skip[$fieldName]['label'] = \App\Language::translate($fields[$fieldName]->getFieldLabel(), $moduleName);
+							} else {
+								$skip[$fieldName]['label'] = $fieldName;
 							}
 							$skip[$fieldName]['data'][$key]['display'] = $row[$apiName] ?? '';
 							unset($row[$apiName]);
 							continue;
 						}
 						if (isset($row[$apiName])) {
-							if (empty($data[$fieldName]['label'])) {
+							if (isset($fields[$fieldName]) && empty($data[$fieldName]['label'])) {
 								$data[$fieldName]['label'] = \App\Language::translate($fields[$fieldName]->getFieldLabel(), $moduleName);
+							} else {
+								$skip[$fieldName]['label'] = $fieldName;
 							}
 							$data[$fieldName]['data'][$key] = [
 								'raw' => $row[$apiName],
