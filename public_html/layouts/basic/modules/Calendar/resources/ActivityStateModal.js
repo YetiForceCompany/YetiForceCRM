@@ -35,19 +35,12 @@ jQuery.Class(
 							}),
 							url =
 								'index.php?module=Calendar&view=QuickCreateAjax&addRelation=true&sourceModule=Calendar&sourceRecord=' +
-								currentTarget.data('id'),
-							params = {},
-							subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject');
+								currentTarget.data('id') +
+								'&sourceFields=all',
+							params = {};
 						params.noCache = true;
 						App.Components.QuickCreate.getForm(url, 'Calendar', params).done(function (data) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							if (currentTarget.data('type') == '0' && typeof subject !== 'undefined' && subject.length > 0) {
-								data = $(data);
-								let element = data.find('[name="subject"]');
-								if (element.length) {
-									element.val(subject);
-								}
-							}
 							App.Components.QuickCreate.showModal(data, {
 								callbackFunction: function (data) {
 									if (data && data.success && data.result.followup.value == currentTarget.data('id')) {

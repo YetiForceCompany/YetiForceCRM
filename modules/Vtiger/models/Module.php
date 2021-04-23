@@ -1400,7 +1400,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 			$sourceModelFields = $sourceModuleModel->getFields();
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField()) {
+				if ($fieldModel->isReferenceField() && !$request->has('sourceFields')) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (!empty($referenceList)) {
 						foreach ($referenceList as $referenceModule) {
@@ -1411,6 +1411,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 								}
 							}
 						}
+					}
+				} elseif ($request->has('sourceFields') && 'all' === $request->getByType('sourceFields', 'Text')) {
+					$fieldValue = $recordModel->get($fieldName);
+					if (!empty($fieldValue)) {
+						$data[$fieldName] = $fieldValue;
 					}
 				}
 			}
