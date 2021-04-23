@@ -36,7 +36,7 @@ jQuery.Class(
 							url =
 								'index.php?module=Calendar&view=QuickCreateAjax&addRelation=true&sourceModule=Calendar&sourceRecord=' +
 								currentTarget.data('id') +
-								'&sourceFields=all',
+								'&fillFields=all',
 							params = {};
 						params.noCache = true;
 						App.Components.QuickCreate.getForm(url, 'Calendar', params).done(function (data) {
