@@ -53,9 +53,7 @@ jobs:
       #            -Dsonar.php.tests.reportPath=${{github.workspace}}/tests/coverages/execution.xml
 
       - name: Replace path
-        run: |
-          cp ${{github.workspace}}/tests/coverages/coverage.xml ${{github.workspace}}/tests/coverages/coverage2.xml
-          php -r "file_put_contents('${{github.workspace}}/tests/coverages/coverage2.xml', str_replace('/var/www/html', '/github/workspace', file_get_contents('${{github.workspace}}/tests/coverages/coverage2.xml')));"
+        run: php -r "file_put_contents('${{github.workspace}}/tests/coverages/coverage2.xml', str_replace('/var/www/html', '/github/workspace', file_get_contents('${{github.workspace}}/tests/coverages/coverage2.xml')));"
 
       - name: Code Climate - Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
