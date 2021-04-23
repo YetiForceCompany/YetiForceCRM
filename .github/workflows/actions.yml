@@ -1,6 +1,6 @@
 name: PHP actions
 
-on: [push, pull_request]
+on: push
 
 jobs:
   composer:
@@ -35,7 +35,7 @@ jobs:
       - name: PHP VarDump Check Action
         uses: umutphp/php-var-dump-check-action@v1
         with:
-         exclude: 'vendor,tests'
+          exclude: 'vendor,tests'
 
       - name: Check PHP syntax errors
         uses: overtrue/phplint@2.3.5
@@ -56,7 +56,6 @@ jobs:
         uses: StephaneBour/actions-php-security-checker@1.1
         with:
           composer-lock: './composer.lock'
-
 
   copilot:
     name: CoPilot
