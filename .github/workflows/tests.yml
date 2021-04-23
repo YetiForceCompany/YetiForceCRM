@@ -32,31 +32,28 @@ jobs:
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
           CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
 
-      #      - name: Upload artifact
-      #        uses: actions/upload-artifact@v2
-      #        with:
-      #          name: Coverages
-      #          path: ${{github.workspace}}/tests/coverages
-      #
-      #      - name: LS
-      #        run: ls -all ${{github.workspace}}/tests/coverages/
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Coverages
+          path: ${{github.workspace}}/tests/coverages
 
-      #      - name: SonarCloud - Scan
-      #        uses: SonarSource/sonarcloud-github-action@master
-      #        env:
-      #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #        with:
-      #          projectBaseDir: ${{github.workspace}}
-      #          args: >
-      #            -Dsonar.php.coverage.reportPath=${{github.workspace}}/tests/coverages/coverage.xml
-      #            -Dsonar.php.tests.reportPath=${{github.workspace}}/tests/coverages/execution.xml
+      - name: LS
+        run: ls -all ${{github.workspace}}/tests/coverages/
+
+      - name: SonarCloud - Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: ${{github.workspace}}
+          args: >
+            -Dsonar.php.coverage.reportPath=${{github.workspace}}/tests/coverages/coverage.xml
+             -Dsonar.php.tests.reportPath=${{github.workspace}}/tests/coverages/execution.xml
 
       - name: Replace path
         run: php -r "file_put_contents('${{github.workspace}}/tests/coverages/coverage.xml', str_replace('/var/www/html', '${{github.workspace}}', file_get_contents('${{github.workspace}}/tests/coverages/coverage.xml')));"
-
-      - name: LS
-        run: ls -all ${{github.workspace}}
 
       - name: Code Climate - Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
