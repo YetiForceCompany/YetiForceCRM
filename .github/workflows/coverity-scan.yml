@@ -21,6 +21,7 @@ jobs:
           tar xzf coverity_tool.tgz
           COVBIN=$(echo $(pwd)/cov-analysis*/bin)
           export PATH=$COVBIN:$PATH
+          cd cov-analysis-linux64-2020.09
 
         env:
           TOKEN: ${{ secrets.COVERITY_TOKEN }}
