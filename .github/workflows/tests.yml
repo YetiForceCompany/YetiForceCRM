@@ -32,12 +32,6 @@ jobs:
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
           CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: Coverages
-          path: ${{github.workspace}}/tests/coverages
-
       - name: PHP info
         run: |
           whereis php
@@ -70,6 +64,12 @@ jobs:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
           coverageLocations: ${{github.workspace}}/tests/coverages/coverage.xml:clover
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Coverages
+          path: ${{github.workspace}}/tests/coverages
 
   tests80:
     runs-on: ubuntu-latest
