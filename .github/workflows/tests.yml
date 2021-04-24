@@ -40,6 +40,10 @@ jobs:
 
       - name: Scrutinizer
         run: |
+          whereis php
+          apt list --installed | grep php
+          dpkg --get-selections | grep php
+          find / -name php.ini
           wget https://scrutinizer-ci.com/ocular.phar
           php ocular.phar code-coverage:upload --format=php-clover ${{github.workspace}}/tests/coverages/coverage.xml
 
