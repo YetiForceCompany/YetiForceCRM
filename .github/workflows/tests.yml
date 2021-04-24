@@ -38,7 +38,6 @@ jobs:
           whereis php
           apt list --installed | grep php
           dpkg --get-selections | grep php
-          find / -name php.ini
 
       - name: Scrutinizer
         run: |
