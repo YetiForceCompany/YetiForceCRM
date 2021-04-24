@@ -41,7 +41,7 @@ jobs:
 
       - name: Scrutinizer
         run: |
-          wget https://scrutinizer-ci.com/ocular.phar
+          wget https://scrutinizer-ci.com/ocular.phar --quiet
           /usr/bin/php7.4 ocular.phar code-coverage:upload --format=php-clover ${{github.workspace}}/tests/coverages/coverage.xml
 
       - name: SonarCloud - Scan
