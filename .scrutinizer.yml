@@ -217,7 +217,6 @@ checks:
     check_try_statement: true
     check_too_many_arguments: true
     check_switch_unintended label: true
-    check_switch_no_uncommented_fallthrough: true
     check_switch_no_default: true
     check_switch_default_only: true
     check_switch_default_not_last: true
