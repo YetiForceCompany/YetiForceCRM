@@ -12,17 +12,13 @@ build:
       version: 7.4
 
   tests:
+    stop_on_failure: false
+    before: []
     override:
-      - true
-
+      - 'php -v'
+    after: []
   nodes:
-    tests: true
-    analysis:
-      project_setup:
-        override: true
-      tests:
-        override:
-          - php-scrutinizer-run --enable-security-analysis
+    tests: []
 
 filter:
   excluded_paths:
