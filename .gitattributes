@@ -27,6 +27,7 @@
 .scrutinizer.yml export-ignore
 .sensiolabs.yml export-ignore
 .codecov.yml export-ignore
+codecov.yml export-ignore
 whitesource.config.json export-ignore
 sonar-project.properties export-ignore
 crowdin.yml  export-ignore
