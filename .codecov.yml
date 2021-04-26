@@ -13,4 +13,5 @@ coverage:
           - 'app/'
     patch: off
 comment: off
-
+fixes:
+   - "/var/www/html/::"
