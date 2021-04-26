@@ -10,7 +10,6 @@
 [![Doc](https://img.shields.io/badge/Doc-doc.yetiforce.com-brightgreen.svg)](https://doc.yetiforce.com/)
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors)
-[![Dependency Status](https://david-dm.org/YetiForceCompany/YetiForceCRM.svg)](https://david-dm.org/YetiForceCompany/YetiForceCRM)
 [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.svg)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
