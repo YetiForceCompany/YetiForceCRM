@@ -74,7 +74,7 @@ class Gus extends Base
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
 			'Nazwa' => 'accountname',
-			'SzczegolnaFormaPrawna' => 'legal_form',
+			'SzczegolnaFormaPrawnaNazwa' => 'legal_form',
 			'Regon' => 'registration_number_2',
 			'Krs' => 'registration_number_1',
 			'Nip' => 'vat_id',
@@ -86,7 +86,6 @@ class Gus extends Base
 			'Ulica' => 'addresslevel8a',
 			'NumerBudynku' => 'buildingnumbera',
 			'NumerLokalu' => 'localnumbera',
-			'FormaPrawna' => 'legal_form',
 			'Kraj' => 'addresslevel1a',
 			'NumerTelefonu' => 'phone',
 			'NumerFaksu' => 'fax',
@@ -94,7 +93,7 @@ class Gus extends Base
 		],
 		'Leads' => [
 			'Nazwa' => 'company',
-			'SzczegolnaFormaPrawna' => 'legal_form',
+			'SzczegolnaFormaPrawnaNazwa' => 'legal_form',
 			'Regon' => 'registration_number_2',
 			'Wojewodztwo' => 'addresslevel2a',
 			'Powiat' => 'addresslevel3a',
