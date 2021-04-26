@@ -49,7 +49,8 @@
     "LBL_TIME_COUNTING_REACTION": "Reaction time",
     "LBL_TIME_COUNTING_RESOLVE": "Resolve time",
     "LBL_TIME_COUNTING_IDLE": "Idle time",
-    "LBL_IS_NOT_A_PROCESS_STATUS_FIELD": "Field is not a process status field."
+    "LBL_IS_NOT_A_PROCESS_STATUS_FIELD": "Field is not a process status field.",
+    "LBL_IMPORT_VALUE": "Import values"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "All Roles selected",
