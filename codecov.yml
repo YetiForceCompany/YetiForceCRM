@@ -1,5 +1,5 @@
-fixes:
-  - '/var/www/html/::/'
+codecov:
+  disable_default_path_fixes: false
 
 ignore:
   - 'vendor/*'
