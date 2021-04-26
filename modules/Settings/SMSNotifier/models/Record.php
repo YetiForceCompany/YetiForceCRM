@@ -115,7 +115,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	public function getDisplayValue(string $name)
 	{
 		if ('isactive' === $name) {
-			return empty($this->get($name)) ? 'PLL_INACTIVE' : 'PLL_ACTIVE';
+			$moduleName = $this->getModule()->getName();
+			return empty($this->get($name)) ? \App\Language::translate('PLL_INACTIVE', "Settings:$moduleName") : \App\Language::translate('PLL_ACTIVE', "Settings:$moduleName");
 		}
 		return $this->get($name);
 	}
