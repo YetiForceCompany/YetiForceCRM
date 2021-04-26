@@ -8,6 +8,11 @@ ignore:
   - 'public_html/vendor/*'
   - 'public_html/src/node_modules/*'
   - 'public_html/libraries/*'
+  - '/var/www/html/vendor/*'
+  - '/var/www/html/node_modules/*'
+  - '/var/www/html/public_html/vendor/*'
+  - '/var/www/html/public_html/src/node_modules/*'
+  - '/var/www/html/public_html/libraries/*'
 
 coverage:
   range: 0..22
