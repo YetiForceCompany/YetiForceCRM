@@ -43,6 +43,9 @@ jobs:
       - name: DevSkim
         uses: microsoft/DevSkim-Action@v1
 
+      - name: codecov.io/validate
+        run: curl --data-binary @codecov.yml https://codecov.io/validate
+
   security:
     name: Security
     runs-on: ubuntu-latest
