@@ -14,4 +14,4 @@ coverage:
     patch: off
 comment: off
 codecov:
-  disable_default_path_fixes: true
+  disable_default_path_fixes: false
