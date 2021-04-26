@@ -6778,7 +6778,7 @@ CREATE TABLE `vtiger_legal_form` (
   `sortorderid` int(10) DEFAULT NULL,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`legal_formid`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lettersin` */
 

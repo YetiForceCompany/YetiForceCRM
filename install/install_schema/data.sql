@@ -5965,24 +5965,7 @@ insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklis
 /*Data for the table `vtiger_legal_form` */
 
 insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (1,'PLL_NATURAL_PERSON',1,0);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (2,'PLL_BUSINESS_ACTIVITY',2,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (3,'PLL_GENERAL_PARTNERSHIP',3,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (4,'PLL_PROFESSIONAL_PARTNERSHIP',4,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (5,'PLL_LIMITED_PARTNERSHIP',5,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (6,'PLL_JOINT_STOCK_PARTNERSHIP',6,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (7,'PLL_LIMITED_LIABILITY_COMPANY',7,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (8,'PLL_STOCK_OFFERING_COMPANY',8,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (9,'PLL_GOVERMENT_ENTERPRISE',9,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (10,'PLL_ASSOCIATION',10,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (11,'PLL_COOPERATIVE',11,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (12,'PLL_FOUNDATION',12,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (13,'PLL_EUROPEAN_PARTNERSHIP',13,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (14,'PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING',14,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (15,'PLL_EUROPEAN_COOPERATIVE',15,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (16,'PLL_EUROPEAN_PRIVATE_PARTNERSHIP',16,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (17,'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP',17,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (18,'PLL_EUROPEAN_ASSOCIATION',18,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (19,'PLL_UFCIITS',19,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (2,'PLL_COMPANY',2,1);
 
 /*Data for the table `vtiger_lettersin` */
 
