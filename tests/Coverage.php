@@ -36,14 +36,14 @@ class Coverage
 	{
 		if (!isset(self::$self)) {
 			\SebastianBergmann\CodeCoverage\Directory::create(ROOT_DIRECTORY . '/tests/coverages/');
-			self::log('Initiation CodeCoverage...');
+			self::log('Initiation... ' . ($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? ''));
 			$self = new self();
 			$self->startTime = microtime(true);
 			$self->dir = ROOT_DIRECTORY . '/tests/coverages/';
 			$self->name = date('Ymd_H_i_s') . '_' . \App\Encryption::generatePassword(10);
 			$filter = $self->getFilter();
 			$driver = (new \SebastianBergmann\CodeCoverage\Driver\Selector())->forLineCoverage($filter);
-			self::log('Driver: ' . $driver->nameAndVersion());
+			self::log('Driver: ' . $driver->nameAndVersion() . ' ');
 			$self->coverage = new \SebastianBergmann\CodeCoverage\CodeCoverage($driver, $filter);
 			self::$self = $self;
 		}
@@ -88,7 +88,7 @@ class Coverage
 	public function start(): void
 	{
 		$this->coverage->start($this->name);
-		self::log('Started');
+		self::log('Started ');
 	}
 
 	/**
@@ -98,12 +98,12 @@ class Coverage
 	{
 		try {
 			$this->coverage->stop();
-			self::log('Stop');
+			self::log('Stop ');
 			$writer = new \SebastianBergmann\CodeCoverage\Report\PHP();
 			$writer->process($this->coverage, "{$this->dir}php/{$this->name}.php");
-			self::log('Collection of code coverage time: ' . round(microtime(true) - $this->startTime, 1) . ' s.');
+			self::log('Collection time: ' . round(microtime(true) - $this->startTime, 1) . ' s.' . PHP_EOL);
 		} catch (\Exception $ex) {
-			self::log('Collection exception !!!');
+			self::log(PHP_EOL . 'Collection exception !!!' . PHP_EOL);
 			self::log($ex->__toString());
 		}
 	}
@@ -122,14 +122,17 @@ class Coverage
 				unlink($file);
 			}
 			$startTime = microtime(true);
-			$writer = new \SebastianBergmann\CodeCoverage\Report\Clover();
-			$writer->process($this->coverage, "{$this->dir}coverage.xml");
-			self::log('Clover Report time: ' . round(microtime(true) - $startTime, 1) . ' s.');
-
-			$startTime = microtime(true);
 			$writer = new \SebastianBergmann\CodeCoverage\Report\Html\Facade();
 			$writer->process($this->coverage, $this->dir . 'html/');
 			self::log('Clover Html time: ' . round(microtime(true) - $startTime, 1) . ' s.');
+
+			$startTime = microtime(true);
+			$writer = new \SebastianBergmann\CodeCoverage\Report\Clover();
+			$clover = $writer->process($this->coverage);
+			file_put_contents("{$this->dir}coverage.xml", $clover);
+			file_put_contents("{$this->dir}coverage2.xml", str_replace('/var/www/html/', '/', $clover));
+			file_put_contents("{$this->dir}coverage3.xml", str_replace('/var/www/html/', '/github/workspace/', $clover));
+			self::log('Clover Report time: ' . round(microtime(true) - $startTime, 1) . ' s.');
 		} catch (\Exception $ex) {
 			self::log('Generate report exception !!!');
 			self::log($ex->__toString());
@@ -144,6 +147,6 @@ class Coverage
 	 */
 	public static function log(string $text): void
 	{
-		file_put_contents(ROOT_DIRECTORY . '/tests/coverages/codecoverage.log', date('H:i:s') . ' ' . $text . PHP_EOL, FILE_APPEND);
+		file_put_contents(ROOT_DIRECTORY . '/tests/coverages/codecoverage.log', '| ' . date('H:i:s') . ' ' . $text, FILE_APPEND);
 	}
 }
