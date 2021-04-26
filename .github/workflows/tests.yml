@@ -51,9 +51,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectBaseDir: ${{github.workspace}}
-          args: >
-            -Dsonar.php.coverage.reportPath=${{github.workspace}}/tests/coverages/coverage.xml
-            -Dsonar.php.tests.reportPath=${{github.workspace}}/tests/coverages/execution.xml
 
       - name: Code Climate - Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
