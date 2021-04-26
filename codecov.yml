@@ -28,4 +28,3 @@ coverage:
         paths:
           - 'app/'
     patch: off
-comment: off
