@@ -98,7 +98,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				}
 			}
 		}
-		$encoding = mb_detect_encoding($html);
+		$encoding = mb_detect_encoding($html, mb_list_encodings(), true);
 		if ($encoding && 'UTF-8' !== $encoding) {
 			$html = mb_convert_encoding($html, 'UTF-8', $encoding);
 		}

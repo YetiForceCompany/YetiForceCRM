@@ -77,6 +77,7 @@ var Settings_Picklist_Js = {
 				form.on('submit', function (e) {
 					if (form.validationEngine('validate') == true) {
 						let formData = new FormData(form[0]);
+						let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
 						AppConnector.request({
 							url: 'index.php',
 							type: 'POST',
@@ -85,6 +86,7 @@ var Settings_Picklist_Js = {
 							contentType: false
 						})
 							.done(function (response) {
+								progress.progressIndicator({ mode: 'hide' });
 								form.find('.js-summary').removeClass('d-none');
 								form.find('.js-all-number').val(response.result.success);
 								form.find('.js-errors-number').val(response.result.errors);
@@ -92,6 +94,7 @@ var Settings_Picklist_Js = {
 								data.find('.js-modal__save').addClass('d-none');
 							})
 							.fail((error, title) => {
+								progress.progressIndicator({ mode: 'hide' });
 								app.showNotify({
 									title: title,
 									text: error,
