@@ -1,6 +1,5 @@
 fixes:
   - '/var/www/html/::/'
-  - 'var/www/html/::'
 
 ignore:
   - 'vendor/*'
