@@ -5,10 +5,12 @@ coverage:
       default: false
       tests:
         target: 100%
-        paths: 'tests/'
+        paths:
+          - 'tests/'
       app:
         target: 39%
-        paths: 'app/'
+        paths:
+          - 'app/'
     patch: off
 comment: off
 codecov:
