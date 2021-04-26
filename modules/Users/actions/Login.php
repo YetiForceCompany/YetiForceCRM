@@ -241,7 +241,7 @@ class Users_Login_Action extends \App\Controller\Action
 		\vtlib\Functions::recurseDelete('.gitattributes');
 		\vtlib\Functions::recurseDelete('.gitignore');
 		\vtlib\Functions::recurseDelete('.travis.yml');
-		\vtlib\Functions::recurseDelete('.codecov.yml');
+		\vtlib\Functions::recurseDelete('codecov.yml');
 		\vtlib\Functions::recurseDelete('.gitlab-ci.yml');
 		\vtlib\Functions::recurseDelete('.php_cs.dist');
 		\vtlib\Functions::recurseDelete('.scrutinizer.yml');

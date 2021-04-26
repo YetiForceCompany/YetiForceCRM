@@ -1,3 +1,14 @@
+fixes:
+  - '/var/www/html/::/'
+  - 'var/www/html/::'
+
+ignore:
+  - 'vendor/*'
+  - 'node_modules/*'
+  - 'public_html/vendor/*'
+  - 'public_html/src/node_modules/*'
+  - 'public_html/libraries/*'
+
 coverage:
   range: 0..22
   status:
@@ -13,5 +24,3 @@ coverage:
           - 'app/'
     patch: off
 comment: off
-fixes:
-   - "/var/www/html/::"
