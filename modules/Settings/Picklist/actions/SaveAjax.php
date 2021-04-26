@@ -101,7 +101,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$csv->heading = false;
 		$csv->auto($fileInstance->getPath());
 		$error = '';
-		$s = $e = 0;
+		$successCounter = $errorsCounter = 0;
 		foreach ($csv->data as $lineNo => $row) {
 			if ('' === $row[0]) {
 				continue;
@@ -109,16 +109,16 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			try {
 				$fieldModel->validate($row[0]);
 				$moduleModel->addPickListValues($fieldModel, $row[0], [], $row[1] ?? '', $row[2] ?? '');
-				++$s;
+				++$successCounter;
 			} catch (\Throwable $th) {
-				++$e;
+				++$errorsCounter;
 				$error .= "[$lineNo] '{$row[0]}': {$th->getMessage()}\n";
 			}
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'success' => $s,
-			'errors' => $e,
+			'success' => $successCounter,
+			'errors' => $errorsCounter,
 			'errorMessage' => $error,
 		]);
 		$response->emit();
