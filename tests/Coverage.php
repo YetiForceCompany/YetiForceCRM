@@ -131,7 +131,7 @@ class Coverage
 			$clover = $writer->process($this->coverage);
 			file_put_contents("{$this->dir}coverage.xml", $clover);
 			file_put_contents("{$this->dir}coverage2.xml", str_replace('/var/www/html/', '/', $clover));
-			file_put_contents("{$this->dir}coverage3.xml", str_replace('/var/www/html/', '/github/workspace/', $clover));
+			file_put_contents("{$this->dir}coverage3.xml", str_replace('/var/www/html/', '/home/runner/work/YetiForceCRM/YetiForceCRM/', $clover));
 			self::log('Clover Report time: ' . round(microtime(true) - $startTime, 1) . ' s.');
 		} catch (\Exception $ex) {
 			self::log('Generate report exception !!!');
