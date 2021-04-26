@@ -68,6 +68,49 @@ var Settings_Picklist_Js = {
 	},
 
 	registerAddItemEvent: function () {
+		jQuery('#importItem').on('click', function (e) {
+			var data = jQuery('#importViewContents').find('.modal');
+			var clonedCreateView = data.clone(true, true);
+			var callBackFunction = function (data) {
+				let form = data.find('form');
+				form.validationEngine();
+				form.on('submit', function (e) {
+					if (form.validationEngine('validate') == true) {
+						let formData = new FormData(form[0]);
+						AppConnector.request({
+							url: 'index.php',
+							type: 'POST',
+							data: formData,
+							processData: false,
+							contentType: false
+						})
+							.done(function (response) {
+								form.find('.js-summary').removeClass('d-none');
+								form.find('.js-all-number').val(response.result.success);
+								form.find('.js-errors-number').val(response.result.errors);
+								form.find('.js-errors').val(response.result.errorMessage);
+								data.find('.js-modal__save').addClass('d-none');
+							})
+							.fail((error, title) => {
+								app.showNotify({
+									title: title,
+									text: error,
+									type: 'error'
+								});
+							});
+					}
+					e.preventDefault();
+				});
+			};
+			app.showModalWindow(clonedCreateView, function (data) {
+				if (typeof callBackFunction == 'function') {
+					callBackFunction(data);
+				}
+			});
+		});
+	},
+
+	registerImportItemEvent: function () {
 		jQuery('#addItem').on('click', function (e) {
 			var data = jQuery('#createViewContents').find('.modal');
 			var clonedCreateView = data.clone(true, true).removeClass('basicCreateView').addClass('createView');
@@ -717,6 +760,7 @@ var Settings_Picklist_Js = {
 
 	registerItemActions: function () {
 		Settings_Picklist_Js.registerAddItemEvent();
+		Settings_Picklist_Js.registerImportItemEvent();
 		Settings_Picklist_Js.registerRenameItemEvent();
 		Settings_Picklist_Js.registerDeleteItemEvent();
 		Settings_Picklist_Js.registerSelectPickListValueEvent();

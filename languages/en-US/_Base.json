@@ -1479,7 +1479,9 @@
     "LBL_VISIT_PURPOSE_ALERT": "Warning, window visible only to the administrator.\nWe do not recommend working on the admin account, this should only be used to manage CRM.\nThe window can be disabled in the configuration file. ",
     "LBL_MASS_MAIL_NOTES": "Additional information",
     "LBL_MASS_MAIL_NOTES_INFO": "Information from this field can be added to the email contents by using the following variable  in the template: $(params : massMailNotes)$",
-    "LBL_RECORDS_FROM_RELATION": "Records from relation"
+    "LBL_RECORDS_FROM_RELATION": "Records from relation",
+    "LBL_NUMBER_OF_ALL_ENTRIES": "Number of all entries",
+    "LBL_NUMBER_OF_ERRORS": "Number of errors"
   },
   "js": {
     "JS_APPROVE": "Approve",

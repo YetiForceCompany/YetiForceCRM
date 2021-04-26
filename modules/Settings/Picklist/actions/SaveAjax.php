@@ -20,6 +20,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('add');
+		$this->exposeMethod('import');
 		$this->exposeMethod('rename');
 		$this->exposeMethod('processStatus');
 		$this->exposeMethod('remove');
@@ -74,6 +75,52 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
+		$response->emit();
+	}
+
+	/**
+	 * Import Picklist.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function import(App\Request $request): void
+	{
+		if (empty($_FILES['file']['name'])) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['file']);
+		if (!$fileInstance->validate() || 'csv' !== $fileInstance->getExtension()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$moduleModel = Settings_Picklist_Module_Model::getInstance($request->getByType('source_module', 'Alnum'));
+		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
+		$csv = new \ParseCsv\Csv();
+		$csv->encoding(null, \App\Config::main('default_charset', 'UTF-8'));
+		$csv->heading = false;
+		$csv->auto($fileInstance->getPath());
+		$error = '';
+		$s = $e = 0;
+		foreach ($csv->data as $lineNo => $row) {
+			if ('' === $row[0]) {
+				continue;
+			}
+			try {
+				$fieldModel->validate($row[0]);
+				$moduleModel->addPickListValues($fieldModel, $row[0], [], $row[1] ?? '', $row[2] ?? '');
+				++$s;
+			} catch (\Throwable $th) {
+				++$e;
+				$error .= "[$lineNo] '{$row[0]}': {$th->getMessage()}\n";
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => $s,
+			'errors' => $e,
+			'errorMessage' => $error,
+		]);
 		$response->emit();
 	}
 

@@ -74,10 +74,10 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to get instance.
 	 *
-	 * @param string $value  - fieldname or fieldid
-	 * @param <type> $module - optional - module instance
+	 * @param string|int                                              $value  fieldname or fieldid
+	 * @param Settings_Picklist_Module_Model|Vtiger_Module_Model|bool $module module instance
 	 *
-	 * @return <Vtiger_Field_Model>
+	 * @return self
 	 */
 	public static function getInstance($value, $module = false)
 	{
