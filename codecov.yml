@@ -1,6 +1,9 @@
 fixes:
   - '/var/www/html::'
 
+codecov:
+  disable_default_path_fixes: false
+
 ignore:
   - 'vendor/*'
   - 'node_modules/*'
@@ -15,15 +18,3 @@ ignore:
 
 coverage:
   range: 0..22
-  status:
-    project:
-      default: false
-      tests:
-        target: 100%
-        paths:
-          - 'tests/'
-      app:
-        target: 39%
-        paths:
-          - 'app/'
-    patch: off
