@@ -24,6 +24,7 @@ class System extends Base
 		'history' => 'History of uploaded updates',
 		'update' => 'Update',
 		'checkRegStatus' => 'Check registration status',
+		'showProducts' => 'Show active products',
 		'reloadModule' => 'Reload modules',
 		'reloadUserPrivileges' => 'Reload users privileges',
 	];
@@ -45,6 +46,7 @@ class System extends Base
 		} else {
 			$this->climate->lightGreen('No updates');
 		}
+		print_r(\App\YetiForce\Register::getProducts());
 		$this->cli->actionsList('System');
 	}
 
@@ -187,6 +189,35 @@ class System extends Base
 		$this->climate->bold('CRM ID: ' . \App\YetiForce\Register::getCrmKey());
 		$this->climate->border('─', 200);
 		$this->climate->bold('Provider: ' . \App\YetiForce\Register::getProvider());
+		$this->climate->border('─', 200);
+		$table = [];
+		foreach (\App\Company::getAll() as $row) {
+			$table[] = [
+				'name' => $row['name'],
+				'status' => $row['status'],
+				'type' => $row['type'],
+				'companysize' => $row['companysize'],
+				'vat_id' => $row['vat_id'],
+			];
+		}
+		$this->climate->table($table);
+		$this->climate->border('─', 200);
+		$this->cli->actionsList('System');
+	}
+
+	/**
+	 * Show active products.
+	 *
+	 * @return void
+	 */
+	public function showProducts(): void
+	{
+		$table = [];
+		foreach (\App\YetiForce\Register::getProducts() as $row) {
+			$row['params'] = \App\Utils::varExport($row['params']);
+			$table[] = $row;
+		}
+		$this->climate->table($table);
 		$this->climate->border('─', 200);
 		$this->cli->actionsList('System');
 	}
