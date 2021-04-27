@@ -275,9 +275,7 @@
 									data-js="popover" data-toggle="modal"
 									data-placement="bottom" data-content="{\App\Language::translate($LIST_TEMPLATES[0]->label)}"
 									href="#">
-									<span class="fas fa-plus fa-fw"></span>
-									<span class="fas fa-plus fa-fw"></span>
-									<span class="fas fa-plus fa-fw"></span>
+									<span class="mdi mdi-expand-all"></span>
 								</a>
 							</div>
 						{/if}
