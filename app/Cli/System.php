@@ -46,7 +46,6 @@ class System extends Base
 		} else {
 			$this->climate->lightGreen('No updates');
 		}
-		print_r(\App\YetiForce\Register::getProducts());
 		$this->cli->actionsList('System');
 	}
 
