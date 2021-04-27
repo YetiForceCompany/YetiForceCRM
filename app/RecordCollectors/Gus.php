@@ -181,14 +181,15 @@ class Gus extends Base
 							continue;
 						}
 						if (isset($row[$apiName])) {
+							$fieldModel = $fields[$fieldName];
 							if (isset($fields[$fieldName]) && empty($data[$fieldName]['label'])) {
-								$data[$fieldName]['label'] = \App\Language::translate($fields[$fieldName]->getFieldLabel(), $moduleName);
+								$data[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 							} else {
 								$skip[$fieldName]['label'] = $fieldName;
 							}
 							$data[$fieldName]['data'][$key] = [
-								'raw' => $row[$apiName],
-								'display' => $fields[$fieldName]->getDisplayValue($row[$apiName]),
+								'raw' => $fieldModel->getEditViewDisplayValue($row[$apiName]),
+								'display' => $fieldModel->getDisplayValue($row[$apiName]),
 							];
 							unset($row[$apiName]);
 						}
