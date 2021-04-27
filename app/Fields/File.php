@@ -352,13 +352,16 @@ class File
 		return $this->path;
 	}
 
-	/** Get file encoding.
+	/**
+	 * Get file encoding.
+	 *
+	 * @param array|null $list
 	 *
 	 * @return string
 	 */
-	public function getEncoding(): string
+	public function getEncoding(?array $list = null): string
 	{
-		return \strtoupper(mb_detect_encoding($this->getContents(), mb_list_encodings(), true));
+		return \strtoupper(mb_detect_encoding($this->getContents(), ($list ?? mb_list_encodings()), true));
 	}
 
 	/**
