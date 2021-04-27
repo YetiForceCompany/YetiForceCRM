@@ -28,7 +28,7 @@
 		<div class="form-row pb-2">
 			<div class="col-md-4 px-4"><span>{\App\Language::translate('LBL_CHARACTER_ENCODING', $MODULE)}</span></div>
 			<div class="col-md-6">
-				<select name="file_encoding" class="form-control"  title="{\App\Language::translate('{LBL_CHARACTER_ENCODING', $MODULE)}">
+				<select name="file_encoding" class="form-control"  title="{\App\Language::translate('LBL_CHARACTER_ENCODING', $MODULE)}">
 					{foreach key=_FILE_ENCODING item=_FILE_ENCODING_LABEL from=$SUPPORTED_FILE_ENCODING}
 						<option value="{$_FILE_ENCODING}">{\App\Language::translate($_FILE_ENCODING_LABEL, $MODULE)}</option>
 					{/foreach}
