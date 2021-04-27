@@ -273,6 +273,7 @@ class Register
 			'insKey' => static::getInstanceKey(),
 			'serialKey' => $serial
 		]);
+		\App\Company::statusUpdate(6);
 		return true;
 	}
 
