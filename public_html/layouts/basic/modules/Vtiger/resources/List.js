@@ -304,7 +304,6 @@ $.Class(
 					listInstance.postMassEdit(container);
 					listInstance.registerSlimScrollMassEdit();
 
-					//register inactive fields for massedit modal
 					if ($('#massEditContainer').length) {
 						listInstance.inactiveFieldsValidation($('#massEditContainer').find('form'));
 					}
@@ -608,7 +607,6 @@ $.Class(
 				searchInstance.registerBasicEvents();
 			}
 			Vtiger_Index_Js.registerMailButtons(container);
-			//self.triggerDisplayTypeEvent();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			let selectedIds = self.readSelectedIds();
 			if (selectedIds != '') {
@@ -1838,13 +1836,6 @@ $.Class(
 					});
 			}
 		},
-		triggerDisplayTypeEvent: function () {
-			let widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				let elements = $('.listViewEntriesTable').find('td,th');
-				elements.attr('class', widthType);
-			}
-		},
 		/**
 		 * Function to show total records count in listview on hover
 		 * of pageNumber text
@@ -2159,7 +2150,6 @@ $.Class(
 			this.registerPhoneFieldClickEvent();
 			this.registerMassActionModalEvents();
 			this.registerMassActionsBtnEvents();
-			//this.triggerDisplayTypeEvent();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			this.registerUrlFieldClickEvent();
 			this.registerEventForTotalRecordsCount();
@@ -2183,7 +2173,6 @@ $.Class(
 			listInstance.getListViewRecords().done(function (data) {
 				$('#recordsCount').val('');
 				$('#totalPageCount').text('');
-				//listInstance.triggerDisplayTypeEvent();
 				$('#deSelectAllMsg').trigger('click');
 				listInstance.calculatePages().done(function () {
 					listInstance.updatePagination();

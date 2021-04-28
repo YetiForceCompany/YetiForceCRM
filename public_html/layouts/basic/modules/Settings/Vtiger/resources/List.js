@@ -148,7 +148,6 @@ Vtiger_List_Js(
 			return pageCountParams;
 		},
 		registerEvents: function () {
-			//this.triggerDisplayTypeEvent();
 			this.registerRowClickEvent();
 			this.registerCheckBoxClickEvent();
 			this.registerHeadersClickEvent();

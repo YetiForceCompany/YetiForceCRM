@@ -137,7 +137,7 @@ class FileTarget extends \yii\log\FileTarget
 			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($anonymization->setData($value)->anonymize()->getData());
 		}
 		$result .= "\nHEADERS = " . \yii\helpers\VarDumper::dumpAsString(getallheaders());
-		if ('test' !== \Config\Main::$systemMode) {
+		if ('test' !== \App\Config::main('systemMode')) {
 			foreach (\App\Utils\ConfReport::getAllErrors(true) as $key => $value) {
 				$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
 			}

@@ -486,7 +486,6 @@ jQuery.Class(
 			AppConnector.requestPjax(params).done(function (responseData) {
 				detailContentsHolder.html(responseData);
 				responseData = detailContentsHolder.html();
-				//thisInstance.triggerDisplayTypeEvent();
 				thisInstance.registerBlockStatusCheckOnLoad();
 				//Make select box more usability
 				App.Fields.Picklist.changeSelectElementView(detailContentsHolder);
@@ -1361,13 +1360,6 @@ jQuery.Class(
 				};
 				editElement.on('clickoutside', saveHandler);
 			});
-		},
-		triggerDisplayTypeEvent: function () {
-			let widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				let elements = jQuery('#detailView').find('td');
-				elements.addClass(widthType);
-			}
 		},
 		/**
 		 * Function updates the hidden elements which is used for creating relations
@@ -3135,7 +3127,6 @@ jQuery.Class(
 			});
 		},
 		registerEvents: function () {
-			//this.triggerDisplayTypeEvent();
 			this.registerSendSmsSubmitEvent();
 			this.registerAjaxEditEvent();
 			this.registerRelatedRowClickEvent();

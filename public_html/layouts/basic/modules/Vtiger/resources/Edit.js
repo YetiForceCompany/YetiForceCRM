@@ -780,13 +780,6 @@ $.Class(
 		registerMaskFields: function (container) {
 			container.find('[data-inputmask]').inputmask();
 		},
-		triggerDisplayTypeEvent: function () {
-			let widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				let elements = $('#EditView').find('.fieldValue,.fieldLabel');
-				elements.addClass(widthType);
-			}
-		},
 		registerSubmitEvent: function () {
 			let editViewForm = this.getForm();
 			editViewForm.on('submit', function (e) {
@@ -1547,7 +1540,6 @@ $.Class(
 			this.registerValidationsFields(editViewForm);
 			this.registerAutoloadAddress();
 			editViewForm.find('.js-form-submit-btn').prop('disabled', false);
-			//this.triggerDisplayTypeEvent();
 		}
 	}
 );

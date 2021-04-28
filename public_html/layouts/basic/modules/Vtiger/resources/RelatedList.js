@@ -380,13 +380,6 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
-		triggerDisplayTypeEvent: function () {
-			let widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				let elements = this.content.find('.listViewEntriesTable').find('td,th');
-				elements.attr('class', widthType);
-			}
-		},
 		showSelectRelation: function (extendParams) {
 			let params = $.extend(this.getRecordsListParams(), extendParams);
 			app.showRecordsList(params, (modal, instance) => {
