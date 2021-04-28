@@ -50,7 +50,7 @@ YetiForce_Bar_Widget_Js('YetiForce_SummationByMonths_Widget_Js',{}, {
 	<hr class="widgetHr" />
 	<div class="row no-gutters" >
 		{foreach from=$FILTER_FIELDS item=FIELD_MODEL key=FIELD_NAME}
-			<div class="col-ceq-xsm-6 mb-1">
+			<div class="col-ceq-xsm-6">
 				<div class="input-group input-group-sm">
 					<span class="input-group-prepend">
 						<span class="input-group-text">

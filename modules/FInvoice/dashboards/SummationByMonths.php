@@ -104,10 +104,10 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		$rawData = $data = $years = [];
 		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
 		$queryGenerator = new \App\QueryGenerator($moduleName);
-		$sumFieldName = $this->getFilterFields($moduleName)['sum_field']->get('fieldvalue') ?: 'sum_gross';
+		$sumColumnName = $this->getFilterFields($moduleName)['sum_field']->get('fieldvalue') ?: 'sum_gross';
 		$y = new \yii\db\Expression('extract(year FROM saledate)');
 		$m = new \yii\db\Expression('extract(month FROM saledate)');
-		$s = new \yii\db\Expression("SUM({$sumFieldName})");
+		$s = new \yii\db\Expression("SUM({$sumColumnName})");
 		$fieldList = ['y' => $y, 'm' => $m, 's' => $s];
 		$queryGenerator->setCustomColumn($fieldList);
 		$queryGenerator->addCondition('saledate', $date, 'a');
@@ -118,7 +118,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		$query = $queryGenerator->createQuery();
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$rawData[$row['y']][$row['m']] = [(int) $row['s']];
+			$rawData[$row['y']][$row['m']] = [round((float) $row['s'], 2)];
 		}
 		$dataReader->close();
 		$chartData = [
@@ -144,11 +144,11 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 				];
 				for ($m = 0; $m < 12; ++$m) {
 					$tempData[$y][$m] = 0;
+					$yearsData[$y]['backgroundColor'][] = \App\Colors::getRandomColor($y * 10);
 				}
 			}
-			foreach ($raw as $m => &$value) {
+			foreach ($raw as $m => $value) {
 				$tempData[$y][$m - 1] = $value[0];
-				$yearsData[$y]['backgroundColor'][] = \App\Colors::getRandomColor($y * 10);
 				$yearsData[$y]['stack'] = (string) $y;
 			}
 		}
