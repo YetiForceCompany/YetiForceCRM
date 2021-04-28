@@ -97,10 +97,11 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($request->getByType('source_module', 'Alnum'));
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
 		$csv = new \ParseCsv\Csv();
-		if ($fileInstance->getEncoding() !== \App\Config::main('default_charset', 'UTF-8')) {
+		$csv->heading = false;
+		$csv->use_mb_convert_encoding = true;
+		if ($fileInstance->getEncoding(['UTF-8', 'ISO-8859-1']) !== \App\Config::main('default_charset', 'UTF-8')) {
 			$csv->encoding($fileInstance->getEncoding(), \App\Config::main('default_charset', 'UTF-8'));
 		}
-		$csv->heading = false;
 		$csv->auto($fileInstance->getPath());
 		$error = '';
 		$successCounter = $errorsCounter = 0;
