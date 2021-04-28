@@ -1,3 +1,7 @@
+##############################################
+#  Best configuration for YetiForceCRM       #
+#  Created by m.krzaczkowski@yetiforce.com   #
+##############################################
 [client]
 default-character-set 			= utf8
 
@@ -16,11 +20,6 @@ lc-messages-dir       	  		= /usr/share/mysql
 bind-address					= 0.0.0.0
 log_error 						= /var/log/mysql/error.log
 expire_logs_days       	 		= 10
-
-##
-# Best MySql configuration for YetiForceCRM
-# Created by YetiForceCompany
-##
 
 default_storage_engine			= InnoDB
 character-set-server 			= utf8
