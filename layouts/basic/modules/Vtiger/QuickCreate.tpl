@@ -35,6 +35,11 @@
 					{foreach key=INPUT_NAME item=INPUT_VALUE from=$HIDDEN_INPUT}
 						<input type="hidden" name="{$INPUT_NAME}" value='{\App\Purifier::encodeHtml($INPUT_VALUE)}'/>
 					{/foreach}
+					{if !empty($SOURCE_RELATED_FIELD)}
+						{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
+							<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue')))}" class="source-related-fields">
+						{/foreach}
+					{/if}
 					<div class="modal-header align-items-center form-row d-flex justify-content-between py-2">
 						<div class="col-xl-6 col-12">
 							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
@@ -119,13 +124,6 @@
 							{/if}
 						</div>
 					</div>
-					{if !empty($SOURCE_RELATED_FIELD)}
-						{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
-							<div class="d-none fieldValue">
-								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
-							</div>
-						{/foreach}
-					{/if}
 				</form>
 			</div>
 		</div>

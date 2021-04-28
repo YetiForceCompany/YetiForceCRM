@@ -1385,7 +1385,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 			$modelFields = $moduleModel->getFields();
 			foreach ($modelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField()) {
+				if ($fieldModel->isReferenceField() && $fieldModel->isViewable()) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (!empty($referenceList)) {
 						foreach ($referenceList as $referenceModule) {
@@ -1401,6 +1401,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$sourceModelFields = $sourceModuleModel->getFields();
 			$fillFields = 'all' === $request->getRaw('fillFields');
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
+				if (!$fieldModel->isViewable()) {
+					continue;
+				}
 				if ($fillFields) {
 					$fieldValue = $recordModel->get($fieldName);
 					if ('' !== $fieldValue) {
@@ -1427,7 +1430,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 						if ($relatedModule == $sourceModule) {
 							foreach ($relatedFields as $to => $from) {
 								$fieldValue = $recordModel->get($from[0]);
-								if ('' !== $fieldValue) {
+								if ($recordModel->getField($from[0])->isViewable() && '' !== $fieldValue) {
 									$data[$to] = $fieldValue;
 								}
 							}
