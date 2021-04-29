@@ -539,9 +539,7 @@ class Vtiger_ListView_Model extends \App\Base
 		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getQueryGenerator()->createQuery();
-		if (0 !== $pagingModel->get('limit')) {
-			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
-		}
+		$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		$rows = $query->all();
 		$count = \count($rows);
 		$pagingModel->calculatePageRange($count);
@@ -555,6 +553,18 @@ class Vtiger_ListView_Model extends \App\Base
 		$listViewRecordModels = $this->getRecordsFromArray($rows);
 		unset($rows);
 		return $listViewRecordModels;
+	}
+
+	/**
+	 * Function to get the list view all entries.
+	 *
+	 * @return Vtiger_Record_Model[] - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 */
+	public function getAllEntries()
+	{
+		$this->loadListViewCondition();
+		$this->loadListViewOrderBy();
+		return $this->getRecordsFromArray($this->getQueryGenerator()->createQuery()->all());
 	}
 
 	/**

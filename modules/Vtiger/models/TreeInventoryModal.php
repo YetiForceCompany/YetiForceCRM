@@ -28,11 +28,9 @@ class Vtiger_TreeInventoryModal_Model extends Vtiger_TreeCategoryModal_Model
 	private function getRecords()
 	{
 		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
-		$listViewModel->get('query_generator')->setField($this->getTreeField()['fieldname']);
+		$listViewModel->getQueryGenerator()->setFields(['id', $this->getTreeField()['fieldname']]);
 		$tree = [];
-		foreach ($listViewModel->getListViewEntries($pagingModel) as $item) {
+		foreach ($listViewModel->getAllEntries() as $item) {
 			++$this->lastTreeId;
 			$parent = (int) ltrim($item->get($this->getTreeField()['fieldname']), 'T');
 			$tree[] = [

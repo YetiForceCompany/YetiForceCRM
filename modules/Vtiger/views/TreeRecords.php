@@ -79,11 +79,9 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$branches = $request->getArray('branches', 'Text');
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
 		$field = $treeViewModel->getTreeField();
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $filter);
 		$listViewModel->getQueryGenerator()->addCondition($field['fieldname'], implode('##', $branches), 'e');
-		$listEntries = $listViewModel->getListViewEntries($pagingModel);
+		$listEntries = $listViewModel->getAllEntries();
 		if (0 === \count($listEntries)) {
 			return;
 		}

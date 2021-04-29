@@ -890,9 +890,7 @@ class TextParser
 			return '';
 		}
 		$pagingModel = new \Vtiger_Paging_Model();
-		if ((int) $limit) {
-			$pagingModel->set('limit', (int) $limit);
-		}
+		$pagingModel->set('limit', (int) $limit);
 		if ($viewIdOrName) {
 			if (!is_numeric($viewIdOrName)) {
 				$customView = CustomView::getInstance($relatedModuleName);
@@ -984,10 +982,8 @@ class TextParser
 			}
 		}
 		$listView = \Vtiger_ListView_Model::getInstance($moduleName, $cvId);
-		$pagingModel = new \Vtiger_Paging_Model();
-		if ((int) $limit) {
-			$pagingModel->set('limit', (int) $limit);
-		}
+		$limit = (int) $limit;
+		$listView->getQueryGenerator()->setLimit((int) ($limit ?: \App\Config::main('list_max_entries_per_page', 20)));
 		if ($columns) {
 			$headerFields = [];
 			foreach (explode(',', $columns) as $fieldName) {
@@ -1014,11 +1010,11 @@ class TextParser
 			}
 		}
 		$counter = 0;
-		foreach ($listView->getListViewEntries($pagingModel) as $reletedRecordModel) {
+		foreach ($listView->getAllEntries() as $relatedRecordModel) {
 			++$counter;
 			$rows .= '<tr class="row-' . $counter . '">';
 			foreach ($fields as $fieldModel) {
-				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
+				$value = $this->getDisplayValueByField($fieldModel, $relatedRecordModel);
 				if (false !== $value) {
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
