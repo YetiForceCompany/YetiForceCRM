@@ -275,11 +275,18 @@ class Card
 						$vcardType = explode(',', $p->getValue());
 						if (strtoupper($vcardType[0]) === $type) {
 							$orgPhone = \App\Purifier::purify($t->getValue());
-							if (\App\Config::main('phoneFieldAdvancedVerification', false) && !($phone = \App\Fields\Phone::getProperNumber($orgPhone, ($this->user ? $this->user->getId() : null)))) {
-								$this->record->set($key . '_extra', $fieldModel->getDBValue($orgPhone));
-								continue 2;
+							if ($orgPhone && 'phone' === $fieldModel->getFieldDataType()) {
+								$country = null;
+								if ($userId = $this->user ? $this->user->getId() : null) {
+									$country = \App\Fields\Country::getCountryCode(\App\User::getUserModel($userId)->getDetail('sync_carddav_default_country'));
+								}
+								$details = $fieldModel->getUITypeModel()->getPhoneDetails($orgPhone, $country);
+								if ($key !== $details['fieldName']) {
+									$this->record->set($details['fieldName'], $details['number']);
+									continue 2;
+								}
 							}
-							$this->record->set($key, $fieldModel->getDBValue($phone));
+							$this->record->set($key, $fieldModel->getDBValue($orgPhone));
 							continue 2;
 						}
 					}

@@ -81,28 +81,4 @@ class Phone
 		throw new \App\Exceptions\FieldException('LBL_INVALID_PHONE_NUMBER');
 	}
 
-	/**
-	 * Get proper number.
-	 *
-	 * @param string   $numberToCheck
-	 * @param int|null $userId
-	 *
-	 * @return false|string Return false if wrong number
-	 */
-	public static function getProperNumber(string $numberToCheck, ?int $userId = null)
-	{
-		if (null === $userId) {
-			$userId = \App\User::getCurrentUserId();
-		}
-		$returnVal = false;
-		if (static::getDetails($numberToCheck)) {
-			$returnVal = $numberToCheck;
-		} else {
-			$country = \App\User::getUserModel($userId)->getDetail('sync_carddav_default_country');
-			if (!empty($country) && ($phoneDetails = static::getDetails($numberToCheck, Country::getCountryCode($country))) && isset($phoneDetails['number'])) {
-				$returnVal = $phoneDetails['number'];
-			}
-		}
-		return $returnVal;
-	}
 }

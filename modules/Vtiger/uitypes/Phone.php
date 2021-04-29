@@ -120,4 +120,31 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}
+
+	/**
+	 * Get phone details.
+	 *
+	 * @param string      $number
+	 * @param string|null $country
+	 *
+	 * @return array
+	 */
+	public function getPhoneDetails(string $number, ?string $country): array
+	{
+		$details = [
+			'rawNumber' => $number,
+			'rawCountry' => $country,
+			'fieldName' => $this->getFieldModel()->getName(),
+		];
+		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
+			$phoneDetails = \App\Fields\Phone::getDetails($number, $country);
+			if (isset($phoneDetails['number'])) {
+				$details = array_merge($details, $phoneDetails);
+			} else {
+				$details['fieldName'] = $details['fieldName'] . '_extra';
+				$details['number'] = $this->getDBValue($number);
+			}
+		}
+		return $details;
+	}
 }
