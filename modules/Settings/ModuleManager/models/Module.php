@@ -134,16 +134,16 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static function checkModuleName($name): bool
 	{
 		return
-			preg_match('/Settings/i', $name) ||
-			preg_match('/Api/i', $name) ||
-			preg_match('/Vtiger/i', $name) ||
-			preg_match('/CustomView/i', $name) ||
-			preg_match('/PickList/i', $name) ||
-			preg_match('/[^A-Za-z]/i', $name) ||
-			class_exists($name) ||
-			\in_array($name, static::$notAllowedNames) ||
-			\App\Db::getInstance()->isTableExists("u_#__{$name}") ||
-			\strlen($name) > static::$maxLengthModuleName;
+			preg_match('/Settings/i', $name)
+			|| preg_match('/Api/i', $name)
+			|| preg_match('/Vtiger/i', $name)
+			|| preg_match('/CustomView/i', $name)
+			|| preg_match('/PickList/i', $name)
+			|| preg_match('/[^A-Za-z]/i', $name)
+			|| class_exists($name)
+			|| \in_array($name, static::$notAllowedNames)
+			|| \App\Db::getInstance()->isTableExists("u_#__{$name}")
+			|| \strlen($name) > static::$maxLengthModuleName;
 	}
 
 	/**
@@ -326,6 +326,16 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field8->typeofdata = 'V~O';
 		$field8->maximumlength = '65535';
 		$blockcf->addField($field8);
+
+		$field = new vtlib\Field();
+		$field->name = 'private';
+		$field->label = 'FL_IS_PRIVATE';
+		$field->table = 'vtiger_crmentity';
+		$field->column = 'private';
+		$field->uitype = 56;
+		$field->typeofdata = 'C~O';
+		$field->maximumlength = '-128,127';
+		$blockcf->addField($field);
 
 		// Create default custom filter (mandatory)
 		$filter1 = new vtlib\Filter();
