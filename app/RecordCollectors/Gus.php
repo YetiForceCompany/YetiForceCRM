@@ -93,6 +93,7 @@ class Gus extends Base
 			'NumerTelefonu' => 'phone',
 			'NumerFaksu' => 'fax',
 			'AdresEmail' => 'email1',
+			'AdresStronyInternetowej' => 'website',
 		],
 		'Leads' => [
 			'Nazwa' => 'company',
@@ -108,6 +109,7 @@ class Gus extends Base
 			'NumerTelefonu' => 'phone',
 			'NumerFaksu' => 'fax',
 			'AdresEmail' => 'email',
+			'AdresStronyInternetowej' => 'website',
 		],
 		'Partners' => [
 			'Nazwa' => 'subject',

@@ -258,6 +258,7 @@ class GusClient extends \SoapClient
 			$response['NumerTelefonu'] = $responseFromGus[$prefixName . 'numerTelefonu'] ?? '';
 			$response['NumerFaksu'] = $responseFromGus[$prefixName . 'numerFaksu'] ?? '';
 			$response['AdresEmail'] = mb_strtolower($responseFromGus[$prefixName . 'adresEmail'] ?? '');
+			$response['AdresStronyInternetowej'] = mb_strtolower($responseFromGus[$prefixName . 'adresStronyinternetowej'] ?? '');
 			$response['PodstawowaFormaPrawnaNazwa'] = mb_convert_case($responseFromGus[$prefixName . 'podstawowaFormaPrawna_Nazwa'] ?? '', MB_CASE_TITLE, 'UTF-8');
 			$response['PodstawowaFormaPrawnaKod'] = $responseFromGus[$prefixName . 'podstawowaFormaPrawna_Symbol'] ?? '';
 			$response['PodstawowaFormaPrawna'] = "{$response['PodstawowaFormaPrawnaKod']} - {$response['PodstawowaFormaPrawnaNazwa']}";
