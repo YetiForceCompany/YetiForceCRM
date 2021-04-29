@@ -13,7 +13,7 @@
 	<div class="tpl-Settings-Picklist-ModulePickListDetail">
     {if !empty($NO_PICKLIST_FIELDS) }
         <label style="padding-top: 40px;"> <b>
-                {\App\Language::translate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)} {\App\Language::translate('NO_PICKLIST_FIELDS',$QUALIFIED_NAME)}. &nbsp; 
+                {\App\Language::translate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)} {\App\Language::translate('NO_PICKLIST_FIELDS',$QUALIFIED_NAME)}. &nbsp;
 				{if !empty($CREATE_PICKLIST_URL)}
 					<a href="{$CREATE_PICKLIST_URL}">{\App\Language::translate('LBL_CREATE_NEW',$QUALIFIED_NAME)}</a>
 				{/if}
@@ -26,12 +26,13 @@
 				<select class="select2 form-control" id="modulePickList">
 					<optgroup>
 						{foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
-							<option value="{$FIELD_MODEL->getId()}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$SELECTED_MODULE_NAME)}</option>
-						{/foreach}	
+							<option value="{$FIELD_MODEL->getId()}" {if !empty($PICKLIST_INTERDEPENDENT[$FIELD_MODEL->getFieldName()])}
+							data-interdependent='{App\Json::encode($PICKLIST_INTERDEPENDENT[$FIELD_MODEL->getFieldName()])}' {/if}>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$SELECTED_MODULE_NAME)}</option>
+						{/foreach}
 					</optgroup>
 				</select>
 			</div>
 		</div><br />
     {/if}
 	</div>
-{/strip}	
+{/strip}
