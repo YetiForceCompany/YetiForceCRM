@@ -384,14 +384,15 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	public function listModuleInterdependentPickList(array $pickListFields): array
 	{
 		$interdependent = [];
-		foreach ($pickListFields as $fieldName) {
-			$dataReader = (new App\Db\Query())->select(['tabid'])
-				->from('vtiger_field')
-				->where(['fieldname' => $fieldName])
-				->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$moduleName = \App\Module::getModuleName($row['tabid']);
-				$interdependent[$fieldName][] = \App\Language::translate($moduleName, $moduleName);
+		$dataReader = (new App\Db\Query())->select(['tabid', 'fieldname'])
+			->from('vtiger_field')
+			->where(['fieldname' => $pickListFields])
+			->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$moduleName = \App\Module::getModuleName($row['tabid']);
+			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+			if ($moduleModel->isActive() && $moduleModel->getField($row['fieldname'])->isActiveField()) {
+				$interdependent[$row['fieldname']][] = \App\Language::translate($moduleName, $moduleName);
 			}
 		}
 		return $interdependent;
