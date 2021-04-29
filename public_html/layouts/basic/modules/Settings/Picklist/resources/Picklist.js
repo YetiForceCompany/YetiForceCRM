@@ -88,7 +88,8 @@ var Settings_Picklist_Js = {
 							.done(function (response) {
 								progress.progressIndicator({ mode: 'hide' });
 								form.find('.js-summary').removeClass('d-none');
-								form.find('.js-all-number').val(response.result.success);
+								form.find('.js-all-number').val(response.result.all);
+								form.find('.js-imported-number').val(response.result.success);
 								form.find('.js-errors-number').val(response.result.errors);
 								form.find('.js-errors').val(response.result.errorMessage);
 								data.find('.js-modal__save').addClass('d-none');

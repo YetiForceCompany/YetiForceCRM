@@ -104,14 +104,23 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 		$csv->auto($fileInstance->getPath());
 		$error = '';
-		$successCounter = $errorsCounter = 0;
+		$allCounter = $successCounter = $errorsCounter = 0;
+		$rolesSelected = [];
+		if ($fieldModel->isRoleBased()) {
+			$rolesSelected = (new \App\Db\Query())
+				->select(['vtiger_role.roleid'])
+				->from('vtiger_user2role')
+				->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+				->column();
+		}
 		foreach ($csv->data as $lineNo => $row) {
 			if ('' === $row[0]) {
 				continue;
 			}
+			++$allCounter;
 			try {
 				$fieldModel->validate($row[0]);
-				$moduleModel->addPickListValues($fieldModel, $row[0], [], $row[1] ?? '', $row[2] ?? '');
+				$moduleModel->addPickListValues($fieldModel, $row[0], $rolesSelected, $row[1] ?? '', $row[2] ?? '');
 				++$successCounter;
 			} catch (\Throwable $th) {
 				++$errorsCounter;
@@ -120,6 +129,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
+			'all' => $allCounter,
 			'success' => $successCounter,
 			'errors' => $errorsCounter,
 			'errorMessage' => $error,

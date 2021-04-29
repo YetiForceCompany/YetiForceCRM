@@ -38,6 +38,12 @@
 						</div>
 					</div>
 					<div class="form-group row js-summary d-none">
+						<label for="importedNumber" class="col-sm-5 col-form-label">{\App\Language::translate('LBL_NUMBER_OF_IMPORTED_ENTRIES',$QUALIFIED_MODULE)}</label>
+						<div class="col-sm-7">
+							<input type="text" readonly class="form-control-plaintext js-imported-number" id="importedNumber" />
+						</div>
+					</div>
+					<div class="form-group row js-summary d-none">
 						<div class="col-sm-12">
 							<textarea readonly class="form-control-plaintext js-errors"></textarea>
 						</div>

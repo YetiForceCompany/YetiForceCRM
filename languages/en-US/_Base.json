@@ -1481,6 +1481,7 @@
     "LBL_MASS_MAIL_NOTES_INFO": "Information from this field can be added to the email contents by using the following variable  in the template: $(params : massMailNotes)$",
     "LBL_RECORDS_FROM_RELATION": "Records from relation",
     "LBL_NUMBER_OF_ALL_ENTRIES": "Number of all entries",
+    "LBL_NUMBER_OF_IMPORTED_ENTRIES": "Number of imported entries",
     "LBL_NUMBER_OF_ERRORS": "Number of errors"
   },
   "js": {
