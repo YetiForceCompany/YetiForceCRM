@@ -581,7 +581,7 @@ var Settings_Picklist_Js = {
 	},
 
 	/**
-	 * Rename item before confirm.
+	 * Rename item.
 	 * @param {jQuery} form
 	 */
 	renameItem(form) {
