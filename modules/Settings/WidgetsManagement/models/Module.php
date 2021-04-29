@@ -533,6 +533,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$query = (new \App\Db\Query())->from('vtiger_links')
 			->where(['tabid' => $tabId, 'linklabel' => self::getWidgetSpecial()]);
 		$dataReader = $query->createCommand()->query();
+		$widgets = [];
 		while ($row = $dataReader->read()) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}

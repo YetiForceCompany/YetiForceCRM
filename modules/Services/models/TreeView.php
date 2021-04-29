@@ -26,6 +26,7 @@ class Services_TreeView_Model extends Vtiger_TreeView_Model
 	private function getRecords(): array
 	{
 		$listViewModel = Vtiger_ListView_Model::getInstance($this->getModuleName());
+		$listViewModel->getQueryGenerator()->setFields(['id', 'pscategory']);
 		$tree = [];
 		foreach ($listViewModel->getAllEntries() as $item) {
 			++$this->lastTreeId;
