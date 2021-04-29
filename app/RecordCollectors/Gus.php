@@ -6,9 +6,12 @@
  *
  * @package App
  *
+ * @see https://api.stat.gov.pl/Home/RegonApi
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
@@ -155,10 +158,10 @@ class Gus extends Base
 		$taxNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('taxNumber', 'Text'));
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
 		$response = [];
-		$client = \App\RecordCollectors\Helper\GusClient::getInstance();
+		$moduleName = $this->request->getModule();
+		$client = \App\RecordCollectors\Helper\GusClient::getInstance($this->getParams($moduleName));
 		try {
 			$infoFromGus = $client->search($vatId, $ncr, $taxNumber);
-			$moduleName = $this->request->getModule();
 			if ($recordId = $this->request->getInteger('record')) {
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 				$response['recordModel'] = $recordModel;
@@ -208,5 +211,21 @@ class Gus extends Base
 			$response['error'] = $e->faultstring;
 		}
 		return $response;
+	}
+
+	/**
+	 * Get params.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return string[]
+	 */
+	public function getParams(string $moduleName): array
+	{
+		$params = [];
+		if (isset($this->formFieldsToRecordMap[$moduleName]['PKDPodstawowyKod']) || isset($this->formFieldsToRecordMap[$moduleName]['PKDPodstawowyKod']) || isset($this->formFieldsToRecordMap[$moduleName]['PKDPozostaleNazwy']) || isset($this->formFieldsToRecordMap[$moduleName]['PKDPozostaleKodyNazwy'])) {
+			$params[] = 'pkd';
+		}
+		return $params;
 	}
 }
