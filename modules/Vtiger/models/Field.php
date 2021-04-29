@@ -1437,7 +1437,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isCalculateField()
 	{
-		return $this->isCalculateField && !$this->get('fromOutsideList') && (\in_array($this->getUIType(), [71, 7, 317, 8]) || \in_array($this->getFieldDataType(), ['integer', 'double'])) ;
+		return $this->isCalculateField && !$this->get('fromOutsideList') && (\in_array($this->getUIType(), [71, 7, 317, 8]) || \in_array($this->getFieldDataType(), ['integer', 'double']));
 	}
 
 	/**
