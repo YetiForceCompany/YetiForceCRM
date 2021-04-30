@@ -77,7 +77,7 @@ window.Products_StocktakingModal_JS = class {
 					this.container.find('.js-entries-not-found').val(response.result.counterNotFound);
 					this.container.find('.js-list-entries-not-found').val(response.result.notFound);
 					this.toUpdate = response.result.toUpdate;
-					if (!this.toUpdate) {
+					if (response.result.update === 0) {
 						this.container.find('.js-import').addClass('d-none');
 					} else {
 						if (formData['storage'] != 0) {
