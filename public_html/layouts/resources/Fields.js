@@ -2815,6 +2815,12 @@ window.App.Fields = {
 			} else {
 				fieldElement.val(value);
 			}
+			fieldElement.trigger('change');
+			let fieldValue = fieldElement.closest('.fieldValue');
+			fieldValue.addClass('border border-info');
+			setTimeout(function () {
+				fieldValue.removeClass('border border-info');
+			}, 5000);
 		}
 	}
 };
