@@ -31,54 +31,6 @@ jobs:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
-  coverage:
-    runs-on: ubuntu-latest
-    name: Code Coverage
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/7.4@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-          CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: PHP info
-        run: |
-          whereis php
-          apt list --installed | grep php
-          dpkg --get-selections | grep php
-
-      - name: Scrutinizer
-        run: |
-          wget https://scrutinizer-ci.com/ocular.phar --quiet
-          /usr/bin/php7.4 ocular.phar code-coverage:upload --format=php-clover ${{github.workspace}}/tests/coverages/coverage.xml
-
-      - name: SonarCloud - Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: ${{github.workspace}}
-
-      - name: Code Climate - Test & publish code coverage
-        uses: paambaati/codeclimate-action@v2.7.5
-        env:
-          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-        with:
-          coverageLocations: ${{github.workspace}}/tests/coverages/coverage3.xml:clover
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: Coverages
-          path: ${{github.workspace}}/tests/coverages
-
   tests80:
     runs-on: ubuntu-latest
     name: PHP 8.0 - MariaDB 10.x
@@ -120,3 +72,51 @@ jobs:
         env:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+
+  coverage:
+    runs-on: ubuntu-latest
+    name: Code Coverage
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Tests
+        uses: YetiForceCompany/YetiForceCRM-Tests/coverage@main
+        env:
+          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+          CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: PHP info
+        run: |
+          whereis php
+          apt list --installed | grep php
+          dpkg --get-selections | grep php
+
+      - name: Scrutinizer CI
+        run: |
+          wget https://scrutinizer-ci.com/ocular.phar --quiet
+          /usr/bin/php7.4 ocular.phar code-coverage:upload --format=php-clover ${{github.workspace}}/tests/coverages/coverage.xml
+
+      - name: SonarCloud - Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: ${{github.workspace}}
+
+      - name: Code Climate - Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+          coverageLocations: ${{github.workspace}}/tests/coverages/coverage3.xml:clover
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Coverages
+          path: ${{github.workspace}}/tests/coverages
