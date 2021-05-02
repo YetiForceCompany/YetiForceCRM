@@ -19,7 +19,21 @@ jobs:
 
   tests74:
     runs-on: ubuntu-latest
-    name: PHP 7.4 - MariaDB 10.x , Code Coverage
+    name: PHP 7.4 - MariaDB 10.x
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Tests
+        uses: YetiForceCompany/YetiForceCRM-Tests/7.4@main
+        env:
+          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+
+  coverage:
+    runs-on: ubuntu-latest
+    name: Code Coverage
     steps:
       - uses: actions/checkout@v2
         with:
