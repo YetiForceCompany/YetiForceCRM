@@ -152,6 +152,7 @@ class Products_Stocktaking_Model
 						'ean' => $ean,
 						'difference' => $crmStock - $fileStock,
 						'fileStock' => $fileStock,
+						'crmStock' => $crmStock,
 						'data' => array_combine($headers, $row),
 					];
 				} else {
@@ -298,7 +299,7 @@ class Products_Stocktaking_Model
 				'qty' => $product['difference'],
 				'price' => $productDetails['price'],
 				'total' => $productDetails['price'] * $product['difference'],
-				'comment1' => $this->buildComment($product['data'])
+				'comment1' => $this->buildComment($product)
 			]);
 		}
 		return $items;
@@ -313,8 +314,8 @@ class Products_Stocktaking_Model
 	 */
 	private function buildComment(array $row): string
 	{
-		$comment = '';
-		foreach ($row as $key => $value) {
+		$comment = "{$row['crmStock']} >> {$row['fileStock']}<br/>\n";
+		foreach ($row['data'] as $key => $value) {
 			$comment .= "$key: $value<br/>\n";
 		}
 		return $comment;
