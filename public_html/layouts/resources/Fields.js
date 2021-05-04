@@ -278,7 +278,7 @@ window.App.Fields = {
 				return;
 			}
 			$('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
-				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
+				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField').get(0).focus();
 			});
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
@@ -2767,6 +2767,138 @@ window.App.Fields = {
 		getRelatedField() {
 			let relatedFieldName = this.getField().data('related-field');
 			return this.container.closest('form').find(`[name=${relatedFieldName}]`);
+		}
+	},
+	/**
+	 * MultiReference
+	 */
+	MultiReference: class MultiReference {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-multiReference-container')) {
+				return new MultiReference(container);
+			}
+			const instances = [];
+			container.find('.js-multiReference-container').each((_, e) => {
+				instances.push(new MultiReference($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			$('.js-clear-selection', this.container)
+				.off('click')
+				.on('click', () => {
+					this.clear();
+				});
+			$('.js-related-popup', this.container)
+				.off('click')
+				.on('click', () => {
+					let params = {};
+					let field = this.getField();
+					let url = field.data('url');
+					if (url) {
+						params = this.convertUrl(url);
+					}
+					app.showRecordsList($.extend(params, this.getParams()), (modal, instance) => {
+						instance.setSelectEvent((data) => {
+							this.setReferenceFieldValue(data);
+						});
+					});
+				});
+		}
+		/**
+		 * Clear selection
+		 */
+		clear() {
+			let element = this.getField();
+			let fieldName = element.attr('name');
+			element.val('');
+			this.container.find(`#${fieldName}_display`).removeAttr('readonly').val('');
+		}
+		/**
+		 * Set reference field value
+		 * @param {object} data
+		 */
+		setReferenceFieldValue(data) {
+			let sourceField = this.getField(),
+				fieldName = sourceField.attr('name'),
+				selectedNames = [],
+				ids = [];
+			for(let index in data){
+				ids.push(index);
+				selectedNames.push(data[index]);
+			}
+			this.clear();
+			sourceField.val(ids.join(','));
+			this.container
+				.find(`#${fieldName}_display`)
+				.val(app.decodeHTML(selectedNames.join(', ')))
+				.attr('readonly', true);
+		}
+		/**
+		 * Gets field
+		 */
+		getField() {
+			return this.container.find('.js-source-field');
+		}
+		/**
+		 * Convert URL to Object
+		 * @param {string} data
+		 */
+		convertUrl(url) {
+			let vars = {};
+			url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (_, key, value) {
+				vars[key] = value;
+			});
+			return vars;
+		}
+		/**
+		 * Gets params
+		 */
+		getParams() {
+			let form = this.container.closest('form');
+			let sourceModule = $('input[name="module"]', form).val();
+			let popupReferenceModule = $('.js-popup-reference-module', this.container).val();
+			let sourceField = this.getField();
+			let sourceFieldName = sourceField.attr('name');
+			let sourceRecordElement = $('input[name="record"]', form);
+			let sourceRecordId = '';
+			if (sourceRecordElement.length > 0) {
+				sourceRecordId = sourceRecordElement.val();
+			}
+
+			let filterFields = {};
+			let listFilterFieldsJson = form.find('input[name="listFilterFields"]').val();
+			let listFilterFields = listFilterFieldsJson ? JSON.parse(listFilterFieldsJson) : [];
+			if (
+				listFilterFields[sourceFieldName] != undefined &&
+				listFilterFields[sourceFieldName][popupReferenceModule] != undefined
+			) {
+				$.each(listFilterFields[sourceFieldName][popupReferenceModule], function (index, value) {
+					let mapFieldElement = form.find('[name="' + index + '"]');
+					if (mapFieldElement.length && mapFieldElement.val() != '') {
+						filterFields[index] = mapFieldElement.val();
+					}
+				});
+			}
+			return {
+				module: popupReferenceModule,
+				src_module: sourceModule,
+				src_field: sourceFieldName,
+				src_record: sourceRecordId,
+				filterFields: filterFields,
+				multi_select: sourceField.data('multiple') == true
+			};
 		}
 	},
 	Utils: {

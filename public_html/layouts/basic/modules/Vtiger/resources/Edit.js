@@ -1522,6 +1522,7 @@ $.Class(
 			App.Fields.MultiCurrency.register(container);
 			App.Fields.MeetingUrl.register(container);
 			App.Fields.ChangesJson.register(container);
+			App.Fields.MultiReference.register(container);
 		},
 		registerEvents: function () {
 			let editViewForm = this.getForm();
