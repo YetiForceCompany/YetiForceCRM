@@ -42,14 +42,14 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		return $modules;
 	}
 
+	/**
+	 * Get URL.
+	 *
+	 * @return string
+	 */
 	public function getUrl()
 	{
-		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentRelation&page=1&limit=' . $this->Data['limit'];
-		foreach (self::getActions() as $type) {
-			$url .= '&type[]=' . $type;
-		}
-
-		return $url;
+		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentRelation&page=1&limit=' . $this->Data['limit'] . '&type=' . \App\Json::encode(self::getActions());
 	}
 
 	public function getWidget()
