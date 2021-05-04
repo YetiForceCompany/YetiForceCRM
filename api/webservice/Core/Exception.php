@@ -44,6 +44,7 @@ class Exception extends \Exception
 			$body['error']['backtrace'] = \App\Debuger::getBacktrace();
 		}
 		$response = Response::getInstance();
+		$response->setRequest(Request::init());
 		$response->setBody($body);
 		$response->setStatus($code);
 		if (\App\Config::debug('apiShowExceptionReasonPhrase')) {

@@ -761,7 +761,7 @@ class Request
 	public static function __callStatic($name, $arguments = null)
 	{
 		if (!static::$request) {
-			self::init();
+			static::init();
 		}
 		$function = ltrim($name, '_');
 		if (!method_exists(static::$request, $function)) {
@@ -774,7 +774,6 @@ class Request
 		if (empty($arguments)) {
 			return static::$request->{$function}($first);
 		}
-
 		return static::$request->{$function}($first, $arguments[0]);
 	}
 }

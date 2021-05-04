@@ -49,7 +49,7 @@ class Request extends \App\Request
 	public static function init($request = false)
 	{
 		if (!static::$request) {
-			static::$request = new self($request ? $request : $_REQUEST);
+			static::$request = new self($request ?: $_REQUEST);
 			static::$request->contentType = isset($_SERVER['CONTENT_TYPE']) ? static::$request->getServer('CONTENT_TYPE') : static::$request->getHeader('content-type');
 			if (empty(static::$request->contentType)) {
 				static::$request->contentType = static::$request->getHeader('accept');
