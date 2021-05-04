@@ -83,6 +83,6 @@
     "LBL_NUMBER_ENTRIES_NO_UPDATE": "Number of entries that don't require updating",
     "LBL_NUMBER_ENTRIES_NOT_FOUND": "Number of entries not found",
     "LBL_LIST_ENTRIES_NOT_FOUND": "List of entries not found",
-    "LBL_IMPORT_STOCK_ALERT": "Change of the stock level require verification and acceptance only then stock level change"
+    "LBL_IMPORT_STOCK_ALERT": "Changing the stock level requires verification and approval, only then the stock level will change."
   }
 }
