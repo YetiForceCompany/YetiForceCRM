@@ -18322,6 +18322,9 @@ body > .o-exception-fixed-block {
 .o-tab__container tr:hover .o-tab__container--action {
   display: flex !important; }
 
+.o-min-width {
+  width: min-content; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-header {
   background-color: #4a5364;
@@ -20318,10 +20321,10 @@ ul.c-process-line {
   .commentContainer .commentorInfo p {
     margin-bottom: 0; }
   .commentContainer .addCommentBlock .commentcontent {
-    min-height: 56px !important/16pxrem;
+    min-height: 3.5rem !important;
     overflow-x: hidden;
     overflow-y: hidden;
-    padding: 7px !important/16pxrem;
+    padding: 0.4375rem !important;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;

@@ -1564,31 +1564,22 @@ var app = (window.app = {
 		switch (dateFormat) {
 			case 'yyyy-mm-dd':
 				return 'Y-m-d';
-				break;
 			case 'mm-dd-yyyy':
 				return 'm-d-Y';
-				break;
 			case 'dd-mm-yyyy':
 				return 'd-m-Y';
-				break;
 			case 'yyyy.mm.dd':
 				return 'Y.m.d';
-				break;
 			case 'mm.dd.yyyy':
 				return 'm.d.Y';
-				break;
 			case 'dd.mm.yyyy':
 				return 'd.m.Y';
-				break;
 			case 'yyyy/mm/dd':
 				return 'Y/m/d';
-				break;
 			case 'mm/dd/yyyy':
 				return 'm/d/Y';
-				break;
 			case 'dd/mm/yyyy':
 				return 'd/m/Y';
-				break;
 		}
 	},
 	convertTojQueryDatePickerFormat: function (dateFormat) {

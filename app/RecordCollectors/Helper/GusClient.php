@@ -269,7 +269,6 @@ class GusClient extends \SoapClient
 			$response['FormaFinansowania'] = $responseFromGus[$prefixName . 'formaFinansowania_Nazwa'] ?? '';
 			$response['FormaWlasnosci'] = $responseFromGus[$prefixName . 'formaWlasnosci_Nazwa'] ?? '';
 			$response['DataPowstania'] = $responseFromGus[$prefixName . 'dataPowstania'] ?? '';
-			$response['DataRozpoczeciaDzialalnosci'] = $responseFromGus[$prefixName . 'dataRozpoczeciaDzialalnosci'] ?? '';
 			$response['DataWpisuDoREGON'] = $responseFromGus[$prefixName . 'dataWpisuDoREGON'] ?? '';
 			$response['DataZawieszeniaDzialalnosci'] = $responseFromGus[$prefixName . 'dataZawieszeniaDzialalnosci'] ?? '';
 			$response['DataWznowieniaDzialalnosci'] = $responseFromGus[$prefixName . 'dataWznowieniaDzialalnosci'] ?? '';
@@ -315,14 +314,12 @@ class GusClient extends \SoapClient
 	 */
 	private function getReportName(string $type, string $silosId): string
 	{
-		if ('F' === $type) {
-			if (isset(self::$reportName[$type][$silosId])) {
-				return self::$reportName[$type][$silosId];
-			}
+		$name = '';
+		if ('F' === $type && isset(self::$reportName[$type][$silosId])) {
+			$name = self::$reportName[$type][$silosId];
+		} elseif (isset(self::$reportName[$type])) {
+			$name = self::$reportName[$type];
 		}
-		if (isset(self::$reportName[$type])) {
-			return self::$reportName[$type];
-		}
-		return '';
+		return $name;
 	}
 }

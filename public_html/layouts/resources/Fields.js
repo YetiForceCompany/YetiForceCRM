@@ -2834,7 +2834,7 @@ window.App.Fields = {
 				fieldName = sourceField.attr('name'),
 				selectedNames = [],
 				ids = [];
-			for(let index in data){
+			for (let index in data) {
 				ids.push(index);
 				selectedNames.push(data[index]);
 			}
@@ -2897,7 +2897,7 @@ window.App.Fields = {
 				src_field: sourceFieldName,
 				src_record: sourceRecordId,
 				filterFields: filterFields,
-				multi_select: sourceField.data('multiple') == true
+				multi_select: sourceField.data('multiple')
 			};
 		}
 	},

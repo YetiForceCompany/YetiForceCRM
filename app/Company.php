@@ -112,7 +112,7 @@ class Company extends Base
 		$return = 'Micro';
 		$last = 0;
 		foreach (self::$sizes as $size => $value) {
-			if (0 !== $value && 0 !== $value && $count <= $value && $count > $last) {
+			if (0 !== $value && $count <= $value && $count > $last) {
 				return $size;
 			}
 			if (0 === $value && $count > 1000) {

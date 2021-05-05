@@ -780,7 +780,6 @@ $.Class(
 					Settings_Vtiger_Index_Js.showMessage(params);
 					this.showCustomField(result);
 				} else {
-					message = data['error']['message'];
 					app.showNotify({
 						title:
 							data['error']['code'] != 513 ? form.find('.fieldNameForm').text() : form.find('.fieldLabelForm').text(),

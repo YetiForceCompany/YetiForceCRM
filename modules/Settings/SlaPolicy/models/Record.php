@@ -142,10 +142,11 @@ class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function delete()
 	{
-		return \App\Db::getInstance('admin')->createCommand()
+		$result = \App\Db::getInstance('admin')->createCommand()
 			->delete('s_#__sla_policy', ['id' => $this->getId()])
 			->execute();
 		\App\Cache::clear();
+		return $result;
 	}
 
 	/**
