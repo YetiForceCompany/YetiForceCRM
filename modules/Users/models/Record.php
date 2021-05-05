@@ -192,7 +192,11 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if (App\Config::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
 			$db = \App\Db::getInstance('log');
-			$db->createCommand()->insert('l_#__username_history', ['user_name' => $valuesForSave['vtiger_users']['user_name'], 'user_id' => $this->getId()])->execute();
+			$db->createCommand()->insert('l_#__username_history', [
+				'user_name' => $valuesForSave['vtiger_users']['user_name'],
+				'user_id' => $this->getId(),
+				'date' => date('Y-m-d H:i:s')
+			])->execute();
 		}
 	}
 

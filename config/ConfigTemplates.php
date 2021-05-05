@@ -305,11 +305,11 @@ return [
 		],
 		'headerAlertType' => [
 			'default' => '',
-			'description' => 'Header alert type'
+			'description' => 'Header alert type, ex. alert-primary, alert-danger, alert-warning, alert-info'
 		],
 		'headerAlertIcon' => [
 			'default' => '',
-			'description' => 'Header alert icon'
+			'description' => 'Header alert icon, ex.  fas fa-exclamation-triangle, fas fa-exclamation-circle, fas fa-exclamation, far fa-question-circle, fas fa-info-circle'
 		],
 		'loginPageAlertMessage' => [
 			'default' => '',
@@ -317,11 +317,11 @@ return [
 		],
 		'loginPageAlertType' => [
 			'default' => '',
-			'description' => 'Login page alert type'
+			'description' => 'Login page alert type, ex. alert-primary, alert-danger, alert-warning, alert-info'
 		],
 		'loginPageAlertIcon' => [
 			'default' => '',
-			'description' => 'Login page alert icon'
+			'description' => 'Login page alert icon, ex.  fas fa-exclamation-triangle, fas fa-exclamation-circle, fas fa-exclamation, far fa-question-circle, fas fa-info-circle'
 		],
 		'showRegistrationAlert' => [
 			'default' => true,
