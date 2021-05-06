@@ -14,34 +14,48 @@ namespace tests;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
-
 use PHPUnit\Framework\TestCase;
 
 abstract class GuiBase extends TestCase
 {
-	/**
-	 * Last logs.
-	 *
-	 * @var mixed
-	 */
+	/** @var mixed Last logs. */
 	public $logs;
-	public $driver;
-	protected static $isLogin = false;
+
+	/** @var \Facebook\WebDriver\Remote\RemoteWebDriver Web driver. */
+	protected $driver;
+
+	/** @var bool Is login */
+	protected $isLogin = false;
 
 	/**
+	 * Not success test.
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param \Throwable $t
+	 *
+	 * @return void
 	 */
 	protected function onNotSuccessfulTest(\Throwable $t): void
 	{
 		if (isset($this->logs)) {
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			\print_r($this->logs);
-			print_r(array_shift($t->getTrace()));
 		}
 		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-		print_r($this->driver->getPageSource());
+		if (null !== $this->driver) {
+			echo 'URL: ';
+			$this->driver->getCurrentURL();
+			echo PHP_EOL;
+			echo 'Title: ';
+			$this->driver->getTitle();
+			echo PHP_EOL;
+			file_put_contents(ROOT_DIRECTORY . '/cache/logs/selenium_source.html', $this->driver->getPageSource());
+			$this->driver->takeScreenshot(ROOT_DIRECTORY . '/cache/logs/selenium_screenshot.png');
+		} else {
+			echo 'No $this->driver';
+			print_r($t->__toString());
+		}
 		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		throw $t;
 	}
@@ -52,10 +66,12 @@ abstract class GuiBase extends TestCase
 	protected function setUp(): void
 	{
 		parent::setUp();
-		if (null === $this->driver) {
-			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
+		if (empty($this->driver)) {
+			$capabilities = DesiredCapabilities::chrome();
+			$capabilities->setCapability('chromeOptions', ['args' => ['headless', 'disable-dev-shm-usage', 'no-sandbox']]);
+			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', $capabilities, 5000);
 		}
-		if (!self::$isLogin) {
+		if (!$this->isLogin) {
 			$this->login();
 		}
 	}
@@ -81,5 +97,6 @@ abstract class GuiBase extends TestCase
 		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
 		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
 		$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
+		$this->isLogin = true;
 	}
 }
