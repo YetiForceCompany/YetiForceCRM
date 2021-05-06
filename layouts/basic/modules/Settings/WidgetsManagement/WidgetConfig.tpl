@@ -87,7 +87,7 @@
 										</div>
 										<div class="col-md-7 text-center">
 											<input type="text" name="plotTickSize" class="form-control"
-												   value="{$WIDGET_INFO['plotTickSize']}">
+												   value="{if isset($WIDGET_INFO['plotTickSize'])}{$WIDGET_INFO['plotTickSize']}{else}0{/if}">
 										</div>
 									</div>
 									<div class="row pt-2">
@@ -96,7 +96,7 @@
 										</div>
 										<div class="col-md-7 text-center">
 											<input type="text" name="plotLimit" class="form-control"
-												   value="{$WIDGET_INFO['plotLimit']}">
+												   value="{if isset($WIDGET_INFO['plotLimit'])}{$WIDGET_INFO['plotLimit']}{else}0{/if}">
 										</div>
 									</div>
 								{/if}
