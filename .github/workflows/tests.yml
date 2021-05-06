@@ -115,8 +115,14 @@ jobs:
         with:
           coverageLocations: ${{github.workspace}}/tests/coverages/coverage3.xml:clover
 
-      - name: Upload artifact
+      - name: Upload artifact Coverages
         uses: actions/upload-artifact@v2
         with:
           name: Coverages
           path: ${{github.workspace}}/tests/coverages
+
+      - name: Upload artifact Logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: Logs
+          path: ${{github.workspace}}/cache/logs/
