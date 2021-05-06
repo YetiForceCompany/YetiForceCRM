@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Portal Record Model.
+ * RestApi Record Model file.
  *
  * @package Service
  *
@@ -11,22 +11,36 @@
  */
 
 /**
- * Settings_WebserviceUsers_Portal_Service class.
+ * RestApi Record Model class.
  */
-class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_RestApi_Service
+class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_Record_Model
 {
 	/**
 	 * Table name.
 	 *
 	 * @var string
 	 */
-	public $baseTable = 'w_#__portal_user';
+	public $baseTable = 'w_#__api_user';
+
+	/**
+	 * Table name.
+	 *
+	 * @var string
+	 */
+	public $baseIndex = 'id';
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public $editFields = [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'istorage' => 'FL_STORAGE'
+		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
+	];
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $listFields = [
+		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'type' => 'FL_TYPE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
 	];
 
 	/**
@@ -34,7 +48,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 	 */
 	public function init(array $data)
 	{
-		$data['password_t'] = App\Encryption::getInstance()->decrypt($data['password_t']);
+		$data['password'] = App\Encryption::getInstance()->decrypt($data['password']);
 		$this->setData($data);
 		return $this;
 	}
@@ -55,11 +69,6 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			case 'crmid':
 				$params['uitype'] = 10;
 				$params['referenceList'] = ['Contacts'];
-				break;
-			case 'istorage':
-				$params['uitype'] = 10;
-				$params['referenceList'] = ['IStorages'];
-				$params['typeofdata'] = 'V~O';
 				break;
 			case 'status':
 				$params['uitype'] = 16;
@@ -88,7 +97,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				$params['uitype'] = 16;
 				$params['picklistValues'] = \App\Fields\Owner::getInstance($moduleName)->getAccessibleUsers('', 'owner');
 				break;
-			case 'password_t':
+			case 'password':
 				$params['typeofdata'] = 'P~M';
 				break;
 			default:
@@ -111,7 +120,6 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 					case 'status':
 					case 'type':
 					case 'user_id':
-					case 'istorage':
 						$value = $request->getInteger($field);
 						break;
 					case 'crmid':
@@ -121,7 +129,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 					case 'language':
 						$value = $request->getByType($field, 'Text');
 						break;
-					case 'password_t':
+					case 'password':
 						$value = $request->getRaw($field, null);
 						break;
 					default:
@@ -131,6 +139,21 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				$this->set($field, $this->getValueToSave($field, $value));
 			}
 		}
+	}
+
+	/**
+	 * Check if the data is correct.
+	 *
+	 * @return bool|string
+	 */
+	public function checkData()
+	{
+		$result = parent::checkData();
+		$query = (new \App\Db\Query())->from($this->baseTable)->where(['server_id' => $this->get('server_id'), 'user_name' => $this->get('user_name')]);
+		if ($this->getId()) {
+			$query->andWhere(['<>', 'id', $this->getId()]);
+		}
+		return !$result && $query->exists() ? 'LBL_DUPLICATE_LOGIN' : $result;
 	}
 
 	/**
@@ -151,13 +174,43 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			case 'user_id':
 				$value = (int) $value;
 				break;
-			case 'password_t':
+			case 'password':
 				$value = App\Encryption::getInstance()->encrypt($value);
 				break;
 			default:
 				break;
 		}
 		return $value;
+	}
+
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	public function getDisplayValue($name)
+	{
+		switch ($name) {
+			case 'server_id':
+				$servers = Settings_WebserviceApps_Record_Model::getInstanceById($this->get($name));
+				return $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
+			case 'crmid':
+				return $this->get($name) ? \App\Record::getLabel($this->get($name)) : '';
+			case 'status':
+				return \App\Language::translate(empty($this->get($name)) ? 'PLL_INACTIVE' : 'PLL_ACTIVE');
+			case 'user_id':
+				return \App\Fields\Owner::getLabel($this->get($name));
+			case 'language':
+				return $this->get($name) ? \App\Language::getLanguageLabel($this->get($name)) : '';
+			case 'type':
+				$label = \App\Language::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
+				return \App\TextParser::textTruncate($label);
+			default:
+				break;
+		}
+		return $this->get($name);
 	}
 
 	/**
@@ -174,7 +227,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				'linklabel' => 'FL_PASSWORD',
 				'linkicon' => 'fas fa-copy',
 				'linkclass' => 'btn btn-sm btn-primary clipboard',
-				'linkdata' => ['copy-attribute' => 'clipboard-text', 'clipboard-text' => \App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($this->get('password_t')))]
+				'linkdata' => ['copy-attribute' => 'clipboard-text', 'clipboard-text' => \App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($this->get('password')))]
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
@@ -196,5 +249,72 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
 		return $links;
+	}
+
+	/**
+	 * Type field values.
+	 *
+	 * @param type $value
+	 *
+	 * @return string
+	 */
+	public function getTypeValues($value = false)
+	{
+		$data = [
+			\Api\Portal\Privilege::USER_PERMISSIONS => 'PLL_USER_PERMISSIONS',
+			\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS => 'PLL_ACCOUNTS_RELATED_RECORDS',
+			\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY => 'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY',
+			\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY => 'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY',
+		];
+		if ($value) {
+			return $data[$value];
+		}
+		return $data;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function save()
+	{
+		$result = parent::save();
+		if ($result && $this->isNew() && \App\Config::api('enableEmailPortal', false)) {
+			$this->sendEmail();
+		}
+	}
+
+	/**
+	 * Send mails with access.
+	 *
+	 * @return void
+	 */
+	public function sendEmail()
+	{
+		if (empty($this->get('crmid'))) {
+			return;
+		}
+		$moduleName = 'Contacts';
+		$recordModel = Vtiger_Record_Model::getInstanceById($this->get('crmid'), $moduleName);
+		if ($recordModel->get('emailoptout')) {
+			$emailsFields = $recordModel->getModule()->getFieldsByType('email');
+			$addressEmail = '';
+			foreach ($emailsFields as $fieldModel) {
+				if (!$recordModel->isEmpty($fieldModel->getFieldName())) {
+					$addressEmail = $recordModel->get($fieldModel->getFieldName());
+					break;
+				}
+			}
+			if (!empty($addressEmail)) {
+				\App\Mailer::sendFromTemplate([
+					'template' => 'YetiPortalRegister',
+					'moduleName' => $moduleName,
+					'recordId' => $this->get('crmid'),
+					'to' => $addressEmail,
+					'password' => $this->get('password'),
+					'login' => $this->get('user_name'),
+					'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('acceptable_url')
+				]);
+			}
+		}
 	}
 }

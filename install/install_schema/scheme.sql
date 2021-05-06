@@ -9650,6 +9650,41 @@ CREATE TABLE `vtiger_ws_userauthtoken` (
   UNIQUE KEY `userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `w_yf_api_session` */
+
+CREATE TABLE `w_yf_api_session` (
+  `id` char(40) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `changed` datetime DEFAULT NULL,
+  `params` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `w_yf_api_session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_api_user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `w_yf_api_user` */
+
+CREATE TABLE `w_yf_api_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `server_id` int(10) unsigned NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `user_name` varchar(50) NOT NULL,
+  `password` varchar(500) DEFAULT NULL,
+  `type` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `login_time` datetime DEFAULT NULL,
+  `logout_time` datetime DEFAULT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  `crmid` int(10) DEFAULT NULL,
+  `user_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_name` (`user_name`),
+  KEY `user_name_status` (`user_name`,`status`),
+  KEY `server_id` (`server_id`),
+  CONSTRAINT `w_yf_api_user_ibfk_1` FOREIGN KEY (`server_id`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `w_yf_manage_consents_user` */
 
 CREATE TABLE `w_yf_manage_consents_user` (
