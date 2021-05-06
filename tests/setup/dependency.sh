@@ -4,6 +4,7 @@
 #########################################
 if [ "$GUI_MODE" == "true" ]; then
 	cd "$(dirname "$0")/../../"
+
 	echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
 
 	if [ "$INSTALL_MODE" != "PROD" ]; then
@@ -13,8 +14,8 @@ if [ "$GUI_MODE" == "true" ]; then
 		yarn install --force --modules-folder "./public_html/libraries" --production=true --ignore-optional
 	fi
 
-
 	echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
+
 	cd public_html/src
 	if [ "$INSTALL_MODE" != "PROD" ]; then
 		yarn install --force
