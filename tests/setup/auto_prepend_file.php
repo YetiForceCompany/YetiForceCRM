@@ -17,7 +17,7 @@ if (!file_exists('vendor')) {
 	return;
 }
 
-include_once 'include/main/WebUI.php';
+require_once 'include/ConfigUtils.php';
 
 $codeCoverage = Tests\Coverage::getInstance();
 $codeCoverage->start();
