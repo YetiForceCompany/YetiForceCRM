@@ -256,6 +256,7 @@ class Products_Stocktaking_Model
 			if ($product['difference'] > 0) {
 				$igin[$crmId] = $product;
 			} else {
+				$product['difference'] = -$product['difference'];
 				$iidn[$crmId] = $product;
 			}
 		}
