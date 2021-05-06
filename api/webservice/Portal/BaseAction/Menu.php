@@ -53,13 +53,13 @@ class Menu extends \Api\Core\BaseAction
 	 * 		title="Base action - Menu",
 	 * 		description="Base action menu response body",
 	 *		type="object",
-	 *  	@OA\Property(
-	 *       	property="status",
-	 *        description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 				enum={"0", "1"},
-	 *     	  type="integer",
+	 *   @OA\Property(
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={"0", "1"},
+	 *			type="integer",
 	 * 		),
-	 *    @OA\Property(
+	 *   @OA\Property(
 	 *     	  property="result",
 	 *     	 	description="Menu items selected in the system, consists of parents and children",
 	 *    	 	type="object",
@@ -71,6 +71,7 @@ class Menu extends \Api\Core\BaseAction
 	 * 					@OA\Property(property="tabid", type="integer"),
 	 * 					@OA\Property(property="mod", type="string"),
 	 * 					@OA\Property(property="name", type="string"),
+	 * 					@OA\Property(property="label", type="string"),
 	 * 					@OA\Property(property="type", type="string"),
 	 * 					@OA\Property(property="sequence", type="integer"),
 	 * 					@OA\Property(property="newwindow", type="integer"),
@@ -90,6 +91,8 @@ class Menu extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		return ['items' => \Settings_Menu_Record_Model::getCleanInstance()->getChildMenu($this->controller->app['id'], 0, \Settings_Menu_Record_Model::SRC_API)];
+		return [
+			'items' => \Settings_Menu_Record_Model::getCleanInstance()->getChildMenu($this->controller->app['id'], 0, \Settings_Menu_Record_Model::SRC_API)
+		];
 	}
 }
