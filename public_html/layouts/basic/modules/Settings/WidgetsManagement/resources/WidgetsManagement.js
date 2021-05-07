@@ -266,6 +266,14 @@ jQuery.Class(
 							addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
 						}
 					}
+					let filterItem = JSON.parse($('[name="filter_users_item"]').val());
+					filterItem = filterItem[name] || filterItem['default'];
+					addFieldContainer.find('.widgetFilter select option').each(function () {
+						let element = $(this);
+						if ($.inArray(element.val(), filterItem) == -1) {
+							element.remove();
+						}
+					});
 				}
 				if ($.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
 					addFieldContainer
@@ -305,6 +313,14 @@ jQuery.Class(
 									addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
 								}
 							}
+							let filterItem = JSON.parse($('[name="filter_users_item"]').val());
+							filterItem = filterItem[name] || filterItem['default'];
+							addFieldContainer.find('.widgetFilter select option').each(function () {
+								let element = $(this);
+								if ($.inArray(element.val(), filterItem) == -1) {
+									element.remove();
+								}
+							});
 							App.Fields.Picklist.showSelect2ElementView(elementsToFilter.find('select'));
 						} else {
 							elementsToFilter.addClass('d-none').find('select').prop('disabled', true);

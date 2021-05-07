@@ -20,6 +20,20 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		];
 	}
 
+	/**
+	 * Exclude defined values from filters.
+	 *
+	 * @return array
+	 */
+	public function filerItems(): array
+	{
+		return [
+			'Mini List' => ['mine', 'all', 'users', 'groups', 'groupUsers', 'roleUsers', 'rsUsers'],
+			'DW_SUMMATION_BY_MONTHS' => ['mine', 'all', 'users', 'groups', 'groupUsers', 'roleUsers', 'rsUsers'],
+			'default' => ['mine', 'all', 'users', 'groups'],
+		];
+	}
+
 	public function getWidgetsWithLimit(): array
 	{
 		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks',
@@ -55,7 +69,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 */
 	public function getFilterSelect(): array
 	{
-		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups'];
+		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups', 'LBL_GROUP_USERS' => 'groupUsers', 'LBL_ROLE_USERS' => 'roleUsers', 'LBL_ROLE_AND_SUBORDINATES_USERS' => 'rsUsers'];
 	}
 
 	public function getFilterSelectDefault(): array
