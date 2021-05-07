@@ -353,14 +353,16 @@ class PrivilegeUtil
 				->innerJoin('vtiger_user2role', 'vtiger_role.roleid=vtiger_user2role.roleid')
 				->where(['vtiger_group2rs.groupid' => $groupId])
 			);
-		if ($depth < 5) {
-			$dataReader = (new \App\Db\Query())->select(['containsgroupid'])->from('vtiger_group2grouprel')->where(['groupid' => $groupId])->createCommand()->query();
-			while ($containsGroupId = $dataReader->readColumn(0)) {
-				$query->union((new \App\Db\Query())->select(['userid'])->from(["query_{$groupId}_{$depth}" => static::getQueryToUsersByGroup($containsGroupId, $recursive, $depth)]));
+		if ($recursive) {
+			if ($depth < 5) {
+				$dataReader = (new \App\Db\Query())->select(['containsgroupid'])->from('vtiger_group2grouprel')->where(['groupid' => $groupId])->createCommand()->query();
+				while ($containsGroupId = $dataReader->readColumn(0)) {
+					$query->union((new \App\Db\Query())->select(['userid'])->from(["query_{$groupId}_{$depth}" => static::getQueryToUsersByGroup($containsGroupId, $recursive, $depth)]));
+				}
+				$dataReader->close();
+			} else {
+				Log::error('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 			}
-			$dataReader->close();
-		} else {
-			Log::error('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 		}
 		return $query;
 	}
