@@ -9653,7 +9653,7 @@ CREATE TABLE `vtiger_ws_userauthtoken` (
 /*Table structure for table `w_yf_api_session` */
 
 CREATE TABLE `w_yf_api_session` (
-  `id` char(40) NOT NULL,
+  `id` char(64) NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `language` varchar(10) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -9670,7 +9670,7 @@ CREATE TABLE `w_yf_api_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `server_id` int(10) unsigned NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
-  `user_name` varchar(50) NOT NULL,
+  `user_name` varchar(100) NOT NULL,
   `password` varchar(500) DEFAULT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `login_time` datetime DEFAULT NULL,
@@ -9704,7 +9704,7 @@ CREATE TABLE `w_yf_manage_consents_user` (
 /*Table structure for table `w_yf_portal_session` */
 
 CREATE TABLE `w_yf_portal_session` (
-  `id` char(40) NOT NULL,
+  `id` char(64) NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `language` varchar(10) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -9721,8 +9721,8 @@ CREATE TABLE `w_yf_portal_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `server_id` int(10) unsigned NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
-  `user_name` varchar(50) NOT NULL,
-  `password_t` varchar(500) DEFAULT NULL,
+  `user_name` varchar(100) NOT NULL,
+  `password` varchar(500) DEFAULT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `login_time` datetime DEFAULT NULL,
   `logout_time` datetime DEFAULT NULL,

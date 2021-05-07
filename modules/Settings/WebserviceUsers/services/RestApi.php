@@ -3,11 +3,12 @@
 /**
  * RestApi Record Model file.
  *
- * @package Service
+ * @package Settings
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -29,23 +30,17 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 	 */
 	public $baseIndex = 'id';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $editFields = [
 		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $listFields = [
 		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'type' => 'FL_TYPE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function init(array $data)
 	{
 		$data['password'] = App\Encryption::getInstance()->decrypt($data['password']);
@@ -72,7 +67,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				break;
 			case 'status':
 				$params['uitype'] = 16;
-				$params['picklistValues'] = [1 => \App\Language::translate('PLL_ACTIVE', $moduleName), 0 => \App\Language::translate('PLL_INACTIVE', $moduleName)];
+				$params['picklistValues'] = [1 => \App\Language::translate('FL_ACTIVE'), 0 => \App\Language::translate('FL_INACTIVE')];
 				break;
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Module_Model::getActiveServers($this->getModule()->typeApi);
@@ -199,7 +194,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 			case 'crmid':
 				return $this->get($name) ? \App\Record::getLabel($this->get($name)) : '';
 			case 'status':
-				return \App\Language::translate(empty($this->get($name)) ? 'PLL_INACTIVE' : 'PLL_ACTIVE');
+				return \App\Language::translate((empty($this->get($name)) ? 'FL_INACTIVE' : 'FL_ACTIVE'));
 			case 'user_id':
 				return \App\Fields\Owner::getLabel($this->get($name));
 			case 'language':
@@ -254,11 +249,11 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 	/**
 	 * Type field values.
 	 *
-	 * @param type $value
+	 * @param mixed|null $value
 	 *
 	 * @return string
 	 */
-	public function getTypeValues($value = false)
+	public function getTypeValues($value = null)
 	{
 		$data = [
 			\Api\Portal\Privilege::USER_PERMISSIONS => 'PLL_USER_PERMISSIONS',
@@ -272,9 +267,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 		return $data;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function save()
 	{
 		$result = parent::save();

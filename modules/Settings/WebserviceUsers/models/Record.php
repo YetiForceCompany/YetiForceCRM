@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -100,26 +101,20 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getName()
 	{
 		return $this->get('name');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function init(array $data)
 	{
 		$this->setData($data);
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function set($key, $value)
 	{
 		if (($this->value[$key] ?? null) !== $value) {
@@ -139,9 +134,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->editFields;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListFields(): array
 	{
 		if (!isset($this->listFieldModels)) {

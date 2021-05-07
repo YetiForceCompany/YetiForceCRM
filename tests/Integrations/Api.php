@@ -109,7 +109,7 @@ class Api extends \Tests\Base
 			'server_id' => self::$serverId,
 			'status' => '1',
 			'user_name' => 'demo@yetiforce.com',
-			'password_t' => 'demo',
+			'password' => 'demo',
 			'type' => '1',
 			'language' => 'pl-PL',
 			'popupReferenceModule' => 'Contacts',
@@ -123,7 +123,7 @@ class Api extends \Tests\Base
 		$this->assertNotFalse($row, 'No record id: ' . self::$apiUserId);
 		$this->assertSame((int) $row['server_id'], self::$serverId);
 		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
-		$this->assertSame($row['password_t'], 'demo');
+		$this->assertSame($row['password'], 'demo');
 		$this->assertSame($row['language'], 'pl-PL');
 
 		$blockInstance = \vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', 'Accounts');

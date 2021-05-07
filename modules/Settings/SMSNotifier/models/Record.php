@@ -116,7 +116,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if ('isactive' === $name) {
 			$moduleName = $this->getModule()->getName();
-			return empty($this->get($name)) ? \App\Language::translate('PLL_INACTIVE', "Settings:$moduleName") : \App\Language::translate('PLL_ACTIVE', "Settings:$moduleName");
+			return empty($this->get($name)) ? \App\Language::translate('FL_INACTIVE', "Settings:$moduleName") : \App\Language::translate('FL_ACTIVE');
 		}
 		return $this->get($name);
 	}
@@ -245,7 +245,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'isactive':
 				$params['uitype'] = 16;
-				$params['picklistValues'] = [1 => \App\Language::translate('PLL_ACTIVE', $moduleName), 0 => \App\Language::translate('PLL_INACTIVE', $moduleName)];
+				$params['picklistValues'] = [1 => \App\Language::translate('FL_ACTIVE'), 0 => \App\Language::translate('FL_INACTIVE')];
 				break;
 			default:
 				break;

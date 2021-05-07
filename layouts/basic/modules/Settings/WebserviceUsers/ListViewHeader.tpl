@@ -10,7 +10,7 @@
 		{foreach item=VALUE from=Settings_WebserviceApps_Module_Model::getTypes() name=typeLoop}
 			{if $VALUE neq 'Payments'}
 				<li class="tabApi nav-item" data-typeapi="{$VALUE}">
-					<a class="nav-link {if $smarty.foreach.typeLoop.first} active{/if} " data-toggle="tab"><strong>{\App\Language::translate($VALUE, $QUALIFIED_MODULE)}</strong></a>
+					<a class="nav-link {if $smarty.foreach.typeLoop.first} active{/if} " data-toggle="tab"><strong>{\App\Language::translate($VALUE, 'Settings.WebserviceApps')}</strong></a>
 				</li>
 			{/if}
 		{/foreach}

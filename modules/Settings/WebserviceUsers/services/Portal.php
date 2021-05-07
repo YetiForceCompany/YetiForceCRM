@@ -3,11 +3,12 @@
 /**
  * Portal Record Model.
  *
- * @package Service
+ * @package Settings
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -15,37 +16,15 @@
  */
 class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_RestApi_Service
 {
-	/**
-	 * Table name.
-	 *
-	 * @var string
-	 */
+	/** {@inheritdoc} */
 	public $baseTable = 'w_#__portal_user';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $editFields = [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'istorage' => 'FL_STORAGE'
+		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'istorage' => 'FL_STORAGE'
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function init(array $data)
-	{
-		$data['password_t'] = App\Encryption::getInstance()->decrypt($data['password_t']);
-		$this->setData($data);
-		return $this;
-	}
-
-	/**
-	 * Function determines fields available in edition view.
-	 *
-	 * @param mixed $name
-	 *
-	 * @return string[]
-	 */
+	/** {@inheritdoc} */
 	public function getFieldInstanceByName($name)
 	{
 		$moduleName = $this->getModule()->getName(true);
@@ -63,7 +42,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				break;
 			case 'status':
 				$params['uitype'] = 16;
-				$params['picklistValues'] = [1 => \App\Language::translate('PLL_ACTIVE', $moduleName), 0 => \App\Language::translate('PLL_INACTIVE', $moduleName)];
+				$params['picklistValues'] = [1 => \App\Language::translate('FL_ACTIVE'), 0 => \App\Language::translate('FL_INACTIVE')];
 				break;
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Module_Model::getActiveServers($this->getModule()->typeApi);
@@ -88,7 +67,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				$params['uitype'] = 16;
 				$params['picklistValues'] = \App\Fields\Owner::getInstance($moduleName)->getAccessibleUsers('', 'owner');
 				break;
-			case 'password_t':
+			case 'password':
 				$params['typeofdata'] = 'P~M';
 				break;
 			default:
@@ -97,11 +76,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
 	}
 
-	/**
-	 * Sets data from request.
-	 *
-	 * @param App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function setDataFromRequest(App\Request $request)
 	{
 		foreach (array_keys($this->getEditFields()) as $field) {
@@ -121,7 +96,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 					case 'language':
 						$value = $request->getByType($field, 'Text');
 						break;
-					case 'password_t':
+					case 'password':
 						$value = $request->getRaw($field, null);
 						break;
 					default:
@@ -133,68 +108,24 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 		}
 	}
 
-	/**
-	 * Function formats data for saving.
-	 *
-	 * @param string $key
-	 * @param mixed  $value
-	 *
-	 * @return int|string
-	 */
+	/** {@inheritdoc} */
 	public function getValueToSave($key, $value)
 	{
 		switch ($key) {
 			case 'server_id':
+			case 'istorage':
 			case 'status':
 			case 'type':
 			case 'crmid':
 			case 'user_id':
 				$value = (int) $value;
 				break;
-			case 'password_t':
+			case 'password':
 				$value = App\Encryption::getInstance()->encrypt($value);
 				break;
 			default:
 				break;
 		}
 		return $value;
-	}
-
-	/**
-	 * Function to get the list view actions for the record.
-	 *
-	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
-	 */
-	public function getRecordLinks()
-	{
-		$links = [];
-		$recordLinks = [
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'FL_PASSWORD',
-				'linkicon' => 'fas fa-copy',
-				'linkclass' => 'btn btn-sm btn-primary clipboard',
-				'linkdata' => ['copy-attribute' => 'clipboard-text', 'clipboard-text' => \App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($this->get('password_t')))]
-			],
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_EDIT_RECORD',
-				'linkurl' => $this->getModule()->getEditViewUrl() . '&record=' . $this->getId(),
-				'linkicon' => 'yfi yfi-full-editing-view',
-				'linkclass' => 'btn btn-sm btn-primary',
-				'modalView' => true,
-			],
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Settings_WebserviceUsers_List_Js.deleteById(' . $this->getId() . ');',
-				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn btn-sm btn-danger',
-			],
-		];
-		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
-		}
-		return $links;
 	}
 }
