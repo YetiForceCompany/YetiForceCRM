@@ -132,7 +132,7 @@ class Coverage
 			$i = 0;
 			foreach ($coverages as $file) {
 				$this->coverage->merge(require $file);
-				rename($file, basename($file) . '.old');
+				rename($file, $this->dir . '' . basename($file) . '.old');
 				++$i;
 			}
 			self::log('Number of merged files: ' . $i);
