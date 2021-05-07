@@ -22,7 +22,7 @@ if (file_exists($path)) {
 
 if ('TEST' === getenv('INSTALL_MODE')) {
 	chdir(__DIR__ . '/../../');
-	require_once 'include/WebUI.php';
+	require_once 'include/main/WebUI.php';
 
 	$configFile = new \App\ConfigFile('db');
 	$configFile->set('db_server', 'localhost');
