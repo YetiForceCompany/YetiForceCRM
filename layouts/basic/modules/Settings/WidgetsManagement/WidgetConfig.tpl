@@ -138,6 +138,11 @@
 									{if !is_array($WIDGET_OWNERS.available)}
 										{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
 									{/if}
+									{if isset($FILTER_USER_ITEM[$LINK_LABEL_KEY])}
+										{assign var=FILTER_WIDGET_ITEMS value=$FILTER_USER_ITEM[$LINK_LABEL_KEY]}
+									{else}
+										{assign var=FILTER_WIDGET_ITEMS value=$FILTER_USER_ITEM['default']}
+									{/if}
 									<div class="row pt-2">
 										<div class="col-md-5 col-form-label text-left">
 											{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
@@ -148,7 +153,7 @@
 													placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-													{if !in_array($OWNER_ID, $RESTRICT_FILTER_FOR_LABEL) }
+													{if !in_array($OWNER_ID, $RESTRICT_FILTER_FOR_LABEL) && in_array($OWNER_ID, $FILTER_WIDGET_ITEMS)}
 														<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >													{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}
 														</option>
 													{/if}

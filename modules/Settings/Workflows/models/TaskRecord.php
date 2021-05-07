@@ -178,7 +178,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	public static function getAllForWorkflow($workflowModel, $active = false)
 	{
 		$tm = new VTTaskManager();
-		$tasks = $tm->getTasksForWorkflow($workflowModel->getId());
+		$tasks = $tm->getTasksForWorkflow($workflowModel->getId(), $active);
 		$taskModels = [];
 		foreach ($tasks as $task) {
 			if (!$active || self::TASK_STATUS_ACTIVE == $task->active) {

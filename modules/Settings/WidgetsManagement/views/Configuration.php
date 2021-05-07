@@ -40,10 +40,12 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$filterSelectDefault = $widgetsManagementModel->getFilterSelectDefault();
 		$widgetsWithFilterUsers = $widgetsManagementModel->getWidgetsWithFilterUsers();
 		$restrictFilter = $widgetsManagementModel->getRestrictFilter();
+		$filerItems = $widgetsManagementModel->filerItems();
 
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
 		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('FILTER_SELECT', $filterSelect);
+		$viewer->assign('FILTER_USER_ITEM', $filerItems);
 		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
 		$viewer->assign('SELECT_FIELD_TYPE_DATE', $widgetsManagementModel->getFieldsByTypeDate());
 		$viewer->assign('DATE_SELECT_DEFAULT', Settings_WidgetsManagement_Module_Model::getDateSelectDefault());

@@ -47,8 +47,8 @@
 						<input type="hidden" name="filter_title" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_TITLE))}'>
 						<input type="hidden" name="filter_date" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_DATE))}'>
 						<input type="hidden" name="record_limit" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_RECORD_LIMIT))}'>
-						<input type="hidden" name="filter_users"
-							   value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_USERS))}'>
+						<input type="hidden" name="filter_users" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_USERS))}'>
+						<input type="hidden" name="filter_users_item" value='{\App\Purifier::encodeHtml(\App\Json::encode($FILTER_USER_ITEM))}'>
 						<input type="hidden" name="filter_restrict" value='{\App\Purifier::encodeHtml(\App\Json::encode($RESTRICT_FILTER))}'>
 						{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 							{if isset($AUTHORIZATION_INFO['name'])}
@@ -439,8 +439,7 @@
 														name="owners_all"
 														placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 													{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-														<option value="{$OWNER_ID}"
-																selected>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+														<option value="{$OWNER_ID}" {if in_array($OWNER_ID,['mine','all','users','groups'])} selected{/if}>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 													{/foreach}
 												</select>
 											</div>
@@ -553,8 +552,7 @@
 															name="owners_all"
 															placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 														{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-															<option value="{$OWNER_ID}"
-																	selected>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+															<option value="{$OWNER_ID}" {if in_array($OWNER_ID,['mine','all','users','groups'])} selected{/if}>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 														{/foreach}
 													</select>
 												</div>

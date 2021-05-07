@@ -26,7 +26,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		} else {
-			$owner = $request->getByType('owner', 2);
+			$owner = $request->getByType('owner', \App\Purifier::TEXT);
 		}
 		$fields = $this->getFilterFields($moduleName);
 		foreach ($fields as $fieldModel) {

@@ -24,9 +24,9 @@ class CustomView
 	const CV_STATUS_SYSTEM = 4;
 
 	/**
-	 * Do we have muliple ids?
+	 * Do we have multiple ids.
 	 *
-	 * @param {string} $cvId (comma separated id list or one id)
+	 * @param string $cvId (comma separated id list or one id)
 	 *
 	 * @return bool
 	 */
@@ -538,7 +538,7 @@ class CustomView
 			}
 		}
 		$info = $this->getInfoFilter($this->moduleName);
-		foreach ($info as &$values) {
+		foreach ($info as $values) {
 			if (1 === $values['setdefault']) {
 				Cache::save('GetDefaultCvId', $cacheName, $values['cvid']);
 				return $values['cvid'];

@@ -144,7 +144,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 		if (!$this->listviewRecords) {
 			if (!empty($user)) {
-				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
+				$this->queryGenerator->addCondition('assigned_user_id', $user, 'e');
 			}
 			if (!empty($this->searchParams)) {
 				$searchParamsCondition = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
