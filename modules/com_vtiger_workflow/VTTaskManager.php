@@ -98,14 +98,16 @@ class VTTaskManager
 	/**
 	 * Return tasks for workflow.
 	 *
-	 * @param int $workflowId
+	 * @param int  $workflowId
+	 * @param bool $active
 	 *
 	 * @return array
 	 */
-	public function getTasksForWorkflow($workflowId)
+	public function getTasksForWorkflow($workflowId, $active = true)
 	{
-		if (\App\Cache::staticHas('getTasksForWorkflow', $workflowId)) {
-			return \App\Cache::staticGet('getTasksForWorkflow', $workflowId);
+		$cacheName = "{$workflowId}:{$active}";
+		if (\App\Cache::staticHas('getTasksForWorkflow', $cacheName)) {
+			return \App\Cache::staticGet('getTasksForWorkflow', $cacheName);
 		}
 		$dataReader = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->createCommand()->query();
 		$tasks = [];
@@ -115,11 +117,14 @@ class VTTaskManager
 				require_once "tasks/$taskType.php";
 			}
 			$task = unserialize($row['task']);
+			if ($active && !$task->active) {
+				continue;
+			}
 			$task->workflowId = $row['workflow_id'];
 			$task->id = $row['task_id'];
 			$tasks[] = $task;
 		}
-		\App\Cache::staticSave('getTasksForWorkflow', $workflowId, $tasks);
+		\App\Cache::staticSave('getTasksForWorkflow', $cacheName, $tasks);
 		return $tasks;
 	}
 

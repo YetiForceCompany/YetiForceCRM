@@ -75,9 +75,6 @@
  				continue;
  			}
  			foreach ($taskManager->getTasksForWorkflow($workflow->id) as $task) {
- 				if (!$task->active) {
- 					continue;
- 				}
  				$tree[] = [
  					'id' => ++$index,
  					'type' => 'category',
