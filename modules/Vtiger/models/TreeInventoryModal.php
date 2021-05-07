@@ -93,7 +93,7 @@ class Vtiger_TreeInventoryModal_Model extends Vtiger_TreeCategoryModal_Model
 		$moduleName = $moduleModel->get('name');
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeInventoryModal', $moduleName);
 		$instance = new $modelClassName();
-		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
+		$instance->set('module', $moduleModel)->set('moduleName', $moduleName);
 		return $instance;
 	}
 

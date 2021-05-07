@@ -39,8 +39,8 @@ class VTEmailReport extends VTTask
 			$users = array_merge($users, \App\PrivilegeUtil::getUserByMember($member));
 		}
 		foreach (array_unique($users) as $user) {
-			$userRecodModel = \Vtiger_Record_Model::getInstanceById($user, 'Users');
-			if (!empty($userEmail = $userRecodModel->get('email1'))) {
+			$userRecordModel = \Vtiger_Record_Model::getInstanceById($user, 'Users');
+			if ('Active' === $userRecordModel->get('status') && !empty($userEmail = $userRecordModel->get('email1'))) {
 				(new \App\BatchMethod(['method' => '\App\Mailer::sendFromTemplate', 'params' => ['params' => [
 					'template' => $this->template,
 					'to' => $userEmail,

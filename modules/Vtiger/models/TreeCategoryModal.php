@@ -66,7 +66,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
 		$instance = new $modelClassName();
-		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
+		$instance->set('module', $moduleModel)->set('moduleName', $moduleName);
 		self::$_cached_instance[$moduleName] = $instance;
 
 		return self::$_cached_instance[$moduleName];

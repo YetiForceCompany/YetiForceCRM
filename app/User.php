@@ -293,7 +293,7 @@ class User
 	/**
 	 * Get user parent roles seq.
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function getParentRolesSeq()
 	{

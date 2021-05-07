@@ -68,16 +68,18 @@
 				{/if}
 				{if in_array('groupUsers', $ACCESS_OPTIONS['available'])}
 					{assign var=ALL_GROUPS value=\App\Fields\Owner::getInstance($SOURCE_MODULE)->getGroups(false)}
-					<optgroup label="{\App\Language::translate('LBL_GROUP_USERS')}">
-						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_GROUPS}
-							{assign var="MEMBER_ID" value="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}:{$OWNER_ID}"}
-							<option class="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}" value="{$MEMBER_ID}"
-									data-member-type="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}"
-									{if $OWNER eq $MEMBER_ID} selected {/if}>
-								{$OWNER_NAME}
-							</option>
-						{/foreach}
-					</optgroup>
+					{if $ALL_GROUPS}
+						<optgroup label="{\App\Language::translate('LBL_GROUP_USERS')}">
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_GROUPS}
+								{assign var="MEMBER_ID" value="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}:{$OWNER_ID}"}
+								<option class="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}" value="{$MEMBER_ID}"
+										data-member-type="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}"
+										{if $OWNER eq $MEMBER_ID} selected {/if}>
+									{$OWNER_NAME}
+								</option>
+							{/foreach}
+						</optgroup>
+					{/if}
 				{/if}
 				{if array_intersect(['roleUsers', 'rsUsers'], $ACCESS_OPTIONS['available'])}
 					{assign var=ALL_ROLES value=\Settings_Roles_Record_Model::getAll()}
