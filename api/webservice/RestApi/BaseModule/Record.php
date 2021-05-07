@@ -11,7 +11,7 @@
  * @author	Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
-namespace Api\Portal\BaseModule;
+namespace Api\RestApi\BaseModule;
 
 use OpenApi\Annotations as OA;
 

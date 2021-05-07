@@ -4,11 +4,12 @@
  *
  * @package Api
  *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\Portal\Users;
+namespace Api\RestApi\Users;
 
 use OpenApi\Annotations as OA;
 
@@ -56,10 +57,10 @@ class Login extends \Api\Core\BaseAction
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : ""}
-	 *    },
+	 *		},
 	 *		@OA\RequestBody(
-	 *  			required=true,
-	 *  			description="Input data format",
+	 *  		required=true,
+	 *  		description="Input data format",
 	 *    		@OA\JsonContent(ref="#/components/schemas/UsersLoginRequestBody"),
 	 *     		@OA\MediaType(
 	 *         		mediaType="multipart/form-data",
@@ -69,13 +70,13 @@ class Login extends \Api\Core\BaseAction
 	 *         		mediaType="application/x-www-form-urlencoded",
 	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginRequestBody")
 	 *     		),
-	 *	  ),
-	 *    @OA\Parameter(
-	 *        name="X-ENCRYPTED",
-	 *        in="header",
-	 *        required=true,
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="X-ENCRYPTED",
+	 *			in="header",
+	 *			required=true,
 	 * 			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *    ),
+	 *      ),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="User details",
@@ -83,29 +84,29 @@ class Login extends \Api\Core\BaseAction
 	 *			@OA\XmlContent(ref="#/components/schemas/UsersLoginResponseBody"),
 	 *		),
 	 *		@OA\Response(
-	 *				response=401,
-	 *				description="Invalid data access OR Invalid user password OR No crmid"
+	 *			response=401,
+	 *			description="Invalid data access OR Invalid user password OR No crmid"
 	 *		),
 	 *		@OA\Response(
-	 *				response=405,
-	 *				description="Invalid method"
+	 *			response=405,
+	 *			description="Invalid method"
 	 *		),
 	 * ),
 	 * @OA\SecurityScheme(
 	 *		securityScheme="basicAuth",
 	 *		type="http",
-	 *    in="header",
+	 *		in="header",
 	 *		scheme="basic"
 	 * ),
 	 * @OA\SecurityScheme(
 	 *		securityScheme="ApiKeyAuth",
 	 *   	type="apiKey",
-	 *    in="header",
+	 *		in="header",
 	 * 		name="X-API-KEY",
 	 *   	description="Webservice api key"
 	 * ),
 	 * @OA\Schema(
-	 *	  schema="X-ENCRYPTED",
+	 *		schema="X-ENCRYPTED",
 	 *		type="string",
 	 *  	description="Is the content request is encrypted",
 	 *  	enum={0, 1},
@@ -118,39 +119,39 @@ class Login extends \Api\Core\BaseAction
 	 *		type="object",
 	 *  	@OA\Property(
 	 *       	property="userName",
-	 *        description="Webservice user name",
-	 *     	  type="string",
+	 *			description="Webservice user name",
+	 *			type="string",
 	 * 		),
-	 *    @OA\Property(
-	 *     	  property="password",
-	 *     	 	description="Webservice user password",
-	 *    	 	type="string"
-	 *    ),
-	 *    @OA\Property(
-	 *     	  property="params",
-	 *     	 	description="Additional parameters sent by the user, extending the current settings, e.g. language",
-	 *   		 	type="array",
-	 * 				@OA\Items(type="string"),
-	 *    )
+	 *	@OA\Property(
+	 *		property="password",
+	 *		description="Webservice user password",
+	 *		type="string"
+	 *	),
+	 *	@OA\Property(
+	 *		property="params",
+	 *		description="Additional parameters sent by the user, extending the current settings, e.g. language",
+	 *		type="array",
+	 *		@OA\Items(type="string"),
+	 * 	)
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="UsersLoginResponseBody",
 	 * 		title="Users module - Users login response body",
 	 * 		description="Users login response body",
 	 *		type="object",
-	 *  	@OA\Property(
-	 *       	property="status",
-	 *        description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 				enum={0, 1},
-	 *     	  type="integer",
-	 * 				example=1
+	 *		@OA\Property(
+	 *			property="status",
+	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 * 			enum={0, 1},
+	 *     	  	type="integer",
+	 * 			example=1
 	 * 		),
-	 *    @OA\Property(
-	 *     	  property="result",
+	 *		@OA\Property(
+	 *     		property="result",
 	 *     	 	description="Content of responses from a given method",
 	 *    	 	type="object",
-	 *   			@OA\Property(property="token", type="string", minLength=40, maxLength=40),
-	 *   			@OA\Property(property="name", type="string"),
+	 *   		@OA\Property(property="token", type="string", minLength=40, maxLength=40),
+	 *   		@OA\Property(property="name", type="string"),
 	 *    		@OA\Property(property="parentName", type="string"),
 	 *    		@OA\Property(property="lastLoginTime", type="string", format="date-time", example="2019-10-07 08:32:38"),
 	 *    		@OA\Property(property="lastLogoutTime", type="string", format="date-time", example="null"),
@@ -158,13 +159,13 @@ class Login extends \Api\Core\BaseAction
 	 *    		@OA\Property(property="type", type="integer"),
 	 *    		@OA\Property(property="companyId", type="integer"),
 	 *    		@OA\Property(
-	 * 						property="companyDetails",
-	 * 						type="object",
-	 * 						title="Company details, optional parameter depending on the user type",
-	 *  					@OA\Property(property="check_stock_levels", type="boolean"),
-	 * 						@OA\Property(property="sum_open_orders", type="integer"),
-	 * 						@OA\Property(property="creditlimit", type="integer")
-	 * 				),
+	 * 				property="companyDetails",
+	 * 				type="object",
+	 * 				title="Company details, optional parameter depending on the user type",
+	 *  			@OA\Property(property="check_stock_levels", type="boolean"),
+	 * 				@OA\Property(property="sum_open_orders", type="integer"),
+	 * 				@OA\Property(property="creditlimit", type="integer")
+	 * 			),
 	 *    		@OA\Property(property="logged", type="boolean"),
 	 *    		@OA\Property(
 	 * 						property="preferences",

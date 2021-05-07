@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Portal\BaseAction;
+namespace Api\RestApi\BaseAction;
 
 /**
  * Get methods list action class.

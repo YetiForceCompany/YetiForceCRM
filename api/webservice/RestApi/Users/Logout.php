@@ -2,11 +2,14 @@
 /**
  * Users logout action class.
  *
+ * @package Api
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\Portal\Users;
+namespace Api\RestApi\Users;
 
 use OpenApi\Annotations as OA;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Portal\BaseModule;
+namespace Api\RestApi\BaseModule;
 
 /**
  * Records hierarchy action class.

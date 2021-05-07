@@ -1,6 +1,6 @@
 <?php
 /**
- * Get users list file.
+ * Get record list file.
  *
  * @package Api
  *
@@ -9,12 +9,12 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\Portal\Users;
+namespace Api\RestApi\BaseModule;
 
 use OpenApi\Annotations as OA;
 
 /**
- * Get users list class.
+ * Get record list class.
  */
 class RecordsList extends \Api\Core\BaseAction
 {
@@ -35,27 +35,35 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	protected $fields = [];
 	/**
-	 * Is admin.
+	 * Related fields.
 	 *
-	 * @var bool
+	 * @var array
 	 */
-	protected $isAdmin;
+	protected $relatedFields = [];
 
 	/**
-	 * Get users list method.
+	 * Get record list method.
 	 *
 	 * @return array
 	 *
 	 * @OA\GET(
-	 *		path="/webservice/Users/RecordsList",
-	 *		summary="Get the list of users",
-	 *		tags={"Users"},
+	 *		path="/webservice/{moduleName}/RecordsList",
+	 *		summary="Get the list of records",
+	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,
 	 *			description="The content of the request is empty",
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(type="string"),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-raw-data",
@@ -133,8 +141,8 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of consents",
-	 *			@OA\JsonContent(ref="#/components/schemas/Users_RecordsList_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/Users_RecordsList_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=400,
@@ -162,8 +170,8 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		),
 	 *),
 	 * @OA\Schema(
-	 *		schema="Users_RecordsList_ResponseBody",
-	 *		title="Users - Response action users list",
+	 *		schema="BaseModule_RecordsList_ResponseBody",
+	 *		title="Base module - Response action record list",
 	 *		description="Module action record list response body",
 	 *		type="object",
 	 *		@OA\Property(
@@ -192,7 +200,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *				property="rawData",
 	 *				description="Raw data",
 	 *				type="object",
-	 *				@OA\AdditionalProperties(description="Column data to display, administrator access only", type="object"),
+	 *				@OA\AdditionalProperties(description="Column data to display", type="object"),
 	 *			),
 	 * 			@OA\Property(property="count", type="string", example=54),
 	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
@@ -201,7 +209,6 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function get(): array
 	{
-		$this->isAdmin = \App\User::getCurrentUserModel()->isAdmin();
 		$this->createQuery();
 		$limit = $this->queryGenerator->getLimit();
 		$isRawData = $this->isRawData();
@@ -212,7 +219,7 @@ class RecordsList extends \Api\Core\BaseAction
 		$dataReader = $this->queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$response['records'][$row['id']] = $this->getRecordFromRow($row);
-			if ($this->isAdmin && $isRawData) {
+			if ($isRawData) {
 				$response['rawData'][$row['id']] = $this->getRawDataFromRow($row);
 			}
 		}
@@ -229,7 +236,8 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function createQuery(): void
 	{
-		$this->queryGenerator = new \App\QueryGenerator('Users');
+		$this->queryGenerator = new \App\QueryGenerator($this->controller->request->getModule());
+		$this->queryGenerator->initForDefaultCustomView();
 		$limit = 1000;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
@@ -243,20 +251,23 @@ class RecordsList extends \Api\Core\BaseAction
 		}
 		$this->queryGenerator->setLimit($limit);
 		$this->queryGenerator->setOffset($offset);
-		$this->queryGenerator->setCustomColumn('id');
-		if ($this->isAdmin) {
-			if ($requestFields = $this->controller->request->getHeader('x-fields')) {
-				if (!\App\Json::isJson($requestFields)) {
-					throw new \Api\Core\Exception('Incorrect json syntax: x-fields', 400);
-				}
-				foreach (\App\Json::decode($requestFields) as $field) {
+		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
+			if (!\App\Json::isJson($requestFields)) {
+				throw new \Api\Core\Exception('Incorrect json syntax: x-fields', 400);
+			}
+			$this->queryGenerator->clearFields();
+			foreach (\App\Json::decode($requestFields) as $field) {
+				if (\is_array($field)) {
+					$this->queryGenerator->addRelatedField($field);
+				} else {
 					$this->queryGenerator->setField($field);
 				}
-			} else {
-				$this->queryGenerator->setFields(['first_name', 'last_name', 'roleid', 'email1', 'primary_phone']);
 			}
 		}
 		$this->fields = $this->queryGenerator->getListViewFields();
+		foreach ($this->queryGenerator->getRelatedFields() as $fieldInfo) {
+			$this->relatedFields[$fieldInfo['relatedModule']][$fieldInfo['sourceField']][] = $fieldInfo['relatedField'];
+		}
 		if ($conditions = $this->controller->request->getHeader('x-condition')) {
 			$conditions = \App\Json::decode($conditions);
 			if (isset($conditions['fieldName'])) {
@@ -288,13 +299,32 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	protected function getRecordFromRow(array $row): array
 	{
-		$record = ['recordLabel' => \App\Fields\Owner::getUserLabel($row['id'])];
-		if ($this->isAdmin && $this->fields) {
+		$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
+		if ($this->fields) {
 			$moduleModel = reset($this->fields)->getModule();
+			$extRecordModel = [];
 			$recordModel = $moduleModel->getRecordFromArray($row);
 			foreach ($this->fields as $fieldName => $fieldModel) {
 				if (isset($row[$fieldName])) {
 					$record[$fieldName] = $fieldModel->getUITypeModel()->getApiDisplayValue($row[$fieldName], $recordModel);
+				}
+			}
+		}
+		if ($this->relatedFields) {
+			foreach ($this->relatedFields as $relatedModuleName => $fields) {
+				foreach ($fields as $sourceField => $field) {
+					$recordData = [
+						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0
+					];
+					foreach ($field as $relatedFieldName) {
+						$recordData[$relatedFieldName] = $row[$sourceField . $relatedModuleName . $relatedFieldName];
+					}
+					$extRecordModel = \Vtiger_Module_Model::getInstance($relatedModuleName)->getRecordFromArray($recordData);
+					foreach ($field as $relatedFieldName) {
+						if ($relatedFieldModel = $extRecordModel->getField($relatedFieldName)) {
+							$record["{$relatedModuleName}_{$relatedFieldName}"] = $relatedFieldModel->getUITypeModel()->getApiDisplayValue($row[$sourceField . $relatedModuleName . $relatedFieldName], $extRecordModel);
+						}
+					}
 				}
 			}
 		}
@@ -309,9 +339,19 @@ class RecordsList extends \Api\Core\BaseAction
 	protected function getColumnNames(): array
 	{
 		$headers = [];
-		if ($this->isAdmin && $this->fields) {
+		if ($this->fields) {
 			foreach ($this->fields as $fieldName => $fieldModel) {
-				$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), 'Users');
+				$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
+			}
+		}
+		if ($this->relatedFields) {
+			foreach ($this->relatedFields as $relatedModuleName => $fields) {
+				foreach ($fields as $sourceField => $field) {
+					foreach ($field as $relatedFieldName) {
+						$fieldModel = \Vtiger_Field_Model::getInstance($relatedFieldName, \Vtiger_Module_Model::getInstance($relatedModuleName));
+						$headers[$sourceField . $relatedModuleName . $relatedFieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $relatedModuleName);
+					}
+				}
 			}
 		}
 		return $headers;

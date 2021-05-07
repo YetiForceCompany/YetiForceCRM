@@ -9,7 +9,7 @@
  * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\Portal\Users;
+namespace Api\RestApi\Users;
 
 use OpenApi\Annotations as OA;
 

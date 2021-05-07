@@ -8,7 +8,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\Portal\BaseAction;
+namespace Api\RestApi\BaseAction;
 
 use OpenApi\Annotations as OA;
 
