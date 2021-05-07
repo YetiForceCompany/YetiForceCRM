@@ -63,7 +63,7 @@ class Coverage
 			$filter->includeDirectory(ROOT_DIRECTORY . '/app');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/config');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/include');
-			// $filter->includeDirectory(ROOT_DIRECTORY . '/install');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/install');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/modules');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/vtlib/Vtiger');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/tests');
