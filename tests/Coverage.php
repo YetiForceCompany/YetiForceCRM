@@ -96,12 +96,10 @@ class Coverage
 	 */
 	public function stop()
 	{
-		register_shutdown_function(function () {
-			file_put_contents(ROOT_DIRECTORY . '/tests/coverages/_timer.txt', print_r([
-				'stop',
-				($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? '')
-			], true), FILE_APPEND);
-		});
+		file_put_contents(ROOT_DIRECTORY . '/tests/coverages/_timer.txt', print_r([
+			'stop',
+			($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? '')
+		], true), FILE_APPEND);
 		try {
 			$this->coverage->stop();
 			self::log('Stop ');
@@ -116,12 +114,10 @@ class Coverage
 
 	public function __destruct()
 	{
-		register_shutdown_function(function () {
-			file_put_contents(ROOT_DIRECTORY . '/tests/coverages/_timer.txt', print_r([
-				'__destruct',
-				($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? '')
-			], true), FILE_APPEND);
-		});
+		file_put_contents(ROOT_DIRECTORY . '/tests/coverages/_timer.txt', print_r([
+			'__destruct',
+			($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? '')
+		], true), FILE_APPEND);
 	}
 
 	/**
