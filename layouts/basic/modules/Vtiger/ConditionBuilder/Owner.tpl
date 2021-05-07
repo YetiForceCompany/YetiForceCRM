@@ -49,7 +49,7 @@
 				{/if}
 				{assign var=ALL_ACTIVEGROUP_LIST value=$OWNER_INSTANCE->getGroups(false)}
 				{if count($ALL_ACTIVEGROUP_LIST) gt 0}
-					<optgroup label="{\App\Language::translate('LBL_GROUP_USERS', $QUALIFIED_MODULE)}">
+					<optgroup label="{\App\Language::translate('LBL_GROUP_USERS', $MODULE_NAME)}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 							{assign var="MEMBER_ID" value="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}:{$OWNER_ID}"}
 							<option class="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}" value="{$MEMBER_ID}"
@@ -61,23 +61,23 @@
 					</optgroup>
 				{/if}
 				{assign var=ALL_ROLES value=\Settings_Roles_Record_Model::getAll()}
-				<optgroup label="{\App\Language::translate('LBL_ROLE_USERS', $QUALIFIED_MODULE)}">
+				<optgroup label="{\App\Language::translate('LBL_ROLE_USERS', $MODULE_NAME)}">
 					{foreach from=$ALL_ROLES item=MEMBER}
 							{assign var="MEMBER_ID" value="{\App\PrivilegeUtil::MEMBER_TYPE_ROLES}:{$MEMBER->getId()}"}
 							<option class="{\App\PrivilegeUtil::MEMBER_TYPE_ROLES}" value="{$MEMBER_ID}"
 									data-member-type="{\App\PrivilegeUtil::MEMBER_TYPE_ROLES}"
 									{if in_array($MEMBER_ID, $VALUES)} selected {/if}>
-								{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}
+								{\App\Language::translate($MEMBER->getName(), $MODULE_NAME)}
 							</option>
 					{/foreach}
 				</optgroup>
-				<optgroup label="{\App\Language::translate('LBL_ROLE_AND_SUBORDINATES_USERS', $QUALIFIED_MODULE)}">
+				<optgroup label="{\App\Language::translate('LBL_ROLE_AND_SUBORDINATES_USERS', $MODULE_NAME)}">
 					{foreach from=$ALL_ROLES item=MEMBER}
 							{assign var="MEMBER_ID" value="{\App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES}:{$MEMBER->getId()}"}
 							<option class="{\App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES}" value="{$MEMBER_ID}"
 									data-member-type="{\App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES}"
 									{if in_array($MEMBER_ID, $VALUES)} selected {/if}>
-								{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}
+								{\App\Language::translate($MEMBER->getName(), $MODULE_NAME)}
 							</option>
 					{/foreach}
 				</optgroup>

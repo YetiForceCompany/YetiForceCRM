@@ -18,15 +18,9 @@
 			data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{' '}
 				{/if}>
 			{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
-				<optgroup label="{\App\Language::translate('LBL_GROUP_USERS', $QUALIFIED_MODULE)}">
 				{foreach from=$VALUES item=OWNER_ID}
-					{if false !== strpos($OWNER_ID, ':')}
-						<option value="{$OWNER_ID}" selected>{\App\Fields\Owner::getMemberLabel($OWNER_ID)}</option>
-					{else}
-						<option value="{$OWNER_ID}" selected>{\App\Fields\Owner::getLabel($OWNER_ID)}</option>
-					{/if}
+					<option value="{$OWNER_ID}" selected>{\App\Fields\Owner::getLabel($OWNER_ID)}</option>
 				{/foreach}
-				</optgroup>
 			{else}
 				{if count($ALL_ACTIVEUSER_LIST) gt 0}
 					<optgroup label="{\App\Language::translate('LBL_USERS')}">
