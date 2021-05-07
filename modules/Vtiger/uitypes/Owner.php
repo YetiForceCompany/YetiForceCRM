@@ -25,7 +25,26 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
-			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+			if (false !== strpos($val, ':') && \in_array($operator, ['e', 'n'])) {
+				[$type, $val] = explode(':', $val);
+				switch ($type) {
+					case \App\PrivilegeUtil::MEMBER_TYPE_GROUPS:
+						$val = parent::getDbConditionBuilderValue($val, $operator);
+						break;
+					case \App\PrivilegeUtil::MEMBER_TYPE_ROLES:
+					case \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES:
+						if (!preg_match('/^H[1-9]+$/', $val)) {
+							throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Utils::varExport($value), 406);
+						}
+						break;
+					default:
+						throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Utils::varExport($value), 406);
+						break;
+				}
+				$values[] = "{$type}:{$val}";
+			} else {
+				$values[] = parent::getDbConditionBuilderValue($val, $operator);
+			}
 		}
 		return implode('##', $values);
 	}

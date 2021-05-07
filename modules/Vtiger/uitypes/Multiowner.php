@@ -129,6 +129,6 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		return 'ConditionBuilder/Owner.tpl';
+		return 'ConditionBuilder/SharedOwner.tpl';
 	}
 }
