@@ -94,12 +94,8 @@ class Coverage
 	/**
 	 * Stop collection of code coverage information.
 	 */
-	public function stop()
+	public function __destruct()
 	{
-		file_put_contents(ROOT_DIRECTORY . '/tests/coverages/_timer.txt', print_r([
-			'stop',
-			($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? '')
-		], true), FILE_APPEND);
 		try {
 			$this->coverage->stop();
 			self::log('Stop ');
@@ -110,14 +106,6 @@ class Coverage
 			self::log(PHP_EOL . 'Collection exception !!!' . PHP_EOL);
 			self::log($ex->__toString());
 		}
-	}
-
-	public function __destruct()
-	{
-		file_put_contents(ROOT_DIRECTORY . '/tests/coverages/_timer.txt', print_r([
-			'__destruct',
-			($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? '')
-		], true), FILE_APPEND);
 	}
 
 	/**
