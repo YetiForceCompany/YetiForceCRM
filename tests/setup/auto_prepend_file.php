@@ -22,4 +22,11 @@ require_once 'include/ConfigUtils.php';
 $codeCoverage = Tests\Coverage::getInstance();
 $codeCoverage->start();
 
+register_shutdown_function(function () {
+	file_put_contents(ROOT_DIRECTORY . '/tests/coverages/_timer.txt', print_r([
+		'auto_prepend_file >> register_shutdown_function',
+		($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? '')
+	], true), FILE_APPEND);
+});
+
 chdir($path);

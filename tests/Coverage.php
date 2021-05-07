@@ -40,7 +40,7 @@ class Coverage
 			$self = new self();
 			$self->startTime = microtime(true);
 			$self->dir = ROOT_DIRECTORY . '/tests/coverages/';
-			$self->name = date('Ymd_H_i_s') . '_' . \App\Encryption::generatePassword(10);
+			$self->name = date('H_i_s') . '_' . md5($_SERVER['REQUEST_URI']) . '_' . \App\Encryption::generatePassword(10);
 			$filter = $self->getFilter();
 			$driver = (new \SebastianBergmann\CodeCoverage\Driver\Selector())->forLineCoverage($filter);
 			self::log('Driver: ' . $driver->nameAndVersion() . ' ');
@@ -94,8 +94,14 @@ class Coverage
 	/**
 	 * Stop collection of code coverage information.
 	 */
-	public function __destruct()
+	public function stop()
 	{
+		register_shutdown_function(function () {
+			file_put_contents(ROOT_DIRECTORY . '/tests/coverages/_timer.txt', print_r([
+				'stop',
+				($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? '')
+			], true), FILE_APPEND);
+		});
 		try {
 			$this->coverage->stop();
 			self::log('Stop ');
@@ -108,6 +114,16 @@ class Coverage
 		}
 	}
 
+	public function __destruct()
+	{
+		register_shutdown_function(function () {
+			file_put_contents(ROOT_DIRECTORY . '/tests/coverages/_timer.txt', print_r([
+				'__destruct',
+				($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? '')
+			], true), FILE_APPEND);
+		});
+	}
+
 	/**
 	 * Generate report.
 	 *
@@ -117,10 +133,13 @@ class Coverage
 	{
 		try {
 			$coverages = glob("{$this->dir}/php/*.php");
+			$i = 0;
 			foreach ($coverages as $file) {
-				$this->coverage->merge(require_once $file);
-				unlink($file);
+				$this->coverage->merge(require $file);
+				rename($file, basename($file) . '.old');
+				++$i;
 			}
+			self::log('Number of merged files: ' . $i);
 			$startTime = microtime(true);
 			$writer = new \SebastianBergmann\CodeCoverage\Report\Html\Facade();
 			$writer->process($this->coverage, $this->dir . 'html/');
