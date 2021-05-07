@@ -40,7 +40,7 @@ class Coverage
 			$self = new self();
 			$self->startTime = microtime(true);
 			$self->dir = ROOT_DIRECTORY . '/tests/coverages/';
-			$self->name = date('H_i_s') . '_' . md5($_SERVER['REQUEST_URI']) . '_' . \App\Encryption::generatePassword(10);
+			$self->name = date('H_i_s') . '_' . md5($_SERVER['REQUEST_URI'] ?? $_SERVER['REQUEST_TIME_FLOAT']) . '_' . \App\Encryption::generatePassword(10);
 			$filter = $self->getFilter();
 			$driver = (new \SebastianBergmann\CodeCoverage\Driver\Selector())->forLineCoverage($filter);
 			self::log('Driver: ' . $driver->nameAndVersion() . ' ');
