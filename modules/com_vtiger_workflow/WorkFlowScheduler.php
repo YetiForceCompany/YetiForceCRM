@@ -92,18 +92,12 @@ class WorkFlowScheduler
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 					$data = $recordModel->getData();
 					foreach ($tasks as $task) {
-						if ($task->active) {
+						if (true === (bool) $task->executeImmediately) {
+							$task->doTask($recordModel);
+						} else {
 							$trigger = $task->trigger;
-							if (null !== $trigger) {
-								$delay = strtotime($data[$trigger['field']]) + $trigger['days'] * 86400;
-							} else {
-								$delay = 0;
-							}
-							if (true === (bool) $task->executeImmediately) {
-								$task->doTask($recordModel);
-							} else {
-								$taskQueue->queueTask($task->id, $recordModel->getId(), $delay);
-							}
+							$delay = null !== $trigger ? strtotime($data[$trigger['field']]) + $trigger['days'] * 86400 : 0;
+							$taskQueue->queueTask($task->id, $recordModel->getId(), $delay);
 						}
 					}
 				}
