@@ -68,7 +68,9 @@ class Coverage
 			// $filter->includeDirectory(ROOT_DIRECTORY . '/vtlib/Vtiger');
 			// $filter->includeDirectory(ROOT_DIRECTORY . '/tests');
 
+			$filter->excludeDirectory(ROOT_DIRECTORY . '/vendor');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/tests/setup');
+			$filter->excludeDirectory(ROOT_DIRECTORY . '/tests/coverages');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/modules/Vtiger/pdfs');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/modules/OSSMail');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/modules/MailIntegration/html/outlook');

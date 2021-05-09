@@ -19,15 +19,15 @@ echo '-- # Install sources.list.d. --'
 echo "deb http://security.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list.d/debian-security.list
 curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
 echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
-apt-get update -qq -y
+apt-get update -y >> /var/www/html/cache/logs/apt-get-update.log
 
 # Install dependencies.
 echo '-- # Install dependencies. --'
-apt-get install -qq -y --no-install-recommends openjdk-8-jre-headless xvfb xauth libxi6 libgconf-2-4
+apt-get install -y --no-install-recommends openjdk-8-jre-headless xvfb xauth libxi6 libgconf-2-4 >> /var/www/html/cache/logs/apt-get-install.log
 
 # Install Chrome.
 echo '-- # Install Chrome. --'
-apt-get install -qq -y --no-install-recommends google-chrome-stable
+apt-get install -y --no-install-recommends google-chrome-stable >> /var/www/html/cache/logs/apt-get-install.log
 
 # Install ChromeDriver.
 echo '-- Install ChromeDriver. --'
@@ -63,4 +63,3 @@ if [ ! $? -eq 0 ]; then
 else
     echo " Selenium Server started !!!"
 fi
-
