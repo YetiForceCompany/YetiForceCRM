@@ -10,6 +10,9 @@
 			<div class="row p-2 d-flex justify-content-between">
 				<div style="word-wrap: break-word;">
 					<span class="fieldLabel ml-3">{\App\Language::translate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
+					{if $LINK_LABEL_KEY === 'LBL_UPDATES' && !\App\YetiForce\Shop::check('YetiForceWidgets')}
+						<a class="btn btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceWidgets&mode=showProductModal" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"><span class="yfi-premium color-red-600"></span></a>
+					{/if}
 				</div>
 				<span class="btn-group mr-3 actions">
 					<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
