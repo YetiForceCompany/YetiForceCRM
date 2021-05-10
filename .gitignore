@@ -37,6 +37,7 @@
 /app_data/LanguagesUpdater.json
 /app_data/ConfReport_AllErrors.php
 /app_data/PwnedPassword.php
+/tests/coverages
 
 
 cache/addressBook/mails_1.php
