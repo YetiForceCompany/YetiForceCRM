@@ -48,25 +48,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get Converted Information for selected records.
-	 *
-	 * @param array $recordIdsList
-	 *
-	 * @return array converted Info
-	 */
-	public static function getConvertedInfo($recordIdsList = [])
-	{
-		$convertedInfo = [];
-		if ($recordIdsList) {
-			$convertedInfo = (new App\Db\Query())->select(['leadid', 'converted'])
-				->from('vtiger_leaddetails')
-				->where(['leadid' => $recordIdsList])
-				->createCommand()->queryAllByGroup(0);
-		}
-		return $convertedInfo;
-	}
-
-	/**
 	 * Function to get list view query for popup window.
 	 *
 	 * @param string              $sourceModule   Parent module
@@ -182,7 +163,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @param string $status - lead status
 	 *
-	 * @return <boolean> if or not allowed to convert
+	 * @return bool if or not allowed to convert
 	 */
 	public static function checkIfAllowedToConvert($status)
 	{
@@ -192,5 +173,23 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			return true;
 		}
 		return \in_array($status, $leadConfig['convert_status']);
+	}
+
+	/**
+	 * The function adds restrictions to the functionality of searching for records.
+	 *
+	 * @param App\Db\Query     $query
+	 * @param App\RecordSearch $recordSearch
+	 *
+	 * @return void
+	 */
+	public function searchRecordCondition(App\Db\Query $query, App\RecordSearch $recordSearch = null): void
+	{
+		if ($recordSearch->moduleName === $this->getName()) {
+			$query->innerJoin('vtiger_leaddetails', 'csl.crmid = vtiger_leaddetails.leadid');
+			$query->andWhere(['vtiger_leaddetails.converted' => 0]);
+		} else {
+			$query->andWhere(['not in', 'csl.crmid', (new \App\Db\Query())->select(['leadid'])->from('vtiger_leaddetails')->where(['converted' => 1])]);
+		}
 	}
 }

@@ -922,28 +922,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get the list of all searchable modules.
-	 *
-	 * @return array - List of Vtiger_Module_Model instances
-	 */
-	public static function getSearchableModules()
-	{
-		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$entityModules = self::getEntityModules();
-		$searchableModules = [];
-		foreach ($entityModules as $moduleModel) {
-			$moduleName = $moduleModel->getName();
-			if ('Users' == $moduleName || empty(\App\Module::getEntityInfo($moduleName)['turn_off'])) {
-				continue;
-			}
-			if ($userPrivModel->hasModuleActionPermission($moduleModel->getId(), 'DetailView')) {
-				$searchableModules[$moduleName] = $moduleModel;
-			}
-		}
-		return $searchableModules;
-	}
-
-	/**
 	 * Get modules with picklists.
 	 *
 	 * @return \self[]
@@ -1206,14 +1184,21 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function searches the records in the module.
+	 * Mainly used in reference fields for autocomplete mechanisms.
 	 *
-	 * @param string $searchValue Search value
+	 * @param string $searchValue
+	 * @param int    $limit
+	 * @param int    $srcRecord
 	 *
-	 * @return Vtiger_Record_Model[]
+	 * @return App\QueryGenerator
 	 */
-	public function searchRecord(string $searchValue): array
+	public function getQueryForRecords(string $searchValue, int $limit, int $srcRecord = null): App\QueryGenerator
 	{
-		return empty($searchValue) ? [] : Vtiger_Record_Model::getSearchResult($searchValue, $this->getName());
+		$queryGenerator = \App\RecordSearch::getQueryByModule($searchValue, $this->getName(), $limit);
+		if ($srcRecord) {
+			$queryGenerator->addCondition('id', $srcRecord, 'n');
+		}
+		return $queryGenerator;
 	}
 
 	/**

@@ -40,7 +40,7 @@ class Vtiger_PrivilegesUpdater_Cron extends \App\CronHandler
 			->limit($limit)
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			\App\PrivilegeUpdater::updateSearch($row['crmid'], $row['setype']);
+			\App\PrivilegeUpdater::updateSearch($row['crmid'], \App\Module::getModuleName($row['tabid']));
 			--$limit;
 			if (0 === $limit) {
 				return;

@@ -42,24 +42,23 @@ class Users_Module_Model extends Vtiger_Module_Model
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function searchRecord(string $searchValue): array
+	/** {@inheritdoc} */
+	public function getQueryForRecords(string $searchValue, int $limit, int $srcRecord = null): App\QueryGenerator
 	{
-		$matchingRecords = [];
-		if (!empty($searchValue)) {
-			$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
-			$dataReader = (new App\Db\Query())->from('vtiger_users')
-				->where(['and', ['status' => 'Active'], ['like', \App\Module::getSqlForNameInDisplayFormat('Users'), $searchValue]])
-				->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$recordInstance = new $modelClassName();
-				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
-			}
-			$dataReader->close();
+		$searchTableName = 'u_#__users_labels';
+		$searchColumnName = "{$searchTableName}.label";
+
+		$queryGenerator = new \App\QueryGenerator($this->getName());
+		$queryGenerator->setFields(['id'])
+			->setCustomColumn(['search_label' => $searchColumnName])
+			->addJoin(['INNER JOIN', $searchTableName, "{$queryGenerator->getColumnName('id')} = {$searchTableName}.id"])
+			->addCondition('status', 'Active', 'e')
+			->addNativeCondition(['like', $searchColumnName, $searchValue])
+			->setLimit($limit);
+		if ($srcRecord) {
+			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
-		return $matchingRecords;
+		return $queryGenerator;
 	}
 
 	/**

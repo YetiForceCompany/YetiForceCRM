@@ -48,17 +48,8 @@ class Calendar_Invitees_Action extends \App\Controller\Action
 			return [];
 		}
 		$rows = (new \App\RecordSearch($value, $modules, 10))->search();
-		$matchingRecords = $leadIdsList = [];
+		$matchingRecords = [];
 		foreach ($rows as $row) {
-			if ('Leads' === $row['setype']) {
-				$leadIdsList[] = $row['crmid'];
-			}
-		}
-		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
-		foreach ($rows as $row) {
-			if ('Leads' === $row['setype'] && $convertedInfo[$row['crmid']]) {
-				continue;
-			}
 			if (\App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid'])) {
 				$label = \App\Record::getLabel($row['crmid']);
 				$matchingRecords[] = [

@@ -55,7 +55,7 @@ abstract class Page extends Base
 		$view->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
 		$view->assign('USER_QUICK_MENU_LINKS', $this->getUserQuickMenuLinks($request));
 		if (\App\Config::performance('GLOBAL_SEARCH')) {
-			$view->assign('SEARCHABLE_MODULES', \Vtiger_Module_Model::getSearchableModules());
+			$view->assign('SEARCHABLE_MODULES', \App\RecordSearch::getSearchableModules());
 		}
 		if (\App\Config::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$view->assign('SEARCHED_MODULE', $request->getModule());

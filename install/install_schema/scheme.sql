@@ -1903,10 +1903,10 @@ CREATE TABLE `u_yf_crmentity_rel_tree` (
 CREATE TABLE `u_yf_crmentity_search_label` (
   `crmid` int(10) NOT NULL,
   `searchlabel` varchar(255) NOT NULL,
-  `setype` varchar(30) NOT NULL,
+  `tabid` smallint(5) NOT NULL,
   `userid` text DEFAULT NULL,
   PRIMARY KEY (`crmid`),
-  KEY `crmentity_searchlabel_setype` (`searchlabel`,`setype`),
+  KEY `crmentity_tabid_searchlabel` (`tabid`,`searchlabel`),
   FULLTEXT KEY `crmentity_searchlabel_fulltext` (`searchlabel`),
   CONSTRAINT `fk_u_yf_crmentity_search_label` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

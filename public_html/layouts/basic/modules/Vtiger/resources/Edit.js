@@ -326,6 +326,7 @@ $.Class(
 		 */
 		registerAutoCompleteFields: function (container) {
 			let thisInstance = this;
+			let formElement = container.closest('form');
 			container.find('input.autoComplete').autocomplete({
 				delay: '600',
 				minLength: '3',
@@ -336,8 +337,10 @@ $.Class(
 					let searchValue = request.term;
 					let params = thisInstance.getReferenceSearchParams(inputElement);
 					params.search_value = searchValue;
-					//params.parent_id = app.getRecordId();
-					//params.parent_module = app.getModuleName();
+					let sourceRecordElement = $('input[name="record"]', formElement);
+					if (sourceRecordElement.length > 0 && sourceRecordElement.val()) {
+						params.src_record = sourceRecordElement.val();
+					}
 					thisInstance.searchModuleNames(params).done(function (data) {
 						let reponseDataList = [];
 						let serverDataFormat = data.result;
