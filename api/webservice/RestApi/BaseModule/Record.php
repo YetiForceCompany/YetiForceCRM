@@ -41,7 +41,10 @@ class Record extends \Api\Core\BaseAction
 				throw new \Api\Core\Exception('No permissions to create record', 403);
 			}
 		} else {
-			if ($this->controller->request->isEmpty('record', true) || !\App\Record::isExists($this->controller->request->getInteger('record'), $moduleName)) {
+			if ($this->controller->request->isEmpty('record')) {
+				throw new \Api\Core\Exception('No record id', 404);
+			}
+			if (!\App\Record::isExists($this->controller->request->getInteger('record'), $moduleName)) {
 				throw new \Api\Core\Exception('Record doesn\'t exist', 404);
 			}
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($this->controller->request->getInteger('record'), $moduleName);
@@ -79,6 +82,7 @@ class Record extends \Api\Core\BaseAction
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *		},
+	 *		operationId="getRecord",
 	 *		@OA\RequestBody(
 	 *			required=false,
 	 *			description="The content of the request is empty.",
@@ -134,7 +138,7 @@ class Record extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=404,
-	 *			description="Record doesn't exist",
+	 *			description="No record id OR Record doesn't exist",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
@@ -166,6 +170,7 @@ class Record extends \Api\Core\BaseAction
 	 *				property="data",
 	 *				description="Record data",
 	 *				type="object",
+	 *				ref="#/components/schemas/Record_Display_Details",
 	 *			),
 	 *			@OA\Property(
 	 *				property="privileges",
@@ -184,7 +189,7 @@ class Record extends \Api\Core\BaseAction
 	 *				description="Value summary inventory data",
 	 * 				type="object",
 	 *			),
-	 *			@OA\Property(property="rawData", description="Raw record data", type="object"),
+	 *			@OA\Property(property="rawData", description="Raw record data", type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			@OA\Property(property="rawInventory", description="Inventory data", type="object"),
 	 *		),
 	 * ),
@@ -339,8 +344,8 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\RequestBody(
 	 *			required=true,
 	 *			description="Contents of the request contains an associative array with the data record.",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Record_Request"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Record_Request"),
+	 *			@OA\JsonContent(ref="#/components/schemas/Record_Edit_Details"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Record_Edit_Details"),
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="moduleName",
@@ -369,6 +374,7 @@ class Record extends \Api\Core\BaseAction
 	 *			description="Contents of the response contains only id",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
+	 *			@OA\Link(link="GetRecordById", ref="#/components/links/GetRecordById")
 	 *		),
 	 * ),
 	 * @OA\Schema(
@@ -392,11 +398,25 @@ class Record extends \Api\Core\BaseAction
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseModule_Record_Request",
-	 *		title="Base module - Request body for record create or update",
-	 *		description="Contents of the request contains an associative array with the data record.",
+	 *		schema="Record_Edit_Details",
+	 *		title="Record edit details",
+	 *		description="Record data in user format for edit view",
 	 *		type="object",
-	 *		example={"firstname" : "Tom", "lastname" : "Kowalski"},
+	 *		example={"field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : 1, "createdtime" : "2014-09-24 20:51:12"},
+	 * ),
+	 * @OA\Schema(
+	 *		schema="Record_Raw_Details",
+	 *		title="Record raw details",
+	 *		description="Record data in the system format as stored in a database",
+	 *		type="object",
+	 *		example={"id" : 11, "field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : 1, "createdtime" : "2014-09-24 20:51:12"},
+	 * ),
+	 * @OA\Schema(
+	 *		schema="Record_Display_Details",
+	 *		title="Record display details",
+	 *		description="Record data in user format for preview",
+	 *		type="object",
+	 *		example={"id" : 11, "field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : "YetiForce Administrator", "createdtime" : "2014-09-24 20:51"},
 	 * ),
 	 */
 	public function put(): array
@@ -419,8 +439,8 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\RequestBody(
 	 *			required=true,
 	 *			description="Contents of the request contains an associative array with the data record.",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Record_Request"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Record_Request"),
+	 *			@OA\JsonContent(ref="#/components/schemas/Record_Edit_Details"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Record_Edit_Details"),
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="moduleName",
@@ -441,6 +461,7 @@ class Record extends \Api\Core\BaseAction
 	 *			description="Contents of the response contains only id",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Post_Record_Response"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Post_Record_Response"),
+	 *			@OA\Link(link="GetRecordById", ref="#/components/links/GetRecordById")
 	 *		),
 	 * ),
 	 * @OA\Schema(
@@ -463,6 +484,13 @@ class Record extends \Api\Core\BaseAction
 	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
 	 * ),
+	 *	@OA\Link(link="GetRecordById",
+	 *		description="The `id` value returned in the response can be used as the `recordId` parameter in `GET /webservice/{moduleName}/Record/{recordId}`.",
+	 *		operationId="getRecord",
+	 *		parameters={
+	 *			"recordId" = "$response.body#/result/id"
+	 *		}
+	 *	)
 	 */
 	public function post(): array
 	{

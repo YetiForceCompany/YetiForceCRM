@@ -1,7 +1,7 @@
 <?php
 
 /**
- * RestApi container - Get fields file.
+ * Portal container - Get fields file.
  *
  * @package API
  *
@@ -10,18 +10,15 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\RestApi\BaseModule;
+namespace Api\Portal\BaseModule;
 
 use OpenApi\Annotations as OA;
 
 /**
- * RestApi container - Get fields class.
+ * Portal container - Get fields class.
  */
-class Fields extends \Api\Core\BaseAction
+class Fields extends \Api\RestApi\BaseModule\Fields
 {
-	/** {@inheritdoc}  */
-	public $allowedMethod = ['GET'];
-
 	/**
 	 * Get data about fields, blocks and inventory.
 	 *
@@ -240,60 +237,6 @@ class Fields extends \Api\Core\BaseAction
 	 */
 	public function get(): array
 	{
-		$moduleName = $this->controller->request->get('module');
-		$module = \Vtiger_Module_Model::getInstance($moduleName);
-		$return = $inventoryFields = $fields = $blocks = [];
-		foreach ($module->getFields() as $fieldModel) {
-			$block = $fieldModel->get('block');
-			if (!isset($blocks[$block->id])) {
-				$blockProperties = get_object_vars($block);
-				$blocks[$block->id] = array_filter($blockProperties, function ($v) {
-					return !\is_object($v);
-				});
-				$blocks[$block->id]['name'] = \App\Language::translate($block->label, $moduleName);
-			}
-			$fieldInfo = $fieldModel->getFieldInfo();
-			$fieldInfo['id'] = $fieldModel->getId();
-			$fieldInfo['isEditable'] = $fieldModel->isEditable();
-			$fieldInfo['isViewable'] = $fieldModel->isViewable();
-			$fieldInfo['isEditableReadOnly'] = $fieldModel->isEditableReadOnly();
-			$fieldInfo['sequence'] = $fieldModel->get('sequence');
-			$fieldInfo['fieldparams'] = $fieldModel->getFieldParams();
-			$fieldInfo['blockId'] = $block->id;
-			$fieldInfo['helpInfo'] = \App\Language::getTranslateHelpInfo($fieldModel, 'all');
-			$fieldInfo['dbStructure'] = $fieldModel->getDBColumnType(false);
-			$fieldInfo['queryOperators'] = array_map(function ($value) use ($moduleName) {
-				return \App\Language::translate($value, $moduleName);
-			}, $fieldModel->getQueryOperators());
-			if (isset($fieldInfo['picklistvalues']) && $fieldModel->isEmptyPicklistOptionAllowed()) {
-				$fieldInfo['isEmptyPicklistOptionAllowed'] = $fieldModel->isEmptyPicklistOptionAllowed();
-			}
-			if ($fieldModel->isReferenceField()) {
-				$fieldInfo['referenceList'] = $fieldModel->getReferenceList();
-			}
-			if ($fieldModel->isTreeField()) {
-				$fieldInfo['treeValues'] = \App\Fields\Tree::getTreeValues((int) $fieldModel->getFieldParams(), $moduleName);
-			}
-			$fields[$fieldModel->getId()] = $fieldInfo;
-		}
-		$return['fields'] = $fields;
-		$return['blocks'] = $blocks;
-		if ($module->isInventory()) {
-			$inventoryInstance = \Vtiger_Inventory_Model::getInstance($moduleName);
-			$fieldsInInventory = $inventoryInstance->getFieldsByBlocks();
-			if (isset($fieldsInInventory[1])) {
-				foreach ($fieldsInInventory[1] as $fieldName => $fieldModel) {
-					$inventoryFields[1][$fieldName] = [
-						'label' => \App\Language::translate($fieldModel->get('label'), $moduleName),
-						'type' => $fieldModel->getType(),
-						'columnname' => $fieldModel->getColumnName(),
-						'isSummary' => $fieldModel->isSummary(),
-						'isVisibleInDetail' => $fieldModel->isVisibleInDetail(),
-					];
-				}
-			}
-			$return['inventory'] = $inventoryFields;
-		}
-		return $return;
+		return parent::get();
 	}
 }

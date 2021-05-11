@@ -28,6 +28,7 @@ class Hierarchy extends \Api\Core\BaseAction
 
 	/** @var bool|int Search id in the hierarchy */
 	public $findId = false;
+
 	public $mainField;
 	public $childField;
 	public $records = [];
@@ -44,11 +45,76 @@ class Hierarchy extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Get method.
+	 * Get records hierarchy.
 	 *
 	 * @return array
+	 *
+	 * @OA\Get(
+	 *		path="/webservice/{moduleName}/Hierarchy",
+	 *		summary="Get records hierarchy",
+	 *		tags={"BaseModule"},
+	 *		security={
+	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *		},
+	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			in="path",
+	 *			example="Accounts",
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="X-ENCRYPTED",
+	 *			in="header",
+	 *			required=true,
+	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *		),
+	 *		@OA\RequestBody(
+	 *			required=false,
+	 *			description="Request body does not occur",
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="Records hierarchy details",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Hierarchy_ResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Hierarchy_ResponseBody"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=405,
+	 *			description="No hierarchy OR Not available for this type of user",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 * ),
+	 * @OA\Schema(
+	 *		schema="BaseAction_Hierarchy_ResponseBody",
+	 *		title="Base module - Hierarchy response schema",
+	 *		type="object",
+	 *		@OA\Property(
+	 *			property="status",
+	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 * 			enum={0, 1},
+	 *     	  	type="integer",
+	 * 			example=1
+	 * 		),
+	 *		@OA\Property(
+	 *			property="result",
+	 *			description="Records",
+	 *			type="object",
+	 *			@OA\AdditionalProperties(
+	 *				description="Record details",
+	 *				type="object",
+	 * 				@OA\Property(property="id", type="integer", example=117),
+	 * 				@OA\Property(property="parent", type="integer", example=0),
+	 * 				@OA\Property(property="name", type="string", example="YetiForce Sp. z o.o."),
+	 * 			),
+	 *		),
+	 *	),
 	 */
-	public function get()
+	public function get(): array
 	{
 		$parentCrmId = $this->getParentCrmId();
 		if ($this->getPermissionType() > 2) {
@@ -82,12 +148,12 @@ class Hierarchy extends \Api\Core\BaseAction
 	 * @param int                 $parentId
 	 * @param string              $type
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public function getRecords(\App\QueryGenerator $mainQueryGenerator, $parentId, $type = 'child')
+	public function getRecords(\App\QueryGenerator $mainQueryGenerator, int $parentId, string $type = 'child'): void
 	{
 		if (0 === $this->limit || isset($this->recursion[$parentId][$type])) {
-			return false;
+			return;
 		}
 		--$this->limit;
 		$queryGenerator = clone $mainQueryGenerator;
@@ -109,8 +175,7 @@ class Hierarchy extends \Api\Core\BaseAction
 			];
 			if ($this->findId && $this->findId === $id) {
 				$this->limit = 0;
-
-				return true;
+				return;
 			}
 			if (!empty($row[$this->childField])) {
 				if (4 === $this->getPermissionType()) {

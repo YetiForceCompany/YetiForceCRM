@@ -1,6 +1,6 @@
 <?php
 /**
- * RestApi container - Get record related list file.
+ * Portal container - Get record related list file.
  *
  * @package API
  *
@@ -9,41 +9,15 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\RestApi\BaseModule;
+namespace Api\Portal\BaseModule;
 
 use OpenApi\Annotations as OA;
 
 /**
- * RestApi container - Get record related list class.
+ * Portal container - Get record related list class.
  */
-class RecordRelatedList extends \Api\Core\BaseAction
+class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 {
-	/** {@inheritdoc}  */
-	public $allowedMethod = ['GET'];
-
-	/** {@inheritdoc}  */
-	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id', 'x-condition'];
-
-	/** @var \Vtiger_Record_Model Record model instance. */
-	protected $recordModel;
-
-	/** {@inheritdoc}  */
-	public function checkAction(): void
-	{
-		parent::checkAction();
-		if ($this->controller->request->isEmpty('param', 'Alnum')) {
-			throw new \Api\Core\Exception('No relation module name', 405);
-		}
-		$moduleName = $this->controller->request->getModule();
-		if ($this->controller->request->isEmpty('record', true) || !\App\Record::isExists($this->controller->request->getInteger('record'), $moduleName)) {
-			throw new \Api\Core\Exception('Record doesn\'t exist', 404);
-		}
-		$this->recordModel = \Vtiger_Record_Model::getInstanceById($this->controller->request->getInteger('record'), $moduleName);
-		if (!$this->recordModel->isViewable()) {
-			throw new \Api\Core\Exception('No permissions to view record', 403);
-		}
-	}
-
 	/**
 	 * Get related record list method.
 	 *
@@ -204,62 +178,6 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 */
 	public function get(): array
 	{
-		$pagingModel = new \Vtiger_Paging_Model();
-		$limit = 1000;
-		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
-			$limit = (int) $requestLimit;
-		}
-		$pagingModel->set('limit', $limit);
-		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
-			$pagingModel->set('page', (int) $requestOffset);
-		}
-		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $this->controller->request->getByType('param', 'Alnum'));
-		if (!$relationListView) {
-			throw new \Api\Core\Exception('Relationship does not exist', 400);
-		}
-		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
-			$relationListView->setFields(\array_merge(['id'], \App\Json::decode($requestFields)));
-		}
-		if ($conditions = $this->controller->request->getHeader('x-condition')) {
-			$conditions = \App\Json::decode($conditions);
-			if (isset($conditions['fieldName'])) {
-				$relationListView->getQueryGenerator()->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator'], $conditions['group'] ?? true, true);
-			} else {
-				foreach ($conditions as $condition) {
-					$relationListView->getQueryGenerator()->addCondition($condition['fieldName'], $condition['value'], $condition['operator'], $condition['group'] ?? true, true);
-				}
-			}
-		}
-		$response = [
-			'headers' => [],
-			'records' => [],
-		];
-		foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
-			$response['headers'][$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
-		}
-		$isRawData = $this->isRawData();
-		foreach ($relationListView->getEntries($pagingModel) as $id => $relatedRecordModel) {
-			$response['records'][$id] = [];
-			foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
-				$value = $relatedRecordModel->get($fieldName);
-				$response['records'][$id][$fieldName] = $fieldModel->getUITypeModel()->getApiDisplayValue($value, $relatedRecordModel);
-				if ($isRawData) {
-					$response['rawData'][$id][$fieldName] = $value;
-				}
-			}
-		}
-		$response['count'] = \count($response['records']);
-		$response['isMorePages'] = $response['count'] === $limit;
-		return $response;
-	}
-
-	/**
-	 * Check if you send raw data.
-	 *
-	 * @return bool
-	 */
-	protected function isRawData(): bool
-	{
-		return 1 === (int) ($this->controller->headers['x-raw-data'] ?? 0);
+		return parent::get();
 	}
 }

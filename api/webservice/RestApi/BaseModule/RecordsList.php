@@ -174,7 +174,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="List of modules accessed",
+	 *			description="List of records",
 	 *			type="object",
 	 *			@OA\Property(
 	 *				property="headers",
@@ -184,15 +184,15 @@ class RecordsList extends \Api\Core\BaseAction
 	 *			),
 	 *			@OA\Property(
 	 *				property="records",
-	 *				description="List of modules accessed",
+	 *				description="Records display details",
 	 *				type="object",
-	 *				@OA\AdditionalProperties(description="Column data", type="object"),
+	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Display_Details"),
 	 *			),
 	 *			@OA\Property(
 	 *				property="rawData",
-	 *				description="Raw data",
+	 *				description="Records raw details",
 	 *				type="object",
-	 *				@OA\AdditionalProperties(description="Column data to display", type="object"),
+	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			),
 	 * 			@OA\Property(property="count", type="string", example=54),
 	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
