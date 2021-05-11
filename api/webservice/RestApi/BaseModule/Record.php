@@ -1,8 +1,8 @@
 <?php
 /**
- * The file contains: Get record detail class.
+ * RestApi container - Get record detail file.
  *
- * @package Api
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license	YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -16,29 +16,21 @@ namespace Api\RestApi\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Get record detail class.
+ * RestApi container - Get record detail class.
  */
 class Record extends \Api\Core\BaseAction
 {
 	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET', 'DELETE', 'PUT', 'POST'];
+
 	/** {@inheritdoc}  */
 	public $allowedHeaders = ['x-parent-id'];
-	/**
-	 * Record model.
-	 *
-	 * @var \Vtiger_Record_Model
-	 */
+
+	/** @var \Vtiger_Record_Model Record model instance. */
 	public $recordModel;
 
-	/**
-	 * Check permission to method.
-	 *
-	 * @throws \Api\Core\Exception
-	 *
-	 * @return bool
-	 */
-	public function checkPermission()
+	/** {@inheritdoc}  */
+	public function checkPermission(): void
 	{
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
@@ -136,11 +128,15 @@ class Record extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
-	 *			description="No permissions to remove record OR No permissions to view record OR No permissions to edit record"
+	 *			description="No permissions to remove record OR No permissions to view record OR No permissions to edit record",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=404,
-	 *			description="Record doesn't exist"
+	 *			description="Record doesn't exist",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
@@ -161,32 +157,33 @@ class Record extends \Api\Core\BaseAction
 	 *			@OA\Property(property="name", description="Record name", type="string", example="Driving school"),
 	 *			@OA\Property(property="id", description="Record Id", type="integer", example=152),
 	 *			@OA\Property(
-	 * 					property="fields",
-	 *					description="Field name items",
-	 *					type="object",
+	 * 				property="fields",
+	 *				description="System field names and field labels",
+	 *				type="object",
+	 *				@OA\AdditionalProperties(description="Field label", type="bool", example="Account name"),
 	 *			),
 	 *			@OA\Property(
-	 *					property="data",
-	 *					description="Record data",
-	 *					type="object",
+	 *				property="data",
+	 *				description="Record data",
+	 *				type="object",
 	 *			),
 	 *			@OA\Property(
-	 *					property="privileges",
-	 *					description="Parameters determining checking of editing rights and moving to the trash",
-	 * 					type="object",
-	 *					@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
-	 *					@OA\Property(property="moveToTrash", description="Permission to delete", type="boolean", example=false),
-	 *				),
+	 *				property="privileges",
+	 *				description="Parameters determining checking of editing rights and moving to the trash",
+	 * 				type="object",
+	 *				@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
+	 *				@OA\Property(property="moveToTrash", description="Permission to delete", type="boolean", example=false),
+	 *			),
 	 *			@OA\Property(
-	 *					property="inventory",
-	 *					description="Value inventory data",
-	 * 					type="object",
-	 *				),
+	 *				property="inventory",
+	 *				description="Value inventory data",
+	 * 				type="object",
+	 *			),
 	 *			@OA\Property(
-	 *					property="summaryInventory",
-	 *					description="Value summary inventory data",
-	 * 					type="object",
-	 *				),
+	 *				property="summaryInventory",
+	 *				description="Value summary inventory data",
+	 * 				type="object",
+	 *			),
 	 *			@OA\Property(property="rawData", description="Raw record data", type="object"),
 	 *			@OA\Property(property="rawInventory", description="Inventory data", type="object"),
 	 *		),
@@ -249,7 +246,7 @@ class Record extends \Api\Core\BaseAction
 			$response['summaryInventory'] = $summaryInventory;
 		}
 
-		if (1 === (int) $this->controller->headers['x-raw-data']??0) {
+		if (1 === (int) $this->controller->headers['x-raw-data'] ?? 0) {
 			$response['rawData'] = $rawData;
 			if ($rawInventory) {
 				$response['rawInventory'] = $rawInventory;
@@ -402,7 +399,7 @@ class Record extends \Api\Core\BaseAction
 	 *		example={"firstname" : "Tom", "lastname" : "Kowalski"},
 	 * ),
 	 */
-	public function put()
+	public function put(): array
 	{
 		return $this->post();
 	}
@@ -467,15 +464,15 @@ class Record extends \Api\Core\BaseAction
 	 *		),
 	 * ),
 	 */
-	public function post()
+	public function post(): array
 	{
-		$saveModel = new \Api\Portal\Save();
+		$saveModel = new \Api\RestApi\Save();
 		$saveModel->init($this);
 		$saveModel->saveRecord($this->controller->request);
 		$return = ['id' => $this->recordModel->getId()];
 		if ($saveModel->skippedData) {
 			$return['skippedData'] = $saveModel->skippedData;
 		}
-		return  $return;
+		return $return;
 	}
 }

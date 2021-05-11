@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Get fields class.
+ * RestApi container - Get fields file.
+ *
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -12,19 +14,22 @@ namespace Api\RestApi\BaseModule;
 
 use OpenApi\Annotations as OA;
 
+/**
+ * RestApi container - Get fields class.
+ */
 class Fields extends \Api\Core\BaseAction
 {
-	/** @var string[] Allowed request methods */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
 
 	/**
-	 * Get data about fields.
+	 * Get data about fields, blocks and inventory.
 	 *
 	 * @return array
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/{moduleName}/Fields",
-	 *		summary="Get data about fields",
+	 *		summary="Get data about fields, blocks and inventory",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
@@ -51,7 +56,7 @@ class Fields extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=200,
-	 *			description="Fields details",
+	 *			description="Fields, blocks and inventory details",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Fields_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Fields_ResponseBody"),
 	 *		),
@@ -59,14 +64,15 @@ class Fields extends \Api\Core\BaseAction
 	 *	@OA\Schema(
 	 *		schema="BaseModule_Fields_ResponseBody",
 	 *		title="Base module - Response action fields",
-	 *		description="Module action fields response body",
+	 *		description="Fields, blocks and inventory details",
 	 *		type="object",
 	 *		@OA\Property(
 	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={"0", "1"},
-	 *			type="integer",
-	 *		),
+	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 * 			enum={0, 1},
+	 *     	  	type="integer",
+	 * 			example=1
+	 * 		),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="Fields parameters",
@@ -143,14 +149,14 @@ class Fields extends \Api\Core\BaseAction
 	 *						type="object",
 	 *						@OA\Property(property="jpg", description="List of file data formats", example="jpg"),
 	 *					),
-	 *					@OA\Property(property="id", type="integer", description="Check if record is editable", example=24862),
+	 *					@OA\Property(property="id", type="integer", description="Field ID", example=24862),
 	 *					@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
 	 *					@OA\Property(property="isViewable", description="Check if record is viewable", type="boolean", example=true),
 	 *					@OA\Property(property="isEditableReadOnly", description="Check if record is editable or read only", type="boolean", example=false),
 	 *					@OA\Property(property="sequence", description="Sequence field", type="integer", example=24862),
 	 *					@OA\Property(property="fieldparams", description="Field params", type="object"),
 	 *					@OA\Property(property="blockId", type="integer", description="Field block id", example=280),
-	 *					@OA\Property(property="helpInfo", type="string", description="Additional field description", example="x y z"),
+	 *					@OA\Property(property="helpInfo", type="string", description="Additional field description", example="Edit,Detail"),
 	 *					@OA\Property(
 	 *	 					property="dbStructure",
 	 *						type="object",
@@ -167,7 +173,10 @@ class Fields extends \Api\Core\BaseAction
 	 *						description="List of related modules, available only for reference field",
 	 *						type="object",
 	 *						@OA\AdditionalProperties(
-	 *							@OA\Property(property="name", type="string", description="Field name", example="subject"),
+	 *							description="Tree item",
+	 *							type="string",
+	 *							example="Accounts"
+	 *						),
 	 *					),
 	 *					@OA\Property(
 	 *						property="treeValues",
@@ -186,10 +195,10 @@ class Fields extends \Api\Core\BaseAction
 	 *			),
 	 *			@OA\Property(
 	 *				property="blocks",
-	 *				description="Fields blocks",
+	 *				description="List of all available blocks in the module",
 	 *				type="object",
 	 *				@OA\AdditionalProperties(
-	 *					description="Field block details",
+	 *					description="Block details",
 	 *					type="object",
 	 *					@OA\Property(property="id", description="Block id", type="integer", example=195),
 	 *					@OA\Property(property="tabid", description="Module id", type="integer", example=9),
@@ -208,7 +217,7 @@ class Fields extends \Api\Core\BaseAction
 	 *			),
 	 *			@OA\Property(
 	 *				property="inventory",
-	 *				description="Inventory field group",
+	 *				description="Inventory field group, available depending on the type of module",
 	 *				type="object",
 	 *				@OA\Property(
 	 *					property="1",
@@ -233,7 +242,7 @@ class Fields extends \Api\Core\BaseAction
 	{
 		$moduleName = $this->controller->request->get('module');
 		$module = \Vtiger_Module_Model::getInstance($moduleName);
-		$fields = $blocks = [];
+		$return = $inventoryFields = $fields = $blocks = [];
 		foreach ($module->getFields() as $fieldModel) {
 			$block = $fieldModel->get('block');
 			if (!isset($blocks[$block->id])) {
@@ -267,7 +276,8 @@ class Fields extends \Api\Core\BaseAction
 			}
 			$fields[$fieldModel->getId()] = $fieldInfo;
 		}
-		$inventoryFields = [];
+		$return['fields'] = $fields;
+		$return['blocks'] = $blocks;
 		if ($module->isInventory()) {
 			$inventoryInstance = \Vtiger_Inventory_Model::getInstance($moduleName);
 			$fieldsInInventory = $inventoryInstance->getFieldsByBlocks();
@@ -282,11 +292,8 @@ class Fields extends \Api\Core\BaseAction
 					];
 				}
 			}
+			$return['inventory'] = $inventoryFields;
 		}
-		return [
-			'fields' => $fields,
-			'blocks' => $blocks,
-			'inventory' => $inventoryFields
-		];
+		return $return;
 	}
 }

@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\Portal\SSingleOrders;
@@ -16,7 +17,7 @@ namespace Api\Portal\SSingleOrders;
  */
 class Delivery extends \Api\Core\BaseAction
 {
-	/** @var string[] Allowed request methods */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
 
 	/** {@inheritdoc}  */

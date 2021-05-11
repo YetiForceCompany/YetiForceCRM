@@ -1,13 +1,18 @@
 <?php
+/**
+ * Web service response file.
+ *
+ * @package API
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 namespace Api\Core;
 
 /**
  * Web service response class.
- *
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Response
 {
@@ -176,7 +181,7 @@ class Response
 	private function getReasonPhrase(): string
 	{
 		if (isset($this->reasonPhrase)) {
-			return  str_ireplace(["\r\n", "\r", "\n"], ' ', $this->reasonPhrase);
+			return str_ireplace(["\r\n", "\r", "\n"], ' ', $this->reasonPhrase);
 		}
 		$statusCodes = [
 			200 => 'OK',

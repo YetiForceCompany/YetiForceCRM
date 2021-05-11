@@ -1,7 +1,7 @@
 <?php
 
 /**
- * RestApi container - Get modules list action file.
+ * Portal container - Get modules list action file.
  *
  * @package API
  *
@@ -10,18 +10,15 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\RestApi\BaseAction;
+namespace Api\Portal\BaseAction;
 
 use OpenApi\Annotations as OA;
 
 /**
- * RestApi container - Get modules list action class.
+ * Portal container - Get modules list action class.
  */
-class Modules extends \Api\Core\BaseAction
+class Modules extends \Api\RestApi\BaseAction\Modules
 {
-	/** {@inheritdoc}  */
-	public $allowedMethod = ['GET'];
-
 	/**
 	 * Get permitted modules.
 	 *
@@ -85,6 +82,6 @@ class Modules extends \Api\Core\BaseAction
 	 */
 	public function get(): array
 	{
-		return \Api\Core\Module::getPermittedModules();
+		return parent::get();
 	}
 }

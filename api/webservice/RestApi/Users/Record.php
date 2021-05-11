@@ -1,8 +1,8 @@
 <?php
 /**
- * The file contains: Get user detail class.
+ * RestApi container - Get user record detail file.
  *
- * @package Api
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license	YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,17 +14,14 @@ namespace Api\RestApi\Users;
 use OpenApi\Annotations as OA;
 
 /**
- * Get user detail class.
+ * RestApi container - Get user record detail class.
  */
 class Record extends \Api\Core\BaseAction
 {
 	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
-	/**
-	 * User record model.
-	 *
-	 * @var \Vtiger_Record_Model
-	 */
+
+	/** @var \Users_Record_Model User record model. */
 	public $recordModel;
 
 	/**
@@ -34,7 +31,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @return bool
 	 */
-	public function checkPermission()
+	public function checkPermission(): void
 	{
 		parent::checkPermission();
 		if ($this->controller->request->isEmpty('record', true) || !\App\User::isExists($this->controller->request->getInteger('record'), false)) {
@@ -92,11 +89,15 @@ class Record extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
-	 *			description="Access denied, access for administrators only"
+	 *			description="Access denied, access for administrators only",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=404,
-	 *			description="User doesn't exist"
+	 *			description="User doesn't exist",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 * ),
 	 * @OA\Schema(

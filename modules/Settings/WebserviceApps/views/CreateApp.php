@@ -27,7 +27,6 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('TYPES_SERVERS', Settings_WebserviceApps_Module_Model::getTypes());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('CreateApp.tpl', $qualifiedModuleName);
 		parent::postProcess($request);

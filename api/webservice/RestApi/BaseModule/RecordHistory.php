@@ -1,8 +1,8 @@
 <?php
 /**
- * Get record history file.
+ * RestApi container - Get record history file.
  *
- * @package Api
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,23 +14,21 @@ namespace Api\RestApi\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Get record history class.
+ * RestApi container - Get record history class.
  */
 class RecordHistory extends \Api\Core\BaseAction
 {
-	/** @var string[] Allowed request methods */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
+
 	/** {@inheritdoc}  */
 	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-start-with'];
-	/**
-	 * Record model.
-	 *
-	 * @var \Vtiger_Record_Model
-	 */
+
+	/** @var \Vtiger_Record_Model Record model instance. */
 	protected $recordModel;
 
 	/** {@inheritdoc}  */
-	public function checkAction()
+	public function checkAction(): void
 	{
 		parent::checkAction();
 		$moduleName = $this->controller->request->getModule();
@@ -44,7 +42,6 @@ class RecordHistory extends \Api\Core\BaseAction
 		if (!$this->recordModel->getModule()->isTrackingEnabled()) {
 			throw new \Api\Core\Exception('MadTracker is turned off', 403);
 		}
-		return true;
 	}
 
 	/**
@@ -99,10 +96,18 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
+	 *			name="x-raw-data",
+	 *			description="Gets raw data",
+	 *			@OA\Schema(type="integer", enum={0, 1}),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 *				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *		),
 	 *		@OA\RequestBody(
 	 *			required=false,
@@ -113,6 +118,18 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *			description="Recent activities detail",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordHistory_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordHistory_ResponseBody"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="No permissions to view record OR MadTracker is turned off",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=404,
+	 *			description="Record doesn't exist",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *	),
 	 *	@OA\Schema(
@@ -141,6 +158,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 * 					@OA\Property(property="time", type="string", description="Showing the exact date on which the change took place",  format="date-time", example="2019-10-07 08:32:38"),
 	 *					@OA\Property(property="owner", type="string", description="Username of the user who made the change", example="System Admin"),
 	 *					@OA\Property(property="status", type="string", description="Name of the action that was carried out", example="changed"),
+	 * 					@OA\Property(property="rawTime", type="string", description="Showing the exact date on which the change took place",  format="date-time", example="2019-10-07 08:32:38"),
 	 *					@OA\Property(property="rawOwner", type="integer", description="User ID of the user who made the change", example=1),
 	 *					@OA\Property(property="rawStatus", type="string", description="The name of the untranslated label", example="LBL_UPDATED"),
 	 *					@OA\Property(
@@ -162,7 +180,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *		),
 	 *	),
 	 */
-	public function get()
+	public function get(): array
 	{
 		$pagingModel = new \Vtiger_Paging_Model();
 		$limit = 100;

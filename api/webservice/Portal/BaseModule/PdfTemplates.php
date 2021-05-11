@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\Portal\BaseModule;
@@ -16,24 +17,17 @@ namespace Api\Portal\BaseModule;
  */
 class PdfTemplates extends \Api\Core\BaseAction
 {
-	/** @var string[] Allowed request methods */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
 
-	/**
-	 * Check permission to method.
-	 *
-	 * @throws \Api\Core\Exception
-	 *
-	 * @return bool
-	 */
-	public function checkPermission()
+	/** {@inheritdoc}  */
+	public function checkPermission(): void
 	{
-		$result = parent::checkPermission();
+		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
 		if (!\Api\Portal\Privilege::isPermitted($moduleName, 'ExportPdf')) {
 			throw new \Api\Core\Exception("No permissions for action {$moduleName}:ExportPdf", 405);
 		}
-		return $result;
 	}
 
 	/**

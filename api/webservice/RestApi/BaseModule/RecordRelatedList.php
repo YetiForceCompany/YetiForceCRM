@@ -1,8 +1,8 @@
 <?php
 /**
- * Get record related list file.
+ * RestApi container - Get record related list file.
  *
- * @package Api
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,23 +14,21 @@ namespace Api\RestApi\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Get record related list class.
+ * RestApi container - Get record related list class.
  */
 class RecordRelatedList extends \Api\Core\BaseAction
 {
-	/** @var string[] Allowed request methods */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
+
 	/** {@inheritdoc}  */
 	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id', 'x-condition'];
-	/**
-	 * Record model.
-	 *
-	 * @var \Vtiger_Record_Model
-	 */
+
+	/** @var \Vtiger_Record_Model Record model instance. */
 	protected $recordModel;
 
 	/** {@inheritdoc}  */
-	public function checkAction()
+	public function checkAction(): void
 	{
 		parent::checkAction();
 		if ($this->controller->request->isEmpty('param', 'Alnum')) {
@@ -44,7 +42,6 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		if (!$this->recordModel->isViewable()) {
 			throw new \Api\Core\Exception('No permissions to view record', 403);
 		}
-		return true;
 	}
 
 	/**
@@ -144,25 +141,25 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=400,
-	 *			description="Incorrect json syntax",
-	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
-	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
-	 *		),
-	 *		@OA\Response(
-	 *			response=401,
-	 *			description="No sent token, Invalid token, Token has expired",
+	 *			description="Relationship does not exist",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
-	 *			description="No permissions for module",
+	 *			description="No permissions to view record",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=404,
+	 *			description="Record doesn't exist",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=405,
-	 *			description="Invalid method",
+	 *			description="No relation module name",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),

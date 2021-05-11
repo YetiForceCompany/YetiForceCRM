@@ -1,52 +1,58 @@
 <?php
-
-namespace Api\Core;
-
 /**
- * Base action class.
+ * Base action file.
+ *
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace Api\Core;
+
+/**
+ * Base action class.
+ */
 class BaseAction
 {
-	/** @var array Allowed method */
+	/** @var string[] Allowed methods */
 	public $allowedMethod;
+
 	/** @var array Allowed headers */
 	public $allowedHeaders = [];
+
 	/** @var \Api\Controller */
 	public $controller;
+
 	/** @var \App\Base */
 	public $session;
-	/**
-	 * Response data type.
-	 *
-	 * @var string
-	 */
+
+	/** @var string Response data type. */
 	public $responseType = 'data';
 
 	/**
 	 * Check called action.
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public function checkAction()
+	public function checkAction(): void
 	{
 		if ((isset($this->allowedMethod) && !\in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
 			throw new \Api\Core\Exception('Invalid method', 405);
 		}
 		$this->checkPermission();
 		$this->checkPermissionToModule();
-		return true;
 	}
 
 	/**
 	 * Check permission to module.
 	 *
 	 * @throws \Api\Core\Exception
+	 *
+	 * @return void
 	 */
-	public function checkPermissionToModule()
+	public function checkPermissionToModule(): void
 	{
 		if (!$this->controller->request->isEmpty('module') && !Module::checkModuleAccess($this->controller->request->get('module'))) {
 			throw new \Api\Core\Exception('No permissions for module', 403);
@@ -58,16 +64,15 @@ class BaseAction
 	 *
 	 * @throws \Api\Core\Exception
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public function checkPermission()
+	public function checkPermission(): void
 	{
 		if (empty($this->controller->headers['x-token'])) {
 			throw new \Api\Core\Exception('No sent token', 401);
 		}
-		$apiType = strtolower($this->controller->app['type']);
-		$sessionTable = "w_#__{$apiType}_session";
-		$userTable = "w_#__{$apiType}_user";
+		$sessionTable = Containers::$listTables[$this->controller->app['type']]['session'];
+		$userTable = Containers::$listTables[$this->controller->app['type']]['user'];
 		$db = \App\Db::getInstance('webservice');
 		$row = (new \App\Db\Query())->select([
 			"$userTable.*",
@@ -96,11 +101,10 @@ class BaseAction
 		$userModel->set('permission_type', $row['type']);
 		$userModel->set('permission_crmid', $row['crmid']);
 		$userModel->set('permission_app', $this->controller->app['id']);
-		$namespace = ucfirst($apiType);
+		$namespace = $this->controller->app['type'];
 		\App\Privilege::setPermissionInterpreter("\\Api\\{$namespace}\\Privilege");
 		\App\PrivilegeQuery::setPermissionInterpreter("\\Api\\{$namespace}\\PrivilegeQuery");
 		$db->createCommand()->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])->execute();
-		return true;
 	}
 
 	/**

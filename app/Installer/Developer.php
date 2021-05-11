@@ -29,7 +29,7 @@ class Developer
 			echo "<pre>$msg</pre><hr>";
 		}, E_ALL);
 		$json = '';
-		foreach (['RestApi', 'Portal', 'ManageConsents'] as $type) {
+		foreach (\Api\Core\Containers::$list as $type) {
 			$json .= self::generateSwaggerByType($type, false);
 		}
 		return $json;

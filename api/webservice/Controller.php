@@ -103,12 +103,11 @@ class Controller
 		$this->debugRequest();
 		self::$action = $handler = new $handlerClass();
 		$handler->controller = $this;
-		if ($handler->checkAction()) {
-			$this->response->setAcceptableHeaders($handler->allowedHeaders);
-			$this->response->setAcceptableMethods($handler->allowedMethod);
-			$handler->preProcess();
-			$return = \call_user_func([$handler, strtolower($this->method)]);
-		}
+		$handler->checkAction();
+		$this->response->setAcceptableHeaders($handler->allowedHeaders);
+		$this->response->setAcceptableMethods($handler->allowedMethod);
+		$handler->preProcess();
+		$return = \call_user_func([$handler, strtolower($this->method)]);
 		if (null !== $return) {
 			switch ($handler->responseType) {
 				case 'data':

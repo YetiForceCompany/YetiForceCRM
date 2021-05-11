@@ -11,21 +11,6 @@
 class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
 {
 	/**
-	 * Webservice apps types.
-	 * Payments is turned off.
-	 *
-	 * @return string[]
-	 */
-	public static function getTypes(): array
-	{
-		return [
-			'RestApi',
-			'Portal',
-			'ManageConsents',
-		];
-	}
-
-	/**
 	 * Get all servers.
 	 *
 	 * @return array

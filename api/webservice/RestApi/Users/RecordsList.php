@@ -1,8 +1,8 @@
 <?php
 /**
- * Get users list file.
+ * RestApi container - Get users list file.
  *
- * @package Api
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,31 +14,23 @@ namespace Api\RestApi\Users;
 use OpenApi\Annotations as OA;
 
 /**
- * Get users list class.
+ * RestApi container - Get users list class.
  */
 class RecordsList extends \Api\Core\BaseAction
 {
-	/** @var string[] Allowed request methods */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
+
 	/** {@inheritdoc}  */
 	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-parent-id'];
-	/**
-	 * Get query generator instance.
-	 *
-	 * @var \App\QueryGenerator
-	 */
+
+	/** @var \App\QueryGenerator Query generator instance. */
 	protected $queryGenerator;
-	/**
-	 * Fields.
-	 *
-	 * @var array
-	 */
+
+	/** @var \Vtiger_Field_Model[] Fields models instance. */
 	protected $fields = [];
-	/**
-	 * Is admin.
-	 *
-	 * @var bool
-	 */
+
+	/** @var bool Is admin. */
 	protected $isAdmin;
 
 	/**
@@ -138,7 +130,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=400,
-	 *			description="Incorrect json syntax",
+	 *			description="Incorrect json syntax: x-fields",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),

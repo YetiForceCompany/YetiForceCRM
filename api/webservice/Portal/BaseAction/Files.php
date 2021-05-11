@@ -1,12 +1,11 @@
 <?php
 /**
- * RestApi container - Get elements of menu file.
+ * Portal container - Get elements of menu file.
  *
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -15,10 +14,10 @@ namespace Api\RestApi\BaseAction;
 use OpenApi\Annotations as OA;
 
 /**
- * RestApi container - Get elements of menu class.
+ * Portal container - Get elements of menu class.
  *
  * @OA\Info(
- * 		title="YetiForce API for Webservice App. Type: RestApi",
+ * 		title="YetiForce API for Webservice App. Type: Portal",
  * 		version="0.1",
  *   	@OA\Contact(
  *     		email="devs@yetiforce.com",
@@ -32,14 +31,8 @@ use OpenApi\Annotations as OA;
  *   	termsOfService="https://yetiforce.com/"
  * )
  */
-class Files extends \Api\Core\BaseAction
+class Files extends \Api\RestApi\BaseAction\Files
 {
-	/** {@inheritdoc}  */
-	public $allowedMethod = ['PUT'];
-
-	/** {@inheritdoc}  */
-	public $responseType = 'file';
-
 	/**
 	 * Put method.
 	 *
@@ -113,21 +106,6 @@ class Files extends \Api\Core\BaseAction
 	 */
 	public function put()
 	{
-		$moduleName = $this->controller->request->getModule();
-		$action = $this->controller->request->getByType('actionName', 1);
-		if (!$moduleName || !$action) {
-			throw new \Api\Core\Exception('Invalid method', 405);
-		}
-		\App\Process::$processName = $action;
-		\App\Process::$processType = 'File';
-		$handlerClass = \Vtiger_Loader::getComponentClassName('File', $action, $moduleName);
-		$handler = new $handlerClass();
-		if ($handler) {
-			if (!$handler->getCheckPermission($this->controller->request)) {
-				throw new \Api\Core\Exception('No permissions', 403);
-			}
-			return $handler->api($this->controller->request);
-		}
-		throw new \Api\Core\Exception('Invalid method', 405);
+		return parent::put();
 	}
 }

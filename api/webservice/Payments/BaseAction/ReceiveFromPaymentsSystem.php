@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\Payments\BaseAction;
@@ -20,9 +21,8 @@ class ReceiveFromPaymentsSystem extends \Api\Core\BaseAction
 	public $allowedMethod = ['PUT'];
 
 	/** {@inheritdoc}  */
-	public function checkPermission()
+	public function checkPermission(): void
 	{
-		return true;
 	}
 
 	/**

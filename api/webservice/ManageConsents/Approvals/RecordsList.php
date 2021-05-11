@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\ManageConsents\Approvals;
@@ -81,22 +82,28 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *  		required=false
 	 * 		),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="List of consents",
-	 *				@OA\JsonContent(ref="#/components/schemas/ConsentsResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/ConsentsResponseBody"),
+	 *			response=200,
+	 *			description="List of consents",
+	 *			@OA\JsonContent(ref="#/components/schemas/ConsentsResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/ConsentsResponseBody"),
 	 *		),
 	 *		@OA\Response(
-	 *				response=401,
-	 *				description="No sent token OR Invalid token",
+	 *			response=401,
+	 *			description="No sent token OR Invalid token",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *		@OA\Response(
-	 *				response=403,
-	 *				description="No permissions for module",
+	 *			response=403,
+	 *			description="No permissions for module",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *		@OA\Response(
-	 *				response=405,
-	 *				description="Method Not Allowed",
+	 *			response=405,
+	 *			description="Method Not Allowed",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 * ),
 	 * @OA\Schema(

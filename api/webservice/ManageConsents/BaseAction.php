@@ -35,7 +35,7 @@ use OpenApi\Annotations as OA;
 class BaseAction extends \Api\Core\BaseAction
 {
 	/** {@inheritdoc}  */
-	public function checkPermission()
+	public function checkPermission(): void
 	{
 		$db = \App\Db::getInstance('webservice');
 		$userTable = 'w_#__manage_consents_user';
@@ -54,6 +54,5 @@ class BaseAction extends \Api\Core\BaseAction
 		$this->session = new \App\Base();
 		$this->session->setData($row);
 		\App\User::setCurrentUserId($this->session->get('user_id'));
-		return true;
 	}
 }

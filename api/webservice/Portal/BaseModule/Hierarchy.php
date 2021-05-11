@@ -1,17 +1,23 @@
 <?php
 
-namespace Api\RestApi\BaseModule;
-
 /**
- * Records hierarchy action class.
+ * Portal container - Records hierarchy action file.
+ *
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace Api\Portal\BaseModule;
+
+/**
+ * Portal container - Records hierarchy action class.
+ */
 class Hierarchy extends \Api\Core\BaseAction
 {
-	/** @var string[] Allowed request methods */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
 
 	/** @var int Pecursion limit */
@@ -27,22 +33,14 @@ class Hierarchy extends \Api\Core\BaseAction
 	public $records = [];
 	public $recursion = [];
 
-	/**
-	 * Check permission to method.
-	 *
-	 * @throws \Api\Core\Exception
-	 *
-	 * @return bool
-	 */
-	public function checkPermission()
+	/** {@inheritdoc}  */
+	public function checkPermission(): void
 	{
-		$return = parent::checkPermission();
+		parent::checkPermission();
 		if (1 === $this->getPermissionType()) {
 			throw new \Api\Core\Exception('Not available for this type of user', 405);
 		}
 		$this->moduleName = $this->controller->request->get('module');
-
-		return $return;
 	}
 
 	/**

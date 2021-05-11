@@ -20,7 +20,7 @@ class Settings_WebserviceUsers_List_View extends Settings_Vtiger_List_View
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if (!$request->has('typeApi')) {
-			$request->set('typeApi', current(Settings_WebserviceApps_Module_Model::getTypes()));
+			$request->set('typeApi', current(\Api\Core\Containers::$list));
 		}
 		$typeApi = $request->getByType('typeApi', 'Alnum');
 		$this->listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);

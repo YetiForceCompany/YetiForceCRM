@@ -1,6 +1,6 @@
 <?php
 /**
- * Save record.
+ * Action file to save record.
  *
  * @package Api
  *
@@ -10,24 +10,16 @@
  * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\Portal;
+namespace Api\RestApi;
 
 /**
- * Action to save record.
+ * Action class to save record.
  */
 class Save extends \Vtiger_Save_Action
 {
-	/**
-	 * Id od application.
-	 *
-	 * @var int
-	 */
+	/** @var int Id od application. */
 	protected $appId;
-	/**
-	 * Skipped value.
-	 *
-	 * @var array
-	 */
+	/** @var array Skipped value. */
 	public $skippedData = [];
 
 	/**

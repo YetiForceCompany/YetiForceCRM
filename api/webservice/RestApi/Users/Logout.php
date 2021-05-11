@@ -1,8 +1,8 @@
 <?php
 /**
- * Users logout action class.
+ * RestApi container - Users logout action file.
  *
- * @package Api
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,23 +14,16 @@ namespace Api\RestApi\Users;
 use OpenApi\Annotations as OA;
 
 /**
- * Logout class.
+ * RestApi container - Users logout action class.
  */
 class Logout extends \Api\Core\BaseAction
 {
-	/** @var string[] Allowed request methods */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['PUT'];
 
-	/**
-	 * Check permission to module.
-	 *
-	 * @throws \Api\Core\Exception
-	 *
-	 * @return bool
-	 */
-	public function checkPermissionToModule()
+	/** {@inheritdoc}  */
+	public function checkPermissionToModule(): void
 	{
-		return true;
 	}
 
 	/**
@@ -44,17 +37,17 @@ class Logout extends \Api\Core\BaseAction
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
-	 *    },
+	 *		},
 	 *		@OA\RequestBody(
-	 *  			required=false,
-	 * 				description="Users logout request body",
-	 *	  ),
-	 *    @OA\Parameter(
-	 *        name="X-ENCRYPTED",
-	 *        in="header",
-	 *        required=true,
+	 *  		required=false,
+	 * 			description="Users logout request body",
+	 *		),
+	 *		@OA\Parameter(
+	 * 			name="X-ENCRYPTED",
+	 * 			in="header",
+	 * 			required=true,
 	 * 			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *    ),
+	 *		),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="User details",
@@ -63,9 +56,9 @@ class Logout extends \Api\Core\BaseAction
 	 *		),
 	 * ),
 	 * @OA\SecurityScheme(
-	 *		securityScheme="token",
-	 *   	type="apiKey",
-	 *    in="header",
+	 * 		securityScheme="token",
+	 * 		type="apiKey",
+	 * 		in="header",
 	 * 		name="X-TOKEN",
 	 *   	description="Webservice api token, generated when logging into the system, required for communication"
 	 * ),
@@ -74,32 +67,31 @@ class Logout extends \Api\Core\BaseAction
 	 * 		title="Users module - Users logout response body",
 	 * 		description="JSON data",
 	 *		type="object",
-	 * 		@OA\Property(
-	 *       	property="status",
-	 *        description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 				enum={0, 1},
-	 *     	  type="integer",
-	 *        example=1
-	 * 		),
-	 *    @OA\Property(
-	 *     	  property="result",
-	 *     	 	description="Content of responses from a given method",
-	 *    	 	type="boolean",
-	 *    ),
+	 *		@OA\Property(
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={0, 1},
+	 *			type="integer",
+	 *			example=1
+	 *		),
+	 *		@OA\Property(
+	 *			property="result",
+	 *			description="Content of responses from a given method",
+	 *			type="boolean",
+	 *		),
 	 * ),
 	 */
-	public function put()
+	public function put(): bool
 	{
 		$db = \App\Db::getInstance('webservice');
-		$db->createCommand()->delete('w_#__portal_session', [
+		$db->createCommand()->delete(\Api\Core\Containers::$listTables[$this->controller->app['type']]['session'], [
 			'id' => $this->controller->headers['x-token'],
 		])->execute();
 		$db->createCommand()
-			->update('w_#__portal_user', [
+			->update(\Api\Core\Containers::$listTables[$this->controller->app['type']]['user'], [
 				'logout_time' => date('Y-m-d H:i:s'),
 			], ['id' => $this->session->get('id')])
 			->execute();
-
 		return true;
 	}
 }

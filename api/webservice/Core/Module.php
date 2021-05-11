@@ -1,13 +1,18 @@
 <?php
-
-namespace Api\Core;
-
 /**
- * Module class.
+ * Web service module file.
+ *
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace Api\Core;
+
+/**
+ * Web service module class.
  */
 class Module
 {
@@ -19,7 +24,7 @@ class Module
 	 *
 	 * @return array
 	 */
-	public static function getPermittedModules()
+	public static function getPermittedModules(): array
 	{
 		if (isset(static::$permittedModules)) {
 			return static::$permittedModules;
@@ -40,7 +45,7 @@ class Module
 	 *
 	 * @return bool
 	 */
-	public static function checkModuleAccess($moduleName)
+	public static function checkModuleAccess($moduleName): bool
 	{
 		if (isset(static::$permittedModules)) {
 			return isset(static::$permittedModules[$moduleName]);
