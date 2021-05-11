@@ -59,3 +59,6 @@ if ($installDatabase) {
 } else {
 	echo 'Skipped test database install ...' . PHP_EOL;
 }
+if ('true' === getenv('COVERAGE')) {
+	echo '\pcov\memory(): ' . \pcov\memory();
+}
