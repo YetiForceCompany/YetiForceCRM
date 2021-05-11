@@ -106,6 +106,7 @@ class Vtiger_Menu_Model
 			$breadcrumbs[] = [
 				'name' => \App\Language::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
+				'icon' => 'fas fa-cog fa-fw',
 			];
 			$menu = Settings_Vtiger_MenuItem_Model::getAll();
 			foreach ($menu as $menuModel) {
@@ -115,7 +116,10 @@ class Vtiger_Menu_Model
 					)
 				) {
 					$parent = $menuModel->getBlock();
-					$breadcrumbs[] = ['name' => App\Language::translate($parent->getLabel(), $qualifiedModuleName)];
+					$breadcrumbs[] = [
+						'name' => App\Language::translate($parent->getLabel(), $qualifiedModuleName),
+						'icon' => $parent->get('icon'),
+					];
 					$breadcrumbs[] = [
 						'name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
 						'url' => $menuModel->getUrl(),
