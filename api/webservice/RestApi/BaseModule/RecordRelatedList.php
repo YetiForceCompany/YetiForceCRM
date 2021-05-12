@@ -50,7 +50,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\GET(
-	 *		path="/webservice/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}",
+	 *		path="/webservice/RestApi/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}",
 	 *		summary="Get the related list of records",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -84,6 +84,22 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 *			example="Contacts",
 	 *			required=true
 	 *		),
+	 *		@OA\Parameter(
+	 *			name="relationId",
+	 *			in="query",
+	 *			description="Relation id",
+	 *			required=false,
+	 *			@OA\Schema(type="integer"),
+	 *			style="form"
+	 *     ),
+	 *		@OA\Parameter(
+	 *			name="cvId",
+	 *			in="query",
+	 *			description="Custom view id",
+	 *			required=false,
+	 *			@OA\Schema(type="integer"),
+	 *			style="form"
+	 *     ),
 	 *		@OA\Parameter(
 	 *			name="x-raw-data",
 	 *			description="Get rows limit, default: 0",
@@ -213,7 +229,16 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$pagingModel->set('page', (int) $requestOffset);
 		}
-		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $this->controller->request->getByType('param', 'Alnum'));
+		$relationModuleName = $this->controller->request->getByType('param', 'Alnum');
+		$relationId = false;
+		$cvId = 0;
+		if ($this->controller->request->has('relationId')) {
+			$relationId = $this->controller->request->getInteger('relationId');
+		}
+		if ($this->controller->request->has('cvId')) {
+			$cvId = $this->controller->request->getInteger('cvId');
+		}
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $relationModuleName, $relationId, $cvId);
 		if (!$relationListView) {
 			throw new \Api\Core\Exception('Relationship does not exist', 400);
 		}

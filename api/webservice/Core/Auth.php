@@ -16,15 +16,27 @@ namespace Api\Core;
  */
 class Auth
 {
+	/**
+	 * Realm.
+	 *
+	 * @var string
+	 */
 	protected static $realm = 'YetiForceApi';
 
-	public static function init($self)
+	/**
+	 * Init.
+	 *
+	 * @param \Api\Controller $controller
+	 *
+	 * @return array
+	 */
+	public static function init(\Api\Controller $controller): array
 	{
 		$method = \App\Config::api('AUTH_METHOD');
 		$class = "Api\\Core\\Auth\\$method";
-		$intance = new $class();
-		$intance->setApi($self);
-		$intance->authenticate(static::$realm);
-		return $intance->getCurrentServer();
+		$self = new $class();
+		$self->setApi($controller);
+		$self->authenticate(static::$realm);
+		return $self->getCurrentServer();
 	}
 }

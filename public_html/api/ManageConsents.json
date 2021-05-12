@@ -2,6 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "YetiForce API for Webservice App. Type: Manage consents",
+        "description": "Skip the `/webservice` fragment for connections via ApiProxy. There are two ways to connect to API, with or without rewrite, below are examples of both:\n * rewrite\n * - __CRM_URL__/webservice/ManageConsents/Users/Login\n * - __CRM_URL__/webservice/ManageConsents/Accounts/RecordRelatedList/117/Contacts\n * without rewrite\n * - __CRM_URL__/webservice.php?_container=ManageConsents&module=Users&action=Login\n * - __CRM_URL__/webservice.php?_container=ManageConsents&module=Accounts&action=RecordRelatedList&record=117&param=Contacts",
         "termsOfService": "https://yetiforce.com/",
         "contact": {
             "name": "Devs API Team",
@@ -12,10 +13,10 @@
             "name": "YetiForce Public License v3",
             "url": "https://yetiforce.com/en/yetiforce/license"
         },
-        "version": "0.1"
+        "version": "0.2"
     },
     "paths": {
-        "/webservice/ApprovalsRegister/Record": {
+        "/webservice/ManageConsents/ApprovalsRegister/Record": {
             "post": {
                 "tags": [
                     "Consents"
@@ -78,7 +79,7 @@
                 ]
             }
         },
-        "/webservice/Approvals/RecordsList": {
+        "/webservice/ManageConsents/Approvals/RecordsList": {
             "get": {
                 "tags": [
                     "Consents"
@@ -126,7 +127,6 @@
                         "required": false,
                         "content": {
                             "application/json": {
-                                "mediaType": "application/json",
                                 "schema": {
                                     "$ref": "#/components/schemas/ApprovalsConditionsRequest"
                                 }
@@ -155,13 +155,49 @@
                         }
                     },
                     "401": {
-                        "description": "No sent token OR Invalid token"
+                        "description": "No sent token OR Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     },
                     "403": {
-                        "description": "No permissions for module"
+                        "description": "No permissions for module",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     },
                     "405": {
-                        "description": "Method Not Allowed"
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -173,7 +209,7 @@
                 ]
             }
         },
-        "/webservice/{moduleName}/GetConsentsForEntry": {
+        "/webservice/ManageConsents/{moduleName}/GetConsentsForEntry": {
             "post": {
                 "tags": [
                     "Consents"
@@ -246,7 +282,7 @@
                 ]
             }
         },
-        "/webservice/{moduleName}/SendEmail": {
+        "/webservice/ManageConsents/{moduleName}/SendEmail": {
             "post": {
                 "tags": [
                     "Consents"
@@ -525,6 +561,51 @@
                                 "description": "There are more entries",
                                 "type": "boolean",
                                 "example": "true"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Exception": {
+                "title": "Error exception",
+                "properties": {
+                    "status": {
+                        "description": "0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0
+                        ],
+                        "example": 0
+                    },
+                    "error": {
+                        "description": "Error  details",
+                        "properties": {
+                            "message": {
+                                "description": "To show more details turn on: config\\Debug.php apiShowExceptionMessages = true",
+                                "type": "string",
+                                "example": "Invalid method"
+                            },
+                            "code": {
+                                "description": "Gets consents.",
+                                "type": "integer",
+                                "example": 405
+                            },
+                            "file": {
+                                "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
+                                "type": "string",
+                                "example": "api\\webservice\\Portal\\BaseAction\\Files.php"
+                            },
+                            "line": {
+                                "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
+                                "type": "integer",
+                                "example": 101
+                            },
+                            "backtrace": {
+                                "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
+                                "type": "string",
+                                "example": "#0 api\\webservice\\Portal\\BaseAction\\Files.php (101) ...."
                             }
                         },
                         "type": "object"

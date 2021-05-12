@@ -27,7 +27,7 @@ class Dashboard extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/{moduleName}/Dashboard",
+	 *		path="/webservice/Portal/{moduleName}/Dashboard",
 	 *		summary="Get dashboard widgets",
 	 *		description="Supported widget types: Mini List , Chart Filter",
 	 *		tags={"BaseModule"},

@@ -39,7 +39,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\GET(
-	 *		path="/webservice/Users/RecordsList",
+	 *		path="/webservice/RestApi/Users/RecordsList",
 	 *		summary="Get the list of users",
 	 *		tags={"Users"},
 	 *		security={

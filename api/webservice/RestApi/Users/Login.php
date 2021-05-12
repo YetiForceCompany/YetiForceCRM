@@ -40,7 +40,7 @@ class Login extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Post(
-	 *		path="/webservice/Users/Login",
+	 *		path="/webservice/RestApi/Users/Login",
 	 *		summary="Logs user into the system",
 	 *		tags={"Users"},
 	 *		security={

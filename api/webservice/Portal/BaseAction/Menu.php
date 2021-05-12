@@ -28,7 +28,7 @@ class Menu extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 *	@OA\Get(
-	 *		path="/webservice/Menu",
+	 *		path="/webservice/Portal/Menu",
 	 *		summary="Get menu into the system",
 	 *		tags={"BaseAction"},
 	 *		security={

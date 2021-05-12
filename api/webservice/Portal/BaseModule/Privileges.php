@@ -24,7 +24,7 @@ class Privileges extends \Api\RestApi\BaseModule\Privileges
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/{moduleName}/Privileges",
+	 *		path="/webservice/Portal/{moduleName}/Privileges",
 	 *		summary="Get privileges for module",
 	 *		tags={"BaseModule"},
 	 *		security={

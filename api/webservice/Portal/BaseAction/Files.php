@@ -9,7 +9,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\RestApi\BaseAction;
+namespace Api\Portal\BaseAction;
 
 use OpenApi\Annotations as OA;
 
@@ -18,7 +18,15 @@ use OpenApi\Annotations as OA;
  *
  * @OA\Info(
  * 		title="YetiForce API for Webservice App. Type: Portal",
- * 		version="0.1",
+ * 		description="Skip the `/webservice` fragment for connections via ApiProxy. There are two ways to connect to API, with or without rewrite, below are examples of both:
+ * rewrite
+ * - __CRM_URL__/webservice/Portal/Users/Login
+ * - __CRM_URL__/webservice/Portal/Accounts/RecordRelatedList/117/Contacts
+ * without rewrite
+ * - __CRM_URL__/webservice.php?_container=Portal&module=Users&action=Login
+ * - __CRM_URL__/webservice.php?_container=Portal&module=Accounts&action=RecordRelatedList&record=117&param=Contacts",
+ * 		version="0.2",
+ *   	termsOfService="https://yetiforce.com/",
  *   	@OA\Contact(
  *     		email="devs@yetiforce.com",
  *     		name="Devs API Team",
@@ -28,7 +36,6 @@ use OpenApi\Annotations as OA;
  *    		name="YetiForce Public License v3",
  *     		url="https://yetiforce.com/en/yetiforce/license"
  *   	),
- *   	termsOfService="https://yetiforce.com/"
  * )
  */
 class Files extends \Api\RestApi\BaseAction\Files
@@ -39,7 +46,7 @@ class Files extends \Api\RestApi\BaseAction\Files
 	 * @return \App\Fields\File
 	 *
 	 * @OA\Put(
-	 *		path="/webservice/Files",
+	 *		path="/webservice/Portal/Files",
 	 *		summary="Download files from the system",
 	 *		tags={"BaseAction"},
 	 *		security={

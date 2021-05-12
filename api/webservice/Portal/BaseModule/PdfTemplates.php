@@ -43,7 +43,7 @@ class PdfTemplates extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/{moduleName}/PdfTemplates/{recordId}",
+	 *		path="/webservice/Portal/{moduleName}/PdfTemplates/{recordId}",
 	 *		summary="Get PDF templates list",
 	 *		tags={"BaseModule"},
 	 *		security={

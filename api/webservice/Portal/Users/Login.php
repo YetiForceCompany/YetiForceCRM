@@ -23,8 +23,8 @@ class Login extends \Api\RestApi\Users\Login
 	 *
 	 * @return array
 	 *
-	 * @OA\Post(
-	 *		path="/webservice/Users/Login",
+	 *	@OA\Post(
+	 *		path="/webservice/Portal/Users/Login",
 	 *		summary="Logs user into the system",
 	 *		tags={"Users"},
 	 *		security={
@@ -67,28 +67,28 @@ class Login extends \Api\RestApi\Users\Login
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
-	 * ),
-	 * @OA\SecurityScheme(
+	 *	),
+	 *	@OA\SecurityScheme(
 	 *		securityScheme="basicAuth",
 	 *		type="http",
 	 *		in="header",
 	 *		scheme="basic"
-	 * ),
-	 * @OA\SecurityScheme(
+	 *	),
+	 *	@OA\SecurityScheme(
 	 *		securityScheme="ApiKeyAuth",
 	 *   	type="apiKey",
 	 *		in="header",
 	 * 		name="X-API-KEY",
 	 *   	description="Webservice api key"
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="X-ENCRYPTED",
 	 *		type="string",
 	 *  	description="Is the content request is encrypted",
 	 *  	enum={0, 1},
 	 *   	default=0
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 * 		schema="UsersLoginRequestBody",
 	 * 		title="Users module - Users login request body",
 	 * 		description="JSON or form-data",
@@ -109,8 +109,8 @@ class Login extends \Api\RestApi\Users\Login
 	 *       	type="object",
 	 *       	@OA\Property(property="language", type="string", example="pl-PL"),
 	 *		)
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 * 		schema="UsersLoginResponseBody",
 	 * 		title="Users module - Users login response body",
 	 * 		description="Users login response body",
@@ -167,8 +167,8 @@ class Login extends \Api\RestApi\Users\Login
 	 *    			@OA\Property(property="conv_rate", type="number", format="float", example="1.00000"),
 	 * 			),
 	 *    ),
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="Exception",
 	 *		title="Error exception",
 	 *		type="object",
@@ -189,11 +189,11 @@ class Login extends \Api\RestApi\Users\Login
 	 *   		@OA\Property(property="line", type="integer", example=101, description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
 	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\Portal\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
 	 *    	),
-	 * ),
-	 * @OA\Tag(
+	 *	),
+	 *	@OA\Tag(
 	 *		name="Users",
 	 *		description="Access to user methods"
-	 * )
+	 *	)
 	 */
 	public function post(): array
 	{

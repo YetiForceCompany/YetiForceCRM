@@ -1,82 +1,30 @@
 <?php
 /**
- * RestApi container - Get record detail file.
+ * Portal container - Get record detail file.
  *
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license	YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author	Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author	Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
-namespace Api\RestApi\BaseModule;
+namespace Api\Portal\BaseModule;
 
 use OpenApi\Annotations as OA;
 
 /**
- * RestApi container - Get record detail class.
+ * Portal container - Get record detail class.
  */
-class Record extends \Api\Core\BaseAction
+class Record extends \Api\RestApi\BaseModule\Record
 {
-	/** {@inheritdoc}  */
-	public $allowedMethod = ['GET', 'DELETE', 'PUT', 'POST'];
-
-	/** {@inheritdoc}  */
-	public $allowedHeaders = ['x-parent-id'];
-
-	/** @var \Vtiger_Record_Model Record model instance. */
-	public $recordModel;
-
-	/** {@inheritdoc}  */
-	public function checkPermission(): void
-	{
-		parent::checkPermission();
-		$moduleName = $this->controller->request->getModule();
-		$method = $this->controller->method;
-		if ('POST' === $method) {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
-			if (!$this->recordModel->isCreateable()) {
-				throw new \Api\Core\Exception('No permissions to create record', 403);
-			}
-		} else {
-			if ($this->controller->request->isEmpty('record')) {
-				throw new \Api\Core\Exception('No record id', 404);
-			}
-			if (!\App\Record::isExists($this->controller->request->getInteger('record'), $moduleName)) {
-				throw new \Api\Core\Exception('Record doesn\'t exist', 404);
-			}
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($this->controller->request->getInteger('record'), $moduleName);
-			switch ($method) {
-				case 'DELETE':
-					if (!$this->recordModel->privilegeToMoveToTrash()) {
-						throw new \Api\Core\Exception('No permissions to remove record', 403);
-					}
-					break;
-				case 'GET':
-					if (!$this->recordModel->isViewable()) {
-						throw new \Api\Core\Exception('No permissions to view record', 403);
-					}
-					break;
-				case 'PUT':
-					if (!$this->recordModel->isEditable()) {
-						throw new \Api\Core\Exception('No permissions to edit record', 403);
-					}
-					break;
-				default:
-					break;
-			}
-		}
-	}
-
 	/**
 	 * Get record detail.
 	 *
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/RestApi/{moduleName}/Record/{recordId}",
+	 *		path="/webservice/Portal/{moduleName}/Record/{recordId}",
 	 *		summary="Get data for the record",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -200,64 +148,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function get(): array
 	{
-		$moduleName = $this->controller->request->get('module');
-		$rawData = $this->recordModel->getData();
-
-		$displayData = $fieldsLabel = [];
-		foreach ($this->recordModel->getModule()->getFields() as $fieldModel) {
-			if (!$fieldModel->isActiveField()) {
-				continue;
-			}
-			$uiTypeModel = $fieldModel->getUITypeModel();
-			$value = $this->recordModel->get($fieldModel->getName());
-			$displayData[$fieldModel->getName()] = $uiTypeModel->getApiDisplayValue($value, $this->recordModel);
-			$fieldsLabel[$fieldModel->getName()] = \App\Language::translate($fieldModel->get('label'), $moduleName);
-			if ($fieldModel->isReferenceField()) {
-				$referenceModule = $uiTypeModel->getReferenceModule($value);
-				$rawData[$fieldModel->getName() . '_module'] = $referenceModule ? $referenceModule->getName() : null;
-			}
-			if ('taxes' === $fieldModel->getFieldDataType()) {
-				$rawData[$fieldModel->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$fieldModel->getName()]);
-			}
-		}
-		$response = [
-			'name' => $this->recordModel->getName(),
-			'id' => $this->recordModel->getId(),
-			'fields' => $fieldsLabel,
-			'data' => $displayData,
-			'privileges' => [
-				'isEditable' => $this->recordModel->isEditable(),
-				'moveToTrash' => $this->recordModel->privilegeToDelete()
-			]
-		];
-		if ($this->recordModel->getModule()->isInventory()) {
-			$rawInventory = $this->recordModel->getInventoryData();
-			$inventory = $summaryInventory = [];
-			$inventoryModel = \Vtiger_Inventory_Model::getInstance($moduleName);
-			$inventoryFields = $inventoryModel->getFields();
-			foreach ($rawInventory as $row) {
-				$inventoryRow = [];
-				foreach ($inventoryFields as $name => $field) {
-					$inventoryRow[$name] = $field->getDisplayValue($row[$name], $row, true);
-				}
-				$inventory[] = $inventoryRow;
-			}
-			foreach ($inventoryFields as $name => $field) {
-				if ($field->isSummary()) {
-					$summaryInventory[$name] = \App\Fields\Currency::formatToDisplay($field->getSummaryValuesFromData($rawInventory), null, true);
-				}
-			}
-			$response['inventory'] = $inventory;
-			$response['summaryInventory'] = $summaryInventory;
-		}
-
-		if (1 === (int) $this->controller->headers['x-raw-data'] ?? 0) {
-			$response['rawData'] = $rawData;
-			if ($rawInventory) {
-				$response['rawInventory'] = $rawInventory;
-			}
-		}
-		return $response;
+		return parent::get();
 	}
 
 	/**
@@ -266,7 +157,7 @@ class Record extends \Api\Core\BaseAction
 	 * @return bool
 	 *
 	 * @OA\Delete(
-	 *		path="/webservice/RestApi/{moduleName}/Record/{recordId}",
+	 *		path="/webservice/Portal/{moduleName}/Record/{recordId}",
 	 *		summary="Delete record (move to the trash)",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -325,8 +216,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function delete(): bool
 	{
-		$this->recordModel->changeState('Trash');
-		return true;
+		return parent::delete();
 	}
 
 	/**
@@ -335,7 +225,7 @@ class Record extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Put(
-	 *		path="/webservice/RestApi/{moduleName}/Record/{recordId}",
+	 *		path="/webservice/Portal/{moduleName}/Record/{recordId}",
 	 *		summary="Edit record",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -421,7 +311,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function put(): array
 	{
-		return $this->post();
+		return parent::put();
 	}
 
 	/**
@@ -430,7 +320,7 @@ class Record extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Post(
-	 *		path="/webservice/RestApi/{moduleName}/Record",
+	 *		path="/webservice/Portal/{moduleName}/Record",
 	 *		summary="Create record",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -494,13 +384,6 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function post(): array
 	{
-		$saveModel = new \Api\RestApi\Save();
-		$saveModel->init($this);
-		$saveModel->saveRecord($this->controller->request);
-		$return = ['id' => $this->recordModel->getId()];
-		if ($saveModel->skippedData) {
-			$return['skippedData'] = $saveModel->skippedData;
-		}
-		return $return;
+		return parent::post();
 	}
 }

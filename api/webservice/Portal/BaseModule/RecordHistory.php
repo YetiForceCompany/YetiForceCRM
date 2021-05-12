@@ -1,6 +1,6 @@
 <?php
 /**
- * RestApi container - Get record history file.
+ * Portal container - Get record history file.
  *
  * @package API
  *
@@ -9,12 +9,12 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\RestApi\BaseModule;
+namespace Api\Portal\BaseModule;
 
 use OpenApi\Annotations as OA;
 
 /**
- * RestApi container - Get record history class.
+ * Portal container - Get record history class.
  */
 class RecordHistory extends \Api\Core\BaseAction
 {
@@ -23,7 +23,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *
 	 * @return array
 	 * @OA\Get(
-	 *		path="/webservice/{moduleName}/RecordHistory/{recordId}",
+	 *		path="/webservice/Portal/{moduleName}/RecordHistory/{recordId}",
 	 *		summary="Get record history",
 	 *		tags={"BaseModule"},
 	 *		security={

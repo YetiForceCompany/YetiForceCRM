@@ -1,6 +1,6 @@
 <?php
 /**
- * Portal container - Get record list file.
+ * Portal container - Get users list file.
  *
  * @package API
  *
@@ -9,38 +9,30 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\Portal\BaseModule;
+namespace Api\Portal\Users;
 
 use OpenApi\Annotations as OA;
 
 /**
- * Portal container - Get record list class.
+ * Portal container - Get users list class.
  */
-class RecordsList extends \Api\RestApi\BaseModule\RecordsList
+class RecordsList extends \Api\RestApi\Users\RecordsList
 {
 	/**
-	 * Get record list method.
+	 * Get users list method.
 	 *
 	 * @return array
 	 *
 	 * @OA\GET(
-	 *		path="/webservice/Portal/{moduleName}/RecordsList",
-	 *		summary="Get the list of records",
-	 *		tags={"BaseModule"},
+	 *		path="/webservice/Portal/Users/RecordsList",
+	 *		summary="Get the list of users",
+	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,
 	 *			description="The content of the request is empty",
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-raw-data",
@@ -118,8 +110,8 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of consents",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/Users_RecordsList_ResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Users_RecordsList_ResponseBody"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=400,
@@ -147,8 +139,8 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *		),
 	 *),
 	 * @OA\Schema(
-	 *		schema="BaseModule_RecordsList_ResponseBody",
-	 *		title="Base module - Response action record list",
+	 *		schema="Users_RecordsList_ResponseBody",
+	 *		title="Users - Response action users list",
 	 *		description="Module action record list response body",
 	 *		type="object",
 	 *		@OA\Property(
