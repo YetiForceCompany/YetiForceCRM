@@ -2815,6 +2815,7 @@ window.App.Fields = {
 						});
 					});
 				});
+			this.registerAutoComplete();
 		}
 		/**
 		 * Clear selection
@@ -2824,6 +2825,67 @@ window.App.Fields = {
 			let fieldName = element.attr('name');
 			element.val('');
 			this.container.find(`#${fieldName}_display`).removeAttr('readonly').val('');
+		}
+		/**
+		 * Function which will handle the reference auto complete event registrations
+		 */
+		registerAutoComplete() {
+			let thisInstance = this;
+			let formElement = this.container.closest('form');
+			this.container.find('.js-auto-complete').autocomplete({
+				delay: '600',
+				minLength: '3',
+				source: function (request, response) {
+					let inputElement = $(this.element[0]);
+					let searchValue = request.term;
+					let params = {};
+					params.search_module = $('.js-popup-reference-module', thisInstance.container).val();
+					params.search_value = searchValue;
+					params.module = thisInstance.getField().data('module');
+					params.action = 'BasicAjax';
+					let sourceRecordElement = $('input[name="record"]', formElement);
+					if (sourceRecordElement.length > 0 && sourceRecordElement.val()) {
+						params.src_record = sourceRecordElement.val();
+					}
+					AppConnector.request(params)
+						.done(function (data) {
+							let responseDataList = [];
+							let serverDataFormat = data.result;
+							if (serverDataFormat.length <= 0) {
+								$(inputElement).val('');
+								serverDataFormat = new Array({
+									label: app.vtranslate('JS_NO_RESULTS_FOUND'),
+									type: 'no results'
+								});
+							}
+							for (let id in serverDataFormat) {
+								let responseData = serverDataFormat[id];
+								responseDataList.push(responseData);
+							}
+							response(responseDataList);
+						})
+						.fail(function (error, err) {
+							app.errorLog(error, err);
+						});
+				},
+				select: function (event, ui) {
+					if (typeof ui.item.type !== 'undefined' && ui.item.type == 'no results') {
+						return false;
+					}
+					let selectedItemData = [];
+					selectedItemData[ui.item.id] = ui.item.value;
+					thisInstance.setReferenceFieldValue(selectedItemData);
+				},
+				change: function (event, ui) {
+					let element = $(this);
+					if (element.attr('readonly') == undefined) {
+						thisInstance.clear();
+					}
+				},
+				open: function (event, ui) {
+					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
+				}
+			});
 		}
 		/**
 		 * Set reference field value
