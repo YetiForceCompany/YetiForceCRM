@@ -84,7 +84,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		switch (\App\Fields\Owner::getType($value)) {
 			case 'Users':
 				if (!\App\User::isExists($value, false)) {
-					$ownerName = '<span class="text-muted"><s>' . $ownerName ?: '---' . '</s></span>';
+					$ownerName = '<span class="text-muted"><s>' . ($ownerName ?: '---') . '</s></span>';
 				} else {
 					$userModel = Users_Privileges_Model::getInstanceById($value);
 					$userModel->setModule('Users');
