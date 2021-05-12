@@ -1195,7 +1195,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function getQueryForRecords(string $searchValue, int $limit, int $srcRecord = null): App\QueryGenerator
 	{
 		$queryGenerator = \App\RecordSearch::getQueryByModule($searchValue, $this->getName(), $limit);
-		if ($srcRecord) {
+		if ($srcRecord && \App\Record::getType($srcRecord) === $this->getName()) {
 			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
 		return $queryGenerator;
