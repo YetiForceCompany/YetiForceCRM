@@ -46,7 +46,7 @@ class Record extends \Api\ManageConsents\BaseAction
 	 * @return array
 	 *
 	 * @OA\POST(
-	 *		path="/webservice/ApprovalsRegister/Record",
+	 *		path="/webservice/ManageConsents/ApprovalsRegister/Record",
 	 *		summary="Adds an consent entry",
 	 *		tags={"Consents"},
 	 *    security={

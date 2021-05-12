@@ -46,7 +46,7 @@ class Pdf extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/{moduleName}/Pdf/{recordId}",
+	 *		path="/webservice/Portal/{moduleName}/Pdf/{recordId}",
 	 *		summary="Generate PDF",
 	 *		tags={"BaseModule"},
 	 *		security={

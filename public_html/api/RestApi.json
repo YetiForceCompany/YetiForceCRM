@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "YetiForce API for Webservice App. Type: Portal",
-        "description": "Skip the `/webservice` fragment for connections via ApiProxy. There are two ways to connect to API, with or without rewrite, below are examples of both:\n * rewrite\n * - __CRM_URL__/webservice/Portal/Users/Login\n * - __CRM_URL__/webservice/Portal/Accounts/RecordRelatedList/117/Contacts\n * without rewrite\n * - __CRM_URL__/webservice.php?_container=Portal&module=Users&action=Login\n * - __CRM_URL__/webservice.php?_container=Portal&module=Accounts&action=RecordRelatedList&record=117&param=Contacts",
+        "title": "YetiForce API for Webservice App. Type: RestApi",
+        "description": "Skip the `/webservice` fragment for connections via ApiProxy. There are two ways to connect to API, with or without rewrite, below are examples of both:\n * rewrite\n * - __CRM_URL__/webservice/RestApi/Users/Login\n * - __CRM_URL__/webservice/RestApi/Accounts/RecordRelatedList/117/Contacts\n * without rewrite\n * - __CRM_URL__/webservice.php?_container=RestApi&module=Users&action=Login\n * - __CRM_URL__/webservice.php?_container=RestApi&module=Accounts&action=RecordRelatedList&record=117&param=Contacts",
         "termsOfService": "https://yetiforce.com/",
         "contact": {
             "name": "Devs API Team",
@@ -16,13 +16,13 @@
         "version": "0.2"
     },
     "paths": {
-        "/webservice/Portal/Files": {
+        "/webservice/RestApi/Files": {
             "put": {
                 "tags": [
                     "BaseAction"
                 ],
                 "summary": "Download files from the system",
-                "operationId": "Api\\Portal\\BaseAction\\Files::put",
+                "operationId": "Api\\RestApi\\BaseAction\\Files::put",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -131,106 +131,13 @@
                 ]
             }
         },
-        "/webservice/Portal/Install": {
-            "put": {
-                "tags": [
-                    "BaseAction"
-                ],
-                "summary": "Install the system",
-                "operationId": "Api\\Portal\\BaseAction\\Install::put",
-                "parameters": [
-                    {
-                        "name": "X-ENCRYPTED",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Base action install request body",
-                    "required": false
-                },
-                "responses": {
-                    "200": {
-                        "description": "Base action details",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Install_ResponseBody"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Install_ResponseBody"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "basicAuth": "",
-                        "ApiKeyAuth": ""
-                    }
-                ]
-            }
-        },
-        "/webservice/Portal/Menu": {
-            "get": {
-                "tags": [
-                    "BaseAction"
-                ],
-                "summary": "Get menu into the system",
-                "operationId": "Api\\Portal\\BaseAction\\Menu::get",
-                "parameters": [
-                    {
-                        "name": "X-ENCRYPTED",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
-                "responses": {
-                    "200": {
-                        "description": "Menu details",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Menu_ResponseBody"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Menu_ResponseBody"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
-                    }
-                ]
-            }
-        },
-        "/webservice/Portal/Modules": {
+        "/webservice/RestApi/Modules": {
             "get": {
                 "tags": [
                     "BaseAction"
                 ],
                 "summary": "Get the permitted module list action, along with their translated action",
-                "operationId": "Api\\Portal\\BaseAction\\Modules::get",
+                "operationId": "Api\\RestApi\\BaseAction\\Modules::get",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -301,71 +208,13 @@
                 ]
             }
         },
-        "/webservice/Portal/{moduleName}/Dashboard": {
-            "get": {
-                "tags": [
-                    "BaseModule"
-                ],
-                "summary": "Get dashboard widgets",
-                "description": "Supported widget types: Mini List , Chart Filter",
-                "operationId": "Api\\Portal\\BaseModule\\Dashboard::get",
-                "parameters": [
-                    {
-                        "name": "moduleName",
-                        "in": "path",
-                        "description": "Module name",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Contacts"
-                    },
-                    {
-                        "name": "X-ENCRYPTED",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
-                "responses": {
-                    "200": {
-                        "description": "Privileges details",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Dashboard_ResponseBody"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Dashboard_ResponseBody"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
-                    }
-                ]
-            }
-        },
-        "/webservice/Portal/{moduleName}/Fields": {
+        "/webservice/RestApi/{moduleName}/Fields": {
             "get": {
                 "tags": [
                     "BaseModule"
                 ],
                 "summary": "Get data about fields, blocks and inventory",
-                "operationId": "Api\\Portal\\BaseModule\\Fields::get",
+                "operationId": "Api\\RestApi\\BaseModule\\Fields::get",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -416,324 +265,13 @@
                 ]
             }
         },
-        "/webservice/Portal/{moduleName}/Hierarchy": {
-            "get": {
-                "tags": [
-                    "BaseModule"
-                ],
-                "summary": "Get records hierarchy",
-                "operationId": "Api\\Portal\\BaseModule\\Hierarchy::get",
-                "parameters": [
-                    {
-                        "name": "moduleName",
-                        "in": "path",
-                        "description": "Module name",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Accounts"
-                    },
-                    {
-                        "name": "X-ENCRYPTED",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
-                "responses": {
-                    "200": {
-                        "description": "Records hierarchy details",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Hierarchy_ResponseBody"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Hierarchy_ResponseBody"
-                                }
-                            }
-                        }
-                    },
-                    "405": {
-                        "description": "No hierarchy OR Not available for this type of user",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
-                    }
-                ]
-            }
-        },
-        "/webservice/Portal/{moduleName}/Pdf/{recordId}": {
-            "get": {
-                "tags": [
-                    "BaseModule"
-                ],
-                "summary": "Generate PDF",
-                "operationId": "Api\\Portal\\BaseModule\\Pdf::get",
-                "parameters": [
-                    {
-                        "name": "moduleName",
-                        "in": "path",
-                        "description": "Module name",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Accounts"
-                    },
-                    {
-                        "name": "recordId",
-                        "in": "path",
-                        "description": "Record id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 116
-                    },
-                    {
-                        "name": "templates",
-                        "in": "query",
-                        "description": "Pdf templates ids",
-                        "required": true,
-                        "style": "form",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "description": "Pdf templates ids",
-                                    "type": "int"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "name": "X-ENCRYPTED",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
-                "responses": {
-                    "200": {
-                        "description": "Generate PDF",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Pdf_ResponseBody"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Pdf_ResponseBody"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "No permissions to view record",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No record id",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            }
-                        }
-                    },
-                    "405": {
-                        "description": "No permissions for action ExportPdf in {moduleName} module",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
-                    }
-                ]
-            }
-        },
-        "/webservice/Portal/{moduleName}/PdfTemplates/{recordId}": {
-            "get": {
-                "tags": [
-                    "BaseModule"
-                ],
-                "summary": "Get PDF templates list",
-                "operationId": "Api\\Portal\\BaseModule\\PdfTemplates::get",
-                "parameters": [
-                    {
-                        "name": "moduleName",
-                        "in": "path",
-                        "description": "Module name",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Accounts"
-                    },
-                    {
-                        "name": "recordId",
-                        "in": "path",
-                        "description": "Record id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 116
-                    },
-                    {
-                        "name": "X-ENCRYPTED",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
-                "responses": {
-                    "200": {
-                        "description": "Get PDF templates list",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_PdfTemplates_ResponseBody"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_PdfTemplates_ResponseBody"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "No permissions to view record",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No record id",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            }
-                        }
-                    },
-                    "405": {
-                        "description": "No permissions for action ExportPdf in {moduleName} module",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
-                    }
-                ]
-            }
-        },
-        "/webservice/Portal/{moduleName}/Privileges": {
+        "/webservice/RestApi/{moduleName}/Privileges": {
             "get": {
                 "tags": [
                     "BaseModule"
                 ],
                 "summary": "Get privileges for module",
-                "operationId": "Api\\Portal\\BaseModule\\Privileges::get",
+                "operationId": "Api\\RestApi\\BaseModule\\Privileges::get",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -784,7 +322,7 @@
                 ]
             }
         },
-        "/webservice/Portal/{moduleName}/Record/{recordId}": {
+        "/webservice/RestApi/{moduleName}/Record/{recordId}": {
             "get": {
                 "tags": [
                     "BaseModule"
@@ -908,7 +446,7 @@
                     "BaseModule"
                 ],
                 "summary": "Edit record",
-                "operationId": "Api\\Portal\\BaseModule\\Record::put",
+                "operationId": "Api\\RestApi\\BaseModule\\Record::put",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -990,7 +528,7 @@
                     "BaseModule"
                 ],
                 "summary": "Delete record (move to the trash)",
-                "operationId": "Api\\Portal\\BaseModule\\Record::delete",
+                "operationId": "Api\\RestApi\\BaseModule\\Record::delete",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1051,13 +589,13 @@
                 ]
             }
         },
-        "/webservice/Portal/{moduleName}/Record": {
+        "/webservice/RestApi/{moduleName}/Record": {
             "post": {
                 "tags": [
                     "BaseModule"
                 ],
                 "summary": "Create record",
-                "operationId": "Api\\Portal\\BaseModule\\Record::post",
+                "operationId": "Api\\RestApi\\BaseModule\\Record::post",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1125,13 +663,13 @@
                 ]
             }
         },
-        "/webservice/Portal/{moduleName}/RecordHistory/{recordId}": {
+        "/webservice/RestApi/{moduleName}/RecordHistory/{recordId}": {
             "get": {
                 "tags": [
                     "BaseModule"
                 ],
                 "summary": "Get record history",
-                "operationId": "Api\\Portal\\BaseModule\\RecordHistory::get",
+                "operationId": "Api\\RestApi\\BaseModule\\RecordHistory::get",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1266,13 +804,13 @@
                 ]
             }
         },
-        "/webservice/Portal/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}": {
+        "/webservice/RestApi/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}": {
             "get": {
                 "tags": [
                     "BaseModule"
                 ],
                 "summary": "Get the related list of records",
-                "operationId": "Api\\Portal\\BaseModule\\RecordRelatedList::get",
+                "operationId": "Api\\RestApi\\BaseModule\\RecordRelatedList::get",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1502,13 +1040,13 @@
                 ]
             }
         },
-        "/webservice/Portal/{moduleName}/RecordsList": {
+        "/webservice/RestApi/{moduleName}/RecordsList": {
             "get": {
                 "tags": [
                     "BaseModule"
                 ],
                 "summary": "Get the list of records",
-                "operationId": "Api\\Portal\\BaseModule\\RecordsList::get",
+                "operationId": "Api\\RestApi\\BaseModule\\RecordsList::get",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1732,237 +1270,13 @@
                 ]
             }
         },
-        "/webservice/Portal/{moduleName}/SaveInventory": {
-            "post": {
-                "tags": [
-                    "BaseModule"
-                ],
-                "summary": "Create inventory record from cart",
-                "operationId": "Api\\Portal\\BaseModule\\SaveInventory::post",
-                "parameters": [
-                    {
-                        "name": "moduleName",
-                        "in": "path",
-                        "description": "Module name",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Accounts"
-                    },
-                    {
-                        "name": "X-ENCRYPTED",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
-                "responses": {
-                    "200": {
-                        "description": "Contents of the response contains only id nd module name",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_SaveInventory_ResponseBody"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_SaveInventory_ResponseBody"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "No permissions to create record",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
-                    }
-                ]
-            }
-        },
-        "/webservice/Portal/Products/Record/{recordId}": {
-            "get": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Get data for the record",
-                "operationId": "getRecord",
-                "parameters": [
-                    {
-                        "name": "recordId",
-                        "in": "path",
-                        "description": "Record id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 116
-                    },
-                    {
-                        "name": "X-ENCRYPTED",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
-                        }
-                    },
-                    {
-                        "name": "x-raw-data",
-                        "in": "header",
-                        "description": "Gets raw data",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        },
-                        "example": 1
-                    },
-                    {
-                        "name": "x-parent-id",
-                        "in": "header",
-                        "description": "Gets parent id",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "x-unit-price",
-                        "in": "header",
-                        "description": "Get additional unit price",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        },
-                        "example": 1
-                    },
-                    {
-                        "name": "x-unit-gross",
-                        "in": "header",
-                        "description": "Get additional unit gross",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        },
-                        "example": 1
-                    },
-                    {
-                        "name": "x-product-bundles",
-                        "in": "header",
-                        "description": "Get additional product bundles",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        },
-                        "example": 1
-                    }
-                ],
-                "requestBody": {
-                    "description": "The content of the request is empty.",
-                    "required": false
-                },
-                "responses": {
-                    "200": {
-                        "description": "Gets data for the record",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Products_Get_Record_Response"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Products_Get_Record_Response"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "No permissions to remove record OR No permissions to view record OR No permissions to edit record",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No record id OR Record doesn't exist",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Exception"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
-                    }
-                ]
-            }
-        },
-        "/webservice/Portal/Users/Login": {
+        "/webservice/RestApi/Users/Login": {
             "post": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Logs user into the system",
-                "operationId": "Api\\Portal\\Users\\Login::post",
+                "operationId": "Api\\RestApi\\Users\\Login::post",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -2049,13 +1363,13 @@
                 ]
             }
         },
-        "/webservice/Portal/Users/Logout": {
+        "/webservice/RestApi/Users/Logout": {
             "put": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Logout user out the system",
-                "operationId": "Api\\Portal\\Users\\Logout::put",
+                "operationId": "Api\\RestApi\\Users\\Logout::put",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -2096,13 +1410,13 @@
                 ]
             }
         },
-        "/webservice/Portal/Users/Record/{userId}": {
+        "/webservice/RestApi/Users/Record/{userId}": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get data for the user",
-                "operationId": "Api\\Portal\\Users\\Record::get",
+                "operationId": "Api\\RestApi\\Users\\Record::get",
                 "parameters": [
                     {
                         "name": "userId",
@@ -2197,13 +1511,13 @@
                 ]
             }
         },
-        "/webservice/Portal/Users/RecordsList": {
+        "/webservice/RestApi/Users/RecordsList": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get the list of users",
-                "operationId": "Api\\Portal\\Users\\RecordsList::get",
+                "operationId": "Api\\RestApi\\Users\\RecordsList::get",
                 "parameters": [
                     {
                         "name": "x-raw-data",
@@ -2447,128 +1761,6 @@
                 },
                 "type": "object"
             },
-            "BaseAction_Install_ResponseBody": {
-                "title": "Base action - Install",
-                "description": "The representation of a base action install",
-                "properties": {
-                    "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "type": "integer",
-                        "enum": [
-                            "0",
-                            "1"
-                        ]
-                    },
-                    "result": {
-                        "description": "Content of responses from a given method",
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "BaseAction_Menu_ResponseBody": {
-                "title": "Base action - Menu",
-                "description": "Base action menu response body",
-                "properties": {
-                    "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "type": "integer",
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "example": 1
-                    },
-                    "result": {
-                        "description": "Menu items selected in the system, consists of parents and children",
-                        "properties": {
-                            "items": {
-                                "title": "Parent parameters",
-                                "description": "Get method.",
-                                "type": "object",
-                                "additionalProperties": {
-                                    "description": "Tree item",
-                                    "properties": {
-                                        "id": {
-                                            "description": "Get method.",
-                                            "type": "integer",
-                                            "example": 171
-                                        },
-                                        "tabid": {
-                                            "description": "Get method.",
-                                            "type": "integer",
-                                            "example": 3
-                                        },
-                                        "mod": {
-                                            "description": "Get method.",
-                                            "type": "string",
-                                            "example": "Accounts"
-                                        },
-                                        "name": {
-                                            "description": "Get method.",
-                                            "type": "string",
-                                            "example": "Accounts"
-                                        },
-                                        "type": {
-                                            "description": "Get method.",
-                                            "type": "string",
-                                            "example": "Module"
-                                        },
-                                        "sequence": {
-                                            "description": "Get method.",
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "newwindow": {
-                                            "description": "Get method.",
-                                            "type": "integer",
-                                            "example": 0
-                                        },
-                                        "dataurl": {
-                                            "description": "Get method.",
-                                            "type": "string",
-                                            "example": "index.php?module=Module&view=List&mid=172"
-                                        },
-                                        "icon": {
-                                            "description": "Get method.",
-                                            "type": "string",
-                                            "example": "dminIcon-shared-owner"
-                                        },
-                                        "parent": {
-                                            "description": "Get method.",
-                                            "type": "integer",
-                                            "example": 0
-                                        },
-                                        "hotkey": {
-                                            "description": "Get method.",
-                                            "type": "string",
-                                            "example": "ctrl+k"
-                                        },
-                                        "filters": {
-                                            "description": "Get method.",
-                                            "type": "string",
-                                            "example": "4,130"
-                                        },
-                                        "childs": {
-                                            "title": "Children parameters",
-                                            "description": "Get method.",
-                                            "type": "object"
-                                        },
-                                        "label": {
-                                            "description": "Get method.",
-                                            "type": "string",
-                                            "example": "My home page"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        },
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
             "BaseAction_Modules_ResponseBody": {
                 "title": "Base action - List of permitted modules",
                 "description": "List of available modules",
@@ -2590,74 +1782,6 @@
                             "type": "string",
                             "example": "Accounts"
                         }
-                    }
-                },
-                "type": "object"
-            },
-            "BaseAction_Dashboard_ResponseBody": {
-                "title": "Base module - Dashboard response schema",
-                "properties": {
-                    "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "type": "integer",
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "example": 1
-                    },
-                    "result": {
-                        "description": "Tabs and widgets data",
-                        "properties": {
-                            "types": {
-                                "title": "Tabs list",
-                                "description": "Get widgets.",
-                                "type": "object",
-                                "additionalProperties": {
-                                    "description": "Tab menu item",
-                                    "properties": {
-                                        "name": {
-                                            "description": "Get widgets.",
-                                            "type": "string",
-                                            "example": "Dashboard"
-                                        },
-                                        "id": {
-                                            "description": "Get widgets.",
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "system": {
-                                            "description": "Get widgets.",
-                                            "type": "integer",
-                                            "example": 1
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            },
-                            "widgets": {
-                                "title": "Tabs list",
-                                "description": "Get widgets.",
-                                "type": "object",
-                                "additionalProperties": {
-                                    "description": "Tree item",
-                                    "properties": {
-                                        "type": {
-                                            "description": "Get widgets.",
-                                            "type": "string",
-                                            "example": "ChartFilter"
-                                        },
-                                        "data": {
-                                            "title": "Widget data",
-                                            "description": "Get widgets.",
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        },
-                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -3025,126 +2149,6 @@
                             }
                         },
                         "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "BaseAction_Hierarchy_ResponseBody": {
-                "title": "Base module - Hierarchy response schema",
-                "properties": {
-                    "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "type": "integer",
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "example": 1
-                    },
-                    "result": {
-                        "description": "Records",
-                        "type": "object",
-                        "additionalProperties": {
-                            "description": "Record details",
-                            "properties": {
-                                "id": {
-                                    "description": "Get records hierarchy.",
-                                    "type": "integer",
-                                    "example": 117
-                                },
-                                "parent": {
-                                    "description": "Get records hierarchy.",
-                                    "type": "integer",
-                                    "example": 0
-                                },
-                                "name": {
-                                    "description": "Get records hierarchy.",
-                                    "type": "string",
-                                    "example": "YetiForce Sp. z o.o."
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "type": "object"
-            },
-            "BaseAction_Pdf_ResponseBody": {
-                "title": "Base module - Generate PDF response schema",
-                "properties": {
-                    "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "type": "integer",
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "example": 1
-                    },
-                    "result": {
-                        "description": "Pdf",
-                        "type": "object",
-                        "additionalProperties": {
-                            "description": "Pdf detail",
-                            "properties": {
-                                "name": {
-                                    "description": "Get method - Generate PDF.",
-                                    "type": "string",
-                                    "example": "order.pdf"
-                                },
-                                "data": {
-                                    "description": "Get method - Generate PDF.",
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "type": "object"
-            },
-            "BaseAction_PdfTemplates_ResponseBody": {
-                "title": "Base module - Get PDF templates list response schema",
-                "properties": {
-                    "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "type": "integer",
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "example": 1
-                    },
-                    "result": {
-                        "description": "Pdf templates",
-                        "type": "object",
-                        "additionalProperties": {
-                            "description": "Pdf template detail",
-                            "properties": {
-                                "id": {
-                                    "description": "Record Id",
-                                    "type": "integer",
-                                    "example": 38
-                                },
-                                "name": {
-                                    "description": "Get method - Get PDF templates list.",
-                                    "type": "string",
-                                    "example": "order"
-                                },
-                                "second_name": {
-                                    "description": "Get method - Get PDF templates list.",
-                                    "type": "string",
-                                    "example": "order"
-                                },
-                                "default": {
-                                    "description": "Get method - Get PDF templates list.",
-                                    "type": "integer",
-                                    "example": null
-                                }
-                            },
-                            "type": "object"
-                        }
                     }
                 },
                 "type": "object"
@@ -3574,158 +2578,6 @@
                 },
                 "type": "object"
             },
-            "BaseAction_SaveInventory_ResponseBody": {
-                "title": "Base module - Create inventory record response schema",
-                "properties": {
-                    "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "type": "integer",
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "example": 1
-                    },
-                    "result": {
-                        "description": "Create result",
-                        "type": "object",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/BaseAction_SaveInventory_ResponseBodySuccess"
-                            },
-                            {
-                                "$ref": "#/components/schemas/BaseAction_SaveInventory_ResponseBodyError"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "BaseAction_SaveInventory_ResponseBodySuccess": {
-                "title": "Base module - Create inventory record response success schema",
-                "properties": {
-                    "id": {
-                        "description": "Record Id",
-                        "type": "integer",
-                        "example": 38
-                    },
-                    "moduleName": {
-                        "description": "Create inventory record.",
-                        "type": "string",
-                        "example": "SSingleOrders"
-                    }
-                },
-                "type": "object"
-            },
-            "BaseAction_SaveInventory_ResponseBodyError": {
-                "title": "Base module - Create inventory record response error schema",
-                "properties": {
-                    "errors": {
-                        "description": "Error details",
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "Products_Get_Record_Response": {
-                "title": "Base module - Response body for Record",
-                "properties": {
-                    "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "type": "integer",
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "example": 1
-                    },
-                    "result": {
-                        "description": "Record data",
-                        "properties": {
-                            "name": {
-                                "description": "Record name",
-                                "type": "string",
-                                "example": "Driving school"
-                            },
-                            "id": {
-                                "description": "Record Id",
-                                "type": "integer",
-                                "example": 152
-                            },
-                            "fields": {
-                                "description": "System field names and field labels",
-                                "type": "object",
-                                "additionalProperties": {
-                                    "description": "Field label",
-                                    "type": "bool",
-                                    "example": "Account name"
-                                }
-                            },
-                            "data": {
-                                "$ref": "#/components/schemas/Record_Display_Details"
-                            },
-                            "privileges": {
-                                "description": "Parameters determining checking of editing rights and moving to the trash",
-                                "properties": {
-                                    "isEditable": {
-                                        "description": "Check if record is editable",
-                                        "type": "boolean",
-                                        "example": true
-                                    },
-                                    "moveToTrash": {
-                                        "description": "Permission to delete",
-                                        "type": "boolean",
-                                        "example": false
-                                    }
-                                },
-                                "type": "object"
-                            },
-                            "rawData": {
-                                "$ref": "#/components/schemas/Record_Raw_Details"
-                            },
-                            "productBundles": {
-                                "description": "Product bundles",
-                                "type": "object",
-                                "additionalProperties": {
-                                    "description": "Product",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/Record_Raw_Details"
-                                        },
-                                        "rawData": {
-                                            "$ref": "#/components/schemas/Record_Raw_Details"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            },
-                            "ext": {
-                                "description": "Product bundles",
-                                "properties": {
-                                    "unit_price": {
-                                        "description": "Unit price",
-                                        "type": "integer",
-                                        "example": 44
-                                    },
-                                    "unit_gross": {
-                                        "description": "Unit gross",
-                                        "type": "integer",
-                                        "example": 55
-                                    },
-                                    "qtyinstock": {
-                                        "description": "Qty In Stock",
-                                        "type": "integer",
-                                        "example": 66
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        },
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
             "X-ENCRYPTED": {
                 "description": "Is the content request is encrypted",
                 "type": "string",
@@ -3787,11 +2639,6 @@
                                 "description": "Post method.",
                                 "type": "string"
                             },
-                            "parentName": {
-                                "description": "Post method.",
-                                "type": "string",
-                                "example": "YetiForce Company"
-                            },
                             "lastLoginTime": {
                                 "description": "Post method.",
                                 "type": "string",
@@ -3813,30 +2660,6 @@
                                 "description": "Post method.",
                                 "type": "integer"
                             },
-                            "companyId": {
-                                "description": "Post method.",
-                                "type": "integer"
-                            },
-                            "companyDetails": {
-                                "title": "Company details, optional parameter depending on the user type",
-                                "description": "Post method.",
-                                "properties": {
-                                    "check_stock_levels": {
-                                        "description": "Post method.",
-                                        "type": "boolean"
-                                    },
-                                    "sum_open_orders": {
-                                        "description": "Post method.",
-                                        "type": "number",
-                                        "format": "double"
-                                    },
-                                    "creditlimit": {
-                                        "description": "Post method.",
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": "object"
-                            },
                             "logged": {
                                 "description": "Post method.",
                                 "type": "boolean"
@@ -3844,11 +2667,6 @@
                             "preferences": {
                                 "description": "Post method.",
                                 "properties": {
-                                    "activity_view": {
-                                        "description": "Post method.",
-                                        "type": "string",
-                                        "example": "This Month"
-                                    },
                                     "hour_format": {
                                         "description": "Post method.",
                                         "type": "string",
@@ -3868,16 +2686,6 @@
                                         "description": "Post method.",
                                         "type": "string",
                                         "example": "yyyy-mm-dd"
-                                    },
-                                    "date_format_js": {
-                                        "description": "Post method.",
-                                        "type": "string",
-                                        "example": "Y-m-d"
-                                    },
-                                    "dayoftheweek": {
-                                        "description": "Post method.",
-                                        "type": "string",
-                                        "example": "Monday"
                                     },
                                     "time_zone": {
                                         "description": "Post method.",
@@ -3913,11 +2721,6 @@
                                         "description": "Post method.",
                                         "type": "integer",
                                         "example": 2
-                                    },
-                                    "truncate_trailing_zeros": {
-                                        "description": "Post method.",
-                                        "type": "integer",
-                                        "example": 0
                                     },
                                     "currency_name": {
                                         "description": "Post method.",
@@ -3976,7 +2779,7 @@
                             "file": {
                                 "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
                                 "type": "string",
-                                "example": "api\\webservice\\Portal\\BaseAction\\Files.php"
+                                "example": "api\\webservice\\RestApi\\BaseAction\\Files.php"
                             },
                             "line": {
                                 "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
@@ -3986,7 +2789,7 @@
                             "backtrace": {
                                 "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
                                 "type": "string",
-                                "example": "#0 api\\webservice\\Portal\\BaseAction\\Files.php (101) ...."
+                                "example": "#0 api\\webservice\\RestApi\\BaseAction\\Files.php (101) ...."
                             }
                         },
                         "type": "object"
@@ -4155,16 +2958,8 @@
     },
     "tags": [
         {
-            "name": "BaseAction",
-            "description": "Access to user methods"
-        },
-        {
             "name": "BaseModule",
             "description": "Access to record methods"
-        },
-        {
-            "name": "Products",
-            "description": "Products methods"
         },
         {
             "name": "Users",

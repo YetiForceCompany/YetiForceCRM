@@ -1,6 +1,6 @@
 <?php
 /**
- * RestApi container - Get user record detail file.
+ * Portal container - Get user record detail file.
  *
  * @package API
  *
@@ -9,47 +9,22 @@
  * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\RestApi\Users;
+namespace Api\Portal\Users;
 
 use OpenApi\Annotations as OA;
 
 /**
- * RestApi container - Get user record detail class.
+ * Portal container - Get user record detail class.
  */
-class Record extends \Api\Core\BaseAction
+class Record extends \Api\RestApi\Users\Record
 {
-	/** {@inheritdoc}  */
-	public $allowedMethod = ['GET'];
-
-	/** @var \Users_Record_Model User record model. */
-	public $recordModel;
-
-	/**
-	 * Check permission to method, access for administrators only.
-	 *
-	 * @throws \Api\Core\Exception
-	 *
-	 * @return bool
-	 */
-	public function checkPermission(): void
-	{
-		parent::checkPermission();
-		if ($this->controller->request->isEmpty('record', true) || !\App\User::isExists($this->controller->request->getInteger('record'), false)) {
-			throw new \Api\Core\Exception('User doesn\'t exist', 404);
-		}
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \Api\Core\Exception('Access denied, access for administrators only', 403);
-		}
-		$this->recordModel = \Users_Record_Model::getInstanceById($this->controller->request->getInteger('record'), 'Users');
-	}
-
 	/**
 	 * Get user detail.
 	 *
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/RestApi/Users/Record/{userId}",
+	 *		path="/webservice/Portal/Users/Record/{userId}",
 	 *		summary="Get data for the user",
 	 *		tags={"Users"},
 	 *		security={
@@ -140,35 +115,6 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function get(): array
 	{
-		$rawData = $this->recordModel->getData();
-		$displayData = $fieldsLabel = [];
-		foreach ($this->recordModel->getModule()->getFields() as $fieldModel) {
-			$uiTypeModel = $fieldModel->getUITypeModel();
-			$value = $this->recordModel->get($fieldModel->getName());
-			$displayData[$fieldModel->getName()] = $uiTypeModel->getApiDisplayValue($value, $this->recordModel);
-			$fieldsLabel[$fieldModel->getName()] = \App\Language::translate($fieldModel->get('label'), 'Users');
-			if ($fieldModel->isReferenceField()) {
-				$referenceModule = $uiTypeModel->getReferenceModule($value);
-				$rawData[$fieldModel->getName() . '_module'] = $referenceModule ? $referenceModule->getName() : null;
-			}
-			if ('taxes' === $fieldModel->getFieldDataType()) {
-				$rawData[$fieldModel->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$fieldModel->getName()]);
-			}
-		}
-		unset($fieldsLabel['user_password'],$fieldsLabel['confirm_password'],$fieldsLabel['accesskey'],$displayData['user_password'],$displayData['confirm_password'],$displayData['accesskey'],$rawData['user_password'],$rawData['confirm_password'],$rawData['accesskey']);
-		$response = [
-			'name' => $this->recordModel->getName(),
-			'id' => $this->recordModel->getId(),
-			'fields' => $fieldsLabel,
-			'data' => $displayData,
-			'privileges' => [
-				'isEditable' => false,
-				'moveToTrash' => false
-			]
-		];
-		if (1 === (int) $this->controller->headers['x-raw-data'] ?? 0) {
-			$response['rawData'] = $rawData;
-		}
-		return $response;
+		return parent::get();
 	}
 }

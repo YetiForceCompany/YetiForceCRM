@@ -31,7 +31,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * @return array
 	 *
 	 * @OA\GET(
-	 *		path="/webservice/Approvals/RecordsList",
+	 *		path="/webservice/ManageConsents/Approvals/RecordsList",
 	 *		summary="Gets the list of consents",
 	 *		tags={"Consents"},
 	 *    security={
@@ -187,6 +187,28 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 				),
 	 * 				@OA\Property(property="isMorePages", description="There are more entries", type="boolean", example="true"),
 	 * 		),
+	 *	),
+	 *	@OA\Schema(
+	 *		schema="Exception",
+	 *		title="Error exception",
+	 *		type="object",
+	 *  	@OA\Property(
+	 * 			property="status",
+	 *			description="0 - error",
+	 * 			enum={0},
+	 *			type="integer",
+	 *			example=0
+	 * 		),
+	 *		@OA\Property(
+	 * 			property="error",
+	 *     	 	description="Error  details",
+	 *    	 	type="object",
+	 *   		@OA\Property(property="message", type="string", example="Invalid method", description="To show more details turn on: config\Debug.php apiShowExceptionMessages = true"),
+	 *   		@OA\Property(property="code", type="integer", example=405),
+	 *   		@OA\Property(property="file", type="string", example="api\webservice\Portal\BaseAction\Files.php", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
+	 *   		@OA\Property(property="line", type="integer", example=101, description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
+	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\Portal\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
+	 *    	),
 	 *	),
 	 */
 	public function get()

@@ -50,7 +50,7 @@ class Hierarchy extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/{moduleName}/Hierarchy",
+	 *		path="/webservice/Portal/{moduleName}/Hierarchy",
 	 *		summary="Get records hierarchy",
 	 *		tags={"BaseModule"},
 	 *		security={

@@ -49,7 +49,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *
 	 * @return array
 	 * @OA\Get(
-	 *		path="/webservice/{moduleName}/RecordHistory/{recordId}",
+	 *		path="/webservice/RestApi/{moduleName}/RecordHistory/{recordId}",
 	 *		summary="Get record history",
 	 *		tags={"BaseModule"},
 	 *		security={

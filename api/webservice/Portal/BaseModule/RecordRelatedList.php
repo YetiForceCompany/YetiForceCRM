@@ -24,7 +24,7 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 * @return array
 	 *
 	 * @OA\GET(
-	 *		path="/webservice/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}",
+	 *		path="/webservice/Portal/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}",
 	 *		summary="Get the related list of records",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -58,6 +58,22 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *			example="Contacts",
 	 *			required=true
 	 *		),
+	 *		@OA\Parameter(
+	 *			name="relationId",
+	 *			in="query",
+	 *			description="Relation id",
+	 *			required=false,
+	 *			@OA\Schema(type="integer"),
+	 *			style="form"
+	 *     ),
+	 *		@OA\Parameter(
+	 *			name="cvId",
+	 *			in="query",
+	 *			description="Custom view id",
+	 *			required=false,
+	 *			@OA\Schema(type="integer"),
+	 *			style="form"
+	 *     ),
 	 *		@OA\Parameter(
 	 *			name="x-raw-data",
 	 *			description="Get rows limit, default: 0",

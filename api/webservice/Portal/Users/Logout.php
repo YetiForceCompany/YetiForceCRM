@@ -1,6 +1,6 @@
 <?php
 /**
- * RestApi container - Users logout action file.
+ * Portal container - Users logout action file.
  *
  * @package API
  *
@@ -9,30 +9,22 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\RestApi\Users;
+namespace Api\Portal\Users;
 
 use OpenApi\Annotations as OA;
 
 /**
- * RestApi container - Users logout action class.
+ * Portal container - Users logout action class.
  */
-class Logout extends \Api\Core\BaseAction
+class Logout extends \Api\RestApi\Users\Logout
 {
-	/** {@inheritdoc}  */
-	public $allowedMethod = ['PUT'];
-
-	/** {@inheritdoc}  */
-	public function checkPermissionToModule(): void
-	{
-	}
-
 	/**
 	 * Put method.
 	 *
 	 * @return bool
 	 *
 	 * @OA\Put(
-	 *		path="/webservice/RestApi/Users/Logout",
+	 *		path="/webservice/Portal/Users/Logout",
 	 *		summary="Logout user out the system",
 	 *		tags={"Users"},
 	 *		security={
@@ -83,15 +75,6 @@ class Logout extends \Api\Core\BaseAction
 	 */
 	public function put(): bool
 	{
-		$db = \App\Db::getInstance('webservice');
-		$db->createCommand()->delete(\Api\Core\Containers::$listTables[$this->controller->app['type']]['session'], [
-			'id' => $this->controller->headers['x-token'],
-		])->execute();
-		$db->createCommand()
-			->update(\Api\Core\Containers::$listTables[$this->controller->app['type']]['user'], [
-				'logout_time' => date('Y-m-d H:i:s'),
-			], ['id' => $this->session->get('id')])
-			->execute();
-		return true;
+		return parent::put();
 	}
 }
