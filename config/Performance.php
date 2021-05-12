@@ -48,7 +48,7 @@ class Performance
 	public static $SEARCH_ROLES_BY_AJAX = false;
 
 	/** Search reference by AJAX. We recommend selecting the "true" value if there are numerous users in the system. */
-	public static $SEARCH_REFERENCE_BY_AJAX = true;
+	public static $SEARCH_REFERENCE_BY_AJAX = false;
 
 	/** Max number of exported records */
 	public static $MAX_NUMBER_EXPORT_RECORDS = 500;
