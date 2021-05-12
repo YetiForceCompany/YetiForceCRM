@@ -20,6 +20,12 @@ class RecordSearch
 	/** @var string Table name for labels */
 	public const LABEL_TABLE_NAME = 'u_#__crmentity_label';
 
+	/** @var int Search mode for labels */
+	public const LABEL_MODE = 0;
+
+	/** @var int Search mode for search engines */
+	public const SEARCH_MODE = 1;
+
 	/**
 	 * Operators.
 	 */
@@ -36,7 +42,7 @@ class RecordSearch
 	public $limit;
 	public $userId;
 	public $entityName = true;
-	public $table = 'searchLabel'; //searchLabel, label
+	public $table = self::SEARCH_MODE;
 	public $operator = 'Contain';
 
 	public $checkPermissions = true;
@@ -57,6 +63,19 @@ class RecordSearch
 		}
 		$this->limit = (int) $limit;
 		$this->userId = \App\User::getCurrentUserId();
+	}
+
+	/**
+	 * Set search mode.
+	 *
+	 * @param int $mode
+	 *
+	 * @return self
+	 */
+	public function setMode(int $mode): self
+	{
+		$this->table = $mode;
+		return $this;
 	}
 
 	/**
@@ -81,9 +100,9 @@ class RecordSearch
 	public function getQuery()
 	{
 		switch ($this->table) {
-			case 'searchLabel':
+			case self::SEARCH_MODE:
 				return $this->getSearchLabelQuery();
-			case 'label':
+			case self::LABEL_MODE:
 				return $this->getLabelQuery();
 			default:
 				return false;
@@ -195,17 +214,18 @@ class RecordSearch
 	 */
 	public function getLabelQuery(): Db\Query
 	{
-		$query = (new \App\Db\Query())->select(['cl.crmid', 'cl.label'])
+		$query = (new \App\Db\Query())->select(['cl.crmid', 'cl.label', 'vtiger_crmentity.setype'])
 			->from('u_#__crmentity_label cl')->innerJoin('vtiger_crmentity', 'cl.crmid = vtiger_crmentity.crmid');
+		$where = ['and'];
 		if ($this->moduleName) {
 			$where[] = ['vtiger_crmentity.setype' => $this->moduleName];
 		}
 		switch ($this->operator) {
 			case 'Begin':
-				$where[] = ['like', 'cl.label', "$this->searchValue%", false];
+				$where[] = ['like', 'cl.label', "{$this->searchValue}%", false];
 				break;
 			case 'End':
-				$where[] = ['like', 'cl.label', "%$this->searchValue", false];
+				$where[] = ['like', 'cl.label', "%{$this->searchValue}", false];
 				break;
 			default:
 			case 'Contain':
@@ -305,12 +325,18 @@ class RecordSearch
 	/**
 	 * Function to get the list of all searchable modules.
 	 *
+	 * @param int|null $userId
+	 *
 	 * @return Vtiger_Module_Model[] List of Vtiger_Module_Model instances
 	 */
-	public static function getSearchableModules(): array
+	public static function getSearchableModules(int $userId = null): array
 	{
+		$userId = $userId ?: \App\User::getCurrentUserId();
+		if (Cache::staticHas('getSearchableModules', $userId)) {
+			return Cache::staticGet('getSearchableModules', $userId);
+		}
 		$searchableModules = [];
-		$userPrivModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivModel = \Users_Privileges_Model::getInstanceById($userId);
 		$dataReader = (new \App\Db\Query())->select(['vtiger_tab.name'])->from('vtiger_entityname')
 			->innerJoin('vtiger_tab', 'vtiger_tab.tabid=vtiger_entityname.tabid')
 			->where(['vtiger_tab.presence' => 0, 'turn_off' => 1])
@@ -320,6 +346,7 @@ class RecordSearch
 				$searchableModules[$moduleName] = \Vtiger_Module_Model::getInstance($moduleName);
 			}
 		}
+		Cache::staticSave('getSearchableModules', $userId, $searchableModules);
 		return $searchableModules;
 	}
 }

@@ -5999,7 +5999,7 @@ CREATE TABLE `vtiger_entityname` (
   `entityidfield` varchar(30) NOT NULL,
   `entityidcolumn` varchar(30) NOT NULL,
   `searchcolumn` varchar(150) NOT NULL,
-  `turn_off` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `turn_off` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `sequence` smallint(3) unsigned NOT NULL DEFAULT 0,
   `separator` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`tabid`),

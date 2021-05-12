@@ -170,36 +170,35 @@ class Record
 	/**
 	 * Update record label.
 	 *
-	 * @param string      $moduleName
-	 * @param int         $id
-	 * @param bool        $insertMode
-	 * @param string|null $updater
+	 * @param string $moduleName
+	 * @param int    $id
 	 *
 	 * @return void
 	 */
-	public static function updateLabel(string $moduleName, int $id, bool $insertMode = false, ?string $updater = null): void
+	public static function updateLabel(string $moduleName, int $id): void
 	{
-		$metaInfo = static::computeLabels($moduleName, $id, true);
 		$dbCommand = \App\Db::getInstance()->createCommand();
+		$labelTableName = \App\RecordSearch::LABEL_TABLE_NAME;
+		$searchTableName = \App\RecordSearch::SEARCH_TABLE_NAME;
+
+		$metaInfo = static::computeLabels($moduleName, $id, true);
 		if (!$metaInfo) {
-			$dbCommand->delete('u_#__crmentity_label', ['crmid' => $id])->execute();
-			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $id])->execute();
+			$dbCommand->delete($labelTableName, ['crmid' => $id])->execute();
+			$dbCommand->delete($searchTableName, ['crmid' => $id])->execute();
 		} else {
 			$label = $metaInfo[$id]['name'];
-			$search = $metaInfo[$id]['search'];
-			if (!$insertMode) {
-				if (!($labelRowCount = $dbCommand->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $id])->execute())) {
-					$labelRowCount = (new Db\Query())->from('u_#__crmentity_label')->where(['crmid' => $id])->count();
-				}
-				if (!($searchRowCount = $dbCommand->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $id])->execute())) {
-					$searchRowCount = (new Db\Query())->from('u_#__crmentity_search_label')->where(['crmid' => $id])->count();
-				}
+			if ((new \App\Db\Query())->from($labelTableName)->where(['crmid' => $id])->exists()) {
+				$dbCommand->update($labelTableName, ['label' => $label], ['crmid' => $id])->execute();
+			} else {
+				$dbCommand->insert($labelTableName, ['crmid' => $id, 'label' => $label])->execute();
 			}
-			if (($insertMode || !$labelRowCount) && 'searchlabel' !== $updater) {
-				$dbCommand->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
-			}
-			if (($insertMode || !$searchRowCount) && 'label' !== $updater) {
-				$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'tabid' => \App\Module::getModuleId($moduleName)])->execute();
+			if (isset(\App\RecordSearch::getSearchableModules()[$moduleName])) {
+				$label = $metaInfo[$id]['search'];
+				if ((new \App\Db\Query())->from($searchTableName)->where(['crmid' => $id])->exists()) {
+					$dbCommand->update($searchTableName, ['searchlabel' => $label], ['crmid' => $id])->execute();
+				} else {
+					$dbCommand->insert($searchTableName, ['crmid' => $id, 'searchlabel' => $label, 'tabid' => \App\Module::getModuleId($moduleName)])->execute();
+				}
 			}
 			Cache::save('recordLabel', $id, $metaInfo[$id]['name']);
 		}
@@ -227,19 +226,25 @@ class Record
 				$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 				$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 			}
-			$labelSearch = [];
-			foreach ($metaInfo['searchcolumnArr'] as $columnName) {
-				$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
-				$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
-			}
 			$label = TextParser::textTruncate(trim(implode($separator, $labelName)), 250, false) ?: '';
-			$search = TextParser::textTruncate(trim(implode($separator, $labelSearch)), 250, false) ?: '';
 			if ($recordModel->isNew()) {
 				$dbCommand->insert('u_#__crmentity_label', ['crmid' => $recordModel->getId(), 'label' => $label])->execute();
-				$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $recordModel->getId(), 'searchlabel' => $search, 'tabid' => $recordModel->getModule()->getId()])->execute();
 			} else {
 				$dbCommand->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $recordModel->getId()])->execute();
-				$dbCommand->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $recordModel->getId()])->execute();
+			}
+
+			if (isset(\App\RecordSearch::getSearchableModules()[$recordModel->getModuleName()])) {
+				$labelSearch = [];
+				foreach ($metaInfo['searchcolumnArr'] as $columnName) {
+					$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
+					$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
+				}
+				$search = TextParser::textTruncate(trim(implode($separator, $labelSearch)), 250, false) ?: '';
+				if ($recordModel->isNew()) {
+					$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $recordModel->getId(), 'searchlabel' => $search, 'tabid' => $recordModel->getModule()->getId()])->execute();
+				} else {
+					$dbCommand->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $recordModel->getId()])->execute();
+				}
 			}
 		}
 		$recordModel->label = \App\Purifier::encodeHtml($label);
