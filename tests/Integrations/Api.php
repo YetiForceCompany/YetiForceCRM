@@ -73,6 +73,9 @@ class Api extends \Tests\Base
 			'Accept' => 'application/json',
 			'timeout' => 60,
 			'connect_timeout' => 60,
+			'headers' => [
+				'x-raw-data' => 1
+			],
 		]));
 	}
 
@@ -196,7 +199,7 @@ class Api extends \Tests\Base
 	 */
 	public function testGetRecord(): void
 	{
-		$request = $this->httpClient->get('Accounts/Record/' . self::$recordId, array_merge(['headers' => ['x-raw-data' => 1]], self::$requestOptions));
+		$request = $this->httpClient->get('Accounts/Record/' . self::$recordId, self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame($response['status'], 1, 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
@@ -210,7 +213,7 @@ class Api extends \Tests\Base
 	 */
 	public function testRecordList(): void
 	{
-		$request = $this->httpClient->get('Accounts/RecordsList', array_merge(['headers' => ['x-raw-data' => 1]], self::$requestOptions));
+		$request = $this->httpClient->get('Accounts/RecordsList', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame($response['status'], 1, 'Accounts/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
