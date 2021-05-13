@@ -8,20 +8,20 @@ if [ "$GUI_MODE" == "true" ]; then
 	echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
 
 	if [ "$INSTALL_MODE" != "PROD" ]; then
-		yarn install --force --modules-folder "./public_html/libraries"
+		yarn install --modules-folder "./public_html/libraries"
 		yarn list
 	else
-		yarn install --force --modules-folder "./public_html/libraries" --production=true --ignore-optional
+		yarn install --modules-folder "./public_html/libraries" --production=true --ignore-optional
 	fi
 
 	echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
 
 	cd public_html/src
 	if [ "$INSTALL_MODE" != "PROD" ]; then
-		yarn install --force
+		yarn install
 		yarn list
 	else
-	yarn install --force --production=true --ignore-optional
+	yarn install --production=true --ignore-optional
 	fi
 	cd ../../
 fi
