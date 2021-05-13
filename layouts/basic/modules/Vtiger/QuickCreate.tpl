@@ -37,7 +37,9 @@
 					{/foreach}
 					{if !empty($SOURCE_RELATED_FIELD)}
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
-							<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue')))}" class="source-related-fields">
+							<div class="d-none fieldValue source-related-fields" data-field="{$FIELD_NAME}">
+								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
+							</div>
 						{/foreach}
 					{/if}
 					<div class="modal-header align-items-center form-row d-flex justify-content-between py-2">
