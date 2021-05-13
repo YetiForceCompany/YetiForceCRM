@@ -250,6 +250,12 @@ class GusClient extends \SoapClient
 			}
 			$responseFromGus = reset($responseFromGus);
 			$prefixName = self::$reportPrefix[$reportName] ?? 'fiz_';
+			if ('fiz_' === $prefixName) {
+				$resultFiz = $this->DanePobierzPelnyRaport(['pRegon' => $response['Regon'], 'pNazwaRaportu' => 'BIR11OsFizycznaDaneOgolne']);
+				$responseFromGusFiz = $this->parseResponse($resultFiz->DanePobierzPelnyRaportResult);
+				$responseFromGusFiz = reset($responseFromGusFiz);
+				$responseFromGus = array_merge($responseFromGus, $responseFromGusFiz);
+			}
 			$response['NumerBudynku'] = $responseFromGus[self::$reportToNumberLocal[$reportName]] ?? '';
 			$response['NumerLokalu'] = $responseFromGus[$prefixName . 'adSiedzNumerLokalu'] ?? '';
 			$response['Krs'] = $responseFromGus[$prefixName . 'numerWrejestrzeEwidencji'] ?? '';
@@ -278,11 +284,6 @@ class GusClient extends \SoapClient
 			$response['DataSkresleniazRegon'] = $responseFromGus[$prefixName . 'dataSkresleniazRegon'] ?? '';
 			if (isset($responseFromGus[$prefixName . 'nip'])) {
 				$response['Nip'] = $responseFromGus[$prefixName . 'nip'];
-			}
-			if ('fiz_' === $prefixName) {
-				$resultFiz = $this->DanePobierzPelnyRaport(['pRegon' => $response['Regon'], 'pNazwaRaportu' => 'BIR11OsFizycznaDaneOgolne']);
-				$responseFromGusFiz = $this->parseResponse($resultFiz->DanePobierzPelnyRaportResult);
-				$response['Nip'] = $responseFromGusFiz[0][$prefixName . 'nip'];
 			}
 			if (\in_array('pkd', $this->params)) {
 				$result = $this->DanePobierzPelnyRaport(['pRegon' => $response['Regon'], 'pNazwaRaportu' => self::$pkdReports[$reportName]]);
