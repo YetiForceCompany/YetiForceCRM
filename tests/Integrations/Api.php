@@ -217,8 +217,8 @@ class Api extends \Tests\Base
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame($response['status'], 1, 'Accounts/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertGreaterThanOrEqual(\count($response['result']['records']), 1);
-		$this->assertGreaterThanOrEqual(\count($response['result']['rawData']), 1);
+		$this->assertGreaterThanOrEqual(1, \count($response['result']['records']));
+		$this->assertGreaterThanOrEqual(1, \count($response['result']['rawData']));
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordsList', 'get', 200);
 	}
 
