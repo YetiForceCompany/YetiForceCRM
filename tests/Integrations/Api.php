@@ -262,18 +262,6 @@ class Api extends \Tests\Base
 	}
 
 	/**
-	 * Testing get Hierarchy.
-	 */
-	public function testGetHierarchy(): void
-	{
-		$request = $this->httpClient->get('Accounts/Hierarchy/', self::$requestOptions);
-		$this->logs = $body = $request->getBody()->getContents();
-		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/Hierarchy/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Hierarchy', 'get', 200);
-	}
-
-	/**
 	 * Testing get PDF.
 	 */
 	public function testGetPdfTemplates(): void
