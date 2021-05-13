@@ -287,21 +287,6 @@ class Api extends \Tests\Base
 	}
 
 	/**
-	 * Testing get api methods.
-	 */
-	public function testGetMethods(): void
-	{
-		$request = $this->httpClient->get('Methods', self::$requestOptions);
-		$this->logs = $body = $request->getBody()->getContents();
-		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['BaseAction']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['BaseModule']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['Users']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Methods', 'get', 200);
-	}
-
-	/**
 	 * Testing get api menu.
 	 */
 	public function testGetMenu(): void
