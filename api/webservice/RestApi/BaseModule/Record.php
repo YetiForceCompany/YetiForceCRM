@@ -202,6 +202,7 @@ class Record extends \Api\Core\BaseAction
 	{
 		$moduleName = $this->controller->request->get('module');
 		$rawData = $this->recordModel->getData();
+		$setRawData = 1 === (int) ($this->controller->headers['x-raw-data'] ?? 0);
 
 		$displayData = $fieldsLabel = [];
 		foreach ($this->recordModel->getModule()->getFields() as $fieldModel) {
@@ -249,13 +250,12 @@ class Record extends \Api\Core\BaseAction
 			}
 			$response['inventory'] = $inventory;
 			$response['summaryInventory'] = $summaryInventory;
-		}
-
-		if (1 === (int) $this->controller->headers['x-raw-data'] ?? 0) {
-			$response['rawData'] = $rawData;
-			if ($rawInventory) {
+			if ($setRawData) {
 				$response['rawInventory'] = $rawInventory;
 			}
+		}
+		if ($setRawData) {
+			$response['rawData'] = $rawData;
 		}
 		return $response;
 	}
