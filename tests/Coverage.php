@@ -17,16 +17,23 @@ namespace Tests;
  */
 class Coverage
 {
-	/** @var self */
-	private static $self;
-	/** @var \SebastianBergmann\CodeCoverage\Filter */
-	private $filter;
 	/** @var string|float */
 	public $startTime;
+
 	/** @var string */
 	public $dir;
+
+	/** @var self */
+	private static $self;
+
+	/** @var \SebastianBergmann\CodeCoverage\Filter */
+	private $filter;
+
 	/** @var \SebastianBergmann\CodeCoverage\CodeCoverage */
 	public $coverage;
+
+	/** @var \SebastianBergmann\CodeCoverage\Driver */
+	public $driver;
 
 	/**
 	 * Get instance and Initialize.
@@ -43,9 +50,9 @@ class Coverage
 			$self->dir = ROOT_DIRECTORY . '/tests/coverages/';
 			$self->name = date('H_i_s') . '_' . md5($_SERVER['REQUEST_URI'] ?? $_SERVER['REQUEST_TIME_FLOAT']) . '_' . \App\Encryption::generatePassword(10);
 			$filter = $self->getFilter();
-			$driver = (new \SebastianBergmann\CodeCoverage\Driver\Selector())->forLineCoverage($filter);
-			self::log('Driver: ' . $driver->nameAndVersion() . ' ');
-			$self->coverage = new \SebastianBergmann\CodeCoverage\CodeCoverage($driver, $filter);
+			$self->driver = (new \SebastianBergmann\CodeCoverage\Driver\Selector())->forLineCoverage($filter);
+			self::log('Driver: ' . $self->driver->nameAndVersion() . ' ');
+			$self->coverage = new \SebastianBergmann\CodeCoverage\CodeCoverage($self->driver, $filter);
 			self::$self = $self;
 		}
 		return self::$self;

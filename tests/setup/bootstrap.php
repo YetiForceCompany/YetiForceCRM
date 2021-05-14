@@ -59,3 +59,5 @@ if ($installDatabase) {
 } else {
 	echo 'Skipped test database install ...' . PHP_EOL;
 }
+$codeCoverage = Tests\Coverage::getInstance();
+self::log('Coverage driver: ' . $codeCoverage->driver->nameAndVersion() . ' ');
