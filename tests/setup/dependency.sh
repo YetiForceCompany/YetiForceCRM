@@ -4,7 +4,7 @@
 #########################################
 if [ "$GUI_MODE" == "true" ]; then
 	yarn --version
-	cd "$(dirname "$0")/../../"
+	cd "$(dirname "$0")/../../" || { echo "Failure"; exit 1; }
 
 	echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
 
@@ -17,7 +17,7 @@ if [ "$GUI_MODE" == "true" ]; then
 
 	echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
 
-	cd public_html/src
+	cd public_html/src || { echo "Failure"; exit 1; }
 	if [ "$INSTALL_MODE" != "PROD" ]; then
 		yarn install
 		yarn list
