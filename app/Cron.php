@@ -89,9 +89,7 @@ class Cron
 	public function __construct()
 	{
 		static::$scriptTimeStart = microtime(true);
-		if (self::$confReportIsActive) {
-			static::generateStatusFile();
-		}
+		static::generateStatusFile();
 		if (self::$shopIsActive) {
 			YetiForce\Shop::generateCache();
 		}
@@ -142,7 +140,10 @@ class Cron
 	 */
 	public static function generateStatusFile()
 	{
-		$all = Utils\ConfReport::getAll();
+		$all = [];
+		if (self::$confReportIsActive) {
+			$all = Utils\ConfReport::getAll();
+		}
 		$all['last_start'] = time();
 		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';', LOCK_EX);
 	}
