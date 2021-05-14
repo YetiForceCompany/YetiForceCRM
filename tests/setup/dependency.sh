@@ -3,32 +3,25 @@
 # Installation dependency
 #########################################
 if [ "$GUI_MODE" == "true" ]; then
+	echo " -----  yarn --version -----"
 	yarn --version
 	cd "$(dirname "$0")/../../" || { echo "Failure"; exit 1; }
 
 	echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
 
-	if [ "$INSTALL_MODE" != "PROD" ]; then
-		yarn install --modules-folder "./public_html/libraries"
-		yarn list
-	else
-		yarn install --modules-folder "./public_html/libraries" --production=true --ignore-optional
-	fi
+	yarn install --modules-folder "./public_html/libraries" --production=true --ignore-optional
 
 	echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
 
 	cd public_html/src || { echo "Failure"; exit 1; }
-	if [ "$INSTALL_MODE" != "PROD" ]; then
-		yarn install
-		yarn list
-	else
 	yarn install --production=true --ignore-optional
-	fi
+
 	cd ../../
 fi
 
+echo " -----  composer --version -----"
+composer --version
 echo " -----  Install composer (mode $INSTALL_MODE) -----"
-composer -V
 if [ "$INSTALL_MODE" != "PROD" ]; then
 	rm -rf composer.json
 	rm -rf composer.lock
