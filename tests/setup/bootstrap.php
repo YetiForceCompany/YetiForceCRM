@@ -64,5 +64,9 @@ if ($installDatabase) {
 \App\Cron::$watchdogIsActive = false;
 \App\Cron::$shopIsActive = false;
 
-$codeCoverage = Tests\Coverage::getInstance();
-echo 'Coverage driver: ' . $codeCoverage->driver->nameAndVersion();
+if (\extension_loaded('pcov') && ini_get('pcov.enabled')) {
+	echo 'Coverage driver: PCOV' . PHP_EOL . phpversion('pcov');
+}
+if (\extension_loaded('xdebug') && ini_get('xdebug.enable')) {
+	echo 'Coverage driver: PCOV' . PHP_EOL . phpversion('xdebug');
+}
