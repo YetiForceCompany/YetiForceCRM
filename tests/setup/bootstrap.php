@@ -59,5 +59,10 @@ if ($installDatabase) {
 } else {
 	echo 'Skipped test database install ...' . PHP_EOL;
 }
+\App\Cron::$confReportIsActive = false;
+\App\Cron::$registerIsActive = false;
+\App\Cron::$watchdogIsActive = false;
+\App\Cron::$shopIsActive = false;
+
 $codeCoverage = Tests\Coverage::getInstance();
 echo 'Coverage driver: ' . $codeCoverage->driver->nameAndVersion();
