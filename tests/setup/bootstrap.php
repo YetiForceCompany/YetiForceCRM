@@ -18,7 +18,7 @@ if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
 }
 
-$installDatabase = getenv('YETI_INSTALLED') ? true : false;
+$installDatabase = getenv('YETI_INSTALLED') ? false: true;
 \App\Process::$requestMode = 'TEST';
 
 //fix phpunit console for windows
