@@ -254,6 +254,9 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	 */
 	private function showLogs(): void
 	{
+		if (!getenv('SHOW_LOGS')) {
+			return;
+		}
 		array_unshift($this->logFiles, '/var/log/php' . getenv('PHP_VER') . '-fpm.log');
 		foreach ($this->logFiles as $file) {
 			if (false === strpos($file, '/var/log')) {
