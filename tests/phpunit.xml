@@ -28,7 +28,7 @@
 		<testsuite name="Settings">
 			<directory suffix=".php">./Settings/</directory>
 		</testsuite>
-		<testsuite name="Apps">
+		<testsuite name="App">
 			<directory suffix=".php">./App/</directory>
 		</testsuite>
 		<testsuite name="Gui">
