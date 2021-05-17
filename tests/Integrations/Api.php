@@ -198,7 +198,7 @@ class Api extends \Tests\Base
 					'net' => 10,
 					'purchase' => 0,
 					'marginp' => 0,
-					'margin' => 0,
+					'margin' => 10,
 					'tax' => 0,
 					'gross' => 0,
 					'comment1' => 0,
