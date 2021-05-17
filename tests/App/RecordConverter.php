@@ -55,6 +55,8 @@ class RecordConverter extends \Tests\Base
 			foreach ($convertInstance->createdRecords as $id) {
 				$this->assertTrue((new \App\Db\Query())->from('u_yf_ssingleorders')->where(['ssingleordersid' => $id])->exists());
 			}
+		} else {
+			$this->markTestSkipped('No squotes');
 		}
 	}
 }
