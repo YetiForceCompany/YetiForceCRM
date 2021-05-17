@@ -83,10 +83,6 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *			required=true,
 	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *		),
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="Request body does not occur",
-	 *		),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Recent activities detail",

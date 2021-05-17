@@ -48,18 +48,6 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty",
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-raw-data",
 	 *			description="Get rows limit, default: 0",

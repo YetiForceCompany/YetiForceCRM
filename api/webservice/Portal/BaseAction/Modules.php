@@ -31,10 +31,6 @@ class Modules extends \Api\RestApi\BaseAction\Modules
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty",
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
