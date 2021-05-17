@@ -25,6 +25,7 @@ class Privileges extends \Api\RestApi\BaseModule\Privileges
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/Privileges",
+	 *		description="Gets the list of actions that the user has access to in the module",
 	 *		summary="Get privileges for module",
 	 *		tags={"BaseModule"},
 	 *		security={

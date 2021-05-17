@@ -24,7 +24,8 @@ class RecordHistory extends \Api\Core\BaseAction
 	 * @return array
 	 * @OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/RecordHistory/{recordId}",
-	 *		summary="Get record history",
+	 *		description="Gets the history of the record",
+	 *		summary="Record history",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}

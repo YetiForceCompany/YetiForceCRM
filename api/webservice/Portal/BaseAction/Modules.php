@@ -26,7 +26,8 @@ class Modules extends \Api\RestApi\BaseAction\Modules
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/Portal/Modules",
-	 *		summary="Get the permitted module list action, along with their translated action",
+	 *		description="Get the permitted module list action, along with their translated action",
+	 *		summary="The allowed actions of the module list",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}

@@ -25,7 +25,8 @@ class Record extends \Api\RestApi\Users\Record
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/Portal/Users/Record/{userId}",
-	 *		summary="Get data for the user",
+	 *		description="Gets details about the user",
+	 *		summary="Data for the user",
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}

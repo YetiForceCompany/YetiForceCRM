@@ -47,7 +47,8 @@ class Files extends \Api\RestApi\BaseAction\Files
 	 *
 	 * @OA\Put(
 	 *		path="/webservice/Portal/Files",
-	 *		summary="Download files from the system",
+	 *		description="Download files from the system",
+	 *		summary="Download files",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}

@@ -21,7 +21,8 @@
                 "tags": [
                     "BaseAction"
                 ],
-                "summary": "Download files from the system",
+                "summary": "Download files",
+                "description": "Download files from the system",
                 "operationId": "Api\\Portal\\BaseAction\\Files::put",
                 "parameters": [
                     {
@@ -237,7 +238,8 @@
                 "tags": [
                     "BaseAction"
                 ],
-                "summary": "Get the permitted module list action, along with their translated action",
+                "summary": "The allowed actions of the module list",
+                "description": "Get the permitted module list action, along with their translated action",
                 "operationId": "Api\\Portal\\BaseAction\\Modules::get",
                 "parameters": [
                     {
@@ -365,6 +367,7 @@
                     "BaseModule"
                 ],
                 "summary": "Get data about fields, blocks and inventory",
+                "description": "Returns information about fields, blocks and inventory based on the selected module",
                 "operationId": "Api\\Portal\\BaseModule\\Fields::get",
                 "parameters": [
                     {
@@ -716,6 +719,7 @@
                     "BaseModule"
                 ],
                 "summary": "Get privileges for module",
+                "description": "Gets the list of actions that the user has access to in the module",
                 "operationId": "Api\\Portal\\BaseModule\\Privileges::get",
                 "parameters": [
                     {
@@ -768,7 +772,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get data for the record",
+                "summary": "Data for the record",
+                "description": "Gets the details of a record",
                 "operationId": "getRecord",
                 "parameters": [
                     {
@@ -883,6 +888,7 @@
                     "BaseModule"
                 ],
                 "summary": "Edit record",
+                "description": "Retrieves data for editing a record",
                 "operationId": "Api\\Portal\\BaseModule\\Record::put",
                 "parameters": [
                     {
@@ -964,7 +970,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Delete record (move to the trash)",
+                "summary": "Delete record",
+                "description": "Changes the state of a record, moving it to the trash",
                 "operationId": "Api\\Portal\\BaseModule\\Record::delete",
                 "parameters": [
                     {
@@ -1028,6 +1035,7 @@
                     "BaseModule"
                 ],
                 "summary": "Create record",
+                "description": "Gets data to save record",
                 "operationId": "Api\\Portal\\BaseModule\\Record::post",
                 "parameters": [
                     {
@@ -1101,7 +1109,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get record history",
+                "summary": "Record history",
+                "description": "Gets the history of the record",
                 "operationId": "Api\\Portal\\BaseModule\\RecordHistory::get",
                 "parameters": [
                     {
@@ -1238,7 +1247,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get the related list of records",
+                "summary": "Related list of records",
+                "description": "Gets a list of related records",
                 "operationId": "Api\\Portal\\BaseModule\\RecordRelatedList::get",
                 "parameters": [
                     {
@@ -1469,7 +1479,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get the list of records",
+                "summary": "List of records",
+                "description": "Gets a list of records",
                 "operationId": "Api\\Portal\\BaseModule\\RecordsList::get",
                 "parameters": [
                     {
@@ -2139,7 +2150,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Logs user into the system",
+                "summary": "Logs user",
+                "description": "Logs user into the system",
                 "operationId": "Api\\Portal\\Users\\Login::post",
                 "parameters": [
                     {
@@ -2232,7 +2244,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Logout user out the system",
+                "summary": "Logout user",
+                "description": "Logout user out the system",
                 "operationId": "Api\\Portal\\Users\\Logout::put",
                 "parameters": [
                     {
@@ -2275,7 +2288,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get data for the user",
+                "summary": "Data for the user",
+                "description": "Gets details about the user",
                 "operationId": "Api\\Portal\\Users\\Record::get",
                 "parameters": [
                     {
@@ -2372,7 +2386,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get the list of users",
+                "summary": "List of users",
+                "description": "Gets a list of all users",
                 "operationId": "Api\\Portal\\Users\\RecordsList::get",
                 "parameters": [
                     {

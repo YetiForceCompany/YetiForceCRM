@@ -26,6 +26,7 @@ class Fields extends \Api\RestApi\BaseModule\Fields
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/Fields",
+	 *		description="Returns information about fields, blocks and inventory based on the selected module",
 	 *		summary="Get data about fields, blocks and inventory",
 	 *		tags={"BaseModule"},
 	 *		security={

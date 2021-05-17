@@ -25,7 +25,8 @@ class Logout extends \Api\RestApi\Users\Logout
 	 *
 	 * @OA\Put(
 	 *		path="/webservice/Portal/Users/Logout",
-	 *		summary="Logout user out the system",
+	 *		description="Logout user out the system",
+	 *		summary="Logout user",
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}

@@ -25,7 +25,8 @@ class RecordsList extends \Api\RestApi\Users\RecordsList
 	 *
 	 * @OA\GET(
 	 *		path="/webservice/Portal/Users/RecordsList",
-	 *		summary="Get the list of users",
+	 *		description="Gets a list of all users",
+	 *		summary="List of users",
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
