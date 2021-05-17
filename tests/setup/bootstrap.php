@@ -32,9 +32,6 @@ if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
 }
 App\Session::init();
 
-$id = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => 'demo'])->scalar();
-\App\User::setCurrentUserId($id ?: \Users::getActiveAdminId());
-
 if (empty($_SERVER['YETI_MAIL_PASS'])) {
 	echo 'No mailbox password provided, please set YETI_MAIL_PASS in $_SERVER array' . PHP_EOL;
 }
@@ -59,6 +56,10 @@ if ($installDatabase) {
 } else {
 	echo 'Skipped test database install ...' . PHP_EOL;
 }
+
+$id = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => 'demo'])->scalar();
+\App\User::setCurrentUserId($id ?: \Users::getActiveAdminId());
+
 \App\Cron::$confReportIsActive = false;
 \App\Cron::$registerIsActive = false;
 \App\Cron::$watchdogIsActive = false;
