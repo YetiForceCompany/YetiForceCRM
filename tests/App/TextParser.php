@@ -135,14 +135,6 @@ class TextParser extends \Tests\Base
 			self::$parserClean->setContent('+ $(general : UserTimeZone)$ +')->parse()->getContent(),
 			'Clean instance: $(general : UserTimeZone)$ should return user timezone'
 		);
-		$currUser = \App\User::getCurrentUserId();
-		\App\User::setCurrentUserId(0);
-		$this->assertSame('+ ' . \App\Config::main('default_timezone') . ' +', self::$parserClean
-			->setContent('+ $(general : UserTimeZone)$ +')
-			->parse()
-			->getContent(), 'Clean instance: $(general : UserTimeZone)$ when current user not set/exist should return default timezone');
-		\App\User::setCurrentUserId($currUser);
-
 		$this->assertSame('+ ' . \App\Config::main('site_URL') . ' +', self::$parserClean
 			->setContent('+ $(general : SiteUrl)$ +')
 			->parse()
