@@ -179,6 +179,40 @@ class Api extends \Tests\Base
 	}
 
 	/**
+	 * Testing add inventory record.
+	 */
+	public function testAddInventoryRecord(): void
+	{
+		$recordData = [
+			'subject' => 'Api YetiForce Sp. z o.o.',
+			'inventory' => [
+				1 => [
+					'name' => \Tests\Base\C_RecordActions::createProductRecord()->getId(),
+					'discountmode' => 1,
+					'taxmode' => 1,
+					'currency' => 1,
+					'qty' => 2,
+					'price' => 5,
+					'total' => 10,
+					'discount' => 0,
+					'net' => 10,
+					'purchase' => 0,
+					'marginp' => 0,
+					'margin' => 0,
+					'tax' => 0,
+					'gross' => 0,
+					'comment1' => 0,
+				]
+			]
+		];
+		$request = $this->httpClient->post('SQuotes/Record/', array_merge(['json' => $recordData], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame($response['status'], 1, 'SQuotes/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record', 'post', 200);
+	}
+
+	/**
 	 * Testing edit record.
 	 */
 	public function testEditRecord(): void
