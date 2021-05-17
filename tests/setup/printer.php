@@ -120,7 +120,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function printResult(TestResult $result): void
 	{
 		parent::printResult($result);
-		if (getenv('SHOW_LOGS') || $result->errorCount() || $result->warningCount()) {
+		if (getenv('SHOW_LOGS') || $result->errorCount() || $result->warningCount() || $result->failureCount()) {
 			$this->showLogs();
 		}
 	}
