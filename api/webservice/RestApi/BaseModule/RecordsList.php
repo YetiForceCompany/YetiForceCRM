@@ -40,7 +40,8 @@ class RecordsList extends \Api\Core\BaseAction
 	 *
 	 * @OA\GET(
 	 *		path="/webservice/RestApi/{moduleName}/RecordsList",
-	 *		summary="Get the list of records",
+	 *		description="Gets a list of records",
+	 *		summary="List of records",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}

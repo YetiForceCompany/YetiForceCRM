@@ -51,7 +51,8 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 *
 	 * @OA\GET(
 	 *		path="/webservice/RestApi/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}",
-	 *		summary="Get the related list of records",
+	 *		description="Gets a list of related records",
+	 *		summary="Related list of records",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
