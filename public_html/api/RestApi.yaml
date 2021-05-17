@@ -1335,8 +1335,8 @@ components:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
-            - '0'
-            - '1'
+            - 0
+            - 1
         result:
           description: 'Status of successful transfer of the record to the recycle bin'
           type: boolean
@@ -1349,8 +1349,8 @@ components:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
-            - '0'
-            - '1'
+            - 0
+            - 1
         result:
           title: 'Gets data for the record'
           description: 'Updated record id.'
@@ -1401,8 +1401,8 @@ components:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
-            - '0'
-            - '1'
+            - 0
+            - 1
         result:
           title: 'Gets data for the record'
           description: 'Created record id.'
@@ -1424,8 +1424,8 @@ components:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
-            - '0'
-            - '1'
+            - 0
+            - 1
           example: 1
         result:
           description: 'Returns recent activities that took place in CRM'
@@ -1454,8 +1454,8 @@ components:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
-            - '0'
-            - '1'
+            - 0
+            - 1
         result:
           description: 'List of related records'
           properties:
@@ -1491,8 +1491,8 @@ components:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
-            - '0'
-            - '1'
+            - 0
+            - 1
         result:
           description: 'List of records'
           properties:
@@ -1760,8 +1760,8 @@ components:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
-            - '0'
-            - '1'
+            - 0
+            - 1
         result:
           description: 'List of records'
           properties:
