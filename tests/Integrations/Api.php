@@ -200,7 +200,7 @@ class Api extends \Tests\Base
 					'marginp' => 0,
 					'margin' => 10,
 					'tax' => 0,
-					'gross' => 0,
+					'gross' => 10,
 					'comment1' => 0,
 				]
 			]
