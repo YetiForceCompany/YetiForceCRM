@@ -99,9 +99,10 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		$this->lastTestFailed = false;
 		if ($test instanceof TestCase) {
 			if (!$test->hasExpectationOnOutput() && ($out = $test->getActualOutput())) {
-				$this->writeWithColor('bold,fg-green', "+++++++  {$this->getTestName($test)} | Test output   ++++++++", false);
-				$this->write(PHP_EOL . $out);
-				$this->write(str_repeat('+', 100) . PHP_EOL);
+				$this->writeWithColor('bold,fg-yellow', str_repeat('+', 100), true);
+				$this->writeWithColor('bold,fg-green', "+++++++  {$this->getTestName($test)} | Test output   ++++++++", true);
+				$this->write($out);
+				$this->writeWithColor('bold,fg-yellow', str_repeat('+', 100), true);
 			}
 		}
 		if ($this->debug) {
@@ -118,9 +119,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	 */
 	public function printResult(TestResult $result): void
 	{
-		$this->write(str_repeat('*', 140));
 		parent::printResult($result);
-		$this->write(PHP_EOL . str_repeat('*', 140));
 		$this->showLogs();
 	}
 
