@@ -205,6 +205,7 @@ class Api extends \Tests\Base
 					'tax' => 0,
 					'gross' => 10,
 					'comment1' => 0,
+					'taxparam' => '{"aggregationType":"individual","individualTax":0,"globalTax":0}',
 				]
 			]
 		];
