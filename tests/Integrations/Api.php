@@ -191,7 +191,6 @@ class Api extends \Tests\Base
 			'inventory' => [
 				1 => [
 					'name' => \Tests\Base\C_RecordActions::createProductRecord()->getId(),
-					'taxmode' => 1,
 					'qty' => 2,
 					'price' => 5,
 					'total' => 10,
@@ -199,7 +198,6 @@ class Api extends \Tests\Base
 					'margin' => 10,
 					'purchase' => 0,
 					'comment1' => 0,
-					'taxparam' => '{"aggregationType":"individual","individualTax":0,"globalTax":0}',
 					'unit' => 'Incidents',
 				]
 			]
