@@ -11,7 +11,7 @@ serverUrl='http://127.0.0.1:4444'
 
 # Versions
 CHROME_DRIVER_VERSION=`curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE`
-SELENIUM_STANDALONE_VERSION=3.6.0
+SELENIUM_STANDALONE_VERSION=3.9.0
 SELENIUM_SUBDIR=$(echo "$SELENIUM_STANDALONE_VERSION" | cut -d"." -f-2)
 
 # Install sources.list.d.
