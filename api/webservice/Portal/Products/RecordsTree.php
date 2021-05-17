@@ -42,20 +42,12 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 * Construct.
 	 *
 	 * @OA\GET(
-	 *		path="/webservice/Portal/{moduleName}/RecordsTree",
+	 *		path="/webservice/Portal/Products/RecordsTree",
 	 *		summary="Get the list of records",
 	 *		tags={"Products"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-raw-data",
 	 *			description="Get rows limit, default: 0",
