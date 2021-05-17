@@ -134,10 +134,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of consents",
@@ -406,7 +402,8 @@
             "ApprovalsConditionsRequest": {
                 "title": "Conditions",
                 "description": "The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. ",
-                "type": "text",
+                "type": "string",
+                "format": "json",
                 "example": {
                     "fieldName": "approvals_status",
                     "value": "PLL_ACTIVE",

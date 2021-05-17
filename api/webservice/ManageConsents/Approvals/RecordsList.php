@@ -34,13 +34,9 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *		path="/webservice/ManageConsents/Approvals/RecordsList",
 	 *		summary="Gets the list of consents",
 	 *		tags={"Consents"},
-	 *    security={
+	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *    },
-	 *		@OA\RequestBody(
-	 *				required=false,
-	 *				description="The content of the request is empty",
-	 *		),
+	 *		},
 	 *		@OA\Parameter(
 	 *				name="x-row-limit",
 	 *  		 	description="Limit",
@@ -110,7 +106,8 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *		schema="ApprovalsConditionsRequest",
 	 *		title="Conditions",
 	 *		description="The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. ",
-	 *		type="text",
+	 *		type="string",
+	 *		format="json",
 	 * 		example={"fieldName" : "approvals_status", "value" : "PLL_ACTIVE", "operator" : "e"}
 	 *	),
 	 *	@OA\SecurityScheme(
@@ -139,11 +136,11 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *		description="List of obtained consents",
 	 *		type="object",
 	 *		@OA\Property(
-	 *				property="status",
-	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *				enum={0, 1},
-	 *				type="integer",
-	 *        example=1
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={0, 1},
+	 *			type="integer",
+	 *			example=1
 	 *		),
 	 *		@OA\Property(
 	 *				property="result",
