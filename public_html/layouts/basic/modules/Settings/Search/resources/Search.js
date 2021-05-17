@@ -225,6 +225,6 @@ var Settings_Index_Js = {
 		this.registerModuleSequenceSaveClick();
 	}
 };
-$(document).ready(function () {
+jQuery(function () {
 	Settings_Index_Js.registerEvents();
 });
