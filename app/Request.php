@@ -328,14 +328,13 @@ class Request
 					} elseif (isset($template[$firstKey])) {
 						$values[$firstKey] = $this->purifyMultiDimensionArray($value, $template[$firstKey]);
 					} else {
-						throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$firstKey}", 406);
+						throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$firstKey}||" . print_r($template, true), 406);
 					}
 				}
 			}
 		} else {
-			$values = $template ? Purifier::purifyByType($values, $template) : Purifier::purify($values);
+			$values = empty($values) ? $values : ($template ? Purifier::purifyByType($values, $template) : Purifier::purify($values));
 		}
-
 		return $values;
 	}
 
