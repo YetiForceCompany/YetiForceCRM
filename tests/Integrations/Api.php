@@ -191,30 +191,24 @@ class Api extends \Tests\Base
 			'inventory' => [
 				1 => [
 					'name' => \Tests\Base\C_RecordActions::createProductRecord()->getId(),
-					'discountmode' => 1,
 					'taxmode' => 1,
-					'currency' => 1,
 					'qty' => 2,
 					'price' => 5,
 					'total' => 10,
-					'discount' => 0,
-					'net' => 10,
-					'purchase' => 0,
 					'marginp' => 0,
 					'margin' => 10,
-					'tax' => 0,
-					'gross' => 10,
+					'purchase' => 0,
 					'comment1' => 0,
 					'taxparam' => '{"aggregationType":"individual","individualTax":0,"globalTax":0}',
 					'unit' => 'Incidents',
 				]
 			]
 		];
-		$request = $this->httpClient->post('SQuotes/Record/', array_merge(['json' => $recordData], self::$requestOptions));
+		$request = $this->httpClient->post('SCalculations/Record/', array_merge(['json' => $recordData], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($request->getStatusCode(), 200, 'SQuotes/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertSame($response['status'], 1, 'SQuotes/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($request->getStatusCode(), 200, 'SCalculations/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'SCalculations/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record', 'post', 200);
 	}
 
