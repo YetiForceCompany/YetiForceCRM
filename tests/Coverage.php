@@ -106,9 +106,6 @@ class Coverage
 	 */
 	public function __destruct()
 	{
-		if(){
-
-		}
 		try {
 			$this->coverage->stop();
 			self::log('Stop ');
