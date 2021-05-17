@@ -124,9 +124,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -150,7 +150,19 @@
                 ],
                 "requestBody": {
                     "description": "Base action install request body",
-                    "required": false
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseAction_Install_RequestBody"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseAction_Install_RequestBody"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
@@ -171,8 +183,8 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -194,10 +206,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Menu details",
@@ -217,9 +225,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -294,9 +302,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -352,9 +360,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -409,9 +417,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -481,9 +489,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -526,7 +534,7 @@
                             "application/json": {
                                 "schema": {
                                     "description": "Pdf templates ids",
-                                    "type": "int"
+                                    "type": "integer"
                                 }
                             }
                         }
@@ -608,9 +616,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -720,9 +728,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -777,9 +785,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -897,9 +905,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             },
@@ -979,9 +987,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             },
@@ -1044,9 +1052,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -1118,9 +1126,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -1259,9 +1267,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -1495,9 +1503,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -1542,7 +1550,7 @@
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 1000
+                        "example": 100
                     },
                     {
                         "name": "x-row-offset",
@@ -1583,7 +1591,6 @@
                         "in": "header",
                         "description": "JSON array in the list of fields to be returned in response",
                         "required": false,
-                        "example": [],
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1630,6 +1637,20 @@
                                 }
                             }
                         }
+                    },
+                    {
+                        "name": "x-only-column",
+                        "in": "header",
+                        "description": "Return only column names",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
                     },
                     {
                         "name": "x-parent-id",
@@ -1725,9 +1746,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -1797,9 +1818,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -1949,9 +1970,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -2179,9 +2200,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -2273,8 +2294,8 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -2319,9 +2340,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -2420,9 +2441,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -2640,9 +2661,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -2677,8 +2698,13 @@
                 },
                 "type": "object"
             },
+            "BaseAction_Install_RequestBody": {
+                "title": "Base action - Install response",
+                "description": "The representation of a base action install",
+                "type": "object"
+            },
             "BaseAction_Install_ResponseBody": {
-                "title": "Base action - Install",
+                "title": "Base action - Install response",
                 "description": "The representation of a base action install",
                 "properties": {
                     "status": {
@@ -3400,7 +3426,7 @@
                         },
                         "additionalProperties": {
                             "description": "Action",
-                            "type": "bool"
+                            "type": "boolean"
                         }
                     }
                 },
@@ -3436,7 +3462,7 @@
                                 "type": "object",
                                 "additionalProperties": {
                                     "description": "Field label",
-                                    "type": "bool",
+                                    "type": "boolean",
                                     "example": "Account name"
                                 }
                             },
@@ -3788,15 +3814,20 @@
                                     "$ref": "#/components/schemas/Record_Raw_Details"
                                 }
                             },
-                            "count": {
-                                "description": "Get record list method.",
+                            "numberOfRecords": {
+                                "description": "Number of records on the page",
                                 "type": "string",
                                 "example": 54
                             },
                             "isMorePages": {
-                                "description": "Get record list method.",
+                                "description": "There are more pages",
                                 "type": "boolean",
                                 "example": true
+                            },
+                            "numberOfAllRecords": {
+                                "description": "Number of all records, dependent on the header `x-row-count`",
+                                "type": "string",
+                                "example": 54
                             }
                         },
                         "type": "object"
@@ -3887,7 +3918,7 @@
                                 "type": "object",
                                 "additionalProperties": {
                                     "description": "Field label",
-                                    "type": "bool",
+                                    "type": "boolean",
                                     "example": "Account name"
                                 }
                             },
@@ -4407,18 +4438,18 @@
         "securitySchemes": {
             "basicAuth": {
                 "type": "http",
-                "in": "header",
+                "description": "Basic Authentication header",
                 "scheme": "basic"
             },
             "ApiKeyAuth": {
                 "type": "apiKey",
-                "description": "Webservice api key",
+                "description": "Webservice api key header",
                 "name": "X-API-KEY",
                 "in": "header"
             },
             "token": {
                 "type": "apiKey",
-                "description": "Webservice api token, generated when logging into the system, required for communication",
+                "description": "Webservice api token by user header",
                 "name": "X-TOKEN",
                 "in": "header"
             }

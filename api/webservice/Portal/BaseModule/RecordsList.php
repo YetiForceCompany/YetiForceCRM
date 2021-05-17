@@ -55,7 +55,7 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *			description="Get rows limit, default: 1000",
 	 *			@OA\Schema(type="integer"),
 	 *			in="header",
-	 *			example=1000,
+	 *			example=100,
 	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
@@ -105,6 +105,14 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *				@OA\Property(property="operator", description="Field operator", type="string", example="e"),
 	 *				@OA\Property(property="group", description="Condition group if true is AND", type="boolean", example=true),
 	 *			),
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-only-column",
+	 *			description="Return only column names",
+	 *			@OA\Schema(type="integer", enum={0, 1}),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-parent-id",
@@ -178,8 +186,9 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *				type="object",
 	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			),
-	 * 			@OA\Property(property="count", type="string", example=54),
-	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
+	 * 			@OA\Property(property="numberOfRecords", type="string", description="Number of records on the page", example=54),
+	 * 			@OA\Property(property="isMorePages", type="boolean", description="There are more pages", example=true),
+	 * 			@OA\Property(property="numberOfAllRecords", type="string", description="Number of all records, dependent on the header `x-row-count`", example=54),
 	 * 		),
 	 *	),
 	 */

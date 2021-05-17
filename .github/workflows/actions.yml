@@ -72,3 +72,22 @@ jobs:
 
       - name: Upload to CoPilot
         run: bash <(curl -s https://copilot.blackducksoftware.com/ci/githubactions/scripts/upload)
+
+  test_swagger_editor_validator_remote:
+    runs-on: ubuntu-latest
+    name: Swagger Editor Validator Remote
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Validate OpenAPI definition - Portal.yaml
+        uses: char0n/swagger-editor-validate@v1
+        with:
+          definition-file: public_html/api/Portal.yaml
+      - name: Validate OpenAPI definition - ManageConsents.yaml
+        uses: char0n/swagger-editor-validate@v1
+        with:
+          definition-file: public_html/api/ManageConsents.yaml
+      - name: Validate OpenAPI definition - RestApi.yaml
+        uses: char0n/swagger-editor-validate@v1
+        with:
+          definition-file: public_html/api/RestApi.yaml

@@ -72,9 +72,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -202,9 +202,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -275,9 +275,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -348,9 +348,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -686,7 +686,7 @@
                     },
                     "result": {
                         "description": "Added mail to quote for send: true - success , false - fail",
-                        "type": "bool",
+                        "type": "boolean",
                         "example": true
                     }
                 },
@@ -696,18 +696,18 @@
         "securitySchemes": {
             "basicAuth": {
                 "type": "http",
-                "in": "header",
+                "description": "Basic Authentication header",
                 "scheme": "basic"
             },
             "ApiKeyAuth": {
                 "type": "apiKey",
-                "description": "Webservice api key",
+                "description": "Webservice api key header",
                 "name": "X-API-KEY",
                 "in": "header"
             },
             "token": {
                 "type": "apiKey",
-                "description": "Webservice api token by user",
+                "description": "Webservice api token by user header",
                 "name": "X-TOKEN",
                 "in": "header"
             }

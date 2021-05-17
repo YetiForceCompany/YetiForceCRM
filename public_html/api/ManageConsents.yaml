@@ -49,9 +49,9 @@ paths:
           description: 'Method Not Allowed'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   /webservice/ManageConsents/Approvals/RecordsList:
     get:
       tags:
@@ -137,9 +137,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/ManageConsents/{moduleName}/GetConsentsForEntry':
     post:
       tags:
@@ -185,9 +185,9 @@ paths:
           description: 'Method Not Allowed'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/ManageConsents/{moduleName}/SendEmail':
     post:
       tags:
@@ -233,9 +233,9 @@ paths:
           description: 'Method Not Allowed'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
 components:
   schemas:
     ApprovalsRegisterRequestBody:
@@ -406,21 +406,21 @@ components:
           example: 1
         result:
           description: 'Added mail to quote for send: true - success , false - fail'
-          type: bool
+          type: boolean
           example: true
       type: object
   securitySchemes:
     basicAuth:
       type: http
-      in: header
+      description: 'Basic Authentication header'
       scheme: basic
     ApiKeyAuth:
       type: apiKey
-      description: 'Webservice api key'
+      description: 'Webservice api key header'
       name: X-API-KEY
       in: header
     token:
       type: apiKey
-      description: 'Webservice api token by user'
+      description: 'Webservice api token by user header'
       name: X-TOKEN
       in: header

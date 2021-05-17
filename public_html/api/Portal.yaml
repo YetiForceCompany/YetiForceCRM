@@ -81,9 +81,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   /webservice/Portal/Install:
     put:
       tags:
@@ -100,6 +100,13 @@ paths:
       requestBody:
         description: 'Base action install request body'
         required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseAction_Install_RequestBody'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BaseAction_Install_RequestBody'
       responses:
         '200':
           description: 'Base action details'
@@ -112,8 +119,8 @@ paths:
                 $ref: '#/components/schemas/BaseAction_Install_ResponseBody'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
+          basicAuth: []
+          ApiKeyAuth: []
   /webservice/Portal/Menu:
     get:
       tags:
@@ -127,9 +134,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'Request body does not occur'
-        required: false
       responses:
         '200':
           description: 'Menu details'
@@ -142,9 +146,9 @@ paths:
                 $ref: '#/components/schemas/BaseAction_Menu_ResponseBody'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   /webservice/Portal/Modules:
     get:
       tags:
@@ -191,9 +195,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/Dashboard':
     get:
       tags:
@@ -231,9 +235,9 @@ paths:
                 $ref: '#/components/schemas/BaseAction_Dashboard_ResponseBody'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/Fields':
     get:
       tags:
@@ -270,9 +274,9 @@ paths:
                 $ref: '#/components/schemas/BaseModule_Fields_ResponseBody'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/Hierarchy':
     get:
       tags:
@@ -318,9 +322,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/Pdf/{recordId}':
     get:
       tags:
@@ -354,7 +358,7 @@ paths:
             application/json:
               schema:
                 description: 'Pdf templates ids'
-                type: int
+                type: integer
         -
           name: X-ENCRYPTED
           in: header
@@ -403,9 +407,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/PdfTemplates/{recordId}':
     get:
       tags:
@@ -477,9 +481,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/Privileges':
     get:
       tags:
@@ -516,9 +520,9 @@ paths:
                 $ref: '#/components/schemas/BaseModule_Privileges_ResponseBody'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/Record/{recordId}':
     get:
       tags:
@@ -599,9 +603,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
     put:
       tags:
         - BaseModule
@@ -655,9 +659,9 @@ paths:
               $ref: '#/components/links/GetRecordById'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
     delete:
       tags:
         - BaseModule
@@ -701,9 +705,9 @@ paths:
                 $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/Record':
     post:
       tags:
@@ -750,9 +754,9 @@ paths:
               $ref: '#/components/links/GetRecordById'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/RecordHistory/{recordId}':
     get:
       tags:
@@ -850,9 +854,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}':
     get:
       tags:
@@ -1005,9 +1009,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/RecordsList':
     get:
       tags:
@@ -1041,7 +1045,7 @@ paths:
           required: false
           schema:
             type: integer
-          example: 1000
+          example: 100
         -
           name: x-row-offset
           in: header
@@ -1074,7 +1078,6 @@ paths:
           in: header
           description: 'JSON array in the list of fields to be returned in response'
           required: false
-          example: []
           content:
             application/json:
               schema:
@@ -1096,6 +1099,17 @@ paths:
                   operator: { description: 'Field operator', type: string, example: e }
                   group: { description: 'Condition group if true is AND', type: boolean, example: true }
                 type: object
+        -
+          name: x-only-column
+          in: header
+          description: 'Return only column names'
+          required: false
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+          example: 1
         -
           name: x-parent-id
           in: header
@@ -1155,9 +1169,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/SaveInventory':
     post:
       tags:
@@ -1203,9 +1217,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/Products/Record/{recordId}':
     get:
       tags:
@@ -1311,9 +1325,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   /webservice/Portal/Products/RecordsTree:
     get:
       tags:
@@ -1461,9 +1475,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   /webservice/Portal/Users/Login:
     post:
       tags:
@@ -1520,8 +1534,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
+          basicAuth: []
+          ApiKeyAuth: []
   /webservice/Portal/Users/Logout:
     put:
       tags:
@@ -1550,9 +1564,9 @@ paths:
                 $ref: '#/components/schemas/UsersLogoutResponseBody'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/Users/Record/{userId}':
     get:
       tags:
@@ -1618,9 +1632,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   /webservice/Portal/Users/RecordsList:
     get:
       tags:
@@ -1760,9 +1774,9 @@ paths:
                 $ref: '#/components/schemas/Exception'
       security:
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
 components:
   schemas:
     BaseAction_Files_Request:
@@ -1786,8 +1800,12 @@ components:
           type: integer
           example: 333
       type: object
+    BaseAction_Install_RequestBody:
+      title: 'Base action - Install response'
+      description: 'The representation of a base action install'
+      type: object
     BaseAction_Install_ResponseBody:
-      title: 'Base action - Install'
+      title: 'Base action - Install response'
       description: 'The representation of a base action install'
       properties:
         status:
@@ -2087,7 +2105,7 @@ components:
             Export: true
           additionalProperties:
             description: Action
-            type: bool
+            type: boolean
       type: object
     BaseModule_Get_Record_Response:
       title: 'Base module - Response body for Record'
@@ -2115,7 +2133,7 @@ components:
               type: object
               additionalProperties:
                 description: 'Field label'
-                type: bool
+                type: boolean
                 example: 'Account name'
             data:
               $ref: '#/components/schemas/Record_Display_Details'
@@ -2327,14 +2345,18 @@ components:
               type: object
               additionalProperties:
                 $ref: '#/components/schemas/Record_Raw_Details'
-            count:
-              description: 'Get record list method.'
+            numberOfRecords:
+              description: 'Number of records on the page'
               type: string
               example: 54
             isMorePages:
-              description: 'Get record list method.'
+              description: 'There are more pages'
               type: boolean
               example: true
+            numberOfAllRecords:
+              description: 'Number of all records, dependent on the header `x-row-count`'
+              type: string
+              example: 54
           type: object
       type: object
     BaseAction_SaveInventory_ResponseBody:
@@ -2401,7 +2423,7 @@ components:
               type: object
               additionalProperties:
                 description: 'Field label'
-                type: bool
+                type: boolean
                 example: 'Account name'
             data:
               $ref: '#/components/schemas/Record_Display_Details'
@@ -2789,16 +2811,16 @@ components:
   securitySchemes:
     basicAuth:
       type: http
-      in: header
+      description: 'Basic Authentication header'
       scheme: basic
     ApiKeyAuth:
       type: apiKey
-      description: 'Webservice api key'
+      description: 'Webservice api key header'
       name: X-API-KEY
       in: header
     token:
       type: apiKey
-      description: 'Webservice api token, generated when logging into the system, required for communication'
+      description: 'Webservice api token by user header'
       name: X-TOKEN
       in: header
   links:
