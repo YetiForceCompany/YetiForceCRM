@@ -77,7 +77,8 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/RestApi/{moduleName}/Record/{recordId}",
-	 *		summary="Get data for the record",
+	 *		description="Gets the details of a record",
+	 *		summary="Data for the record",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
@@ -263,7 +264,8 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Delete(
 	 *		path="/webservice/RestApi/{moduleName}/Record/{recordId}",
-	 *		summary="Delete record (move to the trash)",
+	 *		description="Changes the state of a record, moving it to the trash",
+	 *		summary="Delete record",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
@@ -328,6 +330,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Put(
 	 *		path="/webservice/RestApi/{moduleName}/Record/{recordId}",
+	 *		description="Retrieves data for editing a record",
 	 *		summary="Edit record",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -423,6 +426,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Post(
 	 *		path="/webservice/RestApi/{moduleName}/Record",
+	 *		description="Gets data to save record",
 	 *		summary="Create record",
 	 *		tags={"BaseModule"},
 	 *		security={

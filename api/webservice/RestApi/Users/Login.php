@@ -41,7 +41,8 @@ class Login extends \Api\Core\BaseAction
 	 *
 	 * @OA\Post(
 	 *		path="/webservice/RestApi/Users/Login",
-	 *		summary="Logs user into the system",
+	 *		description="Logs user into the system",
+	 *		summary="Logs user",
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
