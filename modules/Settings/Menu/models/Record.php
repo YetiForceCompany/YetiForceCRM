@@ -226,7 +226,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'childs' => $this->getChildMenu($roleId, $row['id'], $source),
 			];
 			if ($api) {
-				$row['label'] = Vtiger_Menu_Model::vtranslateMenu($row['name'], 'Menu');
+				$row['label'] = 'Module' === $row['type'] ? \App\Language::translate($row['name'], $row['name']) : Vtiger_Menu_Model::vtranslateMenu($row['name'], 'Menu');
 			}
 			$menu[] = $row;
 		}

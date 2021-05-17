@@ -45,7 +45,7 @@ class Controller
 		$this->request = Core\Request::init();
 		$this->response = Core\Response::getInstance();
 		$this->response->setRequest($this->request);
-		$this->method = strtoupper($this->request->getRequestMethod());
+		$this->method = \App\Request::getRequestMethod();
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Controller
 	{
 		if (\App\Config::debug('apiLogAllRequests')) {
 			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
-			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMethod() . PHP_EOL;
+			$log .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
 			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;

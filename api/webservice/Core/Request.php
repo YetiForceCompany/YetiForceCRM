@@ -28,12 +28,12 @@ class Request extends \App\Request
 	 * @var array
 	 */
 	public $headersPurifierMap = [
+		'encrypted' => \App\Purifier::INTEGER,
+		'authorization' => \App\Purifier::ALNUM_EXTENDED,
 		'x-token' => \App\Purifier::ALNUM,
 		'x-api-key' => \App\Purifier::ALNUM,
 		'x-raw-data' => \App\Purifier::INTEGER,
-		'authorization' => \App\Purifier::ALNUM_EXTENDED,
 		'x-parent-id' => \App\Purifier::INTEGER,
-		'encrypted' => \App\Purifier::INTEGER,
 		'x-row-limit' => \App\Purifier::INTEGER,
 		'x-row-offset' => \App\Purifier::INTEGER,
 		'x-unit-price' => \App\Purifier::INTEGER,
@@ -42,6 +42,8 @@ class Request extends \App\Request
 		'x-row-order-field' => \App\Purifier::ALNUM_EXTENDED,
 		'x-row-order' => \App\Purifier::ALNUM,
 		'x-start-with' => \App\Purifier::INTEGER,
+		'x-only-column' => \App\Purifier::INTEGER,
+		'x-row-count' => \App\Purifier::INTEGER,
 	];
 
 	/**
@@ -65,7 +67,7 @@ class Request extends \App\Request
 
 	public function getData()
 	{
-		if ('GET' === $this->getRequestMethod()) {
+		if ('GET' === self::getRequestMethod()) {
 			return $this;
 		}
 		$encrypted = $this->getHeader('encrypted');

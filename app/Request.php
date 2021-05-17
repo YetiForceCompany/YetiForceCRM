@@ -520,9 +520,9 @@ class Request
 	 *
 	 * @return string
 	 */
-	public function getRequestMethod()
+	public static function getRequestMethod()
 	{
-		$method = $this->getServer('REQUEST_METHOD');
+		$method = $_SERVER['REQUEST_METHOD'];
 		if ('POST' === $method && isset($_SERVER['HTTP_X_HTTP_METHOD'])) {
 			if ('DELETE' === $_SERVER['HTTP_X_HTTP_METHOD']) {
 				$method = 'DELETE';
@@ -532,8 +532,7 @@ class Request
 				throw new \App\Exceptions\AppException('Unexpected Header');
 			}
 		}
-
-		return $method;
+		return strtoupper($method);
 	}
 
 	/**

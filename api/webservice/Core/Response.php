@@ -256,10 +256,9 @@ class Response
 	public function debugResponse()
 	{
 		if (\App\Config::debug('apiLogAllRequests')) {
-			$request = Request::init();
 			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
 			$log .= "Status: {$this->status}\n";
-			$log .= 'REQUEST_METHOD: ' . $request->getRequestMethod() . PHP_EOL;
+			$log .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
 			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
@@ -291,7 +290,6 @@ class Response
 	{
 		$xml = new \SimpleXMLElement('<?xml version="1.0"?><data></data>');
 		$this->toXml($responseData, $xml);
-
 		return $xml->asXML();
 	}
 
