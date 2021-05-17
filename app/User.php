@@ -37,6 +37,9 @@ class User
 	 */
 	public static function setCurrentUserId($userId)
 	{
+		if (!self::isExists($userId, false)) {
+			throw new \App\Exceptions\AppException('User not exists: ' . $userId);
+		}
 		static::$currentUserId = $userId;
 		static::$currentUserCache = false;
 	}
