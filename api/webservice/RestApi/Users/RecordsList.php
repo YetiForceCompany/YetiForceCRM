@@ -45,10 +45,6 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty",
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-raw-data",
 	 *			description="Get rows limit, default: 0",

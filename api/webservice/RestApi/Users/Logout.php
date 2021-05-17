@@ -38,10 +38,6 @@ class Logout extends \Api\Core\BaseAction
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\RequestBody(
-	 *  		required=false,
-	 * 			description="Users logout request body",
-	 *		),
 	 *		@OA\Parameter(
 	 * 			name="X-ENCRYPTED",
 	 * 			in="header",

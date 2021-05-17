@@ -83,10 +83,6 @@ class Record extends \Api\Core\BaseAction
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		operationId="getRecord",
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty.",
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="moduleName",
 	 *			description="Module name",
@@ -272,10 +268,6 @@ class Record extends \Api\Core\BaseAction
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty.",
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="moduleName",
 	 *			description="Module name",
