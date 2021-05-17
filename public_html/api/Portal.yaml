@@ -341,7 +341,6 @@ paths:
           in: query
           description: 'Pdf templates ids'
           required: true
-          style: form
           content:
             application/json:
               schema:
@@ -906,7 +905,6 @@ paths:
           in: header
           description: 'JSON array in the list of fields to be returned in response'
           required: false
-          example: []
           content:
             application/json:
               schema:
@@ -1085,9 +1083,6 @@ paths:
           schema:
             type: integer
           example: 5
-      requestBody:
-        description: 'The content of the request is empty'
-        required: false
       responses:
         '200':
           description: 'List of consents'
@@ -1189,7 +1184,7 @@ paths:
       tags:
         - Products
       summary: 'Get data for the record'
-      operationId: getRecord
+      operationId: 'Api\Portal\Products\Record::get'
       parameters:
         -
           name: recordId
@@ -1256,9 +1251,6 @@ paths:
               - 0
               - 1
           example: 1
-      requestBody:
-        description: 'The content of the request is empty.'
-        required: false
       responses:
         '200':
           description: 'Gets data for the record'
@@ -1350,7 +1342,6 @@ paths:
           in: header
           description: 'JSON array in the list of fields to be returned in response'
           required: false
-          example: []
           content:
             application/json:
               schema:
@@ -1640,7 +1631,6 @@ paths:
           in: header
           description: 'JSON array in the list of fields to be returned in response'
           required: false
-          example: []
           content:
             application/json:
               schema:

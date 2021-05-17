@@ -44,11 +44,6 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		operationId="getRecord",
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty.",
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="recordId",
 	 *			description="Record id",

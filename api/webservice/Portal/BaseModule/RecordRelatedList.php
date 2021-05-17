@@ -98,7 +98,6 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *			name="x-fields",
 	 *			description="JSON array in the list of fields to be returned in response",
 	 *			in="header",
-	 *			example={},
 	 *			required=false,
 	 *			@OA\JsonContent(
 	 *				type="array",

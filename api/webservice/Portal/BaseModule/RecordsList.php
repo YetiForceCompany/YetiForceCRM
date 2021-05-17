@@ -30,10 +30,6 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty",
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="moduleName",
 	 *			description="Module name",

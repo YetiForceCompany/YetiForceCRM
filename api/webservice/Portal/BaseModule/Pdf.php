@@ -79,7 +79,6 @@ class Pdf extends \Api\Core\BaseAction
 	 *				description="Pdf templates ids",
 	 *				type="integer",
 	 *			),
-	 *			style="form"
 	 *     ),
 	 *		@OA\Parameter(
 	 *			name="X-ENCRYPTED",

@@ -901,7 +901,6 @@
                         "in": "header",
                         "description": "JSON array in the list of fields to be returned in response",
                         "required": false,
-                        "example": [],
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1595,7 +1594,6 @@
                         "in": "header",
                         "description": "JSON array in the list of fields to be returned in response",
                         "required": false,
-                        "example": [],
                         "content": {
                             "application/json": {
                                 "schema": {

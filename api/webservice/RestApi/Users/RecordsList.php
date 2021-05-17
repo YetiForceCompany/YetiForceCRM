@@ -93,7 +93,6 @@ class RecordsList extends \Api\Core\BaseAction
 	 *			name="x-fields",
 	 *			description="JSON array in the list of fields to be returned in response",
 	 *			in="header",
-	 *			example={},
 	 *			required=false,
 	 *			@OA\JsonContent(
 	 *				type="array",
