@@ -44,7 +44,7 @@ class Coverage
 	{
 		if (!isset(self::$self)) {
 			\SebastianBergmann\CodeCoverage\Directory::create(ROOT_DIRECTORY . '/tests/coverages/');
-			self::log('Initiation... ' . ($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? ''));
+			self::log(($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? ''), true);
 			$self = new self();
 			$self->startTime = microtime(true);
 			$self->dir = ROOT_DIRECTORY . '/tests/coverages/';
@@ -98,7 +98,7 @@ class Coverage
 	public function start(): void
 	{
 		$this->coverage->start($this->name);
-		self::log('Started ');
+		self::log('Started');
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Coverage
 	{
 		try {
 			$this->coverage->stop();
-			self::log('Stop ');
+			self::log('Stop');
 			$writer = new \SebastianBergmann\CodeCoverage\Report\PHP();
 			$writer->process($this->coverage, "{$this->dir}php/{$this->name}.php");
 			self::log('Collection time: ' . round(microtime(true) - $this->startTime, 1) . ' s.' . PHP_EOL);
@@ -158,9 +158,14 @@ class Coverage
 	 * Log.
 	 *
 	 * @param string $text
+	 * @param bool   $first
 	 */
-	public static function log(string $text): void
+	public static function log(string $text, bool $first = false): void
 	{
-		file_put_contents(ROOT_DIRECTORY . '/tests/coverages/codecoverage.log', '| ' . date('H:i:s') . ' ' . $text, FILE_APPEND);
+		$t = '';
+		if ($first) {
+			$t = date('H:i:s') . ' ';
+		}
+		file_put_contents(ROOT_DIRECTORY . '/tests/coverages/codecoverage.log', $t . $text . '| ', FILE_APPEND);
 	}
 }

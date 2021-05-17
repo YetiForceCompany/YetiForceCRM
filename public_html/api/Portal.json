@@ -249,10 +249,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of permitted modules",
@@ -337,10 +333,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Privileges details",
@@ -394,10 +386,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Fields, blocks and inventory details",
@@ -451,10 +439,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Records hierarchy details",
@@ -548,10 +532,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Generate PDF",
@@ -660,10 +640,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Get PDF templates list",
@@ -762,10 +738,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Privileges details",
@@ -852,10 +824,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty.",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Gets data for the record",
@@ -1029,10 +997,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty.",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of records moved to the trash",
@@ -1214,10 +1178,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Recent activities detail",
@@ -1420,10 +1380,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of consents",
@@ -1780,10 +1736,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Contents of the response contains only id nd module name",
@@ -1986,16 +1938,6 @@
                 "operationId": "Api\\Portal\\Products\\RecordsTree::__construct",
                 "parameters": [
                     {
-                        "name": "moduleName",
-                        "in": "path",
-                        "description": "Module name",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Contacts"
-                    },
-                    {
                         "name": "x-raw-data",
                         "in": "header",
                         "description": "Get rows limit, default: 0",
@@ -2117,10 +2059,6 @@
                         "example": 5
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of consents",
@@ -2317,10 +2255,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Users logout request body",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "User details",
@@ -2388,10 +2322,6 @@
                         "example": 1
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty.",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Gets data for the user",
@@ -2578,10 +2508,6 @@
                         "example": 5
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of consents",

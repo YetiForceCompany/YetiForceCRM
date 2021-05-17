@@ -162,9 +162,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'The content of the request is empty'
-        required: false
       responses:
         '200':
           description: 'List of permitted modules'
@@ -220,9 +217,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'Request body does not occur'
-        required: false
       responses:
         '200':
           description: 'Privileges details'
@@ -259,9 +253,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'Request body does not occur'
-        required: false
       responses:
         '200':
           description: 'Fields, blocks and inventory details'
@@ -298,9 +289,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'Request body does not occur'
-        required: false
       responses:
         '200':
           description: 'Records hierarchy details'
@@ -365,9 +353,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'Request body does not occur'
-        required: false
       responses:
         '200':
           description: 'Generate PDF'
@@ -439,9 +424,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'Request body does not occur'
-        required: false
       responses:
         '200':
           description: 'Get PDF templates list'
@@ -505,9 +487,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'Request body does not occur'
-        required: false
       responses:
         '200':
           description: 'Privileges details'
@@ -570,9 +549,6 @@ paths:
           required: false
           schema:
             type: integer
-      requestBody:
-        description: 'The content of the request is empty.'
-        required: false
       responses:
         '200':
           description: 'Gets data for the record'
@@ -690,9 +666,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'The content of the request is empty.'
-        required: false
       responses:
         '200':
           description: 'List of records moved to the trash'
@@ -821,9 +794,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'Request body does not occur'
-        required: false
       responses:
         '200':
           description: 'Recent activities detail'
@@ -958,9 +928,6 @@ paths:
                   operator: { description: 'Field operator', type: string, example: e }
                   group: { description: 'Condition group if true is AND', type: boolean, example: true }
                 type: object
-      requestBody:
-        description: 'The content of the request is empty'
-        required: false
       responses:
         '200':
           description: 'List of consents'
@@ -1193,9 +1160,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'Request body does not occur'
-        required: false
       responses:
         '200':
           description: 'Contents of the response contains only id nd module name'
@@ -1336,14 +1300,6 @@ paths:
       operationId: 'Api\Portal\Products\RecordsTree::__construct'
       parameters:
         -
-          name: moduleName
-          in: path
-          description: 'Module name'
-          required: true
-          schema:
-            type: string
-          example: Contacts
-        -
           name: x-raw-data
           in: header
           description: 'Get rows limit, default: 0'
@@ -1424,9 +1380,6 @@ paths:
           schema:
             type: integer
           example: 5
-      requestBody:
-        description: 'The content of the request is empty'
-        required: false
       responses:
         '200':
           description: 'List of consents'
@@ -1549,9 +1502,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'Users logout request body'
-        required: false
       responses:
         '200':
           description: 'User details'
@@ -1599,9 +1549,6 @@ paths:
               - 0
               - 1
           example: 1
-      requestBody:
-        description: 'The content of the request is empty.'
-        required: false
       responses:
         '200':
           description: 'Gets data for the user'
@@ -1723,9 +1670,6 @@ paths:
           schema:
             type: integer
           example: 5
-      requestBody:
-        description: 'The content of the request is empty'
-        required: false
       responses:
         '200':
           description: 'List of consents'
