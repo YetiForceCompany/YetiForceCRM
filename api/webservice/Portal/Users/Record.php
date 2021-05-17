@@ -30,10 +30,6 @@ class Record extends \Api\RestApi\Users\Record
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty.",
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="userId",
 	 *			description="User id",

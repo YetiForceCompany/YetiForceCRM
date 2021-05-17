@@ -30,10 +30,6 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty",
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="moduleName",
 	 *			description="Module name",
