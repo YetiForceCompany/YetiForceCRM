@@ -1,10 +1,13 @@
 <?php
 /**
  * Context help.
+ *
  * @package   Settings.View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -12,9 +15,7 @@
  */
 class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
@@ -24,7 +25,7 @@ class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\ModalSettings
 	}
 
 	/**
-	 * Proccess view.
+	 * Process view.
 	 *
 	 * @param \App\Request $request
 	 */
@@ -42,9 +43,7 @@ class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\ModalSettings
 		$viewer->view('HelpInfo.tpl', $qualifiedModuleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
