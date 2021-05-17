@@ -120,7 +120,9 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function printResult(TestResult $result): void
 	{
 		parent::printResult($result);
-		$this->showLogs();
+		if (getenv('SHOW_LOGS')) {
+			$this->showLogs();
+		}
 	}
 
 	/**
@@ -163,6 +165,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . ' error.');
 		$this->write(PHP_EOL);
 		$this->lastTestFailed = true;
+		$this->showLogs();
 	}
 
 	/**
@@ -253,9 +256,6 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	 */
 	private function showLogs(): void
 	{
-		if (!getenv('SHOW_LOGS')) {
-			return;
-		}
 		array_unshift($this->logFiles, '/var/log/php' . getenv('PHP_VER') . '-fpm.log');
 		foreach ($this->logFiles as $file) {
 			if (false === strpos($file, '/var/log')) {
