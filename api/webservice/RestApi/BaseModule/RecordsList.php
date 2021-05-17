@@ -22,7 +22,7 @@ class RecordsList extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** {@inheritdoc}  */
-	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-parent-id'];
+	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-only-column', 'x-row-count', 'x-parent-id'];
 
 	/** @var \App\QueryGenerator Query generator instance. */
 	protected $queryGenerator;
@@ -43,7 +43,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		summary="Get the list of records",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,
@@ -70,7 +70,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *			description="Get rows limit, default: 1000",
 	 *			@OA\Schema(type="integer"),
 	 *			in="header",
-	 *			example=1000,
+	 *			example=100,
 	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
@@ -121,6 +121,14 @@ class RecordsList extends \Api\Core\BaseAction
 	 *				@OA\Property(property="operator", description="Field operator", type="string", example="e"),
 	 *				@OA\Property(property="group", description="Condition group if true is AND", type="boolean", example=true),
 	 *			),
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-only-column",
+	 *			description="Return only column names",
+	 *			@OA\Schema(type="integer", enum={0, 1}),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-parent-id",
@@ -194,8 +202,9 @@ class RecordsList extends \Api\Core\BaseAction
 	 *				type="object",
 	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			),
-	 * 			@OA\Property(property="count", type="string", example=54),
-	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
+	 * 			@OA\Property(property="numberOfRecords", type="string", description="Number of records on the page", example=54),
+	 * 			@OA\Property(property="isMorePages", type="boolean", description="There are more pages", example=true),
+	 * 			@OA\Property(property="numberOfAllRecords", type="string", description="Number of all records, dependent on the header `x-row-count`", example=54),
 	 * 		),
 	 *	),
 	 */
@@ -208,7 +217,11 @@ class RecordsList extends \Api\Core\BaseAction
 			'headers' => $this->getColumnNames(),
 			'records' => [],
 		];
-		$dataReader = $this->queryGenerator->createQuery()->createCommand()->query();
+		if ((int)$this->controller->request->getHeader('x-only-column')) {
+			return $response;
+		}
+		$query = $this->queryGenerator->createQuery();
+		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$response['records'][$row['id']] = $this->getRecordFromRow($row);
 			if ($isRawData) {
@@ -216,8 +229,11 @@ class RecordsList extends \Api\Core\BaseAction
 			}
 		}
 		$dataReader->close();
-		$response['count'] = \count($response['records']);
-		$response['isMorePages'] = $response['count'] === $limit;
+		$response['numberOfRecords'] = \count($response['records']);
+		$response['isMorePages'] = $response['numberOfRecords'] === $limit;
+		if ($this->controller->request->getHeader('x-row-count')) {
+			$response['numberOfAllRecords'] = $query->count();
+		}
 		return $response;
 	}
 
@@ -230,7 +246,7 @@ class RecordsList extends \Api\Core\BaseAction
 	{
 		$this->queryGenerator = new \App\QueryGenerator($this->controller->request->getModule());
 		$this->queryGenerator->initForDefaultCustomView();
-		$limit = 1000;
+		$limit = 100;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
 		}
