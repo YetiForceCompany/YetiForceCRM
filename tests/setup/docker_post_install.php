@@ -7,6 +7,11 @@ if (file_exists($path)) {
 	$content = str_replace('password = ', 'password = ' . getenv('DB_ROOT_PASS'), file_get_contents($path));
 	file_put_contents($path, $content);
 }
+$path = '/etc/php/' . getenv('PHP_VER') . '/fpm/php-fpm.conf';
+if (file_exists($path)) {
+	$content = str_replace('; Pool Definitions ;', "; Pool Definitions ;\nlog_level = warning\nerror_log = /var/log/fpm-php.www.log\n", file_get_contents($path));
+	file_put_contents($path, $content);
+}
 
 $path = '/etc/php/' . getenv('PHP_VER') . '/fpm/pool.d/www.conf';
 if (file_exists($path)) {
