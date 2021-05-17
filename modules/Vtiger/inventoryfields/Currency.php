@@ -80,12 +80,15 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||" . print_r($value, true), 406);
+		}
 		if ($columnName === $this->getColumnName()) {
-			if (!is_numeric($value) || !isset(\App\Fields\Currency::getAll()[$value])) {
-				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+			if (!isset(\App\Fields\Currency::getAll()[$value])) {
+				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||" . print_r($value, true), 406);
 			}
-		} elseif (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
-			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+		} elseif (\App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
+			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||" . print_r($value, true), 406);
 		}
 	}
 }
