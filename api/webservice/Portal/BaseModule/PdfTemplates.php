@@ -47,7 +47,7 @@ class PdfTemplates extends \Api\Core\BaseAction
 	 *		summary="Get PDF templates list",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\Parameter(
 	 *			name="moduleName",

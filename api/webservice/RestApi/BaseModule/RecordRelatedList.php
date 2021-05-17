@@ -54,7 +54,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 *		summary="Get the related list of records",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,

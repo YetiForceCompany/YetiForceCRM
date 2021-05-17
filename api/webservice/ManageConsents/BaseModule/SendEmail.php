@@ -33,7 +33,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *		summary="Send e-mail",
 	 *		tags={"Consents"},
 	 *    security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *    },
 	 *		@OA\RequestBody(
 	 *				required=true,
@@ -109,7 +109,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *		@OA\Property(
 	 *				property="result",
 	 *				description="Added mail to quote for send: true - success , false - fail",
-	 *				type="bool",
+	 *				type="boolean",
 	 * 				example=true
 	 * 		),
 	 *	),

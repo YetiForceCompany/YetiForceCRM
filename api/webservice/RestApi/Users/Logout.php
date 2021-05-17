@@ -36,7 +36,7 @@ class Logout extends \Api\Core\BaseAction
 	 *		summary="Logout user out the system",
 	 *		tags={"Users"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *  		required=false,
@@ -55,13 +55,13 @@ class Logout extends \Api\Core\BaseAction
 	 *			@OA\XmlContent(ref="#/components/schemas/UsersLogoutResponseBody"),
 	 *		),
 	 * ),
-	 * @OA\SecurityScheme(
-	 * 		securityScheme="token",
-	 * 		type="apiKey",
-	 * 		in="header",
+	 *	@OA\SecurityScheme(
 	 * 		name="X-TOKEN",
-	 *   	description="Webservice api token, generated when logging into the system, required for communication"
-	 * ),
+	 *   	type="apiKey",
+	 *   	in="header",
+	 *		securityScheme="token",
+	 *   	description="Webservice api token by user header"
+	 *	),
 	 * @OA\Schema(
 	 * 		schema="UsersLogoutResponseBody",
 	 * 		title="Users module - Users logout response body",

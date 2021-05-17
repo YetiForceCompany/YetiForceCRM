@@ -80,7 +80,7 @@ class Record extends \Api\Core\BaseAction
 	 *		summary="Get data for the record",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		operationId="getRecord",
 	 *		@OA\RequestBody(
@@ -164,7 +164,7 @@ class Record extends \Api\Core\BaseAction
 	 * 				property="fields",
 	 *				description="System field names and field labels",
 	 *				type="object",
-	 *				@OA\AdditionalProperties(description="Field label", type="bool", example="Account name"),
+	 *				@OA\AdditionalProperties(description="Field label", type="boolean", example="Account name"),
 	 *			),
 	 *			@OA\Property(
 	 *				property="data",
@@ -270,7 +270,7 @@ class Record extends \Api\Core\BaseAction
 	 *		summary="Delete record (move to the trash)",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,
@@ -339,7 +339,7 @@ class Record extends \Api\Core\BaseAction
 	 *		summary="Edit record",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=true,
@@ -434,7 +434,7 @@ class Record extends \Api\Core\BaseAction
 	 *		summary="Create record",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=true,

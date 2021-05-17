@@ -54,7 +54,7 @@ class SaveInventory extends \Api\Core\BaseAction
 	 *		summary="Create inventory record from cart",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\Parameter(
 	 *			name="moduleName",

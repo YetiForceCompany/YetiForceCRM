@@ -42,7 +42,7 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *		summary="Get data for the record",
 	 *		tags={"Products"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		operationId="getRecord",
 	 *		@OA\RequestBody(
@@ -142,7 +142,7 @@ class Record extends \Api\Portal\BaseModule\Record
 	 * 				property="fields",
 	 *				description="System field names and field labels",
 	 *				type="object",
-	 *				@OA\AdditionalProperties(description="Field label", type="bool", example="Account name"),
+	 *				@OA\AdditionalProperties(description="Field label", type="boolean", example="Account name"),
 	 *			),
 	 *			@OA\Property(
 	 *				property="data",

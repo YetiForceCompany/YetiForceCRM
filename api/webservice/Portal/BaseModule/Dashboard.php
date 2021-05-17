@@ -32,7 +32,7 @@ class Dashboard extends \Api\Core\BaseAction
 	 *		description="Supported widget types: Mini List , Chart Filter",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\Parameter(
 	 *			name="moduleName",

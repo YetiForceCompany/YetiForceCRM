@@ -53,7 +53,7 @@ class Record extends \Api\Core\BaseAction
 	 *		summary="Get data for the user",
 	 *		tags={"Users"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,

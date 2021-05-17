@@ -29,7 +29,7 @@ class Modules extends \Api\RestApi\BaseAction\Modules
 	 *		summary="Get the permitted module list action, along with their translated action",
 	 *		tags={"BaseAction"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,

@@ -50,7 +50,7 @@ class Record extends \Api\ManageConsents\BaseAction
 	 *		summary="Adds an consent entry",
 	 *		tags={"Consents"},
 	 *    security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *    },
 	 *		@OA\RequestBody(
 	 *				required=true,

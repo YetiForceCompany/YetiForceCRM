@@ -44,7 +44,7 @@ class Login extends \Api\Core\BaseAction
 	 *		summary="Logs user into the system",
 	 *		tags={"Users"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *  		required=true,
@@ -84,19 +84,19 @@ class Login extends \Api\Core\BaseAction
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
 	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="basicAuth",
+	 *	@OA\SecurityScheme(
 	 *		type="http",
-	 *		in="header",
-	 *		scheme="basic"
-	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="ApiKeyAuth",
-	 *   	type="apiKey",
-	 *		in="header",
+	 *		securityScheme="basicAuth",
+	 *		scheme="basic",
+	 *   	description="Basic Authentication header"
+	 *	),
+	 *	@OA\SecurityScheme(
 	 * 		name="X-API-KEY",
-	 *   	description="Webservice api key"
-	 * ),
+	 *   	type="apiKey",
+	 *    	in="header",
+	 *		securityScheme="ApiKeyAuth",
+	 *   	description="Webservice api key header"
+	 *	),
 	 * @OA\Schema(
 	 *		schema="X-ENCRYPTED",
 	 *		type="string",

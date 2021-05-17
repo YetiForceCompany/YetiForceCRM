@@ -28,7 +28,7 @@ class Privileges extends \Api\RestApi\BaseModule\Privileges
 	 *		summary="Get privileges for module",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\Parameter(
 	 *			name="moduleName",
@@ -73,7 +73,7 @@ class Privileges extends \Api\RestApi\BaseModule\Privileges
 	 *			description="List of module privileges",
 	 *			type="object",
 	 *			example={"Import" : true, "Export" : true},
-	 *			@OA\AdditionalProperties(description="Action", type="bool"),
+	 *			@OA\AdditionalProperties(description="Action", type="boolean"),
 	 * 		),
 	 * ),
 	 */

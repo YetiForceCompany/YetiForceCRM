@@ -50,7 +50,7 @@ class Pdf extends \Api\Core\BaseAction
 	 *		summary="Generate PDF",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\Parameter(
 	 *			name="moduleName",
@@ -77,7 +77,7 @@ class Pdf extends \Api\Core\BaseAction
 	 *			required=true,
 	 *			@OA\JsonContent(
 	 *				description="Pdf templates ids",
-	 *				type="int",
+	 *				type="integer",
 	 *			),
 	 *			style="form"
 	 *     ),

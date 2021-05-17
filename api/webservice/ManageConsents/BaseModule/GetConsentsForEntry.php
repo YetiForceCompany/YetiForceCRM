@@ -33,7 +33,7 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 *		summary="Gets the list of consents for specific entry",
 	 *		tags={"Consents"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *	},
 	 *		@OA\RequestBody(
 	 *				required=true,

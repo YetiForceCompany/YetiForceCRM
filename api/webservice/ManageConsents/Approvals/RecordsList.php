@@ -35,7 +35,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *		summary="Gets the list of consents",
 	 *		tags={"Consents"},
 	 *    security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *    },
 	 *		@OA\RequestBody(
 	 *				required=false,
@@ -113,26 +113,26 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *		type="text",
 	 * 		example={"fieldName" : "approvals_status", "value" : "PLL_ACTIVE", "operator" : "e"}
 	 *	),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="basicAuth",
+	 *	@OA\SecurityScheme(
 	 *		type="http",
-	 *   	in="header",
-	 *		scheme="basic"
-	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="ApiKeyAuth",
+	 *		securityScheme="basicAuth",
+	 *		scheme="basic",
+	 *   	description="Basic Authentication header"
+	 *	),
+	 *	@OA\SecurityScheme(
+	 * 		name="X-API-KEY",
 	 *   	type="apiKey",
 	 *    	in="header",
-	 * 		name="X-API-KEY",
-	 *   	description="Webservice api key"
-	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="token",
+	 *		securityScheme="ApiKeyAuth",
+	 *   	description="Webservice api key header"
+	 *	),
+	 *	@OA\SecurityScheme(
+	 * 		name="X-TOKEN",
 	 *   	type="apiKey",
 	 *   	in="header",
-	 * 		name="X-TOKEN",
-	 *   	description="Webservice api token by user"
-	 * ),
+	 *		securityScheme="token",
+	 *   	description="Webservice api token by user header"
+	 *	),
 	 * @OA\Schema(
 	 *		schema="ConsentsResponseBody",
 	 *		title="List of consents",

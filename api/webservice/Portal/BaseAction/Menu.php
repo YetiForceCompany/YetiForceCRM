@@ -32,12 +32,8 @@ class Menu extends \Api\Core\BaseAction
 	 *		summary="Get menu into the system",
 	 *		tags={"BaseAction"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="Request body does not occur",
-	 *		),
 	 *		@OA\Parameter(
 	 *			name="X-ENCRYPTED",
 	 *			in="header",

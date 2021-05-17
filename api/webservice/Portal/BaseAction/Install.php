@@ -42,11 +42,13 @@ class Install extends \Api\Core\BaseAction
 	 *		summary="Install the system",
 	 *		tags={"BaseAction"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,
 	 *			description="Base action install request body",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Install_RequestBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Install_RequestBody"),
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="X-ENCRYPTED",
@@ -62,8 +64,14 @@ class Install extends \Api\Core\BaseAction
 	 *		),
 	 *	),
 	 *	@OA\Schema(
+	 *		schema="BaseAction_Install_RequestBody",
+	 *		title="Base action - Install response",
+	 *		description="The representation of a base action install",
+	 *		type="object",
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="BaseAction_Install_ResponseBody",
-	 *		title="Base action - Install",
+	 *		title="Base action - Install response",
 	 *		description="The representation of a base action install",
 	 *		type="object",
 	 *		@OA\Property(

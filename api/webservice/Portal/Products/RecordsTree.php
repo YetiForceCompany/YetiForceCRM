@@ -46,7 +46,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 *		summary="Get the list of records",
 	 *		tags={"Products"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,

@@ -50,7 +50,7 @@ class Files extends \Api\RestApi\BaseAction\Files
 	 *		summary="Download files from the system",
 	 *		tags={"BaseAction"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *    	},
 	 *		@OA\RequestBody(
 	 *  		required=true,

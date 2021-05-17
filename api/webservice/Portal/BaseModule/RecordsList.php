@@ -28,7 +28,7 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *		summary="Get the list of records",
 	 *		tags={"BaseModule"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,
@@ -86,7 +86,6 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *			name="x-fields",
 	 *			description="JSON array in the list of fields to be returned in response",
 	 *			in="header",
-	 *			example={},
 	 *			required=false,
 	 *			@OA\JsonContent(
 	 *				type="array",

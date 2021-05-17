@@ -28,7 +28,7 @@ class RecordsList extends \Api\RestApi\Users\RecordsList
 	 *		summary="Get the list of users",
 	 *		tags={"Users"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,
