@@ -428,7 +428,7 @@ class User
 				->from('vtiger_users')
 				->where(['is_admin' => 'on', 'status' => 'Active'])
 				->orderBy(['id' => SORT_ASC])
-				->limit(1)->scalar();
+				->scalar();
 		}
 		Cache::save($cacheName, $key, $adminId, Cache::LONG);
 
@@ -447,7 +447,7 @@ class User
 		if (Cache::has('UserIdByName', $name)) {
 			return Cache::get('UserIdByName', $name);
 		}
-		$userId = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $name])->limit(1)->scalar();
+		$userId = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $name])->scalar();
 		return Cache::save('UserIdByName', $name, false !== $userId ? $userId : null, Cache::LONG);
 	}
 

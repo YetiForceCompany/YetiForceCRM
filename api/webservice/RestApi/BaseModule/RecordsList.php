@@ -216,7 +216,7 @@ class RecordsList extends \Api\Core\BaseAction
 			'headers' => $this->getColumnNames(),
 			'records' => [],
 		];
-		if ((int)$this->controller->request->getHeader('x-only-column')) {
+		if ((int) $this->controller->request->getHeader('x-only-column')) {
 			return $response;
 		}
 		$query = $this->queryGenerator->createQuery();

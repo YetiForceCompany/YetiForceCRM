@@ -18,7 +18,7 @@ if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
 }
 
-$installDatabase = getenv('YETI_INSTALLED') ? false: true;
+$installDatabase = getenv('YETI_INSTALLED') ? false : true;
 \App\Process::$requestMode = 'TEST';
 
 //fix phpunit console for windows
@@ -32,9 +32,9 @@ if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
 }
 App\Session::init();
 
-if (IS_WINDOWS) {
-	App\User::setCurrentUserId(1);
-}
+$id = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => 'demo'])->scalar();
+\App\User::setCurrentUserId($id ?: \Users::getActiveAdminId());
+
 if (empty($_SERVER['YETI_MAIL_PASS'])) {
 	echo 'No mailbox password provided, please set YETI_MAIL_PASS in $_SERVER array' . PHP_EOL;
 }

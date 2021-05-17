@@ -80,7 +80,7 @@ class Record
 		if ($userId) {
 			$query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
 		}
-		$crmId = $query->limit(1)->scalar();
+		$crmId = $query->scalar();
 		\App\Cache::staticSave(__METHOD__, $key, $crmId);
 
 		return $crmId;

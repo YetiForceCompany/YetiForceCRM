@@ -249,7 +249,7 @@ class Users extends CRMEntity
 			}
 		} else {
 			$adminId = 1;
-			$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->limit(1)->scalar();
+			$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->scalar();
 			if ($result) {
 				$adminId = $result;
 			}

@@ -47,7 +47,7 @@ class RecordConverter extends \Tests\Base
 	 */
 	public function testProcess()
 	{
-		$id = (new \App\Db\Query())->select(['squotesid'])->from('u_#__squotes')->limit(1)->scalar();
+		$id = (new \App\Db\Query())->select(['squotesid'])->from('u_#__squotes')->scalar();
 		if ($id) {
 			$convertInstance = \App\RecordConverter::getInstanceById(1);
 			$convertInstance->process([$id]);

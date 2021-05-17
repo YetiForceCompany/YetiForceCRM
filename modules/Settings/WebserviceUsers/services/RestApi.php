@@ -72,6 +72,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Module_Model::getActiveServers($this->getModule()->typeApi);
 				$params['uitype'] = 16;
+				$params['picklistValues'] = [];
 				foreach ($servers as $key => $value) {
 					$params['picklistValues'][$key] = $value['name'];
 				}
