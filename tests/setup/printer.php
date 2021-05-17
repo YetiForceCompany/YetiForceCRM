@@ -120,7 +120,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function printResult(TestResult $result): void
 	{
 		parent::printResult($result);
-		if (getenv('SHOW_LOGS')) {
+		if (getenv('SHOW_LOGS') || $result->errorCount() || $result->warningCount()) {
 			$this->showLogs();
 		}
 	}
@@ -165,7 +165,6 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . ' error.');
 		$this->write(PHP_EOL);
 		$this->lastTestFailed = true;
-		$this->showLogs();
 	}
 
 	/**
