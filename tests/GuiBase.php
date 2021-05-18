@@ -62,6 +62,8 @@ abstract class GuiBase extends TestCase
 
 	/**
 	 * Setup test.
+	 *
+	 * @return void
 	 */
 	protected function setUp(): void
 	{
@@ -82,6 +84,8 @@ abstract class GuiBase extends TestCase
 	 * @param string $url
 	 *
 	 * @throws \ReflectionException
+	 *
+	 * @return void
 	 */
 	public function url(string $url): void
 	{
@@ -90,6 +94,8 @@ abstract class GuiBase extends TestCase
 
 	/**
 	 * Testing login page display.
+	 *
+	 * @return void
 	 */
 	public function login(): void
 	{
@@ -98,5 +104,18 @@ abstract class GuiBase extends TestCase
 		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
 		$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
 		$this->isLogin = true;
+	}
+
+	/**
+	 * Find error or exceptions.
+	 *
+	 * @return void
+	 */
+	public function findError(): void
+	{
+		$source = $this->driver->getPageSource();
+		if (false !== stripos($source, 'Error')) {
+			throw new \Exception('An error has been found');
+		}
 	}
 }
