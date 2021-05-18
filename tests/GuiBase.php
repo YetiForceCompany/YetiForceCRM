@@ -125,4 +125,14 @@ abstract class GuiBase extends TestCase
 			throw new \Exception('Undefined variable found');
 		}
 	}
+
+	/**
+	 * Setup test.
+	 *
+	 * @return void
+	 */
+	protected function tearDown(): void
+	{
+		static::assertInstanceOf('\Facebook\WebDriver\Remote\RemoteWebDriver', $this->driver->close(), 'Window close should return WebDriver object');
+	}
 }

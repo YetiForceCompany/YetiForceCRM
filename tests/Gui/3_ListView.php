@@ -20,14 +20,13 @@ class Gui_ListView extends \Tests\GuiBase
 	 */
 	public function testList(): void
 	{
-		try {
-			foreach (vtlib\Functions::getAllModules() as $module) {
-				$this->url("index.php?module={$module['name']}&view=List");
-				$this->findError();
-				$this->logs = $module['name'];
-				$this->assertSame($module['name'], $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
-				$this->assertSame('List', $this->driver->findElement(WebDriverBy::id('view'))->getAttribute('value'));
-				// try {
+		foreach (vtlib\Functions::getAllModules() as $module) {
+			$this->url("index.php?module={$module['name']}&view=List");
+			$this->findError();
+			$this->logs = $module['name'];
+			$this->assertSame($module['name'], $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
+			$this->assertSame('List', $this->driver->findElement(WebDriverBy::id('view'))->getAttribute('value'));
+			// try {
 				// 	$this->driver->findElement(WebDriverBy::id($module['name'] . '_listView_row_1'))->click();
 				// 	$this->findError();
 				// } catch (\Throwable $th) {
@@ -40,10 +39,6 @@ class Gui_ListView extends \Tests\GuiBase
 				// } catch (\Throwable $th) {
 				// 	echo "{$module['name']} Skipped, no edit btn\n";
 				// }
-			}
-			$this->assertInstanceOf('\Facebook\WebDriver\Remote\RemoteWebDriver', $this->driver->close(), 'Window close should return WebDriver object');
-		} catch (\Throwable $th) {
-			$this->markTestSkipped('Skipped Gui_ListView');
 		}
 	}
 }
