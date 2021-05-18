@@ -67,15 +67,15 @@ class Coverage
 	{
 		if (!isset($this->filter)) {
 			$filter = new \SebastianBergmann\CodeCoverage\Filter();
-			$filter->includeDirectory(ROOT_DIRECTORY . '/api');
-			$filter->includeDirectory(ROOT_DIRECTORY . '/app');
-			$filter->includeDirectory(ROOT_DIRECTORY . '/config');
-			$filter->includeDirectory(ROOT_DIRECTORY . '/include');
-			$filter->includeDirectory(ROOT_DIRECTORY . '/install');
-			$filter->includeDirectory(ROOT_DIRECTORY . '/modules');
-			$filter->includeDirectory(ROOT_DIRECTORY . '/vtlib/Vtiger');
-			$filter->includeDirectory(ROOT_DIRECTORY . '/tests');
+			// $filter->includeDirectory(ROOT_DIRECTORY . '/api');
+			// $filter->includeDirectory(ROOT_DIRECTORY . '/app');
+			// $filter->includeDirectory(ROOT_DIRECTORY . '/config');
+			// $filter->includeDirectory(ROOT_DIRECTORY . '/include');
+			// $filter->includeDirectory(ROOT_DIRECTORY . '/modules');
+			// $filter->includeDirectory(ROOT_DIRECTORY . '/vtlib/Vtiger');
+			// $filter->includeDirectory(ROOT_DIRECTORY . '/tests');
 
+			$filter->excludeDirectory(ROOT_DIRECTORY . '/install');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/vendor');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/tests/setup');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/tests/coverages');
