@@ -53,6 +53,14 @@ xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/lo
 #echo '-- # chromedriver --url-base=/wd/hub --'
 #chromedriver --url-base=/wd/hub
 
+#echo '--  # npm install selenium-standalone -g  --'
+#npm install selenium-standalone -g > /var/www/html/cache/logs/selenium1_npm_install.log 2>&1 &
+#echo '--  # selenium-standalone install  --'
+#selenium-standalone install --singleDriverInstall=chrome --version=$SELENIUM_STANDALONE_VERSION > /var/www/html/cache/logs/selenium2_install_install.log 2>&1 &
+#echo '--  # selenium-standalone start  --'
+#selenium-standalone start --singleDriverInstall=chrome --version=$SELENIUM_STANDALONE_VERSION > /var/www/html/cache/logs/selenium3_start.log 2>&1 &
+#selenium-standalone start  --version=$SELENIUM_STANDALONE_VERSION
+
 
 #xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar $HOME/selenium-server-standalone.jar -debug > /tmp/selenium.log &
 

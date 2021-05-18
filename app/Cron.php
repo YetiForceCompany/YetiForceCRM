@@ -90,14 +90,14 @@ class Cron
 	{
 		static::$scriptTimeStart = microtime(true);
 		static::generateStatusFile();
-		if (self::$shopIsActive) {
-			YetiForce\Shop::generateCache();
+		if (self::$watchdogIsActive) {
+			YetiForce\Watchdog::send();
 		}
 		if (self::$registerIsActive) {
 			YetiForce\Register::check();
 		}
-		if (self::$watchdogIsActive) {
-			YetiForce\Watchdog::send();
+		if (self::$shopIsActive) {
+			YetiForce\Shop::generateCache();
 		}
 		if (!(static::$logActive = Config::debug('DEBUG_CRON'))) {
 			return;
