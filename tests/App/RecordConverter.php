@@ -49,23 +49,18 @@ class RecordConverter extends \Tests\Base
 	{
 		$id = (new \App\Db\Query())->select(['squotesid'])->from('u_#__squotes')->scalar();
 		if ($id) {
-			try {
-				$convertInstance = \App\RecordConverter::getInstanceById(1);
-				$convertInstance->process([$id]);
-			} catch (\Throwable $th) {
-				$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'SQuotes');
-				$this->logs = [
-					'data' => $recordModel->getData(),
-					'inventory' => $recordModel->getInventoryData(),
-				];
-				throw $th;
-			}
+			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'SQuotes');
+			$this->logs = [
+				'data' => $recordModel->getData(),
+				'inventory' => $recordModel->getInventoryData(),
+			];
+			$convertInstance = \App\RecordConverter::getInstanceById(1);
+			$convertInstance->process([$id]);
+
 			$this->assertCount(1, $convertInstance->createdRecords);
 			foreach ($convertInstance->createdRecords as $id) {
 				$this->assertTrue((new \App\Db\Query())->from('u_yf_ssingleorders')->where(['ssingleordersid' => $id])->exists());
 			}
-		} else {
-			$this->markTestSkipped('No squotes');
 		}
 	}
 }
