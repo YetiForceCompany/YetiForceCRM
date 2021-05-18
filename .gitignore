@@ -64,6 +64,8 @@ user_privileges/user_privileges_8.php
 !/config/Performance.php
 !/config/Debug.php
 !/config/Components/ConfigTemplates.php
+/app/RecordAddsTemplates/AddsRecord.php
+
 
 # dependencies COMPOSER
 /vendor
