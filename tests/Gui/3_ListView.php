@@ -30,14 +30,14 @@ class Gui_ListView extends \Tests\GuiBase
 				$this->driver->findElement(WebDriverBy::id($module['name'] . '_listView_row_1'))->click();
 				$this->findError();
 			} catch (\Throwable $th) {
-				$this->markTestSkipped('Skipped, no records in module ' . $module['name']);
+				echo " {$module['name']} Skipped, no records\n";
 				continue;
 			}
 			try {
 				$this->driver->findElement(WebDriverBy::className($module['name'] . '_detailViewBasic_action_BTN_RECORD_EDIT'))->click();
 				$this->findError();
 			} catch (\Throwable $th) {
-				$this->markTestSkipped('Skipped, no edit btn in module ' . $module['name']);
+				echo "{$module['name']} Skipped, no edit btn\n";
 			}
 		}
 		$this->assertInstanceOf('\Facebook\WebDriver\Remote\RemoteWebDriver', $this->driver->close(), 'Window close should return WebDriver object');
