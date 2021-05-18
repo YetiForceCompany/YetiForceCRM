@@ -312,204 +312,6 @@ $.Class(
 					});
 			});
 		},
-		registerChartFilterWidget: function () {
-			let thisInstance = this;
-			$('.dashboardHeading')
-				.off('click', '.addChartFilter')
-				.on('click', '.addChartFilter', function (e) {
-					let element = $(e.currentTarget);
-					app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function (wizardContainer) {
-						let form = $('form', wizardContainer);
-						form.on('keypress', function (event) {
-							return event.keyCode != 13;
-						});
-						let sectorContainer = form.find('.sectorContainer');
-						let chartType = $('select[name="chartType"]', wizardContainer);
-						let moduleNameSelectDOM = $('select[name="module"]', wizardContainer);
-						App.Fields.Picklist.showSelect2ElementView(sectorContainer.find('.select2'));
-						let moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
-							placeholder: app.vtranslate('JS_SELECT_MODULE')
-						});
-						let step1 = $('.step1', wizardContainer);
-						let step2 = $('.step2', wizardContainer);
-						let step3 = $('.step3', wizardContainer);
-						let footer = $('.modal-footer', wizardContainer);
-						step2.remove();
-						step3.remove();
-						footer.hide();
-						chartType.on('change', function (e) {
-							let currentTarget = $(e.currentTarget);
-							let value = currentTarget.val();
-							if (value == 'Barchat' || value == 'Horizontal') {
-								form.find('.isColorContainer').removeClass('d-none');
-							} else {
-								form.find('.isColorContainer').addClass('d-none');
-							}
-							if (wizardContainer.find('#widgetStep').val() == 4) {
-								wizardContainer.find('.step3 .groupField').trigger('change');
-							}
-						});
-						moduleNameSelect2.on('change', function () {
-							if (!moduleNameSelect2.val()) return;
-							footer.hide();
-							wizardContainer.find('.step2').remove();
-							wizardContainer.find('.step3').remove();
-							AppConnector.request({
-								module: 'Home',
-								view: 'ChartFilter',
-								step: 'step2',
-								chartType: chartType.val(),
-								selectedModule: moduleNameSelect2.val()
-							}).done(function (step2Response) {
-								step1.after(step2Response);
-								wizardContainer.find('#widgetStep').val(2);
-								const step2 = wizardContainer.find('.step2');
-								footer.hide();
-								const filtersIdElement = step2.find('.filtersId');
-								const valueTypeElement = step2.find('.valueType');
-								App.Fields.Picklist.showSelect2ElementView(filtersIdElement);
-								App.Fields.Picklist.showSelect2ElementView(valueTypeElement);
-								step2.find('.filtersId, .valueType').on('change', function () {
-									wizardContainer.find('.step3').remove();
-									wizardContainer.find('.step4').remove();
-									AppConnector.request({
-										module: 'Home',
-										view: 'ChartFilter',
-										step: 'step3',
-										selectedModule: moduleNameSelect2.val(),
-										chartType: chartType.val(),
-										filtersId: filtersIdElement.val(),
-										valueType: valueTypeElement.val()
-									}).done(function (step3Response) {
-										step2.last().after(step3Response);
-										wizardContainer.find('#widgetStep').val(3);
-										let step3 = wizardContainer.find('.step3');
-										App.Fields.Picklist.showSelect2ElementView(step3.find('select'));
-										footer.hide();
-										step3.find('.groupField').on('change', function () {
-											wizardContainer.find('.step4').remove();
-											let groupField = $(this);
-											if (!groupField.val()) return;
-											footer.show();
-											AppConnector.request({
-												module: 'Home',
-												view: 'ChartFilter',
-												step: 'step4',
-												selectedModule: moduleNameSelect2.val(),
-												filtersId: filtersIdElement.val(),
-												groupField: groupField.val(),
-												chartType: chartType.val()
-											}).done(function (step4Response) {
-												step3.last().after(step4Response);
-												wizardContainer.find('#widgetStep').val(4);
-												let step4 = wizardContainer.find('.step4');
-												App.Fields.Picklist.showSelect2ElementView(step4.find('select'));
-												app.registerModalEvents(wizardContainer);
-											});
-										});
-									});
-								});
-							});
-						});
-						form.on('submit', function (e) {
-							e.preventDefault();
-							let save = true;
-							e.preventDefault();
-							if (form.data('jqv').InvalidFields.length > 0) {
-								app.formAlignmentAfterValidation(form);
-								save = false;
-							}
-							if (save) {
-								const selectedModule = moduleNameSelect2.val();
-								const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-								let selectedFiltersId = form.find('.filtersId').val();
-								if (Array.isArray(selectedFiltersId)) {
-									selectedFiltersId = selectedFiltersId.join(',');
-								}
-								const selectedFieldLabel = form.find('.groupField').find(':selected').text();
-								const data = {
-									module: selectedModule,
-									groupField: form.find('.groupField').val(),
-									chartType: chartType.val()
-								};
-								form.find('.saveParam').each(function (index, element) {
-									element = $(element);
-									if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
-										data[element.attr('name')] = element.val();
-									}
-								});
-								thisInstance.saveChartFilterWidget(
-									data,
-									element,
-									selectedModuleLabel,
-									selectedFiltersId,
-									'',
-									selectedFieldLabel,
-									form
-								);
-							}
-						});
-					});
-				});
-		},
-		saveChartFilterWidget: function (data, element, moduleNameLabel, filtersId, filterLabel, groupFieldName, form) {
-			const thisInstance = this;
-			let label = moduleNameLabel;
-			if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
-				label += ' - ' + filterLabel;
-			}
-			if (typeof groupFieldName !== 'undefined' && groupFieldName !== null && groupFieldName !== '') {
-				label += ' - ' + groupFieldName;
-			}
-			const paramsForm = {
-				data: JSON.stringify(data),
-				blockid: element.data('block-id'),
-				linkid: element.data('linkid'),
-				label: label,
-				name: 'ChartFilter',
-				title: form.find('[name="widgetTitle"]').val(),
-				filterid: filtersId,
-				isdefault: 0,
-				height: 4,
-				width: 4,
-				owners_all: ['mine', 'all', 'users', 'groups'],
-				default_owner: 'mine',
-				dashboardId: thisInstance.getCurrentDashboard()
-			};
-			const sourceModule = $('[name="selectedModuleName"]').val();
-			thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function (data) {
-				let result = data['result'],
-					params = {};
-				if (data['success']) {
-					app.hideModalWindow();
-					paramsForm['id'] = result['id'];
-					paramsForm['status'] = result['status'];
-					params['text'] = result['text'];
-					params['type'] = 'success';
-					let linkElement = element.clone();
-					linkElement.data('name', 'ChartFilter');
-					linkElement.data('id', result['wid']);
-					thisInstance.addWidget(
-						linkElement,
-						'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' +
-							element.data('linkid') +
-							'&widgetid=' +
-							result['wid'] +
-							'&active=0'
-					);
-					Vtiger_Helper_Js.showMessage(params);
-				} else {
-					let message = data['error']['message'],
-						errorField;
-					if (data['error']['code'] != 513) {
-						errorField = form.find('[name="fieldName"]');
-					} else {
-						errorField = form.find('[name="fieldLabel"]');
-					}
-					errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-				}
-			});
-		},
 		registerMiniListWidget: function () {
 			const thisInstance = this;
 			$('.dashboardHeading')
@@ -652,7 +454,7 @@ $.Class(
 					dashboardId: thisInstance.getCurrentDashboard()
 				},
 				sourceModule = $('[name="selectedModuleName"]').val();
-			thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function (data) {
+			thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid, 'MiniList').done(function (data) {
 				let result = data['result'],
 					params = {};
 				if (data['success']) {
@@ -685,7 +487,7 @@ $.Class(
 				}
 			});
 		},
-		saveWidget: function (form, mode, sourceModule, linkid) {
+		saveWidget: function (form, mode, sourceModule, linkid, type) {
 			let aDeferred = $.Deferred();
 			let progressIndicatorElement = $.progressIndicator({
 				position: 'html',
@@ -703,7 +505,8 @@ $.Class(
 				action: 'Widget',
 				mode: mode,
 				addToUser: true,
-				linkid: linkid
+				linkid: linkid,
+				name: type
 			};
 			AppConnector.request(params)
 				.done(function (data) {
@@ -857,7 +660,6 @@ $.Class(
 			this.registerShowMailBody();
 			this.registerChangeMailUser();
 			this.registerMiniListWidget();
-			this.registerChartFilterWidget();
 			this.registerTabModules();
 			this.removeWidgetFromList();
 			this.registerSelectDashboard();

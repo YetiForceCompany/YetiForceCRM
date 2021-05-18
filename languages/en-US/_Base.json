@@ -1171,6 +1171,7 @@
     "LBL_LINE_CHART": "Line chart",
     "LBL_LINE_CHART_PLAIN": "Smooth line graph",
     "LBL_FUNNEL_CHART": "Sales funnel",
+    "LBL_TABLE_CHART": "Tabular",
     "LBL_MINUS": "minus",
     "LBL_ZERO": "zero",
     "LBL_ONE": "one",
@@ -1485,7 +1486,10 @@
     "LBL_RECORDS_FROM_RELATION": "Records from relation",
     "LBL_NUMBER_OF_ALL_ENTRIES": "Number of all entries",
     "LBL_NUMBER_OF_IMPORTED_ENTRIES": "Number of imported entries",
-    "LBL_NUMBER_OF_ERRORS": "Number of errors"
+    "LBL_NUMBER_OF_ERRORS": "Number of errors",
+    "LBL_DAILY": "Daily",
+    "LBL_MONTHLY": "Monthly",
+    "LBL_YEARLY": "Yearly"
   },
   "js": {
     "JS_APPROVE": "Approve",

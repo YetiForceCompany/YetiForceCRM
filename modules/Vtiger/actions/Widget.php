@@ -51,10 +51,10 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 			}
 		}
 		if (
-			('updateWidgetConfig' === $mode && $request->has('widgetid') && $widget->get('active')) ||
-			('remove' === $mode && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName)) ||
-			('Mini List' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter')) ||
-			('ChartFilter' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
+			('updateWidgetConfig' === $mode && $request->has('widgetid') && $widget->get('active'))
+			|| ('remove' === $mode && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName))
+			|| ('Mini List' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter'))
+			|| ('ChartFilter' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
 			return true;
 		}
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -93,6 +93,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	 */
 	public function add(App\Request $request)
 	{
+		$moduleName = $request->getByType('sourceModule', \App\Purifier::ALNUM);
 		$data = $request->getMultiDimensionArray('form', [
 			'data' => 'Text',
 			'blockid' => 'Integer',
@@ -118,15 +119,12 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 			'cache' => 'Integer',
 			'default_date' => 'Standard'
 		]);
-		$moduleName = $request->getByType('sourceModule', 2);
-		$addToUser = $request->getBoolean('addToUser');
-		$linkId = $request->getInteger('linkid');
 		if (!\is_array($data) || !$data) {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
 		} else {
-			$data['linkid'] = $linkId;
+			$data['linkid'] = $request->getInteger('linkid');
 			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
-			$result = $widgetsManagementModel->addWidget($data, $moduleName, $addToUser);
+			$result = $widgetsManagementModel->addWidget($data, $moduleName, $request->getBoolean('addToUser'));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
