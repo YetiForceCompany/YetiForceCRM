@@ -147,6 +147,7 @@ class Fields extends \Api\Core\BaseAction
 	 *						@OA\Property(property="jpg", description="List of file data formats", example="jpg"),
 	 *					),
 	 *					@OA\Property(property="id", type="integer", description="Field ID", example=24862),
+	 *					@OA\Property(property="uitype", type="integer", description="Field UiType", example=1),
 	 *					@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
 	 *					@OA\Property(property="isViewable", description="Check if record is viewable", type="boolean", example=true),
 	 *					@OA\Property(property="isEditableReadOnly", description="Check if record is editable or read only", type="boolean", example=false),
@@ -251,6 +252,7 @@ class Fields extends \Api\Core\BaseAction
 			}
 			$fieldInfo = $fieldModel->getFieldInfo();
 			$fieldInfo['id'] = $fieldModel->getId();
+			$fieldInfo['uitype'] = $fieldModel->getUIType();
 			$fieldInfo['isEditable'] = $fieldModel->isEditable();
 			$fieldInfo['isViewable'] = $fieldModel->isViewable();
 			$fieldInfo['isEditableReadOnly'] = $fieldModel->isEditableReadOnly();

@@ -3002,6 +3002,11 @@
                                             "type": "integer",
                                             "example": 24862
                                         },
+                                        "uitype": {
+                                            "description": "Field UiType",
+                                            "type": "integer",
+                                            "example": 1
+                                        },
                                         "isEditable": {
                                             "description": "Check if record is editable",
                                             "type": "boolean",

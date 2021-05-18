@@ -1224,6 +1224,7 @@ components:
                   limit: { description: 'Limit the amount of images, available only for type of field: multiImage, image', type: integer }
                   formats: { description: 'File Format, available only for type of field: multiImage, image', properties: { jpg: { description: 'List of file data formats', example: jpg } }, type: object }
                   id: { description: 'Field ID', type: integer, example: 24862 }
+                  uitype: { description: 'Field UiType', type: integer, example: 1 }
                   isEditable: { description: 'Check if record is editable', type: boolean, example: true }
                   isViewable: { description: 'Check if record is viewable', type: boolean, example: true }
                   isEditableReadOnly: { description: 'Check if record is editable or read only', type: boolean, example: false }
