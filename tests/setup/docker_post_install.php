@@ -26,12 +26,6 @@ if (file_exists($path)) {
 }
 
 if ('TEST' === getenv('INSTALL_MODE')) {
-	$path = '/etc/nginx/sites-available/default';
-	if (file_exists($path)) {
-		$content = str_replace('root /var/www/html/public_html;', 'root /var/www/html;', file_get_contents($path));
-		file_put_contents($path, $content);
-	}
-
 	chdir(__DIR__ . '/../../');
 	require_once 'include/main/WebUI.php';
 
