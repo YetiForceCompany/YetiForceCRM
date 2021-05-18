@@ -127,9 +127,9 @@ class Api extends \Tests\Base
 		$blockInstance = \vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', 'Accounts');
 		$fieldInstance = new \Vtiger_Field_Model();
 		$fieldInstance->table = 'vtiger_account';
-		$fieldInstance->label = 'FL_IN_PORTAL';
-		$fieldInstance->name = 'in_portal';
-		$fieldInstance->column = 'in_portal';
+		$fieldInstance->label = 'FL_SHARE_EXTERNALLY';
+		$fieldInstance->name = 'share_externally';
+		$fieldInstance->column = 'share_externally';
 		$fieldInstance->columntype = 'tinyint(1)';
 		$fieldInstance->uitype = 318;
 		$fieldInstance->typeofdata = 'C~O';
@@ -164,15 +164,14 @@ class Api extends \Tests\Base
 	 */
 	public function testAddRecord(): void
 	{
-		$recordData = [
+		$request = $this->httpClient->post('Accounts/Record/', array_merge(['json' => [
 			'accountname' => 'Api YetiForce Sp. z o.o.',
 			'addresslevel5a' => 'Warszawa',
 			'addresslevel8a' => 'Marszałkowska',
 			'buildingnumbera' => 111,
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
-			'in_portal' => 1
-		];
-		$request = $this->httpClient->post('Accounts/Record/', array_merge(['json' => $recordData], self::$requestOptions));
+			'share_externally' => 1
+		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame($request->getStatusCode(), 200, 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
@@ -186,7 +185,7 @@ class Api extends \Tests\Base
 	 */
 	public function testAddInventoryRecord(): void
 	{
-		$recordData = [
+		$request = $this->httpClient->post('SCalculations/Record/', array_merge(['json' => [
 			'subject' => 'Api YetiForce Sp. z o.o.',
 			'inventory' => [
 				1 => [
@@ -201,8 +200,7 @@ class Api extends \Tests\Base
 					'unit' => 'Incidents',
 				]
 			]
-		];
-		$request = $this->httpClient->post('SCalculations/Record/', array_merge(['json' => $recordData], self::$requestOptions));
+		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame($request->getStatusCode(), 200, 'SCalculations/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
@@ -215,11 +213,10 @@ class Api extends \Tests\Base
 	 */
 	public function testEditRecord(): void
 	{
-		$recordData = [
+		$request = $this->httpClient->put('Accounts/Record/' . self::$recordId, array_merge(['json' => [
 			'accountname' => 'Api YetiForce Sp. z o.o. New name',
 			'buildingnumbera' => 222,
-		];
-		$request = $this->httpClient->put('Accounts/Record/' . self::$recordId, array_merge(['json' => $recordData], self::$requestOptions));
+		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame($request->getStatusCode(), 200, 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
@@ -243,6 +240,56 @@ class Api extends \Tests\Base
 	}
 
 	/**
+	 * Testing delete record.
+	 */
+	public function testDeleteRecord(): void
+	{
+		$request = $this->httpClient->post('Accounts/Record/', array_merge(['json' => [
+			'accountname' => 'Api Delete YetiForce Sp. z o.o.',
+			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
+			'share_externally' => 1
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame($request->getStatusCode(), 200, 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+
+		$request = $this->httpClient->delete('Accounts/Record/' . $response['result']['id'], self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame($request->getStatusCode(), 200, 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue($response['result']);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'delete', 200);
+	}
+
+	/**
+	 * Testing get record history.
+	 */
+	public function testGetRecordHistory(): void
+	{
+		$request = $this->httpClient->get('Accounts/RecordHistory/' . self::$recordId, self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame($request->getStatusCode(), 200, 'Accounts/RecordHistory/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Accounts/RecordHistory/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordHistory/{recordId}', 'get', 200);
+	}
+
+	/**
+	 * Testing get record related list.
+	 */
+	public function testGetRecordRelatedList(): void
+	{
+		$request = $this->httpClient->get('Accounts/RecordRelatedList/' . self::$recordId . '/Contacts', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame($request->getStatusCode(), 200, 'Accounts/RecordRelatedList/{ID}/Contacts API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Accounts/RecordRelatedList/{ID}/Contacts API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}', 'get', 200);
+	}
+
+	/**
 	 * Testing record list.
 	 */
 	public function testRecordList(): void
@@ -252,6 +299,15 @@ class Api extends \Tests\Base
 		$response = \App\Json::decode($body);
 		$this->assertSame($request->getStatusCode(), 200, 'Accounts/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertSame($response['status'], 1, 'Accounts/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertGreaterThanOrEqual(1, \count($response['result']['records']));
+		$this->assertGreaterThanOrEqual(1, \count($response['result']['rawData']));
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordsList', 'get', 200);
+
+		$request = $this->httpClient->get('Users/RecordsList', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame($request->getStatusCode(), 200, 'Users/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Users/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertGreaterThanOrEqual(1, \count($response['result']['records']));
 		$this->assertGreaterThanOrEqual(1, \count($response['result']['rawData']));
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordsList', 'get', 200);
