@@ -46,6 +46,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 		'cache/logs/webserviceErrors.log',
 		// 'cache/logs/webserviceDebug.log',
 		'tests/records.log',
+		'/var/www/html/cache/logs/selenium.log',
 	];
 
 	/**

@@ -43,6 +43,8 @@ abstract class GuiBase extends TestCase
 			\print_r($this->logs);
 		}
 		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		print_r($t->__toString());
+		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		if (null !== $this->driver) {
 			echo 'URL: ';
 			$this->driver->getCurrentURL();
@@ -54,7 +56,6 @@ abstract class GuiBase extends TestCase
 			$this->driver->takeScreenshot(ROOT_DIRECTORY . '/cache/logs/selenium_screenshot.png');
 		} else {
 			echo 'No $this->driver';
-			print_r($t->__toString());
 		}
 		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		throw $t;
