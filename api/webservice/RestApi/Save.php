@@ -17,7 +17,7 @@ namespace Api\RestApi;
  */
 class Save extends \Vtiger_Save_Action
 {
-	/** @var int Id od application. */
+	/** @var int ID of application. */
 	protected $appId;
 	/** @var array Skipped value. */
 	public $skippedData = [];
