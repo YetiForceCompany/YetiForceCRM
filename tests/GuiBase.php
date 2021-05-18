@@ -114,8 +114,14 @@ abstract class GuiBase extends TestCase
 	public function findError(): void
 	{
 		$source = $this->driver->getPageSource();
-		if (false !== stripos($source, 'Error')) {
+		if (false !== stripos($source, 'YetiError!!!')) {
 			throw new \Exception('An error has been found');
+		}
+		if (false !== stripos($source, 'YetiForceError!!!')) {
+			throw new \Exception('An error has been found');
+		}
+		if (false !== stripos($source, 'Undefined variable:')) {
+			throw new \Exception('Undefined variable found');
 		}
 	}
 }

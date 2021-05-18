@@ -125,6 +125,7 @@ jobs:
           path: ${{github.workspace}}/tests/coverages
 
       - name: Upload artifact Logs
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: Logs
