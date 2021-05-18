@@ -18,7 +18,7 @@ namespace Api\ManageConsents;
 class Save extends \Vtiger_Save_Action
 {
 	/**
-	 * Id od application.
+	 * ID of application.
 	 *
 	 * @var int
 	 */
