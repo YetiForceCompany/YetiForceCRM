@@ -13,7 +13,7 @@ coverage:
         target: 46%
 
       tests:
-        target: 97%
+        target: 99%
         paths:
           - 'tests/'
       app:

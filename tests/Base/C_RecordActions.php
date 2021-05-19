@@ -216,6 +216,7 @@ class C_RecordActions extends \Tests\Base
 		$record = self::createAccountRecord();
 		self::assertIsInt($record->getId());
 		self::assertSame('Accounts', $record->getModuleName());
+		self::createSQuotesRecord();
 		$record = self::createSQuotesRecord();
 		self::assertIsInt($record->getId());
 		self::assertSame('SQuotes', $record->getModuleName());
