@@ -52,6 +52,8 @@ abstract class GuiBase extends TestCase
 			echo 'Title: ';
 			$this->driver->getTitle();
 			echo PHP_EOL;
+			echo 'Browser logs: ';
+			print_r($this->driver->manage()->getLog('browser'));
 			file_put_contents(ROOT_DIRECTORY . '/cache/logs/selenium_source.html', $this->driver->getPageSource());
 			$this->driver->takeScreenshot(ROOT_DIRECTORY . '/cache/logs/selenium_screenshot.png');
 		} else {
@@ -135,9 +137,13 @@ abstract class GuiBase extends TestCase
 			/** @codeCoverageIgnoreStart */
 			$log = '';
 			foreach ($browserLogs as $value) {
-				$log .= "[{$value['level']}] {$value['message']}";
+				if ('SEVERE' === $value['level']) {
+					$log .= "[{$value['level']}] {$value['message']}\n";
+				}
 			}
-			throw new \Exception('A JavaScript error has occurred: ' . PHP_EOL . $log);
+			if ($log) {
+				throw new \Exception('A JavaScript error has occurred: ' . PHP_EOL . $log);
+			}
 			// @codeCoverageIgnoreEnd
 		}
 	}
