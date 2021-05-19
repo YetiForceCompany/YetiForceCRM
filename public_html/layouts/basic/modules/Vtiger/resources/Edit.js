@@ -1484,16 +1484,19 @@ $.Class(
 			let fields = JSON.parse(event.val());
 			$.each(fields, function (key, fieldName) {
 				let fieldElement = container.find(`[name="${fieldName}"]`);
-				fieldElement.change(function () {
-					let formData = container.serializeFormData();
-					formData['action'] = 'ChangeValueHandler';
-					delete formData['view'];
-					AppConnector.request(formData).done(function (response) {
-						$.each(response.result, function (key, data) {
-							self.triggerRecordEditEvents(data);
+				fieldElement.on(
+					`change ${Vtiger_Edit_Js.referenceSelectionEvent} ${Vtiger_Edit_Js.referenceDeSelectionEvent}`,
+					function () {
+						let formData = container.serializeFormData();
+						formData['action'] = 'ChangeValueHandler';
+						delete formData['view'];
+						AppConnector.request(formData).done(function (response) {
+							$.each(response.result, function (key, data) {
+								self.triggerRecordEditEvents(data);
+							});
 						});
-					});
-				});
+					}
+				);
 			});
 		},
 		/**
