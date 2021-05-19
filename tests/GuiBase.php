@@ -130,6 +130,16 @@ abstract class GuiBase extends TestCase
 			throw new \Exception('Undefined variable found');
 			// @codeCoverageIgnoreEnd
 		}
+		$browserLogs = $this->driver->manage()->getLog('browser');
+		if ($browserLogs) {
+			/** @codeCoverageIgnoreStart */
+			$log = '';
+			foreach ($browserLogs as $value) {
+				$log .= "[{$value['level']}] {$value['message']}";
+			}
+			throw new \Exception('A JavaScript error has occurred: ' . PHP_EOL . $log);
+			// @codeCoverageIgnoreEnd
+		}
 	}
 
 	/**
