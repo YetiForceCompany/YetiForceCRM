@@ -649,8 +649,7 @@ class CustomView
 			return Cache::get('CustomViewInfo', $mixed);
 		}
 		$query = (new Db\Query())->from('vtiger_customview');
-		if (is_numeric($mixed)) {
-			$info = $query->where(['cvid' => $mixed])->one();
+		if (is_numeric($mixed) && ($info = $query->where(['cvid' => $mixed])->one() ?: [])) {
 			$info['cvid'] = (int) $info['cvid'];
 			$info['setdefault'] = (int) ($info['setdefault'] ?? 0);
 			$info['setmetrics'] = (int) ($info['setmetrics'] ?? 0);
