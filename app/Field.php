@@ -14,10 +14,44 @@ namespace App;
  */
 class Field
 {
-	/**
-	 * Help info views.
-	 */
+	/** @var string[] Help info views. */
 	const HELP_INFO_VIEWS = ['LBL_EDIT_VIEW' => 'Edit', 'LBL_DETAIL_VIEW' => 'Detail', 'LBL_QUICK_CREATE_VIEW' => 'QuickCreateAjax'];
+
+	/** @var array System fields */
+	const SYSTEM_FIELDS = [
+		'assigned_user_id' => [
+			'name' => 'assigned_user_id',	'column' => 'smownerid',	'label' => 'Assigned To',	'table' => 'vtiger_crmentity',
+			'uitype' => 53,	'typeofdata' => 'V~M',	'maximumlength' => 65535,
+		],
+		'createdtime' => [
+			'name' => 'createdtime',	'column' => 'createdtime',	'label' => 'Created Time',	'table' => 'vtiger_crmentity',
+			'uitype' => 70,	'typeofdata' => 'DT~O',	'displaytype' => 2,	'maximumlength' => 65535,
+		],
+		'modifiedtime' => [
+			'name' => 'modifiedtime',	'column' => 'modifiedtime',	'label' => 'Modified Time',	'table' => 'vtiger_crmentity',
+			'uitype' => 70,	'typeofdata' => 'DT~O',	'displaytype' => 2,	'maximumlength' => 65535,
+		],
+		'created_user_id' => [
+			'name' => 'created_user_id',	'column' => 'smcreatorid',	'label' => 'Created By',	'table' => 'vtiger_crmentity',
+			'uitype' => 52,	'typeofdata' => 'V~O',	'displaytype' => 2,	'quickcreate' => 3, 'masseditable' => 0, 'maximumlength' => 65535,
+		],
+		'modifiedby' => [
+			'name' => 'modifiedby',	'column' => 'modifiedby',	'label' => 'Last Modified By',	'table' => 'vtiger_crmentity',
+			'uitype' => 52,	'typeofdata' => 'V~O',	'displaytype' => 2,	'quickcreate' => 3, 'masseditable' => 0, 'maximumlength' => 65535,
+		],
+		'shownerid' => [
+			'name' => 'shownerid',	'column' => 'shownerid',	'label' => 'Share with users',	'table' => 'vtiger_crmentity',
+			'uitype' => 120,	'typeofdata' => 'V~O',	'columntype' => 'int(11)', 'maximumlength' => 65535,
+		],
+		'private' => [
+			'name' => 'private',	'column' => 'private',	'label' => 'FL_IS_PRIVATE',	'table' => 'vtiger_crmentity',
+			'uitype' => 56,	'typeofdata' => 'C~O',	'columntype' => 'int(11)', 'maximumlength' => '-128,127',
+		],
+		'share_externally' => [
+			'name' => 'share_externally',	'column' => 'share_externally',	'label' => 'FL_SHARE_EXTERNALLY',	'defaultvalue' => 1,	'fieldparams' => 1,
+			'uitype' => 318,	'typeofdata' => 'C~O',	'columntype' => 'tinyint(1)', 'maximumlength' => '-128,127',
+		],
+	];
 
 	/**
 	 * Function gets the list of fields that the user has permissions to.

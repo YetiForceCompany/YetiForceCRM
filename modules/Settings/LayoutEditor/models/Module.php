@@ -712,4 +712,44 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		return $result;
 	}
+
+	/**
+	 * Get missing system fields.
+	 *
+	 * @return \Vtiger_Field_Model[]
+	 */
+	public function getMissingSystemFields(): array
+	{
+		$fields = $this->getFields();
+		$missingFields = [];
+		foreach (\App\Field::SYSTEM_FIELDS as $name => $field) {
+			if (!isset($fields[$name])) {
+				$missingFields[$name] = \Vtiger_Field_Model::init($this->name, $field, $field['name']);
+			}
+		}
+		return $missingFields;
+	}
+
+	/**
+	 * Create system field.
+	 *
+	 * @param string $sysName
+	 * @param int    $blockId
+	 * @param array  $params
+	 *
+	 * @return void
+	 */
+	public function addSystemField(string $sysName, int $blockId, array $params = []): void
+	{
+		$field = \App\Field::SYSTEM_FIELDS[$sysName];
+		if ($params) {
+			$field = array_merge($params, $field);
+		}
+		$fieldModel = \Vtiger_Field_Model::init($this->name, $field, $field['name']);
+		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this->name);
+		$blockModel->addField($fieldModel);
+		if (empty($field['maximumlength'])) {
+			\App\Db\Fixer::maximumFieldsLength(['fieldid' => $fieldModel->getId()]);
+		}
+	}
 }
