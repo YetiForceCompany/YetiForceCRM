@@ -125,17 +125,10 @@ class Api extends \Tests\Base
 		$this->assertSame($row['password'], 'demo');
 		$this->assertSame($row['language'], 'pl-PL');
 
+		$fieldModel = \Vtiger_Field_Model::init('Accounts', \App\Field::SYSTEM_FIELDS['share_externally']);
+		$fieldModel->fieldparams = self::$serverId;
 		$blockInstance = \vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', 'Accounts');
-		$fieldInstance = new \Vtiger_Field_Model();
-		$fieldInstance->table = 'vtiger_account';
-		$fieldInstance->label = 'FL_SHARE_EXTERNALLY';
-		$fieldInstance->name = 'share_externally';
-		$fieldInstance->column = 'share_externally';
-		$fieldInstance->columntype = 'tinyint(1)';
-		$fieldInstance->uitype = 318;
-		$fieldInstance->typeofdata = 'C~O';
-		$fieldInstance->fieldparams = self::$serverId;
-		$blockInstance->addField($fieldInstance);
+		$blockInstance->addField($fieldModel);
 	}
 
 	/**
