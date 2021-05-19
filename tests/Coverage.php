@@ -68,15 +68,28 @@ class Coverage
 	{
 		if (!isset($this->filter)) {
 			$filter = new \SebastianBergmann\CodeCoverage\Filter();
-			// $filter->includeDirectory(ROOT_DIRECTORY . '/api');
-			// $filter->includeDirectory(ROOT_DIRECTORY . '/app');
-			// $filter->includeDirectory(ROOT_DIRECTORY . '/config');
-			// $filter->includeDirectory(ROOT_DIRECTORY . '/include');
-			// $filter->includeDirectory(ROOT_DIRECTORY . '/modules');
-			// $filter->includeDirectory(ROOT_DIRECTORY . '/vtlib/Vtiger');
-			// $filter->includeDirectory(ROOT_DIRECTORY . '/tests');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/api');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/app');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/app_data');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/config');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/include');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/install');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/modules');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/public_html');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/tests');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/user_privileges');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/vtlib/Vtiger');
 
-			$filter->excludeDirectory(ROOT_DIRECTORY . '/install');
+			$filter->includeFiles([
+				ROOT_DIRECTORY . 'cli.php',
+				ROOT_DIRECTORY . 'cron.php',
+				ROOT_DIRECTORY . 'dav.php',
+				ROOT_DIRECTORY . 'file.php',
+				ROOT_DIRECTORY . 'index.php',
+				ROOT_DIRECTORY . 'shorturl.php',
+				ROOT_DIRECTORY . 'webservice.php',
+			]);
+
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/vendor');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/tests/setup');
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/tests/coverages');

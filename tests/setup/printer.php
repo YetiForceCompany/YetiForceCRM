@@ -263,7 +263,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 			if (file_exists($file)) {
 				$content = file_get_contents($file);
 				if ($content) {
-					$this->writeWithColor('bold,fg-green', "\nLogs:  $file", false);
+					$this->writeWithColor('bold,fg-green', "\nLogs:  $file\n", false);
 					echo $content;
 					$this->write(str_repeat('+', 100));
 				}

@@ -141,14 +141,4 @@ abstract class GuiBase extends TestCase
 			// @codeCoverageIgnoreEnd
 		}
 	}
-
-	/**
-	 * Setup test.
-	 *
-	 * @return void
-	 */
-	protected function tearDown(): void
-	{
-		static::assertInstanceOf('\Facebook\WebDriver\Remote\RemoteWebDriver', $this->driver->close(), 'Window close should return WebDriver object');
-	}
 }
