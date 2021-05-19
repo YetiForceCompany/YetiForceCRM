@@ -110,7 +110,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 				$dbCommand->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $params['mod']])->execute();
 			}
 			$dbCommand->update('vtiger_customview', [$name => $params['value']], ['cvid' => $cvid])->execute();
-			\App\CustomView::clearCacheById($cvid);
+			\App\CustomView::clearCacheById($cvid, $params['mod']);
 			return true;
 		}
 		return false;
