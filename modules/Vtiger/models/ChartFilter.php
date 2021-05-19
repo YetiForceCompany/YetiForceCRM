@@ -1199,7 +1199,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 		foreach (explode(',', $this->widgetModel->get('filterid')) as $id) {
 			$this->filterIds[] = (int) $id;
-			$this->viewNames[$id] = $this->customView->getInfoFilter((int) $id)['viewname'] ?? '';
+			$this->viewNames[$id] = $this->customView->getFilterInfo((int) $id)['viewname'] ?? '';
 		}
 		return $this->filterIds;
 	}
@@ -1313,8 +1313,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
 			$suffix = '';
-			$cvId = $this->getFilterId(0);
-			$viewName = \App\CustomView::getCustomViewsDetails([$cvId])[$cvId]['viewname'] ?? '';
+			$cvId = (int) $this->getFilterId(0);
+			$viewName = \App\CustomView::getCVDetails($cvId)['viewname'] ?? '';
 			if ($viewName) {
 				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
 				if (!empty($this->extraData['groupField'])) {

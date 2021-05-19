@@ -748,7 +748,7 @@ class CustomView_Record_Model extends \App\Base
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PUBLIC], ['cvid' => $this->getId()])
 			->execute();
-		\App\CustomView::clearCacheById($this->getId());
+		\App\CustomView::clearCacheById($this->getId(), $this->getModule()->getName());
 	}
 
 	/**
@@ -759,7 +759,7 @@ class CustomView_Record_Model extends \App\Base
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PRIVATE], ['cvid' => $this->getId()])
 			->execute();
-		\App\CustomView::clearCacheById($this->getId());
+		\App\CustomView::clearCacheById($this->getId(), $this->getModule()->getName());
 	}
 
 	/**
@@ -857,13 +857,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public static function getInstanceById($cvId)
 	{
-		if (\App\Cache::has('CustomView_Record_ModelgetInstanceById', $cvId)) {
-			$row = \App\Cache::get('CustomView_Record_ModelgetInstanceById', $cvId);
-		} else {
-			$row = \App\CustomView::getCustomViewsDetails([$cvId])[$cvId] ?? [];
-			\App\Cache::save('CustomView_Record_ModelgetInstanceById', $cvId, $row, \App\Cache::LONG);
-		}
-		if ($row) {
+		if ($row = \App\CustomView::getCVDetails($cvId)) {
 			$customView = new self();
 			return $customView->setData($row)->setModule($row['entitytype']);
 		}
