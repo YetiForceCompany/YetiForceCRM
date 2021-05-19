@@ -116,13 +116,19 @@ abstract class GuiBase extends TestCase
 	{
 		$source = $this->driver->getPageSource();
 		if (false !== stripos($source, 'YetiError!!!')) {
+			// @codeCoverageIgnoreStart
 			throw new \Exception('An error has been found');
+			// @codeCoverageIgnoreEnd
 		}
 		if (false !== stripos($source, 'YetiForceError!!!')) {
+			// @codeCoverageIgnoreStart
 			throw new \Exception('An error has been found');
+			// @codeCoverageIgnoreEnd
 		}
 		if (false !== stripos($source, 'Undefined variable:')) {
+			// @codeCoverageIgnoreStart
 			throw new \Exception('Undefined variable found');
+			// @codeCoverageIgnoreEnd
 		}
 	}
 

@@ -109,7 +109,6 @@ class Z_Chat extends \Tests\Base
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
 	public static function setUpBeforeClass(): void
@@ -433,6 +432,8 @@ class Z_Chat extends \Tests\Base
 
 	/**
 	 * Cleaning after tests.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public static function tearDownAfterClass(): void
 	{

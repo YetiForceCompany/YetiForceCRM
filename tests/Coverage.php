@@ -7,13 +7,14 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @codeCoverageIgnore
  */
 
 namespace Tests;
 
 /**
  * Code coverage class.
+ *
+ * @codeCoverageIgnore
  */
 class Coverage
 {
@@ -134,16 +135,15 @@ class Coverage
 				++$i;
 			}
 			self::log('Number of merged files: ' . $i);
-			$startTime = microtime(true);
-			$writer = new \SebastianBergmann\CodeCoverage\Report\Html\Facade();
-			$writer->process($this->coverage, $this->dir . 'html/');
-			self::log('Clover Html time: ' . round(microtime(true) - $startTime, 1) . ' s.');
+			// $startTime = microtime(true);
+			// $writer = new \SebastianBergmann\CodeCoverage\Report\Html\Facade();
+			// $writer->process($this->coverage, $this->dir . 'html/');
+			// self::log('Clover Html time: ' . round(microtime(true) - $startTime, 1) . ' s.');
 
 			$startTime = microtime(true);
 			$writer = new \SebastianBergmann\CodeCoverage\Report\Clover();
 			$clover = $writer->process($this->coverage);
 			file_put_contents("{$this->dir}coverage.xml", $clover);
-			file_put_contents("{$this->dir}coverage2.xml", str_replace('/var/www/html/', '/', $clover));
 			file_put_contents("{$this->dir}coverage3.xml", str_replace('/var/www/html/', '/home/runner/work/YetiForceCRM/YetiForceCRM/', $clover));
 			file_put_contents("{$this->dir}coverage4.xml", str_replace('/var/www/html/', '/github/workspace/', $clover));
 			self::log('Clover Report time: ' . round(microtime(true) - $startTime, 1) . ' s.');
