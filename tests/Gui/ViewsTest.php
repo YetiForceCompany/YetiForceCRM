@@ -15,7 +15,7 @@ use Facebook\WebDriver\WebDriverBy;
  * @internal
  * @coversNothing
  */
-final class Gui_ListViewTest extends \Tests\GuiBase
+final class Gui_ViewsTest extends \Tests\GuiBase
 {
 	/**
 	 * Testing the record list all modules.
@@ -30,19 +30,6 @@ final class Gui_ListViewTest extends \Tests\GuiBase
 			$this->logs = $module['name'];
 			static::assertSame($module['name'], $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
 			static::assertSame('List', $this->driver->findElement(WebDriverBy::id('view'))->getAttribute('value'));
-			// try {
-				// 	$this->driver->findElement(WebDriverBy::id($module['name'] . '_listView_row_1'))->click();
-				// 	$this->findError();
-				// } catch (\Throwable $th) {
-				// 	echo " {$module['name']} Skipped, no records\n";
-				// 	continue;
-				// }
-				// try {
-				// 	$this->driver->findElement(WebDriverBy::className($module['name'] . '_detailViewBasic_action_BTN_RECORD_EDIT'))->click();
-				// 	$this->findError();
-				// } catch (\Throwable $th) {
-				// 	echo "{$module['name']} Skipped, no edit btn\n";
-				// }
 		}
 	}
 
@@ -72,6 +59,38 @@ final class Gui_ListViewTest extends \Tests\GuiBase
 		$this->url('index.php?module=Accounts&view=ListPreview');
 		$this->findError();
 		$this->url('index.php?module=Accounts&view=DashBoard');
+		$this->findError();
+	}
+
+	/**
+	 * Testing the record edit view.
+	 *
+	 * @return void
+	 */
+	public function testEditView(): void
+	{
+		$accountModel = \Tests\Base\C_RecordActions::createAccountRecord();
+		$this->url('index.php?module=Accounts&view=Detail&record=' . $accountModel->getId());
+		$this->findError();
+		foreach ($this->driver->findElements(WebDriverBy::cssSelector('.js-tabdrop li')) as $element) {
+			$element->click();
+			$this->findError();
+		}
+	}
+
+	/**
+	 * Testing the record detail view.
+	 *
+	 * @return void
+	 */
+	public function testDetailView(): void
+	{
+		$accountModel = \Tests\Base\C_RecordActions::createAccountRecord();
+		$this->url('index.php?module=Accounts&view=Edit&record=' . $accountModel->getId());
+		$this->findError();
+		$this->driver->findElement(WebDriverBy::cssSelector('[data-type="App\RecordCollectors\Vies"]'))->click();
+		$this->findError();
+		$this->driver->findElement(WebDriverBy::className('js-form-submit-btn'))->click();
 		$this->findError();
 	}
 }
