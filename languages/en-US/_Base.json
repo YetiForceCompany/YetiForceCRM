@@ -1268,7 +1268,6 @@
     "LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS": "Estimated Opportunity value",
     "LBL_UPDATE_FIELD": "Update field",
     "FL_IS_PRIVATE": "Private",
-    "FL_SHARE_EXTERNALLY": "Share externally (API/Portal)",
     "LBL_AUTOMATIC_ASSIGNMENT": "Automatic assignment",
     "LBL_ROLE": "Role",
     "LBL_NO_FIELD_ACCESS": "You cannot change the values in the fields",

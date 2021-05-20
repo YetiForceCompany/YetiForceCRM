@@ -103,11 +103,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @param string $propertyName
 	 *
-	 * @throws Exception
-	 *
-	 * @return <Object>
+	 * @return mixed|null
 	 */
-	public function get($propertyName)
+	public function get(string $propertyName)
 	{
 		if (property_exists($this, $propertyName)) {
 			return $this->{$propertyName};
@@ -119,14 +117,13 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Function which sets value for given name.
 	 *
 	 * @param string $name  - name for which value need to be assinged
-	 * @param <type> $value - values that need to be assigned
+	 * @param mixed  $value - values that need to be assigned
 	 *
 	 * @return Vtiger_Field_Model
 	 */
-	public function set($name, $value)
+	public function set(string $name, $value)
 	{
 		$this->{$name} = $value;
-
 		return $this;
 	}
 
