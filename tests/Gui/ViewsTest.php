@@ -56,8 +56,8 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 		$this->findError();
 		$this->driver->executeScript("$('#menubar_quickCreate_Accounts').click()");
 		$this->findError();
-		$this->url('index.php?module=Accounts&view=ListPreview');
-		$this->findError();
+		// $this->url('index.php?module=Accounts&view=ListPreview');
+		// $this->findError();
 		$this->url('index.php?module=Accounts&view=DashBoard');
 		$this->findError();
 	}
