@@ -5542,8 +5542,6 @@ CREATE TABLE `vtiger_customaction` (
 CREATE TABLE `vtiger_customerdetails` (
   `customerid` int(10) NOT NULL,
   `portal` smallint(1) DEFAULT NULL,
-  `support_start_date` date DEFAULT NULL,
-  `support_end_date` date DEFAULT NULL,
   PRIMARY KEY (`customerid`),
   CONSTRAINT `fk_1_vtiger_customerdetails` FOREIGN KEY (`customerid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

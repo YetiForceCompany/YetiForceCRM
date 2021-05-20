@@ -38,7 +38,7 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 	 *
 	 * @return void
 	 */
-	public function testActions(): void
+	public function testListView(): void
 	{
 		$this->url('index.php?module=Accounts&view=List');
 		$this->driver->findElement(WebDriverBy::name('accountname'))->sendKeys('demo');
@@ -56,8 +56,17 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 		$this->findError();
 		$this->driver->executeScript("$('#menubar_quickCreate_Accounts').click()");
 		$this->findError();
-		// $this->url('index.php?module=Accounts&view=ListPreview');
-		// $this->findError();
+	}
+
+	/**
+	 * Testing the list views.
+	 *
+	 * @return void
+	 */
+	public function testListViews(): void
+	{
+		$this->url('index.php?module=Accounts&view=ListPreview');
+		$this->findError();
 		$this->url('index.php?module=Accounts&view=DashBoard');
 		$this->findError();
 	}

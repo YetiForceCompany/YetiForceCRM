@@ -1150,16 +1150,6 @@ class Vtiger_Field_Model extends vtlib\Field
 				$funcName = ['name' => 'lessThanToday'];
 				$validator[] = $funcName;
 				break;
-			case 'support_end_date':
-				$funcName = ['name' => 'greaterThanDependentField',
-					'params' => ['support_start_date'], ];
-				$validator[] = $funcName;
-				break;
-			case 'support_start_date':
-				$funcName = ['name' => 'lessThanDependentField',
-					'params' => ['support_end_date'], ];
-				$validator[] = $funcName;
-				break;
 			case 'targetenddate':
 			case 'actualenddate':
 			case 'enddate':
