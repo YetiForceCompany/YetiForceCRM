@@ -15,7 +15,7 @@
 class Settings_LayoutEditor_CreateSystemFields_View extends \App\Controller\ModalSettings
 {
 	/** {@inheritdoc} */
-	protected $pageTitle = 'LBL_ADD_SYSTEM_FIELD';
+	protected $pageTitle = 'BTN_ADD_SYSTEM_FIELD';
 
 	/** {@inheritdoc} */
 	public $successBtn = 'LBL_ADD';
