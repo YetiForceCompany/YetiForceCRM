@@ -75,19 +75,26 @@ class Coverage
 			$filter->includeDirectory(ROOT_DIRECTORY . '/include');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/install');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/modules');
-			$filter->includeDirectory(ROOT_DIRECTORY . '/public_html');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/public_html/install');
+			$filter->includeDirectory(ROOT_DIRECTORY . '/public_html/modules/MailIntegration/');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/tests');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/user_privileges');
 			$filter->includeDirectory(ROOT_DIRECTORY . '/vtlib/Vtiger');
 
 			$filter->includeFiles([
-				ROOT_DIRECTORY . 'cli.php',
-				ROOT_DIRECTORY . 'cron.php',
-				ROOT_DIRECTORY . 'dav.php',
-				ROOT_DIRECTORY . 'file.php',
-				ROOT_DIRECTORY . 'index.php',
-				ROOT_DIRECTORY . 'shorturl.php',
-				ROOT_DIRECTORY . 'webservice.php',
+				ROOT_DIRECTORY . '/cli.php',
+				ROOT_DIRECTORY . '/cron.php',
+				ROOT_DIRECTORY . '/dav.php',
+				ROOT_DIRECTORY . '/file.php',
+				ROOT_DIRECTORY . '/index.php',
+				ROOT_DIRECTORY . '/shorturl.php',
+				ROOT_DIRECTORY . '/webservice.php',
+				ROOT_DIRECTORY . '/public_html/cron.php',
+				ROOT_DIRECTORY . '/public_html/dav.php',
+				ROOT_DIRECTORY . '/public_html/file.php',
+				ROOT_DIRECTORY . '/public_html/index.php',
+				ROOT_DIRECTORY . '/public_html/shorturl.php',
+				ROOT_DIRECTORY . '/public_html/webservice.php',
 			]);
 
 			$filter->excludeDirectory(ROOT_DIRECTORY . '/vendor');

@@ -41,6 +41,7 @@ abstract class GuiBase extends TestCase
 		if (isset($this->logs)) {
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			\print_r($this->logs);
+			file_put_contents(ROOT_DIRECTORY . '/cache/logs/selenium_logs.log', print_r($this->logs, true));
 		}
 		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		print_r($t->__toString());
@@ -105,6 +106,7 @@ abstract class GuiBase extends TestCase
 		$this->driver->get(\App\Config::main('site_URL') . 'index.php?module=Users&view=Login');
 		$this->logs = [
 			'url' => $this->driver->getCurrentURL(),
+			'getPageSource' => $this->driver->getPageSource(),
 		];
 		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
 		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
