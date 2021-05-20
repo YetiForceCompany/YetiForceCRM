@@ -53,28 +53,6 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		return $users;
 	}
 
-	public static function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
-	{
-		if ('add' == $action) {
-			$dataReader = (new App\Db\Query())->select(['vtiger_customview.viewname'])
-				->from('vtiger_user_module_preferences')
-				->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
-				->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user])
-				->createCommand()->query();
-			if ($dataReader->count()) {
-				return $dataReader->readColumn(0);
-			}
-			\App\Db::getInstance()->createCommand()->insert('vtiger_user_module_preferences', [
-				'userid' => $user,
-				'tabid' => $tabid,
-				'default_cvid' => $cvId,
-			])->execute();
-		} elseif ('remove' == $action) {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
-		}
-		return false;
-	}
-
 	/**
 	 * Function to delete filter.
 	 *

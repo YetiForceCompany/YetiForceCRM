@@ -104,26 +104,26 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function setFilterPermissions(App\Request $request)
 	{
-		$tabid = $request->getInteger('tabid');
 		$cvid = $request->getInteger('cvid');
 		$user = $request->getByType('user', 'Text');
-		$type = $request->getByType('type');
-		$operator = $request->getByType('operator');
-		if ('default' === $type) {
-			$result = Settings_CustomView_Module_Model::setDefaultUsersFilterView($tabid, $cvid, $user, $operator);
-		} elseif ('featured' === $type) {
-			$result = CustomView_Record_Model::setFeaturedFilterView($cvid, $user, $operator);
+		$add = $request->getBoolean('operator');
+
+		$recordModel = CustomView_Record_Model::getInstanceById($cvid);
+
+		switch ($request->getByType('type')) {
+			case 'default':
+				$result = $add ? $recordModel->setDefaultForMember($user) : $recordModel->removeDefaultForMember($user);
+				break;
+			case 'featured':
+				$result = $add ? $recordModel->setFeaturedForMember($user) : $recordModel->removeFeaturedForMember($user);
+				break;
+			default:
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				break;
 		}
-		if (!empty($result)) {
-			$data = [
-				'message' => \App\Language::translate('LBL_EXISTS_PERMISSION_IN_CONFIG', $request->getModule(false), \App\Language::translate($result, $tabid)),
-				'success' => false,
-			];
-		} else {
-			$data = [
-				'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false)),
-				'success' => true,
-			];
+		$data = ['success' => $result];
+		if ($result) {
+			$data['message'] = \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($data);
