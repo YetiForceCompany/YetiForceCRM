@@ -105,6 +105,7 @@ abstract class GuiBase extends TestCase
 	{
 		$this->driver->get(\App\Config::main('site_URL') . 'index.php?module=Users&view=Login');
 		$this->logs = [
+			'test' => __METHOD__,
 			'url' => $this->driver->getCurrentURL(),
 			'getPageSource' => $this->driver->getPageSource(),
 		];
@@ -151,5 +152,10 @@ abstract class GuiBase extends TestCase
 			}
 			// @codeCoverageIgnoreEnd
 		}
+		$this->logs = [
+			'test' => __METHOD__,
+			'url' => $this->driver->getCurrentURL(),
+			'getPageSource' => $source,
+		];
 	}
 }

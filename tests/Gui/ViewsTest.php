@@ -44,9 +44,9 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 		$this->driver->findElement(WebDriverBy::name('accountname'))->sendKeys('demo');
 		$this->driver->executeScript('Vtiger_List_Js.triggerListSearch()');
 		$this->findError();
-		$this->driver->findElement(WebDriverBy::cssSelector('.js-change-order[data-columnname="accountname"]'))->click();
+		$this->driver->executeScript("$('.js-change-order[data-columnname=\"accountname\"]').click()");
 		$this->findError();
-		$this->driver->findElement(WebDriverBy::className('Accounts_listViewHeader_action_BTN_PERMISSION_INSPECTOR '))->click();
+		$this->driver->findElement(WebDriverBy::className('Accounts_listViewHeader_action_BTN_PERMISSION_INSPECTOR'))->click();
 		$this->findError();
 		$this->driver->findElement(WebDriverBy::className('Accounts_listViewHeader_action_LBL_SHOW_MAP'))->click();
 		$this->findError();
