@@ -46,6 +46,7 @@ abstract class GuiBase extends TestCase
 		print_r($t->__toString());
 		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		if (null !== $this->driver) {
+			file_put_contents(ROOT_DIRECTORY . '/cache/logs/selenium_source.html', $this->driver->getPageSource());
 			echo 'URL: ';
 			$this->driver->getCurrentURL();
 			echo PHP_EOL;
@@ -54,7 +55,6 @@ abstract class GuiBase extends TestCase
 			echo PHP_EOL;
 			echo 'Browser logs: ';
 			print_r($this->driver->manage()->getLog('browser'));
-			file_put_contents(ROOT_DIRECTORY . '/cache/logs/selenium_source.html', $this->driver->getPageSource());
 			$this->driver->takeScreenshot(ROOT_DIRECTORY . '/cache/logs/selenium_screenshot.png');
 		} else {
 			echo 'No $this->driver';
@@ -103,6 +103,9 @@ abstract class GuiBase extends TestCase
 	public function login(): void
 	{
 		$this->driver->get(\App\Config::main('site_URL') . 'index.php?module=Users&view=Login');
+		$this->logs = [
+			'url' => $this->driver->getCurrentURL(),
+		];
 		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
 		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
 		$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
