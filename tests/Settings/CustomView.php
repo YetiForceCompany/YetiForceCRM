@@ -36,7 +36,7 @@ class CustomView extends \Tests\Base
 		$this->assertNotEmpty($filterPermsView, 'Custom view permissions list(default) should be not empty');
 		$filterPermsFound = false;
 		foreach ($filterPermsView as $val) {
-			if (\in_array(\App\User::getActiveAdminId(), $val)) {
+			if (\in_array($user, $val)) {
 				$filterPermsFound = true;
 			}
 		}
