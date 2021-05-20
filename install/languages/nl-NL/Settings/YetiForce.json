@@ -1,7 +1,7 @@
 {
   "php": {
     "YetiForce": "YetiForce",
-    "LBL_VIEW_SHOP": "Marketplace",
+    "LBL_VIEW_SHOP": "Marktplaats",
     "LBL_REGISTRATION_ONLINE_MODAL": "OnLine registration",
     "LBL_REGISTRATION_OFFLINE_MODAL": "OffLine registration",
     "LBL_REGISTER": "Register",
@@ -37,9 +37,9 @@
     "LBL_FAILED_TRANSACTION": "Transaction failed or was cancelled, please check the payment on your PayPal account and try again.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "The size of your company has changed, the purchased package is too small for the current size. Update your subscription.",
     "LBL_SUBSCRIPTION_HAS_EXPIRED": "Het abonnement is verlopen. Verleng uw abonnement om deze functionaliteit te blijven gebruiken. ",
-    "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "One of the purchased products has expired or requires changing a package. The product has been temporarily canceled.",
-    "LBL_PAID_FUNCTIONALITY_ACTIVATED": "A paid functionality has been activated without purchasing a subscription!!!",
-    "LBL_SUBSCRIPTION_COMPANY_SIZE_HAS_CHANGED": "The company size has changed and it requires a higher tier of the subscription package",
+    "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "Eén van de gekochte producten is verlopen of vereist het wijzigen van een pakket. Het product is tijdelijk geannuleerd.",
+    "LBL_PAID_FUNCTIONALITY_ACTIVATED": "Betaalde functionaliteit is geactiveerd zonder een abonnement te kopen!!!",
+    "LBL_SUBSCRIPTION_COMPANY_SIZE_HAS_CHANGED": "De grootte van het bedrijf is veranderd en vereist een hoger niveau van het abonnementspakket",
     "LBL_PRODUCT_PREVIEW": "Product Preview",
     "LBL_SUPPORT_US": "Support us",
     "LBL_SHOP_PRODUCT_NAME": "Product name",
