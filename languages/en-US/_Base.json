@@ -831,9 +831,6 @@
     "CRM Applications": "CRM applications",
     "Antivirus": "Antivirus",
     "Backup": "Backup",
-    "Signed in": "Signed in",
-    "Signed off": "Signed off",
-    "Failed login": "Failed login",
     "Board of Management": "Board of Management",
     "Sales Department": "Sales Department",
     "Logistics Department": "Logistics Department",
@@ -1487,7 +1484,8 @@
     "LBL_NUMBER_OF_ERRORS": "Number of errors",
     "LBL_DAILY": "Daily",
     "LBL_MONTHLY": "Monthly",
-    "LBL_YEARLY": "Yearly"
+    "LBL_YEARLY": "Yearly",
+    "LBL_USER_AGENT": "User agent"
   },
   "js": {
     "JS_APPROVE": "Approve",

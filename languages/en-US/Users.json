@@ -385,7 +385,7 @@
     "FL_MAIL_SCANNER_FIELDS": "Records’ relation fields (Outlook)",
     "LBL_ACCOUNT_SETTINGS": "Account settings",
     "LBL_USER_NAME": "User name",
-    "LBL_LOGIN_TIME": "Sign-in time",
+    "LBL_LOGIN_TIME": "Date time",
     "LBL_LOGGED_OUT_TIME": "Sign-out time",
     "LBL_USER_IP_ADDRESS": "User IP address",
     "LBL_STATUS": "Status",
@@ -398,7 +398,15 @@
     "PLL_STARTS_WITH": "Begins with",
     "PLL_ENDS_WITH": "Ends with",
     "FL_SUPER_USER": "Super user",
-    "LBL_VISIT_PURPOSE_INFO": "Enter visit purpose"
+    "LBL_VISIT_PURPOSE_INFO": "Enter visit purpose",
+    "Signed in": "Signed in",
+    "Signed off": "Signed off",
+    "Failed login": "Failed login",
+    "ForgotPasswordSendMail": "Email with password change has been sent",
+    "ERR_RESET_PASS_NO_USER": "Password reset attempt, user not found",
+    "ERR_RESET_IP_BLOCK": "Password reset attempt despite IP block",
+    "ERR_LOGIN_DESP_IP_BLOCK": "Login attempt despite IP block",
+    "ERR_LOGIN_IP_BLOCK": "Unsuccessful login attempt. IP blocked due to exceeding login attempts limit. "
   },
   "js": {
     "JS_DELETE_USER_CONFIRMATION": "When a User is deleted, the user will be marked as \"Inactive\" and no new records can be assigned to the User, and the user will not be able to login. Are you sure you want to delete?",

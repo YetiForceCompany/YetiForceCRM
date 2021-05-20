@@ -94,10 +94,12 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to store the login history.
 	 *
-	 * @param type  $userName
-	 * @param mixed $status
+	 * @param string $userName
+	 * @param string $status
+	 *
+	 * @return void
 	 */
-	public function saveLoginHistory($userName, $status = 'Signed in')
+	public function saveLoginHistory(string $userName, string $status): void
 	{
 		$userIPAddress = \App\RequestUtil::getRemoteIP();
 		$browser = \App\RequestUtil::getBrowserInfo();
