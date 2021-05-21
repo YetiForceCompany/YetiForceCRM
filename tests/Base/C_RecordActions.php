@@ -98,7 +98,7 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createLeadRecord($cache = true)
+	public static function createLeadRecord($cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordLeads && $cache) {
 			return self::$recordLeads;
@@ -118,7 +118,7 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createContactRecord($cache = true)
+	public static function createContactRecord($cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordContacts && $cache) {
 			return self::$recordContacts;
@@ -142,7 +142,7 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @param mixed $cache
 	 */
-	public static function createAccountRecord($cache = true)
+	public static function createAccountRecord($cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordAccounts && $cache) {
 			return self::$recordAccounts;
@@ -156,13 +156,13 @@ class C_RecordActions extends \Tests\Base
 	}
 
 	/**
-	 * Creating Product module record for tests.
+	 * Creating SQuotes module record for tests.
 	 *
 	 * @var bool
 	 *
 	 * @param mixed $cache
 	 */
-	public static function createSQuotesRecord($cache = true)
+	public static function createSQuotesRecord($cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordSQuotes && $cache) {
 			return self::$recordSQuotes;
@@ -196,7 +196,7 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @param mixed $cache
 	 */
-	public static function createProductRecord($cache = true)
+	public static function createProductRecord($cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordProducts && $cache) {
 			return self::$recordProducts;
@@ -213,7 +213,14 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testCreateRecord()
 	{
-		self::assertIsInt(self::createAccountRecord()->getId());
+		$record = self::createAccountRecord();
+		self::assertIsInt($record->getId());
+		self::assertSame('Accounts', $record->getModuleName());
+		self::createSQuotesRecord();
+		$record = self::createSQuotesRecord();
+		self::assertIsInt($record->getId());
+		self::assertSame('SQuotes', $record->getModuleName());
+		self::assertNotEmpty($record->getInventoryData());
 	}
 
 	/**

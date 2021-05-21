@@ -10,7 +10,7 @@
 					<th></th>
 					<th>{\App\Language::translate('ViewName',$QUALIFIED_MODULE)}</th>
 					<th>{\App\Language::translate('SetDefault',$QUALIFIED_MODULE)}</th>
-					<th>{\App\Language::translate('Privileges',$QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('LBL_PRIVILEGES_TO_EDIT',$QUALIFIED_MODULE)}</th>
 					<th>{\App\Language::translate('LBL_FEATURED_LABELS',$QUALIFIED_MODULE)}</th>
 					<th>{\App\Language::translate('LBL_SORTING',$QUALIFIED_MODULE)}</th>
 					<th>{\App\Language::translate('LBL_CREATED_BY',$QUALIFIED_MODULE)}</th>

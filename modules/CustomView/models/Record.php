@@ -20,11 +20,21 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Function to get the Id.
 	 *
-	 * @return <Number> Custom View Id
+	 * @return int Custom View Id
 	 */
 	public function getId()
 	{
 		return $this->get('cvid');
+	}
+
+	/**
+	 * Function to get filter name.
+	 *
+	 * @return string
+	 */
+	public function getName(): string
+	{
+		return $this->get('viewname');
 	}
 
 	/**
@@ -260,20 +270,59 @@ class CustomView_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public static function setFeaturedFilterView($cvId, $user, $action)
+	public function setFeaturedForMember($user)
 	{
-		$db = \App\Db::getInstance();
-		if ('add' === $action) {
-			$db->createCommand()->insert('u_#__featured_filter', [
-				'user' => $user,
-				'cvid' => $cvId,
-			])->execute();
-		} elseif ('remove' === $action) {
-			$db->createCommand()
-				->delete('u_#__featured_filter', ['user' => $user, 'cvid' => $cvId])
-				->execute();
+		$result = true;
+		if (!(new App\Db\Query())->from('u_#__featured_filter')->where(['cvid' => $this->getId(), 'user' => $user])->exists()) {
+			$result = (bool) \App\Db::getInstance()->createCommand()->insert('u_#__featured_filter', ['user' => $user, 'cvid' => $this->getId()])->execute();
 		}
-		return false;
+		return $result;
+	}
+
+	/**
+	 * Removes the filter from the user favorites filters.
+	 *
+	 * @param string $user
+	 *
+	 * @return bool
+	 */
+	public function removeFeaturedForMember(string $user): bool
+	{
+		return (bool) \App\Db::getInstance()->createCommand()->delete('u_#__featured_filter', ['user' => $user, 'cvid' => $this->getId()])->execute();
+	}
+
+	/**
+	 * Sets filter as default for user.
+	 *
+	 * @param string $user
+	 *
+	 * @return bool
+	 */
+	public function setDefaultForMember(string $user): bool
+	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$result = true;
+		if (!(new App\Db\Query())->from('vtiger_user_module_preferences')->where(['default_cvid' => $this->getId(), 'userid' => $user])->exists()) {
+			$dbCommand->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $this->getModule()->getId()])->execute();
+			$result = (bool) $dbCommand->insert('vtiger_user_module_preferences', [
+				'userid' => $user,
+				'tabid' => $this->getModule()->getId(),
+				'default_cvid' => $this->getId(),
+			])->execute();
+		}
+		return $result;
+	}
+
+	/**
+	 * Removes the filter from the user default filters.
+	 *
+	 * @param string $user
+	 *
+	 * @return bool
+	 */
+	public function removeDefaultForMember(string $user): bool
+	{
+		return (bool) \App\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'default_cvid' => $this->getId()])->execute();
 	}
 
 	/**
@@ -392,22 +441,15 @@ class CustomView_Record_Model extends \App\Base
 		}
 
 		$userId = 'Users:' . $currentUserModel->getId();
-		if (!empty($featured) && empty($cvIdOrg)) {
-			self::setFeaturedFilterView($cvId, $userId, 'add');
-		} elseif (empty($featured) && !empty($cvIdOrg)) {
-			self::setFeaturedFilterView($cvId, $userId, 'remove');
+		if (empty($featured) && !empty($cvIdOrg)) {
+			$this->removeFeaturedForMember($userId);
 		} elseif (!empty($featured)) {
-			$isExists = (new App\Db\Query())->from('u_#__featured_filter')->where(['cvid' => $cvId, 'user' => $userId])->exists();
-			if (!$isExists) {
-				self::setFeaturedFilterView($cvId, $userId, 'add');
-			}
+			$this->setFeaturedForMember($userId);
 		}
 		if (empty($setDefault) && !empty($cvIdOrg)) {
-			App\Db::getInstance()->createCommand()
-				->delete('vtiger_user_module_preferences', ['userid' => $userId, 'tabid' => $this->getModule()->getId(), 'default_cvid' => $cvId])
-				->execute();
+			$this->removeDefaultForMember($userId);
 		} elseif (!empty($setDefault)) {
-			$this->setDefaultFilter();
+			$this->setDefaultForMember($userId);
 		}
 		$transaction->commit();
 		\App\Cache::clear();
@@ -425,23 +467,6 @@ class CustomView_Record_Model extends \App\Base
 		// To Delete the mini list widget associated with the filter
 		$db->createCommand()->delete('vtiger_module_dashboard', ['filterid' => $cvId])->execute();
 		App\Cache::clear();
-	}
-
-	/**
-	 * Function to delete the custom view record.
-	 */
-	public function setDefaultFilter()
-	{
-		$db = App\Db::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$userId = 'Users:' . $currentUser->getId();
-		$tabId = $this->getModule()->getId();
-		$db->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $userId, 'tabid' => $tabId])->execute();
-		$db->createCommand()->insert('vtiger_user_module_preferences', [
-			'userid' => $userId,
-			'tabid' => $tabId,
-			'default_cvid' => $this->getId(),
-		])->execute();
 	}
 
 	/**
@@ -748,7 +773,7 @@ class CustomView_Record_Model extends \App\Base
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PUBLIC], ['cvid' => $this->getId()])
 			->execute();
-		\App\CustomView::clearCacheById($this->getId());
+		\App\CustomView::clearCacheById($this->getId(), $this->getModule()->getName());
 	}
 
 	/**
@@ -759,7 +784,7 @@ class CustomView_Record_Model extends \App\Base
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PRIVATE], ['cvid' => $this->getId()])
 			->execute();
-		\App\CustomView::clearCacheById($this->getId());
+		\App\CustomView::clearCacheById($this->getId(), $this->getModule()->getName());
 	}
 
 	/**
@@ -857,13 +882,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public static function getInstanceById($cvId)
 	{
-		if (\App\Cache::has('CustomView_Record_ModelgetInstanceById', $cvId)) {
-			$row = \App\Cache::get('CustomView_Record_ModelgetInstanceById', $cvId);
-		} else {
-			$row = \App\CustomView::getCustomViewsDetails([$cvId])[$cvId] ?? [];
-			\App\Cache::save('CustomView_Record_ModelgetInstanceById', $cvId, $row, \App\Cache::LONG);
-		}
-		if ($row) {
+		if ($row = \App\CustomView::getCVDetails($cvId)) {
 			$customView = new self();
 			return $customView->setData($row)->setModule($row['entitytype']);
 		}

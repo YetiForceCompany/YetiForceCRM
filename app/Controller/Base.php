@@ -149,7 +149,7 @@ abstract class Base
 	}
 
 	/**
-	 * Function to check if session is extend.
+	 * Function to check if session is extended.
 	 *
 	 * @param \App\Request $request
 	 *

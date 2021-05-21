@@ -140,7 +140,7 @@ abstract class Page extends Base
 	 *
 	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
 	 */
-	protected function getMenuHeaderLinks(\App\Request $request)
+	protected function getMenuHeaderLinks(\App\Request $request): array
 	{
 		$userModel = \App\User::getCurrentUserModel();
 		$headerLinks = [];
@@ -203,7 +203,7 @@ abstract class Page extends Base
 	 *
 	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
 	 */
-	protected function getUserQuickMenuLinks(\App\Request $request)
+	protected function getUserQuickMenuLinks(\App\Request $request): array
 	{
 		$userModel = \Users_Record_Model::getCurrentUserModel();
 		$headerLinks[] = [
@@ -240,7 +240,7 @@ abstract class Page extends Base
 		}
 		$headerLinks[] = [
 			'linktype' => 'HEADERLINK',
-			'linklabel' => 'LBL_LOGIN_HISTORY',
+			'linklabel' => 'BTN_YOUR_ACCOUNT_ACCESS_HISTORY',
 			'linkdata' => ['url' => 'index.php?module=Users&view=LoginHistoryModal&mode=change&record=' . $userModel->get('id')],
 			'linkclass' => 'showModal d-block',
 			'icon' => 'yfi yfi-login-history',

@@ -9,15 +9,22 @@ coverage:
   range: 0..22
   status:
     project:
-      default: false
+      default:
+        target: 46%
+
       tests:
-        target: 97%
+        target: 99%
         paths:
           - 'tests/'
       app:
-        target: 0.5%
+        target: 40%
         paths:
           - 'app/'
+
+      api:
+        target: 60%
+        paths:
+          - 'api/'
     patch: off
 
 comment: off

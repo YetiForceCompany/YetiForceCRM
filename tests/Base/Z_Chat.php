@@ -109,25 +109,6 @@ class Z_Chat extends \Tests\Base
 	}
 
 	/**
-	 * Is room pinned.
-	 *
-	 * @param string $roomType
-	 * @param int    $recordId
-	 * @param int    $userId
-	 *
-	 * @return bool
-	 */
-	private static function isRoomPinned(string $roomType, int $recordId, int $userId): bool
-	{
-		return (new \App\Db\Query())
-			->select('userid')
-			->from(\App\Chat::TABLE_NAME['room'][$roomType])
-			->where(['and', ['userid' => $userId], [\App\Chat::COLUMN_NAME['room'][$roomType] => $recordId]])
-			->exists();
-	}
-
-	/**
-	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
 	public static function setUpBeforeClass(): void
@@ -450,8 +431,9 @@ class Z_Chat extends \Tests\Base
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * Cleaning after tests.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public static function tearDownAfterClass(): void
 	{

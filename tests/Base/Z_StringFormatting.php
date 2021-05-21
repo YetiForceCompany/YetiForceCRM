@@ -276,8 +276,6 @@ class Z_StringFormatting extends \Tests\Base
 	/**
 	 * Restore current user preferences.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @throws \Exception
 	 */
 	public static function tearDownAfterClass(): void

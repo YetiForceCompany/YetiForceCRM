@@ -333,7 +333,7 @@ jQuery.Class(
 				source: function (request, response) {
 					AppConnector.request({
 						module: searchModule.val(),
-						curentModule: app.getModuleName(),
+						currentModule: app.getModuleName(),
 						searchModule: searchModule.val(),
 						view: 'BasicAjax',
 						mode: 'showSearchResults',

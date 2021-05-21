@@ -56,9 +56,8 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 		$bruteForceInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp()) {
 			$bruteForceInstance->incAttempts();
-			$moduleModel->saveLoginHistory(strtolower($userName), 'Blocked IP');
+			$moduleModel->saveLoginHistory(strtolower($userName), 'ERR_RESET_IP_BLOCK');
 			header('location: index.php?module=Users&view=Login');
-
 			return false;
 		}
 		$isExists = (new \App\Db\Query())->from('vtiger_users')->where(['status' => 'Active', 'deleted' => 0, 'email1' => $email])->andWhere(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->exists();
@@ -85,7 +84,7 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 			\App\Session::set('UserLoginMessage', App\Language::translate('LBL_NO_USER_FOUND', $moduleName));
 			\App\Session::set('UserLoginMessageType', 'error');
 			$bruteForceInstance->updateBlockedIp();
-			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('user_name')), 'ForgotPasswordNoUserFound');
+			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('user_name')), 'ERR_RESET_PASS_NO_USER');
 			if ($bruteForceInstance->isBlockedIp()) {
 				$bruteForceInstance->sendNotificationEmail();
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', $moduleName));

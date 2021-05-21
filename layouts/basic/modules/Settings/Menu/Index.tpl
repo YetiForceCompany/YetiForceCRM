@@ -23,7 +23,7 @@
 							</option>
 						{/foreach}
 					</optgroup>
-					<optgroup label="{\App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}">
+					<optgroup label="{\App\Language::translate('WebserviceApps', 'Settings.WebserviceApps')}">
 						{foreach item=SERVER key=KEY from=Settings_WebserviceApps_Module_Model::getServers()}
 							<option value="{$KEY}" {if $ROLEID eq $KEY} selected="" {/if}>
 								{App\Purifier::encodeHtml($SERVER['name'])}

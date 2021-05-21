@@ -108,13 +108,15 @@
 											{if $SPECIAL_WIDGETS['ChartFilter']}
 												{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 												<div class="btn-group ml-1">
-													<button class="btn btn-success btn-sm addChartFilter" type="button"
-															data-url="{$CHART_FILTER_WIDGET->getUrl()}"
+													<button class="btn btn-success btn-sm js-show-modal" type="button"
+															data-url="index.php?module={$SELECTED_MODULE_NAME}&view=ChartFilter&step=step1"
 															data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}"
 															data-name="{$CHART_FILTER_WIDGET->getName()}"
 															data-width="{$CHART_FILTER_WIDGET->getWidth()}"
 															data-height="{$CHART_FILTER_WIDGET->getHeight()}"
-															data-block-id="{$AUTHORIZATION_KEY}"><span
+															data-block-id="{$AUTHORIZATION_KEY}"
+															data-module="{$SELECTED_MODULE_NAME}"
+															data-modalId="{\App\Layout::getUniqueId('ChartFilter')}"><span
 																class="fas fa-plus"></span>&nbsp;
 														<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 													</button>
@@ -203,7 +205,7 @@
 														{/foreach}
 													</optgroup>
 													{if count($ALL_SERVERS)}
-														<optgroup label="{\App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}">
+														<optgroup label="{\App\Language::translate('WebserviceApps', 'Settings.WebserviceApps')}">
 															{foreach from=$ALL_SERVERS item=SERVER key=ID}
 																<option value="{$ID}">{\App\Purifier::encodeHTML($SERVER['name'])}</option>
 															{/foreach}
@@ -266,14 +268,17 @@
 									{/if}
 									{if $SPECIAL_WIDGETS['ChartFilter']}
 										{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
-										<div class="btn-group">
-											<button class="btn btn-success btn-sm addChartFilter specialWidget"
-													type="button" data-url="{$CHART_FILTER_WIDGET->getUrl()}"
+										<div class="btn-group ml-1">
+											<button class="btn btn-success btn-sm js-show-modal" type="button"
+													data-url="index.php?module={$SELECTED_MODULE_NAME}&view=ChartFilter&step=step1"
 													data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}"
 													data-name="{$CHART_FILTER_WIDGET->getName()}"
 													data-width="{$CHART_FILTER_WIDGET->getWidth()}"
-													data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="">
-												<span class="fas fa-plus"></span>&nbsp;
+													data-height="{$CHART_FILTER_WIDGET->getHeight()}"
+													data-block-id="{$AUTHORIZATION_KEY}"
+													data-module="{$SELECTED_MODULE_NAME}"
+													data-modalId="{\App\Layout::getUniqueId('ChartFilter')}"><span
+														class="fas fa-plus"></span>&nbsp;
 												<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 											</button>
 										</div>

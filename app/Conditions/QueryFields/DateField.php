@@ -179,4 +179,14 @@ class DateField extends BaseField
 	{
 		return ['<=', $this->getColumnName(), date('Y-m-d', strtotime('-' . $this->getValue() . ' days'))];
 	}
+
+	/**
+	 * Lower operator.
+	 *
+	 * @return array
+	 */
+	public function operatorL()
+	{
+		return ['<', $this->getColumnName(), $this->getValue()];
+	}
 }

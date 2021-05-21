@@ -420,11 +420,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$filters = $data['filterid'];
 			}
 			if (\count($filters) > \App\Config::performance('CHART_MULTI_FILTER_LIMIT')) {
-				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
-			}
-			// if filters total length will be longer than database column
-			if (\strlen(implode(',', $filters)) > \App\Config::performance('CHART_MULTI_FILTER_STR_LEN')) {
-				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
+				throw new App\Exceptions\IllegalValue("ERR_VALUE_IS_TOO_LONG||filterid||{$moduleName}||" . implode(',', $filters), 406);
 			}
 		}
 		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data'] ?? ''));

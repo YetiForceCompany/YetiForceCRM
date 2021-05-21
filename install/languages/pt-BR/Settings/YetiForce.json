@@ -1,7 +1,7 @@
 {
   "php": {
     "YetiForce": "YetiForce",
-    "LBL_VIEW_SHOP": "Marketplace",
+    "LBL_VIEW_SHOP": "Mercado",
     "LBL_REGISTRATION_ONLINE_MODAL": "OnLine registration",
     "LBL_REGISTRATION_OFFLINE_MODAL": "OffLine registration",
     "LBL_REGISTER": "Register",
@@ -36,10 +36,10 @@
     "LBL_SUCCESSFUL_TRANSACTION": "Thank you for making the payment. The transaction is being processed, purchased functions will be added to your system once we receive the payment.",
     "LBL_FAILED_TRANSACTION": "Transaction failed or was cancelled, please check the payment on your PayPal account and try again.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "The size of your company has changed, the purchased package is too small for the current size. Update your subscription.",
-    "LBL_SUBSCRIPTION_HAS_EXPIRED": "The subscription has expired. Please extend your subscription in order to keep using this functionality. ",
-    "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "One of the purchased products has expired or requires changing a package. The product has been temporarily canceled.",
-    "LBL_PAID_FUNCTIONALITY_ACTIVATED": "A paid functionality has been activated without purchasing a subscription!!!",
-    "LBL_SUBSCRIPTION_COMPANY_SIZE_HAS_CHANGED": "The company size has changed and it requires a higher tier of the subscription package",
+    "LBL_SUBSCRIPTION_HAS_EXPIRED": "Assinatura expirada. Por favor, estenda a sua assinatura para poder continuar usando essa funcionalidade. ",
+    "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "Um dos produtos comprados expirou ou requer atualização de pacote. O produto está temporariamente cancelado.",
+    "LBL_PAID_FUNCTIONALITY_ACTIVATED": "Uma funcionalidade paga foi ativada sem a compra de uma assinatura!!!",
+    "LBL_SUBSCRIPTION_COMPANY_SIZE_HAS_CHANGED": "O tamanho da empresa mudou e requer um nível mais alto do pacote de assinatura",
     "LBL_PRODUCT_PREVIEW": "Product Preview",
     "LBL_SUPPORT_US": "Support us",
     "LBL_SHOP_PRODUCT_NAME": "Product name",

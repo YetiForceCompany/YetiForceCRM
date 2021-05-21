@@ -777,11 +777,6 @@ return [
 			'description' => 'Charts multi filter limit',
 			'validation' => '\App\Validator::naturalNumber'
 		],
-		'CHART_MULTI_FILTER_STR_LEN' => [
-			'default' => 50,
-			'description' => 'Charts multi filter maximum db value length',
-			'validation' => '\App\Validator::naturalNumber'
-		],
 		'CHART_ADDITIONAL_FILTERS_LIMIT' => [
 			'default' => 6,
 			'description' => "Additional filters limit for ChartFilter's",

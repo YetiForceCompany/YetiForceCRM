@@ -35,7 +35,6 @@ class CustomView_Save_Action extends \App\Controller\Action
 		if (!$customViewModel->checkDuplicate()) {
 			$customViewModel->save();
 			$cvId = $customViewModel->getId();
-			\App\Cache::delete('CustomView_Record_ModelgetInstanceById', $cvId);
 			$response->setResult(['success' => true, 'id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId]);
 		} else {
 			$response->setResult([

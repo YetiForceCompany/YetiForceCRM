@@ -18,7 +18,7 @@ namespace Api\ManageConsents;
 class Save extends \Vtiger_Save_Action
 {
 	/**
-	 * Id od application.
+	 * ID of application.
 	 *
 	 * @var int
 	 */
@@ -35,7 +35,7 @@ class Save extends \Vtiger_Save_Action
 	}
 
 	/**
-	 * Function set the record data based on the request parameters.
+	 * Function sets the record data based on the request parameters.
 	 *
 	 * @param \App\Request $request
 	 * @param bool         $userFormat

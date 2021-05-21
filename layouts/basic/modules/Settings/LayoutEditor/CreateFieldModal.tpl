@@ -222,7 +222,7 @@
 						<div class="form-group row align-items-center supportedType js-server-access-list d-none" data-js="removeClass:d-none">
 							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
-								{App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}
+								{App\Language::translate('WebserviceApps', 'Settings.WebserviceApps')}
 							</div>
 							<div class="col-md-8 controls">
 								<select class="form-control" name="server">
