@@ -5,7 +5,7 @@
     "ViewName": "View name",
     "SetDefault": "Default",
     "LBL_PRIVILEGES_TO_EDIT": "Edit",
-    "LBL_PRIVILEGES_TO_VIEW": "View",
+    "LBL_PRIVILEGES_TO_VIEW": "Availability",
     "Delete": "Delete",
     "Delete CustomView": "Custom view has been deleted",
     "Saving CustomView": "View has been saved",
