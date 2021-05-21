@@ -14,7 +14,7 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	 *
 	 * @return bool
 	 */
-	public function isNameField()
+	public function isNameField(): bool
 	{
 		return false;
 	}
@@ -24,7 +24,7 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	 *
 	 * @return bool
 	 */
-	public function isReadOnly()
+	public function isReadOnly(): bool
 	{
 		return $this->isReadOnly ?? false;
 	}

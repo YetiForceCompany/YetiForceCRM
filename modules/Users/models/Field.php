@@ -14,12 +14,8 @@
  */
 class Users_Field_Model extends Vtiger_Field_Model
 {
-	/**
-	 * Function to check whether the current field is read-only.
-	 *
-	 * @return bool
-	 */
-	public function isReadOnly()
+	/** {@inheritdoc} */
+	public function isReadOnly(): bool
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if ((false === $currentUserModel->isAdminUser() && 98 == $this->get('uitype')) || 156 == $this->get('uitype')) {

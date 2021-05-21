@@ -282,7 +282,7 @@ class CustomView_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function setFeaturedForMember($user)
+	public function setFeaturedForMember(string $user): bool
 	{
 		$result = true;
 		if (!(new App\Db\Query())->from('u_#__featured_filter')->where(['cvid' => $this->getId(), 'user' => $user])->exists()) {
@@ -346,7 +346,7 @@ class CustomView_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function setPrivilegesForMember($user)
+	public function setPrivilegesForMember(string $user): bool
 	{
 		$result = true;
 		if (!(new App\Db\Query())->from('u_#__cv_privileges')->where(['cvid' => $this->getId(), 'member' => $user])->exists()) {
