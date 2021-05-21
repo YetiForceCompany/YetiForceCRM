@@ -123,25 +123,19 @@
 				<div class="d-none" id="forgotPasswordDiv">
 					<form class="forgot-form row" action="index.php?module=Users&action=ForgotPassword" method="POST">
 						<div class="fieldContainer mx-0 form-row col-md-12">
-							<div class="login-form mx-0 form-row col-sm-10">
-								<label for="usernameFp" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
-								<div class="input-group form-group first-group">
-									<input type="text" class="form-control form-control-lg" title="{\App\Language::translate('LBL_USER',$MODULE)}" id="usernameFp" name="user_name" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}">
-									<div class="input-group-append">
-										<div class="input-group-text"><i class="fas fa-user"></i></div>
-									</div>
-								</div>
+							<div class="login-form mx-0 form-row col-sm-12">
 								<label for="emailId" class="sr-only">{\App\Language::translate('LBL_EMAIL',$MODULE)}</label>
-								<div class="input-group form-group">
-									<input type="text" class="form-control form-control-lg" autocomplete="off" title="{\App\Language::translate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
-									<div class="input-group-append">
+								<div class="input-group form-group mb-1">
+									<div class="input-group-prepend">
 										<div class="input-group-text"><i class="fas fa-envelope"></i></div>
 									</div>
+									<input type="text" class="form-control form-control-lg" autocomplete="off"
+										title="{\App\Language::translate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId"
+										placeholder="Email">
 								</div>
-							</div>
-							<div class="col-sm-2">
-								<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block heightDiv_2" title="Retrieve Password">
-									<strong><span class="fas fa-chevron-right"></span></strong>
+								<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block py-2"
+									title="Retrieve Password">
+									{\App\Language::translate('BTN_RESET_PASSWORD',$MODULE)}
 								</button>
 							</div>
 						</div>
