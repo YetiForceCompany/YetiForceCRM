@@ -118,10 +118,11 @@
 					</div>
 				{/if}
 			</div>
-			{if App\Config::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
-				<div class="d-none" id="forgotPasswordDiv">
-					<form class="forgot-form row" action="index.php?module=Users&action=ForgotPassword" method="POST">
-						<div class="fieldContainer mx-0 form-row col-md-12">
+		</div>
+		{if App\Config::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
+			<div class="d-none" id="forgotPasswordDiv">
+				<form class="forgot-form row" action="index.php?module=Users&action=ForgotPassword" method="POST">
+					<div class="fieldContainer mx-0 form-row col-md-12">
 							<div class="login-form mx-0 form-row col-sm-12">
 								<label for="emailId" class="sr-only">{\App\Language::translate('LBL_EMAIL',$MODULE)}</label>
 								<div class="input-group form-group mb-1">
@@ -138,12 +139,6 @@
 								</button>
 							</div>
 						</div>
-						<div class="col-sm-2">
-							<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block heightDiv_2" title="Retrieve Password">
-								<strong><span class="fas fa-chevron-right"></span></strong>
-							</button>
-						</div>
-					</div>
 				</form>
 				<div class="login-text form-group">
 					<a href="#" id="backButton">{\App\Language::translate('LBL_TO_CRM',$MODULE)}</a>
