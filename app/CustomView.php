@@ -552,20 +552,12 @@ class CustomView
 	 */
 	public function isPermittedCustomView($viewId)
 	{
-		$permission = false;
-		if (!empty($viewId) && ($data = $this->getFilterInfo($viewId))) {
-			$status = $data['status'];
-			$userId = $data['userid'];
-			if ($this->user->isAdmin() || $userId === $this->user->getId()) {
-				$permission = true;
-			} elseif (self::CV_STATUS_DEFAULT === $status || self::CV_STATUS_PUBLIC === $status) {
-				$permission = true;
-			} elseif (self::CV_STATUS_PRIVATE === $status || self::CV_STATUS_PENDING === $status) {
-				$cvUserModel = \App\User::getUserModel($userId);
-				$permission = \in_array($cvUserModel->getDetail('roleid'), \App\PrivilegeUtil::getRoleSubordinates($this->user->getRole()));
-			}
-		}
-		return $permission;
+		return !empty($viewId)
+		&& ($data = $this->getFilterInfo($viewId))
+		&& ($this->user->isAdmin()
+		|| $data['userid'] === $this->user->getId()
+		|| \in_array($data['status'], [self::CV_STATUS_DEFAULT, self::CV_STATUS_PUBLIC])
+		|| (self::CV_STATUS_PRIVATE && array_intersect($this->user->getMemberStructure(), $data['members'])));
 	}
 
 	/**
@@ -647,7 +639,10 @@ class CustomView
 		if (Cache::has('CustomViewInfo', $moduleName)) {
 			return Cache::get('CustomViewInfo', $moduleName);
 		}
-		$info = (new Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleName])->indexBy('cvid')->all();
+		$members = (new Db\Query())->select(['u_#__cv_privileges.cvid', 'member'])->from('u_#__cv_privileges')
+			->innerJoin('vtiger_customview', 'u_#__cv_privileges.cvid=vtiger_customview.cvid')
+			->where(['entitytype' => 'Accounts'])->createCommand()->queryAllByGroup(2);
+		$info = (new Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleName])->indexBy('cvid')->orderBy(['sequence' => SORT_ASC])->all();
 		foreach ($info as &$item) {
 			$item['cvid'] = (int) $item['cvid'];
 			$item['setdefault'] = (int) $item['setdefault'];
@@ -658,6 +653,7 @@ class CustomView
 			$item['presence'] = (int) $item['presence'];
 			$item['sequence'] = (int) $item['sequence'];
 			$item['userid'] = (int) $item['userid'];
+			$item['members'] = $members[$item['cvid']] ?? [];
 			Cache::save('CustomViewInfo', $item['cvid'], $item);
 		}
 		Cache::save('CustomViewInfo', $moduleName, $info);
@@ -727,23 +723,10 @@ class CustomView
 		if (Cache::has('CustomViewInfo', $cvId)) {
 			return Cache::get('CustomViewInfo', $cvId);
 		}
-		$query = (new Db\Query())->from('vtiger_customview')->where(['cvid' => $cvId]);
-		if ($moduleName) {
-			$query->andWhere(['entitytype' => $moduleName]);
+		if (!$moduleName) {
+			$moduleName = (new Db\Query())->select(['entitytype'])->from('vtiger_customview')->where(['cvid' => $cvId])->scalar();
 		}
-		if ($info = $query->one() ?: []) {
-			$info['cvid'] = (int) $info['cvid'];
-			$info['setdefault'] = (int) $info['setdefault'];
-			$info['setmetrics'] = (int) $info['setmetrics'];
-			$info['status'] = (int) $info['status'];
-			$info['privileges'] = (int) $info['privileges'];
-			$info['featured'] = (int) $info['featured'];
-			$info['presence'] = (int) $info['presence'];
-			$info['sequence'] = (int) $info['sequence'];
-			$info['userid'] = (int) $info['userid'];
-		}
-		Cache::save('CustomViewInfo', $cvId, $info);
-		return $info;
+		return self::getFiltersByModule($moduleName)[$cvId] ?? [];
 	}
 
 	/**

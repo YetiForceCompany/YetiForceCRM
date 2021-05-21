@@ -1963,6 +1963,15 @@ CREATE TABLE `u_yf_cv_duplicates` (
   CONSTRAINT `u_yf_cv_duplicates_fieldid_fk` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_cv_privileges` */
+
+CREATE TABLE `u_yf_cv_privileges` (
+  `member` varchar(30) NOT NULL,
+  `cvid` int(10) NOT NULL,
+  PRIMARY KEY (`cvid`,`member`),
+  CONSTRAINT `u_yf_cv_privileges_cvid_fk` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_dashboard_type` */
 
 CREATE TABLE `u_yf_dashboard_type` (
@@ -9322,7 +9331,9 @@ CREATE TABLE `vtiger_user_module_preferences` (
   `default_cvid` int(10) NOT NULL,
   PRIMARY KEY (`userid`,`tabid`),
   KEY `fk_2_vtiger_user_module_preferences` (`tabid`),
-  CONSTRAINT `fk_2_vtiger_user_module_preferences` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `vtiger_user_module_preferences_default_cvid_fk` (`default_cvid`),
+  CONSTRAINT `fk_2_vtiger_user_module_preferences` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `vtiger_user_module_preferences_default_cvid_fk` FOREIGN KEY (`default_cvid`) REFERENCES `current1`.`vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_users` */

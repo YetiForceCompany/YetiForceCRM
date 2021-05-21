@@ -197,7 +197,7 @@ class Filter
 		$instance = false;
 		$moduleName = is_numeric($module) ? \App\Module::getModuleName($module) : $module;
 		if (Utils::isNumber($value)) {
-			$result = \App\CustomView::getCVDetails((int) $value);
+			$result = \App\CustomView::getCVDetails((int) $value, $moduleName ?: null);
 		} else {
 			$result = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleName])->one();
 		}

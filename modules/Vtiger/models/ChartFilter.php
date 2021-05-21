@@ -1314,7 +1314,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if (empty($title)) {
 			$suffix = '';
 			$cvId = (int) $this->getFilterId(0);
-			$viewName = \App\CustomView::getCVDetails($cvId)['viewname'] ?? '';
+			$viewName = \App\CustomView::getCVDetails($cvId, $this->getTargetModule())['viewname'] ?? '';
 			if ($viewName) {
 				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
 				if (!empty($this->extraData['groupField'])) {

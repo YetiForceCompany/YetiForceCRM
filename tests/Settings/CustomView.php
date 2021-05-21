@@ -19,9 +19,8 @@ class CustomView extends \Tests\Base
 	 */
 	public function testModuleModel()
 	{
-		$moduleId = \App\Module::getModuleId('Leads');
 		$moduleModel = \Settings_CustomView_Module_Model::getInstance('Settings:CustomView');
-		$cvsData = $moduleModel->getCustomViews($moduleId);
+		$cvsData = \App\CustomView::getFiltersByModule('Leads');
 		$this->assertIsArray($cvsData, 'Custom views list should be array type');
 		$this->assertNotEmpty($cvsData, 'Leads module should contain views');
 		$cvData = \array_pop($cvsData);
@@ -57,10 +56,7 @@ class CustomView extends \Tests\Base
 		$this->assertSame('index.php?module=CustomView&view=EditAjax&source_module=Leads', $moduleModel->getCreateFilterUrl('Leads'), 'Generated create filter url mismatch');
 		$this->assertSame('index.php?module=CustomView&parent=Settings&view=FilterPermissions&type=default&sourceModule=Leads&cvid=115&isDefault=1', $moduleModel->getUrlDefaultUsers('Leads', 115, 1), 'Generated default users url mismatch');
 		$this->assertSame('index.php?module=CustomView&parent=Settings&view=FilterPermissions&type=featured&sourceModule=Leads&cvid=115', $moduleModel->getFeaturedFilterUrl('Leads', 115), 'Generated featured filter url mismatch');
-		$leadsDefCvid = (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['entitytype' => 'Leads', 'setdefault' => 1])->scalar();
-		$this->assertTrue(\Settings_CustomView_Module_Model::updateField(['cvid' => $recordModel->getId(), 'name' => 'setdefault', 'mod' => 'Leads', 'value' => 1]), 'Update CustomView record field failed');
-		$this->assertSame($recordModel->getId(), (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['entitytype' => 'Leads', 'setdefault' => 1])->scalar(), 'Default cvid for module Leads mismatch');
-		$this->assertTrue(\Settings_CustomView_Module_Model::updateField(['cvid' => $leadsDefCvid, 'name' => 'setdefault', 'mod' => 'Leads', 'value' => 1]), 'Restore default cvid for module Leads failed');
+
 		$newCustomViewModel = \CustomView_Record_Model::getCleanInstance();
 		$newCustomViewModel->setModule('Leads');
 		$customViewData = [
@@ -77,6 +73,14 @@ class CustomView extends \Tests\Base
 		$newCustomViewModel->save();
 		$newCvid = $newCustomViewModel->getId();
 		$this->assertNotNull($newCvid, 'Expected cvid');
+
+		$newCustomViewModel->set('edit');
+		$newCustomViewModel->set('setdefault', 1);
+		$newCustomViewModel->save();
+
+		$leadsDefCvid = (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['entitytype' => 'Leads', 'setdefault' => 1])->scalar();
+		$this->assertSame($newCustomViewModel->getId(), $leadsDefCvid, 'Default cvid for module Leads mismatch');
+
 		\Settings_CustomView_Module_Model::delete($newCvid);
 		$this->assertEmpty((new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['cvid' => $newCvid])->scalar(), 'New CustomView should be removed');
 	}

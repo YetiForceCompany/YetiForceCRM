@@ -70,7 +70,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('QUALIFIED_MODULE', $sourceModuleName);
 		$viewer->assign('SOURCE_MODULE', $sourceModuleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		if ('All' === $customViewModel->get('viewname')) {
+		if (0 === $customViewModel->get('presence')) {
 			$viewer->assign('CV_PRIVATE_VALUE', App\CustomView::CV_STATUS_DEFAULT);
 		} else {
 			$viewer->assign('CV_PRIVATE_VALUE', App\CustomView::CV_STATUS_PRIVATE);

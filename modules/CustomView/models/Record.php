@@ -17,6 +17,9 @@ class CustomView_Record_Model extends \App\Base
 	protected $isFeatured = false;
 	protected $isDefault = false;
 
+	/** @var array Record changes */
+	protected $changes = [];
+
 	/**
 	 * Function to get the Id.
 	 *
@@ -93,6 +96,15 @@ class CustomView_Record_Model extends \App\Base
 		$this->module = $module;
 
 		return $this;
+	}
+
+	/** {@inheritdoc} */
+	public function set($key, $value)
+	{
+		if ($this->getId() && !\in_array($key, ['cvid', 'entitytype', 'presence']) && (isset($this->value[$key]) && $this->value[$key] != $value)) {
+			$this->changes[$key] = $this->get($key);
+		}
+		return parent::set($key, $value);
 	}
 
 	/**
@@ -255,7 +267,7 @@ class CustomView_Record_Model extends \App\Base
 			$returnVal = false;
 		} elseif (!\App\Privilege::isPermitted($moduleName, 'CreateCustomFilter')) {
 			$returnVal = false;
-		} elseif ($this->isMine() || $this->isOthers()) {
+		} elseif ($this->isMine()) {
 			$returnVal = true;
 		}
 		return $returnVal;
@@ -323,6 +335,36 @@ class CustomView_Record_Model extends \App\Base
 	public function removeDefaultForMember(string $user): bool
 	{
 		return (bool) \App\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'default_cvid' => $this->getId()])->execute();
+	}
+
+	/**
+	 * Grant permissions for the member.
+	 *
+	 * @param int    $cvId
+	 * @param string $user
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
+	public function setPrivilegesForMember($user)
+	{
+		$result = true;
+		if (!(new App\Db\Query())->from('u_#__cv_privileges')->where(['cvid' => $this->getId(), 'member' => $user])->exists()) {
+			$result = (bool) \App\Db::getInstance()->createCommand()->insert('u_#__cv_privileges', ['cvid' => $this->getId(), 'member' => $user])->execute();
+		}
+		return $result;
+	}
+
+	/**
+	 * Removes permissions for the member.
+	 *
+	 * @param string $user
+	 *
+	 * @return bool
+	 */
+	public function removePrivilegesForMember(string $user): bool
+	{
+		return (bool) \App\Db::getInstance()->createCommand()->delete('u_#__cv_privileges', ['cvid' => $this->getId(), 'member' => $user])->execute();
 	}
 
 	/**
@@ -433,26 +475,82 @@ class CustomView_Record_Model extends \App\Base
 			$this->set('status', $status);
 		}
 		$transaction = $db->beginTransaction();
-		if (!$cvId) {
-			$this->addCustomView();
-			$cvId = $this->getId();
-		} else {
-			$this->updateCustomView();
-		}
+		try {
+			if ('edit' === $this->get('mode')) {
+				$this->saveToDb();
+			} else {
+				if (!$cvId) {
+					$this->addCustomView();
+					$cvId = $this->getId();
+				} else {
+					$this->updateCustomView();
+				}
 
-		$userId = 'Users:' . $currentUserModel->getId();
-		if (empty($featured) && !empty($cvIdOrg)) {
-			$this->removeFeaturedForMember($userId);
-		} elseif (!empty($featured)) {
-			$this->setFeaturedForMember($userId);
+				$userId = 'Users:' . $currentUserModel->getId();
+				if (empty($featured) && !empty($cvIdOrg)) {
+					$this->removeFeaturedForMember($userId);
+				} elseif (!empty($featured)) {
+					$this->setFeaturedForMember($userId);
+				}
+				if (empty($setDefault) && !empty($cvIdOrg)) {
+					$this->removeDefaultForMember($userId);
+				} elseif (!empty($setDefault)) {
+					$this->setDefaultForMember($userId);
+				}
+			}
+			$transaction->commit();
+		} catch (\Throwable $ex) {
+			$transaction->rollBack();
+			\App\Log::error($ex->__toString());
 		}
-		if (empty($setDefault) && !empty($cvIdOrg)) {
-			$this->removeDefaultForMember($userId);
-		} elseif (!empty($setDefault)) {
-			$this->setDefaultForMember($userId);
-		}
-		$transaction->commit();
 		\App\Cache::clear();
+	}
+
+	/**
+	 * Save data to the database.
+	 */
+	public function saveToDb()
+	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$tableData = array_intersect_key($this->getData(), $this->changes);
+		if ($tableData) {
+			if (1 === ($tableData['setdefault'] ?? null)) {
+				$dbCommand->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $this->getModule()->getName()])->execute();
+			}
+			$dbCommand->update('vtiger_customview', $tableData, ['cvid' => $this->getId()])->execute();
+			if (isset($tableData['sort']) && $this->getId() === App\CustomView::getCurrentView($this->getModule()->getName())) {
+				\App\CustomView::setSortBy($this->getModule()->getName(), $tableData['sort'] ? \App\Json::decode($tableData['sort']) : null);
+			}
+		}
+	}
+
+	/**
+	 * Set value from request.
+	 *
+	 * @param \App\Request $request
+	 * @param string       $fieldName
+	 * @param string       $requestFieldValue
+	 */
+	public function setValueFromRequest(App\Request $request, string $fieldName, string $requestFieldValue)
+	{
+		switch ($fieldName) {
+			case 'status':
+			case 'setdefault':
+			case 'privileges':
+			case 'featured':
+				$value = $request->getInteger($requestFieldValue);
+				break;
+			case 'sort':
+				$value = \App\Json::encode($request->getArray($requestFieldValue, \App\Purifier::STANDARD, [], \App\Purifier::SQL));
+				break;
+			default:
+				$value = null;
+				break;
+		}
+		if (null === $value) {
+			throw new \App\Exceptions\IllegalValue('ERR_ILLEGAL_VALUE');
+		}
+		$this->set($fieldName, $value);
 	}
 
 	/**
@@ -822,21 +920,17 @@ class CustomView_Record_Model extends \App\Base
 		if (App\Cache::has('getAllFilters', $cacheName)) {
 			return App\Cache::get('getAllFilters', $cacheName);
 		}
-		$query = (new App\Db\Query())->from('vtiger_customview');
+		$query = (new App\Db\Query())->select(['vtiger_customview.*'])->from('vtiger_customview');
 		if (!empty($moduleName)) {
 			$query->where(['entitytype' => $moduleName]);
 		}
 		if (!$currentUser->isAdmin()) {
-			$userParentRoleSeq = $currentUser->getParentRolesSeq();
+			$query->leftJoin('u_#__cv_privileges', 'vtiger_customview.cvid=u_#__cv_privileges.cvid')->groupBy(['vtiger_customview.cvid']);
 			$query->andWhere([
 				'or',
 				['userid' => $currentUser->getId()],
 				['status' => [\App\CustomView::CV_STATUS_DEFAULT, \App\CustomView::CV_STATUS_PUBLIC]],
-				['userid' => (new App\Db\Query())->select(['vtiger_user2role.userid'])
-					->from('vtiger_user2role')
-					->innerJoin('vtiger_role', 'vtiger_role.roleid = vtiger_user2role.roleid')
-					->where(['like', 'vtiger_role.parentrole', "{$userParentRoleSeq}::%", false]),
-				],
+				['and', ['status' => \App\CustomView::CV_STATUS_PRIVATE], ['member' => $currentUser->getMemberStructure()]]
 			]);
 		}
 		$dataReader = $query->orderBy(['sequence' => SORT_ASC])->createCommand()->query();

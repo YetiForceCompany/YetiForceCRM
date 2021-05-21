@@ -824,6 +824,8 @@ insert  into `u_yf_cv_condition_group`(`id`,`cvid`,`condition`,`parent_id`,`inde
 
 /*Data for the table `u_yf_cv_duplicates` */
 
+/*Data for the table `u_yf_cv_privileges` */
+
 /*Data for the table `u_yf_dashboard_type` */
 
 insert  into `u_yf_dashboard_type`(`dashboard_id`,`name`,`system`) values (1,'LBL_MAIN_PAGE',1);
