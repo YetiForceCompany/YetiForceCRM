@@ -24,7 +24,7 @@ if (file_exists($path)) {
 	'clear_env = no' . PHP_EOL .
 	'request_terminate_timeout = 600' . PHP_EOL .
 	'pm.max_requests = 5000' . PHP_EOL .
-	'pm.max_children = 10' . PHP_EOL .
+	'pm.max_children = 6' . PHP_EOL .
 	'pm.process_idle_timeout = 600s;';
 	file_put_contents($path, $conf, FILE_APPEND);
 }
