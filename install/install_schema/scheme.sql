@@ -9333,7 +9333,7 @@ CREATE TABLE `vtiger_user_module_preferences` (
   KEY `fk_2_vtiger_user_module_preferences` (`tabid`),
   KEY `vtiger_user_module_preferences_default_cvid_fk` (`default_cvid`),
   CONSTRAINT `fk_2_vtiger_user_module_preferences` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `vtiger_user_module_preferences_default_cvid_fk` FOREIGN KEY (`default_cvid`) REFERENCES `current1`.`vtiger_customview` (`cvid`) ON DELETE CASCADE
+  CONSTRAINT `vtiger_user_module_preferences_default_cvid_fk` FOREIGN KEY (`default_cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_users` */
