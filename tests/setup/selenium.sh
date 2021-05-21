@@ -47,7 +47,7 @@ chmod 0755 /usr/local/bin/selenium-server-standalone.jar
 
 # Run Chrome via Selenium Server
 echo '-- # Run Chrome via Selenium Server --'
-xvfb-run java --server-args="-screen 0, 1280x720x24" -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/local/bin/selenium-server-standalone.jar > /var/www/html/cache/logs/selenium.log 2>&1 &
+xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/local/bin/selenium-server-standalone.jar > /var/www/html/cache/logs/selenium.log 2>&1 &
 #debug
 #xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/local/bin/selenium-server-standalone.jar -debug
 #echo '-- # chromedriver --url-base=/wd/hub --'
