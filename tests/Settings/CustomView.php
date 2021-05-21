@@ -74,7 +74,7 @@ class CustomView extends \Tests\Base
 		$newCvid = $newCustomViewModel->getId();
 		$this->assertNotNull($newCvid, 'Expected cvid');
 
-		$newCustomViewModel->set('edit');
+		$newCustomViewModel->set('mode', 'edit');
 		$newCustomViewModel->set('setdefault', 1);
 		$newCustomViewModel->save();
 
