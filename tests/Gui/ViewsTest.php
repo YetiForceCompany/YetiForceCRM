@@ -41,19 +41,26 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 	public function testListView(): void
 	{
 		$this->url('index.php?module=Accounts&view=List');
-		$this->driver->findElement(WebDriverBy::name('accountname'))->sendKeys('demo');
+		static::assertSame('Accounts', $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
+
+		$this->driver->findElement(WebDriverBy::name('accountname'))->sendKeys('YetiForce');
 		$this->driver->executeScript('Vtiger_List_Js.triggerListSearch()');
 		$this->findError();
+		static::assertSame('[[["accountname","a","YetiForce"]]]', $this->driver->findElement(WebDriverBy::id('search_params'))->getAttribute('value'));
+
 		$this->driver->executeScript("$('.js-change-order[data-columnname=\"accountname\"]').click()");
 		$this->findError();
+		static::assertSame('{"accountname":"ASC"}', $this->driver->findElement(WebDriverBy::id('orderBy'))->getAttribute('value'));
+
 		$this->driver->executeScript("$('.Accounts_listViewHeader_action_BTN_PERMISSION_INSPECTOR').click()");
 		$this->findError();
+
 		$this->driver->executeScript("$('.Accounts_listViewHeader_action_LBL_SHOW_MAP').click()");
 		$this->findError();
+
 		$this->driver->executeScript("$('.Accounts_listViewHeader_action_LBL_SEND_NOTIFICATION').click()");
 		$this->findError();
-		$this->driver->executeScript("$('.Accounts_listViewHeader_action_LBL_SEND_NOTIFICATION').click()");
-		$this->findError();
+
 		$this->driver->executeScript("$('#menubar_quickCreate_Accounts').click()");
 		$this->findError();
 	}
@@ -80,7 +87,11 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 	{
 		$accountModel = \Tests\Base\C_RecordActions::createAccountRecord();
 		$this->url('index.php?module=Accounts&view=Detail&record=' . $accountModel->getId());
+		static::assertSame('Accounts', $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
+		static::assertSame('Detail', $this->driver->findElement(WebDriverBy::id('view'))->getAttribute('value'));
+		static::assertSame($accountModel->getId(), $this->driver->findElement(WebDriverBy::tagName('recordId'))->getAttribute('value'));
 		$this->findError();
+
 		foreach ($this->driver->findElements(WebDriverBy::cssSelector('.js-tabdrop li')) as $element) {
 			$element->click();
 			$this->findError();
@@ -97,8 +108,13 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 		$accountModel = \Tests\Base\C_RecordActions::createAccountRecord();
 		$this->url('index.php?module=Accounts&view=Edit&record=' . $accountModel->getId());
 		$this->findError();
+		static::assertSame('Accounts', $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
+		static::assertSame('Edit', $this->driver->findElement(WebDriverBy::tagName('fromView'))->getAttribute('value'));
+		static::assertSame($accountModel->getId(), $this->driver->findElement(WebDriverBy::tagName('recordId'))->getAttribute('value'));
+
 		$this->driver->findElement(WebDriverBy::cssSelector('[data-type="App\RecordCollectors\Vies"]'))->click();
 		$this->findError();
+
 		$this->driver->findElement(WebDriverBy::className('js-form-submit-btn'))->click();
 		$this->findError();
 	}
