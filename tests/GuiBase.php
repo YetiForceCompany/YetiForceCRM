@@ -75,7 +75,7 @@ abstract class GuiBase extends TestCase
 		if (empty($this->driver)) {
 			$capabilities = DesiredCapabilities::chrome();
 			$capabilities->setCapability('chromeOptions', ['args' => ['headless', 'disable-dev-shm-usage', 'no-sandbox']]);
-			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', $capabilities, 5000);
+			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', $capabilities, 60000, 60000);
 		}
 		if (!$this->isLogin) {
 			$this->login();
