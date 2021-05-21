@@ -712,7 +712,7 @@ class CustomView_Record_Model extends \App\Base
 			'color' => $this->get('color'),
 			'description' => $this->get('description'),
 		])->execute();
-		$this->set('cvid', $db->getLastInsertID('vtiger_customview_cvid_seq'));
+		$this->set('cvid', (int) $db->getLastInsertID('vtiger_customview_cvid_seq'));
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 		$this->setDuplicateFields();
