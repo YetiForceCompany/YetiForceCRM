@@ -93,10 +93,8 @@ class VTJsonCondition
 					if (!empty($logicalOperator)) {
 						switch ($logicalOperator) {
 							case 'and':
-								$finalResult = ($finalResult && $result);
-								break;
 							case 'or':
-								$finalResult = ($finalResult || $result);
+								$finalResult = ($finalResult && $result);
 								break;
 							default:
 								break;
