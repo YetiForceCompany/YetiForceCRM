@@ -3017,8 +3017,13 @@
                                             "type": "boolean",
                                             "example": true
                                         },
+                                        "isReadOnly": {
+                                            "description": "Check if record is read only (based on profiles)",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
                                         "isEditableReadOnly": {
-                                            "description": "Check if record is editable or read only",
+                                            "description": "Check if record is editable or read only (based on the field type)",
                                             "type": "boolean",
                                             "example": false
                                         },

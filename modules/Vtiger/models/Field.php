@@ -537,7 +537,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			}
 		}
 		\App\Cache::save('getReferenceList', $this->getId(), $list);
-
 		return $list;
 	}
 
@@ -546,23 +545,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @return bool
 	 */
-	public function isNameField()
+	public function isNameField(): bool
 	{
 		$moduleModel = $this->getModule();
 		return $moduleModel && !$this->isReferenceField() && !\in_array($this->getFieldDataType(), ['email', 'url', 'phone']) && \in_array($this->getFieldName(), $moduleModel->getNameFields());
-	}
-
-	/**
-	 * Function to check whether the current field is read-only.
-	 *
-	 * @return bool
-	 */
-	public function isReadOnly()
-	{
-		if (isset($this->isReadOnly)) {
-			return $this->isReadOnly;
-		}
-		return $this->isReadOnly = !$this->getProfileReadWritePermission();
 	}
 
 	/**
@@ -787,6 +773,19 @@ class Vtiger_Field_Model extends vtlib\Field
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Function to check whether the current field is read-only.
+	 *
+	 * @return bool
+	 */
+	public function isReadOnly(): bool
+	{
+		if (isset($this->isReadOnly)) {
+			return $this->isReadOnly;
+		}
+		return $this->isReadOnly = !$this->getProfileReadWritePermission();
 	}
 
 	public function isQuickCreateEnabled()

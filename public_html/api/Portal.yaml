@@ -1906,7 +1906,8 @@ components:
                   uitype: { description: 'Field UiType', type: integer, example: 1 }
                   isEditable: { description: 'Check if record is editable', type: boolean, example: true }
                   isViewable: { description: 'Check if record is viewable', type: boolean, example: true }
-                  isEditableReadOnly: { description: 'Check if record is editable or read only', type: boolean, example: false }
+                  isReadOnly: { description: 'Check if record is read only (based on profiles)', type: boolean, example: false }
+                  isEditableReadOnly: { description: 'Check if record is editable or read only (based on the field type)', type: boolean, example: false }
                   sequence: { description: 'Sequence field', type: integer, example: 24862 }
                   fieldparams: { description: 'Field params', type: object }
                   blockId: { description: 'Field block id', type: integer, example: 280 }
