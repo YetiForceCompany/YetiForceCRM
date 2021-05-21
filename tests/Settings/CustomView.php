@@ -67,7 +67,7 @@ class CustomView extends \Tests\Base
 			'featured' => 0,
 			'color' => '',
 			'description' => 'Record delete test',
-			'columnslist' => \CustomView_Record_Model::getInstanceById($leadsDefCvid)->getSelectedFields()
+			'columnslist' => \CustomView_Record_Model::getInstanceById($recordModel->getId())->getSelectedFields()
 		];
 		$newCustomViewModel->setData($customViewData);
 		$newCustomViewModel->save();
