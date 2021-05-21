@@ -18,11 +18,17 @@ class Users_LoginHistoryModal_View extends \App\Controller\Modal
 {
 	use \App\Controller\ExposeMethod;
 
+	/** {@inheritdoc} */
+	public $modalSize = 'modal-full';
+
 	/**  {@inheritdoc} */
 	public $successBtn = '';
 
 	/**  {@inheritdoc} */
 	public $dangerBtn = 'BTN_CLOSE';
+
+	/**  {@inheritdoc} */
+	public $modalIcon = 'yfi yfi-login-history';
 
 	/** @var string[] Columns to show on the list. */
 	public static $columnsToShow = [
@@ -47,8 +53,7 @@ class Users_LoginHistoryModal_View extends \App\Controller\Modal
 	{
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$this->modalIcon = 'mdi mdi-lock-reset';
-		$this->pageTitle = \App\Language::translate('LBL_LOGIN_HISTORY', $moduleName) . ' - ' . App\Fields\Owner::getUserLabel($currentUserModel->get('id'));
+		$this->pageTitle = \App\Language::translate('LBL_YOUR_ACCOUNT_ACCESS_HISTORY', $moduleName) . ' - ' . App\Fields\Owner::getUserLabel($currentUserModel->get('id'));
 		parent::preProcessAjax($request);
 	}
 
@@ -56,8 +61,10 @@ class Users_LoginHistoryModal_View extends \App\Controller\Modal
 	 * Change user password.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @return void
 	 */
-	public function process(App\Request $request)
+	public function process(App\Request $request): void
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

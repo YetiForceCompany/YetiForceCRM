@@ -89,7 +89,7 @@ class Users_Login_Action extends \App\Controller\Action
 		} else {
 			\App\Session::set('UserLoginMessage', \App\Language::translate('LBL_2FA_WRONG_CODE', 'Users'));
 			\App\Session::set('UserLoginMessageType', 'error');
-			$this->failedLogin($request);
+			$this->failedLogin($request, '2fa');
 		}
 	}
 
@@ -135,7 +135,7 @@ class Users_Login_Action extends \App\Controller\Action
 			return;
 		}
 		\App\Session::set('UserLoginMessage', App\Language::translate('LBL_INVALID_USER_OR_PASSWORD', 'Users'));
-		$this->failedLogin($request);
+		$this->failedLogin($request, 'login');
 	}
 
 	/**
@@ -253,10 +253,11 @@ class Users_Login_Action extends \App\Controller\Action
 	 * Failed login function.
 	 *
 	 * @param \App\Request $request
+	 * @param string       $type
 	 */
-	public function failedLogin(App\Request $request): void
+	public function failedLogin(App\Request $request, string $type): void
 	{
-		$status = 'Failed login';
+		$status = '2fa' === $type ? 'Failed login' : 'ERR_WRONG_2FA_CODE';
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive()) {
 			$bfInstance->updateBlockedIp();
@@ -264,7 +265,7 @@ class Users_Login_Action extends \App\Controller\Action
 				$bfInstance->sendNotificationEmail();
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', 'Users'));
 				\App\Session::set('UserLoginMessageType', 'error');
-				$status = 'ERR_LOGIN_IP_BLOCK';
+				$status = '2fa' === $type ? 'ERR_LOGIN_IP_BLOCK' : 'ERR_2FA_IP_BLOCK';
 			}
 		}
 		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), $status);

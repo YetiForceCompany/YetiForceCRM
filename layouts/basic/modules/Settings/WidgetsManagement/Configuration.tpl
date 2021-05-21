@@ -205,7 +205,7 @@
 														{/foreach}
 													</optgroup>
 													{if count($ALL_SERVERS)}
-														<optgroup label="{\App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}">
+														<optgroup label="{\App\Language::translate('WebserviceApps', 'Settings.WebserviceApps')}">
 															{foreach from=$ALL_SERVERS item=SERVER key=ID}
 																<option value="{$ID}">{\App\Purifier::encodeHTML($SERVER['name'])}</option>
 															{/foreach}

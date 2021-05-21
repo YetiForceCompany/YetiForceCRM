@@ -59,11 +59,6 @@ class Field
 			'name' => 'share_externally',	'column' => 'share_externally',	'label' => 'FL_SHARE_EXTERNALLY',	'defaultvalue' => 1,	'fieldparams' => 1,
 			'uitype' => 318,	'typeofdata' => 'C~O',	'columntype' => 'tinyint(1)', 'maximumlength' => '-128,127',
 		],
-		'currency_id' => [
-			'validationConditions' => ['name'],
-			'name' => 'currency_id',	'column' => 'currency_id',	'label' => 'Currency',
-			'uitype' => 117,	'typeofdata' => 'V~M',	'columntype' => 'int(10)', 'maximumlength' => '-2147483648,2147483647',
-		],
 	];
 
 	/**

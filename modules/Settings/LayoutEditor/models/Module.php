@@ -731,7 +731,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				'label' => $field['name'] . " ({$field['type']})",
 				'fieldparams' => $id
 			]);
-			break;
 		}
 		unset($systemFields['share_externally']);
 		foreach ($systemFields as $name => $field) {
