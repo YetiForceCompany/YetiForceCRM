@@ -9,7 +9,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
+class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 {
 	protected $attrList = ['crmfield', 'crmfieldtype', 'partvalue', 'constvalue', 'refmoule', 'spec', 'refkeyfld', 'delimiter', 'testcondition'];
 	protected $product = false;
@@ -17,6 +17,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	protected $tmpXmlPath = '';
 	protected $index;
 	protected $inventoryFields;
+	protected $fileExtension = 'xml';
 
 	/**
 	 * {@inheritdoc}
@@ -58,6 +59,11 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		} else {
 			$this->outputFile($fileName);
 		}
+	}
+
+	public function sanitizeValues(array $recordValues): array
+	{
+		return $this->getRecordDataInExportFormat($recordValues);
 	}
 
 	/**

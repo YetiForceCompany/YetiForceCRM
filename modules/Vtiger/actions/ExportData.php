@@ -37,7 +37,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	 */
 	public function process(App\Request $request)
 	{
-		$exportModel = Vtiger_Export_Model::getInstanceFromRequest($request);
+		$exportModel = \App\Export\ExportRecords::getInstanceFromRequest($request);
 		if ('ExportSelectedRecords' === $request->getMode()) {
 			$exportModel->setRecordList($this->getRecordsListFromRequest($request));
 		}

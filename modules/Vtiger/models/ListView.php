@@ -204,8 +204,8 @@ class Vtiger_ListView_Model extends \App\Base
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
-				'linkicon' => 'fas fa-file-excel',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExport("' . $moduleModel->getName() . '")',
+				'linkicon' => 'fas fa-file-export',
 			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
