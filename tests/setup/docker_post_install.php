@@ -9,7 +9,10 @@ if (file_exists($path)) {
 }
 $path = '/etc/php/' . getenv('PHP_VER') . '/fpm/php-fpm.conf';
 if (file_exists($path)) {
-	$content = str_replace('; Pool Definitions ;', "; Pool Definitions ;\nlog_level = warning\nerror_log = /var/log/fpm-php.www.log\n", file_get_contents($path));
+	$content = str_replace(
+		['; Pool Definitions ;', ''],
+		["; Pool Definitions ;\nlog_level = warning\nerror_log = /var/log/fpm-php.www.log\n"],
+	 file_get_contents($path));
 	file_put_contents($path, $content);
 }
 
@@ -21,6 +24,7 @@ if (file_exists($path)) {
 	'clear_env = no' . PHP_EOL .
 	'request_terminate_timeout = 600' . PHP_EOL .
 	'pm.max_requests = 5000' . PHP_EOL .
+	'pm.max_children = 6' . PHP_EOL .
 	'pm.process_idle_timeout = 600s;';
 	file_put_contents($path, $conf, FILE_APPEND);
 }

@@ -45,12 +45,13 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 
 		$this->driver->findElement(WebDriverBy::name('accountname'))->sendKeys('YetiForce');
 		$this->driver->executeScript('Vtiger_List_Js.triggerListSearch()');
+
+		static::assertSame('[[["accountname","a","YetiForce"]]]', \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['search_params'] ?? '');
 		$this->findError();
-		static::assertSame('[[["accountname","a","YetiForce"]]]', $this->driver->findElement(WebDriverBy::id('search_params'))->getAttribute('value'));
 
 		$this->driver->executeScript("$('.js-change-order[data-columnname=\"accountname\"]').click()");
+		static::assertSame('ASC', \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['orderby']['accountname'] ?? '');
 		$this->findError();
-		static::assertSame('{"accountname":"ASC"}', $this->driver->findElement(WebDriverBy::id('orderBy'))->getAttribute('value'));
 
 		$this->driver->executeScript("$('.Accounts_listViewHeader_action_BTN_PERMISSION_INSPECTOR').click()");
 		$this->findError();
