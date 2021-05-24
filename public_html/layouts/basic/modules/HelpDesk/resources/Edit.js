@@ -11,61 +11,82 @@ Vtiger_Edit_Js(
 		 */
 		registerRecordPreSaveEventEvent: function (form) {
 			this._super(form);
-			const self = this;
-			let lockSave = true;
-			form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-				let closedStatus = JSON.parse(app.getMainParams('closeTicketForStatus'));
-				let status = form.find('[name="ticketstatus"] :selected').val();
-				let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-				let isClosedStatusSet = status in closedStatus;
-				const recordId = app.getRecordId();
-				if (
-					(app.getMainParams('checkIfRecordHasTimeControl') || app.getMainParams('checkIfRelatedTicketsAreClosed')) &&
-					isClosedStatusSet &&
-					recordId &&
-					!data.module
-				) {
-					if (lockSave && recordId) {
-						e.preventDefault();
-						AppConnector.request({
-							action: 'CheckValidateToClose',
-							module: app.getModuleName(),
-							record: recordId,
-							status: form.find('[name="ticketstatus"] :selected').val()
-						}).done((response) => {
-							progress.progressIndicator({ mode: 'hide' });
-							if (response.result.hasTimeControl.result && response.result.relatedTicketsClosed.result) {
-								lockSave = false;
-								form.submit();
-							}
-							if (!response.result.hasTimeControl.result) {
-								app.showNotify({
-									text: response.result.hasTimeControl.message,
-									type: 'info'
-								});
-								self.addTimeControl({
-									recordId: recordId,
-									url: `index.php?module=OSSTimeControl&view=Edit&sourceModule=HelpDesk&sourceRecord=${recordId}&relationOperation=true&subprocess=${recordId}&subprocess=${recordId}`
-								});
-							}
-							if (!response.result.relatedTicketsClosed.result) {
-								app.showNotify({
-									text: response.result.relatedTicketsClosed.message,
-									type: 'info'
-								});
-							}
-						});
-					}
-				}
-				if (isClosedStatusSet && (!recordId || data.module)) {
-					app.showNotify({
-						text: app.vtranslate('JS_CANT_CLOSE_NEW_RECROD'),
-						type: 'info'
+			form.on(Vtiger_Edit_Js.recordPreSave, (e, data) => {
+				try {
+					this.validateToClose(form).done((response) => {
+						if (response !== true) {
+							e.preventDefault();
+						}
 					});
-					progress.progressIndicator({ mode: 'hide' });
+				} catch (error) {
+					app.errorLog(error);
+					app.showNotify({
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					});
 					e.preventDefault();
 				}
 			});
+		},
+		validateToClose: function (form) {
+			const aDeferred = $.Deferred();
+			let closedStatus = app.getMainParams('closeTicketForStatus', true);
+			let status = form.find('[name="ticketstatus"] :selected').val();
+			let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+			let isClosedStatusSet = status in closedStatus;
+			const recordId = form.find('[name="record"]').val();
+			if (
+				(app.getMainParams('checkIfRecordHasTimeControl') || app.getMainParams('checkIfRelatedTicketsAreClosed')) &&
+				isClosedStatusSet &&
+				recordId
+			) {
+				let formData = {
+					action: 'CheckValidateToClose',
+					module: app.getModuleName(),
+					record: recordId,
+					status: form.find('[name="ticketstatus"] :selected').val()
+				};
+				AppConnector.request({
+					async: false,
+					url: 'index.php',
+					type: 'POST',
+					data: formData
+				}).done((response) => {
+					progress.progressIndicator({ mode: 'hide' });
+					if (response.result.hasTimeControl.result && response.result.relatedTicketsClosed.result) {
+						aDeferred.resolve(true);
+					} else {
+						if (!response.result.hasTimeControl.result) {
+							app.showNotify({
+								text: response.result.hasTimeControl.message,
+								type: 'info'
+							});
+							this.addTimeControl({
+								recordId: recordId,
+								url: `index.php?module=OSSTimeControl&view=Edit&sourceModule=HelpDesk&sourceRecord=${recordId}&relationOperation=true&subprocess=${recordId}&subprocess=${recordId}`
+							});
+						}
+						if (!response.result.relatedTicketsClosed.result) {
+							app.showNotify({
+								text: response.result.relatedTicketsClosed.message,
+								type: 'info'
+							});
+						}
+						aDeferred.resolve(false);
+					}
+				});
+			} else if (isClosedStatusSet && !recordId) {
+				app.showNotify({
+					text: app.vtranslate('JS_CANT_CLOSE_NEW_RECROD'),
+					type: 'info'
+				});
+				progress.progressIndicator({ mode: 'hide' });
+				aDeferred.resolve(false);
+			} else {
+				aDeferred.resolve(true);
+			}
+
+			return aDeferred.promise();
 		},
 		/**
 		 * Add time control when closed ticket
