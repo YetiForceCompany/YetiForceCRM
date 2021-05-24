@@ -1,0 +1,19 @@
+{
+  "php": {
+    "FieldsDependency": "Dependent Fields",
+    "LBL_FIELDS_DEPENDENCY": "Dependent Fields",
+    "LBL_FIELDS_DEPENDENCY_DESCRIPTION": "Configuration of dynamic fields and blocks depending on specific criteria",
+    "LBL_NAME": "Dependent name",
+    "LBL_EDIT": "Edit dependent",
+    "LBL_CREATE": "Create new dependent",
+    "LBL_SOURCE_MODULE": "Module name",
+    "LBL_VIEWS": "Views",
+    "LBL_VIEWS_INFO": "List of views where fields are to be hidden/shown, if a view is not selected the fields will always be visible",
+    "LBL_FIELDS_INFO": "List of fields that will be visible only if the conditions below are met",
+    "LBL_GUI": "Dynamic fields",
+    "LBL_GUI_INFO": "Enabling it results in a dynamic showing of fields in the form when changing values in fields.\nIf disabled, the changes will only take effect after saving the data.",
+    "LBL_MANDATORY": "Mandatory fields",
+    "LBL_MANDATORY_INFO": "After enabling all fields listed below will be mandatory",
+    "LBL_CONDITIONS": "Conditions"
+  }
+}
