@@ -9,7 +9,7 @@
     "LBL_FAILED": "Failed",
     "LBL_FINISH": "Finish",
     "LBL_IMPORTED_MODULE": "%s module has been imported successfully.",
-    "LBL_IMPORTED_UPDATE": "System has been updated successfully.",
+    "LBL_IMPORTED_UPDATE": "%s System has been updated successfully.",
     "LBL_IMPORTED_EXTENSION": "Extension has been installed successfully.",
     "LBL_IMPORTED_LANGUAGE": "Language has been installed successfully.",
     "LBL_IMPORTED_FONT": "Font has been installed successfully.",
@@ -78,6 +78,10 @@
     "LBL_ERROR_NO_VALID_PREFIX": "Invalid language prefix",
     "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings",
     "LBL_SAMPLE_FIELD_NAME": "sample_name",
+    "LBL_DELETE_MODULE": "Delete module",
+    "LBL_EXPORT_MODULE": "Export module",
+    "LBL_PREMIUM_MODULE": "Premium module",
+    "LBL_SETTINGS": "Settings",
     "LBL_SAMPLE_LABEL": "Sample name"
   },
   "js": {
