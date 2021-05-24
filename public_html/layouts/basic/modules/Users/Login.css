@@ -117,9 +117,6 @@ body {
 	color: #fff !important;
 	padding: 0;
 }
-.fieldContainer button#retrievePassword {
-	font-size: 20px;
-}
 
 @media (min-width: 768px) {
 	.visible-phone {

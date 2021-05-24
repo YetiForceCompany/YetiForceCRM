@@ -133,7 +133,7 @@
 										title="{\App\Language::translate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId"
 										placeholder="Email">
 								</div>
-								<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block py-2"
+								<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block py-2 u-fs-19px"
 									title="Retrieve Password">
 									{\App\Language::translate('BTN_RESET_PASSWORD',$MODULE)}
 								</button>
