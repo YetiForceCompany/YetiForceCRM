@@ -39,6 +39,7 @@
     "LBL_ADDITIONAL_HEADERS": "Additional headers",
     "LBL_SAVE_SENT_MESSAGE": "Save the sent message",
     "LBL_INDIVIDUAL_DELIVERY_INFO": "Emails will be sent individually for each recipient",
-    "LBL_OPTIONS_INFO": "Exemplary additional parameters (Json):\r\n {\r\n  &quot;ssl&quot;: {\r\n    &quot;verify_peer&quot;:false,\r\n    &quot;verify_peer_name&quot;:false,\r\n    &quot;allow_self_signed&quot;:true\r\n  }\r\n}"
+    "LBL_UNSUBSCRIBE_INFO": "The List-Unsubscribe header is an optional email header you can add to your messages. It allows subscribers to see an unsubscribe button they can click if they would like to automatically stop receiving your email. The list of parameters that will be placed in the header in angle brackets, e.g. < ... >\nexample: mailto:newsletter@yetiforce.com >>> <mailto:newsletter@yetiforce.com>",
+    "LBL_OPTIONS_INFO": "Exemplary additional parameters (Json):\r\n {\r\n\"ssl\": {\r\n\"verify_peer\":false,\r\n\"verify_peer_name\";:false,\r\n\";allow_self_signed\";:true\r\n   }\r\n}"
   }
 }
