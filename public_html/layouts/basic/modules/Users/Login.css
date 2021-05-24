@@ -115,7 +115,7 @@ body {
 .fieldContainer button {
 	font-size: 35px;
 	color: #fff !important;
-	padding: 0 !important;
+	padding: 0;
 }
 
 @media (min-width: 768px) {
