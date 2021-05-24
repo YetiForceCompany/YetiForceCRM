@@ -1,7 +1,7 @@
 {
   "php": {
-    "OSSMailView": "Corporate emails",
-    "SINGLE_OSSMailView": "Corporate email",
+    "OSSMailView": "Email history",
+    "SINGLE_OSSMailView": "Email history",
     "LBL_RECORDS_LIST": "List of emails",
     "LBL_INFORMATION": "General Information",
     "LBL_ORIGN_MESSAGE": "Original message",
@@ -56,7 +56,6 @@
     "LBL_COLLAPSE_ALL": "Collapse all",
     "LBL_COUNT_ALL_MAILS": "Number of all emails",
     "LBL_VERIFY": "To verification related",
-    "LBL_REL_MOD": "Related modules",
     "LBL_BindMailsOK": "Marked emails to bind, the next activation cron messages will be related to record",
     "LBL_BindMails": "Assign emails",
     "LBL_ChangeType": "Change mail type",
@@ -67,7 +66,7 @@
     "Configuration": "Configuration",
     "LBL_MAIL_REPLY_INTRO": "On the %s, %s wrote:",
     "LBL_MAIL_FORWARD_INTRO": "-------- Original message --------",
-    "Graf": "Corporate emails by Type",
+    "Graf": "Emails by Type",
     "Today": "Today",
     "Yesterday": "Yesterday",
     "Current week": "Current week",
