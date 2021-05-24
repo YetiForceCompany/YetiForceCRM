@@ -43,13 +43,14 @@
     "LBL_RECORD_STATE_OPEN": "Open",
     "LBL_RECORD_STATE_CLOSED": "Closed",
     "LBL_RECORD_STATE_INFO": "This value might be taken into account in some record state mechanisms",
-    "LBL_EDIT_PROCESS_STATUS": "Edit process status",
+    "LBL_EDIT_PROCESS_LOCK_STATUS": "Edit lock and process status",
     "LBL_TIME_COUNTING": "Time counting",
     "LBL_TIME_COUNTING_INFO": "You can group several statuses into categories in which the system summarizes the times of these statuses. The system can then perform some action when the time is exceeded.",
     "LBL_TIME_COUNTING_REACTION": "Reaction time",
     "LBL_TIME_COUNTING_RESOLVE": "Resolve time",
     "LBL_TIME_COUNTING_IDLE": "Idle time",
-    "LBL_IS_NOT_A_PROCESS_STATUS_FIELD": "Field is not a process status field."
+    "LBL_IS_NOT_A_PROCESS_STATUS_FIELD": "Field is not a process status field.",
+    "LBL_IMPORT_VALUE": "Import values"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "All Roles selected",
