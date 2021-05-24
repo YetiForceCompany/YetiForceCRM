@@ -72,11 +72,11 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 	 *
 	 * @return void
 	 */
-	public function testListViews(): void
-	{
-		$this->url('index.php?module=Accounts&view=ListPreview');
-		static::assertCount(1, \count($this->driver->findElement(WebDriverBy::className('detailViewContainer'))));
-	}
+	// public function testListViews(): void
+	// {
+	// 	$this->url('index.php?module=Accounts&view=ListPreview');
+	// 	static::assertCount(1, \count($this->driver->findElement(WebDriverBy::className('detailViewContainer'))));
+	// }
 
 	/**
 	 * Testing the record edit view.
