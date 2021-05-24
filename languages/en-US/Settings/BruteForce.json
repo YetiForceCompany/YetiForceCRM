@@ -2,6 +2,7 @@
   "php": {
     "BruteForce": "Brute Force",
     "LBL_NUMBER_OF_ATTEMPTS": "Number of attemps",
+    "LBL_NUMBER_OF_ATTEMPTS_DESC": "The parameter includes triggering each action for non-logged in users, e.g. login attempt, password reset",
     "LBL_TIME_LOCK": "Time lock (minutes)",
     "LBL_SETTINGS": "Settings",
     "LBL_BLOCKED_IP": "Blocked IP address",
