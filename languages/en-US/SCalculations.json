@@ -10,7 +10,6 @@
     "LBL_NUMBER": "Number",
     "LBL_CLOSED_TIME": "Closed time",
     "LBL_STATUS": "Status",
-    "LBL_RESPONSE_TIME": "Respone time",
     "SINGLE_SSalesProcesses": "Opportunity",
     "FL_TOTAL_PRICE": "Net total",
     "FL_MARGINP": "Total margin percentage",
@@ -20,6 +19,7 @@
     "PLL_FOR_VERIFICATION": "For verification",
     "PLL_CANCELLED": "Cancelled",
     "PLL_COMPLETED": "Completed",
-    "LBL_CHANGE_STATUS": "Change status"
+    "LBL_CHANGE_STATUS": "Change status",
+    "FL_PARENT_SCALCULATIONS": "Parent calculation"
   }
 }
