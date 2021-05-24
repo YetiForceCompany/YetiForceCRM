@@ -62,6 +62,7 @@ class Vtiger_Menu_Model
 		$parent = $request->getByType('parent', 'Alnum');
 		$mid = $request->isEmpty('mid', 'Alnum') ? null : $request->getInteger('mid');
 		if ('Settings' !== $parent) {
+			$parent = (!$parent && $mid) ? ($parentList[$mid]['parent'] ?? null) : $parent;
 			if (empty($parent)) {
 				foreach ($parentList as &$parentItem) {
 					if ($moduleName === $parentItem['mod']) {
@@ -77,9 +78,14 @@ class Vtiger_Menu_Model
 			if ('AppComponents' !== $moduleName) {
 				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 				if ($moduleModel && $moduleModel->getDefaultUrl()) {
+					if($mid){
+						$url = $menus[$mid]['dataurl'] ?? $parentList[$mid]['url'];
+					}else{
+						$url = $moduleModel->getDefaultUrl();
+					}
 					$breadcrumbs[] = [
 						'name' => \App\Language::translate($moduleName, $moduleName),
-						'url' => ($mid && !empty($menus[$mid]['dataurl'])) ? $menus[$mid]['dataurl'] : $moduleModel->getDefaultUrl()
+						'url' => $url
 					];
 				} else {
 					$breadcrumbs[] = [
