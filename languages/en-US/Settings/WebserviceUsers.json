@@ -1,7 +1,7 @@
 {
   "php": {
-    "WebserviceUsers": "Web service - users",
-    "LBL_WEBSERVICE_USERS": "Web service - users",
+    "WebserviceUsers": "Web service - Users",
+    "LBL_WEBSERVICE_USERS": "Web service - Users",
     "LBL_WEBSERVICE_USERS_DESCRIPTION": " ",
     "FL_SERVER": "Server",
     "FL_STATUS": "Status",
@@ -21,7 +21,11 @@
     "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "All related records of account assigned directly to contact and accounts from hierarchy",
     "PLL_ACTIVE": "Active",
     "PLL_INACTIVE": "Inactive",
-    "LBL_CREATE_RECORD": "Create"
+    "LBL_CREATE_RECORD": "Create",
+    "Mail": "Mail",
+    "FL_STORAGE": "Storage",
+    "FL_TOKEN": "Token",
+    "ManageConsents": "Manage consents"
   },
   "js": {
     "JS_DELETE_CONFIRMATION": "Are you sure you want to remove the key?",
