@@ -67,7 +67,7 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 		$this->findError();
 	}
 
-	/**
+	/*
 	 * Testing the list views.
 	 *
 	 * @return void
@@ -78,44 +78,44 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 	// 	static::assertCount(1, \count($this->driver->findElement(WebDriverBy::className('detailViewContainer'))));
 	// }
 
-	/**
+	/*
 	 * Testing the record edit view.
 	 *
 	 * @return void
 	 */
-	public function testEditView(): void
-	{
-		$accountModel = \Tests\Base\C_RecordActions::createAccountRecord();
-		$this->url('index.php?module=Accounts&view=Detail&record=' . $accountModel->getId());
-		static::assertSame('Accounts', $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
-		static::assertSame('Detail', $this->driver->findElement(WebDriverBy::id('view'))->getAttribute('value'));
-		static::assertSame($accountModel->getId(), $this->driver->findElement(WebDriverBy::tagName('recordId'))->getAttribute('value'));
-		$this->findError();
+	// public function testEditView(): void
+	// {
+	// 	$accountModel = \Tests\Base\C_RecordActions::createAccountRecord();
+	// 	$this->url('index.php?module=Accounts&view=Detail&record=' . $accountModel->getId());
+	// 	static::assertSame('Accounts', $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
+	// 	static::assertSame('Detail', $this->driver->findElement(WebDriverBy::id('view'))->getAttribute('value'));
+	// 	static::assertSame($accountModel->getId(), $this->driver->findElement(WebDriverBy::tagName('recordId'))->getAttribute('value'));
+	// 	$this->findError();
 
-		foreach ($this->driver->findElements(WebDriverBy::cssSelector('.js-tabdrop li')) as $element) {
-			$element->click();
-			$this->findError();
-		}
-	}
+	// 	foreach ($this->driver->findElements(WebDriverBy::cssSelector('.js-tabdrop li')) as $element) {
+	// 		$element->click();
+	// 		$this->findError();
+	// 	}
+	// }
 
-	/**
+	/*
 	 * Testing the record detail view.
 	 *
 	 * @return void
 	 */
-	public function testDetailView(): void
-	{
-		$accountModel = \Tests\Base\C_RecordActions::createAccountRecord();
-		$this->url('index.php?module=Accounts&view=Edit&record=' . $accountModel->getId());
-		$this->findError();
-		static::assertSame('Accounts', $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
-		static::assertSame('Edit', $this->driver->findElement(WebDriverBy::tagName('fromView'))->getAttribute('value'));
-		static::assertSame($accountModel->getId(), $this->driver->findElement(WebDriverBy::tagName('recordId'))->getAttribute('value'));
+	// public function testDetailView(): void
+	// {
+	// 	$accountModel = \Tests\Base\C_RecordActions::createAccountRecord();
+	// 	$this->url('index.php?module=Accounts&view=Edit&record=' . $accountModel->getId());
+	// 	$this->findError();
+	// 	static::assertSame('Accounts', $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
+	// 	static::assertSame('Edit', $this->driver->findElement(WebDriverBy::tagName('fromView'))->getAttribute('value'));
+	// 	static::assertSame($accountModel->getId(), $this->driver->findElement(WebDriverBy::tagName('recordId'))->getAttribute('value'));
 
-		$this->driver->findElement(WebDriverBy::cssSelector('[data-type="App\RecordCollectors\Vies"]'))->click();
-		$this->findError();
+	// 	$this->driver->findElement(WebDriverBy::cssSelector('[data-type="App\RecordCollectors\Vies"]'))->click();
+	// 	$this->findError();
 
-		$this->driver->findElement(WebDriverBy::className('js-form-submit-btn'))->click();
-		$this->findError();
-	}
+	// 	$this->driver->findElement(WebDriverBy::className('js-form-submit-btn'))->click();
+	// 	$this->findError();
+	// }
 }
