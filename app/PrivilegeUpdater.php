@@ -88,7 +88,7 @@ class PrivilegeUpdater
 		$createCommand = Db::getInstance()->createCommand();
 		$createCommand->update('vtiger_crmentity', ['users' => $recordAccessUsers], ['crmid' => $record])->execute();
 		if ($searchable) {
-			$searchUsers = $searchUsers ?: ',';
+			$searchUsers = $searchUsers ? $searchUsers . ',' : $searchUsers;
 			$createCommand->update('u_#__crmentity_search_label', ['userid' => $searchUsers], ['crmid' => $record])->execute();
 		}
 	}
