@@ -40,7 +40,8 @@ class Time
 	 */
 	public static function formatToDB($time, bool $convertTimeZone = true)
 	{
-		return (new \DateTimeField(date('Y-m-d') . ' ' . $time))->getDBInsertTimeValue($convertTimeZone);
+		$date = $convertTimeZone ? \App\Fields\Date::formatToDisplay(date('Y-m-d'), false) : date('Y-m-d');
+		return (new \DateTimeField($date . ' ' . $time))->getDBInsertTimeValue($convertTimeZone);
 	}
 
 	/**
