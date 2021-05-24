@@ -30,11 +30,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	 */
 	protected $viewName;
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -49,13 +45,14 @@ class Vtiger_List_View extends Vtiger_Index_View
 		return $title;
 	}
 
+	/** {@inheritdoc} */
 	public function getBreadcrumbTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$title = \App\Language::translate('LBL_VIEW_LIST', $moduleName);
 		if ($request->has('viewname') && !empty(CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)])) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)];
-			$title .= '<div class="pl-1 pb-1 d-flex align-items-end"><small class="breadCrumbsFilter"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
+			$title .= '<div class="pl-1 pb-1 align-items-end"><small class="breadCrumbsFilter"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
 				. ': ' . \App\Language::translate($customView->get('viewname'), $moduleName) . ']</small> </div>';
 		}
 		return $title;
@@ -96,6 +93,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEWID', $this->viewName);
+		$viewer->assign('MID', $mid);
 		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 		if ($display) {
 			$this->preProcessDisplay($request);

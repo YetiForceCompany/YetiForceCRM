@@ -78,6 +78,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('CV_PENDING_VALUE', App\CustomView::CV_STATUS_PENDING);
 		$viewer->assign('CV_PUBLIC_VALUE', App\CustomView::CV_STATUS_PUBLIC);
 		$viewer->assign('MODULE_MODEL', $sourceModuleModel);
+		$viewer->assign('MID', $request->has('mid') ? $request->getInteger('mid') : null);
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 }

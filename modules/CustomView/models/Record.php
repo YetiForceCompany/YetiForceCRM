@@ -816,11 +816,13 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Function returns approve url.
 	 *
+	 * @param int|null $mid
+	 *
 	 * @return string - approve url
 	 */
-	public function getEditUrl()
+	public function getEditUrl($mid = null)
 	{
-		return 'index.php?module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId();
+		return 'index.php?module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId() . ($mid ? "&mid={$mid}" : '');
 	}
 
 	/**
@@ -856,11 +858,13 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 *  Functions returns delete url.
 	 *
+	 * @param int|null $mid
+	 *
 	 * @return string - delete url
 	 */
-	public function getDeleteUrl()
+	public function getDeleteUrl($mid = null)
 	{
-		return 'index.php?module=CustomView&action=Delete&sourceModule=' . $this->getModule()->get('name') . '&record=' . $this->getId();
+		return 'index.php?module=CustomView&action=Delete&sourceModule=' . $this->getModule()->get('name') . '&record=' . $this->getId() . ($mid ? "&mid={$mid}" : '');
 	}
 
 	/**
