@@ -97,11 +97,6 @@ body {
 	padding-bottom: 10px;
 }
 
-#forgotpass,
-.login-text a {
-	color: #adb0b5;
-}
-
 .fieldContainer span:not(.fas) {
 	color: #4a5364;
 	font-size: 24px;
