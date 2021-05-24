@@ -42,7 +42,7 @@
     "Filter": "Filter",
     "Filter info": "Enable data filtering by selection list",
     "None": "None",
-    "ProductsServices": "Products services",
+    "ProductsServices": "Products & services",
     "LBL_SELECTING_FIELDS": "Selecting fields",
     "LBL_SELECTING_FIELDS_INFO": "Field names from a selected module to be displayed in the view.",
     "LBL_VIEW_TYPE": "View",
@@ -57,8 +57,13 @@
     "LBL_SHITCH_HEADER": "Switch in header",
     "LBL_SHITCH_HEADER_INFO": "Switch can be found in the widget's header.",
     "HistoryRelation": "Timeline",
+    "UpdatesList": "Field history and duration summary",
     "CountRecords": "Number of records",
-    "LBL_LIST_WITH_SUMMARY": "List with summary"
+    "LBL_LIST_WITH_SUMMARY": "List with summary",
+    "LBL_CURRENT_HISTORY_SWITCH": "Current/History",
+    "RelatedModuleChart": "Related module - chart",
+    "Documents": "Documents",
+    "LBL_SHOW_DOC_RELATIONS": "List of related relationships"
   },
   "js": {
     "Loading data": "Loading...",
