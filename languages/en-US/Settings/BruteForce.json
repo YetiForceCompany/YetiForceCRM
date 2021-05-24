@@ -8,7 +8,7 @@
     "LBL_SAVE_SUCCESS": "Changes have been saved",
     "LBL_UNBLOCK_FAIL": "IP adress has not been unblocked",
     "LBL_UNBLOCK_SUCCESS": "IP adress has been unblocked",
-    "LBL_BRUTEFORCE_DESCRIPTION": "Set the maximum number of failed login attempts and time limit for IP blocking.",
+    "LBL_BRUTEFORCE_DESCRIPTION": "Set the maximum number of failed login attempts or password changes and time limit for IP blocking.",
     "LBL_IP": "IP address",
     "LBL_DATE": "Date",
     "LBL_USERS": "Users",
