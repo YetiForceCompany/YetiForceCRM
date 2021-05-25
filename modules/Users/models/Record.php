@@ -224,6 +224,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if ($this->has('changeUserPassword') || $this->isNew()) {
 			$saveFields[] = 'user_password';
+			$saveFields[] = 'force_password_change';
 		}
 		foreach ($saveFields as $fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
