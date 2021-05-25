@@ -790,8 +790,5 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this->name);
 		$blockModel->addField($fieldModel);
-		if (empty($field['maximumlength'])) {
-			\App\Db\Fixer::maximumFieldsLength(['fieldid' => $fieldModel->getId()]);
-		}
 	}
 }

@@ -54,7 +54,7 @@ class Vtiger_Menu_Model
 		} else {
 			require 'user_privileges/menu_0.php';
 		}
-		if (0 === \count($menus)) {
+		if (empty($menus)) {
 			require 'user_privileges/menu_0.php';
 		}
 		$moduleName = $request->getModule();
@@ -78,9 +78,9 @@ class Vtiger_Menu_Model
 			if ('AppComponents' !== $moduleName) {
 				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 				if ($moduleModel && $moduleModel->getDefaultUrl()) {
-					if($mid){
+					if ($mid) {
 						$url = $menus[$mid]['dataurl'] ?? $parentList[$mid]['url'];
-					}else{
+					} else {
 						$url = $moduleModel->getDefaultUrl();
 					}
 					$breadcrumbs[] = [
