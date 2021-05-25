@@ -31,24 +31,18 @@
 						{if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
 					<div class='fieldContainer mx-0 form-row col-md-12'>
 						<div class='mx-0 col-sm-10'>
-							<label for="username"
-									class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
+							<label for="username" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
 							<div class="input-group form-group first-group">
-								<input name="username" type="text" id="username"
-										class="form-control form-control-lg"
+								<input name="username" type="text" id="username" class="form-control form-control-lg" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}"
 										{if \App\Config::main('systemMode') === 'demo'}value="demo"{/if}
-										placeholder="{\App\Language::translate('LBL_USER',$MODULE)}"
 										required="" {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
 								<div class="input-group-append">
 									<div class="input-group-text"><i class="fas fa-user"></i></div>
 								</div>
 							</div>
-							<label for="password"
-									class="sr-only">{\App\Language::translate('Password',$MODULE)}</label>
+							<label for="password" class="sr-only">{\App\Language::translate('Password',$MODULE)}</label>
 							<div class="input-group form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if}">
-								<input name="password" type="password" class="form-control form-control-lg"
-										title="{\App\Language::translate('Password',$MODULE)}" id="password"
-										name="password"
+								<input name="password" type="password" class="form-control form-control-lg" title="{\App\Language::translate('Password',$MODULE)}" id="password"
 										{if \App\Config::main('systemMode') === 'demo'}value="demo"{/if} {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}
 										placeholder="{\App\Language::translate('Password',$MODULE)}">
 								<div class="input-group-append">
@@ -60,12 +54,9 @@
 								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 								{assign var=DEFAULT_LANGUAGE value=App\Config::main('default_language')}
 								<div class="input-group input-group-lg form-group mb-0 {if $LAYOUT_SELECTION}first-group {/if}">
-									<select class="form-control-lg form-control"
-											title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}"
-											name="loginLanguage">
+									<select name="loginLanguage" class="form-control-lg form-control" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}">
 										{foreach item=VALUE key=KEY from=\App\Language::getAll()}
-											<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}
-													value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
+											<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if} value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
 										{/foreach}
 									</select>
 									<div class="input-group-append">
@@ -76,9 +67,7 @@
 							{if $LAYOUT_SELECTION}
 								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 								<div class="form-group mb-0">
-									<select class="form-control-lg form-control"
-											title="{\App\Language::translate('LBL_SELECT_LAYOUT',$MODULE)}"
-											name="layout">
+									<select name="layout" class="form-control-lg form-control" title="{\App\Language::translate('LBL_SELECT_LAYOUT',$MODULE)}">
 										{foreach item=VALUE key=KEY from=\App\Layout::getAllLayouts()}
 											<option value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
 										{/foreach}
@@ -87,8 +76,7 @@
 							{/if}
 						</div>
 						<div class="col-sm-2">
-							<button class="btn btn-lg btn-primary btn-block heightButtonPhone heightDiv_{$COUNTERFIELDS}"
-									type="submit" title="{\App\Language::translate('LBL_SIGN_IN', $MODULE_NAME)}">
+							<button type="submit" class="btn btn-lg btn-primary btn-block heightButtonPhone heightDiv_{$COUNTERFIELDS}" title="{\App\Language::translate('LBL_SIGN_IN', $MODULE_NAME)}">
 								<strong><span class="fas fa-chevron-right"></span></strong>
 							</button>
 						</div>
@@ -121,7 +109,7 @@
 		</div>
 		{if App\Config::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
 			<div class="d-none" id="forgotPasswordDiv">
-				<form class="forgot-form row" action="index.php?module=Users&action=ForgotPassword" method="POST">
+				<form class="forgot-form row" action="index.php?module=Users&action=LoginForgotPassword" method="POST">
 					<div class="fieldContainer mx-0 form-row col-md-12">
 							<div class="login-form mx-0 form-row col-sm-12">
 								<label for="emailId" class="sr-only">{\App\Language::translate('LBL_EMAIL',$MODULE)}</label>
@@ -129,9 +117,7 @@
 									<div class="input-group-prepend">
 										<div class="input-group-text"><i class="fas fa-envelope"></i></div>
 									</div>
-									<input type="text" class="form-control form-control-lg" autocomplete="off"
-										title="{\App\Language::translate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId"
-										placeholder="Email">
+									<input type="text" class="form-control form-control-lg" id="emailId" name="email" placeholder="{\App\Language::translate('LBL_EMAIL',$MODULE)}" required="">
 								</div>
 								<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block py-2 u-fs-19px"
 									title="Retrieve Password">

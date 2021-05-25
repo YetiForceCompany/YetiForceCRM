@@ -63,6 +63,8 @@ class Users_Password_Action extends \App\Controller\Action
 	 * Reset user password.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @return void
 	 */
 	public function reset(App\Request $request): void
 	{
@@ -100,6 +102,8 @@ class Users_Password_Action extends \App\Controller\Action
 	 * Change user password.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @return void
 	 */
 	public function change(App\Request $request): void
 	{
@@ -182,13 +186,5 @@ class Users_Password_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USERS', 'Users')]]);
 		$response->emit();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateRequest(App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

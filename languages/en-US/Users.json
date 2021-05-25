@@ -313,6 +313,7 @@
     "LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY": "Access key updated successfully",
     "LBL_FAILED_TO_UPDATE_ACCESS_KEY": "Failed to update access key",
     "LBL_USER_MAIL_EXIST": "User with this email address already exists",
+    "LBL_USER_MAIL_NOT_EXIST": "User with this email address does not exist",
     "LBL_INVALID_USERNAME": "Invalid username",
     "LBL_USER_NAME_EXISTS": "Username already exists",
     "LBL_USER_NAME_HAS_ALREADY_BEEN_USED": "This username has already been used, system does not allow to use it again.",
@@ -327,7 +328,6 @@
     "LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USERS": "Passwords were reset and sent to users' email addresses.",
     "LBL_PASSWORD_SHOULD_BE_SAME": "Both passwords must match.",
     "LBL_INCORRECT_OLD_PASSWORD": "Incorrect old password. Try again.",
-    "LBL_SEND_EMAIL_RESET_PASSWORD": "System generated a new password and sent it to the email address.",
     "LBL_NO_USER_FOUND": "No user found.",
     "LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS": "Too many failed login attempts. IP has been blocked.",
     "LBL_IP_IS_BLOCKED": "Your IP is on the list of blocked IPs, please contact your administrator.",
@@ -403,12 +403,14 @@
     "ForgotPasswordSendMail": "Email with password change has been sent",
     "ERR_RESET_PASS_NO_USER": "Password reset attempt, user not found",
     "ERR_RESET_IP_BLOCK": "Password reset attempt despite IP block",
+    "ERR_PASS_CHANGE_IP_BLOCK": "Password change attempt despite IP block",
     "ERR_LOGIN_DESP_IP_BLOCK": "Login attempt despite IP block",
     "ERR_LOGIN_IP_BLOCK": "Unsuccessful login attempt. IP blocked due to exceeding login attempts limit.",
     "ERR_2FA_IP_BLOCK": "Wrong 2FA/TOPO code. IP blocked due to exceeding login attempts limit.",
     "ERR_WRONG_2FA_CODE": "Wrong 2FA/TOPO code",
     "LBL_YOUR_ACCOUNT_ACCESS_HISTORY": "History of access activity to your account",
-    "LBL_PASSWORD_CHANGED": "Password changed"
+    "LBL_PASSWORD_CHANGED": "Password changed",
+    "LBL_PASSWORD_LINK_SENT": "We sent you a link to change your password. Please check your inbox."
   },
   "js": {
     "JS_DELETE_USER_CONFIRMATION": "When a User is deleted, the user will be marked as \"Inactive\" and no new records can be assigned to the User, and the user will not be able to login. Are you sure you want to delete?",
