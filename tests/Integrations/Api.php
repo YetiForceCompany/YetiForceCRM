@@ -412,7 +412,7 @@ class Api extends \Tests\Base
 		$response = \App\Json::decode($body);
 		$this->assertSame(200, $request->getStatusCode(), 'Users/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertSame(1, $response['status'], 'Users/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/Record/{recordId}', 'get', 200);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/Record/{userId}', 'get', 200);
 	}
 
 	/**
