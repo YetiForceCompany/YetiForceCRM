@@ -1215,7 +1215,7 @@ class Vtiger_Record_Model extends \App\Base
 		} elseif (!isset($this->inventoryData) && $this->get('record_id')) {
 			$this->inventoryData = \Vtiger_Inventory_Model::getInventoryDataById($this->get('record_id'), $this->getModuleName());
 		} else {
-			$this->inventoryData = $this->inventoryData ?? [];
+			$this->inventoryData = $this->inventoryData ?? App\Config::module($this->getModuleName(), 'defaultInventoryData', []);
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
 		return $this->inventoryData;

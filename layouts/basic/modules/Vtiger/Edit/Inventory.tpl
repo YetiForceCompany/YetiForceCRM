@@ -153,7 +153,9 @@
 							{if $FIELD->isSummary()}
 								{assign var="SUM" value=0}
 								{foreach key=KEY item=ITEM_VALUE from=$INVENTORY_ROWS}
-									{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnName')])}
+									{if isset($ITEM_VALUE[$FIELD->get('columnName')])}
+										{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnName')])}
+									{/if}
 								{/foreach}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
 							{/if}
