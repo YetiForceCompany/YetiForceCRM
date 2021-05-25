@@ -8,8 +8,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require __DIR__ . '/include/main/WebUI.php';
-require __DIR__ . '/include/RequirementsValidation.php';
+require_once __DIR__ . '/include/main/WebUI.php';
+require_once __DIR__ . '/include/RequirementsValidation.php';
 
 if ('OPTIONS' === $_SERVER['REQUEST_METHOD']) {
 	\App\Headers::getInstance()->send();

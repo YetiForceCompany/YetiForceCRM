@@ -8,7 +8,9 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-require_once 'include/main/WebUI.php';
+require_once __DIR__ . '/include/main/WebUI.php';
+require_once __DIR__ . '/include/RequirementsValidation.php';
+
 \App\Process::$requestMode = 'API';
 \App\Log::beginProfile(\App\Request::getRequestMethod() . '::' . $_SERVER['REQUEST_URI'], 'WebServiceAPI');
 try {

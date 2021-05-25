@@ -40,7 +40,7 @@ class Company extends Base
 		if (Cache::has('CompanyGetAll', '')) {
 			return Cache::get('CompanyGetAll', '');
 		}
-		$rows = (new Db\Query())->from('s_#__companies')->all();
+		$rows = (new Db\Query())->from('s_#__companies')->all(Db::getInstance('admin'));
 		Cache::save('CompanyGetAll', '', $rows, Cache::LONG);
 		return $rows;
 	}
