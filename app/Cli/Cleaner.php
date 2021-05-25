@@ -59,7 +59,9 @@ class Cleaner extends Base
 		\App\Session::load();
 		$this->climate->bold('Number of deleted sessions: ' . \App\Session::cleanAll());
 		$this->climate->lightYellow()->border('─', 200);
-		$this->cli->actionsList('Cleaner');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('Cleaner');
+		}
 	}
 
 	/**
@@ -72,7 +74,9 @@ class Cleaner extends Base
 		$this->climate->bold('Clear: ' . \App\Cache::clear());
 		$this->climate->bold('Clear opcache: ' . \App\Cache::clearOpcache());
 		$this->climate->lightYellow()->border('─', 200);
-		$this->cli->actionsList('Cleaner');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('Cleaner');
+		}
 	}
 
 	/**
@@ -85,6 +89,8 @@ class Cleaner extends Base
 		$stats = \App\Cache::clearTemporaryFiles('now');
 		$this->climate->bold(" - files: {$stats['counter']} , size: " . \vtlib\Functions::showBytes($stats['size']));
 		$this->climate->lightYellow()->border('─', 200);
-		$this->cli->actionsList('Cleaner');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('Cleaner');
+		}
 	}
 }
