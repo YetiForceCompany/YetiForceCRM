@@ -4,6 +4,7 @@
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
 ![release date](https://img.shields.io/github/release-date/YetiForceCompany/YetiForceCRM)
 ![PHP Version](https://img.shields.io/packagist/php-v/yetiforce/yetiforce-crm)
+[![Tested on PHP 7.3 to nightly](https://img.shields.io/badge/tested%20on-PHP%207.3%20|%207.4%20|%208.0%20-brightgreen.svg?maxAge=2419200)](https://github.com/PHPCompatibility/PHPCompatibility/actions?query=workflow%3Atests)
 [![Download YetiForce CRM](https://img.shields.io/sourceforge/dt/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
 [![GitHub contributors](https://img.shields.io/github/contributors/YetiForceCompany/YetiForceCRM.svg)](https://GitHub.com/YetiForceCompany/YetiForceCRM/graphs/contributors/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
@@ -48,9 +49,9 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 #### :video_camera: Video Tutorials: [Video Tutorials on YouTube](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh) , [Video Tutorials on our server](https://public.yetiforce.com/Tutorials/)
 
-#### :blue_book: Knowledge base: [yetiforce.com/en/knowledge-base/documentation](https://yetiforce.com/en/knowledge-base/documentation) 
+#### :blue_book: Knowledge base: [yetiforce.com/en/knowledge-base/documentation](https://yetiforce.com/en/knowledge-base/documentation)
 
-#### :computer: Code Documentation: [doc.yetiforce.com/code/](https://doc.yetiforce.com/code/) 
+#### :computer: Code Documentation: [doc.yetiforce.com/code/](https://doc.yetiforce.com/code/)
 
 #### :globe_with_meridians: API documentation: [doc.yetiforce.com/api/](https://doc.yetiforce.com/api/) (in progres)
 
@@ -60,11 +61,11 @@ Follow us on [Twitter](https://twitter.com/YetiForceEN) or like on [FaceBook](ht
 
 ## Where else can you find YetiForce?
 
--   [Sourceforge](https://sourceforge.net/projects/yetiforce/)
--   [Softaculous](http://www.softaculous.com/apps/erp/YetiForce)
--   [Packagist](https://packagist.org/packages/yetiforce/yetiforce-crm)
--   [Development version](https://download.yetiforce.com/developer.zip) - full package (yarn + composer)
--   [Docker](tests/setup/docker.md) - docker container
+- [Sourceforge](https://sourceforge.net/projects/yetiforce/)
+- [Softaculous](http://www.softaculous.com/apps/erp/YetiForce)
+- [Packagist](https://packagist.org/packages/yetiforce/yetiforce-crm)
+- [Development version](https://download.yetiforce.com/developer.zip) - full package (yarn + composer)
+- [Docker](tests/setup/docker.md) - docker container
 
 1. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/crm-installation)
 2. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes).
@@ -83,7 +84,6 @@ Testing Supported By<br/>
 <a href="http://browserstack.com">
 <img width="160" src="http://foundation.zurb.com/sites/docs/assets/img/logos/browser-stack.svg" alt="BrowserStack"/>
 </a>
-
 
 <a href="https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fgitdeveloper.yetiforce.com%2Fapi%2FRestApi.json">
 <img width="70" src="https://validator.swagger.io/validator?url=https://gitdeveloper.yetiforce.com/api/RestApi.json" />
@@ -111,7 +111,7 @@ Testing Supported By<br/>
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=YetiForceCompany/YetiForceCRM" />
+<img src="https://contrib.rocks/image?repo=YetiForceCompany/YetiForceCRM" />
 </a>
 
 ## Backers

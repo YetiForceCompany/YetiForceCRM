@@ -40,7 +40,7 @@ class ConfReport
 	 *
 	 * @var array
 	 */
-	public static $urlsToCheck = ['root' => 'shorturl.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
+	public static $urlsToCheck = ['root' => 'token.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
 
 	/**
 	 * List all variables.
@@ -1400,7 +1400,7 @@ class ConfReport
 	{
 		unset($name);
 		$supported = [];
-		$requestUrl = static::$crmUrl . 'shorturl.php';
+		$requestUrl = static::$crmUrl . 'token.php';
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);

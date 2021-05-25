@@ -87,13 +87,11 @@ class Coverage
 				ROOT_DIRECTORY . '/dav.php',
 				ROOT_DIRECTORY . '/file.php',
 				ROOT_DIRECTORY . '/index.php',
-				ROOT_DIRECTORY . '/shorturl.php',
 				ROOT_DIRECTORY . '/webservice.php',
 				ROOT_DIRECTORY . '/public_html/cron.php',
 				ROOT_DIRECTORY . '/public_html/dav.php',
 				ROOT_DIRECTORY . '/public_html/file.php',
 				ROOT_DIRECTORY . '/public_html/index.php',
-				ROOT_DIRECTORY . '/public_html/shorturl.php',
 				ROOT_DIRECTORY . '/public_html/webservice.php',
 			]);
 
