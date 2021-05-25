@@ -1412,6 +1412,18 @@ CREATE TABLE `s_yf_smsnotifier_queue` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_tokens` */
+
+CREATE TABLE `s_yf_tokens` (
+  `uid` char(64) NOT NULL,
+  `method` varchar(255) NOT NULL,
+  `params` text NOT NULL,
+  `created_by_user` int(10) NOT NULL,
+  `created_date` datetime NOT NULL,
+  `expiration_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_activity_invitation` */
 
 CREATE TABLE `u_yf_activity_invitation` (
@@ -8679,20 +8691,6 @@ CREATE TABLE `vtiger_sharedcalendar` (
   `userid` int(10) NOT NULL,
   `sharedid` int(10) NOT NULL,
   PRIMARY KEY (`userid`,`sharedid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_shorturls` */
-
-CREATE TABLE `vtiger_shorturls` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `uid` varchar(50) DEFAULT NULL,
-  `handler_path` varchar(400) DEFAULT NULL,
-  `handler_class` varchar(100) DEFAULT NULL,
-  `handler_function` varchar(100) DEFAULT NULL,
-  `handler_data` varchar(255) DEFAULT NULL,
-  `onetime` int(5) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_smsnotifier` */
