@@ -81,7 +81,6 @@ class Users extends Base
 		$userRecordModel->set('changeUserPassword', true);
 		$userRecordModel->set('user_password', $password);
 		$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
-		$userRecordModel->set('force_password_change', 0);
 
 		$eventHandler = new \App\EventHandler();
 		$eventHandler->setRecordModel($userRecordModel);
@@ -123,7 +122,6 @@ class Users extends Base
 			$userRecordModel->set('changeUserPassword', true);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
-			$userRecordModel->set('force_password_change', 0);
 
 			$eventHandler = new \App\EventHandler();
 			$eventHandler->setRecordModel($userRecordModel);
