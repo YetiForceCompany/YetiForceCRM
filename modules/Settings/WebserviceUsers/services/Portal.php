@@ -21,7 +21,12 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 
 	/** {@inheritdoc} */
 	public $editFields = [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'istorage' => 'FL_STORAGE'
+		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'istorage' => 'FL_STORAGE'
+	];
+
+	/** {@inheritdoc} */
+	public $listFields = [
+		'server_id' => 'FL_SERVER', 'user_name' => 'FL_LOGIN', 'crmid' => 'FL_RECORD_NAME', 'type' => 'FL_TYPE', 'user_id' => 'FL_USER', 'status' => 'FL_STATUS', 'istorage' => 'FL_STORAGE', 'language' => 'FL_LANGUAGE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME'
 	];
 
 	/** {@inheritdoc} */
@@ -34,6 +39,9 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			case 'crmid':
 				$params['uitype'] = 10;
 				$params['referenceList'] = ['Contacts'];
+				$params['fieldparams'] = [
+					'searchParams' => '[[["email","ny",""]]]'
+				];
 				break;
 			case 'istorage':
 				$params['uitype'] = 10;

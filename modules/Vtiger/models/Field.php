@@ -1465,7 +1465,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getFieldParams()
 	{
-		if (\App\Json::isJson($this->get('fieldparams'))) {
+		if (!\is_array($this->get('fieldparams')) && \App\Json::isJson($this->get('fieldparams'))) {
 			return \App\Json::decode($this->get('fieldparams'));
 		}
 		return $this->get('fieldparams') ?: [];

@@ -45,6 +45,7 @@
     "LBL_INACTIVE": "Inactive",
     "LBL_INTEGRATION": "Integration",
     "LBL_INVALID_EMAILID": "Invalid Email",
+    "LBL_EMAIL_ADDRESS_NOT_FOUND": "E-mail address not found",
     "LBL_INVALID_IMAGE": "Invalid image",
     "LBL_INVALID_MODULE": "Invalid module",
     "LBL_INVALID_NUMBER": "Invalid number",
