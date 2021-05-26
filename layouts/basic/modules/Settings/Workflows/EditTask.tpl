@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o.
 ********************************************************************************/
 -->*}
 {strip}
@@ -63,40 +63,42 @@
 								{assign var=DIRECTION value='after'}
 							{/if}
 						{/if}
-						<div class="form-row pb-3">
-							<div class="col-md-2 checkbox d-flex align-items-center">
-								<div class="mr-2 mb-0">
-									{\App\Language::translate('LBL_EXECUTE_TASK',$QUALIFIED_MODULE)}
+						{if $TASK_OBJECT->recordEventState === VTTask::RECORD_EVENT_ACTIVE || ($TASK_OBJECT->recordEventState === VTTask::RECORD_EVENT_DOUBLE_MODE && !$WORKFLOW_MODEL->getParams('iterationOff'))}
+							<div class="form-row pb-3">
+								<div class="col-md-2 checkbox d-flex align-items-center">
+									<div class="mr-2 mb-0">
+										{\App\Language::translate('LBL_EXECUTE_TASK',$QUALIFIED_MODULE)}
+									</div>
+									<input type="checkbox" class="alignTop" name="check_select_date"
+											{if !empty($TRIGGER)} checked {/if}/>
 								</div>
-								<input type="checkbox" class="alignTop" name="check_select_date"
-										{if !empty($TRIGGER)} checked {/if}/>
+								<div class="col-md-10 form-row {if !empty($TRIGGER)} show {else} d-none {/if}"
+									id="checkSelectDateContainer">
+									<div class="col-md-2">
+										<input class="form-control" type="text" name="select_date_days"
+											value="{if !empty($DAYS)}{$DAYS}{/if}"
+											data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
+									</div>
+									<div class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
+									<div class="col-md-2 ml-0">
+										<select class="select2 form-control" name="select_date_direction">
+											<option {if !empty($DIRECTION) && ($DIRECTION eq 'after')} selected="" {/if}
+													value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+											<option {if !empty($DIRECTION) && ($DIRECTION eq 'before')} selected="" {/if}
+													value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+										</select>
+									</div>
+									<div class="col-md-6 ml-0">
+										<select class="select2" name="select_date_field">
+											{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
+												<option {if !empty($TRIGGER['field']) && ($TRIGGER['field'] eq $DATETIME_FIELD->get('name'))} selected="" {/if}
+														value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'), $DATETIME_FIELD->getModuleName())}</option>
+											{/foreach}
+										</select>
+									</div>
+								</div>
 							</div>
-							<div class="col-md-10 form-row {if !empty($TRIGGER)} show {else} d-none {/if}"
-							     id="checkSelectDateContainer">
-								<div class="col-md-2">
-									<input class="form-control" type="text" name="select_date_days"
-									       value="{if !empty($DAYS)}{$DAYS}{/if}"
-									       data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
-								</div>
-								<div class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
-								<div class="col-md-2 ml-0">
-									<select class="select2 form-control" name="select_date_direction">
-										<option {if !empty($DIRECTION) && ($DIRECTION eq 'after')} selected="" {/if}
-												value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-										<option {if !empty($DIRECTION) && ($DIRECTION eq 'before')} selected="" {/if}
-												value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
-									</select>
-								</div>
-								<div class="col-md-6 ml-0">
-									<select class="select2" name="select_date_field">
-										{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-											<option {if !empty($TRIGGER['field']) && ($TRIGGER['field'] eq $DATETIME_FIELD->get('name'))} selected="" {/if}
-													value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'), $DATETIME_FIELD->getModuleName())}</option>
-										{/foreach}
-									</select>
-								</div>
-							</div>
-						</div>
+						{/if}
 						<div class="taskTypeUi well bg-light px-0 px-md-1 px-lg-3">
 							{include file="{$TASK_TEMPLATE_PATH}" }
 						</div>

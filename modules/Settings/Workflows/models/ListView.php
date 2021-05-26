@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 // Settings List View Model Class
@@ -62,12 +63,18 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		while ($row = $dataReader->read()) {
 			$record = new $recordModelClass();
 			$workflowModel = $record->getInstance($row['workflow_id']);
-			$taskList = $workflowModel->getTasks();
+			$taskList = $workflowModel->getTasks(false);
 			$row['module_name'] = \App\Language::translate($row['module_name'], $row['module_name']);
 			$row['execution_condition'] = \App\Language::translate($record->executionConditionAsLabel($row['execution_condition']), 'Settings:Workflows');
 			$row['summary'] = \App\Language::translate($row['summary'], 'Settings:Workflows');
 			$row['all_tasks'] = \count($taskList);
-			$row['active_tasks'] = $workflowModel->getActiveCountFromRecord($taskList);
+			$activeCount = 0;
+			foreach ($taskList as $taskRecord) {
+				if ($taskRecord->isActive() && $taskRecord->isEditable()) {
+					++$activeCount;
+				}
+			}
+			$row['active_tasks'] = $activeCount;
 
 			$record->setData($row);
 			$listViewRecordModels[$record->getId()] = $record;

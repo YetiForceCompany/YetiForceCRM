@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 require_once 'modules/com_vtiger_workflow/WorkflowSchedulerInclude.php';
@@ -82,22 +83,28 @@ class WorkFlowScheduler
 
 		$scheduledWorkflows = $vtWorflowManager->getScheduledWorkflows($currentTimestamp);
 		foreach ($scheduledWorkflows as &$workflow) {
-			$tm = new VTTaskManager();
-			$tasks = $tm->getTasksForWorkflow($workflow->id);
-			if ($tasks) {
-				foreach ($this->getEligibleWorkflowRecords($workflow) as $recordId) {
-					if (!\App\Record::isExists($recordId)) {
-						continue;
+			$workflowRecord = Settings_Workflows_Record_Model::getInstanceFromWorkflowObject($workflow);
+			$taskRecords = $workflowRecord->getTasks();
+			if ($taskRecords) {
+				if ($workflowRecord->getParams('iterationOff')) {
+					foreach ($taskRecords as $taskRecord) {
+						$taskRecord->getTaskObject()->doTask();
 					}
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-					$data = $recordModel->getData();
-					foreach ($tasks as $task) {
-						if (true === (bool) $task->executeImmediately) {
-							$task->doTask($recordModel);
-						} else {
-							$trigger = $task->trigger;
-							$delay = null !== $trigger ? strtotime($data[$trigger['field']]) + $trigger['days'] * 86400 : 0;
-							$taskQueue->queueTask($task->id, $recordModel->getId(), $delay);
+				} else {
+					foreach ($this->getEligibleWorkflowRecords($workflow) as $recordId) {
+						if (!\App\Record::isExists($recordId)) {
+							continue;
+						}
+						$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+						$data = $recordModel->getData();
+						foreach ($taskRecords as $taskRecord) {
+							if (true === !empty($taskRecord->getTaskObject()->executeImmediately)) {
+								$taskRecord->getTaskObject()->doTask($recordModel);
+							} else {
+								$trigger = $taskRecord->getTaskObject()->trigger;
+								$delay = null !== $trigger ? strtotime($data[$trigger['field']]) + $trigger['days'] * 86400 : 0;
+								$taskQueue->queueTask($taskRecord->getId(), $recordModel->getId(), $delay);
+							}
 						}
 					}
 				}
