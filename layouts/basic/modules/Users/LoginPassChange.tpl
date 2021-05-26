@@ -16,7 +16,7 @@
 				</div>
 			</div>
 		{else}
-			<form class="login-form row" action="index.php?module=Users&action=LoginPassChange" method="POST">
+			<form class="login-form row js-change-password" data-js="container">
 				<input name="token" type="hidden" value="{$TOKEN}">
 				<div class='fieldContainer mx-0 form-row col-md-12'>
 					<div class='mx-0 col-sm-10'>

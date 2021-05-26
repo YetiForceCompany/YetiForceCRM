@@ -109,7 +109,7 @@
 		</div>
 		{if App\Config::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
 			<div class="d-none" id="forgotPasswordDiv">
-				<form class="forgot-form row" action="index.php?module=Users&action=LoginForgotPassword" method="POST">
+				<form class="forgot-form row js-forgot-password" data-js="container">
 					<div class="fieldContainer mx-0 form-row col-md-12">
 							<div class="login-form mx-0 form-row col-sm-12">
 								<label for="emailId" class="sr-only">{\App\Language::translate('LBL_EMAIL',$MODULE)}</label>

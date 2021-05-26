@@ -37,25 +37,22 @@ class Users_LoginPassChange_Action extends Users_Login_Action
 			}
 			$password = $request->getRaw('password');
 			if ($password !== $request->getRaw('confirm_password')) {
-				$response->setError(406, ['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', 'Users'), 'type' => 'error']]);
+				$result = ['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', 'Users'), 'type' => 'error']];
 			} else {
 				$userRecordModel = Users_Record_Model::getInstanceById($tokenData['params'][0], $moduleName);
 				$userRecordModel->set('changeUserPassword', true);
 				$userRecordModel->set('user_password', $password);
 				$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
-
 				$eventHandler = new \App\EventHandler();
 				$eventHandler->setRecordModel($userRecordModel);
 				$eventHandler->setModuleName('Users');
 				$eventHandler->setParams(['action' => 'change']);
 				$eventHandler->trigger('UsersBeforePasswordChange');
-
 				$userRecordModel->save();
-
 				$eventHandler->trigger('UsersAfterPasswordChange');
-
-				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users')]]);
+				$result = ['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users'), 'type' => 'success']];
 			}
+			$response->setResult($result);
 		} catch (\Throwable $exc) {
 			$message = $exc->getMessage();
 			if ($exc instanceof \App\Exceptions\AppException) {

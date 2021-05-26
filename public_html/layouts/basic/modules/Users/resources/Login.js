@@ -17,9 +17,33 @@ $(document).ready(() => {
 		$('#loginDiv').show();
 		$('#forgotPasswordDiv').hide();
 	});
-	$('form.forgot-form').on('submit', (event) => {
-		if ($('#usernameFp').val() === '' || $('#emailId').val() === '') {
-			event.preventDefault();
-		}
+
+	let formForgot = $('.js-forgot-password');
+	formForgot.on('submit', (event) => {
+		event.preventDefault();
+		$.post('index.php?module=Users&action=LoginForgotPassword', {
+			email: formForgot.find('[name="email"]').val()
+		}).done((data) => {
+			if (data.result.notify.type === 'success') {
+				formForgot.find('.js-email-content').addClass('d-none');
+				formForgot.find('#retrievePassword').attr('disabled', 'disabled');
+			}
+			app.showNotify(data.result.notify);
+		});
+	});
+
+	let formChange = $('.js-change-password');
+	formChange.on('submit', (event) => {
+		event.preventDefault();
+		$.post('index.php?module=Users&action=LoginPassChange', {
+			password: formChange.find('[name="password"]').val(),
+			confirm_password: formChange.find('[name="confirm_password"]').val(),
+			token: formChange.find('[name="token"]').val()
+		}).done((data) => {
+			if (data.result.notify.type === 'success') {
+				window.location.href = 'index.php';
+			}
+			app.showNotify(data.result.notify);
+		});
 	});
 });
