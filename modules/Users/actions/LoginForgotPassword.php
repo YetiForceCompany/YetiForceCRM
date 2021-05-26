@@ -18,7 +18,6 @@ class Users_LoginForgotPassword_Action extends Users_Login_Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$response = new Vtiger_Response();
 		$bruteForceInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		try {
@@ -30,9 +29,9 @@ class Users_LoginForgotPassword_Action extends Users_Login_Action
 			$email = $request->getByType('email', 'Email');
 			$row = (new \App\Db\Query())->select(['id', 'login_method'])->from('vtiger_users')->where(['email1' => $email, 'status' => 'Active', 'deleted' => 0])->one();
 			if (empty($row)) {
-				$response->setError(406, ['notify' => ['text' => \App\Language::translate('LBL_USER_MAIL_NOT_EXIST', 'Users'), 'type' => 'error']]);
+				$response->setError(406, \App\Language::translate('LBL_USER_MAIL_NOT_EXIST', 'Users'));
 			} elseif ('PLL_LDAP' === $row['login_method'] || 'PLL_LDAP_2FA' === $row['login_method']) {
-				$response->setError(406, ['notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', 'Users'), 'type' => 'error']]);
+				$response->setError(406, \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', 'Users'));
 			} else {
 				$id = (int) $row['id'];
 				$userRecordModel = Users_Record_Model::getInstanceFromFile($id);
@@ -47,7 +46,7 @@ class Users_LoginForgotPassword_Action extends Users_Login_Action
 					'url' => Config\Main::$site_URL . 'index.php?module=Users&view=LoginPassChange&token=' . $token,
 					'expirationDate' => $expirationDate,
 				]);
-				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_LINK_SENT', 'Users')]]);
+				$response->setResult(\App\Language::translate('LBL_PASSWORD_LINK_SENT', 'Users'));
 			}
 		} catch (\Throwable $exc) {
 			$message = $exc->getMessage();
@@ -55,7 +54,7 @@ class Users_LoginForgotPassword_Action extends Users_Login_Action
 				$message = $exc->getDisplayMessage();
 			}
 			\App\Log::warning($exc->getMessage() . PHP_EOL . $exc->__toString());
-			$response->setError(400, ['notify' => ['text' => $message, 'type' => 'error']]);
+			$response->setError(400, $message);
 			$bruteForceInstance->updateBlockedIp();
 			if ($bruteForceInstance->isBlockedIp()) {
 				$bruteForceInstance->sendNotificationEmail();

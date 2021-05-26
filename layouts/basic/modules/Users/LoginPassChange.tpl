@@ -15,7 +15,7 @@
 				</div>
 			</div>
 		{else}
-			<form class="login-form row" action="index.php?module=Users&action=LoginPassChange" method="POST">
+			<form class="login-form row js-change-password" data-js="container">
 				<input name="token" type="hidden" value="{$TOKEN}">
 				<div class='fieldContainer mx-0 form-row col-md-12'>
 					<div class='mx-0 col-sm-10'>
@@ -35,6 +35,9 @@
 					</div>
 				</div>
 			</form>
+			<div class="alert d-none js-alert-password mt-2" role="alert">
+				<span class="js-alert-text" data-js="container"></span>
+			</div>
 		{/if}
 	</div>
 </div>
