@@ -11,6 +11,7 @@
 		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
 
 		{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
+		{assign var="DEFAULT_INVENTORY_ROW" value=\App\Config::module($MODULE_NAME, 'defaultInventoryData', [])}
 		{if $INVENTORY_ROWS}
 			{assign var="INVENTORY_ROW" value=current($INVENTORY_ROWS)}
 		{else}
@@ -102,6 +103,8 @@
 								{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
 								{if isset($INVENTORY_ROW[$COLUMN_NAME])}
 									{assign var="ITEM_VALUE" value=$INVENTORY_ROW[$COLUMN_NAME]}
+								{elseif isset($DEFAULT_INVENTORY_ROW[$COLUMN_NAME])}
+									{assign var="ITEM_VALUE" value=$DEFAULT_INVENTORY_ROW[$COLUMN_NAME]}
 								{else}
 									{assign var="ITEM_VALUE" value=NULL}
 								{/if}
