@@ -21,12 +21,30 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 
 	/** {@inheritdoc} */
 	public $editFields = [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'istorage' => 'FL_STORAGE'
+		'server_id' => 'FL_SERVER',
+		'status' => 'FL_STATUS',
+		'password' => 'FL_PASSWORD',
+		'type' => 'FL_TYPE',
+		'language' => 'FL_LANGUAGE',
+		'crmid' => 'FL_RECORD_NAME',
+		'user_id' => 'FL_USER',
+		'login_method' => 'FL_LOGIN_METHOD',
+		'authy_methods' => 'FL_AUTHY_METHODS',
+		'istorage' => 'FL_STORAGE',
+		'language' => 'FL_LANGUAGE',
 	];
 
 	/** {@inheritdoc} */
 	public $listFields = [
-		'server_id' => 'FL_SERVER', 'user_name' => 'FL_LOGIN', 'crmid' => 'FL_RECORD_NAME', 'type' => 'FL_TYPE', 'user_id' => 'FL_USER', 'status' => 'FL_STATUS', 'istorage' => 'FL_STORAGE', 'language' => 'FL_LANGUAGE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME'
+		'server_id' => 'FL_SERVER',
+		'user_name' => 'FL_LOGIN',
+		'crmid' => 'FL_RECORD_NAME',
+		'type' => 'FL_TYPE',
+		'user_id' => 'FL_USER',
+		'status' => 'FL_STATUS',
+		'istorage' => 'FL_STORAGE',
+		'login_method' => 'FL_LOGIN_METHOD',
+		'login_time' => 'FL_LOGIN_TIME',
 	];
 
 	/** {@inheritdoc} */
@@ -75,10 +93,22 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				$params['uitype'] = 16;
 				$params['picklistValues'] = \App\Fields\Owner::getInstance($moduleName)->getAccessibleUsers('', 'owner');
 				break;
+			case 'login_method':
+				$params['uitype'] = 16;
+				$params['picklistValues'] = [
+					'PLL_PASSWORD' => \App\Language::translate('PLL_PASSWORD', 'Users'),
+					'PLL_PASSWORD_2FA' => \App\Language::translate('PLL_PASSWORD_2FA', 'Users'),
+				];
+				break;
+			case 'authy_methods':
+				$params['uitype'] = 16;
+				$params['typeofdata'] = 'V~O';
+				$params['picklistValues'] = [
+					'PLL_AUTHY_TOTP' => \App\Language::translate('PLL_AUTHY_TOTP', 'Users'),
+				];
+				break;
 			case 'password':
 				$params['typeofdata'] = 'P~M';
-				break;
-			default:
 				break;
 		}
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
@@ -102,6 +132,8 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 						break;
 					case 'user_name':
 					case 'language':
+					case 'login_method':
+					case 'authy_methods':
 						$value = $request->getByType($field, 'Text');
 						break;
 					case 'password':
@@ -130,8 +162,6 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				break;
 			case 'password':
 				$value = App\Encryption::getInstance()->encrypt($value);
-				break;
-			default:
 				break;
 		}
 		return $value;

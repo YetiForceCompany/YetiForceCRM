@@ -8,8 +8,8 @@
     "FL_LOGIN": "Login",
     "FL_PASSWORD": "Password",
     "FL_TYPE": "Type",
-    "FL_LOGIN_TIME": "Login time",
-    "FL_LOGOUT_TIME": "Logout time",
+    "FL_LOGIN_TIME": "Last login time",
+    "FL_LOGOUT_TIME": "Last logout time",
     "FL_LANGUAGE": "Language",
     "FL_RECORD_NAME": "Contact",
     "FL_USER": "Permissions profile",
@@ -22,7 +22,9 @@
     "LBL_CREATE_RECORD": "Create",
     "Mail": "Mail",
     "FL_STORAGE": "Storage",
-    "FL_TOKEN": "Token"
+    "FL_TOKEN": "Token",
+    "FL_AUTHY_METHODS": "2FA authentication method",
+    "FL_LOGIN_METHOD": "Authentication method"
   },
   "js": {
     "JS_DELETE_CONFIRMATION": "Are you sure you want to remove the key?",

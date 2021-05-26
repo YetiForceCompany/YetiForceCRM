@@ -34,7 +34,6 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 		'user_id' => 'FL_USER',
 		'type' => 'FL_TYPE',
 		'login_time' => 'FL_LOGIN_TIME',
-		'logout_time' => 'FL_LOGOUT_TIME',
 		'language' => 'FL_LANGUAGE'
 	];
 

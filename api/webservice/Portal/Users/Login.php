@@ -198,24 +198,13 @@ class Login extends \Api\RestApi\Users\Login
 	 */
 	public function post(): array
 	{
-		$db = \App\Db::getInstance('webservice');
-		$row = (new \App\Db\Query())
-			->from('w_#__portal_user')
-			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
-			->limit(1)->one($db);
-		if (!$row) {
-			throw new \Api\Core\Exception('Invalid data access', 401);
-		}
-		if (\App\Encryption::getInstance()->decrypt($row['password']) !== $this->controller->request->getRaw('password')) {
-			throw new \Api\Core\Exception('Invalid user password', 401);
-		}
-		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type'] && (empty($row['crmid']) || !\App\Record::isExists($row['crmid']))) {
-			throw new \Api\Core\Exception('No crmid', 401);
-		}
-		$db->createCommand()->update('w_#__portal_user', ['login_time' => date(static::DATE_TIME_FORMAT)], ['id' => $row['id']])->execute();
-		$row = $this->updateSession($row);
-		$userModel = \App\User::getUserModel($row['user_id']);
-		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $row['type'] ? \App\Record::getParentRecord($row['crmid']) : 0;
+		return parent::post();
+	}
+
+	/** {@inheritdoc}  */
+	protected function returnData(): array
+	{
+		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $this->data['type'] ? \App\Record::getParentRecord($this->data['crmid']) : 0;
 		$companyDetails = [];
 		if (!empty($parentId)) {
 			$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentId, 'Accounts');
@@ -227,15 +216,16 @@ class Login extends \Api\RestApi\Users\Login
 				$companyDetails['creditlimit'] = $limits[$creditLimitId]['value'] ?? 0;
 			}
 		}
+		$userModel = \App\User::getUserModel($this->data['user_id']);
 		return [
-			'token' => $row['token'],
-			'name' => $row['crmid'] ? \App\Record::getLabel($row['crmid']) : $userModel->getName(),
+			'token' => $this->data['token'],
+			'name' => $this->data['crmid'] ? \App\Record::getLabel($this->data['crmid']) : $userModel->getName(),
 			'parentName' => empty($parentId) ? '' : \App\Record::getLabel($parentId),
-			'lastLoginTime' => $row['login_time'],
-			'lastLogoutTime' => $row['logout_time'],
-			'language' => $row['language'],
-			'type' => $row['type'],
-			'companyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type']) ? $parentId : 0,
+			'lastLoginTime' => $this->data['login_time'],
+			'lastLogoutTime' => $this->data['logout_time'],
+			'language' => $this->data['language'],
+			'type' => $this->data['type'],
+			'companyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->data['type']) ? $parentId : 0,
 			'companyDetails' => $companyDetails,
 			'logged' => true,
 			'preferences' => [

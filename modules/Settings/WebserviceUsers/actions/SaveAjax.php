@@ -30,6 +30,7 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 				$result = ['success' => true];
 			}
 		} catch (\Exception $e) {
+			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 			$result = ['success' => false, 'message' => \App\Language::translate('ERR_NOT_ALLOWED_VALUE')];
 		}
 		$response = new Vtiger_Response();

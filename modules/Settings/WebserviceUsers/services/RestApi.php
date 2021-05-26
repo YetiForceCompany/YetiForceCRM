@@ -32,13 +32,30 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 
 	/** {@inheritdoc} */
 	public $editFields = [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
+		'server_id' => 'FL_SERVER',
+		'status' => 'FL_STATUS',
+		'password' => 'FL_PASSWORD',
+		'type' => 'FL_TYPE',
+		'crmid' => 'FL_RECORD_NAME',
+		'user_id' => 'FL_USER',
+		'login_method' => 'FL_LOGIN_METHOD',
+		'authy_methods' => 'FL_AUTHY_METHODS',
+		'language' => 'FL_LANGUAGE',
 	];
 
 	/** {@inheritdoc} */
 	public $listFields = [
-		'server_id' => 'FL_SERVER', 'user_name' => 'FL_LOGIN', 'type' => 'FL_TYPE', 'user_id' => 'FL_USER',  'status' => 'FL_STATUS', 'language' => 'FL_LANGUAGE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME'
+		'server_id' => 'FL_SERVER',
+		'user_name' => 'FL_LOGIN',
+		'type' => 'FL_TYPE',
+		'user_id' => 'FL_USER',
+		'status' => 'FL_STATUS',
+		'login_method' => 'FL_LOGIN_METHOD',
+		'login_time' => 'FL_LOGIN_TIME',
 	];
+
+	/** {@inheritdoc} */
+	public $paramsFields = ['language', 'authy_methods', 'logout_time'];
 
 	/** {@inheritdoc} */
 	public function init(array $data)
@@ -96,10 +113,22 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				$params['uitype'] = 16;
 				$params['picklistValues'] = \App\Fields\Owner::getInstance($moduleName)->getAccessibleUsers('', 'owner');
 				break;
+			case 'login_method':
+				$params['uitype'] = 16;
+				$params['picklistValues'] = [
+					'PLL_PASSWORD' => \App\Language::translate('PLL_PASSWORD', 'Users'),
+					'PLL_PASSWORD_2FA' => \App\Language::translate('PLL_PASSWORD_2FA', 'Users'),
+				];
+				break;
+			case 'authy_methods':
+				$params['uitype'] = 16;
+				$params['typeofdata'] = 'V~O';
+				$params['picklistValues'] = [
+					'PLL_AUTHY_TOTP' => \App\Language::translate('PLL_AUTHY_TOTP', 'Users'),
+				];
+				break;
 			case 'password':
 				$params['typeofdata'] = 'P~M';
-				break;
-			default:
 				break;
 		}
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
@@ -126,6 +155,8 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 						break;
 					case 'user_name':
 					case 'language':
+					case 'login_method':
+					case 'authy_methods':
 						$value = $request->getByType($field, 'Text');
 						break;
 					case 'password':
@@ -176,8 +207,6 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 			case 'password':
 				$value = App\Encryption::getInstance()->encrypt($value);
 				break;
-			default:
-				break;
 		}
 		return $value;
 	}
@@ -201,14 +230,19 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				if ($id) {
 					$moduleName = \App\Record::getType($id);
 					$label = \App\Record::getLabel($id) ?: '';
-					$url = "index.php?module={$moduleName}&view=detail&record={$id}";
+					$url = "index.php?module={$moduleName}&view=Detail&record={$id}";
 					return "<a class='modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record' href='$url'>$label</a>";
 				}
 				return '';
 			case 'status':
 				return \App\Language::translate((empty($this->get($name)) ? 'FL_INACTIVE' : 'FL_ACTIVE'));
+			case 'login_method':
+				return \App\Language::translate($this->get($name), 'Users');
 			case 'user_id':
 				return \App\Fields\Owner::getLabel($this->get($name));
+			case 'login_time':
+			case 'logout_time':
+				return \App\Fields\DateTime::formatToDisplay($this->get($name));
 			case 'language':
 				return $this->get($name) ? \App\Language::getLanguageLabel($this->get($name)) : '';
 			case 'type':
@@ -301,25 +335,15 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 		$moduleName = 'Contacts';
 		$recordModel = Vtiger_Record_Model::getInstanceById($this->get('crmid'), $moduleName);
 		if ($recordModel->get('emailoptout')) {
-			$emailsFields = $recordModel->getModule()->getFieldsByType('email');
-			$addressEmail = '';
-			foreach ($emailsFields as $fieldModel) {
-				if (!$recordModel->isEmpty($fieldModel->getFieldName())) {
-					$addressEmail = $recordModel->get($fieldModel->getFieldName());
-					break;
-				}
-			}
-			if (!empty($addressEmail)) {
-				\App\Mailer::sendFromTemplate([
-					'template' => 'YetiPortalRegister',
-					'moduleName' => $moduleName,
-					'recordId' => $this->get('crmid'),
-					'to' => $addressEmail,
-					'password' => $this->get('password'),
-					'login' => $this->get('user_name'),
-					'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('acceptable_url')
-				]);
-			}
+			\App\Mailer::sendFromTemplate([
+				'template' => 'YetiPortalRegister',
+				'moduleName' => $moduleName,
+				'recordId' => $this->get('crmid'),
+				'to' => $this->get('user_name'),
+				'password' => $this->get('password'),
+				'login' => $this->get('user_name'),
+				'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('acceptable_url')
+			]);
 		}
 	}
 }

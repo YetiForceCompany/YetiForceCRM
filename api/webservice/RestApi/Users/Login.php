@@ -21,6 +21,9 @@ class Login extends \Api\Core\BaseAction
 	/** {@inheritdoc}  */
 	public $allowedMethod = ['POST'];
 
+	/** @var array User data */
+	protected $data = [];
+
 	/** @var string Date time format 'Y-m-d H:i:s' */
 	public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
@@ -200,30 +203,41 @@ class Login extends \Api\Core\BaseAction
 	 */
 	public function post(): array
 	{
+		$table = \Api\Core\Containers::$listTables[$this->controller->app['type']]['user'];
 		$db = \App\Db::getInstance('webservice');
-		$row = (new \App\Db\Query())
-			->from('w_#__api_user')
+		$this->data = (new \App\Db\Query())
+			->from($table)
 			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
 			->limit(1)->one($db);
-		if (!$row) {
+		if (!$this->data) {
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
-		if (\App\Encryption::getInstance()->decrypt($row['password']) !== $this->controller->request->getRaw('password')) {
+		if (\App\Encryption::getInstance()->decrypt($this->data['password']) !== $this->controller->request->getRaw('password')) {
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
-		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type'] && (empty($row['crmid']) || !\App\Record::isExists($row['crmid']))) {
+		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->data['type'] && (empty($this->data['crmid']) || !\App\Record::isExists($this->data['crmid']))) {
 			throw new \Api\Core\Exception('No crmid', 401);
 		}
-		$db->createCommand()->update('w_#__api_user', ['login_time' => date(static::DATE_TIME_FORMAT)], ['id' => $row['id']])->execute();
-		$row = $this->updateSession($row);
-		$userModel = \App\User::getUserModel($row['user_id']);
+		$db->createCommand()->update($table, ['login_time' => date(static::DATE_TIME_FORMAT)], ['id' => $this->data['id']])->execute();
+		$this->updateSession();
+		return $this->returnData();
+	}
+
+	/**
+	 * Build data for api response.
+	 *
+	 * @return array
+	 */
+	protected function returnData(): array
+	{
+		$userModel = \App\User::getUserModel($this->data['user_id']);
 		return [
-			'token' => $row['token'],
-			'name' => $row['crmid'] ? \App\Record::getLabel($row['crmid']) : $userModel->getName(),
-			'lastLoginTime' => $row['login_time'],
-			'lastLogoutTime' => $row['logout_time'],
-			'language' => $row['language'],
-			'type' => $row['type'],
+			'token' => $this->data['token'],
+			'name' => $this->data['crmid'] ? \App\Record::getLabel($this->data['crmid']) : $userModel->getName(),
+			'lastLoginTime' => $this->data['login_time'],
+			'lastLogoutTime' => $this->data['logout_time'],
+			'language' => $this->data['language'],
+			'type' => $this->data['type'],
 			'logged' => true,
 			'preferences' => [
 				'hour_format' => $userModel->getDetail('hour_format'),
@@ -248,30 +262,27 @@ class Login extends \Api\Core\BaseAction
 	/**
 	 * Update user session.
 	 *
-	 * @param array $row
-	 *
-	 * @return array
+	 * @return void
 	 */
-	protected function updateSession(array $row): array
+	protected function updateSession(): void
 	{
-		$row['token'] = hash('sha256', microtime(true) . random_int(1, 999999) . random_int(1, 999999));
+		$this->data['token'] = hash('sha256', microtime(true) . random_int(1, 999999) . random_int(1, 999999));
 		$params = $this->controller->request->getArray('params');
 		if (!empty($params['language'])) {
 			$language = $params['language'];
 		} else {
-			$language = empty($row['language']) ? $this->getLanguage() : $row['language'];
+			$language = empty($this->data['language']) ? $this->getLanguage() : $this->data['language'];
 		}
 		\App\Db::getInstance('webservice')
 			->createCommand()
 			->insert(\Api\Core\Containers::$listTables[$this->controller->app['type']]['session'], [
-				'id' => $row['token'],
-				'user_id' => $row['id'],
+				'id' => $this->data['token'],
+				'user_id' => $this->data['id'],
 				'created' => date(self::DATE_TIME_FORMAT),
 				'changed' => date(self::DATE_TIME_FORMAT),
 				'language' => $language,
 				'params' => \App\Json::encode($params),
 			])->execute();
-		$row['language'] = $language;
-		return $row;
+		$this->data['language'] = $language;
 	}
 }

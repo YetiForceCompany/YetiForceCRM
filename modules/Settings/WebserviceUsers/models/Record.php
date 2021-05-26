@@ -53,6 +53,9 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public $listFields = [];
 
+	/** @var array List of fields in param column. */
+	public $paramsFields = [];
+
 	/**
 	 * Record ID.
 	 *
@@ -166,9 +169,13 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			->from($instance->baseTable)
 			->where([$instance->baseIndex => $id])
 			->one(App\Db::getInstance('webservice'));
+
+		if (!App\Json::isEmpty($data['params'])) {
+			$data = array_merge($data, \App\Json::decode($data['params']));
+			unset($data['params']);
+		}
 		$instance->init($data);
 		\App\Cache::staticSave($cacheName, $id, $instance);
-
 		return $instance;
 	}
 
@@ -224,15 +231,17 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		if (empty($this->listFields['user_name'])) {
 			return false;
 		}
-		$userName = $this->getUserName();
-		if (empty($userName)) {
-			return 'LBL_EMAIL_ADDRESS_NOT_FOUND';
-		}
-		if ((new App\Db\Query())
-			->from($this->baseTable)
-			->where(['user_name' => $userName])
-			->exists(App\Db::getInstance('webservice'))) {
-			return 'LBL_DUPLICATE_EMAIL_ADDRESS';
+		if ($this->isEmpty('user_name')) {
+			$userName = $this->getUserName();
+			if (empty($userName)) {
+				return 'LBL_EMAIL_ADDRESS_NOT_FOUND';
+			}
+			if ((new App\Db\Query())
+				->from($this->baseTable)
+				->where(['user_name' => $userName])
+				->exists(App\Db::getInstance('webservice'))) {
+				return 'LBL_DUPLICATE_EMAIL_ADDRESS';
+			}
 		}
 		return false;
 	}
@@ -248,6 +257,17 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		$table = $this->baseTable;
 		$index = $this->baseIndex;
 		$data = $this->getDataForSave();
+		$params = [];
+		foreach ($this->paramsFields as $name) {
+			if (!isset($data[$name])) {
+				continue;
+			}
+			if ('' !== $data[$name]) {
+				$params[$name] = $data[$name];
+			}
+			unset($data[$name]);
+		}
+		$data['params'] = \App\Json::encode($params);
 		if (empty($this->getId())) {
 			$data['user_name'] = $this->getUserName();
 			$success = $db->createCommand()->insert($table, $data)->execute();
@@ -271,7 +291,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			return $this->get('user_name');
 		}
 		$email = '';
-		if (1 != $this->get('type')) {
+		if (1 !== (int) $this->get('type')) {
 			try {
 				$email = Vtiger_Record_Model::getInstanceById($this->get('crmid'), 'Contacts')->get('email');
 			} catch (\Throwable $th) {
