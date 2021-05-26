@@ -23,13 +23,17 @@ $(document).ready(() => {
 		event.preventDefault();
 		$.post('index.php?module=Users&action=LoginForgotPassword', {
 			email: formForgot.find('[name="email"]').val()
-		}).done((data) => {
-			if (data.result.notify.type === 'success') {
-				formForgot.find('.js-email-content').addClass('d-none');
-				formForgot.find('#retrievePassword').attr('disabled', 'disabled');
-			}
-			app.showNotify(data.result.notify);
-		});
+		})
+			.done((data) => {
+				if (data.result.notify.type === 'success') {
+					formForgot.find('.js-email-content').addClass('d-none');
+					formForgot.find('#retrievePassword').attr('disabled', 'disabled');
+					app.showNotify(data.result.notify);
+				}
+			})
+			.fail((error) => {
+				app.showNotify(JSON.parse(error.responseText).error.message.notify);
+			});
 	});
 
 	let formChange = $('.js-change-password');
@@ -39,11 +43,15 @@ $(document).ready(() => {
 			password: formChange.find('[name="password"]').val(),
 			confirm_password: formChange.find('[name="confirm_password"]').val(),
 			token: formChange.find('[name="token"]').val()
-		}).done((data) => {
-			if (data.result.notify.type === 'success') {
-				window.location.href = 'index.php';
-			}
-			app.showNotify(data.result.notify);
-		});
+		})
+			.done((data) => {
+				if (data.result.notify.type === 'success') {
+					window.location.href = 'index.php';
+					app.showNotify(data.result.notify);
+				}
+			})
+			.fail((error) => {
+				app.showNotify(JSON.parse(error.responseText).error.message.notify);
+			});
 	});
 });
