@@ -113,7 +113,7 @@
 					<div class="fieldContainer mx-0 form-row col-md-12">
 							<div class="login-form mx-0 form-row col-sm-12">
 								<label for="emailId" class="sr-only">{\App\Language::translate('LBL_EMAIL',$MODULE)}</label>
-								<div class="input-group form-group mb-1">
+								<div class="input-group form-group mb-1 js-email-content" data-js="container">
 									<div class="input-group-prepend">
 										<div class="input-group-text"><i class="fas fa-envelope"></i></div>
 									</div>
