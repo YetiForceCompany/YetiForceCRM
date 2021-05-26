@@ -98,7 +98,9 @@ class Users extends Base
 				'password' => $password,
 			]);
 		}
-		$this->cli->actionsList('Users');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('Users');
+		}
 	}
 
 	/**

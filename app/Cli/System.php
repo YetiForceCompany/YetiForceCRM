@@ -46,7 +46,9 @@ class System extends Base
 		} else {
 			$this->climate->lightGreen('No updates');
 		}
-		$this->cli->actionsList('System');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
 	}
 
 	/**
@@ -201,7 +203,9 @@ class System extends Base
 		}
 		$this->climate->table($table);
 		$this->climate->border('─', 200);
-		$this->cli->actionsList('System');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
 	}
 
 	/**
@@ -218,7 +222,9 @@ class System extends Base
 		}
 		$this->climate->table($table);
 		$this->climate->border('─', 200);
-		$this->cli->actionsList('System');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
 	}
 
 	/**
@@ -237,7 +243,9 @@ class System extends Base
 		\App\Colors::generate();
 		$this->climate->bold('Colors');
 		$this->climate->lightYellow()->border('─', 200);
-		$this->cli->actionsList('System');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
 	}
 
 	/**
@@ -249,6 +257,8 @@ class System extends Base
 	{
 		$this->climate->bold('Users: ' . \App\UserPrivilegesFile::recalculateAll());
 		$this->climate->lightYellow()->border('─', 200);
-		$this->cli->actionsList('System');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
 	}
 }

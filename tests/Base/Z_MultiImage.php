@@ -100,8 +100,8 @@ class Z_MultiImage extends \Tests\Base
 				return; // @codeCoverageIgnore
 				break;
 		}
-		$filePathSrc = 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . self::$files[$file];
-		$filePathDst = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . md5(rand(0, 9999)) . substr(self::$files[$file], \strpos(self::$files[$file], '.'));
+		$filePathSrc = ROOT_DIRECTORY . '/tests/data/MultiImage/' . self::$files[$file];
+		$filePathDst = ROOT_DIRECTORY . '/storage/MultiImage/' . md5(rand(0, 9999)) . substr(self::$files[$file], \strpos(self::$files[$file], '.'));
 		\copy($filePathSrc, $filePathDst);
 		$fileObj = \App\Fields\File::loadFromPath($filePathDst);
 		$hash = $fileObj->generateHash(true, $filePathDst);

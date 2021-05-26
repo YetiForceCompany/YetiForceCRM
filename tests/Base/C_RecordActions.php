@@ -38,6 +38,9 @@ class C_RecordActions extends \Tests\Base
 	 * @var \Vtiger_Record_Model
 	 */
 	protected static $recordProducts;
+
+	/** @var \Vtiger_Record_Model Temporary Documents record object. */
+	protected static $recordDocuments;
 	/**
 	 * Temporary SQuotes record object.
 	 *
@@ -203,8 +206,43 @@ class C_RecordActions extends \Tests\Base
 		}
 		$record = \Vtiger_Record_Model::getCleanInstance('Products');
 		$record->set('productname', 'System CRM YetiForce');
+		$record->set('discontinued', 1);
+		$record->set('unit_price', '{"currencies":{"1":{"price":"2222"}},"currencyId":1}');
+		$record->set('pscategory', 'T3');
+		$record->set('imagename', '[]');
 		$record->save();
 		self::$recordProducts = $record;
+		return $record;
+	}
+
+	/**
+	 * Creating Documents module record for tests.
+	 *
+	 * @var bool
+	 *
+	 * @param mixed $cache
+	 */
+	public static function createDocumentsRecord($cache = true): \Vtiger_Record_Model
+	{
+		if (self::$recordDocuments && $cache) {
+			return self::$recordDocuments;
+		}
+		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
+		$file = \App\Fields\File::loadFromPath(ROOT_DIRECTORY . 'tests/phpunit.xml');
+		$fileName = $file->getName();
+		$record->set('notes_title', $fileName);
+		$record->set('filename', $fileName);
+		$record->set('filestatus', 1);
+		$record->set('filelocationtype', 'I');
+		$record->file = [
+			'name' => $fileName,
+			'size' => $file->getSize(),
+			'type' => $file->getMimeType(),
+			'tmp_name' => $file->getPath(),
+			'error' => 0
+		];
+		$record->save();
+		self::$recordDocuments = $record;
 		return $record;
 	}
 

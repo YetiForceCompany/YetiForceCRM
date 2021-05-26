@@ -40,12 +40,14 @@
 				class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
 				{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 				{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
-				{if !isset($ITEM_DATA[$COLUMN_NAME])}
-					{assign var="FIELD_VALUE" value=null}
+				{if isset($ITEM_DATA[$COLUMN_NAME])}
+					{assign var="ITEM_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
+				{elseif isset($DEFAULT_INVENTORY_ROW[$COLUMN_NAME])}
+					{assign var="ITEM_VALUE" value=$DEFAULT_INVENTORY_ROW[$COLUMN_NAME]}
 				{else}
-					{assign var="FIELD_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
+					{assign var="ITEM_VALUE" value=NULL}
 				{/if}
-				{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$FIELD_VALUE}
+				{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE)}
 			</td>
 		{/foreach}
 	</tr>
@@ -55,10 +57,12 @@
 				{foreach item=FIELD from=$FIELDS[2]}
 					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 					{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
-					{if empty($ITEM_DATA[$COLUMN_NAME])}
-						{assign var="ITEM_VALUE" value=NULL}
-					{else}
+					{if isset($ITEM_DATA[$COLUMN_NAME])}
 						{assign var="ITEM_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
+					{elseif isset($DEFAULT_INVENTORY_ROW[$COLUMN_NAME])}
+						{assign var="ITEM_VALUE" value=$DEFAULT_INVENTORY_ROW[$COLUMN_NAME]}
+					{else}
+						{assign var="ITEM_VALUE" value=NULL}
 					{/if}
 					{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE)}
 				{/foreach}

@@ -3,7 +3,7 @@
 /**
  * Record Model.
  *
- * @package Model
+ * @package Settings.Model
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -221,6 +221,19 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function checkData()
 	{
+		if (empty($this->listFields['user_name'])) {
+			return false;
+		}
+		$userName = $this->getUserName();
+		if (empty($userName)) {
+			return 'LBL_EMAIL_ADDRESS_NOT_FOUND';
+		}
+		if ((new App\Db\Query())
+			->from($this->baseTable)
+			->where(['user_name' => $userName])
+			->exists(App\Db::getInstance('webservice'))) {
+			return 'LBL_DUPLICATE_EMAIL_ADDRESS';
+		}
 		return false;
 	}
 
@@ -236,6 +249,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		$index = $this->baseIndex;
 		$data = $this->getDataForSave();
 		if (empty($this->getId())) {
+			$data['user_name'] = $this->getUserName();
 			$success = $db->createCommand()->insert($table, $data)->execute();
 			if ($success) {
 				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
@@ -244,6 +258,29 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			$success = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
 		}
 		return $success;
+	}
+
+	/**
+	 * Get user name.
+	 *
+	 * @return string
+	 */
+	public function getUserName(): string
+	{
+		if (!$this->isEmpty('user_name')) {
+			return $this->get('user_name');
+		}
+		$email = '';
+		if (1 != $this->get('type')) {
+			try {
+				$email = Vtiger_Record_Model::getInstanceById($this->get('crmid'), 'Contacts')->get('email');
+			} catch (\Throwable $th) {
+			}
+		} elseif ('RestApi' === $this->module->typeApi) {
+			$email = \App\User::getUserModel($this->get('user_id'))->getDetail('email1');
+		}
+		$this->set('user_name', $email);
+		return $email;
 	}
 
 	/**

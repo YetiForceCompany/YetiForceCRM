@@ -362,6 +362,7 @@
     "PLL_PASSWORD": "Password",
     "PLL_LDAP": "LDAP",
     "PLL_PASSWORD_2FA": "Password + 2FA",
+    "PLL_LDAP_2FA": "LDAP + 2FA",
     "BTN_MASS_OFF_2FA": "Mass disable 2FA",
     "LBL_2FA_TOTP_INFO_IN_DEMO": "In demo mode, 2FA is for preview only.",
     "LBL_2FA_TOTP_DESC": "In order to generate single use codes you need the appropriate application.\nIt can be used on a computer or on a phone.",

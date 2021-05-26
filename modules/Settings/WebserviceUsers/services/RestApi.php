@@ -32,12 +32,12 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 
 	/** {@inheritdoc} */
 	public $editFields = [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
+		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
 	];
 
 	/** {@inheritdoc} */
 	public $listFields = [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'type' => 'FL_TYPE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
+		'server_id' => 'FL_SERVER', 'user_name' => 'FL_LOGIN', 'type' => 'FL_TYPE', 'user_id' => 'FL_USER',  'status' => 'FL_STATUS', 'language' => 'FL_LANGUAGE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME'
 	];
 
 	/** {@inheritdoc} */
@@ -64,6 +64,9 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 			case 'crmid':
 				$params['uitype'] = 10;
 				$params['referenceList'] = ['Contacts'];
+				$params['fieldparams'] = [
+					'searchParams' => '[[["email","ny",""]]]'
+				];
 				break;
 			case 'status':
 				$params['uitype'] = 16;
@@ -193,7 +196,15 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				$servers = Settings_WebserviceApps_Record_Model::getInstanceById($this->get($name));
 				return $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
 			case 'crmid':
-				return $this->get($name) ? \App\Record::getLabel($this->get($name)) : '';
+			case 'istorage':
+				$id = $this->get($name);
+				if ($id) {
+					$moduleName = \App\Record::getType($id);
+					$label = \App\Record::getLabel($id) ?: '';
+					$url = "index.php?module={$moduleName}&view=detail&record={$id}";
+					return "<a class='modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record' href='$url'>$label</a>";
+				}
+				return '';
 			case 'status':
 				return \App\Language::translate((empty($this->get($name)) ? 'FL_INACTIVE' : 'FL_ACTIVE'));
 			case 'user_id':

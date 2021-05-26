@@ -70,7 +70,7 @@ class Tokens
 	{
 		$uid = \App\Encryption::generatePassword(64);
 		if (null !== self::get($uid)) {
-			self::generateUid();
+			return self::generateUid();
 		}
 		return $uid;
 	}

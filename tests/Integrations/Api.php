@@ -403,6 +403,70 @@ class Api extends \Tests\Base
 	}
 
 	/**
+	 * Testing get user.
+	 */
+	public function testGetUser(): void
+	{
+		$request = $this->httpClient->get('Users/Record/' . \App\User::getActiveAdminId(), self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Users/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Users/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/Record/{userId}', 'get', 200);
+	}
+
+	/**
+	 * Testing get products.
+	 */
+	public function testGetProducts(): void
+	{
+		$record = \Tests\Base\C_RecordActions::createProductRecord(false);
+		$request = $this->httpClient->get('Products/Record/' . $record->getId(), array_merge([
+			'headers' => [
+				'x-unit-price' => 1,
+				'x-unit-gross' => 1,
+				'x-product-bundles' => 1,
+			]
+		], self::$requestOptions));
+		$this->logs = $record->getData();
+		$body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['result']['rawData']['productname'], 'System CRM YetiForce');
+		$this->assertTrue(isset($response['result']['ext']['unit_price']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(isset($response['result']['ext']['unit_gross']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(isset($response['result']['ext']['productBundles']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Products/Record/{recordId}', 'get', 200);
+
+		$request = $this->httpClient->get('Products/RecordsTree', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Products/RecordsTree', 'get', 200);
+	}
+
+	/**
+	 * Testing get Files.
+	 */
+	public function testGetFiles(): void
+	{
+		$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
+		$request = $this->httpClient->put('Files', array_merge(['json' => [
+			'module' => 'Documents',
+			'actionName' => 'DownloadFile',
+			'record' => $record->getId(),
+			'fileid' => 1
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Files', 'get', 200);
+	}
+
+	/**
 	 * Testing Logout.
 	 */
 	public function testLogout(): void
