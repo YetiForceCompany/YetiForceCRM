@@ -1,7 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Users-Login-LoginPassChange -->
-{assign var="MODULE" value='Users'}
 <div class="container">
 <div id="login-area" class="login-area">
 	<div class="login-space"></div>
