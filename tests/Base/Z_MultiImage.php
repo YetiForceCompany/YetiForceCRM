@@ -119,10 +119,11 @@ class Z_MultiImage extends \Tests\Base
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
 		$fieldModel = $recordModel->getField($field);
 		$data = \App\Json::decode(\App\Purifier::decodeHtml($fieldModel->getUITypeModel()->getDisplayValueEncoded($recordModel->get($field), $recordModel->getId(), $fieldModel->getFieldInfo()['limit'])));
+		$dataPath = \App\Json::decode($recordModel->get($field))[0]['path'];
 		$this->assertNotEmpty($data);
 		$this->assertSame(self::$files[$file], $data[0]['name'], 'File name should be equal');
 		$this->assertSame(\vtlib\Functions::showBytes($fileObj->getSize()), $data[0]['size'], 'File size should be equal');
-		$this->assertFileExists($data[0]['path'], 'File should exists');
+		$this->assertFileExists($dataPath, 'File should exists');
 		$this->assertSame($hash, $data[0]['key'], 'Key should be equal');
 		parse_str(\parse_url($data[0]['imageSrc'])['query'], $url);
 		$this->assertSame($module, $url['module'], 'Module in image url should be equal to provided');
