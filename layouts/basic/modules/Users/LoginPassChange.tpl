@@ -36,7 +36,7 @@
 				</div>
 			</form>
 			<div class="alert d-none js-alert-password mt-2" role="alert">
-				<span class="js-alert-text"></span>
+				<span class="js-alert-text" data-js="container"></span>
 			</div>
 		{/if}
 	</div>

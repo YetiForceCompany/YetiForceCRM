@@ -37,7 +37,7 @@ class Users_LoginPassChange_Action extends Users_Login_Action
 			}
 			$password = $request->getRaw('password');
 			if ($password !== $request->getRaw('confirm_password')) {
-				$response->setError(406, ['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', 'Users'), 'type' => 'error']]);
+				$response->setError(406, \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', 'Users'));
 			} else {
 				$userRecordModel = Users_Record_Model::getInstanceById($tokenData['params'][0], $moduleName);
 				$userRecordModel->set('changeUserPassword', true);
@@ -50,7 +50,7 @@ class Users_LoginPassChange_Action extends Users_Login_Action
 				$eventHandler->trigger('UsersBeforePasswordChange');
 				$userRecordModel->save();
 				$eventHandler->trigger('UsersAfterPasswordChange');
-				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users'), 'type' => 'success']]);
+				$response->setResult(\App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users'));
 			}
 		} catch (\Throwable $exc) {
 			$message = $exc->getMessage();
@@ -58,7 +58,7 @@ class Users_LoginPassChange_Action extends Users_Login_Action
 				$message = $exc->getDisplayMessage();
 			}
 			\App\Log::warning($exc->getMessage() . PHP_EOL . $exc->__toString());
-			$response->setError(400, ['notify' => ['text' => $message, 'type' => 'error']]);
+			$response->setError(400, $message);
 			$bruteForceInstance->updateBlockedIp();
 			if ($bruteForceInstance->isBlockedIp()) {
 				$bruteForceInstance->sendNotificationEmail();

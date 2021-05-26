@@ -25,21 +25,19 @@ $(document).ready(() => {
 			email: formForgot.find('[name="email"]').val()
 		})
 			.done((data) => {
-				if (data.result.notify.type === 'success') {
-					formForgot.find('.js-email-content').addClass('d-none');
-					formForgot.find('#retrievePassword').attr('disabled', 'disabled');
-					if ($('.js-alert-password').hasClass('alert-danger')) {
-						$('.js-alert-password').removeClass('alert-danger');
-					}
-					$('.js-alert-password').removeClass('d-none');
-					$('.js-alert-password').addClass('alert-success');
-					$('.js-alert-text').html(data.result.notify.text);
+				formForgot.find('.js-email-content').addClass('d-none');
+				formForgot.find('#retrievePassword').attr('disabled', 'disabled');
+				if ($('.js-alert-password').hasClass('alert-danger')) {
+					$('.js-alert-password').removeClass('alert-danger');
 				}
+				$('.js-alert-password').removeClass('d-none');
+				$('.js-alert-password').addClass('alert-success');
+				$('.js-alert-text').html(data.result);
 			})
 			.fail((error) => {
 				$('.js-alert-password').removeClass('d-none');
 				$('.js-alert-password').addClass('alert-danger');
-				$('.js-alert-text').html(JSON.parse(error.responseText).error.message.notify.text);
+				$('.js-alert-text').html(JSON.parse(error.responseText).error.message);
 			});
 	});
 
@@ -52,20 +50,18 @@ $(document).ready(() => {
 			token: formChange.find('[name="token"]').val()
 		})
 			.done((data) => {
-				if (data.result.notify.type === 'success') {
-					window.location.href = 'index.php';
-					if ($('.js-alert-password').hasClass('alert-danger')) {
-						$('.js-alert-password').removeClass('alert-danger');
-					}
-					$('.js-alert-password').removeClass('d-none');
-					$('.js-alert-password').addClass('alert-success');
-					$('.js-alert-text').html(data.result.notify.text);
+				window.location.href = 'index.php';
+				if ($('.js-alert-password').hasClass('alert-danger')) {
+					$('.js-alert-password').removeClass('alert-danger');
 				}
+				$('.js-alert-password').removeClass('d-none');
+				$('.js-alert-password').addClass('alert-success');
+				$('.js-alert-text').html(data.result);
 			})
 			.fail((error) => {
 				$('.js-alert-password').removeClass('d-none');
 				$('.js-alert-password').addClass('alert-danger');
-				$('.js-alert-text').html(JSON.parse(error.responseText).error.message.notify.text);
+				$('.js-alert-text').html(JSON.parse(error.responseText).error.message);
 			});
 	});
 });
