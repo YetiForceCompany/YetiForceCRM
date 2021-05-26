@@ -206,6 +206,10 @@ class C_RecordActions extends \Tests\Base
 		}
 		$record = \Vtiger_Record_Model::getCleanInstance('Products');
 		$record->set('productname', 'System CRM YetiForce');
+		$record->set('discontinued', 1);
+		$record->set('unit_price', '{"currencies":{"1":{"price":"2222"}},"currencyId":1}');
+		$record->set('pscategory', 'T3');
+		$record->set('imagename', '[]');
 		$record->save();
 		self::$recordProducts = $record;
 		return $record;
