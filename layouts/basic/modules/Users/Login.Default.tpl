@@ -126,6 +126,9 @@
 							</div>
 						</div>
 				</form>
+				<div class="alert d-none js-alert-password mt-2" role="alert">
+					<span class="js-alert-text"></span>
+				</div>
 				<div class="login-text form-group">
 					<a href="#" id="backButton">{\App\Language::translate('LBL_TO_CRM',$MODULE)}</a>
 				</div>

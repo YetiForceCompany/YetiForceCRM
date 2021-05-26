@@ -92,8 +92,6 @@ class Users_Login_View extends \App\Controller\View\Base
 	public function getHeaderScripts(App\Request $request)
 	{
 		return array_merge(parent::getHeaderScripts($request), $this->checkAndConvertJsScripts([
-			'~layouts/resources/app.js',
-			'~libraries/@pnotify/core/dist/PNotify.js',
 			'~libraries/device-uuid/lib/device-uuid.js',
 			'modules.Users.resources.Login'
 		]));
