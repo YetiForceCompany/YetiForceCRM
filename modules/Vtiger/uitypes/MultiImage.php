@@ -431,6 +431,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 					$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
 					if (file_exists($path)) {
 						unlink($path);
+					} else {
+						\App\Log::warning('Deleted file does not exist: ' . print_r($image, true));
 					}
 				}
 			}
