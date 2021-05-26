@@ -428,7 +428,8 @@ class Api extends \Tests\Base
 				'x-product-bundles' => 1,
 			]
 		], self::$requestOptions));
-		$this->logs = $body = $request->getBody()->getContents();
+		$this->logs = $record->getData();
+		$body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame(200, $request->getStatusCode(), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertSame(1, $response['status'], 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
