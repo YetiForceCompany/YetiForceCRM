@@ -31,7 +31,7 @@ class Users_LoginForgotPassword_Action extends Users_Login_Action
 			$row = (new \App\Db\Query())->select(['id', 'login_method'])->from('vtiger_users')->where(['email1' => $email, 'status' => 'Active', 'deleted' => 0])->one();
 			if (empty($row)) {
 				$response->setError(406, ['notify' => ['text' => \App\Language::translate('LBL_USER_MAIL_NOT_EXIST', 'Users'), 'type' => 'error']]);
-			} elseif ('PLL_LDAP' === $row['login_method']) {
+			} elseif ('PLL_LDAP' === $row['login_method'] || 'PLL_LDAP_2FA' === $row['login_method']) {
 				$response->setError(406, ['notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', 'Users'), 'type' => 'error']]);
 			} else {
 				$id = (int) $row['id'];

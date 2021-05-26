@@ -6233,6 +6233,7 @@ insert  into `vtiger_locationregister_status`(`locationregister_statusid`,`locat
 insert  into `vtiger_login_method`(`login_methodid`,`login_method`,`presence`,`sortorderid`) values (1,'PLL_PASSWORD',1,1);
 insert  into `vtiger_login_method`(`login_methodid`,`login_method`,`presence`,`sortorderid`) values (2,'PLL_LDAP',1,2);
 insert  into `vtiger_login_method`(`login_methodid`,`login_method`,`presence`,`sortorderid`) values (3,'PLL_PASSWORD_2FA',1,3);
+insert  into `vtiger_login_method`(`login_methodid`,`login_method`,`presence`,`sortorderid`) values (4,'PLL_LDAP_2FA',1,4);
 
 /*Data for the table `vtiger_loginhistory` */
 
