@@ -150,6 +150,53 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->editFields;
 	}
 
+	/**
+	 * Get user session.
+	 *
+	 * @return array
+	 */
+	public function getUserSession(): array
+	{
+		$sessionData = (new \App\Db\Query())->from('w_#__portal_session')
+			->where(['user_id' => $this->getId()]);
+		$dataReader = $sessionData->createCommand()->query();
+		$data = [];
+		while ($row = $dataReader->read()) {
+			$data[] = $this->getformatDataSession($row);
+		}
+		return $data;
+	}
+
+	/**
+	 * Get format data session.
+	 *
+	 * @param array $row
+	 *
+	 * @return array
+	 */
+	public function getformatDataSession($row): array
+	{
+		foreach ($row as $key => $value) {
+			switch ($key) {
+				case 'id':
+					$row['id'] = substr($value, 0, 4);
+					break;
+				case 'user_id':
+					$row['user_id'] = \App\User::getUserModel($value)->getName();
+					break;
+				case 'created':
+					$row['created'] = DateTimeField::convertToUserFormat($value);
+					break;
+				case 'changed':
+					$row['changed'] = DateTimeField::convertToUserFormat($value);
+					break;
+				default:
+					break;
+			}
+		}
+		return $row;
+	}
+
 	/** {@inheritdoc} */
 	public function getListFields(): array
 	{

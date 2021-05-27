@@ -293,6 +293,14 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 		$recordLinks = [
 			[
 				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_SESSION_RECORD',
+				'linkicon' => 'fas fa-users-cog',
+				'linkclass' => 'btn btn-sm btn-primary',
+				'linkurl' => $this->getModule()->getSessionViewUrl() . '&record=' . $this->getId(),
+				'modalView' => true,
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'FL_PASSWORD',
 				'linkicon' => 'fas fa-copy',
 				'linkclass' => 'btn btn-sm btn-primary clipboard',
