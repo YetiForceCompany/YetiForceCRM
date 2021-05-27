@@ -547,7 +547,6 @@ class Request
 		if (!isset($_SERVER[$key])) {
 			return $default;
 		}
-
 		return Purifier::purifyByType($_SERVER[$key], 'Text');
 	}
 
@@ -564,7 +563,6 @@ class Request
 		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', 'Alnum'))) {
 			$moduleName = "$parentModule:$moduleName";
 		}
-
 		return $moduleName;
 	}
 
@@ -593,7 +591,6 @@ class Request
 		if ($emptyFunction) {
 			return empty($this->rawValues[$key]);
 		}
-
 		return !isset($this->rawValues[$key]) || '' === $this->rawValues[$key];
 	}
 

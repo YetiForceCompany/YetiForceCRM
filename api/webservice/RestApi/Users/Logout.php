@@ -84,9 +84,11 @@ class Logout extends \Api\Core\BaseAction
 		$db->createCommand()->delete(\Api\Core\Containers::$listTables[$this->controller->app['type']]['session'], [
 			'id' => $this->controller->headers['x-token'],
 		])->execute();
+		$customParams = $this->session->get('custom_params');
+		$customParams['logout_time'] = date('Y-m-d H:i:s');
 		$db->createCommand()
 			->update(\Api\Core\Containers::$listTables[$this->controller->app['type']]['user'], [
-				'logout_time' => date('Y-m-d H:i:s'),
+				'custom_params' => \App\Json::encode($customParams)
 			], ['id' => $this->session->get('id')])
 			->execute();
 		return true;

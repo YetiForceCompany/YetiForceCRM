@@ -31,6 +31,9 @@ class BaseAction
 	/** @var string Response data type. */
 	public $responseType = 'data';
 
+	/** @var array User data */
+	protected $userData = [];
+
 	/**
 	 * Check called action.
 	 *
@@ -74,37 +77,39 @@ class BaseAction
 		$sessionTable = Containers::$listTables[$this->controller->app['type']]['session'];
 		$userTable = Containers::$listTables[$this->controller->app['type']]['user'];
 		$db = \App\Db::getInstance('webservice');
-		$row = (new \App\Db\Query())->select([
-			"$userTable.*",
-			"$sessionTable.id",
-			'sessionLanguage' => "$sessionTable.language",
-			"$sessionTable.created",
-			"$sessionTable.changed",
-			"$sessionTable.params"
-		])->from($userTable)
+		$this->userData = (new \App\Db\Query())->select(["$userTable.*", "$sessionTable.id", "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])
+			->from($userTable)
 			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
 			->where(["$sessionTable.id" => $this->controller->headers['x-token'], "$userTable.status" => 1])
 			->one($db);
-		if (empty($row)) {
+		if (empty($this->userData)) {
 			throw new \Api\Core\Exception('Invalid token', 401);
 		}
-		if ((strtotime('now') > strtotime($row['created']) + (\Config\Security::$apiLifetimeSessionCreate * 60)) || (strtotime('now') > strtotime($row['changed']) + (\Config\Security::$apiLifetimeSessionUpdate * 60))) {
+		if ((strtotime('now') > strtotime($this->userData['created']) + (\Config\Security::$apiLifetimeSessionCreate * 60)) || (strtotime('now') > strtotime($this->userData['changed']) + (\Config\Security::$apiLifetimeSessionUpdate * 60))) {
 			$db->createCommand()
 				->delete($sessionTable, ['id' => $this->controller->headers['x-token']])
 				->execute();
 			throw new \Api\Core\Exception('Token has expired', 401);
 		}
+
+		$this->userData['type'] = (int) $this->userData['type'];
+		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? \App\Json::decode($this->userData['custom_params']) : [];
 		$this->session = new \App\Base();
-		$this->session->setData($row);
+		$this->session->setData($this->userData);
 		\App\User::setCurrentUserId($this->session->get('user_id'));
 		$userModel = \App\User::getCurrentUserModel();
-		$userModel->set('permission_type', $row['type']);
-		$userModel->set('permission_crmid', $row['crmid']);
-		$userModel->set('permission_app', $this->controller->app['id']);
+		$userModel->set('permission_type', $this->userData['type']);
+		$userModel->set('permission_crmid', $this->userData['crmid']);
+		$userModel->set('permission_app', (int) $this->controller->app['id']);
 		$namespace = $this->controller->app['type'];
 		\App\Privilege::setPermissionInterpreter("\\Api\\{$namespace}\\Privilege");
 		\App\PrivilegeQuery::setPermissionInterpreter("\\Api\\{$namespace}\\PrivilegeQuery");
-		$db->createCommand()->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])->execute();
+		$db->createCommand()->update($sessionTable, [
+			'changed' => date('Y-m-d H:i:s'),
+			'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
+			'last_method' => $this->controller->request->getServer('REQUEST_URI'),
+		], ['id' => $this->session->get('id')])
+			->execute();
 	}
 
 	/**
@@ -129,12 +134,16 @@ class BaseAction
 	public function getLanguage(): string
 	{
 		$language = '';
-		if ($this->session && !$this->session->isEmpty('sessionLanguage')) {
-			$language = $this->session->get('sessionLanguage');
-		} elseif ($this->session && !$this->session->isEmpty('language')) {
+		if ($this->session && !$this->session->isEmpty('language')) {
 			$language = $this->session->get('language');
+		} elseif ($this->session && !$this->session->isEmpty('custom_params') && isset($this->session->get('custom_params')['language'])) {
+			$language = $this->session->get('custom_params')['language'];
+		} elseif ($this->data && isset($this->data['custom_params']['language'])) {
+			$language = $this->data['custom_params']['language'];
 		} elseif (!empty($this->controller->headers['accept-language'])) {
 			$language = str_replace('_', '-', \Locale::acceptFromHttp($this->controller->headers['accept-language']));
+		} else {
+			$language = \App\Config::main('default_language');
 		}
 		return $language;
 	}

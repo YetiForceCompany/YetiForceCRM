@@ -204,7 +204,7 @@ class Login extends \Api\RestApi\Users\Login
 	/** {@inheritdoc}  */
 	protected function returnData(): array
 	{
-		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $this->data['type'] ? \App\Record::getParentRecord($this->data['crmid']) : 0;
+		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type'] ? \App\Record::getParentRecord($this->userData['crmid']) : 0;
 		$companyDetails = [];
 		if (!empty($parentId)) {
 			$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentId, 'Accounts');
@@ -216,16 +216,16 @@ class Login extends \Api\RestApi\Users\Login
 				$companyDetails['creditlimit'] = $limits[$creditLimitId]['value'] ?? 0;
 			}
 		}
-		$userModel = \App\User::getUserModel($this->data['user_id']);
+		$userModel = \App\User::getUserModel($this->userData['user_id']);
 		return [
-			'token' => $this->data['token'],
-			'name' => $this->data['crmid'] ? \App\Record::getLabel($this->data['crmid']) : $userModel->getName(),
+			'token' => $this->userData['token'],
+			'name' => $this->userData['crmid'] ? \App\Record::getLabel($this->userData['crmid']) : $userModel->getName(),
 			'parentName' => empty($parentId) ? '' : \App\Record::getLabel($parentId),
-			'lastLoginTime' => $this->data['login_time'],
-			'lastLogoutTime' => $this->data['logout_time'],
-			'language' => $this->data['language'],
-			'type' => $this->data['type'],
-			'companyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->data['type']) ? $parentId : 0,
+			'lastLoginTime' => $this->userData['login_time'],
+			'lastLogoutTime' => $this->userData['logout_time'],
+			'language' => $this->userData['language'],
+			'type' => $this->userData['type'],
+			'companyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type']) ? $parentId : 0,
 			'companyDetails' => $companyDetails,
 			'logged' => true,
 			'preferences' => [

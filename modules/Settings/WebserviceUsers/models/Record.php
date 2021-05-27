@@ -56,6 +56,15 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/** @var array List of fields in param column. */
 	public $paramsFields = [];
 
+	/** @var array List of custom params labels. */
+	public static $customParamsLabels = [
+		'language' => 'FL_LANGUAGE',
+		'ip' => 'FL_LAST_IP',
+		'invalid_login_time' => 'FL_DATETIME_LAST_INVALID_LOGIN',
+		'invalid_login' => 'FL_LAST_INVALID_LOGIN',
+		'logout_time' => 'FL_LOGOUT_TIME',
+	];
+
 	/**
 	 * Record ID.
 	 *
@@ -169,10 +178,9 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			->from($instance->baseTable)
 			->where([$instance->baseIndex => $id])
 			->one(App\Db::getInstance('webservice'));
-
-		if (!App\Json::isEmpty($data['params'])) {
-			$data = array_merge($data, \App\Json::decode($data['params']));
-			unset($data['params']);
+		if (!App\Json::isEmpty($data['custom_params'])) {
+			$data['custom_params'] = \App\Json::decode($data['custom_params']);
+			$data = array_merge($data, $data['custom_params']);
 		}
 		$instance->init($data);
 		\App\Cache::staticSave($cacheName, $id, $instance);
@@ -192,7 +200,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		$moduleInstance->typeApi = $type;
 		$instance = $moduleInstance->getService();
 		$instance->module = $moduleInstance;
-
 		return $instance;
 	}
 
@@ -257,7 +264,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		$table = $this->baseTable;
 		$index = $this->baseIndex;
 		$data = $this->getDataForSave();
-		$params = [];
+		$params = $this->get('custom_params');
 		foreach ($this->paramsFields as $name) {
 			if (!isset($data[$name])) {
 				continue;
@@ -267,7 +274,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			unset($data[$name]);
 		}
-		$data['params'] = \App\Json::encode($params);
+		$data['custom_params'] = \App\Json::encode($params);
 		if (empty($this->getId())) {
 			$data['user_name'] = $this->getUserName();
 			$success = $db->createCommand()->insert($table, $data)->execute();

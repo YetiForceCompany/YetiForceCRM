@@ -52,6 +52,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 		'status' => 'FL_STATUS',
 		'login_method' => 'FL_LOGIN_METHOD',
 		'login_time' => 'FL_LOGIN_TIME',
+		'custom_params' => 'FL_CUSTOM_PARAMS',
 	];
 
 	/** {@inheritdoc} */
@@ -220,38 +221,61 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 	 */
 	public function getDisplayValue($name)
 	{
+		$value = $this->get($name);
 		switch ($name) {
 			case 'server_id':
-				$servers = Settings_WebserviceApps_Record_Model::getInstanceById($this->get($name));
-				return $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
+				$servers = Settings_WebserviceApps_Record_Model::getInstanceById($value);
+				$value = $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
+				break;
 			case 'crmid':
 			case 'istorage':
-				$id = $this->get($name);
-				if ($id) {
-					$moduleName = \App\Record::getType($id);
-					$label = \App\Record::getLabel($id) ?: '';
-					$url = "index.php?module={$moduleName}&view=Detail&record={$id}";
-					return "<a class='modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record' href='$url'>$label</a>";
+				if ($value) {
+					$moduleName = \App\Record::getType($value);
+					$label = \App\Record::getLabel($value) ?: '';
+					$url = "index.php?module={$moduleName}&view=Detail&record={$value}";
+					$value = "<a class='modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record' href='$url'>$label</a>";
+				} else {
+					$value = '';
 				}
-				return '';
+				break;
 			case 'status':
-				return \App\Language::translate((empty($this->get($name)) ? 'FL_INACTIVE' : 'FL_ACTIVE'));
+				$value = \App\Language::translate((empty($value) ? 'FL_INACTIVE' : 'FL_ACTIVE'));
+				break;
 			case 'login_method':
-				return \App\Language::translate($this->get($name), 'Users');
+				$value = \App\Language::translate($value, 'Users');
+				break;
 			case 'user_id':
-				return \App\Fields\Owner::getLabel($this->get($name));
+				$value = \App\Fields\Owner::getLabel($value);
+				break;
 			case 'login_time':
 			case 'logout_time':
-				return \App\Fields\DateTime::formatToDisplay($this->get($name));
-			case 'language':
-				return $this->get($name) ? \App\Language::getLanguageLabel($this->get($name)) : '';
+				$value = \App\Fields\DateTime::formatToDisplay($value);
+				break;
 			case 'type':
-				$label = \App\Language::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
-				return \App\TextParser::textTruncate($label);
-			default:
+				$label = \App\Language::translate($this->getTypeValues($value), $this->getModule()->getName(true));
+				$value = \App\TextParser::textTruncate($label);
+				break;
+			case 'custom_params':
+				if ($value) {
+					$params = \App\Json::decode($value);
+					$value = '';
+					foreach ($params as $key => $row) {
+						switch ($key) {
+							case 'language':
+								$row = $row ? \App\Language::getLanguageLabel($row) : '';
+								break;
+							case 'logout_time':
+							case 'invalid_login_time':
+								$row = \App\Fields\DateTime::formatToDisplay($row);
+								break;
+						}
+						$value .= \App\Language::translate(Settings_WebserviceUsers_Record_Model::$customParamsLabels[$key], 'Settings.WebserviceUsers') . ": $row \n";
+					}
+					$value = \App\Layout::truncateText($value, 50, true);
+				}
 				break;
 		}
-		return $this->get($name);
+		return $value;
 	}
 
 	/**

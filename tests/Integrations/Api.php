@@ -67,7 +67,7 @@ class Api extends \Tests\Base
 
 	protected function setUp(): void
 	{
-		$this->httpClient = new \GuzzleHttp\Client(array_merge(\App\RequestHttp::getOptions(), [
+		$this->httpClient = new \GuzzleHttp\Client(array_merge_recursive(\App\RequestHttp::getOptions(), [
 			'base_uri' => \App\Config::main('site_URL') . 'webservice/Portal/',
 			'auth' => ['portal', 'portal'],
 			'Content-Type' => 'application/json',
@@ -106,13 +106,14 @@ class Api extends \Tests\Base
 		$webserviceUsers = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
 		$webserviceUsers->setData([
 			'server_id' => self::$serverId,
-			'status' => '1',
+			'status' => 1,
 			'user_name' => 'demo@yetiforce.com',
 			'password' => 'demo',
-			'type' => '1',
+			'type' => 1,
 			'popupReferenceModule' => 'Contacts',
 			'crmid' => 0,
 			'crmid_display' => '',
+			'login_method' => 'PLL_PASSWORD',
 			'user_id' => \App\User::getActiveAdminId(),
 		]);
 		$webserviceUsers->save();
@@ -134,7 +135,7 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn(): void
 	{
-		$request = $this->httpClient->post('Users/Login', array_merge(
+		$request = $this->httpClient->post('Users/Login', array_merge_recursive(
 				[
 					'json' => [
 						'userName' => 'demo@yetiforce.com',
@@ -156,7 +157,7 @@ class Api extends \Tests\Base
 	 */
 	public function testAddRecord(): void
 	{
-		$request = $this->httpClient->post('Accounts/Record/', array_merge(['json' => [
+		$request = $this->httpClient->post('Accounts/Record/', array_merge_recursive(['json' => [
 			'accountname' => 'Api YetiForce Sp. z o.o.',
 			'addresslevel5a' => 'Warszawa',
 			'addresslevel8a' => 'Marszałkowska',
@@ -177,7 +178,7 @@ class Api extends \Tests\Base
 	 */
 	public function testAddInventoryRecord(): void
 	{
-		$request = $this->httpClient->post('SCalculations/Record/', array_merge(['json' => [
+		$request = $this->httpClient->post('SCalculations/Record/', array_merge_recursive(['json' => [
 			'subject' => 'Api YetiForce Sp. z o.o.',
 			'inventory' => [
 				1 => [
@@ -205,7 +206,7 @@ class Api extends \Tests\Base
 	 */
 	public function testEditRecord(): void
 	{
-		$request = $this->httpClient->put('Accounts/Record/' . self::$recordId, array_merge(['json' => [
+		$request = $this->httpClient->put('Accounts/Record/' . self::$recordId, array_merge_recursive(['json' => [
 			'accountname' => 'Api YetiForce Sp. z o.o. New name',
 			'buildingnumbera' => 222,
 		]], self::$requestOptions));
@@ -249,7 +250,7 @@ class Api extends \Tests\Base
 	 */
 	public function testDeleteRecord(): void
 	{
-		$request = $this->httpClient->post('Accounts/Record/', array_merge(['json' => [
+		$request = $this->httpClient->post('Accounts/Record/', array_merge_recursive(['json' => [
 			'accountname' => 'Api Delete YetiForce Sp. z o.o.',
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
 			'share_externally' => 1
@@ -392,7 +393,7 @@ class Api extends \Tests\Base
 	 */
 	public function testGetInstall(): void
 	{
-		$request = $this->httpClient->put('Install', array_merge(['json' => ['xxx' => 'yyy']], self::$requestOptions));
+		$request = $this->httpClient->put('Install', array_merge_recursive(['json' => ['xxx' => 'yyy']], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame(200, $request->getStatusCode(), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
@@ -451,7 +452,7 @@ class Api extends \Tests\Base
 	public function testGetFiles(): void
 	{
 		$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
-		$request = $this->httpClient->put('Files', array_merge(['json' => [
+		$request = $this->httpClient->put('Files', array_merge_recursive(['json' => [
 			'module' => 'Documents',
 			'actionName' => 'DownloadFile',
 			'record' => $record->getId(),

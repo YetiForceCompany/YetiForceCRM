@@ -25,7 +25,6 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 		'status' => 'FL_STATUS',
 		'password' => 'FL_PASSWORD',
 		'type' => 'FL_TYPE',
-		'language' => 'FL_LANGUAGE',
 		'crmid' => 'FL_RECORD_NAME',
 		'user_id' => 'FL_USER',
 		'login_method' => 'FL_LOGIN_METHOD',
@@ -45,6 +44,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 		'istorage' => 'FL_STORAGE',
 		'login_method' => 'FL_LOGIN_METHOD',
 		'login_time' => 'FL_LOGIN_TIME',
+		'custom_params' => 'FL_CUSTOM_PARAMS',
 	];
 
 	/** {@inheritdoc} */

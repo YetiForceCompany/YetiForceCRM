@@ -27,17 +27,9 @@ class Record extends \Api\Portal\BaseModule\Record
 	private $unitPrice;
 
 	/**
-	 * Construct.
-	 */
-	public function __construct()
-	{
-		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === (int) \App\User::getCurrentUserModel()->get('permission_type');
-	}
-
-	/**
 	 * {@inheritdoc}
 	 *
-	 * @OA\Get(
+	 *	@OA\Get(
 	 *		path="/webservice/Portal/Products/Record/{recordId}",
 	 *		summary="Get data for the record",
 	 *		tags={"Products"},
@@ -115,8 +107,8 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="Products_Get_Record_Response",
 	 *		title="Base module - Response body for Record",
 	 *		type="object",
@@ -173,14 +165,15 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *				@OA\Property(property="qtyinstock", description="Qty In Stock", type="integer", example=66),
 	 *			),
 	 *		),
-	 * ),
-	 * @OA\Tag(
+	 *	),
+	 *	@OA\Tag(
 	 *		name="Products",
 	 *		description="Products methods"
 	 * )
 	 */
 	public function get(): array
 	{
+		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->userData['type'];
 		$response = parent::get();
 		$response['ext'] = $response['productBundles'] = [];
 		if (1 === $this->controller->request->getHeader('x-unit-price')) {

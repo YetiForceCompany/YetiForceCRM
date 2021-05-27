@@ -21,9 +21,6 @@ class Login extends \Api\Core\BaseAction
 	/** {@inheritdoc}  */
 	public $allowedMethod = ['POST'];
 
-	/** @var array User data */
-	protected $data = [];
-
 	/** @var string Date time format 'Y-m-d H:i:s' */
 	public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
@@ -205,20 +202,31 @@ class Login extends \Api\Core\BaseAction
 	{
 		$table = \Api\Core\Containers::$listTables[$this->controller->app['type']]['user'];
 		$db = \App\Db::getInstance('webservice');
-		$this->data = (new \App\Db\Query())
-			->from($table)
+		$this->userData = (new \App\Db\Query())->from($table)
 			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
 			->limit(1)->one($db);
-		if (!$this->data) {
+		if (!$this->userData) {
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
-		if (\App\Encryption::getInstance()->decrypt($this->data['password']) !== $this->controller->request->getRaw('password')) {
+		$this->userData['type'] = (int) $this->userData['type'];
+		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? \App\Json::decode($this->userData['custom_params']) : [];
+		$this->userData['custom_params']['ip'] = $this->controller->request->getServer('REMOTE_ADDR');
+		if (\App\Encryption::getInstance()->decrypt($this->userData['password']) !== $this->controller->request->getRaw('password')) {
+			$this->userData['custom_params']['invalid_login_time'] = date(static::DATE_TIME_FORMAT);
+			$this->userData['custom_params']['invalid_login'] = 'Invalid user password';
+			$db->createCommand()->update($table, ['custom_params' => \App\Json::encode($this->userData['custom_params'])], ['id' => $this->userData['id']])->execute();
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
-		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->data['type'] && (empty($this->data['crmid']) || !\App\Record::isExists($this->data['crmid']))) {
+		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type'] && (empty($this->userData['crmid']) || !\App\Record::isExists($this->userData['crmid']))) {
+			$this->userData['custom_params']['invalid_login_time'] = date(static::DATE_TIME_FORMAT);
+			$this->userData['custom_params']['invalid_login'] = 'No crmid';
+			$db->createCommand()->update($table, ['custom_params' => \App\Json::encode($this->userData['custom_params'])], ['id' => $this->userData['id']])->execute();
 			throw new \Api\Core\Exception('No crmid', 401);
 		}
-		$db->createCommand()->update($table, ['login_time' => date(static::DATE_TIME_FORMAT)], ['id' => $this->data['id']])->execute();
+		$db->createCommand()->update($table, [
+			'login_time' => date(static::DATE_TIME_FORMAT),
+			'custom_params' => \App\Json::encode($this->userData['custom_params'])
+		], ['id' => $this->userData['id']])->execute();
 		$this->updateSession();
 		return $this->returnData();
 	}
@@ -230,14 +238,14 @@ class Login extends \Api\Core\BaseAction
 	 */
 	protected function returnData(): array
 	{
-		$userModel = \App\User::getUserModel($this->data['user_id']);
+		$userModel = \App\User::getUserModel($this->userData['user_id']);
 		return [
-			'token' => $this->data['token'],
-			'name' => $this->data['crmid'] ? \App\Record::getLabel($this->data['crmid']) : $userModel->getName(),
-			'lastLoginTime' => $this->data['login_time'],
-			'lastLogoutTime' => $this->data['logout_time'],
-			'language' => $this->data['language'],
-			'type' => $this->data['type'],
+			'token' => $this->userData['token'],
+			'name' => $this->userData['crmid'] ? \App\Record::getLabel($this->userData['crmid']) : $userModel->getName(),
+			'lastLoginTime' => $this->userData['login_time'],
+			'lastLogoutTime' => $this->userData['custom_params']['logout_time'] ?? '',
+			'language' => $this->userData['language'],
+			'type' => $this->userData['type'],
 			'logged' => true,
 			'preferences' => [
 				'hour_format' => $userModel->getDetail('hour_format'),
@@ -266,23 +274,25 @@ class Login extends \Api\Core\BaseAction
 	 */
 	protected function updateSession(): void
 	{
-		$this->data['token'] = hash('sha256', microtime(true) . random_int(1, 999999) . random_int(1, 999999));
+		$this->userData['token'] = hash('sha256', microtime(true) . random_int(1, 999999) . random_int(1, 999999));
 		$params = $this->controller->request->getArray('params');
 		if (!empty($params['language'])) {
-			$language = $params['language'];
+			$this->userData['language'] = $params['language'];
+			unset($params['language']);
 		} else {
-			$language = empty($this->data['language']) ? $this->getLanguage() : $this->data['language'];
+			$this->userData['language'] = $this->getLanguage();
 		}
 		\App\Db::getInstance('webservice')
 			->createCommand()
 			->insert(\Api\Core\Containers::$listTables[$this->controller->app['type']]['session'], [
-				'id' => $this->data['token'],
-				'user_id' => $this->data['id'],
+				'id' => $this->userData['token'],
+				'user_id' => $this->userData['id'],
 				'created' => date(self::DATE_TIME_FORMAT),
 				'changed' => date(self::DATE_TIME_FORMAT),
-				'language' => $language,
+				'language' => $this->userData['language'],
 				'params' => \App\Json::encode($params),
+				'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
+				'last_method' => $this->controller->request->getServer('REQUEST_URI'),
 			])->execute();
-		$this->data['language'] = $language;
 	}
 }
