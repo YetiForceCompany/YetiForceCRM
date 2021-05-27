@@ -442,7 +442,7 @@ class Api extends \Tests\Base
 		$this->assertSame($response['result']['rawData']['productname'], 'System CRM YetiForce');
 		$this->assertTrue(isset($response['result']['ext']['unit_price']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertTrue(isset($response['result']['ext']['unit_gross']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(isset($response['result']['ext']['productBundles']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(isset($response['result']['productBundles']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Products/Record/{recordId}', 'get', 200);
 
 		$request = $this->httpClient->get('Products/RecordsTree', self::$requestOptions);
