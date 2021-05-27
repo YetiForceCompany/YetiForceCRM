@@ -261,6 +261,9 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 					$value = '';
 					foreach ($params as $key => $row) {
 						switch ($key) {
+							case 'authy_methods':
+								$row = \App\Language::translate($row, 'Users');
+								break;
 							case 'language':
 								$row = $row ? \App\Language::getLanguageLabel($row) : '';
 								break;

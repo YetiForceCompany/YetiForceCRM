@@ -59,6 +59,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/** @var array List of custom params labels. */
 	public static $customParamsLabels = [
 		'language' => 'FL_LANGUAGE',
+		'authy_methods' => 'FL_AUTHY_METHODS',
 		'ip' => 'FL_LAST_IP',
 		'invalid_login_time' => 'FL_DATETIME_LAST_INVALID_LOGIN',
 		'invalid_login' => 'FL_LAST_INVALID_LOGIN',
