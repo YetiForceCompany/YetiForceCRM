@@ -135,6 +135,13 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn(): void
 	{
+		$this->logs = array_merge_recursive(
+			[
+				'json' => [
+					'userName' => 'demo@yetiforce.com',
+					'password' => 'demo',
+				]
+			], self::$requestOptions);
 		$request = $this->httpClient->post('Users/Login', array_merge_recursive(
 				[
 					'json' => [

@@ -38,6 +38,6 @@ if (!\App\Config::main('application_unique_key', false)) {
 			$message = $th->getDisplayMessage();
 		}
 		echo $message;
-		\App\Log::warning($th->getMessage() . PHP_EOL . $th->__toString());
+		\App\Log::info($th->getMessage() . PHP_EOL . $th->__toString());
 	}
 }
