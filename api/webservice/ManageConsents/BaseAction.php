@@ -46,7 +46,7 @@ class BaseAction extends \Api\Core\BaseAction
 	{
 		$db = \App\Db::getInstance('webservice');
 		$userTable = 'w_#__manage_consents_user';
-		$row = (new \App\Db\Query())
+		$this->userData = (new \App\Db\Query())
 			->from($userTable)
 			->where([
 				'token' => $this->controller->request->getHeader('x-token'),
@@ -54,12 +54,10 @@ class BaseAction extends \Api\Core\BaseAction
 				'server_id' => $this->controller->app['id']
 			])
 			->limit(1)->one($db);
-		if (!$row) {
+		if (!$this->userData) {
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
-		$db->createCommand()->update($userTable, ['login_time' => date('Y-m-d H:i:s')], ['id' => $row['id']])->execute();
-		$this->session = new \App\Base();
-		$this->session->setData($row);
-		\App\User::setCurrentUserId($this->session->get('user_id'));
+		$db->createCommand()->update($userTable, ['login_time' => date('Y-m-d H:i:s')], ['id' => $this->userData['id']])->execute();
+		\App\User::setCurrentUserId($this->userData['user_id']);
 	}
 }

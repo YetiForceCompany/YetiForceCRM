@@ -214,20 +214,19 @@ class Login extends \Api\Core\BaseAction
 		if (\App\Encryption::getInstance()->decrypt($this->userData['password']) !== $this->controller->request->getRaw('password')) {
 			$this->userData['custom_params']['invalid_login_time'] = date(static::DATE_TIME_FORMAT);
 			$this->userData['custom_params']['invalid_login'] = 'Invalid user password';
-			$db->createCommand()->update($table, ['custom_params' => \App\Json::encode($this->userData['custom_params'])], ['id' => $this->userData['id']])->execute();
+			$this->updateUser();
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
 		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type'] && (empty($this->userData['crmid']) || !\App\Record::isExists($this->userData['crmid']))) {
 			$this->userData['custom_params']['invalid_login_time'] = date(static::DATE_TIME_FORMAT);
 			$this->userData['custom_params']['invalid_login'] = 'No crmid';
-			$db->createCommand()->update($table, ['custom_params' => \App\Json::encode($this->userData['custom_params'])], ['id' => $this->userData['id']])->execute();
+			$this->updateUser();
 			throw new \Api\Core\Exception('No crmid', 401);
 		}
-		$db->createCommand()->update($table, [
+		$this->updateUser([
 			'login_time' => date(static::DATE_TIME_FORMAT),
-			'custom_params' => \App\Json::encode($this->userData['custom_params'])
-		], ['id' => $this->userData['id']])->execute();
-		$this->updateSession();
+		]);
+		$this->createSession();
 		return $this->returnData();
 	}
 
@@ -240,7 +239,7 @@ class Login extends \Api\Core\BaseAction
 	{
 		$userModel = \App\User::getUserModel($this->userData['user_id']);
 		return [
-			'token' => $this->userData['token'],
+			'token' => $this->userData['sid'],
 			'name' => $this->userData['crmid'] ? \App\Record::getLabel($this->userData['crmid']) : $userModel->getName(),
 			'lastLoginTime' => $this->userData['login_time'],
 			'lastLogoutTime' => $this->userData['custom_params']['logout_time'] ?? '',
@@ -272,9 +271,9 @@ class Login extends \Api\Core\BaseAction
 	 *
 	 * @return void
 	 */
-	protected function updateSession(): void
+	protected function createSession(): void
 	{
-		$this->userData['token'] = hash('sha256', microtime(true) . random_int(1, 999999) . random_int(1, 999999));
+		$this->userData['sid'] = hash('sha256', microtime(true) . random_int(1, 999999) . random_int(1, 999999));
 		$params = $this->controller->request->getArray('params');
 		if (!empty($params['language'])) {
 			$this->userData['language'] = $params['language'];
@@ -285,7 +284,7 @@ class Login extends \Api\Core\BaseAction
 		\App\Db::getInstance('webservice')
 			->createCommand()
 			->insert(\Api\Core\Containers::$listTables[$this->controller->app['type']]['session'], [
-				'id' => $this->userData['token'],
+				'id' => $this->userData['sid'],
 				'user_id' => $this->userData['id'],
 				'created' => date(self::DATE_TIME_FORMAT),
 				'changed' => date(self::DATE_TIME_FORMAT),

@@ -79,11 +79,10 @@ class Privileges extends \Api\Core\BaseAction
 	 */
 	public function get(): array
 	{
-		$userId = $this->session->get('user_id');
 		$privileges = [];
-		if (\App\User::isExists($userId)) {
+		if (\App\User::isExists($this->userData['user_id'])) {
 			$moduleId = \App\Module::getModuleId($this->controller->request->getModule('module'));
-			$actionPermissions = \App\User::getPrivilegesFile($userId);
+			$actionPermissions = \App\User::getPrivilegesFile($this->userData['user_id']);
 			$isAdmin = $actionPermissions['is_admin'];
 			$permission = $actionPermissions['profile_action_permission'][$moduleId] ?? false;
 			if ($permission || $isAdmin) {

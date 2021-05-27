@@ -29,7 +29,10 @@
     "FL_LAST_IP": "IP of the last connection",
     "FL_DATETIME_LAST_QUERY": "Date of the last connection",
     "FL_DATETIME_LAST_INVALID_LOGIN": "Date of the last failed login",
-    "FL_LAST_INVALID_LOGIN": "Error message of the last failed login"
+    "FL_LAST_INVALID_LOGIN": "Error message of the last failed login",
+    "FL_LAST_ERROR": "Last error message",
+    "FL_LAST_ERROR_METHOD": "Last error method",
+    "FL_LAST_ERROR_DATE": "Date of the last error"
   },
   "js": {
     "JS_DELETE_CONFIRMATION": "Are you sure you want to remove the key?",

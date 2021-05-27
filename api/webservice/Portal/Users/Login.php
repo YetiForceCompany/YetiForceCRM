@@ -218,7 +218,7 @@ class Login extends \Api\RestApi\Users\Login
 		}
 		$userModel = \App\User::getUserModel($this->userData['user_id']);
 		return [
-			'token' => $this->userData['token'],
+			'token' => $this->userData['sid'],
 			'name' => $this->userData['crmid'] ? \App\Record::getLabel($this->userData['crmid']) : $userModel->getName(),
 			'parentName' => empty($parentId) ? '' : \App\Record::getLabel($parentId),
 			'lastLoginTime' => $this->userData['login_time'],

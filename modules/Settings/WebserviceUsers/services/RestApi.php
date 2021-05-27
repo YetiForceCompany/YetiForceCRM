@@ -266,6 +266,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 								break;
 							case 'logout_time':
 							case 'invalid_login_time':
+							case 'error_time':
 								$row = \App\Fields\DateTime::formatToDisplay($row);
 								break;
 						}

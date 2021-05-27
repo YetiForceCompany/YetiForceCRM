@@ -25,9 +25,6 @@ class BaseAction
 	/** @var \Api\Controller */
 	public $controller;
 
-	/** @var \App\Base */
-	public $session;
-
 	/** @var string Response data type. */
 	public $responseType = 'data';
 
@@ -77,7 +74,7 @@ class BaseAction
 		$sessionTable = Containers::$listTables[$this->controller->app['type']]['session'];
 		$userTable = Containers::$listTables[$this->controller->app['type']]['user'];
 		$db = \App\Db::getInstance('webservice');
-		$this->userData = (new \App\Db\Query())->select(["$userTable.*", "$sessionTable.id", "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])
+		$this->userData = (new \App\Db\Query())->select(["$userTable.*", 'sid' => "$sessionTable.id", "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])
 			->from($userTable)
 			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
 			->where(["$sessionTable.id" => $this->controller->headers['x-token'], "$userTable.status" => 1])
@@ -93,10 +90,8 @@ class BaseAction
 		}
 
 		$this->userData['type'] = (int) $this->userData['type'];
-		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? \App\Json::decode($this->userData['custom_params']) : [];
-		$this->session = new \App\Base();
-		$this->session->setData($this->userData);
-		\App\User::setCurrentUserId($this->session->get('user_id'));
+		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
+		\App\User::setCurrentUserId($this->userData['user_id']);
 		$userModel = \App\User::getCurrentUserModel();
 		$userModel->set('permission_type', $this->userData['type']);
 		$userModel->set('permission_crmid', $this->userData['crmid']);
@@ -104,12 +99,7 @@ class BaseAction
 		$namespace = $this->controller->app['type'];
 		\App\Privilege::setPermissionInterpreter("\\Api\\{$namespace}\\Privilege");
 		\App\PrivilegeQuery::setPermissionInterpreter("\\Api\\{$namespace}\\PrivilegeQuery");
-		$db->createCommand()->update($sessionTable, [
-			'changed' => date('Y-m-d H:i:s'),
-			'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
-			'last_method' => $this->controller->request->getServer('REQUEST_URI'),
-		], ['id' => $this->session->get('id')])
-			->execute();
+		$this->updateSession();
 	}
 
 	/**
@@ -134,10 +124,10 @@ class BaseAction
 	public function getLanguage(): string
 	{
 		$language = '';
-		if ($this->session && !$this->session->isEmpty('language')) {
-			$language = $this->session->get('language');
-		} elseif ($this->session && !$this->session->isEmpty('custom_params') && isset($this->session->get('custom_params')['language'])) {
-			$language = $this->session->get('custom_params')['language'];
+		if (!empty($this->userData['language'])) {
+			$language = $this->userData['language'];
+		} elseif (!empty($this->userData['custom_params']['language'])) {
+			$language = $this->userData['custom_params']['language'];
 		} elseif ($this->data && isset($this->data['custom_params']['language'])) {
 			$language = $this->data['custom_params']['language'];
 		} elseif (!empty($this->controller->headers['accept-language'])) {
@@ -155,7 +145,7 @@ class BaseAction
 	 */
 	public function getPermissionType(): int
 	{
-		return $this->session->get('type');
+		return $this->userData['type'];
 	}
 
 	/**
@@ -165,7 +155,7 @@ class BaseAction
 	 */
 	public function getUserCrmId(): int
 	{
-		return $this->session->get('crmid');
+		return $this->userData['crmid'];
 	}
 
 	/**
@@ -175,7 +165,7 @@ class BaseAction
 	 */
 	public function getUserStorageId(): ?int
 	{
-		return $this->session->get('istorage');
+		return $this->userData['istorage'] ?? null;
 	}
 
 	/**
@@ -198,7 +188,7 @@ class BaseAction
 	{
 		if ($this->controller && ($parentId = $this->controller->request->getHeader('x-parent-id'))) {
 			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
-			$hierarchy->session = $this->session;
+			$hierarchy->setUserData($this->userData);
 			$hierarchy->findId = $parentId;
 			$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($this->getUserCrmId()));
 			$records = $hierarchy->get();
@@ -208,5 +198,49 @@ class BaseAction
 			throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
 		}
 		return \App\Record::getParentRecord($this->getUserCrmId());
+	}
+
+	/**
+	 * Set user data.
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public function setUserData(array $data): void
+	{
+		$this->userData = array_merge_recursive($this->userData, $data);
+	}
+
+	/**
+	 * Update user session.
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public function updateSession(array $data = []): void
+	{
+		$data['changed'] = date('Y-m-d H:i:s');
+		$data['ip'] = $this->controller->request->getServer('REMOTE_ADDR');
+		$data['last_method'] = $this->controller->request->getServer('REQUEST_URI');
+		\App\Db::getInstance('webservice')->createCommand()
+			->update(\Api\Core\Containers::$listTables[$this->controller->app['type']]['session'], $data, ['id' => $this->userData['sid']])
+			->execute();
+	}
+
+	/**
+	 * Update user data.
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public function updateUser(array $data = []): void
+	{
+		$data['custom_params'] = \App\Json::encode($this->userData['custom_params']);
+		\App\Db::getInstance('webservice')->createCommand()
+			->update(\Api\Core\Containers::$listTables[$this->controller->app['type']]['user'], $data, ['id' => $this->userData['id']])
+			->execute();
 	}
 }

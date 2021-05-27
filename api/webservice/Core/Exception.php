@@ -59,7 +59,12 @@ class Exception extends \Exception
 		$response->send();
 	}
 
-	public function handleError()
+	/**
+	 * Handle error function.
+	 *
+	 * @return void
+	 */
+	public function handleError(): void
 	{
 		if (\App\Config::debug('apiLogException')) {
 			$request = Request::init();

@@ -63,6 +63,9 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		'invalid_login_time' => 'FL_DATETIME_LAST_INVALID_LOGIN',
 		'invalid_login' => 'FL_LAST_INVALID_LOGIN',
 		'logout_time' => 'FL_LOGOUT_TIME',
+		'last_error' => 'FL_LAST_ERROR',
+		'error_time' => 'FL_LAST_ERROR_DATE',
+		'error_method' => 'FL_LAST_ERROR_METHOD',
 	];
 
 	/**

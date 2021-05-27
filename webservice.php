@@ -18,21 +18,27 @@ try {
 		throw new \App\Exceptions\NoPermittedToApi('Webservice - Service is not active', 403);
 	}
 	$controller = Api\Controller::getInstance();
-	$process = $controller->preProcess();
-	if ($process) {
-		$controller->process();
+	try {
+		$process = $controller->preProcess();
+		if ($process) {
+			$controller->process();
+		}
+		$controller->postProcess();
+	} catch (\Throwable $e) {
+		\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+		$controller->handleError($e);
+		if ($e instanceof \Api\Core\Exception) {
+			$e->handleError();
+		} else {
+			$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
+			$ex->handleError();
+		}
 	}
-	$controller->postProcess();
-} catch (\Api\Core\Exception $e) {
-	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-	$e->handleError();
-} catch (\App\Exceptions\NoPermittedToApi $e) {
-	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-	$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
-	$ex->handleError();
 } catch (\Throwable $e) {
 	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-	$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
-	$ex->handleError();
+	if (!headers_sent()) {
+		$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
+		$ex->handleError();
+	}
 }
 \App\Log::endProfile(\App\Request::getRequestMethod() . '::' . $_SERVER['REQUEST_URI'], 'WebServiceAPI');

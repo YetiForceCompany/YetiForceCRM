@@ -20,7 +20,7 @@ class Controller
 	private static $instance;
 
 	/** @var Core\BaseAction */
-	private static $action;
+	private $actionHandler;
 
 	/** @var \Api\Core\Request Request instance. */
 	public $request;
@@ -105,15 +105,15 @@ class Controller
 		$handlerClass = $this->getActionClassName();
 		$this->request->getData();
 		$this->debugRequest();
-		self::$action = $handler = new $handlerClass();
-		$handler->controller = $this;
-		$handler->checkAction();
-		$this->response->setAcceptableHeaders($handler->allowedHeaders);
-		$this->response->setAcceptableMethods($handler->allowedMethod);
-		$handler->preProcess();
-		$return = \call_user_func([$handler, strtolower($this->method)]);
+		$this->actionHandler = new $handlerClass();
+		$this->actionHandler->controller = $this;
+		$this->actionHandler->checkAction();
+		$this->response->setAcceptableHeaders($this->actionHandler->allowedHeaders);
+		$this->response->setAcceptableMethods($this->actionHandler->allowedMethod);
+		$this->actionHandler->preProcess();
+		$return = \call_user_func([$this->actionHandler, strtolower($this->method)]);
 		if (null !== $return) {
-			switch ($handler->responseType) {
+			switch ($this->actionHandler->responseType) {
 				case 'data':
 					$this->response->setBody([
 						'status' => 1,
@@ -124,7 +124,7 @@ class Controller
 					$this->response->setFile($return);
 					break;
 				default:
-					throw new Core\Exception('Unsupported response type: ' . $handler->responseType, 400);
+					throw new Core\Exception('Unsupported response type: ' . $this->actionHandler->responseType, 400);
 					break;
 			}
 		}
@@ -194,6 +194,27 @@ class Controller
 			$log .= print_r(file_get_contents('php://input'), true) . PHP_EOL;
 			file_put_contents('cache/logs/webserviceDebug.log', $log, FILE_APPEND);
 		}
+	}
+
+	/**
+	 * Handle error function.
+	 *
+	 * @param \Throwable $e
+	 *
+	 * @return void
+	 */
+	public function handleError(\Throwable $e): void
+	{
+		$this->actionHandler->updateSession();
+		$this->actionHandler->setUserData([
+			'custom_params' => [
+				'last_error' => $e->getMessage(),
+				'error_time' => date('Y-m-d H:i:s'),
+				'error_method' => $this->request->getServer('REQUEST_URI'),
+			]
+		]
+		);
+		$this->actionHandler->updateUser();
 	}
 
 	/**
