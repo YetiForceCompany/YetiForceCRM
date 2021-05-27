@@ -11,10 +11,21 @@ Vtiger_Edit_Js(
 			}
 			return this.formElement;
 		},
-		showHideFields: function (typeElement) {
-			var elementContainer = this.getForm().find('[name="crmid"]').closest('.form-group');
-			if (typeElement.val() === '1') {
-				elementContainer.addClass('d-none').find('.clearReferenceSelection').trigger('click');
+		/**
+		 * Show hide fields
+		 * @param {Object} typeElement
+		 * @param {Object} params
+		 */
+		showHideFields: function (typeElement, params) {
+			let elementContainer = this.getForm()
+				.find('[name="' + params.fieldHide + '"]')
+				.closest('.form-group');
+			if (typeElement.val() === params.value) {
+				let clearReference = elementContainer.find('.clearReferenceSelection');
+				if (clearReference.length > 0) {
+					clearReference.trigger('click');
+				}
+				elementContainer.addClass('d-none');
 			} else {
 				elementContainer.removeClass('d-none');
 			}
@@ -51,9 +62,17 @@ Vtiger_Edit_Js(
 				}
 			});
 			let typeElement = form.find('[name="type"]');
-			self.showHideFields(typeElement);
+			let typeParams = { fieldHide: 'crmid', value: '1' };
+			self.showHideFields(typeElement, typeParams);
 			typeElement.on('change', function (e) {
-				self.showHideFields(jQuery(e.currentTarget));
+				self.showHideFields(jQuery(e.currentTarget), typeParams);
+			});
+
+			let loginMethod = form.find('[name="login_method"]');
+			let loginMethodParams = { fieldHide: 'authy_methods', value: 'PLL_PASSWORD' };
+			self.showHideFields(loginMethod, loginMethodParams);
+			loginMethod.on('change', function (e) {
+				self.showHideFields(jQuery(e.currentTarget), loginMethodParams);
 			});
 		}
 	}
