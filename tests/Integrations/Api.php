@@ -67,7 +67,7 @@ class Api extends \Tests\Base
 
 	protected function setUp(): void
 	{
-		$this->httpClient = new \GuzzleHttp\Client(array_merge_recursive(\App\RequestHttp::getOptions(), [
+		$this->httpClient = new \GuzzleHttp\Client(array_merge(\App\RequestHttp::getOptions(), [
 			'base_uri' => \App\Config::main('site_URL') . 'webservice/Portal/',
 			'auth' => ['portal', 'portal'],
 			'Content-Type' => 'application/json',
@@ -135,14 +135,14 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn(): void
 	{
-		$this->logs = array_merge_recursive(
+		$this->logs = array_merge(
 			[
 				'json' => [
 					'userName' => 'demo@yetiforce.com',
 					'password' => 'demo',
 				]
 			], self::$requestOptions);
-		$request = $this->httpClient->post('Users/Login', array_merge_recursive(
+		$request = $this->httpClient->post('Users/Login', array_merge(
 				[
 					'json' => [
 						'userName' => 'demo@yetiforce.com',
