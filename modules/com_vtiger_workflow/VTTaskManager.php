@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTTask.php');
 Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTTaskType.php');
@@ -145,45 +146,13 @@ class VTTaskManager
 	}
 
 	/**
-	 * Return all tasks.
-	 *
-	 * @return array
-	 */
-	public function getTasks()
-	{
-		$result = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->all();
-
-		return $this->getTasksForResult($result);
-	}
-
-	/**
-	 * Create tasks from query result array.
-	 *
-	 * @param array $result
-	 *
-	 * @return VTTask[]
-	 */
-	private function getTasksForResult($result)
-	{
-		$tasks = [];
-		foreach ($result as $row) {
-			$taskType = self::taskName($row['task']);
-			if (!empty($taskType)) {
-				require_once "tasks/$taskType.php";
-			}
-			$tasks[] = unserialize($row['task']);
-		}
-		return $tasks;
-	}
-
-	/**
 	 * Return task name.
 	 *
 	 * @param string $serializedTask
 	 *
 	 * @return string
 	 */
-	private function taskName($serializedTask)
+	public static function taskName($serializedTask)
 	{
 		$matches = [];
 		preg_match('/"([^"]+)"/', $serializedTask, $matches);

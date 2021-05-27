@@ -110,7 +110,6 @@ class Api extends \Tests\Base
 			'user_name' => 'demo@yetiforce.com',
 			'password' => 'demo',
 			'type' => '1',
-			'language' => 'pl-PL',
 			'popupReferenceModule' => 'Contacts',
 			'crmid' => 0,
 			'crmid_display' => '',
@@ -123,7 +122,6 @@ class Api extends \Tests\Base
 		$this->assertSame((int) $row['server_id'], self::$serverId);
 		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
 		$this->assertSame($row['password'], 'demo');
-		$this->assertSame($row['language'], 'pl-PL');
 
 		$fieldModel = \Vtiger_Field_Model::init('Accounts', \App\Field::SYSTEM_FIELDS['share_externally']);
 		$fieldModel->fieldparams = self::$serverId;
@@ -421,7 +419,7 @@ class Api extends \Tests\Base
 	public function testGetProducts(): void
 	{
 		$record = \Tests\Base\C_RecordActions::createProductRecord(false);
-		$request = $this->httpClient->get('Products/Record/' . $record->getId(), array_merge([
+		$request = $this->httpClient->get('Products/Record/' . $record->getId(), array_merge_recursive([
 			'headers' => [
 				'x-unit-price' => 1,
 				'x-unit-gross' => 1,

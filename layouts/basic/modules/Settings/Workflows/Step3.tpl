@@ -16,9 +16,9 @@
 				<strong>{\App\Language::translate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;
 			</a>
 			<ul class="dropdown-menu">
-				{foreach from=$TASK_TYPES item=TASK_TYPE}
+				{foreach from=$TASK_RECORDS item=TASK_RECORD}
 					<li><a class="u-cursor-pointer dropdown-item"
-						   data-url="{$TASK_TYPE->getEditViewUrl()}&for_workflow={$RECORD}">{\App\Language::translate($TASK_TYPE->get('label'),$QUALIFIED_MODULE)}</a>
+						   data-url="{$TASK_RECORD->getEditViewUrl()}">{\App\Language::translate($TASK_RECORD->getTaskType()->get('label'), $QUALIFIED_MODULE)}</a>
 					</li>
 				{/foreach}
 			</ul>

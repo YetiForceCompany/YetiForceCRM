@@ -74,14 +74,15 @@
  			if (empty($params['showTasks'])) {
  				continue;
  			}
- 			foreach ($taskManager->getTasksForWorkflow($workflow->id) as $task) {
+ 			$workflowRecord = Settings_Workflows_Record_Model::getInstanceFromWorkflowObject($workflow);
+ 			foreach ($workflowRecord->getTasks() as $task) {
  				$tree[] = [
  					'id' => ++$index,
  					'type' => 'category',
  					'attr' => 'task',
- 					'record_id' => $task->id,
- 					'parent' => $workflow->id,
- 					'text' => '&nbsp;' . \App\Language::translate($task->summary, $workflowModuleName),
+ 					'record_id' => $task->getId(),
+ 					'parent' => $workflowRecord->getId(),
+ 					'text' => '&nbsp;' . \App\Language::translate($task->getTaskObject()->summary, $workflowModuleName),
  					'state' => ['selected' => false, 'disabled' => empty($params['enableTasks'])],
  					'category' => ['checked' => false]
  				];
