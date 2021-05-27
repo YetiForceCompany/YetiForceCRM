@@ -27,16 +27,11 @@ $(document).ready(() => {
 			.done((data) => {
 				formForgot.find('.js-email-content').addClass('d-none');
 				formForgot.find('#retrievePassword').attr('disabled', 'disabled');
-				if ($('.js-alert-password').hasClass('alert-danger')) {
-					$('.js-alert-password').removeClass('alert-danger');
-				}
-				$('.js-alert-password').removeClass('d-none');
-				$('.js-alert-password').addClass('alert-success');
+				$('.js-alert-password').removeClass('d-none alert-danger').addClass('alert-success');
 				$('.js-alert-text').html(data.result);
 			})
 			.fail((error) => {
-				$('.js-alert-password').removeClass('d-none');
-				$('.js-alert-password').addClass('alert-danger');
+				$('.js-alert-password').removeClass('d-none').addClass('alert-danger');
 				$('.js-alert-text').html(JSON.parse(error.responseText).error.message);
 			});
 	});
@@ -51,16 +46,11 @@ $(document).ready(() => {
 		})
 			.done((data) => {
 				window.location.href = 'index.php';
-				if ($('.js-alert-password').hasClass('alert-danger')) {
-					$('.js-alert-password').removeClass('alert-danger');
-				}
-				$('.js-alert-password').removeClass('d-none');
-				$('.js-alert-password').addClass('alert-success');
+				$('.js-alert-password').removeClass('d-none alert-danger').addClass('alert-success');
 				$('.js-alert-text').html(data.result);
 			})
 			.fail((error) => {
-				$('.js-alert-password').removeClass('d-none');
-				$('.js-alert-password').addClass('alert-danger');
+				$('.js-alert-password').removeClass('d-none alert-danger');
 				$('.js-alert-text').html(JSON.parse(error.responseText).error.message);
 			});
 	});
