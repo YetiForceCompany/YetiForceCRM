@@ -50,14 +50,14 @@ class Login extends \Api\Core\BaseAction
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data format",
-	 *    		@OA\JsonContent(ref="#/components/schemas/UsersLoginRequestBody"),
+	 *    		@OA\JsonContent(ref="#/components/schemas/Users_Login_RequestBody"),
 	 *     		@OA\MediaType(
 	 *         		mediaType="multipart/form-data",
-	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
 	 *     		),
 	 *     		@OA\MediaType(
 	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
 	 *     		),
 	 *		),
 	 *		@OA\Parameter(
@@ -68,13 +68,13 @@ class Login extends \Api\Core\BaseAction
 	 *      ),
 	 *		@OA\Response(
 	 *			response=200,
-	 *			description="User details",
-	 *			@OA\JsonContent(ref="#/components/schemas/UsersLoginResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/UsersLoginResponseBody")
+	 *			description="User access details",
+	 *			@OA\JsonContent(ref="#/components/schemas/Users_Login_ResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Users_Login_ResponseBody")
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
-	 *			description="Invalid data access OR Invalid user password OR No crmid",
+	 *			description="`Invalid data access` OR `Invalid user password` OR `No crmid` OR `2FA verification error`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
@@ -84,7 +84,7 @@ class Login extends \Api\Core\BaseAction
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
-	 * ),
+	 *	),
 	 *	@OA\SecurityScheme(
 	 *		type="http",
 	 *		securityScheme="basicAuth",
@@ -98,15 +98,15 @@ class Login extends \Api\Core\BaseAction
 	 *		securityScheme="ApiKeyAuth",
 	 *   	description="Webservice api key header"
 	 *	),
-	 * @OA\Schema(
+	 *	@OA\Schema(
 	 *		schema="X-ENCRYPTED",
 	 *		type="string",
 	 *  	description="Is the content request is encrypted",
 	 *  	enum={0, 1},
 	 *   	default=0
-	 * ),
-	 * @OA\Schema(
-	 * 		schema="UsersLoginRequestBody",
+	 *	),
+	 *	@OA\Schema(
+	 * 		schema="Users_Login_RequestBody",
 	 * 		title="Users module - Users login request body",
 	 * 		description="JSON or form-data",
 	 *		type="object",
@@ -115,20 +115,25 @@ class Login extends \Api\Core\BaseAction
 	 *			description="Webservice user name",
 	 *			type="string",
 	 * 		),
-	 *	@OA\Property(
-	 *		property="password",
-	 *		description="Webservice user password",
-	 *		type="string"
+	 *		@OA\Property(
+	 *			property="password",
+	 *			description="Webservice user password",
+	 *			type="string"
+	 *		),
+	 *		@OA\Property(
+	 *			property="code",
+	 *			description="2FA TOTP code (optional property), Pass code length = 6, Code period = 30",
+	 *			type="string"
+	 *		),
+	 *		@OA\Property(
+	 *			property="params",
+	 *			description="Additional parameters sent by the user, extending the current settings, e.g. language",
+	 *			type="object",
+	 *			@OA\Property(property="language", type="string", example="pl-PL"),
+	 *		)
 	 *	),
-	 *	@OA\Property(
-	 *		property="params",
-	 *		description="Additional parameters sent by the user, extending the current settings, e.g. language",
-	 *		type="object",
-	 *		@OA\Property(property="language", type="string", example="pl-PL"),
-	 * 	)
-	 * ),
-	 * @OA\Schema(
-	 * 		schema="UsersLoginResponseBody",
+	 *	@OA\Schema(
+	 * 		schema="Users_Login_ResponseBody",
 	 * 		title="Users module - Users login response body",
 	 * 		description="Users login response body",
 	 *		type="object",
@@ -170,8 +175,8 @@ class Login extends \Api\Core\BaseAction
 	 *    			@OA\Property(property="conv_rate", type="number", format="float", example="1.00000"),
 	 * 			),
 	 *		),
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="Exception",
 	 *		title="Error exception",
 	 *		type="object",
@@ -192,35 +197,25 @@ class Login extends \Api\Core\BaseAction
 	 *   		@OA\Property(property="line", type="integer", example=101, description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
 	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\RestApi\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
 	 *    	),
-	 * ),
-	 * @OA\Tag(
+	 *	),
+	 *	@OA\Tag(
 	 *		name="Users",
 	 *		description="Access to user methods"
-	 * )
+	 *	)
 	 */
 	public function post(): array
 	{
-		$table = \Api\Core\Containers::$listTables[$this->controller->app['type']]['user'];
-		$db = \App\Db::getInstance('webservice');
-		$this->userData = (new \App\Db\Query())->from($table)
-			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
-			->limit(1)->one($db);
-		if (!$this->userData) {
-			throw new \Api\Core\Exception('Invalid data access', 401);
-		}
-		$this->userData['type'] = (int) $this->userData['type'];
-		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? \App\Json::decode($this->userData['custom_params']) : [];
-		$this->userData['custom_params']['ip'] = $this->controller->request->getServer('REMOTE_ADDR');
-		if (\App\Encryption::getInstance()->decrypt($this->userData['password']) !== $this->controller->request->getRaw('password')) {
-			$this->userData['custom_params']['invalid_login_time'] = date(static::DATE_TIME_FORMAT);
-			$this->userData['custom_params']['invalid_login'] = 'Invalid user password';
-			$this->updateUser();
-			throw new \Api\Core\Exception('Invalid user password', 401);
+		$this->checkAccess();
+		if ('PLL_PASSWORD_2FA' === $this->userData['login_method']) {
+			$this->twoFactorAuth();
 		}
 		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type'] && (empty($this->userData['crmid']) || !\App\Record::isExists($this->userData['crmid']))) {
-			$this->userData['custom_params']['invalid_login_time'] = date(static::DATE_TIME_FORMAT);
-			$this->userData['custom_params']['invalid_login'] = 'No crmid';
-			$this->updateUser();
+			$this->updateUser([
+				'custom_params' => [
+					'invalid_login' => 'No crmid',
+					'invalid_login_time' => date(static::DATE_TIME_FORMAT),
+				]
+			]);
 			throw new \Api\Core\Exception('No crmid', 401);
 		}
 		$this->updateUser([
@@ -293,5 +288,58 @@ class Login extends \Api\Core\BaseAction
 				'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
 				'last_method' => $this->controller->request->getServer('REQUEST_URI'),
 			])->execute();
+	}
+
+	/**
+	 * Check access data.
+	 *
+	 * @return void
+	 */
+	protected function checkAccess(): void
+	{
+		$table = \Api\Core\Containers::$listTables[$this->controller->app['type']]['user'];
+		$db = \App\Db::getInstance('webservice');
+		$this->userData = (new \App\Db\Query())->from($table)
+			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
+			->limit(1)->one($db);
+		if (!$this->userData) {
+			throw new \Api\Core\Exception('Invalid data access', 401);
+		}
+		$this->userData['type'] = (int) $this->userData['type'];
+		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
+		$this->userData['custom_params']['ip'] = $this->controller->request->getServer('REMOTE_ADDR');
+		if (\App\Encryption::getInstance()->decrypt($this->userData['password']) !== $this->controller->request->getRaw('password')) {
+			$this->updateUser([
+				'custom_params' => [
+					'invalid_login' => 'Invalid user password',
+					'invalid_login_time' => date(static::DATE_TIME_FORMAT),
+				]
+			]);
+			throw new \Api\Core\Exception('Invalid user password', 401);
+		}
+	}
+
+	/**
+	 * Undocumented function.
+	 *
+	 * @return void
+	 */
+	protected function twoFactorAuth(): void
+	{
+		$multiFactorAuth = new \Api\Core\TwoFactorAuth($this);
+		if (!$multiFactorAuth->isActive() || '' !== $multiFactorAuth->check()) {
+			return;
+		}
+		try {
+			$multiFactorAuth->verify();
+		} catch (\Throwable $th) {
+			$this->updateUser([
+				'custom_params' => [
+					'invalid_login' => '2FA verification error: ' . $th->getMessage(),
+					'invalid_login_time' => date(static::DATE_TIME_FORMAT),
+				]
+			]);
+			throw new \Api\Core\Exception('2FA verification error: ' . $th->getMessage(), 401, $th);
+		}
 	}
 }

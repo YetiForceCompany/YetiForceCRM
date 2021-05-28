@@ -34,14 +34,14 @@ class Login extends \Api\RestApi\Users\Login
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data format",
-	 *    		@OA\JsonContent(ref="#/components/schemas/UsersLoginRequestBody"),
+	 *    		@OA\JsonContent(ref="#/components/schemas/Users_Login_RequestBody"),
 	 *     		@OA\MediaType(
 	 *         		mediaType="multipart/form-data",
-	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
 	 *     		),
 	 *     		@OA\MediaType(
 	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
 	 *     		),
 	 *		),
 	 *		@OA\Parameter(
@@ -90,7 +90,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *   	default=0
 	 *	),
 	 *	@OA\Schema(
-	 * 		schema="UsersLoginRequestBody",
+	 * 		schema="Users_Login_RequestBody",
 	 * 		title="Users module - Users login request body",
 	 * 		description="JSON or form-data",
 	 *		type="object",
@@ -105,6 +105,11 @@ class Login extends \Api\RestApi\Users\Login
 	 *		type="string"
 	 *      ),
 	 *  	@OA\Property(
+	 *			property="code",
+	 *			description="2FA TOTP code (optional property), Pass code length = 6, Code period = 30",
+	 *			type="string"
+	 *		),
+	 *		@OA\Property(
 	 *       	property="params",
 	 *       	description="Additional parameters sent by the user, extending the current settings, e.g. language",
 	 *       	type="object",
@@ -112,7 +117,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *		)
 	 *	),
 	 *	@OA\Schema(
-	 * 		schema="UsersLoginResponseBody",
+	 * 		schema="Users_Login_ResponseBody",
 	 * 		title="Users module - Users login response body",
 	 * 		description="Users login response body",
 	 *		type="object",
