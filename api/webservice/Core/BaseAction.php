@@ -128,8 +128,6 @@ class BaseAction
 			$language = $this->userData['language'];
 		} elseif (!empty($this->userData['custom_params']['language'])) {
 			$language = $this->userData['custom_params']['language'];
-		} elseif ($this->data && isset($this->data['custom_params']['language'])) {
-			$language = $this->data['custom_params']['language'];
 		} elseif (!empty($this->controller->headers['accept-language'])) {
 			$language = str_replace('_', '-', \Locale::acceptFromHttp($this->controller->headers['accept-language']));
 		} else {
@@ -210,6 +208,18 @@ class BaseAction
 	public function setUserData(array $data): void
 	{
 		$this->userData = array_merge_recursive($this->userData, $data);
+	}
+
+	/**
+	 * Get user data.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function getUserData(string $key)
+	{
+		return $this->userData[$key] ?? null;
 	}
 
 	/**
