@@ -5,8 +5,7 @@
 <form class="form-horizontal validateForm" id="editForm">
 	<div class="modal-header">
 		<h5 class="modal-title">
-			<span class="fas fa-users-cog fa-sm mr-1"></span>{\App\Language::translate('LBL_SESSION_RECORD',
-			$QUALIFIED_MODULE)}
+			<span class="fas fa-users-cog fa-sm mr-1"></span>{\App\Language::translate('LBL_SESSION_RECORD', $QUALIFIED_MODULE)}
 		</h5>
 		<button type="button" class="close ml-3" data-dismiss="modal"
 			aria-label="{\App\Language::translate('LBL_CANCEL')}">
@@ -18,30 +17,25 @@
 			<thead>
 				<tr class="listViewEntries">
 					{foreach key=LISTVIEW_ENTRY_COLUMN_NAME item=LISTVIEW_ENTRY_COLUMN from=$TABLE_COLUMNS}
-					<th class="noWrap {$WIDTHTYPE}">
-						{\App\Language::translate($LISTVIEW_ENTRY_COLUMN, $MODULE_NAME)}
-					</th>
+						<th class="noWrap {$WIDTHTYPE}">
+							{\App\Language::translate($LISTVIEW_ENTRY_COLUMN, $QUALIFIED_MODULE)}
+						</th>
 					{/foreach}
 				</tr>
 			</thead>
 			<tbody>
 				{foreach item="LISTVIEW_ENTRY" from=$SESSION_HISTORY_ENTRIES}
-				<tr class="listViewEntries">
-					{foreach key=LISTVIEW_ENTRY_COLUMN_NAME item=LISTVIEW_ENTRY_COLUMN from=$TABLE_COLUMNS}
-					<td class="noWrap {$WIDTHTYPE}">
-						{if $LISTVIEW_ENTRY_COLUMN_NAME === 'status'}
-						{\App\Language::translate($LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME], $MODULE_NAME)}
-						{else}
-						{if isset($LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME]) &&
-						!empty($LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME])}
-						{$LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME]}
-						{else}
-						--
-						{/if}
-						{/if}
-					</td>
-					{/foreach}
-				</tr>
+					<tr class="listViewEntries">
+						{foreach key=LISTVIEW_ENTRY_COLUMN_NAME item=LISTVIEW_ENTRY_COLUMN from=$TABLE_COLUMNS}
+							<td class="noWrap {$WIDTHTYPE}">
+								{if isset($LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME]) && !empty($LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME])}
+									{$LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME]}
+								{else}
+								--
+								{/if}
+							</td>
+						{/foreach}
+					</tr>
 				{/foreach}
 			</tbody>
 		</table>

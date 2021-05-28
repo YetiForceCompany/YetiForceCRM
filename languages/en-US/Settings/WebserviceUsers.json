@@ -3,6 +3,7 @@
     "WebserviceUsers": "Web service - Users",
     "LBL_WEBSERVICE_USERS": "Web service - Users",
     "LBL_WEBSERVICE_USERS_DESCRIPTION": " ",
+    "LBL_SESSION_RECORD": "User session list",
     "FL_SERVER": "Server",
     "FL_STATUS": "Status",
     "FL_LOGIN": "Login",
@@ -32,7 +33,8 @@
     "FL_LAST_INVALID_LOGIN": "Error message of the last failed login",
     "FL_LAST_ERROR": "Last error message",
     "FL_LAST_ERROR_METHOD": "Last error method",
-    "FL_LAST_ERROR_DATE": "Date of the last error"
+    "FL_LAST_ERROR_DATE": "Date of the last error",
+    "LBL_PARAMS": "Params"
   },
   "js": {
     "JS_DELETE_CONFIRMATION": "Are you sure you want to remove the key?",
