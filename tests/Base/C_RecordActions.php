@@ -229,7 +229,9 @@ class C_RecordActions extends \Tests\Base
 			return self::$recordDocuments;
 		}
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
-		$file = \App\Fields\File::loadFromPath(ROOT_DIRECTORY . '/tests/phpunit.xml');
+		$path = \App\Fields\File::getTmpPath() . 'phpunit.xml';
+		copy(ROOT_DIRECTORY . '/tests/phpunit.xml', $path);
+		$file = \App\Fields\File::loadFromPath($path);
 		$fileName = $file->getName();
 		$record->set('notes_title', $fileName);
 		$record->set('filename', $fileName);
