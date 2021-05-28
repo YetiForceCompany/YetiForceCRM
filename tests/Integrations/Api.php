@@ -459,7 +459,9 @@ class Api extends \Tests\Base
 	public function testGetFiles(): void
 	{
 		$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
-		$fileInstance = \App\Fields\File::loadFromRequest($record->file);
+		$fileDetails = $record->getFileDetails();
+		$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
+		$fileInstance = \App\Fields\File::loadFromPath($savedFile);
 		$request = $this->httpClient->put('Files', array_merge_recursive(['json' => [
 			'module' => 'Documents',
 			'actionName' => 'DownloadFile',
