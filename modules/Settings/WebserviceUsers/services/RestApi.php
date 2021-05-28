@@ -125,6 +125,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				$params['uitype'] = 16;
 				$params['typeofdata'] = 'V~O';
 				$params['picklistValues'] = [
+					'-' => \App\Language::translate('LBL_NONE'),
 					'PLL_AUTHY_TOTP' => \App\Language::translate('PLL_AUTHY_TOTP', 'Users'),
 				];
 				break;

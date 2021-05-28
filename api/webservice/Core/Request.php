@@ -78,7 +78,7 @@ class Request extends \App\Request
 		if (empty($content)) {
 			return false;
 		}
-		$this->rawValues = array_merge($this->contentParse($content), $this->rawValues);
+		$this->rawValues = \App\Utils::merge($this->contentParse($content), $this->rawValues);
 		return $this;
 	}
 

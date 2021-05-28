@@ -207,7 +207,7 @@ class BaseAction
 	 */
 	public function setUserData(array $data): void
 	{
-		$this->userData = array_merge_recursive($this->userData, $data);
+		$this->userData = \App\Utils::merge($this->userData, $data);
 	}
 
 	/**
