@@ -132,6 +132,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 			case 'password':
 				$params['typeofdata'] = 'P~M';
 				break;
+			default: break;
 		}
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
 	}
@@ -279,6 +280,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 					$value = \App\Layout::truncateText($value, 50, true);
 				}
 				break;
+			default: break;
 		}
 		return $value;
 	}

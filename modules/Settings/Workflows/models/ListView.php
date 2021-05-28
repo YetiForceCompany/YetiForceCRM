@@ -8,9 +8,9 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
-
-// Settings List View Model Class
-
+/**
+ * Settings List View Model Class.
+ */
 class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 {
 	/**
@@ -18,7 +18,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 	 *
 	 * @param Vtiger_Paging_Model $pagingModel
 	 *
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance
+	 * @return array Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -47,12 +47,6 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		$pageLimit = $pagingModel->getPageLimit();
 
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy) && 'smownerid' === $orderBy) {
-			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
-			if ('owner' === $fieldModel->getFieldDataType()) {
-				$orderBy = 'COALESCE(' . App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
-			}
-		}
 		if (!empty($orderBy)) {
 			$listQuery->orderBy(sprintf('%s %s', $orderBy, $this->getForSql('sortorder')));
 		}

@@ -111,6 +111,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			case 'password':
 				$params['typeofdata'] = 'P~M';
 				break;
+			default: break;
 		}
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
 	}
@@ -164,6 +165,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			case 'password':
 				$value = App\Encryption::getInstance()->encrypt($value);
 				break;
+			default: break;
 		}
 		return $value;
 	}

@@ -776,6 +776,9 @@ $.Class(
 		readSelectedIds: function (decode) {
 			let cvId = this.getCurrentCvId();
 			let selectedIdsElement = $('#selectedIds');
+			if (selectedIdsElement.length <= 0) {
+				return '';
+			}
 			let selectedIdsDataAttr = cvId + 'selectedIds';
 			let selectedIdsElementDataAttributes = selectedIdsElement.data();
 			let selectedIds = [];
