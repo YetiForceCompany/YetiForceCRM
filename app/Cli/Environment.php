@@ -78,6 +78,7 @@ class Environment extends Base
 				if (0 === strpos($value, 'LBL_')) {
 					$value = \App\Language::translate($value);
 				}
+				$value = \is_array($value) ? \App\Json::encode($value) : $value;
 				$table[] = [
 					'Parameter' => $item['status'] ? $name : "<light_red>{$name}</light_red>",
 					'Recommended' => $item['recommended'] ?? '-',
