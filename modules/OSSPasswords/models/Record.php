@@ -12,6 +12,7 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
 		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);
+		unset($links['LBL_QUICK_EDIT']);
 		if (isset($viewModel->getHeaders()['password'])) {
 			$links['BUTTONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => \App\Language::translate('LBL_ShowPassword', $this->getModuleName()),
@@ -25,6 +26,14 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 				],
 			]);
 		}
+		return $links;
+	}
+
+	/** {@inheritdoc} */
+	public function getRecordListViewLinksLeftSide()
+	{
+		$links = parent::getRecordListViewLinksLeftSide();
+		unset($links['LBL_QUICK_EDIT']);
 		return $links;
 	}
 
