@@ -236,9 +236,6 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getModule(): Vtiger_Module_Model
 	{
-		if (!isset($this->module)) {
-			$this->module = Vtiger_Module_Model::getInstance($this->getModuleName());
-		}
 		return $this->module;
 	}
 
