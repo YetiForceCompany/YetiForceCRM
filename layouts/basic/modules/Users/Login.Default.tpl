@@ -99,10 +99,8 @@
 				{/if}
 				{if $IS_BLOCKED_IP}
 					<div class="alert alert-danger form-row">
-						<div class="col-md-12 d-flex justify-content-center"><span
-									class="fas fa-minus-circle fontSizeIcon"></span></div>
-						<div class="col-md-12"><p>{\App\Language::translate('LBL_IP_IS_BLOCKED',$MODULE_NAME)}</p>
-						</div>
+						<div class="col-md-12 d-flex justify-content-center"><span class="fas fa-minus-circle fontSizeIcon"></span></div>
+						<div class="col-md-12"><p>{\App\Language::translate('LBL_IP_IS_BLOCKED',$MODULE_NAME)}</p></div>
 					</div>
 				{/if}
 			</div>
@@ -119,9 +117,8 @@
 									</div>
 									<input type="text" class="form-control form-control-lg" id="emailId" name="email" placeholder="{\App\Language::translate('LBL_EMAIL',$MODULE)}" required="">
 								</div>
-								<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block py-2 u-fs-19px"
-									title="Retrieve Password">
-									{\App\Language::translate('BTN_RESET_PASSWORD',$MODULE)}
+								<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block py-2 u-fs-19px" title="Retrieve Password">
+									<i class="fas fa-exchange-alt mr-2"></i>{\App\Language::translate('BTN_RESET_PASSWORD',$MODULE)}
 								</button>
 							</div>
 						</div>
