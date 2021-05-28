@@ -107,9 +107,9 @@ class Cache
 	 *
 	 * @return bool
 	 */
-	public static function clear()
+	public static function clear(): bool
 	{
-		static::$pool->clear();
+		return static::$pool->clear();
 	}
 
 	/**
