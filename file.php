@@ -6,8 +6,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-\define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
-
+chdir(__DIR__);
 require_once __DIR__ . '/include/main/WebUI.php';
 require_once __DIR__ . '/include/RequirementsValidation.php';
 
