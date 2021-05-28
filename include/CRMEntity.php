@@ -1,4 +1,5 @@
 <?php
+
  /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
  * ("License"); You may not use this file except in compliance with the
@@ -34,11 +35,12 @@ class CRMEntity
 {
 	public $ownedby;
 
-	/**    Constructor which will set the column_fields in this object
+	/**
+	 * Constructor which will set the column_fields in this object.
 	 */
 	public function __construct()
 	{
-		$this->column_fields = vtlib\Deprecated::getColumnFields(\get_class($this));
+		$this->column_fields = vtlib\Deprecated::getColumnFields(static::class);
 	}
 
 	public static function getInstance($module)
@@ -67,17 +69,6 @@ class CRMEntity
 		return $focus;
 	}
 
-	/** Function to delete a record in the specifed table
-	 * @param string $tableName -- table name:: Type varchar
-	 *                          The function will delete a record. The id is obtained from the class variable $this->id and the columnname got from $this->tab_name_index[$table_name]
-	 */
-	public function deleteRelation($tableName)
-	{
-		if ((new App\Db\Query())->from($tableName)->where([$this->tab_name_index[$tableName] => $this->id])->exists()) {
-			\App\Db::getInstance()->createCommand()->delete($tableName, [$this->tab_name_index[$tableName] => $this->id])->execute();
-		}
-	}
-
 	/**
 	 * Function returns the column alias for a field.
 	 *
@@ -102,17 +93,6 @@ class CRMEntity
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 		}
 
-		// Tables which has multiple rows for the same record
-		// will be skipped in record retrieve - need to be taken care separately.
-		$multiRowTables = null;
-		if (isset($this->multirow_tables)) {
-			$multiRowTables = $this->multirow_tables;
-		} else {
-			$multiRowTables = [
-				'vtiger_attachments',
-			];
-		}
-
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		if ($cachedModuleFields) {
 			$query = new \App\Db\Query();
@@ -120,9 +100,6 @@ class CRMEntity
 			$requiredTables = $this->tab_name_index; // copies-on-write
 
 			foreach ($cachedModuleFields as $fieldInfo) {
-				if (\in_array($fieldInfo['tablename'], $multiRowTables)) {
-					continue;
-				}
 				// Alias prefixed with tablename+fieldname to avoid duplicate column name across tables
 				// fieldname are always assumed to be unique for a module
 				$columnClause[] = $fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] . ' AS ' . $this->createColumnAliasForField($fieldInfo);
@@ -133,10 +110,6 @@ class CRMEntity
 				$query->from('vtiger_crmentity');
 				unset($requiredTables['vtiger_crmentity']);
 				foreach ($requiredTables as $tableName => $tableIndex) {
-					if (\in_array($tableName, $multiRowTables)) {
-						// Avoid multirow table joins.
-						continue;
-					}
 					$query->leftJoin($tableName, "vtiger_crmentity.crmid = $tableName.$tableIndex");
 				}
 			}
@@ -241,8 +214,8 @@ class CRMEntity
 		$sharingRuleInfoVariable = $module . '_share_read_permission';
 		$sharingRuleInfo = ${$sharingRuleInfoVariable};
 		$query = '';
-		if (!empty($sharingRuleInfo) && (\count($sharingRuleInfo['ROLE']) > 0 ||
-			\count($sharingRuleInfo['GROUP']) > 0)) {
+		if (!empty($sharingRuleInfo) && (\count($sharingRuleInfo['ROLE']) > 0
+			|| \count($sharingRuleInfo['GROUP']) > 0)) {
 			$query = ' (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per ' .
 				"WHERE userid=$userId && tabid=$tabId) UNION (SELECT " .
 				'vtiger_tmp_read_group_sharing_per.sharedgroupid FROM ' .
