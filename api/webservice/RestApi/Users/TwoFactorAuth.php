@@ -69,26 +69,6 @@ class TwoFactorAuth extends Login
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
 	 *	),
-	 *	@OA\SecurityScheme(
-	 *		type="http",
-	 *		securityScheme="basicAuth",
-	 *		scheme="basic",
-	 *   	description="Basic Authentication header"
-	 *	),
-	 *	@OA\SecurityScheme(
-	 * 		name="X-API-KEY",
-	 *   	type="apiKey",
-	 *    	in="header",
-	 *		securityScheme="ApiKeyAuth",
-	 *   	description="Webservice api key header"
-	 *	),
-	 *	@OA\Schema(
-	 *		schema="X-ENCRYPTED",
-	 *		type="string",
-	 *  	description="Is the content request is encrypted",
-	 *  	enum={0, 1},
-	 *   	default=0
-	 *	),
 	 *	@OA\Schema(
 	 * 		schema="Users_TwoFactorAuth_RequestBody",
 	 * 		title="Users module - Users login request body",

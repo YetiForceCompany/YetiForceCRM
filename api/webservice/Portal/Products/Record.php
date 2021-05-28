@@ -97,13 +97,13 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
-	 *			description="No permissions to remove record OR No permissions to view record OR No permissions to edit record",
+	 *			description="`No permissions to remove record` OR `No permissions to view record` OR `No permissions to edit record`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=404,
-	 *			description="No record id OR Record doesn't exist",
+	 *			description="`No record id` OR `Record doesn't exist`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),

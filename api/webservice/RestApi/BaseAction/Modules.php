@@ -49,7 +49,7 @@ class Modules extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
-	 *			description="No sent token OR Invalid token",
+	 *			description="`No sent token` OR `Invalid token`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),

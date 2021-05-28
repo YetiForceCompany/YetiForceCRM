@@ -93,7 +93,7 @@ class RecordHistory extends \Api\RestApi\BaseModule\RecordHistory
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
-	 *			description="No permissions to view record OR MadTracker is turned off",
+	 *			description="`No permissions to view record` OR `MadTracker is turned off`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),

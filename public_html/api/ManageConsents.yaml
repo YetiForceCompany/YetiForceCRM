@@ -42,7 +42,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApprovalsRegisterResponseBody'
         '401':
-          description: 'No sent token OR Invalid token'
+          description: '`No sent token` OR `Invalid token`'
         '403':
           description: 'No permissions for module'
         '405':
@@ -106,7 +106,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConsentsResponseBody'
         '401':
-          description: 'No sent token OR Invalid token'
+          description: '`No sent token` OR `Invalid token`'
           content:
             application/json:
               schema:
@@ -173,7 +173,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConsentsForEntryResponseBody'
         '401':
-          description: 'No sent token OR Invalid token'
+          description: '`No sent token` OR `Invalid token`'
         '403':
           description: 'No permissions for module'
         '404':
@@ -221,7 +221,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SendEmailResponseBody'
         '401':
-          description: 'No sent token OR Invalid token'
+          description: '`No sent token` OR `Invalid token`'
         '403':
           description: 'No permissions for module'
         '404':

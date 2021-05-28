@@ -80,7 +80,7 @@ class Hierarchy extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=405,
-	 *			description="No hierarchy OR Not available for this type of user",
+	 *			description="`No hierarchy` OR `Not available for this type of user`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
