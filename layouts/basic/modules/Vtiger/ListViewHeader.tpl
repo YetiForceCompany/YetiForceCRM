@@ -44,7 +44,9 @@
 												data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" {' '}
 												data-editable="{$CUSTOM_VIEW->isEditable()}"
 												data-deletable="{$CUSTOM_VIEW->privilegeToDelete()}" {' '}
-												data-featured="{$CUSTOM_VIEW->isFeatured()}"
+												{if !$CUSTOM_VIEW->get('featured')}
+													data-featured="{$CUSTOM_VIEW->isFeatured()}"
+												{/if}
 												data-pending="{$CUSTOM_VIEW->isPending()}" {' '}
 												data-public="{$CUSTOM_VIEW->isPublic() && $USER_MODEL->isAdminUser()}"
 												{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'}
