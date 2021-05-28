@@ -411,7 +411,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			return $this->filterIds[$dividingValue];
 		}
 		// if chart is divided by field or not divided at all it has only one filter
-		return $this->filterIds[0];
+		return $this->filterIds[0] ?? 0;
 	}
 
 	/**
@@ -635,7 +635,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->colorsFromRow = 'color';
 		$colors = \App\Colors::getAllFilterColors();
 		$this->iterateAllRows(function (&$row, $groupValue, $dividingValue, $rowIndex) use ($colors) {
-			$this->colors[$dividingValue] = $colors[$this->filterIds[$dividingValue]];
+			$this->colors[$dividingValue] = $colors[$this->filterIds[$dividingValue]] ?? null;
 		});
 	}
 
@@ -954,6 +954,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getRows()
 	{
+		if (empty($this->filterIds)) {
+			return $this->data;
+		}
 		if ($this->isMultiFilter()) {
 			foreach ($this->getQueries() as $dividingValue => $query) {
 				$this->getRowsDb($query, $dividingValue);
@@ -1198,8 +1201,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->customView = \App\CustomView::getInstance($this->getTargetModule());
 
 		foreach (explode(',', $this->widgetModel->get('filterid')) as $id) {
-			$this->filterIds[] = (int) $id;
-			$this->viewNames[$id] = $this->customView->getFilterInfo((int) $id)['viewname'] ?? '';
+			$filterData = $this->customView->getFilterInfo((int) $id);
+			if ($filterData) {
+				$this->filterIds[] = (int) $id;
+				$this->viewNames[$id] = $filterData['viewname'];
+			}
 		}
 		return $this->filterIds;
 	}
