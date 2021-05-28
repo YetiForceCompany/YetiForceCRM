@@ -44,13 +44,11 @@ $(document).ready(() => {
 			confirm_password: formChange.find('[name="confirm_password"]').val(),
 			token: formChange.find('[name="token"]').val()
 		})
-			.done((data) => {
+			.done(() => {
 				window.location.href = 'index.php';
-				$('.js-alert-password').removeClass('d-none alert-danger').addClass('alert-success');
-				$('.js-alert-text').html(data.result);
 			})
 			.fail((error) => {
-				$('.js-alert-password').removeClass('d-none alert-danger');
+				$('.js-alert-password').removeClass('d-none').addClass('alert-danger');
 				$('.js-alert-text').html(JSON.parse(error.responseText).error.message);
 			});
 	});
