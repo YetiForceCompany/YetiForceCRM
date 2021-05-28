@@ -249,7 +249,7 @@ class BaseAction
 	public function updateUser(array $data = []): void
 	{
 		if (isset($data['custom_params'])) {
-			$data['custom_params'] = \App\Json::encode(\App\Utils::merge($this->userData['custom_params'], $data['custom_params']));
+			$data['custom_params'] = \App\Json::encode(\App\Utils::merge(($this->userData['custom_params'] ?? []), $data['custom_params']));
 		}
 		\App\Db::getInstance('webservice')->createCommand()
 			->update(\Api\Core\Containers::$listTables[$this->controller->app['type']]['user'], $data, ['id' => $this->userData['id']])
