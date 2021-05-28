@@ -468,7 +468,6 @@ class Api extends \Tests\Base
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$this->assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertSame($body, $fileInstance->getContents(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/Portal/Files', 'get', 200);
 	}
 
