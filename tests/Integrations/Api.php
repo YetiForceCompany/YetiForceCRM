@@ -114,6 +114,7 @@ class Api extends \Tests\Base
 			'crmid' => 0,
 			'crmid_display' => '',
 			'login_method' => 'PLL_PASSWORD',
+			'authy_methods' => 'PLL_AUTHY_TOTP',
 			'user_id' => \App\User::getActiveAdminId(),
 		]);
 		$webserviceUsers->save();
@@ -135,11 +136,27 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn(): void
 	{
+		$request = $this->httpClient->post('Users/TwoFactorAuth', \App\Utils::merge([
+			'json' => [
+				'userName' => 'demo@yetiforce.com',
+				'password' => 'demo',
+			]
+		], self::$requestOptions)
+		);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$secretKey = $response['result']['secretKey'];
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/TwoFactorAuth', 'post', 200);
+
 		$request = $this->httpClient->post('Users/Login', \App\Utils::merge(
 				[
 					'json' => [
 						'userName' => 'demo@yetiforce.com',
 						'password' => 'demo',
+						'code' => (new \Sonata\GoogleAuthenticator\GoogleAuthenticator())->getCode($secretKey),
+						'params' => ['language' => 'pl-PL'],
 					]
 				], self::$requestOptions)
 		);
