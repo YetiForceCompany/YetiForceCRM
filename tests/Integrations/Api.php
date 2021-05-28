@@ -459,7 +459,6 @@ class Api extends \Tests\Base
 	public function testGetFiles(): void
 	{
 		$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
-		$fileInstance = \App\Fields\File::loadFromRequest($record->file);
 		$request = $this->httpClient->put('Files', array_merge_recursive(['json' => [
 			'module' => 'Documents',
 			'actionName' => 'DownloadFile',
@@ -468,7 +467,7 @@ class Api extends \Tests\Base
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$this->assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/Portal/Files', 'get', 200);
+		self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/Portal/Files', 'put', 200);
 	}
 
 	/**
