@@ -82,7 +82,7 @@ class Environment extends Base
 				$table[] = [
 					'Parameter' => $item['status'] ? $name : "<light_red>{$name}</light_red>",
 					'Recommended' => $item['recommended'] ?? '-',
-					'Value' => $item['status'] ? print_r($value, true) : "<light_red>"print_r($value, true)"</light_red>",
+					'Value' => $item['status'] ? print_r($value, true) : "<light_red>" . print_r($value, true) . "</light_red>",
 				];
 			}
 			if ($table) {
