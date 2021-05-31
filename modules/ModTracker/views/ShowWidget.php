@@ -19,7 +19,7 @@ class ModTracker_ShowWidget_View extends Vtiger_ShowWidget_View
 	public function checkPermission(App\Request $request)
 	{
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetid'), \App\User::getCurrentUserId());
-		if (!$widget->get('active')) {
+		if (!$widget || !$widget->getData()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
