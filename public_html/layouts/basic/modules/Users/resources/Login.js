@@ -39,17 +39,24 @@ $(document).ready(() => {
 	let formChange = $('.js-change-password');
 	formChange.on('submit', (event) => {
 		event.preventDefault();
-		$.post('index.php?module=Users&action=LoginPassChange', {
-			password: formChange.find('[name="password"]').val(),
-			confirm_password: formChange.find('[name="confirm_password"]').val(),
-			token: formChange.find('[name="token"]').val()
-		})
-			.done(() => {
-				window.location.href = 'index.php';
+		let password = formChange.find('[name="password"]').val();
+		let confirmPassword = formChange.find('[name="confirm_password"]').val();
+		if (password !== confirmPassword) {
+			$('.js-alert-confirm-password').removeClass('d-none');
+		} else {
+			$.post('index.php?module=Users&action=LoginPassChange', {
+				password: password,
+				confirm_password: confirmPassword,
+				token: formChange.find('[name="token"]').val()
 			})
-			.fail((error) => {
-				$('.js-alert-password').removeClass('d-none').addClass('alert-danger');
-				$('.js-alert-text').html(JSON.parse(error.responseText).error.message);
-			});
+				.done(() => {
+					window.location.href = 'index.php';
+				})
+				.fail((error) => {
+					$('.js-alert-confirm-password').addClass('d-none');
+					$('.js-alert-password').removeClass('d-none').addClass('alert-danger');
+					$('.js-alert-text').html(JSON.parse(error.responseText).error.message);
+				});
+		}
 	});
 });
