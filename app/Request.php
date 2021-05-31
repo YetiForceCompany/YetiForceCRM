@@ -476,23 +476,9 @@ class Request
 		if (isset($this->headers)) {
 			return $this->headers;
 		}
-		$data = [];
-		if (!\function_exists('apache_request_headers')) {
-			foreach ($_SERVER as $key => $value) {
-				if ('HTTP_' === substr($key, 0, 5)) {
-					$key = str_replace(' ', '-', \strtolower(str_replace('_', ' ', substr($key, 5))));
-					if ('' !== $value) {
-						$data[$key] = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
-					} else {
-						$data[$key] = '';
-					}
-				}
-			}
-		} else {
-			$data = array_change_key_case(apache_request_headers(), CASE_LOWER);
-			foreach ($data as $key => &$value) {
-				$value = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
-			}
+		$data = array_change_key_case(getallheaders(), CASE_LOWER);
+		foreach ($data as $key => &$value) {
+			$value = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
 		}
 		return $this->headers = $data;
 	}

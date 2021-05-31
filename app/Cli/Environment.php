@@ -86,6 +86,7 @@ class Environment extends Base
 				];
 			}
 			if ($table) {
+				print_r($table);
 				$this->climate->border('─', 140);
 				$this->climate->underline()->bold()->out("		$type");
 				$this->climate->border('─', 140);
