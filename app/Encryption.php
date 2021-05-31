@@ -23,8 +23,8 @@ class Encryption extends Base
 		'roundcube_users' => ['columnName' => ['password'], 'index' => 'user_id', 'db' => 'base'],
 		's_#__mail_smtp' => ['columnName' => ['password', 'smtp_password'], 'index' => 'id', 'db' => 'admin'],
 		'a_#__smsnotifier_servers' => ['columnName' => ['api_key'], 'index' => 'id', 'db' => 'admin'],
-		'w_#__api_user' => ['columnName' => ['password'], 'index' => 'id', 'db' => 'webservice'],
-		'w_#__portal_user' => ['columnName' => ['password'], 'index' => 'id', 'db' => 'webservice'],
+		'w_#__api_user' => ['columnName' => ['auth'], 'index' => 'id', 'db' => 'webservice'],
+		'w_#__portal_user' => ['columnName' => ['auth'], 'index' => 'id', 'db' => 'webservice'],
 		'w_#__servers' => ['columnName' => ['pass', 'api_key'], 'index' => 'id', 'db' => 'webservice'],
 		'dav_users' => ['columnName' => ['key'], 'index' => 'id', 'db' => 'base'],
 		\App\MeetingService::TABLE_NAME => ['columnName' => ['secret'], 'index' => 'id', 'db' => 'admin'],
@@ -39,8 +39,10 @@ class Encryption extends Base
 
 	/**
 	 * Function to get instance.
+	 *
+	 * @return self
 	 */
-	public static function getInstance()
+	public static function getInstance(): self
 	{
 		if (Cache::has('Encryption', 'Instance')) {
 			return Cache::get('Encryption', 'Instance');

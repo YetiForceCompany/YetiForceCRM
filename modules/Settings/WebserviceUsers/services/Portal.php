@@ -110,10 +110,13 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				break;
 			case 'password':
 				$params['typeofdata'] = 'P~M';
+				if ($this->has('id')) {
+					$params = null;
+				}
 				break;
 			default: break;
 		}
-		return Settings_Vtiger_Field_Model::init($moduleName, $params);
+		return $params ? Settings_Vtiger_Field_Model::init($moduleName, $params) : null;
 	}
 
 	/** {@inheritdoc} */

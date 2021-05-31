@@ -2228,6 +2228,21 @@
                                 }
                             }
                         }
+                    },
+                    "412": {
+                        "description": "No 2FA TOTP code",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -4159,6 +4174,24 @@
                             "type": {
                                 "description": "Post method.",
                                 "type": "integer"
+                            },
+                            "login_method": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "enum": [
+                                    "PLL_PASSWORD",
+                                    "PLL_PASSWORD_2FA"
+                                ],
+                                "example": "PLL_PASSWORD_2FA"
+                            },
+                            "authy_methods": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "enum": [
+                                    "",
+                                    "PLL_AUTHY_TOTP"
+                                ],
+                                "example": "PLL_AUTHY_TOTP"
                             },
                             "companyId": {
                                 "description": "Post method.",

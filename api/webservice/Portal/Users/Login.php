@@ -68,6 +68,12 @@ class Login extends \Api\RestApi\Users\Login
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
+	 *		@OA\Response(
+	 *			response=412,
+	 *			description="No 2FA TOTP code",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
+	 *		),
 	 *	),
 	 *	@OA\SecurityScheme(
 	 *		type="http",
@@ -139,6 +145,8 @@ class Login extends \Api\RestApi\Users\Login
 	 *    		@OA\Property(property="lastLogoutTime", type="string", format="date-time", example=null),
 	 *    		@OA\Property(property="language", type="string", example="pl-PL"),
 	 *    		@OA\Property(property="type", type="integer"),
+	 *    		@OA\Property(property="login_method", type="string", enum={"PLL_PASSWORD", "PLL_PASSWORD_2FA"}, example="PLL_PASSWORD_2FA"),
+	 *    		@OA\Property(property="authy_methods", type="string", enum={"", "PLL_AUTHY_TOTP"}, example="PLL_AUTHY_TOTP"),
 	 *    		@OA\Property(property="companyId", type="integer"),
 	 *    		@OA\Property(
 	 * 				property="companyDetails",
@@ -230,6 +238,8 @@ class Login extends \Api\RestApi\Users\Login
 			'lastLogoutTime' => $this->userData['logout_time'] ?? '',
 			'language' => $this->userData['language'] ?? '',
 			'type' => $this->userData['type'],
+			'login_method' => $this->userData['login_method'],
+			'authy_methods' => $this->userData['auth']['authy_methods'] ?? '',
 			'companyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type']) ? $parentId : 0,
 			'companyDetails' => $companyDetails,
 			'logged' => true,

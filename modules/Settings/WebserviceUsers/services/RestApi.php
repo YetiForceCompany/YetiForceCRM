@@ -56,7 +56,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 	];
 
 	/** {@inheritdoc} */
-	public $paramsFields = ['language', 'authy_methods', 'logout_time'];
+	public $paramsFields = ['language', 'logout_time'];
 
 	/** {@inheritdoc} */
 	public function init(array $data)
@@ -131,10 +131,13 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				break;
 			case 'password':
 				$params['typeofdata'] = 'P~M';
+				if ($this->has('id')) {
+					$params = null;
+				}
 				break;
 			default: break;
 		}
-		return Settings_Vtiger_Field_Model::init($moduleName, $params);
+		return $params ? Settings_Vtiger_Field_Model::init($moduleName, $params) : null;
 	}
 
 	/**
@@ -263,9 +266,6 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 					$value = '';
 					foreach ($params as $key => $row) {
 						switch ($key) {
-							case 'authy_methods':
-								$row = \App\Language::translate($row, 'Users');
-								break;
 							case 'language':
 								$row = $row ? \App\Language::getLanguageLabel($row) : '';
 								break;
@@ -294,13 +294,6 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 	{
 		$links = [];
 		$recordLinks = [
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'FL_PASSWORD',
-				'linkicon' => 'fas fa-copy',
-				'linkclass' => 'btn btn-sm btn-primary clipboard',
-				'linkdata' => ['copy-attribute' => 'clipboard-text', 'clipboard-text' => \App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($this->get('password')))]
-			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',

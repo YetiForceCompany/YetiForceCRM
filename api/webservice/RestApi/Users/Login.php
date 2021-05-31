@@ -84,6 +84,12 @@ class Login extends \Api\Core\BaseAction
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
+	 *		@OA\Response(
+	 *			response=412,
+	 *			description="No 2FA TOTP code",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
+	 *		),
 	 *	),
 	 *	@OA\SecurityScheme(
 	 *		type="http",
@@ -154,6 +160,8 @@ class Login extends \Api\Core\BaseAction
 	 *    		@OA\Property(property="lastLogoutTime", type="string", format="date-time", example=null),
 	 *    		@OA\Property(property="language", type="string", example="pl-PL"),
 	 *    		@OA\Property(property="type", type="integer"),
+	 *    		@OA\Property(property="login_method", type="string", enum={"PLL_PASSWORD", "PLL_PASSWORD_2FA"}, example="PLL_PASSWORD_2FA"),
+	 *    		@OA\Property(property="authy_methods", type="string", enum={"", "PLL_AUTHY_TOTP"}, example="PLL_AUTHY_TOTP"),
 	 *    		@OA\Property(property="logged", type="boolean"),
 	 *    		@OA\Property(
 	 *    			property="preferences",
@@ -206,8 +214,12 @@ class Login extends \Api\Core\BaseAction
 	public function post(): array
 	{
 		$this->checkAccess();
-		if ('PLL_PASSWORD_2FA' === $this->userData['login_method']) {
-			$this->twoFactorAuth();
+		if ('PLL_PASSWORD_2FA' === $this->userData['login_method'] && ($response = $this->twoFactorAuth())) {
+			$this->controller->response->setStatus(412);
+			return ['error' => [
+				'message' => $response,
+				'code' => 412,
+			]];
 		}
 		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type'] && (empty($this->userData['crmid']) || !\App\Record::isExists($this->userData['crmid']))) {
 			$this->updateUser([
@@ -240,6 +252,8 @@ class Login extends \Api\Core\BaseAction
 			'lastLogoutTime' => $this->userData['custom_params']['logout_time'] ?? '',
 			'language' => $this->userData['language'],
 			'type' => $this->userData['type'],
+			'login_method' => $this->userData['login_method'],
+			'authy_methods' => $this->userData['auth']['authy_methods'] ?? '',
 			'logged' => true,
 			'preferences' => [
 				'hour_format' => $userModel->getDetail('hour_format'),
@@ -308,6 +322,9 @@ class Login extends \Api\Core\BaseAction
 		$this->userData['type'] = (int) $this->userData['type'];
 		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
 		$this->userData['custom_params']['ip'] = $this->controller->request->getServer('REMOTE_ADDR');
+		if ($this->userData['auth']) {
+			$this->userData['auth'] = \App\Json::decode(\App\Encryption::getInstance()->decrypt($this->userData['auth']));
+		}
 		if (\App\Encryption::getInstance()->decrypt($this->userData['password']) !== $this->controller->request->getRaw('password')) {
 			$this->updateUser([
 				'custom_params' => [
@@ -320,15 +337,18 @@ class Login extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Undocumented function.
+	 * Check two factor authorization.
 	 *
-	 * @return void
+	 * @return string
 	 */
-	protected function twoFactorAuth(): void
+	protected function twoFactorAuth(): string
 	{
 		$multiFactorAuth = new \Api\Core\TwoFactorAuth($this);
 		if (!$multiFactorAuth->isActive() || '' !== $multiFactorAuth->check()) {
-			return;
+			return '';
+		}
+		if ($additionalData = $multiFactorAuth->hasRequiresAdditionalData()) {
+			return $additionalData;
 		}
 		try {
 			$multiFactorAuth->verify();

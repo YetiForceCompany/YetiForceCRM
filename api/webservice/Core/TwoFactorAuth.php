@@ -38,8 +38,8 @@ class TwoFactorAuth
 	 */
 	public function isActive(): bool
 	{
-		$params = $this->action->getUserData('custom_params');
-		if (empty($params['authy_methods']) || '-' === $params['authy_methods']) {
+		$auth = $this->action->getUserData('auth');
+		if (empty($auth) || empty($auth['authy_methods']) || '-' === $auth['authy_methods']) {
 			return false;
 		}
 		return true;
@@ -79,6 +79,19 @@ class TwoFactorAuth
 	}
 
 	/**
+	 * Verification of the required data entry.
+	 *
+	 * @return string
+	 */
+	public function hasRequiresAdditionalData(): string
+	{
+		if ($this->action->controller->request->isEmpty('code')) {
+			return 'No 2FA TOTP code';
+		}
+		return '';
+	}
+
+	/**
 	 * Verify secret key.
 	 *
 	 * @return void
@@ -86,9 +99,6 @@ class TwoFactorAuth
 	public function verify(): void
 	{
 		$params = $this->action->getUserData('custom_params');
-		if ($this->action->controller->request->isEmpty('code')) {
-			throw new \Exception('No 2FA TOTP code');
-		}
 		if (!(new GoogleAuthenticator())->checkCode($params['authy_secret_key'], (string) $this->action->controller->request->get('code'))) {
 			throw new \Exception('Incorrect 2FA TOTP code');
 		}
