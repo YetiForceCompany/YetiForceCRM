@@ -1736,7 +1736,6 @@ jQuery.Class(
 							'boolean',
 							'fileLocationType',
 							'userRole',
-							'companySelect',
 							'multiReferenceValue'
 						]) >= 0
 					) {
