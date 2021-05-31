@@ -86,7 +86,7 @@ class TwoFactorAuth
 	public function hasRequiresAdditionalData(): string
 	{
 		if ($this->action->controller->request->isEmpty('code')) {
-			return 'No 2FA TOTP code';
+			return 'ERR_NO_2FA_TOTP_CODE';
 		}
 		return '';
 	}

@@ -215,6 +215,9 @@ class Login extends \Api\Core\BaseAction
 	{
 		$this->checkAccess();
 		if ('PLL_PASSWORD_2FA' === $this->userData['login_method'] && ($response = $this->twoFactorAuth())) {
+			$this->saveLoginHistory([
+				'status' => $response,
+			]);
 			$this->controller->response->setStatus(412);
 			return ['error' => [
 				'message' => $response,
@@ -222,6 +225,9 @@ class Login extends \Api\Core\BaseAction
 			]];
 		}
 		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type'] && (empty($this->userData['crmid']) || !\App\Record::isExists($this->userData['crmid']))) {
+			$this->saveLoginHistory([
+				'status' => 'ERR_NO_CRMID',
+			]);
 			$this->updateUser([
 				'custom_params' => [
 					'invalid_login' => 'No crmid',
@@ -234,6 +240,9 @@ class Login extends \Api\Core\BaseAction
 			'login_time' => date(static::DATE_TIME_FORMAT),
 		]);
 		$this->createSession();
+		$this->saveLoginHistory([
+			'status' => 'LBL_SIGNED_IN',
+		]);
 		return $this->returnData();
 	}
 
@@ -317,6 +326,10 @@ class Login extends \Api\Core\BaseAction
 			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
 			->limit(1)->one($db);
 		if (!$this->userData) {
+			$this->saveLoginHistory([
+				'status' => 'ERR_USER_NOT_FOUND',
+			]);
+			\App\Encryption::verifyPasswordHash($this->controller->request->getRaw('password'), '', $this->controller->app['type']);
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
 		$this->userData['type'] = (int) $this->userData['type'];
@@ -331,6 +344,9 @@ class Login extends \Api\Core\BaseAction
 					'invalid_login' => 'Invalid user password',
 					'invalid_login_time' => date(static::DATE_TIME_FORMAT),
 				]
+			]);
+			$this->saveLoginHistory([
+				'status' => 'ERR_INCORRECT_PASSWORD',
 			]);
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
@@ -359,8 +375,32 @@ class Login extends \Api\Core\BaseAction
 					'invalid_login_time' => date(static::DATE_TIME_FORMAT),
 				]
 			]);
+			$this->saveLoginHistory([
+				'status' => '2FA:' . $th->getMessage()
+			]);
 			throw new \Api\Core\Exception('2FA verification error: ' . $th->getMessage(), 401, $th);
 		}
 		return '';
+	}
+
+	/**
+	 * Function to store the login history.
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	protected function saveLoginHistory(array $data): void
+	{
+		\App\Db::getInstance('webservice')
+			->createCommand()
+			->insert(\Api\Core\Containers::$listTables[$this->controller->app['type']]['loginHistory'], array_merge([
+				'time' => date(self::DATE_TIME_FORMAT),
+				'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
+				'agent' => \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false),
+				'user_name' => $this->controller->request->get('userName'),
+				'user_id' => $this->userData['id'] ?? null,
+			],
+			$data))->execute();
 	}
 }

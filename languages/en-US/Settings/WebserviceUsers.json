@@ -32,7 +32,16 @@
     "FL_LAST_INVALID_LOGIN": "Error message of the last failed login",
     "FL_LAST_ERROR": "Last error message",
     "FL_LAST_ERROR_METHOD": "Last error method",
-    "FL_LAST_ERROR_DATE": "Date of the last error"
+    "FL_LAST_ERROR_DATE": "Date of the last error",
+    "LBL_SIGNED_IN": "Signed in",
+    "ERR_INCORRECT_PASSWORD": "Incorrect password",
+    "ERR_USER_NOT_FOUND": "User not found",
+    "ERR_NO_CRMID": "No contact ID",
+    "ERR_2FA_NOT_BEEN_ENABLED": "Two-factor authentication has not been enabled",
+    "ERR_2FA_ALREADY_BEEN_GENERATED": "A secret 2FA key has already been generated.",
+    "ERR_FORGOT_PASSWORD_SEND_MAIL": "Email with password change has been sent",
+    "ERR_WRONG_2FA_CODE": "Wrong 2FA/TOPO code",
+    "LBL_PASSWORD_CHANGED": "Password changed"
   },
   "js": {
     "JS_DELETE_CONFIRMATION": "Are you sure you want to remove the key?",

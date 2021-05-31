@@ -111,6 +111,9 @@ class TwoFactorAuth extends Login
 		$this->checkAccess();
 		$multiFactorAuth = new \Api\Core\TwoFactorAuth($this);
 		if (!$multiFactorAuth->isActive()) {
+			$this->saveLoginHistory([
+				'status' => 'ERR_2FA_NOT_BEEN_ENABLED'
+			]);
 			$this->updateUser([
 				'custom_params' => [
 					'invalid_2fa' => 'Two-factor authentication has not been enabled',
@@ -120,6 +123,9 @@ class TwoFactorAuth extends Login
 			throw new \Api\Core\Exception('Two-factor authentication has not been enabled', 401);
 		}
 		if (!empty($this->userData['custom_params']['authy_secret_key'])) {
+			$this->saveLoginHistory([
+				'status' => 'ERR_2FA_ALREADY_GENERATED'
+			]);
 			$this->updateUser([
 				'custom_params' => [
 					'invalid_2fa' => 'A secret 2FA key has already been generated.',

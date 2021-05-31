@@ -9657,6 +9657,21 @@ CREATE TABLE `vtiger_ws_userauthtoken` (
   UNIQUE KEY `userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `w_yf_api_login_history` */
+
+CREATE TABLE `w_yf_api_login_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` timestamp NULL DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  `agent` varchar(500) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `w_yf_api_login_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_api_user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `w_yf_api_session` */
 
 CREATE TABLE `w_yf_api_session` (
@@ -9710,6 +9725,21 @@ CREATE TABLE `w_yf_manage_consents_user` (
   UNIQUE KEY `user_uq` (`server_id`,`token`),
   CONSTRAINT `w_yf_manage_consents_user_fk1` FOREIGN KEY (`server_id`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `w_yf_portal_login_history` */
+
+CREATE TABLE `w_yf_portal_login_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` timestamp NULL DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  `agent` varchar(500) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `w_yf_portal_login_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_portal_user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `w_yf_portal_session` */
 
