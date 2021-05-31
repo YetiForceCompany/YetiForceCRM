@@ -453,7 +453,7 @@ class TextParser
 			}, $content);
 			$twig = new \Twig\Environment(new \Twig\Loader\ArrayLoader(['index' => $content]));
 			$sandbox = new \Twig\Extension\SandboxExtension(\App\Extension\Twig\SecurityPolicy::getPolicy(), true);
-			$twig->addExtension($sandbox, true);
+			$twig->addExtension($sandbox);
 			$twig->addFunction(new \Twig\TwigFunction('YFParser', function ($text) {
 				$value = '';
 				preg_match(static::VARIABLE_REGEX, $text, $matches);

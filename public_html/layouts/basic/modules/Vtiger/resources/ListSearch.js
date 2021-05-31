@@ -243,7 +243,6 @@ jQuery.Class(
 						'boolean',
 						'fileLocationType',
 						'userRole',
-						'companySelect',
 						'multiReferenceValue',
 						'inventoryLimit'
 					]) >= 0
