@@ -86,14 +86,14 @@ class Api extends \Tests\Base
 	 */
 	public function testAddConfiguration(): void
 	{
-		$webserviceApps = \Settings_WebserviceApps_Record_Model::getCleanInstance();
-		$webserviceApps->set('type', 'Portal');
-		$webserviceApps->set('status', 1);
-		$webserviceApps->set('name', 'portal');
-		$webserviceApps->set('acceptable_url', '');
-		$webserviceApps->set('pass', 'portal');
-		$webserviceApps->save();
-		self::$serverId = (int) $webserviceApps->getId();
+		$app = \Settings_WebserviceApps_Record_Model::getCleanInstance();
+		$app->set('type', 'Portal');
+		$app->set('status', 1);
+		$app->set('name', 'portal');
+		$app->set('acceptable_url', '');
+		$app->set('pass', 'portal');
+		$app->save();
+		self::$serverId = (int) $app->getId();
 
 		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => self::$serverId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . self::$serverId);
@@ -103,8 +103,8 @@ class Api extends \Tests\Base
 		$this->assertSame($row['pass'], 'portal');
 		self::$requestOptions['headers']['x-api-key'] = $row['api_key'];
 
-		$webserviceUsers = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
-		$webserviceUsers->setData([
+		$user = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
+		$user->setData([
 			'server_id' => self::$serverId,
 			'status' => 1,
 			'user_name' => 'demo@yetiforce.com',
@@ -117,8 +117,8 @@ class Api extends \Tests\Base
 			'authy_methods' => 'PLL_AUTHY_TOTP',
 			'user_id' => \App\User::getActiveAdminId(),
 		]);
-		$webserviceUsers->save();
-		self::$apiUserId = $webserviceUsers->getId();
+		$user->save();
+		self::$apiUserId = $user->getId();
 		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => self::$apiUserId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . self::$apiUserId);
 		$this->assertSame((int) $row['server_id'], self::$serverId);
