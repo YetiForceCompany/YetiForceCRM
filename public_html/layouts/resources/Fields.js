@@ -1247,6 +1247,13 @@ window.App.Fields = {
 						}
 						let instance = $(e.currentTarget).data('select2');
 						instance.$dropdown.css('z-index', 1000002);
+						/**
+						 * Fix auto focusing in select2 with jQuery 3.6.0
+						 * see: https://github.com/select2/select2/issues/5993
+						 */
+						if (instance.dropdown.$search) {
+							instance.dropdown.$search.get(0).focus();
+						}
 					})
 					.on('select2:unselect', () => {
 						select.data('unselecting', true);
