@@ -123,7 +123,7 @@ class Api extends \Tests\Base
 		$this->assertNotFalse($row, 'No record id: ' . self::$apiUserId);
 		$this->assertSame((int) $row['server_id'], self::$serverId);
 		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
-		$this->assertSame($row['password'], 'demo');
+		$this->assertTrue(\App\Encryption::verifyPasswordHash('demo', $row['password'], 'Portal'));
 
 		$fieldModel = \Vtiger_Field_Model::init('Accounts', \App\Field::SYSTEM_FIELDS['share_externally']);
 		$fieldModel->fieldparams = self::$serverId;
