@@ -166,7 +166,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				$value = (int) $value;
 				break;
 			case 'password':
-				$value = App\Encryption::getInstance()->encrypt($value);
+				$value = App\Encryption::createPasswordHash($value, 'Portal');
 				break;
 			default: break;
 		}

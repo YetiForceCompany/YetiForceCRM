@@ -211,7 +211,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				$value = (int) $value;
 				break;
 			case 'password':
-				$value = App\Encryption::getInstance()->encrypt($value);
+				$value = App\Encryption::createPasswordHash($value, 'RestApi');
 				break;
 		}
 		return $value;

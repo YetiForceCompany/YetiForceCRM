@@ -287,4 +287,31 @@ class Encryption extends Base
 	{
 		return crypt($text, '$1$' . \App\Config::main('application_unique_key'));
 	}
+
+	/**
+	 * Function to create a password hash.
+	 *
+	 * @param string $text
+	 * @param string $pepper
+	 *
+	 * @return string
+	 */
+	public static function createPasswordHash(string $text, string $pepper): string
+	{
+		return password_hash(hash_hmac('sha256', $text, $pepper . \App\Config::main('application_unique_key')), PASSWORD_ARGON2ID);
+	}
+
+	/**
+	 * Check password hash.
+	 *
+	 * @param string $password
+	 * @param string $hash
+	 * @param string $pepper
+	 *
+	 * @return bool
+	 */
+	public static function verifyPasswordHash(string $password, string $hash, string $pepper): bool
+	{
+		return password_verify(hash_hmac('sha256', $password, $pepper . \App\Config::main('application_unique_key')), $hash);
+	}
 }

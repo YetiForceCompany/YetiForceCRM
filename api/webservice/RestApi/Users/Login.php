@@ -325,14 +325,14 @@ class Login extends \Api\Core\BaseAction
 		if ($this->userData['auth']) {
 			$this->userData['auth'] = \App\Json::decode(\App\Encryption::getInstance()->decrypt($this->userData['auth']));
 		}
-		if (\App\Encryption::getInstance()->decrypt($this->userData['password']) !== $this->controller->request->getRaw('password')) {
+		if (!\App\Encryption::verifyPasswordHash($this->controller->request->getRaw('password'), $this->userData['password'], $this->controller->app['type'])) {
 			$this->updateUser([
 				'custom_params' => [
 					'invalid_login' => 'Invalid user password',
 					'invalid_login_time' => date(static::DATE_TIME_FORMAT),
 				]
 			]);
-			throw new \Api\Core\Exception('Invalid user password', 401);
+			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
 	}
 

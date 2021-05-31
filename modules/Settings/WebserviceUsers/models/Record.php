@@ -184,6 +184,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		if (!App\Json::isEmpty($data['custom_params'])) {
 			$data['custom_params'] = \App\Json::decode($data['custom_params']);
 			$data = array_merge($data, $data['custom_params']);
+		}else{
+			$data['custom_params'] = [];
 		}
 		if ($data['auth']) {
 			$data['auth'] = \App\Json::decode(\App\Encryption::getInstance()->decrypt($data['auth']));
@@ -289,9 +291,9 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			$auth = $this->get('auth') ?: [];
 			$auth['authy_methods'] = $data['authy_methods'] ?? '';
-			unset($data['authy_methods']);
 			$data['auth'] = \App\Encryption::getInstance()->encrypt(\App\Json::encode($auth));
 		}
+		unset($data['authy_methods']);
 		if (empty($this->getId())) {
 			$data['user_name'] = $this->getUserName();
 			$success = $db->createCommand()->insert($table, $data)->execute();
