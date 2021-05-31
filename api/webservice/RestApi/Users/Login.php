@@ -361,5 +361,6 @@ class Login extends \Api\Core\BaseAction
 			]);
 			throw new \Api\Core\Exception('2FA verification error: ' . $th->getMessage(), 401, $th);
 		}
+		return '';
 	}
 }

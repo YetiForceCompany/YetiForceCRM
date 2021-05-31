@@ -108,7 +108,7 @@ class Api extends \Tests\Base
 			'server_id' => self::$serverId,
 			'status' => 1,
 			'user_name' => 'demo@yetiforce.com',
-			'password' => 'demo',
+			'password' => \App\Encryption::createPasswordHash('demo', 'Portal'),
 			'type' => 1,
 			'popupReferenceModule' => 'Contacts',
 			'crmid' => 0,
