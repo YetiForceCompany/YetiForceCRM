@@ -81,8 +81,8 @@ class Environment extends Base
 				$value = \is_array($value) ? \App\Json::encode($value) : $value;
 				$table[] = [
 					'Parameter' => $item['status'] ? $name : "<light_red>{$name}</light_red>",
-					'Recommended' => $item['recommended'] ?? '-',
-					'Value' => $item['status'] ? print_r($value, true) : ('<light_red>' . print_r($value, true) . '</light_red>'),
+					'Recommended' => $item['recommended'] ? print_r($item['recommended'], true) : '-',
+					'Value' => $item['status'] ? $value : ("<light_red>{$value}</light_red>"),
 				];
 			}
 			if ($table) {
