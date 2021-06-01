@@ -15,8 +15,11 @@ namespace Tests\Integrations;
  * Class Twitter for test.
  *
  * @package   Tests
+ *
+ * @internal
+ * @coversNothing
  */
-class Twitter extends \Tests\Base
+final class TwitterTest extends \Tests\Base
 {
 	/**
 	 * @var \Settings_LayoutEditor_Field_Model[]
@@ -80,11 +83,11 @@ class Twitter extends \Tests\Base
 	 */
 	public function testConfigModule(): void
 	{
-		$this->assertIsArray(
+		static::assertIsArray(
 			\App\Config::component('Social', 'TWITTER_ENABLE_FOR_MODULES'),
 			'Module Contacts not configured for social media'
 		);
-		$this->assertTrue(
+		static::assertTrue(
 			\in_array('Contacts', \App\Config::component('Social', 'TWITTER_ENABLE_FOR_MODULES')),
 			'Module Contacts not configured for social media'
 		);
@@ -95,8 +98,8 @@ class Twitter extends \Tests\Base
 	 */
 	public function testFieldTwitter(): void
 	{
-		$this->assertIsInt(self::$twitterFields[0]->getId());
-		$this->assertTrue(
+		static::assertIsInt(self::$twitterFields[0]->getId());
+		static::assertTrue(
 			(new \App\Db\Query())
 				->from('vtiger_field')
 				->where(['fieldid' => self::$twitterFields[0]->getId()])->exists(),
@@ -104,8 +107,8 @@ class Twitter extends \Tests\Base
 		);
 		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
 			->getFieldByName(self::$twitterFields[0]->getFieldName());
-		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
-		$this->assertSame(
+		static::assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
+		static::assertSame(
 			self::$twitterFields[0]->getId(),
 			$fieldModel->getId(),
 			'Vtiger_Field_Model problem'
@@ -152,7 +155,7 @@ class Twitter extends \Tests\Base
 	 */
 	public function testUiTypeGoodData($value): void
 	{
-		$this->assertNull(self::$twitterFields[0]->getUITypeModel()->validate($value, false));
+		static::assertNull(self::$twitterFields[0]->getUITypeModel()->validate($value, false));
 	}
 
 	/**
@@ -199,15 +202,15 @@ class Twitter extends \Tests\Base
 		$recordModel->save();
 		self::$listId[] = $recordModel->getId();
 
-		$this->assertSame('yetiforceen',
+		static::assertSame('yetiforceen',
 			(new \App\Db\Query())->select([self::$twitterFields[0]->getColumnName()])
 				->from(self::$twitterFields[0]->getTableName())
 				->where(['contactid' => $recordModel->getId()])->scalar()
 		);
-		$this->assertTrue((new \App\Db\Query())
+		static::assertTrue((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
 			->where(['twitter_login' => 'yeti'])->exists(), 'Twitter message not exists');
-		$this->assertTrue((new \App\Db\Query())
+		static::assertTrue((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
 			->where(['twitter_login' => 'forceen'])->exists(), 'Twitter message not exists');
 	}
@@ -222,18 +225,18 @@ class Twitter extends \Tests\Base
 		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
 		$recordModel->set(self::$twitterFields[0]->getColumnName(), 'yeti');
 		$recordModel->save();
-		$this->assertSame('yeti',
+		static::assertSame('yeti',
 			(new \App\Db\Query())->select([self::$twitterFields[0]->getColumnName()])
 				->from(self::$twitterFields[0]->getTableName())
 				->where(['contactid' => $recordModel->getId()])->scalar()
 		);
-		$this->assertTrue((new \App\Db\Query())
+		static::assertTrue((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
 			->where(['twitter_login' => 'yeti'])->exists(), 'Twitter message not exists');
-		$this->assertTrue((new \App\Db\Query())
+		static::assertTrue((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
 			->where(['twitter_login' => 'forceen'])->exists(), 'Twitter message not exists');
-		$this->assertFalse((new \App\Db\Query())
+		static::assertFalse((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
 			->where(['twitter_login' => 'yetiforceen'])->exists(), 'Twitter message exists');
 	}
@@ -248,10 +251,10 @@ class Twitter extends \Tests\Base
 		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
 		$recordModel->set(self::$twitterFields[0]->getColumnName(), '');
 		$recordModel->save();
-		$this->assertFalse((new \App\Db\Query())
+		static::assertFalse((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
 			->where(['twitter_login' => 'yeti'])->exists(), 'Twitter message exists');
-		$this->assertTrue((new \App\Db\Query())
+		static::assertTrue((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
 			->where(['twitter_login' => 'forceen'])->exists(), 'Twitter message not exists');
 	}
@@ -266,7 +269,7 @@ class Twitter extends \Tests\Base
 		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
 		$recordModel->set(self::$twitterFields[0]->getColumnName(), 'forceen');
 		$recordModel->save();
-		$this->assertTrue((new \App\Db\Query())
+		static::assertTrue((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
 			->where(['twitter_login' => 'forceen'])->exists(), 'Twitter message not exists');
 	}
@@ -280,7 +283,7 @@ class Twitter extends \Tests\Base
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
 		$recordModel->delete();
-		$this->assertFalse((new \App\Db\Query())
+		static::assertFalse((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
 			->where(['twitter_login' => 'forceen'])->exists(), 'Twitter message exists');
 	}
