@@ -1234,7 +1234,7 @@ return [
 		'askAdminAboutVisitSwitchUsers' => [
 			'default' => true,
 			'description' => '@var bool Ask admin about switch users purpose',
-      'validation' => '\App\Validator::bool',
+      		'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		], 
 		'askSuperUserAboutVisitPurpose' => [
