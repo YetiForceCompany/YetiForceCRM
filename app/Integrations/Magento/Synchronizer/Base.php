@@ -239,7 +239,7 @@ abstract class Base
 	 */
 	public function log(string $category, ?\Throwable $ex = null): void
 	{
-		\App\DB::getInstance('admin')->createCommand()
+		\App\DB::getInstance('log')->createCommand()
 			->insert('l_#__magento', [
 				'time' => date('Y-m-d H:i:s'),
 				'category' => null === $ex ? '' : $category,

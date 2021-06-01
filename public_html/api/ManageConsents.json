@@ -567,6 +567,7 @@
             },
             "Exception": {
                 "title": "Error exception",
+                "description": "Gets consents.",
                 "properties": {
                     "status": {
                         "description": "0 - error",
@@ -622,6 +623,7 @@
             },
             "ConsentsForEntryResponseBody": {
                 "title": "Response body for GetConsentsForEntry",
+                "description": "Gets consents.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -671,6 +673,7 @@
             },
             "SendEmailResponseBody": {
                 "title": "Response body for SendEmail",
+                "description": "Send e-mail.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
