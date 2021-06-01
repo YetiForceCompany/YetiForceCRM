@@ -79,7 +79,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 		$settingsLinks = [];
-		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
+		if (\App\Security\AdminAccess::isPermitted('Workflows') && VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
 			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
@@ -87,25 +87,27 @@ class Documents_Module_Model extends Vtiger_Module_Model
 				'linkicon' => 'yfi yfi-workflows-2',
 			];
 		}
-		$settingsLinks[] = [
-			'linktype' => 'LISTVIEWSETTING',
-			'linklabel' => 'LBL_EDIT_FIELDS',
-			'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
-			'linkicon' => 'adminIcon-modules-fields',
-		];
-
-		$settingsLinks[] = [
-			'linktype' => 'LISTVIEWSETTING',
-			'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
-			'linkurl' => 'index.php?parent=Settings&module=Picklist&source_module=' . $this->getName(),
-			'linkicon' => 'adminIcon-fields-picklists',
-		];
-
-		if ($this->hasSequenceNumberField()) {
+		if (\App\Security\AdminAccess::isPermitted('LayoutEditor')) {
+			$settingsLinks[] = [
+				'linktype' => 'LISTVIEWSETTING',
+				'linklabel' => 'LBL_EDIT_FIELDS',
+				'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
+				'linkicon' => 'adminIcon-modules-fields',
+			];
+		}
+		if (\App\Security\AdminAccess::isPermitted('Picklist')) {
+			$settingsLinks[] = [
+				'linktype' => 'LISTVIEWSETTING',
+				'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
+				'linkurl' => 'index.php?parent=Settings&module=Picklist&source_module=' . $this->getName(),
+				'linkicon' => 'adminIcon-fields-picklists',
+			];
+		}
+		if (\App\Security\AdminAccess::isPermitted('RecordNumbering') && $this->hasSequenceNumberField()) {
 			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_MODULE_SEQUENCE_NUMBERING',
-				'linkurl' => 'index.php?parent=Settings&module=Vtiger&view=CustomRecordNumbering&sourceModule=' . $this->getName(),
+				'linkurl' => 'index.php?parent=Settings&module=RecordNumbering&view=CustomRecordNumbering&sourceModule=' . $this->getName(),
 				'linkicon' => 'fas fa-exchange-alt',
 			];
 		}

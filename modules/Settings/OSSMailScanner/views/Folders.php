@@ -6,19 +6,17 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
+class Settings_OSSMailScanner_Folders_View extends Settings_Vtiger_BasicModal_View
 {
 	/**
-	 * Check permission to view.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
-		if (!\App\User::getCurrentUserModel()->isAdmin() || !$request->has('record')) {
+		parent::checkPermission($request);
+		if (!$request->has('record')) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -48,14 +46,14 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 				$foldersSplited = explode('/', $folder);
 				$parentPath = $mainFolder;
 				foreach ($foldersSplited as $i => $folderName) {
-					$treeRecordId = $i === 0 ? "{$mainFolder}/{$folderName}" : "{$mainFolder}/{$foldersSplited[$i - 1]}/{$folderName}";
-					if (!in_array($treeRecordId, $tempArray[$mainFolder])) {
+					$treeRecordId = 0 === $i ? "{$mainFolder}/{$folderName}" : "{$mainFolder}/{$foldersSplited[$i - 1]}/{$folderName}";
+					if (!\in_array($treeRecordId, $tempArray[$mainFolder])) {
 						$treeRecord = [
 							'id' => $treeRecordId,
 							'type' => 'category',
 							'parent' => $parentPath,
 							'text' => \App\Language::translate($folderName, $moduleName),
-							'state' => ['selected' => in_array($folder, (array) ($selectedFolders[$mainFolder] ?? []))]
+							'state' => ['selected' => \in_array($folder, (array) ($selectedFolders[$mainFolder] ?? []))]
 						];
 						if (end($foldersSplited) === $folderName) {
 							$treeRecord['db_id'] = $folder;
@@ -72,7 +70,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		return $tree;
 	}
 
-	public function getSize(\App\Request $request)
+	public function getSize(App\Request $request)
 	{
 		return 'modal-lg';
 	}
@@ -82,7 +80,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);

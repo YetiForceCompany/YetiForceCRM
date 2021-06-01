@@ -1,6 +1,6 @@
 <?php
 
-$config = PhpCsFixer\Config::create()
+$config = \PhpCsFixer\Config::create()
 	->setRiskyAllowed(true)
 	->setIndent("\t")
 	->setUsingCache(false)
@@ -124,6 +124,7 @@ $config = PhpCsFixer\Config::create()
 		'phpdoc_types' => true,
 		'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
 		'phpdoc_var_without_name' => true,
+		'psr_autoloading' => false,
 		'return_type_declaration' => true,
 		'self_accessor' => true,
 		'semicolon_after_instruction' => true,
@@ -134,6 +135,7 @@ $config = PhpCsFixer\Config::create()
 		'single_class_element_per_statement' => true,
 		'single_import_per_statement' => true,
 		'single_line_comment_style' => true,
+		'single_line_throw' => true,
 		'single_quote' => true,
 		'space_after_semicolon' => true,
 		'standardize_not_equals' => true,
@@ -155,11 +157,11 @@ $config = PhpCsFixer\Config::create()
 
 // special handling of fabbot.io service if it's using too old PHP CS Fixer version
 try {
-	PhpCsFixer\FixerFactory::create()
+	\PhpCsFixer\FixerFactory::create()
 		->registerBuiltInFixers()
 		->registerCustomFixers($config->getCustomFixers())
-		->useRuleSet(new PhpCsFixer\RuleSet($config->getRules()));
-} catch (PhpCsFixer\ConfigurationException\InvalidConfigurationException $e) {
+		->useRuleSet(new \PhpCsFixer\RuleSet($config->getRules()));
+} catch (\PhpCsFixer\ConfigurationException\InvalidConfigurationException $e) {
 	$config->setRules([]);
 } catch (UnexpectedValueException $e) {
 	$config->setRules([]);

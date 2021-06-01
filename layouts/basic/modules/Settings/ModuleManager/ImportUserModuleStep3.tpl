@@ -59,11 +59,11 @@
 						</tbody>
 					</table>
 					{if $IMPORT_MODULE_TYPE eq 'update'}
-						<a href="index.php?parent=Settings&module=Updates&view=Index" role="button" class="btn btn-success">
+						<a href="index.php?parent=Settings&module=Updates&view=Index" role="button" class="btn btn-success float-right">
 							<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
 						</a>
 					{else}
-						<a href="index.php?module=ModuleManager&parent=Settings&view=List" role="button" class="btn btn-success">
+						<a href="index.php?module=ModuleManager&parent=Settings&view=List" role="button" class="btn btn-success float-right">
 							<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
 						</a>
 					{/if}

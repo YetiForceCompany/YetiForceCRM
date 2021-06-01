@@ -10,7 +10,7 @@
 			   data-url="file.php?module={$FIELD_MODEL->getModuleName()}&action=MultiImage&field={$FIELD_MODEL->getFieldName()}{if $RECORD && !$RECORD->isNew()}&record={$RECORD->getId()}{/if}" multiple>
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getFieldName()}" value="{$FIELD_VALUE}"
 			   data-validation-engine="validate[funcCall[Vtiger_MultiImage_Validator_Js.invokeValidation]]"  data-fieldinfo='{$FIELD_INFO}' class="js-multi-image__values"
-			   data-js="value" {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
+			   data-js="value" {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'{/if}>
 		<button type="button" class="align-top d-inline mb-2 mr-1 btn btn-sm btn-primary js-multi-image__file-btn" tabindex="{$TABINDEX}" data-js="click">
 			<i class="fa fa-plus"></i>&nbsp;<span>{\App\Language::translate('BTN_ADD_FILE', $MODULE_NAME)}</span>
 		</button>

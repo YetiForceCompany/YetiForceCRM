@@ -18,7 +18,6 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		parent::__construct();
 		$this->exposeMethod('delete');
 		$this->exposeMethod('updateField');
-		$this->exposeMethod('updateSort');
 		$this->exposeMethod('upadteSequences');
 		$this->exposeMethod('setFilterPermissions');
 	}
@@ -46,34 +45,11 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function updateField(App\Request $request)
 	{
-		$params = [
-			'cvid' => $request->getInteger('cvid'),
-			'mod' => $request->getByType('mod', 2),
-			'name' => $request->getByType('name', 2),
-			'value' => $request->getByType('value', 'Text')
-		];
-		Settings_CustomView_Module_Model::updateField($params);
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'message' => \App\Language::translate('Saving CustomView', $request->getModule(false)),
-		]);
-		$response->emit();
-	}
+		$recordModel = CustomView_Record_Model::getInstanceById($request->getInteger('cvid'));
+		$recordModel->set('mode', 'edit');
+		$recordModel->setValueFromRequest($request, $request->getByType('name', \App\Purifier::STANDARD), 'value');
+		$recordModel->save();
 
-	/**
-	 * Action to update sort data in the filter.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function updateSort(App\Request $request)
-	{
-		$params = [
-			'cvid' => $request->getInteger('cvid'),
-			'name' => $request->getByType('name', 2),
-			'value' => \App\Json::encode($request->getArray('value', \App\Purifier::STANDARD, [], \App\Purifier::SQL))
-		];
-		Settings_CustomView_Module_Model::updateField($params);
-		Settings_CustomView_Module_Model::updateOrderAndSort($params);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Language::translate('Saving CustomView', $request->getModule(false)),
@@ -104,26 +80,28 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function setFilterPermissions(App\Request $request)
 	{
-		$tabid = $request->getInteger('tabid');
-		$cvid = $request->getInteger('cvid');
 		$user = $request->getByType('user', 'Text');
-		$type = $request->getByType('type');
-		$operator = $request->getByType('operator');
-		if ('default' === $type) {
-			$result = Settings_CustomView_Module_Model::setDefaultUsersFilterView($tabid, $cvid, $user, $operator);
-		} elseif ('featured' === $type) {
-			$result = CustomView_Record_Model::setFeaturedFilterView($cvid, $user, $operator);
+		$add = $request->getBoolean('operator');
+
+		$recordModel = CustomView_Record_Model::getInstanceById($request->getInteger('cvid'));
+
+		switch ($request->getByType('type')) {
+			case 'default':
+				$result = $add ? $recordModel->setDefaultForMember($user) : $recordModel->removeDefaultForMember($user);
+				break;
+			case 'featured':
+				$result = $add ? $recordModel->setFeaturedForMember($user) : $recordModel->removeFeaturedForMember($user);
+				break;
+			case 'permissions':
+				$result = $add ? $recordModel->setPrivilegesForMember($user) : $recordModel->removePrivilegesForMember($user);
+				break;
+			default:
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				break;
 		}
-		if (!empty($result)) {
-			$data = [
-				'message' => \App\Language::translate('LBL_EXISTS_PERMISSION_IN_CONFIG', $request->getModule(false), \App\Language::translate($result, $tabid)),
-				'success' => false,
-			];
-		} else {
-			$data = [
-				'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false)),
-				'success' => true,
-			];
+		$data = ['success' => $result];
+		if ($result) {
+			$data['message'] = \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($data);

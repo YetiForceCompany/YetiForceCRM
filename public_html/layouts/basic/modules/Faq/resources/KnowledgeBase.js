@@ -3,7 +3,7 @@
 'use strict';
 
 jQuery.Class('Faq_KnowledgeBase_Js', {
-	registerEvents: function() {
+	registerEvents: function () {
 		KnowledgeBase.mount({
 			el: '#FaqKnowledgeBaseContainer',
 			state: {

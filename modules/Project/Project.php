@@ -36,19 +36,6 @@ class Project extends CRMEntity
 		'vtiger_projectcf' => 'projectid',
 		'vtiger_entity_stats' => 'crmid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'Project Name' => ['project', 'projectname'],
-		'Start Date' => ['project', 'startdate'],
-		'Status' => ['project', 'projectstatus'],
-		'Type' => ['project', 'projecttype'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'Total time [Sum]' => ['project', 'sum_time_all'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Project Name' => 'projectname',
@@ -63,8 +50,7 @@ class Project extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view from list view (Fieldname)
-	public $list_link_field = 'projectname';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
@@ -247,6 +233,7 @@ class Project extends CRMEntity
 
 			return $parent;
 		}
+		$moduleModel = Vtiger_Module_Model::getInstance('Project');
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$row = (new App\Db\Query())->select([
 			'vtiger_project.*',
@@ -276,8 +263,8 @@ class Project extends CRMEntity
 			foreach ($listColumns as $columnname) {
 				if ('assigned_user_id' === $columnname) {
 					$parentInfo[$columnname] = $row['user_name'];
-				} elseif ('projecttype' === $columnname) {
-					$parentInfo[$columnname] = \App\Language::translate($row[$columnname], 'Project');
+				} elseif (($fieldModel = $moduleModel->getFieldByColumn($columnname)) && \in_array($fieldModel->getFieldDataType(), ['picklist', 'multipicklist'])) {
+					$parentInfo[$columnname] = $fieldModel->getDisplayValue($row[$columnname], false, false, true);
 				} else {
 					$parentInfo[$columnname] = $row[$columnname];
 				}
@@ -305,6 +292,7 @@ class Project extends CRMEntity
 
 			return $childRow;
 		}
+		$moduleModel = Vtiger_Module_Model::getInstance('Project');
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())->select([
 			'vtiger_project.*',
@@ -328,8 +316,8 @@ class Project extends CRMEntity
 				foreach ($listColumns as $columnname) {
 					if ('assigned_user_id' === $columnname) {
 						$childSalesProcessesInfo[$columnname] = $row['user_name'];
-					} elseif ('projecttype' === $columnname) {
-						$childSalesProcessesInfo[$columnname] = \App\Language::translate($row[$columnname], 'Project');
+					} elseif (($fieldModel = $moduleModel->getFieldByColumn($columnname)) && \in_array($fieldModel->getFieldDataType(), ['picklist', 'multipicklist'])) {
+						$childSalesProcessesInfo[$columnname] = $fieldModel->getDisplayValue($row[$columnname], false, false, true);
 					} else {
 						$childSalesProcessesInfo[$columnname] = $row[$columnname];
 					}

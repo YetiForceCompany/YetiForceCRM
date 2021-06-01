@@ -21,7 +21,7 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getRecordsCount(\App\Request $request)
+	public function getRecordsCount(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->getByType('viewname', 2);
@@ -38,7 +38,7 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function getListViewCount(\App\Request $request)
+	public function getListViewCount(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$sourceModule = $request->getByType('sourceModule', 2);
@@ -51,13 +51,13 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_Basic_Action
 		return $listViewModel->getListViewCount();
 	}
 
-	public function getPageCount(\App\Request $request)
+	public function getPageCount(App\Request $request)
 	{
 		$numOfRecords = $this->getListViewCount($request);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pageCount = ceil((int) $numOfRecords / (int) ($pagingModel->getPageLimit()));
 
-		if ($pageCount == 0) {
+		if (0 == $pageCount) {
 			$pageCount = 1;
 		}
 		$result = [];

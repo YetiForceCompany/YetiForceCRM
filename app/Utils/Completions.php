@@ -3,7 +3,7 @@
 /**
  * Utility for processing tags in text.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -288,7 +288,7 @@ class Completions
 		if (!($moduleName = \App\Record::getType($recordId))) {
 			$html = static::deletedRecordTemplate($recordLabel);
 		} elseif (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
-			$html = "<a href=\"index.php?module={$moduleName}&view=Detail&record={$recordId}\" class=\"js-popover-tooltip--record\" data-id=\"#{$recordId}\">" .
+			$html = "<a href=\"index.php?module={$moduleName}&view=Detail&record={$recordId}\" class=\"js-popover-tooltip--record\" target=\"_blank\" data-id=\"#{$recordId}\">" .
 				$recordLabel . '</a>&nbsp;';
 		} else {
 			$html = $recordLabel;
@@ -309,7 +309,7 @@ class Completions
 		if (!\App\User::isExists($userId)) {
 			$html = static::deletedRecordTemplate($recordLabel);
 		} else {
-			$isRecordPermitted = \App\Privilege::isPermitted('Users', 'DetailView', $userId);
+			$isRecordPermitted = \App\User::getCurrentUserModel()->isAdmin();
 			$popoverRecordClass = $isRecordPermitted ? 'js-popover-tooltip--record' : '';
 			$popoverRecordHref = $isRecordPermitted ? "index.php?module=Users&view=Detail&record={$userId}" : '#';
 			$html = "<a class=\"js-completions__tag $popoverRecordClass\" href=\"$popoverRecordHref\" data-id=\"@$userId\" data-js=\"click\">" .

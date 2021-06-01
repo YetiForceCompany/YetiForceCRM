@@ -52,9 +52,7 @@ abstract class Base
 	 * @var float
 	 */
 	protected $distance;
-	/**
-	 * @var array
-	 */
+	/** @var array geo json */
 	protected $geoJson;
 
 	/**

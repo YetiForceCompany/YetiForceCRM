@@ -2,6 +2,8 @@
 /**
  * Address finder class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -87,7 +89,7 @@ class Address
 		if (self::$providersCache) {
 			return self::$providersCache;
 		}
-		foreach ((new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address')) as $fileinfo) {
+		foreach ((new \DirectoryIterator(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address')) as $fileinfo) {
 			if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php'))) {
 				self::$providersCache[$fileName] = static::getInstance($fileName);
 			}

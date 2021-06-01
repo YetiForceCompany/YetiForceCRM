@@ -171,7 +171,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
-			if(!$this->checkIsAvailablePicklistFieldName($name)){
+			if (!$this->checkIsAvailablePicklistFieldName($name)) {
 				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
 			}
 			$pickListValues = $params['pickListValues'];
@@ -610,7 +610,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Faq' => ['LBL_COMMENT_INFORMATION'],
 			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION']
 		];
-		if (\in_array($moduleName, ['Calendar', 'HelpDesk', 'Faq'])) {
+		if (\in_array($moduleName, ['HelpDesk', 'Faq'])) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
 				if (\in_array($blockName, $blocksEliminatedArray[$moduleName])) {
 					return false;
@@ -625,20 +625,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getRelations()
 	{
 		if (null === $this->relations) {
-			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false, true, true, 'related_tabid');
-		}
-		// Contacts relation-tab is turned into custom block on DetailView.
-		if ('Calendar' === $this->getName()) {
-			$contactsIndex = false;
-			foreach ($this->relations as $index => $model) {
-				if ('Contacts' === $model->getRelationModuleName()) {
-					$contactsIndex = $index;
-					break;
-				}
-			}
-			if (false !== $contactsIndex) {
-				array_splice($this->relations, $contactsIndex, 1);
-			}
+			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false, true, true);
 		}
 		return $this->relations;
 	}
@@ -697,7 +684,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public static function updateRelatedViewType($relationId, $type)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['view_type' => implode(',', $type)], ['relation_id' => $relationId])->execute();
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
 	}
 
 	/**
@@ -720,9 +707,88 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function checkIsAvailablePicklistFieldName(string $fieldName): bool
 	{
 		$result = true;
-		if(\App\Fields\Picklist::isPicklistExist($fieldName)){
+		if (\App\Fields\Picklist::isPicklistExist($fieldName)) {
 			$result = (new \App\Db\Query())->from('vtiger_field')->where(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])->exists();
 		}
 		return $result;
+	}
+
+	/**
+	 * Get missing system fields.
+	 *
+	 * @return \Vtiger_Field_Model[]
+	 */
+	public function getMissingSystemFields(): array
+	{
+		$fields = $this->getFields();
+		$systemFields = \App\Field::SYSTEM_FIELDS;
+		$missingFields = [];
+		foreach (Settings_WebserviceApps_Module_Model::getServers() as $id => $field) {
+			$name = 'share_externally_' . $id;
+			$systemFields[$name] = array_merge($systemFields['share_externally'], [
+				'name' => $name,
+				'column' => $name,
+				'label' => $field['name'] . " ({$field['type']})",
+				'fieldparams' => $id
+			]);
+		}
+		unset($systemFields['share_externally']);
+		foreach ($systemFields as $name => $field) {
+			$validationConditions = $field['validationConditions'];
+			if ($validationConditions === ['name']) {
+				$exist = isset($fields[$name]);
+			} else {
+				$exist = true;
+				foreach ($validationConditions as $validationCondition) {
+					$status = true;
+					foreach ($fields as $fieldModel) {
+						if ($fieldModel->get($validationCondition) == $field[$validationCondition]) {
+							$status = false;
+							continue 2;
+						}
+					}
+					$exist = !$status;
+				}
+			}
+			if (!$exist) {
+				unset($field['validationConditions']);
+				$missingFields[$name] = \Vtiger_Field_Model::init($this->name, $field, $field['name']);
+			}
+		}
+		return $missingFields;
+	}
+
+	/**
+	 * Create system field.
+	 *
+	 * @param string $sysName
+	 * @param int    $blockId
+	 * @param array  $params
+	 *
+	 * @return void
+	 */
+	public function addSystemField(string $sysName, int $blockId, array $params = []): void
+	{
+		$missingSystemFields = $this->getMissingSystemFields();
+		if (empty($missingSystemFields[$sysName])) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
+		}
+		$fieldModel = $missingSystemFields[$sysName];
+		if ($params) {
+			foreach ($params as $key => $value) {
+				$fieldModel->set($key, $value);
+			}
+		}
+		if ($this->checkFieldLabelExists($fieldModel->get('name'))) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
+		}
+		if ($this->checkFieldNameCharacters($fieldModel->get('name'))) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
+		}
+		if ($this->checkFieldNameExists($fieldModel->get('name'))) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
+		}
+		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this->name);
+		$blockModel->addField($fieldModel);
 	}
 }

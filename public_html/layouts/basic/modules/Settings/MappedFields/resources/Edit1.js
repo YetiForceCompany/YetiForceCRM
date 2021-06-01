@@ -5,14 +5,14 @@ Settings_MappedFields_Edit_Js(
 	'Settings_MappedFields_Edit1_Js',
 	{},
 	{
-		init: function() {
+		init: function () {
 			this.initialize();
 		},
 		/**
 		 * Function to get the container which holds all the reports step1 elements
 		 * @return jQuery object
 		 */
-		getContainer: function() {
+		getContainer: function () {
 			return this.step1Container;
 		},
 		/**
@@ -20,14 +20,14 @@ Settings_MappedFields_Edit_Js(
 		 * @params : element - which represents the reports step1 container
 		 * @return : current instance
 		 */
-		setContainer: function(element) {
+		setContainer: function (element) {
 			this.step1Container = element;
 			return this;
 		},
 		/**
 		 * Function  to intialize the reports step1
 		 */
-		initialize: function(container) {
+		initialize: function (container) {
 			if (typeof container === 'undefined') {
 				container = jQuery('#mf_step1');
 			}
@@ -37,7 +37,7 @@ Settings_MappedFields_Edit_Js(
 				this.setContainer(jQuery('#mf_step1'));
 			}
 		},
-		submit: function() {
+		submit: function () {
 			var aDeferred = jQuery.Deferred();
 			var form = this.getContainer();
 			var formData = form.serializeFormData();
@@ -57,7 +57,7 @@ Settings_MappedFields_Edit_Js(
 						enabled: true
 					}
 				});
-				app.saveAjax('step1', saveData).done(function(data) {
+				app.saveAjax('step1', saveData).done(function (data) {
 					if (data.success === true) {
 						if (!data.result.id && data.result.message) {
 							Settings_Vtiger_Index_Js.showMessage({ text: data.result.message, type: 'error' });
@@ -65,7 +65,9 @@ Settings_MappedFields_Edit_Js(
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							return false;
 						}
-						Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY') });
+						Settings_Vtiger_Index_Js.showMessage({
+							text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')
+						});
 						var mfRecordElement = jQuery('[name="record"]', form);
 						if (mfRecordElement.val() === '') {
 							mfRecordElement.val(data.result.id);
@@ -73,7 +75,7 @@ Settings_MappedFields_Edit_Js(
 						}
 
 						formData['record'] = data.result.id;
-						AppConnector.request(formData).done(function(data) {
+						AppConnector.request(formData).done(function (data) {
 							form.hide();
 							progressIndicatorElement.progressIndicator({
 								mode: 'hide'
@@ -85,12 +87,12 @@ Settings_MappedFields_Edit_Js(
 			}
 			return aDeferred.promise();
 		},
-		registerCancelStepClickEvent: function(form) {
-			jQuery('button.cancelLink', form).on('click', function() {
+		registerCancelStepClickEvent: function (form) {
+			jQuery('button.cancelLink', form).on('click', function () {
 				window.history.back();
 			});
 		},
-		checkModulesName: function() {
+		checkModulesName: function () {
 			var sourceModule = jQuery('[name="tabid"]').val();
 			var targetModule = jQuery('[name="reltabid"]').val();
 			if (sourceModule === targetModule) {
@@ -103,14 +105,14 @@ Settings_MappedFields_Edit_Js(
 			}
 			return true;
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			var container = this.getContainer();
 			//After loading 1st step only, we will enable the Next button
 			container.find('[type="submit"]').removeAttr('disabled');
 
 			var opts = app.validationEngineOptions;
 			// to prevent the page reload after the validation has completed
-			opts['onValidationComplete'] = function(form, valid) {
+			opts['onValidationComplete'] = function (form, valid) {
 				//returns the valid status
 				return valid;
 			};

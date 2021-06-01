@@ -9,6 +9,16 @@
 return [
 	'modulesListQuickCreate' => [
 		'default' => [],
-		'description' => 'Quick creation of records in the module list'
+		'description' => 'Quick creation of records in the module list',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return \is_array($arg) && array_diff($arg, App\Module::getAllModuleNames());
+		}
+	],
+	'outlookUrls' => [
+		'default' => [],
+		'description' => 'List of allowed addresses for integration with Outlook',
+		'loopValidate' => true,
+		'validation' => '\App\Validator::url',
 	],
 ];

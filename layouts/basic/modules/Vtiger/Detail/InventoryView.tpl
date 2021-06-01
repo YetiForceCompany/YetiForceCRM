@@ -16,7 +16,7 @@
 				{assign var="CURRENCY" value=$BASE_CURRENCY['id']}
 			{/if}
 			{assign var="CURRENCY_SYMBOLAND" value=\App\Fields\Currency::getById($CURRENCY)}
-			<table class="table table-bordered inventoryHeader blockContainer">
+			<table class="table table-bordered blockContainer">
 				<thead>
 				<tr>
 					<th style="width: 40%;"></th>
@@ -34,7 +34,7 @@
 		{/if}
 		{assign var="FIELDS_TEXT_ALIGN_RIGHT" value=['TotalPrice','Tax','MarginP','Margin','Purchase','Discount','NetPrice','GrossPrice','UnitPrice','Quantity','Unit','TaxPercent']}
 		<div class="table-responsive">
-			<table class="table table-bordered inventoryItems">
+			<table class="table table-bordered">
 				<thead>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
@@ -60,6 +60,15 @@
 				{/foreach}
 				</tbody>
 				<tfoot>
+				<tr>
+					{foreach item=FIELD from=$FIELDS[1]}
+						<th class="col{$FIELD->getType()} textAlignCenter {if !$FIELD->isSummary()}hideTd{/if}">
+							{if $FIELD->isSummary()}
+								{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}
+							{/if}
+						</th>
+					{/foreach}
+				</tr>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
 						<td class="col{$FIELD->getType()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}"

@@ -16,7 +16,7 @@
 	{else if $RELATED_MODULE eq 'Assets' && \App\Privilege::isPermitted('Assets', 'CreateView')}
 		<button class="btn btn-sm btn-block btn-light" type="button"
 			title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}"
-			onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Assets')">
+			onclick="App.Components.QuickCreate.createRecord('Assets')">
 			<span class="fas fa-plus-circle"></span>
 		</button>
 	{else if $RELATED_MODULE eq 'Services' && \App\Privilege::isPermitted('Services')}
@@ -34,7 +34,7 @@
 	{else if $RELATED_MODULE eq 'OSSSoldServices' && \App\Privilege::isPermitted('OSSSoldServices', 'CreateView')}
 		<button class="btn btn-sm btn-block btn-light" type="button"
 			title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"
-			onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSSoldServices')">
+			onclick="App.Components.QuickCreate.createRecord('OSSSoldServices')">
 			<span class="fas fa-plus-circle"></span>
 		</button>
 	{/if}
@@ -60,7 +60,7 @@
 					<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
 						{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') &&
 						$RELATED_RECORD->isViewable()}
-						<a class="modCT_{$RELATED_RECORD->getModuleName()}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}"
+						<a class="modCT_{$RELATED_RECORD->getModuleName()}"
 							href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
 						{elseif $RELATED_HEADERNAME eq 'access_count'}
 						{$RELATED_RECORD->getAccessCountValue($PARENT_RECORD->getId())}

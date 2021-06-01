@@ -8,6 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -110,6 +111,7 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Db::getInstance('admin')->createCommand()
 			->delete('i_#__magento_servers', ['id' => $this->getId()])
 			->execute();
+		\App\Cache::delete('Magento|getAllServers', '');
 	}
 
 	/**
@@ -160,6 +162,7 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->insert('i_#__magento_servers', $params)->execute();
 			$this->set('id', $db->getLastInsertID('i_#__magento_servers_id_seq'));
 		}
+		\App\Cache::delete('Magento|getAllServers', '');
 	}
 
 	/**
@@ -245,9 +248,7 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 		return \Vtiger_Field_Model::init($moduleName, $params, $name);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
@@ -257,5 +258,31 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 		}
 		return $value;
+	}
+
+	/**
+	 * Sets data from request.
+	 *
+	 * @param App\Request $request
+	 */
+	public function setDataFromRequest(App\Request $request)
+	{
+		foreach ($this->getModule()->getFormFields() as $fieldName => $fieldInfo) {
+			switch ($fieldName) {
+				case 'password':
+					$value = \App\Encryption::getInstance()->encrypt($request->getRaw($fieldName));
+					break;
+				default:
+					$value = $request->isEmpty($fieldName) ? '' : $request->getByType($fieldName, $fieldInfo['purifyType']);
+					$fieldModel = $this->getFieldInstanceByName($fieldName)->getUITypeModel();
+					$fieldModel->validate($value, true);
+					$value = $fieldModel->getDBValue($value);
+					break;
+			}
+			if ('' === $value && $fieldInfo['required']) {
+				throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||' . \App\Language::translate('LBL_' . \strtoupper($fieldName), $this->getModule()->getName(true)), 406);
+			}
+			$this->set($fieldName, $value);
+		}
 	}
 }

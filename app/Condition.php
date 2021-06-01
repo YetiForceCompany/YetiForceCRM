@@ -3,7 +3,7 @@
 /**
  * Condition main class.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -54,6 +54,7 @@ class Condition
 		'next60days' => ['label' => 'LBL_NEXT_60_DAYS'],
 		'next90days' => ['label' => 'LBL_NEXT_90_DAYS'],
 		'next120days' => ['label' => 'LBL_NEXT_120_DAYS'],
+		'moreThanDaysAgo' => ['label' => 'LBL_DATE_CONDITION_MORE_THAN_DAYS_AGO'],
 	];
 	/**
 	 * Supported advanced filter operations.
@@ -64,7 +65,9 @@ class Condition
 		's' => 'LBL_STARTS_WITH',
 		'ew' => 'LBL_ENDS_WITH',
 		'c' => 'LBL_CONTAINS',
+		'ch' => 'LBL_CONTAINS_HIERARCHY',
 		'k' => 'LBL_DOES_NOT_CONTAIN',
+		'kh' => 'LBL_DOES_NOT_CONTAIN_HIERARCHY',
 		'l' => 'LBL_LESS_THAN',
 		'g' => 'LBL_GREATER_THAN',
 		'm' => 'LBL_LESS_THAN_OR_EQUAL',
@@ -83,12 +86,13 @@ class Condition
 		'hst' => 'LBL_HAS_CHANGED_TO',
 		'ro' => 'LBL_IS_RECORD_OPEN',
 		'rc' => 'LBL_IS_RECORD_CLOSED',
+		'nco' => 'LBL_NOT_CREATED_BY_OWNER',
 	];
 	/**
 	 * Operators without values.
 	 */
 	const OPERATORS_WITHOUT_VALUES = [
-		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc',
+		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc', 'nco',
 		'smallerthannow',
 		'greaterthannow',
 		'prevfy',
@@ -311,5 +315,32 @@ class Condition
 			$recordField = new $className($recordModel, $fieldModel, $rule);
 		}
 		return $recordField->check();
+	}
+
+	/**
+	 * Get field names from conditions.
+	 *
+	 * @param array $conditions
+	 *
+	 * @return array ['baseModule' => [], 'referenceModule' => []]
+	 */
+	public static function getFieldsFromConditions(array $conditions): array
+	{
+		$fields = ['baseModule' => [], 'referenceModule' => []];
+		if (isset($conditions['rules'])) {
+			foreach ($conditions['rules'] as &$condition) {
+				if (isset($condition['condition'])) {
+					$condition = static::getFieldsFromConditions($condition);
+				} else {
+					[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $condition['fieldname']), 3, false);
+					if ($sourceFieldName) {
+						$fields['referenceModule'][$moduleName][$sourceFieldName] = $fieldName;
+					} else {
+						$fields['baseModule'][] = $fieldName;
+					}
+				}
+			}
+		}
+		return $fields;
 	}
 }

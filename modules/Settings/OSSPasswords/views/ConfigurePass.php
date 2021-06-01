@@ -70,11 +70,11 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 		if (!empty($save) && !empty($pass_length_min) && !empty($pass_length_max) && !empty($pass_allow_chars)) {
 			$post_min = (int) $pass_length_min > 0 ? (int) $pass_length_min : 0;
 			$post_max = (int) $pass_length_max > 0 ? (int) $pass_length_max : 0;
-			$aChars = strlen($pass_allow_chars) > 0 ? urldecode($pass_allow_chars) : '';
+			$aChars = \strlen($pass_allow_chars) > 0 ? urldecode($pass_allow_chars) : '';
 			$rChanges = '' == $registerChanges ? 0 : 1;
 
 			// update the configuration data
-			if (0 === strlen($error) && $post_min > 0 && $post_max > 0 && strlen($aChars) > 0) {
+			if (0 === \strlen($error) && $post_min > 0 && $post_max > 0 && \strlen($aChars) > 0) {
 				$db->createCommand()->update('vtiger_passwords_config', [
 					'pass_length_min' => $post_min,
 					'pass_length_max' => $post_max,
@@ -93,7 +93,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 			// save new password key
 			if (!empty($encrypt) && !empty($pass_key) && 'start' === $encrypt) {
 				// save key pass
-				$newPassword = strlen($pass_key) > 0 ? hash('sha256', $pass_key) : false;
+				$newPassword = \strlen($pass_key) > 0 ? hash('sha256', $pass_key) : false;
 
 				// config already exists, cant create encryption password
 				if (false !== $config) {
@@ -133,7 +133,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 				if (0 !== strcmp($config['key'], hash('sha256', $oldKey))) { // not equal
 					$pass_ok = false;
 					$error = 'Old password key is incorrect!';
-				} elseif (0 === strlen($newKey)) {
+				} elseif (0 === \strlen($newKey)) {
 					$pass_ok = false;
 					$error = 'New password too short!';
 				}

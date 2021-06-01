@@ -9,14 +9,8 @@
  */
 -->
 <template>
-  <YfDrag
-    :active="config.draggableButton"
-    :coordinates.sync="buttonCoordinates"
-  >
-    <transition
-      :enter-active-class="buttonAnimationClasses"
-      mode="out-in"
-    >
+  <YfDrag :active="config.draggableButton" :coordinates.sync="buttonCoordinates">
+    <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
       <q-btn
         ref="chatBtn"
         unelevated
@@ -36,10 +30,7 @@
           :floating="config.draggableButton"
           @mouseup="addRecordRoomToChat()"
         >
-          <q-icon
-            name="mdi-plus"
-            size="1rem"
-          />
+          <q-icon name="mdi-plus" size="1rem" />
           <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
         </q-badge>
         <YfIcon icon="yfi-branding-chat" />
@@ -49,9 +40,7 @@
           color="danger"
           floating
         >
-          <div>
-            {{ data.amountOfNewMessages }}
-          </div>
+          <div>{{ data.amountOfNewMessages }}</div>
         </q-badge>
       </q-btn>
     </transition>
@@ -82,19 +71,13 @@ export default {
   computed: {
     ...mapGetters(['miniMode', 'data', 'config', 'getDetailPreview']),
     buttonClass() {
-      return [
-        'glossy animation-duration',
-        this.config.draggableButton ? 'btn-absolute' : 'q-px-sm'
-      ]
+      return ['glossy animation-duration', this.config.draggableButton ? 'btn-absolute' : 'q-px-sm']
     },
     buttonSize() {
       return this.config.draggableButton ? '' : '0.826rem'
     },
     addBadgeClass() {
-      return [
-        'shadow-3 text-primary btn-badge',
-        this.config.draggableButton ? 'btn-badge--left-top' : 'q-mr-xs'
-      ]
+      return ['shadow-3 text-primary btn-badge', this.config.draggableButton ? 'btn-badge--left-top' : 'q-mr-xs']
     },
     dialog: {
       get() {
@@ -109,19 +92,14 @@ export default {
         return this.$store.getters['Chat/buttonCoordinates']
       },
       set(coords) {
-        if (
-          !isEqual(
-            { left: coords.left, top: coords.top },
-            { ...this.$store.getters['Chat/buttonCoordinates'] }
-          )
-        ) {
+        if (!isEqual({ left: coords.left, top: coords.top }, { ...this.$store.getters['Chat/buttonCoordinates'] })) {
           this.setDragState()
           this.setButtonCoordinates(coords)
         }
       }
     },
     buttonAnimationClasses() {
-      return this.data.amountOfNewMessages ? 'animated shake' : ''
+      return this.data.amountOfNewMessages ? 'animate__animated animate__shakeX' : ''
     },
     hasCurrentRecordChat() {
       if (!this.config.activeRoomTypes.includes('crm')) {
@@ -131,12 +109,7 @@ export default {
       if (this.isDetail) {
         id = app.getRecordId()
       }
-      if (
-        this.getDetailPreview &&
-        this.config.chatModules.some(
-          el => el.id === this.getDetailPreview.module
-        )
-      ) {
+      if (this.getDetailPreview && this.config.chatModules.some(el => el.id === this.getDetailPreview.module)) {
         id = this.getDetailPreview.id
       }
       if (id && !this.data.roomList.crm[id]) {
@@ -147,18 +120,12 @@ export default {
     },
     isDetail() {
       return (
-        this.windowConfig.view === 'Detail' &&
-        this.config.chatModules.some(el => el.id === this.windowConfig.module)
+        this.windowConfig.view === 'Detail' && this.config.chatModules.some(el => el.id === this.windowConfig.module)
       )
     }
   },
   methods: {
-    ...mapMutations([
-      'setDialog',
-      'setButtonCoordinates',
-      'updateRooms',
-      'setTab'
-    ]),
+    ...mapMutations(['setDialog', 'setButtonCoordinates', 'updateRooms', 'setTab']),
     ...mapActions(['fetchRoom']),
     showDialog() {
       this.dragging = false
@@ -186,12 +153,10 @@ export default {
             message: this.translate('JS_CHAT_ROOM_ADDED'),
             icon: 'mdi-check'
           })
-          this.fetchRoom({ id: result.record_id, roomType: 'crm' }, false).then(
-            _ => {
-              this.dialog = true
-              this.setTab('chat')
-            }
-          )
+          this.fetchRoom({ id: result.record_id, roomType: 'crm' }, false).then(_ => {
+            this.dialog = true
+            this.setTab('chat')
+          })
         })
       }, this.dragTimeout)
     },

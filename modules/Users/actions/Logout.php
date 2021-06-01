@@ -23,6 +23,11 @@ class Users_Logout_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
+		//Track the logout History
+		$moduleName = $request->getModule();
+		$moduleModel = Users_Module_Model::getInstance($moduleName);
+		$moduleModel->saveLogoutHistory();
+
 		$eventHandler = new App\EventHandler();
 		$eventHandler->trigger('UserLogoutBefore');
 		if (\Config\Security::$loginSessionRegenerate) {
@@ -30,11 +35,6 @@ class Users_Logout_Action extends \App\Controller\Action
 		}
 		OSSMail_Logout_Model::logoutCurrentUser();
 		App\Session::destroy();
-
-		//Track the logout History
-		$moduleName = $request->getModule();
-		$moduleModel = Users_Module_Model::getInstance($moduleName);
-		$moduleModel->saveLogoutHistory();
 		//End
 		header('location: index.php');
 	}

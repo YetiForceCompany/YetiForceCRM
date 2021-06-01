@@ -5,9 +5,12 @@ namespace App;
 /**
  * Privilege File basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class PrivilegeQuery
 {
@@ -40,7 +43,7 @@ class PrivilegeQuery
 	 *
 	 * @return void
 	 */
-	public static function getConditions(Db\Query $query, string $moduleName, $user = false, $relatedRecord = false)
+	public static function getConditions(Db\Query $query, string $moduleName, $user = false, $relatedRecord = null)
 	{
 		if (!empty(static::$interpreter) && class_exists(static::$interpreter)) {
 			return (static::$interpreter)::getConditions($query, $moduleName, $user, $relatedRecord);
@@ -58,7 +61,7 @@ class PrivilegeQuery
 	 *
 	 * @return void
 	 */
-	public static function getPrivilegeQuery(Db\Query $query, $moduleName, $user = false, $relatedRecord = false)
+	public static function getPrivilegeQuery(Db\Query $query, $moduleName, $user = false, $relatedRecord = null)
 	{
 		if ($user && $user instanceof User) {
 			$userId = $user->getId();
@@ -79,12 +82,12 @@ class PrivilegeQuery
 			$conditions[] = ['and', ['vtiger_crmentity.private' => 1], $subConditions];
 			$query->andWhere($conditions);
 		}
-		if (false !== $relatedRecord && \App\Config::security('PERMITTED_BY_RECORD_HIERARCHY')) {
+		if (\App\Config::security('PERMITTED_BY_RECORD_HIERARCHY') && !empty($relatedRecord)) {
 			$role = $userModel->getRoleDetail();
 			if (2 == $role->get('listrelatedrecord')) {
-				$rparentRecord = \Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
-				if ($rparentRecord) {
-					$relatedRecord = $rparentRecord;
+				$parentRecord = \Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
+				if ($parentRecord) {
+					$relatedRecord = $parentRecord;
 				}
 			}
 			if (0 != $role->get('listrelatedrecord')) {
@@ -96,7 +99,7 @@ class PrivilegeQuery
 			}
 		}
 		$tabId = Module::getModuleId($moduleName);
-		if (!$userModel->isAdminUser() && 1 == $userModel->profile_global_permission[1] && 1 == $userModel->profile_global_permission[2] && 3 === $userModel->defaultOrgSharingPermission[$tabId]) {
+		if (!$userModel->isAdminUser() && 1 == $userModel->profile_global_permission[1] && 1 == $userModel->profile_global_permission[2] && 3 === ($userModel->defaultOrgSharingPermission[$tabId] ?? null)) {
 			$conditions = ['or'];
 			$conditions[] = ['vtiger_crmentity.smownerid' => $userId];
 			if (!empty($userModel->groups)) {

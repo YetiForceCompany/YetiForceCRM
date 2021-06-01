@@ -1,0 +1,25 @@
+{
+  "php": {
+    "ConfigEditor": "Config editor",
+    "LBL_DEFAULT_MODULE": "Default module",
+    "LBL_MAX_TEXT_LENGTH_IN_LISTVIEW": "Maximum text length in List View",
+    "LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW": "Maximum entries per page in List View",
+    "LBL_DEFAULT_LAYOUT": "Layout",
+    "LBL_SHOWING_BREADCRUMBS": "Show breadcrumbs menu",
+    "LBL_TITLE_MAX_LENGTH": "Maximum length of characters for title",
+    "LBL_MINIMUM_CRON_FREQUENCY": "Minimum cron frequency [min] ",
+    "LBL_LIST_MAX_ENTRIES_MASSEDIT": "Maximum number of records in mass edition",
+    "LBL_BG_CLOSING_MODAL": "Enable closing of modal window by clicking on the background",
+    "LBL_HREF_MAX_LEGTH": "Maximum length for href tag",
+    "LBL_SHOW_LANG_IN_LOGIN_PAGE": "Show language selection on the login page",
+    "LBL_SHOW_LAYOUT_IN_LOGIN_PAGE": "Show layout selection on the login page",
+    "LBL_CONFIG_EDITOR": "System – Configuration",
+    "LBL_CONFIG_EDITOR_DESCRIPTION": "Update configuration file of the application",
+    "LBL_MAX_UPLOAD_SIZE": "Maximum upload size",
+    "LBL_MB": "MB"
+  },
+  "js": {
+    "JS_CONFIGURATION_DETAILS_SAVED": "Configuration details saved",
+    "JS_PLEASE_ENTER_NUMBER_IN_RANGE_1TO100": "Please enter value in the range 1-100"
+  }
+}

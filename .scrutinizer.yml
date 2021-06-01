@@ -9,48 +9,26 @@ build:
     rabbitmq: false
     postgresql: false
     php:
-      version: 7.1
+      version: 7.4
 
   tests:
     stop_on_failure: false
     before: []
     override:
-    - 'php -v'
+      - 'php -v'
     after: []
   nodes:
     tests: []
 
-build:
-  tests:
-    override:
-    - true
-  nodes:
-    tests: true
-    analysis:
-      project_setup:
-        override: true
-      tests:
-        override:
-        - command: scss-lint-run
-          use_website_config: true
-        - command: csslint-run
-          use_website_config: true
-        - command: phpcs-run
-          use_website_config: true
-        - php-scrutinizer-run --enable-security-analysis
-    coverage:
-      tests:
-        override:
-          coverage:
-            file: ./tests/coverage.xml
-            format: clover
-
 filter:
   excluded_paths:
-  - tests/*
-  - vendor/*
-  - '*.min.js'
-  - '*.min.*.js'
+    - vendor/*
+    - node_modules/*
+    - public_html/vendor/*
+    - public_html/src/node_modules/*
+    - public_html/libraries/*
+    - '*.min.js'
+    - '*.min.*.js'
 checks:
   php:
     verify_property_names: true
@@ -228,8 +206,7 @@ checks:
     check_undeclared_vars: true
     check_try_statement: true
     check_too_many_arguments: true
-    'check_switch_unintended label': true
-    'check_switch_no_uncommented_fallthrough"': true
+    check_switch_unintended label: true
     check_switch_no_default: true
     check_switch_default_only: true
     check_switch_default_not_last: true
@@ -248,5 +225,6 @@ coding_style:
 
 tools:
   sensiolabs_security_checker: true
-  external_code_coverage: true
-
+  external_code_coverage:
+    timeout: 1800
+    runs: 3

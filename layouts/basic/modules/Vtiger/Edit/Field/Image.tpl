@@ -14,7 +14,7 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 <div class="tpl-Edit-Field-Image">
 	<input type="file" class="input-large {if $MODULE eq 'Products'}multi" title="{\App\Language::translate('LBL_SELECT_FILE')}" maxlength="6"{else}"{/if} name="{$FIELD_MODEL->getFieldName()}[]" value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}"
-		   data-validation-engine="validate[{if ($FIELD_MODEL->isMandatory() eq true) and (empty($IMAGE_DETAILS))} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" tabindex="{$FIELD_MODEL->getTabIndex()}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} />
+		   data-validation-engine="validate[{if ($FIELD_MODEL->isMandatory() eq true) and (empty($IMAGE_DETAILS))} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" tabindex="{$FIELD_MODEL->getTabIndex()}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'{/if} />
 	{if $MODULE eq 'Products'}
 		<div id="MultiFile1_wrap_list" class="MultiFile-list"></div>
 	{/if}

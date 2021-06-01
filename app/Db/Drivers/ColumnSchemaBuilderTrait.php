@@ -2,6 +2,8 @@
 /**
  * Column schema builder file is the schema builder for MySQL databases.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
@@ -27,53 +29,6 @@ trait ColumnSchemaBuilderTrait
 	{
 		$this->autoIncrement = true;
 		return $this;
-	}
-
-	/**
-	 * Builds the full string for the column's schema.
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		switch ($this->getTypeCategory()) {
-			case self::CATEGORY_PK:
-				$format = '{type}{length}{comment}{check}{append}{pos}';
-				break;
-			case self::CATEGORY_NUMERIC:
-				$format = '{type}{length}{unsigned}{notnull}{unique}{default}{comment}{autoIncrement}{check}{append}{pos}';
-				break;
-			default:
-				$format = '{type}{length}{notnull}{unique}{default}{comment}{check}{append}{pos}';
-		}
-		return $this->buildCompleteString($format);
-	}
-
-	/**
-	 * Returns the complete column definition from input format.
-	 *
-	 * @param string $format the format of the definition.
-	 *
-	 * @return string a string containing the complete column definition.
-	 *
-	 * @since 2.0.8
-	 */
-	protected function buildCompleteString($format)
-	{
-		$placeholderValues = [
-			'{type}' => $this->type,
-			'{length}' => $this->buildLengthString(),
-			'{unsigned}' => $this->buildUnsignedString(),
-			'{notnull}' => $this->buildNotNullString(),
-			'{unique}' => $this->buildUniqueString(),
-			'{default}' => $this->buildDefaultString(),
-			'{autoIncrement}' => $this->buildAutoIncrementString(),
-			'{check}' => $this->buildCheckString(),
-			'{comment}' => $this->buildCommentString(),
-			'{pos}' => $this->isFirst ? $this->buildFirstString() : $this->buildAfterString(),
-			'{append}' => $this->buildAppendString(),
-		];
-		return strtr($format, $placeholderValues);
 	}
 
 	/**
@@ -130,6 +85,16 @@ trait ColumnSchemaBuilderTrait
 	protected function getisUnsigned()
 	{
 		return $this->isUnsigned;
+	}
+
+	/**
+	 * Return the variable autoIncrement.
+	 *
+	 * @return bool
+	 */
+	protected function getautoIncrement()
+	{
+		return $this->autoIncrement;
 	}
 
 	/**

@@ -36,13 +36,13 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Fuction to get the Name of the Record.
+	 * Function to get the Name of the record.
 	 *
-	 * @return string
+	 * @return string - Entity Name of the record
 	 */
-	public function getName()
+	public function getName(): string
 	{
-		return $this->get('rsstitle');
+		return \App\Purifier::encodeHtml($this->get('rsstitle'));
 	}
 
 	/**
@@ -84,7 +84,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	public function saveRecord($url)
 	{
 		$title = $this->getName();
-		if ($title === '') {
+		if ('' === $title) {
 			$title = $url;
 		}
 		$db = \App\Db::getInstance();
@@ -95,9 +95,8 @@ class Rss_Record_Model extends Vtiger_Record_Model
 			$this->setId($id);
 
 			return $id;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -188,9 +187,8 @@ class Rss_Record_Model extends Vtiger_Record_Model
 				$this->setRssValues($rss);
 
 				return true;
-			} else {
-				return false;
 			}
+			return false;
 		} catch (FeedException $ex) {
 			return false;
 		}

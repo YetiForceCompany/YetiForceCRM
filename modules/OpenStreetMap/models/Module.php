@@ -18,7 +18,7 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isAllowModules($moduleName)
 	{
-		return in_array($moduleName, \App\Config::module($this->getName(), 'ALLOW_MODULES', []));
+		return \in_array($moduleName, \App\Config::module($this->getName(), 'ALLOW_MODULES', []));
 	}
 
 	/**

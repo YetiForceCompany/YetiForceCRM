@@ -23,6 +23,7 @@ class Calendar_ActivityState_Cron extends \App\CronHandler
 			->from('vtiger_activity')
 			->innerJoin(['crm' => 'vtiger_crmentity'], 'crm.crmid = vtiger_activity.activityid')
 			->where(['vtiger_activity.status' => [$statusActivity['not_started'], $statusActivity['in_realization']], 'crm.deleted' => 0, 'crm.setype' => 'Calendar'])
+			->orderBy(['vtiger_activity.date_start' => SORT_ASC])
 			->limit(App\Config::module('Calendar', 'CRON_MAX_NUMBERS_ACTIVITY_STATE'))
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -32,6 +33,9 @@ class Calendar_ActivityState_Cron extends \App\CronHandler
 				$recordModel->setId($row['activityid']);
 				$recordModel->set('activitystatus', $state);
 				$recordModel->save();
+			}
+			if ($this->checkTimeout()) {
+				return;
 			}
 		}
 		$dataReader->close();

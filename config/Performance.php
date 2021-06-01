@@ -26,13 +26,6 @@ class Performance
 	/** Enable caching database instance, accelerate time database connection */
 	public static $ENABLE_CACHING_DB_CONNECTION = false;
 
-	/**
-	 * Should the caller information be captured in SQL Logging?
-	 * It adds little overhead for performance but will be useful to debug.
-	 * All data can be found in the table 'l_yf_sqltime'.
-	 */
-	public static $SQL_LOG_INCLUDE_CALLER = false;
-
 	/** If database default charset is UTF-8, set this to true. This avoids executing the SET NAMES SQL for each query! */
 	public static $DB_DEFAULT_CHARSET_UTF8 = true;
 
@@ -82,7 +75,7 @@ class Performance
 	public static $CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER = 10000;
 
 	/** The maximum number of record labels that cron can update during a single execution */
-	public static $CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER = 1000;
+	public static $CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER = 10000;
 
 	/** The maximum number of emails that cron can send during a single execution. Pay attention to the server limits. */
 	public static $CRON_MAX_NUMBERS_SENDING_MAILS = 1000;
@@ -92,9 +85,6 @@ class Performance
 
 	/** The maximum number of attachments that cron can delete during a single execution */
 	public static $CRON_MAX_ATACHMENTS_DELETE = 1000;
-
-	/** Time to execute batch methods [min]. */
-	public static $CRON_BATCH_METHODS_LIMIT = 15;
 
 	/**
 	 * Parameter that allows to disable file overwriting.
@@ -126,9 +116,6 @@ class Performance
 	/** Charts multi filter limit */
 	public static $CHART_MULTI_FILTER_LIMIT = 5;
 
-	/** Charts multi filter maximum db value length */
-	public static $CHART_MULTI_FILTER_STR_LEN = 50;
-
 	/** Additional filters limit for ChartFilter's */
 	public static $CHART_ADDITIONAL_FILTERS_LIMIT = 6;
 
@@ -143,6 +130,9 @@ class Performance
 
 	/** Is divided layout style on edit view in modules with products */
 	public static $INVENTORY_EDIT_VIEW_LAYOUT = true;
+
+	/** List of modules with splitted edit view layout */
+	public static $MODULES_SPLITTED_EDIT_VIEW_LAYOUT = [];
 
 	/** Popover record's trigger delay in ms */
 	public static $RECORD_POPOVER_DELAY = 500;
@@ -164,4 +154,7 @@ class Performance
 
 	/** Number of records that can be shown in report mail */
 	public static $REPORT_RECORD_NUMBERS = 10;
+
+	/** Number of records that can be shown in history login modal */
+	public static $LOGIN_HISTORY_VIEW_LIMIT = 10;
 }

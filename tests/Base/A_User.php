@@ -3,6 +3,8 @@
 /**
  * AddUser test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -43,24 +45,24 @@ class A_User extends \Tests\Base
 	 */
 	public static function createUsersRecord($login = 'demo')
 	{
-		if (isset(static::$record[$login])) {
-			return static::$record[$login];
+		if (isset(self::$record[$login])) {
+			return self::$record[$login];
 		}
 		if (($userId = \App\User::getUserIdByName($login))) {
-			static::$record[$login] = \Vtiger_Record_Model::getInstanceById($userId, 'Users');
-			return static::$record[$login];
+			self::$record[$login] = \Vtiger_Record_Model::getInstanceById($userId, 'Users');
+			return self::$record[$login];
 		}
 		$user = \Vtiger_Record_Model::getCleanInstance('Users');
 		$user->set('user_name', $login);
 		$user->set('email1', "{$login}@yetiforce.com");
 		$user->set('first_name', 'Demo');
 		$user->set('last_name', 'YetiForce');
-		$user->set('user_password', static::$defaultPassrowd);
-		$user->set('confirm_password', static::$defaultPassrowd);
+		$user->set('user_password', self::$defaultPassrowd);
+		$user->set('confirm_password', self::$defaultPassrowd);
 		$user->set('roleid', 'H2');
 		$user->set('is_admin', 'on');
 		$user->save();
-		return static::$record[$login] = $user;
+		return self::$record[$login] = $user;
 	}
 
 	/**
@@ -74,8 +76,8 @@ class A_User extends \Tests\Base
 		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'small_letters'])->execute();
 		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'numbers'])->execute();
 		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'special'])->execute();
-		\App\User::setCurrentUserId(static::createUsersRecord()->getId());
-		$this->assertIsInt(static::createUsersRecord()->getId());
+		\App\User::setCurrentUserId(self::createUsersRecord()->getId());
+		$this->assertIsInt(self::createUsersRecord()->getId());
 	}
 
 	/**
@@ -92,15 +94,15 @@ class A_User extends \Tests\Base
 		$user->set('confirm_password', 'testuser');
 		$user->set('roleid', 'H2');
 		$user->save();
-		static::$id = $user->getId();
-		$this->assertIsInt(static::$id);
-		$row = (new \App\Db\Query())->from('vtiger_users')->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		self::$id = $user->getId();
+		$this->assertIsInt(self::$id);
+		$row = (new \App\Db\Query())->from('vtiger_users')->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['user_name'], 'testuser');
 		$this->assertSame($row['email1'], 'testuser@yetiforce.com');
 		$this->assertSame($row['first_name'], 'Test');
 		$this->assertSame($row['last_name'], 'YetiForce');
-		$this->assertSame((new \App\Db\Query())->select(['roleid'])->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H2');
+		$this->assertSame((new \App\Db\Query())->select(['roleid'])->from('vtiger_user2role')->where(['userid' => self::$id])->scalar(), 'H2');
 	}
 
 	/**
@@ -108,7 +110,7 @@ class A_User extends \Tests\Base
 	 */
 	public function testEditUser()
 	{
-		$user = \Vtiger_Record_Model::getInstanceById(static::$id, 'Users');
+		$user = \Vtiger_Record_Model::getInstanceById(self::$id, 'Users');
 		$this->assertNotFalse($user, 'No user');
 		$user->set('user_name', 'testuseredit');
 		$user->set('first_name', 'Test edit');
@@ -116,13 +118,13 @@ class A_User extends \Tests\Base
 		$user->set('email1', 'testuser-edit@yetiforce.com');
 		$user->set('roleid', 'H1');
 		$user->save();
-		$row = (new \App\Db\Query())->from('vtiger_users')->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from('vtiger_users')->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['user_name'], 'testuseredit');
 		$this->assertSame($row['email1'], 'testuser-edit@yetiforce.com');
 		$this->assertSame($row['first_name'], 'Test edit');
 		$this->assertSame($row['last_name'], 'YetiForce edit');
-		$this->assertSame((new \App\Db\Query())->select(['roleid'])->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H1');
+		$this->assertSame((new \App\Db\Query())->select(['roleid'])->from('vtiger_user2role')->where(['userid' => self::$id])->scalar(), 'H1');
 	}
 
 	/**
@@ -132,8 +134,8 @@ class A_User extends \Tests\Base
 	{
 		$currentUserModel = \Users_Record_Model::getCurrentUserModel();
 		$this->assertNotFalse($currentUserModel, 'No current user');
-		\Users_Record_Model::deleteUserPermanently(static::$id, $currentUserModel->getId());
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_users')->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+		\Users_Record_Model::deleteUserPermanently(self::$id, $currentUserModel->getId());
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_users')->where(['id' => self::$id])->exists(), 'The record was not removed from the database ID: ' . self::$id);
 	}
 
 	/**

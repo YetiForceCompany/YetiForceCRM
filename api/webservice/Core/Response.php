@@ -1,13 +1,18 @@
 <?php
+/**
+ * Web service response file.
+ *
+ * @package API
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 namespace Api\Core;
 
 /**
  * Web service response class.
- *
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Response
 {
@@ -23,12 +28,45 @@ class Response
 	 * @var string[]
 	 */
 	protected $acceptableMethods = [];
+	/**
+	 * Request instance.
+	 *
+	 * @var \Api\Core\Request
+	 */
+	protected $request;
 	protected static $instance = false;
 	protected $body;
+	/**
+	 * File instance.
+	 *
+	 * @var \App\Fields\File
+	 */
+	protected $file;
+	/**
+	 * Headers.
+	 *
+	 * @var array
+	 */
 	protected $headers = [];
+	/**
+	 * @var int Response status code.
+	 */
 	protected $status = 200;
+	/**
+	 * @var string Response data type.
+	 */
+	protected $responseType;
+	/**
+	 * @var string Reason phrase.
+	 */
+	protected $reasonPhrase;
 
-	public static function getInstance()
+	/**
+	 * Get instance.
+	 *
+	 * @return self
+	 */
+	public static function getInstance(): self
 	{
 		if (!static::$instance) {
 			static::$instance = new self();
@@ -36,19 +74,79 @@ class Response
 		return static::$instance;
 	}
 
-	public function addHeader($key, $value)
+	/**
+	 * Add header.
+	 *
+	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return void
+	 */
+	public function addHeader(string $key, $value): void
 	{
 		$this->headers[$key] = $value;
 	}
 
-	public function setStatus($status)
+	/**
+	 * Set status code.
+	 *
+	 * @param int $status
+	 *
+	 * @return void
+	 */
+	public function setStatus(int $status): void
 	{
 		$this->status = $status;
 	}
 
-	public function setBody($body)
+	/**
+	 * Set reason phrase.
+	 *
+	 * @param string $reasonPhrase
+	 *
+	 * @return void
+	 */
+	public function setReasonPhrase(string $reasonPhrase): void
+	{
+		$this->reasonPhrase = $reasonPhrase;
+	}
+
+	/**
+	 * Set body data.
+	 *
+	 * @param array|\App\Fields\File $body
+	 *
+	 * @return void
+	 */
+	public function setBody(array $body): void
 	{
 		$this->body = $body;
+		$this->responseType = 'data';
+	}
+
+	/**
+	 * Set file instance.
+	 *
+	 * @param \App\Fields\File $file
+	 *
+	 * @return void
+	 */
+	public function setFile(\App\Fields\File $file): void
+	{
+		$this->file = $file;
+		$this->responseType = 'file';
+	}
+
+	/**
+	 * Set request.
+	 *
+	 * @param \Api\Core\Request $request
+	 *
+	 * @return void
+	 */
+	public function setRequest(Request $request): void
+	{
+		$this->request = $request;
 	}
 
 	/**
@@ -75,8 +173,16 @@ class Response
 		$this->acceptableHeaders = array_merge($this->acceptableHeaders, $headers);
 	}
 
-	private function requestStatus()
+	/**
+	 * Get reason phrase.
+	 *
+	 * @return string
+	 */
+	private function getReasonPhrase(): string
 	{
+		if (isset($this->reasonPhrase)) {
+			return str_ireplace(["\r\n", "\r", "\n"], ' ', $this->reasonPhrase);
+		}
 		$statusCodes = [
 			200 => 'OK',
 			401 => 'Unauthorized',
@@ -91,38 +197,52 @@ class Response
 	public function send()
 	{
 		$encryptDataTransfer = \App\Config::api('ENCRYPT_DATA_TRANSFER') ? 1 : 0;
-		if (200 !== $this->status) {
+		if (200 !== $this->status || 'data' !== $this->responseType) {
 			$encryptDataTransfer = 0;
 		}
 		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
+		if (empty($requestContentType) || '*/*' === $requestContentType) {
+			$requestContentType = $this->request->contentType;
+		}
 		if (!headers_sent()) {
-			header('access-control-allow-origin: *');
-			header('access-control-allow-methods: ' . implode(', ', $this->acceptableMethods));
-			header('access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(', ', $this->acceptableHeaders));
-			header("content-type: $requestContentType");
-			header(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->status . ' ' . $this->requestStatus());
-			header('encrypted: ' . $encryptDataTransfer);
+			header('Access-Control-Allow-Origin: *');
+			header('Access-Control-Allow-Methods: ' . implode(', ', $this->acceptableMethods));
+			header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(', ', $this->acceptableHeaders));
+			header(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->status . ' ' . $this->getReasonPhrase());
+			header('Encrypted: ' . $encryptDataTransfer);
 			foreach ($this->headers as $key => $header) {
 				header(\strtolower($key) . ': ' . $header);
 			}
 		}
-		if (!empty($this->body)) {
-			if ($encryptDataTransfer) {
-				header('content-disposition: attachment; filename="api.json"');
-				$response = $this->encryptData($this->body);
-			} else {
-				if (false !== strpos($requestContentType, 'text/html')) {
-					header('content-disposition: attachment; filename="api.html"');
-					$response = $this->encodeHtml($this->body);
-				} elseif (false !== strpos($requestContentType, 'application/xml')) {
-					header('content-disposition: attachment; filename="api.xml"');
-					$response = $this->encodeXml($this->body);
-				} else {
-					header('content-disposition: attachment; filename="api.json"');
-					$response = $this->encodeJson($this->body);
-				}
+		if ($encryptDataTransfer) {
+			header('Content-disposition: attachment; filename="api.json"');
+			if (!empty($this->body)) {
+				echo $this->encryptData($this->body);
 			}
-			echo $response;
+		} else {
+			switch ($this->responseType) {
+				case 'data':
+					if (!empty($this->body)) {
+						header("Content-type: $requestContentType");
+						if (false !== strpos($requestContentType, 'application/xml')) {
+							header('Content-disposition: attachment; filename="api.xml"');
+							echo $this->encodeXml($this->body);
+						} else {
+							header('Content-disposition: attachment; filename="api.json"');
+							echo $this->encodeJson($this->body);
+						}
+					}
+					break;
+				case 'file':
+					if (isset($this->file) && file_exists($this->file->getPath())) {
+						header('Content-type: ' . $this->file->getMimeType());
+						header('Content-transfer-encoding: binary');
+						header('Content-length: ' . $this->file->getSize());
+						header('Content-disposition: attachment; filename="' . $this->file->getName() . '"');
+						readfile($this->file->getPath());
+					}
+					break;
+			}
 		}
 		$this->debugResponse();
 	}
@@ -135,11 +255,10 @@ class Response
 
 	public function debugResponse()
 	{
-		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
-			$request = Request::init();
+		if (\App\Config::debug('apiLogAllRequests')) {
 			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
 			$log .= "Status: {$this->status}\n";
-			$log .= 'REQUEST_METHOD: ' . $request->getRequestMethod() . PHP_EOL;
+			$log .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
 			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
@@ -155,25 +274,22 @@ class Response
 		}
 	}
 
-	public function encodeHtml($responseData)
+	/**
+	 * Encode json data output.
+	 *
+	 * @param array $responseData
+	 *
+	 * @return string
+	 */
+	public function encodeJson($responseData): string
 	{
-		$htmlResponse = "<table border='1'>";
-		foreach ($responseData as $key => $value) {
-			$htmlResponse .= "<tr><td>$key</td><td>" . (\is_array($value) ? $this->encodeHtml($value) : nl2br($value)) . '</td></tr>';
-		}
-		return $htmlResponse . '</table>';
-	}
-
-	public function encodeJson($responseData)
-	{
-		return json_encode($responseData);
+		return json_encode($responseData, JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE);
 	}
 
 	public function encodeXml($responseData)
 	{
 		$xml = new \SimpleXMLElement('<?xml version="1.0"?><data></data>');
 		$this->toXml($responseData, $xml);
-
 		return $xml->asXML();
 	}
 

@@ -21,7 +21,7 @@
 			</li>
 			<li class="nav-item">
 				<a class="nav-link {if $ACTIVE_TAB eq 'Routing'}active{/if}" href="#Routing" data-toggle="tab">
-					<span class="fas fa-globe mr-2"></span>{\App\Language::translate('LBL_ROUTING', $QUALIFIED_MODULE)}
+					<span class="fas fa-route mr-2"></span>{\App\Language::translate('LBL_ROUTING', $QUALIFIED_MODULE)}
 				</a>
 			</li>
 		</ul>

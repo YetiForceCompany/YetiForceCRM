@@ -66,9 +66,12 @@ class IStorages_RecalculateStockHandler_Handler
 	public function iStoragesAfterUpdateStock(App\EventHandler $eventHandler)
 	{
 		$eventHandler->getParams();
-		(new \App\BatchMethod(['method' => 'App\Integrations\Magento\Controller::updateStock', 'params' => [
-			'storageId' => $eventHandler->getParams()['storageId'],
-			'products' => array_keys($eventHandler->getParams()['products']),
-		]]))->save();
+		$storageId = $eventHandler->getParams()['storageId'];
+		foreach ((array_keys($eventHandler->getParams()['products']) ?? []) as $productId) {
+			(new \App\BatchMethod(['method' => 'App\Integrations\Magento\Controller::updateStock', 'params' => [
+				'storageId' => $storageId,
+				'product' => $productId,
+			]]))->save();
+		}
 	}
 }

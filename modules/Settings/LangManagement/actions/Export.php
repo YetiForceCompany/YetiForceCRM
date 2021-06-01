@@ -16,7 +16,7 @@ class Settings_LangManagement_Export_Action extends Settings_Vtiger_IndexAjax_Vi
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$lang = $request->getByType('lang', 1);
 

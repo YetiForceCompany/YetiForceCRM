@@ -13,7 +13,7 @@ jQuery.Class(
 	'Vtiger_RelatedList_Js',
 	{
 		relatedListInstance: false,
-		getInstance: function(parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
+		getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName, url) {
 			if (
 				Vtiger_RelatedList_Js.relatedListInstance === false ||
 				Vtiger_RelatedList_Js.relatedListInstance.moduleName !== relatedModuleName
@@ -35,9 +35,38 @@ jQuery.Class(
 				instance.relatedView = instance.content.find('input.relatedView').val();
 				Vtiger_RelatedList_Js.relatedListInstance = instance;
 			}
+			Vtiger_RelatedList_Js.relatedListInstance.parseUrlParams(url);
+			Vtiger_RelatedList_Js.relatedListInstance.setSelectedTabElement(selectedRelatedTabElement);
 			return Vtiger_RelatedList_Js.relatedListInstance;
 		},
-		triggerMassAction: function(massActionUrl, type) {
+		getInstanceByUrl: function (url, selectedRelatedTabElement) {
+			let params = app.convertUrlToObject(url);
+			if (
+				Vtiger_RelatedList_Js.relatedListInstance === false ||
+				Vtiger_RelatedList_Js.relatedListInstance.moduleName !== params['relatedModule']
+			) {
+				let moduleClassName = app.getModuleName() + '_RelatedList_Js',
+					fallbackClassName = Vtiger_RelatedList_Js,
+					instance;
+				if (typeof window[moduleClassName] !== 'undefined') {
+					instance = new window[moduleClassName]();
+				} else {
+					instance = new fallbackClassName();
+				}
+				instance.selectedRelatedTabElement = selectedRelatedTabElement;
+				instance.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
+				instance.content = $('div.contents', instance.relatedTabsContainer.closest('div.detailViewContainer'));
+				instance.relatedView = instance.content.find('input.relatedView').val();
+				Vtiger_RelatedList_Js.relatedListInstance = instance;
+			}
+			Vtiger_RelatedList_Js.relatedListInstance.parentRecordId = params['record'];
+			Vtiger_RelatedList_Js.relatedListInstance.parentModuleName = params['module'];
+			Vtiger_RelatedList_Js.relatedListInstance.moduleName = params['relatedModule'];
+			Vtiger_RelatedList_Js.relatedListInstance.defaultParams = params;
+			Vtiger_RelatedList_Js.relatedListInstance.setSelectedTabElement(selectedRelatedTabElement);
+			return Vtiger_RelatedList_Js.relatedListInstance;
+		},
+		triggerMassAction: function (massActionUrl, type) {
 			const self = this.relatedListInstance;
 			let validationResult = self.checkListRecordSelected();
 			if (validationResult != true) {
@@ -61,7 +90,7 @@ jQuery.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				} else {
 					AppConnector.request(actionParams)
-						.done(function(responseData) {
+						.done(function (responseData) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							if (responseData && responseData.result !== null) {
 								if (responseData.result.notify) {
@@ -76,7 +105,7 @@ jQuery.Class(
 								}
 							}
 						})
-						.fail(function(error, err) {
+						.fail(function (error, err) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						});
 				}
@@ -86,25 +115,30 @@ jQuery.Class(
 		},
 		/**
 		 * Method to verify if selected files exist
-		 * @param {int} selectedIds
 		 * @return boolean
 		 */
-		verifyFileExist: function(selectedIds) {
-			let aDeferred = jQuery.Deferred();
+		verifyFileExist: function () {
+			const self = this.relatedListInstance;
+			let aDeferred = jQuery.Deferred(),
+				selectedIds = self.readSelectedIds(true),
+				excludedIds = self.readExcludedIds(true),
+				cvId = self.getCurrentCvId(),
+				postData = self.getCompleteParams();
+			delete postData.mode;
+			delete postData.view;
+			postData.viewname = cvId;
+			postData.selected_ids = selectedIds;
+			postData.excluded_ids = excludedIds;
+			postData.action = 'RelationAjax';
+			postData.mode = 'checkFilesIntegrity';
 			AppConnector.request({
-				module: 'Documents',
-				action: 'CheckFileIntegrity',
-				mode: 'multiple',
-				record: selectedIds
-			}).done(function(responseData) {
-				if (responseData && responseData.result !== null) {
-					if (responseData.result.message) {
-						Vtiger_Helper_Js.showPnotify({ text: responseData.result.message });
-						aDeferred.resolve(false);
-					} else {
-						aDeferred.resolve(true);
-					}
+				type: 'POST',
+				data: postData
+			}).done(function (responseData) {
+				if (responseData.result.notify) {
+					Vtiger_Helper_Js.showMessage(responseData.result.notify);
 				}
+				aDeferred.resolve(true);
 			});
 			return aDeferred.promise();
 		},
@@ -113,17 +147,90 @@ jQuery.Class(
 		 * @param massActionUrl
 		 * @param type
 		 */
-		triggerMassDownload: function(massActionUrl, type) {
+		triggerMassDownload: function (massActionUrl, type) {
 			const self = this.relatedListInstance,
 				thisInstance = this;
-			this.verifyFileExist(self.readSelectedIds(true)).done(function(data) {
+			this.verifyFileExist().done(function (data) {
 				if (true === data) {
-					thisInstance.triggerMassAction(
-						massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')),
-						type
-					);
+					thisInstance.triggerMassAction(massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')), type);
 				}
 			});
+		},
+		triggerMassQuickCreate: function (moduleName, data) {
+			const self = this.relatedListInstance;
+			if (self.checkListRecordSelected() != true) {
+				let listParams = self.getSelectedParams();
+				let progress = $.progressIndicator({ blockInfo: { enabled: true } });
+				let params = {
+					callbackFunction: function () {
+						self.loadRelatedList();
+					},
+					noCache: true,
+					data: $.extend(data, {
+						sourceView: 'RelatedListView',
+						sourceModule: listParams.relatedModule,
+						entityState: listParams.entityState,
+						search_params: listParams.search_params,
+						excluded_ids: listParams.excluded_ids,
+						selected_ids: listParams.selected_ids,
+						relationId: listParams.relationId,
+						relatedRecord: listParams.record,
+						relatedModule: listParams.module
+					})
+				};
+				App.Components.QuickCreate.getForm(
+					'index.php?module=' + moduleName + '&view=MassQuickCreateModal',
+					moduleName,
+					params
+				).done((data) => {
+					progress.progressIndicator({
+						mode: 'hide'
+					});
+					App.Components.QuickCreate.showModal(data, params);
+					app.registerEventForClockPicker();
+				});
+			} else {
+				self.noRecordSelectedAlert();
+			}
+		},
+		/**
+		 * Function to trigger mass send email modal
+		 */
+		triggerSendEmail: function () {
+			let params = Vtiger_RelatedList_Js.relatedListInstance.getDefaultParams();
+			Vtiger_List_Js.triggerSendEmail(
+				$.extend(params, {
+					relatedLoad: true,
+					module: Vtiger_RelatedList_Js.relatedListInstance.moduleName,
+					sourceModule: app.getModuleName(),
+					sourceRecord: app.getRecordId()
+				}),
+				function () {
+					Vtiger_Detail_Js.reloadRelatedList();
+				}
+			);
+		},
+		/**
+		 * Function to trigger mass send email modal by row
+		 */
+		triggerSendEmailByRow: function (row) {
+			if (!(row instanceof jQuery)) {
+				row = $(row);
+			}
+			let params = Vtiger_RelatedList_Js.relatedListInstance.getDefaultParams();
+			Vtiger_List_Js.triggerSendEmail(
+				$.extend(params, {
+					relatedLoad: true,
+					module: Vtiger_RelatedList_Js.relatedListInstance.moduleName,
+					sourceModule: app.getModuleName(),
+					sourceRecord: app.getRecordId(),
+					selected_ids: '["' + $(row).closest('.js-list__row').data('id') + '"]'
+				}),
+				function () {
+					Vtiger_Detail_Js.reloadRelatedList();
+				},
+				row
+			);
 		}
 	},
 	{
@@ -139,44 +246,49 @@ jQuery.Class(
 		frameProgress: false,
 		noEventsListSearch: false,
 		listViewContainer: false,
-		setSelectedTabElement: function(tabElement) {
+		defaultParams: {},
+		setSelectedTabElement: function (tabElement) {
 			this.selectedRelatedTabElement = tabElement;
 		},
-		getSelectedTabElement: function() {
+		getSelectedTabElement: function () {
 			return this.selectedRelatedTabElement;
 		},
-		getParentId: function() {
+		getParentId: function () {
 			return this.parentRecordId;
 		},
-		getRelatedContainer: function() {
+		getRelatedContainer: function () {
 			return this.content;
 		},
-		setRelatedContainer: function(container) {
+		setRelatedContainer: function (container) {
 			this.content = container;
 			this.relatedView = container.find('input.relatedView').val();
 		},
-		getContentHolder: function() {
+		getContentHolder: function () {
 			if (this.detailViewContentHolder == false) {
 				this.detailViewContentHolder = $('div.details div.contents');
 			}
 			return this.detailViewContentHolder;
 		},
-		getCurrentPageNum: function() {
+		getCurrentPageNum: function () {
 			return $('input[name="currentPageNum"]', this.content).val();
 		},
-		setCurrentPageNumber: function(pageNumber) {
+		setCurrentPageNumber: function (pageNumber) {
 			$('input[name="currentPageNum"]', this.content).val(pageNumber);
 		},
-		getOrderBy: function() {
+		getOrderBy: function () {
 			return $('#orderBy', this.content).val();
 		},
-		getDefaultParams: function() {
+		getDefaultParams: function () {
 			let container = this.getRelatedContainer();
-			let params = {
-				relationId: container.find('#relationId').val(),
-				orderby: this.getOrderBy(),
-				page: this.getCurrentPageNum()
-			};
+			let params = Object.assign({}, this.defaultParams);
+			params['page'] = this.getCurrentPageNum();
+			params['orderby'] = this.getOrderBy();
+			if (container.find('#relationId').val()) {
+				params['relationId'] = container.find('#relationId').val();
+			}
+			if (container.find('.js-relation-cv-id').val()) {
+				params['cvId'] = container.find('.js-relation-cv-id').val();
+			}
 			if (container.find('.pagination').length) {
 				params['totalCount'] = container.find('.pagination').data('totalCount');
 			}
@@ -184,23 +296,23 @@ jQuery.Class(
 				params['entityState'] = container.find('.entityState').val();
 			}
 			if (this.listSearchInstance) {
-				var searchValue = this.listSearchInstance.getAlphabetSearchValue();
 				params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
-			}
-			if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
-				params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
-				params['search_value'] = searchValue;
-				params['operator'] = 's';
+				let searchValue = this.listSearchInstance.getAlphabetSearchValue();
+				if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
+					params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
+					params['search_value'] = searchValue;
+					params['operator'] = 's';
+				}
 			}
 			if (this.moduleName == 'Calendar') {
-				var switchBtn = container.find('.js-switch--calendar');
+				let switchBtn = container.find('.js-switch--calendar');
 				if (switchBtn.length) {
 					params.time = switchBtn.first().prop('checked') ? 'current' : 'history';
 				}
 			}
 			return params;
 		},
-		getCompleteParams: function() {
+		getCompleteParams: function () {
 			let container = this.getRelatedContainer();
 			let params = {
 				view: 'Detail',
@@ -213,25 +325,39 @@ jQuery.Class(
 			};
 			return $.extend(this.getDefaultParams(), params);
 		},
-		loadRelatedList: function(params) {
-			var aDeferred = jQuery.Deferred();
-			var thisInstance = this;
+		getSelectedParams: function () {
+			return $.extend(this.getCompleteParams(), {
+				selected_ids: this.readSelectedIds(true),
+				excluded_ids: this.readExcludedIds(true),
+				cvid: this.getCurrentCvId()
+			});
+		},
+		parseUrlParams: function (url) {
+			if (url) {
+				this.defaultParams = app.convertUrlToObject(url);
+			} else {
+				this.defaultParams = {};
+			}
+		},
+		loadRelatedList: function (params) {
+			let aDeferred = jQuery.Deferred();
+			let thisInstance = this;
 			if (typeof thisInstance.moduleName === 'undefined' || thisInstance.moduleName.length <= 0) {
-				var currentInstance = Vtiger_Detail_Js.getInstance();
+				let currentInstance = Vtiger_Detail_Js.getInstance();
 				currentInstance.loadWidgets();
 				return aDeferred.promise();
 			}
-			var progressInstance = jQuery.progressIndicator({
+			let progressInstance = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			var completeParams = this.getCompleteParams();
-			var activeTabsReference = thisInstance.relatedTabsContainer.find('li.active').data('reference');
+			let completeParams = this.getCompleteParams();
+			let activeTabsReference = thisInstance.relatedTabsContainer.find('li.active').data('reference');
 			AppConnector.request($.extend(completeParams, params))
-				.done(function(responseData) {
-					var currentInstance = Vtiger_Detail_Js.getInstance();
+				.done(function (responseData) {
+					let currentInstance = Vtiger_Detail_Js.getInstance();
 					currentInstance.loadWidgets();
 					progressInstance.progressIndicator({ mode: 'hide' });
 					if (activeTabsReference !== 'ProductsAndServices') {
@@ -244,9 +370,9 @@ jQuery.Class(
 					}
 					aDeferred.resolve(responseData);
 				})
-				.fail(function(textStatus, errorThrown) {
+				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
 						type: 'error'
 					});
@@ -254,21 +380,14 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
-		triggerDisplayTypeEvent: function() {
-			var widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				var elements = this.content.find('.listViewEntriesTable').find('td,th');
-				elements.attr('class', widthType);
-			}
-		},
-		showSelectRelation: function(extendParams) {
+		showSelectRelation: function (extendParams) {
 			let params = $.extend(this.getRecordsListParams(), extendParams);
 			app.showRecordsList(params, (modal, instance) => {
-				instance.setSelectEvent(responseData => {
+				instance.setSelectEvent((responseData) => {
 					this.addRelations(Object.keys(responseData)).done(() => {
 						app.event.trigger('RelatedListView.AfterSelectRelation', responseData, this, instance, params);
 						let detail = Vtiger_Detail_Js.getInstance();
-						this.loadRelatedList().done(function() {
+						this.loadRelatedList().done(function () {
 							detail.registerRelatedModulesRecordCount();
 						});
 						if (this.getSelectedTabElement().data('link-key') === 'LBL_RECORD_SUMMARY') {
@@ -279,7 +398,7 @@ jQuery.Class(
 				});
 			});
 		},
-		getRecordsListParams: function() {
+		getRecordsListParams: function () {
 			return {
 				module: this.moduleName,
 				src_module: this.parentModuleName,
@@ -287,8 +406,8 @@ jQuery.Class(
 				multi_select: true
 			};
 		},
-		addRelations: function(idList, params = {}) {
-			var aDeferred = jQuery.Deferred();
+		addRelations: function (idList, params = {}) {
+			let aDeferred = jQuery.Deferred();
 			AppConnector.request(
 				$.extend(
 					{
@@ -303,10 +422,10 @@ jQuery.Class(
 					params
 				)
 			)
-				.done(function(responseData) {
+				.done(function (responseData) {
 					aDeferred.resolve(responseData);
 				})
-				.fail(function(textStatus, errorThrown) {
+				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				});
 			return aDeferred.promise();
@@ -327,9 +446,12 @@ jQuery.Class(
 					related_record_list: JSON.stringify([id])
 				};
 			}
-			let progressInstance = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+			let progressInstance = $.progressIndicator({
+				position: 'html',
+				blockInfo: { enabled: true }
+			});
 			AppConnector.request(params)
-				.done(response => {
+				.done((response) => {
 					progressInstance.progressIndicator({ mode: 'hide' });
 					if (response.result) {
 						let widget = target.closest('.widgetContentBlock');
@@ -345,33 +467,39 @@ jQuery.Class(
 						}
 						detail.registerRelatedModulesRecordCount();
 					} else {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+						app.showNotify({
+							text: app.vtranslate('JS_CANNOT_REMOVE_RELATION'),
+							type: 'error'
+						});
 					}
 				})
-				.fail(function(err, errThrow) {
+				.fail(function (err, errThrow) {
 					progressInstance.progressIndicator({ mode: 'hide' });
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+					app.showNotify({
+						text: app.vtranslate('JS_CANNOT_REMOVE_RELATION'),
+						type: 'error'
+					});
 				});
 		},
 		/**
 		 * Function to handle next page navigation
 		 */
-		nextPageHandler: function() {
-			var aDeferred = jQuery.Deferred();
-			var thisInstance = this;
-			var pageLimit = jQuery('#pageLimit', this.content).val();
-			var noOfEntries = jQuery('#noOfEntries', this.content).val();
+		nextPageHandler: function () {
+			let aDeferred = jQuery.Deferred();
+			let thisInstance = this;
+			let pageLimit = jQuery('#pageLimit', this.content).val();
+			let noOfEntries = jQuery('#noOfEntries', this.content).val();
 			if (noOfEntries == pageLimit) {
-				var pageNumber = this.getCurrentPageNum();
-				var nextPage = parseInt(pageNumber) + 1;
+				let pageNumber = this.getCurrentPageNum();
+				let nextPage = parseInt(pageNumber) + 1;
 				this.loadRelatedList({
 					page: nextPage
 				})
-					.done(function(data) {
+					.done(function (data) {
 						thisInstance.setCurrentPageNumber(nextPage);
 						aDeferred.resolve(data);
 					})
-					.fail(function(textStatus, errorThrown) {
+					.fail(function (textStatus, errorThrown) {
 						aDeferred.reject(textStatus, errorThrown);
 					});
 			}
@@ -380,7 +508,7 @@ jQuery.Class(
 		/**
 		 * Function to handle next page navigation
 		 */
-		previousPageHandler: function() {
+		previousPageHandler: function () {
 			const thisInstance = this,
 				aDeferred = jQuery.Deferred();
 			let pageNumber = this.getCurrentPageNum();
@@ -389,11 +517,11 @@ jQuery.Class(
 				this.loadRelatedList({
 					page: previousPage
 				})
-					.done(function(data) {
+					.done(function (data) {
 						thisInstance.setCurrentPageNumber(previousPage);
 						aDeferred.resolve(data);
 					})
-					.fail(function(textStatus, errorThrown) {
+					.fail(function (textStatus, errorThrown) {
 						aDeferred.reject(textStatus, errorThrown);
 					});
 			}
@@ -402,17 +530,17 @@ jQuery.Class(
 		/**
 		 * Function to handle select page jump in related list
 		 */
-		selectPageHandler: function(pageNumber) {
+		selectPageHandler: function (pageNumber) {
 			const thisInstance = this,
 				aDeferred = jQuery.Deferred();
 			this.loadRelatedList({
 				page: pageNumber
 			})
-				.done(function(data) {
+				.done(function (data) {
 					thisInstance.setCurrentPageNumber(pageNumber);
 					aDeferred.resolve(data);
 				})
-				.fail(function(textStatus, errorThrown) {
+				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				});
 			return aDeferred.promise();
@@ -420,29 +548,29 @@ jQuery.Class(
 		/**
 		 * Function to handle page jump in related list
 		 */
-		pageJumpHandler: function(e) {
-			var aDeferred = jQuery.Deferred();
-			var thisInstance = this;
+		pageJumpHandler: function (e) {
+			let aDeferred = jQuery.Deferred();
+			let thisInstance = this;
 			if (e.which == 13) {
-				var element = jQuery(e.currentTarget);
-				var response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
+				let element = jQuery(e.currentTarget);
+				let response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
 				if (typeof response !== 'undefined') {
 					element.validationEngine('showPrompt', response, '', 'topLeft', true);
 					e.preventDefault();
 				} else {
 					element.validationEngine('hideAll');
-					var jumpToPage = parseInt(element.val());
-					var totalPages = parseInt(jQuery('#totalPageCount', thisInstance.content).text());
+					let jumpToPage = parseInt(element.val());
+					let totalPages = parseInt(jQuery('#totalPageCount', thisInstance.content).text());
 					if (jumpToPage > totalPages) {
-						var error = app.vtranslate('JS_PAGE_NOT_EXIST');
+						let error = app.vtranslate('JS_PAGE_NOT_EXIST');
 						element.validationEngine('showPrompt', error, '', 'topLeft', true);
 					}
-					var invalidFields = element.parent().find('.formError');
+					let invalidFields = element.parent().find('.formError');
 					if (invalidFields.length < 1) {
-						var currentPage = jQuery('input[name="currentPageNum"]', thisInstance.content).val();
+						let currentPage = jQuery('input[name="currentPageNum"]', thisInstance.content).val();
 						if (jumpToPage == currentPage) {
-							var message = app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + ' ' + jumpToPage;
-							var params = {
+							let message = app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + ' ' + jumpToPage;
+							let params = {
 								text: message,
 								type: 'info'
 							};
@@ -453,11 +581,11 @@ jQuery.Class(
 						this.loadRelatedList({
 							page: jumpToPage
 						})
-							.done(function(data) {
+							.done(function (data) {
 								thisInstance.setCurrentPageNumber(jumpToPage);
 								aDeferred.resolve(data);
 							})
-							.fail(function(textStatus, errorThrown) {
+							.fail(function (textStatus, errorThrown) {
 								aDeferred.reject(textStatus, errorThrown);
 							});
 					} else {
@@ -470,29 +598,28 @@ jQuery.Class(
 		/**
 		 * Function to add related record for the module
 		 */
-		addRelatedRecord: function(element, callback) {
-			var aDeferred = jQuery.Deferred();
-			var thisInstance = this;
-			var referenceModuleName = this.moduleName;
-			var parentId = this.getParentId();
-			var parentModule = this.parentModuleName;
-			var quickCreateParams = {};
-			var relatedParams = {};
-			var relatedField = element.data('name');
-			var fullFormUrl = element.data('url');
+		addRelatedRecord: function (element, callback) {
+			let aDeferred = jQuery.Deferred();
+			let referenceModuleName = this.moduleName;
+			let parentId = this.getParentId();
+			let parentModule = this.parentModuleName;
+			let quickCreateParams = {};
+			let relatedParams = {};
+			let relatedField = element.data('name');
+			let fullFormUrl = element.data('url');
 			if (relatedField) {
 				relatedParams[relatedField] = parentId;
 			}
-			var eliminatedKeys = new Array('view', 'module', 'mode', 'action');
-			var preQuickCreateSave = function(data) {
-				var index, queryParam, queryParamComponents;
+			let eliminatedKeys = new Array('view', 'module', 'mode', 'action');
+			let preQuickCreateSave = function (data) {
+				let index, queryParam, queryParamComponents;
 				let queryParameters = [];
 
 				//To handle switch to task tab when click on add task from related list of activities
 				//As this is leading to events tab intially even clicked on add task
 				if (typeof fullFormUrl !== 'undefined' && fullFormUrl.indexOf('?') !== -1) {
-					var urlSplit = fullFormUrl.split('?');
-					var queryString = urlSplit[1];
+					let urlSplit = fullFormUrl.split('?');
+					let queryString = urlSplit[1];
 					queryParameters = queryString.split('&');
 					for (index = 0; index < queryParameters.length; index++) {
 						queryParam = queryParameters[index];
@@ -507,13 +634,11 @@ jQuery.Class(
 				jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
 
 				if (typeof relatedField !== 'undefined') {
-					var field = data.find('[name="' + relatedField + '"]');
+					let field = data.find('[name="' + relatedField + '"]');
 					//If their is no element with the relatedField name,we are adding hidden element with
 					//name as relatedField name,for saving of record with relation to parent record
 					if (field.length == 0) {
-						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(
-							data
-						);
+						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
 					}
 				}
 				for (index = 0; index < queryParameters.length; index++) {
@@ -524,11 +649,7 @@ jQuery.Class(
 						data.find('[name="' + queryParamComponents[0] + '"]').length == 0
 					) {
 						jQuery(
-							'<input type="hidden" name="' +
-								queryParamComponents[0] +
-								'" value="' +
-								queryParamComponents[1] +
-								'" />'
+							'<input type="hidden" name="' + queryParamComponents[0] + '" value="' + queryParamComponents[1] + '" />'
 						).appendTo(data);
 					}
 				}
@@ -536,20 +657,14 @@ jQuery.Class(
 					callback();
 				}
 			};
-			var postQuickCreateSave = function(data) {
-				thisInstance.loadRelatedList().done(function(data) {
-					aDeferred.resolve(data);
-				});
-			};
-
 			//If url contains params then seperate them and make them as relatedParams
 			if (typeof fullFormUrl !== 'undefined' && fullFormUrl.indexOf('?') !== -1) {
-				var urlSplit = fullFormUrl.split('?');
-				var queryString = urlSplit[1];
-				var queryParameters = queryString.split('&');
-				for (var index = 0; index < queryParameters.length; index++) {
-					var queryParam = queryParameters[index];
-					var queryParamComponents = queryParam.split('=');
+				let urlSplit = fullFormUrl.split('?');
+				let queryString = urlSplit[1];
+				let queryParameters = queryString.split('&');
+				for (let index = 0; index < queryParameters.length; index++) {
+					let queryParam = queryParameters[index];
+					let queryParamComponents = queryParam.split('=');
 					if (jQuery.inArray(queryParamComponents[0], eliminatedKeys) == '-1') {
 						relatedParams[queryParamComponents[0]] = queryParamComponents[1];
 					}
@@ -557,17 +672,19 @@ jQuery.Class(
 			}
 
 			quickCreateParams['data'] = relatedParams;
-			quickCreateParams['callbackFunction'] = postQuickCreateSave;
+			quickCreateParams['callbackFunction'] = function (data) {
+				aDeferred.resolve(data);
+			};
 			quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			quickCreateParams['noCache'] = true;
-			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, quickCreateParams);
+			App.Components.QuickCreate.createRecord(referenceModuleName, quickCreateParams);
 			return aDeferred.promise();
 		},
-		getRelatedPageCount: function() {
-			var aDeferred = jQuery.Deferred();
-			var element = this.content.find('#totalPageCount');
-			var totalCountElem = this.content.find('#totalCount');
-			var totalPageNumber = element.text();
+		getRelatedPageCount: function () {
+			let aDeferred = jQuery.Deferred();
+			let element = this.content.find('#totalPageCount');
+			let totalCountElem = this.content.find('#totalCount');
+			let totalPageNumber = element.text();
 			if (totalPageNumber == '') {
 				element.progressIndicator({});
 				AppConnector.request({
@@ -578,15 +695,15 @@ jQuery.Class(
 					relationId: this.getCompleteParams()['relationId'],
 					relatedModule: this.moduleName
 				})
-					.done(function(data) {
-						var pageCount = data['result']['page'];
-						var numberOfRecords = data['result']['numberOfRecords'];
+					.done(function (data) {
+						let pageCount = data['result']['page'];
+						let numberOfRecords = data['result']['numberOfRecords'];
 						totalCountElem.val(numberOfRecords);
 						element.text(pageCount);
 						element.progressIndicator({ mode: 'hide' });
 						aDeferred.resolve();
 					})
-					.fail(function(error, err) {
+					.fail(function (error, err) {
 						aDeferred.reject(false);
 					});
 			} else {
@@ -594,8 +711,8 @@ jQuery.Class(
 			}
 			return aDeferred.promise();
 		},
-		favoritesRelation: function(relcrmId, state) {
-			var aDeferred = jQuery.Deferred();
+		favoritesRelation: function (relcrmId, state) {
+			let aDeferred = jQuery.Deferred();
 			if (relcrmId) {
 				AppConnector.request({
 					module: this.parentModuleName,
@@ -607,10 +724,10 @@ jQuery.Class(
 					relationId: this.getCompleteParams()['relationId'],
 					actionMode: state ? 'delete' : 'add'
 				})
-					.done(function(data) {
+					.done(function (data) {
 						if (data.result) aDeferred.resolve(true);
 					})
-					.fail(function(error, err) {
+					.fail(function (error, err) {
 						aDeferred.reject(false);
 					});
 			} else {
@@ -618,8 +735,8 @@ jQuery.Class(
 			}
 			return aDeferred.promise();
 		},
-		updatePreview: function(url) {
-			var frame = this.content.find('.listPreviewframe');
+		updatePreview: function (url) {
+			let frame = this.content.find('.listPreviewframe');
 			this.frameProgress = $.progressIndicator({
 				position: 'html',
 				message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
@@ -627,21 +744,19 @@ jQuery.Class(
 					enabled: true
 				}
 			});
-			var defaultView = '';
+			let defaultView = '';
 			if (app.getMainParams('defaultDetailViewName')) {
 				defaultView =
-					defaultView +
-					'&mode=showDetailViewByMode&requestMode=' +
-					app.getMainParams('defaultDetailViewName'); // full, summary
+					defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
 			}
 			frame.attr('src', url.replace('view=Detail', 'view=DetailPreview') + defaultView);
 		},
-		registerUnreviewedCountEvent: function() {
-			var ids = [];
-			var relatedContent = this.content;
-			var isUnreviewedActive = relatedContent.find('.unreviewed').length;
-			relatedContent.find('tr.listViewEntries').each(function() {
-				var id = jQuery(this).data('id');
+		registerUnreviewedCountEvent: function () {
+			let ids = [];
+			let relatedContent = this.content;
+			let isUnreviewedActive = relatedContent.find('.unreviewed').length;
+			relatedContent.find('tr.listViewEntries').each(function () {
+				let id = jQuery(this).data('id');
 				if (id) {
 					ids.push(id);
 				}
@@ -655,9 +770,9 @@ jQuery.Class(
 				module: 'ModTracker',
 				sourceModule: this.moduleName,
 				recordsId: ids
-			}).done(function(appData) {
-				var data = appData.result;
-				$.each(data, function(id, value) {
+			}).done(function (appData) {
+				let data = appData.result;
+				$.each(data, function (id, value) {
 					if (value.a > 0) {
 						relatedContent
 							.find('tr[data-id="' + id + '"] .unreviewed .badge.all')
@@ -675,11 +790,11 @@ jQuery.Class(
 				});
 			});
 		},
-		registerChangeEntityStateEvent: function() {
-			var thisInstance = this;
-			var relatedContent = this.content;
-			relatedContent.on('click', '.dropdownEntityState a', function(e) {
-				var element = $(this);
+		registerChangeEntityStateEvent: function () {
+			let thisInstance = this;
+			let relatedContent = this.content;
+			relatedContent.on('click', '.dropdownEntityState a', function (e) {
+				let element = $(this);
 				relatedContent.find('.entityState').val(element.data('value'));
 				relatedContent.find('.pagination').data('totalCount', 0);
 				relatedContent
@@ -689,87 +804,84 @@ jQuery.Class(
 				thisInstance.loadRelatedList({ page: 1 });
 			});
 		},
-		registerRowsEvent: function() {
-			var thisInstance = this;
+		registerRowsEvent: function () {
+			const self = this;
 			if (this.relatedView === 'List' || this.relatedView === 'Detail') {
-				this.content.find('.listViewEntries').on('click', function(e) {
-					if ($(e.target).is('td')) {
-						if (app.getViewName() == 'DetailPreview') {
-							if (
-								$(e.target)
-									.closest('tr')
-									.data('recordurl')
-							) {
-								top.document.location.href = $(e.target)
-									.closest('tr')
-									.data('recordurl');
-							}
-						} else {
-							if (
-								$(e.target)
-									.closest('tr')
-									.data('recordurl')
-							) {
-								document.location.href = $(e.target)
-									.closest('tr')
-									.data('recordurl');
-							}
+				this.content.find('.listViewEntries').on('click', function (e) {
+					if ($(e.target).closest('div').hasClass('actions')) return;
+					if ($(e.target).is('button') || $(e.target).parent().is('button') || $(e.target).is('a')) return;
+					if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
+					if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;
+					if ($(e.target).is('input')) return;
+					if ($.contains($(e.currentTarget).find('td:last-child').get(0), e.target)) return;
+					if ($.contains($(e.currentTarget).find('td:first-child').get(0), e.target)) return;
+					let recordUrl = $(e.target).closest('tr').data('recordurl');
+					if (!recordUrl) return;
+					if (app.getViewName() === 'DetailPreview') {
+						top.document.location.href = recordUrl;
+					} else {
+						document.location.href = recordUrl;
+					}
+				});
+				this.content.find('.js-toggle-hidden-row').on('click', function (e) {
+					let target = $(this);
+					let row = target.closest('tr');
+					let inventoryRow = row.next('.js-hidden-row');
+					if (inventoryRow.length) {
+						let block = inventoryRow.find('.js-hidden-row__block[data-element="' + target.data('element') + '"]');
+						if (block.is(':visible') || !inventoryRow.is(':visible')) {
+							inventoryRow.toggleClass('d-none');
+						}
+						inventoryRow.find('.js-hidden-row__block').addClass('d-none');
+						block.removeClass('d-none');
+						if (block.is(':visible')) {
+							self.registerWidgets(block);
 						}
 					}
 				});
-				this.content.find('.showInventoryRow').on('click', function(e) {
-					var target = $(this);
-					var row = target.closest('tr');
-					var inventoryRow = row.next();
-					if (inventoryRow.hasClass('listViewInventoryEntries')) {
-						inventoryRow.toggleClass('d-none');
-					}
-				});
 			} else if (this.relatedView === 'ListPreview') {
-				this.content.find('.listViewEntries').on('click', function(e) {
+				this.content.find('.listViewEntries').on('click', function (e) {
 					let target = $(e.target);
 					if (target.closest('div').hasClass('actions')) return;
 					if (target.is('button') || target.parent().is('button')) return;
 					if (target.closest('a').hasClass('noLinkBtn')) return;
 					if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;
 					if (target.is('input[type="checkbox"]')) return;
-					if (
-						$.contains(
-							$(e.currentTarget)
-								.find('td:last-child')
-								.get(0),
-							target[0]
-						)
-					)
-						return;
-					if (
-						$.contains(
-							$(e.currentTarget)
-								.find('td:first-child')
-								.get(0),
-							target[0]
-						)
-					)
-						return;
-					var recordUrl = $(this).data('recordurl');
-					thisInstance.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
+					if ($.contains($(e.currentTarget).find('td:last-child').get(0), target[0])) return;
+					if ($.contains($(e.currentTarget).find('td:first-child').get(0), target[0])) return;
+					let recordUrl = $(this).data('recordurl');
+					self.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
 					$(this).addClass('active');
-					thisInstance.updatePreview(recordUrl);
+					self.updatePreview(recordUrl);
 				});
 			}
+			let widgetsContainer = this.content.find('.js-hidden-row .js-hidden-row__block[data-element="widgets"]');
+			if (widgetsContainer.length) {
+				self.registerWidgets(widgetsContainer);
+			}
 		},
-		registerSummationEvent: function() {
-			var thisInstance = this;
-			this.content.on('click', '.listViewSummation button', function() {
-				var button = $(this);
-				var calculateValue = button.closest('td').find('.calculateValue');
-				var params = thisInstance.getCompleteParams();
+		registerWidgets: function (content) {
+			let widgetList = $('[class^="widgetContainer_"]', content);
+			let detailInstance = Vtiger_Detail_Js.getInstance();
+			widgetList.each(function (index, widget) {
+				widget = $(widget);
+				if (widget.is(':visible')) {
+					detailInstance.loadWidget(widget);
+				}
+			});
+		},
+		registerSummationEvent: function () {
+			let thisInstance = this;
+			this.content.on('click', '.listViewSummation button', function () {
+				let button = $(this);
+				let calculateValue = button.closest('td').find('.calculateValue');
+				let params = thisInstance.getCompleteParams();
 				params['action'] = 'RelationAjax';
 				params['mode'] = 'calculate';
 				params['fieldName'] = button.data('field');
 				params['calculateType'] = button.data('operator');
 				delete params['view'];
-				var progress = $.progressIndicator({
+				let progress = $.progressIndicator({
 					message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
 					position: 'html',
 					blockInfo: {
@@ -777,7 +889,7 @@ jQuery.Class(
 					}
 				});
 				app.hidePopover(button);
-				AppConnector.request(params).done(function(response) {
+				AppConnector.request(params).done(function (response) {
 					if (response.success) {
 						calculateValue.html(response.result);
 					} else {
@@ -788,57 +900,49 @@ jQuery.Class(
 				progress.progressIndicator({ mode: 'hide' });
 			});
 		},
-		registerPreviewEvent: function() {
-			var thisInstance = this;
-			var contentHeight = this.content.find('.js-detail-preview,.js-list-preview');
+		registerPreviewEvent: function () {
+			let thisInstance = this;
+			let contentHeight = this.content.find('.js-detail-preview,.js-list-preview');
 			contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.js-footer').height()));
-			this.content.find('.listPreviewframe').on('load', function() {
+			this.content.find('.listPreviewframe').on('load', function () {
 				if (thisInstance.frameProgress) {
 					thisInstance.frameProgress.progressIndicator({ mode: 'hide' });
 				}
-				contentHeight.height(
-					$(this)
-						.contents()
-						.find('.bodyContents')
-						.height() + 2
-				);
+				contentHeight.height($(this).contents().find('.bodyContents').height() + 2);
 			});
-			this.content
-				.find('.listViewEntriesTable .listViewEntries')
-				.first()
-				.trigger('click');
+			this.content.find('.listViewEntriesTable .listViewEntries').first().trigger('click');
 		},
-		registerPaginationEvents: function() {
-			var thisInstance = this;
-			var relatedContent = this.content;
-			this.content.on('click', '#relatedViewNextPageButton', function(e) {
+		registerPaginationEvents: function () {
+			let thisInstance = this;
+			let relatedContent = this.content;
+			this.content.on('click', '#relatedViewNextPageButton', function (e) {
 				if ($(this).hasClass('disabled')) {
 					return;
 				}
 				thisInstance.nextPageHandler();
 			});
-			this.content.on('click', '#relatedViewPreviousPageButton', function() {
+			this.content.on('click', '#relatedViewPreviousPageButton', function () {
 				thisInstance.previousPageHandler();
 			});
-			this.content.on('click', '#relatedListPageJump', function(e) {
+			this.content.on('click', '#relatedListPageJump', function (e) {
 				thisInstance.getRelatedPageCount();
 			});
 			this.content
-				.on('click', '#relatedListPageJumpDropDown > li', function(e) {
+				.on('click', '#relatedListPageJumpDropDown > li', function (e) {
 					e.stopImmediatePropagation();
 				})
-				.on('keypress', '#pageToJump', function(e) {
+				.on('keypress', '#pageToJump', function (e) {
 					thisInstance.pageJumpHandler(e);
 				});
-			this.content.on('click', '.pageNumber', function() {
+			this.content.on('click', '.pageNumber', function () {
 				if ($(this).hasClass('disabled')) {
 					return false;
 				}
 				thisInstance.selectPageHandler($(this).data('id'));
 			});
-			this.content.on('click', '#totalCountBtn', function() {
+			this.content.on('click', '#totalCountBtn', function () {
 				app.hidePopover($(this));
-				var params = {
+				let params = {
 					module: thisInstance.parentModuleName,
 					view: 'Pagination',
 					mode: 'getRelationPagination',
@@ -850,26 +954,26 @@ jQuery.Class(
 				if (relatedContent.find('.entityState').length) {
 					params['entityState'] = relatedContent.find('.entityState').val();
 				}
-				AppConnector.request(params).done(function(response) {
+				AppConnector.request(params).done(function (response) {
 					relatedContent.find('.paginationDiv').html(response);
 				});
 			});
 		},
-		registerListEvents: function() {
-			var relatedContent = this.content;
-			var thisInstance = this;
-			this.content.find('a.favorites').on('click', function(e) {
-				var progressInstance = jQuery.progressIndicator({
+		registerListEvents: function () {
+			let relatedContent = this.content;
+			let thisInstance = this;
+			this.content.find('a.favorites').on('click', function (e) {
+				let progressInstance = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
 						enabled: true
 					}
 				});
-				var element = $(this);
-				var row = element.closest('tr');
-				thisInstance.favoritesRelation(row.data('id'), element.data('state')).done(function(response) {
+				let element = $(this);
+				let row = element.closest('tr');
+				thisInstance.favoritesRelation(row.data('id'), element.data('state')).done(function (response) {
 					if (response) {
-						var state = element.data('state') ? 0 : 1;
+						let state = element.data('state') ? 0 : 1;
 						element.data('state', state);
 						if (state) {
 							element.find('.far').addClass('d-none');
@@ -879,15 +983,15 @@ jQuery.Class(
 							element.find('.far').removeClass('d-none');
 						}
 						progressInstance.progressIndicator({ mode: 'hide' });
-						var text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
+						let text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
 						if (state) {
 							text = app.vtranslate('JS_ADDED_TO_FAVORITES');
 						}
-						Vtiger_Helper_Js.showPnotify({ text: text, type: 'success' });
+						app.showNotify({ text: text, type: 'success' });
 					}
 				});
 			});
-			this.content.find('[name="addButton"]').on('click', function(e) {
+			this.content.find('[name="addButton"]').on('click', function (e) {
 				const element = $(this);
 				if (element.hasClass('quickCreateSupported') !== true) {
 					app.openUrl(element.data('url'));
@@ -895,7 +999,7 @@ jQuery.Class(
 				}
 				thisInstance.addRelatedRecord(element);
 			});
-			this.content.find('.relatedHeader button.selectRelation').on('click', function(e) {
+			this.content.find('.relatedHeader button.selectRelation').on('click', function (e) {
 				let restrictionsField = $(this).data('rf');
 				let params = {
 					relationId: thisInstance.getCompleteParams()['relationId']
@@ -909,7 +1013,7 @@ jQuery.Class(
 				}
 				thisInstance.showSelectRelation(params);
 			});
-			this.content.find('button.relationDelete').on('click', function(e) {
+			this.content.find('button.relationDelete').on('click', function (e) {
 				e.stopImmediatePropagation();
 				let target = $(e.currentTarget);
 				let params = {};
@@ -921,22 +1025,16 @@ jQuery.Class(
 				} else {
 					params.message = app.vtranslate('JS_DELETE_CONFIRMATION');
 				}
-				Vtiger_Helper_Js.showConfirmationBox(params).done(function() {
+				Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
 					thisInstance.deleteRelation(target);
 				});
 			});
-			this.content.find('.js-switch--calendar').on('change', function(e) {
+			this.content.find('.js-switch--calendar,select.js-relation-cv-id').on('change', function (e) {
 				thisInstance.loadRelatedList();
 			});
-			this.content.find('.relatedViewGroup a').on('click', function(e) {
-				var element = $(this);
-				thisInstance.relatedView = element.data('view');
-				relatedContent.find('.pagination').data('totalCount', 0);
-				thisInstance.loadRelatedList({ page: 1 });
-			});
 		},
-		registerPostLoadEvents: function() {
-			var thisInstance = this;
+		registerPostLoadEvents: function () {
+			let thisInstance = this;
 			this.registerRowsEvent();
 			this.registerListScroll();
 			if (this.relatedView === 'ListPreview') {
@@ -948,17 +1046,18 @@ jQuery.Class(
 					this.registerListPreviewEvents();
 				}
 			}
-			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
+			if (this.content.find('.listViewSearchTd [data-trigger="listSearch"]').length) {
+				this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
+			} else {
+				this.listSearchInstance = false;
+			}
 			app.event.trigger('RelatedList.AfterLoad', thisInstance);
 		},
-		getSecondColMinWidth: function(container) {
+		getSecondColMinWidth: function (container) {
 			let maxWidth = 0,
 				thisWidth;
-			container.find('.js-list__row').each(function(i) {
-				thisWidth = $(this)
-					.find('.js-list__field')
-					.first()
-					.width();
+			container.find('.js-list__row').each(function (i) {
+				thisWidth = $(this).find('.js-list__field').first().width();
 				if (i === 0) {
 					maxWidth = thisWidth;
 				} else {
@@ -967,11 +1066,8 @@ jQuery.Class(
 			});
 			return maxWidth;
 		},
-		setDomParams: function(container) {
-			this.listColumnFirstWidth = container
-				.find('.listViewEntriesDiv .listViewHeaders th')
-				.first()
-				.width();
+		setDomParams: function (container) {
+			this.listColumnFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
 			this.listColumnSecondWidth = this.getSecondColMinWidth(container);
 			this.windowW = $(window).width();
 			this.mainBody = container.closest('.mainBody');
@@ -986,7 +1082,7 @@ jQuery.Class(
 			this.footerH = $('.js-footer').outerHeight();
 			this.headerH = $('.js-header').outerHeight();
 		},
-		getDefaultSplitSizes: function() {
+		getDefaultSplitSizes: function () {
 			let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / this.windowW) * 100;
 			return [thWidth, 100 - thWidth];
 		},
@@ -1024,9 +1120,7 @@ jQuery.Class(
 			let fixedElements = this.mainBody.find('.js-fixed-scroll');
 			if (!this.mainBody.length) {
 				this.mainBody = $(top.document).find('.mainBody');
-				this.headerH = $(top.document)
-					.find('.js-header')
-					.outerHeight();
+				this.headerH = $(top.document).find('.js-header').outerHeight();
 				scrollContainer = top.window.App.Components.Scrollbar.page.element;
 				let iframe = $(top.document).find('.js-detail-preview');
 				listOffsetTop = this.list.offset().top + iframe.offset().top - this.headerH + 1;
@@ -1056,11 +1150,11 @@ jQuery.Class(
 		 * @param {jQuery} container - current container for reference.
 		 * @param {Split} split - a split object.
 		 */
-		registerSplitEvents: function(container, split) {
-			var rightSplitMaxWidth = (400 / this.windowW) * 100;
-			var minWindowWidth = (23 / this.windowW) * 100;
-			var maxWindowWidth = 100 - minWindowWidth;
-			var listPreview = container.find('.js-detail-preview');
+		registerSplitEvents: function (container, split) {
+			let rightSplitMaxWidth = (400 / this.windowW) * 100;
+			let minWindowWidth = (23 / this.windowW) * 100;
+			let maxWindowWidth = 100 - minWindowWidth;
+			let listPreview = container.find('.js-detail-preview');
 			this.gutter.on('dblclick', () => {
 				let gutterRelatedMidPosition = app.moduleCacheGet('gutterRelatedMidPosition');
 				if (isNaN(this.split.getSizes()[0])) {
@@ -1123,11 +1217,11 @@ jQuery.Class(
 				app.moduleCacheSet('userRelatedSplitSet', split.getSizes());
 			});
 		},
-		registerSplit: function(container) {
-			var rightSplitMaxWidth = (400 / this.windowW) * 100;
+		registerSplit: function (container) {
+			let rightSplitMaxWidth = (400 / this.windowW) * 100;
 			const splitSizes = this.getSplitSizes();
 			app.moduleCacheSet('gutterRelatedMidPosition', splitSizes);
-			var split = Split([this.list[0], this.preview[0]], {
+			let split = Split([this.list[0], this.preview[0]], {
 				sizes: splitSizes,
 				minSize: 10,
 				gutterSize: 24,
@@ -1169,13 +1263,15 @@ jQuery.Class(
 				this.sideBlockRight.addClass('d-block');
 				this.preview.hide();
 			}
-			var mainWindowHeightCss = { height: $(window).height() - this.list.offset().top - this.footerH };
+			let mainWindowHeightCss = {
+				height: $(window).height() - this.list.offset().top - this.footerH
+			};
 			if (!container.closest('.mainBody').length) {
-				let mainBody = $(top.document)
-					.find('.mainBody')
-					.height();
+				let mainBody = $(top.document).find('.mainBody').height();
 				let iframe = $(top.document).find('.js-detail-preview');
-				mainWindowHeightCss = { height: mainBody - this.list.offset().top - iframe.offset().top + 50 };
+				mainWindowHeightCss = {
+					height: mainBody - this.list.offset().top - iframe.offset().top + 50
+				};
 			}
 			if (!this.list.parents('.blockContent').length) {
 				this.gutter.css(mainWindowHeightCss);
@@ -1189,9 +1285,9 @@ jQuery.Class(
 			this.registerSplitEvents(container, split);
 			return split;
 		},
-		toggleSplit: function(container) {
-			var commactHeight = container.closest('.commonActionsContainer').height();
-			var splitsArray = [];
+		toggleSplit: function (container) {
+			let commactHeight = container.closest('.commonActionsContainer').height();
+			let splitsArray = [];
 			this.split = this.registerSplit(container);
 			splitsArray.push(this.split);
 			$(window).on('resize', () => {
@@ -1204,21 +1300,21 @@ jQuery.Class(
 				} else {
 					if (container.find('.gutter').length !== 1) {
 						this.split = this.registerSplit(container);
-						var gutter = container.find('.gutter');
+						let gutter = container.find('.gutter');
 						if (this.mainBody.scrollTop() >= this.list.offset().top + commactHeight) {
 							gutter.addClass('gutterOnScroll');
 							gutter.css('left', this.preview.offset().left - 8);
-							gutter.on('mousedown', function() {
-								$(this).on('mousemove', function(e) {
+							gutter.on('mousedown', function () {
+								$(this).on('mousemove', function (e) {
 									$(this).css('left', this.preview.offset().left - 8);
 								});
 							});
 						}
 						splitsArray.push(this.split);
 					}
-					var currentSplit = splitsArray[splitsArray.length - 1];
-					var minWidth = (15 / $(window).width()) * 100;
-					var maxWidth = 100 - minWidth;
+					let currentSplit = splitsArray[splitsArray.length - 1];
+					let minWidth = (15 / $(window).width()) * 100;
+					let maxWidth = 100 - minWidth;
 					if (typeof currentSplit === 'undefined') return;
 					if (currentSplit.getSizes()[0] < minWidth + 5) {
 						currentSplit.setSizes([minWidth, maxWidth]);
@@ -1228,7 +1324,7 @@ jQuery.Class(
 				}
 			});
 		},
-		registerListScroll: function() {
+		registerListScroll: function () {
 			let container = $('.listViewEntriesDiv');
 			if (this.relatedView !== 'ListPreview' && Quasar.plugins.Platform.is.desktop) {
 				container.each((index, element) => {
@@ -1243,7 +1339,7 @@ jQuery.Class(
 				});
 			}
 		},
-		getRecordsCount: function() {
+		getRecordsCount: function () {
 			let aDeferred = $.Deferred(),
 				recordCountVal = $('#recordsCount').val();
 			if (recordCountVal != '') {
@@ -1253,29 +1349,30 @@ jQuery.Class(
 				delete params.view;
 				params.action = 'DetailAjax';
 				params.mode = 'getRecordsCount';
-				AppConnector.request(params).done(function(data) {
+				AppConnector.request(params).done(function (data) {
 					$('#recordsCount').val(data['result']['count']);
 					aDeferred.resolve(data['result']['count']);
 				});
 			}
 			return aDeferred.promise();
 		},
-		noRecordSelectedAlert: function(text = 'JS_PLEASE_SELECT_ONE_RECORD') {
-			return Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
+		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
+			app.showNotify({
+				text: app.vtranslate(text),
+				type: 'error'
+			});
 		},
-		getCurrentCvId: function() {
-			return $('#customFilter')
-				.find('option:selected')
-				.data('id');
+		getCurrentCvId: function () {
+			return $('#customFilter').find('option:selected').data('id');
 		},
-		checkListRecordSelected: function(minNumberOfRecords = 1) {
+		checkListRecordSelected: function (minNumberOfRecords = 1) {
 			let selectedIds = this.readSelectedIds();
 			if (typeof selectedIds === 'object' && selectedIds.length < minNumberOfRecords) {
 				return true;
 			}
 			return false;
 		},
-		readSelectedIds: function(decode) {
+		readSelectedIds: function (decode) {
 			let selectedIdsDataAttr = this.getCurrentCvId() + 'selectedIds',
 				selectedIdsElementDataAttributes = $('#selectedIds').data(),
 				selectedIds = [];
@@ -1289,13 +1386,13 @@ jQuery.Class(
 			}
 			return selectedIds;
 		},
-		writeSelectedIds: function(selectedIds) {
+		writeSelectedIds: function (selectedIds) {
 			if (!Array.isArray(selectedIds)) {
 				selectedIds = [selectedIds];
 			}
 			$('#selectedIds').data(this.getCurrentCvId() + 'selectedIds', selectedIds);
 		},
-		readExcludedIds: function(decode) {
+		readExcludedIds: function (decode) {
 			let excludedIdsDataAttr = this.getCurrentCvId() + 'Excludedids',
 				excludedIdsElementDataAttributes = $('#excludedIds').data(),
 				excludedIds = [];
@@ -1309,12 +1406,12 @@ jQuery.Class(
 			}
 			return excludedIds;
 		},
-		writeExcludedIds: function(excludedIds) {
+		writeExcludedIds: function (excludedIds) {
 			$('#excludedIds').data(this.getCurrentCvId() + 'Excludedids', excludedIds);
 		},
-		checkSelectAll: function() {
+		checkSelectAll: function () {
 			let state = true;
-			$('.relatedListViewEntriesCheckBox').each(function(index, element) {
+			$('.relatedListViewEntriesCheckBox').each(function (index, element) {
 				if ($(element).is(':checked')) {
 					state = true;
 				} else {
@@ -1324,9 +1421,9 @@ jQuery.Class(
 			$('#relatedListViewEntriesMainCheckBox').prop('checked', state);
 			return state;
 		},
-		registerCheckBoxClickEvent: function() {
+		registerCheckBoxClickEvent: function () {
 			const self = this;
-			this.getRelatedContainer().on('click', '.relatedListViewEntriesCheckBox', function(e) {
+			this.getRelatedContainer().on('click', '.relatedListViewEntriesCheckBox', function (e) {
 				let selectedIds = self.readSelectedIds(),
 					excludedIds = self.readExcludedIds(),
 					elem = $(e.currentTarget);
@@ -1351,24 +1448,27 @@ jQuery.Class(
 				self.writeExcludedIds(excludedIds);
 			});
 		},
-		registerMainCheckBoxClickEvent: function() {
+		registerMainCheckBoxClickEvent: function () {
 			const self = this;
-			this.getRelatedContainer().on('click', '#relatedListViewEntriesMainCheckBox', function() {
+			this.getRelatedContainer().on('click', '#relatedListViewEntriesMainCheckBox', function () {
 				let selectedIds = self.readSelectedIds(),
 					excludedIds = self.readExcludedIds();
 				if ($('#relatedListViewEntriesMainCheckBox').is(':checked')) {
+					let progress = $.progressIndicator({ blockInfo: { enabled: true } });
 					let recordCountObj = self.getRecordsCount();
-					recordCountObj.done(function(data) {
-						$('#totalRecordsCount').text(data);
-						if ($('#deSelectAllMsgDiv').css('display') == 'none') {
-							$('#selectAllMsgDiv').show();
-						}
-					});
-					$('.relatedListViewEntriesCheckBox').each(function(index, element) {
-						$(this)
-							.prop('checked', true)
-							.closest('tr')
-							.addClass('highlightBackgroundColor');
+					recordCountObj
+						.done(function (data) {
+							progress.progressIndicator({ mode: 'hide' });
+							$('#totalRecordsCount').text(data);
+							if ($('#deSelectAllMsgDiv').css('display') == 'none') {
+								$('#selectAllMsgDiv').show();
+							}
+						})
+						.fail(function () {
+							progress.progressIndicator({ mode: 'hide' });
+						});
+					$('.relatedListViewEntriesCheckBox').each(function (index, element) {
+						$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 						if (selectedIds == 'all' && $.inArray($(element).val(), excludedIds) != -1) {
 							excludedIds.splice($.inArray($(element).val(), excludedIds), 1);
 						} else if ($.inArray($(element).val(), selectedIds) == -1) {
@@ -1377,11 +1477,8 @@ jQuery.Class(
 					});
 				} else {
 					$('#selectAllMsgDiv').hide();
-					$('.relatedListViewEntriesCheckBox').each(function(index, element) {
-						$(this)
-							.prop('checked', false)
-							.closest('tr')
-							.removeClass('highlightBackgroundColor');
+					$('.relatedListViewEntriesCheckBox').each(function (index, element) {
+						$(this).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 						if (selectedIds == 'all') {
 							excludedIds.push($(element).val());
 							selectedIds = 'all';
@@ -1394,31 +1491,25 @@ jQuery.Class(
 				self.writeExcludedIds(excludedIds);
 			});
 		},
-		registerSelectAllClickEvent: function() {
+		registerSelectAllClickEvent: function () {
 			const self = this;
-			self.getRelatedContainer().on('click', '#selectAllMsg', function() {
+			self.getRelatedContainer().on('click', '#selectAllMsg', function () {
 				$('#selectAllMsgDiv').hide();
 				$('#deSelectAllMsgDiv').show();
 				$('#relatedListViewEntriesMainCheckBox').prop('checked', true);
-				$('.relatedListViewEntriesCheckBox').each(function(index, element) {
-					$(this)
-						.prop('checked', true)
-						.closest('tr')
-						.addClass('highlightBackgroundColor');
+				$('.relatedListViewEntriesCheckBox').each(function (index, element) {
+					$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 				});
 				self.writeSelectedIds('all');
 			});
 		},
-		registerDeselectAllClickEvent: function() {
+		registerDeselectAllClickEvent: function () {
 			const self = this;
-			self.getRelatedContainer().on('click', '#deSelectAllMsg', function() {
+			self.getRelatedContainer().on('click', '#deSelectAllMsg', function () {
 				$('#deSelectAllMsgDiv').hide();
 				$('#relatedListViewEntriesMainCheckBox').prop('checked', false);
-				$('.relatedListViewEntriesCheckBox').each(function(index, element) {
-					$(this)
-						.prop('checked', false)
-						.closest('tr')
-						.removeClass('highlightBackgroundColor');
+				$('.relatedListViewEntriesCheckBox').each(function (index, element) {
+					$(this).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 				});
 				self.writeSelectedIds([]);
 				self.writeExcludedIds([]);
@@ -1433,12 +1524,25 @@ jQuery.Class(
 					if (element.closest('.js-detail-widget').length) {
 						Vtiger_Detail_Js.getInstance().postSummaryWidgetAddRecord(data, element);
 					} else {
-						this.loadRelatedList(data.result);
+						this.loadRelatedList();
 					}
 				}
 			});
 		},
-		registerRelatedEvents: function() {
+		/**
+		 * Register change related view.
+		 */
+		registerChangeViewEvent() {
+			const self = this;
+			self.getRelatedContainer().on('click', '.js-change-related-view', function () {
+				self.relatedView = this.dataset.view;
+				self.loadRelatedList();
+			});
+		},
+		/**
+		 * Register related events
+		 */
+		registerRelatedEvents: function () {
 			this.registerUnreviewedCountEvent();
 			this.registerChangeEntityStateEvent();
 			this.registerPaginationEvents();
@@ -1450,7 +1554,8 @@ jQuery.Class(
 			this.registerSelectAllClickEvent();
 			this.registerDeselectAllClickEvent();
 			this.registerQuickEditSaveEvent();
-			YetiForce_ListSearch_Js.registerSearch(this.content, data => {
+			this.registerChangeViewEvent();
+			YetiForce_ListSearch_Js.registerSearch(this.content, (data) => {
 				this.loadRelatedList(data);
 			});
 		}

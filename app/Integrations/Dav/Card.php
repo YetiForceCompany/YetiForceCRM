@@ -1,8 +1,13 @@
 <?php
 /**
- * CardDav address books class file.
+ * CardDav address books file.
  *
- * @package   Integrations
+ * @package Integration
+ *
+ * @see https://en.wikipedia.org/wiki/VCard#Properties
+ * @see https://tools.ietf.org/id/draft-calconnect-vobject-vformat-00.html
+ *
+ * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -12,12 +17,12 @@
 namespace App\Integrations\Dav;
 
 /**
- * CardDav class.
+ * CardDav address books class.
  */
 class Card
 {
 	/**
-	 * Address mapping for modules.
+	 * @var array Address mapping for modules.
 	 */
 	const ADDRESS_MAPPING = [
 		'Contacts' => [
@@ -56,18 +61,14 @@ class Card
 		],
 	];
 	/**
-	 * Mail fields.
-	 *
-	 * @var array
+	 * @var array Mail fields.
 	 */
 	public static $mailFields = [
 		'Contacts' => ['email' => 'WORK', 'secondary_email' => 'HOME'],
 		'OSSEmployees' => ['business_mail' => 'WORK', 'private_mail' => 'HOME'],
 	];
 	/**
-	 * $Phone fields.
-	 *
-	 * @var array
+	 * @var array Phone fields.
 	 */
 	public static $telFields = [
 		'Contacts' => ['phone' => 'WORK', 'mobile' => 'CELL'],
@@ -187,7 +188,11 @@ class Card
 	public function setValuesForRecord(\Vtiger_Record_Model $record)
 	{
 		$this->record = $record;
-		$head = $this->vcard->N->getParts();
+		if (isset($this->vcard->N)) {
+			$head = $this->vcard->N->getParts();
+		} elseif (isset($this->vcard->FN)) {
+			$head = $this->vcard->FN->getParts();
+		}
 		$moduleName = $record->getModuleName();
 		if ('Contacts' === $moduleName) {
 			if (isset($head[1]) && ($fieldModel = $record->getField('firstname'))) {
@@ -200,7 +205,7 @@ class Card
 				$record->set('jobtitle', $fieldModel->getDBValue(\App\Purifier::purify((string) $this->vcard->TITLE)));
 			}
 			if (isset($this->vcard->BDAY) && 8 === \strlen($this->vcard->BDAY) && ($fieldModel = $record->getField('birthday'))) {
-				$record->set('birthday', $fieldModel->getDBValue(date('Y-m-d', strtotime($this->vcard->BDAY))));
+				$record->set('birthday', date('Y-m-d', strtotime($this->vcard->BDAY)));
 			}
 			if (isset($this->vcard->GENDER) && ($fieldModel = $record->getField('salutationtype'))) {
 				$record->set('salutationtype', $fieldModel->getDBValue($this->getCardGender((string) $this->vcard->GENDER)));
@@ -213,7 +218,7 @@ class Card
 				$record->set('last_name', $fieldModel->getDBValue(\App\Purifier::purify($head[0])));
 			}
 			if (isset($this->vcard->BDAY) && ($fieldModel = $record->getField('birth_date'))) {
-				$record->set('birth_date', $fieldModel->getDBValue(date('Y-m-d', strtotime($this->vcard->BDAY))));
+				$record->set('birth_date', date('Y-m-d', strtotime($this->vcard->BDAY)));
 			}
 		}
 		if (isset($this->vcard->NOTE) && ($fieldModel = $record->getField('description'))) {
@@ -270,11 +275,18 @@ class Card
 						$vcardType = explode(',', $p->getValue());
 						if (strtoupper($vcardType[0]) === $type) {
 							$orgPhone = \App\Purifier::purify($t->getValue());
-							if (\App\Config::main('phoneFieldAdvancedVerification', false) && !($phone = \App\Fields\Phone::getProperNumber($orgPhone, ($this->user ? $this->user->getId() : null)))) {
-								$this->record->set($key . '_extra', $fieldModel->getDBValue($orgPhone));
-								continue 2;
+							if ($orgPhone && 'phone' === $fieldModel->getFieldDataType()) {
+								$country = null;
+								if ($userId = $this->user ? $this->user->getId() : null) {
+									$country = \App\Fields\Country::getCountryCode(\App\User::getUserModel($userId)->getDetail('sync_carddav_default_country'));
+								}
+								$details = $fieldModel->getUITypeModel()->getPhoneDetails($orgPhone, $country);
+								if ($key !== $details['fieldName']) {
+									$this->record->set($details['fieldName'], $details['number']);
+									continue 2;
+								}
 							}
-							$this->record->set($key, $fieldModel->getDBValue($phone));
+							$this->record->set($key, $fieldModel->getDBValue($orgPhone));
 							continue 2;
 						}
 					}

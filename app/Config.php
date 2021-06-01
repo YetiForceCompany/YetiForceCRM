@@ -2,6 +2,8 @@
 /**
  * Config main class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -171,6 +173,22 @@ class Config
 	public static function developer(?string $arg = null, $default = null)
 	{
 		$class = '\\Config\\Developer';
+		return self::get($class, $arg, $default);
+	}
+
+	/**
+	 * Gets layout configuration.
+	 *
+	 * @param string|null $arg
+	 * @param mixed       $default
+	 *
+	 * @throws \ReflectionException
+	 *
+	 * @return mixed
+	 */
+	public static function layout(?string $arg = null, $default = null)
+	{
+		$class = '\\Config\\Layout';
 		return self::get($class, $arg, $default);
 	}
 

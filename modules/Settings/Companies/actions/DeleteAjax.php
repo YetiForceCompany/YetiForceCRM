@@ -16,7 +16,7 @@ class Settings_Companies_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		if ((new \App\Db\Query())->from('s_#__companies')->count() < 2) {
@@ -29,11 +29,17 @@ class Settings_Companies_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
-		Settings_Companies_Record_Model::getInstance($request->getInteger('record'))->delete();
+		$result = ['success' => true];
+		$recordModel = Settings_Companies_Record_Model::getInstance($request->getInteger('record'));
+		if ($request->getBoolean('detailView') && $recordModel->delete()) {
+			$result = Settings_Vtiger_Module_Model::getInstance($request->getModule(false))->getDefaultUrl();
+		} elseif ($recordModel) {
+			$result = ['success' => (bool) $recordModel->delete()];
+		}
 		$response = new Vtiger_Response();
-		$response->setResult(Settings_Vtiger_Module_Model::getInstance($request->getModule(false))->getDefaultUrl());
+		$response->setResult($result);
 		$response->emit();
 	}
 }

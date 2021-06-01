@@ -42,7 +42,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$record->set('cc_email', $mail->get('cc_email'));
 			$record->set('bcc_email', $mail->get('bcc_email'));
 			$maxLengthOrginal = $record->getField('orginal_mail')->get('maximumlength');
-			$orginal = \App\Purifier::purifyHtml($mail->get('clean'));
+			$orginal = $mail->get('clean');
 			$record->set('orginal_mail', $maxLengthOrginal ? \App\TextParser::htmlTruncate($orginal, $maxLengthOrginal, false) : $orginal);
 			$record->set('uid', $mail->get('message_id'))->set('rc_user', $account['user_id']);
 			$record->set('ossmailview_sendtype', $mail->getTypeEmail(true));
@@ -90,7 +90,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$html = nl2br($html);
 		}
 		$attachments = $mail->get('attachments');
-		if (\count($attachments) < 2) {
+		if (\Config\Modules\OSSMailScanner::$attachHtmlAndTxtToMessageBody && \count($attachments) < 2) {
 			foreach ($attachments as $key => $attachment) {
 				if (('.html' === substr($attachment['filename'], -5)) || ('.txt' === substr($attachment['filename'], -4))) {
 					$html .= $attachment['attachment'] . '<hr />';
@@ -98,7 +98,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				}
 			}
 		}
-		$encoding = mb_detect_encoding($html);
+		$encoding = mb_detect_encoding($html, mb_list_encodings(), true);
 		if ($encoding && 'UTF-8' !== $encoding) {
 			$html = mb_convert_encoding($html, 'UTF-8', $encoding);
 		}
@@ -123,20 +123,21 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			'modifiedby' => $mail->getAccountOwner(),
 			'createdtime' => $mail->get('date'),
 			'modifiedtime' => $mail->get('date'),
+			'folderid' => \Config\Modules\OSSMailScanner::$mailBodyGraphicDocumentsFolder ?? 'T2',
 		];
-
 		$files = [];
 		foreach ($doc->getElementsByTagName('img') as $img) {
 			$src = trim($img->getAttribute('src'), '\'');
 			if ('data:' === substr($src, 0, 5)) {
-				if (($fileInstance = \App\Fields\File::saveFromString($src)) && ($ids = \App\Fields\File::saveFromContent($fileInstance, $params))) {
+				if ((\Config\Modules\OSSMailScanner::$attachMailBodyGraphicBase64 ?? true) && ($fileInstance = \App\Fields\File::saveFromString($src, ['validateAllowedFormat' => 'image'])) && ($ids = \App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 					$img->setAttribute('alt', '-');
 					$files[] = $ids;
 					continue;
 				}
 			} elseif (filter_var($src, FILTER_VALIDATE_URL)) {
-				if ($ids = App\Fields\File::saveFromUrl($src, $params)) {
+				$params['param'] = ['validateAllowedFormat' => 'image'];
+				if ((\Config\Modules\OSSMailScanner::$attachMailBodyGraphicUrl ?? true) && ($ids = App\Fields\File::saveFromUrl($src, $params))) {
 					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 					$img->setAttribute('alt', '-');
 					$files[] = $ids;
@@ -145,7 +146,11 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			} elseif ('cid:' === substr($src, 0, 4)) {
 				$src = substr($src, 4);
 				if (isset($attachments[$src])) {
-					$fileInstance = App\Fields\File::loadFromContent($attachments[$src]['attachment'], $attachments[$src]['filename']);
+					if (\Config\Modules\OSSMailScanner::$attachMailBodyGraphicCid ?? true) {
+						unset($attachments[$src]);
+						continue;
+					}
+					$fileInstance = App\Fields\File::loadFromContent($attachments[$src]['attachment'], $attachments[$src]['filename'], ['validateAllowedFormat' => 'image']);
 					if ($fileInstance && $fileInstance->validateAndSecure() && ($ids = App\Fields\File::saveFromContent($fileInstance, $params))) {
 						$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 						if (!$img->hasAttribute('alt')) {

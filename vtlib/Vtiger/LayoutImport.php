@@ -26,6 +26,9 @@ class LayoutImport extends LayoutExport
 
 	/**
 	 * Initialize Import.
+	 *
+	 * @param mixed $zipfile
+	 * @param mixed $overwrite
 	 */
 	public function initImport($zipfile, $overwrite = true)
 	{
@@ -37,6 +40,8 @@ class LayoutImport extends LayoutExport
 	 *
 	 * @param string Zip file name
 	 * @param bool True for overwriting existing module
+	 * @param mixed $zipfile
+	 * @param mixed $overwrite
 	 */
 	public function import($zipfile, $overwrite = false)
 	{
@@ -52,6 +57,9 @@ class LayoutImport extends LayoutExport
 	 * @param object Instance of Layout
 	 * @param string Zip file name
 	 * @param bool True for overwriting existing module
+	 * @param mixed $instance
+	 * @param mixed $zipfile
+	 * @param mixed $overwrite
 	 */
 	public function update($instance, $zipfile, $overwrite = true)
 	{
@@ -60,6 +68,8 @@ class LayoutImport extends LayoutExport
 
 	/**
 	 * Import Layout.
+	 *
+	 * @param mixed $zipfile
 	 */
 	public function importLayout($zipfile)
 	{
@@ -72,22 +82,22 @@ class LayoutImport extends LayoutExport
 		for ($i = 0; $i < $zip->numFiles; ++$i) {
 			$fileName = $zip->getNameIndex($i);
 			if (!$zip->isdir($fileName)) {
-				if (strpos($fileName, '/') === false) {
+				if (false === strpos($fileName, '/')) {
 					continue;
 				}
 				$targetdir = substr($fileName, 0, strripos($fileName, '/'));
 				$targetfile = basename($fileName);
 				$dounzip = false;
 				// Case handling for jscalendar
-				if (stripos($targetdir, "layouts/$name/skins") === 0) {
+				if (0 === stripos($targetdir, "layouts/$name/skins")) {
 					$dounzip = true;
 					$vtiger6format = true;
 				} // vtiger6 format
-				elseif (stripos($targetdir, "layouts/$name/modules") === 0) {
+				elseif (0 === stripos($targetdir, "layouts/$name/modules")) {
 					$vtiger6format = true;
 					$dounzip = true;
 				} //case handling for the  special library files
-				elseif (stripos($targetdir, "layouts/$name/libraries") === 0) {
+				elseif (0 === stripos($targetdir, "layouts/$name/libraries")) {
 					$vtiger6format = true;
 					$dounzip = true;
 				}
@@ -98,7 +108,7 @@ class LayoutImport extends LayoutExport
 						@mkdir($targetdir, 0755, true);
 					}
 					if (!$zip->checkFile($fileName)) {
-						if ($zip->unzipFile($fileName, "$targetdir/$targetfile") !== false) {
+						if (false !== $zip->unzipFile($fileName, "$targetdir/$targetfile")) {
 							\App\Log::trace("Copying file $fileName ... DONE", __METHOD__);
 						} else {
 							\App\Log::trace("Copying file $fileName ... FAILED", __METHOD__);

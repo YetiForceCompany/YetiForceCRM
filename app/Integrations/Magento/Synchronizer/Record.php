@@ -2,6 +2,8 @@
 /**
  * Record abstract class.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -103,7 +105,7 @@ abstract class Record extends Base
 		}
 		$recordModel->set('accountname', $companyName);
 		$recordModel->set('vat_id', $data['vat_id_a'] ?: $data['vat_id_b'] ?: '');
-		foreach ($this->accountFieldsMap as  $target => $source) {
+		foreach ($this->accountFieldsMap as $target => $source) {
 			if (isset($data[$source], $fields[$target])) {
 				$recordModel->set($target, $data[$source]);
 			}
@@ -129,7 +131,7 @@ abstract class Record extends Base
 	 */
 	public function findAccount(array $data, \Vtiger_Record_Model $recordModel): int
 	{
-		$vatIdField = $recordModel->getModule()->getFieldByName('vat_id', true);
+		$vatIdField = $recordModel->getModule()->getFieldByName('vat_id');
 		if ($vatIdField && $vatIdField->isActiveField() && ($vatId = $data['vat_id_a'] ?: $data['vat_id_b'] ?: false)) {
 			if (\App\Cache::staticHas('MagentoFindAccount', $vatId)) {
 				$id = \App\Cache::staticGet('MagentoFindAccount', $vatId);
@@ -171,7 +173,7 @@ abstract class Record extends Base
 				\App\Cache::staticSave($cacheKey, $email, $id);
 			}
 		}
-		return 	$id;
+		return $id;
 	}
 
 	/**
@@ -195,7 +197,7 @@ abstract class Record extends Base
 		if (empty($data['lastname'])) {
 			$data['lastname'] = $data['last_name_a'] ?? $data['last_name_b'];
 		}
-		foreach ($data as  $fieldName => $value) {
+		foreach ($data as $fieldName => $value) {
 			if (isset($fields[$fieldName])) {
 				$recordModel->set($fieldName, $value);
 			}

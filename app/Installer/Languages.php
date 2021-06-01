@@ -2,7 +2,7 @@
 /**
  * Languages installer.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -48,14 +48,17 @@ class Languages
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			return [];
 		}
-		$file = \ROOT_DIRECTORY . '/app_data/LanguagesUpdater.json';
+		$file = ROOT_DIRECTORY . '/app_data/LanguagesUpdater.json';
 		if (\file_exists($file) && filemtime($file) > strtotime('-5 minute')) {
 			return \App\Json::read($file);
 		}
 		$endpoint = \App\Config::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
 		$languages = [];
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/lang.json", \App\RequestHttp::getOptions());
+			$url = "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/lang.json";
+			\App\Log::beginProfile("GET|Languages::getAll|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions());
+			\App\Log::endProfile("GET|Languages::getAll|{$url}", __NAMESPACE__);
 			if (200 === $response->getStatusCode()) {
 				$body = \App\Json::decode($response->getBody());
 				if ($body) {
@@ -91,7 +94,9 @@ class Languages
 		$status = false;
 		if (\App\Fields\File::isExistsUrl($url)) {
 			try {
+				\App\Log::beginProfile("GET|Languages::download|{$url}", __NAMESPACE__);
 				(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
+				\App\Log::endProfile("GET|Languages::download|{$url}", __NAMESPACE__);
 				if (\file_exists($path)) {
 					(new \vtlib\Language())->import($path);
 					\unlink($path);
@@ -126,6 +131,6 @@ class Languages
 	 */
 	public static function exists(string $prefix): bool
 	{
-		return \file_exists(\ROOT_DIRECTORY . '/languages/' . $prefix . '/_Base.json');
+		return \file_exists(ROOT_DIRECTORY . '/languages/' . $prefix . '/_Base.json');
 	}
 }

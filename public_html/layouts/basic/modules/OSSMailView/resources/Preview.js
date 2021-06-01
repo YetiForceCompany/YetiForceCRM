@@ -4,13 +4,11 @@
 jQuery.Class(
 	'OSSMailView_Preview_Js',
 	{
-		printMail: function() {
+		printMail: function () {
 			var content = window.open();
-			$('.emailPreview > div').each(function(index) {
+			$('.emailPreview > div').each(function (index) {
 				if ($(this).hasClass('content')) {
-					let html = $(this)
-						.find('iframe')
-						.attr('srcdoc');
+					let html = $(this).find('iframe').attr('srcdoc');
 					content.document.write(html + '<br />');
 				} else {
 					content.document.write($.trim($(this).text()) + '<br />');
@@ -20,7 +18,7 @@ jQuery.Class(
 		}
 	},
 	{
-		registerEvents: function() {
+		registerEvents: function () {
 			let container = jQuery('div.mainBody');
 			Vtiger_Index_Js.registerMailButtons(container);
 		}

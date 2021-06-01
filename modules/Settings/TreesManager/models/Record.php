@@ -121,8 +121,8 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$label = $tree['text'];
 		$id = $tree['id'];
 		$treeID = 'T' . $id;
-		$icon = (int) $tree['icon'] === 1 ? '' : $tree['icon'];
-		if ($parentTree != '') {
+		$icon = 1 === (int) $tree['icon'] ? '' : $tree['icon'];
+		if ('' != $parentTree) {
 			$parentTree = $parentTree . '::';
 		}
 		$parentTree = $parentTree . $treeID;
@@ -171,21 +171,23 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$treeValue = $treeValue ? explode(',', $treeValue) : [];
 		while ($row = $dataReader->read()) {
 			$treeID = (int) str_replace('T', '', $row['tree']);
-			$cut = strlen('::' . $row['tree']);
+			$cut = \strlen('::' . $row['tree']);
 			$parentTree = substr($row['parentTree'], 0, -$cut);
 			$pieces = explode('::', $parentTree);
 			$parent = (int) str_replace('T', '', end($pieces));
 			$icon = false;
 			if (!empty($row['icon'])) {
-				$basePath = '';
-				if ($row['icon'] && strpos($row['icon'], 'layouts') === 0 && !IS_PUBLIC_DIR) {
-					$basePath = 'public_html/';
+				$basePathIcon = $row['icon'];
+				if ($basePathIcon && 0 === strpos($basePathIcon, 'public_html') && IS_PUBLIC_DIR) {
+					$basePathIcon = str_replace('public_html/', '', $basePathIcon);
+				} elseif ($basePathIcon && 0 === strpos($basePathIcon, 'layouts') && !IS_PUBLIC_DIR) {
+					$basePathIcon = 'public_html/' . $basePathIcon;
 				}
-				$icon = $basePath . $row['icon'];
+				$icon = $basePathIcon;
 			}
 			$parameters = [
 				'id' => $treeID,
-				'parent' => $parent === 0 ? '#' : $parent,
+				'parent' => 0 === $parent ? '#' : $parent,
 				'text' => \App\Language::translate($row['name'], $module),
 				'li_attr' => [
 					'text' => \App\Language::translate($row['name'], $module),
@@ -196,7 +198,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			];
 			if ($category) {
 				$parameters['type'] = $category;
-				if ($treeValue && in_array($row['tree'], $treeValue)) {
+				if ($treeValue && \in_array($row['tree'], $treeValue)) {
 					$parameters[$category] = ['checked' => true];
 				}
 			}
@@ -221,9 +223,9 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	public function get($key)
 	{
 		$val = parent::get($key);
-		if ($key === 'share') {
+		if ('share' === $key) {
 			if ($val) {
-				$val = !is_array($val) ? array_filter(explode(',', $val)) : $val;
+				$val = !\is_array($val) ? array_filter(explode(',', $val)) : $val;
 			} else {
 				$val = [];
 			}
@@ -348,10 +350,11 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 * @param string               $fieldValue
 	 * @param string               $fieldName
 	 * @param \Vtiger_Module_Model $moduleMode
+	 * @param \Vtiger_Module_Model $moduleModel
 	 *
 	 * @return string
 	 */
-	public static function getChildren(string $fieldValue, string $fieldName, \Vtiger_Module_Model $moduleModel)
+	public static function getChildren(string $fieldValue, string $fieldName, Vtiger_Module_Model $moduleModel)
 	{
 		$templateId = (new App\Db\Query())->select(['fieldparams'])
 			->from('vtiger_field')
@@ -366,12 +369,12 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$parent = '';
 			if ($row['depth'] > 0) {
 				$parentTree = $row['parentTree'];
-				$cut = strlen('::' . $tree);
+				$cut = \strlen('::' . $tree);
 				$parentTree = substr($parentTree, 0, -$cut);
 				$pieces = explode('::', $parentTree);
 				$parent = end($pieces);
 			}
-			if ($parent && in_array($parent, $values) && !in_array($tree, $values)) {
+			if ($parent && \in_array($parent, $values) && !\in_array($tree, $values)) {
 				$values[] = $tree;
 			}
 		}

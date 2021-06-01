@@ -133,6 +133,12 @@ select.select2 select.select2noactive {
 	height: $input-height !important; //prevent select2 container from changing height when select2 is reloading
 }
 
+.narrow {
+	.select2-selection.select2-selection--multiple {
+		min-height: calc(1.5em) !important;
+	}
+}
+
 .select2-container .select2-search--inline {
 	float: unset; //remove unneeded space in multiple select
 	width: fit-content;
@@ -295,7 +301,7 @@ header {
 
 	.ranges {
 		li {
-			margin-bottom: 0.45rem;
+			padding: 4px 12px;
 		}
 
 		li:last-child {
@@ -516,23 +522,17 @@ body:not(.desktop) {
 }
 
 //-------- pnotify --------//
-@include media-breakpoint-down(md) {
-	.ui-pnotify-container {
-		padding: 0.5rem !important;
-	}
-
-	.ui-pnotify-icon {
-		display: none !important;
-	}
-
-	.ui-pnotify-title {
-		margin: 0px !important;
-	}
-
-	.ui-pnotify-text {
-		font-size: calculate-rem(13.5px) !important;
-		margin: 0px !important;
-	}
+.pnotify-container {
+	padding: 0.75rem;
+}
+.pnotify-closer {
+	visibility: visible !important;
+}
+.pnotify-title {
+	line-height: 1.3rem;
+}
+.pnotify .bootstrap4-icon > * {
+	line-height: 1.5rem;
 }
 //-------- Material Design Icons --------//
 .mdi {
@@ -540,6 +540,11 @@ body:not(.desktop) {
 }
 .btn .mdi::before {
 	position: relative;
+}
+.c-mdi::before {
+	width: 1.25em;
+	font-size: 1.2rem;
+	vertical-align: text-bottom;
 }
 .alert .mdi::before {
 	position: relative;
@@ -551,4 +556,7 @@ body:not(.desktop) {
 //-------- quasar --------//
 .q-tab__icon {
 	height: unset;
+}
+.dataTables_processing {
+	z-index: 4000;
 }

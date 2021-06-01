@@ -529,9 +529,15 @@ class PackageUpdate extends PackageImport
 				$actions[] = "$actionnode";
 			}
 		}
+		$fields = [];
+		if (!empty($relatedlistnode->fields)) {
+			foreach ($relatedlistnode->fields->field as $fieldNode) {
+				$fields[] = "$fieldNode";
+			}
+		}
 		if ($relModuleInstance) {
 			$moduleInstance->unsetRelatedList($relModuleInstance, "$label", "$relatedlistnode->function");
-			$moduleInstance->setRelatedList($relModuleInstance, "$label", $actions, "$relatedlistnode->function");
+			$moduleInstance->setRelatedList($relModuleInstance, "$label", $actions, "$relatedlistnode->function", $fields);
 		}
 		return $relModuleInstance;
 	}
@@ -547,9 +553,15 @@ class PackageUpdate extends PackageImport
 				$actions[] = "$actionnode";
 			}
 		}
+		$fields = [];
+		if (!empty($inRelatedListNode->fields)) {
+			foreach ($inRelatedListNode->fields->field as $fieldNode) {
+				$fields[] = "$fieldNode";
+			}
+		}
 		if ($inRelModuleInstance) {
 			$inRelModuleInstance->unsetRelatedList($moduleInstance, "$label", "$inRelatedListNode->function", $inRelatedListNode->field_name);
-			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function", $inRelatedListNode->field_name);
+			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function", $inRelatedListNode->field_name, $fields);
 		}
 		return $inRelModuleInstance;
 	}

@@ -3,6 +3,8 @@
 /**
  * File that repaire structure and data in database.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -11,7 +13,7 @@
 namespace App\Db;
 
 /**
- * Class that repaire structure and data in database.
+ * Class that repair structure and data in database.
  */
 class Fixer
 {
@@ -85,7 +87,6 @@ class Fixer
 			$dbCommand->insert('vtiger_profile2utility', ['profileid' => $row['profileid'], 'tabid' => $row['tabid'], 'activityid' => $row['activityid'], 'permission' => 1])->execute();
 			++$i;
 		}
-		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
 		return $i;
 	}
 
@@ -111,16 +112,17 @@ class Fixer
 				}
 			}
 		}
-		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
 		return $i;
 	}
 
 	/**
 	 * Fixes the maximum value allowed for fields.
 	 *
+	 * @param array $conditions Additional query conditions
+	 *
 	 * @return int[]
 	 */
-	public static function maximumFieldsLength(): array
+	public static function maximumFieldsLength(array $conditions = []): array
 	{
 		$typesNotSupported = ['datetime', 'date', 'year', 'timestamp', 'time'];
 		$uiTypeNotSupported = [30];
@@ -129,6 +131,9 @@ class Fixer
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
 		$query = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldid', 'maximumlength', 'uitype'])->from('vtiger_field');
+		if ($conditions) {
+			$query->andWhere($conditions);
+		}
 		$dataReader = $query->createCommand()->query();
 		while ($field = $dataReader->read()) {
 			$column = $schema->getTableSchema($field['tablename'])->columns[$field['columnname']];
@@ -177,7 +182,7 @@ class Fixer
 						}
 						break;
 					case 'decimal':
-						$range = pow(10, ((int) $column->size) - ((int) $column->scale)) - 1;
+						$range = 10 ** (((int) $column->size) - ((int) $column->scale)) - 1;
 						break;
 					default:
 						$range = false;
@@ -207,6 +212,8 @@ class Fixer
 
 	/**
 	 * Add missing entries in vtiger_def_org_share and vtiger_org_share_action2tab.
+	 *
+	 * @return int
 	 */
 	public static function share(): int
 	{

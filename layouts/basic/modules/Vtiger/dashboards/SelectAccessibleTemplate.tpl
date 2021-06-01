@@ -10,7 +10,7 @@
 	{if empty($SOURCE_MODULE) && $MODULE_NAME != 'Home'}
 		{assign var=SOURCE_MODULE value=$MODULE_NAME}
 	{/if}
-	{if !empty($SOURCE_MODULE) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+	{if !empty($SOURCE_MODULE) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($SOURCE_MODULE, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)}
 		{if !empty($USER_CONDITIONS)}
 			{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
 		{/if}
@@ -65,6 +65,48 @@
 									value="{$OWNER_ID}" {if $OWNER eq $OWNER_ID} selected{/if}>{$OWNER_NAME}</option>
 						{/foreach}
 					</optgroup>
+				{/if}
+				{if in_array('groupUsers', $ACCESS_OPTIONS['available'])}
+					{assign var=ALL_GROUPS value=\App\Fields\Owner::getInstance($SOURCE_MODULE)->getGroups(false)}
+					{if $ALL_GROUPS}
+						<optgroup label="{\App\Language::translate('LBL_GROUP_USERS')}">
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_GROUPS}
+								{assign var="MEMBER_ID" value="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}:{$OWNER_ID}"}
+								<option class="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}" value="{$MEMBER_ID}"
+										data-member-type="{\App\PrivilegeUtil::MEMBER_TYPE_GROUPS}"
+										{if $OWNER eq $MEMBER_ID} selected {/if}>
+									{$OWNER_NAME}
+								</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+				{/if}
+				{if array_intersect(['roleUsers', 'rsUsers'], $ACCESS_OPTIONS['available'])}
+					{assign var=ALL_ROLES value=\Settings_Roles_Record_Model::getAll()}
+					{if in_array('roleUsers', $ACCESS_OPTIONS['available'])}
+						<optgroup label="{\App\Language::translate('LBL_ROLE_USERS', $QUALIFIED_MODULE)}">
+							{foreach from=$ALL_ROLES item=MEMBER}
+									{assign var="MEMBER_ID" value="{\App\PrivilegeUtil::MEMBER_TYPE_ROLES}:{$MEMBER->getId()}"}
+									<option class="{\App\PrivilegeUtil::MEMBER_TYPE_ROLES}" value="{$MEMBER_ID}"
+											data-member-type="{\App\PrivilegeUtil::MEMBER_TYPE_ROLES}"
+											 {if $OWNER eq $MEMBER_ID} selected {/if}>
+										{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}
+									</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+					{if in_array('rsUsers', $ACCESS_OPTIONS['available'])}
+						<optgroup label="{\App\Language::translate('LBL_ROLE_AND_SUBORDINATES_USERS', $QUALIFIED_MODULE)}">
+							{foreach from=$ALL_ROLES item=MEMBER}
+									{assign var="MEMBER_ID" value="{\App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES}:{$MEMBER->getId()}"}
+									<option class="{\App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES}" value="{$MEMBER_ID}"
+											data-member-type="{\App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES}"
+											{if $OWNER eq $MEMBER_ID} selected {/if}>
+										{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}
+									</option>
+							{/foreach}
+						</optgroup>
+					{/if}
 				{/if}
 			{/if}
 		</select>

@@ -19,12 +19,16 @@
 	<input type="hidden" id="listMaxEntriesMassEdit" value="{\App\Config::main('listMaxEntriesMassEdit')}"/>
 	<input type="hidden" id="autoRefreshListOnChange" value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
+	<input type="hidden" id="selectedIds" name="selectedIds"/>
+	<input type="hidden" id="recordsCount" value=""/>
+	<input type="hidden" id="excludedIds" name="excludedIds"/>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE_NAME)}
 	<div class="clearfix"></div>
 	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 		<input type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}" id="orderBy"/>
+		<input type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}" id="search_params"/>
 		<div class="listViewLoadingImageBlock d-none modal noprint" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
@@ -64,7 +68,7 @@
 						{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
 							{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 							<div class="d-flex align-items-center">
-								<input name="searchInSubcategories" value="1" type="checkbox" class="searchInSubcategories mx-2" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
+								<input name="searchInSubcategories" value="1" type="checkbox" class="searchInSubcategories mr-1 ml-1" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
 								<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
 									  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 										<span class="fas fa-info-circle"></span>

@@ -3,6 +3,7 @@
 <!-- tpl-Base-Edit-Field-Country -->
 	{assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
+	{assign var=COUNTRY_DATA value=\App\Fields\Country::getAll('uitype')}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
@@ -26,11 +27,14 @@
 				</optgroup>
 			{/if}
 			<optgroup label="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}">
-				{foreach item=VALUE key=KEY from=$FIELD_MODEL->getPicklistValues()}
-					{assign var="TRANSLATE" value=\App\Language::translateSingleMod($KEY,'Other.Country')}
-					<option value="{\App\Purifier::encodeHtml($KEY)}" data-code="{$VALUE['code']}"
-							title="{\App\Purifier::encodeHtml($TRANSLATE)}" data-template="<span><span class='flag-icon flag-icon-{$VALUE['code']|lower} mr-2'></span>{\App\Purifier::encodeHtml($TRANSLATE)}</span>"
-							{if $FIELD_VALUE eq $KEY}selected{/if}>{\App\Purifier::encodeHtml($TRANSLATE)}</option>
+				{foreach item=VALUE key=KEY from=$PICKLIST_VALUES}
+					{assign var=CODE value=$COUNTRY_DATA[$KEY]['code']}
+					<option value="{\App\Purifier::encodeHtml($KEY)}" data-code="{$CODE}"
+						title="{\App\Purifier::encodeHtml($VALUE)}"
+						data-template="<span><span class='flag-icon flag-icon-{$CODE|lower} mr-2'></span>{\App\Purifier::encodeHtml($VALUE)}</span>"
+						{if trim($FIELD_VALUE) eq trim($KEY)} selected{/if}>
+						{\App\Purifier::encodeHtml($VALUE)}
+					</option>
 				{/foreach}
 			</optgroup>
 		</select>

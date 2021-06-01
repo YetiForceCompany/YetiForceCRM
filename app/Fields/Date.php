@@ -2,6 +2,8 @@
 /**
  * Tools for datetime class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -313,6 +315,25 @@ class Date
 	}
 
 	/**
+	 * Method to return date counted only using working days.
+	 *
+	 * @param \DateTime $date
+	 * @param int       $counter
+	 * @param bool      $increase
+	 * @param int       $id
+	 *
+	 * @return string
+	 */
+	public static function getOnlyWorkingDayFromDate(\DateTime $date, int $counter, bool $increase = true, int $id = \App\Utils\BusinessHours::DEFAULT_BUSINESS_HOURS_ID): string
+	{
+		$value = $date->format('Y-m-d');
+		while ($counter-- > 0) {
+			$value = self::getWorkingDayFromDate($date, ($increase ? '+' : '-') . '1 day', $id);
+		}
+		return $value;
+	}
+
+	/**
 	 * Function changes the date format to the database format without changing the time zone.
 	 *
 	 * @param string $date
@@ -355,5 +376,26 @@ class Date
 		}
 
 		return $dbDate;
+	}
+
+	/**
+	 * Check if the date is correct.
+	 *
+	 * @param string      $date
+	 * @param string|null $format
+	 *
+	 * @return bool
+	 */
+	public static function isValid(string $date, ?string $format = null): bool
+	{
+		if (!strtotime($date) || !(false !== strpos($date, '-') || false !== strpos($date, '.') || false !== strpos($date, '/'))) {
+			return false;
+		}
+		if ($format) {
+			[$y, $m, $d] = self::explode($date, $format);
+		} else {
+			[$y, $m, $d] = explode('-', $date);
+		}
+		return is_numeric($m) && is_numeric($d) && is_numeric($y) && checkdate($m, $d, $y);
 	}
 }

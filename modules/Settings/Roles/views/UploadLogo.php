@@ -10,7 +10,7 @@
 /**
  * Upload logo View Class.
  */
-class Settings_Roles_UploadLogo_View extends \App\Controller\Modal
+class Settings_Roles_UploadLogo_View extends \App\Controller\ModalSettings
 {
 	/**
 	 * {@inheritdoc}
@@ -20,17 +20,7 @@ class Settings_Roles_UploadLogo_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('UploadLogo.tpl', $request->getModule(false));
@@ -39,7 +29,7 @@ class Settings_Roles_UploadLogo_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPageTitle(\App\Request $request)
+	public function getPageTitle(App\Request $request)
 	{
 		return \App\Language::translate('LBL_UPLOAD_LOGO', $request->getModule(false));
 	}
@@ -47,14 +37,14 @@ class Settings_Roles_UploadLogo_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function initializeContent(\App\Request $request)
+	public function initializeContent(App\Request $request)
 	{
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 	}
 }

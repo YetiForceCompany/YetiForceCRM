@@ -9,12 +9,10 @@
 				{if isset($MENU['moduleName'])}
 					{assign var=MENU_MODULE value=$MENU['moduleName']}
 				{/if}
-				{if isset($MENU['childs']) && $MENU['childs']|@count neq 0}
-					{assign var=HASCHILDS value='true'}
-				{else}
-					{assign var=HASCHILDS value='false'}
+				{assign var=HASCHILDS value=isset($MENU['childs']) && $MENU['childs']|@count neq 0}
+				{if $HASCHILDS || $MENU['type'] neq 'Label'}
+					{include file=\App\Layout::getTemplatePath('menu/'|cat:$MENU.type|cat:'.tpl', $MODULE)}
 				{/if}
-				{include file=\App\Layout::getTemplatePath('menu/'|cat:$MENU.type|cat:'.tpl', $MODULE)}
 			{/foreach}
 		</ul>
 	</nav>

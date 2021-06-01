@@ -5,6 +5,8 @@ namespace App\TextParser;
 /**
  * Table discount summary class.
  *
+ * @package TextParser
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -43,10 +45,10 @@ class TableDiscountSummary extends Base
 		}
 		if (!empty($fields[0])) {
 			$discount = 0;
-			foreach ($inventoryRows as $inventoryRow) {
-				$discount += $inventoryRow['discount'];
-			}
 			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
+				foreach ($inventoryRows as $inventoryRow) {
+					$discount += $inventoryRow['discount'];
+				}
 				$html .= '<table class="table-discount-summary" style="width:100%;vertical-align:top;border-collapse:collapse;">
 				<thead>
 					<tr>

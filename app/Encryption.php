@@ -2,6 +2,8 @@
 /**
  * Encryption basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -21,10 +23,12 @@ class Encryption extends Base
 		'roundcube_users' => ['columnName' => ['password'], 'index' => 'user_id', 'db' => 'base'],
 		's_#__mail_smtp' => ['columnName' => ['password', 'smtp_password'], 'index' => 'id', 'db' => 'admin'],
 		'a_#__smsnotifier_servers' => ['columnName' => ['api_key'], 'index' => 'id', 'db' => 'admin'],
-		'u_#__github' => ['columnName' => ['token'], 'index' => 'github_id', 'db' => 'base'],
-		'w_#__portal_user' => ['columnName' => ['password_t'], 'index' => 'id', 'db' => 'webservice'],
+		'w_#__api_user' => ['columnName' => ['auth'], 'index' => 'id', 'db' => 'webservice'],
+		'w_#__portal_user' => ['columnName' => ['auth'], 'index' => 'id', 'db' => 'webservice'],
 		'w_#__servers' => ['columnName' => ['pass', 'api_key'], 'index' => 'id', 'db' => 'webservice'],
 		'dav_users' => ['columnName' => ['key'], 'index' => 'id', 'db' => 'base'],
+		\App\MeetingService::TABLE_NAME => ['columnName' => ['secret'], 'index' => 'id', 'db' => 'admin'],
+		'i_#__magento_servers' => ['columnName' => ['password'], 'index' => 'id', 'db' => 'admin'],
 	];
 	/**
 	 * @var array Recommended encryption methods
@@ -35,8 +39,10 @@ class Encryption extends Base
 
 	/**
 	 * Function to get instance.
+	 *
+	 * @return self
 	 */
-	public static function getInstance()
+	public static function getInstance(): self
 	{
 		if (Cache::has('Encryption', 'Instance')) {
 			return Cache::get('Encryption', 'Instance');
@@ -280,5 +286,32 @@ class Encryption extends Base
 	public static function createHash($text)
 	{
 		return crypt($text, '$1$' . \App\Config::main('application_unique_key'));
+	}
+
+	/**
+	 * Function to create a password hash.
+	 *
+	 * @param string $text
+	 * @param string $pepper
+	 *
+	 * @return string
+	 */
+	public static function createPasswordHash(string $text, string $pepper): string
+	{
+		return password_hash(hash_hmac('sha256', $text, $pepper . \App\Config::main('application_unique_key')), PASSWORD_ARGON2ID);
+	}
+
+	/**
+	 * Check password hash.
+	 *
+	 * @param string $password
+	 * @param string $hash
+	 * @param string $pepper
+	 *
+	 * @return bool
+	 */
+	public static function verifyPasswordHash(string $password, string $hash, string $pepper): bool
+	{
+		return password_verify(hash_hmac('sha256', $password, $pepper . \App\Config::main('application_unique_key')), $hash);
 	}
 }

@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * TotalTimeWorked class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
 class TotalTimeWorked
 {
 	public $name = 'Total time worked';
@@ -19,6 +24,6 @@ class TotalTimeWorked
 			->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_osstimecontrol.link' => $recordModel->getId(), 'osstimecontrol_status' => 'Accepted'])->sum('sum_time');
 
-		return \App\Fields\RangeTime::formatHourToDisplay($sum, 'short');
+		return \App\Fields\RangeTime::displayElapseTime($sum);
 	}
 }

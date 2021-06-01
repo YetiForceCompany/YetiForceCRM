@@ -3,7 +3,7 @@
 /**
  * Report calendar.
  *
- * @package 	App
+ * @package TextParser
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -51,7 +51,7 @@ class UserCalendar extends Base
 					$queryGenerator->addCondition('date_start', false, $this->params[0]);
 				}
 				$query = $queryGenerator->createQuery();
-				$query->orderBy(['vtiger_crmentity.createdtime' => \SORT_DESC]);
+				$query->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
 				$query->limit(\App\Config::performance('REPORT_RECORD_NUMBERS'));
 				$dataReader = $query->createCommand()->query();
 				$entries = [];

@@ -3,12 +3,14 @@
 /**
  * Vtiger AssignedUpcomingProjectsTasks dashboard class.
  *
+ * @package Dashboard
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_AssignedUpcomingProjectsTasks_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -30,7 +32,7 @@ class Vtiger_AssignedUpcomingProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$projectsTasks = ($owner === false) ? [] : $moduleModel->getAssignedProjectsTasks('upcoming', $pagingModel, $owner);
+		$projectsTasks = (false === $owner) ? [] : $moduleModel->getAssignedProjectsTasks('upcoming', $pagingModel, $owner);
 		$currentDate = date('Y-m-d');
 
 		$viewer->assign('WIDGET', $widget);

@@ -16,7 +16,7 @@ class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Index_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if (!$request->isEmpty('record')) {
@@ -44,7 +44,7 @@ class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

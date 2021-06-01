@@ -11,21 +11,16 @@
 
 class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserModel = \App\User::getCurrentUserModel();
-		if ($currentUserModel->isAdmin() || ($currentUserModel->getId() === $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES'))) {
+		if (\App\Security\AdminAccess::isPermitted($request->getModule()) || (\App\User::getCurrentUserId() === $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES'))) {
 			return true;
 		}
 		throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
@@ -39,15 +34,18 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 	 */
 	public function preProcessSettings(App\Request $request)
 	{
+		if (!empty(\Config\Security::$askSuperUserAboutVisitPurpose) && !\App\Session::has('showedModalVisitPurpose') && !\App\User::getCurrentUserModel()->isAdmin()) {
+			\App\Process::addEvent([
+				'name' => 'showSuperUserVisitPurpose',
+				'type' => 'modal',
+				'url' => 'index.php?module=Users&view=VisitPurpose'
+			]);
+		}
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$view = $request->getByType('view', \App\Purifier::STANDARD, '');
 		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = $request->getInteger('block', '');
-		$fieldId = $request->getInteger('fieldid', '');
-		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
-		$menuModels = $settingsModel->getMenus();
-		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
-		$viewer->assign('MENUS', $menu);
+		$viewer->assign('MENUS', Settings_Vtiger_Menu_Model::getMenu($moduleName, $view, $request->getMode()));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
@@ -60,18 +58,14 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -79,9 +73,7 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		parent::process($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

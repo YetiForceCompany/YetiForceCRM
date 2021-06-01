@@ -128,9 +128,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		if ('LBL_TYPE_TARGET_USER' === self::TYPES[$params['type']] || 1 === (new \App\Db\Query())->from('s_#__companies')->count()) {
 			$configFile = new \App\ConfigFile('component', 'Branding');
 			$configFile->set('footerName', $params['name']);
-			$configFile->set('urlFacebook', $params['facebook']);
-			$configFile->set('urlTwitter', $params['twitter']);
-			$configFile->set('urlLinkedIn', $params['linkedin']);
+			$configFile->set('urlFacebook', $params['facebook'] ?? '');
+			$configFile->set('urlTwitter', $params['twitter'] ?? '');
+			$configFile->set('urlLinkedIn', $params['linkedin'] ?? '');
 			$configFile->create();
 		}
 		\App\Cache::clear();
@@ -174,14 +174,18 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to delete the current Record Model.
+	 *
+	 * @return bool
 	 */
-	public function delete()
+	public function delete(): bool
 	{
-		$db = \App\Db::getInstance('admin');
-		$db->createCommand()
+		$delete = \App\Db::getInstance('admin')->createCommand()
 			->delete('s_#__companies', ['id' => $this->getId()])
 			->execute();
-		\App\Cache::clear();
+		if ($delete) {
+			\App\Cache::clear();
+		}
+		return $delete;
 	}
 
 	/**
@@ -264,7 +268,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$moduleName = $this->getModule()->getName(true);
 		$labels = $this->getModule()->getFormFields();
-		$label = $label ? $label : ($labels[$name]['label'] ?? '');
+		$label = $label ?: ($labels[$name]['label'] ?? '');
 		$sourceModule = $this->get('source');
 		$companyId = $this->getId();
 		$fieldName = 'YetiForce' === $sourceModule ? "companies[$companyId][$name]" : $name;

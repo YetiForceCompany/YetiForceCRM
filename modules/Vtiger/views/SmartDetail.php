@@ -1,5 +1,15 @@
 <?php
-
+/**
+ * Smart detail view file.
+ *
+ * @package View
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+/**
+ * Smart detail view class.
+ */
 class Vtiger_SmartDetail_View extends Vtiger_IndexAjax_View
 {
 	/**
@@ -9,7 +19,7 @@ class Vtiger_SmartDetail_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -19,7 +29,7 @@ class Vtiger_SmartDetail_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!$this->record) {

@@ -18,10 +18,8 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 	 */
 	const ALLOWED_PROTOCOLS = ['http', 'https', 'ftp', 'ftps', 'telnet'];
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	/** {@inheritdoc} */
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -32,9 +30,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -48,42 +44,39 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 			$scheme = 'http';
 			$value = "{$scheme}://{$value}";
 		}
-		if (!(preg_match('/^([^\:]+)\:/i', $value) && filter_var($value, FILTER_VALIDATE_URL) && in_array(strtolower($scheme), static::ALLOWED_PROTOCOLS))) {
+		if (!(preg_match('/^([^\:]+)\:/i', $value) && \App\Validator::url($value) && \in_array(strtolower($scheme), static::ALLOWED_PROTOCOLS))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return $value ? $value : '';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if (empty($value)) {
+			return '';
+		}
 		$rawValue = $value;
 		$value = \App\Purifier::encodeHtml($value);
-		preg_match("^[\w]+:\/\/^", $value, $matches);
+		preg_match('^[\\w]+:\\/\\/^', $value, $matches);
 		if (empty($matches[0])) {
 			$value = 'http://' . $value;
 		}
 		if ($rawText) {
 			return $value;
 		}
-		$rawValue = \App\TextParser::textTruncate($rawValue, is_int($length) ? $length : false);
+		$rawValue = \App\TextParser::textTruncate($rawValue, \is_int($length) ? $length : false);
 
 		return '<a class="urlField u-cursor-pointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer noopener">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Url.tpl';

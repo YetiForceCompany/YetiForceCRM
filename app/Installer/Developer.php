@@ -2,7 +2,7 @@
 /**
  * Developer tools for installer.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -25,11 +25,11 @@ class Developer
 	{
 		set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
 			$errorString = \App\ErrorHandler::error2string($errNo);
-			$msg = reset($errorString) . ": $errStr in $errFile, line $errLine" . PHP_EOL;
+			$msg = reset($errorString) . ": {$errStr}\nFile: {$errFile}\nLine: $errLine" . PHP_EOL;
 			echo "<pre>$msg</pre><hr>";
 		}, E_ALL);
 		$json = '';
-		foreach (['Portal', 'ManageConsents'] as $type) {
+		foreach (\Api\Core\Containers::$list as $type) {
 			$json .= self::generateSwaggerByType($type, false);
 		}
 		return $json;
@@ -48,7 +48,7 @@ class Developer
 		if ($errorHandler) {
 			set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
 				$errorString = \App\ErrorHandler::error2string($errNo);
-				$msg = reset($errorString) . ": $errStr in $errFile, line $errLine" . PHP_EOL;
+				$msg = reset($errorString) . ": {$errStr}\nFile: {$errFile}\nLine: $errLine" . PHP_EOL;
 				echo "<pre>$msg</pre><hr>";
 			}, E_ALL);
 		}

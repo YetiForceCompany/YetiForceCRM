@@ -20,12 +20,12 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$profileID = $request->getInteger('profileID');
 		$checked = $request->getBoolean('checked');
 		$globalactionid = $request->getInteger('globalactionid');
-		if ($globalactionid === 1) {
+		if (1 === $globalactionid) {
 			$globalActionName = 'LBL_VIEW_ALL';
 		} else {
 			$globalActionName = 'LBL_EDIT_ALL';

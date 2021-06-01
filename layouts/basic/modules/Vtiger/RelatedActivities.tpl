@@ -170,16 +170,10 @@
 						</span>
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<span class="edit d-none">
-								{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}
-									{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('description'))}
+									{assign var=FIELD_MODEL value=$RECORD->getField('description')->set('fieldvalue', $RECORD->get('description'))}
 									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
-									{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
-										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}[]'
-											   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
-									{else}
-										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}'
-											   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
-									{/if}
+									{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
+									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-prev-value='{\App\Purifier::encodeHtml($FIELD_VALUE)}'/>
 							</span>
 							{/if}
 						</div>

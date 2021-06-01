@@ -8,7 +8,7 @@ Settings_Inventory_Index_Js(
 		/*
 		 * Function to add the Details in the list after saving
 		 */
-		addDetails: function(details) {
+		addDetails: function (details) {
 			let container = jQuery('#inventory'),
 				currency = jQuery('#currency'),
 				symbol = '%',

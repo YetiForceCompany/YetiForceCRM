@@ -18,7 +18,7 @@ jQuery.Class(
 		 *@param accepts field element as parameter
 		 * @return error if validation fails true on success
 		 */
-		invokeValidation: function(field, rules, k, options) {
+		invokeValidation: function (field, rules, k, options) {
 			//If validation engine already maked the field as error
 			// we dont want to proceed
 			if (typeof options !== 'undefined') {
@@ -48,7 +48,7 @@ jQuery.Class(
 		 *@param accepts field element as parameter
 		 * @return list of validators for field
 		 */
-		getValidator: function(field) {
+		getValidator: function (field) {
 			let listOfValidators = [],
 				fieldData = field.data(),
 				fieldInfo = fieldData.fieldinfo;
@@ -100,14 +100,14 @@ jQuery.Class(
 		 *@param accepts fieldInstance as parameter
 		 * @return list of validators for particular field type
 		 */
-		getValidatorsFromFieldType: function(fieldInstance) {
+		getValidatorsFromFieldType: function (fieldInstance) {
 			var fieldType = fieldInstance.getType();
 			var validatorsOfType = [];
 			fieldType = fieldType.charAt(0).toUpperCase() + fieldType.slice(1).toLowerCase();
 			validatorsOfType.push(Vtiger_Base_Validator_Js.getValidatorClassName(fieldType));
 			return validatorsOfType;
 		},
-		getValidatorClassName: function(validatorName) {
+		getValidatorClassName: function (validatorName) {
 			var validatorsOfType = '';
 			var className = Vtiger_Base_Validator_Js.getClassName(validatorName);
 			var fallBackClassName = Vtiger_Base_Validator_Js.getFallBackClassName(validatorName);
@@ -123,7 +123,7 @@ jQuery.Class(
 		 *@param accepts validatorName as parameter
 		 * @return module specific validator className
 		 */
-		getClassName: function(validatorName) {
+		getClassName: function (validatorName) {
 			let moduleName;
 			if (Vtiger_Base_Validator_Js.moduleName != false) {
 				moduleName = Vtiger_Base_Validator_Js.moduleName;
@@ -137,7 +137,7 @@ jQuery.Class(
 		 *@param accepts validatorName as parameter
 		 * @return generic validator className
 		 */
-		getFallBackClassName: function(validatorName) {
+		getFallBackClassName: function (validatorName) {
 			return 'Vtiger_' + validatorName + '_Validator_Js';
 		}
 	},
@@ -148,14 +148,14 @@ jQuery.Class(
 		 *Function which validates the field data
 		 * @return true
 		 */
-		validate: function() {
+		validate: function () {
 			return true;
 		},
 		/**
 		 *Function which gets error message
 		 * @return error message
 		 */
-		getError: function() {
+		getError: function () {
 			if (this.error != null) {
 				return this.error;
 			}
@@ -165,7 +165,7 @@ jQuery.Class(
 		 *Function which sets error message
 		 * @return Instance
 		 */
-		setError: function(errorInfo) {
+		setError: function (errorInfo) {
 			this.error = errorInfo;
 			return this;
 		},
@@ -173,7 +173,7 @@ jQuery.Class(
 		 *Function which sets field attribute of class
 		 * @return Instance
 		 */
-		setElement: function(field) {
+		setElement: function (field) {
 			this.field = field;
 			return this;
 		},
@@ -181,14 +181,14 @@ jQuery.Class(
 		 *Function which gets field attribute of class
 		 * @return Instance
 		 */
-		getElement: function() {
+		getElement: function () {
 			return this.field;
 		},
 		/**
 		 *Function which gets trimed field value
 		 * @return fieldValue
 		 */
-		getFieldValue: function() {
+		getFieldValue: function () {
 			var field = this.getElement();
 			return jQuery.trim(field.val());
 		}

@@ -43,7 +43,6 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 			$usersListArray[$userName] = $userName;
 		}
 		$dataReader->close();
-
 		return $usersListArray;
 	}
 
@@ -67,8 +66,10 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 					return '--';
 			case 'user_name':
 				return $this->getForHtml($fieldName);
+			case 'agent':
+				return \App\Layout::truncateText($this->get($fieldName) ?: '', 70, true);
 			case 'status':
-				return App\Language::translate($this->get($fieldName), 'Settings::Vtiger');
+				return App\Language::translate($this->get($fieldName), 'Users');
 			default:
 				return $this->get($fieldName);
 		}

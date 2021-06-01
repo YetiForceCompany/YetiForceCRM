@@ -52,7 +52,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	public static function setConfig($param)
 	{
 		$value = $param['val'];
-		if (is_array($value)) {
+		if (\is_array($value)) {
 			$value = implode(',', $value);
 		}
 		App\Db::getInstance()->createCommand()
@@ -70,11 +70,11 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	public function saveSwitchUsers($data)
 	{
 		$map = $switchUsers = $switchUsersRaw = [];
-		if (!empty($data) && count($data)) {
+		if (!empty($data) && \count($data)) {
 			foreach ($data as $row) {
 				$switchUsersRaw[$row['user']] = $row['access'];
 				$accessList = [];
-				if (count($row['access'])) {
+				if (\count($row['access'])) {
 					foreach ($row['access'] as $access) {
 						$accessList = array_merge($accessList, $this->getUserID($access));
 					}
@@ -126,7 +126,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getUserID($data)
 	{
-		if (array_key_exists($data, self::$usersID)) {
+		if (\array_key_exists($data, self::$usersID)) {
 			return self::$usersID[$data];
 		}
 		if ('H' === substr($data, 0, 1)) {
@@ -159,7 +159,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getUserName($id)
 	{
-		if (array_key_exists($id, self::$users)) {
+		if (\array_key_exists($id, self::$users)) {
 			return self::$users[$id];
 		}
 		$entityData = \App\Module::getEntityInfo('Users');
@@ -181,10 +181,10 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$switchUsersRaw = $this->getSwitchUsers();
 		$map = $switchUsers = [];
-		if (count($switchUsersRaw)) {
+		if (\count($switchUsersRaw)) {
 			foreach ($switchUsersRaw as $key => $row) {
 				$accessList = [];
-				if (count($row)) {
+				if (\count($row)) {
 					foreach ($row as $access) {
 						$accessList = array_merge($accessList, $this->getUserID($access));
 					}
@@ -251,7 +251,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				if (empty($row['locks'])) {
 					continue;
 				}
-				if (array_key_exists($row['user'], $toSave)) {
+				if (\array_key_exists($row['user'], $toSave)) {
 					$toSave[$row['user']] = array_merge($toSave[$row['user']], $row['locks']);
 				} else {
 					$toSave[$row['user']] = $row['locks'];

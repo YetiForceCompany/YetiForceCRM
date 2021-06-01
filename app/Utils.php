@@ -5,6 +5,8 @@ namespace App;
 /**
  * Utils class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -46,7 +48,6 @@ class Utils
 					$toImplode[] = static::varExport($value);
 				}
 			}
-
 			return '[' . implode(',', $toImplode) . ']';
 		}
 		return var_export($variable, true);
@@ -89,6 +90,30 @@ class Utils
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Merge two arrays.
+	 *
+	 * @param array $array1
+	 * @param array $array2
+	 *
+	 * @return array
+	 */
+	public static function merge(array $array1, array $array2): array
+	{
+		foreach ($array2 as $key => $value) {
+			if (isset($array1[$key])) {
+				if (\is_array($array1[$key]) && \is_array($value)) {
+					$array1[$key] = self::merge($array1[$key], $value);
+				} else {
+					$array1[$key] = $value;
+				}
+			} else {
+				$array1[$key] = $value;
+			}
+		}
+		return $array1;
 	}
 
 	/**
@@ -149,7 +174,7 @@ class Utils
 	 *
 	 * @return bool $value
 	 */
-	public static function saveToFile(string $pathDirectory, $content, string $comment = '', int $flag = 0, bool $return = false): bool
+	public static function saveToFile(string $pathDirectory, $content, string $comment = '', int $flag = LOCK_EX, bool $return = false): bool
 	{
 		if (\is_array($content)) {
 			$content = self::varExport($content);
@@ -158,7 +183,7 @@ class Utils
 			$content = "return $content;";
 		}
 		if ($comment) {
-			$content = "<?php /**\n{$comment}\n*/\n{$content}\n";
+			$content = "<?php \n/**  {$comment}  */\n{$content}\n";
 		} else {
 			$content = "<?php $content" . PHP_EOL;
 		}
@@ -182,7 +207,7 @@ class Utils
 	}
 
 	/**
-	 * Sanitize special chars from given string
+	 * Sanitize special chars from given string.
 	 *
 	 * @param string $string
 	 * @param string $delimiter
@@ -242,5 +267,63 @@ class Utils
 		$string = strtr($string, $replace);
 		$string = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $string);
 		return trim($string, $delimiter);
+	}
+
+	/**
+	 * Change the order of associative array.
+	 *
+	 * @param array $array
+	 * @param array $order
+	 *
+	 * @return array
+	 */
+	public static function changeSequence(array $array, array $order): array
+	{
+		if (!$order) {
+			return $array;
+		}
+		$returnLinks = [];
+		foreach ($order as $value) {
+			if ($array[$value]) {
+				$returnLinks[$value] = $array[$value];
+			}
+			unset($array[$value]);
+		}
+		return array_merge($returnLinks, $array);
+	}
+
+	/**
+	 * Get locks content by events.
+	 *
+	 * @param array $locks
+	 *
+	 * @return string
+	 */
+	public static function getLocksContent(array $locks): string
+	{
+		$return = '';
+		foreach ($locks as $lock) {
+			switch ($lock) {
+				case 'copy':
+					$return .= ' oncopy = "return false"';
+					break;
+				case 'cut':
+					$return .= ' oncut = "return false"';
+					break;
+				case 'paste':
+					$return .= ' onpaste = "return false"';
+					break;
+				case 'contextmenu':
+					$return .= ' oncontextmenu = "return false"';
+					break;
+				case 'selectstart':
+					$return .= ' onselectstart = "return false" onselect = "return false"';
+					break;
+				case 'drag':
+					$return .= ' ondragstart = "return false" ondrag = "return false"';
+					break;
+			}
+		}
+		return $return;
 	}
 }

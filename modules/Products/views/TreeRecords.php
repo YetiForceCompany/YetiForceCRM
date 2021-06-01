@@ -32,10 +32,8 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		if (!$multiReferenceFieldId || !($fieldInfo = \App\Field::getFieldInfo($multiReferenceFieldId))) {
 			return;
 		}
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
-		$queryGenerator = $listViewModel->get('query_generator');
+		$queryGenerator = $listViewModel->getQueryGenerator();
 		if (!empty($branches)) {
 			$queryGenerator->addCondition($fieldInfo['fieldname'], implode('##', $branches), 'e');
 		}
@@ -46,8 +44,7 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 				->where(['module' => App\Module::getModuleId($baseModuleName), 'relmodule' => App\Module::getModuleId($moduleName), 'tree' => $category]);
 			$queryGenerator->addNativeCondition(['in', 'vtiger_crmentity.crmid', $query], false);
 		}
-		$listViewModel->set('query_generator', $queryGenerator);
-		$listEntries = $listViewModel->getListViewEntries($pagingModel);
+		$listEntries = $listViewModel->getAllEntries();
 		if (0 === \count($listEntries)) {
 			return;
 		}

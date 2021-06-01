@@ -20,7 +20,7 @@ window.MailIntegration_Iframe = {
 	 * @return  {object}           AppConnector object with done method
 	 */
 	connector(request) {
-		return AppConnector.request(request).fail(error => {
+		return AppConnector.request(request).fail((error) => {
 			this.hideIframeLoader();
 			this.showResponseMessage(false);
 		});
@@ -96,7 +96,7 @@ window.MailIntegration_Iframe = {
 			mailId: this.mailId,
 			record: recordData.id,
 			recordModule: recordData.module
-		}).done(response => {
+		}).done((response) => {
 			this.showResponseMessage(response['success'], app.vtranslate('JS_REMOVED_RELATION_SUCCESSFULLY'));
 			this.reloadView(response['success']);
 		});
@@ -134,11 +134,11 @@ window.MailIntegration_Iframe = {
 			email: this.mailItem.from.emailAddress,
 			email1: this.mailItem.from.emailAddress,
 			relationOperation: true,
-			relatedRecords: $.map(this.container.find('.js-list-item-click'), record => {
+			relatedRecords: $.map(this.container.find('.js-list-item-click'), (record) => {
 				return { module: record.dataset.module, id: record.dataset.id };
 			})
 		};
-		const fillNameFields = first => {
+		const fillNameFields = (first) => {
 			const nameData = this.mailItem.from.displayName.split(' ');
 			const firstName = nameData.shift();
 			const lastName = nameData.join(' ');
@@ -169,11 +169,13 @@ window.MailIntegration_Iframe = {
 				}
 			}
 		}
-		const mailBodyCallback = body => {
-			data.description = body;
-			return data;
-		};
-		return this.asyncGetMailBody(mailBodyCallback);
+		this.mailDetails = {};
+		return new Promise((resolve) => {
+			this.asyncGetMailBody().then(() => {
+				data.description = this.mailDetails.mailBody;
+				resolve(data);
+			});
+		});
 	},
 	/**
 	 * Toggle active list items
@@ -207,7 +209,7 @@ window.MailIntegration_Iframe = {
 			mailId: this.mailId,
 			record: recordId,
 			recordModule: moduleName
-		}).done(response => {
+		}).done((response) => {
 			this.showResponseMessage(response['success'], app.vtranslate('JS_ADDED_RELATION_SUCCESSFULLY'));
 			this.reloadView(response['success']);
 		});
@@ -220,7 +222,7 @@ window.MailIntegration_Iframe = {
 	 */
 	showQuickCreateForm(moduleName, quickCreateParams = {}) {
 		quickCreateParams = Object.assign({ noCache: true, data: {} }, quickCreateParams);
-		this.fillNewRecordData(moduleName).then(data => {
+		this.fillNewRecordData(moduleName).then((data) => {
 			quickCreateParams.data = Object.assign(data, quickCreateParams.data);
 			App.Components.QuickCreate.createRecord(moduleName, quickCreateParams);
 		});
@@ -245,19 +247,19 @@ window.MailIntegration_Iframe = {
 	 * Register import click
 	 */
 	registerImportClick() {
-		this.container.on('click', '.js-import-mail', e => {
+		this.container.on('click', '.js-import-mail', (e) => {
 			this.showIframeLoader();
-			this.getMailDetails().then(mails => {
+			this.getMailDetails().then(() => {
 				this.connector(
 					Object.assign(
 						{
 							module: 'MailIntegration',
 							action: 'Import'
 						},
-						mails,
+						this.mailDetails,
 						window.PanelParams
 					)
-				).done(response => {
+				).done((response) => {
 					this.hideIframeLoader();
 					this.showResponseMessage(response['success'], app.vtranslate('JS_IMPORT'));
 					this.reloadView(response['success']);
@@ -285,7 +287,7 @@ window.MailIntegration_Iframe = {
 				outputString += '<BR>isInline: ' + attachment.isInline;
 			}
 		}
-		const mailDetails = {
+		this.mailDetails = {
 			mailFrom: this.parseEmailAddressDetails(mailItem.from),
 			mailSender: mailItem.sender.emailAddress,
 			mailTo: this.parseEmailAddressDetails(mailItem.to),
@@ -295,11 +297,7 @@ window.MailIntegration_Iframe = {
 			mailNormalizedSubject: mailItem.normalizedSubject,
 			mailDateTimeCreated: mailItem.dateTimeCreated.toISOString()
 		};
-		const mailBodyCallback = body => {
-			mailDetails.mailBody = body;
-			return mailDetails;
-		};
-		return this.asyncGetMailBody(mailBodyCallback);
+		return this.asyncGetMailBody();
 	},
 	/**
 	 * Get mail body async function
@@ -308,16 +306,29 @@ window.MailIntegration_Iframe = {
 	 *
 	 * @return  {object}            Promise
 	 */
-	asyncGetMailBody(callback) {
-		return new Promise((resolve, reject) => {
-			this.mailItem.body.getAsync(Office.CoercionType.Html, body => {
-				if (body.status === 'succeeded') {
-					resolve(callback(body.value));
-				} else {
-					reject(body);
-				}
-			});
-		});
+	asyncGetMailBody() {
+		return Promise.all([
+			new Promise((resolve, reject) => {
+				this.mailItem.body.getAsync(Office.CoercionType.Html, (body) => {
+					if (body.status === 'succeeded') {
+						this.mailDetails.mailBody = body.value;
+						resolve(body);
+					} else {
+						reject(body);
+					}
+				});
+			}),
+			new Promise((resolve, reject) => {
+				this.mailItem.getAllInternetHeadersAsync((body) => {
+					if (body.status === 'succeeded') {
+						this.mailDetails.mailHeaders = body.value;
+						resolve(body);
+					} else {
+						reject(body);
+					}
+				});
+			})
+		]);
 	},
 	/**
 	 * Parse email address details
@@ -327,12 +338,12 @@ window.MailIntegration_Iframe = {
 	 * @return  {string}        e-mail address
 	 */
 	parseEmailAddressDetails(data) {
-		let fn = function(row) {
+		let fn = function (row) {
 			return row.emailAddress;
 		};
 		if ($.isArray(data)) {
 			let rows = [];
-			$.each(data, function(index, value) {
+			$.each(data, function (index, value) {
 				rows[index] = fn(value);
 			});
 			return rows;
@@ -370,12 +381,12 @@ window.MailIntegration_Iframe = {
 	registerModulesSelect() {
 		this.moduleSelect = App.Fields.Picklist.showSelect2ElementView(this.container.find('.js-modules'));
 		this.moduleSelect.on('change', this.registerModulesSelectChange.bind(this));
-		this.container.find('.js-select-record').on('click', e => {
+		this.container.find('.js-select-record').on('click', (e) => {
 			let params = {
 				module: this.moduleSelect[0].value,
 				src_module: 'OSSMailView'
 			};
-			this.container.find('.js-list-item-click').each(function(index) {
+			this.container.find('.js-list-item-click').each(function (index) {
 				let data = $(this).data();
 				if (data.field == 'link' || data.field == 'process') {
 					params[data.field] = data.id;
@@ -402,7 +413,7 @@ window.MailIntegration_Iframe = {
 	 * Register add record
 	 */
 	registerAddRecord() {
-		this.addRecordBtn.on('click', e => {
+		this.addRecordBtn.on('click', (e) => {
 			let moduleName = this.moduleSelect[0].value;
 			let callbackFunction = ({ result }) => {
 				this.addRelation(result._recordId, moduleName);
@@ -443,6 +454,6 @@ window.MailIntegration_Iframe = {
 	}
 };
 window.App.Components.Scrollbar.active = false;
-(function($) {
+(function ($) {
 	window.MailIntegration_Iframe.registerEvents();
 })($);

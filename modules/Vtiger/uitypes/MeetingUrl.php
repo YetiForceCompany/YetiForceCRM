@@ -1,6 +1,6 @@
 <?php
 /**
- * UIType meeting url.
+ * UIType meeting url field file.
  *
  * @package   UIType
  *
@@ -14,11 +14,12 @@
  */
 class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if (empty($value)) {
+			return '';
+		}
 		$rawValue = $value;
 		$value = \App\Purifier::encodeHtml($value);
 		preg_match('^[\\w]+:\\/\\/^', $value, $matches);
@@ -34,13 +35,25 @@ class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 			$meetingModalUrl = "index.php?module={$moduleName}&view=MeetingModal&record={$record}&field={$this->getFieldModel()->getName()}";
 			$class = 'js-show-modal';
 		}
-		$rawValue = \App\TextParser::textTruncate($rawValue, \is_int($length) ? $length : false);
-		return '<a class="noLinkBtn btnNoFastEdit ' . $class . ' u-cursor-pointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer noopener" data-url="' . $meetingModalUrl . '">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
+		$rawValue = \App\TextParser::textTruncate($rawValue, \is_int($length) ? $length : 0);
+		return '<a class="noLinkBtn ' . $class . ' u-cursor-pointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer noopener" data-url="' . $meetingModalUrl . '">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Gets URL.
+	 *
+	 * @param int|null $recordId
+	 *
+	 * @return string
 	 */
+	public function getUrl($recordId = 0): string
+	{
+		$fieldModel = $this->getFieldModel();
+		$params = $fieldModel->getFieldParams();
+		return "index.php?module={$fieldModel->getModuleName()}&action=Meeting&fieldName={$fieldModel->getName()}&record=" . ($recordId ?: '') . '&expField=' . ($params['exp'] ?? '');
+	}
+
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MeetingUrl.tpl';

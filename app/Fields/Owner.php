@@ -5,6 +5,8 @@ namespace App\Fields;
 /**
  * Owner class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -371,6 +373,7 @@ class Owner
 			$subQuery = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2modules')->where(['tabid' => $tabId]);
 			$query->where(['groupid' => $subQuery]);
 		}
+
 		if ('private' === $private) {
 			$query->andWhere(['groupid' => $this->currentUser->getId()]);
 			if ($this->currentUser->getGroups()) {
@@ -469,7 +472,14 @@ class Owner
 			}
 		}
 		$users = $groups = [];
-		$ids = $queryGenerator->setFields([$fieldName])->createQuery()->distinct()->column();
+		$queryGenerator->clearFields();
+		if (false !== strpos($fieldName, ':')) {
+			$queryField = $queryGenerator->getQueryRelatedField($fieldName);
+			$queryGenerator->setFields([])->setCustomColumn($queryField->getColumnName())->addRelatedJoin($queryField->getRelated());
+		} else {
+			$queryGenerator->setFields([$fieldName]);
+		}
+		$ids = $queryGenerator->createQuery()->distinct()->column();
 		$adminInList = \App\Config::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
 			$userModel = \App\User::getUserModel($id);
@@ -629,27 +639,54 @@ class Owner
 	 *
 	 * @return bool|string
 	 */
-	public static function getUserLabel($id, $single = false)
+	public static function getUserLabel($id)
 	{
 		if (isset(self::$userLabelCache[$id])) {
 			return self::$userLabelCache[$id];
 		}
-
+		$userLabel = false;
 		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
+			foreach ($users as $uid => &$user) {
+				self::$userLabelCache[$uid] = $user['fullName'];
+				self::$ownerLabelCache[$uid] = $user['fullName'];
+			}
+			$userLabel = isset($users[$id]) ? $users[$id]['fullName'] : false;
 		} else {
-			$instance = new self();
-			if ($single) {
-				$users = $instance->initUsers(false, $id);
-			} else {
-				$users = $instance->initUsers(false);
+			if ($users = \App\User::getAllLabels()) {
+				foreach ($users as $uid => &$user) {
+					self::$userLabelCache[$uid] = $user;
+					self::$ownerLabelCache[$uid] = $user;
+				}
+				$userLabel = $users[$id] ?? false;
 			}
 		}
-		foreach ($users as $uid => &$user) {
-			self::$userLabelCache[$uid] = $user['fullName'];
-			self::$ownerLabelCache[$uid] = $user['fullName'];
+		return $userLabel ?? false;
+	}
+
+	/**
+	 * Gets the member label.
+	 *
+	 * @param string $member
+	 *
+	 * @return string
+	 */
+	public static function getMemberLabel(string $member): string
+	{
+		[$type, $id] = explode(':', $member);
+		switch ($type) {
+			case \App\PrivilegeUtil::MEMBER_TYPE_GROUPS:
+				$value = self::getGroupName((int) $id) ?: '';
+				break;
+			case \App\PrivilegeUtil::MEMBER_TYPE_ROLES:
+			case \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES:
+				$value = \App\PrivilegeUtil::getRoleDetail($id)['rolename'] ?? '';
+				break;
+			default:
+				$value = '';
+				break;
 		}
-		return isset($users[$id]) ? $users[$id]['fullName'] : false;
+		return $value;
 	}
 
 	/**
@@ -728,8 +765,8 @@ class Owner
 	public static function getColor($id)
 	{
 		if (!static::$colorsCache) {
-			if (file_exists('app_data/owners_colors.php')) {
-				static::$colorsCache = require 'app_data/owners_colors.php';
+			if (file_exists(ROOT_DIRECTORY . '/app_data/owners_colors.php')) {
+				static::$colorsCache = require ROOT_DIRECTORY . '/app_data/owners_colors.php';
 			} else {
 				static::$colorsCache = [];
 			}
@@ -760,10 +797,7 @@ class Owner
 			$users = \App\PrivilegeFile::getUser('id');
 			$isExists = isset($users[$id]);
 		} else {
-			$isExists = (new \App\Db\Query())
-				->from('vtiger_users')
-				->where(['id' => $id])
-				->exists();
+			$isExists = !empty(self::getUserLabel($id));
 		}
 		$result = $isExists ? 'Users' : 'Groups';
 		self::$typeCache[$id] = $result;
@@ -837,7 +871,7 @@ class Owner
 			$className = str_replace('"', '', $classNameWithDoubleQuotes);
 			require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 			$unserializeTask = unserialize($task);
-			if (\array_key_exists('field_value_mapping', $unserializeTask)) {
+			if (isset($unserializeTask->field_value_mapping)) {
 				$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
 				if (!empty($fieldMapping)) {
 					foreach ($fieldMapping as $key => $condition) {
@@ -858,7 +892,7 @@ class Owner
 				}
 			} else {
 				//For VTCreateTodoTask and VTCreateEventTask
-				if (\array_key_exists('assigned_user_id', $unserializeTask)) {
+				if (isset($unserializeTask->assigned_user_id)) {
 					$value = $unserializeTask->assigned_user_id;
 					if ($value == $oldId) {
 						$unserializeTask->assigned_user_id = $newId;

@@ -3,13 +3,15 @@
 /**
  * Widget to display RSS.
  *
+ * @package Dashboard
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request, $widget = null)
+	public function process(App\Request $request, $widget = null)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -38,7 +40,7 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 					$date = DateTimeField::convertToUserFormat($date->format('Y-m-d H:i:s'));
 					$title = \App\Purifier::purifyByType((string) $item->title, 'Text');
 					$listSubjects[] = [
-						'title' => strlen($title) > 40 ? substr($title, 0, 40) . '...' : $title,
+						'title' => \strlen($title) > 40 ? substr($title, 0, 40) . '...' : $title,
 						'link' => (string) $item->link,
 						'date' => $date,
 						'fullTitle' => $title,

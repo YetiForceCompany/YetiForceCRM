@@ -31,18 +31,6 @@ class CallHistory extends Vtiger_CRMEntity
 		'vtiger_callhistory' => 'callhistoryid',
 		'vtiger_callhistorycf' => 'callhistoryid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'LBL_TO_NUMBER' => ['callhistory', 'to_number'],
-		'LBL_FROM_NUMBER' => ['callhistory', 'from_number'],
-		'LBL_DURATION' => ['callhistory', 'duration'],
-		'LBL_TYPE' => ['callhistory', 'callhistorytype'],
-		'LBL_START_TIME' => ['callhistory', 'start_time'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'LBL_TO_NUMBER' => 'to_number',
@@ -56,8 +44,6 @@ class CallHistory extends Vtiger_CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view
-	public $list_link_field = 'to_number';
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

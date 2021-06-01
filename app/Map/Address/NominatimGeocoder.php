@@ -5,6 +5,8 @@
  *
  * @see       https://nominatim.org Documentation of Nominatim API
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -69,8 +71,11 @@ class NominatimGeocoder extends Base
 		}
 		$rows = [];
 		try {
+			$url = $this->config['map_url'] . '/?' . \http_build_query($params);
+			\App\Log::beginProfile("GET|NominatimGeocoder::find|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-				->request('GET', $this->config['map_url'] . '/?' . \http_build_query($params), $options);
+				->request('GET', $url, $options);
+			\App\Log::endProfile("GET|NominatimGeocoder::find|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody());
 			}

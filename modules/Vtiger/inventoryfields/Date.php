@@ -19,9 +19,7 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 	protected $onlyOne = false;
 	protected $purifyType = \App\Purifier::DATE_USER_FORMAT;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		if (!isset($this->dbValue[$value])) {
@@ -30,9 +28,7 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 		return $this->dbValue[$value];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($value) {
@@ -46,9 +42,7 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditValue($value)
 	{
 		if (empty($value)) {
@@ -57,9 +51,7 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 		return \App\Purifier::encodeHtml(DateTimeField::convertToUserFormat($value));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (empty($value)) {

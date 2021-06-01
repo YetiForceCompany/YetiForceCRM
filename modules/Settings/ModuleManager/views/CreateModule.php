@@ -8,12 +8,12 @@
  */
 class Settings_ModuleManager_CreateModule_View extends Settings_Vtiger_Index_View
 {
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

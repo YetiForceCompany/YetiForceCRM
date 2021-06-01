@@ -18,7 +18,7 @@ class ModComments_DetailAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		if (!$recordId) {
@@ -34,7 +34,7 @@ class ModComments_DetailAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$record = $request->getInteger('record');
 		$moduleName = $request->getModule();

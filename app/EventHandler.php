@@ -5,9 +5,12 @@ namespace App;
 /**
  * Event Handler main class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class EventHandler
 {
@@ -17,70 +20,149 @@ class EventHandler
 	 * @var string
 	 */
 	protected static $baseTable = 'vtiger_eventhandlers';
-	private static $handlerByType;
+	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler'];
 	private $recordModel;
 	private $moduleName;
 	private $params;
-	private static $handlersInstance;
-	private $exceptions;
-	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler', 'Vtiger_RecordLabelUpdater_Handler'];
+	private $exceptions = [];
+	private $handlers = [];
 
-	/** Edit view, validation before saving */
+	/** @var int Handler is in system mode, no editing possible */
+	public const SYSTEM = 0;
+	/** @var int Handler is in edit mode */
+	public const EDITABLE = 1;
+
+	/** @var string Edit view, validation before saving */
 	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
+	/** @var string Edit view, change value */
+	public const EDIT_VIEW_CHANGE_VALUE = 'EditViewChangeValue';
+	/** @var string Record converter after create record */
+	public const RECORD_CONVERTER_AFTER_SAVE = 'RecordConverterAfterSave';
+
+	/**
+	 * Handler types.
+	 *
+	 * @var array
+	 */
+	public const HANDLER_TYPES = [
+		'EditViewPreSave' => [
+			'label' => 'LBL_EDIT_VIEW_PRESAVE',
+			'icon' => 'fas fa-step-backward',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'EntityChangeState' => [
+			'label' => 'LBL_ENTITY_CHANGE_STATE',
+			'icon' => 'fas fa-compass',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'EntityBeforeSave' => [
+			'label' => 'LBL_ENTITY_BEFORE_SAVE',
+			'icon' => 'fas fa-save',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'EntityAfterSave' => [
+			'label' => 'LBL_ENTITY_AFTER_SAVE',
+			'icon' => 'far fa-save',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+	];
 
 	/**
 	 * Get all event handlers.
 	 *
-	 * @param bool    $active  true/false
-	 * @param ?string $groupBy
+	 * @param bool $active
 	 *
 	 * @return array
 	 */
-	public static function getAll(?string $groupBy = null)
+	public static function getAll(bool $active = true): array
 	{
-		if (Cache::has('EventHandler', 'All')) {
-			$handlers = Cache::get('EventHandler', 'All');
-		} else {
-			$handlers = (new \App\Db\Query())->from(self::$baseTable)->orderBy(['priority' => SORT_DESC])->all();
-			Cache::save('EventHandler', 'All', $handlers);
+		$query = (new \App\Db\Query())->from(self::$baseTable)->orderBy(['priority' => SORT_DESC]);
+		if ($active) {
+			$query->where(['is_active' => 1]);
 		}
-		if ($groupBy) {
-			$groupHandlers = [];
-			foreach ($handlers as $handler) {
-				$groupHandlers[$handler[$groupBy]][$handler['eventhandler_id']] = $handler;
-			}
-			$handlers = $groupHandlers;
-		}
-		return $handlers;
+		return $query->indexBy('eventhandler_id')->all();
 	}
 
 	/**
 	 * Get active event handlers by type (event_name).
 	 *
 	 * @param string $name
-	 * @param mixed  $moduleName
+	 * @param string $moduleName
 	 * @param bool   $active
 	 *
 	 * @return array
 	 */
-	public static function getByType($name, $moduleName = false): array
+	public static function getByType(string $name, ?string $moduleName = '', bool $active = true): array
 	{
-		if (!isset(self::$handlerByType)) {
-			$handlers = [];
-			foreach (static::getAll() as &$handler) {
-				$handlers[$handler['event_name']][$handler['handler_class']] = $handler;
+		$handlersByType = [];
+		$cacheName = 'All' . ($active ? ':active' : '');
+		if (Cache::has('EventHandlerByType', $cacheName)) {
+			$handlersByType = Cache::get('EventHandlerByType', $cacheName);
+		} else {
+			foreach (self::getAll($active) as $handler) {
+				$handlersByType[$handler['event_name']][$handler['handler_class']] = $handler;
 			}
-			self::$handlerByType = $handlers;
+			Cache::save('EventHandlerByType', $cacheName, $handlersByType, Cache::LONG);
 		}
-		$handlers = self::$handlerByType[$name] ?? [];
+		$handlers = $handlersByType[$name] ?? [];
 		if ($moduleName) {
-			foreach ($handlers as $key => &$handler) {
+			foreach ($handlers as $key => $handler) {
 				if ((!empty($handler['include_modules']) && !\in_array($moduleName, explode(',', $handler['include_modules']))) || (!empty($handler['exclude_modules']) && \in_array($moduleName, explode(',', $handler['exclude_modules'])))) {
 					unset($handlers[$key]);
 				}
 			}
 		}
 		return $handlers;
+	}
+
+	/**
+	 * Get vars event handlers by type (event_name).
+	 *
+	 * @param string $name
+	 * @param string $moduleName
+	 * @param array  $params
+	 * @param bool   $byKey
+	 *
+	 * @return string
+	 */
+	public static function getVarsByType(string $name, string $moduleName, array $params, bool $byKey = false): string
+	{
+		$return = [];
+		foreach (self::getByType($name, $moduleName) as $key => $handler) {
+			$className = $handler['handler_class'];
+			if (method_exists($className, 'vars') && ($vars = (new $className())->vars($name, $params, $moduleName))) {
+				if ($byKey) {
+					$return[$key] = $vars;
+				} else {
+					$return = array_unique(array_merge($return, $vars));
+				}
+			}
+		}
+		return Purifier::encodeHtml(Json::encode($return));
 	}
 
 	/**
@@ -92,13 +174,17 @@ class EventHandler
 	 * @param string $excludeModules
 	 * @param int    $priority
 	 * @param bool   $isActive
-	 * @param mixed  $ownerId
+	 * @param int    $ownerId
+	 * @param int    $mode
+	 *
+	 * @return bool
 	 */
-	public static function registerHandler($eventName, $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0)
+	public static function registerHandler(string $eventName, string $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0, $mode = 1): bool
 	{
+		$return = false;
 		$isExists = (new \App\Db\Query())->from(self::$baseTable)->where(['event_name' => $eventName, 'handler_class' => $className])->exists();
 		if (!$isExists) {
-			\App\Db::getInstance()->createCommand()
+			$return = \App\Db::getInstance()->createCommand()
 				->insert(self::$baseTable, [
 					'event_name' => $eventName,
 					'handler_class' => $className,
@@ -107,9 +193,11 @@ class EventHandler
 					'exclude_modules' => $excludeModules,
 					'priority' => $priority,
 					'owner_id' => $ownerId,
+					'privileges' => $mode
 				])->execute();
 			static::clearCache();
 		}
+		return $return;
 	}
 
 	/**
@@ -117,8 +205,8 @@ class EventHandler
 	 */
 	public static function clearCache()
 	{
-		self::$handlerByType = null;
-		Cache::delete('EventHandler', 'All');
+		Cache::delete('EventHandlerByType', 'All');
+		Cache::delete('EventHandlerByType', 'All:active');
 	}
 
 	/**
@@ -149,6 +237,30 @@ class EventHandler
 	{
 		Db::getInstance()->createCommand()->update(self::$baseTable, $params, ['eventhandler_id' => $id])->execute();
 		static::clearCache();
+	}
+
+	/**
+	 * Check if it is active function.
+	 *
+	 * @param string      $className
+	 * @param string|null $eventName
+	 *
+	 * @return bool
+	 */
+	public static function checkActive(string $className, ?string $eventName = null): bool
+	{
+		$rows = (new \App\Db\Query())->from(self::$baseTable)->where(['handler_class' => $className])->all();
+		$status = false;
+		foreach ($rows as $row) {
+			if (isset($eventName) && $eventName !== $row['event_name']) {
+				continue;
+			}
+			if (empty($row['is_active'])) {
+				return false;
+			}
+			$status = true;
+		}
+		return $status;
 	}
 
 	/**
@@ -187,7 +299,7 @@ class EventHandler
 	/**
 	 * Set record model.
 	 *
-	 * @param \App\Vtiger_Record_Model $recordModel
+	 * @param \Vtiger_Record_Model $recordModel
 	 *
 	 * @return $this
 	 */
@@ -267,9 +379,10 @@ class EventHandler
 	 *
 	 * @param array $exceptions
 	 */
-	public function setExceptions($exceptions)
+	public function setExceptions(array $exceptions)
 	{
 		$this->exceptions = $exceptions;
+		return $this;
 	}
 
 	/**
@@ -277,25 +390,14 @@ class EventHandler
 	 *
 	 * @return array Handlers list
 	 */
-	public function getHandlers($name)
+	public function getHandlers(string $name): array
 	{
 		$handlers = static::getByType($name, $this->moduleName);
-		if ($this->exceptions) {
-			if (!empty($this->exceptions['disableHandlers'])) {
-				$mandatory = [];
-				foreach (self::$mandatoryEventClass as &$className) {
-					if (isset($handlers[$className])) {
-						$mandatory[$className] = $handlers[$className];
-					}
-				}
-				unset($handlers);
-				$handlers = $mandatory;
-			}
-			if (!empty($this->exceptions['disableWorkflow'])) {
-				unset($handlers['Vtiger_Workflow_Handler']);
-			}
-			if (!empty($this->exceptions['disableHandlerByName'])) {
-				foreach ($this->exceptions['disableHandlerByName'] as &$className) {
+		if ($this->exceptions['disableHandlers'] ?? null) {
+			$handlers = array_intersect_key($handlers, array_flip(self::$mandatoryEventClass));
+		} elseif ($disableHandlers = $this->exceptions['disableHandlerClasses'] ?? null) {
+			foreach ($disableHandlers as $className) {
+				if (isset($handlers[$className])) {
 					unset($handlers[$className]);
 				}
 			}
@@ -310,27 +412,15 @@ class EventHandler
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function trigger($name)
+	public function trigger(string $name)
 	{
-		foreach ($this->getHandlers($name) as &$handler) {
-			if (isset(self::$handlersInstance[$handler['handler_class']])) {
-				$handlerInstance = self::$handlersInstance[$handler['handler_class']];
-			} else {
-				$handlerInstance = new $handler['handler_class']();
-				self::$handlersInstance[$handler['handler_class']] = $handlerInstance;
-			}
-			$function = lcfirst($name);
-			if (method_exists($handlerInstance, $function)) {
-				$handlerInstance->{$function}($this);
-			} else {
-				Log::error("Handler not found, class: {$handler['handler_class']} | $function");
-				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
-			}
+		foreach ($this->getHandlers($name) as $handler) {
+			$this->triggerHandler($handler);
 		}
 	}
 
 	/**
-	 * Trigger an event.
+	 * Trigger handler.
 	 *
 	 * @param array $handler
 	 *
@@ -338,15 +428,17 @@ class EventHandler
 	 */
 	public function triggerHandler(array $handler)
 	{
-		$handlerInstance = new $handler['handler_class']();
+		$className = $handler['handler_class'];
 		$function = lcfirst($handler['event_name']);
-		$result = false;
-		if (method_exists($handlerInstance, $function)) {
-			$result = $handlerInstance->{$function}($this);
-		} else {
-			Log::error("Handler not found, class: {$handler['handler_class']} | $function");
+		if (!method_exists($className, $function)) {
+			Log::error("Handler not found, class: {$className} | {$function}");
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
-		return $result;
+		if (isset($this->handlers[$className])) {
+			$handler = $this->handlers[$className];
+		} else {
+			$handler = $this->handlers[$className] = new $className();
+		}
+		return $handler->{$function}($this);
 	}
 }

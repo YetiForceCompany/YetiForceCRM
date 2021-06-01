@@ -8,9 +8,7 @@
  */
 class OSSPasswords_Module_Model extends Vtiger_Module_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSettingLinks(): array
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();

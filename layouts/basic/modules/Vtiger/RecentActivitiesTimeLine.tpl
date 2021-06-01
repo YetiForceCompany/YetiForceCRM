@@ -32,7 +32,7 @@
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item {if $NEW_CHANGE} bgWarning{/if} isCreate">
-											<div class="float-sm-left imageContainer d-sm-block d-none">
+											<div class="float-sm-left imageContainer d-sm-block d-none text-center">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
 													<img class="userImage" src="{$IMAGE['url']}">
@@ -67,7 +67,7 @@
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-sm-1 ml-0 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
-											<div class="float-sm-left imageContainer d-sm-block d-none">
+											<div class="float-sm-left imageContainer d-sm-block d-none text-center">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
 													<img class="userImage" src="{$IMAGE['url']}">
@@ -89,10 +89,16 @@
 																	{if $FIELDMODEL->get('postvalue') neq ''}
 																		<strong>{$FIELDMODEL->getOldValue()}</strong>
 																	{/if}
-																{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
+																{else if $FIELDMODEL->get('postvalue') neq '' && ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 																	&nbsp;
 																	<strong>{\App\Language::translate('LBL_DELETED','ModTracker')}</strong>
-																	(
+																	&nbsp;(
+																	<del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del>
+																	)
+																{else if $FIELDMODEL->get('postvalue') eq ''}
+																	&nbsp;
+																	<strong>{\App\Language::translate('LBL_DELETED_VALUE','ModTracker')}</strong>
+																	&nbsp;(
 																	<del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del>
 																	)
 																{else}
@@ -116,7 +122,7 @@
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
-											<div class="float-sm-left imageContainer d-sm-block d-none">
+											<div class="float-sm-left imageContainer d-sm-block d-none text-center">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
 													<img class="userImage" src="{$IMAGE['url']}">
@@ -156,7 +162,7 @@
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
-											<div class="imageContainer float-left d-sm-block d-none">
+											<div class="imageContainer float-left d-sm-block d-none text-center">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
 													<img class="userImage" src="{$IMAGE['url']}">
@@ -178,7 +184,7 @@
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
-											<div class="float-left imageContainer d-sm-block d-none">
+											<div class="float-left imageContainer d-sm-block d-none text-center">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
 													<img class="userImage" src="{$IMAGE['url']}">
@@ -193,14 +199,14 @@
 											</div>
 										</div>
 									</div>
-								{else if $RECENT_ACTIVITY->isDisplayed()}
+								{else if $RECENT_ACTIVITY->isDisplayed() || $RECENT_ACTIVITY->isShowHiddenData()}
 									<div class="d-flex">
 										<span class="c-circle-icon mt-2 d-sm-inline d-none text-center"
 												style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
-											<div class="float-left imageContainer d-sm-block d-none">
+											<div class="float-left imageContainer d-sm-block d-none text-center">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
 													<img class="userImage" src="{$IMAGE['url']}">

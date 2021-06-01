@@ -9,7 +9,7 @@
 		</div>
 		{if $VIEW == 'CreditLimits'}
 			{assign var=CURRENCY_BOOL value=true}
-			<input type="hidden" id="currency" value='{\App\Json::encode($CURRENCY)}'/>
+			<input type="hidden" id="currency" value='{\App\Purifier::encodeHtml(\App\Json::encode($CURRENCY))}'/>
 			<div class="alert alert-info mb-2">
 				<a href="#" class="close" data-dismiss="alert">&times;</a>
 				{\App\Language::translate('LBL_CREDITLIMITS_INFO', $QUALIFIED_MODULE)}

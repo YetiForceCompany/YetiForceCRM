@@ -33,5 +33,3 @@ AddDefaultCharset UTF-8
 <IfModule mod_autoindex.c>
 	Options -Indexes -MultiViews
 </IfModule>
-
-

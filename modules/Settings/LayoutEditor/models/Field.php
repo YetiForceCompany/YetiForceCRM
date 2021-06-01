@@ -33,7 +33,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			if ('vtiger_crmentity' !== $tablename) {
 				$db->createCommand()->dropColumn($tablename, $columnName)->execute();
 			}
-			App\Db::getInstance('admin')->createCommand()->delete('a_#__mapped_fields', ['or', ['source' => $id], ['target' => $id]])->execute();
+			App\Db::getInstance('admin')->createCommand()->delete('a_#__mapped_fields', ['or', ['source' => (string) $id], ['target' => (string) $id]])->execute();
 			//we have to remove the entries in customview and report related tables which have this field ($colName)
 			$db->createCommand()->delete('vtiger_cvcolumnlist', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
 			$db->createCommand()->delete('vtiger_cvcolumnlist', [
@@ -87,9 +87,13 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 			if (10 === $uiType && $reference) {
 				$db->createCommand()->delete('vtiger_relatedlists', ['field_name' => $fieldname, 'related_tabid' => $tabId, 'tabid' => array_map('App\Module::getModuleId', $reference)])->execute();
+				foreach ($reference as $module) {
+					\App\Relation::clearCacheByModule($module);
+				}
+				\App\Cache::delete('HierarchyByRelation', '');
 			}
 
-			$entityInfo = \App\Module::getEntityInfo($tabId);
+			$entityInfo = \App\Module::getEntityInfo($fldModule);
 			foreach (['fieldnameArr' => 'fieldname', 'searchcolumnArr' => 'searchcolumn'] as $key => $name) {
 				if (false !== ($fieldNameKey = array_search($fieldname, $entityInfo[$key]))) {
 					unset($entityInfo[$key][$fieldNameKey]);
@@ -254,7 +258,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditable()
 	{
-		return !('Calendar' === $this->block->module->name && $this->isActiveOptionDisabled());
+		return true;
 	}
 
 	/**
@@ -319,7 +323,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldInfo['isSummaryFieldDisabled'] = $this->isSummaryFieldOptionDisabled();
 		$fieldInfo['isMassEditDisabled'] = $this->isMassEditOptionDisabled();
 		$fieldInfo['isDefaultValueDisabled'] = $this->isDefaultValueOptionDisabled();
-
 		return $fieldInfo;
 	}
 }

@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Users_SwitchUsers_Action extends \App\Controller\Action
 {
@@ -16,13 +17,13 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userId = $request->getInteger('id');
 		require 'user_privileges/switchUsers.php';
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getRealId();
-		if (!array_key_exists($baseUserId, $switchUsers) || !array_key_exists($userId, $switchUsers[$baseUserId])) {
+		if (!\array_key_exists($baseUserId, $switchUsers) || !\array_key_exists($userId, $switchUsers[$baseUserId])) {
 			$db = \App\Db::getInstance('log');
 			$db->createCommand()->insert('l_#__switch_users', [
 				'baseid' => $baseUserId,
@@ -39,15 +40,26 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Function proccess.
+	 * Function process.
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
+		$db = \App\Db::getInstance('log');
 		$currentUser = \App\User::getCurrentUserModel();
 		$baseUserId = $currentUser->getId();
 		$userId = $request->getInteger('id');
+
+		if ($request->has('visitPurpose') && \App\Config::security('askAdminAboutVisitPurpose', true)) {
+			$db->createCommand()->insert('l_#__users_login_purpose', [
+				'userid' => $userId,
+				'datetime' => date('Y-m-d H:i:s'),
+				'purpose' => $request->getByType('visitPurpose', \App\Purifier::TEXT),
+				'baseid' => \App\User::getCurrentUserRealId()
+			])->execute();
+		}
+
 		$newUser = \App\User::getUserModel($userId);
 		$name = $newUser->getName();
 		App\Session::set('authenticated_user_id', $userId);
@@ -66,7 +78,6 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 			$baseUserId = App\Session::get('baseUserId');
 		}
 
-		$db = \App\Db::getInstance('log');
 		$db->createCommand()->insert('l_#__switch_users', [
 			'baseid' => $baseUserId,
 			'destid' => $userId,

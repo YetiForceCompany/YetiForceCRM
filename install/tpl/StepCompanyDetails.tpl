@@ -15,7 +15,6 @@
 			<div class="inner-container">
 				<form class="" name="step{$STEP_NUMBER}" method="post" action="Install.php">
 					<input type="hidden" name="mode" value="{$NEXT_STEP}">
-					<input type="hidden" name="auth_key" value="{$AUTH_KEY}">
 					<input type="hidden" name="lang" value="{$LANG}">
 					<div class="row">
 						<div class="col-12 text-center">

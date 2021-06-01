@@ -17,25 +17,19 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'seq';
 	protected $purifyType = \App\Purifier::INTEGER;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditTemplateName()
 	{
 		return 'inventoryTypes/ItemNumber.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		return (int) $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($value && $value !== filter_var($value, FILTER_VALIDATE_INT)) {

@@ -49,21 +49,6 @@ class IncidentRegister extends Vtiger_CRMEntity
 	];
 
 	/**
-	 * Mandatory for Listing (Related listview).
-	 *
-	 * @var array
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'FL_NAME' => ['incidentregister', 'name'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'FL_STATUS' => ['incidentregister', 'incidentregister_status'],
-		'FL_PEOPLE_NUMBER' => ['incidentregister', 'peoplne_number'],
-		'FL_TYPE' => ['incidentregister', 'incidentregister_type'],
-		'FL_INCIDENT_REPORT_DATE' => ['incidentregister', 'incident_report_date'],
-	];
-	/**
 	 * List fields name.
 	 *
 	 * @var array
@@ -77,12 +62,7 @@ class IncidentRegister extends Vtiger_CRMEntity
 		'FL_TYPE' => 'incidentregister_type',
 		'FL_INCIDENT_REPORT_DATE' => 'incident_report_date'
 	];
-	/**
-	 * Make the field link to detail view.
-	 *
-	 * @var string
-	 */
-	public $list_link_field = 'name';
+
 	/**
 	 * For Popup listview and UI type support.
 	 *

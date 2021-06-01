@@ -3,6 +3,8 @@
 /**
  * Update comment for related record.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -16,7 +18,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$relatedRecord = $request->getByType('relid', 'Alnum');
@@ -33,7 +35,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');

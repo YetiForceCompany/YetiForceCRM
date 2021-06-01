@@ -28,28 +28,24 @@
 								<span class="redColor">*</span>
 							{/if}
 							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
+							{if isset($FIELD['infoText'])}
+								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2 text-primary" data-js="popover" data-placement="top" data-class="u-min-w-470pxr" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], $QUALIFIED_MODULE))}">
+									<span class="fas fa-info-circle"></span>
+								</div>
+							{/if}
 						</label>
 						<div class="col-lg-8">
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
-								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===1} active{/if}"
-									   for="option1">
-									<input value="1" type="radio" name="type" id="type-option1"
-										   data-validation-engine="validate[required]"
-										   autocomplete="off"{if $RECORD->get('type')==1} checked{/if}>
+								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===1} active{/if}" for="type-option1">
+									<input value="1" type="radio" name="type" id="type-option1" data-validation-engine="validate[required]" autocomplete="off"{if $RECORD->get('type')==1} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_TARGET_USER',$QUALIFIED_MODULE)}
 								</label>
-								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===2} active{/if}"
-									   for="option2">
-									<input value="2" type="radio" name="type" id="type-option2"
-										   data-validation-engine="validate[required]"
-										   autocomplete="off"{if $RECORD->get('type')==2} checked{/if}>
+								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===2} active{/if}" for="type-option2">
+									<input value="2" type="radio" name="type" id="type-option2" data-validation-engine="validate[required]" autocomplete="off"{if $RECORD->get('type')==2} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_INTEGRATOR',$QUALIFIED_MODULE)}
 								</label>
-								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===3} active{/if}"
-									   for="option3">
-									<input value="3" type="radio" name="type" id="type-option3"
-										   data-validation-engine="validate[required]"
-										   autocomplete="off"{if $RECORD->get('type')==3} checked{/if}>
+								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===3} active{/if}" for="type-option3">
+									<input value="3" type="radio" name="type" id="type-option3" data-validation-engine="validate[required]" autocomplete="off"{if $RECORD->get('type')==3} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_PROVIDER',$QUALIFIED_MODULE)}
 								</label>
 							</div>
@@ -71,7 +67,7 @@
 					<div class="form-group row">
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
 							{if $FIELD_NAME === 'newsletter'}
-								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover"
+								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2 text-primary" data-js="popover"
 									 data-content="{\App\Purifier::encodeHtml(App\Language::translateArgs("LBL_EMAIL_NEWSLETTER_INFO", $QUALIFIED_MODULE,"<a href=\"https://yetiforce.com/pl/newsletter-info\">{App\Language::translate('LBL_PRIVACY_POLICY', $QUALIFIED_MODULE)}</a>"))}">
 									<span class="fas fa-info-circle"></span>
 								</div>
@@ -81,7 +77,7 @@
 							{/if}
 							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
 							{if isset($FIELD['infoText'])}
-								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], $QUALIFIED_MODULE))}">
+								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2 text-primary" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], $QUALIFIED_MODULE))}">
 									<span class="fas fa-info-circle"></span>
 								</div>
 							{/if}
@@ -112,7 +108,7 @@
 			<div class="card-header">
 				<span class="fas fa-globe mr-1"></span>
 				{App\Language::translate('LBL_BRAND_DATA', $QUALIFIED_MODULE)}
-				<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate('LBL_BRAND_DATA_INFO', $QUALIFIED_MODULE))}">
+				<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2 text-primary" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate('LBL_BRAND_DATA_INFO', $QUALIFIED_MODULE))}">
 					<span class="fas fa-info-circle"></span>
 				</div>
 			</div>

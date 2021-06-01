@@ -57,47 +57,50 @@
 							<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}" >
 								&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-								</td><td  class="{$WIDTHTYPE}">
-									<div class="float-right actions">
-										<span class="actionImages">
-											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
-
-												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if (event.stopPropagation){ldelim}
-															event.stopPropagation();{rdelim} else{ldelim}
-																		event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}
-																									 class="{$RECORD_LINK->get('class')} {if $RECORD_LINK->getLabel() eq 'LBL_ACTIVATION_TASKS' && $ACTIVE_TASKS eq $ALL_TASKS}
-																									 d-none
-																									 {else if $RECORD_LINK->getLabel() eq 'LBL_DEACTIVATION_TASKS' && $ACTIVE_TASKS eq 0}
-																										 d-none
-																										 {/if}" >
-																											 <span class="{$RECORD_LINK->getIcon()}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
-																										 </a>
-																										 {if !$RECORD_LINK@last}
-																											 &nbsp;&nbsp;
-																										 {/if}
-																										 {/foreach}
-																										 </span>
-																									 </div>
+								</td>
+									<td  class="{$WIDTHTYPE}">
+										<div class="float-right actions">
+											<span class="actionImages">
+												{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
+													{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
+													<a	{if stripos($RECORD_LINK_URL, 'javascript:')===0}
+															onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if (event.stopPropagation){ldelim}
+																event.stopPropagation();{rdelim} else{ldelim} event.cancelBubble = true;{rdelim}"
+														{else}
+															href='{$RECORD_LINK_URL}'
+														{/if}
+															class="{$RECORD_LINK->get('class')}
+															{if ($RECORD_LINK->getLabel() eq 'LBL_ACTIVATION_TASKS' && $ACTIVE_TASKS eq $ALL_TASKS) ||
+																($RECORD_LINK->getLabel() eq 'LBL_DEACTIVATION_TASKS' && $ACTIVE_TASKS eq 0)}
+																{' '}d-none
+															{/if}">
+														<span class="{$RECORD_LINK->getIcon()}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+													</a>
+												{if !$RECORD_LINK@last}
+													&nbsp;&nbsp;
+												{/if}
+												{/foreach}
+											</span>
+										</div>
+									</td>
+								{/if}
+									</td>
+									{/foreach}
+									</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<!--added this div for Temporarily -->
+								{if $LISTVIEW_ENTRIES_COUNT eq '0'}
+									<table class="emptyRecordsDiv">
+										<tbody>
+											<tr>
+												<td>
+													{\App\Language::translate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
 												</td>
-												{/if}
-													</td>
-													{/foreach}
-													</tr>
-													{/foreach}
-													</tbody>
-												</table>
-												<!--added this div for Temporarily -->
-												{if $LISTVIEW_ENTRIES_COUNT eq '0'}
-													<table class="emptyRecordsDiv">
-														<tbody>
-															<tr>
-																<td>
-																	{\App\Language::translate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
-																</td>
-															</tr>
-														</tbody>
-													</table>
-												{/if}
-											</div>
-											{/strip}
+											</tr>
+										</tbody>
+									</table>
+								{/if}
+							</div>
+							{/strip}

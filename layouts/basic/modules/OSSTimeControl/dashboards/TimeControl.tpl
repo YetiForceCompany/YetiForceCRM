@@ -76,7 +76,7 @@
 			</div>
 		</div>
 		<div class="col-ceq-xsm-6">
-			{if $SOURCE_MODULE && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+			{if $SOURCE_MODULE && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($SOURCE_MODULE, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)}
 				{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
 				{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
 			{else}

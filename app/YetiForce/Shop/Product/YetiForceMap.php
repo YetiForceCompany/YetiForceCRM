@@ -2,7 +2,7 @@
 /**
  * YetiForce shop YetiForceMap file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -16,31 +16,64 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceMap extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Map';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
+	public $category = 'Addons';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/yetiforce-map-en';
+
+	/** {@inheritdoc} */
 	public $prices = [
-		'Micro' => 40,
-		'Small' => 100,
-		'Medium' => 200,
-		'Large' => 400,
-		'Corporation' => 2000,
+		'Micro' => 20,
+		'Small' => 50,
+		'Medium' => 100,
+		'Large' => 250,
+		'Corporation' => 1250,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function verify($cache = true): bool
+	/** {@inheritdoc} */
+	public function verify(): array
 	{
-		return true;
+		$message = $status = true;
+		if (\App\YetiForce\Register::getProducts('YetiForceMap')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceMap');
+		}
+		return ['status' => $status, 'message' => $message];
+	}
+
+	/** {@inheritdoc} */
+	public function getAdditionalButtons(): array
+	{
+		$links = [
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'Website',
+				'relatedModuleName' => '_Base',
+				'linkicon' => 'fas fa-globe',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => $this->website,
+				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+		];
+		if (\App\Security\AdminAccess::isPermitted('Map')) {
+			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_MAP',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'far fa-map',
+				'linkhref' => true,
+				'linkurl' => 'index.php?parent=Settings&module=Map&view=Config',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			]);
+		}
+		return $links;
 	}
 }

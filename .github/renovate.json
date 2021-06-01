@@ -1,7 +1,7 @@
 {
   "extends": ["config:base", ":assignee(mariuszkrzaczkowski)", ":label(dependencies)"],
   "rangeStrategy": "update-lockfile",
-  "assignees": ["mariuszkrzaczkowski", "rskrzypczak", "TomaszQr"],
+  "assignees": ["mariuszkrzaczkowski", "rskrzypczak"],
   "schedule": ["every weekend"],
   "timezone": "Europe/Warsaw",
   "commitMessagePrefix": "[PROD](renovate)",

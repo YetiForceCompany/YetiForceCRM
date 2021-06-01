@@ -19,9 +19,7 @@ class Vtiger_Value_InventoryField extends Vtiger_Basic_InventoryField
 	protected $onlyOne = false;
 	protected $purifyType = \App\Purifier::TEXT;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (($rel = $rowData['name'] ?? '') && (($type = \App\Record::getType($rel)) && $mapDetail = $this->getMapDetail($type))) {
@@ -30,9 +28,7 @@ class Vtiger_Value_InventoryField extends Vtiger_Basic_InventoryField
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditValue($value)
 	{
 		return \App\Purifier::encodeHtml($value);

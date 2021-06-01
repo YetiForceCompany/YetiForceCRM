@@ -1,15 +1,18 @@
 <?php
-
-namespace App\Controller;
-
 /**
- * Abstract base controller class.
+ * Abstract base controller file.
  *
  * @package   Controller
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Controller;
+
+/**
+ * Abstract base controller class.
  */
 abstract class Base
 {
@@ -27,20 +30,37 @@ abstract class Base
 	public $csrfActive = true;
 
 	/**
+	 * Activated language locale.
+	 *
+	 * @var bool
+	 */
+	protected static $activatedLocale = false;
+	/**
+	 * Activated csrf.
+	 *
+	 * @var bool
+	 */
+	protected static $activatedCsrf = false;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct()
 	{
 		$this->headers = \App\Headers::getInstance();
-		if (\App\Config::performance('CHANGE_LOCALE')) {
+		if (!self::$activatedLocale && \App\Config::performance('CHANGE_LOCALE')) {
 			\App\Language::initLocale();
+			self::$activatedLocale = true;
 		}
-		if ($this->csrfActive && \App\Config::security('csrfActive')) {
-			require_once 'config/csrf_config.php';
-			\CsrfMagic\Csrf::init();
-			$this->csrfActive = true;
-		} else {
-			$this->csrfActive = false;
+		if (!self::$activatedCsrf) {
+			if ($this->csrfActive && \App\Config::security('csrfActive')) {
+				require_once 'config/csrf_config.php';
+				\CsrfMagic\Csrf::init();
+				$this->csrfActive = true;
+			} else {
+				$this->csrfActive = false;
+			}
+			self::$activatedCsrf = true;
 		}
 	}
 
@@ -129,7 +149,7 @@ abstract class Base
 	}
 
 	/**
-	 * Function to check if session is extend.
+	 * Function to check if session is extended.
 	 *
 	 * @param \App\Request $request
 	 *

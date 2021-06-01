@@ -34,16 +34,6 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		'vtiger_osstimecontrol' => 'osstimecontrolid',
 		'vtiger_osstimecontrolcf' => 'osstimecontrolid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'No.' => ['osstimecontrol', 'osstimecontrol_no'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'Created Time' => ['crmentity', 'createdtime'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'No.' => 'osstimecontrol_no',
@@ -55,8 +45,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view from list view (Fieldname)
-	public $list_link_field = 'assigned_user_id';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		'No.' => ['osstimecontrol', 'osstimecontrol_no'],
@@ -83,10 +72,12 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	 *
 	 * @param string Module name
 	 * @param string Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param mixed $modulename
+	 * @param mixed $eventType
 	 */
 	public function moduleHandler($modulename, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['tabid' => \App\Module::getModuleId($modulename), 'columnname' => ['name', 'osstimecontrol_no', 'osstimecontrol_status', 'smownerid', 'date_start', 'time_start', 'time_end', 'due_date', 'sum_time']])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

@@ -3,6 +3,8 @@
 /**
  * Class for history widget.
  *
+ * @package Widget
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
@@ -40,14 +42,14 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		return $modules;
 	}
 
+	/**
+	 * Get URL.
+	 *
+	 * @return string
+	 */
 	public function getUrl()
 	{
-		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentRelation&page=1&limit=' . $this->Data['limit'];
-		foreach (self::getActions() as $type) {
-			$url .= '&type[]=' . $type;
-		}
-
-		return $url;
+		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentRelation&page=1&limit=' . $this->Data['limit'] . '&type=' . \App\Json::encode(self::getActions());
 	}
 
 	public function getWidget()
@@ -89,12 +91,12 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		$groupIds = array_keys($groups);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			if (in_array($row['user'], $groupIds)) {
+			if (\in_array($row['user'], $groupIds)) {
 				$row['isGroup'] = true;
 				$row['userModel'] = $groups[$row['user']];
 			} else {
 				$row['isGroup'] = false;
-				$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
+				$row['userModel'] = Vtiger_Record_Model::getInstanceById($row['user'], 'Users');
 			}
 			$row['class'] = self::$colors[$row['type']];
 			if (false !== strpos($row['type'], 'OSSMailView')) {
@@ -130,7 +132,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	{
 		$queries = [];
 		$db = App\Db::getInstance();
-		if (in_array('Calendar', $type) && ($field = current(\Vtiger_Module_Model::getInstance('Calendar')->getReferenceFieldsForModule($moduleName)))) {
+		if (\in_array('Calendar', $type) && ($field = current(\Vtiger_Module_Model::getInstance('Calendar')->getReferenceFieldsForModule($moduleName)))) {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => new \yii\db\Expression($db->quoteValue('')),
@@ -148,7 +150,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			\App\PrivilegeQuery::getConditions($query, 'Calendar', false, $recordId);
 			$queries[] = $query;
 		}
-		if (in_array('ModComments', $type)) {
+		if (\in_array('ModComments', $type)) {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => new \yii\db\Expression($db->quoteValue('')),
@@ -166,7 +168,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			\App\PrivilegeQuery::getConditions($query, 'ModComments', false, $recordId);
 			$queries[] = $query;
 		}
-		if (in_array('OSSMailView', $type)) {
+		if (\in_array('OSSMailView', $type)) {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => 'o.content',
@@ -185,7 +187,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			\App\PrivilegeQuery::getConditions($query, 'OSSMailView', false, $recordId);
 			$queries[] = $query;
 		}
-		if (1 == count($queries)) {
+		if (1 == \count($queries)) {
 			$sql = reset($queries);
 		} else {
 			$subQuery = reset($queries);

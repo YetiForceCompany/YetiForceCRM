@@ -3,23 +3,21 @@
 /**
  * UIType country field class.
  *
+ * @package   UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Country_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return \App\Purifier::decodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
@@ -32,9 +30,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 		return implode('##', $values);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = \App\Language::translateSingleMod($value, 'Other.Country');
@@ -44,25 +40,19 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Country.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/Country.tpl';
@@ -75,12 +65,14 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPicklistValues()
 	{
-		return \App\Fields\Country::getAll('uitype');
+		$values = [];
+		foreach(\App\Fields\Country::getAll('uitype') as $key=>$data){
+			$values[$key] = \App\Language::translateSingleMod($key, 'Other.Country');
+		}
+		return $values;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];

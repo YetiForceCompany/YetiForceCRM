@@ -1,5 +1,5 @@
 <?php
-/**  Cron task to update coordinates in records
+/**  Cron task to update coordinates in records.
  * @package YetiForce.Cron
  *
  * @copyright YetiForce Sp. z o.o.
@@ -56,6 +56,9 @@ class OpenStreetMap_UpdaterRecordsCoordinates_Cron extends \App\CronHandler
 					])->execute();
 					$db->createCommand()->delete('u_#__openstreetmap_record_updater', ['type' => $typeAddress, 'crmid' => $recordId])->execute();
 				}
+			}
+			if ($this->checkTimeout()) {
+				break;
 			}
 		}
 		$dataReader->close();

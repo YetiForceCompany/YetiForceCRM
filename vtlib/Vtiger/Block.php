@@ -258,8 +258,6 @@ class Block
 		}
 		$tabId = $moduleInstance->getId();
 		$db->createCommand()->delete('vtiger_module_dashboard_blocks', ['tabid' => $tabId])->execute();
-		$query = (new \App\Db\Query())->select(['blockid'])->from(self::$baseTable)->where(['tabid' => $tabId]);
-		$db->createCommand()->delete('vtiger_blocks_hide', ['blockid' => $query])->execute();
 		$db->createCommand()->delete(self::$baseTable, ['tabid' => $tabId])->execute();
 		\App\Log::trace('Deleting blocks for module ... DONE', __METHOD__);
 	}

@@ -15,7 +15,7 @@
 			{assign var=COLUMNS value=3}
 			{assign var=ROW value=0}
 			{assign var=COLCOUNT value=0}
-			{assign var=SPECIAL_WIDTGETS value=['ChartFilter', 'MiniList', 'Notebook', 'Rss']}
+			{assign var=SPECIAL_WIDTGETS value=Vtiger_DashBoard_Model::getWidgetSpecial()}
 			{foreach from=$WIDGETS item=WIDGET name=count}
 				{if $WIDGET->get('active') eq 0}
 					{continue}

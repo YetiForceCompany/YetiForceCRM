@@ -20,7 +20,7 @@ class Accounts_AccountHierarchy_View extends \App\Controller\View\Page
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -30,12 +30,7 @@ class Accounts_AccountHierarchy_View extends \App\Controller\View\Page
 		}
 	}
 
-	private function getLastModified($id)
-	{
-		return (new \App\Db\Query())->from('u_#__crmentity_last_changes')->where(['crmid' => $id, 'fieldname' => 'active'])->one();
-	}
-
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -43,18 +38,6 @@ class Accounts_AccountHierarchy_View extends \App\Controller\View\Page
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getAccountHierarchy();
-		$listColumns = App\Config::module('Accounts', 'COLUMNS_IN_HIERARCHY');
-		$lastModifiedField = [];
-		if (!empty($listColumns) && in_array('active', $listColumns)) {
-			foreach ($hierarchy['entries'] as $crmId => $entry) {
-				$lastModified = $this->getLastModified($crmId);
-				if ($lastModified) {
-					$lastModifiedField[$crmId]['active']['userModel'] = Vtiger_Record_Model::getInstanceById($lastModified['user_id'], 'Users');
-					$lastModifiedField[$crmId]['active']['changedon'] = (new DateTimeField($lastModified['date_updated']))->getFullcalenderDateTimevalue();
-				}
-			}
-		}
-		$viewer->assign('LAST_MODIFIED', $lastModifiedField);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ACCOUNT_HIERARCHY', $hierarchy);
 		$viewer->view('AccountHierarchy.tpl', $moduleName);

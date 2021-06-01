@@ -123,19 +123,15 @@
 							{foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
 								{assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
 								{assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
+								{assign var=BLOCK_ICON value=$BLOCK_MODEL->get('icon')}
 								{$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_LABEL_KEY}
 								<div id="block_{$BLOCK_ID}"
-									class="editFieldsTable block block_{$BLOCK_ID} mb-2 border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}"
+									class="editFieldsTable block block_{$BLOCK_ID} mb-2 border1px"
 									data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}"
 									>
 									<div class="layoutBlockHeader d-flex flex-wrap justify-content-between m-0 p-1 pt-1 w-100">
 										<div class="blockLabel u-white-space-nowrap">
-											{if $IS_BLOCK_SORTABLE}
-												<img class="align-middle" src="{\App\Layout::getImagePath('drag.png')}"
-													alt=""/>
-												&nbsp;&nbsp;
-											{/if}
-											<strong class="align-middle">{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
+											<strong class="align-middle">{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
 										</div>
 									</div>
 									<div class="blockFieldsList blockFieldsSortable row m-0 p-1 u-min-height-50">

@@ -5,6 +5,8 @@ namespace App\Integrations\Pbx;
 /**
  * Vtiger Asterisk Connector integrations class.
  *
+ * @package Integration
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -37,8 +39,17 @@ class VtigerAsteriskConnector extends Base
 		$serviceURL .= 'to=' . urlencode($pbx->get('targetPhone')) . '&';
 		$serviceURL .= 'context=' . urlencode($pbx->get('outboundContext'));
 
-		$responsse = \Requests::post($serviceURL);
-
-		\App\Log::warning($responsse->body, 'PBX[VtigerAsteriskConnector]');
+		try {
+			\App\Log::beginProfile("POST|VtigerAsteriskConnector::performCall|{$serviceURL}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('POST', $serviceURL);
+			\App\Log::endProfile("POST|VtigerAsteriskConnector::performCall|{$serviceURL}", __NAMESPACE__);
+			if (200 !== $response->getStatusCode()) {
+				\App\Log::warning('Error: ' . $serviceURL . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
+				return false;
+			}
+		} catch (\Throwable $exc) {
+			\App\Log::warning('Error: ' . $serviceURL . ' | ' . $exc->getMessage(), __CLASS__);
+			return false;
+		}
 	}
 }

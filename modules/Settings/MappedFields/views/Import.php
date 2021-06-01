@@ -9,12 +9,12 @@
  */
 class Settings_MappedFields_Import_View extends Settings_Vtiger_BasicModal_View
 {
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		echo '<div class="modal fade" id="mfImport"><div class="modal-dialog"><div class="modal-content">';
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 

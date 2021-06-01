@@ -1,9 +1,13 @@
 <?php
 
 /**
- * Date field condition record field class.
+ * Date field condition record field file.
  *
- * @package   App
+ * @package UIType
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Conditions\RecordFields;
@@ -12,10 +16,6 @@ use App\Log;
 
 /**
  * Date field condition record field class.
- *
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class DateField extends BaseField
 {
@@ -209,7 +209,7 @@ class DateField extends BaseField
 	public function operatorLastmonth()
 	{
 		$dateValue = date('Y-m-d', strtotime($this->getValue()));
-		return ($dateValue >= date('Y-m-01', strtotime('last month'))) && ($dateValue <= date('Y-m-t', strtotime('last month')));
+		return ($dateValue >= date('Y-m-01', strtotime('first day of last month'))) && ($dateValue <= date('Y-m-t', strtotime('first day of last month')));
 	}
 
 	/**
@@ -231,7 +231,7 @@ class DateField extends BaseField
 	public function operatorNextmonth()
 	{
 		$dateValue = date('Y-m-d', strtotime($this->getValue()));
-		return ($dateValue >= date('Y-m-01', strtotime('next month'))) && ($dateValue <= date('Y-m-t', strtotime('next month')));
+		return ($dateValue >= date('Y-m-01', strtotime('first day of next month'))) && ($dateValue <= date('Y-m-t', strtotime('first day of next month')));
 	}
 
 	/**
@@ -364,5 +364,15 @@ class DateField extends BaseField
 		$today = date('Y-m-d');
 		$dateValue = date('Y-m-d', strtotime($this->getValue()));
 		return ($dateValue >= $today) && ($dateValue <= date('Y-m-d', strtotime($today . '+119 day')));
+	}
+
+	/**
+	 * MoreThanDaysAgo operator.
+	 *
+	 * @return bool
+	 */
+	public function operatorMoreThanDaysAgo()
+	{
+		return $this->getValue() <= date('Y-m-d', strtotime('-' . $this->value . ' days'));
 	}
 }

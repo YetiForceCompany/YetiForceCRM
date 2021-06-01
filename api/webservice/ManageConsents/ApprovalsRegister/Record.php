@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\ManageConsents\ApprovalsRegister;
@@ -18,9 +19,7 @@ use OpenApi\Annotations as OA;
  */
 class Record extends \Api\ManageConsents\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public $allowedMethod = ['POST'];
 
 	/**
@@ -30,10 +29,8 @@ class Record extends \Api\ManageConsents\BaseAction
 	 */
 	protected $recordModel;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function checkPermission()
+	/** {@inheritdoc}  */
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
@@ -49,11 +46,11 @@ class Record extends \Api\ManageConsents\BaseAction
 	 * @return array
 	 *
 	 * @OA\POST(
-	 *		path="/webservice/ApprovalsRegister/Record",
+	 *		path="/webservice/ManageConsents/ApprovalsRegister/Record",
 	 *		summary="Adds an consent entry",
 	 *		tags={"Consents"},
 	 *    security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *    },
 	 *		@OA\RequestBody(
 	 *				required=true,
@@ -72,14 +69,11 @@ class Record extends \Api\ManageConsents\BaseAction
 	 *				response=200,
 	 *				description="Result of adding entry",
 	 *				@OA\JsonContent(ref="#/components/schemas/ApprovalsRegisterResponseBody"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/ApprovalsRegisterResponseBody")
-	 *				),
+	 *				@OA\XmlContent(ref="#/components/schemas/ApprovalsRegisterResponseBody"),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
-	 *				description="No sent token OR Invalid token",
+	 *				description="`No sent token` OR `Invalid token`",
 	 *		),
 	 *		@OA\Response(
 	 *				response=403,
@@ -155,7 +149,6 @@ class Record extends \Api\ManageConsents\BaseAction
 			$this->recordModel->save();
 			$response['id'] = $this->recordModel->getId();
 		}
-
 		return $response;
 	}
 }

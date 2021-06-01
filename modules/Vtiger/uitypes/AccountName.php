@@ -14,9 +14,7 @@
  */
 class Vtiger_AccountName_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (0 === strpos($value, '|##|')) {
@@ -27,9 +25,7 @@ class Vtiger_AccountName_UIType extends Vtiger_Base_UIType
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/AccountName.tpl';

@@ -22,25 +22,19 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	protected $maximumLength = '-32768,32767';
 	protected $purifyType = \App\Purifier::INTEGER;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return '' !== $value ? \App\Language::translate('LBL_' . strtoupper($this->values[$value]), $this->getModuleName()) : $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		return (int) $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if (!is_numeric($value) || !isset($this->values[$value])) {

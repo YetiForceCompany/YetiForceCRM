@@ -2,6 +2,8 @@
 /**
  * Twitter integrations test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
@@ -42,7 +44,7 @@ class Twitter extends \Tests\Base
 		\App\Db::getInstance()
 			->createCommand()
 			->insert('u_#__social_media_twitter', [
-				'id_twitter' => static::$idTwitter++,
+				'id_twitter' => self::$idTwitter++,
 				'twitter_login' => $twitterLogin,
 				'twitter_name' => $twitterLogin,
 				'message' => 'TEST',
@@ -67,10 +69,10 @@ class Twitter extends \Tests\Base
 		$param['blockid'] = $block->id;
 		$param['sourceModule'] = 'Contacts';
 		$param['fieldTypeList'] = 0;
-		static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
-		static::addTwitter('yeti');
-		static::addTwitter('yetiforceen');
-		static::addTwitter('forceen');
+		self::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
+		self::addTwitter('yeti');
+		self::addTwitter('yetiforceen');
+		self::addTwitter('forceen');
 	}
 
 	/**
@@ -93,18 +95,18 @@ class Twitter extends \Tests\Base
 	 */
 	public function testFieldTwitter(): void
 	{
-		$this->assertIsInt(static::$twitterFields[0]->getId());
+		$this->assertIsInt(self::$twitterFields[0]->getId());
 		$this->assertTrue(
 			(new \App\Db\Query())
 				->from('vtiger_field')
-				->where(['fieldid' => static::$twitterFields[0]->getId()])->exists(),
+				->where(['fieldid' => self::$twitterFields[0]->getId()])->exists(),
 			'Field twitter not exists'
 		);
 		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
-			->getFieldByName(static::$twitterFields[0]->getFieldName());
+			->getFieldByName(self::$twitterFields[0]->getFieldName());
 		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
 		$this->assertSame(
-			static::$twitterFields[0]->getId(),
+			self::$twitterFields[0]->getId(),
 			$fieldModel->getId(),
 			'Vtiger_Field_Model problem'
 		);
@@ -122,7 +124,7 @@ class Twitter extends \Tests\Base
 	public function testUiTypeWrongData($value): void
 	{
 		$this->expectExceptionCode(406);
-		static::$twitterFields[0]->getUITypeModel()->validate($value, false);
+		self::$twitterFields[0]->getUITypeModel()->validate($value, false);
 	}
 
 	/**
@@ -137,7 +139,7 @@ class Twitter extends \Tests\Base
 	public function testUiTypeUserFormatWrongData($value): void
 	{
 		$this->expectExceptionCode(406);
-		static::$twitterFields[0]->getUITypeModel()->validate($value, true);
+		self::$twitterFields[0]->getUITypeModel()->validate($value, true);
 	}
 
 	/**
@@ -150,7 +152,7 @@ class Twitter extends \Tests\Base
 	 */
 	public function testUiTypeGoodData($value): void
 	{
-		$this->assertNull(static::$twitterFields[0]->getUITypeModel()->validate($value, false));
+		$this->assertNull(self::$twitterFields[0]->getUITypeModel()->validate($value, false));
 	}
 
 	/**
@@ -193,13 +195,13 @@ class Twitter extends \Tests\Base
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
 		$recordModel->set('assigned_user_id', \App\User::getActiveAdminId());
 		$recordModel->set('lastname', 'Test');
-		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'yetiforceen');
+		$recordModel->set(self::$twitterFields[0]->getColumnName(), 'yetiforceen');
 		$recordModel->save();
-		static::$listId[] = $recordModel->getId();
+		self::$listId[] = $recordModel->getId();
 
 		$this->assertSame('yetiforceen',
-			(new \App\Db\Query())->select([static::$twitterFields[0]->getColumnName()])
-				->from(static::$twitterFields[0]->getTableName())
+			(new \App\Db\Query())->select([self::$twitterFields[0]->getColumnName()])
+				->from(self::$twitterFields[0]->getTableName())
 				->where(['contactid' => $recordModel->getId()])->scalar()
 		);
 		$this->assertTrue((new \App\Db\Query())
@@ -217,12 +219,12 @@ class Twitter extends \Tests\Base
 	 */
 	public function testEditTwitter(): void
 	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
-		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'yeti');
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
+		$recordModel->set(self::$twitterFields[0]->getColumnName(), 'yeti');
 		$recordModel->save();
 		$this->assertSame('yeti',
-			(new \App\Db\Query())->select([static::$twitterFields[0]->getColumnName()])
-				->from(static::$twitterFields[0]->getTableName())
+			(new \App\Db\Query())->select([self::$twitterFields[0]->getColumnName()])
+				->from(self::$twitterFields[0]->getTableName())
 				->where(['contactid' => $recordModel->getId()])->scalar()
 		);
 		$this->assertTrue((new \App\Db\Query())
@@ -243,8 +245,8 @@ class Twitter extends \Tests\Base
 	 */
 	public function testEditTwitterEmpty(): void
 	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
-		$recordModel->set(static::$twitterFields[0]->getColumnName(), '');
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
+		$recordModel->set(self::$twitterFields[0]->getColumnName(), '');
 		$recordModel->save();
 		$this->assertFalse((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
@@ -261,8 +263,8 @@ class Twitter extends \Tests\Base
 	 */
 	public function testEditTwitterNotEmpty(): void
 	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
-		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'forceen');
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
+		$recordModel->set(self::$twitterFields[0]->getColumnName(), 'forceen');
 		$recordModel->save();
 		$this->assertTrue((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
@@ -276,7 +278,7 @@ class Twitter extends \Tests\Base
 	 */
 	public function testDeleteTwitter(): void
 	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
 		$recordModel->delete();
 		$this->assertFalse((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
@@ -284,13 +286,12 @@ class Twitter extends \Tests\Base
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
 	public static function tearDownAfterClass(): void
 	{
 		\App\Config::set('component', 'Social', 'TWITTER_ENABLE_FOR_MODULES', []);
-		foreach (static::$twitterFields as $fieldModel) {
+		foreach (self::$twitterFields as $fieldModel) {
 			$fieldModel->delete();
 		}
 	}

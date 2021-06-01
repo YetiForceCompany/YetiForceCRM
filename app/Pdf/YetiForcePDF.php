@@ -3,7 +3,7 @@
 /**
  * Class using YetiForcePDF as a PDF creator.
  *
- * @package   App\Pdf
+ * @package App\Pdf
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -132,7 +132,7 @@ class YetiForcePDF extends PDF
 		$this->pdf = (new Document())->init();
 		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
-			$this->footer = $this->footerYetiForce = "<table style=\"font-family:'DejaVu Sans';font-size:6px;width:100%; margin: 0;\"><tbody><tr><td style=\"width:50%\">Powered by YetiForce</td></tr></tbody></table>";
+			$this->footer = $this->footerYetiForce = '<table style="font-size:6px;width:100%; margin: 0;"><tbody><tr><td style="width:50%">Powered by YetiForce</td></tr></tbody></table>';
 		}
 	}
 
@@ -477,8 +477,8 @@ class YetiForcePDF extends PDF
 	{
 		$html = $this->watermark ? $this->wrapWatermark($this->watermark) : '';
 		$html .= $this->header ? $this->wrapHeaderContent($this->header) : '';
-		$html .= $this->footer ? $this->wrapFooterContent($this->footer) : '';
 		$html .= $this->html;
+		$html .= $this->footer ? $this->wrapFooterContent($this->footer) : '';
 		return $html;
 	}
 
@@ -497,7 +497,7 @@ class YetiForcePDF extends PDF
 				$watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.1;">';
 			}
 		} elseif (self::WATERMARK_TYPE_TEXT === $templateModel->get('watermark_type') && '' !== trim($templateModel->get('watermark_text'))) {
-			$watermark = '<div style="opacity:0.1;display:inline-block;">' . $templateModel->get('watermark_text') . '</div>';
+			$watermark = '<div style="opacity:0.1;display:inline-block;">' . $templateModel->parseVariables($templateModel->get('watermark_text')) . '</div>';
 		}
 		return $watermark;
 	}
@@ -529,20 +529,21 @@ class YetiForcePDF extends PDF
 	public function output($fileName = '', $dest = '')
 	{
 		if (empty($fileName)) {
-			$fileName = ($this->getFileName() ? $this->getFileName() : time()) . '.pdf';
+			$fileName = ($this->getFileName() ?: time()) . '.pdf';
 		}
 		if (!$dest) {
-			$dest = 'I';
+			$dest = 'D';
 		}
 		$this->writeHTML();
 		$output = $this->pdf->render();
-		if ('I' !== $dest) {
+		if ('I' !== $dest && 'D' !== $dest) {
 			return file_put_contents($fileName, $output);
 		}
+		$destination = 'I' === $dest ? 'inline' : 'attachment';
 		header('accept-charset: utf-8');
 		header('content-type: application/pdf; charset=utf-8');
 		$basename = \App\Fields\File::sanitizeUploadFileName($fileName);
-		header("content-disposition: attachment; filename=\"{$basename}\"");
+		header("content-disposition: {$destination}; filename=\"{$basename}\"");
 		echo $output;
 	}
 

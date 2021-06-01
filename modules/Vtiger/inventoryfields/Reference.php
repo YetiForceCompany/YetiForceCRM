@@ -20,48 +20,49 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $maximumLength = '-2147483648,2147483647';
 	protected $purifyType = \App\Purifier::INTEGER;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditTemplateName()
 	{
 		return 'inventoryTypes/Reference.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		if (empty($value)) {
+		if (empty($value) || !($referenceModule = $this->getReferenceModule($value))) {
+			return '';
+		}
+		$referenceModuleName = $referenceModule->getName();
+		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
+			return \App\Fields\Owner::getLabel($value);
+		}
+		if (!\App\Record::isExists($value)) {
 			return '';
 		}
 		$label = \App\Record::getLabel($value);
-		$moduleName = \App\Record::getType($value);
-		if ($rawText || ($value && !\App\Privilege::isPermitted($moduleName, 'DetailView', $value))) {
+		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $label;
 		}
 		$label = App\TextParser::textTruncate($label, \App\Config::main('href_max_length'));
 		if ('Active' !== \App\Record::getState($value)) {
 			$label = '<s>' . $label . '</s>';
 		}
-		return "<a class='modCT_$moduleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$label</a>";
+		return "<a class='modCT_$referenceModuleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value'>$label</a>";
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditValue($value)
 	{
 		if (empty($value)) {
 			return '';
 		}
+		if (($referenceModule = $this->getReferenceModule($value)) && ('Users' === $referenceModule->getName() || 'Groups' === $referenceModule->getName())) {
+			return \App\Fields\Owner::getLabel($value);
+		}
 		return \App\Record::getLabel($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isMandatory()
 	{
 		$config = $this->getParamsConfig();
@@ -79,27 +80,36 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		return $paramsDecoded['modules'];
 	}
 
-	public function getReferenceModule($record)
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
+	 * @param mixed $record
+	 *
+	 * @return Vtiger_Module_Model|null
+	 */
+	public function getReferenceModule($record): ?Vtiger_Module_Model
 	{
 		if (!empty($record)) {
 			$metadata = vtlib\Functions::getCRMRecordMetadata($record);
-
-			return $metadata['setype'];
+			$referenceModuleList = $this->getReferenceModules();
+			$referenceEntityType = $metadata['setype'] ?? '';
+			if (!empty($referenceModuleList) && \in_array($referenceEntityType, $referenceModuleList)) {
+				return Vtiger_Module_Model::getInstance($referenceEntityType);
+			}
+			if (!empty($referenceModuleList) && \in_array('Users', $referenceModuleList)) {
+				return Vtiger_Module_Model::getInstance('Users');
+			}
 		}
-		return '';
+		return null;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		return (int) $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value))) {

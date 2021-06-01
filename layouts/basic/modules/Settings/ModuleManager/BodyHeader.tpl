@@ -12,19 +12,16 @@
 						<span class="fas fa-bars fa-fw" title="{\App\Language::translate('LBL_MENU')}"></span>
 					</a>
 				</div>
-			</div>
-			{if !\App\YetiForce\Shop::verify()}
-				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-						{if $USER_MODEL->isAdminUser()}
-							href="index.php?module=YetiForce&parent=Settings&view=Shop"
-						{else}
-							href="#"
-						{/if} >
+			</div>dd
+			{assign var=VERIFY value=\App\YetiForce\Shop::verify()}
+			{if $VERIFY}
+				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{$VERIFY}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+					{if $USER_MODEL->isAdminUser()} href="index.php?module=YetiForce&parent=Settings&view=Shop"{else} href="#"{/if}>
 					<span class="yfi yfi-shop-alert fa-2x"></span>
 				</a>
 			{/if}
 			{if !\App\YetiForce\Register::verify(true)}
-				{if $USER_MODEL->isAdminUser()}
+				{if \App\Security\AdminAccess::isPermitted('Companies')}
 					{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
 				{else}
 					{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
@@ -32,7 +29,7 @@
 				<a class="d-flex align-items-center text-center text-warning p-0 text-danger js-popover-tooltip c-header__btn" role="button"
 						data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
 						title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
-						{if $USER_MODEL->isAdminUser()}
+						{if \App\Security\AdminAccess::isPermitted('Companies')}
 							href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
 						{else}
 							href="#"
@@ -44,27 +41,18 @@
 		</div>
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
 			{if $PARENT_MODULE === 'Settings'}
-				<div class="mr-xxl-4 d-flex flex-sm-nowrap">
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://yetiforce.shop"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="fas fa-shopping-cart fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}"></span>
+				<div class="mr-xxl-4 d-flex flex-sm-nowrap ml-4">
+					<a class="btn btn-light c-header__btn ml-2" title="YetiForce Documentation" role="button" href="https://doc.yetiforce.com" target="_blank" rel="noreferrer noopener">
+						<span class="mdi mdi-book-open-page-variant"></span>
 					</a>
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://yetiforce.shop/#support"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="far fa-life-ring fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}"></span>
+					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}" role="button" href="index.php?module=YetiForce&parent=Settings&view=Shop&category=Support" target="_blank">
+						<span class="far fa-life-ring fa-fw"></span>
 					</a>
-					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
-					   href="https://github.com/YetiForceCompany/YetiForceCRM/issues"
-					   data-content="{\App\Language::translate('LBL_YETIFORCE_ISSUES',$QUALIFIED_MODULE)}"
-					   target="_blank" rel="noreferrer noopener">
-						<span class="fas fa-bug fa-fw"
-							  title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}"></span>
+					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}" role="button" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer noopener">
+						<span class="fas fa-bug fa-fw"></span>
+					</a>
+					<a class="btn btn-light c-header__btn ml-2" title="YetiForceCRM" role="button" href="#" data-toggle="modal" data-target="#yetiforceDetails">
+						<span class="fas fa-info-circle fa-fw"></span>
 					</a>
 				</div>
 			{/if}
@@ -86,22 +74,19 @@
 								{assign var="HREF" value=$LINK}
 							{/if}
 							<div class="o-action-menu__item">
-								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}"
+								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" href="{$HREF}"  data-placement="bottom"
 								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
-								   data-placement="bottom"
-								   href="{$HREF}"
 										{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
-									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-										data-{$DATA_NAME}="{$DATA_VALUE}"
-									{/foreach}
+											{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+												data-{$DATA_NAME}="{$DATA_VALUE}"
+											{/foreach}
 										{/if}>
 									{if $ICON}
-										<span class="{$ICON}" title="{\App\Language::translate($TITLE,$MODULE)}"></span>
-										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE,$MODULE)}</span>
+										<span class="{$ICON}" title="{\App\Language::translate($TITLE)}"></span>
+										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE)}</span>
 									{/if}
 									{if $ICON_PATH}
-										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}"
-											 title="{\App\Language::translate($TITLE,$MODULE)}"/>
+										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}"/>
 									{/if}
 								</a>
 								{if !empty($CHILD_LINKS)}
@@ -119,15 +104,13 @@
 													{assign var="href" value="javascript:;"}
 												{/if}
 												<li>
-													<a class="dropdown-item" target="{$obj->target}"
-													   id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}"
-													   {if $label=='Switch to old look'}switchLook{/if}
-													   href="{$href}" {$onclick}
-															{if $obj->linkdata && is_array($obj->linkdata)}
-														{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-															data-{$DATA_NAME}="{$DATA_VALUE}"
-														{/foreach}
-															{/if}>{\App\Language::translate($label,$MODULE)}</a>
+													<a class="dropdown-item" href="{$href}" target="{$obj->target}" {$onclick}
+														id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}"
+													   	{if $obj->linkdata && is_array($obj->linkdata)}
+															{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}data-{$DATA_NAME}="{$DATA_VALUE}"{/foreach}
+														{/if}>
+														{\App\Language::translate($label)}
+													</a>
 												</li>
 											{/if}
 										{/foreach}

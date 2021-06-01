@@ -12,23 +12,16 @@
 class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 {
 	/**
-	 * Function to get the detail view links (links and widgets).
-	 *
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 *
-	 * @return <array> - array of link models in the format as below
-	 *                 array('linktype'=>list of link models);
+	 * {@inheritdoc}
 	 */
-	public function getDetailViewLinks($linkParams)
+	public function getDetailViewLinks(array $linkParams): array
 	{
 		$linkModelList = parent::getDetailViewLinks($linkParams);
-		$moduleModel = $this->getModule();
-
-		if ($this->getRecord()->isEditable() && $moduleModel->isPermitted('DetailTransferOwnership')) {
+		if ($this->getRecord()->isEditable() && $this->getModule()->isPermitted('DetailTransferOwnership')) {
 			$massActionLink = [
-				'linktype' => 'LISTVIEWMASSACTION',
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
+				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $this->getModule()->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkclass' => 'btn-outline-dark btn-sm',
 				'linkicon' => 'yfi yfi-change-of-owner',
 			];
@@ -47,16 +40,25 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
 		$relatedLinks = [];
-
+		if (class_exists($parentModuleModel->getName() . '_ProcessWizard_Model') && $recordModel->isEditable()) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_RECORD_PROCESS_WIZARD',
+				'linkKey' => 'LBL_RECORD_PROCESS_WIZARD',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=processWizard',
+				'linkicon' => '',
+				'related' => 'Summary',
+			];
+		}
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
-			$relatedLinks = [[
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_RECORD_SUMMARY',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
 				'linkicon' => '',
 				'related' => 'Summary',
-			]];
+			];
 		}
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = [
@@ -120,7 +122,11 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'yfi yfi-social-media',
 			];
 		}
-		if (\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() && \App\Module::isModuleActive('Chat') && !\App\RequestUtil::getBrowserInfo()->ie) {
+		if (
+			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
+			\App\Module::isModuleActive('Chat') && !\App\RequestUtil::getBrowserInfo()->ie &&
+			false !== \App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName())
+		) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_CHAT',

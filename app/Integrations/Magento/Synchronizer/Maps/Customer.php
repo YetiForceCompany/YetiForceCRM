@@ -3,6 +3,8 @@
 /**
  * Customer map file.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -18,31 +20,24 @@ namespace App\Integrations\Magento\Synchronizer\Maps;
  */
 class Customer extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $moduleName = 'Accounts';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $mappedFields = [
 		'firstname' => 'firstname',
 		'lastname' => 'lastname',
 		'birthday' => 'dob',
 		'email' => 'email',
 		'salutationtype' => 'gender',
+		'gender' => 'gender',
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $additionalFieldsCrm = [
 		'leadsource' => 'Magento',
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDataCrm(bool $onEdit = false): array
 	{
 		$parsedData = parent::getDataCrm($onEdit);

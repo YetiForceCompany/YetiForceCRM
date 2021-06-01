@@ -3,6 +3,8 @@
 /**
  * Vtiger basic widget class.
  *
+ * @package Widget
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -22,7 +24,17 @@ class Vtiger_Basic_Widget
 		$this->Config = $widget;
 		$this->Config['tpl'] = 'Basic.tpl';
 		$this->Data = $widget['data'] ?? [];
-		$this->moduleModel = $moduleModel;
+		$this->moduleModel = $moduleModel ?: \Vtiger_Module_Model::getInstance($this->Module);
+	}
+
+	/**
+	 * Function to check permission.
+	 *
+	 * @return bool
+	 */
+	public function isPermitted(): bool
+	{
+		return !$this->allowedModules || \in_array($this->Module, $this->allowedModules);
 	}
 
 	public function getConfigTplName()
@@ -32,6 +44,8 @@ class Vtiger_Basic_Widget
 
 	public function getWidget()
 	{
-		return $this->Config;
+		$widget = $this->Config;
+		$widget['instance'] = $this;
+		return $widget;
 	}
 }

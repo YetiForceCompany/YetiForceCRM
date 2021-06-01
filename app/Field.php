@@ -5,6 +5,8 @@ namespace App;
 /**
  * Field basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -12,10 +14,52 @@ namespace App;
  */
 class Field
 {
-	/**
-	 * Help info views.
-	 */
+	/** @var string[] Help info views. */
 	const HELP_INFO_VIEWS = ['LBL_EDIT_VIEW' => 'Edit', 'LBL_DETAIL_VIEW' => 'Detail', 'LBL_QUICK_CREATE_VIEW' => 'QuickCreateAjax'];
+
+	/** @var array System fields */
+	const SYSTEM_FIELDS = [
+		'assigned_user_id' => [
+			'validationConditions' => ['name'],
+			'name' => 'assigned_user_id',	'column' => 'smownerid',	'label' => 'Assigned To',	'table' => 'vtiger_crmentity',
+			'uitype' => 53,	'typeofdata' => 'V~M',	'maximumlength' => 65535,
+		],
+		'createdtime' => [
+			'validationConditions' => ['name'],
+			'name' => 'createdtime',	'column' => 'createdtime',	'label' => 'Created Time',	'table' => 'vtiger_crmentity',
+			'uitype' => 70,	'typeofdata' => 'DT~O',	'displaytype' => 2,	'maximumlength' => 65535,
+		],
+		'modifiedtime' => [
+			'validationConditions' => ['name'],
+			'name' => 'modifiedtime',	'column' => 'modifiedtime',	'label' => 'Modified Time',	'table' => 'vtiger_crmentity',
+			'uitype' => 70,	'typeofdata' => 'DT~O',	'displaytype' => 2,	'maximumlength' => 65535,
+		],
+		'created_user_id' => [
+			'validationConditions' => ['column'],
+			'name' => 'created_user_id',	'column' => 'smcreatorid',	'label' => 'Created By',	'table' => 'vtiger_crmentity',
+			'uitype' => 52,	'typeofdata' => 'V~O',	'displaytype' => 2,	'quickcreate' => 3, 'masseditable' => 0, 'maximumlength' => 65535,
+		],
+		'modifiedby' => [
+			'validationConditions' => ['name'],
+			'name' => 'modifiedby',	'column' => 'modifiedby',	'label' => 'Last Modified By',	'table' => 'vtiger_crmentity',
+			'uitype' => 52,	'typeofdata' => 'V~O',	'displaytype' => 2,	'quickcreate' => 3, 'masseditable' => 0, 'maximumlength' => 65535,
+		],
+		'shownerid' => [
+			'validationConditions' => ['name'],
+			'name' => 'shownerid',	'column' => 'shownerid',	'label' => 'Share with users',	'table' => 'vtiger_crmentity',
+			'uitype' => 120,	'typeofdata' => 'V~O',	'columntype' => 'int(11)', 'maximumlength' => 65535,
+		],
+		'private' => [
+			'validationConditions' => ['name'],
+			'name' => 'private',	'column' => 'private',	'label' => 'FL_IS_PRIVATE',	'table' => 'vtiger_crmentity',
+			'uitype' => 56,	'typeofdata' => 'C~O',	'columntype' => 'int(11)', 'maximumlength' => '-128,127',
+		],
+		'share_externally' => [
+			'validationConditions' => ['uitype', 'fieldparams'],
+			'name' => 'share_externally',	'column' => 'share_externally',	'label' => 'FL_SHARE_EXTERNALLY',	'defaultvalue' => 1,	'fieldparams' => 1,
+			'uitype' => 318,	'typeofdata' => 'C~O',	'columntype' => 'tinyint(1)', 'maximumlength' => '-128,127',
+		],
+	];
 
 	/**
 	 * Function gets the list of fields that the user has permissions to.
@@ -51,7 +95,16 @@ class Field
 			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
 			}
-			$fields = $query->distinct()->indexBy('fieldname')->all();
+			$fields = [];
+			$dataReader = $query->distinct()->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				if (isset($fields[$row['fieldname']])) {
+					$old = $fields[$row['fieldname']];
+					$row['readonly'] = $old['readonly'] > 0 ? $row['readonly'] : $old['readonly'];
+					$row['visible'] = $old['visible'] > 0 ? $row['visible'] : $old['visible'];
+				}
+				$fields[$row['fieldname']] = $row;
+			}
 			Cache::save(__METHOD__ . User::getCurrentUserId(), $tabId, $fields);
 		}
 
@@ -183,13 +236,13 @@ class Field
 			$fields = Cache::get('getRelatedFieldForModule', $key);
 		} else {
 			$db = Db::getInstance();
-			$wsQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_ws_referencetype.type', 'type' => new \yii\db\Expression($db->quoteValue(2))])
+			$wsQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_field.fieldlabel', 'vtiger_tab.name', 'relmod' => 'vtiger_ws_referencetype.type', 'type' => new \yii\db\Expression($db->quoteValue(2))])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->innerJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype = vtiger_ws_fieldtype.uitype')
 				->innerJoin('vtiger_ws_referencetype', 'vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid')
 				->where(['vtiger_tab.presence' => 0]);
-			$fmrQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_fieldmodulerel.relmodule', 'type' => new \yii\db\Expression($db->quoteValue(1))])
+			$fmrQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_field.fieldlabel', 'vtiger_tab.name', 'relmod' => 'vtiger_fieldmodulerel.relmodule', 'type' => new \yii\db\Expression($db->quoteValue(1))])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
@@ -199,7 +252,7 @@ class Field
 			while ($row = $dataReader->read()) {
 				$fields[$row['name']][$row['relmod']] = $row;
 			}
-			$query = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name'])
+			$query = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_field.fieldlabel', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->where(['vtiger_tab.presence' => 0, 'vtiger_field.uitype' => [64, 65, 66, 67, 68]]);
@@ -218,10 +271,8 @@ class Field
 				if ($forModule) {
 					return $fields[$moduleName][$forModule] ?? [];
 				}
-
 				return $fields[$moduleName];
 			}
-
 			return [];
 		}
 		if ($forModule) {
@@ -233,7 +284,6 @@ class Field
 			}
 			return $rfields;
 		}
-
 		return $fields;
 	}
 
@@ -254,7 +304,8 @@ class Field
 		} else {
 			$fields = (new \App\Db\Query())->select(['vtiger_relatedlists_fields.fieldid', 'vtiger_field.fieldname'])->from('vtiger_relatedlists_fields')
 				->innerJoin('vtiger_field', 'vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid')
-				->where(['relation_id' => $relationId, 'vtiger_field.presence' => [0, 2]])->createCommand()->queryAllByGroup();
+				->where(['relation_id' => $relationId, 'vtiger_field.presence' => [0, 2]])->orderBy(['vtiger_relatedlists_fields.relation_id' => SORT_ASC, 'vtiger_relatedlists_fields.sequence' => SORT_ASC])
+				->createCommand()->queryAllByGroup();
 			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
 		}
 		return $fields;
@@ -275,7 +326,10 @@ class Field
 			if (Cache::has('FieldInfoById', $mixed)) {
 				return Cache::get('FieldInfoById', $mixed);
 			}
-			$fieldInfo = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => $mixed])->one();
+			$fieldInfo = (new \App\Db\Query())
+				->from('vtiger_field')
+				->leftJoin('s_#__fields_anonymization', 'vtiger_field.fieldid = s_#__fields_anonymization.field_id')
+				->where(['vtiger_field.fieldid' => $mixed])->one();
 			Cache::save('FieldInfoById', $mixed, $fieldInfo, Cache::LONG);
 		} else {
 			$fieldsInfo = \vtlib\Functions::getModuleFieldInfos($module);

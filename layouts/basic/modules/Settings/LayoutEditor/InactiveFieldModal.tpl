@@ -11,25 +11,29 @@
 -->*}
 {strip}
 	<div class="modal inactiveFieldsModal fade" tabindex="-1">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-md">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h5>
+					<h5 class="modal-title"><span class="fas fa-ban mr-2"></span>{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h5>
 					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<form class="form-horizontal inactiveFieldsForm" method="POST">
 					<div class="modal-body">
-						<div class="row inActiveList"></div>
+						<div class="inActiveList"></div>
 					</div>
 					<div class="modal-footer">
-						<div class="float-right cancelLinkContainer">
-							<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
-						</div>
-						<button class="btn btn-success" type="submit" name="reactivateButton">
-							<strong>{App\Language::translate('LBL_REACTIVATE', $QUALIFIED_MODULE)}</strong>
+						<button class="btn btn-success mr-2" type="submit" name="reactivateButton">
+							<span class="fa fa-check mr-2"></span>
+							{App\Language::translate('LBL_REACTIVATE', $QUALIFIED_MODULE)}
 						</button>
+						<div class="cancelLinkContainer">
+							<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">
+								<span class="fas fa-times mr-2"></span>
+								{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+							</a>
+						</div>
 					</div>
 				</form>
 			</div>

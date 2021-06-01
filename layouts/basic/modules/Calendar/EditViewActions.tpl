@@ -17,9 +17,11 @@
 		<button class="btn btn-danger mr-1" type="reset" onclick="javascript:window.history.back();">
 			<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 		</button>
-		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
-			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
-		{/foreach}
+		{if isset($EDITVIEW_LINKS['EDIT_VIEW_HEADER'])}
+			{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
+				{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
+			{/foreach}
+		{/if}
 	</div>
 	</form>
 	</div>

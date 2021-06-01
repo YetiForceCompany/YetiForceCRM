@@ -5,6 +5,8 @@ namespace App;
 /**
  * Mailer basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -17,14 +19,21 @@ class Mailer
 		1 => 'LBL_WAITING_TO_BE_SENT',
 		2 => 'LBL_ERROR_DURING_SENDING',
 	];
-	public static $quoteJsonColumn = ['to', 'cc', 'bcc', 'attachments', 'params'];
-	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority', 'params'];
+
+	/** @var string[] Columns list that require JSON formatting */
+	public static $quoteJsonColumn = ['from', 'to', 'cc', 'bcc', 'attachments', 'params'];
+
+	/** @var string[] Columns list available in the database */
+	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority'];
 
 	/** @var \PHPMailer\PHPMailer\PHPMailer PHPMailer instance */
 	protected $mailer;
 
 	/** @var array SMTP configuration */
 	protected $smtp;
+
+	/** @var array Parameters for sending messages */
+	protected $params = [];
 
 	/** @var array Error logs */
 	public static $error;
@@ -86,7 +95,7 @@ class Mailer
 	 *
 	 * @return bool
 	 */
-	public static function sendFromTemplate($params)
+	public static function sendFromTemplate(array $params): bool
 	{
 		Log::trace('Send mail from template', 'Mailer');
 		if (empty($params['template'])) {
@@ -101,6 +110,7 @@ class Mailer
 			}
 		} else {
 			$recordModel = $params['recordModel'];
+			unset($params['recordModel']);
 		}
 		$template = Mail::getTemplate($params['template']);
 		if (!$template) {
@@ -127,21 +137,25 @@ class Mailer
 		if (!empty($template['email_template_priority'])) {
 			$params['priority'] = $template['email_template_priority'];
 		}
-		return static::addMail(array_intersect_key($params, array_flip(static::$quoteColumn)));
+		$row = array_intersect_key($params, array_flip(self::$quoteColumn));
+		$row['params'] = array_diff_key($params, $row);
+		return static::addMail($row);
 	}
 
 	/**
 	 * Add mail to quote for send.
 	 *
 	 * @param array $params
+	 *
+	 * @return bool
 	 */
-	public static function addMail($params)
+	public static function addMail(array $params): bool
 	{
 		$params['status'] = Config::component('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
 		$params['date'] = date('Y-m-d H:i:s');
 		if (empty($params['owner'])) {
 			$owner = User::getCurrentUserRealId();
-			$params['owner'] = $owner ? $owner : 0;
+			$params['owner'] = $owner ?: 0;
 		}
 		if (empty($params['smtp_id'])) {
 			$params['smtp_id'] = Mail::getDefaultSmtp();
@@ -177,10 +191,15 @@ class Mailer
 	 * @param array  $params
 	 * @param string $type   'admin' | 'log'
 	 *
-	 * @throws \App\Exceptions\AppException
+	 * @return void
 	 */
-	public static function insertMail($params, $type)
+	public static function insertMail(array $params, string $type): void
 	{
+		$eventHandler = new EventHandler();
+		$eventHandler->setParams($params);
+		$eventHandler->trigger('admin' === $type ? 'MailerAddToQueue' : 'MailerAddToLogs');
+		$params = $eventHandler->getParams();
+
 		foreach (static::$quoteJsonColumn as $key) {
 			if (isset($params[$key])) {
 				if (!\is_array($params[$key])) {
@@ -195,11 +214,11 @@ class Mailer
 	/**
 	 * Get configuration smtp.
 	 *
-	 * @param bool|string $key
+	 * @param string|null $key
 	 *
-	 * @return array
+	 * @return mixed
 	 */
-	public function getSmtp($key = false)
+	public function getSmtp(?string $key = null)
 	{
 		if ($key && isset($this->smtp[$key])) {
 			return $this->smtp[$key];
@@ -210,7 +229,7 @@ class Mailer
 	/**
 	 * Set configuration smtp in mailer.
 	 */
-	public function setSmtp()
+	public function setSmtp(): void
 	{
 		if (!$this->smtp) {
 			throw new \App\Exceptions\AppException('ERR_NO_SMTP_CONFIGURATION');
@@ -242,7 +261,7 @@ class Mailer
 		if ($this->smtp['options']) {
 			$this->mailer->SMTPOptions = Json::decode($this->smtp['options'], true);
 		}
-		$this->mailer->From = $this->smtp['from_email'] ? $this->smtp['from_email'] : $this->smtp['username'];
+		$this->mailer->From = $this->smtp['from_email'] ?: $this->smtp['username'];
 		if ($this->smtp['from_name']) {
 			$this->mailer->FromName = $this->smtp['from_name'];
 		}
@@ -302,7 +321,7 @@ class Mailer
 	 */
 	public function subject($subject)
 	{
-		$this->mailer->Subject = $subject;
+		$this->params['subject'] = $this->mailer->Subject = $subject;
 		return $this;
 	}
 
@@ -317,9 +336,10 @@ class Mailer
 	 */
 	public function content($message)
 	{
+		$this->params['body'] = $message;
 		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
-			$message .= "<table style=\"font-family:'DejaVu Sans';font-size:9px;width:100%; margin: 0;\"><tbody><tr><td style=\"width:50%;text-align: center;\">Powered by YetiForce</td></tr></tbody></table>";
+			$message .= '<table style="font-size:9px;width:100%; margin: 0;"><tbody><tr><td style="width:50%;text-align: center;">Powered by YetiForce</td></tr></tbody></table>';
 		}
 		$this->mailer->isHTML(true);
 		$this->mailer->msgHTML($message);
@@ -336,6 +356,7 @@ class Mailer
 	 */
 	public function from($address, $name = '')
 	{
+		$this->params['from'][$address] = $name;
 		$this->mailer->From = $address;
 		$this->mailer->FromName = $name;
 		return $this;
@@ -351,6 +372,7 @@ class Mailer
 	 */
 	public function to($address, $name = '')
 	{
+		$this->params['to'][$address] = $name;
 		$this->mailer->addAddress($address, $name);
 		return $this;
 	}
@@ -367,6 +389,7 @@ class Mailer
 	 */
 	public function cc($address, $name = '')
 	{
+		$this->params['cc'][$address] = $name;
 		$this->mailer->addCC($address, $name);
 		return $this;
 	}
@@ -383,6 +406,7 @@ class Mailer
 	 */
 	public function bcc($address, $name = '')
 	{
+		$this->params['bcc'][$address] = $name;
 		$this->mailer->addBCC($address, $name);
 		return $this;
 	}
@@ -397,6 +421,7 @@ class Mailer
 	 */
 	public function replyTo($address, $name = '')
 	{
+		$this->params['replyTo'][$address] = $name;
 		$this->mailer->addReplyTo($address, $name);
 		return $this;
 	}
@@ -411,6 +436,7 @@ class Mailer
 	 */
 	public function attachment($path, $name = '')
 	{
+		$this->params['attachment'][$path] = $name;
 		$this->mailer->addAttachment($path, $name);
 		return $this;
 	}
@@ -420,26 +446,35 @@ class Mailer
 	 *
 	 * @return bool
 	 */
-	public function send()
+	public function send(): bool
 	{
+		$eventHandler = new EventHandler();
+		$eventHandler->setParams(['mailer' => $this]);
+		$eventHandler->trigger('MailerBeforeSend');
+		$toAddresses = $this->mailer->From . ' >> ' . \print_r($this->mailer->getToAddresses(), true);
+		\App\Log::beginProfile("Mailer::send|{$toAddresses}", 'Mail|SMTP');
 		if ($this->mailer->send()) {
-			if (empty($this->smtp['save_send_mail']) || (!empty($this->smtp['save_send_mail']) && $this->saveMail())) {
-				Log::trace('Mailer sent mail', 'Mailer');
-				return true;
+			\App\Log::endProfile("Mailer::send|{$toAddresses}", 'Mail|SMTP');
+			if (!empty($this->smtp['save_send_mail'])) {
+				$this->saveMail();
+			}
+			Log::trace('Mailer sent mail', 'Mailer');
+			$eventHandler->trigger('MailerAfterSend');
+			return true;
+		}
+		\App\Log::endProfile("Mailer::send|{$toAddresses}", 'Mail|SMTP');
+		Log::error('Mailer Error: ' . \print_r($this->mailer->ErrorInfo, true), 'Mailer');
+		if (!empty(static::$error)) {
+			static::$error[] = '########################################';
+		}
+		if (\is_array($this->mailer->ErrorInfo)) {
+			foreach ($this->mailer->ErrorInfo as $error) {
+				static::$error[] = $error;
 			}
 		} else {
-			Log::error('Mailer Error: ' . \print_r($this->mailer->ErrorInfo, true), 'Mailer');
-			if (!empty(static::$error)) {
-				static::$error[] = '########################################';
-			}
-			if (\is_array($this->mailer->ErrorInfo)) {
-				foreach ($this->mailer->ErrorInfo as $error) {
-					static::$error[] = $error;
-				}
-			} else {
-				static::$error[] = $this->mailer->ErrorInfo;
-			}
+			static::$error[] = $this->mailer->ErrorInfo;
 		}
+		$eventHandler->trigger('MailerAfterSendError');
 		return false;
 	}
 
@@ -521,9 +556,7 @@ class Mailer
 			}
 		}
 		if (!empty($rowQueue['params'])) {
-			foreach (Json::decode($rowQueue['params']) as $name => $param) {
-				$mailer->sendCustomParams($name, $param, $mailer);
-			}
+			$mailer->setCustomParams(Json::decode($rowQueue['params']));
 		}
 		if ($mailer->getSmtp('individual_delivery')) {
 			foreach (Json::decode($rowQueue['to']) as $email => $name) {
@@ -568,15 +601,26 @@ class Mailer
 	/**
 	 * Adding additional parameters.
 	 *
-	 * @param string $name
-	 * @param mixed  $param
-	 * @param self   $mailer
+	 * @param array $params
+	 *
+	 * @return void
 	 */
-	public function sendCustomParams($name, $param, $mailer)
+	public function setCustomParams(array $params): void
 	{
-		if ('ics' === $name) {
-			$mailer->mailer->Ical = $param;
+		$this->params['params'] = $params;
+		if (isset($this->params['ics'])) {
+			$this->mailer->Ical = $this->params['ics'];
 		}
+	}
+
+	/**
+	 * Get additional parameters.
+	 *
+	 * @return array
+	 */
+	public function getCustomParams(): array
+	{
+		return $this->params;
 	}
 
 	/**
@@ -606,7 +650,9 @@ class Mailer
 			Log::error('Mailer Error: IMAP error - ' . imap_last_error(), 'Mailer');
 			return false;
 		}
+		\App\Log::beginProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
 		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), '\\Seen');
+		\App\Log::endProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
 		return true;
 	}
 

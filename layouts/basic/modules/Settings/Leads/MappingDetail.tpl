@@ -52,7 +52,7 @@
 				<tr class="listViewEntries" data-cfmid="{$MAPPING_ID}">
 					<td>{\App\Language::translate({$MAPPING['Leads']['label']}, 'Leads')}</td>
 					<td>{\App\Language::translate($MAPPING['Leads']['fieldDataType'], $QUALIFIED_MODULE)}</td>
-					<td>{\App\Language::translate({$MAPPING['Accounts']['label']}, 'Accounts')}</td>
+					<td>{if isset($MAPPING['Accounts']['label'])}{\App\Language::translate($MAPPING['Accounts']['label'], 'Accounts')}{/if}</td>
 				</tr>
 			{/foreach}
 			</tbody>

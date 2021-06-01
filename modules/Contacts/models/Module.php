@@ -24,7 +24,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 		if ('SRecurringOrders' === $sourceModule && $record) {
 			$queryGenerator->addJoin(['INNER JOIN', 'u_#__srecurringorders', 'u_#__srecurringorders.accountid = vtiger_contactdetails.parentid AND u_#__srecurringorders.srecurringordersid = :records', [':records' => $record]]);
 		}
-		if (in_array($sourceModule, ['Campaigns', 'Products', 'Services']) || ('Contacts' === $sourceModule && 'contact_id' === $field && $record)) {
+		if (\in_array($sourceModule, ['Campaigns', 'Products', 'Services']) || ('Contacts' === $sourceModule && 'contact_id' === $field && $record)) {
 			switch ($sourceModule) {
 				case 'Campaigns':
 					$tableName = 'vtiger_campaign_records';

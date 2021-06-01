@@ -25,7 +25,7 @@
 					{/if}
 					{assign var=COUNT value=$COUNT+1}
 					{assign var=HEADER_FIELD_NAME value=$HEADER_FIELD->getFullName()}
-					<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap class="{if isset($ORDER_BY[$HEADER_FIELD_NAME])} columnSorted{/if}">
+					<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap class="{if isset($ORDER_BY[$HEADER_FIELD_NAME])}columnSorted {/if}js-list__row" data-js="container">
 						{if $HEADER_FIELD->getColumnName() eq 'access_count' or $HEADER_FIELD->getColumnName() eq 'idlists' }
 							<a href="javascript:void(0);"
 							   class="noSorting">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}</a>
@@ -108,7 +108,7 @@
 							{str_repeat('*', 10)}
 						{elseif ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 							<a class="modCT_{$RELATED_MODULE_NAME}" title=""
-							   href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
+							   href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}</a>
 						{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 							{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME,$RELATED_RECORD->getId(), $RELATED_RECORD))}
 						{else}
@@ -132,24 +132,23 @@
 				</tr>
 			{/foreach}
 			</tbody>
-			<tfoot class="listViewSummation">
-			<tr>
-				<td></td>
-				{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-					<td {if $HEADER_FIELD@last} colspan="2" {/if}
-							class="noWrap {if !empty($HEADER_FIELD->isCalculateField())}border{/if}">
-						{if !empty($HEADER_FIELD->isCalculateField())}
-							<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button"
-									data-operator="sum" data-field="{$HEADER_FIELD->getName()}"
-									data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-								<span class="fas fa-signal"></span>
-							</button>
-							<span class="calculateValue"></span>
-						{/if}
-					</td>
-				{/foreach}
-			</tr>
-			</tfoot>
+			{if !empty($SHOW_SUMMATION_ROW)}
+				<tfoot class="listViewSummation">
+					<tr>
+						<td></td>
+						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+							<td {if $HEADER_FIELD@last} colspan="2" {/if} class="noWrap {if !empty($HEADER_FIELD->isCalculateField())}border{/if}">
+								{if !empty($HEADER_FIELD->isCalculateField())}
+									<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
+										<span class="fas fa-signal"></span>
+									</button>
+									<span class="calculateValue"></span>
+								{/if}
+							</td>
+						{/foreach}
+					</tr>
+				</tfoot>
+			{/if}
 		</table>
 	</div>
 	{foreach key=index item=jsModel from=$RELATED_SCRIPTS}

@@ -8,23 +8,23 @@ return [
 		'Partners' => ['level' => 0],
 		'Competition' => ['level' => 0],
 		'OSSEmployees' => ['level' => 0],
-		'Contacts' => ['level' => 4],
-		'SSalesProcesses' => ['level' => 1],
 		'Project' => ['level' => 1],
 		'ServiceContracts' => ['level' => 1],
 		'Campaigns' => ['level' => 1],
 		'FBookkeeping' => ['level' => 1],
-		'HelpDesk' => ['level' => 2, 'parentModule' => 'ServiceContracts'],
-		'ProjectTask' => ['level' => 3, 'parentModule' => 'ProjectMilestone'],
+		'SSalesProcesses' => ['level' => 1],
 		'ProjectMilestone' => ['level' => 2, 'parentModule' => 'Project'],
+		'HelpDesk' => ['level' => 2, 'parentModule' => 'ServiceContracts'],
 		'SQuoteEnquiries' => ['level' => 2, 'parentModule' => 'Campaigns'],
+		'FInvoice' => ['level' => 2, 'parentModule' => 'FBookkeeping'],
 		'SRequirementsCards' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SCalculations' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SQuotes' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SSingleOrders' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SRecurringOrders' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
-		'FInvoice' => ['level' => 2, 'parentModule' => 'FBookkeeping'],
 		'SVendorEnquiries' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
+		'ProjectTask' => ['level' => 3, 'parentModule' => 'ProjectMilestone'],
+		'Contacts' => ['level' => 4],
 	],
 	'modulesMapRelatedFields' => [//Map links between modules
 		'ProjectTask' => [
@@ -55,7 +55,6 @@ return [
 			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]]
 		],
 		'SSingleOrders' => [
-			'accountid' => ['Accounts' => ['company' => ['accountname']]],
 			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]],
 			'squotesid' => ['SQuotes' => ['accountid' => ['accountid']]]
 		],
@@ -113,18 +112,5 @@ return [
 		'Documents' => ['table' => 'vtiger_senotesrel', 'rel' => 'crmid', 'base' => 'notesid'],
 		'Products' => ['table' => 'vtiger_seproductsrel', 'rel' => 'crmid', 'base' => 'productid'],
 		'OSSMailView' => ['table' => 'vtiger_ossmailview_relation', 'rel' => 'crmid', 'base' => 'ossmailviewid'],
-	],
-	'recordsListFilter' => [
-		'Contacts' => [
-			'HelpDesk' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
-			'Project' => ['fieldName' => 'linktoaccountscontacts', 'moduleName' => 'Accounts'],
-			'SSalesProcesses' => ['fieldName' => 'related_to', 'moduleName' => 'Accounts'],
-		],
-		'ServiceContracts' => [
-			'Assets' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
-			'OSSSoldServices' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
-		],
-		'Assets' => ['ServiceContracts' => ['fieldName' => 'sc_related_to', 'moduleName' => 'Accounts']],
-		'OSSSoldServices' => ['ServiceContracts' => ['fieldName' => 'sc_related_to', 'moduleName' => 'Accounts']],
 	]
 ];

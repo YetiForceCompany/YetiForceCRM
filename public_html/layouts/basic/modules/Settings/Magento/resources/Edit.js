@@ -5,9 +5,9 @@ Settings_Vtiger_Edit_Js(
 	'Settings_Magento_Edit_Js',
 	{},
 	{
-		registerSubmitForm: function() {
+		registerSubmitForm: function () {
 			var form = this.getForm();
-			form.on('submit', function(e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
 				e.stopPropagation();
 				if (form.validationEngine('validate') === true) {
@@ -16,17 +16,23 @@ Settings_Vtiger_Edit_Js(
 						blockInfo: { enabled: true }
 					});
 					AppConnector.request(paramsForm)
-						.done(function(data) {
+						.done(function (data) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							if (true == data.result.success) {
 								window.location.href = data.result.url;
 							} else {
-								Vtiger_Helper_Js.showPnotify(data.result.message);
+								app.showNotify({
+									text: data.result.message,
+									type: 'error'
+								});
 							}
 						})
-						.fail(function(textStatus) {
+						.fail(function (textStatus) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							Vtiger_Helper_Js.showPnotify(textStatus);
+							app.showNotify({
+								text: textStatus,
+								type: 'error'
+							});
 						});
 					return false;
 				} else {
@@ -35,10 +41,10 @@ Settings_Vtiger_Edit_Js(
 				return false;
 			});
 		},
-		getRecordsListParams: function(container) {
+		getRecordsListParams: function (container) {
 			return { module: $('input[name="popupReferenceModule"]', container).val() };
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			const form = this.getForm();
 			if (form.length) {
 				form.validationEngine(app.validationEngineOptions);

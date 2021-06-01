@@ -3,8 +3,11 @@
 /**
  * Settings Widgets Module Model class.
  *
+ * @package   Settings.Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -47,7 +50,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getModulesList()
 	{
-		$modules = \vtlib\Functions::getAllModules();
+		$modules = \vtlib\Functions::getAllModules(true, true, 0);
 		foreach ($modules as $id => $module) {
 			$moduleModel = Vtiger_Module_Model::getInstance($module['name']);
 			if (!$moduleModel->isSummaryViewSupported()) {
@@ -76,24 +79,31 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getType($module = false)
 	{
-		$moduleName = \App\Module::getModuleName($module);
-
-		$dir = 'modules/Vtiger/widgets/';
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		$ffs = scandir($dir);
-		foreach ($ffs as $ff) {
-			$action = str_replace('.php', '', $ff);
-			if ('.' != $ff && '..' != $ff && !is_dir($dir . '/' . $ff) && 'Basic' != $action) {
-				$folderFiles[$action] = $action;
-				Vtiger_Loader::includeOnce('~~' . $dir . $ff);
-				$modelClassName = Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
-				$instance = new $modelClassName();
-				if ($instance->allowedModules && !\in_array($moduleName, $instance->allowedModules) || ('Comments' == $action && !$moduleModel->isCommentEnabled())) {
-					unset($folderFiles[$action]);
+		if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
+			$loader[] = "custom/modules/{$moduleModel->getName()}/widgets/";
+			$loader[] = 'custom/modules/Vtiger/widgets/';
+		}
+		$loader[] = "modules/{$moduleModel->getName()}/widgets/";
+		$loader[] = 'modules/Vtiger/widgets/';
+		$folderFiles = $activeWidgets = [];
+		foreach ($loader as $dir) {
+			if (!is_dir($dir)) {
+				continue;
+			}
+			foreach ((new \DirectoryIterator($dir)) as $fileInfo) {
+				$type = $fileInfo->getBasename('.php');
+				if (!$fileInfo->isDir() && 'Basic' !== $type && 'php' === $fileInfo->getExtension() && !isset($folderFiles[$type])) {
+					$folderFiles[$type] = $type;
+					$className = Vtiger_Loader::getComponentClassName('Widget', $type, $moduleModel->getName());
+					$instance = new $className($moduleModel->getName(), $moduleModel);
+					if ($instance->isPermitted()) {
+						$activeWidgets[$type] = $type;
+					}
 				}
 			}
 		}
-		return $folderFiles;
+		return $activeWidgets;
 	}
 
 	/**
@@ -107,32 +117,15 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get related modules for module.
-	 *
-	 * @param int $tabid
-	 *
-	 * @return array
-	 */
-	public function getRelatedModule($tabid)
-	{
-		return (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'vtiger_tab.name'])
-			->from('vtiger_relatedlists')
-			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_relatedlists.related_tabid')
-			->where(['and', ['vtiger_relatedlists.tabid' => $tabid], ['<>', 'vtiger_relatedlists.related_tabid', '0']])
-			->indexBy('relation_id')->all();
-	}
-
-	/**
 	 * Function to get filters.
 	 *
 	 * @param array $modules
 	 *
 	 * @return array
 	 */
-	public function getFiletrs($modules)
+	public function getFiletrs(array $modules): array
 	{
-		$filetrs = [];
-		$tabid = [];
+		$filetrs = $tabid = [];
 		foreach ($modules as $value) {
 			if (!\in_array($value['related_tabid'], $tabid)) {
 				$dataReader = (new \App\Db\Query())->select(['columnname', 'tablename', 'fieldlabel', 'fieldname'])
@@ -140,7 +133,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 					->where(['tabid' => $value['related_tabid'], 'uitype' => [15, 16]])
 					->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$filetrs[$value['related_tabid']][$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
+					$filetrs[$value['related_tabid']][$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['related_modulename']);
 				}
 				$dataReader->close();
 				$tabid[] = $value['related_tabid'];
@@ -156,9 +149,9 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return array
 	 */
-	public function getCheckboxs($modules)
+	public function getCheckboxs(array $modules): array
 	{
-		$checkboxs = [];
+		$checkBoxs = [];
 		$tabid = [];
 		foreach ($modules as $value) {
 			if (!\in_array($value['related_tabid'], $tabid)) {
@@ -168,13 +161,13 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 					->andWhere(['<>', 'columnname', 'was_read'])
 					->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
+					$checkBoxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['related_modulename']);
 				}
 				$dataReader->close();
 				$tabid[] = $value['related_tabid'];
 			}
 		}
-		return $checkboxs;
+		return $checkBoxs;
 	}
 
 	/**
@@ -187,7 +180,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getFields($tabid, $uitype = false)
 	{
-		$fieldlabel = $fieldsList = [];
+		$fieldlabel = $fieldsList = $fieldsNames = [];
 		$query = (new \App\Db\Query())->select(['fieldid', 'columnname', 'tablename', 'fieldname', 'fieldlabel'])
 			->from('vtiger_field')
 			->where(['and', ['tabid' => $tabid], ['<>', 'displaytype', 2], ['presence' => [0, 2]]]);
@@ -197,12 +190,12 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$dataReader = $query->createCommand()->query();
 		$moduleName = App\Module::getModuleName($tabid);
 		while ($row = $dataReader->read()) {
+			$fieldsNames[$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 			$fieldlabel[$row['fieldid']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 			$fieldsList[$tabid][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 		}
 		$dataReader->close();
-
-		return ['labels' => $fieldlabel, 'table' => $fieldsList];
+		return ['labels' => $fieldlabel, 'table' => $fieldsList, 'fields' => $fieldsNames];
 	}
 
 	/**
@@ -216,9 +209,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = $params['tabid'];
 		$data = $params['data'];
 		$wid = $data['wid'] ?? '';
-		$widgetName = 'Vtiger_' . $data['type'] . '_Widget';
+		$widgetModuleName = \App\Module::getModuleName($tabid);
+		$widgetName = Vtiger_Loader::getComponentClassName('Widget', $data['type'], $widgetModuleName);
 		if (class_exists($widgetName)) {
-			$widgetInstance = new $widgetName();
+			$widgetInstance = new $widgetName($widgetModuleName);
 			$dbParams = $widgetInstance->dbParams;
 		}
 		$data = array_merge($dbParams, $data);
@@ -278,7 +272,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			->where(['id' => $wid])
 			->one();
 		$resultrow['data'] = \App\Json::decode($resultrow['data']);
-
 		return $resultrow;
 	}
 
@@ -338,21 +331,27 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to get switch buttons for widget.
 	 *
-	 * @param int $index
+	 * @param mixed $sourceModule
+	 * @param array $index
 	 *
 	 * @return array
 	 */
-	public static function getHeaderSwitch($index = [])
+	public static function getHeaderSwitch($sourceModule, $index = [])
 	{
-		$data = [
-			\App\Module::getModuleId('SSalesProcesses') => [
-				[
-					'type' => 1,
-					'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
-					'value' => ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']],
-				],
-			],
-		];
+		$data = [];
+		$moduleName = is_numeric($sourceModule) ? \App\Module::getModuleName($sourceModule) : $sourceModule;
+		foreach (\App\Relation::getByModule($moduleName) as $moduleData) {
+			$moduleName = $moduleData['related_modulename'];
+			if (($fieldName = \App\RecordStatus::getFieldName($moduleName)) && ($statuses = \App\RecordStatus::getStates($moduleName, \App\RecordStatus::RECORD_STATE_CLOSED))) {
+				$data[$moduleData['related_tabid']] = [
+					[
+						'type' => 1,
+						'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', $moduleName),
+						'value' => [$fieldName => $statuses]
+					],
+				];
+			}
+		}
 		if (empty($index)) {
 			return $data;
 		}
@@ -363,28 +362,20 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get buttons which visible in header widget.
+	 * Get custom views from related modules.
 	 *
-	 * @param int $moduleId Number id module
+	 * @param array $modules
 	 *
-	 * @return Vtiger_Link_Model[]
+	 * @return array
 	 */
-	public static function getHeaderButtons($moduleId)
+	public function getCustomView(array $modules): array
 	{
-		$linkList = [];
-		$moduleName = \App\Module::getModuleName($moduleId);
-		if ('Documents' === $moduleName) {
-			$linkList[] = [
-				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
-				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'adminIcon-document-templates',
-				'linkclass' => 'btn-light btn-sm',
-			];
+		$customView = [];
+		foreach ($modules as $module) {
+			foreach (CustomView_Record_Model::getAll($module['related_modulename']) as $cvId => $cvModel) {
+				$customView[$module['related_tabid']][$cvId] = \App\Language::translate($cvModel->get('viewname'), $module['related_modulename']);
+			}
 		}
-		$buttons = [];
-		foreach ($linkList as &$link) {
-			$buttons[] = Vtiger_Link_Model::getInstanceFromValues($link);
-		}
-		return $buttons;
+		return $customView;
 	}
 }

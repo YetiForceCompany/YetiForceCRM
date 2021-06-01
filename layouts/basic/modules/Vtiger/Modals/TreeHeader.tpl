@@ -11,7 +11,9 @@
 			{foreach item=MODEL from=$MODAL_SCRIPTS}
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}
-			<script type="text/javascript">app.registerModalController();</script>
+			{if $REGISTER_EVENTS}
+				<script type="text/javascript">app.registerModalController();</script>
+			{/if}
 			<div class="modal-header d-block">
 				<div class="d-flex">
 					<h5 class="modal-title">
@@ -31,8 +33,9 @@
 						<input id="valueSearchTree" type="text" class="form-control"
 							placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE)} ...">
 						<div class="input-group-append">
-							<button id="btnSearchTree" class="btn btn-success"
-									type="button">{\App\Language::translate('LBL_SEARCH', $MODULE)}</button>
+							<button id="btnSearchTree" class="btn btn-light" type="button">
+								<span class="fas fa-search mr-2"></span>{\App\Language::translate('LBL_SEARCH', $MODULE)}
+							</button>
 						</div>
 				</div>
 			</div>

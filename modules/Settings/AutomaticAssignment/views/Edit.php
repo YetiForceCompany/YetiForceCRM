@@ -18,7 +18,8 @@ class Settings_AutomaticAssignment_Edit_View extends Settings_Vtiger_Index_View
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if (!\App\User::getCurrentUserModel()->isAdmin() || $request->isEmpty('record')) {
+		parent::checkPermission($request);
+		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}

@@ -3,9 +3,12 @@
 /**
  * Main class to save modification in settings.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Vtiger_Tracker_Model
 {
@@ -18,14 +21,25 @@ class Settings_Vtiger_Tracker_Model
 		'delete' => 3,
 	];
 
-	public static function addBasic($type)
+	/**
+	 * Adding basic information about tracking.
+	 *
+	 * @param string $type
+	 *
+	 * @return void
+	 */
+	public static function addBasic(string $type): void
 	{
 		$db = App\Db::getInstance('log');
-		if ($type == 'view' && App\Request::_isAjax()) {
+		if ('view' == $type && App\Request::_isAjax()) {
 			self::lockTracking();
 		}
-		if (self::$id !== false || self::$lockTrack) {
-			return true;
+		if (false !== self::$id || self::$lockTrack) {
+			return;
+		}
+		$action = \App\Process::$processType . ':' . \App\Process::$processName;
+		if ($mode = \App\Request::_getMode()) {
+			$action .= ':' . $mode;
 		}
 		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
 			'user_id' => \App\User::getCurrentUserId(),
@@ -35,7 +49,7 @@ class Settings_Vtiger_Tracker_Model
 			'date' => date('Y-m-d H:i:s'),
 			'action' => \App\Process::$processType . ':' . \App\Process::$processName,
 		])->execute();
-		if ($insertedInfo === 1) {
+		if (1 === $insertedInfo) {
 			self::$id = $db->getLastInsertID('l_#__settings_tracker_basic_id_seq');
 		}
 	}
@@ -52,7 +66,7 @@ class Settings_Vtiger_Tracker_Model
 		if (self::$lockTrack) {
 			return true;
 		}
-		if (self::$id !== false) {
+		if (false !== self::$id) {
 			self::addBasic('save');
 		}
 		$db = App\Db::getInstance('log');
@@ -63,7 +77,7 @@ class Settings_Vtiger_Tracker_Model
 			$db->createCommand()->insert('l_#__settings_tracker_detail', [
 				'id' => self::$id,
 				'prev_value' => $prev[$key] ?? '',
-				'post_value' => is_null($value) ? '' : $value,
+				'post_value' => null === $value ? '' : $value,
 				'field' => $key,
 			])->execute();
 		}

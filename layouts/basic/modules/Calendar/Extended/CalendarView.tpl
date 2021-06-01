@@ -20,7 +20,7 @@
 		<div class="o-calendar__container mt-2" data-js="offset">
 			<div class="d-none js-calendar__header-buttons">
 				<div class="js-calendar__view-btn mb-1 mb-sm-0 mr-1">
-					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions u-remove-dropdown-icon' BTN_CLASS='btn-light o-calendar__view-btn'}
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions u-remove-dropdown-icon' BTN_CLASS='btn-light o-calendar__view-btn d-flex align-items-center'}
 				</div>
 				<div class="js-calendar__filter-container">
 					{if $CUSTOM_VIEWS|@count gt 0}

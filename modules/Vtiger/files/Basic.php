@@ -2,6 +2,8 @@
 /**
  * Basic class to handle files.
  *
+ * @package Files
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -34,7 +36,7 @@ abstract class Vtiger_Basic_File
 	 *
 	 * @return bool
 	 */
-	public function getCheckPermission(\App\Request $request)
+	public function getCheckPermission(App\Request $request)
 	{
 		if (!$request->isEmpty('record')) {
 			$moduleName = $request->getModule();
@@ -56,7 +58,7 @@ abstract class Vtiger_Basic_File
 	 *
 	 * @return bool
 	 */
-	public function postCheckPermission(\App\Request $request)
+	public function postCheckPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$field = $request->getByType('field', 'Alnum');
@@ -78,7 +80,7 @@ abstract class Vtiger_Basic_File
 	 *
 	 * @param \App\Request $request
 	 */
-	public function post(\App\Request $request)
+	public function post(App\Request $request)
 	{
 		$attach = \App\Fields\File::uploadAndSave($request, $_FILES, $this->fileType, $this->storageName);
 		if ($request->isAjax()) {

@@ -15,7 +15,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$listSearchParams = [];
 		$conditions = [['industry', 'e', $value]];
-		if ($assignedto != '') {
+		if ('' != $assignedto) {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
@@ -73,13 +73,13 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['datasets'][0]['names'][] = $row['industryvalue'];
 		}
 		$dataReader->close();
-		if (count($chartData['datasets'][0]['data']) > 0) {
+		if (\count($chartData['datasets'][0]['data']) > 0) {
 			$chartData['show_chart'] = true;
 		}
 		return $chartData;
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
@@ -91,17 +91,17 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$owner = $request->getByType('owner', 2);
 		}
 		$ownerForwarded = $owner;
-		if ($owner == 'all') {
+		if ('all' == $owner) {
 			$owner = '';
 		}
 		$createdTime = $request->getDateRange('createdtime');
 		if (empty($createdTime)) {
 			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
-		$data = ($owner === false) ? [] : $this->getLeadsByIndustry($owner, $createdTime);
+		$data = (false === $owner) ? [] : $this->getLeadsByIndustry($owner, $createdTime);
 		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-		$leadSIndustryAmount = count($data['datasets'][0]['names']);
+		$leadSIndustryAmount = \count($data['datasets'][0]['names']);
 		for ($i = 0; $i < $leadSIndustryAmount; ++$i) {
 			$data['datasets'][0]['links'][] = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
 		}

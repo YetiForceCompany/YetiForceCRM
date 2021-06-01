@@ -1,16 +1,7 @@
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-*
-********************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+	{assign var=FIELD_MODULE_NAME value=$FIELD_MODEL->getModuleName()}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUE value=explode('##', $SEARCH_INFO['searchValue'])}
@@ -19,14 +10,14 @@
 	{/if}
 	{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUE)}
 	{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
-		{if !empty($VIEWID) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
-			{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID, false, $FIELD_MODEL->getName())}
+		{if !empty($VIEWID) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($FIELD_MODULE_NAME, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)}
+			{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID, false, $FIELD_MODEL->getFullName())}
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
 		{else}
-			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleUsers()}
+			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance($FIELD_MODULE_NAME)->getAccessibleUsers()}
 			{if $ASSIGNED_USER_ID neq 'modifiedby'}
-				{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleGroups()}
+				{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance($FIELD_MODULE_NAME)->getAccessibleGroups()}
 			{else}
 				{assign var=ALL_ACTIVEGROUP_LIST value=[]}
 			{/if}

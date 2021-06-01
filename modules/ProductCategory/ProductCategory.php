@@ -37,23 +37,13 @@ class ProductCategory extends Vtiger_CRMEntity
 		'u_yf_productcategorycf' => 'productcategoryid',
 	];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		'FL_CATEGORY_NAME' => ['productcategory', 'category'],
-		'FL_PARENT_CATEGORY' => ['productcategory', 'parent_id'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'FL_CATEGORY_NAME' => 'category',
 		'FL_PARENT_CATEGORY' => 'parent_id',
 		'Assigned To' => 'assigned_user_id',
 	];
-	// Make the field link to detail view
-	public $list_link_field = 'category';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
@@ -61,12 +51,7 @@ class ProductCategory extends Vtiger_CRMEntity
 		'FL_PARENT_CATEGORY' => ['productcategory', 'parent_id'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'FL_CATEGORY_NAME' => 'category',
-		'FL_PARENT_CATEGORY' => 'parent_id',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['category'];
 	// For Alphabetical search

@@ -10,19 +10,19 @@
 
 class Vtiger_IndexAjax_View extends Vtiger_Index_View
 {
-	use \App\Controller\ExposeMethod,
-		App\Controller\ClearProcess;
+	use \App\Controller\ExposeMethod;
+	use App\Controller\ClearProcess;
 
-	public function getRecordsListFromRequest(\App\Request $request)
+	public function getRecordsListFromRequest(App\Request $request)
 	{
 		$cvId = $request->getByType('cvid', 2);
 		$selectedIds = $request->getArray('selected_ids', 2);
 		$excludedIds = $request->getArray('excluded_ids', 2);
 
-		if (!empty($selectedIds) && $selectedIds[0] !== 'all' && count($selectedIds) > 0) {
+		if (!empty($selectedIds) && 'all' !== $selectedIds[0] && \count($selectedIds) > 0) {
 			return $selectedIds;
 		}
-		if (!empty($cvId) && $cvId == 'undefined') {
+		if (!empty($cvId) && 'undefined' == $cvId) {
 			$sourceModule = $request->getByType('sourceModule', 2);
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}

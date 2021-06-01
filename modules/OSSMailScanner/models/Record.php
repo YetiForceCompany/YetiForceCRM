@@ -299,7 +299,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				try {
 					$mail->addActionResult($action, $handler->process($mail));
 				} catch (Exception $e) {
-					App\Log::error($e->__toString(), 'MailScanner');
+					App\Log::error("Action: $action  Folder: $folder ID:" . $mail->get('id') . PHP_EOL . $e->__toString(), 'MailScanner');
 				}
 				\App\Log::trace('End action', 'MailScanner');
 			}
@@ -357,8 +357,12 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$break = false;
 		$lastScanUid = self::getUidFolder($account['user_id'], $folder);
+		\App\Log::beginProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
 		$msgno = imap_msgno($mbox, $lastScanUid);
+		\App\Log::endProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
+		\App\Log::beginProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');
 		$numMsg = imap_num_msg($mbox);
+		\App\Log::endProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');
 		$getEmails = false;
 		if (0 === $msgno && 0 !== $numMsg) {
 			if (0 === $lastScanUid) {
@@ -367,7 +371,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			} elseif (imap_uid($mbox, $numMsg) > $lastScanUid) {
 				foreach (imap_search($mbox, 'ALL', SE_UID) as $uid) {
 					if ($uid > $lastScanUid) {
+						\App\Log::beginProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
 						$msgno = imap_msgno($mbox, $uid);
+						\App\Log::endProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
 						$getEmails = true;
 						break;
 					}
@@ -380,15 +386,17 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if ($getEmails) {
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			for ($i = $msgno; $i <= $numMsg; ++$i) {
+				\App\Log::beginProfile(__METHOD__ . '|imap_uid', 'Mail|IMAP');
 				$uid = imap_uid($mbox, $i);
+				\App\Log::endProfile(__METHOD__ . '|imap_uid', 'Mail|IMAP');
 				$mail = OSSMail_Record_Model::getMail($mbox, $uid, $i);
 
 				self::executeActions($account, $mail, $folder);
 				unset($mail);
 				$dbCommand->update('vtiger_ossmailscanner_folders_uid', ['uid' => $uid], ['user_id' => $account['user_id'], 'folder' => $folder])->execute();
 				++$countEmails;
-				if (!self::updateScanHistory($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']) ||
-					$countEmails >= \App\Config::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+				if (!self::updateScanHistory($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner'])
+					|| $countEmails >= \App\Config::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 					$break = true;
 					break;
 				}
@@ -744,9 +752,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$dataReader = (new App\Db\Query())->from('vtiger_ossmails_logs')->where(['status' => 1])->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$startTime = strtotime($row['start_time']);
-			if ($duration && $email &&
-			strtotime('now') > $startTime + ($duration * 60) &&
-			!(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $startTime])->exists()) {
+			if ($duration && $email
+			&& strtotime('now') > $startTime + ($duration * 60)
+			&& !(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $startTime])->exists()) {
 				$dbCommand->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $startTime, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
 				$url = \App\Config::main('site_URL');
 				$mailStatus = \App\Mailer::addMail([

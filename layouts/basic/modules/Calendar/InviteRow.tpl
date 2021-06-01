@@ -34,10 +34,10 @@
 					{assign var=STATUS_LABEL value=Calendar_Record_Model::getInvitionStatus($INVITIE['status'])}
 					{if $INVITIE['status'] == '1'}
 						<span class="fas fa-check-circle color-green-a700 js-popover-tooltip" data-js="popover" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL, $MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}"></span>
-{elseif $INVITIE['status'] == '2'}
+					{elseif $INVITIE['status'] == '2'}
 						<span class="fas fa-minus-circle color-red-a700 js-popover-tooltip" data-js="popover" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL, $MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}"></span>
-{else}
-	{assign var=LABEL value=$INVITIE['email']}
+					{else}
+						{assign var=LABEL value=$INVITIE['email']}
 						<span class="fas fa-question-circle color-orange-a700 js-popover-tooltip" data-js="popover" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL, $MODULE_NAME)}"></span>
 					{/if}
 				</span>

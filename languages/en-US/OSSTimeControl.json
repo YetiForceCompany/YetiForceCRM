@@ -1,6 +1,5 @@
 {
   "php": {
-    "Brutto": "Gross",
     "SINGLE_OSSTimeControl": "Time Control",
     "OSSTimeControl": "Time Control",
     "LBL_MAIN_INFORMATION": "Basic information",
@@ -78,6 +77,7 @@
     "LBL_Used_Entitled": "Used/Entitled:",
     "LBL_DAYS": "days",
     "Brak danych": "No data",
+    "LBL_DATE_NOT_SHOULD_BE_GREATER_THAN_24H": "Working time should not exceed 24hours",
     "LBL_DAYWORKSUM": "Working time",
     "LBL_ALLDAYS_INFO": "All days",
     "LBL_WEEKENDDAYS_INFO": "Weekend days",

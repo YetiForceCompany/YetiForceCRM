@@ -3,6 +3,8 @@
 /**
  * Basic TreeView View Class.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -17,7 +19,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		if (!Vtiger_TreeView_Model::getInstance($request->getModule())->isActive()) {
@@ -25,14 +27,14 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		}
 	}
 
-	public function getBreadcrumbTitle(\App\Request $request)
+	public function getBreadcrumbTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
 		return \App\Language::translate($treeViewModel->getName(), $moduleName);
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
@@ -44,7 +46,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -55,7 +57,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
-	protected function postProcessDisplay(\App\Request $request)
+	protected function postProcessDisplay(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
@@ -64,7 +66,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -77,12 +79,10 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$branches = $request->getArray('branches', 'Text');
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
 		$field = $treeViewModel->getTreeField();
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $filter);
 		$listViewModel->getQueryGenerator()->addCondition($field['fieldname'], implode('##', $branches), 'e');
-		$listEntries = $listViewModel->getListViewEntries($pagingModel);
-		if (count($listEntries) === 0) {
+		$listEntries = $listViewModel->getAllEntries();
+		if (0 === \count($listEntries)) {
 			return;
 		}
 		$listHeaders = $listViewModel->getListViewHeaders();
@@ -93,7 +93,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/jstree/dist/jstree.js',
@@ -106,7 +106,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		]));
 	}
 
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',

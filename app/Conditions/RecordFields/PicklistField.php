@@ -2,6 +2,8 @@
 /**
  * Picklist condition record field file.
  *
+ * @package UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -21,8 +23,8 @@ class PicklistField extends BaseField
 	 */
 	public function operatorRo()
 	{
-		return ($fieldName = \App\RecordStatus::getFieldName($this->recordModel->getModule()->getName())) &&
-		\in_array($this->recordModel->get($fieldName), \App\RecordStatus::getStates($this->recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN);
+		return ($fieldName = \App\RecordStatus::getFieldName($this->recordModel->getModule()->getName()))
+		&& \in_array($this->recordModel->get($fieldName), \App\RecordStatus::getStates($this->recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN);
 	}
 
 	/**
@@ -32,7 +34,7 @@ class PicklistField extends BaseField
 	 */
 	public function operatorRc()
 	{
-		return !(($fieldName = \App\RecordStatus::getFieldName($this->recordModel->getModule()->getName())) &&
-		\in_array($this->recordModel->get($fieldName), \App\RecordStatus::getStates($this->recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED)));
+		return !(($fieldName = \App\RecordStatus::getFieldName($this->recordModel->getModule()->getName()))
+		&& \in_array($this->recordModel->get($fieldName), \App\RecordStatus::getStates($this->recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED)));
 	}
 }

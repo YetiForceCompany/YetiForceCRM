@@ -3,9 +3,12 @@
 /**
  * Basic TreeCategoryModal Model Class.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_Model extends \App\Base
 {
@@ -51,6 +54,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model.
 	 *
 	 * @param string name of the module
+	 * @param Vtiger_Module_Model $moduleModel
 	 *
 	 * @return Vtiger_TreeView_Model instance
 	 */
@@ -62,7 +66,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
 		$instance = new $modelClassName();
-		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
+		$instance->set('module', $moduleModel)->set('moduleName', $moduleName);
 		self::$_cached_instance[$moduleName] = $instance;
 
 		return self::$_cached_instance[$moduleName];
@@ -135,13 +139,13 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'id' => $treeID,
 				'type' => 'category',
 				'record_id' => $row['tree'],
-				'parent' => $parent == 0 ? '#' : $parent,
+				'parent' => 0 == $parent ? '#' : $parent,
 				'text' => \App\Language::translate($row['name'], $this->getModuleName()),
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];
 			}
-			$checked = in_array($row['tree'], $selected);
+			$checked = \in_array($row['tree'], $selected);
 			if ($checked) {
 				$tree['category'] = ['checked' => true];
 			}
@@ -174,14 +178,11 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	{
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
-		$entries = $relationListView->getEntries($pagingModel);
+		$entries = $relationListView->getAllEntries();
 		if ($onlyKeys) {
 			return array_keys($entries);
-		} else {
-			return $entries;
 		}
+		return $entries;
 	}
 
 	private function getAllRecords()
@@ -191,17 +192,15 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 			$listViewModel->set('src_module', $this->get('srcModule'));
 			$listViewModel->set('src_record', $this->get('srcRecord'));
 		}
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
-		$listViewModel->get('query_generator')->setField($this->getTreeField()['fieldname']);
-		return $listViewModel->getListViewEntries($pagingModel);
+		$listViewModel->getQueryGenerator()->setField($this->getTreeField()['fieldname']);
+		return $listViewModel->getAllEntries();
 	}
 
 	private function getRecords()
 	{
 		$selectedRecords = $this->getSelectedRecords();
 		$isDeletable = $this->isDeletable();
-		if ($this->getRelationType() == 2) {
+		if (2 == $this->getRelationType()) {
 			$listEntries = $this->getAllRecords();
 		} else {
 			$listEntries = $this->getSelectedRecords(false);
@@ -212,7 +211,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		foreach ($listEntries as $item) {
 			++$this->lastIdinTree;
 			$parent = (int) ltrim($item->get($fieldName), 'T');
-			$selected = in_array($item->getId(), $selectedRecords);
+			$selected = \in_array($item->getId(), $selectedRecords);
 			$state = ['selected' => $selected];
 			if (!$isDeletable && $selected) {
 				$state['disabled'] = true;
@@ -222,7 +221,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'type' => 'category',
 				'attr' => 'record',
 				'record_id' => $item->getId(),
-				'parent' => $parent == 0 ? '#' : $parent,
+				'parent' => 0 == $parent ? '#' : $parent,
 				'text' => $item->getName(),
 				'state' => $state,
 				'icon' => "js-detail__icon yfm-{$this->getModuleName()}",

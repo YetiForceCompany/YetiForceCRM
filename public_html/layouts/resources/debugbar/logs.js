@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
 	var csscls = PhpDebugBar.utils.makecsscls('phpdebugbar-widgets-');
 
 	/**
@@ -7,7 +7,7 @@
 	 * @param {String} text
 	 * @return {String}
 	 */
-	var htmlize = (PhpDebugBar.Widgets.htmlize = function(text) {
+	var htmlize = (PhpDebugBar.Widgets.htmlize = function (text) {
 		return text.replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;');
 	});
 
@@ -19,7 +19,7 @@
 	 * @param {Boolean} prettify Uses htmlize() if true
 	 * @return {String}
 	 */
-	var renderValue = (PhpDebugBar.Widgets.renderValue = function(value, prettify) {
+	var renderValue = (PhpDebugBar.Widgets.renderValue = function (value, prettify) {
 		if (typeof value !== 'string') {
 			if (prettify) {
 				return htmlize(JSON.stringify(value, undefined, 2));
@@ -36,7 +36,7 @@
 	 * @param  {String} lang
 	 * @return {String}
 	 */
-	var highlight = (PhpDebugBar.Widgets.highlight = function(code, lang) {
+	var highlight = (PhpDebugBar.Widgets.highlight = function (code, lang) {
 		if (typeof code === 'string') {
 			if (typeof hljs === 'undefined') {
 				return htmlize(code);
@@ -48,7 +48,7 @@
 		}
 
 		if (typeof hljs === 'object') {
-			code.each(function(i, e) {
+			code.each(function (i, e) {
 				hljs.highlightBlock(e);
 			});
 		}
@@ -64,12 +64,7 @@
 	 * @param  {Number} [highlightedLine] If provided, the given line number will be highlighted.
 	 * @return {String}
 	 */
-	var createCodeBlock = (PhpDebugBar.Widgets.createCodeBlock = function(
-		code,
-		lang,
-		firstLineNumber,
-		highlightedLine
-	) {
+	var createCodeBlock = (PhpDebugBar.Widgets.createCodeBlock = function (code, lang, firstLineNumber, highlightedLine) {
 		var pre = $('<pre />').addClass(csscls('code-block'));
 		// Add a newline to prevent <code> element from vertically collapsing too far if the last
 		// code line was empty: that creates problems with the horizontal scrollbar being
@@ -84,9 +79,9 @@
 			if ($.isNumeric(firstLineNumber)) {
 				highlightedLine = highlightedLine - firstLineNumber + 1;
 			}
-			codeElement.html(function(index, html) {
+			codeElement.html(function (index, html) {
 				var currentLine = 1;
-				return html.replace(/^.*$/gm, function(line) {
+				return html.replace(/^.*$/gm, function (line) {
 					if (currentLine++ == highlightedLine) {
 						return '<span class="' + csscls('highlighted-line') + '">' + line + '</span>';
 					} else {
@@ -108,9 +103,7 @@
 			var $lineNumbers = $('<ul />').prependTo(pre);
 			pre.children().addClass(csscls('numbered-code'));
 			for (var i = firstLineNumber; i < firstLineNumber + lineCount; i++) {
-				$('<li />')
-					.text(i)
-					.appendTo($lineNumbers);
+				$('<li />').text(i).appendTo($lineNumbers);
 			}
 		}
 
@@ -133,15 +126,15 @@
 
 		className: csscls('list'),
 
-		initialize: function(options) {
+		initialize: function (options) {
 			if (!options['itemRenderer']) {
 				options['itemRenderer'] = this.itemRenderer;
 			}
 			this.set(options);
 		},
 
-		render: function() {
-			this.bindAttr(['itemRenderer', 'data'], function() {
+		render: function () {
+			this.bindAttr(['itemRenderer', 'data'], function () {
 				this.$el.empty();
 				if (!this.has('data')) {
 					return;
@@ -149,9 +142,7 @@
 
 				var data = this.get('data');
 				for (var i = 0; i < data.length; i++) {
-					var li = $('<li />')
-						.addClass(csscls('list-item'))
-						.appendTo(this.$el);
+					var li = $('<li />').addClass(csscls('list-item')).appendTo(this.$el);
 					this.get('itemRenderer')(li, data[i]);
 				}
 			});
@@ -163,7 +154,7 @@
 		 * @param {jQuery} li The <li> element as a jQuery Object
 		 * @param {Object} value An item from the data array
 		 */
-		itemRenderer: function(li, value) {
+		itemRenderer: function (li, value) {
 			li.html(renderValue(value));
 		}
 	}));
@@ -182,21 +173,17 @@
 
 		className: csscls('kvlist'),
 
-		render: function() {
-			this.bindAttr(['itemRenderer', 'data'], function() {
+		render: function () {
+			this.bindAttr(['itemRenderer', 'data'], function () {
 				this.$el.empty();
 				if (!this.has('data')) {
 					return;
 				}
 
 				var self = this;
-				$.each(this.get('data'), function(key, value) {
-					var dt = $('<dt />')
-						.addClass(csscls('key'))
-						.appendTo(self.$el);
-					var dd = $('<dd />')
-						.addClass(csscls('value'))
-						.appendTo(self.$el);
+				$.each(this.get('data'), function (key, value) {
+					var dt = $('<dt />').addClass(csscls('key')).appendTo(self.$el);
+					var dd = $('<dd />').addClass(csscls('value')).appendTo(self.$el);
 					self.get('itemRenderer')(dt, dd, key, value);
 				});
 			});
@@ -210,7 +197,7 @@
 		 * @param {String} key Property name
 		 * @param {Object} value Property value
 		 */
-		itemRenderer: function(dt, dd, key, value) {
+		itemRenderer: function (dt, dd, key, value) {
 			dt.text(key);
 			dd.html(htmlize(value));
 		}
@@ -228,25 +215,20 @@
 	var VariableListWidget = (PhpDebugBar.Widgets.VariableListWidget = KVListWidget.extend({
 		className: csscls('kvlist varlist'),
 
-		itemRenderer: function(dt, dd, key, value) {
-			$('<span />')
-				.attr('title', key)
-				.text(key)
-				.appendTo(dt);
+		itemRenderer: function (dt, dd, key, value) {
+			$('<span />').attr('title', key).text(key).appendTo(dt);
 
 			var v = value;
 			if (v && v.length > 100) {
 				v = v.substr(0, 100) + '...';
 			}
 			var prettyVal = null;
-			dd.text(v).click(function() {
+			dd.text(v).click(function () {
 				if (dd.hasClass(csscls('pretty'))) {
 					dd.text(v).removeClass(csscls('pretty'));
 				} else {
 					prettyVal = prettyVal || createCodeBlock(value);
-					dd.addClass(csscls('pretty'))
-						.empty()
-						.append(prettyVal);
+					dd.addClass(csscls('pretty')).empty().append(prettyVal);
 				}
 			});
 		}
@@ -265,11 +247,8 @@
 	var HtmlVariableListWidget = (PhpDebugBar.Widgets.HtmlVariableListWidget = KVListWidget.extend({
 		className: csscls('kvlist htmlvarlist'),
 
-		itemRenderer: function(dt, dd, key, value) {
-			$('<span />')
-				.attr('title', key)
-				.text(key)
-				.appendTo(dt);
+		itemRenderer: function (dt, dd, key, value) {
+			$('<span />').attr('title', key).text(key).appendTo(dt);
 			dd.html(value);
 		}
 	}));
@@ -287,14 +266,14 @@
 
 		className: csscls('iframe'),
 
-		render: function() {
+		render: function () {
 			this.$el.attr({
 				seamless: 'seamless',
 				border: '0',
 				width: '100%',
 				height: '100%'
 			});
-			this.bindAttr('data', function(url) {
+			this.bindAttr('data', function (url) {
 				this.$el.attr('src', url);
 			});
 		}
@@ -315,56 +294,42 @@
 	var MessagesWidget = (PhpDebugBar.Widgets.MessagesWidget = PhpDebugBar.Widget.extend({
 		className: csscls('messages'),
 
-		render: function() {
+		render: function () {
 			var self = this;
 
 			this.$list = new ListWidget({
-				itemRenderer: function(li, value) {
+				itemRenderer: function (li, value) {
 					if (value.message_html) {
-						var val = $('<span />')
-							.addClass(csscls('value'))
-							.html(value.message_html)
-							.appendTo(li);
+						var val = $('<span />').addClass(csscls('value')).html(value.message_html).appendTo(li);
 					} else {
 						var m = value.message;
 						if (m.length > 100) {
 							m = m.substr(0, 100) + '...';
 						}
 
-						var val = $('<span />')
-							.addClass(csscls('value'))
-							.text(m)
-							.appendTo(li);
+						var val = $('<span />').addClass(csscls('value')).text(m).appendTo(li);
 						if (!value.is_string || value.message.length > 100) {
 							var prettyVal = value.message;
 							if (!value.is_string) {
 								prettyVal = null;
 							}
-							li.css('cursor', 'pointer').click(function() {
+							li.css('cursor', 'pointer').click(function () {
 								if (val.hasClass(csscls('pretty'))) {
 									val.text(m).removeClass(csscls('pretty'));
 								} else {
 									prettyVal = prettyVal || createCodeBlock(value.message, 'php');
-									val.addClass(csscls('pretty'))
-										.empty()
-										.append(prettyVal);
+									val.addClass(csscls('pretty')).empty().append(prettyVal);
 								}
 							});
 						}
 					}
 
 					if (value.collector) {
-						$('<span />')
-							.addClass(csscls('collector'))
-							.text(value.collector)
-							.prependTo(li);
+						$('<span />').addClass(csscls('collector')).text(value.collector).prependTo(li);
 					}
 					if (value.label) {
 						val.addClass(csscls(value.label));
-						$('<span />')
-							.addClass(csscls('label'))
-							.text(value.label)
-							.prependTo(li);
+						$('<span />').addClass(csscls('label')).text(value.label).prependTo(li);
 					}
 				}
 			});
@@ -375,12 +340,12 @@
 				.appendTo(this.$el);
 
 			$('<input type="text" />')
-				.on('change', function() {
+				.on('change', function () {
 					self.set('search', this.value);
 				})
 				.appendTo(this.$toolbar);
 
-			this.bindAttr('data', function(data) {
+			this.bindAttr('data', function (data) {
 				this.set({ exclude: [], search: '' });
 				this.$toolbar.find(csscls('.filter')).remove();
 
@@ -395,14 +360,14 @@
 						.addClass(csscls('filter'))
 						.text(data[i].label)
 						.attr('rel', data[i].label)
-						.on('click', function() {
+						.on('click', function () {
 							self.onFilterClick(this);
 						})
 						.appendTo(this.$toolbar);
 				}
 			});
 
-			this.bindAttr(['exclude', 'search'], function() {
+			this.bindAttr(['exclude', 'search'], function () {
 				var data = this.get('data'),
 					exclude = this.get('exclude'),
 					search = this.get('search'),
@@ -428,11 +393,11 @@
 			});
 		},
 
-		onFilterClick: function(el) {
+		onFilterClick: function (el) {
 			$(el).toggleClass(csscls('excluded'));
 
 			var excludedLabels = [];
-			this.$toolbar.find(csscls('.filter') + csscls('.excluded')).each(function() {
+			this.$toolbar.find(csscls('.filter') + csscls('.excluded')).each(function () {
 				excludedLabels.push(this.rel);
 			});
 
@@ -453,10 +418,10 @@
 
 		className: csscls('timeline'),
 
-		render: function() {
-			this.bindAttr('data', function(data) {
+		render: function () {
+			this.bindAttr('data', function (data) {
 				// ported from php DataFormatter
-				var formatDuration = function(seconds) {
+				var formatDuration = function (seconds) {
 					if (seconds < 0.001) return (seconds * 1000000).toFixed() + 'μs';
 					else if (seconds < 1) return (seconds * 1000).toFixed(2) + 'ms';
 					return seconds.toFixed(2) + 's';
@@ -494,10 +459,7 @@
 						);
 
 						if (measure.collector) {
-							$('<span />')
-								.addClass(csscls('collector'))
-								.text(measure.collector)
-								.appendTo(m);
+							$('<span />').addClass(csscls('collector')).text(measure.collector).appendTo(m);
 						}
 
 						m.appendTo(li);
@@ -522,7 +484,7 @@
 									);
 								}
 							}
-							li.css('cursor', 'pointer').click(function() {
+							li.css('cursor', 'pointer').click(function () {
 								var table = $(this).find('table');
 								if (table.is(':visible')) {
 									table.hide();
@@ -534,12 +496,12 @@
 					}
 
 					// convert to array and sort by duration
-					aggregate = $.map(aggregate, function(data, label) {
+					aggregate = $.map(aggregate, function (data, label) {
 						return {
 							label: label,
 							data: data
 						};
-					}).sort(function(a, b) {
+					}).sort(function (a, b) {
 						return b.data.duration - a.data.duration;
 					});
 
@@ -547,7 +509,7 @@
 					var aggregateTable = $('<table style="display: table; border: 0; width: 99%"></table>').addClass(
 						csscls('params')
 					);
-					$.each(aggregate, function(i, aggregate) {
+					$.each(aggregate, function (i, aggregate) {
 						width = Math.min(((aggregate.data.duration * 100) / data.duration).toFixed(2), 100);
 
 						aggregateTable.append(
@@ -579,10 +541,7 @@
 						);
 					});
 
-					this.$el
-						.append('<li/>')
-						.find('li:last')
-						.append(aggregateTable);
+					this.$el.append('<li/>').find('li:last').append(aggregateTable);
 				}
 			});
 		}
@@ -599,13 +558,10 @@
 	var ExceptionsWidget = (PhpDebugBar.Widgets.ExceptionsWidget = PhpDebugBar.Widget.extend({
 		className: csscls('exceptions'),
 
-		render: function() {
+		render: function () {
 			this.$list = new ListWidget({
-				itemRenderer: function(li, e) {
-					$('<span />')
-						.addClass(csscls('message'))
-						.text(e.message)
-						.appendTo(li);
+				itemRenderer: function (li, e) {
+					$('<span />').addClass(csscls('message')).text(e.message).appendTo(li);
 					if (e.file) {
 						var header = $('<span />')
 							.addClass(csscls('filename'))
@@ -613,7 +569,7 @@
 						if (e.xdebug_link) {
 							if (e.xdebug_link.ajax) {
 								$('<a title="' + e.xdebug_link.url + '"></a>')
-									.on('click', function() {
+									.on('click', function () {
 										$.ajax(e.xdebug_link.url);
 									})
 									.addClass(csscls('editor-link'))
@@ -627,16 +583,11 @@
 						header.appendTo(li);
 					}
 					if (e.type) {
-						$('<span />')
-							.addClass(csscls('type'))
-							.text(e.type)
-							.appendTo(li);
+						$('<span />').addClass(csscls('type')).text(e.type).appendTo(li);
 					}
 					if (e.surrounding_lines) {
-						var pre = createCodeBlock(e.surrounding_lines.join(''), 'php')
-							.addClass(csscls('file'))
-							.appendTo(li);
-						li.click(function() {
+						var pre = createCodeBlock(e.surrounding_lines.join(''), 'php').addClass(csscls('file')).appendTo(li);
+						li.click(function () {
 							if (pre.is(':visible')) {
 								pre.hide();
 							} else {
@@ -645,12 +596,9 @@
 						});
 					}
 					if (e.stack_trace) {
-						e.stack_trace.split('\n').forEach(function(trace) {
+						e.stack_trace.split('\n').forEach(function (trace) {
 							var $traceLine = $('<div />');
-							$('<span />')
-								.addClass(csscls('filename'))
-								.text(trace)
-								.appendTo($traceLine);
+							$('<span />').addClass(csscls('filename')).text(trace).appendTo($traceLine);
 							$traceLine.appendTo(li);
 						});
 					}
@@ -658,35 +606,28 @@
 			});
 			this.$list.$el.appendTo(this.$el);
 
-			this.bindAttr('data', function(data) {
+			this.bindAttr('data', function (data) {
 				this.$list.set('data', data);
 				if (data.length == 1) {
-					this.$list.$el
-						.children()
-						.first()
-						.find(csscls('.file'))
-						.show();
+					this.$list.$el.children().first().find(csscls('.file')).show();
 				}
 			});
 		}
 	}));
 	var DebugLogsWidget = (PhpDebugBar.Widgets.DebugLogsWidget = PhpDebugBar.Widget.extend({
 		className: csscls('messages'),
-		render: function() {
+		render: function () {
 			var self = this;
 
 			this.$list = new ListWidget({
-				itemRenderer: function(li, value) {
+				itemRenderer: function (li, value) {
 					var m = value.message;
-					var val = $('<span />')
-						.addClass(csscls('value'))
-						.text(m)
-						.appendTo(li);
+					var val = $('<span />').addClass(csscls('value')).text(m).appendTo(li);
 					var prettyVal = value.message;
 					if (!value.is_string) {
 						prettyVal = null;
 					}
-					li.css('cursor', 'pointer').click(function() {
+					li.css('cursor', 'pointer').click(function () {
 						if (val.hasClass(csscls('pretty'))) {
 							val.text(m).removeClass(csscls('pretty'));
 						} else {
@@ -696,16 +637,10 @@
 					});
 					if (value.label) {
 						val.addClass(csscls(value.label));
-						$('<span />')
-							.addClass(csscls('label'))
-							.text(value.label)
-							.appendTo(li);
+						$('<span />').addClass(csscls('label')).text(value.label).appendTo(li);
 					}
 					if (value.collector) {
-						$('<span />')
-							.addClass(csscls('collector'))
-							.text(value.collector)
-							.appendTo(li);
+						$('<span />').addClass(csscls('collector')).text(value.collector).appendTo(li);
 					}
 				}
 			});
@@ -715,13 +650,13 @@
 				.addClass(csscls('toolbar'))
 				.appendTo(this.$el);
 			$('<input type="text" />')
-				.on('change', function() {
+				.on('change', function () {
 					self.set('search', this.value);
 				})
 				.css('border', 'solid 1px #000')
 				.appendTo(this.$toolbar);
 
-			this.bindAttr('data', function(data) {
+			this.bindAttr('data', function (data) {
 				this.set({ exclude: [], search: '' });
 				this.$toolbar.find(csscls('.filter')).remove();
 
@@ -736,14 +671,14 @@
 						.addClass(csscls('filter'))
 						.text(data[i].label)
 						.attr('rel', data[i].label)
-						.on('click', function() {
+						.on('click', function () {
 							self.onFilterClick(this);
 						})
 						.appendTo(this.$toolbar);
 				}
 			});
 
-			this.bindAttr(['exclude', 'search'], function() {
+			this.bindAttr(['exclude', 'search'], function () {
 				var data = this.get('data'),
 					exclude = this.get('exclude'),
 					search = this.get('search'),
@@ -768,11 +703,11 @@
 				this.$list.set('data', fdata);
 			});
 		},
-		onFilterClick: function(el) {
+		onFilterClick: function (el) {
 			$(el).toggleClass(csscls('excluded'));
 
 			var excludedLabels = [];
-			this.$toolbar.find(csscls('.filter') + csscls('.excluded')).each(function() {
+			this.$toolbar.find(csscls('.filter') + csscls('.excluded')).each(function () {
 				excludedLabels.push(this.rel);
 			});
 

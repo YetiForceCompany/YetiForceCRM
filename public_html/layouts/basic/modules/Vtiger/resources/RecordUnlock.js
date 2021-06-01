@@ -10,10 +10,13 @@ $.Class(
 		 * @param {jQuery} modalContainer
 		 */
 		registerEvents(modalContainer) {
-			modalContainer.find('form').on('submit', function(e) {
+			modalContainer.find('form').on('submit', function (e) {
 				e.preventDefault();
-				const progressIndicator = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-				AppConnector.request($(this).serializeFormData()).done(response => {
+				const progressIndicator = $.progressIndicator({
+					position: 'html',
+					blockInfo: { enabled: true }
+				});
+				AppConnector.request($(this).serializeFormData()).done((response) => {
 					let result = response.result;
 					if (result.success && result.url) {
 						if (CONFIG.view === 'ListPreview') {
@@ -24,7 +27,10 @@ $.Class(
 							window.location.href = result.url;
 						}
 					} else {
-						Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_ERROR') });
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
 						progressIndicator.progressIndicator({ mode: 'hide' });
 					}
 				});

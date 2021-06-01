@@ -48,14 +48,13 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	protected function checkLogin(App\Request $request)
 	{
 		if (!$this->hasLogin()) {
-			if (!$request->isAjax()) {
-				$request->set('module', 'Users');
-				$request->set('view', 'Login');
-				$this->process($request);
-				return true;
+			if ($request->isAjax()) {
+				throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 			}
-			throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
+			header('location: index.php');
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -68,7 +67,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$user = parent::getLogin();
 		if (!$user && App\Session::has('authenticated_user_id')) {
 			$userId = App\Session::get('authenticated_user_id');
-			if ($userId && App\Config::main('application_unique_key') === App\Session::get('app_unique_key')) {
+			if ($userId && App\Config::main('application_unique_key') === App\Session::get('app_unique_key') && \App\User::isExists($userId)) {
 				\App\User::setCurrentUserId($userId);
 				$this->setLogin();
 			}
@@ -86,17 +85,18 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 */
 	public function process(App\Request $request)
 	{
-		if (\Config\Security::$forceHttpsRedirection && !\App\RequestUtil::getBrowserInfo()->https) {
+		if (\Config\Security::$forceHttpsRedirection && !\App\RequestUtil::isHttps()) {
 			header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
 		if (\Config\Security::$forceUrlRedirection) {
-			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
+			$requestUrl = (\App\RequestUtil::isHttps() ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
 			if (0 !== stripos($requestUrl, App\Config::main('site_URL'))) {
 				header('location: ' . App\Config::main('site_URL'), true, 301);
 			}
 		}
 		try {
 			App\Session::init();
+			App\Process::init();
 			// common utils api called, depend on this variable right now
 			$this->getLogin();
 			App\Debuger::initConsole();
@@ -142,21 +142,24 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$componentName = $view;
 				\App\Config::setJsEnv('view', $view);
 			}
-			if ($hasLogin && 'Login' === $view && 'Users' === $moduleName) {
+			if ('Login' === $view && 'Users' === $moduleName) {
 				if (!\App\Session::has('CSP_TOKEN')) {
 					\App\Session::set('CSP_TOKEN', hash('sha256', \App\Encryption::generatePassword(10)));
 				}
-				header('location: index.php');
-				return false;
+				if ($hasLogin) {
+					header('location: index.php');
+					return false;
+				}
 			}
 			\App\Process::$processName = $componentName;
 			\App\Process::$processType = $componentType;
 			\App\Config::setJsEnv('module', $moduleName);
+			\App\Config::setJsEnv('mode', $request->getMode());
 			if ($qualifiedModuleName && 0 === stripos($qualifiedModuleName, 'Settings') && empty(\App\User::getCurrentUserId())) {
 				header('location: ' . App\Config::main('site_URL'), true);
 			}
 			if ('AppComponents' === $moduleName) {
-				$handlerClass = "App\\Components\\{$componentName}";
+				$handlerClass = "App\\Controller\\Components\\{$componentType}\\{$componentName}";
 			} else {
 				$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
 			}
@@ -285,12 +288,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Content Security Policy token.
+	 *
+	 * @return void
 	 */
-	public function cspInitToken()
+	public function cspInitToken(): void
 	{
 		if (!App\Session::has('CSP_TOKEN') || App\Session::get('CSP_TOKEN_TIME') < time()) {
-			App\Session::set('CSP_TOKEN', sha1(App\Config::main('application_unique_key') . time()));
-			App\Session::set('CSP_TOKEN_TIME', strtotime('+5 minutes'));
+			App\Session::set('CSP_TOKEN', \base64_encode(\random_bytes(16)));
+			App\Session::set('CSP_TOKEN_TIME', strtotime('+' . \Config\Security::$cspHeaderTokenTime));
 		}
 	}
 }

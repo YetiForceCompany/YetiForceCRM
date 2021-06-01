@@ -11,9 +11,7 @@
 
 class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ('on' === $value || 1 === (int) $value) {
@@ -22,9 +20,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 		return 0;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -36,9 +32,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (1 === $value || '1' === $value || 'on' === strtolower($value) || 'yes' === strtolower($value) || true === $value) {
@@ -50,41 +44,31 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Boolean.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/Boolean.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return ['tinyint', 'smallint'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getOperatorTemplateName(string $operator = '')
 	{
 		return 'ConditionBuilder/Boolean.tpl';

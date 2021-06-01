@@ -17,7 +17,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static $baseModuleTools = ['Import', 'Export', 'Merge', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter', 'QuickExportToExcel', 'ExportPdf', 'RecordMapping',
-		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord', 'CloseRecord', 'ReceivingMailNotifications', 'CreateDashboardChartFilter', 'TimeLineList', 'ArchiveRecord', 'ActiveRecord', 'MassTrash', 'MoveToTrash', 'RecordConventer', 'AutoAssignRecord', 'AssignToYourself'];
+		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord', 'CloseRecord', 'ReceivingMailNotifications', 'CreateDashboardChartFilter', 'TimeLineList', 'ArchiveRecord', 'ActiveRecord', 'MassTrash', 'MoveToTrash', 'RecordConventer', 'AutoAssignRecord', 'AssignToYourself', 'InterestsConflictUsers', 'RecordCollector'];
 
 	/**
 	 * @var array Base module tools exceptions.
@@ -134,16 +134,16 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static function checkModuleName($name): bool
 	{
 		return
-			preg_match('/Settings/i', $name) ||
-			preg_match('/Api/i', $name) ||
-			preg_match('/Vtiger/i', $name) ||
-			preg_match('/CustomView/i', $name) ||
-			preg_match('/PickList/i', $name) ||
-			preg_match('/[^A-Za-z]/i', $name) ||
-			class_exists($name) ||
-			\in_array($name, static::$notAllowedNames) ||
-			\App\Db::getInstance()->isTableExists("u_#__{$name}") ||
-			\strlen($name) > static::$maxLengthModuleName;
+			preg_match('/Settings/i', $name)
+			|| preg_match('/Api/i', $name)
+			|| preg_match('/Vtiger/i', $name)
+			|| preg_match('/CustomView/i', $name)
+			|| preg_match('/PickList/i', $name)
+			|| preg_match('/[^A-Za-z]/i', $name)
+			|| class_exists($name)
+			|| \in_array($name, static::$notAllowedNames)
+			|| \App\Db::getInstance()->isTableExists("u_#__{$name}")
+			|| \strlen($name) > static::$maxLengthModuleName;
 	}
 
 	/**
@@ -260,59 +260,20 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->displaytype = 2;
 		$blockcf->addField($field2);
 
-		$field3 = new vtlib\Field();
-		$field3->name = 'assigned_user_id';
-		$field3->label = 'Assigned To';
-		$field3->table = 'vtiger_crmentity';
-		$field3->column = 'smownerid';
-		$field3->uitype = 53;
-		$field3->typeofdata = 'V~M';
-		$field3->maximumlength = '65535';
+		$field3 = \Vtiger_Field_Model::init($module->name, \App\Field::SYSTEM_FIELDS['assigned_user_id']);
 		$blockcf->addField($field3);
-
-		$field4 = new vtlib\Field();
-		$field4->name = 'createdtime';
-		$field4->label = 'Created Time';
-		$field4->table = 'vtiger_crmentity';
-		$field4->column = 'createdtime';
-		$field4->uitype = 70;
-		$field4->typeofdata = 'DT~O';
-		$field4->displaytype = 2;
+		$field4 = \Vtiger_Field_Model::init($module->name, \App\Field::SYSTEM_FIELDS['createdtime']);
 		$blockcf->addField($field4);
-
-		$field5 = new vtlib\Field();
-		$field5->name = 'modifiedtime';
-		$field5->label = 'Modified Time';
-		$field5->table = 'vtiger_crmentity';
-		$field5->column = 'modifiedtime';
-		$field5->uitype = 70;
-		$field5->typeofdata = 'DT~O';
-		$field5->displaytype = 2;
+		$field5 = \Vtiger_Field_Model::init($module->name, \App\Field::SYSTEM_FIELDS['modifiedtime']);
 		$blockcf->addField($field5);
-
-		$field6 = new vtlib\Field();
-		$field6->name = 'created_user_id';
-		$field6->label = 'Created By';
-		$field6->table = 'vtiger_crmentity';
-		$field6->column = 'smcreatorid';
-		$field6->uitype = 52;
-		$field6->typeofdata = 'V~O';
-		$field6->displaytype = 2;
-		$field6->quickcreate = 3;
-		$field6->masseditable = 0;
-		$field6->maximumlength = '65535';
+		$field6 = \Vtiger_Field_Model::init($module->name, \App\Field::SYSTEM_FIELDS['created_user_id']);
 		$blockcf->addField($field6);
-
-		$field7 = new vtlib\Field();
-		$field7->name = 'shownerid';
-		$field7->label = 'Share with users';
-		$field7->table = 'vtiger_crmentity';
-		$field7->column = 'shownerid';
-		$field7->uitype = 120;
-		$field7->columntype = 'int(11)';
-		$field7->typeofdata = 'V~O';
-		$field7->maximumlength = '65535';
+		$field7 = \Vtiger_Field_Model::init($module->name, \App\Field::SYSTEM_FIELDS['modifiedby']);
 		$blockcf->addField($field7);
+		$field8 = \Vtiger_Field_Model::init($module->name, \App\Field::SYSTEM_FIELDS['shownerid']);
+		$blockcf->addField($field8);
+		$field9 = \Vtiger_Field_Model::init($module->name, \App\Field::SYSTEM_FIELDS['private']);
+		$blockcf->addField($field9);
 
 		// Create default custom filter (mandatory)
 		$filter1 = new vtlib\Filter();
@@ -321,7 +282,10 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$filter1->presence = 0;
 		$module->addFilter($filter1);
 		// Add fields to the filter created
-		$filter1->addField($field1)->addField($field2, 1)->addField($field3, 2)->addField($field4, 2);
+		$filter1->addField($field2)
+			->addField($field1, 1)
+			->addField($field3, 2)
+			->addField($field4, 2);
 
 		// Set sharing access of this module
 		$module->setDefaultSharing();

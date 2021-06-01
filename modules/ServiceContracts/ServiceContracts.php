@@ -35,20 +35,6 @@ class ServiceContracts extends CRMEntity
 		'vtiger_servicecontractscf' => 'servicecontractsid',
 		'vtiger_entity_stats' => 'crmid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'Subject' => ['servicecontracts', 'subject'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'Related to' => ['servicecontracts', 'sc_related_to'],
-		'Status' => ['servicecontracts', 'contract_status'],
-		'Used Units' => ['servicecontracts', 'used_units'],
-		'Total Units' => ['servicecontracts', 'total_units'],
-		'Contract No' => ['servicecontracts', 'contract_no'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Subject' => 'subject',
@@ -64,8 +50,7 @@ class ServiceContracts extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view
-	public $list_link_field = 'subject';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

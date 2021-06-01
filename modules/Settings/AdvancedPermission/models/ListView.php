@@ -9,11 +9,11 @@
  */
 class Settings_AdvancedPermission_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-	/*
-	 * Function to get Basic links
+	/**
+	 * Function to get Basic links.
+	 *
 	 * @return array of Basic links
 	 */
-
 	public function getBasicLinks()
 	{
 		$basicLinks = [];

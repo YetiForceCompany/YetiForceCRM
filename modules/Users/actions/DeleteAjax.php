@@ -14,7 +14,7 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser() || $currentUserModel->getId() === $request->getInteger('userid')) {
@@ -25,12 +25,12 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userId = $request->getInteger('userid');
 		$transformUserId = $request->getInteger('transfer_user_id');
-		if ($request->getMode() === 'permanent') {
+		if ('permanent' === $request->getMode()) {
 			Users_Record_Model::deleteUserPermanently($userId, $transformUserId);
 		} else {
 			$userObj = new Users();

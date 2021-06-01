@@ -15,7 +15,7 @@ class Settings_OSSMailScanner_SaveAjax_Action extends Settings_Vtiger_Basic_Acti
 		$this->exposeMethod('updateFolders');
 	}
 
-	public function updateFolders(\App\Request $request)
+	public function updateFolders(App\Request $request)
 	{
 		$user = $request->getInteger('user');
 		$folders = $request->getArray('folders', 'Text');

@@ -132,11 +132,15 @@ class FileTarget extends \yii\log\FileTarget
 			chdir(ROOT_DIRECTORY);
 		}
 		$result = '';
+		$anonymization = new \App\Anonymization();
 		foreach (\yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars) as $key => $value) {
-			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
+			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($anonymization->setData($value)->anonymize()->getData());
 		}
-		foreach (\App\Utils\ConfReport::getAllErrors(true) as $key => $value) {
-			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
+		$result .= "\nHEADERS = " . \yii\helpers\VarDumper::dumpAsString(getallheaders());
+		if ('test' !== \App\Config::main('systemMode')) {
+			foreach (\App\Utils\ConfReport::getAllErrors(true) as $key => $value) {
+				$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
+			}
 		}
 		$result .= PHP_EOL;
 		return $result . "====================================================================================================================================\n";

@@ -33,7 +33,7 @@ class Settings_Inventory_Module_Model extends \App\Base
 		\App\Log::trace('Start ' . __METHOD__ . ' | Type: ' . print_r($type, true) . ' | Name: ' . print_r($name, true));
 		$tableName = self::getTableNameFromType($type);
 		$query = (new \App\Db\Query())->from($tableName);
-		if ($name && !is_array($name)) {
+		if ($name && !\is_array($name)) {
 			$name = [$name];
 		}
 		if ($name) {

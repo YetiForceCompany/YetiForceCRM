@@ -21,16 +21,16 @@ class Rss_Module_Model extends Vtiger_Module_Model
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_ADD_FEED_SOURCE',
-				'linkurl' => $this->getDefaultUrl(),
-				'linkicon' => 'fas fa-rss',
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_ADD_FEED_SOURCE',
+			'linkurl' => $this->getDefaultUrl(),
+			'linkicon' => 'fas fa-rss',
 		]);
 		$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_RSS_FEED_SOURCES',
-				'linkurl' => 'module=' . $this->getName() . '&view=ViewTypes&mode=getRssWidget',
-				'linkicon' => '',
+			'linktype' => 'SIDEBARWIDGET',
+			'linklabel' => 'LBL_RSS_FEED_SOURCES',
+			'linkurl' => 'module=' . $this->getName() . '&view=ViewTypes&mode=getRssWidget',
+			'linkicon' => '',
 		]);
 
 		return $links;

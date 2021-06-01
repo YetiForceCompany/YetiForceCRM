@@ -2,6 +2,8 @@
 /**
  * Layout test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -27,8 +29,8 @@ class Layout extends \Tests\Base
 	public function testGetLayoutFile()
 	{
 		$this->assertFileExists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Layout::getLayoutFile('modules/Accounts/resources/Detail.js'), 'Expected file in provided path');
-		$this->assertFileNotExists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Layout::getLayoutFile('styles/NxFile.css'), 'Expected file in provided path not exists');
-		$this->assertFileNotExists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Layout::getLayoutFile('modules/Accounts/AccountHierarchy.tpl'), 'Expected file in provided path not exists');
+		$this->assertFileDoesNotExist(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Layout::getLayoutFile('styles/NxFile.css'), 'Expected file in provided path not exists');
+		$this->assertFileDoesNotExist(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Layout::getLayoutFile('modules/Accounts/AccountHierarchy.tpl'), 'Expected file in provided path not exists');
 	}
 
 	/**

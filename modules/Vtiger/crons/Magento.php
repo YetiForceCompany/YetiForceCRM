@@ -27,17 +27,32 @@ class Vtiger_Magento_Cron extends \App\CronHandler
 			if ($connector->config->get('sync_currency')) {
 				$connector->synchronizeCurrencies();
 			}
+			if ($this->checkTimeout()) {
+				return;
+			}
 			if ($connector->config->get('sync_categories')) {
 				$connector->synchronizeCategories();
+			}
+			if ($this->checkTimeout()) {
+				return;
 			}
 			if ($connector->config->get('sync_customers')) {
 				$connector->synchronizeCustomers();
 			}
+			if ($this->checkTimeout()) {
+				return;
+			}
 			if ($connector->config->get('sync_products')) {
 				$connector->synchronizeProducts();
 			}
+			if ($this->checkTimeout()) {
+				return;
+			}
 			if ($connector->config->get('sync_orders')) {
 				$connector->synchronizeOrders();
+			}
+			if ($this->checkTimeout()) {
+				return;
 			}
 			if ($connector->config->get('sync_invoices')) {
 				$connector->synchronizeInvoices();

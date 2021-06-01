@@ -11,7 +11,7 @@
 
 class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View
 {
-	public function getBreadcrumbTitle(\App\Request $request)
+	public function getBreadcrumbTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('record')) {
@@ -28,7 +28,7 @@ class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();

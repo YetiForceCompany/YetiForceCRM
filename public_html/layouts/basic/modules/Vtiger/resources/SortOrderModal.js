@@ -44,10 +44,7 @@ $.Class(
 		 * Add new row
 		 */
 		addRow: function () {
-			let sortContainer = this.container
-				.find('.js-base-element')
-				.clone(true, true)
-				.removeClass('js-base-element');
+			let sortContainer = this.container.find('.js-base-element').clone(true, true).removeClass('js-base-element');
 			this.container.find('.js-sort-container').append(sortContainer);
 			App.Fields.Picklist.showSelect2ElementView(sortContainer.find('select'));
 			return sortContainer.removeClass('d-none');
@@ -102,6 +99,6 @@ $.Class(
 			this.sourceContainer = this.getSourceContainer();
 			this.registerListEvents();
 			this.loadData();
-		},
+		}
 	}
 );

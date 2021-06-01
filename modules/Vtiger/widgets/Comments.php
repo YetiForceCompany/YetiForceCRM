@@ -3,6 +3,8 @@
 /**
  * Vtiger comments widget class.
  *
+ * @package Widget
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -14,6 +16,14 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 	 * @var string[]
 	 */
 	public $dbParams = ['relatedmodule' => 'ModComments'];
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isPermitted(): bool
+	{
+		return parent::isPermitted() && $this->moduleModel->isCommentEnabled();
+	}
 
 	/**
 	 * Return url.

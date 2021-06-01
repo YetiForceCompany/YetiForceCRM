@@ -1,28 +1,39 @@
 <?php
-
-namespace Api\Core;
-
 /**
- * Web service request class.
+ * Web service request file.
+ *
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace Api\Core;
+
+/**
+ * Web service request class.
+ */
 class Request extends \App\Request
 {
+	/**
+	 * Requested content type.
+	 *
+	 * @var string
+	 */
+	public $contentType;
 	/**
 	 * List of headings and sanitization methods.
 	 *
 	 * @var array
 	 */
 	public $headersPurifierMap = [
+		'encrypted' => \App\Purifier::INTEGER,
+		'authorization' => \App\Purifier::ALNUM_EXTENDED,
 		'x-token' => \App\Purifier::ALNUM,
 		'x-api-key' => \App\Purifier::ALNUM,
 		'x-raw-data' => \App\Purifier::INTEGER,
-		'authorization' => \App\Purifier::ALNUM_EXTENDED,
 		'x-parent-id' => \App\Purifier::INTEGER,
-		'encrypted' => \App\Purifier::INTEGER,
 		'x-row-limit' => \App\Purifier::INTEGER,
 		'x-row-offset' => \App\Purifier::INTEGER,
 		'x-unit-price' => \App\Purifier::INTEGER,
@@ -30,6 +41,9 @@ class Request extends \App\Request
 		'x-product-bundles' => \App\Purifier::INTEGER,
 		'x-row-order-field' => \App\Purifier::ALNUM_EXTENDED,
 		'x-row-order' => \App\Purifier::ALNUM,
+		'x-start-with' => \App\Purifier::INTEGER,
+		'x-only-column' => \App\Purifier::INTEGER,
+		'x-row-count' => \App\Purifier::INTEGER,
 	];
 
 	/**
@@ -42,14 +56,18 @@ class Request extends \App\Request
 	public static function init($request = false)
 	{
 		if (!static::$request) {
-			static::$request = new self($request ? $request : $_REQUEST);
+			static::$request = new self($request ?: $_REQUEST);
+			static::$request->contentType = isset($_SERVER['CONTENT_TYPE']) ? static::$request->getServer('CONTENT_TYPE') : static::$request->getHeader('content-type');
+			if (empty(static::$request->contentType)) {
+				static::$request->contentType = static::$request->getHeader('accept');
+			}
 		}
 		return static::$request;
 	}
 
 	public function getData()
 	{
-		if ('GET' === $this->getRequestMethod()) {
+		if ('GET' === self::getRequestMethod()) {
 			return $this;
 		}
 		$encrypted = $this->getHeader('encrypted');
@@ -60,29 +78,26 @@ class Request extends \App\Request
 		if (empty($content)) {
 			return false;
 		}
-		$this->rawValues = array_merge($this->contentParse($content), $this->rawValues);
+		$this->rawValues = \App\Utils::merge($this->contentParse($content), $this->rawValues);
 		return $this;
 	}
 
 	public function contentParse($content)
 	{
-		$type = isset($_SERVER['CONTENT_TYPE']) ? $this->getServer('CONTENT_TYPE') : $this->getHeader('content-type');
-		if (empty($type)) {
-			$type = $this->getHeader('accept');
-		}
+		$type = $this->contentType;
 		if (!empty($type)) {
 			$type = explode('/', $type);
 			$type = array_pop($type);
 		}
 		$return = [];
 		switch ($type) {
+			case 'json':
+				$return = json_decode($content, 1);
+				break;
 			case 'form-data':
 			case 'x-www-form-urlencoded':
 				mb_parse_str($content, $data);
 				$return = $data;
-				break;
-			case 'json':
-				$return = json_decode($content, 1);
 				break;
 		}
 		return $return;

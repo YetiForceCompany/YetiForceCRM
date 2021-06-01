@@ -9,28 +9,27 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Users_PreferenceDetail_View extends Vtiger_Detail_View
+class Users_PreferenceDetail_View extends Users_Detail_View
 {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!App\Config::security('SHOW_MY_PREFERENCES')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if ($currentUserModel->isAdminUser() === true || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
+		if (true === $currentUserModel->isAdminUser() || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
 			return true;
-		} else {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
+		throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		$this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
 		parent::preProcess($request, $display);
@@ -39,7 +38,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessTplName(\App\Request $request)
+	public function preProcessTplName(App\Request $request)
 	{
 		return 'PreferenceDetailViewPreProcess.tpl';
 	}
@@ -47,7 +46,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function showModuleBasicView(\App\Request $request)
+	public function showModuleBasicView(App\Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
@@ -55,7 +54,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function preProcessDisplay(\App\Request $request)
+	protected function preProcessDisplay(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view($this->preProcessTplName($request), $request->getModule());
@@ -64,21 +63,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
-	{
-		$recordId = $request->getInteger('record');
-		$moduleName = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$dayStartPicklistValues = $recordModel->getDayStartsPicklistValues();
-		$viewer = $this->getViewer($request);
-		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
-		return parent::process($request);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

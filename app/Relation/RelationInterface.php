@@ -2,11 +2,12 @@
 /**
  * Main file that includes basic operations on relations.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Relation;
@@ -16,6 +17,13 @@ namespace App\Relation;
  */
 interface RelationInterface
 {
+	/**
+	 * Get relation type.
+	 *
+	 * @return int
+	 */
+	public function getRelationType(): int;
+
 	/**
 	 * Function adds relation conditions to query object.
 	 */

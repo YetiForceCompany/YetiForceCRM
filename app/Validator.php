@@ -53,6 +53,18 @@ class Validator
 	}
 
 	/**
+	 * Function verifies if given value contains only words, digits  or space.
+	 *
+	 * @param int|string $input
+	 *
+	 * @return bool
+	 */
+	public static function alnumSpace($input): bool
+	{
+		return preg_match('/^[[:alnum:]_ ]+$/', $input);
+	}
+
+	/**
 	 * Function verifies if given value is compatible with default data format.
 	 *
 	 * @param string $input
@@ -61,8 +73,7 @@ class Validator
 	 */
 	public static function date(string $input): bool
 	{
-		[$y, $m, $d] = Fields\Date::explode($input);
-		return checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d);
+		return Fields\Date::isValid($input);
 	}
 
 	/**
@@ -78,8 +89,7 @@ class Validator
 		if (null === $userId) {
 			$userId = User::getCurrentUserId();
 		}
-		[$y, $m, $d] = Fields\Date::explode($input, User::getUserModel($userId)->getDetail('date_format'));
-		return checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d);
+		return Fields\Date::isValid($input, User::getUserModel($userId)->getDetail('date_format'));
 	}
 
 	/**
@@ -141,8 +151,8 @@ class Validator
 		if (($arrInput = \explode(' ', $input)) && 2 === \count($arrInput)) {
 			[$dateInput, $timeInput] = $arrInput;
 			[$y, $m, $d] = Fields\Date::explode($dateInput);
-			$result = checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d) &&
-				preg_match('/(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9]):([0-5][0-9])/', $timeInput);
+			$result = checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)
+				&& preg_match('/(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9]):([0-5][0-9])/', $timeInput);
 		}
 		return $result;
 	}
@@ -275,7 +285,40 @@ class Validator
 	 */
 	public static function email(string $email): bool
 	{
-		return false !== filter_var($email, FILTER_VALIDATE_EMAIL) && $email === filter_var($email, FILTER_SANITIZE_EMAIL);
+		return false !== filter_var($email, FILTER_VALIDATE_EMAIL, FILTER_FLAG_EMAIL_UNICODE) && $email === filter_var($email, FILTER_SANITIZE_EMAIL);
+	}
+
+	/**
+	 *  Function checks if given value is email.
+	 *
+	 * @param string|array $emails
+	 *
+	 * @return bool
+	 */
+	public static function emails($emails): bool
+	{
+		$emails = \is_string($emails) ? explode(',', $emails) : $emails;
+		foreach ($emails as $email) {
+			if ($email && !self::email($email)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Function checks if given value is url or domain.
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
+	public static function urlDomain(string $url): bool
+	{
+		if (false === strpos($url, '://')) {
+			return static::domain($url);
+		}
+		return static::url($url);
 	}
 
 	/**
@@ -287,8 +330,10 @@ class Validator
 	 */
 	public static function url(string $url): bool
 	{
-		if (false === strpos($url, '://')) {
-			return static::domain($url);
+		if (mb_strlen($url) != \strlen($url) && \function_exists('idn_to_ascii') && \defined('INTL_IDNA_VARIANT_UTS46')) {
+			$url = preg_replace_callback('/:\/\/([^\/]+)/', function ($matches) {
+				return '://' . idn_to_ascii($matches[1], IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+			}, $url);
 		}
 		return false !== filter_var($url, FILTER_VALIDATE_URL);
 	}
@@ -302,6 +347,9 @@ class Validator
 	 */
 	public static function domain(string $input): bool
 	{
+		if (mb_strlen($input) != \strlen($input) && \function_exists('idn_to_ascii') && \defined('INTL_IDNA_VARIANT_UTS46')) {
+			$input = idn_to_ascii($input, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+		}
 		return false !== filter_var($input, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
 	}
 

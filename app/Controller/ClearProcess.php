@@ -1,15 +1,18 @@
 <?php
-
-namespace App\Controller;
-
 /**
- * Trait clear process controller class.
+ * Trait clear process controller file.
  *
  * @package   Controller
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Controller;
+
+/**
+ * Trait clear process controller class.
  */
 trait ClearProcess
 {

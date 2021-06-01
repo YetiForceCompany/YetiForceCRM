@@ -5,6 +5,8 @@ namespace App\SystemWarnings\Security;
 /**
  * Https system warnings class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -25,7 +27,7 @@ class ServerHttps extends \App\SystemWarnings\Template
 
 			return;
 		}
-		if (\App\RequestUtil::getBrowserInfo()->https) {
+		if (\App\RequestUtil::isHttps()) {
 			$this->status = 1;
 		} else {
 			$this->status = 0;

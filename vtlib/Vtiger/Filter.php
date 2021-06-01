@@ -33,25 +33,27 @@ class Filter
 	/**
 	 * Initialize this filter instance.
 	 *
-	 * @param mixed $module Mixed id or name of the module
+	 * @param mixed $module   Mixed id or name of the module
+	 * @param mixed $valuemap
 	 */
 	public function initialize($valuemap, $module = false)
 	{
 		$this->id = $valuemap['cvid'];
 		$this->name = $valuemap['viewname'];
-		$this->module = Module::getInstance($module ? $module : $valuemap['tabid']);
+		$this->module = Module::getInstance($module ?: $valuemap['tabid']);
 	}
 
 	/**
 	 * Create this instance.
 	 *
 	 * @param Module Instance of the module to which this filter should be associated with
+	 * @param mixed $moduleInstance
 	 */
 	public function __create($moduleInstance)
 	{
 		$this->module = $moduleInstance;
-		$this->isdefault = ($this->isdefault === true || $this->isdefault == 'true') ? 1 : 0;
-		$this->inmetrics = ($this->inmetrics === true || $this->inmetrics == 'true') ? 1 : 0;
+		$this->isdefault = (true === $this->isdefault || 'true' == $this->isdefault) ? 1 : 0;
+		$this->inmetrics = (true === $this->inmetrics || 'true' == $this->inmetrics) ? 1 : 0;
 		if (!isset($this->sequence)) {
 			$sequence = (new \App\Db\Query())->from('vtiger_customview')
 				->where(['entitytype' => $this->module->name])
@@ -59,7 +61,7 @@ class Filter
 			$this->sequence = $sequence ? (int) $sequence + 1 : 0;
 		}
 		if (!isset($this->status)) {
-			if ($this->presence == 0) {
+			if (0 == $this->presence) {
 				$this->status = '0';
 			} // Default
 			else {
@@ -95,12 +97,14 @@ class Filter
 	public function __delete()
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_customview', ['cvid' => $this->id])->execute();
+		\App\CustomView::clearCacheById($this->id, $this->module->name);
 	}
 
 	/**
 	 * Save this instance.
 	 *
 	 * @param Module Instance of the module to use
+	 * @param mixed $moduleInstance
 	 */
 	public function save($moduleInstance = false)
 	{
@@ -186,17 +190,17 @@ class Filter
 	 *
 	 * @param mixed filterid or filtername
 	 * @param mixed $module Mixed id or name of the module
+	 * @param mixed $value
 	 */
 	public static function getInstance($value, $module = false)
 	{
 		$instance = false;
 		$moduleName = is_numeric($module) ? \App\Module::getModuleName($module) : $module;
 		if (Utils::isNumber($value)) {
-			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['cvid' => $value]);
+			$result = \App\CustomView::getCVDetails((int) $value, $moduleName ?: null);
 		} else {
-			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleName]);
+			$result = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleName])->one();
 		}
-		$result = $query->one();
 		if ($result) {
 			$instance = new self();
 			$instance->initialize($result, $module);
@@ -232,6 +236,10 @@ class Filter
 	 */
 	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
+		$cvIds = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleInstance->name])->column();
 		\App\Db::getInstance()->createCommand()->delete('vtiger_customview', ['entitytype' => $moduleInstance->name])->execute();
+		foreach ($cvIds as $cvId) {
+			\App\CustomView::clearCacheById($cvId, $moduleInstance->name);
+		}
 	}
 }

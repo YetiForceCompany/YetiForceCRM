@@ -9,7 +9,7 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -28,7 +28,7 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public static function getData(\App\Request $request, $widget)
+	public static function getData(App\Request $request, $widget)
 	{
 		$fields = ['id', 'assetname', 'dateinservice', 'parent_id'];
 		$limit = 10;
@@ -38,7 +38,7 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 		$queryGenerator = new App\QueryGenerator('Assets');
 		$queryGenerator->setFields($fields);
 		$query = $queryGenerator->createQuery();
-		if ($request->getByType('showtype') === 'common') {
+		if ('common' === $request->getByType('showtype')) {
 			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => App\User::getCurrentUserId()])->distinct('crmid');
 			$query->andWhere(['in', 'vtiger_crmentity.smownerid', $subQuery]);
 		} else {

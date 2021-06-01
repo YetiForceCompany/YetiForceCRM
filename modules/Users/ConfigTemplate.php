@@ -36,12 +36,6 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
-	'checkPwnedPassword' => [
-		'default' => true,
-		'description' => 'Check if the password is in the stolen passwords database',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
-	],
 	'pwnedPasswordProvider' => [
 		'default' => 'YetiForce',
 		'description' => 'Provider to the check password is in the stolen passwords database',

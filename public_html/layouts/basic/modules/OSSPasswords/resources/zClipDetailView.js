@@ -3,7 +3,7 @@
 
 new ClipboardJS('#copy-button', {
 	text: function (trigger) {
-		Vtiger_Helper_Js.showPnotify({
+		app.showNotify({
 			text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 			type: 'success'
 		});

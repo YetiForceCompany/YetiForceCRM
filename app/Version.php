@@ -5,6 +5,8 @@ namespace App;
 /**
  * Version class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -20,17 +22,30 @@ class Version
 	 *
 	 * @return string
 	 */
-	public static function get($type = 'appVersion')
+	public static function get($type = 'appVersion'): string
 	{
 		static::init();
-
 		return static::$versions[$type];
+	}
+
+	/**
+	 * Get current short version of system.
+	 *
+	 * @param string $type
+	 *
+	 * @return string
+	 */
+	public static function getShort($type = 'appVersion'): string
+	{
+		$fullVer = \explode('.', self::get($type));
+		array_pop($fullVer);
+		return \implode('.', $fullVer);
 	}
 
 	/**
 	 * Function to load versions.
 	 */
-	private static function init()
+	private static function init(): void
 	{
 		if (false === static::$versions) {
 			static::$versions = require 'config/version.php';

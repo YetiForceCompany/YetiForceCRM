@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-PublicHoliday-Configuration" id="widgetsManagementEditorContainer">
+	<!-- tpl-Settings-PublicHoliday-Configuration -->
 		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
@@ -8,134 +8,204 @@
 		</div>
 		<div class="contents tabbable">
 			<div class="tab-content themeTableColor overflowVisible">
-				<div class="tab-pane active" id="layoutDashBoards">
-					<button type="button" class="btn btn-success addDateWindow my-2">
-						<span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}
-					</button>
+				<div>
 					<div id="moduleBlocks">
+						<button type="button" class="btn btn-success addPublicHoliday my-2">
+							<span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}
+						</button>
 						<div class="editFieldsTable block_1 mb-3">
-							<div class="row no-gutters border border-bottom-0 bg-light p-2">
-								<div class="col-12 col-sm-12 col-md-7">
-									<h4>{\App\Language::translate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}</h4>
-								</div>
-								<div class="col-12 col-sm-12 col-md-5">
-									<div class="d-flex justify-content-end">
-										<label class="d-block align-self-center w-50 text-left text-md-right mb-0 mr-2 font-weight-bold">
-											{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:
-										</label>
-										<input type="text"
-											   class="d-block dateRangeField dateFilter form-control text-center"
-											   data-date-format="{$USER_MODEL->get('date_format')}"
-											   data-calendar-type="range" value="{$DATE}"/>
+							<div class="border border-bottom-0 bg-light p-2">
+								<div class="row">
+									<div class="col-12">
+										<h4>{\App\Language::translate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}</h4>
 									</div>
 								</div>
 							</div>
-							<table class="table tableRWD table-bordered ">
-								<thead class='text-capitalize text-center'>
+							<div class="row responsive-table-header-for-small">
+								<div class="col-sm-8 text-right order-sm-2">
+									<form>
+										<div class="row text-right float-right">
+											<label>{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}</label>
+											<div class="input-group input-group-sm col">
+												<input type="text"
+														class="ml-1 dateRangeField dateFilter text-center form-control"
+														data-date-format="{$USER_MODEL->get('date_format')}"
+														data-calendar-type="range" value="{$DATE}"
+														data-validation-engine="validate[funcCall[Vtiger_Date_Validator_Js.invokeValidation]]" />
+												<div class="input-group-append" title="{\App\Language::translate('LBL_ALL')}">
+													<button type="button" class="btn btn-sm btn-default js-range-reset" title="{\App\Language::translate('LBL_ALL')}">
+														<span class="fas fa-lg fa-window-close"></span>
+													</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="col-sm-4 order-sm-1">
+									<div class="row">
+										<div class="col-xs-4">
+											<input type="checkbox" class="selectall"
+													title="{\App\Language::translate('LBL_SELECT_ALL', $QUALIFIED_MODULE)}" />
+										</div>
+										<div class="col-xs-8">
+											<button class="masscopy btn btn-info btn-xs text-white mr-2"
+													title="{\App\Language::translate('LBL_DUPLICATE_SELECTED', $QUALIFIED_MODULE)}">
+												<span class="fas fa-clone alignMiddle"></span>
+											</button>
+											<button class="massdelete btn btn-danger btn-xs text-white ml-2"
+													title="{\App\Language::translate('LBL_DELETE_SELECTED', $QUALIFIED_MODULE)}">
+												<span class="fas fa-trash-alt"></span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<table class="table responsive-table table-bordered">
+								<thead class="text-capitalize text-center">
 								<tr>
-									<th>{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</th>
-									<th>{\App\Language::translate('LBL_DAY', $QUALIFIED_MODULE)}</th>
-									<th>{\App\Language::translate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</th>
-									<th>{\App\Language::translate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</th>
-									<th></th>
+									<th class="font-weight-normal">
+										<button class="masscopy btn btn-info btn-xs"
+												title="{\App\Language::translate('LBL_DUPLICATE_SELECTED', $QUALIFIED_MODULE)}">
+											<span class="fas fa-clone"></span>
+										</button>
+										<button class="massdelete btn btn-danger btn-xs text-white ml-2"
+												title="{\App\Language::translate('LBL_DELETE_SELECTED', $QUALIFIED_MODULE)}">
+											<span class="fas fa-trash-alt"></span>
+										</button>
+									</th>
+									<th colspan="5" class="text-right font-weight-normal">
+										<form>
+											<div class="row text-right float-right">
+												{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}
+												<div class="input-group input-group-sm col">
+													<input type="text"
+															class="ml-1 dateRangeField dateFilter text-center form-control"
+															data-date-format="{$USER_MODEL->get('date_format')}"
+															data-calendar-type="range" value="{$DATE}"
+															data-validation-engine="validate[funcCall[Vtiger_Date_Validator_Js.invokeValidation]]" />
+													<div class="input-group-append" title="{\App\Language::translate('LBL_ALL')}">
+														<button type="button" class="btn btn-sm btn-default js-range-reset" title="{\App\Language::translate('LBL_ALL')}">
+															<span class="fas fa-lg fa-window-close"></span>
+														</button>
+													</div>
+												</div>
+											</div>
+										</form>
+									</th>
+								</tr>
+								<tr>
+									<th scope="col">
+										<input type="checkbox" class="selectall"
+												title="{\App\Language::translate('LBL_SELECT_ALL', $QUALIFIED_MODULE)}" />
+									</th>
+									<th scope="col">{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</th>
+									<th scope="col">{\App\Language::translate('LBL_DAY', $QUALIFIED_MODULE)}</th>
+									<th scope="col">{\App\Language::translate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</th>
+									<th scope="col">{\App\Language::translate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</th>
+									<th scope="col"></th>
 								</tr>
 								</thead>
-								<tbody>
-								{foreach item=HOLIDAY from=$HOLIDAYS}
-									<tr class="holidayElement text-center" data-holiday-id="{$HOLIDAY['id']}"
-										data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}"
-										data-holiday-date="{\App\Fields\Date::formatToDisplay($HOLIDAY['date'])}">
-										<td>
-											<span>{\App\Fields\Date::formatToDisplay($HOLIDAY['date'])}</span>
-										</td>
-										<td>
-											<span>{\App\Language::translate($HOLIDAY['day'], $QUALIFIED_MODULE)}</span>
-										</td>
-										<td>
-											<span>{\App\Language::translate($HOLIDAY['name'], $QUALIFIED_MODULE)}</span>
-										</td>
-										<td>
-											<span>{\App\Language::translate($HOLIDAY['type'], $QUALIFIED_MODULE)}</span>
-										</td>
-										<td>
-											<div class='float-right'>
-												<button data-holiday-id="{$HOLIDAY['id']}"
-														class="editHoliday mr-1 text-white btn btn-sm btn-info">
-													<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"
-														  class="yfi yfi-full-editing-view"></span>
-												</button>
-												<button data-holiday-id="{$HOLIDAY['id']}"
-														class="deleteHoliday text-white btn btn-sm btn-danger">
-													<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"
-														  class="fas fa-trash-alt"></span>
-												</button>
-											</div>
-										</td>
-									</tr>
-								{/foreach}
+								<tbody id="itemsContainer">
+									{include file=App\Layout::getTemplatePath('ConfigurationItems.tpl', $QUALIFIED_MODULE) HOLIDAYS=$HOLIDAYS}
 								</tbody>
 							</table>
 						</div>
 					</div>
-					<div class="modal addDateWindowModal fade publicHolidayModal" tabindex="-1">
-						<div class="modal-dialog">
+					<div class="publicHolidayModal modal fade" tabindex="-1">
+						<div class="modal-dialog modal-md">
 							<div class="modal-content">
 								<div class="modal-header">
 									<span class="fa fa-plus mt-2 u-mr-5px"></span>
 									<h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_HOLIDAY', $QUALIFIED_MODULE)}</h5>
-									<button type="button" class="close" data-dismiss="modal"
-											title="{\App\Language::translate('LBL_CLOSE')}">
+									<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
-								<form class="form-horizontal addDateWindowForm">
-									<input type="hidden" name="holidayId" value=""/>
-									<div class="modal-body">
+								<div class="modal-body">
+									<form class="form-horizontal">
+										<input type="hidden" name="parent" value="Settings" />
+										<input type="hidden" name="module" value="{$MODULE_NAME}" />
+										<input type="hidden" name="action" value="Holiday" />
+										<input type="hidden" name="mode" value="save" />
+										<input type="hidden" name="holidayId" value="" />
+											<div class="form-group form-row">
+												<div class="col-sm-4 col-form-label u-text-small-bold text-right">
+													<span class="redColor">*</span>
+													<span>{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</span>
+												</div>
+												<div class="col-sm-6 controls">
+													<input type="text" name="holidayDate" class="dateField form-control"
+														data-date-format="{$USER_MODEL->get('date_format')}"
+														data-validation-engine="validate[required,funcCall[Vtiger_Date_Validator_Js.invokeValidation]]"/>
+												</div>
+											</div>
+											<div class="form-group form-row">
+												<div class="col-sm-4 col-form-label u-text-small-bold text-right">
+													<span>{\App\Language::translate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
+												</div>
+												<div class="col-sm-6 controls">
+													<select name="holidayType" class="form-control">
+														<option value="national">{\App\Language::translate('LBL_NATIONAL', $QUALIFIED_MODULE)}</option>
+														<option value="ecclesiastical">{\App\Language::translate('LBL_ECCLESIASTICAL', $QUALIFIED_MODULE)}</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group form-row">
+												<div class="col-sm-4 col-form-label u-text-small-bold text-right">
+													<span class="redColor">*</span>
+													<span>{\App\Language::translate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
+												</div>
+												<div class="col-sm-6 controls">
+													<input type="text" name="holidayName" value="" class="form-control"
+														placeholder="{\App\Language::translate('LBL_DAY_NAME_DESC', $QUALIFIED_MODULE)}"
+														data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
+												</div>
+											</div>
+										{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="publicHolidayModalMassDuplicate modal fade" tabindex="-1">
+						<div class="modal-dialog modal-md">
+							<div class="modal-content">
+								<div class="modal-header">
+									<span class="far fa-clone mt-2 u-mr-5px"></span>
+									<h5 class="modal-title">{\App\Language::translate('LBL_DUPLICATE_HOLIDAY', $QUALIFIED_MODULE)}</h5>
+									<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<form class="form-horizontal">
+										<input type="hidden" name="parent" value="Settings" />
+										<input type="hidden" name="module" value="{$MODULE_NAME}" />
+										<input type="hidden" name="action" value="Holiday" />
+										<input type="hidden" name="mode" value="duplicate" />
+										<input type="hidden" name="holidayIds" value="" />
 										<div class="form-group form-row">
 											<div class="col-sm-4 col-form-label u-text-small-bold text-right">
-												<span>{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</span>
-												<span class="redColor">*</span>
+												<span>{\App\Language::translate('LBL_DUPLICATE_YEAR', $QUALIFIED_MODULE)}</span>
 											</div>
 											<div class="col-sm-6 controls">
-												<input type="text" name="holidayDate" class="dateField form-control"
-													   data-date-format="{$USER_MODEL->get('date_format')}"
-													   value="{\App\Fields\Date::formatToDisplay(date('Y-m-d'))}"
-													   required>
-											</div>
-										</div>
-										<div class="form-group form-row">
-											<div class="col-sm-4 col-form-label u-text-small-bold text-right">
-												<span>{\App\Language::translate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
-												<span class="redColor">*</span>
-											</div>
-											<div class="col-sm-6 controls">
-												<select name="holidayType" class="form-control" required
+												<select name="targetYear" class="form-control"
 														data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
-													<option value="national">{\App\Language::translate('LBL_NATIONAL', $QUALIFIED_MODULE)}</option>
-													<option value="ecclesiastical">{\App\Language::translate('LBL_ECCLESIASTICAL', $QUALIFIED_MODULE)}</option>
+													<option></option>
+													{for $Y=$YEAR to $YEAR+10}
+														<option value="{$Y}">{$Y}</option>
+													{/for}
 												</select>
 											</div>
 										</div>
-										<div class="form-group form-row">
-											<div class="col-sm-4 col-form-label u-text-small-bold text-right">
-												<span>{\App\Language::translate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
-												<span class="redColor">*</span>
-											</div>
-											<div class="col-sm-6 controls">
-												<input type="text" name="holidayName" value="" class="form-control"
-													   placeholder="{\App\Language::translate('LBL_DAY_NAME_DESC', $QUALIFIED_MODULE)}"
-													   required
-													   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
-											</div>
-										</div>
-									</div>
-									{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
-								</form>
+										{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_DUPLICATE' BTN_DANGER='LBL_CANCEL'}
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	<!-- /tpl-Settings-PublicHoliday-Configuration -->
 {/strip}

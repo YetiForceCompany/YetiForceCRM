@@ -6,43 +6,43 @@ jQuery.Class(
 	{},
 	{
 		container: false,
-		getContainer: function() {
+		getContainer: function () {
 			if (this.container == false) {
 				this.container = jQuery('div.contentsDiv');
 			}
 			return this.container;
 		},
-		saveAjax: function(mode, params) {
+		saveAjax: function (mode, params) {
 			app
 				.saveAjax(mode, params)
-				.done(function(data) {
+				.done(function (data) {
 					var response = data.result;
 					var params = {
 						text: app.vtranslate(response.message),
 						type: 'info'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				})
-				.fail(function(textStatus, errorThrown) {
-					Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_COULD_NOT_FINNISH_REACTION') });
+				.fail(function (textStatus, errorThrown) {
+					app.showNotify({
+						text: app.vtranslate('JS_COULD_NOT_FINNISH_REACTION'),
+						type: 'error'
+					});
 					app.errorLog(textStatus, errorThrown);
 				});
 		},
-		registerSwitchEvents: function() {
+		registerSwitchEvents: function () {
 			this.getContainer()
 				.find('.js-switch--sent')
-				.on('change', e => {
-					$(e.currentTarget)
-						.closest('.form-group')
-						.find('.selectedUsersForm')
-						.toggleClass('d-none');
+				.on('change', (e) => {
+					$(e.currentTarget).closest('.form-group').find('.selectedUsersForm').toggleClass('d-none');
 				});
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			var thisInstance = this;
 			thisInstance.registerSwitchEvents();
 			var forms = thisInstance.getContainer().find('form');
-			forms.on('submit', function(e) {
+			forms.on('submit', function (e) {
 				var form = jQuery(e.currentTarget);
 				if (form.validationEngine('validate') == true) {
 					var paramsForm = form.serializeFormData();
@@ -56,7 +56,7 @@ jQuery.Class(
 				}
 			});
 			forms.validationEngine(app.validationEngineOptions);
-			jQuery('.unblock').on('click', function(e) {
+			jQuery('.unblock').on('click', function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
@@ -64,7 +64,7 @@ jQuery.Class(
 					}
 				});
 				var element = jQuery(e.currentTarget);
-				app.saveAjax('unBlock', element.data('id')).done(function(data) {
+				app.saveAjax('unBlock', element.data('id')).done(function (data) {
 					var response = data.result;
 					var params = { text: app.vtranslate(response.message) };
 					if (response.success) {
@@ -72,7 +72,7 @@ jQuery.Class(
 						element.parents('tr').hide();
 					}
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				});
 			});
 		}

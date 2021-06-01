@@ -280,9 +280,9 @@ class PackageImport extends PackageExport
 			$manifestFound = true;
 			$moduleName = (string) $this->_modulexml->name;
 			$isModuleBundle = (string) $this->_modulexml->modulebundle;
-			if ('true' === $isModuleBundle && (!empty($this->_modulexml)) &&
-					(!empty($this->_modulexml->dependencies)) &&
-					(!empty($this->_modulexml->dependencies->vtiger_version))) {
+			if ('true' === $isModuleBundle && (!empty($this->_modulexml))
+					&& (!empty($this->_modulexml->dependencies))
+					&& (!empty($this->_modulexml->dependencies->vtiger_version))) {
 				$languagefile_found = true;
 			}
 			// Do we need to check the zip further?
@@ -322,9 +322,9 @@ class PackageImport extends PackageExport
 			$errorText = str_replace('__DEFAULTLANGUAGE__', \App\Config::main('default_language'), $errorText);
 			$this->_errorText = $errorText;
 		}
-		if (!empty($this->_modulexml) &&
-			!empty($this->_modulexml->dependencies) &&
-			!empty($this->_modulexml->dependencies->vtiger_version)) {
+		if (!empty($this->_modulexml)
+			&& !empty($this->_modulexml->dependencies)
+			&& !empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
 			$versionCheck = \App\Version::compare(\App\Version::get(), $moduleVersion);
 			if (false !== $versionCheck && $versionCheck >= 0) {
@@ -478,7 +478,7 @@ class PackageImport extends PackageExport
 	 */
 	public function getDependentVtigerVersion(): string
 	{
-		return (!empty($this->_modulexml) && \is_object($this->_modulexml)) ? $this->_modulexml->dependencies->vtiger_version : '';
+		return $this->_modulexml->dependencies->vtiger_version ?? '';
 	}
 
 	/**
@@ -605,6 +605,7 @@ class PackageImport extends PackageExport
 				}
 			}
 		}
+		return $module;
 	}
 
 	/**
@@ -657,7 +658,7 @@ class PackageImport extends PackageExport
 		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTINSTALL);
 		register_shutdown_function(function () {
 			chdir(ROOT_DIRECTORY);
-			\App\UserPrivilegesFile::recalculateAll();
+			(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::recalculateAll', 'params' => []]))->save();
 		});
 	}
 
@@ -897,7 +898,9 @@ class PackageImport extends PackageExport
 			} else {
 				$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, Module::getInstance((string) $fieldnode->modulename));
 			}
-			$fieldInstance->sourcefieldname = (string) $fieldnode->sourcefieldname;
+			if ($sourceFieldName = (string) $fieldnode->sourcefieldname ?? '') {
+				$fieldInstance->sourcefieldname = $sourceFieldName;
+			}
 			$filterInstance->addField($fieldInstance, $fieldnode->columnindex);
 		}
 		if (!empty($customviewnode->rules)) {
@@ -1012,8 +1015,14 @@ class PackageImport extends PackageExport
 				$actions[] = "$actionnode";
 			}
 		}
+		$fields = [];
+		if (!empty($relatedlistnode->fields)) {
+			foreach ($relatedlistnode->fields->field as $fieldNode) {
+				$fields[] = "$fieldNode";
+			}
+		}
 		if ($relModuleInstance) {
-			$moduleInstance->setRelatedList($relModuleInstance, "$label", $actions, "$relatedlistnode->function");
+			$moduleInstance->setRelatedList($relModuleInstance, "$label", $actions, "$relatedlistnode->function", "$relatedlistnode->field_name", $fields);
 		}
 		return $relModuleInstance;
 	}
@@ -1029,8 +1038,14 @@ class PackageImport extends PackageExport
 				$actions[] = "$actionnode";
 			}
 		}
+		$fields = [];
+		if (!empty($inRelatedListNode->fields)) {
+			foreach ($inRelatedListNode->fields->field as $fieldNode) {
+				$fields[] = "$fieldNode";
+			}
+		}
 		if ($inRelModuleInstance) {
-			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function", $inRelatedListNode->field_name);
+			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function", "$inRelatedListNode->field_name", $fields);
 		}
 		return $inRelModuleInstance;
 	}
@@ -1088,13 +1103,15 @@ class PackageImport extends PackageExport
 	{
 		$dirName = 'cache/updates/updates';
 		$db = \App\Db::getInstance();
+		$startTime = microtime(true);
+		file_put_contents('cache/logs/update.log', PHP_EOL . ((string) $this->_modulexml->label) . ' - ' . date('Y-m-d H:i:s'), FILE_APPEND);
 		ob_start();
 		if (file_exists($dirName . '/init.php')) {
 			require_once $dirName . '/init.php';
 			$updateInstance = new \YetiForceUpdate($this->_modulexml);
 			$updateInstance->package = $this;
 			$result = $updateInstance->preupdate();
-			file_put_contents('cache/logs/update.log', ob_get_clean(), FILE_APPEND);
+			file_put_contents('cache/logs/update.log', PHP_EOL . ' | ' . ob_get_clean(), FILE_APPEND);
 			ob_start();
 			if (false !== $result) {
 				$updateInstance->update();
@@ -1145,8 +1162,7 @@ class PackageImport extends PackageExport
 		Functions::recurseDelete('app_data/cron.php');
 		Functions::recurseDelete('app_data/ConfReport_AllErrors.php');
 		Functions::recurseDelete('app_data/shop.php');
-		file_put_contents('cache/logs/update.log', ob_get_contents(), FILE_APPEND);
-		ob_end_clean();
+		file_put_contents('cache/logs/update.log', PHP_EOL . date('Y-m-d H:i:s') . ' (' . round(microtime(true) - $startTime, 2) . ') | ' . ob_get_clean(), FILE_APPEND);
 	}
 
 	/**
@@ -1221,7 +1237,7 @@ class PackageImport extends PackageExport
 	 */
 	public function importFont($zipfile)
 	{
-		$fontsDir = \ROOT_DIRECTORY . '/public_html/layouts/resources/fonts';
+		$fontsDir = ROOT_DIRECTORY . '/public_html/layouts/resources/fonts';
 		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['ttf', 'txt', 'woff']]);
 		$files = $zip->unzip(['fonts' => $fontsDir]);
 		$fonts = \App\Json::read($fontsDir . '/fonts.json');

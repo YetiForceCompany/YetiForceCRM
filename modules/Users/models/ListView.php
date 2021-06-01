@@ -22,20 +22,15 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	{
 		$linkTypes = ['LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING'];
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), $linkTypes, $linkParams);
-
-		$basicLinks = [
-			[
+		if (App\User::getCurrentUserModel()->isAdmin()) {
+			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $this->getModule()->getCreateRecordUrl(),
 				'linkicon' => '',
 				'linkclass' => 'btn-light'
-			],
-		];
-		foreach ($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+			]);
 		}
-
 		$advancedLinks = $this->getAdvancedLinks();
 		foreach ($advancedLinks as $advancedLink) {
 			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
@@ -52,10 +47,9 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$links = [];
-		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$links['LISTVIEWMASSACTION'] = [];
 		$massActionLinks = [];
-		if ('Users' === $linkParams['MODULE'] && 'List' === $linkParams['ACTION'] && $privilegesModel->isAdminUser()) {
+		if ('Users' === $linkParams['MODULE'] && 'List' === $linkParams['ACTION'] && App\User::getCurrentUserModel()->isAdmin()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',

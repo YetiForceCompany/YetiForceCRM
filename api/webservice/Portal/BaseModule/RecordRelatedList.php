@@ -1,8 +1,8 @@
 <?php
 /**
- * Get record related list file.
+ * Portal container - Get record related list file.
  *
- * @package Api
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -11,68 +11,185 @@
 
 namespace Api\Portal\BaseModule;
 
-/**
- * Get record related list class.
- */
-class RecordRelatedList extends \Api\Core\BaseAction
-{
-	/** @var string[] Allowed request methods */
-	public $allowedMethod = ['GET'];
-	/**
-	 * {@inheritdoc}
-	 */
-	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id'];
+use OpenApi\Annotations as OA;
 
+/**
+ * Portal container - Get record related list class.
+ */
+class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
+{
 	/**
-	 * Get method.
+	 * Get related record list method.
 	 *
 	 * @return array
-	 */
-	public function get()
-	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById($this->controller->request->getInteger('record'), $this->controller->request->getModule());
-		$pagingModel = new \Vtiger_Paging_Model();
-		$limit = 1000;
-		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
-			$limit = (int) $requestLimit;
-		}
-		$pagingModel->set('limit', $limit);
-		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
-			$pagingModel->set('page', (int) $requestOffset);
-		}
-		$relationListView = \Vtiger_RelationListView_Model::getInstance($recordModel, $this->controller->request->getByType('param', 'Alnum'));
-		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
-			$relationListView->setFields(\array_merge(['id'], \App\Json::decode($requestFields)));
-		}
-		$rawData = $records = $headers = [];
-		foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
-			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
-		}
-		foreach ($relationListView->getEntries($pagingModel) as $id => $relatedRecordModel) {
-			foreach ($headers as $fieldName => $fieldModel) {
-				$records[$id][$fieldName] = $relatedRecordModel->getDisplayValue($fieldName, $id, true);
-				if ($this->isRawData()) {
-					$rawData[$id][$fieldName] = $relatedRecordModel->get($fieldName);
-				}
-			}
-		}
-		$rowsCount = \count($records);
-		return [
-			'headers' => $headers,
-			'records' => $records,
-			'rawData' => $rawData,
-			'count' => $rowsCount,
-			'isMorePages' => $rowsCount === $limit,
-		];
-	}
-
-	/**
-	 * Check if you send raw data.
 	 *
-	 * @return bool
+	 * @OA\GET(
+	 *		path="/webservice/Portal/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}",
+	 *		description="Gets a list of related records",
+	 *		summary="Related list of records",
+	 *		tags={"BaseModule"},
+	 *		security={
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
+	 *		},
+	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(type="string"),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="recordId",
+	 *			description="Record id",
+	 *			@OA\Schema(type="integer"),
+	 *			in="path",
+	 *			example=116,
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="relatedModuleName",
+	 *			description="Related module name",
+	 *			@OA\Schema(type="string"),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="relationId",
+	 *			in="query",
+	 *			description="Relation id",
+	 *			required=false,
+	 *			@OA\Schema(type="integer"),
+	 *			style="form"
+	 *     ),
+	 *		@OA\Parameter(
+	 *			name="cvId",
+	 *			in="query",
+	 *			description="Custom view id",
+	 *			required=false,
+	 *			@OA\Schema(type="integer"),
+	 *			style="form"
+	 *     ),
+	 *		@OA\Parameter(
+	 *			name="x-raw-data",
+	 *			description="Get rows limit, default: 0",
+	 *			@OA\Schema(type="integer", enum={0, 1}),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-row-limit",
+	 *			description="Get rows limit, default: 1000",
+	 *			@OA\Schema(type="integer"),
+	 *			in="header",
+	 *			example=1000,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-row-offset",
+	 *			description="Offset, default: 0",
+	 *			@OA\Schema(type="integer"),
+	 *			in="header",
+	 *			example=0,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-fields",
+	 *			description="JSON array in the list of fields to be returned in response",
+	 *			in="header",
+	 *			required=false,
+	 *			@OA\JsonContent(
+	 *				type="array",
+	 * 				@OA\Items(type="string"),
+	 * 			)
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-condition",
+	 * 			description="Conditions [Json format]",
+	 *			in="header",
+	 *			required=false,
+	 *			@OA\JsonContent(
+	 *				description="Conditions details",
+	 *				type="object",
+	 *				@OA\Property(property="fieldName", description="Field name", type="string", example="lastname"),
+	 *				@OA\Property(property="value", description="Search value", type="string", example="Kowalski"),
+	 *				@OA\Property(property="operator", description="Field operator", type="string", example="e"),
+	 *				@OA\Property(property="group", description="Condition group if true is AND", type="boolean", example=true),
+	 *			),
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="List of consents",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="Relationship does not exist",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="No permissions to view record",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=404,
+	 *			description="Record doesn't exist",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=405,
+	 *			description="No relation module name",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *),
+	 * @OA\Schema(
+	 *		schema="BaseModule_RecordRelatedList_ResponseBody",
+	 *		title="Base module - Response action related record list",
+	 *		description="Module action related record list response body",
+	 *		type="object",
+	 *		@OA\Property(
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={0, 1},
+	 *			type="integer",
+	 *		),
+	 *		@OA\Property(
+	 *			property="result",
+	 *			description="List of related records",
+	 *			type="object",
+	 *			@OA\Property(
+	 *				property="headers",
+	 *				description="Column names",
+	 *				type="object",
+	 *				@OA\AdditionalProperties,
+	 *			),
+	 *			@OA\Property(
+	 *				property="records",
+	 *				description="Records display details",
+	 *				type="object",
+	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Display_Details"),
+	 *			),
+	 *			@OA\Property(
+	 *				property="rawData",
+	 *				description="Records raw details",
+	 *				type="object",
+	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Raw_Details"),
+	 *			),
+	 * 			@OA\Property(property="count", type="string", example=54),
+	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
+	 * 		),
+	 *	),
 	 */
-	protected function isRawData(): bool
+	public function get(): array
 	{
-		return 1 === (int) $this->controller->headers['x-raw-data'];
+		return parent::get();
 	}
 }

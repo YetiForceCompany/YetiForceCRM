@@ -3,6 +3,8 @@
 /**
  * Quick detail modal view class.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -77,7 +79,7 @@ class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 							$relatedModule = App\Module::getModuleName($widget['data']['relatedmodule']);
 							$label = App\Language::translate($relatedModule, $relatedModule);
 						}
-						$widgets[] = ['title' => $label, 'content' => $detailView->{$method}($widgetRequest)];
+						$widgets[] = ['title' => $label, 'content' => $detailView->{$method}($widgetRequest), 'widgetData' => $widget];
 					}
 				} elseif ('Summary' === $widget['type']) {
 					$request->set('isReadOnly', 'true');
@@ -106,6 +108,17 @@ class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 	{
 		$links = Vtiger_Link_Model::getAllByType($recordModel->getModule()->getId(), ['QUICK_DETAIL_MODAL_HEADER'])['QUICK_DETAIL_MODAL_HEADER'] ?? [];
 		if ($recordModel->isEditable()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'DETAIL_VIEW_BASIC',
+				'linklabel' => 'LBL_QUICK_EDIT',
+				'linkdata' => [
+					'module' => $recordModel->getModuleName(),
+					'record' => $recordModel->getId(),
+				],
+				'linkicon' => 'yfi yfi-quick-creation',
+				'linkclass' => 'btn btn-outline-dark btn-sm js-quick-edit-modal',
+				'linkhint' => 'LBL_QUICK_EDIT',
+			]);
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'BTN_RECORD_EDIT',

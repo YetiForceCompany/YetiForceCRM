@@ -10,7 +10,7 @@
 
 class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$sourceModule = $request->getByType('source_module', 2);
 		$pickListSupportedModules = Settings_Picklist_Module_Model::getPicklistSupportedModules();
@@ -25,7 +25,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('PICKLIST_MODULES', $pickListSupportedModules);
 
 		$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist']);
-		if (count($pickListFields) > 0) {
+		if (\count($pickListFields) > 0) {
 			$selectedPickListFieldModel = reset($pickListFields);
 
 			$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($selectedPickListFieldModel->getName());
@@ -39,7 +39,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 			$createPicklistUrl = '';
 			$settingsLinks = $moduleModel->getSettingLinks();
 			foreach ($settingsLinks as $linkDetails) {
-				if ($linkDetails['linklabel'] == 'LBL_EDIT_FIELDS') {
+				if ('LBL_EDIT_FIELDS' == $linkDetails['linklabel']) {
 					$createPicklistUrl = $linkDetails['linkurl'];
 					break;
 				}
@@ -52,7 +52,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('Index.tpl', $qualifiedName);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

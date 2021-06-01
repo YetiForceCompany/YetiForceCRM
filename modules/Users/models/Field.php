@@ -14,12 +14,8 @@
  */
 class Users_Field_Model extends Vtiger_Field_Model
 {
-	/**
-	 * Function to check whether the current field is read-only.
-	 *
-	 * @return bool
-	 */
-	public function isReadOnly()
+	/** {@inheritdoc} */
+	public function isReadOnly(): bool
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if ((false === $currentUserModel->isAdminUser() && 98 == $this->get('uitype')) || 156 == $this->get('uitype')) {
@@ -61,22 +57,18 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isAjaxEditable()
 	{
-		if (!$this->isEditable() || 105 === $this->get('uitype') ||
-			106 === $this->get('uitype') || 98 === $this->get('uitype') || 101 === $this->get('uitype') || 'date_format' === $this->getFieldName() || 'email1' === $this->getFieldName()) {
-			return false;
+		if (!$this->isEditable() || \in_array($this->getUIType(), [105, 106, 98, 101]) || \in_array($this->getName(), ['date_format', 'email1'])) {
+			$permission = false;
+		} elseif ('login_method' === $this->getName()) {
+			$permission = \App\User::getCurrentUserModel()->isAdmin();
+		} else {
+			$permission = parent::isAjaxEditable();
 		}
-		if ('login_method' === $this->getFieldName()) {
-			return \App\User::getCurrentUserModel()->isAdmin();
-		}
-		return parent::isAjaxEditable();
+		return $permission;
 	}
 
 	/**
-	 * Function to get all the available picklist values for the current field.
-	 *
-	 * @param mixed $skipCheckingRole
-	 *
-	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise
+	 * {@inheritdoc}
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
@@ -89,7 +81,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName());
 			}
 			$dataReader->close();
-
 			return $fieldPickListValues;
 		}
 		return parent::getPicklistValues($skipCheckingRole);
@@ -130,14 +121,17 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditable()
 	{
-		if ((115 === $this->get('uitype') && (!\App\User::getCurrentUserModel()->isAdmin() || \App\User::getCurrentUserId() === $this->get('rocordId')))) {
-			return false;
-		}
-		if ('authy_secret_totp' === $this->getColumnName()) {
-			return $this->get('rocordId') === \App\User::getCurrentUserId();
-		}
-		if (!$this->get('editable')) {
-			$this->set('editable', parent::isEditable());
+		if (null === $this->get('editable')) {
+			if (115 === $this->get('uitype') && (!\App\User::getCurrentUserModel()->isAdmin() || \App\User::getCurrentUserId() === $this->get('rocordId'))) {
+				$permission = false;
+			} elseif ('super_user' === $this->getName()) {
+				$permission = \App\User::getCurrentUserModel()->isAdmin();
+			} elseif ('authy_secret_totp' === $this->getColumnName()) {
+				$permission = $this->get('rocordId') === \App\User::getCurrentUserId();
+			} elseif (!$this->get('editable')) {
+				$permission = parent::isEditable();
+			}
+			$this->set('editable', $permission);
 		}
 		return $this->get('editable');
 	}
@@ -166,7 +160,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isWritable()
 	{
-		if ('is_admin' === $this->getFieldName() && \App\User::getCurrentUserModel()->isAdmin()) {
+		if (('is_admin' === $this->getName()) && \App\User::getCurrentUserModel()->isAdmin()) {
 			return true;
 		}
 		return parent::isWritable();

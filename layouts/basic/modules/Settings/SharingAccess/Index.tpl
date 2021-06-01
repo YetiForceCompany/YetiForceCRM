@@ -6,7 +6,7 @@
 				<input type="hidden" name="module" value="SharingAccess" />
 				<input type="hidden" name="action" value="SaveAjax" />
 				<input type="hidden" name="parent" value="Settings" />
-				<input type="hidden" class="dependentModules" value='{\App\Json::encode($DEPENDENT_MODULES)}' />
+				<input type="hidden" class="dependentModules" value='{\App\Purifier::encodeHtml(\App\Json::encode($DEPENDENT_MODULES))}' />
 
 				<div class="o-breadcrumb widget_header row align-items-center">
 					<div class="col-md-8">

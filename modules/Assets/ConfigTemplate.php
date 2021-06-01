@@ -32,7 +32,7 @@ return [
 			$moduleModel = Vtiger_Module_Model::getInstance('Assets');
 			$fields = $moduleModel->getFields();
 			foreach ($fields as $field => $key) {
-				return in_array($field, $args);
+				return \in_array($field, $args);
 			}
 		}
 	],

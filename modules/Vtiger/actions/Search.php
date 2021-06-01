@@ -20,7 +20,7 @@ class Vtiger_Search_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -42,7 +42,7 @@ class Vtiger_Search_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function owners(\App\Request $request)
+	public function owners(App\Request $request)
 	{
 		$owner = App\Fields\Owner::getInstance();
 		$owner->showRoleName = true;

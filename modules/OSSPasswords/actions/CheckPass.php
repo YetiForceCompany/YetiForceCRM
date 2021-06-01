@@ -8,7 +8,7 @@
  */
 class OSSPasswords_CheckPass_Action extends \App\Controller\Action
 {
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
@@ -18,9 +18,7 @@ class OSSPasswords_CheckPass_Action extends \App\Controller\Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$recordModel = Vtiger_Record_Model::getCleanInstance($request->getModule());

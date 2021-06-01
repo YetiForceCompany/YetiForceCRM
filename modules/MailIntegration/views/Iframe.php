@@ -78,11 +78,10 @@ class MailIntegration_Iframe_View extends \App\Controller\Modal
 	{
 		$modules = [];
 		$quickCreate = App\Config::module('MailIntegration', 'modulesListQuickCreate', []);
-		foreach (App\Relation::getAll(App\Module::getModuleId('OSSMailView'), ['presence' => 0, 'related_module_presence' => 0]) as $relation) {
-			if ('getRecordToMails' === $relation['name']) {
-				$moduleName = App\Module::getModuleName($relation['related_tabid']);
-				if (App\Privilege::isPermitted($moduleName)) {
-					$modules[$moduleName] = $quickCreate[$moduleName] ?? Vtiger_Module_Model::getInstance($moduleName)->isQuickCreateSupported();
+		foreach (\App\Relation::getByModule('OSSMailView', true) as $relation) {
+			if (0 === $relation['presence'] && 'getRecordToMails' === $relation['name']) {
+				if (App\Privilege::isPermitted($relation['related_modulename'])) {
+					$modules[$relation['related_modulename']] = $quickCreate[$relation['related_modulename']] ?? Vtiger_Module_Model::getInstance($relation['related_modulename'])->isQuickCreateSupported();
 				}
 			}
 		}

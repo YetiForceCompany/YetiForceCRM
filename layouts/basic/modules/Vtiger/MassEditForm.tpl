@@ -31,12 +31,13 @@
 
 				<form id="massEdit" name="MassEdit" method="post" action="index.php">
 					{if !empty($MAPPING_RELATED_FIELD)}
-						<input type="hidden" name="mappingRelatedField"
-							   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+					{/if}
+					{if !empty($LIST_FILTER_FIELDS)}
+						<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
 					{/if}
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency"
-							   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
+						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 					{/if}
 					<input type="hidden" name="module" value="{$MODULE}"/>
 					<input type="hidden" name="action" value="MassSave"/>
@@ -51,7 +52,7 @@
 						   data-value="{\App\Purifier::encodeHtml(\App\Json::encode($MASS_EDIT_FIELD_DETAILS))}"/>
 
 					<div class="modal-body">
-						<ul class="nav nav-tabs">
+						<ul class="nav nav-tabs massEditTabs">
 							{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name=blockIterator}
 								{if $BLOCK_FIELDS|@count gt 0}
 									<li class="nav-item col-6 col-sm-4 p-0 text-center">
@@ -75,7 +76,7 @@
 														<div class="col-sm-6 col-lg-4">
 															<div class="btn-group-toggle mt-1 w-100" data-toggle="buttons">
 																<label class="btn btn-sm btn-outline-secondary w-100 text-right" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
-																	<input data-toggle="button" aria-pressed="false"
+																	<input aria-pressed="false"
 																		   autocomplete="off" type="checkbox"
 																		   id="selectRow{$FIELD_MODEL->getName()}"
 																		   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"

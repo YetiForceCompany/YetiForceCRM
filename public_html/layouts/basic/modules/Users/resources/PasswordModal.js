@@ -1,16 +1,19 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-$.Class("Users_PasswordModal_JS", {},
+$.Class(
+	'Users_PasswordModal_JS',
+	{},
 	{
-		registerValidatePassword: function(modal) {
-			modal.on('click', '.js-validate-password', function(e) {
+		registerValidatePassword: function (modal) {
+			modal.on('click', '.js-validate-password', function (e) {
 				AppConnector.request({
 					module: 'Users',
 					action: 'VerifyData',
 					mode: 'validatePassword',
+					record: modal.find('[name="record"]').val(),
 					password: modal.find('[name="' + $(e.currentTarget).data('field') + '"]').val()
-				}).done(function(data) {
+				}).done(function (data) {
 					if (data.success && data.result) {
 						Vtiger_Helper_Js.showMessage({
 							text: data.result.message,
@@ -20,7 +23,7 @@ $.Class("Users_PasswordModal_JS", {},
 				});
 			});
 		},
-		registerEvents: function(modal) {
+		registerEvents: function (modal) {
 			this.registerValidatePassword(modal);
 		}
 	}

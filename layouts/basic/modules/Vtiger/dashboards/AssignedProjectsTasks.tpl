@@ -21,7 +21,7 @@
 	</div>
 {/strip}
 <script type='text/javascript'>
-	$(document).ready(function () {
+	jQuery(function() {
 		jQuery('.dashboardWidgetContent').off('click', 'a[name="history_more"]');
 		jQuery('.dashboardWidgetContent').on('click', 'a[name="history_more"]', function (e) {
 			var element = jQuery(e.currentTarget);

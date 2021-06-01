@@ -2,7 +2,7 @@
 /**
  * Mail imap message file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -23,65 +23,49 @@ class Imap extends Base
 	 */
 	public $name = 'Imap';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getActions(): array
 	{
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function findRelatedRecords(bool $onlyId = false): array
 	{
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function findRelatedRecordsByEmail(): array
 	{
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function findRelatedRecordsBySubject(): array
 	{
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getExceptions(): array
 	{
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getUserId(): int
 	{
 		return 0;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getMailType(): int
 	{
 		return 0;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getMailCrmId()
 	{
 		if ($this->has('mailCrmId')) {
@@ -96,12 +80,10 @@ class Imap extends Base
 		}
 		$mailCrmId = $query->scalar();
 		$this->set('mailCrmId', $mailCrmId);
-		return  $mailCrmId;
+		return $mailCrmId;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEmailsFields(?string $searchModuleName = null): array
 	{
 		$cacheKey = $searchModuleName ?? '-';
@@ -126,6 +108,8 @@ class Imap extends Base
 
 	/**
 	 * Initialize with request data.
+	 *
+	 * @param \App\Request $request
 	 *
 	 * @return void
 	 */

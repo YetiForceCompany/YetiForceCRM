@@ -55,7 +55,7 @@
             v-scroll="onScroll"
             v-show="roomData.chatEntries && roomData.chatEntries.length && scrollButton"
             icon="mdi-chevron-down"
-            :class="isNewMessages ? 'animated shake animate-pop' : 'animate-pop'"
+            :class="isNewMessages ? 'animate__animated animate__shakeX animate__faster animate-pop' : 'animate-pop'"
             style="position: sticky; bottom: 10px; left: 10px;"
           ></q-btn>
         </q-scroll-area>

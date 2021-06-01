@@ -15,6 +15,7 @@
 			<div class="inner-container">
 				<form name="step{$STEP_NUMBER}" method="post" action="Install.php">
 					<input type="hidden" name="mode" value="{$NEXT_STEP}">
+					<input type="hidden" name="session_id" value="{session_id()}">
 					<div class="row">
 						<div class="col-md-8">
 							<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
@@ -57,7 +58,7 @@
 									</a>
 									<br/><br/>
 									{\App\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_2','Install')}
-									<a target="_blank" rel="noreferrer noopener" href="https://yetiforce.shop"
+									<a target="_blank" rel="noreferrer noopener" href="https://yetiforce.com"
 									   aria-label="{\App\Language::translate('LBL_SHOP_YETIFORCE', 'Install')}">
 										<span class="fas fa-shopping-cart ml-1"></span>
 									</a>

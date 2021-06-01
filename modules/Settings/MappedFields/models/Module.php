@@ -239,7 +239,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getName());
 		$fields = [];
 		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
-			if ($fieldModel->isActiveField() && $fieldModel->isEditable() && !\in_array($fieldModel->getUIType(), $this->getRestrictedUitypes())) {
+			if ($fieldModel->isActiveField() && !(false === $source && !($fieldModel->isEditable() && !\in_array($fieldModel->getUIType(), $this->getRestrictedUitypes())))) {
 				$blockName = $fieldModel->getBlockName();
 				if (!$blockName) {
 					$blockName = 'LBL_NOT_ASSIGNET_TO_BLOCK';

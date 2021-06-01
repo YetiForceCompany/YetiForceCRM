@@ -18,7 +18,7 @@ window.AppConnector = {
 	 *
 	 *  @return - deferred promise
 	 */
-	requestPjax: function(params) {
+	requestPjax: function (params) {
 		return AppConnector._request(params, true);
 	},
 
@@ -31,11 +31,11 @@ window.AppConnector = {
 	 *
 	 *  @return - deferred promise
 	 */
-	request: function(params, rawData) {
+	request: function (params, rawData) {
 		return AppConnector._request(params, false, rawData);
 	},
 
-	_request: function(params, pjaxMode, rawData) {
+	_request: function (params, pjaxMode, rawData) {
 		const aDeferred = jQuery.Deferred();
 		if (typeof rawData === 'undefined') {
 			rawData = false;
@@ -98,7 +98,7 @@ window.AppConnector = {
 		if (typeof params.url === 'undefined' || params.url.length <= 0) {
 			params.url = 'index.php';
 		}
-		params.success = function(data, status, jqXHR) {
+		params.success = function (data, status, jqXHR) {
 			if (data !== null && typeof data === 'object' && data.error) {
 				app.errorLog(data.error);
 				if (data.error.message) {
@@ -110,7 +110,7 @@ window.AppConnector = {
 			}
 			aDeferred.resolve(data);
 		};
-		params.error = function(jqXHR, textStatus, errorThrown) {
+		params.error = function (jqXHR, textStatus, errorThrown) {
 			let action = jqXHR.getResponseHeader('yf-action');
 			if (action === 'logout') {
 				window.location.href = 'index.php';
@@ -124,12 +124,7 @@ window.AppConnector = {
 					);
 					console.error(
 						'Error: ' + errorThrown,
-						'\n' +
-							sep +
-							'\nTrace:\n' +
-							sep +
-							'\n' +
-							(jqXHR.responseJSON ? jqXHR.responseJSON.error.trace : ''),
+						'\n' + sep + '\nTrace:\n' + sep + '\n' + (jqXHR.responseJSON ? jqXHR.responseJSON.error.trace : ''),
 						'\n' + sep + '\nParams:\n' + sep + '\n' + JSON.stringify(params, null, '\t')
 					);
 				} else {
@@ -166,7 +161,7 @@ window.AppConnector = {
 		return aDeferred.promise();
 	},
 
-	requestForm: function(url, params = {}) {
+	requestForm: function (url, params = {}) {
 		app.openUrlMethodPost(url, params);
 	}
 };

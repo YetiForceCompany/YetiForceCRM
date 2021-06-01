@@ -9,6 +9,6 @@
 			{$FIELD->getDisplayValue($VALUE, $INVENTORY_ROW)}
 		</span>
 	{/if}
-	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="{$INPUT_TYPE}" class="form-control form-control-sm {$FIELD->getColumnName()} valueVal" data-validation-engine="validate[maxSize[{$FIELD->getRangeValues()}]]" value="{$FIELD->getEditValue($VALUE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
+	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="{$INPUT_TYPE}" class="form-control form-control-sm {$FIELD->getColumnName()} valueVal" data-validation-engine="validate[maxSize[{$FIELD->getRangeValues()}]]" value="{$FIELD->getEditValue($VALUE)}" {if $FIELD->isReadOnly()}readonly="readonly"{/if}/>
 	<!-- /tpl-Base-inventoryfields-EditViewValue -->
 {/strip}

@@ -1,8 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<input type="hidden" id="filterAll" value='{$FILTERS}'>
-<input type="hidden" id="checkboxAll" value='{$CHECKBOXS}'>
-<input type="hidden" id="switchHeaderAll" value='{$SWITCHES_HEADER}'>
+<input type="hidden" id="filterAll" value='{\App\Purifier::encodeHtml($FILTERS)}'>
+<input type="hidden" id="checkboxAll" value='{\App\Purifier::encodeHtml($CHECKBOXS)}'>
+<input type="hidden" id="switchHeaderAll" value='{\App\Purifier::encodeHtml($SWITCHES_HEADER)}'>
+<input type="hidden" id="customView" value='{\App\Purifier::encodeHtml($CUSTOM_VIEW)}'>
 <div class="WidgetsManage">
 	<input type="hidden" name="tabid" value="{$SOURCE}">
 	<div class="o-breadcrumb widget_header row">

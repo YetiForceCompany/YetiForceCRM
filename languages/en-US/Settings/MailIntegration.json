@@ -1,0 +1,17 @@
+{
+  "php": {
+    "MailIntegration": "Mail integration panel",
+    "LBL_MAIL_INTEGRATION": "Mail integration panel",
+    "LBL_MAIL_INTEGRATION_DESCRIPTION": "CRM as an integration panel in an external mail client",
+    "LBL_OUTLOOK": "Outlook add-ins",
+    "LBL_OUTLOOK_ALERT": "Add-ins installation instructions can be found at %s",
+    "LBL_OUTLOOK_ADDRESSES": "Outlook mail server URLs",
+    "LBL_OUTLOOK_ADDRESSES_DESC": "List of addresses where the system will be available as an integration panel, mandatory for Outlook Web App e.g. %s",
+    "LBL_OUTLOOK_SCRIPT": "Allowed CDN servers for JavaScript",
+    "LBL_OUTLOOK_SCRIPT_DESC": "List of allowed CDN server addresses from which JavaScript files can be loaded, e.g. %s",
+    "LBL_OUTLOOK_ACTIVATED_ALERT": "Activation modifies the 'config / Security.php' file and reduces the security level, changes:\n- it allows loading CRM in an inframe\n- it allows loading of external scripts (https://appsforoffice.microsoft.com, https://ajax.aspnetcdn.com)\n- it disables HttpOnly in cookie \n- it changes cookie SameSite to None",
+    "LBL_QUICK_CREATE_MODULES": "List of quick create modules",
+    "LBL_QUICK_CREATE_MODULES_DESC": "List of modules in which data can be created from the integration panel. \n If no value is selected, the system will select the default quick create list",
+    "BTN_DOWNLOAD_OUTLOOK_INSTALLATION_FILE": "Download the outlook add-in installation file"
+  }
+}

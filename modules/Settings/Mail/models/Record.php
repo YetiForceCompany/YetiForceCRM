@@ -58,7 +58,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue(string  $key)
+	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {
@@ -78,7 +78,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				$value = \App\Fields\Owner::getUserLabel($value);
 				break;
 			case 'content':
-				$value = vtlib\Functions::getHtmlOrPlainText($value);
+				$value = \App\Layout::truncateHtml(vtlib\Functions::getHtmlOrPlainText($value), 'full');
 				break;
 			case 'date':
 				$value = DateTimeField::convertToUserFormat($value);
@@ -140,10 +140,12 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to delete the current Record Model.
+	 *
+	 * @return bool
 	 */
-	public function delete()
+	public function delete(): bool
 	{
-		\App\Db::getInstance('admin')->createCommand()
+		return \App\Db::getInstance('admin')->createCommand()
 			->delete('s_#__mail_queue', ['id' => $this->getId()])
 			->execute();
 	}

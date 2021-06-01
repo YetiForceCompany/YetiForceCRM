@@ -31,8 +31,7 @@ class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_Abst
 		$supportedCurrencies = [];
 		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
 		$source = $this->getSource();
-
-		$client = new \SoapClient($source[0]);
+		$client = new \SoapClient($source[0], \App\RequestHttp::getSoapOptions());
 		$curs = $client->GetCursOnDate(['On_date' => date('Y-m-d')]);
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
 
@@ -53,13 +52,15 @@ class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_Abst
 		return 'RUB';
 	}
 
-	/*
-	 * Fetch exchange rates
-	 * @param <Array> $currencies - list of systems active currencies
-	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
+	/**
+	 * Fetch exchange rates.
+	 *
+	 * @param <Array> $currencies        - list of systems active currencies
+	 * @param <Date>  $date              - date for which exchange is fetched
+	 * @param bool    $cron              - if true then it is fired by server and crms currency conversion rates are updated
+	 * @param mixed   $otherCurrencyCode
+	 * @param mixed   $dateParam
 	 */
-
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
@@ -73,9 +74,8 @@ class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_Abst
 		$mainCurrency = \App\Fields\Currency::getDefault()['currency_code'];
 
 		$dateCur = $dateParam;
-
 		$source = $this->getSource();
-		$client = new \SoapClient($source[0]);
+		$client = new \SoapClient($source[0], \App\RequestHttp::getSoapOptions());
 		$curs = $client->GetCursOnDate(['On_date' => $dateCur]);
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
 
@@ -102,7 +102,7 @@ class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_Abst
 					$exchangeVtiger = $exchangeRate / $exchange;
 					$exchange = $exchange / $exchangeRate;
 
-					if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+					if (true === $cron || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 						$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
 					}
 
@@ -128,7 +128,7 @@ class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_Abst
 			}
 
 			if ($mainCurrencyId) {
-				if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+				if (true === $cron || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 					$moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $exchangeRate);
 				}
 

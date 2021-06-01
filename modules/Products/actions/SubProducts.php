@@ -17,7 +17,7 @@ class Products_SubProducts_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		if (!$recordId) {
@@ -28,7 +28,7 @@ class Products_SubProducts_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$productId = $request->getInteger('record');
 		$values = [];

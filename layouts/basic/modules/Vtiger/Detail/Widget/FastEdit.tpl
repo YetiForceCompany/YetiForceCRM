@@ -8,7 +8,7 @@
 			<div class="c-detail-widget__header__container d-flex align-items-center py-1">
 				<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse"
 					data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">
-					<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="u-transform_rotate-180deg mdi mdi-chevron-dwon" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				</div>
 				<h5 class="mb-0" title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}">
 					{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
@@ -40,7 +40,7 @@
 					<select class="select2" name="q_{$FIELD_MODEL->getFieldName()}"
 						data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 						data-fieldinfo='{$FIELD_INFO|escape}' {if
-						!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}' {/if}
+						!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
 						data-selected-value='{$FIELD_MODEL->get(' fieldvalue')}' {if $FIELD_MODEL->isEditableReadOnly() ||
 						!$IS_AJAX_ENABLED || !$FIELD_MODEL->isAjaxEditable()}disabled="disabled"{/if}{if $PLACE_HOLDER}
 						data-select="allowClear"

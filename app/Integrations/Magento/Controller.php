@@ -2,6 +2,8 @@
 /**
  * Main class to integration with magento.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -101,8 +103,8 @@ class Controller
 	 */
 	public function synchronizeInvoices(): void
 	{
-		// $invoiceSynchronizer = new Synchronizer\Invoice($this);
-		// $invoiceSynchronizer->process();
+		$invoiceSynchronizer = new Synchronizer\Invoice($this);
+		$invoiceSynchronizer->process();
 	}
 
 	/**
@@ -130,13 +132,12 @@ class Controller
 	/**
 	 * Update inventory stock in all magento.
 	 *
-	 * @param int    $storageId
-	 * @param int[]  $products
-	 * @param string $operator
+	 * @param int $storageId
+	 * @param int $product
 	 *
 	 * @return void
 	 */
-	public static function updateStock(int $storageId, array $products): void
+	public static function updateStock(int $storageId, int $product): void
 	{
 		foreach (Config::getAllServers() as $serverId => $config) {
 			if (0 === (int) $config['status'] || 'None' === $config['storage_quantity_location']) {
@@ -144,7 +145,7 @@ class Controller
 			}
 			$customerSynchronizer = new Synchronizer\InventoryStock(new self($serverId));
 			$customerSynchronizer->storageId = $storageId;
-			$customerSynchronizer->products = $products;
+			$customerSynchronizer->product = $product;
 			$customerSynchronizer->process();
 		}
 	}

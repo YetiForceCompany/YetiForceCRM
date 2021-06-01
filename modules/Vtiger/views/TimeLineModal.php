@@ -3,6 +3,8 @@
 /**
  * TimeLineModal View Class.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -16,12 +18,9 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		if (!\App\Privilege::isPermitted('ModTracker')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$moduleName = $request->getModule();
@@ -36,7 +35,7 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 	 * @param \App\Request $request
 	 * @param type         $display
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		echo '<div class="modal-header">
@@ -52,8 +51,9 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 	 * The final process.
 	 *
 	 * @param \App\Request $request
+	 * @param mixed        $display
 	 */
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		parent::postProcess($request);
 		echo '</div>';
@@ -64,7 +64,7 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$request->set('limit', App\Config::module('ModTracker', 'TIMELINE_IN_LISTVIEW_LIMIT'));
@@ -73,6 +73,7 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 
 		$viewClassName = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$instance = new $viewClassName();
+		$instance->record = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
 
 		$this->preProcess($request);
 		echo $instance->showRecentRelation($request);

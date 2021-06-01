@@ -6,16 +6,17 @@
  * @package 	App
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * VTEmailReport class.
  */
 class VTEmailReport extends VTTask
 {
-	/** @var bool Sending email takes more time, this should be handled via queue all the time. */
-	public $executeImmediately = true;
+	/** {@inheritdoc} */
+	public $recordEventState = self::RECORD_EVENT_INACTIVE;
 
 	/**
 	 * Get field names.
@@ -24,7 +25,7 @@ class VTEmailReport extends VTTask
 	 */
 	public function getFieldNames()
 	{
-		return ['template', 'members'];
+		return ['template', 'members', 'emailoptout'];
 	}
 
 	/**
@@ -32,15 +33,16 @@ class VTEmailReport extends VTTask
 	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public function doTask($recordModel)
+	public function doTask($recordModel = null)
 	{
 		$users = [];
 		foreach ($this->members as $member) {
 			$users = array_merge($users, \App\PrivilegeUtil::getUserByMember($member));
 		}
 		foreach (array_unique($users) as $user) {
-			$userRecodModel = \Vtiger_Record_Model::getInstanceById($user, 'Users');
-			if (!empty($userEmail = $userRecodModel->get('email1'))) {
+			$userRecordModel = \Vtiger_Record_Model::getInstanceById($user, 'Users');
+			$checkApproval = (bool) ($this->emailoptout ?? null);
+			if ('Active' === $userRecordModel->get('status') && !empty($userEmail = $userRecordModel->get('email1')) && (!$checkApproval || $userRecordModel->get('emailoptout'))) {
 				(new \App\BatchMethod(['method' => '\App\Mailer::sendFromTemplate', 'params' => ['params' => [
 					'template' => $this->template,
 					'to' => $userEmail,

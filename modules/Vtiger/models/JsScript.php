@@ -58,7 +58,7 @@ class Vtiger_JsScript_Model extends \App\Base
 		$objectProperties = get_object_vars($linkObj);
 		$linkModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$linkModel->$properName = $propertyValue;
+			$linkModel->{$properName} = $propertyValue;
 		}
 		return $linkModel->setData($objectProperties);
 	}

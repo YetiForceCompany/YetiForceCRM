@@ -6,27 +6,6 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
-	'product_name' => [
-		'default' => 'YetiForce',
-		'description' => 'Product name',
-		'validation' => function () {
-			$arg = func_get_arg(0);
-			return $arg && \App\Purifier::purify($arg);
-		},
-		'sanitization' => '\App\Purifier::purify'
-	],
-	'validate_cert' => [
-		'default' => false,
-		'description' => 'Validate cert',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
-	],
-	'imap_open_add_connection_type' => [
-		'default' => true,
-		'description' => 'Add connection type',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
-	],
 	'default_host' => [
 		'default' => ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com'],
 		'description' => 'Default host.',
@@ -37,7 +16,7 @@ return [
 			}
 			$arg = (array) \App\Purifier::purify($arg);
 			foreach ($arg as $url) {
-				if (!\App\Validator::url($url)) {
+				if (!\App\Validator::urlDomain($url)) {
 					return false;
 				}
 			}
@@ -73,6 +52,38 @@ return [
 		},
 		'sanitization' => '\App\Purifier::purify'
 	],
+	'smtp_port' => [
+		'default' => 465,
+		'description' => 'Default smtp port',
+		'validation' => '\App\Validator::port',
+		'sanitization' => function () {
+			return (int) func_get_arg(0);
+		}
+	],
+	'username_domain' => [
+		'default' => 'gmail.com',
+		'description' => 'User name domain',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return '' === $arg || \App\Validator::domain($arg);
+		}
+	],
+	'validate_cert' => [
+		'default' => false,
+		'description' => 'Validate cert',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
+	'imap_open_add_connection_type' => [
+		'default' => true,
+		'description' => 'Add connection type',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
+	'imap_params' => [
+		'default' => [],
+		'description' => 'Enable this for imapConnect and MS Exchange bug "Kerberos error: Credentials cache file  ... not found "DISABLE_AUTHENTICATOR" => "GSSAPI"',
+	],
 	'smtp_user' => [
 		'default' => '%u',
 		'description' => 'Login to SMTP server',
@@ -90,14 +101,6 @@ return [
 			return !empty($arg) && 256 > \App\TextParser::getTextLength($arg);
 		}
 	],
-	'smtp_port' => [
-		'default' => 465,
-		'description' => 'Default smtp port',
-		'validation' => '\App\Validator::port',
-		'sanitization' => function () {
-			return (int) func_get_arg(0);
-		}
-	],
 	'language' => [
 		'default' => 'en_US',
 		'description' => 'Set default language',
@@ -106,16 +109,8 @@ return [
 			return $arg && \in_array($arg, \Settings_OSSMail_Config_Model::LANGUAGES);
 		}
 	],
-	'username_domain' => [
-		'default' => 'gmail.com',
-		'description' => 'User name domain',
-		'validation' => function () {
-			$arg = func_get_arg(0);
-			return '' === $arg || \App\Validator::domain($arg);
-		}
-	],
 	'skin_logo' => [
-		'default' => ['*' => '/images/null.png'],
+		'default' => '/images/null.png',
 		'description' => 'Skin logo',
 		'validation' => function () {
 			$arg = func_get_arg(0);
@@ -151,7 +146,7 @@ return [
 	],
 	'session_lifetime' => [
 		'default' => 30,
-		'description' => 'Set session lifetime',
+		'description' => 'Session lifetime in minutes',
 		'validation' => '\App\Validator::naturalNumber',
 		'sanitization' => function () {
 			return (int) func_get_arg(0);
@@ -162,16 +157,15 @@ return [
 		'default' => 'roundcube_',
 		'description' => 'Set default prefix'
 	],
-	'support_url' => [
-		'default' => 'http://yetiforce.com',
-		'description' => 'Support url'
-	],
 	'des_key' => [
-		'default' => 'rGOQ26hR%gxlZk=QA!$HMOvb',
-		'description' => 'Encryption key of data',
+		'default' => \App\Encryption::generatePassword(24),
+		'description' => 'This key is used for encrypting purposes, like storing of imap password in the session. For the default cipher_method a required key length is 24 characters.',
+		'validation' => '\App\Validator::alnum',
 	],
 	'plugins' => [
-		'default' => ['identity_smtp', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status', 'html5_notifier'],
+		'default' => [
+			'identity_smtp', 'thunderbird_labels', 'zipdownload', 'archive', 'html5_notifier', 'advanced_search', 'contextmenu', 'yetiforce', //'enigma'
+		],
 		'description' => 'List of plugins',
 	],
 	'mime_param_folding' => [
@@ -186,9 +180,17 @@ return [
 		'default' => 30,
 		'description' => 'Mail page size.'
 	],
-	'addressbook_pagesize' => [
-		'default' => 50,
-		'description' => 'Address book page size.'
+	'imap_cache' => [
+		'default' => 'db',
+		'description' => "Imap cache, Values: 'db', 'apc' and 'memcache' or 'memcached'",
+	],
+	'messages_cache' => [
+		'default' => 'db',
+		'description' => "Enables messages cache. Only 'db' cache is supported.",
+	],
+	'messages_cache_threshold' => [
+		'default' => 1000,
+		'description' => "Maximum cached message size in kilobytes.\nNote: On MySQL this should be less than (max_allowed_packet - 30%)",
 	],
 	'prefer_html' => [
 		'default' => true,
@@ -226,29 +228,26 @@ return [
 		'default' => 'H:i',
 		'description' => 'Set time format',
 	],
+	'time_formats' => [
+		'default' => ['G:i', 'H:i', 'g:i a', 'h:i A', 'H:i:s (T P)'],
+		'description' => 'give this choice of time formats to the user to select from',
+	],
 	'show_images' => [
 		'default' => 0,
-		'description' => 'Turn on/off show images. Value: 0/1',
-	],
-	'imap_cache' => [
-		'default' => 'db',
-		'description' => 'Imap cache',
-	],
-	'messages_cache' => [
-		'default' => 'db',
-		'description' => 'messages_cache',
+		'description' => 'Display remote resources (inline images, styles). Value: 0 - Never, always ask, 1 - Ask if sender is not in address book, 2 - Always allow',
 	],
 	'reply_mode' => [
 		'default' => 1,
 		'description' => 'Set reply mode'
 	],
-	'imap_max_retries' => [
-		'default' => 0,
-		'description' => 'Max retries imap '
+	'default_charset' => [
+		'default' => 'UTF-8',
+		'description' => 'Use this charset as fallback for message decoding'
 	],
-	'imap_params' => [
-		'default' => [],
-		'description' => 'Enable this for imap and MS Exchange bug "Kerberos error: Credentials cache file  ... not found "DISABLE_AUTHENTICATOR" => "GSSAPI"',
+	'root_directory' => [
+		'type' => 'function',
+		'default' => 'return ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;',
+		'description' => 'Root directory',
 	],
 	'debug_level' => [
 		'type' => 'function',
@@ -270,7 +269,7 @@ return [
 		'default' => 'return \Config\Debug::$ROUNDCUBE_LOG_LOGINS;',
 		'description' => 'Logins successful/failed',
 	],
-	'log_session' => [
+	'session_debug' => [
 		'type' => 'function',
 		'default' => 'return \Config\Debug::$ROUNDCUBE_LOG_SESSION;',
 		'description' => 'Session authentication debug',
@@ -340,20 +339,29 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 		'description' => 'Connection options smtp.',
 	],
 	'smtp_timeout' => [
-		'default' => 5,
+		'default' => 10,
 		'description' => 'Smtp time out',
 	],
 	'smtp_helo_host' => [
 		'default' => 'YetiForceCRM',
 		'description' => 'The value to give when sending'
 	],
-	'skin' => [
-		'default' => 'yetiforce',
-		'description' => 'Set the skin'
+	'product_name' => [
+		'default' => '',
+		'description' => 'Name your service. This is displayed on the login screen and in the window title',
 	],
-	'layout' => [
-		'default' => 'desktop',
-		'description' => 'Set the desktop'
+	'useragent' => [
+		'default' => 'YetiForce Webmail',
+		'description' => 'Add this user-agent to message headers when sending',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return $arg && \App\Purifier::purify($arg);
+		},
+		'sanitization' => '\App\Purifier::purify'
+	],
+	'skin' => [
+		'default' => 'elastic',
+		'description' => 'Set the skin'
 	],
 	'list_cols' => [
 		'default' => ['flag', 'status', 'subject', 'fromto', 'date', 'size', 'attachment', 'authres_status', 'threads'],
@@ -367,12 +375,24 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 		'default' => 127,
 		'description' => 'Show statuses'
 	],
-	'root_directory' => [
-		'default' => new \Nette\PhpGenerator\PhpLiteral('ROOT_DIRECTORY . DIRECTORY_SEPARATOR'),
-		'description' => 'Root directory',
-	],
 	'enable_variables_in_signature' => [
 		'default' => false,
 		'description' => 'Enable variables in signature'
+	],
+	'address_book_type' => [
+		'default' => '',
+		'description' => 'Contact functionality is disabled'
+	],
+	'message_show_email' => [
+		'default' => true,
+		'description' => 'Enables display of email address with name instead of a name (and address in title)'
+	],
+	'addressbook_pagesize' => [
+		'default' => 50,
+		'description' => 'Address book page size.'
+	],
+	'junk_mbox' => [
+		'default' => '',
+		'description' => 'Store spam messages in this mailbox'
 	],
 ];

@@ -15,7 +15,7 @@ class OSSPasswords_List_View extends Vtiger_List_View
 	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'libraries.clipboard.dist.clipboard',

@@ -5,6 +5,8 @@ namespace App;
 /**
  * Session class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -12,7 +14,14 @@ namespace App;
 class Session
 {
 	/**
-	 * @var type
+	 *  @var string Session path
+	 */
+	const SESSION_PATH = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'session';
+
+	/**
+	 * Session handler.
+	 *
+	 * @var \App\Session\Base
 	 */
 	public static $pool;
 
@@ -24,13 +33,25 @@ class Session
 		if (PHP_SESSION_ACTIVE === \session_status()) {
 			return;
 		}
-		$driver = \App\Config::performance('SESSION_DRIVER');
-		if ($driver) {
-			$className = '\App\Session\\' . $driver;
-			static::$pool = new $className();
-			\session_set_save_handler(static::$pool, true);
+		if (self::load()) {
+			\session_set_save_handler(self::$pool, true);
 		}
 		\session_start();
+	}
+
+	/**
+	 * Load session driver.
+	 *
+	 * @return bool
+	 */
+	public static function load(): bool
+	{
+		if (empty(self::$pool) && !empty(\Config\Performance::$SESSION_DRIVER)) {
+			$className = '\App\Session\\' . \Config\Performance::$SESSION_DRIVER;
+			self::$pool = new $className();
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -137,6 +158,34 @@ class Session
 	{
 		if (!empty(static::$pool)) {
 			return static::$pool->clean();
+		}
+		return [];
+	}
+
+	/**
+	 * Function to clean all session.
+	 *
+	 * @return int
+	 */
+	public static function cleanAll(): int
+	{
+		if (!empty(static::$pool)) {
+			return static::$pool->cleanAll();
+		}
+		return 0;
+	}
+
+	/**
+	 * Function to get session data by id.
+	 *
+	 * @param string $sessionId
+	 *
+	 * @return array
+	 */
+	public static function getById(string $sessionId): array
+	{
+		if (!empty(static::$pool)) {
+			return static::$pool->getById($sessionId);
 		}
 		return [];
 	}

@@ -2,6 +2,8 @@
 /**
  * Multi image class to handle files.
  *
+ * @package Files
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -89,5 +91,31 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 			]);
 			$response->emit();
 		}
+	}
+
+	/**
+	 * Api function to get file.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return \App\Fields\File
+	 */
+	public function api(App\Request $request): App\Fields\File
+	{
+		if ($request->isEmpty('key', 2)) {
+			throw new \App\Exceptions\NoPermitted('Not Acceptable', 406);
+		}
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		$key = $request->getByType('key', 2);
+		$value = \App\Json::decode($recordModel->get($request->getByType('field', 2)));
+		foreach ($value as $item) {
+			if ($item['key'] === $key) {
+				return \App\Fields\File::loadFromInfo([
+					'path' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $item['path'],
+					'name' => $item['name'],
+				]);
+			}
+		}
+		throw new \App\Exceptions\AppException('ERR_FILE_NOT_FOUND', 404);
 	}
 }

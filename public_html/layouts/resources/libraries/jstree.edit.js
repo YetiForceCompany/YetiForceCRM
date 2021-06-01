@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /*globals jQuery, define, exports, require, document */
-(function(factory) {
+(function (factory) {
 	'use strict';
 	if (typeof define === 'function' && define.amd) {
 		define('jstree.edit', ['jquery', 'jstree'], factory);
@@ -9,7 +9,7 @@
 	} else {
 		factory(jQuery, jQuery.jstree);
 	}
-})(function($, jstree) {
+})(function ($, jstree) {
 	'use strict';
 
 	if ($.jstree.plugins.edit) {
@@ -22,19 +22,19 @@
 	var _i = document.createElement('I');
 	_i.className = 'jstree-edit .fas noAction ';
 	_i.setAttribute('role', 'presentation');
-	$.jstree.plugins.edit = function(options, parent) {
-		this.bind = function() {
+	$.jstree.plugins.edit = function (options, parent) {
+		this.bind = function () {
 			parent.bind.call(this);
 			this.element.on(
 				'select_node.jstree',
-				$.proxy(function(obj, data) {
+				$.proxy(function (obj, data) {
 					const modal = $(data.event.currentTarget).closest('#treePopupContainer');
 					const module = modal.find('#relatedModule').val();
 					if ($(data.event.target).hasClass('jstree-edit')) {
 						const obj = data.node;
 						if (obj.original.attr !== 'record') {
 							app.hideModalWindow();
-							const callbackFunction = function() {
+							const callbackFunction = function () {
 								$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
 								Vtiger_Detail_Js.getInstance().loadWidgets();
 							};
@@ -47,24 +47,24 @@
 								},
 								noCache: true
 							};
-							Vtiger_Header_Js.getInstance().quickCreateModule(module, QuickCreateParams);
+							App.Components.QuickCreate.createRecord(module, QuickCreateParams);
 						} else {
 							app.hideModalWindow();
 							Vtiger_Helper_Js.showConfirmationBox({
 								message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')
 							})
-								.done(function(e) {
+								.done(function (e) {
 									AppConnector.request({
 										module: module,
 										action: 'State',
 										record: obj.original.record_id,
 										state: 'Trash'
-									}).done(function(res) {
+									}).done(function (res) {
 										$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
 										Vtiger_Detail_Js.getInstance().loadWidgets();
 									});
 								})
-								.fail(function() {
+								.fail(function () {
 									$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
 								});
 						}
@@ -72,7 +72,7 @@
 				}, this)
 			);
 		};
-		this.redraw_node = function(obj, deep, is_callback, force_render) {
+		this.redraw_node = function (obj, deep, is_callback, force_render) {
 			obj = parent.redraw_node.apply(this, arguments);
 			if (obj) {
 				var i,

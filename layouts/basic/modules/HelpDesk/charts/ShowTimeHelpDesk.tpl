@@ -1,7 +1,7 @@
 {if $DATA['show_chart']}
 {literal}
 	<script>
-		$(document).ready(function () {
+		jQuery(function() {
 			function generateData() {
 				var jData = $('.chartData').val();
 				var data = JSON.parse(jData);
@@ -56,4 +56,3 @@
 		{\App\Language::translate('LBL_RECORDS_NO_FOUND')}
 	</div>
 {/if}
-

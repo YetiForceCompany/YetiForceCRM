@@ -31,20 +31,12 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
-	'DEFAULT_VIEW_RECORD' => [
-		'default' => 'LBL_RECORD_PREVIEW',
-		'description' => 'Default view for record detail view. Values: LBL_RECORD_DETAILS or LBL_RECORD_SUMMARY',
-		'validation' => function () {
-			$arg = func_get_arg(0);
-			return $arg === 'LBL_RECORD_PREVIEW' || $arg === 'LBL_RECORD_SUMMARY';
-		}
-	],
 	'defaultViewName' => [
 		'default' => 'List',
 		'description' => 'Default module view. Values: List, ListPreview or DashBoard, refresh menu files after you change this value',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return $arg === 'List' || $arg === 'ListPreview' || $arg === 'DashBoard';
+			return 'List' === $arg || 'ListPreview' === $arg || 'DashBoard' === $arg;
 		}
 	],
 	'defaultDetailViewName' => [
@@ -52,7 +44,7 @@ return [
 		'description' => 'Default record view for list preview. Values: full or summary',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return $arg === 'full' || $arg === 'summary';
+			return 'full' === $arg || 'summary' === $arg;
 		}
 	],
 ];

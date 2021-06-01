@@ -14,20 +14,19 @@ class Users_DeleteAjax_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
 			return true;
-		} else {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
+		throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userid = $request->getInteger('record');
@@ -36,7 +35,7 @@ class Users_DeleteAjax_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$usersList = $userRecordModel->getAll(true);
 
-		if (array_key_exists($userid, $usersList)) {
+		if (\array_key_exists($userid, $usersList)) {
 			unset($usersList[$userid]);
 		}
 

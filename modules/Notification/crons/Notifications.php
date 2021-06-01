@@ -69,9 +69,11 @@ class Notification_Notifications_Cron extends \App\CronHandler
 	private function existNotifications($userId, $startDate, $endDate)
 	{
 		$scheduleData = Vtiger_Watchdog_Model::getWatchingModulesSchedule($userId, true);
-		$modules = $scheduleData['modules'];
-
-		return Notification_Module_Model::getEmailSendEntries($userId, $modules, $startDate, $endDate, true);
+		if ($scheduleData) {
+			$modules = $scheduleData['modules'];
+			return Notification_Module_Model::getEmailSendEntries($userId, $modules, $startDate, $endDate, true);
+		}
+		return [];
 	}
 
 	/**

@@ -3,9 +3,12 @@
 /**
  * Base tree modal view class.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_TreeModal_View extends \App\Controller\Modal
 {
@@ -110,7 +113,7 @@ class Vtiger_TreeModal_View extends \App\Controller\Modal
 	 */
 	public function getModalCss(App\Request $request)
 	{
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
+		return array_merge(parent::getModalCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 		]));
 	}

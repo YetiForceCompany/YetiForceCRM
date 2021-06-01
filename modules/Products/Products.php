@@ -21,14 +21,7 @@ class Products extends CRMEntity
 	public $customFieldTable = ['vtiger_productcf', 'productid'];
 	public $tab_name = ['vtiger_crmentity', 'vtiger_products', 'vtiger_productcf'];
 	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_products' => 'productid', 'vtiger_productcf' => 'productid', 'vtiger_seproductsrel' => 'productid'];
-	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = [
-		'Product Name' => ['products' => 'productname'],
-		'Part Number' => ['products' => 'productcode'],
-		'Commission Rate' => ['products' => 'commissionrate'],
-		'Qty/Unit' => ['products' => 'qty_per_unit'],
-		'Unit Price' => ['products' => 'unit_price'],
-	];
+
 	public $list_fields_name = [
 		'Product Name' => 'productname',
 		'Part Number' => 'productcode',
@@ -36,7 +29,7 @@ class Products extends CRMEntity
 		'Qty/Unit' => 'qty_per_unit',
 		'Unit Price' => 'unit_price',
 	];
-	public $list_link_field = 'productname';
+
 	public $search_fields = [
 		'Product Name' => ['products' => 'productname'],
 		'Part Number' => ['products' => 'productcode'],

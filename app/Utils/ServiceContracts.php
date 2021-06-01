@@ -2,7 +2,7 @@
 /**
  * Service contracts utils file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -75,7 +75,7 @@ class ServiceContracts
 	 *
 	 * @return array
 	 */
-	private static function getDefaultBusinessHours(): array
+	public static function getDefaultBusinessHours(): array
 	{
 		if (\App\Cache::has('UtilsServiceContracts::getDefaultBusinessHours', '')) {
 			return \App\Cache::get('UtilsServiceContracts::getDefaultBusinessHours', '');
@@ -277,8 +277,8 @@ class ServiceContracts
 		$days = $holidays = [];
 		foreach ($rows as $row) {
 			foreach (explode(',', $row['working_days']) as $day) {
-				if ((isset($days[$day]['working_hours_from']) && (int) $row['working_hours_from'] < (int) $days[$day]['working_hours_from']) ||
-					empty($days[$day]['working_hours_from'])) {
+				if ((isset($days[$day]['working_hours_from']) && (int) $row['working_hours_from'] < (int) $days[$day]['working_hours_from'])
+					|| empty($days[$day]['working_hours_from'])) {
 					$days[$day] = [
 						'working_hours_from' => $row['working_hours_from'],
 						'working_hours_to' => $row['working_hours_to'],
@@ -288,8 +288,8 @@ class ServiceContracts
 					];
 				}
 			}
-			if (!empty($row['holidays']) && ((isset($holidays['working_hours_from']) && (int) $row['working_hours_from'] < (int) $holidays['working_hours_from']) ||
-				empty($holidays['working_hours_from']))) {
+			if (!empty($row['holidays']) && ((isset($holidays['working_hours_from']) && (int) $row['working_hours_from'] < (int) $holidays['working_hours_from'])
+				|| empty($holidays['working_hours_from']))) {
 				$holidays = [
 					'working_hours_from' => $row['working_hours_from'],
 					'working_hours_to' => $row['working_hours_to'],

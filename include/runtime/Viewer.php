@@ -205,7 +205,6 @@ class Vtiger_Viewer extends SmartyBC
 				return $this->fetch($templatePath);
 			}
 			$this->display($templatePath);
-
 			return true;
 		}
 		return false;

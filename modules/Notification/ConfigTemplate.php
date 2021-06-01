@@ -17,5 +17,10 @@ return [
 		'description' => 'Auto mark notifications as readed after send emails to users',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
+	],
+	'MAX_NUMBER_NOTIFICATIONS' => [
+		'default' => 200,
+		'description' => 'Max number of notifications to display, 0 - no limits',
+		'validation' => '\App\Validator::naturalNumber',
 	]
 ];

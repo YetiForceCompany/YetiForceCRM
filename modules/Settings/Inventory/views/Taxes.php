@@ -16,7 +16,7 @@ class Settings_Inventory_Taxes_View extends Settings_Inventory_CreditLimits_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function processTplName(\App\Request $request)
+	public function processTplName(App\Request $request)
 	{
 		return 'Taxes.tpl';
 	}

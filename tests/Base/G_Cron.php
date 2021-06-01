@@ -3,6 +3,8 @@
 /**
  * Cron test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -13,16 +15,12 @@ namespace Tests\Base;
 class G_Cron extends \Tests\Base
 {
 	/**
-	 * Remove file if using php7.1
 	 * Prepare mail config for mail functionalities.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public static function setUpBeforeClass(): void
 	{
-		if (\App\Version::compare(PHP_VERSION, '7.1.x')) {
-			\unlink('app/SystemWarnings/Security/Dependencies.php');
-		}
 		if (!empty($_SERVER['YETI_MAIL_PASS'])) {
 			$db = \App\Db::getInstance();
 			$db->createCommand()
@@ -30,7 +28,7 @@ class G_Cron extends \Tests\Base
 					'username' => 'yetiforcegitdevelopery@gmail.com',
 					'mail_host' => 'imap.gmail.com',
 					'language' => 'en_US',
-					'preferences' => 'a:3:{s:9:"junk_mbox";s:12:"[Gmail]/Spam";s:10:"trash_mbox";s:12:"[Gmail]/Kosz";s:11:"client_hash";s:32:"0e1f51526f56ef769dbd1f58a674f106";}',
+					'preferences' => 'a:1:{s:11:"client_hash";s:16:"UmfW5Tgq7vMU35P0";}',
 					'password' => $_SERVER['YETI_MAIL_PASS'],
 					'crm_user_id' => '1',
 					'actions' => 'CreatedEmail,CreatedHelpDesk,BindAccounts,BindContacts,BindLeads,BindHelpDesk,BindSSalesProcesses,BindCampaigns,BindCompetition,BindOSSEmployees,BindPartners,BindProject,BindServiceContracts,BindVendors',
@@ -61,24 +59,25 @@ class G_Cron extends \Tests\Base
 	/**
 	 * Cron testing.
 	 */
-	public function test()
+	public function test(): void
 	{
-		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'OpenStreetMap');
-		echo PHP_EOL;
+		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'OpenStreetMap_UpdaterRecordsCoordinates_Cron');
+		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'OpenStreetMap_UpdaterCoordinates_Cron');
+		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'Vtiger_SystemWarnings_Cron');
 		require_once 'cron.php';
 		$rows = (new \App\Db\Query())->select(['modue' => 'setype', 'rows' => 'count(*)'])->from('vtiger_crmentity')->groupBy('setype')->orderBy(['rows' => SORT_DESC])->all();
 		$c = '';
 		foreach ($rows as $value) {
-			$c .= "{$value['modue']} = {$value['rows']}" . PHP_EOL;
+			$c .= "{$value['modue']} = {$value['rows']}, | ";
 		}
-		\file_put_contents('tests/records.log', $c, FILE_APPEND);
+		\file_put_contents(ROOT_DIRECTORY . '/tests/records.log', $c . PHP_EOL, FILE_APPEND);
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_cron_task')->where(['status' => 2])->exists());
 	}
 
 	/**
 	 * Testing last cron start getter.
 	 */
-	public function testGetLastCronStart()
+	public function testGetLastCronStart(): void
 	{
 		$module = \Settings_CronTasks_Module_Model::getInstance('Settings:CronTasks');
 		$this->assertNotSame(0, $module->getLastCronStart(), 'Last cron start is 0');

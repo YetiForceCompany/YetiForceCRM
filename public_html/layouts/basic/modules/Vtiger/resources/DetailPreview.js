@@ -8,10 +8,10 @@ $.Class(
 		/**
 		 * Redirects to the clicked link from the iframe.
 		 */
-		registerLinkEvent: function() {
-			$('#page').on('click', 'a', function(e) {
+		registerLinkEvent: function () {
+			$('#page').on('click', 'a', function (e) {
 				e.preventDefault();
-				var target = $(this);
+				let target = $(this);
 				if (!target.closest('div').hasClass('fieldValue') || target.hasClass('showReferenceTooltip')) {
 					if (target.attr('href') && target.attr('href') != '#') {
 						top.location.href = target.attr('href');
@@ -22,7 +22,7 @@ $.Class(
 		/**
 		 * Redirects to the current iframe parent.
 		 */
-		updateParentFrame: function() {
+		updateParentFrame: function () {
 			parent.app.getPageController().updateWindowHeight($('.mainContainer').height(), $(window.frameElement));
 		},
 		/**
@@ -30,10 +30,10 @@ $.Class(
 		 * @param {jQuery} currentHeight - ifrmae body height to be set.
 		 * @param {jQuery} frame - ifrmae height to be changed.
 		 */
-		updateWindowHeight: function(currentHeight, frame) {
-			var thisInstance = this;
-			var relatedContents = frame.closest('.relatedContents');
-			var fixedListHeight = relatedContents.find('.js-list-preview--scroll').height();
+		updateWindowHeight: function (currentHeight, frame) {
+			let thisInstance = this;
+			let relatedContents = frame.closest('.relatedContents');
+			let fixedListHeight = relatedContents.find('.js-list-preview--scroll').height();
 			frame.height(currentHeight);
 			if (fixedListHeight > currentHeight) {
 				currentHeight = fixedListHeight;
@@ -49,16 +49,16 @@ $.Class(
 		/**
 		 * Creates ResizeSensor, which detects size changes.
 		 */
-		registerSizeEvent: function() {
-			var thisInstance = this;
-			new ResizeSensor($('.mainContainer'), function() {
+		registerSizeEvent: function () {
+			let thisInstance = this;
+			new ResizeSensor($('.mainContainer'), function () {
 				thisInstance.updateParentFrame();
 			});
 		},
 		/**
 		 * Register detail events
 		 */
-		registerDetailEvent: function() {
+		registerDetailEvent: function () {
 			let moduleClassName = app.getModuleName() + '_Detail_Js',
 				parent = false;
 			if (typeof window[moduleClassName] === 'undefined') {
@@ -87,7 +87,7 @@ $.Class(
 		/**
 		 * Registers DetailPreview events.
 		 */
-		registerEvents: function() {
+		registerEvents: function () {
 			this.registerDetailEvent();
 			this.registerLinkEvent();
 			this.registerSizeEvent();

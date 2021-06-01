@@ -23,9 +23,9 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 	 *
 	 * @param \App\Request $request
 	 */
-	public function step1(\App\Request $request)
+	public function step1(App\Request $request)
 	{
-		if ($request->isEmpty('record') === false) {
+		if (!$request->isEmpty('record', true)) {
 			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->getInteger('record'));
 		} else {
 			$recordModel = new Settings_AdvancedPermission_Record_Model();
@@ -46,7 +46,7 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 	 *
 	 * @param \App\Request $request
 	 */
-	public function step2(\App\Request $request)
+	public function step2(App\Request $request)
 	{
 		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->getInteger('record'));
 		$conditions = Vtiger_AdvancedFilter_Helper::transformToSave($request->getArray('conditions', 'Text'));

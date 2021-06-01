@@ -13,7 +13,7 @@ class Settings_CronTasks_UpdateSequence_Action extends Settings_Vtiger_Index_Act
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleModel = Settings_CronTasks_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();

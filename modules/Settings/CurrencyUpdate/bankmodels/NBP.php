@@ -39,7 +39,9 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		while (!$stateA) {
 			$url = $tableUrl . $dateCur . '/?format=json';
 			try {
-				$tryTable = (new \GuzzleHttp\Client())->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
+				\App\Log::beginProfile("GET|NBP::getSupportedCurrencies|{$url}", 'CurrencyUpdate');
+				$tryTable = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
+				\App\Log::endProfile("GET|NBP::getSupportedCurrencies|{$url}", 'CurrencyUpdate');
 				if (200 == $tryTable->getStatusCode()) {
 					$stateA = true;
 					$tableBody = $tryTable->getBody();
@@ -112,7 +114,9 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		while (!$stateA) {
 			$url = $tableUrl . $dateCur . '/?format=json';
 			try {
-				$tryTable = (new \GuzzleHttp\Client())->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
+				\App\Log::beginProfile("GET|NBP|{$url}", __NAMESPACE__);
+				$tryTable = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
+				\App\Log::endProfile("GET|NBP|{$url}", __NAMESPACE__);
 				if (200 == $tryTable->getStatusCode()) {
 					$stateA = true;
 					$tableBody = $tryTable->getBody();

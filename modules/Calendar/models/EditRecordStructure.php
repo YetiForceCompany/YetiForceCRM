@@ -13,29 +13,26 @@
  */
 class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 {
-	/**
-	 * Function to get the values in stuctured format.
-	 *
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
-	 */
+	/** {@inheritdoc} */
 	public function getStructure()
 	{
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
-
 		$values = [];
 		$recordModel = $this->getRecord();
 		$recordExists = !empty($recordModel);
 		$moduleModel = $this->getModule();
 		$blockModelList = $moduleModel->getBlocks();
-
+		if ($recordExists) {
+			$fieldsDependency = \App\FieldsDependency::getByRecordModel($recordModel->isNew() ? 'Create' : 'Edit', $recordModel);
+		}
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty($fieldModelList)) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if ($fieldModel->isEditable()) {
+					if ($fieldModel->isEditable() && (empty($fieldsDependency['hide']['backend']) || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
 						if ($recordExists) {
 							$fieldValue = $recordModel->get($fieldName);
 							if ('date_start' === $fieldName) {
@@ -56,6 +53,12 @@ class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mode
 							}
 							$fieldModel->set('fieldvalue', $fieldValue);
 						}
+						if (!empty($fieldsDependency['hide']['frontend']) && \in_array($fieldName, $fieldsDependency['hide']['frontend'])) {
+							$fieldModel->set('hideField', true);
+						}
+						if (!empty($fieldsDependency['mandatory']) && \in_array($fieldName, $fieldsDependency['mandatory'])) {
+							$fieldModel->set('isMandatory', true);
+						}
 						$values[$blockLabel][$fieldName] = $fieldModel;
 						if ($fieldModel->get('tabindex') > Vtiger_Field_Model::$tabIndexLastSeq) {
 							Vtiger_Field_Model::$tabIndexLastSeq = $fieldModel->get('tabindex');
@@ -64,8 +67,7 @@ class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mode
 				}
 			}
 		}
-		$this->structuredValues = $values;
 		++Vtiger_Field_Model::$tabIndexLastSeq;
-		return $values;
+		return $this->structuredValues = $values;
 	}
 }

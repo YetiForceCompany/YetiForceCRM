@@ -98,14 +98,6 @@ return [
 			return (int) func_get_arg(0);
 		}
 	],
-	'CRON_MAX_NUMBERS_ACTIVITY_STATS' => [
-		'default' => 5000,
-		'description' => ' Max number of records to update calendar activity fields in related modules (in cron)',
-		'validation' => '\App\Validator::naturalNumber',
-		'sanitization' => function () {
-			return (int) func_get_arg(0);
-		}
-	],
 	'SHOW_ONLY_CURRENT_RECORDS_COUNT' => [
 		'default' => false,
 		'description' => 'Show number of current records in record preview for related modules',

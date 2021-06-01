@@ -3,6 +3,8 @@
 /**
  * UIType Reference subprocess second level Field Class.
  *
+ * @package   UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -13,18 +15,14 @@
  */
 class Vtiger_ReferenceSubProcessSL_UIType extends Vtiger_ReferenceLink_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getReferenceList()
 	{
 		$modules = \App\ModuleHierarchy::getModulesByLevel(3);
 		return empty($modules) ? [] : array_keys($modules);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getParentModule($module)
 	{
 		$modules = \App\ModuleHierarchy::getModulesByLevel(3);

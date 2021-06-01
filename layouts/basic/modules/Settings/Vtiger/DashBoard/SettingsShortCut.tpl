@@ -20,7 +20,7 @@
 			<div class="d-flex flex-column px-1 w-100 position-relative">
 				<div class="d-flex position-relative">
 						{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) CLASS='themeTextColor pr-1'
-						TITLE=\App\Language::translate($SETTINGS_SHORTCUT->get('name'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto')))}
+						TITLE=\App\Language::translate($SETTINGS_SHORTCUT->get('name'), $SETTINGS_SHORTCUT->getModuleName())}
 					<button data-id="{$SETTINGS_SHORTCUT->getId()}"
 					title="{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}" title="Close" type="button"
 					class="unpin close position-absolute u-font-weight-550 u-position-r-0 px-0 ml-auto mt-n2 mr-n2">
@@ -28,7 +28,7 @@
 					</button>
 				</div>
 				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) CLASS='pr-1'
-				DESCRIPTION=\App\Language::translate($SETTINGS_SHORTCUT->get('description'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto')))}
+				DESCRIPTION=\App\Language::translate($SETTINGS_SHORTCUT->get('description'), $SETTINGS_SHORTCUT->getModuleName())}
 				<span class="fas fa-ellipsis-v position-absolute text-muted u-position-r-0 u-cursor-grab mt-4 pl-2 js-drag-handler"></span>
 			</div>
 		</div>

@@ -36,32 +36,19 @@ class Occurrences extends Vtiger_CRMEntity
 		'u_yf_occurrences' => 'occurrencesid',
 	];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		'FL_TOPIC' => ['occurrences', 'topic'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'FL_TOPIC' => 'topic',
 		'Assigned To' => 'assigned_user_id',
 	];
-	// Make the field link to detail view
-	public $list_link_field = 'topic';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
 		'FL_TOPIC' => ['occurrences', 'topic'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'FL_TOPIC' => 'topic',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['topic'];
 	// For Alphabetical search

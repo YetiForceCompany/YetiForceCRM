@@ -30,23 +30,12 @@ class Vtiger_AddressBook_Cron extends \App\CronHandler
 		$i = ['rows' => [], 'users' => \count($usersIds)];
 		$l = 0;
 		$break = false;
-		$processOrder = ['OSSEmployees', 'Contacts'];
 		$table = OSSMail_AddressBook_Model::TABLE;
 		$last = OSSMail_AddressBook_Model::getLastRecord();
-		$rows = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
+		$workflows = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
 			->leftJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id')
 			->where(['like', 'task', 'VTAddressBookTask'])
 			->indexBy('module_name')->all();
-		$workflows = [];
-		foreach ($processOrder as $processModule) {
-			if (isset($rows[$processModule])) {
-				$workflows[] = $rows[$processModule];
-				unset($rows[$processModule]);
-			}
-		}
-		foreach ($rows as $row) {
-			$workflows = array_merge($workflows, $row);
-		}
 		foreach ($workflows as $row) {
 			$task = (array) unserialize($row['task']);
 			$moduleName = $row['module_name'];
@@ -58,14 +47,11 @@ class Vtiger_AddressBook_Cron extends \App\CronHandler
 				continue;
 			}
 			$i['rows'][$moduleName] = 0;
-			$emailFields = [];
-			$fields = $moduleModel->getFieldsByType('email');
+			$fields = $moduleModel->getFieldsByType('email', true);
 			if (empty($fields)) {
 				continue;
 			}
-			foreach ($fields as $field) {
-				$emailFields[] = $field->getName();
-			}
+			$emailFields = array_keys($fields);
 			$metainfo = \App\Module::getEntityInfo($moduleName);
 			$queryFields = array_merge(['id'], $metainfo['fieldnameArr'], $emailFields);
 
@@ -76,7 +62,7 @@ class Vtiger_AddressBook_Cron extends \App\CronHandler
 			}
 			$query = $queryGenerator->createQuery();
 			$emailCondition = ['or'];
-			foreach ($emailFields as &$fieldName) {
+			foreach ($emailFields as $fieldName) {
 				$emailCondition[] = ['<>', $fieldName, ''];
 			}
 			$query->andWhere($emailCondition)->limit($limit + 1);
@@ -88,14 +74,14 @@ class Vtiger_AddressBook_Cron extends \App\CronHandler
 					unset($row[$entityName]);
 				}
 				$record = reset($row);
-				foreach ($usersIds as &$userId) {
+				foreach ($usersIds as $userId) {
 					if (\App\Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 						$users .= ',' . $userId;
 					}
 				}
 				$added = [];
 				$dbCommand->delete($table, ['id' => $record])->execute();
-				foreach ($emailFields as &$fieldName) {
+				foreach ($emailFields as $fieldName) {
 					if (!empty($row[$fieldName]) && !\in_array($row[$fieldName], $added)) {
 						$added[] = $row[$fieldName];
 						$dbCommand->insert($table, ['id' => $record, 'email' => $row[$fieldName], 'name' => trim($name), 'users' => $users])->execute();

@@ -8,7 +8,7 @@
  */
 class Settings_SupportProcesses_Index_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		\App\Log::trace('Entering Settings_SupportProcesses_Index_View::process() method ...');
 		$qualifiedModule = $request->getModule(false);

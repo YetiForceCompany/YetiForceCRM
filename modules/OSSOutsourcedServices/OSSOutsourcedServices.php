@@ -34,19 +34,6 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 		'vtiger_ossoutsourcedservices' => 'ossoutsourcedservicesid',
 		'vtiger_ossoutsourcedservicescf' => 'ossoutsourcedservicesid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'Product Name' => ['ossoutsourcedservices' => 'productname'],
-		'Category' => ['ossoutsourcedservices' => 'pscategory'],
-		'Sub Category' => ['ossoutsourcedservices' => 'pssubcategory'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'Date Sold' => ['ossoutsourcedservices' => 'datesold'],
-		'LBL_osservicesstatus' => ['ossoutsourcedservices' => 'osservicesstatus'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Product Name' => 'productname',
@@ -60,8 +47,7 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view from list view (Fieldname)
-	public $list_link_field = 'productname';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		'Product Name' => ['ossoutsourcedservices' => 'productname'],

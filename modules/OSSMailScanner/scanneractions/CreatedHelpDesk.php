@@ -10,19 +10,20 @@
 /**
  * Mail scanner action creating HelpDesk.
  */
-class OSSMailScanner_CreatedHelpDesk_ScannerAction
+class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHelpDesk_ScannerAction
 {
-	/**
-	 * Process.
-	 *
-	 * @param OSSMail_Mail_Model $mail
-	 *
-	 * @return string
-	 */
+	/** {@inheritdoc} */
 	public function process(OSSMail_Mail_Model $mail)
 	{
-		$id = 0;
-		$prefix = \App\Mail\RecordFinder::getRecordNumberFromString($mail->get('subject'), 'HelpDesk');
+		$this->mail = $mail;
+		$id = $recordId = 0;
+		$this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($mail->get('subject'), 'HelpDesk');
+		if (empty($this->prefix) && \Config\Modules\OSSMailScanner::$searchPrefixInBody) {
+			$this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($mail->get('body'), 'HelpDesk', true);
+		}
+		if ($this->prefix) {
+			$recordId = $this->findRecord();
+		}
 		$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
 		if (!empty($exceptionsAll['crating_tickets'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_tickets']);
@@ -32,32 +33,28 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 				}
 			}
 		}
-		$exists = false;
-		if ($prefix) {
-			$exists = (new App\Db\Query())->select(['ticketid'])->from('vtiger_troubletickets')->where(['ticket_no' => $prefix])->limit(1)->exists();
-		}
-		if (!$exists) {
-			$id = $this->add($mail);
+		if (!$recordId) {
+			$id = $this->add();
 		}
 		return $id;
 	}
 
 	/**
-	 * Tworzenie zgłoszenia z maila.
-	 *
-	 * @param OSSMail_Mail_Model $mail
+	 * Creating a HelpDesk from an email.
 	 *
 	 * @return int
 	 */
-	public function add(OSSMail_Mail_Model $mail)
+	public function add()
 	{
-		$contactId = (int) $mail->findEmailAdress('from_email', 'Contacts', false);
-		$parentId = (int) $mail->findEmailAdress('from_email', 'Accounts', false);
+		$contactId = (int) $this->mail->findEmailAdress('from_email', 'Contacts', false);
+		$parentId = (int) $this->mail->findEmailAdress('from_email', 'Accounts', false);
 		$record = Vtiger_Record_Model::getCleanInstance('HelpDesk');
-
+		if (!$contactId && !$parentId && !\Config\Modules\OSSMailScanner::$helpdeskCreateWithoutNoRelation) {
+			return 0;
+		}
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		if (empty($parentId) && !empty($contactId)) {
-			$parentId = (new App\Db\Query())->select(['parentid'])->from('vtiger_contactdetails')->where(['contactid' => $contactId])->limit(1)->scalar();
+			$parentId = (new App\Db\Query())->select(['parentid'])->from('vtiger_contactdetails')->where(['contactid' => $contactId])->scalar();
 		}
 		if ($parentId) {
 			$record->set('parent_id', $parentId);
@@ -80,28 +77,34 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 			}
 			$dataReader->close();
 		}
-		$accountOwner = $mail->getAccountOwner();
-		$record->set('assigned_user_id', $mail->getAccountOwner());
+		$accountOwner = $this->mail->getAccountOwner();
+		$record->set('assigned_user_id', $accountOwner);
 		$maxLengthSubject = $record->getField('ticket_title')->get('maximumlength');
-		$subject = \App\Purifier::purify($mail->get('subject'));
+		$subject = \App\Purifier::purify($this->mail->get('subject'));
 		$record->setFromUserValue('ticket_title', $maxLengthSubject ? \App\TextParser::textTruncate($subject, $maxLengthSubject, false) : $subject);
 		$maxLengthDescription = $record->getField('description')->get('maximumlength');
-		$description = \App\Purifier::purifyHtml($mail->get('body'));
+		$description = \App\Purifier::purifyHtml($this->mail->get('body'));
 		$record->set('description', $maxLengthDescription ? \App\TextParser::htmlTruncate($description, $maxLengthDescription, false) : $description);
-		$record->set('ticketstatus', \Config\Components\Mail::$helpdeskCreatedStatus);
+		if (!empty(\Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus)) {
+			$record->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
+		}
 		if ($contactId) {
-			$record->ext['relationsEmail']['Contacts'] = $contactId;
+			$record->ext['relations'][] = [
+				'relatedModule' => 'Contacts',
+				'relatedRecords' => [$contactId],
+			];
+		}
+		if ($mailId = $this->mail->getMailCrmId()) {
+			$record->ext['relations'][] = [
+				'reverse' => true,
+				'relatedModule' => 'OSSMailView',
+				'relatedRecords' => [$mailId],
+				'params' => $this->mail->get('date')
+			];
 		}
 		$record->save();
 		$id = $record->getId();
-
-		if (!empty($contactId)) {
-			$relationModel = Vtiger_Relation_Model::getInstance($record->getModule(), Vtiger_Module_Model::getInstance('Contacts'));
-			$relationModel->addRelation($id, $contactId);
-		}
-
-		if ($mailId = $mail->getMailCrmId()) {
-			(new OSSMailView_Relation_Model())->addRelation($mailId, $id, $mail->get('date'));
+		if ($mailId) {
 			$query = (new App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $mailId]);
 			$dataReader = $query->createCommand()->query();
 			while ($documentId = $dataReader->readColumn(0)) {
@@ -109,7 +112,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 			}
 			$dataReader->close();
 		}
-		$dbCommand->update('vtiger_crmentity', ['createdtime' => $mail->get('date'), 'smcreatorid' => $accountOwner, 'modifiedby' => $accountOwner], ['crmid' => $id])->execute();
+		$dbCommand->update('vtiger_crmentity', ['createdtime' => $this->mail->get('date'), 'smcreatorid' => $accountOwner], ['crmid' => $id])->execute();
 		return $id;
 	}
 }
