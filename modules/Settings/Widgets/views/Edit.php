@@ -14,16 +14,16 @@ class Settings_Widgets_Edit_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$wid = $request->getInteger('id');
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
-		$WidgetInfo = $moduleModel->getWidgetInfo($wid);
-		$RelatedModule = $moduleModel->getRelatedModule($WidgetInfo['tabid']);
+		$widgetInfo = $moduleModel->getWidgetInfo($wid);
+		$relatedModuleName = \App\Module::getModuleName($widgetInfo['tabid']);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('SOURCE', $WidgetInfo['tabid']);
-		$viewer->assign('SOURCEMODULE', \App\Module::getModuleName($WidgetInfo['tabid']));
+		$viewer->assign('SOURCE', $widgetInfo['tabid']);
+		$viewer->assign('SOURCEMODULE', $relatedModuleName);
 		$viewer->assign('WID', $wid);
-		$viewer->assign('WIDGETINFO', $WidgetInfo);
+		$viewer->assign('WIDGETINFO', $widgetInfo);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('RELATEDMODULES', $RelatedModule);
+		$viewer->assign('RELATEDMODULES', \App\Relation::getByModule($relatedModuleName));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Edit.tpl', $qualifiedModuleName);
 	}

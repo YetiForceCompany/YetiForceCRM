@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Controller;
-
 /**
- * Abstract modal controller class.
+ * Abstract modal controller file.
  *
  * @package   Controller
  *
@@ -11,6 +9,12 @@ namespace App\Controller;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App\Controller;
+
+/**
+ * Abstract modal controller class.
  */
 abstract class Modal extends View\Base
 {
@@ -45,6 +49,12 @@ abstract class Modal extends View\Base
 	 * @var string[]
 	 */
 	public $modalData = [];
+	/**
+	 * Modal ID.
+	 *
+	 * @var string
+	 */
+	public $modalId = '';
 	/**
 	 * The name of the success button.
 	 *
@@ -100,6 +110,9 @@ abstract class Modal extends View\Base
 	{
 		$moduleName = $request->getModule(false);
 		$view = $request->getByType('view', 2);
+		if ($this->modalId) {
+			$this->modalData['modalid'] = $this->modalId;
+		}
 		$this->modalData['view'] = $view;
 		$this->modalData['module'] = $moduleName;
 		if ($request->has('mode')) {
@@ -107,6 +120,7 @@ abstract class Modal extends View\Base
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODAL_TITLE', $this->getPageTitle($request));
+		$viewer->assign('MODAL_ID', $this->modalId);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('VIEW', $view);
 		$viewer->assign('MODULE_NAME', $moduleName);

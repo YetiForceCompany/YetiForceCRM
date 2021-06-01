@@ -35,19 +35,6 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'vtiger_ossemployeescf' => 'ossemployeesid',
 		'vtiger_entity_stats' => 'crmid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'LBL_LASTNAME' => ['ossemployees', 'last_name'],
-		'LBL_NAME' => ['ossemployees', 'name'],
-		'LBL_BUSINESSPHONE' => ['ossemployees', 'business_phone'],
-		'LBL_BUSINESSMAIL' => ['ossemployees', 'business_mail'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'FL_POSITION' => ['crmentity', 'position'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'LBL_NAME' => 'name',
@@ -62,8 +49,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view from list view (Fieldname)
-	public $list_link_field = 'assigned_user_id';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		'LBL_LASTNAME' => ['ossemployees', 'last_name'],

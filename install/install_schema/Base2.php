@@ -5525,7 +5525,6 @@ class Base2 extends \App\Db\Importers\Base
 					[4, 'EntityAfterRestore', 'Vtiger_Workflow_Handler', 1, '', '', 5, 0],
 					[8, 'EntityChangeState', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
 					[16, 'EntityAfterSave', 'ServiceContracts_ServiceContractsHandler_Handler', 1, 'HelpDesk,ServiceContracts', '', 5, 34],
-					[18, 'EntityAfterSave', 'Vtiger_RecordLabelUpdater_Handler', 1, '', '', 5, 0],
 					[19, 'DetailViewBefore', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
 					[22, 'PicklistAfterRename', 'Settings_Picklist_PickListHandler_Handler', 1, '', '', 5, 0],
 					[23, 'PicklistAfterDelete', 'Settings_Picklist_PickListHandler_Handler', 1, '', '', 5, 0],

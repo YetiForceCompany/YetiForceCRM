@@ -89,16 +89,22 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 			$record->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
 		}
 		if ($contactId) {
-			$record->ext['relationsEmail']['Contacts'] = $contactId;
+			$record->ext['relations'][] = [
+				'relatedModule' => 'Contacts',
+				'relatedRecords' => [$contactId],
+			];
+		}
+		if ($mailId = $this->mail->getMailCrmId()) {
+			$record->ext['relations'][] = [
+				'reverse' => true,
+				'relatedModule' => 'OSSMailView',
+				'relatedRecords' => [$mailId],
+				'params' => $this->mail->get('date')
+			];
 		}
 		$record->save();
 		$id = $record->getId();
-		if (!empty($contactId)) {
-			$relationModel = Vtiger_Relation_Model::getInstance($record->getModule(), Vtiger_Module_Model::getInstance('Contacts'));
-			$relationModel->addRelation($id, $contactId);
-		}
-		if ($mailId = $this->mail->getMailCrmId()) {
-			(new OSSMailView_Relation_Model())->addRelation($mailId, $id, $this->mail->get('date'));
+		if ($mailId) {
 			$query = (new App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $mailId]);
 			$dataReader = $query->createCommand()->query();
 			while ($documentId = $dataReader->readColumn(0)) {
@@ -106,7 +112,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 			}
 			$dataReader->close();
 		}
-		$dbCommand->update('vtiger_crmentity', ['createdtime' => $this->mail->get('date'), 'smcreatorid' => $accountOwner, 'modifiedby' => $accountOwner], ['crmid' => $id])->execute();
+		$dbCommand->update('vtiger_crmentity', ['createdtime' => $this->mail->get('date'), 'smcreatorid' => $accountOwner], ['crmid' => $id])->execute();
 		return $id;
 	}
 }

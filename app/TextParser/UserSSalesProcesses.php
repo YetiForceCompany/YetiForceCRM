@@ -3,7 +3,7 @@
 /**
  * User SSalesProcesses.
  *
- * @package 	App
+ * @package TextParser
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -56,9 +56,9 @@ class UserSSalesProcesses extends Base
 			}
 			$query = $queryGenerator->createQuery();
 			if (\in_array('sort_newest', $this->params)) {
-				$query->orderBy(['vtiger_crmentity.createdtime' => \SORT_DESC]);
+				$query->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
 			} elseif (\in_array('sort_highest_value', $this->params)) {
-				$query->orderBy(['estimated' => \SORT_DESC]);
+				$query->orderBy(['estimated' => SORT_DESC]);
 			}
 			$query->limit(\App\Config::performance('REPORT_RECORD_NUMBERS'));
 			$dataReader = $query->createCommand()->query();

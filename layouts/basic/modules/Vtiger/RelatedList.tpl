@@ -14,6 +14,7 @@
 <div class="RelatedList relatedContainer">
 	{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
 	{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
+	{assign var=RELATION_MODEL value=$VIEW_MODEL->getRelationModel()}
 	<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
 	<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
 	<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
@@ -25,13 +26,14 @@
 	<input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids="">
 	<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="">
 	<input type="hidden" id="recordsCount" value=""/>
-	<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($VIEW_MODEL->getRelationModel()->get('label'))}"/>
-	<input type="hidden" id="relationId" value="{$VIEW_MODEL->getRelationModel()->getId()}"/>
+	<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($RELATION_MODEL->get('label'))}"/>
+	<input type="hidden" id="relationId" value="{$RELATION_MODEL->getId()}"/>
 	<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
 	{if $SHOW_HEADER}
+		{assign var=CUSTOM_VIEW_LIST value=$RELATION_MODEL->getCustomViewList()}
 		<div class="relatedHeader mt-1">
 			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
-				<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">
+				<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 {if $CUSTOM_VIEW_LIST}mb-lg-0{else}mb-md-0{/if}">
 					{if isset($RELATED_LIST_LINKS['RELATEDLIST_VIEWS']) && $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
 						<div class="btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0">
 							{assign var=TEXT_HOLDER value=''}
@@ -94,6 +96,26 @@
 						{/foreach}
 					{/if}
 				</div>
+				{if $CUSTOM_VIEW_LIST}
+					<div class="mr-auto col-xl-2 col-md-4 col-12 px-0 mb-md-0 mb-1">
+						{if count($CUSTOM_VIEW_LIST) === 1}
+							<input type="hidden" class="js-relation-cv-id" value="{array_key_first($CUSTOM_VIEW_LIST)}" data-js="value" />
+						{else}
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<span class="fas fa-filter"></span>
+									</div>
+								</div>
+								<select class="form-control select2 js-relation-cv-id" data-js="change|select2|value">
+									{foreach key=CV_ID item=CV_NAME from=$CUSTOM_VIEW_LIST}
+										<option value="{$CV_ID}" {if $CV_ID == $VIEW_MODEL->get('cvId')}selected{/if}>{$CV_NAME}</option>
+									{/foreach}
+								</select>
+							</div>
+						{/if}
+					</div>
+				{/if}
 				<div class="d-flex flex-wrap u-w-sm-down-100 justify-content-between justify-content-md-end">
 					<div class="paginationDiv">
 						{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME) VIEWNAME='related'}

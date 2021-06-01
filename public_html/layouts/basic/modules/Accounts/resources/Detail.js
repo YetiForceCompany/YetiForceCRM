@@ -33,42 +33,12 @@ Vtiger_Detail_Js(
 			}
 			return aDeferred.promise();
 		},
-		registerButtons: function (container) {
-			container.find('.toChangeBtn').on('click', function (e) {
-				var currentTarget = $(e.currentTarget);
-				var fieldname = currentTarget.data('fieldname');
-				var params = {
-					value: currentTarget.hasClass('btn-success') ? 0 : 1,
-					field: fieldname,
-					record: currentTarget.data('recordId'),
-					module: app.getModuleName(),
-					action: 'SaveAjax'
-				};
-				AppConnector.request(params).done(function (data) {
-					if (currentTarget.hasClass('btn-warning')) {
-						currentTarget.removeClass('btn-warning');
-						currentTarget.addClass('btn-success');
-					} else {
-						currentTarget.addClass('btn-warning');
-						currentTarget.removeClass('btn-success');
-					}
-					currentTarget.html(data.result[fieldname].display_value);
-					var params = {
-						title: app.vtranslate('JS_LBL_PERMISSION'),
-						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-						type: 'success'
-					};
-					Vtiger_Helper_Js.showMessage(params);
-				});
-			});
-		},
 
 		/*
 		 * function to display the AccountHierarchy response data
 		 */
 		displayAccountHierarchyResponseData: function (data) {
-			let thisInstance = this;
-			let callbackFunction = function (data) {
+			let callbackFunction = function () {
 				app.showScrollBar($('#hierarchyScroll'), {
 					height: '300px',
 					railVisible: true,
@@ -78,9 +48,8 @@ Vtiger_Detail_Js(
 			app.showModalWindow(data, function (modalContainer) {
 				App.Components.Scrollbar.xy($('#hierarchyScroll', modalContainer));
 				if (typeof callbackFunction == 'function' && $('#hierarchyScroll', modalContainer).height() > 300) {
-					callbackFunction(data);
+					callbackFunction();
 				}
-				thisInstance.registerButtons(modalContainer);
 			});
 		},
 

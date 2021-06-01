@@ -46,7 +46,7 @@
 					<label class="col-sm-2 col-form-label text-right u-text-small-bold">{\App\Language::translate('LBL_TYPE_SERVER', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
 						<select class="select2 typeServer" {if $RECORD_MODEL} disabled {/if}>
-							{foreach from=$TYPES_SERVERS item=TYPE}
+							{foreach from=\Api\Core\Containers::$list item=TYPE}
 								<option value="{$TYPE}" {if $RECORD_MODEL && $TYPE eq  $RECORD_MODEL->get('type')}selected{/if}>
 									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
 								</option>

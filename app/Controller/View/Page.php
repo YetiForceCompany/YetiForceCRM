@@ -17,31 +17,25 @@ namespace App\Controller\View;
  */
 abstract class Page extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function showBodyHeader()
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function showFooter()
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$view = $this->getViewer($request);
 		if (\App\Config::performance('BROWSING_HISTORY_WORKING')) {
-			\Vtiger_BrowsingHistory_Helper::saveHistory((string) $view->getVariable('PAGETITLE'));
+			\Vtiger_BrowsingHistory_Helper::saveHistory($view->getTemplateVars('PAGETITLE'));
 		}
 		$view->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
 		$view->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
@@ -61,7 +55,7 @@ abstract class Page extends Base
 		$view->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
 		$view->assign('USER_QUICK_MENU_LINKS', $this->getUserQuickMenuLinks($request));
 		if (\App\Config::performance('GLOBAL_SEARCH')) {
-			$view->assign('SEARCHABLE_MODULES', \Vtiger_Module_Model::getSearchableModules());
+			$view->assign('SEARCHABLE_MODULES', \App\RecordSearch::getSearchableModules());
 		}
 		if (\App\Config::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$view->assign('SEARCHED_MODULE', $request->getModule());
@@ -71,9 +65,7 @@ abstract class Page extends Base
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(\App\Request $request, $display = true)
 	{
 		parent::postProcess($request, false);
@@ -85,9 +77,7 @@ abstract class Page extends Base
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -126,9 +116,7 @@ abstract class Page extends Base
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
@@ -146,36 +134,13 @@ abstract class Page extends Base
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function loadJsConfig(\App\Request $request)
-	{
-		parent::loadJsConfig($request);
-		if (\App\Session::has('ShowAuthy2faModal')) {
-			\App\Config::setJsEnv('ShowAuthy2faModal', \App\Session::get('ShowAuthy2faModal'));
-			if ('TOTP_OPTIONAL' === \App\Config::security('USER_AUTHY_MODE')) {
-				\App\Session::delete('ShowAuthy2faModal');
-			}
-		}
-		if (\App\Session::has('ShowUserPasswordChange')) {
-			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-		}
-		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
-			\App\Config::setJsEnv('ShowUserPwnedPasswordChange', \App\Session::get('ShowUserPwnedPasswordChange'));
-		}
-		if (\App\Session::has('showVisitPurpose')) {
-			\App\Config::setJsEnv('showVisitPurpose', \App\Session::get('showVisitPurpose'));
-		}
-	}
-
-	/**
 	 * Function to get the list of Header Links.
 	 *
 	 * @param \App\Request $request
 	 *
 	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
 	 */
-	protected function getMenuHeaderLinks(\App\Request $request)
+	protected function getMenuHeaderLinks(\App\Request $request): array
 	{
 		$userModel = \App\User::getCurrentUserModel();
 		$headerLinks = [];
@@ -238,7 +203,7 @@ abstract class Page extends Base
 	 *
 	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
 	 */
-	protected function getUserQuickMenuLinks(\App\Request $request)
+	protected function getUserQuickMenuLinks(\App\Request $request): array
 	{
 		$userModel = \Users_Record_Model::getCurrentUserModel();
 		$headerLinks[] = [
@@ -275,7 +240,7 @@ abstract class Page extends Base
 		}
 		$headerLinks[] = [
 			'linktype' => 'HEADERLINK',
-			'linklabel' => 'LBL_LOGIN_HISTORY',
+			'linklabel' => 'BTN_YOUR_ACCOUNT_ACCESS_HISTORY',
 			'linkdata' => ['url' => 'index.php?module=Users&view=LoginHistoryModal&mode=change&record=' . $userModel->get('id')],
 			'linkclass' => 'showModal d-block',
 			'icon' => 'yfi yfi-login-history',

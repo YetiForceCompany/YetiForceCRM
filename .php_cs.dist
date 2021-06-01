@@ -135,6 +135,7 @@ $config = \PhpCsFixer\Config::create()
 		'single_class_element_per_statement' => true,
 		'single_import_per_statement' => true,
 		'single_line_comment_style' => true,
+		'single_line_throw' => true,
 		'single_quote' => true,
 		'space_after_semicolon' => true,
 		'standardize_not_equals' => true,

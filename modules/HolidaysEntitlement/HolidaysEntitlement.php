@@ -58,19 +58,6 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 		'vtiger_holidaysentitlementcf' => 'holidaysentitlementid', ];
 
 	/**
-	 * Mandatory for Listing (Related listview).
-	 *
-	 * @var array
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'LBL_NO' => ['holidaysentitlement', 'holidaysentitlement_no'],
-		'LBL_EMPLOYEE' => ['holidaysentitlement', 'ossemployeesid'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-	];
-
-	/**
 	 * List fields name.
 	 *
 	 * @var array
@@ -88,13 +75,6 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 	 * @var string[]
 	 */
 	public $relationFields = [];
-
-	/**
-	 * Make the field link to detail view.
-	 *
-	 * @var string
-	 */
-	public $list_link_field = 'subject';
 
 	/**
 	 * For Popup listview and UI type support.

@@ -127,7 +127,6 @@
     "LBL_HELP_SESSION_COOKIE_HTTPONLY": "セッション Cookie ファイルは HTTP プロトコル経由でのみ利用できます。この設定により、XSS 攻撃による個人情報の盗難を十分に防ぐことができます。",
     "LBL_HELP_SESSION_USE_ONLY_COOKIES": "CookieからのみIDを取得するよう設定します。URL内のセッションIDを送信することで攻撃を防ぎます。",
     "LBL_HELP_EXPOSE_PHP": "PHP サーバーが PHP バージョン番号をヘッダーに送信するかどうかを決定します。 この情報により、サーバーは攻撃に対してより脆弱になる可能性があるため、このオプションを無効にすることをお勧めします。",
-    "LBL_HELP__HTACCESS": ".htaccess ファイルはアクティブではありませんが、 すべての統合を適切に処理し、 ユーザデータを含むディレクトリを保護する必要があります。",
     "LBL_HELP_PUBLIC_HTML": "ドメインがpublic_htmlディレクトリに指示することをお勧めします これを行うことにより、システムファイルとデータが公開されておらず、ダウンロードできないことを保証します。",
     "LBL_HELP_SESSION_REGENERATE_ID": "セッションIDの再生を有効にすることをお勧めします。ユーザーのセッションを傍受することが困難になります。メイン設定ファイルで変更を行う必要があります。",
     "LBL_HELP_SESSION_USE_STRICT_MODE": "サーバーは未起動のセッションを拒否します。安全上の理由からこのオプションを有効にすることをお勧めします。",
@@ -256,7 +255,8 @@
     "LBL_FORMAT": "行の書式",
     "LBL_ENGINE": "エンジン",
     "LBL_COLLATION": "照合順",
-    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files",
+    "LBL_PATH_VERIFICATION_TITLE": "Path verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "速度を確認しています..."

@@ -102,6 +102,11 @@
 													<span class="fas fa-plus u-mr-5px"></span><strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
+											<div class="btn-group btn-group-sm u-h-fit mr-1 mt-1">
+												<button class="btn btn-warning js-add-system-field" type="button" data-js="click">
+													<span class="fas fa-plus-circle u-mr-5px"></span><strong>{App\Language::translate('BTN_ADD_SYSTEM_FIELD', $QUALIFIED_MODULE)}</strong>
+												</button>
+											</div>
 										{/if}
 										<div class="btn-group btn-group-sm btn-group-toggle mt-1" data-toggle="buttons">
 											<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if $BLOCK_MODEL->isHidden()} active{/if}" data-visible="0"

@@ -49,7 +49,7 @@ class Vtiger_BrowsingHistory_Helper
 				}
 			}
 			if ($value['hour']) {
-				$value['date'] = (new DateTimeField($userDate))->getDisplayTime();
+				$value['date'] = (new DateTimeField($userDate))->getDisplayTime(null, false);
 			} else {
 				$value['date'] = DateTimeField::convertToUserFormat($userDate);
 			}

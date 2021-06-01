@@ -67,6 +67,7 @@
     "PLL_CLOSED_CLIENT": "Closed client",
     "PLL_BLACKLISTED_CLIENT": "Blacklisted client",
     "PLL_NATURAL_PERSON": "Private individual",
+    "PLL_COMPANY": "Company",
     "PLL_BUSINESS_ACTIVITY": "Sole proprietorship",
     "PLL_GENERAL_PARTNERSHIP": "Registered partnership",
     "PLL_PROFESSIONAL_PARTNERSHIP": "Professional partnership",

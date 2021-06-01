@@ -494,7 +494,14 @@ class Functions
 		return $i;
 	}
 
-	public static function parseBytes($str)
+	/**
+	 * Parse bytes.
+	 *
+	 * @param mixed $str
+	 *
+	 * @return float
+	 */
+	public static function parseBytes($str): float
 	{
 		if (is_numeric($str)) {
 			return (float) $str;
@@ -522,7 +529,15 @@ class Functions
 		return (float) $bytes;
 	}
 
-	public static function showBytes($bytes, &$unit = null)
+	/**
+	 * Show bytes.
+	 *
+	 * @param mixed       $bytes
+	 * @param string|null $unit
+	 *
+	 * @return string
+	 */
+	public static function showBytes($bytes, &$unit = null): string
 	{
 		$bytes = self::parseBytes($bytes);
 		if ($bytes >= 1073741824) {

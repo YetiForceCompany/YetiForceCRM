@@ -3,7 +3,7 @@
 /**
  * Conflict of interest component file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -98,7 +98,7 @@ class InterestsConflict
 			->from('u_#__interests_conflict_conf')
 			->where(['user_id' => $userId, 'related_id' => $record])
 			->andWhere(['<>', 'status', self::CONF_STATUS_CANCELED])
-			->orderBy(['id' => \SORT_DESC])
+			->orderBy(['id' => SORT_DESC])
 			->one() ?: null;
 		return \App\Cache::save($cacheName, $record, $row);
 	}

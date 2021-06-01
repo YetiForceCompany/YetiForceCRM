@@ -127,7 +127,6 @@
     "LBL_HELP_SESSION_COOKIE_HTTPONLY": "Pliki cookie od sesji są dostępne tylko za pośrednictwem protokołu HTTP. To ustawienie może skutecznie pomóc w ograniczeniu kradzieży tożsamości poprzez ataki XSS.",
     "LBL_HELP_SESSION_USE_ONLY_COOKIES": "Ustawia pobieranie identyfikatora tylko z ciasteczek. Włączenie tego ustawienia zapobiega atakom polegającym na przekazywaniu identyfikatorów sesji w adresach URL.",
     "LBL_HELP_EXPOSE_PHP": "Czy serwer PHP będzie wysyłał w nagłówkach informację o numerze wersji PHP. Ta informacja może ułatwić atak na serwer, dlatego zaleca się wyłączenie tej opcji.",
-    "LBL_HELP__HTACCESS": "Plik .htaccess jest nieaktywny, jest on potrzebny do prawidłowej obsługi wszystkich integracji oraz do zabezpieczenia dostępu do katalogów z danymi użytkownika.",
     "LBL_HELP_PUBLIC_HTML": "Zalecamy aby domena kierowała do katalogu public_html, dzięki temu pliki systemu oraz twoje dane nie będą publiczne i nikt nie będzie mógł ich pobrać.",
     "LBL_HELP_SESSION_REGENERATE_ID": "Zalecamy aby regenerowanie identyfikatora sesji było włączone, opcja ta utrudnia przejęcie sesji użytkowników. Zmiany należy dokonać w głównym pliku konfiguracyjnym (config/config.inc.php).",
     "LBL_HELP_SESSION_USE_STRICT_MODE": "Serwer będzie odrzucał niezainicjowaną sesję. Ze względów bezpieczeństwa zaleca się włączyć tą opcję.",
@@ -256,7 +255,8 @@
     "LBL_FORMAT": "Format wiersza",
     "LBL_ENGINE": "Silnik",
     "LBL_COLLATION": "Porównanie",
-    "LBL_LAMP_CONFIG_FILES": "Pliki konfiguracyjne LAMP"
+    "LBL_LAMP_CONFIG_FILES": "Pliki konfiguracyjne LAMP",
+    "LBL_PATH_VERIFICATION_TITLE": "Weryfikacja ścieżki"
   },
   "js": {
     "JS_SPEED_TEST_START": "Trwa sprawdzanie szybkości..."

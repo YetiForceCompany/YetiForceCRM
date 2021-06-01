@@ -2,7 +2,7 @@
 /**
  * Developer tools for installer.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -29,7 +29,7 @@ class Developer
 			echo "<pre>$msg</pre><hr>";
 		}, E_ALL);
 		$json = '';
-		foreach (['Portal', 'ManageConsents'] as $type) {
+		foreach (\Api\Core\Containers::$list as $type) {
 			$json .= self::generateSwaggerByType($type, false);
 		}
 		return $json;

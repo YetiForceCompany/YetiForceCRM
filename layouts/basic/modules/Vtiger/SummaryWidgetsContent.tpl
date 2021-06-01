@@ -6,33 +6,31 @@
 		<div class="listViewEntriesDiv relatedContents table-responsive">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
-				<tr class="text-left">
-					{if !$IS_READ_ONLY}
-						<th class="noWrap p-1"></th>
-					{/if}
-					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-						<th nowrap class="p-1">
-							{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $HEADER_FIELD->getModuleName())}
-						</th>
-					{/foreach}
-					{if $SHOW_CREATOR_DETAIL}
-						<th class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
-						<th class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
-					{/if}
-					{if $SHOW_COMMENT}
-						<th class="p-1">{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
-					{/if}
-					{if $IS_INVENTORY}
-						<th class="noWrap p-1"></th>
-					{/if}
-				</tr>
+					<tr class="text-left">
+						{if !$IS_READ_ONLY}
+							<th class="noWrap p-1"></th>
+						{/if}
+						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+							<th nowrap class="p-1">
+								{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $HEADER_FIELD->getModuleName())}
+							</th>
+						{/foreach}
+						{if $SHOW_CREATOR_DETAIL}
+							<th class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
+							<th class="p-1">{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+						{/if}
+						{if $SHOW_COMMENT}
+							<th class="p-1">{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
+						{/if}
+						{if $IS_INVENTORY}
+							<th class="noWrap p-1"></th>
+						{/if}
+					</tr>
 				</thead>
 				{assign var=COUNT value=0}
 				{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
-					<tr class="listViewEntries" data-id="{$RELATED_RECORD->getId()}"
-							{if $RELATED_RECORD->isViewable()}
-						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
-							{/if}>
+					<tr class="listViewEntries js-list__row" data-id="{$RELATED_RECORD->getId()}" {if $RELATED_RECORD->isViewable()}
+						data-recordUrl="{$RELATED_RECORD->getDetailViewUrl()}"{/if} data-js="container">
 						{if !$IS_READ_ONLY}
 							<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}">
 								{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
@@ -50,9 +48,8 @@
 								nowrap>
 								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 									<a class="modCT_{$RELATED_MODULE_NAME}"
-									   title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}"
 									   href="{$RELATED_RECORD->getDetailViewUrl()}">
-										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
+										{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 									</a>
 								{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 									{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
@@ -155,17 +152,16 @@
 										</td>
 										{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 										<td class="fieldValue {$WIDTHTYPE} px-0">
-												<div class="value u-word-break pr-0">
-													{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
-														<a class="modCT_{$RELATED_MODULE_NAME}"
-														   title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}"
-														   href="{$RELATED_RECORD->getDetailViewUrl()}">
-															{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
-														</a>
-													{else}
+											<div class="value u-word-break pr-0">
+												{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
+													<a class="modCT_{$RELATED_MODULE_NAME}"
+														href="{$RELATED_RECORD->getDetailViewUrl()}">
 														{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
-													{/if}
-												</div>
+													</a>
+												{else}
+													{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
+												{/if}
+											</div>
 										</td>
 									</tr>
 								{/foreach}

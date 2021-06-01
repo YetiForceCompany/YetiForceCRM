@@ -259,13 +259,8 @@ Settings_MappedFields_Edit_Js(
 
 			mappingTable.each(function (i, e) {
 				let breakSave = false,
-					sourceField = jQuery(this).find('.sourceFields :selected'),
 					targetField = jQuery(this).find('.targetFields :selected'),
 					moduleName;
-				if (mappingTable.find('.sourceFields option[value="' + sourceField.val() + '"]:selected').length > 1) {
-					moduleName = jQuery('.sourceModuleName').text();
-					breakSave = moduleName + ': ' + sourceField.text();
-				}
 				if (mappingTable.find('.targetFields option[value="' + targetField.val() + '"]:selected').length > 1) {
 					moduleName = jQuery('.targetModuleName').text();
 					breakSave = moduleName + ': ' + targetField.text();

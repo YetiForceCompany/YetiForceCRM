@@ -137,6 +137,6 @@ PasswordHelper = {
 		$('#show-btn').text(hidePassText);
 	}
 };
-$(document).ready(function () {
+jQuery(function () {
 	PasswordHelper.init();
 });

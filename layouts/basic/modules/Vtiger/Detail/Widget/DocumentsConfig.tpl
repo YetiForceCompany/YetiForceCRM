@@ -53,9 +53,9 @@
 								<div class="col-md-7 py-1">
 									<select name="relation_id"{if $RELATED_ID} readonly="readonly"{/if} class="select2 form-control form-control-sm" data-validation-engine="validate[required]">
 										{foreach from=$RELATEDMODULES item=item key=key}
-											{if $item['name'] neq 'Documents'} {continue} {/if}
-											<option value="{$item['relation_id']}" {if $RELATED_ID == $item['relation_id']}selected{/if} data-relatedmodule="{$item['related_tabid']}" data-module-name="{$item['name']}">
-												{\App\Language::translate($item['label'], $item['name'])}
+											{if $item['related_modulename'] neq 'Documents'} {continue} {/if}
+											<option value="{$item['relation_id']}" {if $RELATED_ID == $item['relation_id']}selected{/if} data-relatedmodule="{$item['related_tabid']}" data-module-name="{$item['related_modulename']}">
+												{\App\Language::translate($item['label'], $item['related_modulename'])}
 											</option>
 										{/foreach}
 									</select>
@@ -71,15 +71,15 @@
 								<div class="col-md-7 py-1">
 									<select name="relatedfields" multiple class="select2 form-control form-control-sm" data-validation-engine="validate[required]" data-select-cb="registerSelectSortable">
 										{foreach from=$RELATEDMODULES item=RELATED_MODULE key=key}
-												{foreach from=Vtiger_Module_Model::getInstance($RELATED_MODULE['name'])->getFieldsByBlocks() key=BLOCK_NAME item=FIELDS}
-													<optgroup label="{\App\Language::translate($RELATED_MODULE['label'], $RELATED_MODULE['name'])}:{\App\Language::translate($BLOCK_NAME, $RELATED_MODULE['name'])}" data-module="{$RELATED_MODULE['related_tabid']}">
+												{foreach from=Vtiger_Module_Model::getInstance($RELATED_MODULE['related_modulename'])->getFieldsByBlocks() key=BLOCK_NAME item=FIELDS}
+													<optgroup label="{\App\Language::translate($RELATED_MODULE['label'], $RELATED_MODULE['related_modulename'])}:{\App\Language::translate($BLOCK_NAME, $RELATED_MODULE['related_modulename'])}" data-module="{$RELATED_MODULE['related_tabid']}">
 														{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME}
 															{assign var=VALUE_NAME value="{$RELATED_MODULE['related_tabid']}::{$FIELD_NAME}"}
 															<option value="{$VALUE_NAME}"{' '}
 																	{if !empty($WIDGETINFO['data']['relatedfields']) && in_array($VALUE_NAME, $WIDGETINFO['data']['relatedfields'])}
 																		selected="selected" data-sort-index="{array_search($VALUE_NAME, $WIDGETINFO['data']['relatedfields'])}"
 																	{/if} data-module="{$RELATED_MODULE['related_tabid']}">
-																{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['name'])}
+																{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['related_modulename'])}
 															</option>
 														{/foreach}
 													</optgroup>

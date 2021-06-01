@@ -6,13 +6,13 @@
 		<div class="o-navbar__left d-inline-flex">
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">
-					<a class="btn btn-light c-header__btn ml-0 js-sidebar-btn" role="button" href="#" data-js="click"
-					   aria-haspopup="true" aria-expanded="false">
+					<a class="btn btn-light c-header__btn ml-0 js-sidebar-btn" role="button" href="#" data-js="click" aria-haspopup="true" aria-expanded="false">
 						<span class="fas fa-bars fa-fw" title="{\App\Language::translate('LBL_MENU')}"></span>
 					</a>
 				</div>
 			</div>
 			{if \App\Config::performance('GLOBAL_SEARCH')}
+				{assign var='SEARCH_FIELD_MODEL' value=\App\RecordSearch::getSearchField()}
 				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex mr-2"
 					 data-js="container">
 					<div class="input-group-prepend select2HeaderWidth">
@@ -20,8 +20,7 @@
 						{assign var="DEFAULT_OVERRIDE" value=$USER_MODEL->get('default_search_override')}
 						{assign var="SELECTABLE_ACTUAL_MODULE" value="{array_key_exists($MODULE_NAME,$SEARCHABLE_MODULES)}"}
 						{assign var="SELECTABLE_USER_MODULE" value="{array_key_exists($USER_DEFAULT_MODULE,$SEARCHABLE_MODULES)}"}
-						<select class="select2 basicSearchModulesList form-control"
-								title="{\App\Language::translate('LBL_SEARCH_MODULE')}" data-dropdown-auto-width="true">
+						<select class="select2 basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}" data-dropdown-auto-width="true">
 							<option value="-">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 							{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
 								{assign var="SELECTED" value=""}
@@ -36,7 +35,7 @@
 					</div>
 					<input id="global-search-__value" type="text"
 						   class="form-control js-global-search__value o-global-search__value"
-						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
+						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" maxlength="{$SEARCH_FIELD_MODEL->getMaxValue()}"
 						   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
 						   data-js="keypress | value | autocomplete"/>
 					<div class="input-group-append bg-white rounded-right">
@@ -108,7 +107,7 @@
 						</div>
 						<div class="input-group mb-3 js-global-search__input o-global-search__input"
 							 data-js="container">
-							<input id="global-search-__value--mobile" type="text"
+							<input id="global-search-__value--mobile" maxlength="{$SEARCH_FIELD_MODEL->getMaxValue()}" type="text"
 								   class="form-control js-global-search__value o-global-search__value"
 								   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 								   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
@@ -129,13 +128,10 @@
 					</div>
 				</div>
 			{/if}
-			{if !\App\YetiForce\Shop::verify()}
-				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-						{if $USER_MODEL->isAdminUser()}
-							href="index.php?module=YetiForce&parent=Settings&view=Shop"
-						{else}
-							href="#"
-						{/if} >
+			{assign var=VERIFY value=\App\YetiForce\Shop::verify()}
+			{if $VERIFY}
+				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{$VERIFY}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+					{if $USER_MODEL->isAdminUser()} href="index.php?module=YetiForce&parent=Settings&view=Shop"{else} href="#"{/if}>
 					<span class="yfi yfi-shop-alert fa-2x"></span>
 				</a>
 			{/if}
@@ -161,7 +157,7 @@
 		{if !empty(\Config\Main::$headerAlertMessage)}
 			<div class="alert {if empty(\Config\Main::$headerAlertType)}alert-danger{else}{\Config\Main::$headerAlertType}{/if} m-auto mb-0 px-3 py-1 text-center u-font-size-19px text-nowrap" role="alert">
 				<i class="{if empty(\Config\Main::$headerAlertIcon)}fas fa-exclamation-triangle{else}{\Config\Main::$headerAlertIcon}{/if}"></i>
-				<span class="font-weight-bold mx-5">{\Config\Main::$headerAlertMessage}</span>
+				<span class="font-weight-bold mx-3">{\Config\Main::$headerAlertMessage}</span>
 				<i class="{if empty(\Config\Main::$headerAlertIcon)}fas fa-exclamation-triangle{else}{\Config\Main::$headerAlertIcon}{/if}"></i>
 			</div>
 		{/if}
@@ -182,6 +178,7 @@
 									</div>
 									<div class="d-xxl-none">
 										<span class="fas fa-inbox fa-fw" title="{\App\Language::translate('LBL_EMAIL')}"></span>
+										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
 									</div>
 								</a>
 							{else}
@@ -200,8 +197,11 @@
 									</a>
 									<ul class="dropdown-menu js-mail-list" aria-labelledby="show-mail-list" role="list" data-js="click">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-											<li value="{$KEY}" data-id="{$KEY}" data-nomail="" class="dropdown-item noMails js-mail-link" data-js="click">
-												{$ITEM.username}
+											<li value="{$KEY}" data-nomail="" class="dropdown-item js-mail-link px-2" data-js="click">
+												<div class="d-flex w-100">
+													<span class="mr-2">{$ITEM.username}</span>
+													<span data-id="{$KEY}" class="noMails ml-auto"></span>
+												</div>
 											</li>
 										{/foreach}
 									</ul>
@@ -239,6 +239,47 @@
 				</a>
 				<div class="o-action-menu__container d-flex flex-md-nowrap flex-column flex-md-row" id="o-action-menu__container">
 					{assign var=QUICKCREATE_MODULES_PARENT value=Vtiger_Module_Model::getQuickCreateModules(true, true)}
+					{if \App\Config::main('isActiveRecordTemplate')}
+						{assign var=LIST_TEMPLATES value=\App\RecordAddsTemplates::getTemplatesList()}
+						{if count($LIST_TEMPLATES) > 1}
+							<div class="o-action-menu__item">
+								<div class="dropdown">
+									<a class="c-header__btn ml-2 btn btn-light btn js-popover-tooltip dropdownMenu" id="recordAddsTemplate"   data-js="popover" data-toggle="dropdown" data-boundary="window"
+									data-content="{\App\Language::translate('LBL_BATCH_ADDING_RECORDS')}"
+									href="#"
+									role="button">
+										<span class="mdi mdi-plus-box-multiple" title="{\App\Language::translate('LBL_BATCH_ADDING_RECORDS')}"></span>
+									</a>
+									<div class="dropdown-menu p-0 u-max-w-sm-100 u-min-w-300px" aria-labelledby="recordAddsTemplate" role="list">
+										<div class="container-fluid d-block p-2 u-max-w-xsm-100 px-2">
+											{foreach from=$LIST_TEMPLATES item=TEMPLATE_VALUE}
+												<div class="row">
+													<div class="col-12 u-bg-light-darken">
+														<a class="showModal text-decoration-none u-fs-sm text-secondary  d-block" data-url="index.php?module=Users&view=RecordAddsTemplates&recordAddsType={$TEMPLATE_VALUE->name}"
+															data-js="popover" data-toggle="modal"
+															data-placement="bottom" data-content="{\App\Language::translate($TEMPLATE_VALUE->label)}"
+															href="#">
+															<span class="{$TEMPLATE_VALUE->icon}"></span>
+															<span class="ml-2">{\App\Language::translate($TEMPLATE_VALUE->label)}</span>
+														</a>
+													</div>
+												</div>
+											{/foreach}
+										</div>
+									</div>
+								</div>
+							</div>
+						{elseif $LIST_TEMPLATES}
+							<div class="o-action-menu__item">
+								<a class="c-header__btn ml-2 showModal btn-light btn js-popover-tooltip" role="button" data-url="index.php?module=Users&view=RecordAddsTemplates&recordAddsType={$LIST_TEMPLATES[0]->name}"
+									data-js="popover" data-toggle="modal"
+									data-placement="bottom" data-content="{\App\Language::translate($LIST_TEMPLATES[0]->label)}"
+									href="#">
+									<span class="{$LIST_TEMPLATES[0]->icon}"></span>
+								</a>
+							</div>
+						{/if}
+				 	{/if}
 					{if !empty($QUICKCREATE_MODULES_PARENT)}
 						<div class="o-action-menu__item commonActionsContainer">
 							<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip dropdownMenu" role="button"
@@ -315,22 +356,19 @@
 								{assign var="HREF" value=$LINK}
 							{/if}
 							<div class="o-action-menu__item">
-								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}"
+								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" href="{$HREF}"  data-placement="bottom"
 								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
-								   data-placement="bottom"
-								   href="{$HREF}"
 										{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
-									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-										data-{$DATA_NAME}="{$DATA_VALUE}"
-									{/foreach}
+											{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+												data-{$DATA_NAME}="{$DATA_VALUE}"
+											{/foreach}
 										{/if}>
 									{if $ICON}
-										<span class="{$ICON}" title="{\App\Language::translate($TITLE,$MODULE)}"></span>
-										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE,$MODULE)}</span>
+										<span class="{$ICON}" title="{\App\Language::translate($TITLE)}"></span>
+										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE)}</span>
 									{/if}
 									{if $ICON_PATH}
-										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}"
-											 title="{\App\Language::translate($TITLE,$MODULE)}"/>
+										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}"/>
 									{/if}
 								</a>
 								{if !empty($CHILD_LINKS)}
@@ -348,15 +386,13 @@
 													{assign var="href" value="javascript:;"}
 												{/if}
 												<li>
-													<a class="dropdown-item" target="{$obj->target}"
-													   id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}"
-													   {if $label=='Switch to old look'}switchLook{/if}
-													   href="{$href}" {$onclick}
-															{if $obj->linkdata && is_array($obj->linkdata)}
-														{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-															data-{$DATA_NAME}="{$DATA_VALUE}"
-														{/foreach}
-															{/if}>{\App\Language::translate($label,$MODULE)}</a>
+													<a class="dropdown-item" href="{$href}" target="{$obj->target}" {$onclick}
+														id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}"
+													   	{if $obj->linkdata && is_array($obj->linkdata)}
+															{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}data-{$DATA_NAME}="{$DATA_VALUE}"{/foreach}
+														{/if}>
+														{\App\Language::translate($label)}
+													</a>
 												</li>
 											{/if}
 										{/foreach}

@@ -122,7 +122,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return array
 	 */
-	public function getTasks($active = false)
+	public function getTasks($active = true)
 	{
 		return Settings_Workflows_TaskRecord_Model::getAllForWorkflow($this, $active);
 	}
@@ -134,7 +134,14 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getTaskTypes()
 	{
-		return Settings_Workflows_TaskType_Model::getAllForModule($this->getModule());
+		$taskTypes = [];
+		foreach (Settings_Workflows_TaskType_Model::getAllForModule($this->getModule()) as $taskType) {
+			$taskModel = Settings_Workflows_TaskRecord_Model::getCleanInstance($this, $taskType->get('classname'))->setTaskType($taskType);
+			if ($taskModel->isEditable()) {
+				$taskTypes[] = $taskModel;
+			}
+		}
+		return $taskTypes;
 	}
 
 	/**
@@ -149,6 +156,21 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Gets params value.
+	 *
+	 * @param string|null $key
+	 *
+	 * @return mixed
+	 */
+	public function getParams(string $key = null)
+	{
+		if ($params = $this->get('params') ?: []) {
+			$params = \App\Json::decode($params);
+		}
+		return $key ? ($params[$key] ?? null) : $params;
 	}
 
 	/**
@@ -293,6 +315,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$workflowModel->set('module_name', $wf->moduleName);
 		$workflowModel->set('workflow_id', $wf->id ?? false);
 		$workflowModel->set('filtersavedinnew', $wf->filtersavedinnew);
+		$workflowModel->set('params', $wf->params);
 		$workflowModel->setWorkflowObject($wf);
 		$workflowModel->setModule($wf->moduleName);
 
@@ -313,55 +336,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
 		return $arr[$executionCondition - 1] ?? '';
-	}
-
-	/**
-	 * Function to get the count of active workflows.
-	 *
-	 * @return int count of acive workflows
-	 */
-	public static function getActiveCount()
-	{
-		Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTTaskManager.php');
-		$taskManager = new VTTaskManager();
-		$taskList = $taskManager->getTasks();
-
-		$examinedIdList = [];
-		foreach ($taskList as $taskDetails) {
-			$workFlowId = $taskDetails->workflowId;
-			if (\in_array($workFlowId, $examinedIdList)) {
-				continue;
-			}
-			if ($taskDetails->active) {
-				array_push($examinedIdList, $workFlowId);
-			}
-		}
-		return \count($examinedIdList);
-	}
-
-	/**
-	 * Get active workflows from task list.
-	 *
-	 * @param array $taskList
-	 *
-	 * @return int
-	 */
-	public static function getActiveCountFromRecord($taskList = [])
-	{
-		$examinedIdList = [];
-		if (!\is_array($taskList)) {
-			$taskList = [];
-		}
-		foreach ($taskList as $taskDetails) {
-			$workFlowId = $taskDetails->getId();
-			if (\in_array($workFlowId, $examinedIdList)) {
-				continue;
-			}
-			if ($taskDetails->isActive()) {
-				array_push($examinedIdList, $workFlowId);
-			}
-		}
-		return \count($examinedIdList);
 	}
 
 	/**

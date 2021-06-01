@@ -151,7 +151,7 @@ class Module extends ModuleBasic
 		$createCommand = \App\Db::getInstance()->createCommand();
 		$createCommand->delete('vtiger_relatedlists', ['relation_id' => $id])->execute();
 		$createCommand->delete('vtiger_relatedlists_fields', ['relation_id' => $id])->execute();
-
+		\App\Relation::clearCacheById($id);
 		\App\Log::trace("Unsetting relation with $moduleInstance->name ... DONE", __METHOD__);
 	}
 

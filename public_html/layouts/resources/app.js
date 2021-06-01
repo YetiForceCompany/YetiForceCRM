@@ -255,10 +255,6 @@ var App = (window.App = {
 									if (modalContainer.length) {
 										app.hideModalWindow(false, modalContainer[0].id);
 									}
-									if ('List' === app.getViewName()) {
-										let listInstance = new Vtiger_List_Js();
-										listInstance.getListViewRecords();
-									}
 									submitSuccessCallback(data);
 									app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
 									progress.progressIndicator({ mode: 'hide' });
@@ -267,6 +263,16 @@ var App = (window.App = {
 											text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 											type: 'success'
 										});
+										if ('List' === app.getViewName()) {
+											let listInstance = new Vtiger_List_Js();
+											listInstance.getListViewRecords();
+										} else if ('Detail' === app.getViewName()) {
+											if (app.getUrlVar('mode') === 'showRelatedList') {
+												Vtiger_Detail_Js.getInstance().loadRelatedList();
+											} else {
+												window.location.reload();
+											}
+										}
 									}
 								})
 								.fail(function (textStatus, errorThrown) {
@@ -1229,12 +1235,12 @@ var app = (window.app = {
 			return false;
 		}
 		const thisInstance = this;
-		let sendByAjaxCb;
-		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
+		let sendByAjaxCb, modalId;
+		modalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
 		if (typeof data === 'object' && data != null && !(data instanceof $)) {
 			if (data.id != undefined) {
-				Window.lastModalId = data.id;
+				modalId = data.id;
 			}
 			paramsObject = data.css;
 			cb = data.cb;
@@ -1243,6 +1249,11 @@ var app = (window.app = {
 				sendByAjaxCb = data.sendByAjaxCb;
 			}
 			data = data.data;
+		} else if (typeof data === 'string') {
+			let modalData = $(data).last();
+			if (modalData.data('modalid')) {
+				modalId = modalData.data('modalid');
+			}
 		}
 		if (typeof url === 'function') {
 			if (typeof cb === 'object') {
@@ -1262,15 +1273,15 @@ var app = (window.app = {
 			sendByAjaxCb = function () {};
 		}
 		if (paramsObject !== undefined && paramsObject.modalId !== undefined) {
-			Window.lastModalId = paramsObject.modalId;
+			modalId = paramsObject.modalId;
 		}
 		// prevent duplicate hash generation
-		let container = $('#' + Window.lastModalId);
+		let container = $('#' + modalId);
 		if (container.length) {
 			container.remove();
 		}
 		container = $('<div></div>');
-		container.attr('id', Window.lastModalId).addClass('modalContainer js-modal-container');
+		container.attr('id', modalId).addClass('modalContainer js-modal-container');
 		container.one('hidden.bs.modal', function () {
 			container.remove();
 			let backdrop = $('.modal-backdrop');
@@ -1281,6 +1292,7 @@ var app = (window.app = {
 				$('body').addClass('modal-open');
 			}
 		});
+		Window.lastModalId = modalId;
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
 		} else {
@@ -1342,10 +1354,10 @@ var app = (window.app = {
 	},
 	registerModalController: function (modalId, modalContainer, cb) {
 		let windowParent = this.childFrame ? window.parent : window;
-		if (modalId === undefined) {
+		if (!modalId) {
 			modalId = Window.lastModalId;
 		}
-		if (modalContainer === undefined) {
+		if (!modalContainer) {
 			modalContainer = $('#' + modalId + ' .js-modal-data');
 		}
 		let moduleName = modalContainer.data('module') || 'Base';
@@ -1552,31 +1564,22 @@ var app = (window.app = {
 		switch (dateFormat) {
 			case 'yyyy-mm-dd':
 				return 'Y-m-d';
-				break;
 			case 'mm-dd-yyyy':
 				return 'm-d-Y';
-				break;
 			case 'dd-mm-yyyy':
 				return 'd-m-Y';
-				break;
 			case 'yyyy.mm.dd':
 				return 'Y.m.d';
-				break;
 			case 'mm.dd.yyyy':
 				return 'm.d.Y';
-				break;
 			case 'dd.mm.yyyy':
 				return 'd.m.Y';
-				break;
 			case 'yyyy/mm/dd':
 				return 'Y/m/d';
-				break;
 			case 'mm/dd/yyyy':
 				return 'm/d/Y';
-				break;
 			case 'dd/mm/yyyy':
 				return 'd/m/Y';
-				break;
 		}
 	},
 	convertTojQueryDatePickerFormat: function (dateFormat) {
@@ -2094,7 +2097,7 @@ var app = (window.app = {
 	getUrlVar: function (varName) {
 		var getVar = function () {
 			var vars = {};
-			window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+			window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 				vars[key] = value;
 			});
 			return vars;
@@ -2896,10 +2899,47 @@ var app = (window.app = {
 		container.find('.js-fab__container').on('clickoutside', (e) => {
 			$(e.currentTarget).removeClass('u-hidden-block__opened');
 		});
+	},
+	processEvents: false,
+	registerAfterLoginEvents: function () {
+		if (this.processEvents === false) {
+			let processEvents = $('#processEvents');
+			if (processEvents.length === 0) {
+				return;
+			}
+			this.processEvents = JSON.parse(processEvents.val());
+		}
+		if (this.processEvents.length === 0) {
+			return;
+		}
+		let event = this.processEvents.shift();
+		switch (event.type) {
+			case 'modal':
+				AppConnector.request(event.url)
+					.done(function (requestData) {
+						app.showModalWindow(requestData).one('hidden.bs.modal', function () {
+							app.registerAfterLoginEvents();
+						});
+					})
+					.fail(function (textStatus, errorThrown) {
+						app.showNotify({
+							title: app.vtranslate('JS_ERROR'),
+							text: errorThrown,
+							type: 'error'
+						});
+					});
+				break;
+			case 'notify':
+				app.showNotify(event.notify);
+				app.registerAfterLoginEvents();
+				break;
+			default:
+				return;
+		}
 	}
 });
 CKEDITOR.disableAutoInline = true;
-$(document).ready(function () {
+$(function () {
 	Quasar.iconSet.set(Quasar.iconSet.mdiV3);
 	let document = $(this);
 	app.registerToggleIconClick(document);
@@ -2918,6 +2958,7 @@ $(document).ready(function () {
 	app.registesterScrollbar(document);
 	app.registerHtmlToImageDownloader(document);
 	app.registerShowHideBlock(document);
+	app.registerAfterLoginEvents(document);
 	app.registerFormsEvents(document);
 	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
@@ -2934,7 +2975,6 @@ $(document).ready(function () {
 	if (pageController) {
 		pageController.registerEvents();
 	}
-	app.registerBlockAnimationEvent();
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
@@ -2957,7 +2997,7 @@ $(document).ready(function () {
 		this.removeAttr('disabled');
 	};
 	$.fn.serializeFormData = function () {
-		let form = $(this);
+		let form = this;
 		for (var instance in CKEDITOR.instances) {
 			CKEDITOR.instances[instance].updateElement();
 		}
@@ -2965,16 +3005,11 @@ $(document).ready(function () {
 		let data = {};
 		if (values) {
 			$(values).each(function (k, v) {
-				if (v.name in data && typeof data[v.name] !== 'object') {
-					let element = form.find('[name="' + v.name + '"]');
-					//Only for muti select element we need to send array of values
-					if (element.is('select') && element.attr('multiple') != undefined) {
-						let prevValue = data[v.name];
+				let element = form.find('[name="' + v.name + '"]');
+				if (element.is('select') && element.attr('multiple') != undefined) {
+					if (data[v.name] == undefined) {
 						data[v.name] = [];
-						data[v.name].push(prevValue);
 					}
-				}
-				if (typeof data[v.name] === 'object') {
 					data[v.name].push(v.value);
 				} else {
 					data[v.name] = v.value;

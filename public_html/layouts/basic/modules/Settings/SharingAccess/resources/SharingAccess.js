@@ -327,7 +327,7 @@ jQuery.Class(
 	}
 );
 
-$(document).ready(function () {
+jQuery(function () {
 	let settingSharingAcessInstance = new Settings_Sharing_Access_Js();
 	settingSharingAcessInstance.registerEvents();
 });

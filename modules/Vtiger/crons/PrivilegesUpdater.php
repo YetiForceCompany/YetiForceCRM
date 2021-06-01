@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -22,7 +23,8 @@ class Vtiger_PrivilegesUpdater_Cron extends \App\CronHandler
 		$limit = App\Config::performance('CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER');
 		$dataReader = (new \App\Db\Query())->select(['crmid', 'setype'])
 			->from('vtiger_crmentity')
-			->where(['users' => null])
+			->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
+			->where(['vtiger_tab.presence' => 0, 'deleted' => 0, 'users' => null])
 			->limit($limit)
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -40,7 +42,7 @@ class Vtiger_PrivilegesUpdater_Cron extends \App\CronHandler
 			->limit($limit)
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			\App\PrivilegeUpdater::updateSearch($row['crmid'], $row['setype']);
+			\App\PrivilegeUpdater::updateSearch($row['crmid'], \App\Module::getModuleName($row['tabid']));
 			--$limit;
 			if (0 === $limit) {
 				return;

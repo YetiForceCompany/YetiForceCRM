@@ -59,8 +59,6 @@ class Vtiger_Paging_Model extends \App\Base
 			if (empty($pageLimit)) {
 				$pageLimit = self::PAGE_LIMIT;
 			}
-		} elseif (0 === $pageLimit) {
-			$pageLimit = self::PAGE_MAX_LIMIT;
 		}
 		return (int) $pageLimit;
 	}

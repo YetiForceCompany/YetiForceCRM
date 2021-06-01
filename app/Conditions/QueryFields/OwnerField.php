@@ -5,6 +5,8 @@ namespace App\Conditions\QueryFields;
 /**
  * Owner Query Field Class.
  *
+ * @package UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -20,14 +22,11 @@ class OwnerField extends BaseField
 	public function operatorE()
 	{
 		if (!\is_array($this->value)) {
-			if (false === strpos($this->value, '##')) {
-				return [$this->getColumnName() => $this->value];
-			}
 			$this->value = explode('##', $this->value);
 		}
 		$condition = ['or'];
 		foreach ($this->value as $value) {
-			$condition[] = [$this->getColumnName() => $value];
+			$condition[] = [$this->getColumnName() => $this->getMemberValue($value)];
 		}
 		return $condition;
 	}
@@ -39,15 +38,44 @@ class OwnerField extends BaseField
 	 */
 	public function operatorN()
 	{
-		if (false === strpos($this->value, '##')) {
-			return ['<>', $this->getColumnName(), $this->value];
+		if (!\is_array($this->value)) {
+			$this->value = explode('##', $this->value);
 		}
-		$values = explode('##', $this->value);
-		$condition = ['or'];
-		foreach ($values as $value) {
-			$condition[] = ['<>', $this->getColumnName(), $value];
+		$condition = ['and'];
+		foreach ($this->value as $value) {
+			$condition[] = ['not in', $this->getColumnName(), $this->getMemberValue($value)];
 		}
 		return $condition;
+	}
+
+	/**
+	 * Gets conditions for member.
+	 *
+	 * @param int|string $member
+	 *
+	 * @return \App\Db\Query|int
+	 */
+	public function getMemberValue($member)
+	{
+		if (is_numeric($member)) {
+			return $member;
+		}
+		[$type, $id] = explode(':', $member);
+		switch ($type) {
+			case \App\PrivilegeUtil::MEMBER_TYPE_GROUPS:
+				$value = (new \App\Db\Query())->select(['userid'])->from(["condition_{$type}_{$id}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $id)]);
+				break;
+			case \App\PrivilegeUtil::MEMBER_TYPE_ROLES:
+				$value = \App\PrivilegeUtil::getQueryToUsersByRole($id);
+				break;
+			case \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES:
+				$value = \App\PrivilegeUtil::getQueryToUsersByRoleAndSubordinate($id);
+				break;
+			default:
+				$value = -1;
+				break;
+		}
+		return $value;
 	}
 
 	/**

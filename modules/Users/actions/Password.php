@@ -3,6 +3,8 @@
 /**
  * Reset password action class.
  *
+ * @package   Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -61,6 +63,8 @@ class Users_Password_Action extends \App\Controller\Action
 	 * Reset user password.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @return void
 	 */
 	public function reset(App\Request $request): void
 	{
@@ -70,7 +74,6 @@ class Users_Password_Action extends \App\Controller\Action
 		$userRecordModel->set('changeUserPassword', true);
 		$userRecordModel->set('user_password', $password);
 		$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
-		$userRecordModel->set('force_password_change', 0);
 
 		$eventHandler = new \App\EventHandler();
 		$eventHandler->setRecordModel($userRecordModel);
@@ -98,6 +101,8 @@ class Users_Password_Action extends \App\Controller\Action
 	 * Change user password.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @return void
 	 */
 	public function change(App\Request $request): void
 	{
@@ -116,7 +121,6 @@ class Users_Password_Action extends \App\Controller\Action
 			$userRecordModel->set('changeUserPassword', true);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
-			$userRecordModel->set('force_password_change', $isOtherUser ? 1 : 0);
 			try {
 				$eventHandler = new \App\EventHandler();
 				$eventHandler->setRecordModel($userRecordModel);
@@ -131,6 +135,7 @@ class Users_Password_Action extends \App\Controller\Action
 				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users')]]);
 				if (\App\Session::has('ShowUserPasswordChange')) {
 					\App\Session::delete('ShowUserPasswordChange');
+					\App\Process::removeEvent('ShowUserPasswordChange');
 				}
 			} catch (\App\Exceptions\SaveRecord $exc) {
 				$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translateSingleMod($exc->getMessage(), 'Other.Exceptions'), 'type' => 'error']]);
@@ -156,7 +161,6 @@ class Users_Password_Action extends \App\Controller\Action
 			$userRecordModel->set('changeUserPassword', true);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
-			$userRecordModel->set('force_password_change', 0);
 
 			$eventHandler = new \App\EventHandler();
 			$eventHandler->setRecordModel($userRecordModel);
@@ -179,13 +183,5 @@ class Users_Password_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USERS', 'Users')]]);
 		$response->emit();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateRequest(App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

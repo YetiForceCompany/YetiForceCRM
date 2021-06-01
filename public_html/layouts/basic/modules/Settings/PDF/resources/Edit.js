@@ -186,32 +186,6 @@ Settings_Vtiger_Edit_Js(
 							}
 						}
 					],
-					toolbar_PDF: [
-						{
-							name: 'clipboard',
-							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
-						},
-						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
-						{ name: 'links', items: ['Link', 'Unlink'] },
-						{
-							name: 'insert',
-							items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'PageBreak']
-						},
-						{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
-						{ name: 'document', items: ['Source'] },
-						'/',
-						{ name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
-						{
-							name: 'basicstyles',
-							items: ['Bold', 'Italic', 'Underline', 'Strike']
-						},
-						{ name: 'colors', items: ['TextColor', 'BGColor'] },
-						{
-							name: 'paragraph',
-							items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight']
-						},
-						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
-					],
 					allowedContent: {
 						$1: {
 							elements: CKEDITOR.dtd,

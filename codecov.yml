@@ -1,0 +1,30 @@
+ignore:
+  - 'vendor/*'
+  - 'node_modules/*'
+  - 'public_html/vendor/*'
+  - 'public_html/src/node_modules/*'
+  - 'public_html/libraries/*'
+
+coverage:
+  range: 0..22
+  status:
+    project:
+      default:
+        target: 26%
+
+      tests:
+        target: 99%
+        paths:
+          - 'tests/'
+      app:
+        target: 34%
+        paths:
+          - 'app/'
+
+      api:
+        target: 40%
+        paths:
+          - 'api/'
+    patch: off
+
+comment: off

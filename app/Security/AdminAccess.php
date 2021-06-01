@@ -2,7 +2,7 @@
 /**
  * Admin privilege basic file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -48,14 +48,14 @@ class AdminAccess
 		}
 		$userModel = \App\User::getUserModel($userId);
 		return ($userModel->isAdmin() || $userModel->isSuperUser()) && (
-				\in_array($moduleName, self::EXCEPTIONS) ||
-				(
+				\in_array($moduleName, self::EXCEPTIONS)
+				|| (
 					\in_array($moduleName, self::getActiveModules()) && (
-						$userModel->isAdmin() ||
-						\in_array($moduleName, self::getPermittedModulesByUser($userId))
+						$userModel->isAdmin()
+						|| \in_array($moduleName, self::getPermittedModulesByUser($userId))
 					)
-				) ||
-				($userModel->isAdmin() && 'AdminAccess' === $moduleName)
+				)
+				|| ($userModel->isAdmin() && 'AdminAccess' === $moduleName)
 			);
 	}
 

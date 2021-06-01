@@ -37,7 +37,7 @@ Base_SortOrderModal_JS(
 			let data = this.sourceContainer.serializeFormData();
 			app
 				.saveAjax(
-					'updateSort',
+					'updateField',
 					{},
 					{
 						cvid: data.cvid,

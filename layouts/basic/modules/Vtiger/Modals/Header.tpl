@@ -12,7 +12,7 @@
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}
 			{if $REGISTER_EVENTS}
-				<script type="text/javascript">app.registerModalController();</script>
+				<script type="text/javascript">app.registerModalController('{$MODAL_ID}');</script>
 			{/if}
 			<div class="modal-header{if isset($MODAL_VIEW->headerClass)} {$MODAL_VIEW->headerClass}{/if}">
 				<h5 class="modal-title">

@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -26,14 +27,12 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 	public function process()
 	{
 		$html = '';
-		$pagingModel = new \Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
 		$relationModuleName = 'Products';
 		// Products from main storage
 		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
 		$productModel = $relationListView->getRelatedModuleModel();
 		// Summary table with products from all storages
-		$allEntries[$this->textParser->record] = $relationListView->getEntries($pagingModel);
+		$allEntries[$this->textParser->record] = $relationListView->getAllEntries();
 		// Hierarchy of main storage (contains child storages)
 		$focus = $this->textParser->recordModel->getEntity();
 		$storageList[$this->textParser->record] = [
@@ -61,7 +60,7 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 				// Getting storage products if it is child of main storage
 				$storageRecordModel = Vtiger_Record_Model::getInstanceById($storageId);
 				$storageRelationListView = Vtiger_RelationListView_Model::getInstance($storageRecordModel, $relationModuleName);
-				$allEntries[$storageId] = $storageRelationListView->getEntries($pagingModel);
+				$allEntries[$storageId] = $storageRelationListView->getAllEntries();
 			}
 		}
 		$storageSubjectList = rtrim($storageSubjectList, ', ');

@@ -3,6 +3,8 @@
 /**
  * Fields Action Class.
  *
+ * @package Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -151,17 +153,17 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
 		}
 		$response = new Vtiger_Response();
-		$rows = (new \App\RecordSearch($request->getByType('value', 'Text'), $fieldModel->getReferenceList()))->search();
-		$data = $modules = $ids = [];
+		$limit = \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT');
+		$searchValue = \App\RecordSearch::getSearchField()->getUITypeModel()->getDbConditionBuilderValue($request->getByType('value', \App\Purifier::TEXT), '');
+		$rows = (new \App\RecordSearch($searchValue, $fieldModel->getReferenceList(), $limit))->setMode(\App\RecordSearch::LABEL_MODE)->search();
+		$data = $modules = [];
 		foreach ($rows as $row) {
-			$ids[] = $row['crmid'];
-			$modules[$row['setype']][] = $row['crmid'];
+			$modules[$row['setype']][] = $row;
 		}
-		$labels = \App\Record::getLabel($ids);
 		foreach ($modules as $moduleName => $rows) {
 			$data[] = ['name' => App\Language::translateSingleMod($moduleName, $moduleName), 'type' => 'optgroup'];
-			foreach ($rows as $id) {
-				$data[] = ['id' => $id, 'name' => $labels[$id]];
+			foreach ($rows as $row) {
+				$data[] = ['id' => $row['crmid'], 'name' => \App\Purifier::encodeHtml($row['label'])];
 			}
 		}
 		$response->setResult(['items' => $data]);

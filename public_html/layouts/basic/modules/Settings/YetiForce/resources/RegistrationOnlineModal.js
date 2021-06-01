@@ -76,8 +76,13 @@ jQuery.Class(
 						container.find('button[name=saveButton]').prop('disabled', false);
 						return data['result'];
 					})
-					.fail(function () {
+					.fail(function (error, title) {
 						progress.progressIndicator({ mode: 'hide' });
+						app.showNotify({
+							title: title,
+							text: error,
+							type: 'error'
+						});
 					});
 			});
 			this.registerNewsletter();

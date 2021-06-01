@@ -25,7 +25,7 @@
 					{/if}
 					{assign var=COUNT value=$COUNT+1}
 					{assign var=HEADER_FIELD_NAME value=$HEADER_FIELD->getFullName()}
-					<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap class="{if isset($ORDER_BY[$HEADER_FIELD_NAME])} columnSorted{/if}">
+					<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap class="{if isset($ORDER_BY[$HEADER_FIELD_NAME])}columnSorted {/if}js-list__row" data-js="container">
 						{if $HEADER_FIELD->getColumnName() eq 'access_count' or $HEADER_FIELD->getColumnName() eq 'idlists' }
 							<a href="javascript:void(0);"
 							   class="noSorting">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}</a>

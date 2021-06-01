@@ -280,9 +280,9 @@ class PackageImport extends PackageExport
 			$manifestFound = true;
 			$moduleName = (string) $this->_modulexml->name;
 			$isModuleBundle = (string) $this->_modulexml->modulebundle;
-			if ('true' === $isModuleBundle && (!empty($this->_modulexml)) &&
-					(!empty($this->_modulexml->dependencies)) &&
-					(!empty($this->_modulexml->dependencies->vtiger_version))) {
+			if ('true' === $isModuleBundle && (!empty($this->_modulexml))
+					&& (!empty($this->_modulexml->dependencies))
+					&& (!empty($this->_modulexml->dependencies->vtiger_version))) {
 				$languagefile_found = true;
 			}
 			// Do we need to check the zip further?
@@ -322,9 +322,9 @@ class PackageImport extends PackageExport
 			$errorText = str_replace('__DEFAULTLANGUAGE__', \App\Config::main('default_language'), $errorText);
 			$this->_errorText = $errorText;
 		}
-		if (!empty($this->_modulexml) &&
-			!empty($this->_modulexml->dependencies) &&
-			!empty($this->_modulexml->dependencies->vtiger_version)) {
+		if (!empty($this->_modulexml)
+			&& !empty($this->_modulexml->dependencies)
+			&& !empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
 			$versionCheck = \App\Version::compare(\App\Version::get(), $moduleVersion);
 			if (false !== $versionCheck && $versionCheck >= 0) {
@@ -478,7 +478,7 @@ class PackageImport extends PackageExport
 	 */
 	public function getDependentVtigerVersion(): string
 	{
-		return (!empty($this->_modulexml) && \is_object($this->_modulexml)) ? $this->_modulexml->dependencies->vtiger_version : '';
+		return $this->_modulexml->dependencies->vtiger_version ?? '';
 	}
 
 	/**
@@ -1237,7 +1237,7 @@ class PackageImport extends PackageExport
 	 */
 	public function importFont($zipfile)
 	{
-		$fontsDir = \ROOT_DIRECTORY . '/public_html/layouts/resources/fonts';
+		$fontsDir = ROOT_DIRECTORY . '/public_html/layouts/resources/fonts';
 		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['ttf', 'txt', 'woff']]);
 		$files = $zip->unzip(['fonts' => $fontsDir]);
 		$fonts = \App\Json::read($fontsDir . '/fonts.json');

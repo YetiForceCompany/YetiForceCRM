@@ -32,7 +32,7 @@ class Vtiger_MultiReference_Cron extends \App\CronHandler
 					->setFields(['id'])
 					->addCondition('id', $multiReference['lastid'], 'a')
 					->setOrder('id', 'DESC');
-				$lastId = $queryGenerator->createQuery()->limit(1)->scalar();
+				$lastId = $queryGenerator->createQuery()->scalar();
 				$fields = \Vtiger_MultiReferenceValue_UIType::getFieldsByModules($sourceModule, $destModule);
 
 				$dataReader = $queryGenerator->setOrder('id', 'ASC')->createQuery(true)->limit($limit)->createCommand()->query();

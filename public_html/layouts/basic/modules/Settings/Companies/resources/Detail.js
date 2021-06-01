@@ -14,6 +14,7 @@ jQuery.Class(
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
 					action: 'DeleteAjax',
+					detailView: true,
 					record: $(e.currentTarget).data('recordId')
 				}).done(function (data) {
 					window.location.href = data.result;

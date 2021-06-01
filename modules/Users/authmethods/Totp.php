@@ -4,9 +4,12 @@
  * TOTP authentication method class.
  * TOTP - Time-based One-time Password.
  *
+ * @package AuthMethod
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 
@@ -92,7 +95,7 @@ class Users_Totp_Authmethod
 			case 'SVG':
 				return $qrCodeGenerator->getBarcodeSVG($otpAuthUrl, 'QRCODE');
 			case 'PNG':
-				return '<img src="data:image/png;base64,' . $qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE', 14, 14) . '" alt="QR code" class="col-auto p-0" />';
+				return '<img src="data:image/png;base64,' . $qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE', 10, 10) . '" alt="QR code" class="col-auto p-0" />';
 			default:
 				break;
 		}
@@ -140,7 +143,7 @@ class Users_Totp_Authmethod
 			$userId = \App\User::getCurrentUserRealId();
 		}
 		$userModel = \App\User::getUserModel($userId);
-		if ('PLL_PASSWORD_2FA' === $userModel->getDetail('login_method')) {
+		if ('PLL_PASSWORD_2FA' === $userModel->getDetail('login_method') || 'PLL_LDAP_2FA' === $userModel->getDetail('login_method')) {
 			switch (App\Config::security('USER_AUTHY_MODE')) {
 				case 'TOTP_OPTIONAL':
 					$isActive = 'PLL_AUTHY_TOTP' === $userModel->getDetail('authy_methods');

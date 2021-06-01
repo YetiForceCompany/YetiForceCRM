@@ -2,6 +2,8 @@
 /**
  * TextParser test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -59,15 +61,15 @@ class Purifier extends \Tests\Base
 	{
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$userModel = \App\User::getCurrentUserModel();
-		static::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
-		static::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
-		static::$symbolPlacement = $userModel->getDetail('currency_symbol_placement');
-		static::$patternGrouping = $userModel->getDetail('currency_grouping_pattern');
-		static::$decimalNum = $userModel->getDetail('no_of_currency_decimals');
-		static::$hourFormat = $userModel->getDetail('hour_format');
-		static::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
-		static::$userTimeZone = $userModel->getDetail('time_zone');
-		static::$timeZone = date_default_timezone_get();
+		self::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
+		self::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
+		self::$symbolPlacement = $userModel->getDetail('currency_symbol_placement');
+		self::$patternGrouping = $userModel->getDetail('currency_grouping_pattern');
+		self::$decimalNum = $userModel->getDetail('no_of_currency_decimals');
+		self::$hourFormat = $userModel->getDetail('hour_format');
+		self::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
+		self::$userTimeZone = $userModel->getDetail('time_zone');
+		self::$timeZone = date_default_timezone_get();
 		$userRecordModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userRecordModel->set('currency_decimal_separator', '.');
 		$userRecordModel->set('currency_grouping_separator', ' ');
@@ -92,38 +94,41 @@ class Purifier extends \Tests\Base
 	{
 		//$type, $assertion, $expected, $text, $message, $exception
 		return [
-			['Standard', 'Same', 'Test-text-string-for-purifier', 'Test-text-string-for-purifier', 'Sample text should be unchanged', false],
-			['Standard', 'Same', ['Test-text-string-for-purifier', 'Test-text-string-for-purifier'], ['Test-text-string-for-purifier', 'Test-text-string-for-purifier'], 'Sample text should be unchanged(array)', false],
+			['Standard', 'Same', 'Test-text-string-for-purifier', 'Test-text-string-for-purifier', 'Sample text should be unchanged', null],
+			['Standard', 'Same', ['Test-text-string-for-purifier', 'Test-text-string-for-purifier'], ['Test-text-string-for-purifier', 'Test-text-string-for-purifier'], 'Sample text should be unchanged(array)', null],
 			['Standard', 'NotSame', 'Test-text-string-for-purifier%$54#T$#BR', 'Test-text-string-for-purifier%$54#T$#BR', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
-			['Alnum', 'Same', 'Test_text_alnum_4_purifier', 'Test_text_alnum_4_purifier', 'Sample text should be unchanged', false],
+			['Alnum', 'Same', 'Test_text_alnum_4_purifier', 'Test_text_alnum_4_purifier', 'Sample text should be unchanged', null],
 			['Alnum', 'NotSame', 'Test_text_alnum_4_purifier%$54#T$#BR-', 'Test_text_alnum_4_purifier%$54#T$#BR-', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
-			[2, 'Same', 'Test_text_alnum_4_purifier', 'Test_text_alnum_4_purifier', 'Sample text should be unchanged', false],
+			[2, 'Same', 'Test_text_alnum_4_purifier', 'Test_text_alnum_4_purifier', 'Sample text should be unchanged', null],
 			[2, 'NotSame', 'Test_text_alnum_4_purifier%$54#T$#BR-', 'Test_text_alnum_4_purifier%$54#T$#BR-', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
-			['DateInUserFormat', 'Same', date('Y-m-d'), date('Y-m-d'), 'Sample text should be unchanged', false],
+			['DateInUserFormat', 'Same', date('Y-m-d'), date('Y-m-d'), 'Sample text should be unchanged', null],
 			['DateInUserFormat', 'NotSame', date('Y.m.d'), date('Y.m.d'), 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
-			['DateRangeUserFormat', 'Same', [date('Y-m-d'), date('Y-m-d', \strtotime('+1 day'))], date('Y-m-d') . ',' . date('Y-m-d', \strtotime('+1 day')), 'Sample text should be unchanged', false],
+			['DateRangeUserFormat', 'Same', [date('Y-m-d'), date('Y-m-d', \strtotime('+1 day'))], date('Y-m-d') . ',' . date('Y-m-d', \strtotime('+1 day')), 'Sample text should be unchanged', null],
 			['DateRangeUserFormat', 'NotSame', date('Y.m.d') . ',' . date('Y.m.d', \strtotime('+1 day')), date('Y.m.d') . ',' . date('Y.m.d', \strtotime('+1 day')), 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
-			['Date', 'Same', date('Y-m-d'), date('Y-m-d'), 'Sample text should be unchanged', false],
+			['Date', 'Same', date('Y-m-d'), date('Y-m-d'), 'Sample text should be unchanged', null],
 			['Date', 'NotSame', '201X-07-26', '201X-07-26', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
-			['Time', 'Same', date('H:i:s'), date('H:i:s'), 'Sample text should be unchanged', false],
+			['Time', 'Same', date('H:i:s'), date('H:i:s'), 'Sample text should be unchanged', null],
 			['Time', 'NotSame', '24:12:20', '24:12:20', 'Sample text should be unchanged', \App\Exceptions\IllegalValue::class],
-			['TimeInUserFormat', 'Same', date('H:i'), date('H:i'), 'Sample text should be unchanged', false],
-			['Bool', 'Same', true, true, 'Sample text should be unchanged', false],
+			['TimeInUserFormat', 'Same', date('H:i'), date('H:i'), 'Sample text should be unchanged', null],
+			['Bool', 'Same', true, true, 'Sample text should be unchanged', null],
 			['Bool', 'NotSame', 'Test-text', 'Test-text', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
-			['NumberInUserFormat', 'Same', 1234567890.0, '1234567890', 'Sample text should be unchanged and converted to decimal', false],
+			['NumberInUserFormat', 'Same', 1234567890.0, '1234567890', 'Sample text should be unchanged and converted to decimal', null],
 			['NumberInUserFormat', 'NotSame', '12345X7890', '12345X7890', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
-			['Integer', 'Same', 1234, 1234, 'Sample integer should be unchanged', false],
+			['Integer', 'Same', 1234, 1234, 'Sample integer should be unchanged', null],
 			['Integer', 'NotSame', '12X4', '12X4', 'Sample integer should be purified', \App\Exceptions\IllegalValue::class],
-			['Digital', 'Same', '43453453', '43453453', 'Sample number should be unchanged', false],
+			['Digital', 'Same', '43453453', '43453453', 'Sample number should be unchanged', null],
 			['Digital', 'NotSame', '43453C53', '43453C53', 'Sample number should be purified', \App\Exceptions\IllegalValue::class],
-			['Color', 'Same', '#3A13F5', '#3A13F5', 'Sample number should be unchanged', false],
+			['Color', 'Same', '#3A13F5', '#3A13F5', 'Sample number should be unchanged', null],
 			['Color', 'NotSame', '#3A13FZ', '#3A13FZ', 'Sample number should be purified', \App\Exceptions\IllegalValue::class],
-			['Year', 'Same', date('Y'), date('Y'), 'Sample number should be unchanged', false],
+			['Year', 'Same', date('Y'), date('Y'), 'Sample number should be unchanged', null],
 			['Year', 'NotSame', '201X', '201X', 'Sample number should be purified', \App\Exceptions\IllegalValue::class],
-			['Text', 'Same', 'Test-text-string-for-purifier', 'Test-text-string-for-purifier', 'Sample number should be unchanged', false],
+			['Text', 'Same', 'Test-text-string-for-purifier', 'Test-text-string-for-purifier', 'Sample number should be unchanged', null],
 			['Text', 'NotSame', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'Sample number should be purified', \App\Exceptions\IllegalValue::class],
-			['Default', 'Same', 'Test-text-string-for-purifier', 'Test-text-string-for-purifier', 'Sample number should be unchanged', false],
+			['Default', 'Same', 'Test-text-string-for-purifier', 'Test-text-string-for-purifier', 'Sample number should be unchanged', null],
 			['Default', 'NotSame', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'Sample number should be purified', \App\Exceptions\IllegalValue::class],
+			['MailId', 'Same', '<5FB2B5EF@xx.cc.it> (added by postmaster@cc.it)', '<5FB2B5EF@xx.cc.it> (added by postmaster@cc.it)', 'Sample text should be unchanged', null],
+			['MailId', 'Same', '<30.123.12.JavaMail."admin.azure"@A-PROXY01>', '<30.123.12.JavaMail."admin.azure"@A-PROXY01>', 'Sample text should be unchanged', null],
+			['MailId', 'Same', '<CAK01GN-UtTiM90_wQNB07OnE6aBm=w@mail.g.c>', '<CAK01GN-UtTiM90_wQNB07OnE6aBm=w@mail.g.c>', 'Sample text should be unchanged', null],
 		];
 	}
 
@@ -132,6 +137,8 @@ class Purifier extends \Tests\Base
 	 */
 	public function testEmptyValues()
 	{
+		$logToFile = \App\Log::$logToFile;
+		\App\Log::$logToFile = false;
 		$this->assertSame('', \App\Purifier::purify(''), 'Empty text should be unchanged');
 		$this->assertSame('', \App\Purifier::purifyHtml(''), 'Empty text should be unchanged');
 		$this->assertNull(\App\Purifier::purifyHtmlEventAttributes(''), 'Empty text should not throw exception');
@@ -140,6 +147,7 @@ class Purifier extends \Tests\Base
 		$this->assertSame('', \App\Purifier::decodeHtml(''), 'Empty text should be unchanged');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertSame('', \App\Purifier::purifySql('', false), 'Empty text should be unchanged');
+		\App\Log::$logToFile = $logToFile;
 	}
 
 	/**
@@ -147,31 +155,36 @@ class Purifier extends \Tests\Base
 	 */
 	public function testTextValues()
 	{
+		$logToFile = \App\Log::$logToFile;
+		\App\Log::$logToFile = false;
 		$this->assertSame('Test text string for purifier', \App\Purifier::purify('Test text string for purifier'), 'Sample text should be unchanged');
 		$this->assertSame('Test text string for purifier', \App\Purifier::purify('Test text string for purifier'), 'Sample text should be unchanged(cached)');
 		$this->assertSame(['Test text string for purifier', 'Test text string for purifier'], \App\Purifier::purify(['Test text string for purifier', 'Test text string for purifier']), 'Sample text should be unchanged(array)');
 		$this->assertSame('Test text string for purifier', \App\Purifier::purifyHtml('Test text string for purifier'), 'Sample text should be unchanged');
 		$this->assertNull(\App\Purifier::purifyHtmlEventAttributes('Test text string for purifier'), 'Sample text should be unchanged');
+		\App\Log::$logToFile = $logToFile;
 	}
 
 	/**
-	 * @param string       $type
-	 * @param false|string $textOk
-	 * @param false|string $textBad
-	 * @param mixed        $assertion
-	 * @param mixed        $expected
-	 * @param mixed        $text
-	 * @param mixed        $message
-	 * @param mixed        $exception
 	 * @dataProvider dataProviderByType
+	 *
+	 * @param mixed       $type
+	 * @param mixed       $assertion
+	 * @param mixed       $expected
+	 * @param mixed       $text
+	 * @param string      $message
+	 * @param string|null $exception
 	 */
-	public function testPurifyByType($type, $assertion, $expected, $text, $message, $exception)
+	public function testPurifyByType($type, $assertion, $expected, $text, string $message, ?string $exception): void
 	{
+		$logToFile = \App\Log::$logToFile;
+		\App\Log::$logToFile = false;
 		$assertion = 'assert' . $assertion;
 		if ($exception) {
 			$this->expectException($exception);
 		}
-		$this->{$assertion}($expected, \App\Purifier::purifyByType($text, $type), "$message | $expected | $type | $assertion | $text");
+		$this->{$assertion}($expected, \App\Purifier::purifyByType($text, $type), $message);
+		\App\Log::$logToFile = $logToFile;
 	}
 
 	/**
@@ -179,59 +192,90 @@ class Purifier extends \Tests\Base
 	 *
 	 * @return array
 	 */
-	public function purifyHtmlProvider()
+	public function purifyHtmlProviderFailure(): array
+	{
+		$rows = [];
+		$file = \App\Fields\File::loadFromUrl('https://raw.githubusercontent.com/YetiForceCompany/YetiForceCRM-Tests/main/xss-payload.txt');
+		$fileRows = explode("\n", $file->getContents());
+		// $fileRows = explode("\n", file_get_contents('c:\www\YetiForceCRM-Tests\xss-payload.txt'));
+		foreach ($fileRows as $row) {
+			if ($row) {
+				$rows[] = [$row];
+			}
+		}
+		return $rows;
+	}
+
+	/**
+	 * Testing html purifier failure.
+	 *
+	 * @dataProvider purifyHtmlProviderFailure
+	 *
+	 * @param string $text
+	 */
+	public function testPurifyHtmlFailure(string $text): void
+	{
+		$this->expectException(\App\Exceptions\IllegalValue::class);
+		$logToFile = \App\Log::$logToFile;
+		\App\Log::$logToFile = false;
+		try {
+			$purifyHtml = \App\Purifier::purifyHtml($text);
+			if ($purifyHtml !== $text) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
+			}
+			throw new \Exception('Illegal value !!! ' . $text);
+		} catch (\Throwable $th) {
+			// echo \get_class($th);
+			throw $th;
+		}
+		\App\Log::$logToFile = $logToFile;
+	}
+
+	/**
+	 * @codeCoverageIgnore
+	 *
+	 * @return array
+	 */
+	public function purifyHtmlProviderSuccess(): array
 	{
 		return [
 			['<div>Test-text-string-for-purifier</div>', '<div>Test-text-string-for-purifier</div>', true],
-			['<img src="1"onload=alert(1)>', '<img src="1" alt="1">', true],
-			['&lt;svg/onload=alert(1)onabort=alert(2)//', '&lt;svg/onload=alert(1)onabort=alert(2)//', false],
-			['<img src="1" onerror=alert(1)>', '<img src="1" alt="1">', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)(*&amp;^%$#@!)', true],
-			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//', false],
-			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', false]
 		];
 	}
 
 	/**
-	 * Testing html purifier.
+	 * Testing html purifier success.
 	 *
-	 * @dataProvider purifyHtmlProvider
+	 * @dataProvider purifyHtmlProviderSuccess
 	 *
-	 * @param mixed $text
-	 * @param mixed $expected
-	 * @param mixed $notThrowException
+	 * @param string $text
+	 * @param string $expected
 	 */
-	public function testPurifyHtml($text, $expected, $notThrowException)
+	public function testPurifyHtmlSuccess(string $text, string $expected): void
 	{
-		if ($notThrowException) {
-			$this->assertSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be unchanged');
-		} else {
-			$this->expectException(\App\Exceptions\IllegalValue::class);
-			$this->assertNotSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be purified');
-		}
+		$this->assertSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be unchanged');
 	}
 
 	/**
 	 * Restore current user preferences.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @throws \Exception
 	 */
 	public static function tearDownAfterClass(): void
 	{
 		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
-		$userModel->set('currency_decimal_separator', static::$separatorDecimal);
-		$userModel->set('currency_grouping_separator', static::$separatorGrouping);
-		$userModel->set('currency_symbol_placement', static::$symbolPlacement);
-		$userModel->set('currency_grouping_pattern', static::$patternGrouping);
-		$userModel->set('no_of_currency_decimals', static::$decimalNum);
-		$userModel->set('truncate_trailing_zeros', static::$truncateTrailingZeros);
-		$userModel->set('hour_format', static::$hourFormat);
-		$userModel->set('time_zone', static::$userTimeZone);
+		$userModel->set('currency_decimal_separator', self::$separatorDecimal);
+		$userModel->set('currency_grouping_separator', self::$separatorGrouping);
+		$userModel->set('currency_symbol_placement', self::$symbolPlacement);
+		$userModel->set('currency_grouping_pattern', self::$patternGrouping);
+		$userModel->set('no_of_currency_decimals', self::$decimalNum);
+		$userModel->set('truncate_trailing_zeros', self::$truncateTrailingZeros);
+		$userModel->set('hour_format', self::$hourFormat);
+		$userModel->set('time_zone', self::$userTimeZone);
 		$userModel->save();
-		\date_default_timezone_set(static::$timeZone);
+		\date_default_timezone_set(self::$timeZone);
 		parent::tearDownAfterClass();
 	}
 }

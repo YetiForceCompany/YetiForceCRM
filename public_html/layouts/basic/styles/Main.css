@@ -2602,8 +2602,14 @@ fieldset:disabled a.btn {
   line-height: 1.5;
   border-radius: 0.3rem; }
 
-.btn-sm, .btn-group-sm > .btn, .rightRecordActions .actions .dropdown-menu .btn-xs, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm,
-.leftRecordActions .actions .dropdown-menu .btn-xs, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm {
+.btn-sm, .btn-group-sm > .btn, .rightRecordActions .actions .dropdown-menu .btn-xs, .rightRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .btn.btn-sm, .table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm, .rightRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .btn.btn-sm, .c-detail-widget__table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm,
+.rightRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .btn.btn-sm, .listViewEntries td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm,
+.rightRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .btn.btn-sm, td.listViewEntryValue.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .btn.btn-sm, .detailViewTable .fieldLabel.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm,
+.rightRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .btn.btn-sm, .detailViewTable .fieldValue.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm,
+.leftRecordActions .actions .dropdown-menu .btn-xs, .leftRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .btn.btn-sm, .table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm, .leftRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .btn.btn-sm, .c-detail-widget__table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm,
+.leftRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .btn.btn-sm, .listViewEntries td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm,
+.leftRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .btn.btn-sm, td.listViewEntryValue.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .btn.btn-sm, .detailViewTable .fieldLabel.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm,
+.leftRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .btn.btn-sm, .detailViewTable .fieldValue.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   line-height: 1.5;
@@ -2915,7 +2921,7 @@ input[type="button"].btn-block {
   .dropleft .dropdown-toggle-split::before {
     margin-right: 0; }
 
-.btn-sm + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu .btn-xs + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm + .dropdown-toggle-split, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .leftRecordActions .actions .dropdown-menu .btn-xs + .dropdown-toggle-split, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm + .dropdown-toggle-split, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split {
+.btn-sm + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu .btn-xs + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .btn.btn-sm + .dropdown-toggle-split, .table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .btn.btn-sm + .dropdown-toggle-split, .c-detail-widget__table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .btn.btn-sm + .dropdown-toggle-split, .listViewEntries td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .btn.btn-sm + .dropdown-toggle-split, td.listViewEntryValue.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .btn.btn-sm + .dropdown-toggle-split, .detailViewTable .fieldLabel.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .btn.btn-sm + .dropdown-toggle-split, .detailViewTable .fieldValue.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm + .dropdown-toggle-split, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .leftRecordActions .actions .dropdown-menu .btn-xs + .dropdown-toggle-split, .leftRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .btn.btn-sm + .dropdown-toggle-split, .table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .leftRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .btn.btn-sm + .dropdown-toggle-split, .c-detail-widget__table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .leftRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .btn.btn-sm + .dropdown-toggle-split, .listViewEntries td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .leftRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .btn.btn-sm + .dropdown-toggle-split, td.listViewEntryValue.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .btn.btn-sm + .dropdown-toggle-split, .detailViewTable .fieldLabel.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .btn.btn-sm + .dropdown-toggle-split, .detailViewTable .fieldValue.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm + .dropdown-toggle-split, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm + .dropdown-toggle-split {
   padding-right: 0.375rem;
   padding-left: 0.375rem; }
 
@@ -12618,7 +12624,7 @@ body:not(.desktop) .ps__rail-y {
   .tribute-container li:hover {
     background: #f8f9fa; }
 
-.btn-sm .fa-xs, .btn-group-sm > .btn .fa-xs, .rightRecordActions .actions .dropdown-menu .btn-xs .fa-xs, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm .fa-xs, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .leftRecordActions .actions .dropdown-menu .btn-xs .fa-xs, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm .fa-xs, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs {
+.btn-sm .fa-xs, .btn-group-sm > .btn .fa-xs, .rightRecordActions .actions .dropdown-menu .btn-xs .fa-xs, .rightRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .btn.btn-sm .fa-xs, .table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .rightRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .btn.btn-sm .fa-xs, .c-detail-widget__table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .rightRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .btn.btn-sm .fa-xs, .listViewEntries td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .rightRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .btn.btn-sm .fa-xs, td.listViewEntryValue.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .btn.btn-sm .fa-xs, .detailViewTable .fieldLabel.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .btn.btn-sm .fa-xs, .detailViewTable .fieldValue.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm .fa-xs, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .leftRecordActions .actions .dropdown-menu .btn-xs .fa-xs, .leftRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .btn.btn-sm .fa-xs, .table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .leftRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .btn.btn-sm .fa-xs, .c-detail-widget__table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .leftRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .btn.btn-sm .fa-xs, .listViewEntries td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .leftRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .btn.btn-sm .fa-xs, td.listViewEntryValue.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .btn.btn-sm .fa-xs, .detailViewTable .fieldLabel.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .btn.btn-sm .fa-xs, .detailViewTable .fieldValue.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm .fa-xs, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs {
   vertical-align: 0.0625rem; }
 
 .pnotify-container {
@@ -12662,7 +12668,10 @@ body:not(.desktop) .ps__rail-y {
 .table-bordered thead td {
   border-bottom-width: 1px; }
 
-.btn-xs, table .listButtons.narrow .btn.btn-sm {
+.btn-xs, .table td.narrow:not(.listButtons) .btn.btn-sm, .c-detail-widget__table td.narrow:not(.listButtons) .btn.btn-sm,
+.listViewEntries td.narrow:not(.listButtons) .btn.btn-sm,
+td.listViewEntryValue.narrow:not(.listButtons) .btn.btn-sm, .detailViewTable .fieldLabel.narrow .btn.btn-sm,
+.detailViewTable .fieldValue.narrow .btn.btn-sm, table .listButtons.narrow .btn.btn-sm {
   padding: 0.2rem 0.4rem;
   font-size: 0.7rem;
   line-height: 1.2;
@@ -14292,6 +14301,12 @@ table.dataTable .form-control {
 .calendarRightPanel .widgetContainer ul {
   margin-top: 5px;
   margin-bottom: 5px; }
+
+.footer-non--active .calendarRightPanel {
+  height: 100%; }
+
+.footer-non--active .o-calendar__form {
+  height: calc(100vh - (0rem + 3.125rem)) !important; }
 
 .icon-in-history-widget {
   font-size: 1.0625rem;
@@ -16494,6 +16509,21 @@ table .listButtons.narrow .c-badge__icon {
   width: max-content !important;
   width: -moz-max-content !important; }
 
+.u-w-50px {
+  width: 50px; }
+
+.u-w-85px {
+  width: 85px; }
+
+.u-w-79px {
+  width: 79px; }
+
+.u-w-125px {
+  width: 125px; }
+
+.u-w-90per {
+  width: 90%; }
+
 .u-w-max-320px {
   max-width: 20rem !important; }
 
@@ -16519,31 +16549,25 @@ table .listButtons.narrow .c-badge__icon {
   width: 30% !important;
   min-width: 18rem; }
 
-.u-w-50px {
-  width: 50px; }
+.u-min-w-300px {
+  min-width: 300px !important; }
 
-.u-w-85px {
-  width: 85px; }
+.u-min-w-400px {
+  min-width: 400px !important; }
 
-.u-w-79px {
-  width: 79px; }
+.u-min-w-500px {
+  min-width: 400px !important; }
 
-.u-w-125px {
-  width: 125px; }
-
-.u-w-90per {
-  width: 90%; }
-
-.u-min-w-470px {
+.u-min-w-470pxr {
   min-width: 29.375rem; }
 
-.u-min-w-650px {
+.u-min-w-650pxr {
   min-width: 40.625rem !important; }
 
-.u-min-w-150px {
+.u-min-w-150pxr {
   min-width: 9.375rem !important; }
 
-.u-min-w-300px {
+.u-min-w-300pxr {
   min-width: 18.75rem !important; }
 
 .u-table-min-width-10rem table tr > td,
@@ -16564,6 +16588,9 @@ table .listButtons.narrow .c-badge__icon {
 @media (max-width: 399.98px) {
   .u-w-xs-down-100 {
     width: 100%; } }
+
+.u-max-w-40px {
+  max-width: 2.5rem; }
 
 .u-max-w-150px {
   max-width: 150px; }
@@ -17301,6 +17328,9 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
 .contentsDiv {
   min-height: 100%; }
 
+.footer-non--active .mainContainer {
+  height: 100%; }
+
 .bodyContent {
   min-height: 100%;
   height: 100%;
@@ -17362,8 +17392,9 @@ body:not(.desktop) .bodyContent {
   -o-transition: transform 0.5s ease;
   transition: transform 0.5s ease; }
 
-.c-panel--collapsible .c-panel__header .collapsed .u-transform_rotate-180deg,
-.c-detail-widget .c-detail-widget__header .collapsed .u-transform_rotate-180deg {
+.c-panel--collapsible .c-panel__header .collapsed .u-transform_rotate-180deg, .c-panel--collapsible .c-panel__header .collapsed.u-transform_rotate-180deg,
+.c-detail-widget .c-detail-widget__header .collapsed .u-transform_rotate-180deg,
+.c-detail-widget .c-detail-widget__header .collapsed.u-transform_rotate-180deg {
   transform: rotate(180deg); }
 
 .c-badge__icon {
@@ -17412,11 +17443,40 @@ body:not(.desktop) .bodyContent {
   -ms-transition: all 275ms ease;
   -o-transition: all 275ms ease;
   transition: all 275ms ease; }
-  .c-btn-collapsible.btn-xs, table .listButtons.narrow .c-btn-collapsible.btn.btn-sm, table .listButtons.narrow .btn-group-sm > .c-btn-collapsible.btn, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .c-btn-collapsible.btn.btn-xs,
+  .c-btn-collapsible.btn-xs, .table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, .c-detail-widget__table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, .table td.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, .c-detail-widget__table td.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, .table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs, .c-detail-widget__table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  .table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  .c-detail-widget__table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  .listViewEntries td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, .listViewEntries td.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, .listViewEntries td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  .listViewEntries td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  td.listViewEntryValue.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, td.listViewEntryValue.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, td.listViewEntryValue.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  td.listViewEntryValue.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs, .detailViewTable .fieldLabel.narrow .c-btn-collapsible.btn.btn-sm, .detailViewTable .fieldLabel.narrow .btn-group-sm > .c-btn-collapsible.btn, .detailViewTable .fieldLabel.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .c-btn-collapsible.btn.btn-xs,
+  .detailViewTable .fieldLabel.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .c-btn-collapsible.btn.btn-xs,
+  .detailViewTable .fieldValue.narrow .c-btn-collapsible.btn.btn-sm, .detailViewTable .fieldValue.narrow .btn-group-sm > .c-btn-collapsible.btn, .detailViewTable .fieldValue.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .c-btn-collapsible.btn.btn-xs,
+  .detailViewTable .fieldValue.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .c-btn-collapsible.btn.btn-xs, table .listButtons.narrow .c-btn-collapsible.btn.btn-sm, table .listButtons.narrow .btn-group-sm > .c-btn-collapsible.btn, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .c-btn-collapsible.btn.btn-xs,
   table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .c-btn-collapsible.btn.btn-xs {
     max-width: 1.5625rem; }
-  .c-btn-collapsible.btn-sm, .btn-group-sm > .c-btn-collapsible.btn, .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .c-btn-collapsible.btn.btn-sm, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .btn-group-sm > .c-btn-collapsible.btn, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn,
-  .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .c-btn-collapsible.btn.btn-sm, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .btn-group-sm > .c-btn-collapsible.btn, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn {
+  .c-btn-collapsible.btn-sm, .btn-group-sm > .c-btn-collapsible.btn, .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs, .rightRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, .table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .rightRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, .c-detail-widget__table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .rightRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, .table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .rightRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, .c-detail-widget__table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs, .c-detail-widget__table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  .rightRecordActions .table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  .rightRecordActions .c-detail-widget__table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  .rightRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, .listViewEntries td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .rightRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, .listViewEntries td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .listViewEntries td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  .rightRecordActions .listViewEntries td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  .rightRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, td.listViewEntryValue.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .rightRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, td.listViewEntryValue.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, td.listViewEntryValue.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  .rightRecordActions td.listViewEntryValue.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .c-btn-collapsible.btn.btn-sm, .detailViewTable .fieldLabel.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .btn-group-sm > .c-btn-collapsible.btn, .detailViewTable .fieldLabel.narrow .rightRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .detailViewTable .fieldLabel.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .c-btn-collapsible.btn.btn-xs,
+  .rightRecordActions .detailViewTable .fieldLabel.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .c-btn-collapsible.btn.btn-sm, .detailViewTable .fieldValue.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .btn-group-sm > .c-btn-collapsible.btn, .detailViewTable .fieldValue.narrow .rightRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .detailViewTable .fieldValue.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .c-btn-collapsible.btn.btn-xs,
+  .rightRecordActions .detailViewTable .fieldValue.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .c-btn-collapsible.btn.btn-sm, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .btn-group-sm > .c-btn-collapsible.btn, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .c-btn-collapsible.btn.btn-xs,
+  .rightRecordActions table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn-xs, .leftRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, .table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .leftRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, .c-detail-widget__table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .leftRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, .table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .leftRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, .c-detail-widget__table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .leftRecordActions .table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .c-detail-widget__table td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  .table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  .c-detail-widget__table td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .c-detail-widget__table td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  .leftRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, .listViewEntries td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .leftRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, .listViewEntries td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .leftRecordActions .listViewEntries td.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  .listViewEntries td.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .listViewEntries td.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs,
+  .leftRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-sm, td.listViewEntryValue.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .leftRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .btn-group-sm > .c-btn-collapsible.btn, td.listViewEntryValue.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .leftRecordActions td.listViewEntryValue.narrow:not(.listButtons) .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  td.listViewEntryValue.narrow:not(.listButtons) .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu td.listViewEntryValue.narrow:not(.listButtons) .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .c-btn-collapsible.btn.btn-sm, .detailViewTable .fieldLabel.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .btn-group-sm > .c-btn-collapsible.btn, .detailViewTable .fieldLabel.narrow .leftRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .leftRecordActions .detailViewTable .fieldLabel.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  .detailViewTable .fieldLabel.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldLabel.narrow .c-btn-collapsible.btn.btn-xs,
+  .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .c-btn-collapsible.btn.btn-sm, .detailViewTable .fieldValue.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .btn-group-sm > .c-btn-collapsible.btn, .detailViewTable .fieldValue.narrow .leftRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .leftRecordActions .detailViewTable .fieldValue.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  .detailViewTable .fieldValue.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu .detailViewTable .fieldValue.narrow .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .c-btn-collapsible.btn.btn-sm, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-sm, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .btn-group-sm > .c-btn-collapsible.btn, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .btn-group-sm > .c-btn-collapsible.btn, .leftRecordActions table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs,
+  table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .c-btn-collapsible.btn.btn-xs, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .c-btn-collapsible.btn.btn-xs {
     max-width: 1.875rem; }
   .c-btn-collapsible.btn-lg, .btn-group-lg > .c-btn-collapsible.btn {
     max-width: 3.125rem; }
@@ -17519,8 +17579,9 @@ body:not(.desktop) .bodyContent {
   font-size: 75%; }
 
 .c-img__user {
-  width: auto;
-  height: 2.5rem; }
+  width: 3rem;
+  height: 3rem;
+  min-width: 3rem; }
 
 .c-img__completion {
   width: inherit; }
@@ -18155,6 +18216,17 @@ body {
 .user-info--active.limited-footer--active .container-fluid[class$="-knowledgebase-container"] .contentsDiv, .user-info--active.limited-footer--active .container-sm[class$="-knowledgebase-container"] .contentsDiv, .user-info--active.limited-footer--active .container-md[class$="-knowledgebase-container"] .contentsDiv, .user-info--active.limited-footer--active .container-lg[class$="-knowledgebase-container"] .contentsDiv, .user-info--active.limited-footer--active .container-xl[class$="-knowledgebase-container"] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem); }
 
+.footer-non--active .c-menu__container,
+.footer-non--active .mainBody {
+  bottom: 0rem; }
+
+.footer-non--active.limited-footer--active .c-menu__container,
+.footer-non--active.limited-footer--active .mainBody {
+  bottom: 0rem; }
+
+.footer-non--active .container-fluid[class$="-knowledgebase-container"] .contentsDiv, .footer-non--active .container-sm[class$="-knowledgebase-container"] .contentsDiv, .footer-non--active .container-md[class$="-knowledgebase-container"] .contentsDiv, .footer-non--active .container-lg[class$="-knowledgebase-container"] .contentsDiv, .footer-non--active .container-xl[class$="-knowledgebase-container"] .contentsDiv {
+  min-height: 100vh; }
+
 @media (max-width: 767.98px) {
   .mainBody,
   .c-btn-fixed {
@@ -18165,6 +18237,9 @@ body {
     bottom: 2rem; }
   .user-info--active .container-fluid[class$="-knowledgebase-container"] .contentsDiv, .user-info--active .container-sm[class$="-knowledgebase-container"] .contentsDiv, .user-info--active .container-md[class$="-knowledgebase-container"] .contentsDiv, .user-info--active .container-lg[class$="-knowledgebase-container"] .contentsDiv, .user-info--active .container-xl[class$="-knowledgebase-container"] .contentsDiv {
     min-height: calc(100vh - 3.125rem - 2rem); } }
+
+.footer-non--active .mainBody {
+  bottom: 0; }
 
 .contentsDiv,
 .centerPanel {
@@ -18246,6 +18321,9 @@ body > .o-exception-fixed-block {
 
 .o-tab__container tr:hover .o-tab__container--action {
   display: flex !important; }
+
+.o-min-width {
+  width: min-content; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-header {
@@ -19234,6 +19312,9 @@ ul.c-process-line {
 .limited-footer--active .c-form__action-panel {
   bottom: 1rem; }
 
+.footer-non--active .c-form__action-panel {
+  bottom: 0px; }
+
 .verticalScroll {
   position: absolute;
   left: 0;
@@ -19242,6 +19323,9 @@ ul.c-process-line {
   overflow-x: hidden;
   padding-right: 10px;
   padding-left: 10px; }
+
+.footer-non--active .verticalScroll {
+  height: 90vh; }
 
 .o-register-warning + .mainContainer .verticalScroll,
 .o-register-error + .mainContainer .verticalScroll {
@@ -20237,10 +20321,10 @@ ul.c-process-line {
   .commentContainer .commentorInfo p {
     margin-bottom: 0; }
   .commentContainer .addCommentBlock .commentcontent {
-    min-height: 56px !important/16pxrem;
+    min-height: 3.5rem !important;
     overflow-x: hidden;
     overflow-y: hidden;
-    padding: 7px !important/16pxrem;
+    padding: 0.4375rem !important;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;

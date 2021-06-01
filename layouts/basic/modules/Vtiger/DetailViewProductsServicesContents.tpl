@@ -15,9 +15,14 @@
 							</div>
 							<div class="col-1 col-md-3 summaryWidgetIcon">
 								<div class="float-right">
-									<button class="btn btn-light showModal" type="button"
+									{if !$RELATIONS['Products']->isTreeRelation()}
+										{assign var=VIEW value='RecordsList'}
+									{else}
+										{assign var=VIEW value='TreeCategoryModal'}
+									{/if}
+									<button class="btn btn-light {if !$RELATIONS['Products']->isTreeRelation()}js-widget-products-services{else}showModal{/if}" type="button"
 											data-modalid="ProductsModal"
-											data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+											data-url="index.php?module=Products&view={$VIEW}&src_module={$MODULE_NAME}&src_record={$RECORDID}&multi_select=true">
 											<span class="fas fa-search-plus"
 												  title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 									</button>
@@ -78,9 +83,14 @@
 							</div>
 							<div class="col-1 col-md-3 summaryWidgetIcon">
 								<div class="float-right">
-									<button class="btn btn-light showModal" type="button"
+									{if !$RELATIONS['OutsourcedProducts']->isTreeRelation()}
+										{assign var=VIEW value='RecordsList'}
+									{else}
+										{assign var=VIEW value='TreeCategoryModal'}
+									{/if}
+									<button class="btn btn-light {if !$RELATIONS['OutsourcedProducts']->isTreeRelation()}js-widget-products-services{else}showModal{/if}" type="button"
 											data-modalid="OutsourcedProductsModal" data-module="OutsourcedProducts"
-											data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+											data-url="index.php?module=OutsourcedProducts&view={$VIEW}&src_module={$MODULE_NAME}&src_record={$RECORDID}&multi_select=true">
 											<span class="fas fa-search-plus"
 												  title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 									</button>
@@ -172,8 +182,13 @@
 							</div>
 							<div class="col-1 col-md-3 summaryWidgetIcon">
 								<span class="float-right">
-									<button class="btn btn-light showModal" type="button" data-modalid="ServicesModal"
-											data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+									{if !$RELATIONS['Services']->isTreeRelation()}
+										{assign var=VIEW value='RecordsList'}
+									{else}
+										{assign var=VIEW value='TreeCategoryModal'}
+									{/if}
+									<button class="btn btn-light {if !$RELATIONS['Services']->isTreeRelation()}js-widget-products-services{else}showModal{/if}" type="button" data-modalid="ServicesModal"
+											data-url="index.php?module=Services&view={$VIEW}&src_module={$MODULE_NAME}&src_record={$RECORDID}&multi_select=true">
 										<span class="fas fa-search-plus"
 											  title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 									</button>
@@ -234,10 +249,15 @@
 							</div>
 							<div class="col-1 col-md-3 summaryWidgetIcon">
 								<div class="float-right">
-									<button class="btn btn-light showModal" type="button"
+									{if !$RELATIONS['OSSOutsourcedServices']->isTreeRelation()}
+										{assign var=VIEW value='RecordsList'}
+									{else}
+										{assign var=VIEW value='TreeCategoryModal'}
+									{/if}
+									<button class="btn btn-light {if !$RELATIONS['OSSOutsourcedServices']->isTreeRelation()}js-widget-products-services{else}showModal{/if}" type="button"
 											data-modalid="OSSOutsourcedServicesModal"
 											data-module="OSSOutsourcedServices"
-											data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+											data-url="index.php?module=OSSOutsourcedServices&view={$VIEW}&src_module={$MODULE_NAME}&src_record={$RECORDID}&multi_select=true">
 											<span class="fas fa-search-plus"
 												  title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 									</button>

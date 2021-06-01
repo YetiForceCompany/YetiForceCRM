@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -171,6 +172,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 				$value = implode(', ', array_map(function ($fieldName) use ($moduleModel) {
 					return $moduleModel->getField($fieldName)->getFullLabelTranslation();
 				}, \App\Json::decode($value) ?? []));
+				$value = "<div class=\"js-popover-tooltip ml-2 mr-2 d-inline mt-2\" data-js=\"popover\" data-content=\"$value\">" . \App\TextParser::textTruncate($value) . '</div>';
 				break;
 			case 'mandatory':
 			case 'gui':
@@ -232,12 +234,25 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	 */
 	public function checkHandler()
 	{
-		if ((new \App\Db\Query())->from('s_#__fields_dependency')->where(['status' => 0])->exists(\App\Db::getInstance('admin'))) {
-			if (!App\EventHandler::registerHandler('EditViewChangeValue', 'Vtiger_FieldsDependency_Handler') || !App\EventHandler::registerHandler('EditViewPreSave', 'Vtiger_FieldsDependency_Handler')) {
-				App\EventHandler::setActive('Vtiger_FieldsDependency_Handler');
-			}
+		$tableName = $this->getModule()->baseTable;
+		$modules = (new \App\Db\Query())->select(['vtiger_tab.name'])
+			->from($tableName)->innerJoin('vtiger_tab', "{$tableName}.tabid=vtiger_tab.tabid")
+			->where(["{$tableName}.status" => 0])->distinct()->column();
+		if (!$modules) {
+			\App\EventHandler::deleteHandler('Vtiger_FieldsDependency_Handler');
 		} else {
-			App\EventHandler::setInActive('Vtiger_FieldsDependency_Handler');
+			$types = ['EditViewChangeValue', 'EditViewPreSave'];
+			$handlers = (new \App\Db\Query())->from('vtiger_eventhandlers')
+				->where(['handler_class' => 'Vtiger_FieldsDependency_Handler', 'event_name' => $types])
+				->indexBy('event_name')->all();
+			foreach ($types as $type) {
+				if (isset($handlers[$type])) {
+					$data = ['include_modules' => implode(',', $modules), 'is_active' => 1];
+					\App\EventHandler::update($data, $handlers[$type]['eventhandler_id']);
+				} else {
+					\App\EventHandler::registerHandler($type, 'Vtiger_FieldsDependency_Handler', implode(',', $modules), '', 5, true, 0, \App\EventHandler::SYSTEM);
+				}
+			}
 		}
 	}
 }

@@ -24,6 +24,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.yfi-rbl:before {
+	content: '\e9df';
+}
 .yfi-free-support:before {
 	content: '\e9c1';
 }
@@ -62,9 +65,6 @@
 }
 .yfi-analysis-details:before {
 	content: '\e9cd';
-}
-.yfi-rbl:before {
-	content: '\e9ce';
 }
 .yfi-dependent-fields:before {
 	content: '\e9cf';

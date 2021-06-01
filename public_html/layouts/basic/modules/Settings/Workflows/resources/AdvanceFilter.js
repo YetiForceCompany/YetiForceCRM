@@ -25,6 +25,7 @@ Vtiger_AdvanceFilter_Js(
 			'is record open',
 			'is record closed',
 			'has changed',
+			'not has changed',
 			'is empty',
 			'is not empty',
 			'is added',

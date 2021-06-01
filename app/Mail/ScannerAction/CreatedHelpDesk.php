@@ -2,7 +2,7 @@
 /**
  * Base mail scanner action file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -51,27 +51,31 @@ class CreatedHelpDesk extends Base
 		$recordModel->set('description', $descriptionMaxLength ? \App\TextParser::htmlTruncate($scanner->get('body'), $descriptionMaxLength, false) : $scanner->get('body'));
 		$recordModel->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
 		if ($contactId) {
-			$recordModel->ext['relationsEmail']['Contacts'] = $contactId;
+			$recordModel->ext['relations'][] = [
+				'relatedModule' => 'Contacts',
+				'relatedRecords' => [$contactId],
+			];
+		}
+		if ($mailId = $scanner->getMailCrmId()) {
+			$recordModel->ext['relations'][] = [
+				'reverse' => true,
+				'relatedModule' => 'OSSMailView',
+				'relatedRecords' => [$mailId],
+				'params' => $scanner->get('date')
+			];
 		}
 		$recordModel->save();
 		$id = $recordModel->getId();
 		$scanner->processData['CreatedHelpDesk'] = $id;
-		if ($contactId) {
-			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), \Vtiger_Module_Model::getInstance('Contacts'));
-			$relationModel->addRelation($id, $contactId);
-			unset($relationModel);
-		}
-		if ($scanner->getMailCrmId()) {
+		if ($mailId) {
 			$dbCommand = \App\Db::getInstance()->createCommand();
-			$relationModel = new \OSSMailView_Relation_Model();
-			$relationModel->addRelation($scanner->getMailCrmId(), $id, $scanner->get('date'));
-			$query = (new \App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $scanner->getMailCrmId()]);
+			$query = (new \App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $mailId]);
 			$dataReader = $query->createCommand()->query();
 			while ($documentId = $dataReader->readColumn(0)) {
 				$dbCommand->insert('vtiger_senotesrel', ['crmid' => $id, 'notesid' => $documentId])->execute();
 			}
 			$dataReader->close();
-			unset($dataReader,$query, $dbCommand, $recordModel, $relationModel);
+			unset($dataReader,$query, $dbCommand, $recordModel);
 		}
 	}
 

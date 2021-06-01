@@ -3,7 +3,7 @@
 /**
  * Meeting Service.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -157,7 +157,7 @@ class MeetingService extends Base
 	public function getRoomFromUrl(string $url): string
 	{
 		$path = parse_url($url, PHP_URL_PATH);
-		return  \substr($path, 1);
+		return \substr($path, 1);
 	}
 
 	/**

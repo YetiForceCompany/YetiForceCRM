@@ -5,6 +5,8 @@ namespace App;
 /**
  * Mailer basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -153,7 +155,7 @@ class Mailer
 		$params['date'] = date('Y-m-d H:i:s');
 		if (empty($params['owner'])) {
 			$owner = User::getCurrentUserRealId();
-			$params['owner'] = $owner ? $owner : 0;
+			$params['owner'] = $owner ?: 0;
 		}
 		if (empty($params['smtp_id'])) {
 			$params['smtp_id'] = Mail::getDefaultSmtp();
@@ -193,6 +195,11 @@ class Mailer
 	 */
 	public static function insertMail(array $params, string $type): void
 	{
+		$eventHandler = new EventHandler();
+		$eventHandler->setParams($params);
+		$eventHandler->trigger('admin' === $type ? 'MailerAddToQueue' : 'MailerAddToLogs');
+		$params = $eventHandler->getParams();
+
 		foreach (static::$quoteJsonColumn as $key) {
 			if (isset($params[$key])) {
 				if (!\is_array($params[$key])) {
@@ -254,7 +261,7 @@ class Mailer
 		if ($this->smtp['options']) {
 			$this->mailer->SMTPOptions = Json::decode($this->smtp['options'], true);
 		}
-		$this->mailer->From = $this->smtp['from_email'] ? $this->smtp['from_email'] : $this->smtp['username'];
+		$this->mailer->From = $this->smtp['from_email'] ?: $this->smtp['username'];
 		if ($this->smtp['from_name']) {
 			$this->mailer->FromName = $this->smtp['from_name'];
 		}
@@ -332,7 +339,7 @@ class Mailer
 		$this->params['body'] = $message;
 		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
-			$message .= "<table style=\"font-family:'DejaVu Sans';font-size:9px;width:100%; margin: 0;\"><tbody><tr><td style=\"width:50%;text-align: center;\">Powered by YetiForce</td></tr></tbody></table>";
+			$message .= '<table style="font-size:9px;width:100%; margin: 0;"><tbody><tr><td style="width:50%;text-align: center;">Powered by YetiForce</td></tr></tbody></table>';
 		}
 		$this->mailer->isHTML(true);
 		$this->mailer->msgHTML($message);
@@ -467,7 +474,7 @@ class Mailer
 		} else {
 			static::$error[] = $this->mailer->ErrorInfo;
 		}
-		$eventHandler->trigger('MailerAfterSend');
+		$eventHandler->trigger('MailerAfterSendError');
 		return false;
 	}
 

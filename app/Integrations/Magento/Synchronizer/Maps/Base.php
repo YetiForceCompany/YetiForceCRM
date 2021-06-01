@@ -125,7 +125,7 @@ abstract class Base
 		'1' => 'Mr.',
 		'2' => 'Mrs.',
 	];
-	
+
 	/**
 	 * Contacts_gender map.
 	 *

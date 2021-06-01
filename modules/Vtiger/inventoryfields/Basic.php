@@ -294,6 +294,20 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
+	 * Function to get the list value in display view.
+	 *
+	 * @param mixed $value
+	 * @param array $rowData
+	 * @param bool  $rawText
+	 *
+	 * @return mixed
+	 */
+	public function getListViewDisplayValue($value, array $rowData = [], bool $rawText = false)
+	{
+		return $this->getDisplayValue($value, $rowData, $rawText);
+	}
+
+	/**
 	 * Getting value to display.
 	 *
 	 * @param type $value

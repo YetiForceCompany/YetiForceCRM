@@ -14,15 +14,6 @@
 class Settings_MailIntegration_Activate_Action extends Settings_Vtiger_Basic_Action
 {
 	/** {@inheritdoc} */
-	public function checkPermission(App\Request $request)
-	{
-		parent::checkPermission($request);
-		if ('outlook' === $request->getByType('source') && !\App\YetiForce\Shop::check('YetiForceOutlook')) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
-
-	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		if ('outlook' === $request->getByType('source')) {

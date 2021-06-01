@@ -71,6 +71,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('processWizard');
 		$this->exposeMethod('showModTrackerByField');
 		$this->exposeMethod('showCharts');
+		$this->exposeMethod('showInventoryEntries');
+		$this->exposeMethod('showPDF');
 	}
 
 	/**
@@ -211,14 +213,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function getHeaderCss(App\Request $request)
 	{
-		$cssFileNames = [
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/leaflet/dist/leaflet.css',
 			'~libraries/leaflet.markercluster/dist/MarkerCluster.Default.css',
 			'~libraries/leaflet.markercluster/dist/MarkerCluster.css',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.css',
-		];
-
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
+		]));
 	}
 
 	/**
@@ -233,11 +233,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			'~libraries/split.js/dist/split.js',
+			'modules.Vtiger.resources.List',
+			'modules.Vtiger.resources.ListSearch',
+			"modules.$moduleName.resources.ListSearch",
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Vtiger.resources.Widgets',
-			'modules.Vtiger.resources.ListSearch',
-			"modules.$moduleName.resources.ListSearch",
 			'~libraries/leaflet/dist/leaflet.js',
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
@@ -834,7 +835,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId, $cvId);
 		if ($fieldRelation = $request->getArray('fromRelation', \App\Purifier::ALNUM, [], \App\Purifier::STANDARD)) {
 			if (($parentId = $parentRecordModel->get($fieldRelation['relatedField'])) && \App\Record::isExists($parentId)) {
 				$moduleName = \App\Record::getType($parentId);
@@ -859,7 +861,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
 			$moduleInstance = CRMEntity::getInstance($relatedModuleName);
-			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
+			if ($moduleInstance->default_order_by && $moduleInstance->default_sort_order) {
+				$orderBy = [];
+				foreach ((array) $moduleInstance->default_order_by as $value) {
+					$orderBy[$value] = $moduleInstance->default_sort_order;
+				}
+			}
 		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
@@ -990,6 +997,62 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Function returns related records based on related moduleName.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
+	public function showInventoryEntries(App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		$pageNumber = $request->getInteger('page');
+		$moduleName = $request->getModule();
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
+		}
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		$limit = $request->isEmpty('limit', true) ? 10 : $request->getInteger('limit');
+		$pagingModel->set('limit', $limit);
+		$entries = \Vtiger_Inventory_Model::getInventoryDataById($recordId, $moduleName, $pagingModel);
+		$inventoryModel = \Vtiger_Inventory_Model::getInstance($moduleName);
+		$viewer = $this->getViewer($request);
+		$columns = $request->getExploded('fields');
+		$header = [];
+		foreach ($columns as $fieldName) {
+			$fieldModel = $inventoryModel->getField($fieldName);
+			if ($fieldModel && $fieldModel->isVisibleInDetail()) {
+				$header[$fieldName] = $fieldModel;
+			}
+		}
+		$viewer->assign('LIMIT', $limit);
+		$viewer->assign('ENTRIES', $entries);
+		$viewer->assign('HEADER_FIELD', $header);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
+		return $viewer->view('Detail/Widget/InventoryBlock.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Function shows PDF.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
+	public function showPDF(App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		$templateId = $request->getInteger('template');
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD_ID', $recordId);
+		$viewer->assign('TEMPLATE', $templateId);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		return $viewer->view('Detail/Widget/PDFViewer.tpl', $moduleName, true);
 	}
 
 	/**

@@ -2,9 +2,12 @@
 /**
  * Languages test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\App;
@@ -65,7 +68,6 @@ class Language extends \Tests\Base
 	public function testTranslate()
 	{
 		$this->assertSame('', \App\Language::translate('', '_Base'));
-		$this->assertSame('TestString', \App\Language::translate('TestString', ['_Base']));
 		$this->assertSame('TestString', \App\Language::translate('TestString', \App\Module::getModuleId('Leads')));
 		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));
 		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));

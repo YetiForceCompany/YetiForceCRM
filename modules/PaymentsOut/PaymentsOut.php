@@ -34,16 +34,6 @@ class PaymentsOut extends Vtiger_CRMEntity
 		'vtiger_paymentsout' => 'paymentsoutid',
 		'vtiger_paymentsoutcf' => 'paymentsoutid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		'LBL_PAYMENTSNO' => ['vtiger_paymentsout' => 'paymentsno'],
-		'LBL_PAYMENTSNAME' => ['vtiger_paymentsout' => 'paymentsname'],
-		'LBL_PAYMENTSVALUE' => ['vtiger_paymentsout' => 'paymentsvalue'],
-		'LBL_PAYMENTSCURRENCY' => ['vtiger_paymentsout' => 'paymentscurrency'],
-		'LBL_PAYMENTSSTATUS' => ['vtiger_paymentsout' => 'paymentsout_status'],
-	];
 	public $list_fields_name = [
 		'LBL_PAYMENTSNO' => 'paymentsno',
 		'LBL_PAYMENTSNAME' => 'paymentsname',
@@ -56,8 +46,7 @@ class PaymentsOut extends Vtiger_CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view from list view (Fieldname)
-	public $list_link_field = 'paymentsname';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		'LBL_PAYMENTSVALUE' => ['paymentsout', 'paymentsvalue'],

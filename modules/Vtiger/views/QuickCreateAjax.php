@@ -130,12 +130,15 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$fieldValues = [];
 		$sourceRelatedField = $this->recordModel->getModule()->getValuesFromSource($request);
 		foreach ($sourceRelatedField as $fieldName => $fieldValue) {
+			if ('' === $fieldValue) {
+				continue;
+			}
 			if (isset($this->recordStructure[$fieldName])) {
-				if (empty($this->recordStructure[$fieldName]->get('fieldvalue'))) {
+				if ($this->fields[$fieldName]->isEditable() && '' === $this->recordStructure[$fieldName]->get('fieldvalue')) {
 					$this->recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
 				}
 			} else {
-				if (isset($this->fields[$fieldName])) {
+				if (isset($this->fields[$fieldName]) && $this->fields[$fieldName]->isEditable()) {
 					$fieldModel = $this->fields[$fieldName];
 					$fieldModel->set('fieldvalue', $fieldValue);
 					$fieldValues[$fieldName] = $fieldModel;

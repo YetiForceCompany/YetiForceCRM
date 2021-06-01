@@ -49,15 +49,20 @@ class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 	 */
 	public function preProcessSettings(App\Request $request)
 	{
+		if (!empty(\Config\Security::$askSuperUserAboutVisitPurpose) && !\App\Session::has('showedModalVisitPurpose') && !\App\User::getCurrentUserModel()->isAdmin()) {
+			\App\Process::addEvent([
+				'name' => 'showSuperUserVisitPurpose',
+				'type' => 'modal',
+				'url' => 'index.php?module=Users&view=VisitPurpose'
+			]);
+		}
 		$viewer = $this->getViewer($request);
-		$userModel = \App\User::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$view = $request->getByType('view', \App\Purifier::STANDARD, '');
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('MENUS', Settings_Vtiger_Menu_Model::getMenu($moduleName, $view, $request->getMode()));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('SHOW_MODAL_VISIT_PURPOSE', !$userModel->isAdmin() && !(\App\Session::get('showedModalVisitPurpose')[$userModel->getId()] ?? null));
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 

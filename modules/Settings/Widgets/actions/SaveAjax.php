@@ -3,14 +3,14 @@
 /**
  * Settings widgets SaveAjax action class.
  *
+ * @package   Settings.Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-	/**
-	 * Settings_Widgets_SaveAjax_Action constructor.
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -37,6 +37,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				'relatedmodule' => 'Integer',
 				'relation_id' => 'Integer',
 				'relatedfields' => ['Text'],
+				'customView' => ['Alnum'],
 				'viewtype' => 'Alnum',
 				'limit' => 'Integer',
 				'action' => 'Integer',
@@ -127,6 +128,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				case 'Summary':
 				case 'Updates':
 				case 'UpdatesList':
+				case 'PDFViewer':
 					$returnVal = true;
 					break;
 				default:

@@ -412,6 +412,36 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
+
+		/**
+		 * Adding relationships in the products and services widget.
+		 */
+		registerWidgetProductAndServices: function () {
+			let thisInstance = this;
+			this.getForm().on('click', '.js-widget-products-services', (e) => {
+				let currentTarget = $(e.currentTarget);
+				let params = {
+					module: app.getModuleName(),
+					action: 'RelationAjax',
+					mode: 'updateRelation',
+					recordsToAdd: [],
+					src_record: app.getRecordId(),
+					related_module: currentTarget.closest('.js-detail-widget-header').find('[name="relatedModule"]').val()
+				};
+				let url = currentTarget.data('url');
+				app.showRecordsList(url, (_, instance) => {
+					instance.setSelectEvent((data) => {
+						for (let i in data) {
+							params.recordsToAdd.push(i);
+						}
+						AppConnector.request(params).done(function (res) {
+							thisInstance.reloadTabContent();
+						});
+					});
+				});
+			});
+		},
+
 		widgetRelatedRecordView: function (container, load) {
 			let cacheKey = this.getRecordId() + '_' + container.data('id');
 			let relatedRecordCacheID = app.moduleCacheGet(cacheKey);
@@ -486,7 +516,6 @@ jQuery.Class(
 			AppConnector.requestPjax(params).done(function (responseData) {
 				detailContentsHolder.html(responseData);
 				responseData = detailContentsHolder.html();
-				//thisInstance.triggerDisplayTypeEvent();
 				thisInstance.registerBlockStatusCheckOnLoad();
 				//Make select box more usability
 				App.Fields.Picklist.changeSelectElementView(detailContentsHolder);
@@ -1052,6 +1081,7 @@ jQuery.Class(
 			detailContentsHolder.find('.detailViewBlockLink').each(function (n, block) {
 				block = $(block);
 				let blockContent = block.find('.blockContent');
+
 				if (blockContent.is(':visible')) {
 					AppConnector.request({
 						type: 'GET',
@@ -1084,7 +1114,7 @@ jQuery.Class(
 				const blockContent = block.find('.blockContent');
 				const isEmpty = blockContent.is(':empty');
 				let url = block.data('url');
-				if (!blockContent.is(':visible') && url) {
+				if (blockContent.is(':visible') && url) {
 					blockContent.progressIndicator();
 					AppConnector.request(url).done(function (response) {
 						blockContent.html(response);
@@ -1360,13 +1390,6 @@ jQuery.Class(
 				};
 				editElement.on('clickoutside', saveHandler);
 			});
-		},
-		triggerDisplayTypeEvent: function () {
-			let widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				let elements = jQuery('#detailView').find('td');
-				elements.addClass(widthType);
-			}
 		},
 		/**
 		 * Function updates the hidden elements which is used for creating relations
@@ -1741,7 +1764,6 @@ jQuery.Class(
 			 * Register the event to edit Description for related activities
 			 */
 			summaryViewContainer.on('click', '.editDescription', function (e) {
-				App.Fields.Text.Editor.register(thisInstance.getContentHolder(), { toolbar: 'Min' });
 				let currentTarget = jQuery(e.currentTarget),
 					currentDiv = currentTarget.closest('.activityDescription'),
 					editElement = currentDiv.find('.edit'),
@@ -1805,6 +1827,7 @@ jQuery.Class(
 						detailViewElement.removeClass('d-none');
 						currentTarget.show();
 					};
+				App.Fields.Text.Editor.register(currentDiv, { toolbar: 'Min' });
 				currentTarget.hide();
 				detailViewElement.addClass('d-none');
 				activityButtonContainer.removeClass('d-none');
@@ -2684,6 +2707,7 @@ jQuery.Class(
 					emojiPanel: false
 				});
 			}
+			app.registerBlockAnimationEvent(this.getForm());
 			thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 			thisInstance.registerCommentEvents(detailContentsHolder);
 			thisInstance.registerEmailEvents(detailContentsHolder);
@@ -2713,12 +2737,8 @@ jQuery.Class(
 				let nextPageUrl = url + '&page=' + requestedPage;
 				thisInstance.loadContents(nextPageUrl);
 			});
-			detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue:not(.is-edit-active)', function (e) {
-				let target = $(e.target);
-				if (target.closest('a').hasClass('btnNoFastEdit') || target.hasClass('btnNoFastEdit')) return;
-				let currentTdElement = jQuery(e.currentTarget);
-				currentTdElement.addClass('is-edit-active');
-				thisInstance.ajaxEditHandling(currentTdElement);
+			detailContentsHolder.on('click', '.js-detail-quick-edit', function (e) {
+				thisInstance.ajaxEditHandling(jQuery(e.currentTarget).closest('.fieldValue'));
 			});
 			detailContentsHolder.on('click', 'div.recordDetails span.squeezedWell', function (e) {
 				let currentElement = jQuery(e.currentTarget);
@@ -3127,8 +3147,16 @@ jQuery.Class(
 			panelsStorage[id] = type;
 			Quasar.plugins.LocalStorage.set(storageName, panelsStorage);
 		},
+		registerSendPdfFromPdfViewer: function (container) {
+			container.find('.js-email-pdf').on('click', function (e) {
+				let selectedPdfTemplate = $(e.currentTarget).closest('.js-detail-widget').find('.js-pdf-viewer-template').val();
+				let url = $(this).attr('data-url');
+				if (url && selectedPdfTemplate && selectedPdfTemplate > 0) {
+					window.open(url + selectedPdfTemplate, '_blank');
+				}
+			});
+		},
 		registerEvents: function () {
-			//this.triggerDisplayTypeEvent();
 			this.registerSendSmsSubmitEvent();
 			this.registerAjaxEditEvent();
 			this.registerRelatedRowClickEvent();
@@ -3142,8 +3170,8 @@ jQuery.Class(
 			if (detailViewContainer.length <= 0) {
 				// Not detail view page
 				return;
-			}
-
+			} 
+			this.registerWidgetProductAndServices(); 
 			this.registerSetReadRecord(detailViewContainer);
 			this.registerEventForPicklistDependencySetup(this.getForm());
 			this.getForm().validationEngine(app.validationEngineOptionsForRecord);
@@ -3153,6 +3181,7 @@ jQuery.Class(
 			this.registerEventForTotalRecordsCount();
 			this.registerProgress();
 			this.registerChat(detailViewContainer);
+			this.registerSendPdfFromPdfViewer(detailViewContainer);
 		}
 	}
 );

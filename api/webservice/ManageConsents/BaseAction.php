@@ -19,7 +19,15 @@ use OpenApi\Annotations as OA;
  *
  * @OA\Info(
  * 		title="YetiForce API for Webservice App. Type: Manage consents",
- * 		version="0.1",
+ * 		description="Skip the `/webservice` fragment for connections via ApiProxy. There are two ways to connect to API, with or without rewrite, below are examples of both:
+ * rewrite
+ * - __CRM_URL__/webservice/ManageConsents/Users/Login
+ * - __CRM_URL__/webservice/ManageConsents/Accounts/RecordRelatedList/117/Contacts
+ * without rewrite
+ * - __CRM_URL__/webservice.php?_container=ManageConsents&module=Users&action=Login
+ * - __CRM_URL__/webservice.php?_container=ManageConsents&module=Accounts&action=RecordRelatedList&record=117&param=Contacts",
+ * 		version="0.2",
+ * 		termsOfService="https://yetiforce.com/",
  *   	@OA\Contact(
  *     		email="devs@yetiforce.com",
  *     		name="Devs API Team",
@@ -29,19 +37,16 @@ use OpenApi\Annotations as OA;
  *    		name="YetiForce Public License v3",
  *     		url="https://yetiforce.com/en/yetiforce/license"
  *   	),
- *   	termsOfService="https://yetiforce.com/"
  * )
  */
 class BaseAction extends \Api\Core\BaseAction
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function checkPermission()
+	/** {@inheritdoc}  */
+	public function checkPermission(): void
 	{
 		$db = \App\Db::getInstance('webservice');
 		$userTable = 'w_#__manage_consents_user';
-		$row = (new \App\Db\Query())
+		$this->userData = (new \App\Db\Query())
 			->from($userTable)
 			->where([
 				'token' => $this->controller->request->getHeader('x-token'),
@@ -49,13 +54,10 @@ class BaseAction extends \Api\Core\BaseAction
 				'server_id' => $this->controller->app['id']
 			])
 			->limit(1)->one($db);
-		if (!$row) {
+		if (!$this->userData) {
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
-		$db->createCommand()->update($userTable, ['login_time' => date('Y-m-d H:i:s')], ['id' => $row['id']])->execute();
-		$this->session = new \App\Base();
-		$this->session->setData($row);
-		\App\User::setCurrentUserId($this->session->get('user_id'));
-		return true;
+		$db->createCommand()->update($userTable, ['login_time' => date('Y-m-d H:i:s')], ['id' => $this->userData['id']])->execute();
+		\App\User::setCurrentUserId($this->userData['user_id']);
 	}
 }

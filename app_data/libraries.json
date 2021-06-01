@@ -82,7 +82,7 @@
     },
     "vue-drag-resize": {
         "name": "vue-drag-resize",
-        "version": "1.4.2",
+        "version": "1.5.4",
         "license": "MIT",
         "homepage": "https:\/\/github.com\/kirillmurashov\/vue-drag-resize.git",
         "licenseError": false,

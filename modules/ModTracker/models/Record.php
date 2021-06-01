@@ -146,7 +146,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		}
 		$lastReviewedUsers = (new \App\Db\Query())->select(['last_reviewed_users'])->from('vtiger_modtracker_basic')
 			->where(['crmid' => $recordId])
-			->andWhere(['<>', 'status', self::DISPLAYED])->orderBy(['changedon' => SORT_DESC, 'id' => SORT_DESC])->limit(1)->scalar();
+			->andWhere(['<>', 'status', self::DISPLAYED])->orderBy(['changedon' => SORT_DESC, 'id' => SORT_DESC])->scalar();
 		if (false !== $lastReviewedUsers) {
 			return false === strpos($lastReviewedUsers, "#$userId#");
 		}
@@ -206,7 +206,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return string - Record Module Name
 	 */
-	public function getModule()
+	public function getModule(): Vtiger_Module_Model
 	{
 		if (empty($this->parent)) {
 			return Vtiger_Module_Model::getInstance($this->getModuleName());
@@ -219,7 +219,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return string - Record Module Name
 	 */
-	public function getModuleName()
+	public function getModuleName(): string
 	{
 		return $this->get('module');
 	}

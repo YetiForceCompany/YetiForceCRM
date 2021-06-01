@@ -13,6 +13,7 @@ jQuery.Class(
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
 					action: 'DeleteAjax',
+					detailView: true,
 					record: $('#recordId').val()
 				})
 					.done(function (data) {

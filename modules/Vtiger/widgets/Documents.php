@@ -10,17 +10,13 @@
  */
 class Vtiger_Documents_Widget extends Vtiger_RelatedModule_Widget
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isPermitted(): bool
 	{
-		return parent::isPermitted() && \App\Relation::getAll($this->Module, ['related_tabid' => \App\Module::getModuleId('Documents')]);
+		return parent::isPermitted() && \App\Relation::getByModule($this->moduleModel->getName(), false, 'Documents');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getWidget()
 	{
 		$this->Config['buttonHeader'] = $this->getHeaderButtons();
@@ -28,9 +24,7 @@ class Vtiger_Documents_Widget extends Vtiger_RelatedModule_Widget
 		return parent::getWidget();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getConfigTplName()
 	{
 		return 'DocumentsConfig';
@@ -53,8 +47,8 @@ class Vtiger_Documents_Widget extends Vtiger_RelatedModule_Widget
 				'linkclass' => 'btn-light btn-sm',
 			]);
 		}
-		if (!empty($this->Data['email_template']) && \App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail') &&
-			1 === \App\User::getCurrentUserModel()->getDetail('internal_mailer') && \App\Record::isExists($this->Data['email_template'], 'EmailTemplates')
+		if (!empty($this->Data['email_template']) && \App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')
+			&& 1 === \App\User::getCurrentUserModel()->getDetail('internal_mailer') && \App\Record::isExists($this->Data['email_template'], 'EmailTemplates')
 		) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linkhint' => App\Language::translate('LBL_SEND_MAIL', $moduleName),

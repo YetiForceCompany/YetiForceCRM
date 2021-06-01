@@ -33,19 +33,20 @@ class Vtiger_BasicAjax_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
-		$searchModuleModel = \Vtiger_Module_Model::getInstance($request->getByType('search_module', 'Alnum'));
-		$records = $searchModuleModel->searchRecord($request->getByType('search_value', 'Text'), $request->getModule());
 		$result = [];
-		if (\is_array($records)) {
-			foreach ($records as $recordModels) {
-				foreach ($recordModels as $recordModel) {
-					$result[] = [
-						'label' => App\Purifier::decodeHtml($recordModel->getSearchName()),
-						'value' => App\Purifier::decodeHtml($recordModel->getName()),
-						'id' => $recordModel->getId(),
-					];
-				}
-			}
+		$moduleName = $request->getByType('search_module', \App\Purifier::ALNUM);
+		$limit = \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT');
+		$searchValue = \App\RecordSearch::getSearchField()->getUITypeModel()->getDbConditionBuilderValue($request->getByType('search_value', \App\Purifier::TEXT), '');
+		$srcRecord = $request->has('src_record') ? $request->getInteger('src_record') : null;
+
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$dataReader = $moduleModel->getQueryForRecords($searchValue, $limit, $srcRecord)->createQuery()->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$result[] = [
+				'label' => App\Purifier::decodeHtml($row['search_label']),
+				'value' => App\Purifier::decodeHtml(\App\Record::getLabel($row['id'])),
+				'id' => $row['id'],
+			];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

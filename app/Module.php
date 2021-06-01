@@ -5,6 +5,8 @@ namespace App;
 /**
  * Modules basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -24,7 +26,7 @@ class Module
 	 */
 	public static function init()
 	{
-		static::$tabdataCache = require \ROOT_DIRECTORY . '/user_privileges/tabdata.php';
+		static::$tabdataCache = require ROOT_DIRECTORY . '/user_privileges/tabdata.php';
 		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
 	}
 
@@ -61,8 +63,8 @@ class Module
 			$entityInfos = [];
 			$dataReader = (new \App\Db\Query())->from('vtiger_entityname')->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$row['fieldnameArr'] = explode(',', $row['fieldname']);
-				$row['searchcolumnArr'] = explode(',', $row['searchcolumn']);
+				$row['fieldnameArr'] = $row['fieldname'] ? explode(',', $row['fieldname']) : [];
+				$row['searchcolumnArr'] = $row['searchcolumn'] ? explode(',', $row['searchcolumn']) : [];
 				$entityInfos[$row['modulename']] = $row;
 			}
 			return Cache::save($cacheName, '', $entityInfos);
@@ -308,7 +310,7 @@ class Module
 	public static function getAllModuleNamesFilter($isEntityType = true, $showRestricted = false, $presence = false): array
 	{
 		$modules = [];
-		foreach (\vtlib\Functions::getAllModules($isEntityType, $showRestricted, $presence) as  $value) {
+		foreach (\vtlib\Functions::getAllModules($isEntityType, $showRestricted, $presence) as $value) {
 			$modules[$value['name']] = Language::translate($value['name'], $value['name']);
 		}
 		return $modules;

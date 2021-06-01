@@ -3,9 +3,12 @@
 /**
  * Basic TreeCategoryModal Model Class.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_Model extends \App\Base
 {
@@ -63,7 +66,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
 		$instance = new $modelClassName();
-		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
+		$instance->set('module', $moduleModel)->set('moduleName', $moduleName);
 		self::$_cached_instance[$moduleName] = $instance;
 
 		return self::$_cached_instance[$moduleName];
@@ -175,9 +178,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	{
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
-		$entries = $relationListView->getEntries($pagingModel);
+		$entries = $relationListView->getAllEntries();
 		if ($onlyKeys) {
 			return array_keys($entries);
 		}
@@ -191,10 +192,8 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 			$listViewModel->set('src_module', $this->get('srcModule'));
 			$listViewModel->set('src_record', $this->get('srcRecord'));
 		}
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
-		$listViewModel->get('query_generator')->setField($this->getTreeField()['fieldname']);
-		return $listViewModel->getListViewEntries($pagingModel);
+		$listViewModel->getQueryGenerator()->setField($this->getTreeField()['fieldname']);
+		return $listViewModel->getAllEntries();
 	}
 
 	private function getRecords()

@@ -2,7 +2,7 @@
 /**
  * YetiForce shop DisableBranding file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -38,12 +38,13 @@ class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify(): bool
+	public function verify(): array
 	{
+		$message = $status = true;
 		if (\App\YetiForce\Register::getProducts('YetiForceDisableBranding')) {
-			return \App\YetiForce\Shop::check('YetiForceDisableBranding');
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceDisableBranding');
 		}
-		return true;
+		return ['status' => $status, 'message' => $message];
 	}
 
 	/** {@inheritdoc} */

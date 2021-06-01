@@ -33,18 +33,6 @@ class OSSPasswords extends CRMEntity
 		'vtiger_osspasswords' => 'osspasswordsid',
 		'vtiger_osspasswordscf' => 'osspasswordsid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'OSSPassword No' => ['osspasswords' => 'osspassword_no'],
-		'Key name' => ['osspasswords' => 'passwordname'],
-		'Username' => ['osspasswords' => 'username'],
-		'Password' => ['osspasswords' => 'password'],
-		'WWW page' => ['osspasswords' => 'link_adres'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'OSSPassword No' => 'osspassword_no',
@@ -58,8 +46,7 @@ class OSSPasswords extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view
-	public $list_link_field = 'passwordname';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

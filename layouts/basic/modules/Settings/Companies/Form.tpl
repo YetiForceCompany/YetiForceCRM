@@ -28,6 +28,11 @@
 								<span class="redColor">*</span>
 							{/if}
 							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
+							{if isset($FIELD['infoText'])}
+								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2 text-primary" data-js="popover" data-placement="top" data-class="u-min-w-470pxr" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], $QUALIFIED_MODULE))}">
+									<span class="fas fa-info-circle"></span>
+								</div>
+							{/if}
 						</label>
 						<div class="col-lg-8">
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -62,7 +67,7 @@
 					<div class="form-group row">
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
 							{if $FIELD_NAME === 'newsletter'}
-								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover"
+								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2 text-primary" data-js="popover"
 									 data-content="{\App\Purifier::encodeHtml(App\Language::translateArgs("LBL_EMAIL_NEWSLETTER_INFO", $QUALIFIED_MODULE,"<a href=\"https://yetiforce.com/pl/newsletter-info\">{App\Language::translate('LBL_PRIVACY_POLICY', $QUALIFIED_MODULE)}</a>"))}">
 									<span class="fas fa-info-circle"></span>
 								</div>
@@ -72,7 +77,7 @@
 							{/if}
 							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
 							{if isset($FIELD['infoText'])}
-								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], $QUALIFIED_MODULE))}">
+								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2 text-primary" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], $QUALIFIED_MODULE))}">
 									<span class="fas fa-info-circle"></span>
 								</div>
 							{/if}
@@ -103,7 +108,7 @@
 			<div class="card-header">
 				<span class="fas fa-globe mr-1"></span>
 				{App\Language::translate('LBL_BRAND_DATA', $QUALIFIED_MODULE)}
-				<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate('LBL_BRAND_DATA_INFO', $QUALIFIED_MODULE))}">
+				<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2 text-primary" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate('LBL_BRAND_DATA_INFO', $QUALIFIED_MODULE))}">
 					<span class="fas fa-info-circle"></span>
 				</div>
 			</div>
