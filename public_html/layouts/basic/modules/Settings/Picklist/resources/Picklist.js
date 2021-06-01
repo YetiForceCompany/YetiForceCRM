@@ -566,10 +566,10 @@ var Settings_Picklist_Js = {
 			let form = $(e.currentTarget);
 			let thisInstance = this;
 			if (form.validationEngine('validate')) {
-				let interdependent = $('#modulePickList').find('option:selected').data('interdependent');
-				if (interdependent.length > 1) {
+				let confirmation = $('#modulePickList').find('option:selected').data('confirmation');
+				if (confirmation !== undefined) {
 					Vtiger_Helper_Js.showConfirmationBox({
-						message: app.vtranslate('JS_CONFIRM_BEFORE_MODIFY') + ': ' + interdependent.join(', ')
+						message: confirmation
 					}).done(function (e) {
 						thisInstance.renameItem(form);
 					});
@@ -664,10 +664,10 @@ var Settings_Picklist_Js = {
 			var validationParams = app.getvalidationEngineOptions(true);
 			validationParams.onValidationComplete = function (form, valid) {
 				if (valid) {
-					let interdependent = $('#modulePickList').find('option:selected').data('interdependent');
-					if (interdependent.length > 1) {
+					let confirmation = $('#modulePickList').find('option:selected').data('confirmation');
+					if (confirmation !== undefined) {
 						Vtiger_Helper_Js.showConfirmationBox({
-							message: app.vtranslate('JS_CONFIRM_BEFORE_MODIFY') + interdependent.join(', ')
+							message: confirmation
 						}).done(function (e) {
 							thisInstance.deleteItem(form);
 						});
