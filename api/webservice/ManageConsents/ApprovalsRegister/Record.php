@@ -73,7 +73,7 @@ class Record extends \Api\ManageConsents\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
-	 *				description="No sent token OR Invalid token",
+	 *				description="`No sent token` OR `Invalid token`",
 	 *		),
 	 *		@OA\Response(
 	 *				response=403,

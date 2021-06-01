@@ -776,6 +776,9 @@ $.Class(
 		readSelectedIds: function (decode) {
 			let cvId = this.getCurrentCvId();
 			let selectedIdsElement = $('#selectedIds');
+			if (selectedIdsElement.length <= 0) {
+				return '';
+			}
 			let selectedIdsDataAttr = cvId + 'selectedIds';
 			let selectedIdsElementDataAttributes = selectedIdsElement.data();
 			let selectedIds = [];
@@ -1485,9 +1488,8 @@ $.Class(
 							? 'title="' + app.vtranslate('JS_REMOVE_TO_FAVORITES') + '"'
 							: 'title="' + app.vtranslate('JS_ADD_TO_FAVORITES') + '"'
 					} data-value="favorites" data-js="click"
-						  class=" mr-1 js-filter-favorites ${
-								currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'
-							}"></span>
+						  class=" mr-1 js-filter-favorites ${currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'}
+						  		 ${currentOptionElement.data('featured') === undefined ? 'd-none' : ''}""></span>
 					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate" data-js="click"
 						  class="fas fa-retweet mr-1 js-filter-duplicate ${$('#createFilter').length !== 0 ? '' : 'd-none'}"></span>
 					<span title="${app.vtranslate('JS_EDIT')}" data-value="edit" data-js="click"

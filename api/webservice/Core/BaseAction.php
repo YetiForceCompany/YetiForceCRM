@@ -91,6 +91,9 @@ class BaseAction
 
 		$this->userData['type'] = (int) $this->userData['type'];
 		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
+		if ($this->userData['auth']) {
+			$this->userData['auth'] = \App\Json::decode(\App\Encryption::getInstance()->decrypt($this->userData['auth']));
+		}
 		\App\User::setCurrentUserId($this->userData['user_id']);
 		$userModel = \App\User::getCurrentUserModel();
 		$userModel->set('permission_type', $this->userData['type']);
@@ -128,8 +131,6 @@ class BaseAction
 			$language = $this->userData['language'];
 		} elseif (!empty($this->userData['custom_params']['language'])) {
 			$language = $this->userData['custom_params']['language'];
-		} elseif ($this->data && isset($this->data['custom_params']['language'])) {
-			$language = $this->data['custom_params']['language'];
 		} elseif (!empty($this->controller->headers['accept-language'])) {
 			$language = str_replace('_', '-', \Locale::acceptFromHttp($this->controller->headers['accept-language']));
 		} else {
@@ -209,7 +210,19 @@ class BaseAction
 	 */
 	public function setUserData(array $data): void
 	{
-		$this->userData = array_merge_recursive($this->userData, $data);
+		$this->userData = \App\Utils::merge($this->userData, $data);
+	}
+
+	/**
+	 * Get user data.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function getUserData(string $key)
+	{
+		return $this->userData[$key] ?? null;
 	}
 
 	/**
@@ -238,7 +251,12 @@ class BaseAction
 	 */
 	public function updateUser(array $data = []): void
 	{
-		$data['custom_params'] = \App\Json::encode($this->userData['custom_params']);
+		if (isset($data['custom_params'])) {
+			$data['custom_params'] = \App\Json::encode(\App\Utils::merge(($this->userData['custom_params'] ?? []), $data['custom_params']));
+		}
+		if (isset($data['auth'])) {
+			$data['auth'] = \App\Encryption::getInstance()->encrypt(\App\Json::encode(\App\Utils::merge(($this->userData['auth'] ?? []), $data['auth'])));
+		}
 		\App\Db::getInstance('webservice')->createCommand()
 			->update(\Api\Core\Containers::$listTables[$this->controller->app['type']]['user'], $data, ['id' => $this->userData['id']])
 			->execute();

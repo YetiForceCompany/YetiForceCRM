@@ -51,6 +51,8 @@ class Users_LoginPassChange_Action extends Users_Login_Action
 				$userRecordModel->save();
 				$eventHandler->trigger('UsersAfterPasswordChange');
 				$response->setResult(\App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users'));
+				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users'));
+				\App\Session::set('UserLoginMessageType', 'success');
 			}
 		} catch (\Throwable $exc) {
 			$message = $exc->getMessage();

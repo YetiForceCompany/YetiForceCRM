@@ -104,14 +104,19 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				$params['uitype'] = 16;
 				$params['typeofdata'] = 'V~O';
 				$params['picklistValues'] = [
+					'-' => \App\Language::translate('LBL_NONE'),
 					'PLL_AUTHY_TOTP' => \App\Language::translate('PLL_AUTHY_TOTP', 'Users'),
 				];
 				break;
 			case 'password':
 				$params['typeofdata'] = 'P~M';
+				if ($this->has('id')) {
+					$params = null;
+				}
 				break;
+			default: break;
 		}
-		return Settings_Vtiger_Field_Model::init($moduleName, $params);
+		return $params ? Settings_Vtiger_Field_Model::init($moduleName, $params) : null;
 	}
 
 	/** {@inheritdoc} */
@@ -161,8 +166,9 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				$value = (int) $value;
 				break;
 			case 'password':
-				$value = App\Encryption::getInstance()->encrypt($value);
+				$value = App\Encryption::createPasswordHash($value, 'Portal');
 				break;
+			default: break;
 		}
 		return $value;
 	}

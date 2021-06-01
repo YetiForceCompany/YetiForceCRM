@@ -51,7 +51,6 @@
  	{
  		\Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
  		$tree = [];
- 		$taskManager = new VTTaskManager();
  		$workflowModuleName = 'Settings:Workflows';
  		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
  		$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);

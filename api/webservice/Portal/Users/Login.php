@@ -34,14 +34,14 @@ class Login extends \Api\RestApi\Users\Login
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data format",
-	 *    		@OA\JsonContent(ref="#/components/schemas/UsersLoginRequestBody"),
+	 *    		@OA\JsonContent(ref="#/components/schemas/Users_Login_RequestBody"),
 	 *     		@OA\MediaType(
 	 *         		mediaType="multipart/form-data",
-	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
 	 *     		),
 	 *     		@OA\MediaType(
 	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
 	 *     		),
 	 *		),
 	 *		@OA\Parameter(
@@ -53,18 +53,24 @@ class Login extends \Api\RestApi\Users\Login
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="User details",
-	 *			@OA\JsonContent(ref="#/components/schemas/UsersLoginResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/UsersLoginResponseBody")
+	 *			@OA\JsonContent(ref="#/components/schemas/Users_Login_ResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Users_Login_ResponseBody")
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
-	 *			description="Invalid data access OR Invalid user password OR No crmid",
+	 *			description="`Invalid data access` OR `Invalid user password` OR `No crmid`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
 	 *		@OA\Response(
 	 *			response=405,
 	 *			description="Invalid method",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
+	 *		),
+	 *		@OA\Response(
+	 *			response=412,
+	 *			description="No 2FA TOTP code",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
@@ -90,7 +96,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *   	default=0
 	 *	),
 	 *	@OA\Schema(
-	 * 		schema="UsersLoginRequestBody",
+	 * 		schema="Users_Login_RequestBody",
 	 * 		title="Users module - Users login request body",
 	 * 		description="JSON or form-data",
 	 *		type="object",
@@ -105,6 +111,11 @@ class Login extends \Api\RestApi\Users\Login
 	 *		type="string"
 	 *      ),
 	 *  	@OA\Property(
+	 *			property="code",
+	 *			description="2FA TOTP code (optional property), Pass code length = 6, Code period = 30",
+	 *			type="string"
+	 *		),
+	 *		@OA\Property(
 	 *       	property="params",
 	 *       	description="Additional parameters sent by the user, extending the current settings, e.g. language",
 	 *       	type="object",
@@ -112,7 +123,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *		)
 	 *	),
 	 *	@OA\Schema(
-	 * 		schema="UsersLoginResponseBody",
+	 * 		schema="Users_Login_ResponseBody",
 	 * 		title="Users module - Users login response body",
 	 * 		description="Users login response body",
 	 *		type="object",
@@ -134,6 +145,8 @@ class Login extends \Api\RestApi\Users\Login
 	 *    		@OA\Property(property="lastLogoutTime", type="string", format="date-time", example=null),
 	 *    		@OA\Property(property="language", type="string", example="pl-PL"),
 	 *    		@OA\Property(property="type", type="integer"),
+	 *    		@OA\Property(property="login_method", type="string", enum={"PLL_PASSWORD", "PLL_PASSWORD_2FA"}, example="PLL_PASSWORD_2FA"),
+	 *    		@OA\Property(property="authy_methods", type="string", enum={"", "PLL_AUTHY_TOTP"}, example="PLL_AUTHY_TOTP"),
 	 *    		@OA\Property(property="companyId", type="integer"),
 	 *    		@OA\Property(
 	 * 				property="companyDetails",
@@ -222,9 +235,11 @@ class Login extends \Api\RestApi\Users\Login
 			'name' => $this->userData['crmid'] ? \App\Record::getLabel($this->userData['crmid']) : $userModel->getName(),
 			'parentName' => empty($parentId) ? '' : \App\Record::getLabel($parentId),
 			'lastLoginTime' => $this->userData['login_time'],
-			'lastLogoutTime' => $this->userData['logout_time'],
-			'language' => $this->userData['language'],
+			'lastLogoutTime' => $this->userData['logout_time'] ?? '',
+			'language' => $this->userData['language'] ?? '',
 			'type' => $this->userData['type'],
+			'login_method' => $this->userData['login_method'],
+			'authy_methods' => $this->userData['auth']['authy_methods'] ?? '',
 			'companyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type']) ? $parentId : 0,
 			'companyDetails' => $companyDetails,
 			'logged' => true,

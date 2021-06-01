@@ -19,7 +19,7 @@ class Notification_Notifications_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($limit)) {
 			$limit = 10;
 		}
-		$condition = false;
+		$condition = [];
 		if (!$request->isEmpty('type', true)) {
 			$condition = ['u_#__notification.notification_type' => $request->getByType('type', 'Text')];
 		}

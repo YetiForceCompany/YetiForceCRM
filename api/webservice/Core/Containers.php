@@ -25,15 +25,18 @@ class Containers
 	public static $listTab = [
 		'RestApi', 'Portal', 'ManageConsents'
 	];
+
 	/** @var array List of db tables */
 	public static $listTables = [
 		'RestApi' => [
 			'user' => 'w_#__api_user',
 			'session' => 'w_#__api_session',
+			'loginHistory' => 'w_#__api_login_history',
 		],
 		'Portal' => [
 			'user' => 'w_#__portal_user',
 			'session' => 'w_#__portal_session',
+			'loginHistory' => 'w_#__portal_login_history',
 		]
 	];
 }

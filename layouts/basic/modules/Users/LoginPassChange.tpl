@@ -35,8 +35,11 @@
 					</div>
 				</div>
 			</form>
-			<div class="alert d-none js-alert-password mt-2" role="alert">
-				<span class="js-alert-text" data-js="container"></span>
+			<div class="alert d-none js-alert-password mt-2" role="alert" data-js="container">
+					<span class="js-alert-text" data-js="container"></span>
+			</div>
+			<div class="alert d-none js-alert-confirm-password alert-danger mt-2" role="alert" data-js="container">
+				{\App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME',$MODULE)}
 			</div>
 		{/if}
 	</div>

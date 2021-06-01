@@ -220,7 +220,7 @@ class System extends Base
 			$row['params'] = \App\Utils::varExport($row['params']);
 			$table[] = $row;
 		}
-		$this->climate->table($table);
+		$table ? $this->climate->table($table) : $this->climate->bold('None');
 		$this->climate->border('─', 200);
 		if (!$this->climate->arguments->defined('action')) {
 			$this->cli->actionsList('System');

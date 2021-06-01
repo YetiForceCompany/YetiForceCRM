@@ -59,7 +59,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/** @var array List of custom params labels. */
 	public static $customParamsLabels = [
 		'language' => 'FL_LANGUAGE',
-		'authy_methods' => 'FL_AUTHY_METHODS',
 		'ip' => 'FL_LAST_IP',
 		'invalid_login_time' => 'FL_DATETIME_LAST_INVALID_LOGIN',
 		'invalid_login' => 'FL_LAST_INVALID_LOGIN',
@@ -238,7 +237,15 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		if (!App\Json::isEmpty($data['custom_params'])) {
 			$data['custom_params'] = \App\Json::decode($data['custom_params']);
 			$data = array_merge($data, $data['custom_params']);
+		}else{
+			$data['custom_params'] = [];
 		}
+		if ($data['auth']) {
+			$data['auth'] = \App\Json::decode(\App\Encryption::getInstance()->decrypt($data['auth']));
+		} else {
+			$data['auth'] = [];
+		}
+		$data['authy_methods'] = $data['auth']['authy_methods'] ?? '';
 		$instance->init($data);
 		\App\Cache::staticSave($cacheName, $id, $instance);
 		return $instance;
@@ -332,6 +339,14 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			unset($data[$name]);
 		}
 		$data['custom_params'] = \App\Json::encode($params);
+		if (empty($data['authy_methods']) || '-' === $data['authy_methods']) {
+			$data['auth'] = '';
+		} else {
+			$auth = $this->get('auth') ?: [];
+			$auth['authy_methods'] = $data['authy_methods'] ?? '';
+			$data['auth'] = \App\Encryption::getInstance()->encrypt(\App\Json::encode($auth));
+		}
+		unset($data['authy_methods']);
 		if (empty($this->getId())) {
 			$data['user_name'] = $this->getUserName();
 			$success = $db->createCommand()->insert($table, $data)->execute();

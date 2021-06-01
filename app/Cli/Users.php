@@ -41,6 +41,10 @@ class Users extends Base
 				'prefix' => 'p',
 				'description' => 'New password',
 			],
+			'confirmation' => [
+				'prefix' => 'c',
+				'description' => 'Don\'t ask for confirmation',
+			],
 		]);
 		if ($this->helpMode) {
 			return;
@@ -55,7 +59,7 @@ class Users extends Base
 		$row = (new \App\Db\Query())->select(['id', 'deleted'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->limit(1)->one();
 		if (!$row) {
 			$this->climate->red('User not found');
-			if ($this->climate->confirm('Re-enter login?')->confirmed()) {
+			if ($this->climate->arguments->defined('confirmation') || $this->climate->confirm('Re-enter login?')->confirmed()) {
 				$this->resetPassword();
 			} else {
 				$this->cli->actionsList('Users');
@@ -70,7 +74,7 @@ class Users extends Base
 		if ($this->climate->arguments->defined('password')) {
 			$password = $this->climate->arguments->get('password');
 		} else {
-			if ($this->climate->confirm('Generate a password?')->confirmed()) {
+			if ($this->climate->arguments->defined('confirmation') || $this->climate->confirm('Generate a password?')->confirmed()) {
 				$password = \App\Encryption::generateUserPassword();
 				$this->climate->lightGreen('New password: ' . $password);
 			} else {
@@ -89,7 +93,7 @@ class Users extends Base
 		$eventHandler->trigger('UsersBeforePasswordChange');
 		$userRecordModel->save();
 		$eventHandler->trigger('UsersAfterPasswordChange');
-		if ($this->climate->confirm('Send password to user\'s email address?')->confirmed()) {
+		if ($this->climate->arguments->defined('confirmation') || $this->climate->confirm('Send password to user\'s email address?')->confirmed()) {
 			\App\Mailer::sendFromTemplate([
 				'template' => 'UsersResetPassword',
 				'moduleName' => 'Users',
@@ -110,8 +114,17 @@ class Users extends Base
 	 */
 	public function resetAllPasswords(): void
 	{
+		$this->climate->arguments->add([
+			'confirmation' => [
+				'prefix' => 'c',
+				'description' => 'Don\'t ask for confirmation',
+			],
+		]);
+		if ($this->helpMode) {
+			return;
+		}
 		$this->climate->lightBlue('New passwords will be sent to the user\'s e-mail, it is required that the e-mail sending works properly.');
-		if (!$this->climate->confirm('Do you want to reset the passwords of all active users?')->confirmed()) {
+		if (!$this->climate->arguments->defined('confirmation') && !$this->climate->confirm('Do you want to reset the passwords of all active users?')->confirmed()) {
 			$this->cli->actionsList('Users');
 			return;
 		}

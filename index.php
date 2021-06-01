@@ -8,6 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+chdir(__DIR__);
 require_once __DIR__ . '/include/main/WebUI.php';
 require_once __DIR__ . '/include/RequirementsValidation.php';
 

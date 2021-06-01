@@ -56,7 +56,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 	];
 
 	/** {@inheritdoc} */
-	public $paramsFields = ['language', 'authy_methods', 'logout_time'];
+	public $paramsFields = ['language', 'logout_time'];
 
 	/** {@inheritdoc} */
 	public function init(array $data)
@@ -125,14 +125,19 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				$params['uitype'] = 16;
 				$params['typeofdata'] = 'V~O';
 				$params['picklistValues'] = [
+					'-' => \App\Language::translate('LBL_NONE'),
 					'PLL_AUTHY_TOTP' => \App\Language::translate('PLL_AUTHY_TOTP', 'Users'),
 				];
 				break;
 			case 'password':
 				$params['typeofdata'] = 'P~M';
+				if ($this->has('id')) {
+					$params = null;
+				}
 				break;
+			default: break;
 		}
-		return Settings_Vtiger_Field_Model::init($moduleName, $params);
+		return $params ? Settings_Vtiger_Field_Model::init($moduleName, $params) : null;
 	}
 
 	/**
@@ -206,7 +211,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				$value = (int) $value;
 				break;
 			case 'password':
-				$value = App\Encryption::getInstance()->encrypt($value);
+				$value = App\Encryption::createPasswordHash($value, 'RestApi');
 				break;
 		}
 		return $value;
@@ -261,9 +266,6 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 					$value = '';
 					foreach ($params as $key => $row) {
 						switch ($key) {
-							case 'authy_methods':
-								$row = \App\Language::translate($row, 'Users');
-								break;
 							case 'language':
 								$row = $row ? \App\Language::getLanguageLabel($row) : '';
 								break;
@@ -278,6 +280,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 					$value = \App\Layout::truncateText($value, 50, true);
 				}
 				break;
+			default: break;
 		}
 		return $value;
 	}
@@ -298,13 +301,6 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				'linkclass' => 'btn btn-sm btn-primary',
 				'linkurl' => $this->getModule()->getSessionViewUrl() . '&record=' . $this->getId(),
 				'modalView' => true,
-			],
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'FL_PASSWORD',
-				'linkicon' => 'fas fa-copy',
-				'linkclass' => 'btn btn-sm btn-primary clipboard',
-				'linkdata' => ['copy-attribute' => 'clipboard-text', 'clipboard-text' => \App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($this->get('password')))]
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',

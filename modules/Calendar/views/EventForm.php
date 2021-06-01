@@ -20,9 +20,9 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('record')) {
-			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			if (!$this->record->isEditable()
-				|| (true === $request->getBoolean('isDuplicate') && (!$this->record->isCreateable() || !$this->record->isPermitted('ActivityPostponed')))
+			$this->recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+			if (!$this->recordModel->isEditable()
+				|| (true === $request->getBoolean('isDuplicate') && (!$this->recordModel->isCreateable() || !$this->recordModel->isPermitted('ActivityPostponed')))
 			) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
@@ -39,7 +39,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		if ($request->has('record')) {
-			$recordModel = $this->record ?: Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+			$recordModel = $this->recordModel ?: Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$recordStructure = $recordStructureInstance->getStructure();
 			$fieldValues = $this->loadFieldValuesFromSource($request);

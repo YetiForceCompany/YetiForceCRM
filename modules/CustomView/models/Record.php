@@ -924,17 +924,16 @@ class CustomView_Record_Model extends \App\Base
 		if (App\Cache::has('getAllFilters', $cacheName)) {
 			return App\Cache::get('getAllFilters', $cacheName);
 		}
-		$query = (new App\Db\Query())->select(['vtiger_customview.*'])->from('vtiger_customview');
+		$query = (new App\Db\Query())->from('vtiger_customview');
 		if (!empty($moduleName)) {
 			$query->where(['entitytype' => $moduleName]);
 		}
 		if (!$currentUser->isAdmin()) {
-			$query->leftJoin('u_#__cv_privileges', 'vtiger_customview.cvid=u_#__cv_privileges.cvid')->groupBy(['vtiger_customview.cvid']);
 			$query->andWhere([
 				'or',
 				['userid' => $currentUser->getId()],
 				['status' => [\App\CustomView::CV_STATUS_DEFAULT, \App\CustomView::CV_STATUS_PUBLIC]],
-				['and', ['status' => \App\CustomView::CV_STATUS_PRIVATE], ['member' => $currentUser->getMemberStructure()]]
+				['and', ['status' => \App\CustomView::CV_STATUS_PRIVATE], ['cvid' => (new \App\Db\Query())->select(['cvid'])->from('u_#__cv_privileges')->where(['member' => $currentUser->getMemberStructure()])]]
 			]);
 		}
 		$dataReader = $query->orderBy(['sequence' => SORT_ASC])->createCommand()->query();

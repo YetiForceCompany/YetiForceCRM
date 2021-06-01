@@ -67,7 +67,7 @@ class Api extends \Tests\Base
 
 	protected function setUp(): void
 	{
-		$this->httpClient = new \GuzzleHttp\Client(array_merge(\App\RequestHttp::getOptions(), [
+		$this->httpClient = new \GuzzleHttp\Client(\App\Utils::merge(\App\RequestHttp::getOptions(), [
 			'base_uri' => \App\Config::main('site_URL') . 'webservice/Portal/',
 			'auth' => ['portal', 'portal'],
 			'Content-Type' => 'application/json',
@@ -86,14 +86,14 @@ class Api extends \Tests\Base
 	 */
 	public function testAddConfiguration(): void
 	{
-		$webserviceApps = \Settings_WebserviceApps_Record_Model::getCleanInstance();
-		$webserviceApps->set('type', 'Portal');
-		$webserviceApps->set('status', 1);
-		$webserviceApps->set('name', 'portal');
-		$webserviceApps->set('acceptable_url', '');
-		$webserviceApps->set('pass', 'portal');
-		$webserviceApps->save();
-		self::$serverId = (int) $webserviceApps->getId();
+		$app = \Settings_WebserviceApps_Record_Model::getCleanInstance();
+		$app->set('type', 'Portal');
+		$app->set('status', 1);
+		$app->set('name', 'portal');
+		$app->set('acceptable_url', '');
+		$app->set('pass', 'portal');
+		$app->save();
+		self::$serverId = (int) $app->getId();
 
 		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => self::$serverId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . self::$serverId);
@@ -103,26 +103,27 @@ class Api extends \Tests\Base
 		$this->assertSame($row['pass'], 'portal');
 		self::$requestOptions['headers']['x-api-key'] = $row['api_key'];
 
-		$webserviceUsers = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
-		$webserviceUsers->setData([
+		$user = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
+		$user->setData([
 			'server_id' => self::$serverId,
 			'status' => 1,
 			'user_name' => 'demo@yetiforce.com',
-			'password' => 'demo',
+			'password' => \App\Encryption::createPasswordHash('demo', 'Portal'),
 			'type' => 1,
 			'popupReferenceModule' => 'Contacts',
 			'crmid' => 0,
 			'crmid_display' => '',
 			'login_method' => 'PLL_PASSWORD',
+			'authy_methods' => 'PLL_AUTHY_TOTP',
 			'user_id' => \App\User::getActiveAdminId(),
 		]);
-		$webserviceUsers->save();
-		self::$apiUserId = $webserviceUsers->getId();
+		$user->save();
+		self::$apiUserId = $user->getId();
 		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => self::$apiUserId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . self::$apiUserId);
 		$this->assertSame((int) $row['server_id'], self::$serverId);
 		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
-		$this->assertSame($row['password'], 'demo');
+		$this->assertTrue(\App\Encryption::verifyPasswordHash('demo', $row['password'], 'Portal'));
 
 		$fieldModel = \Vtiger_Field_Model::init('Accounts', \App\Field::SYSTEM_FIELDS['share_externally']);
 		$fieldModel->fieldparams = self::$serverId;
@@ -135,18 +136,27 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn(): void
 	{
-		$this->logs = array_merge(
-			[
-				'json' => [
-					'userName' => 'demo@yetiforce.com',
-					'password' => 'demo',
-				]
-			], self::$requestOptions);
-		$request = $this->httpClient->post('Users/Login', array_merge(
+		$request = $this->httpClient->post('Users/TwoFactorAuth', \App\Utils::merge([
+			'json' => [
+				'userName' => 'demo@yetiforce.com',
+				'password' => 'demo',
+			]
+		], self::$requestOptions)
+		);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$secretKey = $response['result']['secretKey'];
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/TwoFactorAuth', 'post', 200);
+
+		$request = $this->httpClient->post('Users/Login', \App\Utils::merge(
 				[
 					'json' => [
 						'userName' => 'demo@yetiforce.com',
 						'password' => 'demo',
+						'code' => (new \Sonata\GoogleAuthenticator\GoogleAuthenticator())->getCode($secretKey),
+						'params' => ['language' => 'pl-PL'],
 					]
 				], self::$requestOptions)
 		);
@@ -164,7 +174,7 @@ class Api extends \Tests\Base
 	 */
 	public function testAddRecord(): void
 	{
-		$request = $this->httpClient->post('Accounts/Record/', array_merge_recursive(['json' => [
+		$request = $this->httpClient->post('Accounts/Record/', \App\Utils::merge(['json' => [
 			'accountname' => 'Api YetiForce Sp. z o.o.',
 			'addresslevel5a' => 'Warszawa',
 			'addresslevel8a' => 'Marszałkowska',
@@ -185,7 +195,7 @@ class Api extends \Tests\Base
 	 */
 	public function testAddInventoryRecord(): void
 	{
-		$request = $this->httpClient->post('SCalculations/Record/', array_merge_recursive(['json' => [
+		$request = $this->httpClient->post('SCalculations/Record/', \App\Utils::merge(['json' => [
 			'subject' => 'Api YetiForce Sp. z o.o.',
 			'inventory' => [
 				1 => [
@@ -213,7 +223,7 @@ class Api extends \Tests\Base
 	 */
 	public function testEditRecord(): void
 	{
-		$request = $this->httpClient->put('Accounts/Record/' . self::$recordId, array_merge_recursive(['json' => [
+		$request = $this->httpClient->put('Accounts/Record/' . self::$recordId, \App\Utils::merge(['json' => [
 			'accountname' => 'Api YetiForce Sp. z o.o. New name',
 			'buildingnumbera' => 222,
 		]], self::$requestOptions));
@@ -257,7 +267,7 @@ class Api extends \Tests\Base
 	 */
 	public function testDeleteRecord(): void
 	{
-		$request = $this->httpClient->post('Accounts/Record/', array_merge_recursive(['json' => [
+		$request = $this->httpClient->post('Accounts/Record/', \App\Utils::merge(['json' => [
 			'accountname' => 'Api Delete YetiForce Sp. z o.o.',
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
 			'share_externally' => 1
@@ -400,7 +410,7 @@ class Api extends \Tests\Base
 	 */
 	public function testGetInstall(): void
 	{
-		$request = $this->httpClient->put('Install', array_merge_recursive(['json' => ['xxx' => 'yyy']], self::$requestOptions));
+		$request = $this->httpClient->put('Install', \App\Utils::merge(['json' => ['xxx' => 'yyy']], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame(200, $request->getStatusCode(), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
@@ -427,7 +437,7 @@ class Api extends \Tests\Base
 	public function testGetProducts(): void
 	{
 		$record = \Tests\Base\C_RecordActions::createProductRecord(false);
-		$request = $this->httpClient->get('Products/Record/' . $record->getId(), array_merge_recursive([
+		$request = $this->httpClient->get('Products/Record/' . $record->getId(), \App\Utils::merge([
 			'headers' => [
 				'x-unit-price' => 1,
 				'x-unit-gross' => 1,
@@ -459,17 +469,19 @@ class Api extends \Tests\Base
 	public function testGetFiles(): void
 	{
 		$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
-		$request = $this->httpClient->put('Files', array_merge_recursive(['json' => [
+		$fileDetails = $record->getFileDetails();
+		$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
+		$fileInstance = \App\Fields\File::loadFromPath($savedFile);
+		$request = $this->httpClient->put('Files', \App\Utils::merge(['json' => [
 			'module' => 'Documents',
 			'actionName' => 'DownloadFile',
 			'record' => $record->getId(),
 			'fileid' => 1
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
-		$response = \App\Json::decode($body);
 		$this->assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertSame(1, $response['status'], 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Files', 'get', 200);
+		$this->assertSame($body, $fileInstance->getContents(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/Portal/Files', 'put', 200);
 	}
 
 	/**

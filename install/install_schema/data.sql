@@ -19995,7 +19995,6 @@ insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (4
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (46,305,'multiReferenceValue');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (49,309,'categoryMultipicklist');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (50,4,'recordNumber');
-insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (51,310,'companySelect');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (52,342,'recurrence');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (56,311,'multiImage');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (57,319,'multiDomain');
@@ -20094,11 +20093,15 @@ insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (38,'Documen
 
 /*Data for the table `vtiger_ws_userauthtoken` */
 
+/*Data for the table `w_yf_api_login_history` */
+
 /*Data for the table `w_yf_api_session` */
 
 /*Data for the table `w_yf_api_user` */
 
 /*Data for the table `w_yf_manage_consents_user` */
+
+/*Data for the table `w_yf_portal_login_history` */
 
 /*Data for the table `w_yf_portal_session` */
 

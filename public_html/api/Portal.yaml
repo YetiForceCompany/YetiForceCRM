@@ -175,7 +175,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BaseAction_Modules_ResponseBody'
         '401':
-          description: 'No sent token OR Invalid token'
+          description: '`No sent token` OR `Invalid token`'
           content:
             application/json:
               schema:
@@ -303,7 +303,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BaseAction_Hierarchy_ResponseBody'
         '405':
-          description: 'No hierarchy OR Not available for this type of user'
+          description: '`No hierarchy` OR `Not available for this type of user`'
           content:
             application/json:
               schema:
@@ -564,7 +564,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BaseModule_Get_Record_Response'
         '403':
-          description: 'No permissions to remove record OR No permissions to view record OR No permissions to edit record'
+          description: '`No permissions to remove record` OR `No permissions to view record` OR `No permissions to edit record`'
           content:
             application/json:
               schema:
@@ -573,7 +573,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
         '404':
-          description: 'No record id OR Record doesn''t exist'
+          description: '`No record id` OR `Record doesn''t exist`'
           content:
             application/json:
               schema:
@@ -813,7 +813,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BaseModule_RecordHistory_ResponseBody'
         '403':
-          description: 'No permissions to view record OR MadTracker is turned off'
+          description: '`No permissions to view record` OR `MadTracker is turned off`'
           content:
             application/json:
               schema:
@@ -1273,7 +1273,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Products_Get_Record_Response'
         '403':
-          description: 'No permissions to remove record OR No permissions to view record OR No permissions to edit record'
+          description: '`No permissions to remove record` OR `No permissions to view record` OR `No permissions to edit record`'
           content:
             application/json:
               schema:
@@ -1282,7 +1282,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
         '404':
-          description: 'No record id OR Record doesn''t exist'
+          description: '`No record id` OR `Record doesn''t exist`'
           content:
             application/json:
               schema:
@@ -1300,7 +1300,6 @@ paths:
       tags:
         - Products
       summary: 'Get the list of records'
-      operationId: 'Api\Portal\Products\RecordsTree::__construct'
       parameters:
         -
           name: x-raw-data
@@ -1453,25 +1452,25 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UsersLoginRequestBody'
+              $ref: '#/components/schemas/Users_Login_RequestBody'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/UsersLoginRequestBody'
+              $ref: '#/components/schemas/Users_Login_RequestBody'
           application/json:
             schema:
-              $ref: '#/components/schemas/UsersLoginRequestBody'
+              $ref: '#/components/schemas/Users_Login_RequestBody'
       responses:
         '200':
           description: 'User details'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsersLoginResponseBody'
+                $ref: '#/components/schemas/Users_Login_ResponseBody'
             application/xml:
               schema:
-                $ref: '#/components/schemas/UsersLoginResponseBody'
+                $ref: '#/components/schemas/Users_Login_ResponseBody'
         '401':
-          description: 'Invalid data access OR Invalid user password OR No crmid'
+          description: '`Invalid data access` OR `Invalid user password` OR `No crmid`'
           content:
             application/json:
               schema:
@@ -1481,6 +1480,15 @@ paths:
                 $ref: '#/components/schemas/Exception'
         '405':
           description: 'Invalid method'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '412':
+          description: 'No 2FA TOTP code'
           content:
             application/json:
               schema:
@@ -1726,6 +1734,65 @@ paths:
           basicAuth: []
           ApiKeyAuth: []
           token: []
+  /webservice/Portal/Users/TwoFactorAuth:
+    post:
+      tags:
+        - Users
+      summary: 'This API allows you to manage two factor authentication (2FA) for users. Auth methods: TOTP '
+      description: 'Two Factor authentication'
+      operationId: 'Api\Portal\Users\TwoFactorAuth::post'
+      parameters:
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'Input data format'
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Users_TwoFactorAuth_RequestBody'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Users_TwoFactorAuth_RequestBody'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users_TwoFactorAuth_RequestBody'
+      responses:
+        '200':
+          description: 'User access details'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users_TwoFactorAuth_ResponseBody'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Users_TwoFactorAuth_ResponseBody'
+        '401':
+          description: '`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.` OR `Invalid data access` OR `Invalid user password` OR `No crmid`'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '405':
+          description: 'Invalid method'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+      security:
+        -
+          basicAuth: []
+          ApiKeyAuth: []
 components:
   schemas:
     BaseAction_Files_Request:
@@ -2463,7 +2530,7 @@ components:
       enum:
         - 0
         - 1
-    UsersLoginRequestBody:
+    Users_Login_RequestBody:
       title: 'Users module - Users login request body'
       description: 'JSON or form-data'
       properties:
@@ -2472,6 +2539,9 @@ components:
           type: string
         password:
           description: 'Webservice user password'
+          type: string
+        code:
+          description: '2FA TOTP code (optional property), Pass code length = 6, Code period = 30'
           type: string
         params:
           description: 'Additional parameters sent by the user, extending the current settings, e.g. language'
@@ -2482,7 +2552,7 @@ components:
               example: pl-PL
           type: object
       type: object
-    UsersLoginResponseBody:
+    Users_Login_ResponseBody:
       title: 'Users module - Users login response body'
       description: 'Users login response body'
       properties:
@@ -2525,6 +2595,20 @@ components:
             type:
               description: 'Post method.'
               type: integer
+            login_method:
+              description: 'Post method.'
+              type: string
+              enum:
+                - PLL_PASSWORD
+                - PLL_PASSWORD_2FA
+              example: PLL_PASSWORD_2FA
+            authy_methods:
+              description: 'Post method.'
+              type: string
+              enum:
+                - ''
+                - PLL_AUTHY_TOTP
+              example: PLL_AUTHY_TOTP
             companyId:
               description: 'Post method.'
               type: integer
@@ -2757,6 +2841,41 @@ components:
               description: 'Get users list method.'
               type: boolean
               example: true
+          type: object
+      type: object
+    Users_TwoFactorAuth_RequestBody:
+      title: 'Users module - Users login request body'
+      description: 'JSON or form-data'
+      properties:
+        userName:
+          description: 'Webservice user name'
+          type: string
+        password:
+          description: 'Webservice user password'
+          type: string
+      type: object
+    Users_TwoFactorAuth_ResponseBody:
+      title: 'Users module - Users login response body'
+      description: 'Users login response body'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+          example: 1
+        result:
+          description: 'Content of responses from a given method'
+          properties:
+            authMethods:
+              description: 'Post method.'
+              type: string
+              example: TOTP
+            secretKey:
+              description: 'Post method.'
+              type: string
+              example: LJUJWCOEGUKP6WS2
           type: object
       type: object
   securitySchemes:

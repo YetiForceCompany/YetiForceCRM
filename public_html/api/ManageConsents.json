@@ -61,7 +61,7 @@
                         }
                     },
                     "401": {
-                        "description": "No sent token OR Invalid token"
+                        "description": "`No sent token` OR `Invalid token`"
                     },
                     "403": {
                         "description": "No permissions for module"
@@ -151,7 +151,7 @@
                         }
                     },
                     "401": {
-                        "description": "No sent token OR Invalid token",
+                        "description": "`No sent token` OR `Invalid token`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -257,7 +257,7 @@
                         }
                     },
                     "401": {
-                        "description": "No sent token OR Invalid token"
+                        "description": "`No sent token` OR `Invalid token`"
                     },
                     "403": {
                         "description": "No permissions for module"
@@ -330,7 +330,7 @@
                         }
                     },
                     "401": {
-                        "description": "No sent token OR Invalid token"
+                        "description": "`No sent token` OR `Invalid token`"
                     },
                     "403": {
                         "description": "No permissions for module"

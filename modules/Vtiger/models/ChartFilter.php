@@ -411,7 +411,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			return $this->filterIds[$dividingValue];
 		}
 		// if chart is divided by field or not divided at all it has only one filter
-		return $this->filterIds[0];
+		return $this->filterIds[0] ?? 0;
 	}
 
 	/**
@@ -635,7 +635,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->colorsFromRow = 'color';
 		$colors = \App\Colors::getAllFilterColors();
 		$this->iterateAllRows(function (&$row, $groupValue, $dividingValue, $rowIndex) use ($colors) {
-			$this->colors[$dividingValue] = $colors[$this->filterIds[$dividingValue]];
+			$this->colors[$dividingValue] = $colors[$this->filterIds[$dividingValue]] ?? null;
 		});
 	}
 
@@ -715,12 +715,12 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$primaryKey = App\Fields\Picklist::getPickListId($this->dividingName);
 				$fieldTable = 'vtiger_' . $this->dividingName;
 				$queryGenerator->addJoin(['LEFT JOIN', $fieldTable, "{$queryGenerator->getColumnName($this->dividingName)} = {$fieldTable}.{$this->dividingName}"]);
-				$queryGenerator->setCustomColumn(['picklist_id' => "{$fieldTable}.{$primaryKey}"]);
+				$queryGenerator->setCustomColumn(['picklist_id' => new \yii\db\Expression("MAX({$fieldTable}.{$primaryKey})")]);
 			} elseif ((!$this->isDividedByField() || !$this->areColorsFromDividingField()) && \in_array($this->getTargetModuleModel()->getFieldByName($this->groupName)->getFieldDataType(), ['picklist', 'multipicklist'])) {
 				$primaryKey = App\Fields\Picklist::getPickListId($this->groupName);
 				$fieldTable = 'vtiger_' . $this->groupName;
 				$queryGenerator->addJoin(['LEFT JOIN', $fieldTable, "{$queryGenerator->getColumnName($this->groupName)} = {$fieldTable}.{$this->groupName}"]);
-				$queryGenerator->setCustomColumn(['picklist_id' => "{$fieldTable}.{$primaryKey}"]);
+				$queryGenerator->setCustomColumn(['picklist_id' => new \yii\db\Expression("MAX({$fieldTable}.{$primaryKey})")]);
 			}
 		}
 	}
@@ -743,15 +743,17 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 			$queryGenerator->initForCustomViewById($filter);
 		}
-		$queryGenerator->setFields(['id'])->setCustomColumn(['count' => new \yii\db\Expression('COUNT(1)')]);
+		$queryGenerator->setFields(['id'])->setCustomColumn(['count' => new \yii\db\Expression('COUNT(1)'), 'id' => new \yii\db\Expression('MAX(' . $queryGenerator->getColumnName('id') . ')')]);
 		foreach ([$this->groupName => $this->groupColumnName, $this->dividingName => $this->dividingColumnName] as $columnName => $groupBy) {
 			if (!empty($columnName) && $columnName !== $groupBy) {
-				$queryGenerator->setField($columnName);
 				$sqlColumnName = $queryGenerator->getColumnName($columnName);
+				$queryGenerator->setCustomColumn([$columnName => new \yii\db\Expression("MAX({$sqlColumnName})")]);
 				switch ($this->sectors) {
 						case 'daily':
 							if ('datetime' === $queryGenerator->getModuleField($columnName)->getFieldDataType()) {
 								$queryGenerator->setCustomColumn([$groupBy => new \yii\db\Expression("CAST({$sqlColumnName} AS DATE)")]);
+							} else {
+								$queryGenerator->setCustomColumn([$groupBy => $sqlColumnName]);
 							}
 							break;
 						case 'monthly':
@@ -954,6 +956,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getRows()
 	{
+		if (empty($this->filterIds)) {
+			return $this->data;
+		}
 		if ($this->isMultiFilter()) {
 			foreach ($this->getQueries() as $dividingValue => $query) {
 				$this->getRowsDb($query, $dividingValue);
@@ -1198,8 +1203,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->customView = \App\CustomView::getInstance($this->getTargetModule());
 
 		foreach (explode(',', $this->widgetModel->get('filterid')) as $id) {
-			$this->filterIds[] = (int) $id;
-			$this->viewNames[$id] = $this->customView->getFilterInfo((int) $id)['viewname'] ?? '';
+			$filterData = $this->customView->getFilterInfo((int) $id);
+			if ($filterData) {
+				$this->filterIds[] = (int) $id;
+				$this->viewNames[$id] = $filterData['viewname'];
+			}
 		}
 		return $this->filterIds;
 	}
