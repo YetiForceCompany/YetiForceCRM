@@ -31,6 +31,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 			$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($selectedPickListFieldModel->getName());
 
 			$viewer->assign('PICKLIST_FIELDS', $pickListFields);
+			$viewer->assign('PICKLIST_INTERDEPENDENT', $moduleModel->listModuleInterdependentPickList(array_keys($pickListFields)));
 			$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $selectedPickListFieldModel);
 			$viewer->assign('SELECTED_PICKLISTFIELD_ALL_VALUES', $selectedFieldAllPickListValues);
 			$viewer->assign('ROLES_LIST', Settings_Roles_Record_Model::getAll());

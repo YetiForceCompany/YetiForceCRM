@@ -121,6 +121,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$qualifiedName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKLIST_FIELDS', $pickListFields);
+		$viewer->assign('PICKLIST_INTERDEPENDENT', $moduleModel->listModuleInterdependentPickList(array_keys($pickListFields)));
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->view('ModulePickListDetail.tpl', $qualifiedName);

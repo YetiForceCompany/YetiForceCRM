@@ -153,18 +153,19 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				$db->createCommand()->update($row['tablename'], [$columnName => $newValue], [$columnName => $oldValue])->execute();
 				$db->createCommand()->update('vtiger_field', ['defaultvalue' => $newValue], ['defaultvalue' => $oldValue, 'columnname' => $columnName, 'tabid' => $row['tabid']])->execute();
 				$db->createCommand()->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $oldValue, 'sourcefield' => $pickListFieldName, 'tabid' => $row['tabid']])->execute();
+				$moduleName = \App\Module::getModuleName($row['tabid']);
+				\App\Fields\Picklist::clearCache($pickListFieldName, $moduleName);
+				$eventHandler = new App\EventHandler();
+				$eventHandler->setParams([
+					'fieldname' => $pickListFieldName,
+					'oldvalue' => $oldValue,
+					'newvalue' => $newValue,
+					'module' => $moduleName,
+					'id' => $id,
+				]);
+				$eventHandler->trigger('PicklistAfterRename');
 			}
 			$dataReader->close();
-			\App\Fields\Picklist::clearCache($pickListFieldName, $fieldModel->getModuleName());
-			$eventHandler = new App\EventHandler();
-			$eventHandler->setParams([
-				'fieldname' => $pickListFieldName,
-				'oldvalue' => $oldValue,
-				'newvalue' => $newValue,
-				'module' => $fieldModel->getModuleName(),
-				'id' => $id,
-			]);
-			$eventHandler->trigger('PicklistAfterRename');
 			\App\Colors::generate('picklist');
 		}
 		return !empty($result);
@@ -371,5 +372,29 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$moduleModel->{$properName} = $propertyValue;
 		}
 		return $moduleModel;
+	}
+
+	/**
+	 * list of modules in which they appear picklist fields.
+	 *
+	 * @param array $pickListFields
+	 *
+	 * @return array
+	 */
+	public function listModuleInterdependentPickList(array $pickListFields): array
+	{
+		$interdependent = [];
+		$dataReader = (new App\Db\Query())->select(['tabid', 'fieldname'])
+			->from('vtiger_field')
+			->where(['fieldname' => $pickListFields])
+			->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$moduleName = \App\Module::getModuleName($row['tabid']);
+			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+			if ($moduleModel->isActive() && $moduleModel->getFieldByName($row['fieldname'])->isActiveField()) {
+				$interdependent[$row['fieldname']][] = \App\Language::translate($moduleName, $moduleName);
+			}
+		}
+		return $interdependent;
 	}
 }
