@@ -28,7 +28,9 @@ commit_failure_conditions:
   - 'project.severity.minor > 100'
   - 'project.severity.info > 100'
 
-# Configure rules.
+exclude_patterns:
+    - */*.map
+
 rules:
   composer.warning:
     enabled: true
