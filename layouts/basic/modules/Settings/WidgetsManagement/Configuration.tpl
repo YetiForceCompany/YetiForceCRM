@@ -71,7 +71,7 @@
 										<div class="float-right btn-toolbar blockActions m-1">
 											<div class="btn-group">
 												<button class="btn btn-success btn-sm addCustomField" type="button">
-													<span class="fas fa-plus"></span>&nbsp;
+													<span class="fas fa-plus mr-2"></span>
 													<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
@@ -85,7 +85,7 @@
 															data-width="{$RSS_WIDGET->getWidth()}"
 															data-height="{$RSS_WIDGET->getHeight()}"
 															data-block-id="{$AUTHORIZATION_KEY}"><span
-																class="fas fa-plus"></span>
+																class="fas fa-plus mr-2"></span>
 														<strong>{\App\Language::translate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
 													</button>
 												</div>
@@ -100,7 +100,7 @@
 															data-width="{$MINILISTWIDGET->getWidth()}"
 															data-height="{$MINILISTWIDGET->getHeight()}"
 															data-block-id="{$AUTHORIZATION_KEY}"><span
-																class="fas fa-plus"></span>
+																class="fas fa-plus mr-2"></span>
 														<strong>{\App\Language::translate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 													</button>
 												</div>
@@ -117,7 +117,7 @@
 															data-block-id="{$AUTHORIZATION_KEY}"
 															data-module="{$SELECTED_MODULE_NAME}"
 															data-modalId="{\App\Layout::getUniqueId('ChartFilter')}"><span
-																class="fas fa-plus"></span>&nbsp;
+																class="fas fa-plus mr-2"></span>&nbsp;
 														<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 													</button>
 												</div>
@@ -132,7 +132,7 @@
 															data-width="{$NOTEBOOKWIDGET->getWidth()}"
 															data-height="{$NOTEBOOKWIDGET->getHeight()}"
 															data-block-id="{$AUTHORIZATION_KEY}"><span
-																class="fas fa-plus"></span>
+																class="fas fa-plus mr-2"></span>
 														<strong>{\App\Language::translate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 													</button>
 												</div>
