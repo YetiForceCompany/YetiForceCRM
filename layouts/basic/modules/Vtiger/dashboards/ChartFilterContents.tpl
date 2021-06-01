@@ -16,7 +16,7 @@
 						<thead>
 							<th class="u-white-space-nowrap"></th>
 							{foreach from=$HEADERS item=HEADER}
-								{if $VALUE === 0}
+								{if $HEADER === 0}
 									{assign "HEADER" ""}
 								{/if}
 								<th class="u-white-space-nowrap text-center p-1">
