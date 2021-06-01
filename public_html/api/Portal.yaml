@@ -929,13 +929,7 @@ paths:
           content:
             application/json:
               schema:
-                description: 'Conditions details'
-                properties:
-                  fieldName: { description: 'Field name', type: string, example: lastname }
-                  value: { description: 'Search value', type: string, example: Kowalski }
-                  operator: { description: 'Field operator', type: string, example: e }
-                  group: { description: 'Condition group if true is AND', type: boolean, example: true }
-                type: object
+                $ref: '#/components/schemas/Conditions-Mix-For-Query-Generator'
       responses:
         '200':
           description: 'List of consents'
@@ -1068,13 +1062,7 @@ paths:
           content:
             application/json:
               schema:
-                description: 'Conditions details'
-                properties:
-                  fieldName: { description: 'Field name', type: string, example: lastname }
-                  value: { description: 'Search value', type: string, example: Kowalski }
-                  operator: { description: 'Field operator', type: string, example: e }
-                  group: { description: 'Condition group if true is AND', type: boolean, example: true }
-                type: object
+                $ref: '#/components/schemas/Conditions-Mix-For-Query-Generator'
         -
           name: x-only-column
           in: header
@@ -1366,13 +1354,7 @@ paths:
           content:
             application/json:
               schema:
-                description: 'Conditions details'
-                properties:
-                  fieldName: { description: 'Field name', type: string, example: lastname }
-                  value: { description: 'Search value', type: string, example: Kowalski }
-                  operator: { description: 'Field operator', type: string, example: e }
-                  group: { description: 'Condition group if true is AND', type: boolean, example: true }
-                type: object
+                $ref: '#/components/schemas/Conditions-Mix-For-Query-Generator'
         -
           name: x-parent-id
           in: header
@@ -1427,6 +1409,60 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Exception'
+      security:
+        -
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
+  /webservice/RestApi/Users/AccessActivityHistory:
+    get:
+      tags:
+        - Users
+      summary: 'History of access activity data'
+      description: 'Get user history of access activity'
+      operationId: 'Api\Portal\Users\AccessActivityHistory::get'
+      parameters:
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+        -
+          name: x-row-limit
+          in: header
+          description: 'Get rows limit, default: 50'
+          required: false
+          schema:
+            type: integer
+          example: 1000
+        -
+          name: x-row-offset
+          in: header
+          description: 'Offset, default: 0'
+          required: false
+          schema:
+            type: integer
+          example: 0
+        -
+          name: x-condition
+          in: header
+          description: 'Conditions [Json format]'
+          required: false
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conditions-For-Native-Query'
+      responses:
+        '200':
+          description: 'User history of access activity'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users_Get_AccessActivityHistory_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Users_Get_AccessActivityHistory_Response'
       security:
         -
           basicAuth: []
@@ -1668,13 +1704,7 @@ paths:
           content:
             application/json:
               schema:
-                description: 'Conditions details'
-                properties:
-                  fieldName: { description: 'Field name', type: string, example: lastname }
-                  value: { description: 'Search value', type: string, example: Kowalski }
-                  operator: { description: 'Field operator', type: string, example: e }
-                  group: { description: 'Condition group if true is AND', type: boolean, example: true }
-                type: object
+                $ref: '#/components/schemas/Conditions-Mix-For-Query-Generator'
         -
           name: x-parent-id
           in: header
@@ -1893,6 +1923,7 @@ components:
       type: object
     BaseAction_Dashboard_ResponseBody:
       title: 'Base module - Dashboard response schema'
+      description: 'Get widgets.'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -2017,6 +2048,7 @@ components:
       type: object
     BaseAction_Hierarchy_ResponseBody:
       title: 'Base module - Hierarchy response schema'
+      description: 'Get records hierarchy.'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -2047,6 +2079,7 @@ components:
       type: object
     BaseAction_Pdf_ResponseBody:
       title: 'Base module - Generate PDF response schema'
+      description: 'Get method - Generate PDF.'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -2073,6 +2106,7 @@ components:
       type: object
     BaseAction_PdfTemplates_ResponseBody:
       title: 'Base module - Get PDF templates list response schema'
+      description: 'Get method - Get PDF templates list.'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -2107,6 +2141,7 @@ components:
       type: object
     BaseModule_Privileges_ResponseBody:
       title: 'Base module - Privileges response schema'
+      description: 'Get privileges for module.'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -2410,6 +2445,7 @@ components:
       type: object
     BaseAction_SaveInventory_ResponseBodyError:
       title: 'Base module - Create inventory record response error schema'
+      description: 'Create inventory record.'
       properties:
         errors:
           description: 'Error details'
@@ -2523,6 +2559,42 @@ components:
               example: true
           type: object
       type: object
+    Users_Get_AccessActivityHistory_Response:
+      title: 'Users - History of access activity data'
+      description: 'Get user history of access activity.'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+          example: 1
+        result:
+          description: 'User data'
+          type: object
+          additionalProperties:
+            description: 'Condition details'
+            properties:
+              time:
+                description: 'Date time in user format'
+                type: string
+                format: date-time
+                example: '2021-06-01 11:57'
+              status:
+                description: 'Operation name'
+                type: string
+                example: 'Signed in'
+              agent:
+                description: 'User agent'
+                type: string
+                example: PostmanRuntime/7.28.0
+              ip:
+                description: 'IP address'
+                type: string
+                example: 127.0.0.1
+            type: object
+      type: object
     X-ENCRYPTED:
       description: 'Is the content request is encrypted'
       type: string
@@ -2530,6 +2602,49 @@ components:
       enum:
         - 0
         - 1
+    Conditions-Mix-For-Query-Generator:
+      description: 'Multiple or one condition for a query query generator'
+      type: object
+      oneOf:
+        -
+          $ref: '#/components/schemas/Condition-For-Query-Generator'
+        -
+          $ref: '#/components/schemas/Conditions-For-Query-Generator'
+    Condition-For-Query-Generator:
+      description: 'One condition for query generator'
+      properties:
+        fieldName:
+          description: 'Field name'
+          type: string
+          example: lastname
+        value:
+          description: 'Search value'
+          type: string
+          example: Kowalski
+        operator:
+          description: 'Field operator'
+          type: string
+          example: e
+        group:
+          description: 'Condition group if true is AND'
+          type: boolean
+          example: true
+      type: object
+    Conditions-For-Query-Generator:
+      description: 'Multiple conditions for query generator'
+      type: object
+      additionalProperties:
+        description: 'Condition details'
+        type: object
+    Conditions-For-Native-Query:
+      description: 'Conditions for native query, based on YII 2'
+      type: object
+      externalDocs:
+        description: 'Database communication engine'
+        url: 'https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/new-db-communication-engine'
+      example:
+        column_name1: 'searched value 1'
+        column_name2: 'searched value 2'
     Users_Login_RequestBody:
       title: 'Users module - Users login request body'
       description: 'JSON or form-data'
@@ -2764,6 +2879,7 @@ components:
       type: object
     Users_Get_Record_Response:
       title: 'Users - Response body for user'
+      description: 'Get user detail.'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
