@@ -1239,7 +1239,7 @@ return [
 		], 
 		'askSuperUserAboutVisitPurpose' => [
 			'default' => true,
-			'description' => '@var bool Ask super user about visit purpose, only for the settings part', 
+			'description' => '@var bool Ask super user about visit purpose, only for the settings part',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
