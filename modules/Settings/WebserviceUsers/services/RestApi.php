@@ -296,6 +296,14 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 		$recordLinks = [
 			[
 				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_SESSION_RECORD',
+				'linkicon' => 'fas fa-users-cog',
+				'linkclass' => 'btn btn-sm btn-primary',
+				'linkurl' => $this->getModule()->getSessionViewUrl() . '&record=' . $this->getId(),
+				'modalView' => true,
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getModule()->getEditViewUrl() . '&record=' . $this->getId(),
 				'linkicon' => 'yfi yfi-full-editing-view',

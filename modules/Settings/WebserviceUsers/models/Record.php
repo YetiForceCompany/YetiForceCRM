@@ -66,6 +66,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		'last_error' => 'FL_LAST_ERROR',
 		'error_time' => 'FL_LAST_ERROR_DATE',
 		'error_method' => 'FL_LAST_ERROR_METHOD',
+		'version' => 'FL_VERSION',
+		'fromUrl' => 'FL_FROM_URL'
 	];
 
 	/**
@@ -147,6 +149,57 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	public function getEditFields()
 	{
 		return $this->editFields;
+	}
+
+	/**
+	 * Get user session.
+	 *
+	 * @return array
+	 */
+	public function getUserSession(): array
+	{
+		$dataReader = (new \App\Db\Query())->from('w_#__portal_session')
+			->where(['user_id' => $this->getId()])->createCommand()->query();
+		$data = [];
+		while ($row = $dataReader->read()) {
+			$data[] = $this->getFormatDataSession($row);
+		}
+		return $data;
+	}
+
+	/**
+	 * Get format data session.
+	 *
+	 * @param array $row
+	 *
+	 * @return array
+	 */
+	public function getFormatDataSession(array $row): array
+	{
+		foreach ($row as $key => $value) {
+			switch ($key) {
+				case 'language':
+					$row[$key] = $value ? \App\Language::getLanguageLabel($value) : '';
+					break;
+				case 'created':
+				case 'changed':
+					$row[$key] = \App\Fields\DateTime::formatToDisplay($value);
+					break;
+				case 'params':
+					if ($value) {
+						$params = \App\Json::decode($value);
+						$value = '';
+						foreach ($params as $paramsKey => $paramsValue) {
+							$value .= \App\Language::translate(self::$customParamsLabels[$paramsKey], 'Settings.WebserviceUsers') . ": $paramsValue \n";
+						}
+						$row[$key] = \App\Layout::truncateText($value, 50, true);
+					}
+					break;
+				default:
+					break;
+			}
+		}
+		return $row;
 	}
 
 	/** {@inheritdoc} */
