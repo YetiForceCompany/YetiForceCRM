@@ -708,9 +708,7 @@ class Vtiger_Inventory_Model
 		$sourceModule = 'Accounts';
 		$recordName = '';
 		$accountTaxes = [];
-		if (!empty($relatedRecord)) {
-			$taxFields = Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByUiType(303);
-			$taxField = current($taxFields);
+		if (!empty($relatedRecord) && \App\Record::isExists($relatedRecord, $sourceModule) && ($taxField = current(Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByUiType(303))) && $taxField->isActiveField()) {
 			$accountRecordModel = Vtiger_Record_Model::getInstanceById($relatedRecord, $sourceModule);
 			$accountTaxes = Vtiger_Taxes_UIType::getValues($accountRecordModel->get($taxField->getName()));
 			$recordName = $accountRecordModel->getName();
