@@ -197,7 +197,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if ($query->exists()) {
 			return \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users');
 		}
-		if ($userId && App\Config::module('Users', 'CHECK_LAST_USERNAME') && (new \App\Db\Query())->from('l_#__username_history')->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->exists()) {
+		if ($userId && App\Config::module('Users', 'CHECK_LAST_USERNAME') && (new \App\Db\Query())->from('l_#__username_history')->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->exists(\App\Db::getInstance('log'))) {
 			return \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users');
 		}
 		$blacklist = require 'config/username_blacklist.php';

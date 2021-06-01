@@ -587,6 +587,6 @@ class User
 	 */
 	public static function checkPreviousPassword(int $userId, string $password): bool
 	{
-		return (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $userId, 'pass' => Encryption::createHash($password)])->exists();
+		return (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $userId, 'pass' => Encryption::createHash($password)])->exists(\App\Db::getInstance('log'));
 	}
 }

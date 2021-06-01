@@ -318,7 +318,7 @@ class SocialMedia extends Base
 		$dataReader = (new \App\Db\Query())->from('l_#__social_media_logs')
 			->orderBy(['date' => SORT_DESC])
 			->limit(1000)
-			->createCommand()->query();
+			->createCommand(\App\Db::getInstance('log'))->query();
 		while (($row = $dataReader->read())) {
 			yield $row;
 		}

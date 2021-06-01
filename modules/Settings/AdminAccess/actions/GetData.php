@@ -15,7 +15,8 @@
  */
 class Settings_AdminAccess_GetData_Action extends \App\Controller\Action
 {
-	use \App\Controller\ExposeMethod, \App\Controller\Traits\SettingsPermission;
+	use \App\Controller\ExposeMethod;
+	use \App\Controller\Traits\SettingsPermission;
 
 	/**
 	 * {@inheritdoc}
@@ -129,7 +130,7 @@ class Settings_AdminAccess_GetData_Action extends \App\Controller\Action
 			$field = $fields[$columns[$order['column']]];
 			$query->orderBy([$field->getColumnName() => \App\Db::ASC === strtoupper($order['dir']) ? \SORT_ASC : \SORT_DESC]);
 		}
-		$dataReader = $query->indexBy('id')->createCommand()->query();
+		$dataReader = $query->indexBy('id')->createCommand(\App\Db::getInstance('log'))->query();
 		while ($row = $dataReader->read()) {
 			$data = [];
 			foreach ($fields as $fieldModel) {

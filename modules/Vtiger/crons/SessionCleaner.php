@@ -22,8 +22,8 @@ class Vtiger_SessionCleaner_Cron extends \App\CronHandler
 	{
 		$dbCommand = \App\Db::getInstance('webservice')->createCommand();
 		foreach (\Api\Core\Containers::$listTables as $row) {
-			$dbCommand->delete($row['loginHistory'], ['<', 'created', date('Y-m-d H:i:s', strtotime('now') - \Config\Security::$apiLifetimeSessionCreate * 60)])->execute();
-			$dbCommand->delete($row['loginHistory'], ['<', 'changed', date('Y-m-d H:i:s', strtotime('now') - \Config\Security::$apiLifetimeSessionUpdate * 60)])->execute();
+			$dbCommand->delete($row['session'], ['<', 'created', date('Y-m-d H:i:s', strtotime('now') - \Config\Security::$apiLifetimeSessionCreate * 60)])->execute();
+			$dbCommand->delete($row['session'], ['<', 'changed', date('Y-m-d H:i:s', strtotime('now') - \Config\Security::$apiLifetimeSessionUpdate * 60)])->execute();
 		}
 		if (!headers_sent()) {
 			$dbCommand = \App\Db::getInstance()->createCommand();

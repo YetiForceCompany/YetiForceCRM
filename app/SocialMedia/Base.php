@@ -120,7 +120,7 @@ abstract class Base
 		if (!\in_array($typeOfLog, static::ALLOWED_TYPE_OF_LOG)) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 		}
-		\App\Db::getInstance()
+		\App\Db::getInstance('log')
 			->createCommand()
 			->insert('l_#__social_media_logs', [
 				'date' => date('Y-m-d H:i:s'),
