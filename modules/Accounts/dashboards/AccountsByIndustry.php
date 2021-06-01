@@ -22,7 +22,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$listSearchParams = [];
 		$conditions = [['industry', 'e', $industry]];
-		if ($assignedto != '') {
+		if ('' != $assignedto) {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
@@ -45,13 +45,13 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = 'Accounts';
 		$query = new \App\Db\Query();
 		$query->select([
-				'industryid' => 'vtiger_industry.industryid',
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_account.industry IS NULL OR vtiger_account.industry = '' THEN '' ELSE vtiger_account.industry END"), ])
-				->from('vtiger_account')
-				->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_industry', 'vtiger_account.industry = vtiger_industry.industry')
-				->where(['deleted' => 0]);
+			'industryid' => 'vtiger_industry.industryid',
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_account.industry IS NULL OR vtiger_account.industry = '' THEN '' ELSE vtiger_account.industry END"), ])
+			->from('vtiger_account')
+			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_industry', 'vtiger_account.industry = vtiger_industry.industry')
+			->where(['deleted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
 		}
@@ -83,7 +83,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['datasets'][0]['borderColor'][] = $colors[$row['industryid']];
 			$chartData['datasets'][0]['names'][] = $row['industryvalue'];
 		}
-		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) \count($chartData['datasets'][0]['data']);
 		$dataReader->close();
 		return $chartData;
 	}
@@ -93,7 +93,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
@@ -105,7 +105,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$owner = $request->getByType('owner', 2);
 		}
 		$ownerForwarded = $owner;
-		if ($owner === 'all') {
+		if ('all' === $owner) {
 			$owner = '';
 		}
 		$createdTime = $request->getDateRange('createdtime');
@@ -116,7 +116,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$data = $this->getAccountsByIndustry($owner, $createdTime);
 		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
 		$listViewUrl = $moduleModel->getListViewUrl();
-		$leadSIndustryAmount = count($data['datasets'][0]['names']);
+		$leadSIndustryAmount = \count($data['datasets'][0]['names']);
 		for ($i = 0; $i < $leadSIndustryAmount; ++$i) {
 			$data['datasets'][0]['links'][$i] = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
 		}

@@ -13,28 +13,28 @@ jQuery.Class(
 		 * Set container (Form)
 		 * @param {Object} element
 		 */
-		setContainer: function(element) {
+		setContainer: function (element) {
 			this.container = element;
 		},
 		/**
 		 * Get Container (Form)
 		 * @returns {Object}
 		 */
-		getContainer: function() {
+		getContainer: function () {
 			return this.container;
 		},
 		/**
 		 * Register events for change method encryption
 		 */
-		registerChangeMethodName: function() {
+		registerChangeMethodName: function () {
 			const self = this;
 			let container = this.getContainer();
 			this.passwordAlert(container);
-			container.find('[name="methods"]').on('change', function() {
+			container.find('[name="methods"]').on('change', function () {
 				self.passwordAlert(container);
 			});
 		},
-		passwordAlert: function(container) {
+		passwordAlert: function (container) {
 			let methodElement = container.find('[name="methods"]');
 			let mapLengthVector = JSON.parse($('[name="lengthVectors"]').val());
 			let length = mapLengthVector[methodElement.val()];
@@ -62,10 +62,10 @@ jQuery.Class(
 		/**
 		 * Register events for form
 		 */
-		registerForm: function() {
+		registerForm: function () {
 			var thisInstance = this;
 			var container = thisInstance.getContainer();
-			container.on('submit', function(event) {
+			container.on('submit', function (event) {
 				event.preventDefault();
 				container.validationEngine(app.validationEngineOptions);
 				if (container.validationEngine('validate')) {
@@ -75,9 +75,9 @@ jQuery.Class(
 							enabled: true
 						}
 					});
-					AppConnector.request(container.serializeFormData()).done(function(response) {
+					AppConnector.request(container.serializeFormData()).done(function (response) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: response.result,
 							type: 'info',
 							hide: false
@@ -89,23 +89,23 @@ jQuery.Class(
 		/**
 		 * Register events to preview password
 		 */
-		registerPreviewPassword: function() {
+		registerPreviewPassword: function () {
 			var container = this.getContainer();
 			var button = container.find('.previewPassword');
-			button.on('mousedown', function() {
+			button.on('mousedown', function () {
 				$('#' + $(this).data('id')).attr('type', 'text');
 			});
-			button.on('mouseup', function() {
+			button.on('mouseup', function () {
 				$('#' + $(this).data('id')).attr('type', 'password');
 			});
-			button.on('mouseout', function() {
+			button.on('mouseout', function () {
 				$('#' + $(this).data('id')).attr('type', 'password');
 			});
 		},
 		/**
 		 * Register all events in view
 		 */
-		registerEvents: function() {
+		registerEvents: function () {
 			this.setContainer($('.formEncryption'));
 			this.registerForm();
 			this.registerChangeMethodName();

@@ -2,6 +2,8 @@
 /**
  * ConfReport test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -24,7 +26,7 @@ class ConfReport extends \Tests\Base
 	 */
 	public static function setUpBeforeClass(): void
 	{
-		static::$confReportAll = \App\Utils\ConfReport::getAll();
+		self::$confReportAll = \App\Utils\ConfReport::getAll();
 	}
 
 	/**
@@ -33,7 +35,7 @@ class ConfReport extends \Tests\Base
 	public function testSecurityConf()
 	{
 		$this->assertIsArray(
-			static::$confReportAll['security'] ?? null,
+			self::$confReportAll['security'] ?? null,
 			'Security configuration (normal mode, show all) report should be not empty'
 		);
 	}
@@ -64,7 +66,7 @@ class ConfReport extends \Tests\Base
 	public function testStabilityConf()
 	{
 		$this->assertIsArray(
-			static::$confReportAll['stability'] ?? null,
+			self::$confReportAll['stability'] ?? null,
 			'Security configuration (normal mode, show all) report should be not empty'
 		);
 	}

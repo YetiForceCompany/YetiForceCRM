@@ -22,17 +22,13 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	protected $maximumLength = '99999999999999999999';
 	protected $purifyType = \App\Purifier::NUMBER;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Double::formatToDisplay($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditValue($value)
 	{
 		return \App\Fields\Double::formatToDisplay($value, false);
@@ -58,9 +54,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 		return $sum;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		if (!isset($this->dbValue[$value])) {
@@ -69,9 +63,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 		return $this->dbValue[$value];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($isUserFormat) {
@@ -87,13 +79,11 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 		if (null !== $originalValue && !\App\Validator::floatIsEqualUserCurrencyDecimals($value, $originalValue)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . '||' . $this->getModuleName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . "||{$this->getModuleName()}||$value($originalValue)", 406);
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
 		$value = 0.0;

@@ -11,9 +11,18 @@
 
 class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	public function validateValue($value)
+	{
+		if ($this->getFieldModel()->isRoleBased()) {
+			$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getFieldModel()->getFieldName(), \App\User::getCurrentUserModel()->getRole());
+		} else {
+			$picklistValues = App\Fields\Picklist::getValuesName($this->getFieldModel()->getFieldName());
+		}
+		return '' === $value || \in_array($value, $picklistValues);
+	}
+
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
@@ -26,83 +35,62 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		return implode('##', $values);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if ('' === $value) {
 			return '';
 		}
 		$moduleName = $this->getFieldModel()->getModuleName();
-		$dispalyValue = \App\Language::translate($value, $moduleName);
-		if (\is_int($length)) {
-			$dispalyValue = \App\TextParser::textTruncate($dispalyValue, $length);
-		}
+		$displayValue = \App\Language::translate($value, $moduleName);
 		if ($rawText) {
-			return $dispalyValue;
+			return $displayValue;
 		}
-		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
+		if (\is_int($length)) {
+			$displayValue = \App\TextParser::textTruncate($displayValue, $length);
+		}
+		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getName());
 		$value = App\Colors::sanitizeValue($value);
-
-		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
+		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">{$displayValue}</span>";
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/PickList.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Picklist.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isAjaxEditable()
 	{
-		$moduleName = $this->getFieldModel()->getModuleName();
-		if (!isset(\App\Fields\Picklist::$picklistDependencyFields[$moduleName])) {
-			\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
-		}
-		return !isset(\App\Fields\Picklist::$picklistDependencyFields[$moduleName][$this->getFieldModel()->getFieldName()]);
+		return !\App\Fields\Picklist::isDependentField($this->getFieldModel()->getModuleName(), $this->getFieldModel()->getFieldName());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderTypes()
 	{
-		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_PROGRESS' => 'progress'];
+		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_HIGHLIGHTS' => 'highlights', 'LBL_HEADER_TYPE_PROGRESS' => 'progress'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getRecordOperators(): array
 	{
 		if ($this->getFieldModel()->getFieldParams()['isProcessStatusField'] ?? false) {

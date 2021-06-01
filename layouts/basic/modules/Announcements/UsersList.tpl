@@ -3,16 +3,16 @@
 	<div class="">
 		<table class="table table-striped">
 			<thead>
-				<tr> 
+				<tr>
 					<th>{\App\Language::translate('LBL_USER',$MODULE_NAME)}</th>
 					<th class="text-center">{\App\Language::translate('LBL_ACCEPT_ANNOUNCEMENT',$MODULE_NAME)}</th>
 					<th class="text-center">{\App\Language::translate('LBL_DATE',$MODULE_NAME)}</th>
-				</tr> 
+				</tr>
 			</thead>
 			<tbody>
 				{foreach item=USER key=USERID from=$USERS}
 					{assign var=STATUS value=isset($USER['status']) && $USER['status'] == 1}
-					<tr data-id="{$USERID}" class="{if $STATUS}success{else}danger{/if}">
+					<tr data-id="{$USERID}" class="text-{if $STATUS}success{else}danger{/if}">
 						<td>{$USER['name']}</td>
 						<td class="text-center">
 							{if $STATUS}
@@ -23,12 +23,12 @@
 						</td>
 						<td class="text-center">
 							{if isset($USER['date'])}
-								{\App\Fields\DateTime::formatToViewDate($USER['date'])}	
+								{\App\Fields\DateTime::formatToViewDate($USER['date'])}
 							{/if}
 						</td>
-					</tr> 
+					</tr>
 				{/foreach}
-			</tbody> 
+			</tbody>
 		</table>
 	</div>
 {/strip}

@@ -1,7 +1,7 @@
 {
   "php": {
     "ERR_ILLEGAL_VALUE": "Illegal value",
-    "ERR_SCRIPT_EXISTS_FUNCTION_NOT": "Script physically exists but doesn't contain imported function name.",
+    "ERR_SCRIPT_EXISTS_FUNCTION_NOT": "Script exists but doesn't contain imported function name.",
     "ERR_FAILED_TO_SAVE_SCRIPT": "Failed to save workflow methods script file.",
     "ERR_ILLEGAL_FIELD_VALUE": "Illegal value has been entered for this field type. Field name: %s, Module: %s, Value: %s",
     "ERR_VALUE_IS_TOO_LONG": "Character limit exceeded. Field name: %s, Module: %s, Value: %s",
@@ -45,6 +45,8 @@
     "ERR_OBJECT_MUST_HAVE_INTERFACE": "The object must have an interface %s",
     "ERR_CLASS_NOT_FOUND": "Class %s not found",
     "ERR_CLASS_MUST_BE": "Class must be %s",
-    "ERR_PAID_FUNCTIONALITY": "%s paid functionality, you must purchase it"
+    "ERR_PAID_FUNCTIONALITY": "%s paid functionality, you must purchase it",
+    "ERR_TOKEN_DOES_NOT_EXIST": "The token does not exist or has expired",
+    "ERR_NO_TOKEN": "No token"
   }
 }

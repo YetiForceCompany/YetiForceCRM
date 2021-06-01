@@ -11,8 +11,8 @@
 
 class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 {
+	use \App\Controller\ClearProcess;
 	use \App\Controller\ExposeMethod;
-	use	\App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -66,7 +66,7 @@ class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
+		$viewer->assign('SEARCHABLE_MODULES', \App\RecordSearch::getSearchableModules());
 		$viewer->assign('SOURCE_MODULE', $moduleName);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('SAVE_FILTER_PERMITTED', $saveFilterPermitted);
@@ -97,7 +97,7 @@ class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 			$queryGenerator = new \App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->setConditions(\App\Condition::getConditionsFromRequest($advFilterList));
-			$query = $queryGenerator->createQuery()->limit(App\Config::search('GLOBAL_SERACH_AUTOCOMPLETE_LIMIT'));
+			$query = $queryGenerator->createQuery()->limit(App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'));
 			$dataReader = $query->createCommand()->query();
 			while ($recordId = $dataReader->readColumn(0)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
@@ -106,29 +106,23 @@ class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 			}
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
-			$searchKey = $request->getByType('value', 'Text');
-			if (\App\TextParser::getTextLength($searchKey) >= \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')) {
-				$limit = false;
-				if (!$request->isEmpty('limit', true) && false !== $request->getBoolean('limit')) {
-					$limit = $request->getInteger('limit');
-				}
-				$operator = (!$request->isEmpty('operator')) ? $request->getByType('operator', 1) : false;
-				$searchModule = false;
-				if (!$request->isEmpty('searchModule', true) && '-' !== $request->getRaw('searchModule')) {
-					$searchModule = $request->getByType('searchModule', 2);
-				}
-				$viewer->assign('SEARCH_KEY', $searchKey);
-				$viewer->assign('SEARCH_MODULE', $searchModule);
-				$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit, $operator);
-				if (1 === App\Config::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
-					$matchingRecordsList = [];
-					foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {
-						if (isset($matchingRecords[$module['modulename']]) && 1 == $module['turn_off']) {
-							$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
-						}
+			$searchKey = \App\RecordSearch::getSearchField()->getUITypeModel()->getDbConditionBuilderValue($request->getByType('value', 'Text'), '');
+			$limit = ($request->isEmpty('limit', true) || \App\Validator::bool($request->get('limit'))) ? null : $request->getInteger('limit');
+			$operator = (!$request->isEmpty('operator')) ? $request->getByType('operator', \App\Purifier::STANDARD) : null;
+			$searchModule = null;
+			if (!$request->isEmpty('searchModule', true) && '-' !== $request->getRaw('searchModule')) {
+				$searchModule = $request->getByType('searchModule', \App\Purifier::ALNUM);
+			}
+			$viewer->assign('SEARCH_MODULE', $searchModule);
+			$matchingRecords = \App\RecordSearch::getSearchResult($searchKey, $searchModule, $limit, $operator);
+			if (1 === App\Config::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
+				$matchingRecordsList = [];
+				foreach (\App\Module::getAllEntityModuleInfo(true) as $module) {
+					if (isset($matchingRecords[$module['modulename']]) && 1 == $module['turn_off']) {
+						$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
 					}
-					$matchingRecords = $matchingRecordsList;
 				}
+				$matchingRecords = $matchingRecordsList;
 			}
 		}
 		if (App\Config::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$moduleName])) {
@@ -146,7 +140,7 @@ class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 			foreach ($matchingRecords as $module => &$modules) {
 				foreach ($modules as $recordID => $recordModel) {
 					$label = $recordModel->getName();
-					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
+					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('assigned_user_id')) . ')';
 					if (!$recordModel->get('permitted')) {
 						$label .= ' <span class="fas fa-exclamation-circle" aria-hidden="true"></span>';
 					}

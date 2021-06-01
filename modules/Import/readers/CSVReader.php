@@ -28,9 +28,10 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	{
 		parent::__construct($request, $user);
 		$csv = new \ParseCsv\Csv();
-		$csv->encoding($this->request->get('file_encoding'), \App\Config::main('default_charset', 'UTF-8'));
 		$csv->delimiter = $this->request->get('delimiter');
 		$csv->heading = false;
+		$csv->use_mb_convert_encoding = true;
+		$csv->encoding($this->request->get('file_encoding'), \App\Config::main('default_charset', 'UTF-8'));
 		$csv->parse($this->getFilePath());
 		$this->data = $csv->data;
 	}

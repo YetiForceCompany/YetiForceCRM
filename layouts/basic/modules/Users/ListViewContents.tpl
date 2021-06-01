@@ -36,6 +36,31 @@
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
+	{function LINKS_BUTTONS LINKS=[]}
+		{if count($LINKS) > 0}
+			{assign var=ONLY_ONE value=count($LINKS) eq 1}
+			<div class="actions">
+				{if $ONLY_ONE}
+					{foreach from=$LINKS item=LINK}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
+					{/foreach}
+				{else}
+					<div class="dropright u-remove-dropdown-icon">
+						<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="fas fa-wrench" aria-hidden="true"></span>
+							<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>
+						</button>
+						<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
+							{foreach from=$LINKS item=LINK}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
+							{/foreach}
+						</div>
+					</div>
+				{/if}
+			</div>
+		{/if}
+	{/function}
 	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
@@ -60,7 +85,6 @@
 									class="{$SORT_IMAGE}"></span>{/if}</a>
 					</th>
 				{/foreach}
-				<th>{\App\Language::translate('LBL_ACTIONS')}</th>
 			</tr>
 			{if $MODULE_MODEL->isQuickSearchEnabled()}
 				<tr class="bg-white">
@@ -92,7 +116,6 @@
 							FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 						</td>
 					{/foreach}
-					<td></td>
 				</tr>
 			{/if}
 			</thead>
@@ -101,25 +124,31 @@
 				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}'
 					data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}'
 					id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-					<td width="2%" class="{$WIDTHTYPE}">
+					<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}" >
+					{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksLeftSide()}
 						<input type="hidden" name="deleteActionUrl" value="{$LISTVIEW_ENTRY->getDeleteUrl()}">
-						{if $LISTVIEW_ENTRY->isEditable()}
-							<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}"
-								   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
-								   class="listViewEntriesCheckBox"/>
+						<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}"  title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
+						{assign var=NEXT_LINKS value=[]}
+						{if isset($LINKS['BUTTONS'])}
+							{assign var=NEXT_LINKS value=$LINKS['BUTTONS']}
+							{assign var=LINKS value=array_diff_key($LINKS,['BUTTONS'=>''])}
 						{/if}
+						{LINKS_BUTTONS LINKS=$LINKS}
+						{foreach from=$NEXT_LINKS item=LINK}
+							{LINKS_BUTTONS LINKS=[$LINK]}
+						{/foreach}
 					</td>
 					<td width="5%" class="{$WIDTHTYPE}">
 						<div class="row">
 							{assign var=IMAGE value=$LISTVIEW_ENTRY->getImage()}
 							{if $IMAGE}
-								<div class='col-md-6'>
+								<div class="text-center">
 									<img src="{$IMAGE.url}"
-										 class="c-img__user" alt="{$LISTVIEW_ENTRY->getName()}"
+										 class="c-img__user rounded-circle" alt="{$LISTVIEW_ENTRY->getName()}"
 										 title="{$LISTVIEW_ENTRY->getName()}">
 								</div>
 							{else}
-								<div class='col-md-6'>
+								<div class="col-md-12 px-0 text-center">
 									<img class="c-img__user" alt=""
 										 src="{\App\Layout::getImagePath('DefaultUserIcon.png')}">
 								</div>
@@ -132,50 +161,6 @@
 							{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
 						</td>
 					{/foreach}
-					<td>
-						{if $LISTVIEW_HEADER@last}
-							<div class="float-right actions">
-								<div class="actionImages flexWrapper">
-									<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'>
-										<span class="fas fa-retweet align-middle"
-											  title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}"></span>
-										<span class="sr-only">{\App\Language::translate('LBL_DUPLICATE', $MODULE)}</span>
-									</a>&nbsp;
-									{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
-										<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT"
-										   href='{$LISTVIEW_ENTRY->getEditViewUrl()}'>
-											<span class="yfi yfi-full-editing-view align-middle"
-												  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
-											<span class="sr-only">{\App\Language::translate('LBL_EDIT', $MODULE)}</span>
-										</a>
-										&nbsp;
-									{/if}
-									{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
-										{if $LISTVIEW_ENTRY->get('status') eq 'Active'}
-											<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE"
-											   class="deleteRecordButton">
-												<span class="fas fa-trash-alt align-middle"
-													  title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-												<span class="sr-only">{\App\Language::translate('LBL_DELETE', $MODULE)}</span>
-											</a>
-										{else}
-											<a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);">
-												<span class="fas fa-sync-alt align-middle"
-													  title="{\App\Language::translate('LBL_RESTORE', $MODULE)}"></span>
-												<span class="sr-only">{\App\Language::translate('LBL_RESTORE', $MODULE)}</span>
-											</a>
-											&nbsp;
-											<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);">
-												<span class="fas fa-trash-alt align-middle"
-													  title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-												<span class="sr-only">{\App\Language::translate('LBL_DELETE', $MODULE)}</span>
-											</a>
-										{/if}
-									{/if}
-								</div>
-							</div>
-						{/if}
-					</td>
 				</tr>
 			{/foreach}
 			</tbody>

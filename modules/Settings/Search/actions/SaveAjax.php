@@ -16,12 +16,12 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('saveSequenceNumber');
 	}
 
-	public function save(\App\Request $request)
+	public function save(App\Request $request)
 	{
 		$params = $request->getArray('params', 'Alnum');
 		$success = Settings_Search_Module_Model::save($params);
 		$message = 'LBL_SAVE_CHANGES_LABLE';
-		if ($params['name'] === 'turn_off') {
+		if ('turn_off' === $params['name']) {
 			$message = 'LBL_SAVE_CHANGES_SEARCHING';
 		}
 		$response = new Vtiger_Response();
@@ -32,7 +32,7 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function updateLabels(\App\Request $request)
+	public function updateLabels(App\Request $request)
 	{
 		$params = $request->getArray('params', 'Integer');
 		Settings_Search_Module_Model::updateLabels($params);
@@ -44,7 +44,7 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function saveSequenceNumber(\App\Request $request)
+	public function saveSequenceNumber(App\Request $request)
 	{
 		$updatedFieldsList = $request->getArray('updatedFields', 'Integer');
 		//This will update the modules sequence

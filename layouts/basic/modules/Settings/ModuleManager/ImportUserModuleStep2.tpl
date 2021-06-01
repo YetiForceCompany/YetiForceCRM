@@ -156,10 +156,9 @@
 								<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
 								<input type="hidden" name="mode" value="importUserModuleStep3">
 								<span class="text-right">
-															{\App\Language::translate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-															<button class="btn btn-success mx-2 js-save-button" type="submit" name="saveButton" {if $need_license_agreement eq 'true'} disabled {/if}><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_YES')}</button>
-															<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_NO', $MODULE)}</button>
-
+									{\App\Language::translate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+									<button class="btn btn-success mx-2 js-save-button" type="submit" name="saveButton" {if $need_license_agreement eq 'true'} disabled {/if}><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_YES')}</button>
+									<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_NO', $MODULE)}</button>
 								{/if}
 							</div>
 						{/if}

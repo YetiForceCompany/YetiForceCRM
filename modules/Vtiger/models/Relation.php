@@ -26,17 +26,18 @@ class Vtiger_Relation_Model extends \App\Base
 	protected $parentModule = false;
 	protected $relatedModule = false;
 	/**
-	 * @var object Class that includes basic operations on relations
+	 * @var \App\Relation\RelationInterface Class that includes basic operations on relations
 	 */
 	protected $typeRelationModel;
+	/**
+	 * @var array Custom view list
+	 */
+	protected $customViewList;
 
 	//one to many
 	const RELATION_O2M = 1;
 	//Many to many and many to one
 	const RELATION_M2M = 2;
-
-	/** @var string[] */
-	protected static $RELATIONS_O2M = ['getDependentsList'];
 
 	/**
 	 * Function returns the relation id.
@@ -165,7 +166,27 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function isAddActionSupported()
 	{
-		return $this->isActionSupported('add');
+		return $this->isActionSupported('add') && $this->getRelationModuleModel()->isPermitted('CreateView');
+	}
+
+	/**
+	 * Check favorite.
+	 */
+	public function isFavorites()
+	{
+		return 1 == $this->get('favorites') ? true : false;
+	}
+
+	/**
+	 * Check related view type.
+	 *
+	 * @param string $type
+	 *
+	 * @return bool
+	 */
+	public function isRelatedViewType($type)
+	{
+		return false !== strpos($this->get('view_type'), $type);
 	}
 
 	/**
@@ -210,16 +231,12 @@ class Vtiger_Relation_Model extends \App\Base
 	/**
 	 * Get relation type.
 	 *
-	 * @return self::RELATION_O2M|self::RELATION_M2M
+	 * @return int|self::RELATION_O2M|self::RELATION_M2M
 	 */
 	public function getRelationType()
 	{
-		if (!$this->get('relationType')) {
-			if (\in_array($this->get('name'), self::$RELATIONS_O2M) || $this->getRelationField()) {
-				$this->set('relationType', self::RELATION_O2M);
-			} else {
-				$this->set('relationType', self::RELATION_M2M);
-			}
+		if (!$this->has('relationType')) {
+			$this->set('relationType', $this->getTypeRelationModel()->getRelationType());
 		}
 		return $this->get('relationType');
 	}
@@ -229,21 +246,22 @@ class Vtiger_Relation_Model extends \App\Base
 	 *
 	 * @return string[]
 	 */
-	public function getRelatedViewType()
+	public function getRelatedViewType(): array
 	{
-		return explode(',', $this->get('view_type'));
+		return explode(',', $this->get('view_type')) ?? [];
 	}
 
 	/**
-	 * Check related view type.
+	 * Get custom view.
 	 *
-	 * @param string $type
-	 *
-	 * @return bool
+	 * @return string[]
 	 */
-	public function isRelatedViewType($type)
+	public function getCustomView(): array
 	{
-		return false !== strpos($this->get('view_type'), $type);
+		if ($this->isEmpty('custom_view')) {
+			return [];
+		}
+		return explode(',', $this->get('custom_view')) ?? [];
 	}
 
 	/**
@@ -272,19 +290,20 @@ class Vtiger_Relation_Model extends \App\Base
 			self::$cachedInstances[$relKey] = $relationModel;
 			return clone $relationModel;
 		}
-		$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
-			->from('vtiger_relatedlists')
-			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
-			->andWhere(['<>', 'vtiger_tab.presence', 1]);
-		if (!empty($relationId)) {
-			$query->andWhere(['vtiger_relatedlists.relation_id' => $relationId]);
+		if (empty($relationId)) {
+			$row = current(\App\Relation::getByModule($parentModuleModel->getName(), true, $relatedModuleModel->getName()));
+		} else {
+			$row = \App\Relation::getById($relationId);
+			if (1 === $row['presence'] || $row['tabid'] !== $parentModuleModel->getId() || $row['related_tabid'] !== $relatedModuleModel->getId()) {
+				$row = [];
+			}
 		}
-		$row = $query->one();
 		if ($row) {
+			$row['modulename'] = $row['related_modulename'];
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			$relationModel->set('relatedModuleName', $row['related_modulename']);
 			self::$cachedInstances[$relKey] = $relationModel;
 			self::$cachedInstancesById[$row['relation_id']] = $relationModel;
 			return clone $relationModel;
@@ -303,18 +322,18 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function getInstanceById(int $relationId)
 	{
 		if (!isset(self::$cachedInstancesById[$relationId])) {
-			$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
-				->from('vtiger_relatedlists')
-				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-				->where(['<>', 'vtiger_tab.presence', 1]);
-			$query->andWhere(['vtiger_relatedlists.relation_id' => $relationId]);
+			$row = \App\Relation::getById($relationId);
+			if (1 === $row['presence']) {
+				$row = [];
+			}
 			$relationModel = false;
-			if ($row = $query->one()) {
-				$relatedModuleName = \App\Module::getModuleName($row['related_tabid']);
+			if ($row) {
+				$row['modulename'] = $row['related_modulename'];
 				$parentModuleModel = Vtiger_Module_Model::getInstance($row['tabid']);
 				$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
 				$relationModel = new $relationModelClassName();
-				$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel(Vtiger_Module_Model::getInstance($relatedModuleName));
+				$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel(Vtiger_Module_Model::getInstance($row['related_modulename']));
+				$relationModel->set('relatedModuleName', $row['related_modulename']);
 				if (method_exists($relationModel, 'setExceptionData')) {
 					$relationModel->setExceptionData();
 				}
@@ -325,9 +344,11 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Gets relation object.
+	 * Get type relation model .
+	 *
+	 * @return \App\Relation\RelationInterface
 	 */
-	public function getTypeRelationModel()
+	public function getTypeRelationModel(): App\Relation\RelationInterface
 	{
 		if (!isset($this->typeRelationModel)) {
 			$name = ucfirst($this->get('name'));
@@ -338,6 +359,9 @@ class Vtiger_Relation_Model extends \App\Base
 			if (class_exists($relationClassName)) {
 				$this->typeRelationModel = new $relationClassName();
 				$this->typeRelationModel->relationModel = &$this;
+			} else {
+				App\Log::error("Not exist relation: {$name} in " . __METHOD__);
+				throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $name);
 			}
 		}
 		return $this->typeRelationModel;
@@ -352,17 +376,13 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function getQuery()
 	{
-		if (!($object = $this->getTypeRelationModel())) {
-			App\Log::error("Not exist relation: {$this->get('name')} in " . __METHOD__);
-			throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $this->get('name'));
-		}
 		if (empty($this->get('parentRecord'))) {
 			App\Log::error('No value parentRecord in ' . __METHOD__);
 			throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||parentRecord');
 		}
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->setSourceRecord($this->get('parentRecord')->getId());
-		$object->getQuery();
+		$this->getTypeRelationModel()->getQuery();
 		if ($this->showCreatorDetail()) {
 			$queryGenerator->setCustomColumn('rel_created_user');
 			$queryGenerator->setCustomColumn('rel_created_time');
@@ -459,7 +479,7 @@ class Vtiger_Relation_Model extends \App\Base
 				}
 			}
 		}
-		$this->set('RelationField', $relationField ? $relationField : false);
+		$this->set('RelationField', $relationField ?: false);
 		return $relationField;
 	}
 
@@ -554,7 +574,7 @@ class Vtiger_Relation_Model extends \App\Base
 	{
 		$result = false;
 		$sourceModuleName = $this->getParentModuleModel()->getName();
-		$typeRelation = $this->getTypeRelationModel();
+		$relationModel = $this->getTypeRelationModel();
 		if (!\is_array($destinationRecordIds)) {
 			$destinationRecordIds = [$destinationRecordIds];
 		}
@@ -571,7 +591,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$data['destinationRecordId'] = $destinationRecordId;
 			$eventHandler->setParams($data);
 			$eventHandler->trigger('EntityBeforeLink');
-			if ($result = $typeRelation->create($sourceRecordId, $destinationRecordId)) {
+			if ($result = $relationModel->create($sourceRecordId, $destinationRecordId)) {
 				\CRMEntity::trackLinkedInfo($sourceRecordId);
 				$eventHandler->trigger('EntityAfterLink');
 			}
@@ -774,34 +794,21 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public static function getAllRelations(Vtiger_Module_Model $moduleModel, bool $selected = true, bool $onlyActive = true, bool $permissions = true, string $key = 'relation_id')
 	{
-		$cacheName = "{$moduleModel->getId()}:$selected:$onlyActive";
-		if (\App\Cache::has('getAllRelations', $cacheName)) {
-			$relationList = \App\Cache::get('getAllRelations', $cacheName);
-		} else {
-			$query = new \App\Db\Query();
-			$query->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name', 'moduleid' => 'vtiger_tab.tabid'])
-				->from('vtiger_relatedlists')
-				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-				->where(['vtiger_relatedlists.tabid' => $moduleModel->getId()]);
-			if ($selected) {
-				$query->andWhere(['<>', 'vtiger_relatedlists.presence', 1]);
-			}
-			if ($onlyActive) {
-				$query->andWhere(['<>', 'vtiger_tab.presence', 1]);
-			}
-			$relationList = $query->orderBy('sequence')->all();
-			\App\Cache::save('getAllRelations', $cacheName, $relationList);
-		}
 		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $moduleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		foreach ($relationList as $row) {
+		foreach (\App\Relation::getByModule($moduleModel->getName(), $onlyActive) as $row) {
+			if ($selected && 1 === $row['presence']) {
+				continue;
+			}
+			$row['modulename'] = $row['related_modulename'];
+			$row['moduleid'] = $row['related_tabid'];
 			// Skip relation where target module does not exits or is no permitted for view.
-			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['modulename'], 'DetailView')) {
+			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['related_modulename'], 'DetailView')) {
 				continue;
 			}
 			$relationModel = new $relationModelClassName();
-			$relationModel->setData($row)->setParentModuleModel($moduleModel)->set('relatedModuleName', $row['modulename']);
+			$relationModel->setData($row)->setParentModuleModel($moduleModel)->set('relatedModuleName', $row['related_modulename']);
 			$relationModels[$row[$key]] = $relationModel;
 		}
 		return $relationModels;
@@ -814,7 +821,9 @@ class Vtiger_Relation_Model extends \App\Base
 		$excludedModules = ['Users'];
 		$relatedModel = $this->getRelationModuleModel();
 		$relatedModuleName = $relatedModel->getName();
-
+		if ($relationField = $this->getRelationField()) {
+			$fields[$relationField->getFieldName()] = $recordModel->getId();
+		}
 		$parentModelFields = $this->getParentModuleModel()->getFields();
 		foreach ($parentModelFields as $fieldName => $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
@@ -873,7 +882,19 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function updateRelationPresence($relationId, $status)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => !$status ? 1 : 0], ['relation_id' => $relationId])->execute();
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
+	}
+
+	/**
+	 * Function to set presence relation.
+	 *
+	 * @param int   $relationId
+	 * @param array $customView
+	 */
+	public static function updateRelationCustomView(int $relationId, array $customView): void
+	{
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['custom_view' => implode(',', $customView)], ['relation_id' => $relationId])->execute();
+		\App\Relation::clearCacheById($relationId);
 	}
 
 	/**
@@ -889,7 +910,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$dbCommand->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
 			App\Db::getInstance('admin')->createCommand()->delete('a_yf_relatedlists_inv_fields', ['relation_id' => $relationId])->execute();
 		}
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
 	}
 
 	/**
@@ -902,8 +923,8 @@ class Vtiger_Relation_Model extends \App\Base
 		$dbCommand = App\Db::getInstance()->createCommand();
 		foreach ($modules as $module) {
 			$dbCommand->update('vtiger_relatedlists', ['sequence' => (int) $module['index'] + 1], ['relation_id' => $module['relationId']])->execute();
+			\App\Relation::clearCacheById((int) $module['relationId']);
 		}
-		\App\Cache::clear();
 	}
 
 	/**
@@ -939,7 +960,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$transaction->rollBack();
 			throw $e;
 		}
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
 	}
 
 	public static function updateModuleRelatedInventoryFields($relationId, $fields)
@@ -988,6 +1009,51 @@ class Vtiger_Relation_Model extends \App\Base
 		return $fields;
 	}
 
+	/**
+	 * Gets relation data fields
+	 *
+	 * @return array
+	 */
+	public function getRelationFields(): array
+	{
+		return method_exists($this->getTypeRelationModel(), 'getFields') ? $this->getTypeRelationModel()->getFields() : [];
+	}
+
+	/**
+	 * Set conditions for relation fields
+	 *
+	 * @param array $conditions
+	 * @return self
+	 */
+	public function setRelationConditions(array $conditions): self
+	{
+		$group = 'and';
+		$relFields = $this->getRelationFields();
+		foreach($conditions as $groupInfo){
+			if (empty($groupInfo) || !array_filter($groupInfo)) {
+				$group = 'or';
+				continue;
+			}
+			$dataGroup = [$group];
+			foreach ($groupInfo as $fieldSearchInfo) {
+				[$fieldName, $operator, $fieldValue] = array_pad($fieldSearchInfo, 3, false);
+				$field = $relFields[$fieldName] ?? null;
+				if(!$field || (($className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field') && !class_exists($className))){
+					continue;
+				}
+				$queryField = new $className($this->getQueryGenerator(), $field);
+				$queryField->setValue($fieldValue);
+				$queryField->setOperator($operator);
+				$condition = $queryField->getCondition();
+				if($condition){
+					$dataGroup[] = $condition;
+				}
+			}
+			$this->getQueryGenerator()->addNativeCondition($dataGroup);
+		}
+		return $this;
+	}
+
 	public static function getReferenceTableInfo($moduleName, $refModuleName)
 	{
 		$temp = [$moduleName, $refModuleName];
@@ -1033,11 +1099,47 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function updateStateFavorites($relationId, $status)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['favorites' => $status], ['relation_id' => $relationId])->execute();
-		\App\Cache::clear();
+		\App\Relation::clearCacheById($relationId);
 	}
 
-	public function isFavorites()
+	/**
+	 * Get custom view list.
+	 *
+	 * @return string[]
+	 */
+	public function getCustomViewList(): array
 	{
-		return 1 == $this->get('favorites') ? true : false;
+		if (isset($this->customViewList)) {
+			return $this->customViewList;
+		}
+		$cv = [];
+		$selectedCv = $this->getCustomView();
+		if (empty($selectedCv) || \in_array('relation', $selectedCv)) {
+			$cv['relation'] = \App\Language::translate('LBL_RECORDS_FROM_RELATION');
+			unset($selectedCv[array_search('relation', $selectedCv)]);
+		}
+		if ($selectedCv) {
+			$moduleName = $this->getRelationModuleName();
+			$all = CustomView_Record_Model::getAll($moduleName);
+			if (\in_array('all', $selectedCv)) {
+				unset($selectedCv[array_search('all', $selectedCv)]);
+				foreach ($all as $cvId => $cvModel) {
+					$cv[$cvId] = \App\Language::translate($cvModel->get('viewname'), $moduleName);
+				}
+			} elseif (\in_array('private', $selectedCv)) {
+				unset($selectedCv[array_search('private', $selectedCv)]);
+				foreach ($all as $cvId => $cvModel) {
+					if ($cvModel->isMine()) {
+						$cv[$cvId] = \App\Language::translate($cvModel->get('viewname'), $moduleName);
+					}
+				}
+			}
+			foreach ($selectedCv as $cvId) {
+				if (isset($all[$cvId])) {
+					$cv[$cvId] = \App\Language::translate($all[$cvId]->get('viewname'), $moduleName);
+				}
+			}
+		}
+		return $this->customViewList = $cv;
 	}
 }

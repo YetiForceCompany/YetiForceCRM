@@ -3,6 +3,8 @@
 /**
  * Currency test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
@@ -28,12 +30,12 @@ class Currency extends \Tests\Base
 		$recordModel->set('currency_status', 'Active');
 		$recordModel->set('currency_code', 'BHD');
 		$recordModel->set('currency_symbol', 'BD');
-		static::$id = $recordModel->save();
-		$this->assertNotNull(static::$id, 'Id is null');
+		self::$id = $recordModel->save();
+		$this->assertNotNull(self::$id, 'Id is null');
 
-		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => static::$id])->one();
+		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => self::$id])->one();
 		$this->logs = $row;
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['currency_name'], 'Bahrain');
 		$this->assertSame((float) $row['conversion_rate'], 1.65);
 		$this->assertSame($row['currency_status'], 'Active');
@@ -46,17 +48,17 @@ class Currency extends \Tests\Base
 	 */
 	public function testEditCurrency()
 	{
-		$recordModel = \Settings_Currency_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_Currency_Record_Model::getInstance(self::$id);
 		$recordModel->set('currency_name', 'Argentina');
 		$recordModel->set('conversion_rate', 0.65);
 		$recordModel->set('currency_status', 'No');
 		$recordModel->set('currency_code', 'ARS');
 		$recordModel->set('currency_symbol', '$');
-		static::$id = $recordModel->save();
+		self::$id = $recordModel->save();
 
-		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => static::$id])->one();
+		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => self::$id])->one();
 		$this->logs = $row;
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame($row['currency_name'], 'Argentina');
 		$this->assertSame((float) $row['conversion_rate'], 0.65);
 		$this->assertSame($row['currency_status'], 'No');
@@ -80,7 +82,7 @@ class Currency extends \Tests\Base
 	 */
 	public function testRecordModel()
 	{
-		$recordModel = \Settings_Currency_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_Currency_Record_Model::getInstance(self::$id);
 		$this->assertNotNull($recordModel, 'Expected recordModel is not empty');
 		$this->assertNotEmpty($recordModel->getName(), 'Expected name is not empty');
 		$this->assertFalse($recordModel->isBaseCurrency(), 'Expected that record is not base currency');
@@ -122,8 +124,8 @@ class Currency extends \Tests\Base
 	 */
 	public function testDeleteCurrency()
 	{
-		\Settings_Currency_Module_Model::delete(static::$id);
-		$this->assertTrue((new \App\Db\Query())->from('vtiger_currency_info')->where(['and', ['id' => static::$id, 'deleted' => 1]])->exists());
+		\Settings_Currency_Module_Model::delete(self::$id);
+		$this->assertTrue((new \App\Db\Query())->from('vtiger_currency_info')->where(['and', ['id' => self::$id, 'deleted' => 1]])->exists());
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_currency_info')->where(['and', ['currency_name' => 'Argentina', 'deleted' => 1]])->exists());
 	}
 }

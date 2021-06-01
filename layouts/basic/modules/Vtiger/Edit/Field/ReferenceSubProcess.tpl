@@ -7,7 +7,7 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="UITYPE_MODEL" value=$FIELD_MODEL->getUITypeModel()}
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
-	<div class="invUitype_{$MODULE}_{$FIELD_NAME} tpl-List-Field-ReferenceSubProcess">
+	<div class="uitype_{$MODULE}_{$FIELD_NAME} tpl-List-Field-ReferenceSubProcess">
 		{if {$REFERENCE_LIST_COUNT} eq 1}
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}"
 				   value="{reset($REFERENCE_LIST)}"/>
@@ -28,7 +28,11 @@
 				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_LIST[0]}"/>
 			{/if}
 		{/if}
-		{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
+		{if $REFERENCE_LIST_COUNT}
+			{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
+		{else}
+			{assign var=REFERENCE_MODULE_MODEL value=false}
+		{/if}
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden"
 			   value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}"
 			   title="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" class="sourceField"
@@ -54,7 +58,7 @@
 			tabindex="{$TABINDEX}" {if !empty($DISPLAYID)}readonly="true"{/if} value="{$FIELD_VALUE}"
 				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}"{/if} {if $REFERENCE_MODULE_MODEL == false}disabled{/if}
-					{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
+					{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
 			<span class="input-group-append u-cursor-pointer">
 			<button class="btn btn-light clearReferenceSelection" type="button" tabindex="{$TABINDEX}" {if $REFERENCE_MODULE_MODEL == false || $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>

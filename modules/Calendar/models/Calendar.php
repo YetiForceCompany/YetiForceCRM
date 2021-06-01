@@ -7,7 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    YetiForce.com
  */
-class Calendar_Calendar_Model extends App\Base
+class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 {
 	public $moduleName = 'Calendar';
 	public $module;
@@ -17,29 +17,6 @@ class Calendar_Calendar_Model extends App\Base
 		'HelpDesk' => ['vtiger_troubletickets', 'ticketid', 'parent_id'],
 		'ServiceContracts' => ['vtiger_servicecontracts', 'servicecontractsid', 'sc_related_to'],
 	];
-
-	/**
-	 * Get module name.
-	 *
-	 * @return string
-	 */
-	public function getModuleName()
-	{
-		return $this->moduleName;
-	}
-
-	/**
-	 * Get module name.
-	 *
-	 * @return string
-	 */
-	public function getModule()
-	{
-		if (!isset($this->module)) {
-			$this->module = Vtiger_Module_Model::getInstance($this->getModuleName());
-		}
-		return $this->module;
-	}
 
 	/**
 	 * Get query.
@@ -121,42 +98,6 @@ class Calendar_Calendar_Model extends App\Base
 	}
 
 	/**
-	 * Get records count for extended calendar left column.
-	 *
-	 * @return int|string
-	 */
-	public function getEntityRecordsCount()
-	{
-		return $this->getQuery()->count();
-	}
-
-	/**
-	 * Get public holidays for rendenring them on the calendar.
-	 *
-	 * @return array
-	 */
-	public function getPublicHolidays()
-	{
-		$result = [];
-		foreach (App\Fields\Date::getHolidays(DateTimeField::convertToDBTimeZone($this->get('start'))->format('Y-m-d'), DateTimeField::convertToDBTimeZone($this->get('end'))->format('Y-m-d')) as $holiday) {
-			$item = [];
-			$item['title'] = $holiday['name'];
-			$item['type'] = $holiday['type'];
-			$item['start'] = $holiday['date'];
-			$item['rendering'] = 'background';
-			if ('national' === $item['type']) {
-				$item['color'] = '#FFAB91';
-				$item['icon'] = 'fas fa-flag';
-			} else {
-				$item['color'] = '#81D4FA';
-				$item['icon'] = 'fas fa-church';
-			}
-			$result[] = $item;
-		}
-		return $result;
-	}
-
-	/**
 	 * Gets entity data.
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
@@ -218,8 +159,6 @@ class Calendar_Calendar_Model extends App\Base
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$hours = \App\Fields\DateTime::getDiff($item['start'], $item['end'], 'hours');
-			$item['hours'] = \App\Fields\RangeTime::formatHourToDisplay($hours, 'short');
 			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $row['assigned_user_id'] . ' picklistCBr_Calendar_activitytype_' . \App\Colors::sanitizeValue($row['activitytype']);
 			$return[] = $item;
 		}

@@ -9,7 +9,9 @@
  *************************************************************************************/
 'use strict';
 
-Vtiger_List_Js("Rss_List_Js", {},
+Vtiger_List_Js(
+	'Rss_List_Js',
+	{},
 	{
 		/**
 		 * Function get the height of the document
@@ -45,7 +47,6 @@ Vtiger_List_Js("Rss_List_Js", {},
 							var id = element.data('id');
 							thisInstance.getRssFeeds(id).done(function () {
 								app.hideModalWindow();
-
 							});
 						});
 					};
@@ -64,17 +65,16 @@ Vtiger_List_Js("Rss_List_Js", {},
 			var aDeferred = jQuery.Deferred();
 			var progressInstance = jQuery.progressIndicator({});
 			var actionParams = {
-				'module': app.getModuleName(),
-				'view': 'ViewTypes',
-				'mode': mode
+				module: app.getModuleName(),
+				view: 'ViewTypes',
+				mode: mode
 			};
 			AppConnector.request(actionParams).done(
 				function (data) {
-					progressInstance.progressIndicator({'mode': 'hide'});
+					progressInstance.progressIndicator({ mode: 'hide' });
 					aDeferred.resolve(data);
 				},
-				function (textStatus, errorThrown) {
-				}
+				function (textStatus, errorThrown) {}
 			);
 			return aDeferred.promise();
 		},
@@ -87,33 +87,32 @@ Vtiger_List_Js("Rss_List_Js", {},
 			var thisInstance = this;
 			var data = form.serializeFormData();
 			var progressIndicatorElement = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
 			});
 			var params = {
-				'module': app.getModuleName(),
-				'action': 'Save',
-				'feedurl': data.feedurl
+				module: app.getModuleName(),
+				action: 'Save',
+				feedurl: data.feedurl
 			};
-			AppConnector.request(params).done(
-				function (result) {
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					});
-					if (result.result.success) {
-						app.hideModalWindow();
-						thisInstance.getRssFeeds(result.result.id);
-					} else {
-						var params = {
-							title: app.vtranslate('JS_MESSAGE'),
-							text: app.vtranslate(result.result.message),
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-					}
+			AppConnector.request(params).done(function (result) {
+				progressIndicatorElement.progressIndicator({
+					mode: 'hide'
+				});
+				if (result.result.success) {
+					app.hideModalWindow();
+					thisInstance.getRssFeeds(result.result.id);
+				} else {
+					var params = {
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate(result.result.message),
+						type: 'error'
+					};
+					app.showNotify(params);
 				}
-			);
+			});
 		},
 
 		/**
@@ -125,22 +124,22 @@ Vtiger_List_Js("Rss_List_Js", {},
 			var aDeferred = jQuery.Deferred();
 			var container = thisInstance.getListViewContainer();
 			var progressIndicatorElement = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
 			});
 			var params = {
-				'module': app.getModuleName(),
-				'view': 'List',
-				'id': id
+				module: app.getModuleName(),
+				view: 'List',
+				id: id
 			};
 			AppConnector.requestPjax(params).done(function (data) {
 				aDeferred.resolve(data);
 				container.find('#listViewContents').html(data);
 				thisInstance.setFeedContainerHeight(container);
 				progressIndicatorElement.progressIndicator({
-					'mode': 'hide'
+					mode: 'hide'
 				});
 			});
 
@@ -177,9 +176,9 @@ Vtiger_List_Js("Rss_List_Js", {},
 		 */
 		getFrameElement: function (url) {
 			var progressIndicatorElement = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
 			});
 			var frameElement = jQuery('<iframe>', {
@@ -191,7 +190,7 @@ Vtiger_List_Js("Rss_List_Js", {},
 			frameElement.addClass('table-bordered');
 			this.getHtml(url).done(function (html) {
 				progressIndicatorElement.progressIndicator({
-					'mode': 'hide'
+					mode: 'hide'
 				});
 				var frame = frameElement[0].contentDocument;
 				frame.open();
@@ -210,9 +209,9 @@ Vtiger_List_Js("Rss_List_Js", {},
 		getHtml: function (url) {
 			var aDeferred = jQuery.Deferred();
 			var params = {
-				'module': app.getModuleName(),
-				'action': 'GetHtml',
-				'url': url
+				module: app.getModuleName(),
+				action: 'GetHtml',
+				url: url
 			};
 			AppConnector.request(params).done(function (data) {
 				aDeferred.resolve(data.result.html);
@@ -239,44 +238,42 @@ Vtiger_List_Js("Rss_List_Js", {},
 			var thisInstance = this;
 			var recordId = container.find('#recordId').val();
 			var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(
+			Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(
 				function (e) {
 					var module = app.getModuleName();
 					var postData = {
-						"module": module,
-						"action": "DeleteAjax",
-						"record": recordId
+						module: module,
+						action: 'DeleteAjax',
+						record: recordId
 					};
 					var deleteMessage = app.vtranslate('JS_RECORD_GETTING_DELETED');
 					var progressIndicatorElement = jQuery.progressIndicator({
-						'message': deleteMessage,
-						'position': 'html',
-						'blockInfo': {
-							'enabled': true
+						message: deleteMessage,
+						position: 'html',
+						blockInfo: {
+							enabled: true
 						}
 					});
 					AppConnector.request(postData).done(
 						function (data) {
 							progressIndicatorElement.progressIndicator({
-								'mode': 'hide'
+								mode: 'hide'
 							});
 							if (data.success) {
 								thisInstance.getRssFeeds();
 							} else {
 								var params = {
 									text: app.vtranslate(data.error.message),
-									title: app.vtranslate('JS_LBL_PERMISSION')
+									title: app.vtranslate('JS_LBL_PERMISSION'),
+									type: 'error'
 								};
-								Vtiger_Helper_Js.showPnotify(params);
+								app.showNotify(params);
 							}
 						},
-						function (error, err) {
-
-						}
+						function (error, err) {}
 					);
 				},
-				function (error, err) {
-				}
+				function (error, err) {}
 			);
 		},
 
@@ -297,36 +294,35 @@ Vtiger_List_Js("Rss_List_Js", {},
 			var recordId = container.find('#recordId').val();
 			var module = app.getModuleName();
 			var postData = {
-				"module": module,
-				"action": "MakeDefaultAjax",
-				"record": recordId
+				module: module,
+				action: 'MakeDefaultAjax',
+				record: recordId
 			};
 			var progressIndicatorElement = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
 			});
-			AppConnector.request(postData).done(
-				function (data) {
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
+			AppConnector.request(postData).done(function (data) {
+				progressIndicatorElement.progressIndicator({
+					mode: 'hide'
+				});
+				if (data.success) {
+					var params = {
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate(data.result.message),
+						type: 'info'
+					};
+					app.showNotify(params);
+				} else {
+					app.showNotify({
+						text: app.vtranslate(data.error.message),
+						title: app.vtranslate('JS_LBL_PERMISSION'),
+						type: 'error'
 					});
-					if (data.success) {
-						var params = {
-							title: app.vtranslate('JS_MESSAGE'),
-							text: app.vtranslate(data.result.message),
-							type: 'info'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-					} else {
-						Vtiger_Helper_Js.showPnotify({
-							text: app.vtranslate(data.error.message),
-							title: app.vtranslate('JS_LBL_PERMISSION')
-						});
-					}
 				}
-			);
+			});
 		},
 
 		registerEvents: function () {
@@ -338,4 +334,5 @@ Vtiger_List_Js("Rss_List_Js", {},
 			this.setFeedContainerHeight(container);
 			this.registerDeleteRecordClickEvent();
 		}
-	});
+	}
+);

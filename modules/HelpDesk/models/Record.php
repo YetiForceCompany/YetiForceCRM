@@ -84,9 +84,9 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	 */
 	public function checkValidateToClose(string $status): array
 	{
-		if ((\App\Config::module($this->getModuleName(), 'CHECK_IF_RECORDS_HAS_TIME_CONTROL') ||
-		 \App\Config::module($this->getModuleName(), 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED')) &&
-		  \in_array($status, \App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_CLOSED))) {
+		if ((\App\Config::module($this->getModuleName(), 'CHECK_IF_RECORDS_HAS_TIME_CONTROL')
+		 || \App\Config::module($this->getModuleName(), 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED'))
+		  && \in_array($status, \App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_CLOSED))) {
 			return [
 				'hasTimeControl' => [
 					'result' => $this->checkIfHasTimeControl(),
@@ -106,7 +106,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	 */
 	public function checkIfHasTimeControl(): bool
 	{
-		if (\App\Config::module($this->getModuleName(), 'CHECK_IF_RECORDS_HAS_TIME_CONTROL')) {
+		if (\App\Config::module($this->getModuleName(), 'CHECK_IF_RECORDS_HAS_TIME_CONTROL') && \App\Module::isModuleActive('OSSTimeControl')) {
 			$queryGenerator = new App\QueryGenerator('OSSTimeControl');
 			$queryGenerator->permissions = false;
 			$queryGenerator->addNativeCondition([\App\ModuleHierarchy::getMappingRelatedField($this->getModuleName()) => $this->getId()]);

@@ -2,7 +2,7 @@
 /**
  * Mail outlook message file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -23,17 +23,13 @@ class Outlook extends Base
 	 */
 	public $name = 'Outlook';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getActions(): array
 	{
 		return array_filter(explode(',', \App\User::getCurrentUserModel()->getDetail('mail_scanner_actions')));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getMailCrmId()
 	{
 		if ($this->has('mailCrmId')) {
@@ -44,9 +40,7 @@ class Outlook extends Base
 		return $mailCrmId;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getMailType(): int
 	{
 		if ($this->has('mailType')) {
@@ -71,9 +65,7 @@ class Outlook extends Base
 		return $key;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getUserId(): int
 	{
 		return \App\User::getCurrentUserRealId();
@@ -89,6 +81,7 @@ class Outlook extends Base
 	public function initFromRequest(\App\Request $request)
 	{
 		$this->set('subject', $request->isEmpty('mailSubject') ? '-' : \App\TextParser::textTruncate($request->getByType('mailSubject', 'Text'), 65535, false));
+		$this->set('headers', $request->isEmpty('mailHeaders') ? '' : \App\TextParser::textTruncate($request->getRaw('mailHeaders'), 16777215, false));
 		$this->set('from_email', $request->getByType('mailFrom', 'Email'));
 		$this->set('date', $request->getByType('mailDateTimeCreated', 'DateTimeInIsoFormat'));
 		$this->set('message_id', $request->getByType('mailMessageId', 'MailId'));
@@ -106,9 +99,7 @@ class Outlook extends Base
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function findRelatedRecords(bool $onlyId = false): array
 	{
 		$ids = $this->findRelatedRecordsByEmail();
@@ -127,13 +118,11 @@ class Outlook extends Base
 		return $ids;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function findRelatedRecordsByEmail(): array
 	{
 		if (isset($this->processData['findByEmail'])) {
-			return  $this->processData['findByEmail'];
+			return $this->processData['findByEmail'];
 		}
 		$emails = $this->get('to_email');
 		$emails[] = $this->get('from_email');
@@ -146,20 +135,16 @@ class Outlook extends Base
 		return $this->processData['findByEmail'] = \App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields()));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function findRelatedRecordsBySubject(): array
 	{
 		if (isset($this->processData['findBySubject'])) {
-			return  $this->processData['findBySubject'];
+			return $this->processData['findBySubject'];
 		}
 		return $this->processData['findBySubject'] = \App\Mail\RecordFinder::findBySubject($this->get('subject'), $this->getNumberFields());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEmailsFields(?string $searchModuleName = null): array
 	{
 		$cacheKey = $searchModuleName ?? '-';
@@ -181,9 +166,7 @@ class Outlook extends Base
 		return $fields;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getNumberFields(?string $searchModuleName = null): array
 	{
 		$cacheKey = $searchModuleName ?? '-';
@@ -205,9 +188,7 @@ class Outlook extends Base
 		return $fields;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getExceptions(): array
 	{
 		return [];

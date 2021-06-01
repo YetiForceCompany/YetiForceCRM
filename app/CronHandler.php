@@ -2,7 +2,7 @@
 /**
  * Cron.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -38,5 +38,15 @@ abstract class CronHandler
 	public function __construct(\vtlib\Cron $cronTask)
 	{
 		$this->cronTask = $cronTask;
+	}
+
+	/**
+	 * Check cron task timeout.
+	 *
+	 * @return bool
+	 */
+	public function checkTimeout(): bool
+	{
+		return $this->cronTask->checkTimeout();
 	}
 }

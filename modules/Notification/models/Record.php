@@ -19,9 +19,12 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	public function getParseField($fieldName)
 	{
 		$relatedRecords = $this->getRelatedRecord();
+		$value = $this->get($fieldName);
+		if (empty($relatedRecords['id'])) {
+			return $value;
+		}
 		$relatedModule = $relatedRecords['module'];
 		$relatedId = $relatedRecords['id'];
-		$value = $this->get($fieldName);
 		if (\App\Record::isExists($relatedId)) {
 			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
 			$textParser->setContent($value)->parse();
@@ -40,32 +43,6 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	public function getTitle()
 	{
 		return $this->getDisplayValue('title', $this->getId(), $this);
-	}
-
-	/**
-	 * Fuction to get the Name of the record.
-	 *
-	 * @return string - Entity Name of the record
-	 */
-	public function getName()
-	{
-		$labelName = [];
-		$metaInfo = \App\Module::getEntityInfo($this->getModuleName());
-		foreach ($metaInfo['fieldnameArr'] as $columnName) {
-			$field = $this->getModule()->getFieldByColumn($columnName);
-			$labelName[] = $this->getDisplayValue($field->getName(), $this->getId(), $this);
-		}
-		return trim(implode(' ', $labelName));
-	}
-
-	/**
-	 * Function to get id.
-	 *
-	 * @return type
-	 */
-	public function getId()
-	{
-		return $this->get('id');
 	}
 
 	/**
@@ -108,17 +85,17 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$subprocess = $this->get('subprocess');
 		$process = $this->get('process');
 		$link = $this->get('link');
+		$linkextend = $this->get('linkextend');
 		if (!empty($subprocess) && \App\Record::isExists($subprocess)) {
 			$relatedId = $subprocess;
+		} elseif (!empty($process) && \App\Record::isExists($process)) {
+			$relatedId = $process;
+		} elseif (!empty($link) && \App\Record::isExists($link)) {
+			$relatedId = $link;
+		} elseif (!empty($linkextend) && \App\Record::isExists($linkextend)) {
+			$relatedId = $linkextend;
 		} else {
-			if (!empty($process) && \App\Record::isExists($process)) {
-				$relatedId = $process;
-			} else {
-				if (empty($link) || !\App\Record::isExists($link)) {
-					return false;
-				}
-				$relatedId = $link;
-			}
+			return false;
 		}
 		return ['id' => $relatedId, 'module' => \vtlib\Functions::getCRMRecordMetadata($relatedId)['setype']];
 	}
@@ -205,11 +182,11 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	{
 		$icon = false;
 		if ('PLL_USERS' === $this->get('notification_type')) {
-			$userModel = Users_Privileges_Model::getInstanceById($this->get('smcreatorid'));
+			$id = $this->get('smcreatorid');
 			$icon = [
 				'type' => 'image',
-				'title' => $userModel->getName(),
-				'src' => $userModel->getImage()['path'],
+				'title' => \App\Fields\Owner::getUserLabel($id),
+				'src' => \App\User::getImageById($id)['path'] ?? '',
 				'class' => 'userImage',
 			];
 		} else {

@@ -15,7 +15,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$listSearchParams = [];
 		$conditions = [['leadsource', 'e', $value]];
-		if ($assignedto != '') {
+		if ('' != $assignedto) {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
@@ -37,13 +37,13 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$query = new \App\Db\Query();
 		$query->select([
-				'leadsourceid' => 'vtiger_leadsource.leadsourceid',
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'leadsourcevalue' => new \yii\db\Expression("CASE WHEN vtiger_leaddetails.leadsource IS NULL OR vtiger_leaddetails.leadsource = '' THEN '' ELSE vtiger_leaddetails.leadsource END"), ])
-				->from('vtiger_leaddetails')
-				->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_leadsource', 'vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource')
-				->where(['deleted' => 0, 'converted' => 0]);
+			'leadsourceid' => 'vtiger_leadsource.leadsourceid',
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'leadsourcevalue' => new \yii\db\Expression("CASE WHEN vtiger_leaddetails.leadsource IS NULL OR vtiger_leaddetails.leadsource = '' THEN '' ELSE vtiger_leaddetails.leadsource END"), ])
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_leadsource', 'vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource')
+			->where(['deleted' => 0, 'converted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
 		}
@@ -72,12 +72,12 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['leadsourceid']];
 			$chartData['datasets'][0]['names'][] = $row['leadsourcevalue'];
 		}
-		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) \count($chartData['datasets'][0]['data']);
 		$dataReader->close();
 		return $chartData;
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
@@ -90,16 +90,16 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			$owner = $request->getByType('owner', 2);
 		}
 		$ownerForwarded = $owner;
-		if ($owner == 'all') {
+		if ('all' == $owner) {
 			$owner = '';
 		}
 		if (empty($createdTime)) {
 			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
-		$data = ($owner === false) ? [] : $this->getLeadsBySource($owner, $createdTime);
+		$data = (false === $owner) ? [] : $this->getLeadsBySource($owner, $createdTime);
 		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-		$leadSourceAmount = count($data['datasets'][0]['names']);
+		$leadSourceAmount = \count($data['datasets'][0]['names']);
 		for ($i = 0; $i < $leadSourceAmount; ++$i) {
 			$data['datasets'][0]['links'][$i] = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
 		}

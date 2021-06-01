@@ -41,9 +41,7 @@ export default {
 		state.local.isSoundNotification = val
 	},
 	removeRoomSoundNotificationsOff(state, { roomType, id }) {
-		state.local.roomSoundNotificationsOff[roomType] = state.local.roomSoundNotificationsOff[roomType].filter(
-			item => item !== id
-		)
+		state.local.roomSoundNotificationsOff[roomType] = state.local.roomSoundNotificationsOff[roomType].filter(item => item !== id)
 	},
 	addRoomSoundNotificationsOff(state, { roomType, id }) {
 		state.local.roomSoundNotificationsOff[roomType].push(id)
@@ -78,10 +76,8 @@ export default {
 	updateActiveRooms(state, { roomsToUpdate, newData }) {
 		state.data.amountOfNewMessages = newData.amountOfNewMessages.amount
 		roomsToUpdate.forEach(room => {
-			state.data.roomList[room.roomType][room.recordid].showMoreButton =
-				newData.roomList[room.roomType][room.recordid].showMoreButton
-			state.data.roomList[room.roomType][room.recordid].participants =
-				newData.roomList[room.roomType][room.recordid].participants
+			state.data.roomList[room.roomType][room.recordid].showMoreButton = newData.roomList[room.roomType][room.recordid].showMoreButton
+			state.data.roomList[room.roomType][room.recordid].participants = newData.roomList[room.roomType][room.recordid].participants
 			state.data.roomList[room.roomType][room.recordid].chatEntries = unionby(
 				state.data.roomList[room.roomType][room.recordid].chatEntries,
 				newData.roomList[room.roomType][room.recordid].chatEntries,
@@ -107,8 +103,7 @@ export default {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
 	},
 	updateParticipants(state, { roomType, recordId, data }) {
-		if (state.data.currentRoom.roomType === roomType)
-			Vue.set(state.data.roomList[roomType][recordId], 'participants', data)
+		if (state.data.currentRoom.roomType === roomType) Vue.set(state.data.roomList[roomType][recordId], 'participants', data)
 	},
 	pushOlderEntries(state, { result, roomType, recordId }) {
 		state.data.roomList[roomType][recordId].chatEntries.unshift(...result.chatEntries)
@@ -167,16 +162,10 @@ export default {
 	initStorage(state) {
 		const chatLocalStorage = Quasar.plugins.LocalStorage.getItem('yf-chat')
 		const chatSessionStorage = Quasar.plugins.SessionStorage.getItem('yf-chat')
-		if (
-			chatLocalStorage &&
-			JSON.stringify(Object.keys(state.local)) === JSON.stringify(Object.keys(JSON.parse(chatLocalStorage)))
-		) {
+		if (chatLocalStorage && JSON.stringify(Object.keys(state.local)) === JSON.stringify(Object.keys(JSON.parse(chatLocalStorage)))) {
 			state.local = mergeDeepReactive(state.local, JSON.parse(chatLocalStorage))
 		}
-		if (
-			chatSessionStorage &&
-			JSON.stringify(Object.keys(state.session)) === JSON.stringify(Object.keys(JSON.parse(chatSessionStorage)))
-		) {
+		if (chatSessionStorage && JSON.stringify(Object.keys(state.session)) === JSON.stringify(Object.keys(JSON.parse(chatSessionStorage)))) {
 			state.session = mergeDeepReactive(state.session, JSON.parse(chatSessionStorage))
 		}
 	}

@@ -24,7 +24,7 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 		}
 		$queryGenerator->setFields(['id', 'date_start', 'date_end', 'occurrences_type', 'occurrences_status', 'topic', 'assigned_user_id']);
 		if (!$this->isEmpty('types')) {
-			$queryGenerator->addNativeCondition(['u_yf_occurrences.topic' => $this->get('types')]);
+			$queryGenerator->addNativeCondition(['u_#__occurrences.occurrences_type' => $this->get('types')]);
 		}
 		$components = ['PLL_ARCHIVED', 'PLL_CANCELLED'];
 		if ('current' == $this->get('time')) {

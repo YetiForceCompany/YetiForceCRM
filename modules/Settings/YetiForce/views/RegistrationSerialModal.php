@@ -27,7 +27,7 @@ class Settings_YetiForce_RegistrationSerialModal_View extends \App\Controller\Mo
 	 *
 	 * @param \App\Request $request
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$this->modalIcon = 'fas fa-receipt';
@@ -40,7 +40,7 @@ class Settings_YetiForce_RegistrationSerialModal_View extends \App\Controller\Mo
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);

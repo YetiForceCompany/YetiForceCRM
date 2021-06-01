@@ -151,7 +151,7 @@ class Import_Utils_Helper
 		$importDirectory = App\Fields\File::getTmpPath();
 		$temporaryFileName = self::getImportFilePath($currentUser);
 		if ($_FILES['import_file']['error']) {
-			$request->set('error_message', self::fileUploadErrorMessage($_FILES['import_file']['error']));
+			$request->set('error_message', \App\Fields\File::getErrorMessage($_FILES['import_file']['error']));
 			return false;
 		}
 		if (!is_uploaded_file($_FILES['import_file']['tmp_name'])) {
@@ -187,27 +187,5 @@ class Import_Utils_Helper
 			return false;
 		}
 		return true;
-	}
-
-	public static function fileUploadErrorMessage($error_code)
-	{
-		switch ($error_code) {
-			case 1:
-				return 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
-			case 2:
-				return 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
-			case 3:
-				return 'The uploaded file was only partially uploaded';
-			case 4:
-				return 'No file was uploaded';
-			case 6:
-				return 'Missing a temporary folder';
-			case 7:
-				return 'Failed to write file to disk';
-			case 8:
-				return 'File upload stopped by extension';
-			default:
-				return 'Unknown upload error';
-		}
 	}
 }

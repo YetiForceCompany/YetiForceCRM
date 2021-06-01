@@ -22,11 +22,11 @@ class Import_Map_Model extends \App\Base
 	{
 		$map = [];
 		foreach ($row as $key => $value) {
-			if ($key == 'content') {
+			if ('content' == $key) {
 				$content = [];
 				$pairs = explode('&', $value);
 				foreach ($pairs as $pair) {
-					list($mappedName, $sequence) = explode('=', $pair);
+					[$mappedName, $sequence] = explode('=', $pair);
 					$mappedName = str_replace('/eq/', '=', $mappedName);
 					$mappedName = str_replace('/amp/', '&', $mappedName);
 					$content["$mappedName"] = $sequence;
@@ -82,7 +82,7 @@ class Import_Map_Model extends \App\Base
 		$values = $this->getAllValues();
 		$values['content'] = null;
 		$values['date_entered'] = date('Y-m-d H:i:s');
-		if (count($values) > 0) {
+		if (\count($values) > 0) {
 			$dbCommand = App\Db::getInstance()->createCommand();
 			$dbCommand->insert(self::$tableName, $values)->execute();
 			$dbCommand->update(self::$tableName, ['content' => $this->getStringifiedContent()], ['name' => $this->getValue('name'), 'module' => $this->getValue('module')])->execute();

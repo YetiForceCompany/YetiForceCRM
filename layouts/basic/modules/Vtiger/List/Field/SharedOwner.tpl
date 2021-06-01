@@ -12,15 +12,15 @@
 			{assign var=SEARCH_VALUES value=[]}
 		{/if}
 		{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
-		{if !empty($VIEWID) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
-			{assign var=USERS_GROUP_LIST value=Vtiger_SharedOwner_UIType::getSearchViewList($MODULE, $VIEWID)}
+		{if !empty($VIEWID) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($FIELD_MODEL->getModuleName(), 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)}
+			{assign var=USERS_GROUP_LIST value=Vtiger_SharedOwner_UIType::getSearchViewList($MODULE, $VIEWID, $FIELD_MODEL->getFullName())}
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
 		{else}
 			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 			{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 		{/if}
-		<select id="{$ASSIGNED_USER_ID}" class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"
+		<select class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"
 				name="{$ASSIGNED_USER_ID}" multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}'
 				{if !empty($FIELD_MODEL->get('source_field_name'))}
 					data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"

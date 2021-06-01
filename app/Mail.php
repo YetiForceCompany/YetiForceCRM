@@ -5,6 +5,8 @@ namespace App;
 /**
  * Mail basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -82,7 +84,6 @@ class Mail
 	{
 		$queryGenerator = new \App\QueryGenerator('EmailTemplates', $userId ?? \App\User::getCurrentUserId());
 		$queryGenerator->setFields(['id', 'name', 'module_name']);
-
 		if ($moduleName) {
 			$queryGenerator->addCondition('module_name', $moduleName, 'e');
 		}
@@ -90,7 +91,7 @@ class Mail
 			$queryGenerator->addCondition('email_template_type', $type, 'e');
 		}
 		if ($hideSystem) {
-			$queryGenerator->addNativeCondition(['u_#__emailtemplates.sys_name' => null]);
+			$queryGenerator->addNativeCondition(['u_#__emailtemplates.sys_name' => [null, '']]);
 		}
 		return $queryGenerator->createQuery()->all();
 	}
@@ -99,18 +100,22 @@ class Mail
 	 * Get mail template.
 	 *
 	 * @param int|string $id
+	 * @param bool       $attachments
 	 *
 	 * @return array
 	 */
-	public static function getTemplate($id)
+	public static function getTemplate($id, bool $attachments = true): array
 	{
 		if (!is_numeric($id)) {
 			$id = self::getTemplateIdFromSysName($id);
 		}
 		if (!$id || !\App\Record::isExists($id, 'EmailTemplates')) {
-			return false;
+			return [];
 		}
 		$template = \Vtiger_Record_Model::getInstanceById($id, 'EmailTemplates');
+		if (!$attachments) {
+			return $template->getData();
+		}
 		return array_merge(
 			$template->getData(), static::getAttachmentsFromTemplate($template->getId())
 		);
@@ -177,9 +182,8 @@ class Mail
 			return Cache::get('MailAttachmentsFromDocument', $cacheId);
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_attachments.*'])->from('vtiger_attachments')
-			->innerJoin('vtiger_crmentity', 'vtiger_attachments.attachmentsid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
-			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seattachmentsrel.crmid' => $ids]);
+			->where(['vtiger_seattachmentsrel.crmid' => $ids]);
 		$attachments = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {

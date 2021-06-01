@@ -3,6 +3,8 @@
 /**
  * Vtiger activities widget class.
  *
+ * @package Widget
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -12,7 +14,7 @@ class Vtiger_Activities_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getActivities&page=1&limit=' . $this->Data['limit'] . '&search_params=' . App\Json::encode([$this->getSearchParams('current')]);
+		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getActivities&page=1&limit=' . $this->Data['limit'] . '&search_params=' . App\Json::encode([$this->getSearchParams('current')]).'&orderby=' . App\Json::encode(['date_start' => 'ASC', 'time_start' => 'ASC']);
 	}
 
 	public function getConfigTplName()

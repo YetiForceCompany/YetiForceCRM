@@ -1,14 +1,17 @@
 <?php
-
-namespace App;
-
 /**
  * Global privileges basic class.
+ *
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+namespace App;
+
 class PrivilegeUpdater
 {
 	private static $globalSearchPermissionsCache = [];
@@ -69,32 +72,25 @@ class PrivilegeUpdater
 	public static function update($record, $moduleName)
 	{
 		$searchUsers = $recordAccessUsers = '';
-		$users = \App\Fields\Owner::getUsersIds();
+		$users = Fields\Owner::getUsersIds();
+		$searchable = isset(\App\RecordSearch::getSearchableModules()[$moduleName]);
 		foreach ($users as &$userId) {
 			if (Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$recordAccessUsers .= ',' . $userId;
 				$searchUsers .= ',' . $userId;
-			} elseif (static::checkGlobalSearchPermissions($moduleName, $userId)) {
+			} elseif ($searchable && static::checkGlobalSearchPermissions($moduleName, $userId)) {
 				$searchUsers .= ',' . $userId;
 			}
-		}
-		if (!empty($searchUsers)) {
-			$searchUsers .= ',';
 		}
 		if (!empty($recordAccessUsers)) {
 			$recordAccessUsers .= ',';
 		}
-		$db = \App\Db::getInstance();
-		$db->createCommand()
-			->update('u_#__crmentity_search_label', [
-				'userid' => $searchUsers,
-			], 'crmid = ' . $record)
-			->execute();
-		$db->createCommand()
-			->update('vtiger_crmentity', [
-				'users' => $recordAccessUsers,
-			], 'crmid = ' . $record)
-			->execute();
+		$createCommand = Db::getInstance()->createCommand();
+		$createCommand->update('vtiger_crmentity', ['users' => $recordAccessUsers], ['crmid' => $record])->execute();
+		if ($searchable) {
+			$searchUsers = $searchUsers ? $searchUsers . ',' : $searchUsers;
+			$createCommand->update('u_#__crmentity_search_label', ['userid' => $searchUsers], ['crmid' => $record])->execute();
+		}
 	}
 
 	/**
@@ -106,8 +102,8 @@ class PrivilegeUpdater
 	public static function updateSearch($record, $moduleName)
 	{
 		$searchUsers = '';
-		$users = \App\Fields\Owner::getUsersIds();
-		foreach ($users as &$userId) {
+		$users = Fields\Owner::getUsersIds();
+		foreach ($users as $userId) {
 			if (static::checkGlobalSearchPermissions($moduleName, $userId) || Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$searchUsers .= ',' . $userId;
 			}
@@ -115,11 +111,8 @@ class PrivilegeUpdater
 		if (!empty($searchUsers)) {
 			$searchUsers .= ',';
 		}
-		\App\Db::getInstance()->createCommand()
-			->update('u_#__crmentity_search_label', [
-				'userid' => $searchUsers,
-			], 'crmid = ' . $record)
-			->execute();
+		Db::getInstance()->createCommand()
+			->update('u_#__crmentity_search_label', ['userid' => $searchUsers], ['crmid' => $record])->execute();
 	}
 
 	/**
@@ -131,7 +124,7 @@ class PrivilegeUpdater
 	public static function updateRecordAccess($record, $moduleName)
 	{
 		$recordAccessUsers = '';
-		$users = \App\Fields\Owner::getUsersIds();
+		$users = Fields\Owner::getUsersIds();
 		foreach ($users as &$userId) {
 			if (Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$recordAccessUsers .= ',' . $userId;
@@ -140,7 +133,7 @@ class PrivilegeUpdater
 		if (!empty($recordAccessUsers)) {
 			$recordAccessUsers .= ',';
 		}
-		\App\Db::getInstance()->createCommand()
+		Db::getInstance()->createCommand()
 			->update('vtiger_crmentity', [
 				'users' => $recordAccessUsers,
 			], 'crmid = ' . $record)
@@ -168,7 +161,7 @@ class PrivilegeUpdater
 			$params['priority'] = $priority;
 		}
 		$insert = $update = $row = false;
-		$query = new \App\Db\Query();
+		$query = new Db\Query();
 		$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 1])->limit(1)->one();
 		if ($row) {
 			if (false === $record) {
@@ -191,7 +184,7 @@ class PrivilegeUpdater
 				$params['type'] = 0;
 			}
 		}
-		$db = \App\Db::getInstance('admin');
+		$db = Db::getInstance('admin');
 		if ($insert) {
 			$db->createCommand()->insert('s_#__privileges_updater', $params)->execute();
 		}
@@ -205,13 +198,13 @@ class PrivilegeUpdater
 	 */
 	public static function setAllUpdater()
 	{
-		\App\Cache::clear();
+		Cache::clear();
 		$modules = \vtlib\Functions::getAllModules();
 		foreach ($modules as $module) {
 			static::setUpdater($module['name']);
 		}
 		PrivilegeAdvanced::reloadCache();
-		if (\App\Config::module('ModTracker', 'WATCHDOG')) {
+		if (Config::module('ModTracker', 'WATCHDOG')) {
 			\Vtiger_Watchdog_Model::reloadCache();
 		}
 	}
@@ -223,7 +216,7 @@ class PrivilegeUpdater
 	 */
 	public static function updateOnRecordSave(\Vtiger_Record_Model $record)
 	{
-		if (!\App\Config::security('CACHING_PERMISSION_TO_RECORD')) {
+		if (!Config::security('CACHING_PERMISSION_TO_RECORD')) {
 			return false;
 		}
 		static::setUpdater($record->getModuleName(), $record->getId(), 6, 0);

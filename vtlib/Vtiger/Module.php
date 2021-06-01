@@ -45,10 +45,11 @@ class Module extends ModuleBasic
 	 * @param mixed $actions
 	 * @param mixed $functionName
 	 * @param mixed $fieldName
+	 * @param mixed $fields
 	 *
 	 * @internal Creates table vtiger_crmentityrel if it does not exists
 	 */
-	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'getRelatedList', $fieldName = null)
+	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'getRelatedList', $fieldName = null, $fields = [])
 	{
 		$db = \App\Db::getInstance();
 		if (empty($moduleInstance)) {
@@ -88,7 +89,20 @@ class Module extends ModuleBasic
 			'actions' => $useactionsText,
 			'field_name' => $fieldName,
 		])->execute();
-
+		if ($fields) {
+			$id = $db->getLastInsertID('vtiger_relatedlists_relation_id_seq');
+			$allFields = (new \App\Db\Query())->select(['fieldid', 'fieldname'])
+				->from('vtiger_field')
+				->where(['tabid' => $moduleInstance->id])
+				->indexBy('fieldname')->all();
+			foreach ($fields as $key => $value) {
+				$db->createCommand()->insert('vtiger_relatedlists_fields', [
+					'relation_id' => $id,
+					'fieldid' => $allFields[$value]['fieldid'],
+					'sequence' => $key,
+				])->execute();
+			}
+		}
 		if ('getManyToMany' === $functionName) {
 			$refTableName = \Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
 			$schema = $db->getSchema();
@@ -126,12 +140,18 @@ class Module extends ModuleBasic
 		if (empty($moduleInstance)) {
 			return;
 		}
-
 		if (empty($label)) {
 			$label = $moduleInstance->name;
 		}
-
-		\App\Db::getInstance()->createCommand()->delete('vtiger_relatedlists', ['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $function_name, 'label' => $label])->execute();
+		$id = (new \App\Db\Query())
+			->select(['relation_id'])
+			->from('vtiger_relatedlists')
+			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $function_name, 'label' => $label])
+			->scalar();
+		$createCommand = \App\Db::getInstance()->createCommand();
+		$createCommand->delete('vtiger_relatedlists', ['relation_id' => $id])->execute();
+		$createCommand->delete('vtiger_relatedlists_fields', ['relation_id' => $id])->execute();
+		\App\Relation::clearCacheById($id);
 		\App\Log::trace("Unsetting relation with $moduleInstance->name ... DONE", __METHOD__);
 	}
 

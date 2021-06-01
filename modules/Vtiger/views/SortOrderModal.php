@@ -73,7 +73,7 @@ class Vtiger_SortOrderModal_View extends \App\Controller\Modal
 		$viewer->view('Modals/SortOrderModal.tpl', $moduleName);
 	}
 
-	private function getStructure(string $moduleName, ?\Vtiger_Field_Model $referenceField = null): array
+	private function getStructure(string $moduleName, ?Vtiger_Field_Model $referenceField = null): array
 	{
 		$structure = [];
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);

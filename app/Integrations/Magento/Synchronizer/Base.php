@@ -2,6 +2,8 @@
 /**
  * Synchronize.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -129,13 +131,15 @@ abstract class Base
 	public function parseInventoryData(\Vtiger_Record_Model $recordModel, array $item, Maps\Inventory $mapModel): array
 	{
 		$mapModel->setDataInv($item);
-		$inventoryRow = [];
-		foreach (\Vtiger_Inventory_Model::getInstance($recordModel->getModuleName())->getFields() as $columnName => $fieldModel) {
-			if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross'])) {
+		$inventoryModel = \Vtiger_Inventory_Model::getInstance($recordModel->getModuleName());
+		$inventoryRow = $inventoryModel->loadRowData($item['crmProductId'], ['currency' => $mapModel->dataCrm['currency_id']]);
+		foreach ($inventoryModel->getFields() as $columnName => $fieldModel) {
+			if (\in_array($fieldModel->getColumnName(), ['name', 'total', 'margin', 'marginp', 'net', 'gross'])) {
 				continue;
 			}
 			if ('tax_percent' === $columnName || 'tax' === $columnName) {
-				$inventoryRow['taxparam'] = '{"aggregationType":"individual","individualTax":' . $item['tax_percent'] . '}';
+				$tax = $item['tax_percent'] ?? round($item['tax_amount'] / $item['row_total'] * 100);
+				$inventoryRow['taxparam'] = '{"aggregationType":"individual","individualTax":' . $tax . '}';
 			} elseif ('taxmode' === $columnName) {
 				$inventoryRow['taxmode'] = 1;
 			} elseif ('discountmode' === $columnName) {
@@ -148,10 +152,13 @@ abstract class Base
 				}
 			} elseif ('currency' === $columnName) {
 				$inventoryRow['currency'] = $mapModel->dataCrm['currency_id'];
-			} elseif ('name' === $columnName) {
-				$inventoryRow[$columnName] = $item['crmProductId'];
 			} else {
-				$inventoryRow[$columnName] = $mapModel->getInvFieldValue($columnName) ?? $fieldModel->getDefaultValue();
+				$value = $mapModel->getInvFieldValue($columnName);
+				if (null !== $value) {
+					$inventoryRow[$columnName] = $value;
+				} elseif (!isset($inventoryRow[$columnName])) {
+					$inventoryRow[$columnName] = $fieldModel->getDefaultValue();
+				}
 			}
 		}
 		return $inventoryRow;
@@ -168,6 +175,7 @@ abstract class Base
 	{
 		$data = current($mapModel->data['extension_attributes']['shipping_assignments']);
 		if ($this->config->get('shipping_service_id') && !empty($data['shipping']['total'])) {
+			$tax = $data['shipping']['total']['shipping_amount'] > 0 ? ($data['shipping']['total']['shipping_tax_amount'] / $data['shipping']['total']['shipping_amount'] * 100) : 0;
 			return [
 				'discountmode' => 1,
 				'taxmode' => 1,
@@ -179,7 +187,7 @@ abstract class Base
 				'price' => $data['shipping']['total']['shipping_amount'],
 				'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $data['shipping']['total']['shipping_discount_amount'] . '}',
 				'purchase' => 0,
-				'taxparam' => '{"aggregationType":"individual","individualTax":' . $data['shipping']['total']['shipping_tax_amount'] . '}',
+				'taxparam' => '{"aggregationType":"individual","individualTax":' . round($tax) . '}',
 				'comment1' => ''
 			];
 		}

@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Controller\View;
@@ -16,31 +17,25 @@ namespace App\Controller\View;
  */
 abstract class Page extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function showBodyHeader()
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function showFooter()
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$view = $this->getViewer($request);
 		if (\App\Config::performance('BROWSING_HISTORY_WORKING')) {
-			\Vtiger_BrowsingHistory_Helper::saveHistory((string) $view->getVariable('PAGETITLE'));
+			\Vtiger_BrowsingHistory_Helper::saveHistory($view->getTemplateVars('PAGETITLE'));
 		}
 		$view->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
 		$view->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
@@ -51,12 +46,16 @@ abstract class Page extends Base
 		$view->assign('REMINDER_ACTIVE', $activeReminder);
 		$view->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$view->assign('MENUS', $this->getMenu());
+		$view->assign('SHOW_FOOTER_BAR', $this->showFooter() && 8 !== \App\YetiForce\Register::getStatus());
+		if (!$request->isEmpty('mid')) {
+			$view->assign('MID', $request->getInteger('mid'));
+		}
 		$view->assign('BROWSING_HISTORY', \Vtiger_BrowsingHistory_Helper::getHistory());
 		$view->assign('HOME_MODULE_MODEL', \Vtiger_Module_Model::getInstance('Home'));
 		$view->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
 		$view->assign('USER_QUICK_MENU_LINKS', $this->getUserQuickMenuLinks($request));
 		if (\App\Config::performance('GLOBAL_SEARCH')) {
-			$view->assign('SEARCHABLE_MODULES', \Vtiger_Module_Model::getSearchableModules());
+			$view->assign('SEARCHABLE_MODULES', \App\RecordSearch::getSearchableModules());
 		}
 		if (\App\Config::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$view->assign('SEARCHED_MODULE', $request->getModule());
@@ -66,24 +65,19 @@ abstract class Page extends Base
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(\App\Request $request, $display = true)
 	{
 		parent::postProcess($request, false);
 		$view = $this->getViewer($request);
 		$view->assign('ACTIVITY_REMINDER', \Users_Record_Model::getCurrentUserModel()->getCurrentUserActivityReminderInSeconds());
-		$view->assign('SHOW_FOOTER_BAR', $this->showFooter() && 8 !== \App\YetiForce\Register::getStatus());
 		$view->assign('SHOW_FOOTER', true);
 		if ($display) {
 			$view->view('PageFooter.tpl');
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -91,16 +85,18 @@ abstract class Page extends Base
 			'modules.Vtiger.resources.Menu',
 			'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
-			"modules.$moduleName.resources.Edit",
 			'~layouts/resources/Field.js',
 			'~layouts/resources/validator/BaseValidator.js',
 			'~layouts/resources/validator/FieldValidator.js',
 			'modules.Vtiger.resources.BasicSearch',
 			'modules.Vtiger.resources.ConditionBuilder',
 			'modules.Vtiger.resources.AdvanceFilter',
-			"modules.$moduleName.resources.AdvanceFilter",
 			'modules.Vtiger.resources.AdvanceSearch',
 		];
+		if ('AppComponents' !== $moduleName) {
+			$jsFileNames[] = "modules.$moduleName.resources.Edit";
+			$jsFileNames[] = "modules.$moduleName.resources.AdvanceFilter";
+		}
 		if (\App\Privilege::isPermitted('OSSMail')) {
 			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
 		}
@@ -120,9 +116,7 @@ abstract class Page extends Base
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
@@ -140,37 +134,26 @@ abstract class Page extends Base
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function loadJsConfig(\App\Request $request)
-	{
-		parent::loadJsConfig($request);
-		if (\App\Session::has('ShowAuthy2faModal')) {
-			\App\Config::setJsEnv('ShowAuthy2faModal', \App\Session::get('ShowAuthy2faModal'));
-			if ('TOTP_OPTIONAL' === \App\Config::security('USER_AUTHY_MODE')) {
-				\App\Session::delete('ShowAuthy2faModal');
-			}
-		}
-		if (\App\Session::has('ShowUserPasswordChange')) {
-			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-		}
-		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
-			\App\Config::setJsEnv('ShowUserPwnedPasswordChange', \App\Session::get('ShowUserPwnedPasswordChange'));
-		}
-	}
-
-	/**
 	 * Function to get the list of Header Links.
 	 *
 	 * @param \App\Request $request
 	 *
 	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
 	 */
-	protected function getMenuHeaderLinks(\App\Request $request)
+	protected function getMenuHeaderLinks(\App\Request $request): array
 	{
-		$userModel = \Users_Record_Model::getCurrentUserModel();
+		$userModel = \App\User::getCurrentUserModel();
 		$headerLinks = [];
-		if ($userModel->isAdminUser()) {
+		if (\App\MeetingService::getInstance()->isActive() && \App\Privilege::isPermitted('Users', 'MeetingUrl', false, \App\User::getCurrentUserRealId())) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_VIDEO_CONFERENCE',
+				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . \App\User::getCurrentUserRealId()],
+				'icon' => 'mdi mdi-card-account-phone c-mdi',
+				'linkclass' => 'js-show-modal'
+			];
+		}
+		if ($userModel->isAdmin() || $userModel->isSuperUser()) {
 			if ('Settings' !== $request->getByType('parent', 2)) {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
@@ -220,7 +203,7 @@ abstract class Page extends Base
 	 *
 	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
 	 */
-	protected function getUserQuickMenuLinks(\App\Request $request)
+	protected function getUserQuickMenuLinks(\App\Request $request): array
 	{
 		$userModel = \Users_Record_Model::getCurrentUserModel();
 		$headerLinks[] = [
@@ -236,13 +219,15 @@ abstract class Page extends Base
 				'icon' => 'fas fa-user-cog fa-fw',
 			];
 		}
-		$headerLinks[] = [
-			'linktype' => 'HEADERLINK',
-			'linklabel' => 'LBL_CHANGE_PASSWORD',
-			'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record='.$userModel->get('id')],
-			'linkclass' => 'showModal d-block',
-			'icon' => 'fas fa-key fa-fw',
-		];
+		if (\App\Config::security('CHANGE_LOGIN_PASSWORD') && \App\User::getCurrentUserId() === \App\User::getCurrentUserRealId()) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_CHANGE_PASSWORD',
+				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->get('id')],
+				'linkclass' => 'showModal d-block',
+				'icon' => 'yfi yfi-change-passowrd',
+			];
+		}
 		if (\Users_Module_Model::getSwitchUsers()) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
@@ -253,6 +238,13 @@ abstract class Page extends Base
 				'linkclass' => 'showModal d-block',
 			];
 		}
+		$headerLinks[] = [
+			'linktype' => 'HEADERLINK',
+			'linklabel' => 'BTN_YOUR_ACCOUNT_ACCESS_HISTORY',
+			'linkdata' => ['url' => 'index.php?module=Users&view=LoginHistoryModal&mode=change&record=' . $userModel->get('id')],
+			'linkclass' => 'showModal d-block',
+			'icon' => 'yfi yfi-login-history',
+		];
 		$headerLinks[] = [
 			'linktype' => 'SEPARATOR',
 			'linkclass' => 'd-none d-sm-none d-md-block',

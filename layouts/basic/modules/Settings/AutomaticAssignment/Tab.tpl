@@ -84,14 +84,12 @@
 					<div class="btn-group btn-group-toggle" data-toggle="buttons">
 						<label class="btn btn-outline-primary {if $RECORD_MODEL->get('user_limit')} active{/if}">
 							<input class="js-switch" type="radio" name="user_limit" data-js="change"
-								   id="user_limit1" autocomplete="off" value="1"
-								   {if $RECORD_MODEL->get('user_limit')}checked{/if}
+								   id="user_limit1" autocomplete="off" value="1" {if $RECORD_MODEL->get('user_limit')}checked{/if}
 							> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
 						</label>
 						<label class="btn btn-outline-primary {if !$RECORD_MODEL->get('user_limit')} active{/if}">
 							<input class="js-switch" type="radio" name="user_limit" data-js="change"
-								   id="user_limit2" autocomplete="off" value="0"
-								   {if !$RECORD_MODEL->get('user_limit')}checked{/if}
+								   id="user_limit2" autocomplete="off" value="0" {if !$RECORD_MODEL->get('user_limit')}checked{/if}
 							> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
 						</label>
 					</div>

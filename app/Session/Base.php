@@ -5,6 +5,8 @@ namespace App\Session;
 /**
  * Base Session Class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -25,24 +27,26 @@ class Base extends \SessionHandler
 	 * Construct.
 	 *
 	 * @param string $name
-	 * @param array  $cookie
 	 */
-	public function __construct($name = 'YTSID', $cookie = [])
+	public function __construct(string $name = 'YTSID')
 	{
 		if (PHP_SESSION_ACTIVE === session_status()) {
 			return;
 		}
-		$cookie = array_merge([
-			'lifetime' => 0,
-			'path' => ini_get('session.cookie_path'),
-			'domain' => ini_get('session.cookie_domain'),
-			'secure' => \App\RequestUtil::getBrowserInfo()->https,
-			'httponly' => true,
-		], $cookie);
+		$cookie = session_get_cookie_params();
+		$cookie['lifetime'] = \Config\Security::$maxLifetimeSessionCookie ?? 0;
+		$cookie['secure'] = \App\RequestUtil::isHttps();
+		if (isset($_SERVER['HTTP_HOST'])) {
+			$cookie['domain'] = strtok($_SERVER['HTTP_HOST'], ':');
+		}
+		if (isset(\Config\Security::$cookieForceHttpOnly)) {
+			$cookie['httponly'] = \Config\Security::$cookieForceHttpOnly;
+		}
+		if ($cookie['secure']) {
+			$cookie['samesite'] = \Config\Security::$cookieSameSite;
+		}
 		session_name($name);
-		session_set_cookie_params(
-			$cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']
-		);
+		session_set_cookie_params($cookie);
 	}
 
 	/**
@@ -105,11 +109,33 @@ class Base extends \SessionHandler
 	}
 
 	/**
+	 * Function to get session data by id.
+	 *
+	 * @param string $sessionId
+	 *
+	 * @return array
+	 */
+	public function getById(string $sessionId): array
+	{
+		return [];
+	}
+
+	/**
 	 * Function to clean session. Removed old session.
 	 *
 	 * @return string[]
 	 */
 	public static function clean()
 	{
+	}
+
+	/**
+	 * Function to clean all session.
+	 *
+	 * @return int
+	 */
+	public static function cleanAll(): int
+	{
+		return 0;
 	}
 }

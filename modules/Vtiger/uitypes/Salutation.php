@@ -11,26 +11,20 @@
 
 class Vtiger_Salutation_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Salutation.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewTemplateName()
 	{
 		return 'Detail/Field/Salutation.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function  getQueryOperators()
+	/** {@inheritdoc} */
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}

@@ -1,0 +1,33 @@
+{
+  "php": {
+    "Watchdog": "Watchdog",
+    "LBL_YETIFORCE_WATCHDOG_HEADER": "YetiForce watchdog monitor",
+    "LBL_YETIFORCE_WATCHDOG_DESC": "Configuration page of YetiForce watchdog monitoring service",
+    "LBL_YETIFORCE_WATCHDOG_FULL_DESC": "The watchdog mechanism monitors the CRM system work and transfers selected information to YetiForce Sp. z o.o. All collected information will not be published and is intended only to monitor the CRM system for incorrect operation and the environment on which it is installed.",
+    "LBL_PARAM_NAME": "Parameter",
+    "LBL_PARAM_VAL": "Value",
+    "LBL_PARAM_NOT_ALLOWED": "Parameter not allowed",
+    "LBL_SAVED": "Changes saved",
+    "LBL_WATCHDOGURL": "Service URL",
+    "LBL_SYSTEMVERSION": "YetiForce system version",
+    "LBL_PHPVERSION": "PHP version",
+    "LBL_OSVERSION": "System version",
+    "LBL_DBVERSION": "Database version",
+    "LBL_DATABASE": "Database information",
+    "LBL_SAPIVERSION": "API server version",
+    "LBL_LASTCRONTIME": "Last Cron time",
+    "LBL_SPACEROOT": "Root space",
+    "LBL_SPACESTORAGE": "Storage space",
+    "LBL_SPACETEMP": "Temporary directory space",
+    "LBL_SPACEBACKUP": "Backup directory space",
+    "LBL_UPDATES": "System update history",
+    "LBL_CRMVERSION": "CRM version",
+    "LBL_DOMAIN": "CRM system URL",
+    "LBL_STABILITY": "System stability configuration",
+    "LBL_LIBRARIES": "Support for libraries",
+    "LBL_PERFORMANCE": "Performance verification",
+    "LBL_PUBLICDIRECTORYACCESS": "Public directory",
+    "LBL_ENVIRONMENT": "Environment information",
+    "LBL_WRITABLEFILESANDFOLDERS": "Writable files and folders"
+  }
+}

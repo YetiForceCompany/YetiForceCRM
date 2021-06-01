@@ -64,7 +64,7 @@
     },
     "tinycolor2": {
         "name": "tinycolor2",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "license": "MIT",
         "homepage": "https:\/\/yarnpkg.com\/en\/package\/tinycolor2",
         "licenseError": false,
@@ -73,7 +73,7 @@
     },
     "vue-color": {
         "name": "vue-color",
-        "version": "2.7.1",
+        "version": "2.8.1",
         "license": "MIT",
         "homepage": "https:\/\/yarnpkg.com\/en\/package\/vue-color",
         "licenseError": false,
@@ -82,7 +82,7 @@
     },
     "vue-drag-resize": {
         "name": "vue-drag-resize",
-        "version": "1.3.2",
+        "version": "1.5.4",
         "license": "MIT",
         "homepage": "https:\/\/github.com\/kirillmurashov\/vue-drag-resize.git",
         "licenseError": false,
@@ -91,7 +91,7 @@
     },
     "vuex": {
         "name": "vuex",
-        "version": "3.2.0",
+        "version": "3.6.2",
         "license": "MIT",
         "homepage": "https:\/\/github.com\/vuejs\/vuex#readme",
         "licenseError": false,

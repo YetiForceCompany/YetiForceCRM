@@ -5,6 +5,8 @@ namespace App\Integrations\Pbx;
 /**
  * Mixpbx PBX integrations class.
  *
+ * @package Integration
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -35,9 +37,21 @@ class Mixpbx extends Base
 		$url .= '&password=' . urlencode($pbx->getConfig('password'));
 		$url .= '&number=' . urlencode($pbx->get('targetPhone'));
 		$url .= '&extension=' . urlencode($pbx->get('sourcePhone'));
-		$responsse = \Requests::get($url);
-		if ('OK' !== trim($responsse->body)) {
-			\App\Log::warning($responsse->body, 'PBX[Mixpbx]');
+		try {
+			\App\Log::beginProfile("GET|Mixpbx::performCall|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url);
+			\App\Log::endProfile("GET|Mixpbx::performCall|{$url}", __NAMESPACE__);
+			if (200 !== $response->getStatusCode()) {
+				\App\Log::warning('Error: ' . $url . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
+				return false;
+			}
+			$contents = $response->getBody()->getContents();
+			if ('OK' !== trim($contents)) {
+				\App\Log::warning($contents, 'PBX[Mixpbx]');
+			}
+		} catch (\Throwable $exc) {
+			\App\Log::warning('Error: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
+			return false;
 		}
 	}
 }

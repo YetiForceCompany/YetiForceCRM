@@ -6,10 +6,11 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
-
-// Settings List View Model Class
-
+/**
+ * Settings List View Model Class.
+ */
 class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 {
 	/**
@@ -17,7 +18,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 	 *
 	 * @param Vtiger_Paging_Model $pagingModel
 	 *
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance
+	 * @return array Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -46,12 +47,6 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		$pageLimit = $pagingModel->getPageLimit();
 
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
-			if ($fieldModel->getFieldDataType() === 'owner') {
-				$orderBy = 'COALESCE(' . App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
-			}
-		}
 		if (!empty($orderBy)) {
 			$listQuery->orderBy(sprintf('%s %s', $orderBy, $this->getForSql('sortorder')));
 		}
@@ -62,12 +57,18 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		while ($row = $dataReader->read()) {
 			$record = new $recordModelClass();
 			$workflowModel = $record->getInstance($row['workflow_id']);
-			$taskList = $workflowModel->getTasks();
+			$taskList = $workflowModel->getTasks(false);
 			$row['module_name'] = \App\Language::translate($row['module_name'], $row['module_name']);
 			$row['execution_condition'] = \App\Language::translate($record->executionConditionAsLabel($row['execution_condition']), 'Settings:Workflows');
 			$row['summary'] = \App\Language::translate($row['summary'], 'Settings:Workflows');
-			$row['all_tasks'] = count($taskList);
-			$row['active_tasks'] = $workflowModel->getActiveCountFromRecord($taskList);
+			$row['all_tasks'] = \count($taskList);
+			$activeCount = 0;
+			foreach ($taskList as $taskRecord) {
+				if ($taskRecord->isActive() && $taskRecord->isEditable()) {
+					++$activeCount;
+				}
+			}
+			$row['active_tasks'] = $activeCount;
 
 			$record->setData($row);
 			$listViewRecordModels[$record->getId()] = $record;
@@ -84,11 +85,11 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		return $listViewRecordModels;
 	}
 
-	/*	 * *
-	 * Function which will get the list view count
+	/**	 * *
+	 * Function which will get the list view count.
+	 *
 	 * @return - number of records
 	 */
-
 	public function getListViewCount()
 	{
 		$module = $this->getModule();

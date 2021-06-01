@@ -53,7 +53,10 @@
 }
 
 .c-btn-light-green {
-	@include button-variant(material-color("light-green", "500"), material-color("light-green", "500"));
+	@include button-variant(
+		material-color("light-green", "500"),
+		material-color("light-green", "500")
+	);
 
 	color: $white;
 }

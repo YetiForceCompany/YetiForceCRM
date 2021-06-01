@@ -552,7 +552,7 @@ class Workflow
 			$monthInFullText = date('F', $currentTime);
 			$yearFullNumberic = date('Y', $currentTime);
 			if ($scheduledWeekDayOfMonth < $currentDayOfMonth) {
-				$nextMonth = date('Y-m-d H:i:s', strtotime('next month'));
+				$nextMonth = date('Y-m-d H:i:s', strtotime('first day of next month'));
 				$monthInFullText = date('F', strtotime($nextMonth));
 			}
 			$nextTime = date('Y-m-d H:i:s', strtotime($scheduledWeekDayOfMonth . ' ' . $monthInFullText . ' ' . $yearFullNumberic . ' ' . $scheduledTime));

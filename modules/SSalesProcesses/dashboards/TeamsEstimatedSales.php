@@ -19,10 +19,15 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 */
 	public function getSearchParams($owner, $time)
 	{
-		$listSearchParams = [[['estimated_date', 'bw', implode(',', $time)]]];
-		if (isset($owner)) {
-			$listSearchParams[0][] = ['assigned_user_id', 'e', $owner];
+		$conditions = [];
+		$listSearchParams = [];
+		if (!empty($owner)) {
+			array_push($conditions, ['assigned_user_id', 'e', $owner]);
 		}
+		if (!empty($time)) {
+			array_push($conditions, ['estimated_date', 'bw', implode(',', \App\Fields\Date::formatRangeToDisplay(explode(',', $time)))]);
+		}
+		$listSearchParams[] = $conditions;
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
@@ -36,52 +41,61 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 */
 	public function parseData($data, $previousData)
 	{
-		foreach ($data as $key => $values) {
-			if (!isset($previousData[$key])) {
-				$previousData[$key] = [0, $values[1], ''];
+		foreach ($data['datasets'] ?? [] as $key => $values) {
+			unset($values);
+			if (!isset($previousData['datasets'][$key])) {
+				$previousData['datasets'][$key]['data'] = [0];
+				$previousData['datasets'][$key]['backgroundColor'] = '#EDC240';
 			}
 		}
-		foreach ($previousData as $key => $values) {
-			if (!isset($data[$key])) {
-				$data[$key] = [0, $values[1], ''];
+		foreach ($previousData['datasets'] ?? [] as $key => $values) {
+			$values['backgroundColor'] = '#EDC240';
+			if (isset($data['datasets'][$key]) && is_array($values)) {
+				$data['datasets'][] = $values;
 			}
 		}
-		return [array_values($data), array_values($previousData)];
+		if (isset($data['datasets'])) {
+			$data['datasets'] = array_reverse($data['datasets']);
+		}
+		return $data;
 	}
 
 	/**
 	 * Function to get data to chart.
 	 *
 	 * @param string      $time
-	 * @param string|bool $compare
+	 * @param bool $compare
+	 * @param int|string $owner
 	 *
 	 * @return array
 	 */
-	public function getEstimatedValue($time, $compare = false)
+	public function getEstimatedValue(string $timeString, bool $compare = false, $owner = false): array
 	{
+		unset($compare);
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
 		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->setGroup('assigned_user_id');
-		$queryGenerator->addCondition('estimated_date', $time, 'bw', true, true);
+		$queryGenerator->addCondition('estimated_date', $timeString, 'bw', false, false);
+		if ('all' !== $owner) {
+		 $queryGenerator->addNativeCondition(['smownerid' => $owner]);
+		}
 		$sum = new \yii\db\Expression('SUM(estimated)');
 		$queryGenerator->setCustomColumn(['estimated' => $sum]);
 		$query = $queryGenerator->createQuery();
 		$listView = $queryGenerator->getModuleModel()->getListViewUrl();
 		$dataReader = $query->createCommand()->query();
-
-		$data = [];
-		$i = -1;
+		$chartData = [];
 		while ($row = $dataReader->read()) {
-			$i = $compare ? $row['assigned_user_id'] : $i + 1;
-			$data[$i] = [
-				$row['estimated'],
-				\App\Fields\Owner::getUserLabel($row['assigned_user_id']),
-				$listView . $this->getSearchParams($row['assigned_user_id'], $time),
-			];
+			$chartData['datasets'][0]['data'][] = round($row['estimated'], 2);
+			$chartData['datasets'][0]['backgroundColor'][] = '#95a458';
+			$chartData['datasets'][0]['links'][] = $listView . $this->getSearchParams($row['assigned_user_id'], $timeString);
+			$ownerName = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
+			$chartData['labels'][] = \App\Utils::getInitials($ownerName);
+			$chartData['fullLabels'][] = $ownerName;
 		}
+		$chartData['show_chart'] = (bool) isset($chartData['datasets']);
 		$dataReader->close();
-
-		return $data;
+		return $chartData;
 	}
 
 	/**
@@ -91,46 +105,45 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 */
 	public function process(App\Request $request)
 	{
+		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->getInteger('linkid');
 		$time = $request->getDateRange('time');
 		$compare = $request->getBoolean('compare');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUserId);
 		if (empty($time)) {
-			$time = [0 => ''];
-			$date = new \DateTime();
-			$time[1] = $date->format('Y-m-d');
-			$date->modify('-30 days');
-			$time[0] = $date->format('Y-m-d');
-			$time[0] = \App\Fields\Date::formatToDisplay($time[0]);
-			$time[1] = \App\Fields\Date::formatToDisplay($time[1]);
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
-		$timeSting = implode(',', $time);
-
-		$data = $this->getEstimatedValue($timeSting, $compare);
+		if (!$request->has('owner')) {
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Accounts');
+		} else {
+			$owner = $request->getByType('owner', 2);
+		}
+		$timeString = implode(',', $time);
+		$data = $this->getEstimatedValue($timeString, $compare, $owner);
 		if ($compare) {
-			$start = new \DateTime(\DateTimeField::convertToDBFormat($time[0]));
+			$start = new \DateTime($time[0]);
 			$endPeriod = clone $start;
-			$end = new \DateTime(\DateTimeField::convertToDBFormat($time[1]));
+			$end = new \DateTime($time[1]);
 			$interval = (int) $start->diff($end)->format('%r%a');
 			if ($time[0] !== $time[1]) {
 				++$interval;
 			}
 			$endPeriod->modify('-1 days');
 			$start->modify("-{$interval} days");
-			$previousTime = \App\Fields\Date::formatToDisplay($start->format('Y-m-d')) . ',' . \App\Fields\Date::formatToDisplay($endPeriod->format('Y-m-d'));
-			$previousData = $this->getEstimatedValue($previousTime, $compare);
+			$previousTime = $start->format('Y-m-d') . ',' . $endPeriod->format('Y-m-d');
+			$previousData = $this->getEstimatedValue($previousTime, $compare, $owner);
 			if (!empty($data) || !empty($previousData)) {
-				[$data, $previousData] = $this->parseData($data, $previousData);
-				$data = [$previousData, 'compare' => $data];
+				$data = $this->parseData($data, $previousData);
 			}
 		}
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('DTIME', $timeSting);
+		$viewer->assign('DTIME',  implode(',', \App\Fields\Date::formatRangeToDisplay($time)));
 		$viewer->assign('COMPARE', $compare);
+		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance('Accounts', $currentUserId)->getAccessibleUsersForModule());
+		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance('Accounts', $currentUserId)->getAccessibleGroupForModule());
 		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {

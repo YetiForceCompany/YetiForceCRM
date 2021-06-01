@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class ModComments_Module_Model extends Vtiger_Module_Model
@@ -56,13 +57,18 @@ class ModComments_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Delete coments associated with module.
+	 * Delete comments associated with record.
 	 *
-	 * @param vtlib\ModuleBasic Instnace of module to use
-	 * @param vtlib\ModuleBasic $moduleInstance
+	 * @param int $recordId
 	 */
-	public static function deleteForModule(vtlib\ModuleBasic $moduleInstance)
+	public static function deleteForRecord(int $recordId)
 	{
-		\App\Db::getInstance()->createCommand()->delete('vtiger_modcomments', ['related_to' => (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleInstance->name])])->execute();
+		$queryGenerator = new \App\QueryGenerator('ModComments');
+		$dataReader = $queryGenerator->setFields(['id'])->setStateCondition('All')->addNativeCondition(['related_to' => $recordId])->createQuery()->createCommand()->query();
+		while ($id = $dataReader->readColumn(0)) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($id, $queryGenerator->getModule());
+			$recordModel->delete();
+			unset($recordModel);
+		}
 	}
 }

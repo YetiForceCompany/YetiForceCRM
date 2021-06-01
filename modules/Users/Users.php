@@ -40,7 +40,7 @@ require_once 'modules/Users/UserTimeZonesArray.php';
 
 // User is used to store customer information.
 
-/** Main class for the user module
+/** Main class for the user module.
  *
  */
 class Users extends CRMEntity
@@ -55,8 +55,7 @@ class Users extends CRMEntity
 	public $tab_name_index = ['vtiger_users' => 'id', 'vtiger_user2role' => 'userid'];
 	public $table_name = 'vtiger_users';
 	public $table_index = 'id';
-	// This is the list of fields that are in the lists.
-	public $list_link_field = 'last_name';
+
 	public $list_mode;
 	public $popup_type;
 	public $search_fields = [
@@ -74,18 +73,7 @@ class Users extends CRMEntity
 	public $encodeFields = ['first_name', 'last_name', 'description'];
 	// This is used to retrieve related fields from form posts.
 	public $additional_column_fields = ['reports_to_name'];
-	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = [
-		'First Name' => ['vtiger_users' => 'first_name'],
-		'Last Name' => ['vtiger_users' => 'last_name'],
-		'Role Name' => ['vtiger_user2role' => 'roleid'],
-		'User Name' => ['vtiger_users' => 'user_name'],
-		'Status' => ['vtiger_users' => 'status'],
-		'Admin' => ['vtiger_users' => 'is_admin'],
-		'Login Method' => ['vtiger_users' => 'login_method'],
-		'FL_FORCE_PASSWORD_CHANGE' => ['vtiger_users' => 'force_password_change'],
-		'FL_DATE_PASSWORD_CHANGE' => ['vtiger_users' => 'date_password_change'],
-	];
+
 	public $list_fields_name = [
 		'First Name' => 'first_name',
 		'Last Name' => 'last_name',
@@ -108,7 +96,7 @@ class Users extends CRMEntity
 	//Default Widgests
 	public $default_widgets = ['CVLVT', 'UA'];
 
-	/** constructor function for the main user class
+	/** constructor function for the main user class.
 	 *
 	 */
 	public function __construct()
@@ -130,7 +118,7 @@ class Users extends CRMEntity
 		return isset($this->is_admin) && 'on' === $this->is_admin;
 	}
 
-	/** Function to get the current user information from the user_privileges file
+	/** Function to get the current user information from the user_privileges file.
 	 * @param $userid -- user id:: Type integer
 	 * @returns user info in $this->column_fields array:: Type array
 	 */
@@ -149,7 +137,7 @@ class Users extends CRMEntity
 		return $this;
 	}
 
-	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array
+	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array.
 	 * @param $record -- record id:: Type integer
 	 * @param $module -- module:: Type varchar
 	 *
@@ -261,7 +249,7 @@ class Users extends CRMEntity
 			}
 		} else {
 			$adminId = 1;
-			$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->limit(1)->scalar();
+			$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->scalar();
 			if ($result) {
 				$adminId = $result;
 			}

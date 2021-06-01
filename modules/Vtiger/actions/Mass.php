@@ -21,12 +21,12 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 	public static function getQuery(App\Request $request)
 	{
 		$cvId = $request->isEmpty('viewname') ? '' : $request->getByType('viewname', 2);
-		$moduleName = $request->getByType('module');
+		$moduleName = $request->getByType('module', 'Alnum');
 		if (!empty($cvId) && 'undefined' === $cvId && 'Users' !== $request->getByType('source_module', 2)) {
 			$sourceModule = $request->getByType('sourceModule', 2);
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
-		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
+		$customViewModel = CustomView_Record_Model::getInstanceById((int) $cvId);
 		if (!$customViewModel) {
 			return false;
 		}
@@ -57,9 +57,8 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 	 * Get records list from request.
 	 *
 	 * @param \App\Request $request
-	 * @param mixed        $params
 	 *
-	 * @return array
+	 * @return int[]
 	 */
 	public static function getRecordsListFromRequest(App\Request $request)
 	{
@@ -68,7 +67,6 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 			return $selectedIds;
 		}
 		$queryGenerator = static::getQuery($request);
-
-		return $queryGenerator ? $queryGenerator->setFields(['id'])->createQuery()->column() : [];
+		return $queryGenerator ? $queryGenerator->clearFields()->createQuery()->column() : [];
 	}
 }

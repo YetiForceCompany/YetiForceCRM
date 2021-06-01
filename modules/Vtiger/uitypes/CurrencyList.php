@@ -11,9 +11,7 @@
 
 class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
@@ -33,9 +31,7 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$currencylist = $this->getPicklistValues();
@@ -43,9 +39,7 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 		return \App\Purifier::encodeHtml($currencylist[$value] ?? $value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPicklistValues()
 	{
 		$currencies = array_column(\App\Fields\Currency::getAll(true), 'currency_name', 'id');
@@ -68,17 +62,13 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return ['integer', 'smallint'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];

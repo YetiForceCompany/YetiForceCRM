@@ -5,10 +5,10 @@ jQuery.Class(
 	'Settings_OSSMailScanner_Index_Js',
 	{},
 	{
-		registerColorField: function(field) {
+		registerColorField: function (field) {
 			let params = {};
 			params.tags = true;
-			params.templateSelection = function(object) {
+			params.templateSelection = function (object) {
 				let selectedId = object.id,
 					tabValue = selectedId.split('@'),
 					state = object.text;
@@ -19,13 +19,10 @@ jQuery.Class(
 			};
 			App.Fields.Picklist.showSelect2ElementView(field, params);
 		},
-		registerEditFolders: function(container) {
+		registerEditFolders: function (container) {
 			const self = this;
-			container.find('.editFolders').on('click', function() {
-				const url =
-						'index.php?module=OSSMailScanner&parent=Settings&view=Folders' +
-						'&record=' +
-						$(this).data('user'),
+			container.find('.editFolders').on('click', function () {
+				const url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + $(this).data('user'),
 					progressIndicatorElement = jQuery.progressIndicator({
 						message: app.vtranslate('LBL_LOADING_LIST_OF_FOLDERS'),
 						position: 'html',
@@ -33,10 +30,10 @@ jQuery.Class(
 							enabled: true
 						}
 					});
-				app.showModalWindow('', url, function(data) {
+				app.showModalWindow('', url, function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					let recurrenceTree = new App.Components.Tree.Basic();
-					data.find('[name="saveButton"]').on('click', function(e) {
+					data.find('[name="saveButton"]').on('click', function (e) {
 						const selectedFolders = self.getSelectedFolders(recurrenceTree.treeInstance);
 						AppConnector.request({
 							module: 'OSSMailScanner',
@@ -45,14 +42,14 @@ jQuery.Class(
 							mode: 'updateFolders',
 							user: data.find('.modal-body').data('user'),
 							folders: selectedFolders
-						}).done(function(data) {
+						}).done(function (data) {
 							let response = data['result'],
 								emptyFoldersAlert = $('.js-empty-folders-alert'),
 								messageType = 'info';
 							if (!response['success']) {
 								messageType = 'error';
 							}
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: response['message'],
 								type: messageType
 							});
@@ -68,7 +65,6 @@ jQuery.Class(
 			});
 		},
 		getSelectedFolders(treeInstance) {
-			console.log(treeInstance.jstree('get_selected', true));
 			let folders = {};
 			for (let value of treeInstance.jstree('get_selected', true)) {
 				if (!Array.isArray(folders[value.original.db_type])) {
@@ -80,43 +76,37 @@ jQuery.Class(
 			}
 			return folders;
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			const thisIstance = this,
 				container = jQuery('.contentsDiv');
 			thisIstance.registerColorField($('#exceptions select'));
 			thisIstance.registerEditFolders(container);
 			$('#exceptions select')
-				.on('select2:select', function(e) {
+				.on('select2:select', function (e) {
 					let value = e.params.data.id;
 					if (!!thisIstance.domainValidateToExceptions(value) || !!thisIstance.email_validate(value)) {
-						thisIstance.saveWidgetConfig(
-							jQuery(this).attr('name'),
-							jQuery(this)
-								.val()
-								.join(),
-							'exceptions'
-						);
+						thisIstance.saveWidgetConfig(jQuery(this).attr('name'), jQuery(this).val().join(), 'exceptions');
 						thisIstance.registerColorField(jQuery(this));
 					} else {
 						jQuery(this)
 							.find("option[value='" + value + "']")
 							.remove();
 						jQuery(this).trigger('change');
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate('JS_mail_error'),
 							type: 'error'
 						});
 					}
 				})
-				.on('select2:unselect', function() {
+				.on('select2:unselect', function () {
 					thisIstance.saveWidgetConfig(jQuery(this).attr('name'), jQuery(this).val(), 'exceptions');
 				});
 
-			$('#status').on('change', function() {
+			$('#status').on('change', function () {
 				$('#confirm').attr('disabled', !this.checked);
 			});
 
-			jQuery('.conftabChangeTicketStatus').on('click', function() {
+			jQuery('.conftabChangeTicketStatus').on('click', function () {
 				if ($(this).data('active') == '1') {
 					return false;
 				}
@@ -132,26 +122,26 @@ jQuery.Class(
 						vale: $(this).val()
 					}
 				}).done(
-					function(data) {
+					function (data) {
 						if (data.success) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: data.result.data,
 								type: 'info'
 							});
 						}
 					},
-					function(data, err) {}
+					function (data, err) {}
 				);
 			});
 
-			jQuery('.delate_accont').on('click', function() {
+			jQuery('.delate_accont').on('click', function () {
 				if (window.confirm(app.vtranslate('whether_remove_an_identity'))) {
 					const userId = jQuery(this).data('user-id');
 					AppConnector.request({
 						data: { module: 'OSSMailScanner', action: 'AccontRemove', id: userId },
 						async: true
-					}).done(function(data) {
-						Vtiger_Helper_Js.showPnotify({
+					}).done(function (data) {
+						app.showNotify({
 							text: data.result.data,
 							type: 'info'
 						});
@@ -159,29 +149,30 @@ jQuery.Class(
 					});
 				}
 			});
-			jQuery('.identities_del').on('click', function() {
+			jQuery('.identities_del').on('click', function () {
 				const button = this;
 				if (window.confirm(app.vtranslate('whether_remove_an_identity'))) {
 					AppConnector.request({
-						data: { module: 'OSSMailScanner', action: 'IdentitiesDel', id: jQuery(this).data('id') },
+						data: {
+							module: 'OSSMailScanner',
+							action: 'IdentitiesDel',
+							id: jQuery(this).data('id')
+						},
 						async: true
 					}).done(
-						function() {
-							Vtiger_Helper_Js.showPnotify({
+						function () {
+							app.showNotify({
 								text: app.vtranslate('removed_identity'),
 								type: 'info'
 							});
-							jQuery(button)
-								.parent()
-								.parent()
-								.remove();
+							jQuery(button).parent().parent().remove();
 						},
-						function(data, err) {}
+						function (data, err) {}
 					);
 				}
 			});
 
-			jQuery('.expand-hide').on('click', function() {
+			jQuery('.expand-hide').on('click', function () {
 				let userId = jQuery(this).data('user-id'),
 					tr = jQuery('tr[data-user-id="' + userId + '"]');
 
@@ -192,49 +183,49 @@ jQuery.Class(
 				}
 			});
 			$('.alert').alert();
-			jQuery("select[id^='function_list_']").on('change', function() {
+			jQuery("select[id^='function_list_']").on('change', function () {
 				thisIstance.saveActions(jQuery(this).data('user-id'), jQuery(this).val());
 			});
-			jQuery("select[id^='user_list_']").on('change', function() {
+			jQuery("select[id^='user_list_']").on('change', function () {
 				thisIstance.saveCRMuser(jQuery(this).data('user'), jQuery(this).val());
 			});
-			jQuery('#email_search').on('change', function() {
+			jQuery('#email_search').on('change', function () {
 				thisIstance.saveEmailSearchList(jQuery('#email_search').val());
 			});
-			jQuery('#tab_email_view_widget_limit').on('blur', function() {
+			jQuery('#tab_email_view_widget_limit').on('blur', function () {
 				thisIstance.saveWidgetConfig('widget_limit', jQuery(this).val(), 'email_list');
 			});
-			jQuery('#tab_email_view_open_window').on('change', function() {
+			jQuery('#tab_email_view_open_window').on('change', function () {
 				thisIstance.saveWidgetConfig('target', jQuery(this).val(), 'email_list');
 			});
-			jQuery('[name="email_to_notify"]').on('blur', function() {
+			jQuery('[name="email_to_notify"]').on('blur', function () {
 				let value = jQuery(this).val();
 				if (!!thisIstance.email_validate(value)) {
 					thisIstance.saveWidgetConfig('email', value, 'cron');
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_mail_error'),
 						type: 'error'
 					});
 				}
 			});
-			jQuery('[name="time_to_notify"]').on('blur', function() {
+			jQuery('[name="time_to_notify"]').on('blur', function () {
 				let value = jQuery(this).val();
 				if (!!thisIstance.number_validate(value)) {
 					thisIstance.saveWidgetConfig('time', jQuery(this).val(), 'cron');
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_time_error'),
 						type: 'error'
 					});
 				}
 			});
-			container.find('.js-page-num').on('change', function() {
+			container.find('.js-page-num').on('change', function () {
 				thisIstance.reloadLogTable($(this).val() - 1);
 			});
-			container.find('.js-run-cron').on('click', function() {
+			container.find('.js-run-cron').on('click', function () {
 				let buttonInstance = $(this);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: app.vtranslate('start_cron'),
 					type: 'info',
 					animation: 'show'
@@ -243,7 +234,7 @@ jQuery.Class(
 				let ajaxParams = {};
 				ajaxParams.data = { module: 'OSSMailScanner', action: 'Cron' };
 				ajaxParams.async = true;
-				AppConnector.request(ajaxParams).done(function(data) {
+				AppConnector.request(ajaxParams).done(function (data) {
 					let params = {};
 					if (data.success && 'ok' === data.result) {
 						params = {
@@ -259,19 +250,19 @@ jQuery.Class(
 							animation: 'show'
 						};
 					}
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 					buttonInstance.attr('disabled', false);
 					thisIstance.reloadLogTable(container.find('.js-page-num').val() - 1);
 				});
 			});
-			container.on('click', '.js-stop-cron', function(e) {
+			container.on('click', '.js-stop-cron', function (e) {
 				let ajaxParams = {},
 					scanId = $(e.currentTarget).data('scan-id');
 				ajaxParams.data = { module: 'OSSMailScanner', action: 'RestartCron', scanId: scanId };
 				ajaxParams.async = true;
-				AppConnector.request(ajaxParams).done(function(data) {
+				AppConnector.request(ajaxParams).done(function (data) {
 					if (data.success) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data.result.data,
 							type: 'info',
 							animation: 'show'
@@ -282,100 +273,104 @@ jQuery.Class(
 				thisIstance.reloadLogTable(container.find('.js-page-num').val() - 1);
 			});
 		},
-		saveActions: function(userid, vale) {
+		saveActions: function (userid, vale) {
 			AppConnector.request({
 				module: 'OSSMailScanner',
 				action: 'SaveActions',
 				userid: userid,
 				vale: vale
-			}).done(function(data) {
+			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
-						text: response['data']
+					app.showNotify({
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
 		},
-		saveCRMuser: function(userid, value) {
+		saveCRMuser: function (userid, value) {
 			AppConnector.request({
 				module: 'OSSMailScanner',
 				action: 'SaveCRMuser',
 				userid: userid,
 				value: value
-			}).done(function(data) {
+			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
-						text: response['data']
+					app.showNotify({
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
 		},
-		isEmpty: function(val) {
+		isEmpty: function (val) {
 			if (!!val || val === 0) {
 				return val;
 			}
 			return '';
 		},
-		saveEmailSearchList: function(vale) {
+		saveEmailSearchList: function (vale) {
 			AppConnector.request({
 				module: 'OSSMailScanner',
 				action: 'SaveEmailSearchList',
 				vale: vale
-			}).done(function(data) {
+			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
-						text: response['data']
+					app.showNotify({
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
 		},
-		domainValidateToExceptions: function(src) {
+		domainValidateToExceptions: function (src) {
 			let regex = /^@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,63}$/;
 			return regex.test(src);
 		},
-		email_validate: function(src) {
+		email_validate: function (src) {
 			let regex = /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,63}$/;
 			return regex.test(src);
 		},
-		number_validate: function(value) {
+		number_validate: function (value) {
 			let valid = !/^\s*$/.test(value) && !isNaN(value);
 			return valid;
 		},
-		saveWidgetConfig: function(name, value, type) {
+		saveWidgetConfig: function (name, value, type) {
 			AppConnector.request({
 				module: 'OSSMailScanner',
 				action: 'SaveWidgetConfig',
 				conf_type: type,
 				name: name,
 				value: value
-			}).done(function(data) {
+			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
-						text: response['data']
+					app.showNotify({
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
@@ -384,7 +379,7 @@ jQuery.Class(
 		 * Function to reload table with given data from request
 		 * @param {int} page
 		 */
-		reloadLogTable: function(page) {
+		reloadLogTable: function (page) {
 			const self = this;
 			let container = $('.contentsDiv'),
 				limit = 30;
@@ -392,7 +387,7 @@ jQuery.Class(
 				module: 'OSSMailScanner',
 				action: 'GetLog',
 				start_number: page * limit
-			}).done(function(data) {
+			}).done(function (data) {
 				if (data.success) {
 					let tab = container.find('table.js-log-list');
 					tab.find('tbody tr').remove();
@@ -428,9 +423,7 @@ jQuery.Class(
 							'</td><td>';
 						if (data.result[i]['status'] === 'In progress') {
 							html +=
-								'<button type="button" class="btn btn-danger js-stop-cron" data-scan-id="' +
-								data.result[i]['id'] +
-								'"';
+								'<button type="button" class="btn btn-danger js-stop-cron" data-scan-id="' + data.result[i]['id'] + '"';
 							if (container.find('.js-run-cron').data('button-status')) {
 								html += ' disabled';
 							}

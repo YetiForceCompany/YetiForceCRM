@@ -22,7 +22,7 @@
 			{if $OWNERS}
 				<optgroup label="{\App\Language::translate($BLOCK_NAME)}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$OWNERS}
-						<option id="{\App\Layout::getUniqueId('shared-owner')}" value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}"
+						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}"
 								{foreach item=ELEMENT from=$FIELD_VALUE}
 									{if $ELEMENT eq $OWNER_ID } selected {/if}
 								{/foreach}

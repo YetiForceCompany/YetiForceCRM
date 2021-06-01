@@ -1,38 +1,38 @@
-php_version: 7.1
+php_version: 7.3
 
 php_ini: |
-    extension=imap.so
-    extension=openssl.so
-    extension=mbstring.so
-    extension=mcrypt.so
-    extension=iconv.so
-    extension=intl.so
-    extension=spl.so
-    extension=json.so
-    extension=dom.so
-    extension=zlib.so
-    extension=pdo.so
-    extension=pdo_mysql.so
-    extension=curl.so
-    extension=gd.so
-    extension=pcre.so
-    extension=session.so
-    extension=soap.so
-    extension=zip.so
-    extension=xml.so
-    extension=apcu.so
+  extension=imap.so
+  extension=openssl.so
+  extension=mbstring.so
+  extension=mcrypt.so
+  extension=iconv.so
+  extension=intl.so
+  extension=spl.so
+  extension=json.so
+  extension=dom.so
+  extension=zlib.so
+  extension=pdo.so
+  extension=pdo_mysql.so
+  extension=curl.so
+  extension=gd.so
+  extension=pcre.so
+  extension=session.so
+  extension=soap.so
+  extension=zip.so
+  extension=xml.so
+  extension=apcu.so
 
 commit_failure_conditions:
-    - "project.severity.critical > 0"
-    - "project.severity.major > 100"
-    - "project.severity.minor > 100"
-    - "project.severity.info > 100"
-    
+  - 'project.severity.critical > 0'
+  - 'project.severity.major > 100'
+  - 'project.severity.minor > 100'
+  - 'project.severity.info > 100'
+
 # Configure rules.
 rules:
-    composer.warning:
-        enabled: true
-    web.apache_config:
-        enabled: true
-    php.duplicated_code:
-        enabled: false
+  composer.warning:
+    enabled: true
+  web.apache_config:
+    enabled: true
+  php.duplicated_code:
+    enabled: false

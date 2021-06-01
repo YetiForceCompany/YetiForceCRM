@@ -296,8 +296,8 @@ class API_CardDAV_Model
 		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$cartInstance = \App\Integrations\Dav\Card::loadFromContent($card['carddata']);
 		$cartInstance->user = $this->user;
-		if (empty($cartInstance->getVCard()->N)) {
-			\App\Log::error("Not found N part in vcard: Id: {$card['id']}, Addressbookid: {$card['addressbookid']}, Data: \n{$card['carddata']}", __CLASS__);
+		if (empty($cartInstance->getVCard()->N) && empty($cartInstance->getVCard()->FN)) {
+			\App\Log::error("Not found N and FN part in vcard: Id: {$card['id']}, Addressbookid: {$card['addressbookid']}, Data: \n{$card['carddata']}", __CLASS__);
 			return false;
 		}
 		$cartInstance->setValuesForCreateRecord($record);

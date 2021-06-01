@@ -1,8 +1,8 @@
 
 <template>
   <transition
-    :enter-active-class="'animated ' + animationIn"
-    :leave-active-class="'animated ' + animationOut"
+    :enter-active-class="'animate__animated animate__faster ' + animationIn"
+    :leave-active-class="'animate__animated animate__faster ' + animationOut"
   >
     <q-list v-show="show">
       <q-item
@@ -66,12 +66,12 @@ export default {
   data() {
     return {
       show: true,
-      animationIn: 'slideInLeft',
-      animationOut: 'slideOutRight',
-      animationChildClassIn: 'slideInRight',
-      animationChildClassOut: 'slideOutLeft',
-      animationParentClassIn: 'slideInLeft',
-      animationParentClassOut: 'slideOutRight',
+      animationIn: 'animate__slideInLeft',
+      animationOut: 'animate__slideOutRight',
+      animationChildClassIn: 'animate__slideInRight',
+      animationChildClassOut: 'animate__slideOutLeft',
+      animationParentClassIn: 'animate__slideInLeft',
+      animationParentClassOut: 'animate__slideOutRight',
       activeCategoryDelayed: ''
     }
   },

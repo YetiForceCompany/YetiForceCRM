@@ -1,46 +1,47 @@
 <?php
 /**
- * Security dependency check.
+ * Security dependency check file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Security;
 
 /**
- * Class Dependency - Security dependency check.
+ * Security dependency check class.
  */
 class Dependency
 {
 	/**
-	 * Cache file name.
+	 * @var string Cache file name.
 	 */
-	const CACHE_FILE_NAME = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'security' . \DIRECTORY_SEPARATOR . 'dependency.json';
+	const CACHE_FILE_NAME = ROOT_DIRECTORY . '/cache/security/dependency.json';
 	/**
-	 * Symfony check url.
-	 *
-	 * @var string
+	 * @var string Symfony check url.
 	 */
-	private $checkUrl = 'https://security.symfony.com/check_lock';
+	private $checkUrl = 'https://security.yetiforce.com/vulnerabilities';
 
 	/**
 	 * Security checker.
+	 *
+	 * @param bool $cache
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
-	public function securityChecker(): array
+	public function securityChecker(bool $cache = true): array
 	{
 		$result = [];
-		if ($this->hasCache()) {
+		if ($cache && $this->hasCache()) {
 			$result = $this->getCache();
-		} elseif (\App\RequestUtil::isNetConnection()) {
+		} else {
 			$result = $this->check();
 			$this->saveCache($result);
 		}
@@ -54,27 +55,23 @@ class Dependency
 	 */
 	private function hasCache(): bool
 	{
-		return \file_exists(static::CACHE_FILE_NAME) &&
-			\filesize(static::CACHE_FILE_NAME) > 0 &&
-			\time() - \filemtime(static::CACHE_FILE_NAME) < (int) \App\Config::security('CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER');
+		return \file_exists(static::CACHE_FILE_NAME)
+			&& \filesize(static::CACHE_FILE_NAME) > 0
+			&& \time() - \filemtime(static::CACHE_FILE_NAME) < (int) \App\Config::security('CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER');
 	}
 
 	/**
 	 * Save the data to the cache.
 	 *
 	 * @param array $result
-	 *
-	 * @throws \App\Exceptions\AppException
 	 */
-	private function saveCache(array $result)
+	private function saveCache(array $result): void
 	{
 		\file_put_contents(static::CACHE_FILE_NAME, \App\Json::encode($result));
 	}
 
 	/**
 	 * Get data from the cache.
-	 *
-	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
@@ -91,16 +88,31 @@ class Dependency
 	public function check(): array
 	{
 		$result = [];
+		if (!\App\YetiForce\Shop::check('YetiForceVulnerabilities')) {
+			return $result;
+		}
 		if (\App\RequestUtil::isNetConnection() && !empty($lockFile = $this->getLockFile(ROOT_DIRECTORY))) {
 			$options = \App\RequestHttp::getOptions();
-			$options['headers']['Content-Type'] = 'application/octet-stream';
-			$options['headers']['Content-Disposition'] = 'form-data; name="lock"; filename="composer.lock"';
-			$options['headers']['Accept'] = 'application/json';
-			$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, [
-				'body' => $lockFile
-			]);
-			$result = (array) \App\Json::decode($response->getBody());
-			$result = (\is_array($result) && !empty($result)) ? $result : [];
+			$options['http_errors'] = false;
+			$options['allow_redirects'] = false;
+			$options['headers']['APP-ID'] = \App\YetiForce\Register::getInstanceKey();
+			\App\Log::beginProfile("POST|Dependency::check|{$this->checkUrl}", __NAMESPACE__);
+			try {
+				$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, [
+					'json' => [
+						'php' => PHP_VERSION,
+						'os' => php_uname(),
+						'dependencies' => $lockFile,
+					]
+				]);
+				if (200 === $response->getStatusCode()) {
+					$result = (array) \App\Json::decode($response->getBody()->getContents());
+					$result = (\is_array($result) && !empty($result)) ? $result : [];
+				}
+			} catch (\Throwable $e) {
+				\App\Log::warning($e->__toString(), __CLASS__);
+			}
+			\App\Log::endProfile("POST|Dependency::check|{$this->checkUrl}", __NAMESPACE__);
 		}
 		return $result;
 	}
@@ -110,16 +122,19 @@ class Dependency
 	 *
 	 * @param string $lock
 	 *
-	 * @return string
+	 * @return array
 	 */
-	private function getLockFile($lock): string
+	private function getLockFile(string $lock): array
 	{
 		if (is_dir($lock) && file_exists($lock . \DIRECTORY_SEPARATOR . 'composer.lock')) {
 			$lock = $lock . \DIRECTORY_SEPARATOR . 'composer.lock';
 		} elseif (preg_match('/composer\.json$/', $lock)) {
 			$lock = str_replace('composer.json', 'composer.lock', $lock);
 		}
-		return is_file($lock) ? $this->getLockContent($lock) : '';
+		if (is_file($lock)) {
+			return $this->getLockContent($lock);
+		}
+		return [];
 	}
 
 	/**
@@ -127,25 +142,21 @@ class Dependency
 	 *
 	 * @param string $lock
 	 *
-	 * @return string
+	 * @return array
 	 */
-	private function getLockContent($lock): string
+	private function getLockContent(string $lock): array
 	{
 		$contents = json_decode(file_get_contents($lock), true);
-		$hash = $contents['content-hash'] ?? ($contents['hash'] ?? '');
-		$packages = ['content-hash' => $hash, 'packages' => []];
+		$packages = ['packages' => []];
 		if (\is_array($contents['packages'])) {
 			foreach ($contents['packages'] as $package) {
-				$data = [
+				$packages['packages'][] = [
 					'name' => $package['name'],
 					'version' => $package['version'],
+					'time' => $package['time'],
 				];
-				if (isset($package['time']) && false !== strpos($package['version'], 'dev')) {
-					$data['time'] = $package['time'];
-				}
-				$packages['packages'][] = $data;
 			}
 		}
-		return json_encode($packages);
+		return $packages;
 	}
 }

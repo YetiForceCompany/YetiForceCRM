@@ -10,7 +10,7 @@ window.MailIntegration_Compose = {
 	 * @return  {object}           AppConnector object with done method
 	 */
 	connector(request) {
-		return AppConnector.request(request).fail(error => {
+		return AppConnector.request(request).fail((error) => {
 			this.showResponseMessage(false);
 		});
 	},
@@ -42,8 +42,8 @@ window.MailIntegration_Compose = {
 	 */
 	registerAutocompleteTemplate() {
 		$.widget('ui.autocomplete', $.ui.autocomplete, {
-			_renderItem: function(ul, item) {
-				const listItemTemplate = user => {
+			_renderItem: function (ul, item) {
+				let listItemTemplate = (user) => {
 					return `<li class="c-search-item js-search-item">
 					<div class="">
 								<div class="row">
@@ -78,8 +78,12 @@ window.MailIntegration_Compose = {
 			classes: {
 				'ui-autocomplete': 'mobile'
 			},
-			source: this.findEmail.bind(this),
-			select: this.onSelectRecipient.bind(this)
+			source: function (request, response) {
+				window.MailIntegration_Compose.findEmail(request, response);
+			},
+			select: function (e, ui) {
+				window.MailIntegration_Compose.onSelectRecipient(e.toElement, ui.item);
+			}
 		});
 	},
 	/**
@@ -94,11 +98,11 @@ window.MailIntegration_Compose = {
 			action: 'Mail',
 			mode: 'findEmail',
 			search: request.term
-		}).done(responseData => {
-			const data = responseData.result.map(user => {
+		}).done((responseData) => {
+			let data = responseData.result.map((user) => {
 				let userData = user.split(' <');
-				const name = userData[0];
-				const mail = userData[1].slice(0, -1);
+				let name = userData[0];
+				let mail = userData[1].slice(0, -1);
 				return { name, mail };
 			});
 			callBack(data);
@@ -110,15 +114,13 @@ window.MailIntegration_Compose = {
 	 * @param   {object}  toElement  html node object
 	 * @param   {object}  item       selected item object
 	 */
-	onSelectRecipient({ toElement }, { item }) {
-		const newRecipient = [
+	onSelectRecipient(toElement, item) {
+		this.copyRecipient(toElement.dataset.copyTarget ? toElement.dataset.copyTarget : 'to', [
 			{
 				displayName: item.name,
 				emailAddress: item.mail
 			}
-		];
-		const recipientsField = toElement.dataset.copyTarget ? toElement.dataset.copyTarget : 'to';
-		this.copyRecipient(recipientsField, newRecipient);
+		]);
 	},
 	/**
 	 * Copy recipient to outlook field
@@ -127,7 +129,7 @@ window.MailIntegration_Compose = {
 	 * @param   {object}  newRecipient
 	 */
 	copyRecipient(recipientsField, newRecipient) {
-		Office.context.mailbox.item[recipientsField].addAsync(newRecipient, function(result) {
+		Office.context.mailbox.item[recipientsField].addAsync(newRecipient, function (result) {
 			if (result.error) {
 				Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
 					type: 'errorMessage',
@@ -144,10 +146,17 @@ window.MailIntegration_Compose = {
 		}
 	}
 };
-(function($) {
-	Office.onReady(info => {
-		if (info.host === Office.HostType.Outlook) {
-			window.MailIntegration_Compose.registerEvents();
-		}
+if (typeof Office === 'undefined') {
+	app.showNotify({
+		title: app.vtranslate('JS_ERROR'),
+		type: 'error'
 	});
-})($);
+} else {
+	(function ($) {
+		Office.onReady((info) => {
+			if (info.host === Office.HostType.Outlook) {
+				window.MailIntegration_Compose.registerEvents();
+			}
+		});
+	})($);
+}

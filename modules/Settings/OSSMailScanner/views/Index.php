@@ -38,7 +38,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$emailSearch = OSSMailScanner_Record_Model::getEmailSearch(false, false);
 		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
 		$widgetCfg = OSSMailScanner_Record_Model::getConfig(false);
-		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
+		$supportedModules = Settings_RecordNumbering_Module_Model::getSupportedModules();
 		foreach ($supportedModules as $supportedModule) {
 			if (\in_array($supportedModule->name, $this->prefixesForModules)) {
 				$numbering[$supportedModule->name] = \App\Fields\RecordNumber::getInstance($supportedModule->name);

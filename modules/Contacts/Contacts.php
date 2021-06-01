@@ -34,17 +34,7 @@ class Contacts extends CRMEntity
 	 */
 	public $customFieldTable = ['vtiger_contactscf', 'contactid'];
 	public $column_fields = [];
-	public $list_link_field = 'lastname';
-	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = [
-		'First Name' => ['contactdetails' => 'firstname'],
-		'Last Name' => ['contactdetails' => 'lastname'],
-		'Title' => ['contactdetails' => 'title'],
-		'Member Of' => ['account' => 'parentid'],
-		'Email' => ['contactdetails' => 'email'],
-		'Office Phone' => ['contactdetails' => 'phone'],
-		'Assigned To' => ['crmentity' => 'smownerid'],
-	];
+
 	public $list_fields_name = [
 		'First Name' => 'firstname',
 		'Last Name' => 'lastname',
@@ -69,7 +59,7 @@ class Contacts extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'lastname', 'createdtime', 'modifiedtime'];
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = ['firstname', 'lastname', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date'];
+	public $emailTemplate_defaultFields = ['firstname', 'lastname', 'title', 'email', 'department', 'phone', 'mobile'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
@@ -210,7 +200,7 @@ class Contacts extends CRMEntity
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$row = (new App\Db\Query())->select([
 			'vtiger_contactdetails.*',
-			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN ${userNameSql} ELSE vtiger_groups.groupname END as user_name"),
+			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN {$userNameSql} ELSE vtiger_groups.groupname END as user_name"),
 		])->from('vtiger_contactdetails')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_contactdetails.contactid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')

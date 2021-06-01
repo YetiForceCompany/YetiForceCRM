@@ -44,7 +44,7 @@ class WebservicesConvertLead
 		$entityIds = [];
 		$availableModules = ['Accounts', 'Contacts'];
 
-		if (!(($entityvalues['entities']['Accounts']['create']) || ($entityvalues['entities']['Contacts']['create']))) {
+		if (empty($entityvalues['entities']['Accounts']['create']) && empty($entityvalues['entities']['Contacts']['create'])) {
 			return null;
 		}
 
@@ -63,7 +63,7 @@ class WebservicesConvertLead
 
 				try {
 					$create = true;
-					if ('Accounts' == $entityvalue['name'] && !empty($entityvalue['convert_to_id']) && is_int($entityvalue['convert_to_id'])) {
+					if ('Accounts' == $entityvalue['name'] && !empty($entityvalue['convert_to_id']) && \is_int($entityvalue['convert_to_id'])) {
 						$entityIds[$entityName] = $entityvalue['convert_to_id'];
 						$create = false;
 					}

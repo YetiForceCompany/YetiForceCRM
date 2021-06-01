@@ -173,7 +173,7 @@ class VTCreateTodoTask extends VTTask
 		}
 		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 		$newRecordModel->setData($fields);
-		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
+		$newRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 		$newRecordModel->save();
 
 		$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule());

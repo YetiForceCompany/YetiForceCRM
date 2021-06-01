@@ -1,21 +1,23 @@
 ![awards_all_eng_new](https://user-images.githubusercontent.com/10197525/47670510-aa6e9880-dbad-11e8-9720-be7f34dba9e1.jpg)
+
+[![Tests](https://github.com/YetiForceCompany/YetiForceCRM/workflows/Tests/badge.svg)](https://github.com/YetiForceCompany/YetiForceCRM/actions/workflows/tests.yml?query=workflow)
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
 ![release date](https://img.shields.io/github/release-date/YetiForceCompany/YetiForceCRM)
 ![PHP Version](https://img.shields.io/packagist/php-v/yetiforce/yetiforce-crm)
-[![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM)
+[![Tested on PHP 7.3 to nightly](https://img.shields.io/badge/tested%20on-PHP%207.3%20|%207.4%20|%208.0%20-brightgreen.svg?maxAge=2419200)](https://github.com/PHPCompatibility/PHPCompatibility/actions?query=workflow%3Atests)
 [![Download YetiForce CRM](https://img.shields.io/sourceforge/dt/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
+[![GitHub contributors](https://img.shields.io/github/contributors/YetiForceCompany/YetiForceCRM.svg)](https://GitHub.com/YetiForceCompany/YetiForceCRM/graphs/contributors/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
+[![Doc](https://img.shields.io/badge/Doc-doc.yetiforce.com-brightgreen.svg)](https://doc.yetiforce.com/)
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors)
 [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.svg)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/161d09ea3c824405b762a0c9edc2845e)](https://www.codacy.com/app/mariuszkrzaczkowski/YetiForceCRM?utm_source=github.com&utm_medium=referral&utm_content=YetiForceCompany/YetiForceCRM&utm_campaign=Badge_Grade)
 [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM 'Average time to resolve an issue')
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM 'Percentage of issues still open')
 [![Depfu](https://badges.depfu.com/badges/56870798a59eff717ff60bc775ca6a33/overview.svg)](https://depfu.com/github/YetiForceCompany/YetiForceCRM)
-[![dependencies Status](https://david-dm.org/YetiForceCompany/YetiForceCRM/status.svg)](https://david-dm.org/YetiForceCompany/YetiForceCRM)
 [![SecurityHeaders.io](https://img.shields.io/security-headers?url=https%3A%2F%2Fgitdeveloper.yetiforce.com)](https://securityheaders.io/?q=https://gitdeveloper.yetiforce.com)
 [![mozilla-observatory](https://img.shields.io/mozilla-observatory/grade/gitdeveloper.yetiforce.com?publish)](https://observatory.mozilla.org/analyze/gitdeveloper.yetiforce.com)
 [![Docker Hub](https://img.shields.io/badge/docker-ready-blue.svg)](https://registry.hub.docker.com/r/yetiforce/yetiforcecrm/)
@@ -30,39 +32,39 @@
 
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/big.png)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 <a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
-<img width="35%" src="https://support.crowdin.com/assets/logos/crowdin-CollaborativeTranslationTool-logo.png" alt="crowdin Localization Management Platform">
+<img width="20%" src="https://support.crowdin.com/assets/badges/localization-at-transparent@1x.svg" alt="crowdin Localization Management Platform">
 </a>
 [![Download YetiForce CRM](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/yetiforce/files/latest/download)
 
 We design an innovative CRM system that is dedicated for large and medium sized companies. We dedicate it to everyone who values open source software, security and innovation. YetiForce was built on a rock-solid Vtiger foundation, but has hundreds of changes that help to accomplish even the most challenging tasks in the simplest way. Every function within the system was thought through and automated to ensure that all of them work together seamlessly and form a coherent integrity. We looked at the entire sales process and consequently refined the system, module by module. We have years of experience creating tailor made CRM software for a variety of different companies. Download it and have a first-hand experience.
 
+## Demos
+
 1. [GitStable](https://gitstable.yetiforce.com)
 2. [GitDeveloper](https://gitdeveloper.yetiforce.com)
-3. [YetiPortal2](https://gitdeveloper.yetiforce.com/portal/)
+3. [YetiPortal2 - Customer Portal](https://github.com/YetiForceCompany/YetiForcePortal2#-demo)
 
 ## Read the documentation to learn more.
 
-#### Video Tutorials: [youtube.com](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh)
+#### :video_camera: Video Tutorials: [Video Tutorials on YouTube](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh) , [Video Tutorials on our server](https://public.yetiforce.com/Tutorials/)
 
-#### Knowledge base: https://yetiforce.com/en/knowledge-base/documentation
+#### :blue_book: Knowledge base: [yetiforce.com/en/knowledge-base/documentation](https://yetiforce.com/en/knowledge-base/documentation)
 
-#### Code Documentation: https://doc.yetiforce.com/code/
+#### :computer: Code Documentation: [doc.yetiforce.com/code/](https://doc.yetiforce.com/code/)
 
-#### API documentation: https://doc.yetiforce.com/api/ (in progres)
+#### :globe_with_meridians: API documentation: [doc.yetiforce.com/api/](https://doc.yetiforce.com/api/) (in progres)
 
 Join our [LinkedIn group](https://www.linkedin.com/groups/8177576) and connect with other users and community members to discuss topics surrounding CRM and YetiForce.
 
 Follow us on [Twitter](https://twitter.com/YetiForceEN) or like on [FaceBook](https://www.facebook.com/YetiForce-CRM-158646854306054/?ref=aymt_homepage_panel) to get real-time info about new articles and functionalities.
 
-Visit our [online store](https://yetiforce.shop/) with commercial modules and support packages.
-
 ## Where else can you find YetiForce?
 
--   [Sourceforge](https://sourceforge.net/projects/yetiforce/)
--   [Softaculous](http://www.softaculous.com/apps/erp/YetiForce)
--   [Packagist](https://packagist.org/packages/yetiforce/yetiforce-crm)
--   [Development version](https://download.yetiforce.com/developer.zip) - full package (yarn + composer)
--   [Docker](tests/setup/docker.md) - docker container (in progres)
+- [Sourceforge](https://sourceforge.net/projects/yetiforce/)
+- [Softaculous](http://www.softaculous.com/apps/erp/YetiForce)
+- [Packagist](https://packagist.org/packages/yetiforce/yetiforce-crm)
+- [Development version](https://download.yetiforce.com/developer.zip) - full package (yarn + composer)
+- [Docker](tests/setup/docker.md) - docker container
 
 1. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/crm-installation)
 2. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes).
@@ -82,7 +84,16 @@ Testing Supported By<br/>
 <img width="160" src="http://foundation.zurb.com/sites/docs/assets/img/logos/browser-stack.svg" alt="BrowserStack"/>
 </a>
 
-[![commit-activity](https://img.shields.io/github/commit-activity/m/YetiForceCompany/YetiForceCRM?style=plastic)]()
+<a href="https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fgitdeveloper.yetiforce.com%2Fapi%2FRestApi.json">
+<img width="70" src="https://validator.swagger.io/validator?url=https://gitdeveloper.yetiforce.com/api/RestApi.json" />
+</a>
+<a href="https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fgitdeveloper.yetiforce.com%2Fapi%2FPortal.json">
+<img width="70" src="https://validator.swagger.io/validator?url=https://gitdeveloper.yetiforce.com/api/Portal.json" />
+</a>
+<a href="https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fgitdeveloper.yetiforce.com%2Fapi%2FManageConsents.json">
+<img width="70" src="https://validator.swagger.io/validator?url=https://gitdeveloper.yetiforce.com/api/ManageConsents.json" />
+</a>
+
 [![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2e9276651b48a905f0ee/maintainability)](https://codeclimate.com/github/YetiForceCompany/YetiForceCRM/maintainability)
 [![Snyk - Known Vulnerabilities](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM/badge.svg)](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM)
@@ -94,13 +105,13 @@ Testing Supported By<br/>
 [![sonarcloud.io sqale](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![sonarcloud.io security](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=security_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![sonarcloud.io vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
-[![Greenkeeper badge](https://badges.greenkeeper.io/YetiForceCompany/YetiForceCRM.svg)](https://greenkeeper.io/)
-[![DepShield Badge](https://depshield.sonatype.org/badges/owner/repository/depshield.svg)](https://depshield.github.io)
 
 ## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors"><img src="https://opencollective.com/YetiForceCRM/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=YetiForceCompany/YetiForceCRM" />
+</a>
 
 ## Backers
 

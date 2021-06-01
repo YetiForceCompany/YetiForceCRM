@@ -16,6 +16,8 @@
 		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
 			   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<input type="hidden" class="js-filter-fields" data-js="value" value="{App\Purifier::encodeHtml(\App\Json::encode($FILTER_FIELDS))}">
+		<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
+		{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE)}
 		<div class="table-responsive">
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>
@@ -38,6 +40,15 @@
 									&nbsp;&nbsp;<span class="fas {if $ORDER_BY[$LISTVIEW_HEADER_NAME] eq \App\Db::DESC}fa-chevron-down{else}fa-chevron-up{/if}"></span>
 								{/if}
 							</span>
+							{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
+								<div class="d-flex align-items-center">
+									<input name="searchInSubcategories" value="1" type="checkbox" class="searchInSubcategories mr-1" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
+									<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
+											data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
+											<span class="fas fa-info-circle"></span>
+										</span>
+								</div>
+							{/if}
 						</th>
 					{/foreach}
 				</tr>
@@ -63,7 +74,7 @@
 					{/foreach}
 				</tr>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
-					<tr class="u-cursor-pointer js-select-row" data-id="{$LISTVIEW_ENTRY->getId()}" data-js="click"
+					<tr class="u-cursor-pointer js-select-row listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-js="click"
 						data-name='{$LISTVIEW_ENTRY->getName()}'
 						data-info='{App\Json::encode($LISTVIEW_ENTRY->getRawData())}'>
 						<td class="{$WIDTHTYPE} u-cursor-auto text-center">
@@ -79,7 +90,7 @@
 								{if $LISTVIEW_HEADER->get('fromOutsideList') eq true}
 									{$LISTVIEW_HEADER->getDisplayValue($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
 								{else}
-									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER,true)}
+									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
 								{/if}
 							</td>
 						{/foreach}

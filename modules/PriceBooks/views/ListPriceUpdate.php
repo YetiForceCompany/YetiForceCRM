@@ -19,7 +19,7 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -34,7 +34,7 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();

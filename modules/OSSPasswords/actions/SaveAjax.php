@@ -44,7 +44,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			return;
 		}
 
-		$recordModel = $this->saveRecord($request);
+		$this->saveRecord($request);
 
 		// apply encryption if encryption mode is on
 		if ($isPassword && $config) {
@@ -56,7 +56,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				->execute();
 		} // encrypt password added thrue related module
 		elseif ($isRelatedPassword && $config) {
-			$record = $recordModel->getId();
+			$record = $this->record->getId();
 			$properPassword = $request->get('password');
 			\App\Log::trace('Encrypt new related module password: ' . $properPassword);
 			\App\Db::getInstance()->createCommand()
@@ -66,16 +66,16 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				->execute();
 		}
 
-		$fieldModelList = $recordModel->getModule()->getFields();
+		$fieldModelList = $this->record->getModule()->getFields();
 		$result = [];
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			$recordFieldValue = $recordModel->get($fieldName);
+			$recordFieldValue = $this->record->get($fieldName);
 			if (\is_array($recordFieldValue) && 'multipicklist' == $fieldModel->getFieldDataType()) {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			}
 			$fieldValue = $displayValue = \App\Purifier::encodeHtml($recordFieldValue);
 			if ('currency' !== $fieldModel->getFieldDataType() && 'datetime' !== $fieldModel->getFieldDataType() && 'time' !== $fieldModel->getFieldDataType() && 'date' !== $fieldModel->getFieldDataType()) {
-				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
+				$displayValue = $fieldModel->getDisplayValue($fieldValue, $this->record->getId());
 			}
 			if ('password' === $fieldName) {
 				$fieldValue = $displayValue = '**********';
@@ -83,8 +83,8 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
 
-		$result['_recordLabel'] = $recordModel->getName();
-		$result['_recordId'] = $recordModel->getId();
+		$result['_recordLabel'] = $this->record->getName();
+		$result['_recordId'] = $this->record->getId();
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);

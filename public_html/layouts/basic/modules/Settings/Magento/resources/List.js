@@ -16,8 +16,8 @@ Settings_Vtiger_List_Js(
 				action: 'SaveAjax',
 				mode: 'reload',
 				record: record
-			}).done(data => {
-				Vtiger_Helper_Js.showPnotify({
+			}).done((data) => {
+				app.showNotify({
 					type: 'success',
 					text: data.result.message
 				});

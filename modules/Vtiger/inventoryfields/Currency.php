@@ -29,20 +29,16 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 		'currencyparam' => App\Purifier::TEXT
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditTemplateName()
 	{
 		return 'inventoryTypes/Currency.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		if(empty($value)){
+		if (empty($value)) {
 			return '';
 		}
 		return \App\Fields\Currency::getById($value)['currency_name'];
@@ -72,9 +68,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 		return $params;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		if ($name === $this->getColumnName()) {
@@ -83,17 +77,15 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($columnName === $this->getColumnName()) {
 			if (!is_numeric($value) || !isset(\App\Fields\Currency::getAll()[$value])) {
-				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||" . print_r($value, true), 406);
 			}
-		} elseif (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
-			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+		} elseif (!\is_array($value) && \App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
+			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||" . print_r($value, true), 406);
 		}
 	}
 }

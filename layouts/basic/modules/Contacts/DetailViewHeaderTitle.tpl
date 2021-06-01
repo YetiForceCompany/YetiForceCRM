@@ -17,7 +17,7 @@
 					{assign var=IMAGE value=$RECORD->getImage()}
 					<span class="moduleIcon{if $IMAGE} o-detail__record-img mr-1{/if}">
 						{if $IMAGE}
-							<img class="js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE.url}">
+							<img class="js-detail-hierarchy rounded-circle" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE.url}">
 						{else}
 							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy yfm-{$MODULE}" data-js="click"></span>
 						{/if}
@@ -54,28 +54,12 @@
 					{/if}
 				</div>
 			</div>
-			<div class="pl-1">
-				{$RECORD->getDisplayValue('parent_id')}
-				<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id'))}" data-toggle="popover" data-js="popover | mouseenter">
-					<span class="mr-1 text-muted u-white-space-nowrap">
-						{\App\Language::translate('Assigned To',$MODULE_NAME)}:
-					</span>
-					<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('assigned_user_id')}</span>
-					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
-				</div>
-				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
-				{if $SHOWNERS != ''}
-					<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center" data-content="{\App\Purifier::encodeHtml($SHOWNERS)}" data-toggle="popover" data-js="popover | mouseenter">
-						<span class="mr-1 text-muted u-white-space-nowrap">
-							{\App\Language::translate('Share with users',$MODULE_NAME)}:
-						</span>
-						<span class="js-popover-text" data-js="clone">{$SHOWNERS}</span>
-						<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
-					</div>
-				{/if}
-			</div>
+			{include file=\App\Layout::getTemplatePath('Detail/HeaderValues.tpl', $MODULE_NAME)}
 		</div>
-		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
+		<div class="ml-md-2 pr-md-2 u-min-w-md-30 w-100">
+			{include file=\App\Layout::getTemplatePath('Detail/HeaderButtons.tpl', $MODULE_NAME)}
+			{include file=\App\Layout::getTemplatePath('Detail/HeaderHighlights.tpl', $MODULE_NAME)}
+		</div>
 	</div>
 	{include file=\App\Layout::getTemplatePath('Detail/HeaderProgress.tpl', $MODULE_NAME)}
 {/strip}

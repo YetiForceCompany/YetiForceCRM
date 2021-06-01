@@ -3,6 +3,8 @@
 /**
  * Synchronization currencies file.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -17,9 +19,7 @@ namespace App\Integrations\Magento\Synchronizer;
  */
 class Currency extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		try {
@@ -37,6 +37,7 @@ class Currency extends Base
 								'conversion_rate' => 1,
 								'currency_status' => 'Active',
 							])->execute();
+							\App\Fields\Currency::clearCache();
 						} else {
 							$this->log('Currency is not supported by the system: ' . $code);
 							\App\Log::error('Currency is not supported by the system: ' . $code, 'Integrations/Magento');

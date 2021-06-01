@@ -1,0 +1,22 @@
+{
+  "php": {
+    "InterestsConflict": "Conflict of interest",
+    "LBL_CONFLICT_OF_INTEREST_DESCRIPTION": "Conflict of interest",
+    "LBL_MAIN_CONFIG": "General configuration",
+    "LBL_MODULES": "Modules",
+    "LBL_UNLOCK_REQUESTS": "Unblocking requests",
+    "LBL_CONFIRMATIONS": "Confirmations",
+    "LBL_IS_ACTIVE": "Activation of a conflict of interest",
+    "LBL_NOTIFICATIONS_EMAILS": "Email addresses for notifications",
+    "LBL_INTERVAL_TIME": "Time interval",
+    "LBL_INTERVAL_TIME_DESC": "Time interval that defines how often the system should force a confirmation about the absence of conflict of interests.",
+    "LBL_INDEFINITELY": "indefinitely",
+    "LBL_USERS_CONFIRMATIONS": "Access to confirmation panel",
+    "LBL_USERS_UNLOCK": "Access to unblocking requests panel",
+    "LBL_RELATIONSHIP": "Relationship",
+    "LBL_SEND_MAIL_DURING_ACCESS_REQUEST": "Send an email when requesting access to the record",
+    "LBL_SEND_MAIL_DURING_ACCESS_REQUEST_INFO": "E-mail sent to the above people (Email addresses for notifications)",
+    "LBL_SEND_MAIL_DURING_ACCESS_RESPONSE": "Send an email with the outcome of the request for access to the record",
+    "LBL_SEND_MAIL_DURING_ACCESS_RESPONSE_INFO": "E-mail sent to the person requesting access"
+  }
+}

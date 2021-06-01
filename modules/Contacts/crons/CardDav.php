@@ -18,7 +18,26 @@ class Contacts_CardDav_Cron extends \App\CronHandler
 	public function process()
 	{
 		\App\Log::trace('Start cron CardDAV');
-		API_DAV_Model::runCronCardDav();
+		$dav = new API_DAV_Model();
+		$davUsers = API_DAV_Model::getAllUser(1);
+		foreach (Users_Record_Model::getAll() as $id => $user) {
+			if (isset($davUsers[$id])) {
+				$user->set('david', $davUsers[$id]['david']);
+				$user->set('addressbooksid', $davUsers[$id]['addressbooksid']);
+				$user->set('groups', \App\User::getUserModel($id)->getGroups());
+				$dav->davUsers[$id] = $user;
+				\App\Log::trace(__METHOD__ . ' | User is active ' . $user->getName());
+			} else { // User is inactive
+				\App\Log::info(__METHOD__ . ' | User is inactive ' . $user->getName());
+			}
+		}
+		$cardDav = new API_CardDAV_Model();
+		$cardDav->davUsers = $dav->davUsers;
+		$cardDav->cardDavCrm2Dav();
+		if ($this->checkTimeout()) {
+			return;
+		}
+		$cardDav->cardDav2Crm();
 		\App\Log::trace('End cron CardDAV');
 	}
 }

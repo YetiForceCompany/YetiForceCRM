@@ -3,6 +3,8 @@
 /**
  * Basic RelatedCommentModal Model Class.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -27,7 +29,7 @@ class Vtiger_RelatedCommentModal_Model extends \App\Base
 
 	public function getComment()
 	{
-		if (substr($this->get('relatedRecord'), 0, 1) === 'T') {
+		if ('T' === substr($this->get('relatedRecord'), 0, 1)) {
 			$dataReader = $this->getRelationTreeQuery()->createCommand()->query();
 		} else {
 			$dataReader = $this->getRelationQuery()->createCommand()->query();
@@ -75,17 +77,17 @@ class Vtiger_RelatedCommentModal_Model extends \App\Base
 	public function save($comment)
 	{
 		$db = App\Db::getInstance();
-		if (substr($this->get('relatedRecord'), 0, 1) === 'T') {
+		if ('T' === substr($this->get('relatedRecord'), 0, 1)) {
 			$db->createCommand()->update('u_#__crmentity_rel_tree', [
 				'rel_comment' => $comment,
-				], ['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]
+			], ['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]
 			)->execute();
 		} else {
 			$relationTable = $this->getRelationTable();
 			$table = key($relationTable);
 			$db->createCommand()->update($table, [
 				'rel_comment' => $comment,
-				], [$relationTable[$table][0] => $this->get('record'), $relationTable[$table][1] => $this->get('relatedRecord')]
+			], [$relationTable[$table][0] => $this->get('record'), $relationTable[$table][1] => $this->get('relatedRecord')]
 			)->execute();
 		}
 	}

@@ -44,7 +44,7 @@ class VTEntityMethodManager
 		$data = (new \App\Db\Query())->select(['function_path', 'function_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $recordModel->getModuleName(), 'method_name' => $methodName])->one();
 		if ($data) {
 			require_once $data['function_path'];
-			call_user_func("{$data['function_name']}::$methodName", $recordModel);
+			\call_user_func("{$data['function_name']}::$methodName", $recordModel);
 		}
 	}
 

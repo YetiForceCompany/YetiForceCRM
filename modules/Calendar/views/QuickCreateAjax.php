@@ -18,9 +18,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	 */
 	public $record;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
@@ -29,9 +27,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -46,9 +42,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->view($tplName, $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		if ('Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW')) {
@@ -76,9 +70,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		return $jsFiles;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(App\Request $request)
 	{
 		return $this->checkAndConvertCssStyles([
@@ -86,9 +78,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		]);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		return \App\Language::translate('LBL_QUICK_CREATE', $request->getModule());

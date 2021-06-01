@@ -1,8 +1,12 @@
 <?php
 /**
- * CalDav calendar class file.
+ * CalDav calendar file.
  *
- * @package   Integrations
+ * @package Integration
+ *
+ * @see   https://tools.ietf.org/html/rfc5545
+ *
+ * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,7 +18,7 @@ namespace App\Integrations\Dav;
 use Sabre\VObject;
 
 /**
- * Calendar class.
+ *  CalDav calendar class.
  */
 class Calendar
 {
@@ -46,6 +50,20 @@ class Calendar
 	 * @var bool
 	 */
 	private $createdTimeZone = false;
+	/**
+	 * Custom values.
+	 *
+	 * @var string[]
+	 */
+	protected static $customValues = [
+		'X-MICROSOFT-SKYPETEAMSMEETINGURL' => 'meeting_url'
+	];
+	/**
+	 * Max date.
+	 *
+	 * @var string
+	 */
+	const MAX_DATE = '2038-01-01';
 
 	/**
 	 * Delete calendar event by crm id.
@@ -184,7 +202,7 @@ class Calendar
 	public static function loadFromContent(string $content, ?\Vtiger_Record_Model $recordModel = null, ?string $uid = null)
 	{
 		$instance = new self();
-		$instance->vcalendar = VObject\Reader::read($content);
+		$instance->vcalendar = VObject\Reader::read($content, \Sabre\VObject\Reader::OPTION_FORGIVING);
 		if ($recordModel && $uid) {
 			$instance->records[$uid] = $recordModel;
 		}
@@ -218,7 +236,7 @@ class Calendar
 	 */
 	public function getRecordInstance()
 	{
-		foreach ($this->vcalendar->getBaseComponents() as $component) {
+		foreach ($this->vcalendar->getBaseComponents() ?: $this->vcalendar->getComponents() as $component) {
 			$type = (string) $component->name;
 			if ('VTODO' === $type || 'VEVENT' === $type) {
 				$this->vcomponent = $component;
@@ -230,8 +248,10 @@ class Calendar
 
 	/**
 	 * Parse component.
+	 *
+	 * @return void
 	 */
-	private function parseComponent()
+	private function parseComponent(): void
 	{
 		$uid = (string) $this->vcomponent->UID;
 		if (isset($this->records[$uid])) {
@@ -248,6 +268,7 @@ class Calendar
 		$this->parseState();
 		$this->parseType();
 		$this->parseDateTime();
+		$this->parseCustomValues();
 	}
 
 	/**
@@ -256,8 +277,10 @@ class Calendar
 	 * @param string               $fieldName
 	 * @param string               $davName
 	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return void
 	 */
-	private function parseText(string $fieldName, string $davName)
+	private function parseText(string $fieldName, string $davName): void
 	{
 		$value = \str_replace([
 			'-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-'
@@ -270,8 +293,10 @@ class Calendar
 
 	/**
 	 * Parse status.
+	 *
+	 * @return void
 	 */
-	private function parseStatus()
+	private function parseStatus(): void
 	{
 		$davValue = null;
 		if (isset($this->vcomponent->STATUS)) {
@@ -281,7 +306,7 @@ class Calendar
 			$values = [
 				'TENTATIVE' => 'PLL_PLANNED',
 				'CANCELLED' => 'PLL_CANCELLED',
-				'CONFIRMED' => 'PLL_COMPLETED',
+				'CONFIRMED' => 'PLL_PLANNED',
 			];
 		} else {
 			$values = [
@@ -300,8 +325,10 @@ class Calendar
 
 	/**
 	 * Parse visibility.
+	 *
+	 * @return void
 	 */
-	private function parseVisibility()
+	private function parseVisibility(): void
 	{
 		$davValue = null;
 		$value = 'Private';
@@ -320,8 +347,10 @@ class Calendar
 
 	/**
 	 * Parse state.
+	 *
+	 * @return void
 	 */
-	private function parseState()
+	private function parseState(): void
 	{
 		$davValue = null;
 		$value = '';
@@ -340,8 +369,10 @@ class Calendar
 
 	/**
 	 * Parse priority.
+	 *
+	 * @return void
 	 */
-	private function parsePriority()
+	private function parsePriority(): void
 	{
 		$davValue = null;
 		$value = 'Medium';
@@ -361,8 +392,10 @@ class Calendar
 
 	/**
 	 * Parse type.
+	 *
+	 * @return void
 	 */
-	private function parseType()
+	private function parseType(): void
 	{
 		if ($this->record->isEmpty('activitytype')) {
 			$this->record->set('activitytype', 'VTODO' === (string) $this->vcomponent->name ? 'Task' : 'Meeting');
@@ -371,27 +404,29 @@ class Calendar
 
 	/**
 	 * Parse date time.
+	 *
+	 * @return void
 	 */
-	private function parseDateTime()
+	private function parseDateTime(): void
 	{
 		$allDay = 0;
 		$endHasTime = $startHasTime = false;
 		$endField = 'VEVENT' === ((string) $this->vcomponent->name) ? 'DTEND' : 'DUE';
 		if (isset($this->vcomponent->DTSTART)) {
-			$davStart = VObject\DateTimeParser::parse($this->vcomponent->DTSTART);
-			$dateStart = $davStart->format('Y-m-d');
-			$timeStart = $davStart->format('H:i:s');
+			$timeStamp = $this->vcomponent->DTSTART->getDateTime()->getTimeStamp();
+			$dateStart = date('Y-m-d', $timeStamp);
+			$timeStart = date('H:i:s', $timeStamp);
 			$startHasTime = $this->vcomponent->DTSTART->hasTime();
 		} else {
-			$davStart = VObject\DateTimeParser::parse($this->vcomponent->DTSTAMP);
-			$dateStart = $davStart->format('Y-m-d');
-			$timeStart = $davStart->format('H:i:s');
+			$timeStamp = $this->vcomponent->DTSTAMP->getDateTime()->getTimeStamp();
+			$dateStart = date('Y-m-d', $timeStamp);
+			$timeStart = date('H:i:s', $timeStamp);
 		}
 		if (isset($this->vcomponent->{$endField})) {
-			$davEnd = VObject\DateTimeParser::parse($this->vcomponent->{$endField});
+			$timeStamp = $this->vcomponent->{$endField}->getDateTime()->getTimeStamp();
 			$endHasTime = $this->vcomponent->{$endField}->hasTime();
-			$dueDate = $davEnd->format('Y-m-d');
-			$timeEnd = $davEnd->format('H:i:s');
+			$dueDate = date('Y-m-d', $timeStamp);
+			$timeEnd = date('H:i:s', $timeStamp);
 			if (!$endHasTime) {
 				$endTime = strtotime('-1 day', strtotime("$dueDate $timeEnd"));
 				$dueDate = date('Y-m-d', $endTime);
@@ -402,17 +437,42 @@ class Calendar
 			$dueDate = date('Y-m-d', $endTime);
 			$timeEnd = date('H:i:s', $endTime);
 		}
-		if (!$startHasTime && !$endHasTime) {
+		if (!$startHasTime && !$endHasTime && \App\User::getCurrentUserId()) {
 			$allDay = 1;
 			$currentUser = \App\User::getCurrentUserModel();
-			$timeStart = $currentUser->getDetail('start_hour') . ':00';
-			$timeEnd = $currentUser->getDetail('end_hour') . ':00';
+			$userTimeZone = new \DateTimeZone($currentUser->getDetail('time_zone'));
+			$sysTimeZone = new \DateTimeZone(\App\Fields\DateTime::getTimeZone());
+			[$hour , $minute] = explode(':', $currentUser->getDetail('start_hour'));
+			$date = new \DateTime('now', $userTimeZone);
+			$date->setTime($hour, $minute);
+			$date->setTimezone($sysTimeZone);
+			$timeStart = $date->format('H:i:s');
+
+			$date->setTimezone($userTimeZone);
+			[$hour , $minute] = explode(':', $currentUser->getDetail('end_hour'));
+			$date->setTime($hour, $minute);
+			$date->setTimezone($sysTimeZone);
+			$timeEnd = $date->format('H:i:s');
 		}
 		$this->record->set('allday', $allDay);
 		$this->record->set('date_start', $dateStart);
 		$this->record->set('due_date', $dueDate);
 		$this->record->set('time_start', $timeStart);
 		$this->record->set('time_end', $timeEnd);
+	}
+
+	/**
+	 * Parse parse custom values.
+	 *
+	 * @return void
+	 */
+	private function parseCustomValues(): void
+	{
+		foreach (self::$customValues as $key => $fieldName) {
+			if (isset($this->vcomponent->{$key})) {
+				$this->record->set($fieldName, (string) $this->vcomponent->{$key});
+			}
+		}
 	}
 
 	/**
@@ -723,11 +783,11 @@ class Calendar
 			foreach ($attendees as &$attendee) {
 				$nameAttendee = isset($attendee->parameters['CN']) ? $attendee->parameters['CN']->getValue() : null;
 				$value = $attendee->getValue();
-				if (0 === strpos($value, 'mailto:')) {
+				if (0 === stripos($value, 'mailto:')) {
 					$value = substr($value, 7, \strlen($value) - 7);
 				}
-				if (\App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
-					throw new \Sabre\DAV\Exception\BadRequest('Invalid email');
+				if ($value && \App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
+					throw new \Sabre\DAV\Exception\BadRequest('Invalid email: ' . $value);
 				}
 				if (isset($attendee['ROLE']) && 'CHAIR' === $attendee['ROLE']->getValue()) {
 					$users = $this->findRecordByEmail($value, ['Users']);

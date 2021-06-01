@@ -39,6 +39,9 @@ class Vtiger_Workflow_Cron extends \App\CronHandler
 			}
 			$task->setContents($taskContents);
 			$task->doTask(Vtiger_Record_Model::getInstanceById($entityId));
+			if ($this->checkTimeout()) {
+				return;
+			}
 		}
 	}
 }

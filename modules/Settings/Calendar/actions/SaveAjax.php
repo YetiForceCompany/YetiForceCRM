@@ -23,7 +23,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function updateCalendarConfig(\App\Request $request)
+	public function updateCalendarConfig(App\Request $request)
 	{
 		Settings_Calendar_Module_Model::updateCalendarConfig($request->getMultiDimensionArray('params', [
 			'color' => 'Integer',
@@ -42,7 +42,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function updateNotWorkingDays(\App\Request $request)
+	public function updateNotWorkingDays(App\Request $request)
 	{
 		Settings_Calendar_Module_Model::updateNotWorkingDays($request->getMultiDimensionArray('param', [
 			'param' => 'Standard',

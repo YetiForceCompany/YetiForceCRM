@@ -19,7 +19,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static $formFields = [
 		'type' => [
-			'registerView' => true
+			'registerView' => true,
+			'infoText' => 'LBL_TYPE_INFO',
 		],
 		'name' => [
 			'registerView' => true,

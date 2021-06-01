@@ -1,8 +1,9 @@
 <?php
 /**
- * YetiForce register class.
+ * YetiForce register file.
+ * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -40,7 +41,7 @@ class Register
 	 *
 	 * @var string
 	 */
-	private const REGISTRATION_FILE = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
+	private const REGISTRATION_FILE = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
 	/**
 	 * Status messages.
 	 *
@@ -111,11 +112,10 @@ class Register
 		}
 		$result = false;
 		try {
-			$response = (new \GuzzleHttp\Client())
-				->post(static::$registrationUrl . 'add',
-					\App\RequestHttp::getOptions() + [
-						'form_params' => $this->getData()
-					]);
+			$url = static::$registrationUrl . 'add';
+			\App\Log::beginProfile("POST|Register::register|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client())->post($url, \App\Utils::merge(\App\RequestHttp::getOptions(), ['form_params' => $this->getData()]));
+			\App\Log::endProfile("POST|Register::register|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
@@ -159,8 +159,10 @@ class Register
 		$status = 0;
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(static::$registrationUrl . 'check', [
-				'form_params' => \array_merge($conf, [
+			$url = static::$registrationUrl . 'check';
+			\App\Log::beginProfile("POST|Register::check|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
+				'form_params' => \App\Utils::merge($conf, [
 					'version' => \App\Version::get(),
 					'crmKey' => static::getCrmKey(),
 					'insKey' => static::getInstanceKey(),
@@ -168,6 +170,7 @@ class Register
 					'package' => \App\Company::getSize(),
 				])
 			]);
+			\App\Log::endProfile("POST|Register::check|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
@@ -270,6 +273,7 @@ class Register
 			'insKey' => static::getInstanceKey(),
 			'serialKey' => $serial
 		]);
+		\App\Company::statusUpdate(6);
 		return true;
 	}
 
@@ -333,6 +337,16 @@ class Register
 	}
 
 	/**
+	 * Is the system is properly registered.
+	 *
+	 * @return bool
+	 */
+	public static function isRegistered(): bool
+	{
+		return static::getStatus() > 6;
+	}
+
+	/**
 	 * Get registration products.
 	 *
 	 * @param mixed $name
@@ -379,9 +393,12 @@ class Register
 	 *
 	 * @return string
 	 */
-	private static function getProvider(): string
+	public static function getProvider(): string
 	{
-		$env = getenv();
-		return $env['PROVIDER'] ?? '';
+		$path = ROOT_DIRECTORY . '/app_data/installSource.txt';
+		if (\file_exists($path)) {
+			return trim(file_get_contents($path));
+		}
+		return getenv('PROVIDER') ?: getenv('provider') ?: '';
 	}
 }

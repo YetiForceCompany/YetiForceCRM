@@ -3,6 +3,8 @@
 /**
  * Abstract inventory map file.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -104,9 +106,7 @@ abstract class Inventory extends Base
 		return (int) \App\Fields\Currency::getIdByCode($this->data['order_currency_code']);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDataCrm(bool $onEdit = false): array
 	{
 		parent::getDataCrm($onEdit);

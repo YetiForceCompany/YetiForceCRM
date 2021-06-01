@@ -10,4 +10,5 @@
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 class Faq_DetailView_Model extends KnowledgeBase_DetailView_Model
-{ }
+{
+}

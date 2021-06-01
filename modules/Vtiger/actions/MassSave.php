@@ -18,7 +18,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassEdit')) {
@@ -26,12 +26,12 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordModels = $this->getRecordModelsFromRequest($request);
 		$allRecordSave = true;
 		foreach ($recordModels as $recordModel) {
-			if ($recordModel !== false) {
+			if (false !== $recordModel) {
 				$recordModel->save();
 				unset($recordModel);
 			} else {
@@ -50,7 +50,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 	 *
 	 * @return Vtiger_Record_Model[] - List of Vtiger_Record_Model instances
 	 */
-	public function getRecordModelsFromRequest(\App\Request $request)
+	public function getRecordModelsFromRequest(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

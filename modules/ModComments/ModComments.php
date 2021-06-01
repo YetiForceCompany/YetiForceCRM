@@ -86,6 +86,7 @@ class ModComments extends ModCommentsCore
 				$module->addLink($widgetType, $widgetName, 'block://ModComments:modules/ModComments/ModComments.php');
 				$commentWidgetModules[] = $moduleName;
 			}
+			\App\Cache::delete('isModuleCommentEnabled', $moduleName);
 		}
 		if (\count($commentWidgetModules) > 0) {
 			$modCommentsModule = vtlib\Module::getInstance('ModComments');
@@ -97,11 +98,9 @@ class ModComments extends ModCommentsCore
 	/**
 	 * Remove widget from other modules.
 	 *
-	 * @param unknown_type $moduleNames
-	 * @param unknown_type $widgetType
-	 * @param unknown_type $widgetName
-	 *
-	 * @return unknown_type
+	 * @param string $moduleNames
+	 * @param string $widgetType
+	 * @param string $widgetName
 	 */
 	public static function removeWidgetFrom($moduleNames, $widgetType = 'DETAILVIEWWIDGET', $widgetName = 'DetailViewBlockCommentWidget')
 	{
@@ -120,6 +119,7 @@ class ModComments extends ModCommentsCore
 				$module->deleteLink($widgetType, $widgetName, 'block://ModComments:modules/ModComments/ModComments.php');
 				$commentWidgetModules[] = $moduleName;
 			}
+			\App\Cache::delete('isModuleCommentEnabled', $moduleName);
 		}
 		if (\count($commentWidgetModules) > 0) {
 			$modCommentsModule = vtlib\Module::getInstance('ModComments');

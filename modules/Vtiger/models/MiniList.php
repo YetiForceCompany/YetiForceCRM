@@ -54,11 +54,21 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		return $this->extraData['module'];
 	}
 
-	public function getTargetFields()
+	public function getTargetFields($extraField = false)
 	{
 		$fields = $this->extraData['fields'];
+		$moduleName = $this->getTargetModule();
 		if (!\in_array('id', $fields)) {
 			$fields[] = 'id';
+		}
+		if ('Calendar' === $moduleName && $extraField) {
+			$moduleModel = $this->getTargetModuleModel();
+			if (\in_array('date_start', $fields) && ($fieldModel = \Vtiger_Field_Model::getInstance('time_start', $moduleModel)) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
+				$fields[] = 'time_start';
+			}
+			if (\in_array('due_end', $fields) && ($fieldModel = \Vtiger_Field_Model::getInstance('time_end', $moduleModel)) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
+				$fields[] = 'time_end';
+			}
 		}
 		return $fields;
 	}
@@ -76,7 +86,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if (!$this->queryGenerator) {
 			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 			$this->queryGenerator->initForCustomViewById($this->widgetModel->get('filterid'));
-			$this->queryGenerator->setFields($this->getTargetFields());
+			$this->queryGenerator->setFields($this->getTargetFields(true));
 			$this->listviewHeaders = $this->listviewRecords = null;
 		}
 	}
@@ -87,7 +97,8 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
 			$suffix = '';
-			$viewName = (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $this->widgetModel->get('filterid')])->scalar();
+			$cvId = (int) $this->widgetModel->get('filterid');
+			$viewName = \App\CustomView::getCVDetails($cvId, $this->getTargetModule())['viewname'] ?? '';
 			if ($viewName) {
 				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
 			}
@@ -102,8 +113,10 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$this->initListViewController();
 		if (!$this->listviewHeaders) {
 			$headerFieldModels = [];
-			foreach ($this->queryGenerator->getListViewFields() as $fieldName => &$fieldsModel) {
-				$headerFieldModels[$fieldName] = $fieldsModel;
+			foreach ($this->getTargetFields() as $fieldName) {
+				if ('id' !== $fieldName) {
+					$headerFieldModels[$fieldName] = $this->getTargetModuleModel()->getFieldByName($fieldName);
+				}
 			}
 			$this->listviewHeaders = $headerFieldModels;
 		}
@@ -131,7 +144,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 		if (!$this->listviewRecords) {
 			if (!empty($user)) {
-				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
+				$this->queryGenerator->addCondition('assigned_user_id', $user, 'e');
 			}
 			if (!empty($this->searchParams)) {
 				$searchParamsCondition = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
@@ -156,7 +169,9 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 					}
 				}
 			} elseif ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
-				$this->queryGenerator->setOrder($targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
+				foreach ((array) $targetModuleFocus->default_order_by as $value) {
+					$this->queryGenerator->setOrder($value, $targetModuleFocus->default_sort_order);
+				}
 			}
 			$query = $this->queryGenerator->createQuery();
 			$query->limit($this->getRecordLimit());

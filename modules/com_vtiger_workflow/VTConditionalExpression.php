@@ -27,7 +27,7 @@ class VTConditionalExpression
 
 	private function evalGate($tree)
 	{
-		if (in_array($tree[0], ['and', 'or'])) {
+		if (\in_array($tree[0], ['and', 'or'])) {
 			switch ($tree[0]) {
 				case 'and':
 					return $this->evalGate($tree[1]) && $this->evalGate($tree[2]);
@@ -43,14 +43,14 @@ class VTConditionalExpression
 
 	private function evalCondition($tree)
 	{
-		if ($tree[0] === '=') {
+		if ('=' === $tree[0]) {
 			return (int) $this->getVal($tree[1]) == (int) $this->getVal($tree[2]);
 		}
 	}
 
 	private function getVal($node)
 	{
-		list($valueType, $value) = $node;
+		[$valueType, $value] = $node;
 		switch ($valueType) {
 			case 'sym':
 				return $this->env[$value];

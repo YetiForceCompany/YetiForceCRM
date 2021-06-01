@@ -24,13 +24,13 @@ var App = (window.App = {
 					if (slef.treeInstance === false) {
 						slef.treeInstance = container;
 						slef.treeInstance
-							.on('select_node.jstree', function(e, data) {
+							.on('select_node.jstree', function (e, data) {
 								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
 									return;
 								}
 								data.instance.select_node(data.node.children_d);
 							})
-							.on('deselect_node.jstree', function(e, data) {
+							.on('deselect_node.jstree', function (e, data) {
 								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
 									return;
 								}
@@ -58,7 +58,7 @@ var App = (window.App = {
 						if (searchTimeout) {
 							clearTimeout(searchTimeout);
 						}
-						searchTimeout = setTimeout(function() {
+						searchTimeout = setTimeout(function () {
 							var searchValue = treeSearch.val();
 							self.treeInstance.jstree(true).search(searchValue);
 						}, 250);
@@ -83,6 +83,37 @@ var App = (window.App = {
 			 */
 			moduleCache: {},
 			/**
+			 * Register function
+			 * @param {jQuery} container
+			 */
+			register(container) {
+				if (typeof container === 'undefined') {
+					container = $('body');
+				} else {
+					container = $(container);
+				}
+				container.on('click', '.js-quick-create-modal', function (e) {
+					e.preventDefault();
+					let element = $(this);
+					if (element.data('module')) {
+						App.Components.QuickCreate.createRecord(element.data('module'));
+					}
+					if (element.data('url')) {
+						let url = element.data('url');
+						let urlObject = app.convertUrlToObject(url);
+						let params = { callbackFunction: function () {} };
+						const progress = $.progressIndicator({ blockInfo: { enabled: true } });
+						App.Components.QuickCreate.getForm(url, urlObject.module, params).done((data) => {
+							progress.progressIndicator({
+								mode: 'hide'
+							});
+							App.Components.QuickCreate.showModal(data, params);
+							app.registerEventForClockPicker();
+						});
+					}
+				});
+			},
+			/**
 			 * createRecord
 			 *
 			 * @param   {string}  moduleName
@@ -95,18 +126,17 @@ var App = (window.App = {
 				}
 				let url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 				if (undefined === params.callbackFunction) {
-					params.callbackFunction = function() {};
+					params.callbackFunction = function () {};
 				}
 				if (
-					(app.getViewName() === 'Detail' ||
-						(app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
+					(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
 					app.getParentModuleName() != 'Settings'
 				) {
 					url += '&sourceModule=' + app.getModuleName();
 					url += '&sourceRecord=' + app.getRecordId();
 				}
 				const progress = $.progressIndicator({ blockInfo: { enabled: true } });
-				this.getForm(url, moduleName, params).done(data => {
+				this.getForm(url, moduleName, params).done((data) => {
 					progress.progressIndicator({
 						mode: 'hide'
 					});
@@ -139,7 +169,7 @@ var App = (window.App = {
 					requestParams['data'] = params.data;
 					requestParams['url'] = url;
 				}
-				AppConnector.request(requestParams).done(function(data) {
+				AppConnector.request(requestParams).done(function (data) {
 					if (isCacheActive) {
 						App.Components.QuickCreate.moduleCache[moduleName] = data;
 					}
@@ -154,11 +184,12 @@ var App = (window.App = {
 			 * @param   {object}  params
 			 */
 			showModal(html, params = {}) {
-				app.showModalWindow(html, container => {
-					const quickCreateForm = container.find('form[name="QuickCreate"]');
+				app.showModalWindow(html, (container) => {
+					const quickCreateForm = container.find('form.js-form');
 					const moduleName = quickCreateForm.find('[name="module"]').val();
 					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 					const moduleClassName = moduleName + '_QuickCreate_Js';
+					editViewInstance.setForm(quickCreateForm);
 					editViewInstance.registerBasicEvents(quickCreateForm);
 					if (typeof window[moduleClassName] !== 'undefined') {
 						new window[moduleClassName]().registerEvents(container);
@@ -168,7 +199,6 @@ var App = (window.App = {
 						params.callbackPostShown(quickCreateForm);
 					}
 					this.registerPostLoadEvents(quickCreateForm, params);
-					this.registerHelpInfo(quickCreateForm);
 				});
 			},
 			/**
@@ -180,9 +210,9 @@ var App = (window.App = {
 			 * @return  {boolean}
 			 */
 			registerPostLoadEvents(form, params) {
-				const submitSuccessCallback = params.callbackFunction || function() {};
-				const goToFullFormCallBack = params.goToFullFormcallback || function() {};
-				form.on('submit', e => {
+				const submitSuccessCallback = params.callbackFunction || function () {};
+				const goToFullFormCallBack = params.goToFullFormcallback || function () {};
+				form.on('submit', (e) => {
 					const form = $(e.currentTarget);
 					if (form.hasClass('not_validation')) {
 						return true;
@@ -211,9 +241,7 @@ var App = (window.App = {
 						});
 						if (!recordPreSaveEvent.isDefaultPrevented()) {
 							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-							const saveHandler = !!moduleInstance.quickCreateSave
-								? moduleInstance.quickCreateSave
-								: this.save;
+							const saveHandler = !!moduleInstance.quickCreateSave ? moduleInstance.quickCreateSave : this.save;
 							let progress = $.progressIndicator({
 								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 								position: 'html',
@@ -221,27 +249,39 @@ var App = (window.App = {
 									enabled: true
 								}
 							});
-							saveHandler(form).done(data => {
-								const modalContainer = form.closest('.modalContainer');
-								const parentModuleName = app.getModuleName();
-								const viewName = app.getViewName();
-								if (modalContainer.length) {
-									app.hideModalWindow(false, modalContainer[0].id);
-								}
-								if (moduleName === parentModuleName && 'List' === viewName) {
-									const listInstance = new Vtiger_List_Js();
-									listInstance.getListViewRecords();
-								}
-								submitSuccessCallback(data);
-								app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
-								progress.progressIndicator({ mode: 'hide' });
-								if (data.success) {
-									Vtiger_Helper_Js.showPnotify({
-										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
-										type: 'success'
+							saveHandler(form)
+								.done((data) => {
+									let modalContainer = form.closest('.modalContainer');
+									if (modalContainer.length) {
+										app.hideModalWindow(false, modalContainer[0].id);
+									}
+									submitSuccessCallback(data);
+									app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
+									progress.progressIndicator({ mode: 'hide' });
+									if (data.success) {
+										app.showNotify({
+											text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
+											type: 'success'
+										});
+										if ('List' === app.getViewName()) {
+											let listInstance = new Vtiger_List_Js();
+											listInstance.getListViewRecords();
+										} else if ('Detail' === app.getViewName()) {
+											if (app.getUrlVar('mode') === 'showRelatedList') {
+												Vtiger_Detail_Js.getInstance().loadRelatedList();
+											} else {
+												window.location.reload();
+											}
+										}
+									}
+								})
+								.fail(function (textStatus, errorThrown) {
+									app.showNotify({
+										text: errorThrown,
+										title: app.vtranslate('JS_ERROR'),
+										type: 'error'
 									});
-								}
-							});
+								});
 						} else {
 							//If validation fails in recordPreSaveEvent, form should submit again
 							form.removeData('submit');
@@ -251,7 +291,7 @@ var App = (window.App = {
 					}
 				});
 
-				form.find('.js-full-editlink').on('click', e => {
+				form.find('.js-full-editlink').on('click', (e) => {
 					const form = $(e.currentTarget).closest('form');
 					const editViewUrl = $(e.currentTarget).data('url');
 					goToFullFormCallBack(form);
@@ -259,14 +299,6 @@ var App = (window.App = {
 				});
 
 				this.registerTabEvents(form);
-			},
-			/**
-			 * Register help info
-			 *
-			 * @param   {object}  container jQuery
-			 */
-			registerHelpInfo(container = $('form[name="QuickCreate"]')) {
-				app.showPopoverElementView(container.find('.js-help-info'));
 			},
 			/**
 			 * Function to navigate from quick create to edit iew full form
@@ -277,7 +309,7 @@ var App = (window.App = {
 				//As formData contains information about both view and action removed action and directed to view
 				form.find('input[name="action"]').remove();
 				form.append('<input type="hidden" name="view" value="Edit" />');
-				$.each(form.find('[data-validation-engine]'), function(key, data) {
+				$.each(form.find('[data-validation-engine]'), function (key, data) {
 					$(data).removeAttr('data-validation-engine');
 				});
 				form.addClass('not_validation');
@@ -292,32 +324,32 @@ var App = (window.App = {
 				const tabElements = form.find('.nav.nav-pills , .nav.nav-tabs').find('a');
 				//This will remove the name attributes and assign it to data-element-name . We are doing this to avoid
 				//Multiple element to send as in calendar
-				const quickCreateTabOnHide = function(target) {
+				const quickCreateTabOnHide = function (target) {
 					$(target)
 						.find('[name]')
-						.each(function(index, element) {
+						.each(function (index, element) {
 							element = $(element);
 							element.attr('data-element-name', element.attr('name')).removeAttr('name');
 						});
 				};
 				//This will add the name attributes and get value from data-element-name . We are doing this to avoid
 				//Multiple element to send as in calendar
-				const quickCreateTabOnShow = function(target) {
+				const quickCreateTabOnShow = function (target) {
 					$(target)
 						.find('[data-element-name]')
-						.each(function(index, element) {
+						.each(function (index, element) {
 							element = $(element);
 							element.attr('name', element.attr('data-element-name')).removeAttr('data-element-name');
 						});
 				};
-				tabElements.on('click', function(e) {
+				tabElements.on('click', function (e) {
 					quickCreateTabOnHide(tabElements.not('[aria-expanded="false"]').attr('data-target'));
 					quickCreateTabOnShow($(this).attr('data-target'));
 					//while switching tabs we have to clear the invalid fields list
 					form.data('jqv').InvalidFields = [];
 				});
 				//To show aleady non active element , this we are doing so that on load we can remove name attributes for other fields
-				tabElements.filter('a:not(.active)').each(function(e) {
+				tabElements.filter('a:not(.active)').each(function (e) {
 					quickCreateTabOnHide($(this).attr('data-target'));
 				});
 			},
@@ -329,16 +361,14 @@ var App = (window.App = {
 			 * @return  {Promise}        aDeferred
 			 */
 			save(form) {
-				const aDeferred = $.Deferred();
-				const quickCreateSaveUrl = form.serializeFormData();
-				AppConnector.request(quickCreateSaveUrl).done(
-					data => {
+				let aDeferred = $.Deferred();
+				AppConnector.request(form.serializeFormData())
+					.done((data) => {
 						aDeferred.resolve(data);
-					},
-					(textStatus, errorThrown) => {
+					})
+					.fail(function (textStatus, errorThrown) {
 						aDeferred.reject(textStatus, errorThrown);
-					}
-				);
+					});
 				return aDeferred.promise();
 			}
 		},
@@ -352,8 +382,8 @@ var App = (window.App = {
 			showModal(params = {}, element) {
 				const self = this;
 				params['view'] = 'QuickEditModal';
-				AppConnector.request(params).done(function(html) {
-					app.showModalWindow(html, container => {
+				AppConnector.request(params).done(function (html) {
+					app.showModalWindow(html, (container) => {
 						let form = container.find('form[name="QuickEdit"]');
 						let moduleName = form.find('[name="module"]').val();
 						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
@@ -380,8 +410,9 @@ var App = (window.App = {
 			 * @return  {boolean}
 			 */
 			registerPostLoadEvents(form, params, element) {
-				const submitSuccessCallback = params.callbackFunction || function() {};
-				form.on('submit', e => {
+				const submitSuccessCallback = params.callbackFunction || function () {};
+				const goToFullFormCallBack = params.goToFullFormcallback || function () {};
+				form.on('submit', (e) => {
 					const form = $(e.currentTarget);
 					if (form.hasClass('not_validation')) {
 						return true;
@@ -410,9 +441,7 @@ var App = (window.App = {
 						});
 						if (!recordPreSaveEvent.isDefaultPrevented()) {
 							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-							const saveHandler = !!moduleInstance.quickEditSave
-								? moduleInstance.quickEditSave
-								: this.save;
+							const saveHandler = !!moduleInstance.quickEditSave ? moduleInstance.quickEditSave : this.save;
 							let progress = $.progressIndicator({
 								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 								position: 'html',
@@ -420,7 +449,7 @@ var App = (window.App = {
 									enabled: true
 								}
 							});
-							saveHandler(form).done(data => {
+							saveHandler(form).done((data) => {
 								const modalContainer = form.closest('.modalContainer');
 								const parentModuleName = app.getModuleName();
 								const viewName = app.getViewName();
@@ -435,13 +464,25 @@ var App = (window.App = {
 								app.event.trigger('QuickEdit.AfterSaveFinal', data, form, element);
 								progress.progressIndicator({ mode: 'hide' });
 								if (data.success) {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 										type: 'success'
 									});
 								}
 								if ('Detail' === viewName && app.getRecordId() === form.find('[name="record"]').val()) {
-									window.location.reload();
+									if (data.result._isViewable == false) {
+										if (window !== window.parent) {
+											window.parent.location.href = 'index.php?module=' + moduleName + '&view=ListPreview';
+										} else {
+											window.location.href = 'index.php?module=' + moduleName + '&view=List';
+										}
+									} else if (params.removeFromUrl) {
+										let searchParams = new URLSearchParams(window.location.search);
+										searchParams.delete('step');
+										window.location.href = 'index.php?' + searchParams.toString();
+									} else {
+										window.location.reload();
+									}
 								}
 							});
 						} else {
@@ -452,6 +493,26 @@ var App = (window.App = {
 						e.preventDefault();
 					}
 				});
+				form.find('.js-full-editlink').on('click', (e) => {
+					const form = $(e.currentTarget).closest('form');
+					const editViewUrl = $(e.currentTarget).data('url');
+					goToFullFormCallBack(form);
+					this.goToFullForm(form, editViewUrl);
+				});
+			},
+			/**
+			 * Function to navigate from quick create to edit iew full form
+			 *
+			 * @param   {object}  form  jQuery
+			 */
+			goToFullForm(form) {
+				form.find('input[name="action"]').remove();
+				form.append('<input type="hidden" name="view" value="Edit" />');
+				$.each(form.find('[data-validation-engine]'), function (key, data) {
+					$(data).removeAttr('data-validation-engine');
+				});
+				form.addClass('not_validation');
+				form.submit();
 			},
 			/**
 			 * Save quick create form
@@ -462,25 +523,21 @@ var App = (window.App = {
 			 */
 			save(form) {
 				const aDeferred = $.Deferred();
+				form.serializeFormData();
 				let formData = new FormData(form[0]);
-				const saveData = form.serializeFormData();
-				for (let key in saveData) {
-					formData.append(key, saveData[key]);
-				}
 				AppConnector.request({
 					url: 'index.php',
 					type: 'POST',
 					data: formData,
 					processData: false,
 					contentType: false
-				}).done(
-					data => {
+				})
+					.done(function (data) {
 						aDeferred.resolve(data);
-					},
-					(textStatus, errorThrown) => {
+					})
+					.fail(function (textStatus, errorThrown) {
 						aDeferred.reject(textStatus, errorThrown);
-					}
-				);
+					});
 				return aDeferred.promise();
 			}
 		},
@@ -520,6 +577,133 @@ var App = (window.App = {
 				const mergedOptions = Object.assign(this.defaults, options, yOptions);
 				return element.overlayScrollbars(mergedOptions).overlayScrollbars();
 			}
+		},
+		DropFile: class {
+			constructor(container, params) {
+				this.container = container;
+				this.init(params);
+			}
+			/**
+			 * Register function
+			 * @param {jQuery} container
+			 * @param {Object} params
+			 */
+			static register(container, params = {}) {
+				if (typeof container === 'undefined') {
+					container = $('body');
+				}
+				if (container.hasClass('js-drop-container') && !container.prop('disabled')) {
+					return new App.Components.DropFile(container, params);
+				}
+				const instances = [];
+				container.find('.js-drop-container').each((_, e) => {
+					instances.push(new App.Components.DropFile($(e), params));
+				});
+				return instances;
+			}
+			/**
+			 * Initiation
+			 * @param {Object} params
+			 */
+			init(params) {
+				let css = {
+					border: this.container.css('border'),
+					opacity: 'unset'
+				};
+				this.container.bind('dragenter dragover', (e) => {
+					$(e.currentTarget).css({
+						border: '2px dashed #4aa1f3',
+						opacity: 0.4
+					});
+					e.preventDefault();
+				});
+				this.container.bind('dragleave', (e) => {
+					$(e.currentTarget).css(css);
+					e.preventDefault();
+				});
+				this.container.bind('drop', (e) => {
+					let element = $(e.currentTarget).css(css);
+					e.preventDefault();
+					const files = e.originalEvent.dataTransfer.files;
+					if (files.length < 1) {
+						return false;
+					}
+					params.callback =
+						params.callback ||
+						function () {
+							let progressIndicatorElement = $.progressIndicator({
+								blockInfo: { enabled: true }
+							});
+							let formData = new FormData();
+							for (let file of files) {
+								formData.append(element.data('field-name'), file, file.name);
+							}
+							formData.append('action', 'SaveAjax');
+							formData.append('record', element.data('id'));
+							formData.append('module', element.data('module'));
+							AppConnector.request({
+								method: 'POST',
+								data: formData,
+								processData: false,
+								contentType: false
+							})
+								.done(function (data) {
+									if (data.success) {
+										progressIndicatorElement.progressIndicator({ mode: 'hide' });
+										app.showNotify({ text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'), type: 'success' });
+										if (element.closest('.js-detail-widget').length) {
+											Vtiger_Detail_Js.getInstance().getFiltersDataAndLoad(e);
+										}
+									} else {
+										app.showNotify({ text: app.vtranslate('JS_UNEXPECTED_ERROR'), type: 'error' });
+										progressIndicatorElement.progressIndicator({ mode: 'hide' });
+									}
+								})
+								.fail(function (error, err) {
+									app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
+									progressIndicatorElement.progressIndicator({ mode: 'hide' });
+									app.errorLog(error, err);
+								});
+						};
+					app.showConfirmModal(app.vtranslate('JS_CHANGE_CONFIRMATION'), (result) => {
+						if (result) {
+							params.callback(e, this);
+						}
+					});
+				});
+			}
+		}
+	},
+	Notify: {
+		/**
+		 * Check if notifications are allowed
+		 */
+		isDesktopPermitted: function () {
+			return typeof Notification !== 'undefined' && Notification.permission === 'granted';
+		},
+		/**
+		 * Show desktop notification
+		 * @param {Object} params
+		 */
+		desktop: function (params) {
+			let type = 'error';
+			params.modules = new Map([
+				...PNotify.defaultModules,
+				[
+					PNotifyDesktop,
+					{
+						fallback: false,
+						icon: params.icon
+					}
+				]
+			]);
+			if (typeof params.type !== 'undefined') {
+				type = params.type;
+				if (params.type != 'error') {
+					params.hide = true;
+				}
+			}
+			return PNotify[type](params);
 		}
 	}
 });
@@ -543,18 +727,18 @@ var app = (window.app = {
 	mousePosition: { x: 0, y: 0 },
 	childFrame: false,
 	touchDevice: false,
-	event: new (function() {
+	event: new (function () {
 		this.el = $({});
-		this.trigger = function() {
+		this.trigger = function () {
 			this.el.trigger(arguments[0], Array.prototype.slice.call(arguments, 1));
 		};
-		this.on = function() {
+		this.on = function () {
 			this.el.on.apply(this.el, arguments);
 		};
-		this.one = function() {
+		this.one = function () {
 			this.el.one.apply(this.el, arguments);
 		};
-		this.off = function() {
+		this.off = function () {
 			this.el.off.apply(this.el, arguments);
 		};
 	})(),
@@ -562,26 +746,26 @@ var app = (window.app = {
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
 	 */
-	getModuleName: function() {
+	getModuleName: function () {
 		return this.getMainParams('module');
 	},
 	/**
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
 	 */
-	getParentModuleName: function() {
+	getParentModuleName: function () {
 		return this.getMainParams('parent');
 	},
 	/**
 	 * Function returns the current view name
 	 */
-	getViewName: function() {
+	getViewName: function () {
 		return this.getMainParams('view');
 	},
 	/**
 	 * Function returns the record id
 	 */
-	getRecordId: function() {
+	getRecordId: function () {
 		var view = this.getViewName();
 		var recordId;
 		if ($.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1) {
@@ -593,20 +777,20 @@ var app = (window.app = {
 	 * Function which will give you all details of the selected record
 	 * @params {object} params - an object of values like {'record' : recordId, 'module' : searchModule, 'fieldType' : 'email'}
 	 */
-	getRecordDetails: function(params) {
+	getRecordDetails: function (params) {
 		let aDeferred = $.Deferred();
 		if (app.getParentModuleName() === 'Settings') {
 			params.parent = 'Settings';
 		}
 		AppConnector.request(Object.assign(params, { action: 'GetData' }))
-			.done(function(data) {
+			.done(function (data) {
 				if (data.success) {
 					aDeferred.resolve(data);
 				} else {
 					aDeferred.reject(data.message);
 				}
 			})
-			.fail(function(error) {
+			.fail(function (error) {
 				aDeferred.reject();
 			});
 		return aDeferred.promise();
@@ -614,13 +798,13 @@ var app = (window.app = {
 	/**
 	 * Function to get language
 	 */
-	getLanguage: function() {
+	getLanguage: function () {
 		return $('body').data('language');
 	},
 	/**
 	 * Function to get page title
 	 */
-	getPageTitle: function() {
+	getPageTitle: function () {
 		return document.title;
 	},
 	/**
@@ -682,24 +866,24 @@ var app = (window.app = {
 	/**
 	 * Function to set page title
 	 */
-	setPageTitle: function(title) {
+	setPageTitle: function (title) {
 		document.title = title;
 	},
 	/**
 	 * Function to get the contents container
 	 * @returns jQuery object
 	 */
-	getContentsContainer: function() {
+	getContentsContainer: function () {
 		return $('.bodyContents');
 	},
-	hidePopover: function(element) {
+	hidePopover: function (element) {
 		if (typeof element === 'undefined') {
 			element = $('body .js-popover-tooltip');
 		}
 		element.popover('hide');
 	},
 	hidePopoversAfterClick(popoverParent) {
-		popoverParent.on('mousedown', e => {
+		popoverParent.on('mousedown', (e) => {
 			setTimeout(() => {
 				popoverParent.popover('hide');
 			}, 100);
@@ -707,7 +891,7 @@ var app = (window.app = {
 	},
 	registerPopoverManualTrigger(element, manualTriggerDelay) {
 		const hideDelay = 500;
-		element.on('mouseleave', e => {
+		element.on('mouseleave', (e) => {
 			setTimeout(() => {
 				let currentPopover = this.getBindedPopover(element);
 				if (
@@ -749,10 +933,7 @@ var app = (window.app = {
 			.addClass('u-text-ellipsis--not-active')
 			.css(element.css(['font-size', 'font-weight', 'font-family']))
 			.appendTo('body');
-		clone
-			.find('.u-text-ellipsis')
-			.removeClass('u-text-ellipsis')
-			.addClass('u-text-ellipsis--not-active');
+		clone.find('.u-text-ellipsis').removeClass('u-text-ellipsis').addClass('u-text-ellipsis--not-active');
 		if (clone.width() - 1 > element.width()) {
 			clone.remove();
 			return true;
@@ -760,7 +941,7 @@ var app = (window.app = {
 		clone.remove();
 		return false;
 	},
-	showPopoverElementView: function(selectElement = $('.js-popover-tooltip'), params = {}) {
+	showPopoverElementView: function (selectElement = $('.js-popover-tooltip'), params = {}) {
 		let defaultParams = {
 			trigger: 'manual',
 			manualTriggerDelay: 500,
@@ -772,7 +953,7 @@ var app = (window.app = {
 			boundary: 'viewport',
 			delay: { show: 300, hide: 100 }
 		};
-		selectElement.each(function(index, domElement) {
+		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
 			let elementParams = $.extend(true, defaultParams, params, element.data());
 			if (element.data('class')) {
@@ -789,7 +970,7 @@ var app = (window.app = {
 				app.registerPopoverManualTrigger(element, elementParams.manualTriggerDelay);
 			}
 			if (elementParams.callbackShown) {
-				element.on('shown.bs.popover', function(e) {
+				element.on('shown.bs.popover', function (e) {
 					elementParams.callbackShown(e);
 				});
 			}
@@ -823,7 +1004,7 @@ var app = (window.app = {
 		selectElement = $('.js-popover-tooltip--ellipsis-icon'),
 		params = { trigger: 'hover focus' }
 	) {
-		selectElement.each(function(index, domElement) {
+		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
 			let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
 			if (!app.isEllipsisActive(popoverText)) {
@@ -842,13 +1023,13 @@ var app = (window.app = {
 	 * @param {jQuery} selectElement
 	 * @param {object} customParams
 	 */
-	registerPopoverRecord: function(
+	registerPopoverRecord: function (
 		selectElement = $('a.js-popover-tooltip--record'),
 		customParams = {},
 		container = $(document)
 	) {
 		const self = this;
-		let params = {
+		app.showPopoverElementView(selectElement, {
 			template:
 				'<div class="popover c-popover--link js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>',
 			content: '<div class="d-none"></div>',
@@ -867,7 +1048,7 @@ var app = (window.app = {
 				let currentPopover = self.getBindedPopover(selectElement);
 				let popoverBody = currentPopover.find('.popover-body');
 				popoverBody.progressIndicator({});
-				let appendPopoverData = data => {
+				let appendPopoverData = (data) => {
 					popoverBody.progressIndicator({ mode: 'hide' }).html(data);
 					if (typeof customParams.callback === 'function') {
 						customParams.callback(popoverBody);
@@ -878,14 +1059,13 @@ var app = (window.app = {
 				if (typeof cacheData !== 'undefined') {
 					appendPopoverData(cacheData);
 				} else {
-					AppConnector.request(url).done(data => {
+					AppConnector.request(url).done((data) => {
 						window.popoverCache[url] = data;
 						appendPopoverData(data);
 					});
 				}
 			}
-		};
-		app.showPopoverElementView(selectElement, params);
+		});
 	},
 	/**
 	 * Update popover record position (overwrite bootstrap positioning, failing on huge elements)
@@ -957,13 +1137,13 @@ var app = (window.app = {
 	 * @params <object> multiSelectElement
 	 * @params <object> select2 params
 	 */
-	registerChangeEventForMultiSelect: function(selectElement, params) {
+	registerChangeEventForMultiSelect: function (selectElement, params) {
 		if (typeof selectElement === 'undefined') {
 			return;
 		}
 		var instance = selectElement.data('select2');
 		var limit = params.maximumSelectionLength;
-		selectElement.on('change', function(e) {
+		selectElement.on('change', function (e) {
 			var data = instance.data();
 			if ($.isArray(data) && data.length >= limit) {
 				instance.updateResults();
@@ -976,7 +1156,7 @@ var app = (window.app = {
 	 * @params <String> returnFormat - optional which will indicate which format return value should be valid values "object" and "string"
 	 * @return <object> - encoded string or value map
 	 */
-	getSerializedData: function(parentElement, returnFormat) {
+	getSerializedData: function (parentElement, returnFormat) {
 		if (typeof returnFormat === 'undefined') {
 			returnFormat = 'string';
 		}
@@ -999,22 +1179,6 @@ var app = (window.app = {
 		}
 		return keyValueMap;
 	},
-	/**
-	 * Function animates bootstrap modal with animate.css
-	 * @params: jQuery object with class .modal,
-	 * @params: string with animation name,
-	 * @params: string with animation name,
-	 */
-	animateModal(modal, openAnimation, closeAnimation) {
-		modal.on('show.bs.modal', function(e) {
-			modal.removeClass(`animated ${closeAnimation}`);
-			modal.addClass(`animated ${openAnimation}`);
-		});
-		modal.on('hide.bs.modal', function(e) {
-			modal.removeClass(`animated ${openAnimation}`);
-			modal.addClass(`animated ${closeAnimation}`);
-		});
-	},
 	showModalData(data, container, paramsObject, cb, url, sendByAjaxCb) {
 		const thisInstance = this;
 		let params = {
@@ -1033,12 +1197,12 @@ var app = (window.app = {
 			params.backdrop = 'static';
 		}
 		// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
-		$.fn.modal.Constructor.prototype.enforceFocus = function(e) {
+		$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 			$(document)
 				.off('focusin.bs.modal') // guard against infinite focus loop
 				.on(
 					'focusin.bs.modal',
-					$.proxy(function(e) {
+					$.proxy(function (e) {
 						if ($(e.target).hasClass('select2-search__field')) {
 							return true;
 						}
@@ -1046,36 +1210,37 @@ var app = (window.app = {
 				);
 		};
 		const modalContainer = container.find('.modal:first');
-		modalContainer.one('shown.bs.modal', function() {
+		modalContainer.one('shown.bs.modal', function () {
+			thisInstance.registerDataTables(modalContainer.find('.js-modal-data-table'));
 			cb(modalContainer);
-			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
+			App.Fields.Picklist.changeSelectElementView(modalContainer);
 			App.Fields.Date.register(modalContainer);
-			new App.Fields.Text.Editor(modalContainer.find('.js-editor'), {
+			App.Fields.Text.Editor.register(modalContainer.find('.js-editor'), {
 				height: '5em',
 				toolbar: 'Min'
 			});
 			app.registesterScrollbar(modalContainer);
+			app.registerIframeEvents(modalContainer);
+			modalContainer.find('.modal-dialog').draggable({
+				handle: '.modal-title'
+			});
+			modalContainer.find('.modal-title').css('cursor', 'move');
 		});
 		$('body').append(container);
 		modalContainer.modal(params);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
-	showModalWindow: function(data, url, cb, paramsObject = {}) {
+	showModalWindow: function (data, url, cb, paramsObject = {}) {
 		if (!app.isCurrentWindowTarget('app.showModalWindow', arguments)) {
 			return false;
 		}
 		const thisInstance = this;
-		let sendByAjaxCb;
-		Window.lastModalId =
-			'modal_' +
-			Math.random()
-				.toString(36)
-				.substr(2, 9);
+		let sendByAjaxCb, modalId;
+		modalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
 		if (typeof data === 'object' && data != null && !(data instanceof $)) {
 			if (data.id != undefined) {
-				Window.lastModalId = data.id;
+				modalId = data.id;
 			}
 			paramsObject = data.css;
 			cb = data.cb;
@@ -1084,6 +1249,11 @@ var app = (window.app = {
 				sendByAjaxCb = data.sendByAjaxCb;
 			}
 			data = data.data;
+		} else if (typeof data === 'string') {
+			let modalData = $(data).last();
+			if (modalData.data('modalid')) {
+				modalId = modalData.data('modalid');
+			}
 		}
 		if (typeof url === 'function') {
 			if (typeof cb === 'object') {
@@ -1092,27 +1262,27 @@ var app = (window.app = {
 			cb = url;
 			url = false;
 		} else if (typeof url === 'object') {
-			cb = function() {};
+			cb = function () {};
 			paramsObject = url;
 			url = false;
 		}
 		if (typeof cb !== 'function') {
-			cb = function() {};
+			cb = function () {};
 		}
 		if (typeof sendByAjaxCb !== 'function') {
-			sendByAjaxCb = function() {};
+			sendByAjaxCb = function () {};
 		}
 		if (paramsObject !== undefined && paramsObject.modalId !== undefined) {
-			Window.lastModalId = paramsObject.modalId;
+			modalId = paramsObject.modalId;
 		}
 		// prevent duplicate hash generation
-		let container = $('#' + Window.lastModalId);
+		let container = $('#' + modalId);
 		if (container.length) {
 			container.remove();
 		}
 		container = $('<div></div>');
-		container.attr('id', Window.lastModalId).addClass('modalContainer js-modal-container');
-		container.one('hidden.bs.modal', function() {
+		container.attr('id', modalId).addClass('modalContainer js-modal-container');
+		container.one('hidden.bs.modal', function () {
 			container.remove();
 			let backdrop = $('.modal-backdrop');
 			if (!$('.modal.show').length) {
@@ -1122,10 +1292,11 @@ var app = (window.app = {
 				$('body').addClass('modal-open');
 			}
 		});
+		Window.lastModalId = modalId;
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
 		} else {
-			$.get(url).done(function(response) {
+			$.get(url).done(function (response) {
 				thisInstance.showModalData(response, container, paramsObject, cb, url, sendByAjaxCb);
 			});
 		}
@@ -1155,7 +1326,7 @@ var app = (window.app = {
 	 * Function which you can use to hide the modal
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
-	hideModalWindow: function(callback, id) {
+	hideModalWindow: function (callback, id) {
 		if (!app.isCurrentWindowTarget('app.hideModalWindow', arguments)) {
 			return false;
 		}
@@ -1171,7 +1342,7 @@ var app = (window.app = {
 			return;
 		}
 		if (typeof callback !== 'function') {
-			callback = function() {};
+			callback = function () {};
 		}
 		let modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
@@ -1183,13 +1354,13 @@ var app = (window.app = {
 	},
 	registerModalController: function (modalId, modalContainer, cb) {
 		let windowParent = this.childFrame ? window.parent : window;
-		if (modalId === undefined) {
+		if (!modalId) {
 			modalId = Window.lastModalId;
 		}
-		if (modalContainer === undefined) {
+		if (!modalContainer) {
 			modalContainer = $('#' + modalId + ' .js-modal-data');
 		}
-		let moduleName = modalContainer.data('module');
+		let moduleName = modalContainer.data('module') || 'Base';
 		let modalClass = moduleName.replace(':', '_') + '_' + modalContainer.data('view') + '_JS';
 		if (typeof windowParent[modalClass] === 'undefined') {
 			modalClass = 'Base_' + modalContainer.data('view') + '_JS';
@@ -1205,28 +1376,31 @@ var app = (window.app = {
 			}
 		}
 	},
-	registerModalEvents: function(container, sendByAjaxCb) {
-		var form = container.find('form');
-		var validationForm = false;
-		if (form.hasClass('validateForm')) {
+	registerModalEvents: function (container, sendByAjaxCb) {
+		let form = container.find('form');
+		let validationForm = false;
+		if (form.hasClass('validateForm') || form.hasClass('js-validate-form')) {
 			form.validationEngine(app.validationEngineOptions);
 			validationForm = true;
 		}
-		if (form.hasClass('sendByAjax')) {
-			form.on('submit', function(e) {
-				var save = true;
+		if (container.data('view') === 'QuickDetailModal') {
+			this.registerBlockAnimationEvent(container);
+		}
+		if (form.hasClass('sendByAjax') || form.hasClass('js-send-by-ajax')) {
+			form.on('submit', function (e) {
+				let save = true;
 				e.preventDefault();
 				if (validationForm && form.data('jqv').InvalidFields.length > 0) {
 					app.formAlignmentAfterValidation(form);
 					save = false;
 				}
 				if (save) {
-					var progressIndicatorElement = $.progressIndicator({
+					let progressIndicatorElement = $.progressIndicator({
 						blockInfo: { enabled: true }
 					});
-					var formData = form.serializeFormData();
+					let formData = form.serializeFormData();
 					AppConnector.request(formData)
-						.done(function(responseData) {
+						.done(function (responseData) {
 							sendByAjaxCb(formData, responseData);
 							if (responseData.success && responseData.result) {
 								if (responseData.result.notify) {
@@ -1240,20 +1414,98 @@ var app = (window.app = {
 							app.hideModalWindow();
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						})
-						.fail(function() {
+						.fail(function () {
+							app.showNotify({
+								text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+								type: 'error'
+							});
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						});
 				}
 			});
 		}
 	},
-	isHidden: function(element) {
+	registerFormsEvents: function (container) {
+		let forms = container.find('form.js-form-ajax-submit,form.js-form-single-save');
+		forms.each((i, form) => {
+			form = $(form);
+			let validationForm = false;
+			if (form.hasClass('js-validate-form')) {
+				form.validationEngine(app.validationEngineOptions);
+				validationForm = true;
+			}
+			if (form.hasClass('js-form-single-save')) {
+				form.find('select,input').on('change', function () {
+					let element = $(this);
+					if (validationForm && element.validationEngine('validate')) {
+						return;
+					}
+					let progressIndicatorElement = $.progressIndicator({
+						blockInfo: { enabled: true }
+					});
+					let formData = form.serializeFormData();
+					let name = element.attr('name').replace('[]', '');
+					formData['updateField'] = name;
+					formData['updateValue'] = formData[name];
+					AppConnector.request(formData)
+						.done(function (responseData) {
+							if (responseData.success && responseData.result) {
+								if (responseData.result.notify) {
+									app.showNotify(responseData.result.notify);
+								}
+							}
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						})
+						.fail(function (error) {
+							app.showNotify({
+								title: app.vtranslate('JS_UNEXPECTED_ERROR'),
+								text: error,
+								type: 'error'
+							});
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						});
+				});
+			}
+			if (form.hasClass('js-form-ajax-submit')) {
+				form.on('submit', function (e) {
+					let save = true;
+					e.preventDefault();
+					if (validationForm && form.data('jqv').InvalidFields.length > 0) {
+						app.formAlignmentAfterValidation(form);
+						save = false;
+					}
+					if (save) {
+						let progressIndicatorElement = $.progressIndicator({
+							blockInfo: { enabled: true }
+						});
+						AppConnector.request(form.serializeFormData())
+							.done(function (responseData) {
+								if (responseData.success && responseData.result) {
+									if (responseData.result.notify) {
+										Vtiger_Helper_Js.showMessage(responseData.result.notify);
+									}
+								}
+								progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							})
+							.fail(function () {
+								app.showNotify({
+									text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+									type: 'error'
+								});
+								progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							});
+					}
+				});
+			}
+		});
+	},
+	isHidden: function (element) {
 		if (element.css('display') == 'none') {
 			return true;
 		}
 		return false;
 	},
-	isInvisible: function(element) {
+	isInvisible: function (element) {
 		if (element.css('visibility') == 'hidden') {
 			return true;
 		}
@@ -1277,7 +1529,7 @@ var app = (window.app = {
 		//to support validation for select2 select box
 		prettySelect: true,
 		usePrefix: 's2id_',
-		onBeforePromptType: function(field) {
+		onBeforePromptType: function (field) {
 			var block = field.closest('.js-toggle-panel');
 			if (block.find('.blockContent').is(':hidden')) {
 				block.find('.blockHeader').click();
@@ -1294,7 +1546,7 @@ var app = (window.app = {
 	 * Function to push down the error message size when validation is invoked
 	 * @params : form Element
 	 */
-	formAlignmentAfterValidation: function(form) {
+	formAlignmentAfterValidation: function (form) {
 		// to avoid hiding of error message under the fixed nav bar
 		var formError = form.find(".formError:not('.greenPopup'):first");
 		if (formError.length > 0) {
@@ -1308,38 +1560,29 @@ var app = (window.app = {
 			);
 		}
 	},
-	convertToDatePickerFormat: function(dateFormat) {
+	convertToDatePickerFormat: function (dateFormat) {
 		switch (dateFormat) {
 			case 'yyyy-mm-dd':
 				return 'Y-m-d';
-				break;
 			case 'mm-dd-yyyy':
 				return 'm-d-Y';
-				break;
 			case 'dd-mm-yyyy':
 				return 'd-m-Y';
-				break;
 			case 'yyyy.mm.dd':
 				return 'Y.m.d';
-				break;
 			case 'mm.dd.yyyy':
 				return 'm.d.Y';
-				break;
 			case 'dd.mm.yyyy':
 				return 'd.m.Y';
-				break;
 			case 'yyyy/mm/dd':
 				return 'Y/m/d';
-				break;
 			case 'mm/dd/yyyy':
 				return 'm/d/Y';
-				break;
 			case 'dd/mm/yyyy':
 				return 'd/m/Y';
-				break;
 		}
 	},
-	convertTojQueryDatePickerFormat: function(dateFormat) {
+	convertTojQueryDatePickerFormat: function (dateFormat) {
 		let i,
 			dotMode = '-';
 		if (dateFormat.indexOf('-') !== -1) {
@@ -1363,7 +1606,7 @@ var app = (window.app = {
 	/*
 	 * Converts user formated date to database format yyyy-mm-dd
 	 */
-	getDateInDBInsertFormat: function(dateFormat, dateString) {
+	getDateInDBInsertFormat: function (dateFormat, dateString) {
 		var i = 0;
 		var dotMode = '-';
 		if (dateFormat.indexOf('-') !== -1) {
@@ -1396,7 +1639,45 @@ var app = (window.app = {
 		}
 		return year + '-' + month + '-' + day;
 	},
-	registerEventForDateFields: function(parentElement) {
+
+	registerBlockAnimationEvent: function (container = false) {
+		let detailViewContentHolder = $('div.details div.contents');
+		let blockHeader = detailViewContentHolder.find('.blockHeader');
+		if (container !== false) {
+			blockHeader = container.find('.blockHeader');
+		}
+		blockHeader.on('click', function (e) {
+			const target = $(e.target);
+			if (
+				target.is('input') ||
+				target.is('button') ||
+				target.parents().is('button') ||
+				target.hasClass('js-stop-propagation') ||
+				target.parents().hasClass('js-stop-propagation')
+			) {
+				return false;
+			}
+			let currentTarget = $(this).find('.js-block-toggle').not('.d-none');
+			let blockId = currentTarget.data('id');
+			let closestBlock = currentTarget.closest('.js-toggle-panel');
+			let bodyContents = closestBlock.find('.blockContent');
+			let data = currentTarget.data();
+			let module = app.getModuleName();
+			if (data.mode === 'show') {
+				bodyContents.addClass('d-none');
+				app.cacheSet(module + '.' + blockId, 0);
+				currentTarget.addClass('d-none');
+				closestBlock.find('[data-mode="hide"]').removeClass('d-none');
+			} else {
+				bodyContents.removeClass('d-none');
+				app.cacheSet(module + '.' + blockId, 1);
+				currentTarget.addClass('d-none');
+				closestBlock.find('[data-mode="show"]').removeClass('d-none');
+			}
+		});
+	},
+
+	registerEventForDateFields: function (parentElement) {
 		if (typeof parentElement === 'undefined') {
 			parentElement = $('body');
 		}
@@ -1408,7 +1689,7 @@ var app = (window.app = {
 		} else {
 			element = $('.dateField', parentElement);
 		}
-		element.datepicker({ autoclose: true }).on('changeDate', function(ev) {
+		element.datepicker({ autoclose: true }).on('changeDate', function (ev) {
 			let currentElement = $(ev.currentTarget),
 				dateFormat = currentElement.data('dateFormat').toUpperCase(),
 				date = $.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
@@ -1416,7 +1697,7 @@ var app = (window.app = {
 		});
 		App.Fields.Utils.hideMobileKeyboard(element);
 	},
-	registerEventForClockPicker: function(timeInputs = $('.clockPicker')) {
+	registerEventForClockPicker: function (timeInputs = $('.clockPicker')) {
 		if (!timeInputs.hasClass('clockPicker')) {
 			timeInputs = timeInputs.find('.clockPicker');
 		}
@@ -1429,17 +1710,15 @@ var app = (window.app = {
 			minutestep: 5
 		};
 
-		$('.js-clock__btn').on('click', e => {
+		$('.js-clock__btn').on('click', (e) => {
 			e.stopPropagation();
-			let tempElement = $(e.currentTarget)
-				.closest('.time')
-				.find('input.clockPicker');
+			let tempElement = $(e.currentTarget).closest('.time').find('input.clockPicker');
 			if (tempElement.attr('disabled') !== 'disabled' && tempElement.attr('readonly') !== 'readonly') {
 				tempElement.clockpicker('show');
 			}
 		});
 
-		let formatTimeString = timeInput => {
+		let formatTimeString = (timeInput) => {
 			if (params.twelvehour) {
 				let meridiemTime = '';
 				params.afterDone = () => {
@@ -1450,9 +1729,7 @@ var app = (window.app = {
 					app.event.trigger('Clockpicker.changed', timeInput);
 				};
 				params.beforeHide = () => {
-					meridiemTime = $('.clockpicker-buttons-am-pm:visible')
-						.find('a:not(.text-white-50)')
-						.text();
+					meridiemTime = $('.clockpicker-buttons-am-pm:visible').find('a:not(.text-white-50)').text();
 				};
 			} else {
 				params.afterDone = () => {
@@ -1470,7 +1747,7 @@ var app = (window.app = {
 		});
 		App.Fields.Utils.hideMobileKeyboard(timeInputs);
 	},
-	registerDataTables: function(table, options = {}) {
+	registerDataTables: function (table, options = {}) {
 		if ($.fn.dataTable == undefined) {
 			return false;
 		}
@@ -1507,7 +1784,7 @@ var app = (window.app = {
 	 * @params: select element
 	 * @return : select2Element - corresponding select2 element
 	 */
-	getSelect2ElementFromSelect: function(selectElement) {
+	getSelect2ElementFromSelect: function (selectElement) {
 		var selectId = selectElement.attr('id');
 		//since select2 will add s2id_ to the id of select element
 		var select2EleId = 'select2-' + selectId + '-container';
@@ -1517,19 +1794,17 @@ var app = (window.app = {
 	 * Function to set with of the element to parent width
 	 * @params : jQuery element for which the action to take place
 	 */
-	setInheritWidth: function(elements) {
-		$(elements).each(function(index, element) {
-			var parentWidth = $(element)
-				.parent()
-				.width();
+	setInheritWidth: function (elements) {
+		$(elements).each(function (index, element) {
+			var parentWidth = $(element).parent().width();
 			$(element).width(parentWidth);
 		});
 	},
-	showNewScrollbar: function(element, options = { wheelPropagation: true }) {
+	showNewScrollbar: function (element, options = { wheelPropagation: true }) {
 		if (typeof element === 'undefined' || !element.length) return;
 		return new PerfectScrollbar(element[0], Object.assign(this.scrollOptions, options));
 	},
-	showNewScrollbarTopBottomRight: function(element, options = {}) {
+	showNewScrollbarTopBottomRight: function (element, options = {}) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		let scrollbarTopLeftInit = new PerfectScrollbar(element[0], options);
@@ -1545,7 +1820,7 @@ var app = (window.app = {
 		let scrollbarBottomRightInit = new PerfectScrollbar(element[0], options);
 		return [scrollbarTopLeftInit, scrollbarBottomRightInit];
 	},
-	showNewScrollbarTopBottom: function(element, options = { wheelPropagation: true, suppressScrollY: true }) {
+	showNewScrollbarTopBottom: function (element, options = { wheelPropagation: true, suppressScrollY: true }) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		new PerfectScrollbar(element[0], options);
@@ -1560,7 +1835,7 @@ var app = (window.app = {
 			bottom: 'auto'
 		});
 	},
-	showNewScrollbarTop: function(element, options = { wheelPropagation: true, suppressScrollY: true }) {
+	showNewScrollbarTop: function (element, options = { wheelPropagation: true, suppressScrollY: true }) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		new PerfectScrollbar(element[0], options);
@@ -1574,7 +1849,7 @@ var app = (window.app = {
 			bottom: 'auto'
 		});
 	},
-	showNewScrollbarLeft: function(element, options = { wheelPropagation: true }) {
+	showNewScrollbarLeft: function (element, options = { wheelPropagation: true }) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		new PerfectScrollbar(element[0], options);
@@ -1588,7 +1863,7 @@ var app = (window.app = {
 			right: 'auto'
 		});
 	},
-	showScrollBar: function(element, options = {}) {
+	showScrollBar: function (element, options = {}) {
 		if (typeof options.height === 'undefined') options.height = element.css('height');
 		return element.slimScroll(options);
 	},
@@ -1598,13 +1873,13 @@ var app = (window.app = {
 	 */
 	registerMiddleClickScroll(container) {
 		let middleScroll = false;
-		container.on('mousedown', e => {
+		container.on('mousedown', (e) => {
 			let clickedMouseButton = e.which; // get clicked button id
 			if (clickedMouseButton == 2 && middleScroll == false) {
 				middleScroll = true;
 				let mouseY = e.pageY,
 					mouseX = e.pageX;
-				$(document).on('mousemove', e => {
+				$(document).on('mousemove', (e) => {
 					if (middleScroll == true) {
 						$('body').addClass('u-cursor-scroll-all');
 						let mouseMoveY = mouseY - e.pageY,
@@ -1628,7 +1903,7 @@ var app = (window.app = {
 	/**
 	 * Function returns translated string
 	 */
-	vtranslate: function(key) {
+	vtranslate: function (key) {
 		if (key in LANG) {
 			return LANG[key];
 		}
@@ -1637,23 +1912,23 @@ var app = (window.app = {
 	/*
 	 * Cache API on client-side
 	 */
-	cacheNSKey: function(key) {
+	cacheNSKey: function (key) {
 		// Namespace in client-storage
 		return 'yf.' + key;
 	},
-	cacheGet: function(key) {
+	cacheGet: function (key) {
 		key = this.cacheNSKey(key);
 		return store.get(key);
 	},
-	cacheSet: function(key, value) {
+	cacheSet: function (key, value) {
 		key = this.cacheNSKey(key);
 		store.set(key, value);
 	},
-	cacheClear: function(key) {
+	cacheClear: function (key) {
 		key = this.cacheNSKey(key);
 		return store.remove(key);
 	},
-	moduleCacheSet: function(key, value) {
+	moduleCacheSet: function (key, value) {
 		var orgKey = key;
 		key = this.getModuleName() + '_' + key;
 		this.cacheSet(key, value);
@@ -1668,10 +1943,10 @@ var app = (window.app = {
 		moduleCache.push(orgKey);
 		this.cacheSet(cacheKey, Vtiger_Helper_Js.unique(moduleCache).join(','));
 	},
-	moduleCacheGet: function(key) {
+	moduleCacheGet: function (key) {
 		return this.cacheGet(this.getModuleName() + '_' + key);
 	},
-	moduleCacheKeys: function() {
+	moduleCacheKeys: function () {
 		var cacheKey = 'mCache' + this.getModuleName();
 		var modules = this.cacheGet(cacheKey);
 		if (modules) {
@@ -1679,7 +1954,7 @@ var app = (window.app = {
 		}
 		return [];
 	},
-	moduleCacheClear: function(key) {
+	moduleCacheClear: function (key) {
 		var thisInstance = this;
 		var moduleName = this.getModuleName();
 		var cacheKey = 'mCache' + moduleName;
@@ -1689,25 +1964,21 @@ var app = (window.app = {
 		} else {
 			moduleCache = moduleCache.split(',');
 		}
-		$.each(moduleCache, function(index, value) {
+		$.each(moduleCache, function (index, value) {
 			thisInstance.cacheClear(moduleName + '_' + value);
 		});
 		thisInstance.cacheClear(cacheKey);
 	},
-	htmlEncode: function(value) {
+	htmlEncode: function (value) {
 		if (value) {
-			return $('<div />')
-				.text(value)
-				.html();
+			return $('<div />').text(value).html();
 		} else {
 			return '';
 		}
 	},
-	htmlDecode: function(value) {
+	htmlDecode: function (value) {
 		if (value) {
-			return $('<div />')
-				.html(value)
-				.text();
+			return $('<div />').html(value).text();
 		} else {
 			return '';
 		}
@@ -1716,36 +1987,36 @@ var app = (window.app = {
 	 * Function places an element at the center of the page
 	 * @param <jQuery Element> element
 	 */
-	placeAtCenter: function(element) {
+	placeAtCenter: function (element) {
 		element.css('position', 'absolute');
 		element.css('top', ($(window).height() - element.outerHeight()) / 2 + $(window).scrollTop() + 'px');
 		element.css('left', ($(window).width() - element.outerWidth()) / 2 + $(window).scrollLeft() + 'px');
 	},
-	getvalidationEngineOptions: function(select2Status) {
+	getvalidationEngineOptions: function (select2Status) {
 		return Object.assign({}, app.validationEngineOptions);
 	},
 	/**
 	 * Function to notify UI page ready after AJAX changes.
 	 * This can help in re-registering the event handlers (which was done during ready event).
 	 */
-	notifyPostAjaxReady: function() {
+	notifyPostAjaxReady: function () {
 		$(document).trigger('postajaxready');
 	},
 	/**
 	 * Listen to xready notiications.
 	 */
-	listenPostAjaxReady: function(callback) {
+	listenPostAjaxReady: function (callback) {
 		$(document).on('postajaxready', callback);
 	},
 	/**
 	 * Form function handlers
 	 */
-	setFormValues: function(kv) {
+	setFormValues: function (kv) {
 		for (var k in kv) {
 			$(k).val(kv[k]);
 		}
 	},
-	setRTEValues: function(kv) {
+	setRTEValues: function (kv) {
 		for (var k in kv) {
 			var rte = CKEDITOR.instances[k];
 			if (rte) rte.setData(kv[k]);
@@ -1754,7 +2025,7 @@ var app = (window.app = {
 	/**
 	 * Function returns the javascript controller based on the current view
 	 */
-	getPageController: function() {
+	getPageController: function () {
 		if (window.pageController) {
 			return window.pageController;
 		}
@@ -1796,12 +2067,10 @@ var app = (window.app = {
 	/**
 	 * Function to decode the encoded htmlentities values
 	 */
-	getDecodedValue: function(value) {
-		return $('<div></div>')
-			.html(value)
-			.text();
+	getDecodedValue: function (value) {
+		return $('<div></div>').html(value).text();
 	},
-	getCookie: function(c_name) {
+	getCookie: function (c_name) {
 		var c_value = document.cookie;
 		var c_start = c_value.indexOf(' ' + c_name + '=');
 		if (c_start === -1) {
@@ -1819,16 +2088,16 @@ var app = (window.app = {
 		}
 		return c_value;
 	},
-	setCookie: function(c_name, value, exdays) {
+	setCookie: function (c_name, value, exdays) {
 		var exdate = new Date();
 		exdate.setDate(exdate.getDate() + exdays);
 		var c_value = escape(value) + (exdays == null ? '' : '; expires=' + exdate.toUTCString());
 		document.cookie = c_name + '=' + c_value;
 	},
-	getUrlVar: function(varName) {
-		var getVar = function() {
+	getUrlVar: function (varName) {
+		var getVar = function () {
 			var vars = {};
-			window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+			window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 				vars[key] = value;
 			});
 			return vars;
@@ -1836,7 +2105,7 @@ var app = (window.app = {
 
 		return getVar()[varName];
 	},
-	getStringDate: function(date) {
+	getStringDate: function (date) {
 		var d = date.getDate();
 		var m = date.getMonth() + 1;
 		var y = date.getFullYear();
@@ -1845,7 +2114,7 @@ var app = (window.app = {
 		m = m <= 9 ? '0' + m : m;
 		return y + '-' + m + '-' + d;
 	},
-	formatDate: function(date) {
+	formatDate: function (date) {
 		var y = date.getFullYear(),
 			m = date.getMonth() + 1,
 			d = date.getDate(),
@@ -1866,16 +2135,16 @@ var app = (window.app = {
 			this.formatDateZ(s)
 		);
 	},
-	formatDateZ: function(i) {
+	formatDateZ: function (i) {
 		return i <= 9 ? '0' + i : i;
 	},
-	howManyDaysFromDate: function(time) {
+	howManyDaysFromDate: function (time) {
 		var fromTime = time.getTime();
 		var today = new Date();
 		var toTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
 		return Math.floor((toTime - fromTime) / (1000 * 60 * 60 * 24)) + 1;
 	},
-	saveAjax: function(mode, param, addToParams) {
+	saveAjax: function (mode, param, addToParams) {
 		var aDeferred = $.Deferred();
 		var params = {};
 		params['module'] = app.getModuleName();
@@ -1891,10 +2160,10 @@ var app = (window.app = {
 			}
 		}
 		AppConnector.request(params)
-			.done(function(data) {
+			.done(function (data) {
 				aDeferred.resolve(data);
 			})
-			.fail(function(textStatus, errorThrown) {
+			.fail(function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			});
 		return aDeferred.promise();
@@ -1912,7 +2181,7 @@ var app = (window.app = {
 			}
 		}
 	},
-	getMainParams: function(param, json) {
+	getMainParams: function (param, json) {
 		if (param in CONFIG) {
 			return CONFIG[param];
 		}
@@ -1929,11 +2198,11 @@ var app = (window.app = {
 		}
 		return value;
 	},
-	setMainParams: function(param, value) {
+	setMainParams: function (param, value) {
 		app.cacheParams[param] = value;
 		$('#' + param).val(value);
 	},
-	errorLog: function(error, err, errorThrown) {
+	errorLog: function (error, err, errorThrown) {
 		if (!CONFIG.debug) {
 			return;
 		}
@@ -1957,16 +2226,17 @@ var app = (window.app = {
 			console.error(errorThrown);
 		}
 	},
-	registerQuickEditModal: function(container) {
+	registerQuickEditModal: function (container) {
 		if (typeof container === 'undefined') {
 			container = $('body');
 		}
-		container.on('click', '.js-quick-edit-modal', function(e) {
+		container.on('click', '.js-quick-edit-modal', function (e) {
 			e.preventDefault();
 			let element = $(this);
 			let data = {
 				module: element.data('module'),
-				record: element.data('record')
+				record: element.data('record'),
+				removeFromUrl: 'step'
 			};
 			if (element.data('values')) {
 				$.extend(data, element.data('values'));
@@ -1980,16 +2250,19 @@ var app = (window.app = {
 			if (element.data('editFields')) {
 				data.editFields = element.data('editFields');
 			}
+			if (element.data('picklistValues')) {
+				data.picklistValues = element.data('picklistValues');
+			}
 			App.Components.QuickEdit.showModal(data, element);
 		});
 	},
-	registerModal: function(container) {
+	registerModal: function (container) {
 		if (typeof container === 'undefined') {
 			container = $('body');
 		}
 		container
 			.off('click', 'button.showModal, a.showModal, .js-show-modal')
-			.on('click', 'button.showModal, a.showModal, .js-show-modal', function(e) {
+			.on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
 				e.preventDefault();
 				var currentElement = $(e.currentTarget);
 				var url = currentElement.data('url');
@@ -2003,15 +2276,12 @@ var app = (window.app = {
 					}
 					var modalWindowParams = {
 						url: url,
-						cb: function(container) {
+						cb: function (container) {
 							var call = currentElement.data('cb');
 							if (typeof call !== 'undefined') {
 								if (call.indexOf('.') !== -1) {
 									var callerArray = call.split('.');
-									if (
-										typeof window[callerArray[0]] === 'object' ||
-										typeof window[callerArray[0]] === 'function'
-									) {
+									if (typeof window[callerArray[0]] === 'object' || typeof window[callerArray[0]] === 'function') {
 										window[callerArray[0]][callerArray[1]](container);
 									}
 								} else {
@@ -2030,28 +2300,40 @@ var app = (window.app = {
 				}
 				e.stopPropagation();
 			});
+		container.off('click', '.js-show-modal-content').on('click', '.js-show-modal-content', function (e) {
+			e.preventDefault();
+			let currentElement = $(e.currentTarget);
+			let content = currentElement.data('content');
+			let title = '',
+				modalClass = '';
+			if (currentElement.data('title')) {
+				title = currentElement.data('title');
+			}
+			if (currentElement.data('class')) {
+				modalClass = currentElement.data('class');
+			}
+			app.showModalWindow(`<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog ${modalClass}" role="document"><div class="modal-content">
+			<div class="modal-header"> <h5 class="modal-title">${title}</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div><div class="modal-body text-break">${content}</div></div></div></div>`);
+			e.stopPropagation();
+		});
 	},
-	playSound: function(action) {
+	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
 		if (soundsConfig['IS_ENABLED']) {
 			var audio = new Audio(app.getMainParams('soundFilesPath') + soundsConfig[action]);
 			audio.play();
 		}
 	},
-	registerIframeAndMoreContent() {
-		let showMoreModal = e => {
+	registerIframeAndMoreContent(container = $(document)) {
+		let showMoreModal = (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			const btn = $(e.currentTarget);
 			const message = btn.data('iframe')
-				? btn
-						.siblings('iframe')
-						.clone()
-						.show()
-				: btn
-						.closest('.js-more-content')
-						.find('.fullContent')
-						.html();
+				? btn.siblings('iframe').clone().show()
+				: btn.closest('.js-more-content').find('.fullContent').html();
 			bootbox.dialog({
 				message,
 				title: '<span class="mdi mdi-overscan"></span>  ' + app.vtranslate('JS_FULL_TEXT'),
@@ -2060,46 +2342,37 @@ var app = (window.app = {
 					danger: {
 						label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CLOSE'),
 						className: 'btn-danger',
-						callback: function() {}
+						callback: function () {}
 					}
 				}
 			});
 		};
-		$('.js-more').on('click', showMoreModal);
-		$(document).on('click', '.js-more', showMoreModal);
+		container.on('click', '.js-more', showMoreModal);
 	},
 	registerIframeEvents(content) {
-		content.find('.js-iframe-full-height').each(function() {
+		content.find('.js-iframe-full-height').each(function () {
 			let iframe = $(this);
-			iframe.on('load', e => {
-				iframe.height(
-					iframe
-						.contents()
-						.find('body')
-						.height() + 50
-				);
+			iframe.on('load', (e) => {
+				iframe.height(iframe.contents().find('body').height() + 50);
 			});
 		});
-		content.find('.js-modal-iframe').each(function() {
+		content.find('.js-modal-iframe').each(function () {
 			let iframe = $(this);
-			iframe.on('load', e => {
-				let height = iframe
-					.contents()
-					.find('body')
-					.height();
+			iframe.on('load', (e) => {
+				let height = iframe.contents().find('body').height();
 				if (height && height < iframe.height()) {
 					iframe.height(height + 50);
 				}
 			});
 		});
 	},
-	registerMenu: function() {
+	registerMenu: function () {
 		const self = this;
 		self.keyboard = { DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38 };
 		self.sidebarBtn = $('.js-sidebar-btn').first();
 		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
-		$(`a.nav-link,[tabindex],input,select,textarea,button`).on('focus', e => {
+		$(`a.nav-link,[tabindex],input,select,textarea,button`).on('focus', (e) => {
 			if (self.sidebarBtn[0] == e.target || self.sidebar.find(e.target).length) return;
 			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
@@ -2109,7 +2382,7 @@ var app = (window.app = {
 		});
 		self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
 		self.sidebar.find('.js-menu__content').on('keydown', self.sidebarKeyboard.bind(self));
-		self.sidebar.on('keydown', e => {
+		self.sidebar.on('keydown', (e) => {
 			if (e.which == self.keyboard.ESCAPE) {
 				self.closeSidebar();
 				if (self.sidebarBtn.is(':tabbable')) self.sidebarBtn.focus();
@@ -2119,39 +2392,30 @@ var app = (window.app = {
 						.focus();
 			}
 		});
-		self.sidebar.find('.js-submenu').on('shown.bs.collapse', e => {
-			$(e.target)
-				.find(':tabbable')
-				.first()
-				.focus();
-		});
-		$('.js-submenu-toggler').on('click', e => {
+		$('.js-submenu-toggler').on('click', (e) => {
 			if (!$(e.currentTarget).hasClass('collapsed') && !$(e.target).closest('.toggler').length) {
 				window.location = $(e.currentTarget).attr('href');
 			}
 		});
 		self.registerPinEvent();
 	},
-	openSidebar: function() {
+	openSidebar: function () {
 		this.sidebar.addClass('js-expand');
 		this.sidebarBtn.attr('aria-expanded', true);
 	},
-	closeSidebar: function() {
+	closeSidebar: function () {
 		this.sidebar.removeClass('js-expand');
 		this.sidebarBtn.attr('aria-expanded', false);
 	},
-	toggleSidebar: function() {
+	toggleSidebar: function () {
 		if (this.sidebar.hasClass('js-expand')) {
 			this.closeSidebar();
 		} else {
 			this.openSidebar();
-			this.sidebar
-				.find('.js-menu__content :tabbable')
-				.first()
-				.focus();
+			this.sidebar.find('.js-menu__content :tabbable').first().focus();
 		}
 	},
-	registerPinEvent: function() {
+	registerPinEvent: function () {
 		const self = this;
 		let pinButton = self.sidebar.find('.js-menu--pin');
 		let baseContainer = self.sidebar.closest('.js-base-container');
@@ -2166,9 +2430,7 @@ var app = (window.app = {
 			} else {
 				pinButton.addClass('u-opacity-muted');
 				baseContainer.removeClass('c-menu--open');
-				self.sidebar
-					.on('mouseenter', self.openSidebar.bind(self))
-					.on('mouseleave', self.closeSidebar.bind(self));
+				self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
 				self.closeSidebar.bind(self);
 			}
 			AppConnector.request({
@@ -2177,7 +2439,7 @@ var app = (window.app = {
 				field: 'leftpanelhide',
 				record: CONFIG.userId,
 				value: hideMenu
-			}).done(function(responseData) {
+			}).done(function (responseData) {
 				if (responseData.success && responseData.result) {
 					pinButton.attr('data-show', hideMenu);
 				}
@@ -2187,16 +2449,14 @@ var app = (window.app = {
 			}, 300);
 		});
 	},
-	sidebarKeyboard: function(e) {
+	sidebarKeyboard: function (e) {
 		let target = $(e.target);
 		if (e.which == this.keyboard.LEFT) {
 			if (target.hasClass('js-submenu-toggler') && !target.hasClass('collapsed')) {
 				target.click();
 				return false;
 			} else {
-				let toggler = $(e.target)
-					.closest('.js-submenu')
-					.prev('.js-submenu-toggler');
+				let toggler = $(e.target).closest('.js-submenu').prev('.js-submenu-toggler');
 				if (toggler.length && !toggler.hasClass('collapsed')) {
 					toggler.click().focus();
 					return false;
@@ -2222,11 +2482,11 @@ var app = (window.app = {
 			return false;
 		}
 	},
-	registerTabdrop: function() {
+	registerTabdrop: function () {
 		let tabs = $('.js-tabdrop');
 		if (!tabs.length) return;
 		let tab = tabs.find('> li');
-		tab.each(function() {
+		tab.each(function () {
 			$(this).removeClass('d-none');
 		});
 		tabs.tabdrop({
@@ -2236,24 +2496,24 @@ var app = (window.app = {
 		let dropdown = tabs.find('> li.dropdown');
 		dropdown.appendTo(tabs);
 		//fix for toggle button text not changing
-		tab.on('click', function(e) {
-			setTimeout(function() {
+		tab.on('click', function (e) {
+			setTimeout(function () {
 				$(window).trigger('resize');
 			}, 500);
 		});
 		$(window).trigger('resize');
 	},
-	getScreenHeight: function(percantage) {
+	getScreenHeight: function (percantage) {
 		if (typeof percantage === 'undefined') {
 			percantage = 100;
 		}
 		return ($(window).height() * percantage) / 100;
 	},
-	clearBrowsingHistory: function() {
+	clearBrowsingHistory: function () {
 		AppConnector.request({
 			module: 'Home',
 			action: 'BrowsingHistory'
-		}).done(function(response) {
+		}).done(function (response) {
 			$('.historyList').html(
 				`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`
 			);
@@ -2300,14 +2560,15 @@ var app = (window.app = {
 	 */
 	convertUrlToObject(url) {
 		let urlObject = {};
-		url.split('index.php?')[1]
-			.split('&')
-			.forEach(el => {
-				if (el.includes('=')) {
-					let values = el.split('=');
-					urlObject[values[0]] = values[1];
-				}
-			});
+		if (url.indexOf('index.php?') !== -1) {
+			url = url.split('index.php?')[1];
+		}
+		url.split('&').forEach((el) => {
+			if (el.includes('=')) {
+				let values = el.split('=');
+				urlObject[values[0]] = values[1];
+			}
+		});
 		return urlObject;
 	},
 	/**
@@ -2320,7 +2581,7 @@ var app = (window.app = {
 	 */
 	convertObjectToUrl(urlData = {}, entryFile = 'index.php?') {
 		let url = entryFile;
-		Object.keys(urlData).forEach(key => {
+		Object.keys(urlData).forEach((key) => {
 			let value = urlData[key];
 			if (typeof value === 'object' || (typeof value === 'string' && value.startsWith('<'))) {
 				return;
@@ -2329,7 +2590,7 @@ var app = (window.app = {
 		});
 		return url;
 	},
-	showConfirmation: function(data, element) {
+	showConfirmation: function (data, element) {
 		var params = {};
 		if (data) {
 			params = $.extend(params, data);
@@ -2346,19 +2607,19 @@ var app = (window.app = {
 				params.url = element.data('url');
 			}
 		}
-		Vtiger_Helper_Js.showConfirmationBox(params).done(function() {
+		Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
 			if (params.type == 'href') {
-				AppConnector.request(params.url).done(function(data) {
+				AppConnector.request(params.url).done(function (data) {
 					app.openUrl(data.result);
 				});
 			} else if (params.type == 'reloadTab') {
-				AppConnector.request(params.url).done(function(data) {
+				AppConnector.request(params.url).done(function (data) {
 					Vtiger_Detail_Js.getInstance().reloadTabContent();
 				});
 			}
 		});
 	},
-	formatToHourText: function(decTime, type = 'short', withSeconds = false, withMinutes = true) {
+	formatToHourText: function (decTime, type = 'short', withSeconds = false, withMinutes = true) {
 		const short = type === 'short';
 		const hour = Math.floor(decTime);
 		const min = Math.floor((decTime - hour) * 60);
@@ -2381,11 +2642,11 @@ var app = (window.app = {
 		}
 		return result.trim();
 	},
-	showRecordsList: function(params = {}, cb, afterShowModal) {
-		if (!params.view) {
+	showRecordsList: function (params, cb, afterShowModal) {
+		if (typeof params === 'object' && !params.view) {
 			params.view = 'RecordsList';
 		}
-		this.showRecordsListModal(params).done(function(modal) {
+		this.showRecordsListModal(params).done(function (modal) {
 			if (typeof afterShowModal === 'function') {
 				afterShowModal(modal);
 			}
@@ -2397,15 +2658,15 @@ var app = (window.app = {
 	 * @param {object} params
 	 * @returns {Promise}
 	 */
-	showRecordsListModal: function(params) {
+	showRecordsListModal: function (params) {
 		const aDeferred = $.Deferred();
 		AppConnector.request(params)
-			.done(function(requestData) {
-				app.showModalWindow(requestData, function(modal) {
+			.done(function (requestData) {
+				app.showModalWindow(requestData, function (modal) {
 					aDeferred.resolve(modal);
 				});
 			})
-			.fail(function(textStatus, errorThrown) {
+			.fail(function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			});
 		return aDeferred.promise();
@@ -2423,7 +2684,7 @@ var app = (window.app = {
 		element = $(element).get(0); // make sure we have HTMLElement not jQuery because it will not work
 		const imageType = options.imageType;
 		delete options.imageType;
-		return html2canvas(element, options).then(canvas => {
+		return html2canvas(element, options).then((canvas) => {
 			const base64Image = canvas.toDataURL(imageType);
 			if (typeof callback === 'function') {
 				callback(base64Image);
@@ -2431,15 +2692,13 @@ var app = (window.app = {
 			return base64Image;
 		});
 	},
-	registerHtmlToImageDownloader: function(container) {
+	registerHtmlToImageDownloader: function (container) {
 		const self = this;
-		container.on('click', '.js-download-html', function(e) {
+		container.on('click', '.js-download-html', function (e) {
 			let element = $(this);
 			let fileName = element.data('fileName');
-			self.htmlToImage($(element.data('html'))).then(img => {
-				$(`<a href="${img}" download="${fileName}.png"></a>`)
-					.get(0)
-					.click();
+			self.htmlToImage($(element.data('html'))).then((img) => {
+				$(`<a href="${img}" download="${fileName}.png"></a>`).get(0).click();
 			});
 		});
 	},
@@ -2448,111 +2707,118 @@ var app = (window.app = {
 		txt.innerHTML = html;
 		return txt.value;
 	},
-	showAlert: function(customParams) {
-		let userParams = customParams;
-		if (typeof customParams === 'string') {
-			userParams = {};
-			userParams.text = customParams;
-		}
-		let params = {
-			target: document.body,
-			data: {
-				type: 'error',
-				hide: false,
-				stack: {
-					dir1: 'down',
-					modal: true,
-					firstpos1: 25
-				},
-				modules: {
-					Confirm: {
+	showAlert: function (text) {
+		return this.showNotify({
+			title: text,
+			type: 'error',
+			closer: false,
+			sticker: false,
+			destroy: false,
+			modules: new Map([
+				...PNotify.defaultModules,
+				[
+					PNotifyConfirm,
+					{
 						confirm: true,
 						buttons: [
 							{
-								text: 'Ok',
-								promptTrigger: true,
+								text: app.vtranslate('JS_OK'),
 								primary: true,
-								click: function(notice) {
-									notice.close();
-								}
+								click: (notice) => notice.close()
 							}
 						]
-					},
-					Buttons: {
-						closer: false,
-						sticker: false
-					},
-					History: {
-						history: false
 					}
-				}
-			}
-		};
-		if (typeof userParams !== 'undefined') {
-			params.data = $.extend(params.data, userParams);
-		}
-		return new PNotify(params);
+				]
+			]),
+			stack: new PNotify.Stack({
+				dir1: 'down',
+				modal: true,
+				firstpos1: 25,
+				overlayClose: false
+			})
+		});
 	},
-	showConfirmModal: function(customParams, confirmCallback = () => {}, cancelCallback = () => {}) {
-		let aDeferred = $.Deferred();
-
-		let userParams = customParams;
-		if (typeof customParams === 'string') {
-			userParams = {};
-			userParams.text = customParams;
-		}
+	showNotify: function (customParams) {
 		let params = {
-			target: document.body,
-			data: {
-				hide: false,
-				icon: 'fas fa-question-circle',
-				stack: {
-					dir1: 'down',
-					modal: true,
-					firstpos1: 25
-				},
-				modules: {
-					Confirm: {
+			hide: false
+		};
+		let userParams = customParams;
+		let type = 'info';
+		if (typeof customParams === 'string') {
+			userParams = {
+				title: customParams
+			};
+		}
+		if (typeof customParams.type !== 'undefined') {
+			type = customParams.type;
+		}
+		if (type !== 'error') {
+			params.hide = true;
+		}
+		return PNotify[type]($.extend(params, userParams));
+	},
+	/**
+	 * Set Pnotify defaults options
+	 */
+	setPnotifyDefaultOptions() {
+		PNotify.defaults.textTrusted = true; // *Trusted option enables html as parameter's value
+		PNotify.defaults.titleTrusted = true;
+		PNotify.defaults.sticker = false;
+		PNotify.defaults.styling = 'bootstrap4';
+		PNotify.defaults.icons = 'fontawesome5';
+		PNotify.defaults.delay = 3000;
+		PNotify.defaults.stack.maxOpen = 10;
+		PNotify.defaults.stack.spacing1 = 5;
+		PNotify.defaults.stack.spacing2 = 5;
+		PNotify.defaults.labels.close = app.vtranslate('JS_CLOSE');
+		PNotify.defaultModules.set(PNotifyBootstrap4, {});
+		PNotify.defaultModules.set(PNotifyFontAwesome5, {});
+		PNotify.defaultModules.set(PNotifyMobile, {});
+	},
+	showConfirmModal: function (text, callback) {
+		return this.showNotify({
+			icon: 'fas fa-question-circle',
+			title: text,
+			closer: false,
+			sticker: false,
+			destroy: false,
+			modules: new Map([
+				...PNotify.defaultModules,
+				[
+					PNotifyConfirm,
+					{
 						confirm: true,
 						buttons: [
 							{
 								text: app.vtranslate('JS_OK'),
 								primary: true,
 								promptTrigger: true,
-								click: function(notice) {
+								click: function (notice) {
 									notice.close();
-									confirmCallback();
-									aDeferred.resolve(true);
+									callback(true);
 								}
 							},
 							{
 								text: app.vtranslate('JS_CANCEL'),
-								click: function(notice) {
+								click: function (notice) {
 									notice.close();
-									cancelCallback();
-									aDeferred.resolve(false);
+									callback(false);
 								}
 							}
 						]
-					},
-					Buttons: {
-						closer: false,
-						sticker: false
-					},
-					History: {
-						history: false
 					}
-				}
-			}
-		};
-		if (typeof userParams !== 'undefined') {
-			params.data = $.extend(params.data, userParams);
-		}
-		new PNotify(params);
-		return aDeferred.promise();
+				]
+			]),
+			stack: new PNotify.Stack({
+				dir1: 'down',
+				modal: true,
+				firstpos1: 25,
+				overlayClose: false
+			})
+		});
 	},
 	registesterScrollbar(container) {
-		container.find('.js-scrollbar').each(function() {
+		container.find('.js-scrollbar').each(function () {
 			let element = $(this),
 				scrollbarFnName = element.data('scrollbarFnName');
 
@@ -2565,13 +2831,13 @@ var app = (window.app = {
 	},
 	registerPopover(container = $(document)) {
 		window.popoverCache = {};
-		container.on('mousemove', e => {
+		container.on('mousemove', (e) => {
 			app.mousePosition = { x: e.pageX, y: e.pageY };
 		});
 		container.on(
 			'mouseenter',
 			'.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]',
-			e => {
+			(e) => {
 				let currentTarget = $(e.currentTarget);
 				if (currentTarget.find('.js-popover-tooltip--record').length) {
 					return;
@@ -2580,10 +2846,7 @@ var app = (window.app = {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
 						app.registerPopoverRecord(currentTarget, {}, container);
 						currentTarget.trigger('mouseenter');
-					} else if (
-						!currentTarget.hasClass('js-popover-tooltip--record') &&
-						currentTarget.data('field-type')
-					) {
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
 						app.registerPopoverRecord(currentTarget.children('a'), {}, container); //popoverRecord on children doesn't need triggering
 					} else if (
 						!currentTarget.hasClass('js-popover-tooltip--record') &&
@@ -2601,41 +2864,11 @@ var app = (window.app = {
 			}
 		);
 	},
-	showNotify: function(params) {
-		if (typeof params.type === 'undefined') {
-			params.type = 'info';
-		}
-		if (typeof params.title === 'undefined') {
-			params.title = app.vtranslate('JS_MESSAGE');
-		}
-		Vtiger_Helper_Js.showPnotify(params);
-	},
-	showDesktopNotification: function(params) {
-		params = $.extend(params, {
-			modules: {
-				Desktop: {
-					desktop: true,
-					fallback: false,
-					icon: params.icon
-				}
-			}
-		});
-		PNotify.notice(params);
-	},
-	/**
-	 * Set Pnotify defaults options
-	 */
-	setPnotifyDefaultOptions() {
-		PNotify.defaults.textTrusted = true; // *Trusted option enables html as parameter's value
-		PNotify.defaults.titleTrusted = true;
-		PNotify.defaults.styling = 'bootstrap4';
-		PNotify.defaults.icons = 'fontawesome5';
-	},
 	/**
 	 * Register auto format number value
 	 */
 	registerFormatNumber() {
-		$(document).on('focusout', '.js-format-numer', e => {
+		$(document).on('focusout', '.js-format-numer', (e) => {
 			$(e.currentTarget).formatNumber();
 		});
 	},
@@ -2644,7 +2877,7 @@ var app = (window.app = {
 	 * @param container
 	 */
 	registerToggleIconClick(container) {
-		container.on('click', '.js-toggle-icon, .js-toggle-icon__container', e => {
+		container.on('click', '.js-toggle-icon, .js-toggle-icon__container', (e) => {
 			let icon = $(e.target);
 			if (icon.hasClass('js-toggle-icon__container')) {
 				icon = icon.find('.js-toggle-icon');
@@ -2660,18 +2893,53 @@ var app = (window.app = {
 		return temporalDiv.textContent || temporalDiv.innerText || '';
 	},
 	registerShowHideBlock(container) {
-		container.on('click', '.js-hb__btn', e => {
-			$(e.currentTarget)
-				.closest('.js-hb__container')
-				.toggleClass('u-hidden-block__opened');
+		container.on('click', '.js-hb__btn', (e) => {
+			$(e.currentTarget).closest('.js-hb__container').toggleClass('u-hidden-block__opened');
 		});
-		container.find('.js-fab__container').on('clickoutside', e => {
+		container.find('.js-fab__container').on('clickoutside', (e) => {
 			$(e.currentTarget).removeClass('u-hidden-block__opened');
 		});
+	},
+	processEvents: false,
+	registerAfterLoginEvents: function () {
+		if (this.processEvents === false) {
+			let processEvents = $('#processEvents');
+			if (processEvents.length === 0) {
+				return;
+			}
+			this.processEvents = JSON.parse(processEvents.val());
+		}
+		if (this.processEvents.length === 0) {
+			return;
+		}
+		let event = this.processEvents.shift();
+		switch (event.type) {
+			case 'modal':
+				AppConnector.request(event.url)
+					.done(function (requestData) {
+						app.showModalWindow(requestData).one('hidden.bs.modal', function () {
+							app.registerAfterLoginEvents();
+						});
+					})
+					.fail(function (textStatus, errorThrown) {
+						app.showNotify({
+							title: app.vtranslate('JS_ERROR'),
+							text: errorThrown,
+							type: 'error'
+						});
+					});
+				break;
+			case 'notify':
+				app.showNotify(event.notify);
+				app.registerAfterLoginEvents();
+				break;
+			default:
+				return;
+		}
 	}
 });
 CKEDITOR.disableAutoInline = true;
-$(document).ready(function() {
+$(function () {
 	Quasar.iconSet.set(Quasar.iconSet.mdiV3);
 	let document = $(this);
 	app.registerToggleIconClick(document);
@@ -2690,8 +2958,11 @@ $(document).ready(function() {
 	app.registesterScrollbar(document);
 	app.registerHtmlToImageDownloader(document);
 	app.registerShowHideBlock(document);
+	app.registerAfterLoginEvents(document);
+	app.registerFormsEvents(document);
+	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
-	String.prototype.toCamelCase = function() {
+	String.prototype.toCamelCase = function () {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 	};
@@ -2705,45 +2976,40 @@ $(document).ready(function() {
 		pageController.registerEvents();
 	}
 });
-(function($) {
-	$.fn.getNumberFromValue = function() {
+(function ($) {
+	$.fn.getNumberFromValue = function () {
 		return App.Fields.Double.formatToDb($(this).val());
 	};
-	$.fn.getNumberFromText = function() {
+	$.fn.getNumberFromText = function () {
 		return App.Fields.Double.formatToDb($(this).text());
 	};
-	$.fn.setValue = function(value, type = 'value') {
+	$.fn.setValue = function (value, type = 'value') {
 		return App.Fields.Utils.setValue($(this), value, type);
 	};
-	$.fn.formatNumber = function() {
+	$.fn.formatNumber = function () {
 		let element = $(this);
 		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false));
 	};
-	$.fn.disable = function() {
+	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');
 	};
-	$.fn.enable = function() {
+	$.fn.enable = function () {
 		this.removeAttr('disabled');
 	};
-	$.fn.serializeFormData = function() {
-		let form = $(this);
+	$.fn.serializeFormData = function () {
+		let form = this;
 		for (var instance in CKEDITOR.instances) {
 			CKEDITOR.instances[instance].updateElement();
 		}
 		let values = form.serializeArray();
 		let data = {};
 		if (values) {
-			$(values).each(function(k, v) {
-				if (v.name in data && typeof data[v.name] !== 'object') {
-					let element = form.find('[name="' + v.name + '"]');
-					//Only for muti select element we need to send array of values
-					if (element.is('select') && element.attr('multiple') != undefined) {
-						let prevValue = data[v.name];
+			$(values).each(function (k, v) {
+				let element = form.find('[name="' + v.name + '"]');
+				if (element.is('select') && element.attr('multiple') != undefined) {
+					if (data[v.name] == undefined) {
 						data[v.name] = [];
-						data[v.name].push(prevValue);
 					}
-				}
-				if (typeof data[v.name] === 'object') {
 					data[v.name].push(v.value);
 				} else {
 					data[v.name] = v.value;
@@ -2752,23 +3018,22 @@ $(document).ready(function() {
 		}
 		// If data-type="autocomplete", pickup data-value="..." set
 		let autocompletes = $('[data-type="autocomplete"]', $(this));
-		$(autocompletes).each(function(i) {
+		$(autocompletes).each(function (i) {
 			let ac = $(autocompletes[i]);
 			data[ac.attr('name')] = ac.data('value');
 		});
 		return data;
 	};
 	// Case-insensitive :icontains expression
-	$.expr[':'].icontains = function(obj, index, meta, stack) {
+	$.expr[':'].icontains = function (obj, index, meta, stack) {
 		return (
-			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !==
-			-1
+			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !== -1
 		);
 	};
-	$.fn.removeTextNode = function() {
+	$.fn.removeTextNode = function () {
 		$(this)
 			.contents()
-			.filter(function() {
+			.filter(function () {
 				return this.nodeType == 3; //Node.TEXT_NODE
 			})
 			.remove();

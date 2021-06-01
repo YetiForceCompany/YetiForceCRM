@@ -1,13 +1,15 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
-window.Occurrences_Calendar_Js = class Occurrences_Calendar_Js extends Vtiger_Calendar_Js {
+window.Occurrences_Calendar_Js = class Occurrences_Calendar_Js extends (
+	Vtiger_Calendar_Js
+) {
 	/**
 	 * Register day click event.
 	 * @param {string} date
 	 */
 	registerDayClickEvent(date) {
 		let self = this;
-		self.getCalendarCreateView().done(function(data) {
+		self.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
@@ -38,20 +40,15 @@ window.Occurrences_Calendar_Js = class Occurrences_Calendar_Js extends Vtiger_Ca
 				} else {
 					let now = new Date();
 					startTimeString = moment(now).format(defaultTimeFormat);
-					endTimeString = moment(now)
-						.add(15, 'minutes')
-						.format(defaultTimeFormat);
+					endTimeString = moment(now).add(15, 'minutes').format(defaultTimeFormat);
 				}
 			} else {
-				endTimeString = moment(endDateInstance)
-					.add(30, 'minutes')
-					.format(defaultTimeFormat);
+				endTimeString = moment(endDateInstance).add(30, 'minutes').format(defaultTimeFormat);
 			}
 			data.find('[name="date_start"]').val(startDateString + ' ' + startTimeString);
 			data.find('[name="date_end"]').val(endDateString + ' ' + endTimeString);
 
-			let headerInstance = new Vtiger_Header_Js();
-			headerInstance.handleQuickCreateData(data, {
+			App.Components.QuickCreate.showModal(data, {
 				callbackFunction(data) {
 					self.loadCalendarData();
 				}

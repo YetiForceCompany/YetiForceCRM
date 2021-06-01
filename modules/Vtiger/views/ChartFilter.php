@@ -2,6 +2,8 @@
 /**
  * View to create chart with a filter.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
@@ -11,13 +13,35 @@
 /**
  * View to create chart with a filter.
  */
-class Vtiger_ChartFilter_View extends Vtiger_Index_View
+class Vtiger_ChartFilter_View extends \App\Controller\Modal
 {
-	/**
-	 * Process request.
-	 *
-	 * @param \App\Request $request
-	 */
+	/** {@inheritdoc} */
+	protected $pageTitle = 'LBL_ADD_CHART_FILTER';
+
+	/** {@inheritdoc} */
+	public $modalIcon = 'fas fa-chart-pie';
+
+	/** {@inheritdoc} */
+	public $showFooter = false;
+
+	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
+	{
+		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$privilegesModel->hasModulePermission($request->getModule()) || !$privilegesModel->hasModulePermission($request->getModule(), 'CreateDashboardChartFilter')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
+
+	/** {@inheritdoc} */
+	public function preProcessAjax(App\Request $request)
+	{
+		if ('step1' === $request->getByType('step', \App\Purifier::ALNUM)) {
+			parent::preProcessAjax($request);
+		}
+	}
+
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -38,6 +62,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 					'Line' => 'LBL_LINE_CHART',
 					'LinePlain' => 'LBL_LINE_CHART_PLAIN',
 					'Funnel' => 'LBL_FUNNEL_CHART',
+					'Table' => 'LBL_TABLE_CHART'
 				];
 				$viewer->assign('CHART_TYPES', $chartTypes);
 				//Since comments is not treated as seperate module
@@ -61,12 +86,20 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 			case 'step4':
 				$selectedModuleName = $request->getByType('selectedModule', 2);
 				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
+				$groupFieldName = $request->getByType('groupField', \App\Purifier::ALNUM);
+				$groupField = $selectedModuleModel->getFieldByName($groupFieldName);
+				$viewer->assign('SHOW_GROUP_VALUES', \in_array($groupField->getFieldDataType(), ['date', 'datetime']));
+				$viewer->assign('GROUP_VALUES', [
+					'daily' => 'LBL_DAILY',
+					'monthly' => 'LBL_MONTHLY',
+					'yearly' => 'LBL_YEARLY'
+				]);
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				$viewer->assign('SELECTED_MODULE_MODEL', $selectedModuleModel);
 				$viewer->assign('MODULE_FIELDS', Vtiger_Module_Model::getInstance($selectedModuleName)->getFieldsByBlocks());
 				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
-				$viewer->assign('GROUP_FIELD', $request->getByType('groupField', 'Alnum'));
-				$viewer->assign('GROUP_FIELD_MODEL', $selectedModuleModel->getFieldByName($request->getByType('groupField', 'Alnum')));
+				$viewer->assign('GROUP_FIELD', $groupFieldName);
+				$viewer->assign('GROUP_FIELD_MODEL', $groupField);
 				$filters = $request->getArray('filtersId', 'Integer');
 				$viewer->assign('FILTERS', $filters);
 				break;
@@ -74,5 +107,15 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				break;
 		}
 		$viewer->view('dashboards/ChartFilter.tpl', $moduleName);
+	}
+
+	/** {@inheritdoc} */
+	public function getModalScripts(App\Request $request)
+	{
+		$viewName = $request->getByType('view', \App\Purifier::ALNUM);
+		return $this->checkAndConvertJsScripts([
+			"modules.Vtiger.resources.dashboards.{$viewName}",
+			"modules.{$request->getModule()}.resources.dashboards.{$viewName}"
+		]);
 	}
 }

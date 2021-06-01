@@ -12,7 +12,7 @@ class Reservations_Record_Model extends Vtiger_Record_Model
 
 	public function checkID($ID)
 	{
-		if ($ID == 0 || $ID == '') {
+		if (0 == $ID || '' == $ID) {
 			return false;
 		}
 		return true;

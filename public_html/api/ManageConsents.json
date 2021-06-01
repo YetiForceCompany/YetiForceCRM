@@ -2,6 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "YetiForce API for Webservice App. Type: Manage consents",
+        "description": "Skip the `/webservice` fragment for connections via ApiProxy. There are two ways to connect to API, with or without rewrite, below are examples of both:\n * rewrite\n * - __CRM_URL__/webservice/ManageConsents/Users/Login\n * - __CRM_URL__/webservice/ManageConsents/Accounts/RecordRelatedList/117/Contacts\n * without rewrite\n * - __CRM_URL__/webservice.php?_container=ManageConsents&module=Users&action=Login\n * - __CRM_URL__/webservice.php?_container=ManageConsents&module=Accounts&action=RecordRelatedList&record=117&param=Contacts",
         "termsOfService": "https://yetiforce.com/",
         "contact": {
             "name": "Devs API Team",
@@ -12,10 +13,10 @@
             "name": "YetiForce Public License v3",
             "url": "https://yetiforce.com/en/yetiforce/license"
         },
-        "version": "0.1"
+        "version": "0.2"
     },
     "paths": {
-        "/webservice/ApprovalsRegister/Record": {
+        "/webservice/ManageConsents/ApprovalsRegister/Record": {
             "post": {
                 "tags": [
                     "Consents"
@@ -47,12 +48,12 @@
                     "200": {
                         "description": "Result of adding entry",
                         "content": {
-                            "text/html": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApprovalsRegisterResponseBody"
                                 }
                             },
-                            "application/json": {
+                            "application/xml": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApprovalsRegisterResponseBody"
                                 }
@@ -60,7 +61,7 @@
                         }
                     },
                     "401": {
-                        "description": "No sent token OR Invalid token"
+                        "description": "`No sent token` OR `Invalid token`"
                     },
                     "403": {
                         "description": "No permissions for module"
@@ -71,20 +72,20 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/Approvals/RecordsList": {
+        "/webservice/ManageConsents/Approvals/RecordsList": {
             "get": {
                 "tags": [
                     "Consents"
                 ],
                 "summary": "Gets the list of consents",
-                "operationId": "Api\\ManageConsents\\BaseModule\\RecordsList::get",
+                "operationId": "Api\\ManageConsents\\Approvals\\RecordsList::get",
                 "parameters": [
                     {
                         "name": "x-row-limit",
@@ -124,25 +125,25 @@
                         "in": "header",
                         "description": "Add conditions [Json format]",
                         "required": false,
-                        "schema": {
-                            "$ref": "#/components/schemas/ApprovalsConditionsRequest"
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApprovalsConditionsRequest"
+                                }
+                            }
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of consents",
                         "content": {
-                            "text/html": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ConsentsResponseBody"
                                 }
                             },
-                            "application/json": {
+                            "application/xml": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ConsentsResponseBody"
                                 }
@@ -150,25 +151,61 @@
                         }
                     },
                     "401": {
-                        "description": "No sent token OR Invalid token"
+                        "description": "`No sent token` OR `Invalid token`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     },
                     "403": {
-                        "description": "No permissions for module"
+                        "description": "No permissions for module",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     },
                     "405": {
-                        "description": "Method Not Allowed"
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/{moduleName}/GetConsentsForEntry": {
+        "/webservice/ManageConsents/{moduleName}/GetConsentsForEntry": {
             "post": {
                 "tags": [
                     "Consents"
@@ -212,11 +249,6 @@
                     "200": {
                         "description": "List of consents for specific entry",
                         "content": {
-                            "text/html": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ConsentsForEntryResponseBody"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ConsentsForEntryResponseBody"
@@ -225,7 +257,7 @@
                         }
                     },
                     "401": {
-                        "description": "No sent token OR Invalid token"
+                        "description": "`No sent token` OR `Invalid token`"
                     },
                     "403": {
                         "description": "No permissions for module"
@@ -239,14 +271,14 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/{moduleName}/SendEmail": {
+        "/webservice/ManageConsents/{moduleName}/SendEmail": {
             "post": {
                 "tags": [
                     "Consents"
@@ -290,11 +322,6 @@
                     "200": {
                         "description": "List of consents for specific entry",
                         "content": {
-                            "text/html": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SendEmailResponseBody"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/SendEmailResponseBody"
@@ -303,7 +330,7 @@
                         }
                     },
                     "401": {
-                        "description": "No sent token OR Invalid token"
+                        "description": "`No sent token` OR `Invalid token`"
                     },
                     "403": {
                         "description": "No permissions for module"
@@ -317,9 +344,9 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -376,6 +403,7 @@
                 "title": "Conditions",
                 "description": "The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. ",
                 "type": "string",
+                "format": "json",
                 "example": {
                     "fieldName": "approvals_status",
                     "value": "PLL_ACTIVE",
@@ -537,6 +565,51 @@
                 },
                 "type": "object"
             },
+            "Exception": {
+                "title": "Error exception",
+                "properties": {
+                    "status": {
+                        "description": "0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0
+                        ],
+                        "example": 0
+                    },
+                    "error": {
+                        "description": "Error  details",
+                        "properties": {
+                            "message": {
+                                "description": "To show more details turn on: config\\Debug.php apiShowExceptionMessages = true",
+                                "type": "string",
+                                "example": "Invalid method"
+                            },
+                            "code": {
+                                "description": "Gets consents.",
+                                "type": "integer",
+                                "example": 405
+                            },
+                            "file": {
+                                "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
+                                "type": "string",
+                                "example": "api\\webservice\\Portal\\BaseAction\\Files.php"
+                            },
+                            "line": {
+                                "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
+                                "type": "integer",
+                                "example": 101
+                            },
+                            "backtrace": {
+                                "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
+                                "type": "string",
+                                "example": "#0 api\\webservice\\Portal\\BaseAction\\Files.php (101) ...."
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "ConsentsForEntryRequestBody": {
                 "title": "Request body for GetConsentsForEntry",
                 "properties": {
@@ -568,9 +641,10 @@
                                 "example": 24842
                             },
                             "consents": {
-                                "description": "Gets consents.",
-                                "type": "array",
-                                "items": {
+                                "description": "Get the edit value in display view",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Data from the associated module",
                                     "type": "integer",
                                     "example": 24862
                                 }
@@ -609,7 +683,7 @@
                     },
                     "result": {
                         "description": "Added mail to quote for send: true - success , false - fail",
-                        "type": "bool",
+                        "type": "boolean",
                         "example": true
                     }
                 },
@@ -619,18 +693,18 @@
         "securitySchemes": {
             "basicAuth": {
                 "type": "http",
-                "in": "header",
+                "description": "Basic Authentication header",
                 "scheme": "basic"
             },
             "ApiKeyAuth": {
                 "type": "apiKey",
-                "description": "Webservice api key",
+                "description": "Webservice api key header",
                 "name": "X-API-KEY",
                 "in": "header"
             },
             "token": {
                 "type": "apiKey",
-                "description": "Webservice api token by user",
+                "description": "Webservice api token by user header",
                 "name": "X-TOKEN",
                 "in": "header"
             }

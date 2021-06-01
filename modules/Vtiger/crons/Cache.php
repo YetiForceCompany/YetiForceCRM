@@ -1,6 +1,6 @@
 <?php
 /**
- * Clear cache cron.
+ * Clear cache cron file.
  *
  * @package   Cron
  *
@@ -10,29 +10,16 @@
  */
 
 /**
- * Vtiger_Cache_Cron class.
+ * Clear cache cron class.
  */
 class Vtiger_Cache_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
-		$time = strtotime('-30 day');
-		$dirs = ['pdf', 'import', 'mail', 'session', 'vtlib', 'rss_cache', 'upload'];
-		$exclusion = ['.htaccess', 'index.html'];
-		foreach ($dirs as $dir) {
-			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isFile() && !\in_array($item->getBasename(), $exclusion) && $item->getMTime() < $time && $item->getATime() < $time) {
-					unlink($item->getPathname());
-				}
-			}
-		}
-		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\App\Fields\File::getTmpPath(), \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			if ($item->isFile() && !\in_array($item->getBasename(), $exclusion) && $item->getMTime() < $time && $item->getATime() < $time) {
-				unlink($item->getPathname());
-			}
-		}
+		\App\Cache::clearTemporaryFiles();
+		\App\Db::getInstance('admin')->createCommand()
+			->delete('s_#__tokens', ['<', 'expiration_date', date('Y-m-d H:i:s')])
+			->execute();
 	}
 }

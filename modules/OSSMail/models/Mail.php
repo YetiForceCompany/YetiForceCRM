@@ -281,7 +281,7 @@ class OSSMail_Mail_Model extends \App\Base
 		$return = [];
 		$cacheKey = 'MailSearchByEmails' . $moduleName . '_' . $fieldName;
 		foreach ($emails as $email) {
-			if (empty($email)) {
+			if (empty($email) || \in_array($email, ['@', 'undisclosed-recipients@', 'undisclosed-recipients'])) {
 				continue;
 			}
 			if (App\Cache::staticHas($cacheKey, $email)) {
@@ -321,6 +321,9 @@ class OSSMail_Mail_Model extends \App\Base
 		$cacheKey = 'MailSearchByDomains' . $moduleName . '_' . $fieldName;
 		$crmids = [];
 		foreach ($emails as $email) {
+			if (empty($email) || \in_array($email, ['@', 'undisclosed-recipients@', 'undisclosed-recipients'])) {
+				continue;
+			}
 			$domain = mb_strtolower(explode('@', $email)[1]);
 			if (App\Cache::staticHas($cacheKey, $domain)) {
 				$cache = App\Cache::staticGet($cacheKey, $domain);
@@ -396,19 +399,20 @@ class OSSMail_Mail_Model extends \App\Base
 			'modifiedby' => $userId,
 			'createdtime' => $useTime,
 			'modifiedtime' => $useTime,
+			'folderid' => 'T2'
 		];
 		if ($attachments = $this->get('attachments')) {
 			$maxSize = \App\Config::main('upload_maxsize');
 			foreach ($attachments as $attachment) {
 				if ($maxSize < ($size = \strlen($attachment['attachment']))) {
-					\App\Log::error("Error - downloaded the file is too big '{$attachment['filename']}', size: {$size}, in mail: {$this->get('date')} | {$this->get('from_email')} | {$this->get('subject')} | folder: {$this->getFolder()} | message_id:{$this->get('message_id')}", __CLASS__);
+					\App\Log::error("Error - downloaded the file is too big '{$attachment['filename']}', size: {$size}, in mail: {$this->get('date')} | Folder: {$this->getFolder()} | ID: {$this->get('id')}", __CLASS__);
 					continue;
 				}
 				$fileInstance = \App\Fields\File::loadFromContent($attachment['attachment'], $attachment['filename'], ['validateAllCodeInjection' => true]);
 				if ($fileInstance && $fileInstance->validateAndSecure() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
 				} else {
-					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | {$this->get('from_email')} | {$this->get('subject')}", __CLASS__);
+					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | Folder: {$this->getFolder()} | ID: {$this->get('id')}", __CLASS__);
 				}
 			}
 		}

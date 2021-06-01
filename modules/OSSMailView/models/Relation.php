@@ -25,9 +25,9 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 			$destinationRecordId = [$destinationRecordId];
 		}
 
-		$typeRelation = empty($this->getData) ? (new OSSMailView_GetRecordToMails_Relation()) : $this->getTypeRelationModel();
+		$relationModel = empty($this->getData) ? (new OSSMailView_GetRecordToMails_Relation()) : $this->getTypeRelationModel();
 		if ($params) {
-			$typeRelation->date = $params;
+			$relationModel->date = $params;
 		}
 		foreach ($destinationRecordId as $crmId) {
 			$destinationModuleName = \App\Record::getType($crmId);
@@ -42,7 +42,7 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 			$eventHandler->setModuleName($destinationModuleName);
 			$eventHandler->setParams($data);
 			$eventHandler->trigger('EntityBeforeLink');
-			if ($return = $typeRelation->create($sourceRecordId, $crmId)) {
+			if ($return = $relationModel->create($sourceRecordId, $crmId)) {
 				CRMEntity::trackLinkedInfo($crmId);
 				$eventHandler->trigger('EntityAfterLink');
 			}

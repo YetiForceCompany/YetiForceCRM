@@ -19,9 +19,9 @@ class Campaigns_Module_Model extends Vtiger_Module_Model
 	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
+	public function getQueryByModuleField($sourceModule, $field, $record, App\QueryGenerator $queryGenerator)
 	{
-		if (in_array($sourceModule, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
+		if (\in_array($sourceModule, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 			$subQuery = (new App\Db\Query())->select(['campaignid'])->from('vtiger_campaign_records')->where(['crmid' => $record]);
 			$queryGenerator->addNativeCondition(['not in', 'vtiger_campaign.campaignid', $subQuery]);
 		}

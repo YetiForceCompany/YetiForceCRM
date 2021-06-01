@@ -20,6 +20,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('add');
+		$this->exposeMethod('import');
 		$this->exposeMethod('rename');
 		$this->exposeMethod('processStatus');
 		$this->exposeMethod('remove');
@@ -72,8 +73,67 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $request->getForHtml('description'), $request->getByType('prefix', 'Text'), $request->getByType('record_state', 'Integer'));
 			$response->setResult(['id' => $id['id']]);
 		} catch (Exception $e) {
-			$response->setException($e);
+			$response->setError($e->getCode(), $e->getMessage());
 		}
+		$response->emit();
+	}
+
+	/**
+	 * Import Picklist.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function import(App\Request $request): void
+	{
+		if (empty($_FILES['file']['name'])) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['file']);
+		if (!$fileInstance->validate() || 'csv' !== $fileInstance->getExtension()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$moduleModel = Settings_Picklist_Module_Model::getInstance($request->getByType('source_module', 'Alnum'));
+		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
+		$csv = new \ParseCsv\Csv();
+		$csv->heading = false;
+		$csv->use_mb_convert_encoding = true;
+		if ($fileInstance->getEncoding(['UTF-8', 'ISO-8859-1']) !== \App\Config::main('default_charset', 'UTF-8')) {
+			$csv->encoding($fileInstance->getEncoding(), \App\Config::main('default_charset', 'UTF-8'));
+		}
+		$csv->auto($fileInstance->getPath());
+		$error = '';
+		$allCounter = $successCounter = $errorsCounter = 0;
+		$rolesSelected = [];
+		if ($fieldModel->isRoleBased()) {
+			$rolesSelected = (new \App\Db\Query())
+				->select(['vtiger_role.roleid'])
+				->from('vtiger_user2role')
+				->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+				->column();
+		}
+		foreach ($csv->data as $lineNo => $row) {
+			if ('' === $row[0]) {
+				continue;
+			}
+			++$allCounter;
+			try {
+				$fieldModel->validate($row[0]);
+				$moduleModel->addPickListValues($fieldModel, $row[0], $rolesSelected, $row[1] ?? '', $row[2] ?? '');
+				++$successCounter;
+			} catch (\Throwable $th) {
+				++$errorsCounter;
+				$error .= "[$lineNo] '{$row[0]}': {$th->getMessage()}\n";
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'all' => $allCounter,
+			'success' => $successCounter,
+			'errors' => $errorsCounter,
+			'errorMessage' => $error,
+		]);
 		$response->emit();
 	}
 
@@ -104,7 +164,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 				}
 				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $request->getForHtml('description'), $request->getByType('prefix', 'Text'));
-				if ($fieldModel->isProcessStatusField()) {
+				if ($fieldModel->isProcessStatusField() || !empty(\App\RecordStatus::getLockStatus($moduleName, false)[$request->getInteger('picklist_valueid')])) {
 					$fieldModel->updateCloseState($request->getInteger('picklist_valueid'), $newValue);
 				}
 				$response->setResult([
@@ -113,7 +173,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 					'newValue' => \App\Language::translate($newValue, $moduleName)
 				]);
 			} catch (Exception $e) {
-				$response->setException($e);
+				$response->setError($e->getCode(), $e->getMessage());
 			}
 		}
 		$response->emit();
@@ -139,7 +199,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 			}
 			if ($fieldModel->isProcessStatusField()) {
-				$result = $result && $fieldModel->updateRecordStatus($id, $request->getInteger('record_state'), $request->getInteger('time_counting'));
+				$timeCounting = $request->has('time_counting') ? $request->getInteger('time_counting') : null;
+				$result = $result && $fieldModel->updateRecordStatus($id, $request->getInteger('record_state'), $timeCounting);
 			}
 			if (15 === $fieldModel->getUIType()) {
 				$result = $result && $fieldModel->updateCloseState($valueId, $value, $request->getBoolean('close_state'));

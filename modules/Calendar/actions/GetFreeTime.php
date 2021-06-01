@@ -18,7 +18,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -86,7 +86,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 					],
 				]
 			])->orderBy(['time_start' => SORT_ASC])
-				->createCommand()->query();
+			->createCommand()->query();
 		$recordsEndTime = '';
 		while ($row = $dataReader->read()) {
 			$date = new DateTime($row['date_start'] . ' ' . $startTime);
@@ -101,11 +101,10 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 				$endTime = new DateTimeField($endHourFormat);
 				$startTime = new DateTimeField($startTime);
 				return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endTime->getDisplayTime()];
-			} else {
-				$startTime = $row['time_end'];
-				if (empty($recordsEndTime) || strtotime($row['time_end']) > strtotime($recordsEndTime)) {
-					$recordsEndTime = $row['time_end'];
-				}
+			}
+			$startTime = $row['time_end'];
+			if (empty($recordsEndTime) || strtotime($row['time_end']) > strtotime($recordsEndTime)) {
+				$recordsEndTime = $row['time_end'];
 			}
 		}
 		$dataReader->close();
@@ -117,21 +116,20 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$formattedDate = strtotime(date_format($date, 'H:i:s'));
 		if ($formattedDate > strtotime($endWorkHour) || $formattedDate < strtotime($startWorkHour)) {
 			$date->add(new DateInterval('P1D'));
-			while (in_array(date_format($date, 'w'), App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
+			while (\in_array(date_format($date, 'w'), App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
 				$date->add(new DateInterval('P1D'));
 			}
 			return $this->getFreeTimeInDay(date_format($date, 'Y-m-d'), $activityType, $currentUser->getId());
-		} else {
-			$endTime = new DateTimeField(date_format($date, 'H:i:s'));
-			$startTime = new DateTimeField($startTime);
-			return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endTime->getDisplayTime()];
 		}
+		$endTime = new DateTimeField(date_format($date, 'H:i:s'));
+		$startTime = new DateTimeField($startTime);
+		return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endTime->getDisplayTime()];
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$dateStart = DateTimeField::convertToDBFormat($request->getByType('dateStart', 'DateInUserFormat'));
 		$currentUser = $request->isEmpty('ownerId') ? \App\User::getCurrentUserModel() : \App\User::getUserModel($request->getInteger('ownerId'));

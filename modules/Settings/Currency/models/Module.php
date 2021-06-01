@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
@@ -34,6 +35,6 @@ class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
 	public static function delete($recordId)
 	{
 		\App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['deleted' => 1], ['id' => $recordId])->execute();
-		Settings_Currency_Record_Model::clearCache();
+		\App\Fields\Currency::clearCache();
 	}
 }

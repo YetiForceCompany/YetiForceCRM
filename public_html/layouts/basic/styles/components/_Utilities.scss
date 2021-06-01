@@ -41,6 +41,10 @@
 }
 
 .u-fs-14px {
+	font-size: calculate-rem(14px) !important;
+}
+
+.u-fs-15px {
 	font-size: calculate-rem(15px) !important;
 }
 
@@ -82,10 +86,6 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-
-	&:hover {
-		overflow: initial;
-	}
 
 	&.u-text-ellipsis--bg-white {
 		&:hover {
@@ -271,6 +271,10 @@
 	width: 10%;
 }
 
+.u-w-24per {
+	width: 24%;
+}
+
 .u-w-30per {
 	width: 30%;
 }
@@ -291,9 +295,33 @@
 	width: 60%;
 }
 
+.u-w-158px {
+	width: calculate-rem(158px) !important;
+}
+
 .u-w-max {
 	width: max-content !important;
 	width: -moz-max-content !important;
+}
+
+.u-w-50px {
+	width: 50px;
+}
+
+.u-w-85px {
+	width: 85px;
+}
+
+.u-w-79px {
+	width: 79px;
+}
+
+.u-w-125px {
+	width: 125px;
+}
+
+.u-w-90per {
+	width: 90%;
 }
 
 .u-w-max-320px {
@@ -328,32 +356,41 @@
 	min-width: 18rem;
 }
 
-.u-w-50px {
-	width: 50px;
+.u-min-w-300px {
+	min-width: 300px !important;
 }
 
-.u-w-85px {
-	width: 85px;
+.u-min-w-400px {
+	min-width: 400px !important;
 }
 
-.u-w-79px {
-	width: 79px;
+.u-min-w-500px {
+	min-width: 400px !important;
 }
 
-.u-w-125px {
-	width: 125px;
+.u-min-w-470pxr {
+	min-width: calculate-rem(470px);
 }
 
-.u-w-90per {
-	width: 90%;
-}
-
-.u-min-w-650px {
+.u-min-w-650pxr {
 	min-width: calculate-rem(650px) !important;
 }
 
-.u-min-w-300px {
+.u-min-w-150pxr {
+	min-width: calculate-rem(150px) !important;
+}
+
+.u-min-w-300pxr {
 	min-width: calculate-rem(300px) !important;
+}
+
+.u-table-min-width-10rem table tr > td,
+.u-table-min-width-10rem table tr > th {
+	min-width: 10rem;
+}
+.u-table-min-width-5rem table tr > td,
+.u-table-min-width-5rem table tr > th {
+	min-width: 5rem;
 }
 
 .u-w-1em {
@@ -370,6 +407,10 @@
 	.u-w-xs-down-100 {
 		width: 100%;
 	}
+}
+
+.u-max-w-40px {
+	max-width: calculate-rem(40px);
 }
 
 .u-max-w-150px {
@@ -427,6 +468,10 @@
 
 .u-max-h-70vh {
 	max-height: 70vh;
+}
+
+.u-h-line-normal {
+	line-height: normal;
 }
 
 //--- BORDER ---//
@@ -582,9 +627,11 @@ body:not(.desktop) {
 	pointer-events: none;
 	opacity: 0.65;
 }
-
 .u-box-shadow {
 	@include u-box-shadow(3px 3px 14px 0 rgba(50, 50, 50, 0.75));
+}
+.u-box-shadow-light {
+	@include u-box-shadow(0.1rem 0.1rem 0.35rem rgba(0, 0, 0, 0.6));
 }
 
 @each $breakpoint, $max in $grid-breakpoints {
@@ -706,10 +753,15 @@ body:not(.desktop) {
 
 // --- MIN HEIGHT --- //
 
-@for $i from 1 through 10 {
+@for $i from 1 through 25 {
 	.u-min-height-#{$i}0 {
 		min-height: #{$i}0px;
 	}
+}
+
+// --- LINE HEIGHT --- //
+.u-lh-12 {
+	line-height: 1.2;
 }
 
 // --- FLEX --- //

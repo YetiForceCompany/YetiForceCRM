@@ -53,18 +53,6 @@ class Competition extends Vtiger_CRMEntity
 	];
 
 	/**
-	 * Mandatory for Listing (Related listview).
-	 *
-	 * @var array
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'LBL_SUBJECT' => ['competition', 'subject'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-	];
-
-	/**
 	 * List fields name.
 	 *
 	 * @var array
@@ -81,13 +69,6 @@ class Competition extends Vtiger_CRMEntity
 	 * @var string[]
 	 */
 	public $relationFields = [];
-
-	/**
-	 * Make the field link to detail view.
-	 *
-	 * @var string
-	 */
-	public $list_link_field = 'subject';
 
 	/**
 	 * For Popup listview and UI type support.
@@ -301,7 +282,7 @@ class Competition extends Vtiger_CRMEntity
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$row = (new App\Db\Query())->select([
 			'u_#__competition.*',
-			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN ${userNameSql} ELSE vtiger_groups.groupname END as user_name"),
+			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN {$userNameSql} ELSE vtiger_groups.groupname END as user_name"),
 		])->from('u_#__competition')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__competition.competitionid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
@@ -361,7 +342,7 @@ class Competition extends Vtiger_CRMEntity
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())->select([
 			'u_#__competition.*',
-			new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN ${userNameSql} ELSE vtiger_groups.groupname END as user_name"),
+			new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN {$userNameSql} ELSE vtiger_groups.groupname END as user_name"),
 		])->from('u_#__competition')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__competition.competitionid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')

@@ -117,7 +117,7 @@ class RecordStatus
 		foreach (Fields\Picklist::getValues($fieldName) as $value) {
 			if (isset($value['record_state']) && $state === $value['record_state']) {
 				$values[$value[$primaryKey]] = $value['picklistValue'];
-			} elseif (null === $state) {
+			} elseif (null === $state && isset($value['record_state'])) {
 				$values[$value[$primaryKey]] = $value['record_state'];
 			}
 		}
@@ -323,7 +323,7 @@ class RecordStatus
 		$date = (new Db\Query())->select(['date'])
 			->from($recordModel->getModule()->get('basetable') . '_state_history')
 			->where(['crmid' => $recordModel->getId(), 'after' => $state])->orderBy(['date' => SORT_DESC])
-			->limit(1)->scalar();
+			->scalar();
 		Cache::save($cacheName, $state, $date);
 		return $date;
 	}

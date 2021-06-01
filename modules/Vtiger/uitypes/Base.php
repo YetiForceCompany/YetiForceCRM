@@ -38,7 +38,19 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 *  Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
+	 * Function to get the field model for condition builder.
+	 *
+	 * @param string $operator
+	 *
+	 * @return Vtiger_Field_Model
+	 */
+	public function getConditionBuilderField(string $operator): Vtiger_Field_Model
+	{
+		return $this->getFieldModel();
+	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
 	 *
 	 * @param mixed  $value
 	 * @param string $operator
@@ -123,6 +135,16 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Verification of value.
+	 *
+	 * @param mixed $value
+	 */
+	public function validateValue($value)
+	{
+		return true;
+	}
+
+	/**
 	 * Convert value before writing to the database.
 	 *
 	 * @param mixed               $value
@@ -148,6 +170,9 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if ($rawText) {
+			return $value;
+		}
 		if (\is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
@@ -227,12 +252,16 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param                      $value
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param bool                 $rawText
 	 *
 	 * @return mixed
 	 */
-	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
-		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, false, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		if (\in_array('modTrackerDisplay', $this->getFieldModel()->getAnonymizationTarget())) {
+			return '****';
+		}
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, $rawText, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 	}
 
 	/**
@@ -246,7 +275,22 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
 	{
-		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
+		$params = $params ? \App\TextParser::parseFieldParam($params) : [];
+		$this->fullUrl = true;
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, isset($params['raw']) ? ((bool) $params['raw']) : true);
+	}
+
+	/**
+	 * Function to get display value for Web Service API.
+	 *
+	 * @param                      $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return mixed
+	 */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		return \App\Purifier::decodeHtml($this->getDisplayValue($value, $recordModel->getId(), $recordModel, true, false));
 	}
 
 	/**
@@ -366,7 +410,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getHeaderTypes()
 	{
-		return ['LBL_HEADER_TYPE_VALUE' => 'value'];
+		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_HIGHLIGHTS' => 'highlights'];
 	}
 
 	/**

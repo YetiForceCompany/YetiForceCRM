@@ -12,28 +12,28 @@
  *  Class representing a standard calendar.
  * @extends Calendar_Js
  */
-window.Calendar_Calendar_Js = class extends Calendar_Js {
+window.Calendar_Calendar_Js = class extends (
+	Calendar_Js
+) {
 	setCalendarModuleOptions() {
 		let self = this,
 			options = {
-				select: function(start, end) {
+				select: function (start, end) {
 					self.selectDays(start, end);
 					self.getCalendarView().fullCalendar('unselect');
 				},
-				eventClick: function(calEvent, jsEvent, view) {
+				eventClick: function (calEvent, jsEvent, view) {
 					jsEvent.preventDefault();
 					const link = new URL($(this)[0].href);
 					if (self.createView) {
 						let progressInstance = jQuery.progressIndicator({
 							blockInfo: { enabled: true }
 						});
-						const callbackFunction = data => {
+						const callbackFunction = (data) => {
 							progressInstance.progressIndicator({ mode: 'hide' });
 						};
 						app.showModalWindow({
-							url: `index.php?module=${
-								this.module
-							}&view=ActivityStateModal&record=${link.searchParams.get('record')}`,
+							url: `index.php?module=${this.module}&view=ActivityStateModal&record=${link.searchParams.get('record')}`,
 							cb: callbackFunction
 						});
 					} else {
@@ -64,7 +64,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		let parentParams = super.getDefaultParams(),
 			users = app.moduleCacheGet('calendar-groups') || [],
 			filters = [];
-		$('.calendarFilters .filterField').each(function() {
+		$('.calendarFilters .filterField').each(function () {
 			let element = $(this),
 				name,
 				value;
@@ -105,7 +105,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		if (end_hour == '') {
 			end_hour = '00';
 		}
-		this.getCalendarCreateView().done(function(data) {
+		this.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
@@ -122,15 +122,10 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 							break;
 						}
 					}
-					endDate = moment(endDate)
-						.add(minutes, 'minutes')
-						.toISOString();
+					endDate = moment(endDate).add(minutes, 'minutes').toISOString();
 				}
 			}
-			var dateFormat = data
-				.find('[name="date_start"]')
-				.data('dateFormat')
-				.toUpperCase();
+			var dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
 			var timeFormat = data.find('[name="time_start"]').data('format');
 			if (timeFormat == 24) {
 				var defaultTimeFormat = 'HH:mm';
@@ -147,9 +142,8 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 			data.find('[name="time_start"]').val(startTimeString);
 			data.find('[name="time_end"]').val(endTimeString);
 
-			var headerInstance = new Vtiger_Header_Js();
-			headerInstance.handleQuickCreateData(data, {
-				callbackFunction: function(data) {
+			App.Components.QuickCreate.showModal(data, {
+				callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result);
 				}
 			});
@@ -158,14 +152,8 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 
 	isNewEventToDisplay(eventObject) {
 		if (super.isNewEventToDisplay(eventObject)) {
-			let taskstatus = $.inArray(eventObject.activitystatus.value, [
-				'PLL_POSTPONED',
-				'PLL_CANCELLED',
-				'PLL_COMPLETED'
-			]);
-			var state = $('.fc-toolbar .js-switch--label-on')
-				.last()
-				.hasClass('active');
+			let taskstatus = $.inArray(eventObject.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
+			var state = $('.fc-toolbar .js-switch--label-on').last().hasClass('active');
 			if ((state === true && taskstatus >= 0) || (state != true && taskstatus == -1)) {
 				return false;
 			} else {
@@ -188,12 +176,12 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 			blockInfo: { enabled: true }
 		});
 		this.loadCalendarCreateView()
-			.done(function(data) {
+			.done(function (data) {
 				progressInstance.progressIndicator({ mode: 'hide' });
 				thisInstance.calendarCreateView = data;
 				aDeferred.resolve(data.clone(true, true));
 			})
-			.fail(function(error) {
+			.fail(function (error) {
 				progressInstance.progressIndicator({ mode: 'hide' });
 				console.error(error);
 			});
@@ -203,13 +191,11 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 	loadCalendarCreateView() {
 		var aDeferred = jQuery.Deferred();
 		var url = `index.php?module=${this.module}&view=QuickCreateAjax`;
-		var headerInstance = Vtiger_Header_Js.getInstance();
-		headerInstance
-			.getQuickCreateForm(url, this.module)
-			.done(function(data) {
+		App.Components.QuickCreate.getForm(url, this.module)
+			.done(function (data) {
 				aDeferred.resolve(jQuery(data));
 			})
-			.fail(function() {
+			.fail(function () {
 				aDeferred.reject();
 			});
 		return aDeferred.promise();
@@ -242,7 +228,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		}
 		$(this.switchTpl(app.vtranslate('JS_TO_REALIZE'), app.vtranslate('JS_HISTORY'), switchHistory))
 			.prependTo(switchContainer)
-			.on('change', 'input', e => {
+			.on('change', 'input', (e) => {
 				const currentTarget = $(e.currentTarget);
 				if (typeof currentTarget.data('on-text') !== 'undefined') {
 					app.setMainParams('showType', 'current');
@@ -261,7 +247,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		if (app.getMainParams('hiddenDays', true) !== false) {
 			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), switchAllDays))
 				.prependTo(switchContainer)
-				.on('change', 'input', e => {
+				.on('change', 'input', (e) => {
 					const currentTarget = $(e.currentTarget);
 					let hiddenDays = [];
 					if (typeof currentTarget.data('on-text') !== 'undefined') {
@@ -282,7 +268,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 	registerCacheSettings() {
 		var thisInstance = this;
 		var calendar = thisInstance.getCalendarView();
-		$('.siteBarRight .filterField').each(function(index) {
+		$('.siteBarRight .filterField').each(function (index) {
 			var name = $(this).attr('id');
 			var value = app.moduleCacheGet(name);
 			var element = $('#' + name);
@@ -292,7 +278,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 				}
 			}
 		});
-		calendar.find('.fc-toolbar .fc-button').on('click', function(e) {
+		calendar.find('.fc-toolbar .fc-button').on('click', function (e) {
 			let view;
 			let element = $(e.currentTarget);
 			view = calendar.fullCalendar('getView');
@@ -310,10 +296,10 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		var keys = app.moduleCacheKeys();
 		if (keys.length > 0) {
 			var alert = $('#moduleCacheAlert');
-			$('.bodyContents').on('Vtiger.Widget.Load.undefined', function(e, data) {
+			$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
 				alert.removeClass('d-none');
 			});
-			alert.find('.cacheClear').on('click', function(e) {
+			alert.find('.cacheClear').on('click', function (e) {
 				app.moduleCacheClear();
 				alert.addClass('d-none');
 				location.reload();

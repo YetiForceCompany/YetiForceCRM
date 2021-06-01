@@ -28,31 +28,32 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 	/**
 	 * Find and bind.
 	 *
-	 * @return bool|int
+	 * @return bool|int|array
 	 */
 	public function findAndBind()
 	{
 		$mailId = $this->mail->getMailCrmId();
-		if (!$mailId) {
-			return 0;
-		}
-		$returnIds = [];
-		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_ossmailview_relation')->where(['ossmailviewid' => $mailId]);
-		$dataReader = $query->createCommand()->query();
-		while ($crmId = $dataReader->readColumn(0)) {
-			if (\App\Record::getType($crmId) === $this->moduleName) {
-				$returnIds[] = $crmId;
+		$recordId = 0;
+		if ($mailId) {
+			$query = (new \App\Db\Query())->select(['vtiger_ossmailview_relation.crmid'])
+				->from('vtiger_ossmailview_relation')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid')
+				->where(['ossmailviewid' => $mailId, 'setype' => $this->moduleName])
+				->andWhere(['<>', 'vtiger_crmentity.deleted', 1])
+				->orderBy(['modifiedtime' => \SORT_DESC]);
+			$returnIds = $query->column();
+			if (!empty($returnIds)) {
+				$recordId = $returnIds;
+			} else {
+				$this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($this->mail->get('subject'), $this->moduleName);
+				if ($this->prefix) {
+					$recordId = $this->add();
+				} elseif (\Config\Modules\OSSMailScanner::$searchPrefixInBody && ($this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($this->mail->get('body'), $this->moduleName, true))) {
+					$recordId = $this->addByBody();
+				}
 			}
 		}
-		$dataReader->close();
-		if (!empty($returnIds)) {
-			return $returnIds;
-		}
-		$this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($this->mail->get('subject'), $this->moduleName);
-		if (!$this->prefix) {
-			return false;
-		}
-		return $this->add();
+		return $recordId;
 	}
 
 	/**
@@ -86,5 +87,35 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 			}
 		}
 		return $returnIds;
+	}
+
+	/**
+	 * Add by body.
+	 *
+	 * @return array
+	 */
+	protected function addByBody()
+	{
+		$returnIds = [];
+		if ($this->prefix && !empty($crmId = $this->findRecord())) {
+			$status = (new OSSMailView_Relation_Model())->addRelation($this->mail->getMailCrmId(), $crmId, $this->mail->get('udate_formated'));
+			if ($status) {
+				$returnIds[] = $crmId;
+			}
+		}
+		return $returnIds;
+	}
+
+	/**
+	 * Find record by prefix.
+	 *
+	 * @return int|null
+	 */
+	public function findRecord()
+	{
+		$queryGenerator = new App\QueryGenerator($this->moduleName);
+		$queryGenerator->addNativeCondition([$this->tableName . '.' . $this->tableColumn => $this->prefix]);
+		$queryGenerator->setOrder('modifiedtime', 'DESC');
+		return $queryGenerator->createQuery()->scalar() ?? false;
 	}
 }

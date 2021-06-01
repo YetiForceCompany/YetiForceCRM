@@ -24,7 +24,7 @@ class Vtiger_BatchProcesses_Cron extends \App\CronHandler
 		foreach ($iterator as $item) {
 			if ($item->isFile() && 'php' === $item->getExtension()) {
 				$class = 'Cron\Batch\\' . $item->getBasename('.php');
-				$handler = new $class();
+				$handler = new $class($this);
 				if ($handler->preProcess()) {
 					$handler->process();
 				}

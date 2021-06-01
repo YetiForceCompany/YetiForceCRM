@@ -58,7 +58,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 		$userTime = [
 			'labels' => [],
-			'title' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\RangeTime::formatHourToDisplay($totalTime, 'full'),
+			'title' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\RangeTime::displayElapseTime($totalTime, 'i', 'i', false),
 			'datasets' => [
 				[
 					'data' => [],
@@ -74,7 +74,8 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			$color = App\Fields\Owner::getColor($row['smownerid']);
 			$userTime['labels'][] = \App\Utils::getInitials($ownerName);
 			$userTime['datasets'][0]['tooltips'][] = $ownerName;
-			$userTime['datasets'][0]['data'][] = (float) $row['sumtime'];
+			$userTime['datasets'][0]['data'][] = round((float) $row['sumtime'] / 60, 2);
+			$userTime['datasets'][0]['dataFormatted'][] = \App\Fields\RangeTime::displayElapseTime($row['sumtime']);
 			$userTime['datasets'][0]['backgroundColor'][] = $color;
 			$userTime['datasets'][0]['borderColor'][] = $color;
 		}

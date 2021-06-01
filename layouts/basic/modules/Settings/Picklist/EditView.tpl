@@ -15,11 +15,15 @@
 	<div class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header d-flex align-items-center">
+					<span class="yfi yfi-full-editing-view mr-2"></span>
 					<h5 class="modal-title">
 						{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}
 						: {\App\Language::translate($PICKLIST_VALUE['picklistValue'], $SOURCE_MODULE)}
 					</h5>
+					 <a href="#" class="js-popover-tooltip m-2" data-js="popover" data-trigger="hover focus" data-content="{$PICKLIST_VALUE['picklistValue']}">
+						<span class="fas fa-info-circle"></span>
+					</a>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -46,7 +50,7 @@
 									<input name="newValue" type="text"
 										   class="form-control"
 										   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-										   data-validator={\App\Json::encode([['name'=>'FieldLabel']])}>
+										   data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'FieldLabel']]))}'>
 								</div>
 							{else}
 								<div class="col-md-9 controls alert alert-warning">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUE',$QUALIFIED_MODULE)}</div>

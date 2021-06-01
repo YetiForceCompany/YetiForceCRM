@@ -61,3 +61,16 @@
 	height: calculate-rem(35px);
 	opacity: 0.8;
 }
+
+@mixin u-transform($rotateDeg) {
+	.u-transform_rotate-#{$rotateDeg} {
+		display: inline-block;
+		@include u-transition(transform 0.5s ease);
+	}
+	.collapsed {
+		.u-transform_rotate-#{$rotateDeg},
+		&.u-transform_rotate-#{$rotateDeg} {
+			transform: rotate($rotateDeg);
+		}
+	}
+}

@@ -6,27 +6,31 @@
 		<div class="col-md-6">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
-		<div class="col-md-6 ml-2 ml-md-0">
-			<div class="d-flex flex-wrap justify-content-md-end">
-				<span class="mr-1">{\App\Language::translate('LBL_LAST_START',$QUALIFIED_MODULE)}:</span>
-				<strong>{$LAST_CRON['laststart']}</strong>
+		<div class="col-md-6 d-flex justify-content-end align-items-center ml-2 ml-md-0">
+			<div class="mr-3">
+				<a href="https://yetiforce.com/en/knowledge-base/documentation/administrator-documentation/item/enable-cron" target="_blank" class="btn btn-outline-info js-popover-tooltip" data-content="{App\Language::translate('BTM_GOTO_YETIFORCE_DOCUMENTATION')}" rel="noreferrer noopener" data-js="popover">
+					<span class="mdi mdi-book-open-page-variant u-fs-lg"></span>
+				</a>
 			</div>
-			<div class="d-flex flex-wrap justify-content-md-end">
-				<span class="mr-1">{\App\Language::translate('LBL_TOTAL_LAST_DURATION',$QUALIFIED_MODULE)}:</span>
-				<strong>
-					{if $LAST_CRON['duration']==='running'}<i class="fas fa-spinner fa-spin"
-															  title="{\App\Language::translate('LBL_IS_RUNNING',$QUALIFIED_MODULE)}"></i>
-					{elseif $LAST_CRON['duration']==='timeout'}<i class="fas fa-exclamation-triangle text-danger"
-																  title="{\App\Language::translate('LBL_HAD_TIMEOUT',$QUALIFIED_MODULE)}"></i>
-					{else}{$LAST_CRON['duration']}
-					{/if}
-				</strong>
+			<div>
+				<div class="d-flex flex-wrap justify-content-md-end">
+					<span class="mr-1">{\App\Language::translate('LBL_LAST_START',$QUALIFIED_MODULE)}:</span>
+					<strong>{$LAST_CRON['laststart']}</strong>
+				</div>
+				<div class="d-flex flex-wrap justify-content-md-end">
+					<span class="mr-1">{\App\Language::translate('LBL_TOTAL_LAST_DURATION',$QUALIFIED_MODULE)}:</span>
+					<strong>
+						{if $LAST_CRON['duration']==='running'}<i class="fas fa-spinner fa-spin text-primary" title="{\App\Language::translate('LBL_IS_RUNNING',$QUALIFIED_MODULE)}"></i>
+						{elseif $LAST_CRON['duration']==='timeout'}<i class="fas fa-exclamation-triangle text-danger" title="{\App\Language::translate('LBL_HAD_TIMEOUT',$QUALIFIED_MODULE)}"></i>
+						{else}{$LAST_CRON['duration']}
+						{/if}
+					</strong>
+				</div>
 			</div>
 		</div>
 	</div>
 	{if $LAST_CRON['laststart'] === ' - '}
 		<div class="alert alert-danger mt-3" role="alert">
-			<a class="btn btn-primary btn-sm float-right" href="https://yetiforce.com/en/knowledge-base/documentation/administrator-documentation/item/enable-cron" target="_blank" title="YetiForce documentation" rel="noreferrer noopener"><span class="fas fa-question"></span></a>
 			<h4 class="alert-heading">
 				<span class="fas fa-exclamation-triangle pr-3"></span>
 				{\App\Language::translate('LBL_CRON_HAS_NOT_BEEN_ENABLED', $QUALIFIED_MODULE)}
@@ -84,5 +88,5 @@
 	</div>
 	<div class="clearfix"></div>
 	<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
-		<!-- /tpl-Settings-CronTasks-ListViewHeader -->
-		{/strip}
+<!-- /tpl-Settings-CronTasks-ListViewHeader -->
+{/strip}

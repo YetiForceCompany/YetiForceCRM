@@ -22,8 +22,8 @@
 				<form class="form-horizontal bg-white border" id="moveDocuments" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="MoveDocuments" />
-					<input type="hidden" name="selected_ids" value={\App\Json::encode($SELECTED_IDS)} />
-					<input type="hidden" name="excluded_ids" value={\App\Json::encode($EXCLUDED_IDS)} />
+					<input type="hidden" name="selected_ids" value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}'/>
+					<input type="hidden" name="excluded_ids" value='{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}'/>
 					<input type="hidden" name="viewname" value="{$VIEWNAME}" />
 					<input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
 					<input type="hidden" name="operator" value="{$OPERATOR}" />

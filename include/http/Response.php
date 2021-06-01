@@ -94,20 +94,20 @@ class Vtiger_Response
 	 */
 	public function setException(Throwable $e)
 	{
-		$trace = '';
-		if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
-			$trace = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+		$error = [
+			'code' => $e->getCode(),
+		];
+		if (\Config\Debug::$DISPLAY_EXCEPTION_BACKTRACE) {
+			$error['trace'] = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 		}
 		$message = $e->getMessage();
-		if ($e instanceof \App\Exceptions\AppException) {
-			$message = $e->getDisplayMessage();
+		$show = \Config\Debug::$EXCEPTION_ERROR_TO_SHOW || 0 === strpos($message, 'ERR_');
+		$reasonPhrase = $error['message'] = $show ? $message : \App\Language::translate('ERR_OCCURRED_ERROR');
+		if ($show && ($e instanceof \App\Exceptions\AppException)) {
+			$error['message'] = $e->getDisplayMessage();
 		}
-		$this->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], ' ', $e->getMessage()));
-		$this->error = [
-			'code' => $e->getCode(),
-			'message' => $message,
-			'trace' => $trace
-		];
+		$this->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], ' ', $reasonPhrase));
+		$this->error = $error;
 		http_response_code($e->getCode());
 	}
 

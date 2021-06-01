@@ -14,7 +14,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getLinks()
+	public function getLinks(): array
 	{
 		$relationModel = $this->getRelationModel();
 		$parentModel = $this->getParentRecordModel();

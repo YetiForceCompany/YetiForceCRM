@@ -2,11 +2,12 @@
 /**
  * Cron.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App;
@@ -16,34 +17,6 @@ namespace App;
  */
 class Cron
 {
-	/**
-	 * Cron run start time in microtime.
-	 *
-	 * @var int|null Cron run start time in microtime
-	 */
-	public static $cronTimeStart = null;
-	/**
-	 * Script run start time in microtime.
-	 *
-	 * @var int|null Script run start time in microtime
-	 */
-	public static $scriptTimeStart = null;
-	/**
-	 * @var string Log files directory path
-	 */
-	public $logPath = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'logs' . \DIRECTORY_SEPARATOR . 'cron' . \DIRECTORY_SEPARATOR;
-	/**
-	 * @var bool|string Current log file name
-	 */
-	public $logFile = false;
-	/**
-	 * @var bool Logging enabled flag
-	 */
-	public static $logActive = false;
-	/**
-	 * @var bool Flag to keep log file after run finish
-	 */
-	public static $keepLogFile = false;
 	/**
 	 * @var int status disabled
 	 */
@@ -62,6 +35,53 @@ class Cron
 	const STATUS_COMPLETED = 3;
 
 	/**
+	 * Cron run start time in microtime.
+	 *
+	 * @var int|null Cron run start time in microtime
+	 */
+	public static $cronTimeStart = null;
+
+	/**
+	 * Script run start time in microtime.
+	 *
+	 * @var int|null Script run start time in microtime
+	 */
+	public static $scriptTimeStart = null;
+
+	/**
+	 * @var string Log files directory path
+	 */
+	public $logPath = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'logs' . \DIRECTORY_SEPARATOR . 'cron' . \DIRECTORY_SEPARATOR;
+
+	/**
+	 * @var bool|string Current log file name
+	 */
+	public $logFile = false;
+
+	/**
+	 * @var bool Logging enabled flag
+	 */
+	public static $logActive = false;
+
+	/** @var bool Flag to keep log file after run finish */
+	public static $keepLogFile = false;
+
+	/** @var int Max execution cron time. */
+	private static $maxExecutionCronTime;
+
+	/** @var bool Register enabled flag */
+	public static $registerIsActive = true;
+
+	/** @var bool Watchdog enabled flag */
+	public static $watchdogIsActive = true;
+
+	/** @var bool Shop enabled flag */
+	public static $shopIsActive = true;
+
+	/** @var bool ConfReport enabled flag */
+	public static $confReportIsActive = true;
+
+	/**
 	 * Init and configure object.
 	 *
 	 * @throws \App\Exceptions\CacheException
@@ -70,12 +90,16 @@ class Cron
 	{
 		static::$scriptTimeStart = microtime(true);
 		static::generateStatusFile();
-		YetiForce\Shop::generateCache();
-		if ('test' !== \Config\Main::$systemMode) {
-			YetiForce\Register::check();
+		if (self::$watchdogIsActive) {
 			YetiForce\Watchdog::send();
 		}
-		if (!(static::$logActive = \App\Config::debug('DEBUG_CRON'))) {
+		if (self::$registerIsActive) {
+			YetiForce\Register::check();
+		}
+		if (self::$shopIsActive) {
+			YetiForce\Shop::generateCache();
+		}
+		if (!(static::$logActive = Config::debug('DEBUG_CRON'))) {
 			return;
 		}
 		if (!is_dir($this->logPath) && !mkdir($this->logPath, 0777, true) && !is_dir($this->logPath)) {
@@ -116,9 +140,12 @@ class Cron
 	 */
 	public static function generateStatusFile()
 	{
-		$all = Utils\ConfReport::getAll();
+		$all = [];
+		if (self::$confReportIsActive) {
+			$all = Utils\ConfReport::getAll();
+		}
 		$all['last_start'] = time();
-		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';');
+		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';', LOCK_EX);
 	}
 
 	/**
@@ -134,7 +161,7 @@ class Cron
 				unlink($this->logPath . $this->logFile);
 			}
 		} else {
-			$this->log('------------------------------------' . PHP_EOL . \App\Log::getlastLogs(), 'info', false);
+			$this->log('------------------------------------' . PHP_EOL . Log::getlastLogs(), 'info', false);
 		}
 	}
 
@@ -164,8 +191,51 @@ class Cron
 			case self::STATUS_RUNNING:
 				break;
 			default:
-				throw new \App\Exceptions\AppException('Invalid status');
+				throw new Exceptions\AppException('Invalid status');
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => $status], ['name' => $name])->execute();
+		Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => $status], ['name' => $name])->execute();
+	}
+
+	/**
+	 * Get max execution cron time.
+	 *
+	 * @return int
+	 */
+	public static function getMaxExecutionTime(): int
+	{
+		if (isset(self::$maxExecutionCronTime)) {
+			return self::$maxExecutionCronTime;
+		}
+		$maxExecutionTime = (int) Config::main('maxExecutionCronTime');
+		$iniMaxExecutionTime = (int) ini_get('max_execution_time');
+		if (0 !== $iniMaxExecutionTime && $iniMaxExecutionTime < $maxExecutionTime) {
+			$maxExecutionTime = $iniMaxExecutionTime;
+		}
+		return self::$maxExecutionCronTime = $maxExecutionTime;
+	}
+
+	/**
+	 * Check max execution cron time.
+	 *
+	 * @return bool
+	 */
+	public function checkCronTimeout(): bool
+	{
+		return time() >= (self::getMaxExecutionTime() + self::$cronTimeStart);
+	}
+
+	/**
+	 * Check if it is active function.
+	 *
+	 * @param string $className
+	 *
+	 * @return bool
+	 */
+	public static function checkActive(string $className): bool
+	{
+		return (new Db\Query())
+			->from('vtiger_cron_task')
+			->where(['status' => [self::STATUS_ENABLED, self::STATUS_RUNNING], 'handler_class' => $className])
+			->exists();
 	}
 }

@@ -13,19 +13,20 @@
  */
 class Accounts_MassEditRecordStructure_Model extends Vtiger_MassEditRecordStructure_Model
 {
-	/*
-	 * Function that return Field Restricted are not
+	/**
+	 * Function that return Field Restricted are not.
+	 *
 	 * 	@params Field Model
 	 *  @returns boolean true or false
+	 *
+	 * @param mixed $fieldModel
 	 */
-
 	public function isFieldRestricted($fieldModel)
 	{
 		$restricted = parent::isFieldRestricted($fieldModel);
-		if ($restricted && $fieldModel->getName() == 'accountname') {
+		if ($restricted && 'accountname' == $fieldModel->getName()) {
 			return false;
-		} else {
-			return $restricted;
 		}
+		return $restricted;
 	}
 }

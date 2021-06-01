@@ -16,7 +16,7 @@ class Settings_PickListDependency_Index_Action extends Settings_Vtiger_Basic_Act
 		$this->exposeMethod('checkCyclicDependency');
 	}
 
-	public function checkCyclicDependency(\App\Request $request)
+	public function checkCyclicDependency(App\Request $request)
 	{
 		$module = $request->getByType('sourceModule', 'Alnum');
 		$sourceField = $request->getByType('sourcefield', 'Alnum');

@@ -2,6 +2,8 @@
 /**
  * ApiAddress test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -17,7 +19,9 @@ class ApiAddress extends \Tests\Base
 	public function testSaveConfig()
 	{
 		$result = \Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->setConfig([
-			'min_length' => 5, 'result_num' => 15, 'api_name' => 'global'
+			'YetiForceGeocoder' => [
+				'min_length' => 5, 'result_num' => 15, 'api_name' => 'global'
+			]
 		]);
 		$this->assertTrue($result, 'Error when saving global config var');
 	}
@@ -39,7 +43,9 @@ class ApiAddress extends \Tests\Base
 	public function testResetToDefault()
 	{
 		$result = \Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->setConfig([
-			'min_length' => 3, 'result_num' => 10, 'api_name' => 'global'
+			'YetiForceGeocoder' => [
+				'min_length' => 3, 'result_num' => 10, 'api_name' => 'global'
+			]
 		]);
 		$this->assertTrue($result, 'Error when setting global config var to default value');
 	}

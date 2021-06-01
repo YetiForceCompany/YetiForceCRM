@@ -7,6 +7,7 @@
  */
 return [
 	'txt' => 'text/plain',
+	'csv' => 'text/plain',
 	'html' => 'text/html',
 	'htm' => 'text/html',
 	'php' => 'text/php',

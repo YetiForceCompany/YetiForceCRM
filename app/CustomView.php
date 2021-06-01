@@ -1,13 +1,19 @@
 <?php
+/**
+ * Custom view file.
+ *
+ * @package App
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
 
 namespace App;
 
 /**
  * Custom view class.
- *
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class CustomView
 {
@@ -18,9 +24,9 @@ class CustomView
 	const CV_STATUS_SYSTEM = 4;
 
 	/**
-	 * Do we have muliple ids?
+	 * Do we have multiple ids.
 	 *
-	 * @param {string} $cvId (comma separated id list or one id)
+	 * @param string $cvId (comma separated id list or one id)
 	 *
 	 * @return bool
 	 */
@@ -137,9 +143,9 @@ class CustomView
 	 */
 	public static function hasViewChanged(string $moduleName, $viewId = false): bool
 	{
-		return empty($_SESSION['lvs'][$moduleName]['viewname']) ||
-		($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) ||
-		!isset($_SESSION['lvs'][$moduleName]['sortby']);
+		return empty($_SESSION['lvs'][$moduleName]['viewname'])
+		|| ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname']))
+		|| !isset($_SESSION['lvs'][$moduleName]['sortby']);
 	}
 
 	/**
@@ -177,8 +183,6 @@ class CustomView
 	private $moduleName;
 	private $user;
 	private $defaultViewId;
-	private $cvStatus;
-	private $cvUserId;
 
 	/**
 	 * Gets module object.
@@ -245,6 +249,7 @@ class CustomView
 	private function getColumnsByCvidFromDb($cvId)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
+		$columnList = [];
 		if (is_numeric($cvId)) {
 			$dataReader = (new Db\Query())->select(['field_name', 'module_name', 'source_field_name'])
 				->from('vtiger_cvcolumnlist')
@@ -453,9 +458,17 @@ class CustomView
 			return $this->defaultViewId;
 		}
 		if ($noCache || Request::_isEmpty('viewname')) {
-			if (!$noCache && self::getCurrentView($this->moduleName)) {
+			$viewId = null;
+			if (Request::_has('mid')) {
+				$viewId = current(self::getModuleFiltersByMenuId(Request::_getInteger('mid'), $this->moduleName));
+			}
+			if (empty($viewId) && !$noCache && self::getCurrentView($this->moduleName)) {
 				$viewId = self::getCurrentView($this->moduleName);
-			} else {
+				if (empty($this->getFilterInfo($viewId))) {
+					$viewId = null;
+				}
+			}
+			if (empty($viewId)) {
 				$viewId = $this->getDefaultCvId();
 			}
 			if (empty($viewId) || !$this->isPermittedCustomView($viewId)) {
@@ -522,11 +535,10 @@ class CustomView
 				return $data[$role];
 			}
 		}
-		$info = $this->getInfoFilter($this->moduleName);
-		foreach ($info as &$values) {
+		foreach ($this->getFilters() as $cvId => $values) {
 			if (1 === $values['setdefault']) {
-				Cache::save('GetDefaultCvId', $cacheName, $values['cvid']);
-				return $values['cvid'];
+				Cache::save('GetDefaultCvId', $cacheName, $cvId);
+				return $cvId;
 			}
 		}
 	}
@@ -540,71 +552,12 @@ class CustomView
 	 */
 	public function isPermittedCustomView($viewId)
 	{
-		Log::trace(__METHOD__);
-		$permission = true;
-		if (!empty($viewId)) {
-			$statusUseridInfo = $this->getStatusAndUserid($viewId);
-			if ($statusUseridInfo) {
-				$status = $statusUseridInfo['status'];
-				$userId = $statusUseridInfo['userid'];
-				if (self::CV_STATUS_DEFAULT === $status || $this->user->isAdmin()) {
-					$permission = true;
-				} elseif ('ChangeStatus' !== Request::_get('view')) {
-					if (self::CV_STATUS_PUBLIC === $status || $userId === $this->user->getId()) {
-						$permission = true;
-					} elseif (self::CV_STATUS_PRIVATE === $status || self::CV_STATUS_PENDING === $status) {
-						$subQuery = (new Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')
-							->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
-							->innerJoin('vtiger_role', 'vtiger_user2role.userid = vtiger_role.roleid')
-							->where(['like', 'vtiger_role.parentrole', $this->user->getParentRolesSeq() . '::']);
-						$query = (new Db\Query())
-							->select(['vtiger_users.id'])
-							->from('vtiger_customview')
-							->innerJoin('vtiger_users')
-							->where(['vtiger_customview.cvid' => $viewId, 'vtiger_customview.userid' => $subQuery]);
-						$userArray = $query->column();
-						if ($userArray) {
-							if (!\in_array($this->user->getId(), $userArray)) {
-								$permission = false;
-							} else {
-								$permission = true;
-							}
-						} else {
-							$permission = false;
-						}
-					} else {
-						$permission = true;
-					}
-				} else {
-					$permission = false;
-				}
-			} else {
-				$permission = false;
-			}
-		}
-		return $permission;
-	}
-
-	/**
-	 * Get the userid, status information of this custom view.
-	 *
-	 * @param int|string $viewId
-	 *
-	 * @return array
-	 */
-	public function getStatusAndUserid($viewId)
-	{
-		Log::trace(__METHOD__);
-		if (empty($this->cvStatus) || empty($this->cvUserId)) {
-			$row = $this->getInfoFilter($viewId);
-			if ($row) {
-				$this->cvStatus = $row['status'];
-				$this->cvUserId = $row['userid'];
-			} else {
-				return false;
-			}
-		}
-		return ['status' => $this->cvStatus, 'userid' => $this->cvUserId];
+		return !empty($viewId)
+		&& ($data = $this->getFilterInfo($viewId))
+		&& ($this->user->isAdmin()
+		|| $data['userid'] === $this->user->getId()
+		|| \in_array($data['status'], [self::CV_STATUS_DEFAULT, self::CV_STATUS_PUBLIC])
+		|| (self::CV_STATUS_PRIVATE && array_intersect($this->user->getMemberStructure(), $data['members'])));
 	}
 
 	/**
@@ -617,7 +570,7 @@ class CustomView
 	public function getMandatoryFilter($returnData = false)
 	{
 		Log::trace(__METHOD__);
-		$info = $this->getInfoFilter($this->moduleName);
+		$info = $this->getFilters();
 		$returnValue = '';
 		foreach ($info as $index => &$values) {
 			if (0 === $values['presence']) {
@@ -634,68 +587,83 @@ class CustomView
 	/**
 	 * Get viewId by name.
 	 *
-	 * @param int|string $viewName
+	 * @param string $viewName
 	 *
-	 * @return int
+	 * @return int|null
 	 */
-	public function getViewIdByName($viewName)
+	public function getViewIdByName(string $viewName): ?int
 	{
-		Log::trace(__METHOD__);
-		$info = $this->getInfoFilter($this->moduleName);
-		foreach ($info as &$values) {
+		$viewId = null;
+		foreach ($this->getFilters() as $cvId => &$values) {
 			if ($values['viewname'] === $viewName) {
-				return $values['cvid'];
+				$viewId = $cvId;
+				break;
 			}
 		}
-		return false;
+		return $viewId;
 	}
 
 	/**
 	 * Function to get basic information about filter.
 	 *
-	 * @param mixed $mixed id or module name
+	 * @param int $cvId
 	 *
 	 * @return array
 	 */
-	public function getInfoFilter($mixed)
+	public function getFilterInfo(int $cvId): array
 	{
-		if (Cache::has('CustomViewInfo', $mixed)) {
-			return Cache::get('CustomViewInfo', $mixed);
+		return $this->getFilters()[$cvId] ?? [];
+	}
+
+	/**
+	 * Function to get basic information about all filters.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public function getFilters(): array
+	{
+		return self::getFiltersByModule($this->moduleName);
+	}
+
+	/**
+	 * Function to get basic information about all filters for module.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getFiltersByModule(string $moduleName): array
+	{
+		if (Cache::has('CustomViewInfo', $moduleName)) {
+			return Cache::get('CustomViewInfo', $moduleName);
 		}
-		$query = (new Db\Query())->from('vtiger_customview');
-		if (is_numeric($mixed)) {
-			$info = $query->where(['cvid' => $mixed])->one();
-			$info['cvid'] = (int) $info['cvid'];
-			$info['setdefault'] = (int) ($info['setdefault'] ?? 0);
-			$info['setmetrics'] = (int) ($info['setmetrics'] ?? 0);
-			$info['status'] = (int) ($info['status'] ?? 0);
-			$info['privileges'] = (int) ($info['privileges'] ?? 0);
-			$info['featured'] = (int) ($info['featured'] ?? 0);
-			$info['presence'] = (int) ($info['presence'] ?? 0);
-			$info['sequence'] = (int) ($info['sequence'] ?? 0);
-			$info['userid'] = (int) ($info['userid'] ?? 0);
-		} else {
-			$info = $query->where(['entitytype' => $mixed])->indexBy('cvid')->all();
-			foreach ($info as &$item) {
-				$item['cvid'] = (int) $item['cvid'];
-				$item['setdefault'] = (int) $item['setdefault'];
-				$item['setmetrics'] = (int) $item['setmetrics'];
-				$item['status'] = (int) $item['status'];
-				$item['privileges'] = (int) $item['privileges'];
-				$item['featured'] = (int) $item['featured'];
-				$item['presence'] = (int) $item['presence'];
-				$item['sequence'] = (int) $item['sequence'];
-				$item['userid'] = (int) $item['userid'];
-			}
+		$members = (new Db\Query())->select(['u_#__cv_privileges.cvid', 'member'])->from('u_#__cv_privileges')
+			->innerJoin('vtiger_customview', 'u_#__cv_privileges.cvid=vtiger_customview.cvid')
+			->where(['entitytype' => 'Accounts'])->createCommand()->queryAllByGroup(2);
+		$info = (new Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleName])->indexBy('cvid')->orderBy(['sequence' => SORT_ASC])->all();
+		foreach ($info as &$item) {
+			$item['cvid'] = (int) $item['cvid'];
+			$item['setdefault'] = (int) $item['setdefault'];
+			$item['setmetrics'] = (int) $item['setmetrics'];
+			$item['status'] = (int) $item['status'];
+			$item['privileges'] = (int) $item['privileges'];
+			$item['featured'] = (int) $item['featured'];
+			$item['presence'] = (int) $item['presence'];
+			$item['sequence'] = (int) $item['sequence'];
+			$item['userid'] = (int) $item['userid'];
+			$item['members'] = $members[$item['cvid']] ?? [];
+			Cache::save('CustomViewInfo', $item['cvid'], $item);
 		}
-		Cache::save('CustomViewInfo', $mixed, $info);
+		Cache::save('CustomViewInfo', $moduleName, $info);
 		return $info;
 	}
 
 	/**
 	 * Reset current views configuration in session.
 	 *
-	 * @param type $moduleName
+	 * @param string|bool $moduleName
 	 */
 	public static function resetCurrentView($moduleName = false)
 	{
@@ -708,6 +676,76 @@ class CustomView
 				}
 			} else {
 				\App\Session::set('lvs', []);
+			}
+		}
+	}
+
+	/**
+	 * Get module filters by menu id.
+	 *
+	 * @param int    $menuId
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getModuleFiltersByMenuId(int $menuId, string $moduleName = ''): array
+	{
+		$cacheKey = 'getModuleFiltersByMenuId' . $moduleName;
+		if (\App\Cache::staticHas($cacheKey, $menuId)) {
+			return \App\Cache::staticGet($cacheKey, $menuId);
+		}
+		$filters = [];
+		$userModel = User::getCurrentUserModel();
+		$roleMenu = 'user_privileges/menu_' . filter_var($userModel->getDetail('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
+		file_exists($roleMenu) ? require $roleMenu : require 'user_privileges/menu_0.php';
+		if (0 === \count($menus) && file_exists($roleMenu)) {
+			require 'user_privileges/menu_0.php';
+		}
+		if (isset($filterList[$menuId])) {
+			$filtersMenu = explode(',', $filterList[$menuId]['filters']);
+			$filtersCustomView = array_keys(\CustomView_Record_Model::getAll($moduleName));
+			$filters = array_intersect($filtersMenu, $filtersCustomView);
+		}
+		\App\Cache::staticSave($cacheKey, $menuId, $filters);
+		return $filters;
+	}
+
+	/**
+	 * Gets custom view details by ID.
+	 *
+	 * @param int         $cvId
+	 * @param string|null $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getCVDetails(int $cvId, string $moduleName = null): array
+	{
+		if (Cache::has('CustomViewInfo', $cvId)) {
+			return Cache::get('CustomViewInfo', $cvId);
+		}
+		if (!$moduleName) {
+			$moduleName = (new Db\Query())->select(['entitytype'])->from('vtiger_customview')->where(['cvid' => $cvId])->scalar();
+		}
+		return self::getFiltersByModule($moduleName)[$cvId] ?? [];
+	}
+
+	/**
+	 * Function clear cache by custom view ID.
+	 *
+	 * @param int         $cvId
+	 * @param string|null $moduleName
+	 *
+	 * @return void
+	 */
+	public static function clearCacheById(int $cvId, string $moduleName = null): void
+	{
+		Cache::delete('CustomViewInfo', $cvId);
+		Cache::delete('CustomViewInfo', $moduleName);
+		Cache::delete('getAllFilterColors', false);
+		Cache::delete('getAllFilterColors', true);
+		if (null === $moduleName) {
+			foreach (\App\Module::getAllModuleNames() as $moduleName) {
+				Cache::delete('CustomViewInfo', $moduleName);
 			}
 		}
 	}

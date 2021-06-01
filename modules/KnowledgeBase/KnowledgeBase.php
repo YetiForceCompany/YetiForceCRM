@@ -1,5 +1,5 @@
 <?php
-/** KnowledgeBase CRMEntity Class
+/** KnowledgeBase CRMEntity Class.
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
@@ -30,18 +30,6 @@ class KnowledgeBase extends Vtiger_CRMEntity
 		'u_yf_knowledgebasecf' => 'knowledgebaseid',
 	];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'subject' => ['knowledgebase', 'subject'],
-		'FL_CATEGORY' => ['knowledgebase', 'category'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'FL_INTRODUCTION' => ['knowledgebase', 'introduction'],
-		'FL_STATUS' => ['knowledgebase', 'knowledgebase_status'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'subject' => 'subject',
@@ -50,8 +38,7 @@ class KnowledgeBase extends Vtiger_CRMEntity
 		'FL_INTRODUCTION' => 'introduction',
 		'FL_STATUS' => 'knowledgebase_status',
 	];
-	// Make the field link to detail view
-	public $list_link_field = 'subject';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

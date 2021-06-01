@@ -9,6 +9,7 @@
     "LBL_COUNTRY": "Country",
     "LBL_CONDITIONS_OF_REGISTRATION": "All data below must be true, it is an obligatory condition of registering the product that results from the license terms.  %s \nIn the registration, there should be all companies involved in the implementation of the CRM system, e.g. \"Target user\" should always be filled in with the data of a company that uses this system. \nThe \"Supplier\" entry type must exist when a company implementing CRM is different from the one that uses it. \nThe \"Integrator\" entry type must exist when integration with a CRM system was performed and the data of the company that integrated the system needs to be submitted.\nIn order for the system to correctly verify the registration key, Cron must be active and function properly. \nThe validity of data submitted during registration is verified manually within 72h. Providing any false data will cause the entire registration to be declined. Thank you for your patience.\n %s",
     "LBL_TYPE": "Type",
+    "LBL_TYPE_INFO": "\n- end user - a company that uses the CRM system \n- provider - a company that implements a CRM system for another company that will use it \n- integrator - a company that integrates the CRM system\n\n NOTE: If you are a provider/integrator and you want to register the CRM on behalf of your client, remember that both companies must be registered - your company as a vendor/integrator and your client’s company as an end user.",
     "LBL_TYPE_TARGET_USER": "End user",
     "LBL_TYPE_INTEGRATOR": "Integrator",
     "LBL_CHANGING_COMPANY_NAME": "Each change of the company's name requires re-registration.",
@@ -49,7 +50,9 @@
     "LBL_REGISTRATION_DATA": "Registration data",
     "LBL_BRAND_DATA": "Brand data",
     "LBL_BRAND_DATA_INFO": "Block used when YetiForce Branding is purchased allows you to enter custom data visible in the footer.",
-    "LBL_BILLING_DATA": "Billing data"
+    "LBL_BILLING_DATA": "Billing data",
+    "LBL_SYSTEM_NOT_REGISTERED": "The YetiForce system has not been properly registered or the provided data is incorrect.",
+    "LBL_PAID_FN_NO_SUBSCRIPTION": "Paid functionalities have been enabled in the system %s, please purchase a subscription."
   },
   "js": {
     "JS_ENTER_REGISTRATION_KEY": "Enter registration key",

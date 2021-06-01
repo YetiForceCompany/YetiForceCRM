@@ -2,7 +2,7 @@
 /**
  * Base mail scanner action file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -16,14 +16,10 @@ namespace App\Mail\ScannerAction;
  */
 class OpenHelpDesk extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $priority = 4;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(): void
 	{
 		$scanner = $this->scannerEngine;

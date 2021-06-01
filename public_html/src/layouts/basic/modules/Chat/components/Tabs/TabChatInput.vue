@@ -138,7 +138,7 @@ export default {
           this.$emit('onSended')
         })
       } else {
-        Vtiger_Helper_Js.showPnotify({
+        app.showNotify({
           text: app.vtranslate('JS_MESSAGE_TOO_LONG'),
           type: 'error',
           animation: 'show'

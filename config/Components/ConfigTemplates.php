@@ -130,17 +130,21 @@ return [
 			'default' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
 			'description' => 'List of modules from which you can choose e-mail address in the mail.'
 		],
-		'helpdeskCreatedStatus' => [
-			'default' => 'Open',
-			'description' => 'What status should be set when a ticket is created.'
+		'rcListCheckRbl' => [
+			'default' => true,
+			'description' => 'Should the message sender on the mail list be verified in the mail client?'
 		],
-		'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS' => [
-			'default' => 'Answered',
-			'description' => 'What status should be set when a new mail is received regarding a ticket, whose status is awaiting response.'
+		'rcListAcceptAutomatically' => [
+			'default' => false,
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+			'description' => 'Should the system accept spam reports automatically?'
 		],
-		'HELPDESK_OPENTICKET_STATUS' => [
-			'default' => 'Answered',
-			'description' => 'What status should be set when a ticket is closed, but a new mail regarding the ticket is received.'
+		'rcListSendReportAutomatically' => [
+			'default' => false,
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+			'description' => 'Should the system send reports automatically to https://soc.yetiforce.com?'
 		],
 		'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => [
 			'default' => false,
@@ -179,7 +183,13 @@ return [
 				'Products' => ['productname' => 'subject']
 			],
 			'description' => "Default auto-complete data from mail bar.\n@var array Map. Example ['Accounts' => ['accountname' => 'subject']]"
-		]
+		],
+		'showEmailsInMassMail' => [
+			'default' => false,
+			'description' => "Show emails in Mass mail view.\n@var bool",
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+		],
 	],
 	'YetiForce' => [
 		'watchdogUrl' => [
@@ -234,19 +244,25 @@ return [
 		],
 		'spaceRoot' => [
 			'default' => false,
-			'description' => 'Root space',
+			'description' => 'Root CRM directory space',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'spaceStorage' => [
 			'default' => false,
-			'description' => 'Storage space',
+			'description' => 'Storage directory space',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'spaceTemp' => [
 			'default' => false,
 			'description' => 'Temporary directory space',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'spaceBackup' => [
+			'default' => false,
+			'description' => 'Backup directory space',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -304,6 +320,12 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
+		'pathVerification' => [
+			'default' => false,
+			'description' => 'Path verification',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
 	],
 	'Social' => [
 		'TWITTER_ENABLE_FOR_MODULES' => [
@@ -351,6 +373,73 @@ return [
 			'sanitization' => function () {
 				return \App\Purifier::purify(func_get_arg(0));
 			}
+		],
+	],
+	'MeetingService' => [
+		'emailTemplateDefault' => [
+			'default' => 0,
+			'description' => 'Default email templates.',
+		],
+		'emailTemplateModule' => [
+			'default' => [],
+			'description' => "List of default email templates.\n@example ['Calendar'=>1]",
+		],
+	],
+	'Phone' => [
+		'defaultPhoneCountry' => [
+			'default' => true,
+			'description' => 'Determines the way the default country in the phone field is downloaded. True retrieves the value from the countries panel, false retrieves the country from the users default language.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+	],
+	'InterestsConflict' => [
+		'isActive' => [
+			'default' => false,
+			'description' => 'Is the conflict of interests functionality enabled?.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'confirmationTimeInterval' => [
+			'default' => '30 day',
+			'description' => "Time interval that defines how often the system should force a confirmation about the absence of conflict of interests.\n30 day, 5 weeks, 2 month, 2 years.",
+			'validation' => '\App\Validator::alnumSpace',
+		],
+		'confirmUsersAccess' => [
+			'default' => [],
+			'description' => 'Access to confirmation panel, users ids',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::integer',
+		],
+		'unlockUsersAccess' => [
+			'default' => [],
+			'description' => 'Email addresses for notifications, users ids',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::integer',
+		],
+		'notificationsEmails' => [
+			'default' => '',
+			'description' => 'Email addresses for notifications.',
+			'validation' => '\App\Validator::emails',
+		],
+		'sendMailAccessRequest' => [
+			'default' => false,
+			'description' => 'E-mail sent to the person requesting access.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'sendMailAccessResponse' => [
+			'default' => false,
+			'description' => 'E-mail sent to the above people.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'modules' => [
+			'default' => [],
+			'description' => 'List of modules where the conflict of interests mechanism is enabled.',
+			'validation' => function () {
+				return true;
+			},
 		],
 	],
 ];

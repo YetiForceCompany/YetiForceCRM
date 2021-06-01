@@ -21,17 +21,13 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	protected $maximumLength = '-2147483648,2147483647';
 	protected $purifyType = \App\Purifier::INTEGER;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditTemplateName()
 	{
 		return 'inventoryTypes/Name.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (empty($value)) {
@@ -46,12 +42,10 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		if ('Active' !== \App\Record::getState($value)) {
 			$label = '<s>' . $label . '</s>';
 		}
-		return "<a class=\"modCT_$moduleName showReferenceTooltip js-popover-tooltip--record\" href=\"index.php?module=$moduleName&view=Detail&record=$value\" title=\"" . App\Language::translateSingularModuleName($moduleName) . "\">$label</a>";
+		return "<span class=\"yfm-{$moduleName} mr-1\"></span><a class=\"modCT_$moduleName showReferenceTooltip js-popover-tooltip--record\" href=\"index.php?module=$moduleName&view=Detail&record=$value\" title=\"" . App\Language::translateSingularModuleName($moduleName) . "\">$label</a>";
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditValue($value)
 	{
 		return \App\Record::getLabel($value);
@@ -83,42 +77,53 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isMandatory()
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		return (int) $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
-		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value)) || !\App\Record::isExists($value)) {
+		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value))) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+		}
+		if (!\App\Record::isExists($value)) {
+			throw new \App\Exceptions\AppException("ERR_RECORD_NOT_FOUND||$value||$columnName", 406);
 		}
 		$rangeValues = explode(',', $this->maximumLength);
 		if ($value && ($rangeValues[1] < $value || $rangeValues[0] > $value)) {
-			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			throw new \App\Exceptions\AppException("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isRequired()
 	{
 		$config = $this->getParamsConfig();
 		return isset($config['mandatory']) ? 'false' !== $config['mandatory'] : true;
+	}
+
+	/**
+	 * Gets URL for mass selection.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return string
+	 */
+	public function getUrlForMassSelection(string $moduleName): string
+	{
+		$view = 'RecordsList';
+		if (\App\Config::module($moduleName, 'inventoryMassAddEntriesTreeView') && ($field = current(Vtiger_Module_Model::getInstance($moduleName)->getFieldsByType('tree', true))) && $field->isViewable()) {
+			$view = 'TreeInventoryModal';
+		}
+		return "index.php?module={$moduleName}&view={$view}&src_module={$this->getModuleName()}&multi_select=true";
 	}
 }

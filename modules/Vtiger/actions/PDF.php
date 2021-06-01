@@ -3,6 +3,8 @@
 /**
  * Returns special functions for PDF Settings.
  *
+ * @package Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Maciej Stencel <m.stencel@yetiforce.com>
@@ -84,6 +86,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = 1 === $request->getInteger('single_pdf');
 		$emailPdf = 1 === $request->getInteger('email_pdf');
+		$pdfFlag = $request->getByType('flag', \App\Purifier::STANDARD) ?: '';
 		$view = $request->getByType('fromview', \App\Purifier::STANDARD);
 		$key = 'inventoryColumns';
 		$userVariables = $request->getArray('userVariables', \App\Purifier::TEXT);
@@ -92,9 +95,9 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$pdfModel = new $handlerClass();
 		$templates = $recordId ? $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName) : $pdfModel->getActiveTemplatesForModule($moduleName, $view);
 
-		if (($emailPdf && !\App\Privilege::isPermitted('OSSMail')) ||
-			($request->has($key) && !\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory')) ||
-			array_diff($templateIds, array_keys($templates))
+		if (($emailPdf && !\App\Privilege::isPermitted('OSSMail'))
+			|| ($request->has($key) && !\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory'))
+			|| array_diff($templateIds, array_keys($templates))
 			) {
 			throw new \App\Exceptions\NoPermitted('LBL_EXPORT_ERROR');
 		}
@@ -156,17 +159,27 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					->loadHtml($template->parseVariables($template->getBody()))
 					->setHeader($template->parseVariables($template->getHeader()))
 					->setFooter($template->parseVariables($template->getFooter()));
-
-				if ($emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1))) {
-					$fileName = ($pdf->getFileName() ? $pdf->getFileName() : time());
+				$attach = $template->attachFiles ?? [];
+				if (!$singlePdf && ($attach || $emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1)))) {
+					$fileName = ($pdf->getFileName() ?: time());
 					$increment[$fileName] = $increment[$fileName] ?? 0;
 					$fileName .= ($increment[$fileName]++ > 0 ? '_' . $increment[$fileName] : '') . '.pdf';
 
 					$filePath = $template->getPath();
 					$saveFlag = 'F';
-					$pdfFiles[] = ['path' => $filePath,	'name' => $fileName];
+					$pdfFiles[] = ['name' => $fileName, 'path' => $filePath, 'recordId' => $recordId, 'moduleName' => $moduleName];
+					foreach ($attach as $info) {
+						if (!isset($pdfFiles[$info['path']])) {
+							$tmpFileName = 'cache' . \DIRECTORY_SEPARATOR . 'pdf' . \DIRECTORY_SEPARATOR;
+							$tmpFileName = $tmpFileName . basename(tempnam($tmpFileName, 'Attach' . time()));
+							if (\copy($info['path'], $tmpFileName)) {
+								$pdfFiles[$info['path']] = ['name' => $info['name'], 'path' => $tmpFileName, 'recordId' => $recordId, 'moduleName' => $moduleName];
+							}
+						}
+					}
 				}
 				if ($singlePdf) {
+					$html = $html ? substr_replace($html, '<div style="page-break-after: always;">', -6, 0) : $html;
 					$html .= '<div data-page-group
 					data-format="' . $template->getFormat() . '"
 					data-orientation="' . $template->getOrientation() . '"
@@ -177,7 +190,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					data-header-top="' . $pdf->getHeaderMargin() . '"
 					data-footer-bottom="' . $pdf->getFooterMargin() . '"
 					>' . $watermark ? "<div data-watermark style=\"text-align:center\">{$watermark}</div>" : '' . '</div>';
-					$html .= $pdf->getHtml() . '<div style="page-break-after: always;"></div>';
+					$html .= $pdf->getHtml() . '</div>';
 				} else {
 					$pdf->output($filePath, $saveFlag);
 					if ($increment) {
@@ -190,8 +203,9 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			$pdf->setHeader('')->setFooter('')->setWatermark('');
 			$pdf->loadHTML($html);
 			$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
-			$pdf->output();
+			$pdf->output('', $pdfFlag);
 		} elseif ($emailPdf) {
+			$pdfFiles = array_values($pdfFiles);
 			Vtiger_PDF_Model::attachToEmail(\App\Json::encode($pdfFiles));
 		} elseif ($pdfFiles) {
 			Vtiger_PDF_Model::zipAndDownload($pdfFiles);

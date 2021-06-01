@@ -3,6 +3,8 @@
 /**
  * Basic TreeView Model Class.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -127,7 +129,7 @@ class Vtiger_TreeView_Model extends \App\Base
 				'id' => $treeID,
 				'type' => 'category',
 				'record_id' => $row['tree'],
-				'parent' => $parent == 0 ? '#' : $parent,
+				'parent' => 0 == $parent ? '#' : $parent,
 				'text' => \App\Language::translate($row['name'], $this->getModuleName()),
 				'state' => ($row['state']) ? $row['state'] : '',
 				'icon' => $row['icon'],

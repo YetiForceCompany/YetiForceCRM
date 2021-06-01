@@ -21,7 +21,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, App\QueryGenerator $queryGenerator)
 	{
-		if (('Accounts' === $sourceModule && 'account_id' === $field && $record) || in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
+		if (('Accounts' === $sourceModule && 'account_id' === $field && $record) || \in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
 			if ('Campaigns' === $sourceModule && $record) {
 				$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_campaign_records')->where(['campaignid' => $record]);
 				$queryGenerator->addNativeCondition(['not in', 'vtiger_account.accountid', $subQuery]);

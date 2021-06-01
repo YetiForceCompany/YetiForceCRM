@@ -11,9 +11,7 @@
 
 class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$reminderValue = '';
@@ -30,39 +28,32 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 		return $reminderValue;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		if ($value != 0) {
+		if (0 != $value) {
 			$days = floor($value / (24 * 60));
 			$hours = floor(($value - $days * 24 * 60) / 60);
 			$minutes = ($value - ($days * 24 * 60)) % 60;
 			return [$days, $hours, $minutes];
-		} else {
-			return '';
 		}
+		return '';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (($isUserFormat && !in_array($value, [0, 1, '1', '0', 'on'])) || (!$isUserFormat && !(empty($value) || is_numeric($value)))) {
+		if (($isUserFormat && !\in_array($value, [0, 1, '1', '0', 'on'])) || (!$isUserFormat && !(empty($value) || is_numeric($value)))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	/** {@inheritdoc} */
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -79,49 +70,37 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return (int) $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Reminder.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewTemplateName()
 	{
 		return 'Detail/Field/Reminder.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function  getQueryOperators()
+	/** {@inheritdoc} */
+	public function getQueryOperators()
 	{
 		return ['y', 'ny'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isActiveSearchView()
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isAjaxEditable()
 	{
 		return false;

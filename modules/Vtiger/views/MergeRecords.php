@@ -2,6 +2,8 @@
 /**
  * Merge records view.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -15,7 +17,7 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'Merge')) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
@@ -30,7 +32,7 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$this->modalIcon = 'fa fa-code';
 		$this->initializeContent($request);
@@ -40,7 +42,7 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('MergeRecords.tpl', $request->getModule());
@@ -49,7 +51,7 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function initializeContent(\App\Request $request)
+	public function initializeContent(App\Request $request)
 	{
 		$count = 0;
 		$recordModels = $fields = [];
@@ -80,10 +82,10 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		if (($var = $viewer->getTemplateVars('RECORD_MODELS')) && count($var) > 1) {
+		if (($var = $viewer->getTemplateVars('RECORD_MODELS')) && \count($var) > 1) {
 			$viewer->assign('BTN_SUCCESS', 'LBL_MERGE');
 		}
 		$viewer->assign('BTN_DANGER', $this->dangerBtn);
@@ -93,7 +95,7 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPageTitle(\App\Request $request)
+	public function getPageTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return \App\Language::translate('LBL_MERGE_RECORDS_IN', $moduleName) . ': ' . \App\Language::translate($moduleName, $moduleName);

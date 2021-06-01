@@ -6,7 +6,7 @@
 	<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0">
 		<div class="c-detail-widget__header__container d-flex align-items-center py-1">
 			<div class="c-detail-widget__toggle collapsed" id="{$TRANSLATED_LABEL}" data-toggle="collapse" data-target="#{$TRANSLATED_LABEL}-collapse" aria-expanded="false" aria-controls="{$TRANSLATED_LABEL}-collapse">
-				<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+				<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 			</div>
 			<div class="c-detail-widget__header__title">
 				<h5 class="mb-0" title="{$TRANSLATED_LABEL}">{$TRANSLATED_LABEL}</h5>
@@ -57,7 +57,7 @@
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName())
 											FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD SOURCE_TPL='GeneralInfoWidget'}
 										</div>
-										{if !$IS_READ_ONLY && $FIELD_MODEL->isEditable() eq 'true' &&
+										{if empty($IS_READ_ONLY) && $FIELD_MODEL->isEditable() eq 'true' &&
 										($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED &&
 										$FIELD_MODEL->isAjaxEditable() eq 'true'}
 											<div class="d-none edit input-group input-group-sm px-0">
@@ -75,9 +75,9 @@
 												{/if}
 											</div>
 											<div class="c-table__action--hover js-detail-quick-edit  u-cursor-pointer px-0 ml-1 u-w-fit" data-js="click">
-												<div class="float-right">
+												<button type="button" class="btn btn-sm btn-light float-right">
 													<span class="yfi yfi-full-editing-view" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
-												</div>
+												</button>
 											</div>
 										{/if}
 									</div>

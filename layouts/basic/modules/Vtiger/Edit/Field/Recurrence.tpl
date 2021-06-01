@@ -228,7 +228,7 @@
 							   {/if}name="calendarUntil" data-date-format="{$USER_MODEL->get('date_format')}"
 							   title="{\App\Language::translate('LBL_UNTIL', $MODULE)}"
 							   data-validation-engine='validate[required,funcCall[Vtiger_Date_Validator_Js.invokeValidation]]'
-							   data-validator='{\App\Json::encode([['name' => 'greaterThanDependentField', 'params' => ['date_start']]])}'/>
+							   data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name' => 'greaterThanDependentField', 'params' => ['date_start']]]))}'/>
 						<div class=" input-group-append">
 						<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
 							<span class="fas fa-calendar-alt"></span>

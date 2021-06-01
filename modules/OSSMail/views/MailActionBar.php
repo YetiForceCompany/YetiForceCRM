@@ -42,7 +42,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 					$record = $return['CreatedEmail']['mailViewId'];
 				}
 			} else {
-				App\Log::error("Email not found. username: {$account['username']}, folder: $folder, uid: $uid ", __METHOD__);
+				App\Log::warning("Email not found. username: {$account['username']}, folder: $folder, uid: $uid ", __METHOD__);
 			}
 		} elseif ($record && !\App\Privilege::isPermitted('OSSMailView', 'DetailView', $record)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $mailViewModel->getModule());

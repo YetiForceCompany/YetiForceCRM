@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class CustomView_Delete_Action extends \App\Controller\Action
@@ -13,7 +14,7 @@ class CustomView_Delete_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!CustomView_Record_Model::getInstanceById($request->getInteger('record'))->privilegeToDelete()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -23,7 +24,7 @@ class CustomView_Delete_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($request->getInteger('record'));
 		$customViewModel->delete();
@@ -31,6 +32,9 @@ class CustomView_Delete_Action extends \App\Controller\Action
 			\App\CustomView::resetCurrentView();
 		}
 		$listViewUrl = $customViewModel->getModule()->getListViewUrl();
-		header("location: $listViewUrl");
+		if (!$request->isEmpty('mid', 'Alnum')) {
+			$listViewUrl .= '&mid=' . $request->getInteger('mid');
+		}
+		header("location: {$listViewUrl}");
 	}
 }

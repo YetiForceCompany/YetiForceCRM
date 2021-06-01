@@ -28,7 +28,7 @@ class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function setDefault(\App\Request $request)
+	public function setDefault(App\Request $request)
 	{
 		$recordModel = Settings_Currency_Record_Model::getInstance($request->getInteger('record'));
 		$recordModel->set('defaultid', -11);
@@ -45,7 +45,7 @@ class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @throws Exception
 	 */
-	public function save(\App\Request $request)
+	public function save(App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
 			//get instance from currency name, Aleady deleted and adding again same currency case
@@ -65,7 +65,7 @@ class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$recordModel->set('deleted', 0);
 		$response = new Vtiger_Response();
 		try {
-			if ($request->getByType('currency_status') === 'Inactive' && !$request->isEmpty('record')) {
+			if ('Inactive' === $request->getByType('currency_status') && !$request->isEmpty('record')) {
 				$transforCurrencyToId = $request->getInteger('transform_to_id');
 				if (empty($transforCurrencyToId)) {
 					throw new \App\Exceptions\AppException('Transfer currency id cannot be empty');

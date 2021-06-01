@@ -1,9 +1,16 @@
 <?php
 
 /**
+ * Generate records file.
+ *
+ * @package Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+/**
+ * Generate records class.
  */
 class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 {
@@ -14,7 +21,7 @@ class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPriviligesModel->hasModuleActionPermission($request->getByType('target'), 'CreateView') || !$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'RecordMappingList')) {
@@ -33,7 +40,7 @@ class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 		return false;
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$records = $request->getArray('records', 'Integer');
 		$moduleName = $request->getModule();
@@ -45,7 +52,7 @@ class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 			$templateRecord = Vtiger_MappedFields_Model::getInstanceById($template);
 			foreach ($records as $recordId) {
 				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && $templateRecord->checkFiltersForRecord((int) $recordId)) {
-					if ($method == 0) {
+					if (0 == $method) {
 						$recordModel = Vtiger_Record_Model::getCleanInstance($targetModuleName);
 						$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
 						$recordModel->setRecordFieldValues($parentRecordModel);
@@ -62,13 +69,13 @@ class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 				}
 			}
 		}
-		$output = ['all' => count($records), 'ok' => $success, 'fail' => array_diff($records, $success)];
+		$output = ['all' => \count($records), 'ok' => $success, 'fail' => array_diff($records, $success)];
 		$response = new Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		return $request->validateWriteAccess();
 	}

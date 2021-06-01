@@ -23,7 +23,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		$fileIcon = \App\Layout\Icon::getIconByFileType($this->record->getRecord()->get('filetype'));
 
@@ -44,12 +44,12 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function showModuleBasicView(\App\Request $request)
+	public function showModuleBasicView(App\Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
-	public function showDocumentRelations(\App\Request $request)
+	public function showDocumentRelations(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();

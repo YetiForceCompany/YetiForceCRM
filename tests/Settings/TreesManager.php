@@ -2,6 +2,8 @@
 /**
  * TreesManager test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
@@ -40,15 +42,15 @@ class TreesManager extends \Tests\Base
 		$recordModel->set('share', $share);
 		$recordModel->set('replace', '');
 		$recordModel->save();
-		static::$treesId[$key] = $recordModel->getId();
+		self::$treesId[$key] = $recordModel->getId();
 
-		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treesId[$key]])->one();
+		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => self::$treesId[$key]])->one();
 		$this->assertSame($row['name'], 'TestTree' . $key);
 		$this->assertSame($row['module'], $moduleId);
 		$this->assertSame($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
-		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), static::countItems($tree));
+		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => self::$treesId[$key]])->count(), self::countItems($tree));
 
-		return static::$treesId[$key];
+		return self::$treesId[$key];
 	}
 
 	/**
@@ -63,7 +65,7 @@ class TreesManager extends \Tests\Base
 		$cnt = \count($tree);
 		foreach ($tree as $item) {
 			if (\is_array($item['children'])) {
-				$cnt += static::countItems($item['children']);
+				$cnt += self::countItems($item['children']);
 			}
 		}
 		return $cnt;
@@ -79,7 +81,7 @@ class TreesManager extends \Tests\Base
 	 */
 	public function testEditTree($key, $tree = [], $share = [])
 	{
-		$recordModel = \Settings_TreesManager_Record_Model::getInstanceById(static::$treesId[$key]);
+		$recordModel = \Settings_TreesManager_Record_Model::getInstanceById(self::$treesId[$key]);
 		$this->assertNotNull($recordModel, 'Settings_TreesManager_Record_Model is null');
 		$recordModel->set('name', 'TestTreeEdit' . $key);
 		$recordModel->set('tree', $tree);
@@ -87,10 +89,10 @@ class TreesManager extends \Tests\Base
 		$recordModel->set('replace', '');
 		$recordModel->save();
 
-		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treesId[$key]])->one();
+		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => self::$treesId[$key]])->one();
 		$this->assertSame($row['name'], 'TestTreeEdit' . $key);
 		$this->assertSame($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
-		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), static::countItems($tree));
+		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => self::$treesId[$key]])->count(), self::countItems($tree));
 	}
 
 	/**
@@ -104,12 +106,12 @@ class TreesManager extends \Tests\Base
 	 */
 	public function testDeleteTree($key, $moduleId = null, $tree = [], $share = [])
 	{
-		$recordModel = \Settings_TreesManager_Record_Model::getInstanceById(static::$treesId[$key]);
+		$recordModel = \Settings_TreesManager_Record_Model::getInstanceById(self::$treesId[$key]);
 		$recordModel->delete();
 
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treesId[$key]])->exists(), 'The record was not removed from the database ID: ' . static::$treesId[$key]);
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => self::$treesId[$key]])->exists(), 'The record was not removed from the database ID: ' . self::$treesId[$key]);
 
-		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), 0, 'The records were not removed from the table "vtiger_trees_templates_data"');
+		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => self::$treesId[$key]])->count(), 0, 'The records were not removed from the table "vtiger_trees_templates_data"');
 	}
 
 	/**

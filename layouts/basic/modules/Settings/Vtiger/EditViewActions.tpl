@@ -6,7 +6,7 @@
 			<span class="fas fa-check mr-1"></span>
 			<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 		</button>
-		<button class="btn btn-danger ml-1" type="reset" onclick="javascript:window.history.back();">
+		<button class="btn btn-danger ml-2" type="reset" onclick="javascript:window.history.back();">
 			<span class="fas fa-times mr-1"></span>
 			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 		</button>

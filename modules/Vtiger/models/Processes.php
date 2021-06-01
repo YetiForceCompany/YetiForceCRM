@@ -3,6 +3,8 @@
 /**
  * Vtiger processes model class.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -36,12 +38,12 @@ class Vtiger_Processes_Model
 		while ($row = $dataReader->read()) {
 			$param = $row['param'];
 			$value = $row['value'];
-			if ($param == 'users') {
-				$config[$param] = $value == '' ? [] : explode(',', $value);
+			if ('users' == $param) {
+				$config[$param] = '' == $value ? [] : explode(',', $value);
 			} else {
 				$config[$param] = $value;
 			}
-			if ($procesParam !== false && $param == $procesParam) {
+			if (false !== $procesParam && $param == $procesParam) {
 				Vtiger_Cache::set('ProcessesModel', $process . $type . $procesParam, $value);
 				\App\Log::trace('End ' . __METHOD__);
 

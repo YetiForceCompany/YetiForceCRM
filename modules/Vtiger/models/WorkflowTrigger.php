@@ -51,7 +51,6 @@
  	{
  		\Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
  		$tree = [];
- 		$taskManager = new VTTaskManager();
  		$workflowModuleName = 'Settings:Workflows';
  		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
  		$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
@@ -74,17 +73,15 @@
  			if (empty($params['showTasks'])) {
  				continue;
  			}
- 			foreach ($taskManager->getTasksForWorkflow($workflow->id) as $task) {
- 				if (!$task->active) {
- 					continue;
- 				}
+ 			$workflowRecord = Settings_Workflows_Record_Model::getInstanceFromWorkflowObject($workflow);
+ 			foreach ($workflowRecord->getTasks() as $task) {
  				$tree[] = [
  					'id' => ++$index,
  					'type' => 'category',
  					'attr' => 'task',
- 					'record_id' => $task->id,
- 					'parent' => $workflow->id,
- 					'text' => '&nbsp;' . \App\Language::translate($task->summary, $workflowModuleName),
+ 					'record_id' => $task->getId(),
+ 					'parent' => $workflowRecord->getId(),
+ 					'text' => '&nbsp;' . \App\Language::translate($task->getTaskObject()->summary, $workflowModuleName),
  					'state' => ['selected' => false, 'disabled' => empty($params['enableTasks'])],
  					'category' => ['checked' => false]
  				];

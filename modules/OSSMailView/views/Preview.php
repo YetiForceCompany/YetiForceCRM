@@ -8,6 +8,12 @@
  */
 class OSSMailView_Preview_View extends Vtiger_Index_View
 {
+	const TYPE_COLORS = [
+		0 => 'bgGreen',
+		1 => 'bgDanger',
+		2 => 'bgBlue',
+	];
+
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -40,10 +46,24 @@ class OSSMailView_Preview_View extends Vtiger_Index_View
 		$viewer->assign('CC', $recordModel->getDisplayValue('cc_email'));
 		$viewer->assign('BCC', $recordModel->getDisplayValue('bcc_email'));
 		if (\App\Utils::isHtml($recordModel->get('content'))) {
-			$viewer->assign('CONTENT', $recordModel->getDisplayValue('content', false, false, 'full'));
+			$content = $recordModel->getDisplayValue('content', false, false, 'full');
 		} else {
-			$viewer->assign('CONTENT', nl2br(\App\Layout::truncateHtml(\App\Purifier::purify($recordModel->get('content')), 'full')));
+			$content = nl2br(\App\Layout::truncateHtml(\App\Purifier::purify($recordModel->get('content')), 'full'));
 		}
+		$firstLetterBg = self::TYPE_COLORS[$recordModel->get('type')];
+		$firstLetter = strtoupper(App\TextParser::textTruncate(trim(strip_tags($recordModel->getDisplayValue('from_email'))), 1, false));
+		if ($recordModel->get('orginal_mail')) {
+			$rblInstance = \App\Mail\Rbl::getInstance([]);
+			$rblInstance->set('rawBody', $recordModel->get('orginal_mail'));
+			$rblInstance->parse();
+			if (($verifySender = $rblInstance->verifySender()) && !$verifySender['status']) {
+				$firstLetter = '<span class="fas fa-exclamation-triangle text-danger" title="' . \App\Purifier::encodeHtml($verifySender['info']) . '"></span>';
+				$firstLetterBg = 'bg-warning';
+			}
+		}
+		$viewer->assign('CONTENT', $content);
+		$viewer->assign('FIRSTLETTER', $firstLetter);
+		$viewer->assign('FIRSTLETTERBG', $firstLetterBg);
 		$viewer->assign('OWNER', $recordModel->getDisplayValue('assigned_user_id'));
 		$viewer->assign('SENT', $recordModel->getDisplayValue('createdtime'));
 		$viewer->assign('ATTACHMENTS', $recordModel->getAttachments());

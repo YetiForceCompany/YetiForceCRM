@@ -1,7 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<form id="configForm">
 	<input type="hidden" id="view" value="{$VIEW}" />
-	<div class="" id="inventoryConfig">
+	<div class="mb-5">
 		<div class="o-breadcrumb widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
@@ -35,16 +36,24 @@
 				{else}
 					{assign var=FIELD value='taxs'}
 				{/if}
-				{assign var=FIELD_VALUE value=explode(',',$CONFIG[$FIELD])}
-				<label class="col-md-3 col-form-label u-text-small-bold text-md-right form-control-plaintext">{\App\Language::translate('LBL_AVAILABLE_'|cat:strtoupper($FIELD), $QUALIFIED_MODULE)}</label>
+				{if $CONFIG[$FIELD] neq ''}
+					{assign var=FIELD_VALUE value=explode(',', $CONFIG[$FIELD])}
+				{else}
+					{assign var=FIELD_VALUE value=[]}
+				{/if}
+				<label class="col-md-3 col-form-label u-text-small-bold text-md-right form-control-plaintext">
+					<span class="redColor">*</span>
+					{\App\Language::translate('LBL_AVAILABLE_'|cat:strtoupper($FIELD), $QUALIFIED_MODULE)}
+				</label>
 				<div class="col-md-6">
-					<select class="select2" multiple name="{$FIELD}">
+					<select class="select2" multiple name="{$FIELD}" data-prevvalue='{implode(',', $FIELD_VALUE)}' data-validation-engine="validate[required]">
 						{foreach  item=LABEL key=KEY from=Settings_Inventory_Module_Model::getPicklistValues($FIELD)}
-							<option value="{$KEY}" {if in_array($KEY, $FIELD_VALUE)} selected {/if}>{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</option>
+							<option value="{$KEY}" {if in_array($KEY, $FIELD_VALUE)} selected {/if}>{\App\Language::translate("{$LABEL}_"|cat:strtoupper($FIELD), $QUALIFIED_MODULE)}</option>
 						{/foreach}
 					</select>
 				</div>
 			</div>
 		</div>
 	</div>
+</form>
 {/strip}

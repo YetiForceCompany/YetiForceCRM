@@ -17,7 +17,7 @@ jQuery.Class(
 		/**
 		 * This function used to triggerAdd Currency
 		 */
-		triggerAdd: function(event) {
+		triggerAdd: function (event) {
 			event.stopPropagation();
 			var instance = Settings_Currency_Js.currencyInstance;
 			instance.showEditView();
@@ -26,7 +26,7 @@ jQuery.Class(
 		/**
 		 * This function used to trigger Edit Currency
 		 */
-		triggerEdit: function(event, id) {
+		triggerEdit: function (event, id) {
 			event.stopPropagation();
 			var instance = Settings_Currency_Js.currencyInstance;
 			instance.showEditView(id);
@@ -37,39 +37,41 @@ jQuery.Class(
 		 * @param {object} event
 		 * @param {int} id
 		 */
-		triggerDefault: function(event, id) {
+		triggerDefault: function (event, id) {
 			event.stopPropagation();
-			Vtiger_Helper_Js.showConfirmationBox({ message: app.vtranslate('JS_CURRENCY_DEFAULT_CONFIRMED') }).done(
-				function(data) {
-					var progressIndicatorElement = jQuery.progressIndicator({
-						position: 'html',
-						blockInfo: { enabled: true }
+			Vtiger_Helper_Js.showConfirmationBox({
+				message: app.vtranslate('JS_CURRENCY_DEFAULT_CONFIRMED')
+			}).done(function (data) {
+				var progressIndicatorElement = jQuery.progressIndicator({
+					position: 'html',
+					blockInfo: { enabled: true }
+				});
+				app.saveAjax('setDefault', null, { record: id }).done(function (data) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					Settings_Vtiger_Index_Js.showMessage({
+						text: app.vtranslate('JS_CURRENCY_DETAILS_SAVED')
 					});
-					app.saveAjax('setDefault', null, { record: id }).done(function(data) {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_CURRENCY_DETAILS_SAVED') });
-						Settings_Currency_Js.currencyInstance.loadListViewContents();
-					});
-				}
-			);
+					Settings_Currency_Js.currencyInstance.loadListViewContents();
+				});
+			});
 		},
 
 		/**
 		 * This function used to trigger Delete Currency
 		 */
-		triggerDelete: function(event, id) {
+		triggerDelete: function (event, id) {
 			event.stopPropagation();
 			var currentTarget = jQuery(event.currentTarget);
 			var currentTrEle = currentTarget.closest('tr');
 			var instance = Settings_Currency_Js.currencyInstance;
-			instance.transformEdit(id).done(function(data) {
-				var callBackFunction = function(data) {
+			instance.transformEdit(id).done(function (data) {
+				var callBackFunction = function (data) {
 					var form = jQuery('#transformCurrency');
 
 					//register all select2 Elements
 					App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'));
 
-					form.on('submit', function(e) {
+					form.on('submit', function (e) {
 						e.preventDefault();
 						var transferCurrencyEle = form.find('select[name="transform_to_id"]');
 						instance.deleteCurrency(id, transferCurrencyEle, currentTrEle);
@@ -78,7 +80,7 @@ jQuery.Class(
 
 				app.showModalWindow(
 					data,
-					function(data) {
+					function (data) {
 						if (typeof callBackFunction == 'function') {
 							callBackFunction(data);
 						}
@@ -90,7 +92,7 @@ jQuery.Class(
 	},
 	{
 		//constructor
-		init: function() {
+		init: function () {
 			Settings_Currency_Js.currencyInstance = this;
 		},
 
@@ -98,7 +100,7 @@ jQuery.Class(
 		 * function to show editView for Add/Edit Currency
 		 * @params: id - currencyId
 		 */
-		showEditView: function(id) {
+		showEditView: function (id) {
 			var thisInstance = this;
 			var aDeferred = jQuery.Deferred();
 
@@ -116,8 +118,8 @@ jQuery.Class(
 			params['record'] = id;
 
 			AppConnector.request(params)
-				.done(function(data) {
-					var callBackFunction = function(data) {
+				.done(function (data) {
+					var callBackFunction = function (data) {
 						var form = jQuery('#editCurrency');
 						var record = form.find('[name="record"]').val();
 
@@ -132,7 +134,7 @@ jQuery.Class(
 						thisInstance.registerCurrencyNameChangeEvent(form);
 
 						var params = app.validationEngineOptions;
-						params.onValidationComplete = function(form, valid) {
+						params.onValidationComplete = function (form, valid) {
 							if (valid) {
 								thisInstance.saveCurrencyDetails(form);
 								return valid;
@@ -140,7 +142,7 @@ jQuery.Class(
 						};
 						form.validationEngine(params);
 
-						form.on('submit', function(e) {
+						form.on('submit', function (e) {
 							e.preventDefault();
 						});
 					};
@@ -148,7 +150,7 @@ jQuery.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					app.showModalWindow(
 						data,
-						function(data) {
+						function (data) {
 							if (typeof callBackFunction == 'function') {
 								callBackFunction(data);
 							}
@@ -156,7 +158,7 @@ jQuery.Class(
 						{ width: '600px' }
 					);
 				})
-				.fail(function(error) {
+				.fail(function (error) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					aDeferred.reject(error);
 				});
@@ -166,10 +168,10 @@ jQuery.Class(
 		/**
 		 * Register Change event for currency status
 		 */
-		registerCurrencyStatusChangeEvent: function(form) {
+		registerCurrencyStatusChangeEvent: function (form) {
 			/*If the status changed to Inactive while editing currency,
 		 currency should transfer to other existing currencies */
-			form.find('[name="currency_status"]').on('change', function(e) {
+			form.find('[name="currency_status"]').on('change', function (e) {
 				var currentTarget = jQuery(e.currentTarget);
 				if (currentTarget.is(':checked')) {
 					form.find('div.transferCurrency').addClass('d-none');
@@ -182,10 +184,10 @@ jQuery.Class(
 		/**
 		 * Register Change event for currency Name
 		 */
-		registerCurrencyNameChangeEvent: function(form) {
+		registerCurrencyNameChangeEvent: function (form) {
 			var currencyNameEle = form.find('select[name="currency_name"]');
 			//on change of currencyName, update the currency code & symbol
-			currencyNameEle.on('change', function() {
+			currencyNameEle.on('change', function () {
 				var selectedCurrencyOption = currencyNameEle.find('option:selected');
 				form.find('[name="currency_code"]').val(selectedCurrencyOption.data('code'));
 				form.find('[name="currency_symbol"]').val(selectedCurrencyOption.data('symbol'));
@@ -195,7 +197,7 @@ jQuery.Class(
 		/**
 		 * This function will save the currency details
 		 */
-		saveCurrencyDetails: function(form) {
+		saveCurrencyDetails: function (form) {
 			var thisInstance = this;
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
@@ -211,7 +213,7 @@ jQuery.Class(
 			data['mode'] = 'save';
 
 			AppConnector.request(data)
-				.done(function(data) {
+				.done(function (data) {
 					if (data['success']) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						app.hideModalWindow();
@@ -221,7 +223,7 @@ jQuery.Class(
 						thisInstance.loadListViewContents();
 					}
 				})
-				.fail(function(error) {
+				.fail(function (error) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				});
 		},
@@ -229,7 +231,7 @@ jQuery.Class(
 		/**
 		 * This function will load the listView contents after Add/Edit currency
 		 */
-		loadListViewContents: function() {
+		loadListViewContents: function () {
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -243,13 +245,12 @@ jQuery.Class(
 			params['view'] = 'List';
 
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					//replace the new list view contents
 					jQuery('#listViewContents').html(data);
-					//thisInstance.triggerDisplayTypeEvent();
 				})
-				.fail(function(error, err) {
+				.fail(function (error, err) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				});
 		},
@@ -257,7 +258,7 @@ jQuery.Class(
 		/**
 		 * This function will show the Transform Currency view while delete the currency
 		 */
-		transformEdit: function(id) {
+		transformEdit: function (id) {
 			var aDeferred = jQuery.Deferred();
 
 			var params = {};
@@ -267,10 +268,10 @@ jQuery.Class(
 			params['record'] = id;
 
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					aDeferred.resolve(data);
 				})
-				.fail(function(error, err) {
+				.fail(function (error, err) {
 					aDeferred.reject(error, err);
 				});
 			return aDeferred.promise();
@@ -279,7 +280,7 @@ jQuery.Class(
 		/**
 		 * This function will delete the currency and save the transferCurrency details
 		 */
-		deleteCurrency: function(id, transferCurrencyEle, currentTrEle) {
+		deleteCurrency: function (id, transferCurrencyEle, currentTrEle) {
 			var transferCurrencyId = transferCurrencyEle.find('option:selected').val();
 			var params = {};
 			params['module'] = app.getModuleName();
@@ -288,7 +289,7 @@ jQuery.Class(
 			params['record'] = id;
 			params['transform_to_id'] = transferCurrencyId;
 
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				app.hideModalWindow();
 				var params = {};
 				params.text = app.vtranslate('JS_CURRENCY_DELETED_SUCCESSFULLY');
@@ -297,17 +298,9 @@ jQuery.Class(
 			});
 		},
 
-		triggerDisplayTypeEvent: function() {
-			var widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				var elements = jQuery('.listViewEntriesTable').find('td,th');
-				elements.attr('class', widthType);
-			}
-		},
-
-		registerRowClick: function() {
+		registerRowClick: function () {
 			var thisInstance = this;
-			jQuery('#listViewContents').on('click', '.listViewEntries', function(e) {
+			jQuery('#listViewContents').on('click', '.listViewEntries', function (e) {
 				var currentRow = jQuery(e.currentTarget);
 				if (currentRow.find('.yfi yfi-full-editing-view ').length <= 0) {
 					return;
@@ -316,13 +309,13 @@ jQuery.Class(
 			});
 		},
 
-		registerEvents: function() {
+		registerEvents: function () {
 			this.registerRowClick();
 		}
 	}
 );
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 	var currencyInstance = new Settings_Currency_Js();
 	currencyInstance.registerEvents();
 });

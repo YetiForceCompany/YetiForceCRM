@@ -3,21 +3,21 @@
 /**
  * UIType Tree Field Class.
  *
+ * @package   UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (substr($value, 0, 1) !== 'T' || !is_numeric(substr($value, 1))) {
+		if ('T' !== substr($value, 0, 1) || !is_numeric(substr($value, 1))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
@@ -27,13 +27,11 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -42,25 +40,35 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		return implode('##', $values);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
 			return '';
 		}
 		$fieldModel = $this->getFieldModel();
-		if ($rawText) {
-			$text = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$value];
-			if (is_int($length)) {
-				$text = \App\TextParser::textTruncate($text, $length);
+		if (false === strpos($value, ',')) {
+			if ($rawText) {
+				$text = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$value];
+				if (\is_int($length)) {
+					$text = \App\TextParser::textTruncate($text, $length);
+				}
+				return \App\Purifier::encodeHtml($text);
 			}
-			return \App\Purifier::encodeHtml($text);
+			$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $value);
+			$text = $value['name'];
+		} else {
+			$names = [];
+			$trees = array_filter(explode(',', $value));
+			$treeData = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName());
+			foreach ($trees as $treeId) {
+				if (isset($treeData[$treeId])) {
+					$names[] = $treeData[$treeId];
+				}
+			}
+			$text = implode(', ', $names);
 		}
-		$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $value);
-		$text = $value['name'];
-		if (is_int($length)) {
+		if (\is_int($length)) {
 			$text = \App\TextParser::textTruncate($text, $length);
 		}
 		if (isset($value['icon'])) {
@@ -69,34 +77,26 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml($text);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/Tree.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Tree.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isAjaxEditable()
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function  getQueryOperators()
+	/** {@inheritdoc} */
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}

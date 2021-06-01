@@ -3,6 +3,8 @@
 /**
  * List preview view class.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -12,7 +14,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -24,7 +26,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		if ($request->isAjax() && !isset($this->viewName)) {
@@ -39,7 +41,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$scripts = parent::getFooterScripts($request);

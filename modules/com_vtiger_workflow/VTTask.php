@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 /**
@@ -13,6 +14,12 @@
  */
 abstract class VTTask
 {
+	/** @var int */
+	public const RECORD_EVENT_ACTIVE = 0;
+	/** @var int */
+	public const RECORD_EVENT_INACTIVE = 1;
+	/** @var int */
+	public const RECORD_EVENT_DOUBLE_MODE = 2;
 	/**
 	 * Task contents.
 	 *
@@ -20,10 +27,14 @@ abstract class VTTask
 	 */
 	public $contents;
 
+	/** @var bool The record event. */
+	public $recordEventState = self::RECORD_EVENT_ACTIVE;
+
 	/**
 	 * Do task.
 	 *
 	 * @param Vtiger_Record_Model
+	 * @param mixed $recordModel
 	 */
 	abstract public function doTask($recordModel);
 
@@ -88,7 +99,7 @@ abstract class VTTask
 	 */
 	public function formatTimeForTimePicker($time)
 	{
-		list($h, $m) = explode(':', $time);
+		[$h, $m] = explode(':', $time);
 		$mn = str_pad($m - $m % 15, 2, 0, STR_PAD_LEFT);
 		$AM_PM = ['am', 'pm'];
 

@@ -18,7 +18,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getByType('source_module', 2);
 		if (empty($moduleName)) {
@@ -35,10 +35,10 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$exportModel = Vtiger_Export_Model::getInstanceFromRequest($request);
-		if ($request->getMode() === 'ExportSelectedRecords') {
+		if ('ExportSelectedRecords' === $request->getMode()) {
 			$exportModel->setRecordList($this->getRecordsListFromRequest($request));
 		}
 		$exportModel->sendHttpHeader();
@@ -48,11 +48,11 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public static function getQuery(\App\Request $request)
+	public static function getQuery(App\Request $request)
 	{
 		$cvId = $request->isEmpty('viewname') ? '' : $request->getByType('viewname', 2);
 		$moduleName = $request->getByType('source_module', 'Alnum');
-		if (!empty($cvId) && $cvId === 'undefined' && $moduleName !== 'Users') {
+		if (!empty($cvId) && 'undefined' === $cvId && 'Users' !== $moduleName) {
 			$sourceModule = $request->getByType('sourceModule', 2);
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
@@ -61,7 +61,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 			return false;
 		}
 		$selectedIds = $request->getArray('selected_ids', 2);
-		if ($selectedIds && $selectedIds[0] !== 'all') {
+		if ($selectedIds && 'all' !== $selectedIds[0]) {
 			$queryGenerator = new App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addCondition('id', $selectedIds, 'e');

@@ -3,6 +3,8 @@
 /**
  * Vtiger TransferOwnership action class.
  *
+ * @package Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -15,7 +17,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -24,7 +26,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$module = $request->getModule();
 		$transferOwnerId = $request->getInteger('transferOwnerId');
@@ -38,7 +40,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 			$recordIds = [$record];
 		}
 		$configMaxTransferRecords = App\Config::performance('maxMassTransferOwnershipRecords');
-		if (count($recordIds) > $configMaxTransferRecords) {
+		if (\count($recordIds) > $configMaxTransferRecords) {
 			$response = new Vtiger_Response();
 			$response->setResult(['notify' => ['text' => \App\Language::translateArgs('LBL_SELECT_UP_TO_RECORDS', '_Base', $configMaxTransferRecords), 'type' => 'error']]);
 			$response->emit();
@@ -62,25 +64,13 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
-	protected function getBaseModuleRecordIds(\App\Request $request)
+	protected function getBaseModuleRecordIds(App\Request $request)
 	{
 		$cvId = $request->getByType('viewname', 2);
 		$module = $request->getModule();
 		$selectedIds = $request->getArray('selected_ids', 2);
 		$excludedIds = $request->getArray('excluded_ids', 2);
-
-		if (!empty($selectedIds) && $selectedIds[0] !== 'all' && !empty($selectedIds) && count($selectedIds) > 0) {
-			foreach ($selectedIds as $key => &$recordId) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-				if (!$recordModel->isEditable()) {
-					unset($selectedIds[$key]);
-				}
-			}
-
-			return $selectedIds;
-		}
-
-		if ($selectedIds[0] == 'all') {
+		if ('all' == $selectedIds[0]) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 			if ($customViewModel) {
 				$searchKey = $request->getByType('search_key', 'Alnum');
@@ -91,9 +81,9 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 					$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $module, $searchKey, $operator));
 				}
 				$customViewModel->set('search_params', App\Condition::validSearchParams($module, $request->getArray('search_params')));
-				return $customViewModel->getRecordIds($excludedIds, $module, true);
+				$selectedIds = $customViewModel->getRecordIds($excludedIds, $module, true);
 			}
 		}
-		return [];
+		return $selectedIds ?? [];
 	}
 }

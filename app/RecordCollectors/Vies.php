@@ -1,10 +1,9 @@
 <?php
 /**
  * Vies record collector file.
+ * http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl.
  *
- * @package   App
- *
- * http://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -18,25 +17,19 @@ namespace App\RecordCollectors;
  */
 class Vies extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	protected $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+
+	/** {@inheritdoc} */
 	public $icon = 'yfi yfi-vies';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $label = 'Vies';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $displayType = 'Summary';
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'countryCode' => [
 			'label' => 'Country',
@@ -73,15 +66,16 @@ class Vies extends Base
 				'SI' => 'Slovenia',
 				'SK' => 'Slovakia',
 			],
+			'typeofdata' => 'V~M'
 		],
 		'vatNumber' => [
 			'labelModule' => '_Base',
-			'label' => 'Vat ID'
+			'label' => 'Vat ID',
+			'typeofdata' => 'V~M'
 		],
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	protected $modulesFieldsMap = [
 		'Accounts' => [
 			'vatNumber' => 'vat_id',
@@ -96,6 +90,7 @@ class Vies extends Base
 			'vatNumber' => 'vat_id',
 		]
 	];
+
 	/**
 	 * Vies server address.
 	 *
@@ -103,9 +98,7 @@ class Vies extends Base
 	 */
 	protected $url = 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFields(): array
 	{
 		$fields = parent::getFields();
@@ -118,9 +111,7 @@ class Vies extends Base
 		return $fields;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function search(): array
 	{
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
@@ -129,7 +120,7 @@ class Vies extends Base
 		}
 		$countryCode = $this->request->getByType('countryCode', 'Standard');
 		$response = [];
-		if ($client = new \SoapClient($this->url, ['trace' => true])) {
+		if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
 			$params = ['countryCode' => $countryCode, 'vatNumber' => $vatNumber];
 			try {
 				$r = $client->checkVat($params);

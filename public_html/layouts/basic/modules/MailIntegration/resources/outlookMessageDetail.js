@@ -28,11 +28,11 @@ window.MailIntegration_Start = {
 				window.PanelParams
 			)
 		)
-			.done(responseData => {
+			.done((responseData) => {
 				$('#page').html(responseData);
 				this.registerLogoutEvents();
 			})
-			.fail(_ => {
+			.fail((_) => {
 				Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
 					type: 'errorMessage',
 					message: app.vtranslate('JS_ERROR')
@@ -125,13 +125,20 @@ window.MailIntegration_Start = {
 		window.MailIntegration_Start.showDetailView(Office.context.mailbox.item);
 	}
 };
-Office.onReady(info => {
-	window.PanelParams = {
-		source: 'Outlook',
-		device: Office.context.mailbox.diagnostics.hostName
-	};
-	if (info.host === Office.HostType.Outlook) {
-		window.MailIntegration_Start.registerEvents(Office.context.mailbox);
-		Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, window.MailIntegration_Start.reloadView);
-	}
-});
+if (typeof Office === 'undefined') {
+	app.showNotify({
+		title: app.vtranslate('JS_ERROR'),
+		type: 'error'
+	});
+} else {
+	Office.onReady((info) => {
+		window.PanelParams = {
+			source: 'Outlook',
+			device: Office.context.mailbox.diagnostics.hostName
+		};
+		if (info.host === Office.HostType.Outlook) {
+			window.MailIntegration_Start.registerEvents(Office.context.mailbox);
+			Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, window.MailIntegration_Start.reloadView);
+		}
+	});
+}

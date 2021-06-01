@@ -1,38 +1,35 @@
 <?php
-
-namespace App\Extension\HTMLPurifier;
-
 /**
- * Plugin to check allowed domains in urls.
+ * Plugin file to check allowed domains in urls.
+ *
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <tkur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Extension\HTMLPurifier;
+
+/**
+ * Plugin class to check allowed domains in urls.
  */
 class Domain extends \HTMLPurifier_URIFilter
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $name = 'Domain';
-	/**
-	 * Allowed domains.
-	 *
-	 * @var string[]
-	 */
+
+	/** @var string[] Allowed domains. */
 	private $allowedDomains = [];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function prepare($config)
 	{
 		$this->allowedDomains = \Config\Security::$purifierAllowedDomains ?? [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function filter(&$uri, $config, $context)
 	{
 		$host = $uri->host;
@@ -41,7 +38,7 @@ class Domain extends \HTMLPurifier_URIFilter
 		} elseif ('data' === $uri->scheme || 'mailto' === $uri->scheme || 'tel' === $uri->scheme) {
 			return true;
 		}
-		if (false !== strpos($host, '.') && $this->allowedDomains !== false && !\in_array($host, $this->allowedDomains)) {
+		if (false !== strpos($host, '.') && false !== $this->allowedDomains && !\in_array($host, $this->allowedDomains)) {
 			return false;
 		}
 		return true;

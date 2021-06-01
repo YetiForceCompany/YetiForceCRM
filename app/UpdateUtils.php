@@ -5,6 +5,8 @@ namespace App;
 /**
  * Update utils class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -98,7 +100,7 @@ class UpdateUtils
 					$addContentString = implode('', $addContent);
 					$content .= $addContentString;
 				}
-				file_put_contents($fileName, $content);
+				file_put_contents($fileName, $content, LOCK_EX);
 			}
 		}
 	}

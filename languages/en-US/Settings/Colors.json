@@ -23,6 +23,7 @@
     "LBL_WARNING": "Warning",
     "LBL_ITEM": "Value",
     "LBL_MODULE": "Module",
-    "LBL_GROUP_NAME": "Group"
+    "LBL_GROUP_NAME": "Group",
+    "LBL_FIELDS_COLORS": "Field colors"
   }
 }

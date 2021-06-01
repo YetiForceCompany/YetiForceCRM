@@ -1,18 +1,17 @@
 <?php
 
 /**
- * Settings OSSMailView index view class.
+ * Settings Widgets index view class.
+ *
+ * @package   Settings.View
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 {
-	/**
-	 * Process.
-	 *
-	 * @param \App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -22,21 +21,24 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 			$source = \App\Module::getModuleId('Accounts');
 		}
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
-		$relatedModule = $moduleModel->getRelatedModule($source);
+		$sourceModuleName = App\Module::getModuleName($source);
+		$relatedModule = \App\Relation::getByModule($sourceModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('SOURCE', $source);
-		$viewer->assign('SOURCEMODULE', App\Module::getModuleName($source));
+		$viewer->assign('SOURCEMODULE', $sourceModuleName);
 		$viewer->assign('WIDGETS', $moduleModel->getWidgets($source));
 		$viewer->assign('RELATEDMODULES', $relatedModule);
 		$viewer->assign('FILTERS', \App\Json::encode($moduleModel->getFiletrs($relatedModule)));
 		$viewer->assign('CHECKBOXS', \App\Json::encode($moduleModel->getCheckboxs($relatedModule)));
-		$viewer->assign('SWITCHES_HEADER', \App\Json::encode($moduleModel->getHeaderSwitch()));
+		$viewer->assign('SWITCHES_HEADER', \App\Json::encode($moduleModel->getHeaderSwitch($source)));
+		$viewer->assign('CUSTOM_VIEW', \App\Json::encode($moduleModel->getCustomView($relatedModule)));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
+	/** {@inheritdoc} */
 	public function getHeaderCss(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -45,6 +47,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		]));
 	}
 
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();

@@ -10,7 +10,12 @@
 					<th></th>
 					<th>{\App\Language::translate('ViewName',$QUALIFIED_MODULE)}</th>
 					<th>{\App\Language::translate('SetDefault',$QUALIFIED_MODULE)}</th>
-					<th>{\App\Language::translate('Privileges',$QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('LBL_PRIVILEGES_TO_EDIT',$QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('LBL_PRIVILEGES_TO_VIEW',$QUALIFIED_MODULE)}
+						<a href="#" class="js-popover-tooltip ml-2" data-placement="top" data-content="{\App\Language::translate('LBL_PRIVILEGES_TO_VIEW_DESC', $QUALIFIED_MODULE)}">
+							<i class="fas fa-info-circle"></i>
+						</a>
+					</th>
 					<th>{\App\Language::translate('LBL_FEATURED_LABELS',$QUALIFIED_MODULE)}</th>
 					<th>{\App\Language::translate('LBL_SORTING',$QUALIFIED_MODULE)}</th>
 					<th>{\App\Language::translate('LBL_CREATED_BY',$QUALIFIED_MODULE)}</th>
@@ -18,14 +23,15 @@
 				</tr>
 				</thead>
 				<tbody>
-				{foreach from=$MODULE_MODEL->getCustomViews($SOURCE_MODULE_ID) item=item key=key}
-					<tr class="js-filter-row" data-js="data" data-cvid="{$key}" data-mod="{$item['entitytype']}">
+				{foreach from=\App\CustomView::getFiltersByModule($SOURCE_MODULE) item=item key=key}
+					{if $item['presence'] === 2}{continue}{/if}
+					<tr class="js-filter-row" data-js="data" data-cvid="{$key}" data-mod="{$SOURCE_MODULE}">
 						<td>
 							<img src="{\App\Layout::getImagePath('drag.png')}"
 								 title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 						</td>
 						{if $item['viewname'] eq 'All'}
-							<td>{\App\Language::translate('All',$item['entitytype'])}</td>
+							<td>{\App\Language::translate('All', $SOURCE_MODULE)}</td>
 						{else}
 							<td>{$item['viewname']}</td>
 						{/if}
@@ -67,6 +73,31 @@
 									> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
 								</label>
 							</div>
+						</td>
+						<td>
+							{assign 'IS_PRIVATE'  $item['status'] === \App\CustomView::CV_STATUS_PRIVATE}
+							{assign 'IS_PUBLIC'  $item['status'] === \App\CustomView::CV_STATUS_PUBLIC || $item['presence'] === 0}
+							<div class="btn-group btn-group-toggle {if $item['presence'] === 0} u-disabled{/if}"
+								 data-toggle="buttons">
+								<label class="btn btn-sm btn-outline-primary {if $IS_PUBLIC} active{/if}">
+									<input class="js-update-field" type="radio" name="status"
+										   id="status1" autocomplete="off" value="{\App\CustomView::CV_STATUS_PUBLIC}"
+										   {if $IS_PUBLIC}checked{/if}
+									> {\App\Language::translate('LBL_PUBLIC', $QUALIFIED_MODULE)}
+								</label>
+								<label class="btn btn-sm btn-outline-primary {if $IS_PRIVATE} active {/if}">
+									<input class="js-update-field" type="radio" name="status"
+										   id="status2" autocomplete="off" value="{\App\CustomView::CV_STATUS_PRIVATE}"
+										   {if $IS_PRIVATE}checked{/if}
+									> {\App\Language::translate('LBL_PRIVATE', $QUALIFIED_MODULE)}
+								</label>
+							</div>
+							{if $IS_PRIVATE}
+								<button type="button" id="permissions" name="permissions" class="btn btn-light btn-sm js-show-modal"
+										data-url="{$MODULE_MODEL->getPrivilegesUrl($SOURCE_MODULE_ID, $key)}">
+									<span class="fas fa-user"></span>
+								</button>
+							{/if}
 						</td>
 						<td>
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">

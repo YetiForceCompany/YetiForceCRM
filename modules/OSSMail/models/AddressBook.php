@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -32,33 +33,15 @@ class OSSMail_AddressBook_Model
 	public static function createABFile()
 	{
 		$mails = [];
-		$query = (new \App\Db\Query())->select([self::TABLE . '.name', self::TABLE . '.email', self::TABLE . '.users', 'vtiger_crmentity.setype'])->from(self::TABLE)->innerJoin('vtiger_crmentity', self::TABLE . '.id = vtiger_crmentity.crmid');
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$name = $row['name'];
-			$email = $row['email'];
-			$users = $row['users'];
-			$setype = $row['setype'];
-			if (!empty($users)) {
-				$users = explode(',', ltrim($users, ','));
-				foreach ($users as &$user) {
-					$mails[$user][$setype][] = "$name <$email>";
-				}
-			}
-		}
-		foreach ($mails as $userId => $mail) {
-			$mailsToFile[$userId] = array_merge($mail['OSSEmployees'] ?? [], $mail['Contacts'] ?? []);
-			unset($mail['OSSEmployees'], $mail['Contacts']);
-			foreach ($mail as $otherMail) {
-				$mailsToFile[$userId] = array_merge($mailsToFile[$userId], $otherMail);
-			}
-		}
-		$dataReader->close();
-		$fstart = '$bookMails =';
-		if (!empty($mailsToFile)) {
-			foreach ($mailsToFile as $user => $file) {
-				$file = array_unique($file);
-				\App\Utils::saveToFile("cache/addressBook/mails_{$user}.php", $fstart . App\Utils::varExport($file) . ';');
+		$db = \App\Db::getInstance();
+		$usersIds = \App\Fields\Owner::getUsersIds();
+		foreach($usersIds as $userId){
+			$mails = (new \App\Db\Query())->select([new \yii\db\Expression('CONCAT(name,' . $db->quoteValue(' <') . ',email,'. $db->quoteValue('>') .')')])
+			->from(self::TABLE)->innerJoin('vtiger_crmentity', self::TABLE . '.id = vtiger_crmentity.crmid')
+			->where(['or', ['like', self::TABLE . '.users', ",{$userId},"],['like', self::TABLE . '.users', "%,{$userId}", false]])
+			->orderBy(new \yii\db\Expression("CASE WHEN setype = 'OSSEmployees' THEN 1 WHEN setype = 'Contacts' THEN 2 ELSE 3 END"))->distinct()->column();
+			if($mails || file_exists("cache/addressBook/mails_{$userId}.php")){
+				\App\Utils::saveToFile("cache/addressBook/mails_{$userId}.php", '$bookMails =' . App\Utils::varExport($mails) . ';');
 			}
 		}
 	}

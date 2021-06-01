@@ -35,21 +35,6 @@ class ProjectTask extends CRMEntity
 		'vtiger_projecttask' => 'projecttaskid',
 		'vtiger_projecttaskcf' => 'projecttaskid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'Project Task Name' => ['projecttask', 'projecttaskname'],
-		'Status' => ['projecttask', 'projecttaskstatus'],
-		'Start Date' => ['projecttask', 'startdate'],
-		'End Date' => ['projecttask', 'enddate'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'FL_TOTAL_TIME_H' => ['projecttask', 'sum_time'],
-		'Progress' => ['projecttask', 'projecttaskprogress'],
-		'Type' => ['projecttask', 'projecttasktype'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Project Task Name' => 'projecttaskname',
@@ -66,8 +51,7 @@ class ProjectTask extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view from list view (Fieldname)
-	public $list_link_field = 'projecttaskname';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
@@ -104,7 +88,7 @@ class ProjectTask extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 
@@ -115,7 +99,7 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(['ProjectTask']);
 				}
 			}
-		} elseif ($eventType === 'module.postupdate') {
+		} elseif ('module.postupdate' === $eventType) {
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

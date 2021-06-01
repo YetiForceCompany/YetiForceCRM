@@ -5,6 +5,8 @@ namespace App\SystemWarnings\Security;
 /**
  * Check for vulnerabilities in dependencies warnings class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -36,8 +38,10 @@ class Dependencies extends \App\SystemWarnings\Template
 			$this->status = 1;
 		}
 		if (0 === $this->status) {
-			$this->link = 'index.php?module=YetiForce&parent=Settings&view=Vulnerabilities';
-			$this->linkTitle = \App\Language::translate('Security', 'Settings:SystemWarnings');
+			if (\App\Security\AdminAccess::isPermitted('Dependencies')) {
+				$this->link = 'index.php?module=Dependencies&parent=Settings&view=Vulnerabilities';
+				$this->linkTitle = \App\Language::translate('Security', 'Settings:SystemWarnings');
+			}
 			$this->description = \App\Language::translate('LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC', 'Settings:SystemWarnings') . '<br />';
 			foreach ($vulnerabilities as $name => $vulnerability) {
 				$this->description .= "$name({$vulnerability['version']}):<br />";

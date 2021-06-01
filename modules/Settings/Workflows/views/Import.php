@@ -9,19 +9,19 @@
  */
 class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
-		if ($request->has('upload') && $request->get('upload') == 'true') {
+		if ($request->has('upload') && 'true' == $request->get('upload')) {
 			$xmlName = $_FILES['imported_xml']['name'];
 			$uploadedXml = $_FILES['imported_xml']['tmp_name'];
 			$xmlError = $_FILES['imported_xml']['error'];
 			$explodeXmlName = explode('.', $xmlName);
 			$extension = end($explodeXmlName);
-			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
+			if (UPLOAD_ERR_OK == $xmlError && 'xml' === $extension) {
 				$xml = simplexml_load_file($uploadedXml);
 
 				$params = [];
@@ -29,9 +29,9 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 				foreach ($xml as $fieldsKey => $fieldsValue) {
 					foreach ($fieldsValue as $fieldKey => $fieldValue) {
 						foreach ($fieldValue as $columnKey => $columnValue) {
-							if ($columnKey === 'conditions') {
+							if ('conditions' === $columnKey) {
 								$columnKey = 'test';
-							} elseif ($columnKey == 'type' && empty($columnValue)) {
+							} elseif ('type' == $columnKey && empty($columnValue)) {
 								$columnValue = 'basic';
 							}
 							switch ($fieldKey) {
@@ -45,9 +45,9 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 									$params[$fieldsKey][$columnKey] = (string) $columnValue;
 							}
 						}
-						if ($fieldKey === 'workflow_task') {
+						if ('workflow_task' === $fieldKey) {
 							++$taskIndex;
-						} elseif ($fieldKey === 'workflow_method') {
+						} elseif ('workflow_method' === $fieldKey) {
 							++$methodIndex;
 						}
 					}
@@ -69,7 +69,7 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

@@ -2,6 +2,8 @@
 /**
  * Class to read and save configuration for integration with magento.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -9,6 +11,7 @@
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Integrations\Magento;
@@ -20,12 +23,6 @@ use App\Db\Query;
  */
 class Config extends \App\Base
 {
-	/**
-	 * Instance class.
-	 *
-	 * @var self
-	 */
-	private static $instance;
 	/**
 	 * Table name.
 	 */
@@ -41,7 +38,13 @@ class Config extends \App\Base
 		if (\App\Cache::has('Magento|getAllServers', '')) {
 			return \App\Cache::get('Magento|getAllServers', '');
 		}
-		$servers = (new Query())->from('i_#__magento_servers')->indexBy('id')->all(\App\Db::getInstance('admin'));
+		$servers = [];
+		$dataReader = (new Query())->from('i_#__magento_servers')->createCommand(\App\Db::getInstance('admin'))->query();
+		while ($row = $dataReader->read()) {
+			$row['password'] = \App\Encryption::getInstance()->decrypt($row['password']);
+			$servers[$row['id']] = $row;
+		}
+		$dataReader->close();
 		\App\Cache::save('Magento|getAllServers', '', $servers);
 		return $servers;
 	}
@@ -55,12 +58,7 @@ class Config extends \App\Base
 	 */
 	public static function getServer(int $id): array
 	{
-		if (\App\Cache::has('Magento|getServer', $id)) {
-			return \App\Cache::get('Magento|getServer', $id);
-		}
-		$server = (new \App\Db\Query())->from('i_#__magento_servers')->where(['id' => $id])->one(\App\Db::getInstance('admin')) ?: [];
-		\App\Cache::save('Magento|getServer', $id, $server);
-		return $server;
+		return self::getAllServers()[$id] ?? [];
 	}
 
 	/**

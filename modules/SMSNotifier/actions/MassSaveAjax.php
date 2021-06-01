@@ -18,7 +18,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$sourceModule = $request->getByType('source_module', 2);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -32,7 +32,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$sourceModule = $request->getByType('source_module', 2);
 		$queryGenerator = $this->getRecordsListQueryFromRequest($request);
@@ -76,13 +76,13 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 *
 	 * @return \App\QueryGenerator
 	 */
-	public function getRecordsListQueryFromRequest(\App\Request $request)
+	public function getRecordsListQueryFromRequest(App\Request $request)
 	{
 		$module = $request->getModule();
 		$sourceModule = $request->getByType('source_module', 'Alnum');
 		$selectedIds = $request->getArray('selected_ids', 'Alnum');
 		$excludedIds = $request->getArray('excluded_ids', 'Alnum');
-		if (!empty($selectedIds) && !in_array($selectedIds[0], ['all', '"all"']) && count($selectedIds) > 0) {
+		if (!empty($selectedIds) && !\in_array($selectedIds[0], ['all', '"all"']) && \count($selectedIds) > 0) {
 			$queryGenerator = new \App\QueryGenerator($sourceModule);
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
 			return $queryGenerator;

@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -47,25 +48,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get Converted Information for selected records.
-	 *
-	 * @param array $recordIdsList
-	 *
-	 * @return array converted Info
-	 */
-	public static function getConvertedInfo($recordIdsList = [])
-	{
-		$convertedInfo = [];
-		if ($recordIdsList) {
-			$convertedInfo = (new App\Db\Query())->select(['leadid', 'converted'])
-				->from('vtiger_leaddetails')
-				->where(['leadid' => $recordIdsList])
-				->createCommand()->queryAllByGroup(0);
-		}
-		return $convertedInfo;
-	}
-
-	/**
 	 * Function to get list view query for popup window.
 	 *
 	 * @param string              $sourceModule   Parent module
@@ -75,7 +57,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, App\QueryGenerator $queryGenerator)
 	{
-		if (!empty($record) && in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
+		if (!empty($record) && \in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
 			switch ($sourceModule) {
 				case 'Campaigns':
 					$tableName = 'vtiger_campaign_records';
@@ -130,17 +112,19 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$joinTable = ['vtiger_account', 'vtiger_crmentity'];
 			$moduleModel = Vtiger_Module_Model::getInstance('Accounts');
 			$focus = $moduleModel->getEntityInstance();
-			foreach ($mappingFields as $leadFieldName => $accountFieldName) {
-				$fieldModel = $moduleModel->getField($accountFieldName);
-				if (!$fieldModel) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			foreach ($mappingFields as $mappingField) {
+				foreach ($mappingField as $leadFieldName => $accountFieldName) {
+					$fieldModel = $moduleModel->getField($accountFieldName);
+					if (!$fieldModel) {
+						throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+					}
+					$tableName = $fieldModel->get('table');
+					if (!\in_array($tableName, $joinTable)) {
+						$query->innerJoin($tableName, "{$tableName}.{$focus->tab_name_index[$tableName]} = vtiger_account.accountid");
+						$joinTable[] = $tableName;
+					}
+					$query->andWhere(["{$tableName}.{$fieldModel->getColumnName()}" => $recordModel->get($leadFieldName)]);
 				}
-				$tableName = $fieldModel->get('table');
-				if (!in_array($tableName, $joinTable)) {
-					$query->innerJoin($tableName, "{$tableName}.{$focus->tab_name_index[$tableName]} = vtiger_account.accountid");
-					$joinTable[] = $tableName;
-				}
-				$query->andWhere(["{$tableName}.{$fieldModel->getColumnName()}" => $recordModel->get($leadFieldName)]);
 			}
 			$query->limit(2);
 			$dataReader = $query->createCommand()->query();
@@ -179,7 +163,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @param string $status - lead status
 	 *
-	 * @return <boolean> if or not allowed to convert
+	 * @return bool if or not allowed to convert
 	 */
 	public static function checkIfAllowedToConvert($status)
 	{
@@ -188,6 +172,24 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		if (empty($leadConfig['convert_status'])) {
 			return true;
 		}
-		return in_array($status, $leadConfig['convert_status']);
+		return \in_array($status, $leadConfig['convert_status']);
+	}
+
+	/**
+	 * The function adds restrictions to the functionality of searching for records.
+	 *
+	 * @param App\Db\Query     $query
+	 * @param App\RecordSearch $recordSearch
+	 *
+	 * @return void
+	 */
+	public function searchRecordCondition(App\Db\Query $query, App\RecordSearch $recordSearch = null): void
+	{
+		if ($recordSearch->moduleName === $this->getName()) {
+			$query->innerJoin('vtiger_leaddetails', 'csl.crmid = vtiger_leaddetails.leadid');
+			$query->andWhere(['vtiger_leaddetails.converted' => 0]);
+		} else {
+			$query->andWhere(['not in', 'csl.crmid', (new \App\Db\Query())->select(['leadid'])->from('vtiger_leaddetails')->where(['converted' => 1])]);
+		}
 	}
 }

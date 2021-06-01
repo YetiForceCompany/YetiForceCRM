@@ -16,7 +16,7 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
+	public function getQueryByModuleField($sourceModule, $field, $record, App\QueryGenerator $queryGenerator)
 	{
 		$queryGenerator->addNativeCondition(['vtiger_ossemployees.employee_status' => 'Employee']);
 	}
@@ -27,19 +27,18 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 		$end = strtotime($endDate);
 		if ($begin > $end) {
 			return 0;
-		} else {
-			$noDays = 0;
-			$weekends = 0;
-			while ($begin <= $end) {
-				++$noDays; // no of days in the given interval
-				$whatDay = date('N', $begin);
-				if ($whatDay > 5) { // 6 and 7 are weekend days
-					++$weekends;
-				}
-				$begin += 86400; // +1 day
-			}
-			return $noDays - $weekends;
 		}
+		$noDays = 0;
+		$weekends = 0;
+		while ($begin <= $end) {
+			++$noDays; // no of days in the given interval
+			$whatDay = date('N', $begin);
+			if ($whatDay > 5) { // 6 and 7 are weekend days
+				++$weekends;
+			}
+			$begin += 86400; // +1 day
+		}
+		return $noDays - $weekends;
 	}
 
 	public function getBarChartColors($chartData)

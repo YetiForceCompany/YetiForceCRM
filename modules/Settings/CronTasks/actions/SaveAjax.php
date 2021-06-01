@@ -13,7 +13,7 @@ class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		if ($request->isEmpty('record')) {
@@ -24,7 +24,7 @@ class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordModel = Settings_CronTasks_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule(false));
 		$fieldsList = $recordModel->getModule()->getEditableFieldsList();

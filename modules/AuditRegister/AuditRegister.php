@@ -44,19 +44,7 @@ class AuditRegister extends Vtiger_CRMEntity
 		'u_yf_auditregister' => 'auditregisterid',
 		'u_yf_auditregistercf' => 'auditregisterid',
 	];
-	/**
-	 * Mandatory for Listing (Related listview).
-	 *
-	 * @var array
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'FL_NAME' => ['auditregister', 'name'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'FL_STATUS' => ['auditregister', 'auditregister_status'],
-		'FL_TYPE' => ['auditregister', 'auditregister_type']
-	];
+
 	/**
 	 * List fields name.
 	 *
@@ -69,12 +57,6 @@ class AuditRegister extends Vtiger_CRMEntity
 		'FL_STATUS' => 'auditregister_status',
 		'FL_TYPE' => 'auditregister_type',
 	];
-	/**
-	 * Make the field link to detail view.
-	 *
-	 * @var string
-	 */
-	public $list_link_field = 'name';
 	/**
 	 * For Popup listview and UI type support.
 	 *

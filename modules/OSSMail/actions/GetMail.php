@@ -15,7 +15,7 @@ class OSSMail_GetMail_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -27,7 +27,7 @@ class OSSMail_GetMail_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceRecord = $request->getInteger('sourceRecord');
@@ -46,20 +46,20 @@ class OSSMail_GetMail_Action extends \App\Controller\Action
 					'fieldlabel' => App\Language::translate($emailField['fieldlabel'], $emailField['name']),
 					'email' => $email,
 				];
-				if ($maxEmails === 1) {
+				if (1 === $maxEmails) {
 					break;
 				}
 			}
 		}
 
-		if (count($emails) > 1) {
+		if (\count($emails) > 1) {
 			$viewController = new Vtiger_Index_View();
 			$viewer = $viewController->getViewer($request);
 			$viewer->assign('EMAILS', $emails);
 			$viewer->view('GetMails.tpl', $moduleName);
 		} else {
 			$email = '';
-			if (count($emails) == 1) {
+			if (1 == \count($emails)) {
 				$email = $emails[0]['email'];
 			}
 			$response = new Vtiger_Response();

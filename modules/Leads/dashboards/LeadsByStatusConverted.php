@@ -15,7 +15,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$listSearchParams = [];
 		$conditions = [['leadstatus', 'e', $value]];
-		if ($assignedto != '') {
+		if ('' != $assignedto) {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
@@ -76,12 +76,12 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['datasets'][0]['names'][] = $value;
 			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['leadstatusid']];
 		}
-		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) \count($chartData['datasets'][0]['data']);
 		$dataReader->close();
 		return $chartData;
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
@@ -94,16 +94,16 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 			$owner = $request->getByType('owner', 2);
 		}
 		$ownerForwarded = $owner;
-		if ($owner == 'all') {
+		if ('all' == $owner) {
 			$owner = '';
 		}
 		if (empty($createdTime)) {
 			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
-		$data = ($owner === false) ? [] : $this->getLeadsByStatusConverted($owner, $createdTime);
+		$data = (false === $owner) ? [] : $this->getLeadsByStatusConverted($owner, $createdTime);
 		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-		$leadStatusAmount = count($data['datasets'][0]['names']);
+		$leadStatusAmount = \count($data['datasets'][0]['names']);
 		for ($i = 0; $i < $leadStatusAmount; ++$i) {
 			$data['datasets'][0]['links'][$i] = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
 		}

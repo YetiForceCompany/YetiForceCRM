@@ -17,7 +17,7 @@ class ModTracker_ListAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('parent_id');
 		if (!$recordId) {
@@ -28,7 +28,7 @@ class ModTracker_ListAjax_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$parentRecordId = $request->getInteger('parent_id');
 		$pageNumber = $request->getInteger('page');

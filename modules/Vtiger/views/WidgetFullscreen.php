@@ -2,9 +2,12 @@
 /**
  * Widget fullscreen modal view class.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -19,7 +22,7 @@ class Vtiger_WidgetFullscreen_View extends Vtiger_BasicModal_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -29,12 +32,12 @@ class Vtiger_WidgetFullscreen_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function getSize(\App\Request $request)
+	public function getSize(App\Request $request)
 	{
 		return 'modal-blg';
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
@@ -43,11 +46,12 @@ class Vtiger_WidgetFullscreen_View extends Vtiger_BasicModal_View
 		$detailModel->getWidgets();
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();
+		$detailView->record = $detailModel;
 		$mode = $request->getMode();
 		$request->set('limit', 30);
 		$request->set('isFullscreen', 'true');
 		if ($detailView->isMethodExposed($mode)) {
-			$content = $detailView->$mode($request);
+			$content = $detailView->{$mode}($request);
 		}
 		$title = '';
 		$viewer = $this->getViewer($request);

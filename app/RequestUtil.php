@@ -5,14 +5,41 @@ namespace App;
 /**
  * Request Utils basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RequestUtil
 {
-	protected static $browserCache = false;
-	private static $ipFields = [
+	/**
+	 * Browser cache variable.
+	 *
+	 * @var stdClass
+	 */
+	protected static $browserCache;
+
+	/**
+	 * Cache https check variable.
+	 *
+	 * @var bool
+	 */
+	protected static $httpsCache;
+
+	/**
+	 * Net connection cache.
+	 *
+	 * @var bool
+	 */
+	protected static $connectionCache;
+
+	/**
+	 * IP fields names variable.
+	 *
+	 * @var string[]
+	 */
+	protected static $ipFields = [
 		'HTTP_CLIENT_IP',
 		'HTTP_X_FORWARDED_FOR',
 		'HTTP_X_FORWARDED',
@@ -21,12 +48,6 @@ class RequestUtil
 		'HTTP_X_CLUSTER_CLIENT_IP',
 		'HTTP_CF_CONNECTING_IP',
 	];
-	/**
-	 * Net connection cache.
-	 *
-	 * @var
-	 */
-	private static $connectionCache;
 
 	public static function getRemoteIP($onlyIP = false)
 	{
@@ -38,7 +59,7 @@ class RequestUtil
 		if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
 			$remoteIp[] = 'X-Real-IP: ' . Request::_getServer('HTTP_X_REAL_IP');
 		}
-		foreach (static::$ipFields as $key) {
+		foreach (self::$ipFields as $key) {
 			if (isset($_SERVER[$key])) {
 				$remoteIp[] = "$key: " . Request::_getServer($key);
 			}
@@ -51,7 +72,7 @@ class RequestUtil
 
 	public static function getBrowserInfo()
 	{
-		if (false === static::$browserCache) {
+		if (empty(self::$browserCache)) {
 			$browserAgent = strtolower(\App\Request::_getServer('HTTP_USER_AGENT', ''));
 
 			$browser = new \stdClass();
@@ -101,14 +122,7 @@ class RequestUtil
 			} else {
 				$browser->lang = 'en';
 			}
-
-			$browser->https = false;
-			if (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])) {
-				$browser->https = true;
-			}
-			if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' === strtolower($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-				$browser->https = true;
-			}
+			$browser->https = self::isHttps();
 			$sp = strtolower(Request::_getServer('SERVER_PROTOCOL'));
 			$protocol = substr($sp, 0, strpos($sp, '/')) . (($browser->https) ? 's' : '');
 			$port = isset($_SERVER['SERVER_PORT']) ? (int) $_SERVER['SERVER_PORT'] : 0;
@@ -121,9 +135,9 @@ class RequestUtil
 			$browser->url = $protocol . '://' . $host . Request::_getServer('REQUEST_URI');
 			$browser->siteUrl = $protocol . '://' . $host . $dirPath . '/';
 			$browser->requestUri = ltrim(Request::_getServer('REQUEST_URI'), '/');
-			static::$browserCache = $browser;
+			self::$browserCache = $browser;
 		}
-		return static::$browserCache;
+		return self::$browserCache;
 	}
 
 	/**
@@ -131,14 +145,50 @@ class RequestUtil
 	 *
 	 * @return bool
 	 */
-	public static function isNetConnection()
+	public static function isNetConnection(): bool
 	{
 		if (!\App\Config::performance('ACCESS_TO_INTERNET')) {
 			return false;
 		}
-		if (isset(static::$connectionCache)) {
-			return static::$connectionCache;
+		if (isset(self::$connectionCache)) {
+			return self::$connectionCache;
 		}
-		return static::$connectionCache = 'www.google.com' !== gethostbyname('www.google.com');
+		return self::$connectionCache = 'www.google.com' !== gethostbyname('www.google.com');
+	}
+
+	/**
+	 * Check that the connection is https.
+	 *
+	 * @return bool
+	 */
+	public static function isHttps(): bool
+	{
+		if (!isset(self::$httpsCache)) {
+			self::$httpsCache = (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']))
+				|| (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' === strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']));
+		}
+		return self::$httpsCache;
+	}
+
+	/**
+	 * Get the IP address corresponding to a given Internet host name.
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	public static function getIpByName(string $name): string
+	{
+		if (!self::isNetConnection()) {
+			return false;
+		}
+		if (\App\Cache::has(__METHOD__, $name)) {
+			return \App\Cache::get(__METHOD__, $name);
+		}
+		$ip = gethostbyname($name);
+		if ($ip === $name) {
+			$ip = '';
+		}
+		return \App\Cache::save(__METHOD__, $name, $ip);
 	}
 }

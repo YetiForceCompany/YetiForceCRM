@@ -15,10 +15,10 @@
  */
 class Vtiger_RecordCollector_View extends \App\Controller\Modal
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $showFooter = false;
+	/** {@inheritdoc} */
+	public $modalSize = 'modal-xl';
 	/**
 	 * Record collector instance.
 	 *
@@ -26,9 +26,7 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 	 */
 	private $recordCollector;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
@@ -36,9 +34,7 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->recordCollector = \App\RecordCollector::getInstance($request->getByType('collectorType', 'ClassName'), $request->getModule());
@@ -50,20 +46,18 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		$viewer->assign('RECORD_COLLECTOR', $this->recordCollector);
 		$viewer->assign('COLLECTOR_NAME', $request->getByType('collectorType', 'ClassName'));
 		if ('search' === $request->getMode()) {
 			$viewer->assign('SEARCH_DATA', $this->recordCollector->search());
-			$viewer->view('Modals/RecordCollectorSearch.tpl', $moduleName);
+			$viewer->view('Modals/RecordCollectorSearch.tpl', $request->getModule());
 		} else {
-			$viewer->view('Modals/RecordCollector.tpl', $moduleName);
+			$viewer->view('Modals/RecordCollector.tpl', $request->getModule());
 		}
 	}
 }

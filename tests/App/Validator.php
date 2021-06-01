@@ -4,6 +4,8 @@
  *
  * @package Tests
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
@@ -26,7 +28,7 @@ class Validator extends \Tests\Base
 	 */
 	public function testUrlNoProtocolRequired(bool $expectedValue, $value)
 	{
-		$this->assertSame($expectedValue, \App\Validator::url($value));
+		$this->assertSame($expectedValue, \App\Validator::urlDomain($value));
 	}
 
 	/**
@@ -53,7 +55,9 @@ class Validator extends \Tests\Base
 			[false, 'http*://yetiforce.com'],
 			[true, 'http://yetiforce.com:2160/'],
 			[false, ' http://yetiforce.com/'],
-			[false, 'javascript:alert(1)']
+			[false, 'javascript:alert(1)'],
+			[true, 'http://www.müller.de'],
+			[true, 'http://элтранс.рф'],
 		];
 	}
 
@@ -82,7 +86,6 @@ class Validator extends \Tests\Base
 	 * @param float $value2
 	 * @param int   $precision
 	 * @param bool  $result
-	 *
 	 */
 	public function testFloatIsEqual(float $value1, float $value2, int $precision, bool $result)
 	{

@@ -14,7 +14,7 @@ class Settings_BruteForce_Index_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		$viewer = $this->getViewer($request);

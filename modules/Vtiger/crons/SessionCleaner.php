@@ -20,11 +20,17 @@ class Vtiger_SessionCleaner_Cron extends \App\CronHandler
 	 */
 	public function process()
 	{
+		$dbCommand = \App\Db::getInstance('webservice')->createCommand();
+		foreach (\Api\Core\Containers::$listTables as $row) {
+			$dbCommand->delete($row['loginHistory'], ['<', 'created', date('Y-m-d H:i:s', strtotime('now') - \Config\Security::$apiLifetimeSessionCreate * 60)])->execute();
+			$dbCommand->delete($row['loginHistory'], ['<', 'changed', date('Y-m-d H:i:s', strtotime('now') - \Config\Security::$apiLifetimeSessionUpdate * 60)])->execute();
+		}
 		if (!headers_sent()) {
 			$dbCommand = \App\Db::getInstance()->createCommand();
-			foreach (App\Session::clean() as $userId => $userName) {
+			foreach (App\Session\File::clean() as $userId => $userName) {
 				$dbCommand->insert('vtiger_loginhistory', [
 					'user_name' => $userName,
+					'userid' => $userId,
 					'logout_time' => date('Y-m-d H:i:s'),
 					'status' => 'Automatic signed off'
 				])->execute();

@@ -48,13 +48,15 @@ class Settings_CurrencyUpdate_ECB_BankModel extends Settings_CurrencyUpdate_Abst
 		return 'EUR';
 	}
 
-	/*
-	 * Fetch exchange rates
-	 * @param <Array> $currencies - list of systems active currencies
-	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
+	/**
+	 * Fetch exchange rates.
+	 *
+	 * @param <Array> $currencies        - list of systems active currencies
+	 * @param <Date>  $date              - date for which exchange is fetched
+	 * @param bool    $cron              - if true then it is fired by server and crms currency conversion rates are updated
+	 * @param mixed   $otherCurrencyCode
+	 * @param mixed   $dateParam
 	 */
-
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
@@ -85,7 +87,7 @@ class Settings_CurrencyUpdate_ECB_BankModel extends Settings_CurrencyUpdate_Abst
 
 		$XML = simplexml_load_file($sourceURL); // European Central Bank xml only contains business days! oh well....
 
-		if ($XML === false) {
+		if (false === $XML) {
 			return false;
 		}
 		$datePublicationOfFile = $dateParam;
@@ -114,7 +116,7 @@ class Settings_CurrencyUpdate_ECB_BankModel extends Settings_CurrencyUpdate_Abst
 		$foundRate = false;
 		foreach ($XML->Cube->Cube as $time) {
 			if ($time['time'] == $dateParam) {
-				$num = count($time->Cube);
+				$num = \count($time->Cube);
 				for ($i = 0; $i < $num; ++$i) {
 					$currency = (string) $time->Cube[$i]['currency'];   // currency code
 					foreach ($otherCurrencyCode as $key => $currId) {
@@ -123,7 +125,7 @@ class Settings_CurrencyUpdate_ECB_BankModel extends Settings_CurrencyUpdate_Abst
 							$exchangeVtiger = (float) $exchange / (float) $exchangeRate;
 							$exchange = (float) $exchangeRate / (float) $exchange;
 
-							if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+							if (true === $cron || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 								$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
 							}
 							$existingId = $moduleModel->getCurrencyRateId($currId, $datePublicationOfFile, $selectedBank);
@@ -154,7 +156,7 @@ class Settings_CurrencyUpdate_ECB_BankModel extends Settings_CurrencyUpdate_Abst
 			}
 
 			if ($mainCurrencyId) {
-				if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+				if (true === $cron || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 					$moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $yfRate);
 				}
 

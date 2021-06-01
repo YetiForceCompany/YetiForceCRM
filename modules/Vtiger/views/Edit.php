@@ -34,12 +34,12 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		if ($request->has('record')) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			$isPermited = $this->record->isEditable() || (true === $request->getBoolean('isDuplicate') && $this->record->getModule()->isPermitted('DuplicateRecord') && $this->record->isCreateable() && $this->record->isViewable());
+			$isPermitted = $this->record->isEditable() || (true === $request->getBoolean('isDuplicate') && $this->record->getModule()->isPermitted('DuplicateRecord') && $this->record->isCreateable() && $this->record->isViewable());
 		} else {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$isPermited = $this->record->isCreateable();
+			$isPermitted = $this->record->isCreateable();
 		}
-		if (!$isPermited) {
+		if (!$isPermitted) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -72,26 +72,25 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
+		$viewer->assign('MODE', '');
+		$viewer->assign('RECORD_ID', '');
 		if (!empty($recordId) && true === $request->getBoolean('isDuplicate')) {
 			$viewer->assign('MODE', 'duplicate');
-			$viewer->assign('RECORD_ID', '');
 			$this->getDuplicate();
 		} elseif (!empty($recordId)) {
 			$viewer->assign('MODE', 'edit');
 			$viewer->assign('RECORD_ID', $recordId);
 		} elseif (!$request->isEmpty('recordConverter')) {
 			$convertInstance = \App\RecordConverter::getInstanceById($request->getInteger('recordConverter'), $request->getByType('sourceModule', 2));
-			$convertInstance->isEdit = true;
-			$this->record = $convertInstance->processToEdit($request->getInteger('sourceId'), $moduleName);
-			$viewer->assign('RECORD_ID', '');
+			$this->record = $convertInstance->processToEdit($request->getInteger('sourceRecord'), $moduleName);
+			$viewer->assign('RECORD_CONVERTER', $convertInstance->getId());
+			$viewer->assign('SOURCE_RECORD', $request->getInteger('sourceRecord'));
 		} else {
 			$referenceId = $request->getInteger('reference_id');
 			if ($referenceId) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
 				$this->record->setRecordFieldValues($parentRecordModel);
 			}
-			$viewer->assign('MODE', '');
-			$viewer->assign('RECORD_ID', '');
 		}
 		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $recordId);
 		$editViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
@@ -120,18 +119,18 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', 2));
 			$viewer->assign('SOURCE_RECORD', $request->getInteger('sourceRecord'));
 			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
-			foreach ($recordStructure as &$block) {
+			foreach ($recordStructure as $block) {
 				foreach ($sourceRelatedField as $field => $value) {
-					if (isset($block[$field])) {
-						$fieldvalue = $block[$field]->get('fieldvalue');
-						if (empty($fieldvalue)) {
-							$block[$field]->set('fieldvalue', $value);
+					if (isset($block[$field]) && '' !== $value) {
+						$fieldModel = $block[$field];
+						if ($fieldModel->isEditable() && '' === $fieldModel->get('fieldvalue')) {
+							$fieldModel->set('fieldvalue', $value);
 						}
 					}
 				}
 			}
 		}
-		if ($editViewLayout = (1 === $moduleModel->getModuleType() && \App\Config::performance('INVENTORY_EDIT_VIEW_LAYOUT'))) {
+		if ($editViewLayout = ((1 === $moduleModel->getModuleType() || (\in_array($moduleName, \App\Config::performance('MODULES_SPLITTED_EDIT_VIEW_LAYOUT', [])))) && \App\Config::performance('INVENTORY_EDIT_VIEW_LAYOUT'))) {
 			$recordStructureRight = [];
 			foreach ($moduleModel->getFieldsByType('text') as $field) {
 				if (isset($recordStructure[$field->getBlockName()][$field->getName()])) {
@@ -146,6 +145,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('LIST_FILTER_FIELDS', \App\Json::encode(\App\ModuleHierarchy::getFieldsForListFilter($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());

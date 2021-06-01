@@ -1,17 +1,17 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-Activities -->
-{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
+{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId($WIDGET['id']|cat:_)}"}
 <div class="c-detail-widget js-detail-widget activityWidgetContainer" data-js="container">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}">
 		<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
 			<div class="c-detail-widget__header__container d-flex w-100 align-items-center py-1">
 				<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse"
 					data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">
-					<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				</div>
 				<div class="c-detail-widget__header__title">
-					<h5 class="mb-0 modCT_{$WIDGET['label']}" title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}">
+					<h5 class="mb-0 modCT_Calendar" title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}">
 						{if $WIDGET['label'] eq ''}
 							{App\Language::translate('LBL_ACTIVITIES',$MODULE_NAME)}
 						{else}
@@ -32,6 +32,7 @@
 								<label class="btn btn-sm btn-outline-primary active">
 									<input class="js-switch" type="radio" name="options" id="options-option1" data-js="change"
 										data-on-text="{App\Language::translate('LBL_CURRENT')}"
+										data-params="{\App\Purifier::encodeHtml(\App\Json::encode(['orderby' => ['date_start' => 'ASC', 'time_start' => 'ASC']]))}"
 										data-on-val="{if isset($WIDGET['switchTypeInHeader']['on'])}{\App\Purifier::encodeHtml($WIDGET['switchTypeInHeader']['on'])}{/if}"
 										data-basic-text="{App\Language::translate('LBL_CURRENT')}" autocomplete="off" checked="checked" data-urlparams="search_params">
 									{App\Language::translate('LBL_CURRENT')}
@@ -40,16 +41,19 @@
 									<input class="js-switch" type="radio" name="options" id="options-option2" data-js="change"
 										data-basic-text="{App\Language::translate('LBL_HISTORY')}"
 										data-off-text="data-off-text {App\Language::translate('LBL_HISTORY')}"
+										data-params="{\App\Purifier::encodeHtml(\App\Json::encode(['orderby' => ['date_start' => 'DESC', 'time_start' => 'DESC']]))}"
 										data-off-val="{if isset($WIDGET['switchTypeInHeader']['off'])}{\App\Purifier::encodeHtml($WIDGET['switchTypeInHeader']['off'])}{/if}"
 										autocomplete="off" data-urlparams="search_params"> {App\Language::translate('LBL_HISTORY')}
 								</label>
 							</div>
 						{/if}
-						<button class="btn btn-sm btn-light addButton createActivity"
-							data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true"
-							type="button" title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
-							<span class="fas fa-plus"></span>
-						</button>
+						{if !$IS_READ_ONLY}
+							<button class="btn btn-sm btn-light addButton createActivity"
+								data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true"
+								type="button" title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
+								<span class="fas fa-plus"></span>
+							</button>
+						{/if}
 					</div>
 				</div>
 			</div>

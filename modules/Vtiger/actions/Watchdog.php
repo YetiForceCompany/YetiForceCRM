@@ -3,6 +3,8 @@
 /**
  * Watchdog Action Class.
  *
+ * @package Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -17,7 +19,7 @@ class Vtiger_Watchdog_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
@@ -32,13 +34,13 @@ class Vtiger_Watchdog_Action extends \App\Controller\Action
 		}
 		if ($request->has('user')) {
 			$userList = array_keys(\App\Fields\Owner::getInstance()->getAccessibleUsers());
-			if (!in_array($request->getInteger('user'), $userList)) {
+			if (!\in_array($request->getInteger('user'), $userList)) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');

@@ -26,7 +26,7 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 	 *
 	 * @return string
 	 */
-	public function showCountRecords(\App\Request $request)
+	public function showCountRecords(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
@@ -47,7 +47,7 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 

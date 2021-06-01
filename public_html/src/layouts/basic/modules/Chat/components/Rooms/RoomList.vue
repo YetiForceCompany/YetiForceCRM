@@ -99,7 +99,7 @@
             <div class="text-no-wrap">
               <transition
                 appear
-                enter-active-class="animated flash"
+                enter-active-class="animate__animated animate__flash"
                 mode="out-in"
               >
                 <q-badge

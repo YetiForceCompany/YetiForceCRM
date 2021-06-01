@@ -19,6 +19,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 .o-detail__record-img {
 	img {
 		height: calculate-rem(80px);
+		width: calculate-rem(80px);
 	}
 }
 
@@ -71,14 +72,13 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		border-radius: 2px;
 	}
 
-
 	&:before {
 		@include media-breakpoint-down(xsm) {
 			display: none;
 		}
 	}
 
-	>li {
+	> li {
 		position: relative;
 		padding-bottom: calculate-rem(10px);
 
@@ -112,9 +112,10 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 							margin: 0 auto;
 							width: calculate-rem(30px);
 							height: calculate-rem(30px);
-							padding: calculate-rem(2px);
+							padding: calculate-rem(4px);
 							border: 2px solid #d2d6de;
-							font-size: calculate-rem(32px);
+							font-size: calculate-rem(29px);
+							border-radius: 50%;
 						}
 
 						@include media-breakpoint-up(sm) {
@@ -382,10 +383,10 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	.addCommentBlock .commentcontent {
-		min-height: calculate-rem(56px !important);
+		min-height: calculate-rem(56px) !important;
 		overflow-x: hidden;
 		overflow-y: hidden;
-		padding: calculate-rem(7px !important);
+		padding: calculate-rem(7px) !important;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
@@ -704,4 +705,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		align-self: center;
 		margin-right: calculate-rem(2px);
 	}
+}
+.process-content .c-panel__body {
+	padding: 0 0.25rem 0.25rem 0.25rem;
 }

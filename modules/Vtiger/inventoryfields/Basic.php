@@ -135,7 +135,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 *
 	 * @return mixed
 	 */
-	public function getValueForSave(array $item, bool $userFormat, string $column = null)
+	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
 		if (null === $column) {
 			$column = $this->getColumnName();
@@ -291,6 +291,20 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Purifier::encodeHtml($value);
+	}
+
+	/**
+	 * Function to get the list value in display view.
+	 *
+	 * @param mixed $value
+	 * @param array $rowData
+	 * @param bool  $rawText
+	 *
+	 * @return mixed
+	 */
+	public function getListViewDisplayValue($value, array $rowData = [], bool $rawText = false)
+	{
+		return $this->getDisplayValue($value, $rowData, $rawText);
 	}
 
 	/**

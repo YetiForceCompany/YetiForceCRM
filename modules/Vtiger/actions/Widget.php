@@ -2,6 +2,8 @@
 /**
  * Actions to widgets.
  *
+ * @package Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -22,6 +24,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		$this->exposeMethod('add');
 		$this->exposeMethod('remove');
 		$this->exposeMethod('removeWidgetFromList');
+		$this->exposeMethod('updateWidgetConfig');
 	}
 
 	/**
@@ -47,9 +50,11 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 				$label = $widget->get('linklabel');
 			}
 		}
-		if (('remove' === $mode && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName)) ||
-			('Mini List' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter')) ||
-			('ChartFilter' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
+		if (
+			('updateWidgetConfig' === $mode && $request->has('widgetid') && $widget->get('active'))
+			|| ('remove' === $mode && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName))
+			|| ('Mini List' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter'))
+			|| ('ChartFilter' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
 			return true;
 		}
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -88,6 +93,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	 */
 	public function add(App\Request $request)
 	{
+		$moduleName = $request->getByType('sourceModule', \App\Purifier::ALNUM);
 		$data = $request->getMultiDimensionArray('form', [
 			'data' => 'Text',
 			'blockid' => 'Integer',
@@ -105,21 +111,20 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 				'Standard',
 				'Standard',
 			],
+			'skip_year' => 'Integer',
+			'date_fields' => 'Integer',
 			'default_owner' => 'Standard',
 			'dashboardId' => 'Integer',
 			'limit' => 'Integer',
 			'cache' => 'Integer',
 			'default_date' => 'Standard'
 		]);
-		$moduleName = $request->getByType('sourceModule', 2);
-		$addToUser = $request->getBoolean('addToUser');
-		$linkId = $request->getInteger('linkid');
 		if (!\is_array($data) || !$data) {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
 		} else {
-			$data['linkid'] = $linkId;
+			$data['linkid'] = $request->getInteger('linkid');
 			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
-			$result = $widgetsManagementModel->addWidget($data, $moduleName, $addToUser);
+			$result = $widgetsManagementModel->addWidget($data, $moduleName, $request->getBoolean('addToUser'));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -136,6 +141,28 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		Vtiger_Widget_Model::removeWidgetFromList($request->getInteger('widgetid'));
 		$response = new Vtiger_Response();
 		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
+	 * Save updates widget config.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function updateWidgetConfig(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$widgetId = $request->getInteger('widgetid');
+		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, \App\User::getCurrentUserId());
+		$className = Vtiger_Loader::getComponentClassName('Dashboard', $widget->get('linklabel'), $moduleName);
+		$data = $request->getArray('widgetData', \App\Purifier::TEXT);
+		$instance = new $className();
+		$instance->setWidgetData($widget, $data);
+		$result = (bool) \App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['data' => $widget->get('data')],
+		['userid' => App\User::getCurrentUserId(), 'id' => $widgetId])
+			->execute();
+		$response = new Vtiger_Response();
+		$response->setResult($result);
 		$response->emit();
 	}
 }

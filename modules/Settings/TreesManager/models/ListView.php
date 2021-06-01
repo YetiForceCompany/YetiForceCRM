@@ -31,14 +31,14 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$pageLimit = $pagingModel->getPageLimit();
 
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy) && $orderBy === 'smownerid') {
+		if (!empty($orderBy) && 'smownerid' === $orderBy) {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
-			if ($fieldModel->getFieldDataType() === 'owner') {
+			if ('owner' === $fieldModel->getFieldDataType()) {
 				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}
 		}
 		if (!empty($orderBy)) {
-			if ($this->getForSql('sortorder') === 'ASC') {
+			if ('ASC' === $this->getForSql('sortorder')) {
 				$listQuery->orderBy([$orderBy => SORT_ASC]);
 			} else {
 				$listQuery->orderBy([$orderBy => SORT_DESC]);

@@ -3,6 +3,8 @@
 /**
  * Abstract base map file.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -49,6 +51,7 @@ abstract class Base
 	 */
 	public static $fieldsType = [
 		'salutationtype' => 'map',
+		'gender' => 'map',
 		'addresslevel1a' => 'country',
 		'addresslevel1b' => 'country',
 	];
@@ -121,6 +124,16 @@ abstract class Base
 	public static $salutationtype = [
 		'1' => 'Mr.',
 		'2' => 'Mrs.',
+	];
+
+	/**
+	 * Contacts_gender map.
+	 *
+	 * @var string[]
+	 */
+	public static $gender = [
+		'1' => 'PLL_MAN',
+		'2' => 'PLL_WOMAN',
 	];
 
 	/**
@@ -362,8 +375,8 @@ abstract class Base
 	public function getAddressFieldsCrm(string $type): array
 	{
 		$fieldsType = $type . 'Fields';
-		if (!empty(self::${$fieldsType})) {
-			$fields = self::${$fieldsType};
+		if (!empty(static::${$fieldsType})) {
+			$fields = static::${$fieldsType};
 		}
 		return $fields ?? [];
 	}

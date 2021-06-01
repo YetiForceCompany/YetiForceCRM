@@ -15,7 +15,7 @@ class Settings_Menu_CreateMenu_View extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('step2');
 	}
 
-	public function step1(\App\Request $request)
+	public function step1(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
@@ -25,7 +25,7 @@ class Settings_Menu_CreateMenu_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->view('CreateMenuStep1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(\App\Request $request)
+	public function step2(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$type = $request->getInteger('mtype');

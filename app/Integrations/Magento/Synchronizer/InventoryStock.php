@@ -3,6 +3,8 @@
 /**
  * Synchronize inventory stock file.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -24,15 +26,13 @@ class InventoryStock extends Base
 	 */
 	public $storageId;
 	/**
-	 * Products ids.
+	 * Product id.
 	 *
-	 * @var int[]
+	 * @var int
 	 */
-	public $products;
+	public $product;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$products = [];
@@ -63,7 +63,7 @@ class InventoryStock extends Base
 		$queryGenerator = new \App\QueryGenerator('Products');
 		$queryGenerator->setStateCondition('All');
 		$queryGenerator->setFields(['id', 'qtyinstock', 'ean'])->permissions = false;
-		$queryGenerator->addCondition('id', $this->products, 'e');
+		$queryGenerator->addCondition('id', $this->product, 'e');
 		return $queryGenerator->createQuery()->all();
 	}
 
@@ -75,13 +75,13 @@ class InventoryStock extends Base
 	public function getStockFromStorage()
 	{
 		$referenceInfo = \Vtiger_Relation_Model::getReferenceTableInfo('Products', 'IStorages');
-		return(new \App\Db\Query())->select([
+		return (new \App\Db\Query())->select([
 			'id' => $referenceInfo['table'] . '.' . $referenceInfo['rel'],
 			'qtyinstock' => $referenceInfo['table'] . '.qtyinstock',
 			'ean' => 'vtiger_products.ean'])
 			->from($referenceInfo['table'])
 			->innerJoin('vtiger_products', "{$referenceInfo['table']}.{$referenceInfo['rel']} = vtiger_products.productid")
-			->where([$referenceInfo['base'] => $this->storageId, $referenceInfo['rel'] => $this->products])
+			->where([$referenceInfo['base'] => $this->storageId, $referenceInfo['rel'] => $this->product])
 			->all();
 	}
 }

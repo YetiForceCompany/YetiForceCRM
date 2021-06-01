@@ -3,6 +3,8 @@
 /**
  * UIType Category multipicklist.
  *
+ * @package   UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
@@ -12,28 +14,24 @@
  */
 class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($value) {
 			$value = trim($value, ',');
-			$value = ",$value,";
+			$value = ",{$value},";
 		} elseif (null === $value) {
 			$value = '';
 		}
 		return \App\Purifier::decodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
 		if (!\is_array($value)) {
-			$value = $value ? explode('##', $value) : [];
+			$value = $value ? explode(',', $value) : [];
 		}
 		foreach ($value as $val) {
 			$this->validate($val, true);
@@ -42,9 +40,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		return implode('##', $values);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (isset($this->validate[$value]) || '' === $value || null === $value) {
@@ -58,9 +54,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		$this->validate[$value] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -82,19 +76,15 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		return \App\Purifier::encodeHtml($value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'c', 'k', 'y', 'ny'];
+		return ['e', 'n', 'c', 'ch', 'k', 'kh', 'y', 'ny'];
 	}
 }

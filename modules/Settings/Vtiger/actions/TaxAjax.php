@@ -18,7 +18,7 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('checkDuplicateName');
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -55,7 +55,7 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function checkDuplicateName(\App\Request $request)
+	public function checkDuplicateName(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$taxId = $request->get('taxid');

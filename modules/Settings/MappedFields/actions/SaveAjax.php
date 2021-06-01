@@ -17,13 +17,13 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('import');
 	}
 
-	public function step1(\App\Request $request)
+	public function step1(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 
 		$params = $request->getByType('param', 'Text');
 		$step = (int) $params['step'];
-		if ($step !== 3) {
+		if (3 !== $step) {
 			$validators = Settings_MappedFields_Module_Model::$validatorFields;
 			$validators['record'] = 'Integer';
 			$validators['step'] = 'Integer';
@@ -38,7 +38,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$stepFields = Settings_MappedFields_Module_Model::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
 			$moduleInstance->getRecord()->set($field, $params[$field] ?? null);
-			if ($field === 'conditions') {
+			if ('conditions' === $field) {
 				$moduleInstance->transformAdvanceFilterToWorkFlowFilter();
 			}
 		}
@@ -53,7 +53,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function step2(\App\Request $request)
+	public function step2(App\Request $request)
 	{
 		$params = $request->getMultiDimensionArray('param', [
 			'mapping' => [
@@ -80,7 +80,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function import(\App\Request $request)
+	public function import(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();

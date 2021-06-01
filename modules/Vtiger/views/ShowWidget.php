@@ -11,7 +11,7 @@
 
 class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$componentName = $request->getByType('name');
@@ -43,7 +43,7 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

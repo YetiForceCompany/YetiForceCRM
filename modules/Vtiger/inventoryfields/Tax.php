@@ -34,9 +34,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public $shared = ['taxparam' => 'tax_percent'];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
@@ -50,9 +48,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		return '';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		if ($name !== $this->getColumnName()) {
@@ -68,9 +64,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		return $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($columnName === $this->getColumnName()) {
@@ -87,7 +81,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 			}
 			if (null !== $originalValue && !\App\Validator::floatIsEqualUserCurrencyDecimals($value, $originalValue)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . '||' . $this->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . "||{$this->getModuleName()}||$value($originalValue)", 406);
 			}
 		} else {
 			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
@@ -120,7 +114,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		}
 		if (isset($taxParam['aggregationType'])) {
 			foreach ($taxParam['aggregationType'] as $aggregationType) {
-				$percent = (string) $taxParam[$aggregationType . 'Tax'];
+				$percent = (string) ($taxParam[$aggregationType . 'Tax'] ?? 0);
 				if (!isset($return[$percent])) {
 					$return[$percent] = 0;
 				}
@@ -130,9 +124,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		return $return;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
 		if ($column === $this->getColumnName() || null === $column) {
@@ -160,18 +152,19 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	public function getTaxValue(array $taxParam, float $netPrice, int $mode): float
 	{
 		$value = 0.0;
-		$types = $taxParam['aggregationType'];
-		if (!\is_array($types)) {
-			$types = [$types];
-		}
-		foreach ($types as $type) {
-			$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
-			$value += $taxValue;
-			if (2 === $mode) {
-				$netPrice += $taxValue;
+		if ($taxParam) {
+			$types = $taxParam['aggregationType'];
+			if (!\is_array($types)) {
+				$types = [$types];
+			}
+			foreach ($types as $type) {
+				$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
+				$value += $taxValue;
+				if (2 === $mode) {
+					$netPrice += $taxValue;
+				}
 			}
 		}
-
 		return $value;
 	}
 }

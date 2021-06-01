@@ -8,7 +8,7 @@
  */
 class Settings_SharingAccess_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$modulePermissions = $request->getArray('permissions', 'Integer');
 		$modulePermissions[4] = $modulePermissions[6];
@@ -23,7 +23,7 @@ class Settings_SharingAccess_SaveAjax_Action extends Settings_Vtiger_Save_Action
 			if ($permissionOld !== $permission) {
 				$prevValues[$tabId] = $permissionOld;
 				$postValues[$tabId] = (int) $moduleModel->get('permission');
-				if ($permissionOld === 3 || (int) $moduleModel->get('permission') == 3) {
+				if (3 === $permissionOld || 3 == (int) $moduleModel->get('permission')) {
 					\App\Privilege::setUpdater(\App\Module::getModuleName($tabId));
 				}
 			}

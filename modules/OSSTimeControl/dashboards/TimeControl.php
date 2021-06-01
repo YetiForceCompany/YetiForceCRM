@@ -13,6 +13,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @param int|string $owner
 	 * @param string     $date
+	 * @param mixed      $assignedto
 	 *
 	 * @return string
 	 */
@@ -21,7 +22,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$conditions = [];
 		$date = \App\Fields\Date::formatToDisplay($date);
 		$listSearchParams = [];
-		if ($assignedto != '') {
+		if ('' != $assignedto) {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($date)) {
@@ -71,7 +72,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			} else {
 				$workingTime[$row['due_date']][$row['timecontrol_type']] = (float) $row['sum_time'];
 			}
-			if (!in_array($row['timecontrol_type'], $timeTypes)) {
+			if (!\in_array($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_typeid']] = $row['timecontrol_type'];
 				// one dataset per type
 				$chartData['datasets'][] = [
@@ -84,7 +85,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 					'links' => [],
 				];
 			}
-			if (!in_array($row['due_date'], $chartData['days'])) {
+			if (!\in_array($row['due_date'], $chartData['days'])) {
 				$chartData['labels'][] = substr($row['due_date'], -2);
 				$chartData['fullLabels'][] = \App\Fields\DateTime::formatToDay($row['due_date'], true);
 				$chartData['days'][] = $row['due_date'];
@@ -92,13 +93,13 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$dataReader->close();
 		foreach ($chartData['datasets'] as &$dataset) {
-			$dataset['label'] .= ': ' . \App\Fields\RangeTime::formatHourToDisplay($workingTimeByType[$dataset['label']]);
+			$dataset['label'] .= ': ' . \App\Fields\RangeTime::displayElapseTime($workingTimeByType[$dataset['label']]);
 		}
 		if ($dataReader->count() > 0) {
 			$chartData['show_chart'] = true;
 			foreach ($workingTime as $timeValue) {
 				foreach ($timeTypes as $timeTypeId => $timeType) {
-					if ($timeValue[$timeType]) {
+					if (isset($timeValue[$timeType]) && !empty($timeValue[$timeType])) {
 						$value = $timeValue[$timeType];
 					} else {
 						$value = 0;
@@ -106,8 +107,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 					foreach ($chartData['datasets'] as &$dataset) {
 						if ($dataset['_type'] === $timeType) {
 							// each data item is an different day in this dataset/time type
-							$dataset['data'][] = round($value, 2);
-							$dataset['dataFormatted'][] = \App\Fields\RangeTime::formatHourToDisplay($value);
+							$dataset['data'][] = round($value / 60, 2);
+							$dataset['dataFormatted'][] = \App\Fields\RangeTime::displayElapseTime($value);
 							$dataset['backgroundColor'][] = $colors[$timeTypeId];
 						}
 					}
@@ -118,7 +119,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		return $chartData;
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);

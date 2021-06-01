@@ -5,6 +5,8 @@
  *
  * @see       https://geocoder.opencagedata.com/api Documentation  of OpenCage Geocoder API
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -60,12 +62,14 @@ class OpenCageGeocoder extends Base
 			$urlAddress .= '&countrycode=' . $this->config;
 		}
 		try {
-			$response = \Requests::get($urlAddress);
-			if (!$response->success) {
-				\App\Log::warning($response->status_code . ' ' . $response->body, __NAMESPACE__);
+			\App\Log::beginProfile("GET|OpenCageGeocoder::find|{$urlAddress}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $urlAddress);
+			\App\Log::endProfile("GET|OpenCageGeocoder::find|{$urlAddress}", __NAMESPACE__);
+			if (200 !== $response->getStatusCode()) {
+				\App\Log::warning('Error: ' . $urlAddress . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
 				return false;
 			}
-			$body = \App\Json::decode($response->body);
+			$body = \App\Json::decode($response->getBody());
 			$rows = [];
 			if ($body['total_results']) {
 				$mainMapping = \App\Config::component('AddressFinder', 'REMAPPING_OPENCAGE');

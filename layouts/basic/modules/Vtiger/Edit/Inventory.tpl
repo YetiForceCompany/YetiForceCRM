@@ -4,19 +4,21 @@
 	{assign var="INVENTORY_MODEL" value=Vtiger_Inventory_Model::getInstance($MODULE_NAME)}
 	{if $INVENTORY_MODEL->isField('name')}
 		{assign var="FIELDS" value=$INVENTORY_MODEL->getFieldsByBlocks()}
+		{assign var="BASIC_FIELD" value=$INVENTORY_MODEL->getField('name')}
 		{assign var="DISCOUNTS_CONFIG" value=Vtiger_Inventory_Model::getDiscountsConfig()}
 		{assign var="TAXS_CONFIG" value=Vtiger_Inventory_Model::getTaxesConfig()}
 		{assign var="TAX_DEFAULT" value=Vtiger_Inventory_Model::getDefaultGlobalTax()}
 		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
 
 		{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
+		{assign var="DEFAULT_INVENTORY_ROW" value=\App\Config::module($MODULE_NAME, 'defaultInventoryData', [])}
 		{if $INVENTORY_ROWS}
 			{assign var="INVENTORY_ROW" value=current($INVENTORY_ROWS)}
 		{else}
 			{assign var="INVENTORY_ROW" value=[]}
 		{/if}
-		{assign var="MAIN_PARAMS" value=$INVENTORY_MODEL->getField('name')->getParamsConfig()}
-		{assign var="IS_REQUIRED_INVENTORY" value=$INVENTORY_MODEL->getField('name')->isRequired()}
+		{assign var="MAIN_PARAMS" value=$BASIC_FIELD->getParamsConfig()}
+		{assign var="IS_REQUIRED_INVENTORY" value=$BASIC_FIELD->isRequired()}
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
 		{assign var="COUNT_FIELDS2" value=0}
 		{assign var="REFERENCE_MODULE_DEFAULT" value=''}
@@ -61,7 +63,7 @@
 					{/foreach}
 				</colgroup>
 				<thead>
-				<tr data-rownumber="0" class="u-min-w-650px">
+				<tr data-rownumber="0" class="u-min-w-650pxr">
 					<th class="border-bottom-0">
 						<span class="inventoryLineItemHeader">{\App\Language::translate('LBL_ADD', $MODULE)}</span>&nbsp;&nbsp;
 						<div class="d-flex">
@@ -70,13 +72,23 @@
 									{if $smarty.foreach.moduleList.first}
 										{assign var=REFERENCE_MODULE_DEFAULT value=$MAIN_MODULE}
 									{/if}
-									<div class="btn-group-sm d-flex align-items-center justify-content-center {if !$smarty.foreach.moduleList.first}ml-lg-1{/if}">
+									<div class="btn-group btn-group-sm d-flex align-items-center justify-content-center {if !$smarty.foreach.moduleList.first}ml-lg-1{/if}" role="group">
 										<button type="button" data-module="{$MAIN_MODULE}"
 												title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
-												class="btn btn-light js-inv-add-item border mb-1 mb-lg-0"
+												class="btn btn-light js-inv-add-item border mb-1 mb-lg-0 text-nowrap"
 												data-js="click">
 											<span class="moduleIcon yfm-{$MAIN_MODULE} mr-1"></span><strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 										</button>
+										{assign var=MASS_ADD_URL value=$BASIC_FIELD->getUrlForMassSelection($MAIN_MODULE)}
+										{if $MASS_ADD_URL}
+											<button type="button" data-module="{$MAIN_MODULE}" data-url="{$MASS_ADD_URL}"
+													title="{\App\Language::translate($MAIN_MODULE, $MAIN_MODULE)}"
+													data-content="{\App\Language::translate('LBL_MASS_ADD_ENTIRIES', $MODULE_NAME)}"
+													class="btn btn-light js-mass-add border mb-1 mb-lg-0 mr-2 u-cursor-pointer js-popover-tooltip" data-js="popover"
+													data-js="click">
+												<span class="fas fa-search-plus"></span>
+											</button>
+										{/if}
 									</div>
 								{/if}
 							{/foreach}
@@ -85,12 +97,14 @@
 					{assign var="ROW_NO" value=0}
 					{if isset($FIELDS[0])}
 						{foreach item=FIELD from=$FIELDS[0]}
-							<th class="{if !$FIELD->isEditable()}d-none {/if} border-bottom-0">
+							<th class="{if !$FIELD->isEditable()} d-none {/if} border-bottom-0">
 								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE_NAME)}
 								{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
 								{if isset($INVENTORY_ROW[$COLUMN_NAME])}
 									{assign var="ITEM_VALUE" value=$INVENTORY_ROW[$COLUMN_NAME]}
+								{elseif isset($DEFAULT_INVENTORY_ROW[$COLUMN_NAME])}
+									{assign var="ITEM_VALUE" value=$DEFAULT_INVENTORY_ROW[$COLUMN_NAME]}
 								{else}
 									{assign var="ITEM_VALUE" value=NULL}
 								{/if}
@@ -142,7 +156,9 @@
 							{if $FIELD->isSummary()}
 								{assign var="SUM" value=0}
 								{foreach key=KEY item=ITEM_VALUE from=$INVENTORY_ROWS}
-									{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnName')])}
+									{if isset($ITEM_VALUE[$FIELD->get('columnName')])}
+										{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnName')])}
+									{/if}
 								{/foreach}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
 							{/if}

@@ -7,7 +7,7 @@
  */
 class Settings_CurrencyUpdate_SaveActiveBank_Action extends Settings_Vtiger_Basic_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$id = $request->getInteger('id');
 		$qualifiedModule = $request->getModule(false);

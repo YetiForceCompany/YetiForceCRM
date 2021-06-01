@@ -18,7 +18,7 @@ class Settings_AdvancedPermission_Edit_View extends Settings_Vtiger_Index_View
 		$this->exposeMethod('step2');
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -33,7 +33,7 @@ class Settings_AdvancedPermission_Edit_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function step1(\App\Request $request)
+	public function step1(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -42,10 +42,10 @@ class Settings_AdvancedPermission_Edit_View extends Settings_Vtiger_Index_View
 			$recordModel = new Settings_AdvancedPermission_Record_Model();
 		} else {
 			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->getInteger('record'));
-			$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		}
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('RECORD_ID', $recordModel->getId());
 		$viewer->view('EditViewS1.tpl', $qualifiedModuleName);
 	}
 
@@ -54,7 +54,7 @@ class Settings_AdvancedPermission_Edit_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function step2(\App\Request $request)
+	public function step2(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->getInteger('record');
@@ -73,7 +73,7 @@ class Settings_AdvancedPermission_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('EditViewS2.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [

@@ -2,6 +2,8 @@
 /**
  * File that update structure and data to database.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -17,14 +19,14 @@ class Updater
 	/**
 	 * Function used to change picklist type field (uitype 16) to field with permissions based on role (uitype 15).
 	 *
-	 * $fiels = [
-	 *        'fieldName',
-	 *        'osstimecontrol_status',
+	 * $fields = [
+	 *     'fieldName',
+	 *     'osstimecontrol_status',
 	 * ];
 	 *
-	 * @param array $fiels
+	 * @param array $fields
 	 */
-	public static function addRoleToPicklist($fiels)
+	public static function addRoleToPicklist($fields): void
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
@@ -33,7 +35,7 @@ class Updater
 		$roleIds = (new \App\Db\Query())->select(['roleid'])->from('vtiger_role')->column();
 		$query = (new \App\Db\Query())->from('vtiger_field')
 			->where(['uitype' => 16])
-			->andWhere(['fieldname' => $fiels]);
+			->andWhere(['fieldname' => $fields]);
 
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -65,72 +67,142 @@ class Updater
 	}
 
 	/**
+	 * Function used to change picklist type field (uitype 15 to 16).
+	 *
+	 * @param string[] $fields List of field names
+	 */
+	public static function removeRoleToPicklist($fields): void
+	{
+		\App\Log::trace('Entering ' . __METHOD__);
+		$db = \App\Db::getInstance();
+		$schema = $db->getSchema();
+		$dbCommand = $db->createCommand();
+
+		$query = (new \App\Db\Query())->from('vtiger_field')->where(['uitype' => 16])->andWhere(['fieldname' => $fields]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$picklistTable = 'vtiger_' . $row['fieldname'];
+			$tableSchema = $schema->getTableSchema($picklistTable);
+			if ($tableSchema && isset($tableSchema->columns['picklist_valueid'])) {
+				$dbCommand->update('vtiger_field', ['uitype' => 15], ['fieldid' => $row['fieldid']])->execute();
+				$dbCommand->dropColumn($picklistTable, 'picklist_valueid')->execute();
+				$picklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $row['fieldname']])->scalar();
+				if ($picklistId) {
+					$dbCommand->delete('vtiger_picklist', ['name' => $row['fieldname']])->execute();
+					$dbCommand->delete('vtiger_role2picklist', ['picklistid' => $picklistId])->execute();
+				}
+			}
+		}
+		\App\Log::trace('Exiting ' . __METHOD__);
+	}
+
+	/**
 	 * Batch update rows.
 	 *
 	 * $rows = [
-	 *        ['u_#__squotes_invfield', ['colspan' => 25], ['id' => 1]],
-	 *    ];
-	 *
-	 * @param array $rows
-	 */
-	public static function batchUpdate($rows)
-	{
-		$db = \App\Db::getInstance();
-		$dbCommand = $db->createCommand();
-		foreach ($rows as $row) {
-			$dbCommand->update($row[0], $row[1], $row[2])->execute();
-		}
-	}
-
-	/**
-	 * Batch insert rows.
-	 *
-	 * $rows = [
-	 *        ['vtiger_cvcolumnlist', ['cvid' => 43, 'columnindex' => 5, 'columnname' => 'cc']],
+	 *	  ['table name', [ update ], [ condition ],
+	 *    ['u_#__squotes_invfield', ['colspan' => 25], ['id' => 1]],
 	 * ];
 	 *
 	 * @param array $rows
+	 *
+	 * @throws \App\Exceptions\DbException
+	 *
+	 * @return int[]
 	 */
-	public static function batchInsert($rows)
+	public static function batchUpdate($rows): array
 	{
-		$db = \App\Db::getInstance();
-		$dbCommand = $db->createCommand();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$s = 0;
 		foreach ($rows as $row) {
-			if (!isset($row[2]) || !(new \App\db\Query())->from($row[0])->where($row[2])->exists()) {
-				$dbCommand->insert($row[0], $row[1])->execute();
+			try {
+				$s += $dbCommand->update($row[0], $row[1], $row[2])->execute();
+			} catch (\Throwable $th) {
+				throw new \App\Exceptions\DbException(\App\Utils::varExport([
+					'tableName' => $row[0],
+					'columns' => $row[1],
+					'conditions' => $row[2] ?? null,
+				]) . PHP_EOL . $th->__toString(), $th->getCode());
 			}
 		}
+		return ['affected' => $s, 'all' => \count($rows)];
 	}
 
 	/**
 	 * Batch insert rows.
 	 *
 	 * $rows = [
-	 *        ['vtiger_cvcolumnlist', ['cvid' => 43]],
+	 *    ['vtiger_cvcolumnlist', ['cvid' => 43, 'columnindex' => 5, 'columnname' => 'cc'], ],
 	 * ];
 	 *
 	 * @param array $rows
+	 *
+	 * @throws \App\Exceptions\DbException
+	 *
+	 * @return int[]
 	 */
-	public static function batchDelete($rows)
+	public static function batchInsert($rows): array
 	{
-		$db = \App\Db::getInstance();
-		$dbCommand = $db->createCommand();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$s = 0;
 		foreach ($rows as $row) {
-			$dbCommand->delete($row[0], $row[1])->execute();
+			try {
+				if (!isset($row[2]) || !(new \App\db\Query())->from($row[0])->where($row[2])->exists()) {
+					$dbCommand->insert($row[0], $row[1])->execute();
+					++$s;
+				}
+			} catch (\Throwable $th) {
+				throw new \App\Exceptions\DbException(\App\Utils::varExport([
+					'tableName' => $row[0],
+					'columns' => $row[1],
+					'conditions' => $row[2] ?? null,
+				]) . PHP_EOL . $th->__toString(), $th->getCode());
+			}
 		}
+		return ['affected' => $s, 'all' => \count($rows)];
+	}
+
+	/**
+	 * Batch insert rows.
+	 *
+	 * $rows = [
+	 *     ['vtiger_cvcolumnlist', ['cvid' => 43]],
+	 * ];
+	 *
+	 * @param array $rows
+	 *
+	 * @throws \App\Exceptions\DbException
+	 *
+	 * @return int[]
+	 */
+	public static function batchDelete($rows): array
+	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$s = 0;
+		foreach ($rows as $row) {
+			try {
+				$s += $dbCommand->delete($row[0], $row[1])->execute();
+			} catch (\Throwable $th) {
+				throw new \App\Exceptions\DbException(\App\Utils::varExport([
+					'tableName' => $row[0],
+					'conditions' => $row[1] ?? null,
+				]) . PHP_EOL . $th->__toString(), $th->getCode());
+			}
+		}
+		return ['affected' => $s, 'all' => \count($rows)];
 	}
 
 	/**
 	 * Function to add and remove cron.
 	 *
 	 * $crons = [
-	 *        ['type' => 'add', 'data' => ['LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, NULL, 29, NULL]],
-	 *        ['type' => 'remove', 'data' => ['LBL_BATCH_PROCESSES']],
+	 *     ['type' => 'add', 'data' => ['LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, NULL, 29, NULL]],
+	 *     ['type' => 'remove', 'data' => ['LBL_BATCH_PROCESSES']],
 	 * ];
 	 *
-	 * @param array $crons
+	 * @param string[] $crons
 	 */
-	public static function cron($crons)
+	public static function cron($crons): array
 	{
 		if (!$crons) {
 			return [];
@@ -151,7 +223,6 @@ class Updater
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
-
 		return $cronAction;
 	}
 }

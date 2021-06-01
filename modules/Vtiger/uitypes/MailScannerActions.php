@@ -14,9 +14,7 @@
  */
 class Vtiger_MailScannerActions_UIType extends Vtiger_MultiListFields_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		$hashValue = \is_array($value) ? '|' . implode(',', $value) . '|' : $value;
@@ -38,9 +36,7 @@ class Vtiger_MailScannerActions_UIType extends Vtiger_MultiListFields_UIType
 		$this->validate[$hashValue] = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
@@ -53,25 +49,19 @@ class Vtiger_MailScannerActions_UIType extends Vtiger_MultiListFields_UIType
 		return implode(', ', $fieldValues);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		return explode(',', \App\Purifier::encodeHtml(trim($value, ',')));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQueryOperators(): array
 	{
 		return ['c', 'k', 'y', 'ny'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPicklistValues(): array
 	{
 		$value = [];

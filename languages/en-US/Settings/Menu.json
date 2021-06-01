@@ -47,7 +47,8 @@
     "LBL_REMOVE": "Remove",
     "LBL_CANCEL": "Cancel",
     "LBL_MORE_INFO": "Click here for more information",
-    "LBL_COPY_MENU": "Copy menu"
+    "LBL_COPY_MENU": "Copy menu",
+    "LBL_CUSTOM_VIEW_FILTER_RESTRICTIONS_DESC": "Applying restrictions makes it impossible to create filters from this list view."
   },
   "js": {
     "JS_EDIT": "Edit",

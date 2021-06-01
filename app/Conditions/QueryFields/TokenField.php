@@ -1,6 +1,6 @@
 <?php
 /**
- * Token Query Field Class.
+ * Token Query Field file.
  *
  * @package UIType
  *

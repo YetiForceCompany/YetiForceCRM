@@ -8,7 +8,7 @@ var FC = $.fullCalendar, // a reference to FullCalendar's root namespace
  */
 FC.views.year = View.extend({
 	calendarView: false,
-	renderHtml: function(year) {
+	renderHtml: function (year) {
 		let col2Breakpoint = 'col-xxl-2';
 		if ($('#switchingDays').val() === 'all') {
 			col2Breakpoint = 'col-xxxl-2';
@@ -32,7 +32,7 @@ FC.views.year = View.extend({
 			</div>
 		`;
 	},
-	loadMonthData: function(calendar, events) {
+	loadMonthData: function (calendar, events) {
 		const thisInstance = this;
 		let height = calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height() - 10,
 			width = calendar.find('.fc-day-number').width() / 2 - 10,
@@ -42,27 +42,20 @@ FC.views.year = View.extend({
 			events.result[i]['height'] = height;
 		}
 		calendar.fullCalendar('addEventSource', events.result);
-		calendar.find('.js-show-day').on('click', function() {
+		calendar.find('.js-show-day').on('click', function () {
 			let date = moment($(this).data('date')).format();
 			thisInstance.getCalendarView().fullCalendar('changeView', 'agendaDay', date);
 			$('.js-sub-record .active').click();
 		});
-		calendar.find('.fc-center').on('click', function() {
-			let date = moment(
-				$(this)
-					.closest('[data-date]')
-					.data('date')
-			).format();
+		calendar.find('.fc-center').on('click', function () {
+			let date = moment($(this).closest('[data-date]').data('date')).format();
 			thisInstance.getCalendarView().fullCalendar('changeView', 'month', date);
 			$('.js-sub-record .active').click();
 		});
 	},
 	appendWeekButton() {
-		$('.fc-row.fc-week.fc-widget-content').each(function() {
-			let date = $(this)
-				.find('.fc-day-top')
-				.first()
-				.data('date');
+		$('.fc-row.fc-week.fc-widget-content').each(function () {
+			let date = $(this).find('.fc-day-top').first().data('date');
 			if (date !== undefined) {
 				let actualWeek = moment(date).format('WW');
 				$(this).prepend(
@@ -74,14 +67,14 @@ FC.views.year = View.extend({
 		});
 		this.getCalendarView()
 			.find('.js-show-week')
-			.on('click', e => {
+			.on('click', (e) => {
 				$(e.currentTarget).popover('hide');
 				let date = moment($(e.currentTarget).data('date')).format();
 				this.getCalendarView().fullCalendar('changeView', 'agendaWeek', date);
 				$('.js-sub-record .active').click();
 			});
 	},
-	render: function() {
+	render: function () {
 		const self = this;
 		let calendar = self.getCalendarView().fullCalendar('getCalendar'),
 			date = calendar.getDate().year(),
@@ -108,9 +101,7 @@ FC.views.year = View.extend({
 				calendar.view.type
 			}&start=${moment(date + '-01-01').format(dateFormat)}&end=${moment(date + '-12-31').format(
 				dateFormat
-			)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${
-				calendar.view.options.hiddenDays
-			}`
+			)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${calendar.view.options.hiddenDays}`
 		};
 		options = $.extend(this.getDefaultParams(), options);
 		let connectorMethod = window['AppConnector']['request'];
@@ -130,8 +121,8 @@ FC.views.year = View.extend({
 			app.setMainParams('usersId', this.browserHistoryConfig.user);
 		}
 		let className = this.baseInstance.constructor.name;
-		connectorMethod(options).done(function(events) {
-			yearView.find('.fc-year__month').each(function(i) {
+		connectorMethod(options).done(function (events) {
+			yearView.find('.fc-year__month').each(function (i) {
 				let calendarInstance = new window[className](self.container, self.readonly);
 				let basicOptions = calendarInstance.setCalendarMinimalOptions(),
 					monthOptions = {
@@ -139,13 +130,13 @@ FC.views.year = View.extend({
 						titleFormat: 'MMMM',
 						header: { center: 'title', left: false, right: false },
 						height: 'auto',
-						select: function(start, end) {
+						select: function (start, end) {
 							self.selectDays(start, end);
 						},
 						hiddenDays: calendar.view.options.hiddenDays,
 						showNonCurrentDates: false,
 						defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), 'YYYY-MM-DD'),
-						eventRender: function(event, element) {
+						eventRender: function (event, element) {
 							if (event.rendering === 'background') {
 								element.append(
 									`<span class="js-popover-tooltip" data-content="${event.title}" data-toggle="popover"><span class="${event.icon}"></span></span>`

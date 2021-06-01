@@ -6,12 +6,23 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 // Vtiger Settings MenuItem Model Class
 
-class Settings_Vtiger_MenuItem_Model extends \App\Base
+class Settings_Vtiger_MenuItem_Model extends Settings_Vtiger_Menu_Model
 {
+	/**
+	 * Active.
+	 */
+	const ACTIVE = 0;
+
+	/**
+	 * Inactive.
+	 */
+	const INACTIVE = 1;
+
 	/**
 	 * Table name.
 	 *
@@ -27,40 +38,6 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	protected static $itemId = 'fieldid';
 
 	/**
-	 * Url mapping array.
-	 *
-	 * @var array
-	 */
-	public static $transformedUrlMapping = [
-		'index.php?module=Administration&action=index&parenttab=Settings' => 'index.php?module=Users&parent=Settings&view=List',
-		'index.php?module=Settings&action=listroles&parenttab=Settings' => 'index.php?module=Roles&parent=Settings&view=Index',
-		'index.php?module=Settings&action=ListProfiles&parenttab=Settings' => 'index.php?module=Profiles&parent=Settings&view=List',
-		'index.php?module=Settings&action=listgroups&parenttab=Settings' => 'index.php?module=Groups&parent=Settings&view=List',
-		'index.php?module=Settings&action=OrgSharingDetailView&parenttab=Settings' => 'index.php?module=SharingAccess&parent=Settings&view=Index',
-		'index.php?module=Settings&action=DefaultFieldPermissions&parenttab=Settings' => 'index.php?module=FieldAccess&parent=Settings&view=Index',
-		'index.php?module=Settings&action=ListLoginHistory&parenttab=Settings' => 'index.php?module=LoginHistory&parent=Settings&view=List',
-		'index.php?module=Settings&action=ModuleManager&parenttab=Settings' => 'index.php?module=ModuleManager&parent=Settings&view=List',
-		'index.php?module=PickList&action=PickList&parenttab=Settings' => 'index.php?parent=Settings&module=Picklist&view=Index',
-		'index.php?module=Settings&action=listwordtemplates&parenttab=Settings' => 'index.php?module=Settings&submodule=ModuleManager&view=WordTemplates',
-		'index.php?module=Settings&action=listnotificationschedulers&parenttab=Settings' => 'index.php?module=Settings&submodule=Vtiger&view=Schedulers',
-		'index.php?module=Settings&action=listinventorynotifications&parenttab=Settings' => 'index.php?module=Settings&submodule=Notifications&view=InventoryAlerts',
-		'index.php?module=Settings&action=CurrencyListView&parenttab=Settings' => 'index.php?parent=Settings&module=Currency&view=List',
-		'index.php?module=Settings&action=TaxConfig&parenttab=Settings' => 'index.php?module=Vtiger&parent=Settings&view=TaxIndex',
-		'index.php?module=Settings&action=ProxyServerConfig&parenttab=Settings' => 'index.php?module=Settings&submodule=Server&view=ProxyConfig',
-		'index.php?module=Settings&action=OrganizationTermsandConditions&parenttab=Settings' => 'index.php?parent=Settings&module=Vtiger&view=TermsAndConditionsEdit',
-		'index.php?module=Settings&action=CustomModEntityNo&parenttab=Settings' => 'index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering',
-		'index.php?module=com_vtiger_workflow&action=workflowlist&parenttab=Settings' => 'index.php?module=Workflows&parent=Settings&view=List',
-		'index.php?module=com_vtiger_workflow&action=workflowlist' => 'index.php?module=Workflows&parent=Settings&view=List',
-		'index.php?module=ConfigEditor&action=index' => 'index.php?module=Vtiger&parent=Settings&view=ConfigEditorDetail',
-		'index.php?module=Tooltip&action=QuickView&parenttab=Settings' => 'index.php?module=Settings&submodule=Tooltip&view=Index',
-		'index.php?module=Settings&action=Announcements&parenttab=Settings' => 'index.php?parent=Settings&module=Vtiger&view=AnnouncementEdit',
-		'index.php?module=PickList&action=PickListDependencySetup&parenttab=Settings' => 'index.php?parent=Settings&module=PickListDependency&view=List',
-		'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker' => 'index.php?module=Settings&submodule=ModTracker&view=Index',
-		'index.php?module=CronTasks&action=ListCronJobs&parenttab=Settings' => 'index.php?module=CronTasks&parent=Settings&view=List',
-		'index.php?module=ExchangeConnector&action=index&parenttab=Settings' => 'index.php?module=ExchangeConnector&parent=Settings&view=Index',
-	];
-
-	/**
 	 * Function to get the Id of the menu item.
 	 *
 	 * @return <Number> - Menu Item Id
@@ -68,16 +45,6 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	public function getId()
 	{
 		return $this->get(self::$itemId);
-	}
-
-	/**
-	 * Function to get the Menu to which the Item belongs.
-	 *
-	 * @return Settings_Vtiger_Menu_Model instance
-	 */
-	public function getMenu()
-	{
-		return $this->menu;
 	}
 
 	/**
@@ -95,6 +62,26 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	}
 
 	/**
+	 * Gets block instance.
+	 *
+	 * @return Settings_Vtiger_Menu_Model|null
+	 */
+	public function getBlock(): ?Settings_Vtiger_Menu_Model
+	{
+		return \Settings_Vtiger_Menu_Model::getInstanceById($this->getBlockId());
+	}
+
+	/**
+	 * Gets block ID.
+	 *
+	 * @return int
+	 */
+	public function getBlockId()
+	{
+		return $this->get('blockid');
+	}
+
+	/**
 	 * Function to set the Menu to which the Item belongs, given Menu Model instance.
 	 *
 	 * @param <Settings_Vtiger_Menu_Model> $menu - Settings Menu Model instance
@@ -109,31 +96,13 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the url to get to the Settings Menu Item.
-	 *
-	 * @return string - Menu Item landing url
-	 */
-	public function getUrl()
-	{
-		$url = $this->get('linkto');
-		$url = App\Purifier::decodeHtml($url);
-		if (isset(self::$transformedUrlMapping[$url])) {
-			$url = self::$transformedUrlMapping[$url];
-		}
-		if (!empty($this->menu)) {
-			$url .= '&block=' . $this->getMenu()->getId() . '&fieldid=' . $this->getId();
-		}
-		return $url;
-	}
-
-	/**
 	 * Function to get the module name, to which the Settings Menu Item belongs to.
 	 *
 	 * @return string - Module to which the Menu Item belongs
 	 */
 	public function getModuleName()
 	{
-		return 'Settings:Vtiger';
+		return 'Settings:' . ($this->getParam('module') ?: 'Vtiger');
 	}
 
 	/**
@@ -229,122 +198,56 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	/**
 	 * Function to get the instance of the Menu Item model, given item id and Menu instance.
 	 *
-	 * @param int                             $id
-	 * @param bool|Settings_Vtiger_Menu_Model $menuModel
+	 * @param int $id
 	 *
-	 * @return Settings_Vtiger_MenuItem_Model instance
+	 * @return Settings_Vtiger_MenuItem_Model|null
 	 */
-	public static function getInstanceById($id, $menuModel = false)
+	public static function getInstanceById(int $id)
 	{
-		$query = (new \App\Db\Query())->from(self::$itemsTable)->where([self::$itemId => $id]);
-		if ($menuModel) {
-			$query->andWhere(['blockid' => $menuModel->getId()]);
-		}
-		$rowData = $query->one();
-		if ($rowData) {
-			$menuItem = self::getInstanceFromArray($rowData);
-			if ($menuModel) {
-				$menuItem->setMenuFromInstance($menuModel);
-			} else {
-				$menuItem->setMenu($rowData['blockid']);
-			}
-
-			return $menuItem;
-		}
-		return false;
+		return self::getAll()[$id] ?? null;
 	}
 
 	/**
 	 * Static function to get the list of all the items of the given Menu, all items if Menu is not specified.
 	 *
-	 * @param \Settings_Vtiger_Menu_Model $menuModel
-	 * @param bool                        $onlyActive
+	 * @param int $blockId
+	 * @param int $active
 	 *
-	 * @return \Settings_Vtiger_MenuItem_Model[] instances
+	 * @return Settings_Vtiger_MenuItem_Model[]
 	 */
-	public static function getAll($menuModel = false, $onlyActive = true)
+	public static function getAll(int $blockId = 0, int $active = self::ACTIVE): array
 	{
-		$conditionsSqls = [];
-		if (false !== $menuModel) {
-			$conditionsSqls['blockid'] = $menuModel->getId();
-		}
-		if ($onlyActive) {
-			$conditionsSqls['active'] = 0;
-		}
-		$cacheName = 'getAll:' . implode(':', $conditionsSqls);
-		if (\App\Cache::staticHas(__METHOD__, $cacheName)) {
-			return \App\Cache::staticGet(__METHOD__, $cacheName);
-		}
-		$skipMenuItemList = ['LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
-			'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
-			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', ];
-		$query = (new App\Db\Query())->from(self::$itemsTable);
-
-		if (\count($conditionsSqls) > 0) {
-			$query->where($conditionsSqls);
-		}
-		$dataReader = $query->andWhere(['and', ['NOT IN', 'name', $skipMenuItemList], ['or', ['like', 'admin_access', ',' . App\User::getCurrentUserId() . ','], ['admin_access' => null]]])
-			->orderBy('sequence')
-			->createCommand()->query();
-		$menuItemModels = [];
-		while ($rowData = $dataReader->read()) {
-			$fieldId = $rowData[self::$itemId];
-			$menuItem = self::getInstanceFromArray($rowData);
-			if ($menuModel) {
-				$menuItem->setMenuFromInstance($menuModel);
-			} else {
-				$menuItem->setMenu($rowData['blockid']);
+		$key = $active;
+		$cacheName = 'MenuItemAll';
+		if (!\App\Cache::has($cacheName, $key)) {
+			$menuItemModels = [];
+			$dataReader = (new App\Db\Query())->from(self::$itemsTable)->where(['active' => $active])->orderBy('sequence')->createCommand()->query();
+			while ($rowData = $dataReader->read()) {
+				$fieldId = (int) $rowData[self::$itemId];
+				$menuItem = self::getInstanceFromArray($rowData);
+				$menuItemModels[0][$fieldId] = $menuItem;
+				$menuItemModels[$menuItem->getBlockId()][$fieldId] = $menuItem;
 			}
-			$menuItemModels[$fieldId] = $menuItem;
+			$dataReader->close();
+			\App\Cache::save($cacheName, $key, $menuItemModels);
 		}
-		$dataReader->close();
-		\App\Cache::staticSave(__METHOD__, $cacheName, $menuItemModels);
-
-		return $menuItemModels;
+		$menuItemModels = \App\Cache::get($cacheName, $key);
+		return $menuItemModels[$blockId] ?? [];
 	}
 
 	/**
 	 * Function to get the pinned items.
 	 *
-	 * @param array of fieldids
-	 * @param mixed $fieldList
-	 *
-	 * @return array - List of <Settings_Vtiger_MenuItem_Model> instances
+	 * @return \Settings_Vtiger_MenuItem_Model[]
 	 */
-	public static function getPinnedItems($fieldList = [])
+	public static function getPinnedItems(): array
 	{
-		$skipMenuItemList = ['LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
-			'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
-			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', ];
-		$query = (new App\Db\Query())->from(self::$itemsTable)
-			->where(['pinned' => 1, 'active' => 0]);
-		if (!empty($fieldList)) {
-			$query->andWhere([self::$itemsId => $fieldList]);
+		$menuItems = self::getAll();
+		foreach ($menuItems as $key => $menuItem) {
+			if (!$menuItem->isPermitted() || 1 !== (int) $menuItem->get('pinned')) {
+				unset($menuItems[$key]);
+			}
 		}
-		$dataReader = $query->andWhere(['NOT IN', 'name', $skipMenuItemList])
-			->createCommand()->query();
-		$menuItemModels = [];
-		while ($rowData = $dataReader->read()) {
-			$menuItem = self::getInstanceFromArray($rowData);
-			$menuItem->setMenu($rowData['blockid']);
-			$menuItemModels[$rowData[self::$itemId]] = $menuItem;
-		}
-		$dataReader->close();
-
-		return $menuItemModels;
-	}
-
-	/**
-	 * Function to get name module.
-	 *
-	 * @return type module name
-	 */
-	public function getModule()
-	{
-		$urlParams = vtlib\Functions::getQueryParams($this->getUrl());
-		if (!isset($urlParams['module'])) {
-			return false;
-		}
-		return $urlParams['module'];
+		return $menuItems;
 	}
 }

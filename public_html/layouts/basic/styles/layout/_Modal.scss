@@ -1,5 +1,15 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
+.modal-content {
+	-moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+.modal-backdrop {
+	z-index: 1032;
+}
+
 @include media-breakpoint-down(sm) {
 	.modal-header,
 	.modal-body,
@@ -20,10 +30,6 @@
 		max-width: 100%;
 	}
 }
-.modal-backdrop {
-	z-index: 1032;
-}
-
 @include media-breakpoint-up(md) {
 	.modal-full {
 		max-width: 72%;

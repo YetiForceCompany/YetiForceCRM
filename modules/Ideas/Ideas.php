@@ -52,17 +52,6 @@ class Ideas extends Vtiger_CRMEntity
 		'vtiger_ideascf' => 'ideasid', ];
 
 	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'LBL_NO' => ['ideas', 'ideas_no'],
-		'LBL_SUBJECT' => ['ideas', 'subject'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-	];
-
-	/**
 	 * List fields name.
 	 *
 	 * @var array
@@ -78,8 +67,6 @@ class Ideas extends Vtiger_CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view
-	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
@@ -115,7 +102,7 @@ class Ideas extends Vtiger_CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'Ideas'])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

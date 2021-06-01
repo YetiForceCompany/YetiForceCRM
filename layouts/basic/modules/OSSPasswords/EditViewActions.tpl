@@ -13,9 +13,11 @@
 			<span class="fas fa-times mr-1"></span>
 			<strong class="d-none d-md-inline-block">{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 		</button>
-		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
-			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
-		{/foreach}
+		{if isset($EDITVIEW_LINKS['EDIT_VIEW_HEADER'])}
+			{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
+				{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
+			{/foreach}
+		{/if}
 	</div>
 	</form>
 	</div>

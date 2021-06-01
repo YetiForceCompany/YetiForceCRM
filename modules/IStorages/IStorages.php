@@ -33,15 +33,6 @@ class IStorages extends Vtiger_CRMEntity
 		'u_yf_istorages_address' => 'istorageaddressid',
 	];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'subject' => ['istorages', 'subject'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'FL_SUBJECT' => 'subject',
@@ -52,8 +43,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view
-	public $list_link_field = 'subject';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
@@ -165,7 +155,7 @@ class IStorages extends Vtiger_CRMEntity
 		$listviewEntries[$iStorageId] = $iStorageInfoData;
 
 		foreach ($iStorageInfoBase as $accId => $iStorageInfo) {
-			if (is_array($iStorageInfo) && (int) $accId) {
+			if (\is_array($iStorageInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $iStorageInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -210,7 +200,7 @@ class IStorages extends Vtiger_CRMEntity
 		if ($row) {
 			$parentid = $row['parentid'];
 
-			if ('' != $parentid && 0 != $parentid && !in_array($parentid, $encounteredIStorages)) {
+			if ('' != $parentid && 0 != $parentid && !\in_array($parentid, $encounteredIStorages)) {
 				$encounteredIStorages[] = $parentid;
 				$this->getParentIStorages($parentid, $parentIStorages, $encounteredIStorages, $depthBase + 1);
 			}

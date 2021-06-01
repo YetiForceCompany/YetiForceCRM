@@ -14,13 +14,13 @@ class Settings_ConfReport_Check_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$newest = \App\Utils\ConfReport::getNewestPhpVersion();
 		$response = new Vtiger_Response();
 		if ($newest) {
 			$response->setResult([
-				'text'=> \App\Language::translateArgs('LBL_LATEST_PHP_VERSIONS_ARE', 'Settings::ConfReport', implode(' , ', $newest)),
+				'text' => \App\Language::translateArgs('LBL_LATEST_PHP_VERSIONS_ARE', 'Settings::ConfReport', implode(' , ', $newest)),
 				'title' => \App\Language::translate('LBL_LATEST_PHP_TITLE', 'Settings::ConfReport')
 			]);
 		}

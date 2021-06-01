@@ -2,7 +2,7 @@
 /**
  * Mail record finder file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -85,9 +85,9 @@ class RecordFinder
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->permissions = false;
 		foreach ($fields as $field) {
-			if ($queryGenerator->getModuleField($field)) {
+			if ($fieldsModel = $queryGenerator->getModuleField($field)) {
 				$activeFields[] = $field;
-				$conditions[] = [$field => $emails];
+				$conditions[] = [$fieldsModel->getColumnName() => $emails];
 			}
 		}
 		if (!$activeFields) {
@@ -102,7 +102,7 @@ class RecordFinder
 				foreach ($activeFields as $field) {
 					$rowEmail = $row[$field];
 					if (\in_array($rowEmail, $emails)) {
-						self::$emailsCache[$moduleName][$rowEmail] = $return[$rowEmail][] = $row['id'];
+						self::$emailsCache[$moduleName][$rowEmail][] = $return[$rowEmail][] = $row['id'];
 						unset($emails[array_search($rowEmail, $emails)]);
 					}
 				}
@@ -151,7 +151,7 @@ class RecordFinder
 						foreach ($intersectRows as $intersectRow) {
 							if (isset($domainsAndEmails[$intersectRow])) {
 								foreach ($domainsAndEmails[$intersectRow] as $email) {
-									self::$domainCache[$moduleName][$email] = $return[$email][] = $row['id'];
+									self::$domainCache[$moduleName][$email][] = $return[$email][] = $row['id'];
 									unset($emails[array_search($email, $emails)]);
 								}
 							}

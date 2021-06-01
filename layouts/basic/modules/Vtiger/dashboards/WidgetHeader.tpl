@@ -16,7 +16,7 @@
 				  media="{$cssModel->getMedia()}"/>
 		{/foreach}
 	{/if}
-	{if !empty($STYLES)}
+	{if !empty($SCRIPTS)}
 		{foreach key=index item=jsModel from=$SCRIPTS}
 			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}

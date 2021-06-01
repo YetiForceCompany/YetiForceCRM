@@ -2,6 +2,8 @@
 /**
  * Base condition record field file.
  *
+ * @package UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -87,13 +89,13 @@ class BaseField
 	}
 
 	/**
-	 * Get value.
+	 * Get value from record.
 	 *
 	 * @return mixed
 	 */
 	public function getValue()
 	{
-		return $this->recordModel->get($this->fieldModel->getFieldName());
+		return $this->recordModel->get($this->fieldModel->getName());
 	}
 
 	/**
@@ -125,7 +127,7 @@ class BaseField
 	{
 		$ssl = \strlen($this->value);
 		if (\strlen($this->getValue()) >= $ssl) {
-			return 0 == substr_compare($this->getValue(), $this->value, 0, $ssl);
+			return 0 == substr_compare($this->getValue(), $this->value, 0, $ssl, true);
 		}
 		return false;
 	}
@@ -304,6 +306,6 @@ class BaseField
 	 */
 	public function operatorOgr()
 	{
-		return \in_array($this->getValue(), \App\User::getGroups());
+		return \in_array($this->getValue(), \App\User::getCurrentUserModel()->getGroups());
 	}
 }

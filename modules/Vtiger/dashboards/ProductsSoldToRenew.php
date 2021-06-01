@@ -3,13 +3,15 @@
 /**
  * ProductsSoldToRenew Dashboard Class.
  *
+ * @package Dashboard
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request, $widget = null)
+	public function process(App\Request $request, $widget = null)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -110,7 +112,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($this->listviewHeaders)) {
 			$headerFieldModels = [];
 			foreach ($this->queryGenerator->getListViewFields() as $fieldName => &$fieldsModel) {
-				if (in_array($fieldName, $this->getRestrictFields())) {
+				if (\in_array($fieldName, $this->getRestrictFields())) {
 					continue;
 				}
 				$headerFieldModels[$fieldName] = $fieldsModel;
@@ -122,7 +124,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getHeaderCount()
 	{
-		return count($this->getHeaders());
+		return \count($this->getHeaders());
 	}
 
 	/**
