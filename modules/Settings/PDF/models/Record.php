@@ -62,6 +62,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'yfi yfi-full-editing-view',
+				'class' => 'js-edit'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',

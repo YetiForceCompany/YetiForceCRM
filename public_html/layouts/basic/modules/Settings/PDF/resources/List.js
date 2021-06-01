@@ -35,8 +35,16 @@ Settings_Vtiger_List_Js(
 		registerRowClickEvent: function () {
 			var listViewContentDiv = this.getListViewContentContainer();
 			listViewContentDiv.on('click', '.listViewEntries', function (e) {
-				var editUrl = jQuery(e.currentTarget).find('.fas').closest('a').attr('href');
-				window.location.href = editUrl;
+				if ($(e.target).closest('div').hasClass('actions')) return;
+				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
+				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
+				if ($(e.target).is('input[type="checkbox"]')) return;
+				if ($.contains($(e.currentTarget).find('td:last-child').get(0), e.target)) return;
+				if ($.contains($(e.currentTarget).find('td:first-child').get(0), e.target)) return;
+				let recordUrl = $(e.currentTarget).find('a.js-edit').attr('href');
+				if (typeof recordUrl !== 'undefined') {
+					window.location.href = recordUrl;
+				}
 			});
 		},
 		getDefaultParams: function () {
