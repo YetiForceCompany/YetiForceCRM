@@ -56,8 +56,7 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 				'userid' => $userId,
 				'datetime' => date('Y-m-d H:i:s'),
 				'purpose' => $request->getByType('visitPurpose', \App\Purifier::TEXT),
-				'baseid' => \App\User::getCurrentUserRealId(),
-				'type' => 'switch'
+				'baseid' => \App\User::getCurrentUserRealId()
 			])->execute();
 		}
 
