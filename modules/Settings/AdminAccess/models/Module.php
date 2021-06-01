@@ -139,12 +139,6 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 					$params['typeofdata'] = 'V~O';
 					$params['table'] = 'l_#__users_login_purpose';
 					break;
-				case 'type':
-					$params['uitype'] = 1;
-					$params['label'] = 'FL_TYPE';
-					$params['typeofdata'] = 'V~O';
-					$params['table'] = 'l_#__users_login_purpose';
-					break;
 				case 'baseid':
 				case 'userid':
 					$params['label'] = 'baseid' === $name ? 'FL_BASE_USER' : 'FL_USER';
@@ -276,7 +270,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 		$fields = [];
 		switch ($key) {
 			case 'visitPurpose':
-				foreach (['userid', 'datetime', 'purpose', 'baseid', 'type'] as $fieldName) {
+				foreach (['userid', 'datetime', 'purpose', 'baseid'] as $fieldName) {
 					$fields[] = $this->getFieldInstanceByName($fieldName);
 				}
 				break;
