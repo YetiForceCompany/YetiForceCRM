@@ -78,6 +78,13 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 				'labelDesc' => 'LBL_LOGIN_ADMIN_VISIT_PURPOSE_DESC',
 				'fieldvalue' => $config['askAdminAboutVisitPurpose'] ?? ''
 			],
+			'askAdminAboutVisitSwitchUsers' => [
+				'purifyType' => 'bool',
+				'uitype' => 56,
+				'label' => 'LBL_LOGIN_ADMIN_VISIT_SWITCH_USERS',
+				'labelDesc' => 'LBL_LOGIN_ADMIN_VISIT_SWITCH_USERS_DESC',
+				'fieldvalue' => $config['askAdminAboutVisitSwitchUsers'] ?? ''
+			],
 		];
 		foreach ($fields as $key => $value) {
 			$fields[$key] = \Vtiger_Field_Model::init($moduleName, $value, $key);
