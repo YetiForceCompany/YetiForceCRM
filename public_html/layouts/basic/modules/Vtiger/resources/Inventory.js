@@ -1259,7 +1259,7 @@ $.Class(
 
 			this.getInventoryItemsContainer()
 				.find(thisInstance.rowClass)
-				.each(function (index) {
+				.each(function (_) {
 					let row = $(this);
 					thisInstance.syncHeaderData(row);
 					thisInstance.setUnitPrice(
@@ -1268,6 +1268,7 @@ $.Class(
 					);
 					thisInstance.setDiscount(row, App.Fields.Double.formatToDb(thisInstance.getDiscount(row) * conversionRate));
 					thisInstance.setTax(row, App.Fields.Double.formatToDb(thisInstance.getTax(row) * conversionRate));
+					thisInstance.setPurchase(row, App.Fields.Double.formatToDb(thisInstance.getPurchase(row) * conversionRate));
 					thisInstance.quantityChangeActions(row);
 				});
 		},
