@@ -460,13 +460,11 @@
                                             "createdtime": {
                                                 "description": "Gets consents.",
                                                 "type": "string",
-                                                "format": "date-time",
                                                 "example": "2019-10-07 08:32:38"
                                             },
                                             "modifiedtime": {
                                                 "description": "Gets consents.",
                                                 "type": "string",
-                                                "format": "date-time",
                                                 "example": "2019-10-07 08:32:38"
                                             },
                                             "created_user_id": {
@@ -524,13 +522,11 @@
                                             "createdtime": {
                                                 "description": "Gets consents.",
                                                 "type": "string",
-                                                "format": "date-time",
                                                 "example": "2019-10-07 08:32:38"
                                             },
                                             "modifiedtime": {
                                                 "description": "Gets consents.",
                                                 "type": "string",
-                                                "format": "date-time",
                                                 "example": "2019-10-07 08:32:38"
                                             },
                                             "created_user_id": {

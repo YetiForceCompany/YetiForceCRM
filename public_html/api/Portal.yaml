@@ -2136,7 +2136,7 @@ components:
               default:
                 description: 'Get method - Get PDF templates list.'
                 type: integer
-                example: null
+                example: 1
             type: object
       type: object
     BaseModule_Privileges_ResponseBody:
@@ -2186,7 +2186,7 @@ components:
               type: object
               additionalProperties:
                 description: 'Field label'
-                type: boolean
+                type: string
                 example: 'Account name'
             data:
               $ref: '#/components/schemas/Record_Display_Details'
@@ -2324,10 +2324,10 @@ components:
               additionalProperties:
                 description: 'Key indicating the number of changes made to a given record'
                 properties:
-                  time: { description: 'Showing the exact date on which the change took place', type: string, format: date-time, example: '2019-10-07 08:32:38' }
+                  time: { description: 'Showing the exact date on which the change took place', type: string, example: '2019-10-07 08:32:38' }
                   owner: { description: 'Username of the user who made the change', type: string, example: 'System Admin' }
                   status: { description: 'Name of the action that was carried out', type: string, example: changed }
-                  rawTime: { description: 'Showing the exact date on which the change took place', type: string, format: date-time, example: '2019-10-07 08:32:38' }
+                  rawTime: { description: 'Showing the exact date on which the change took place', type: string, example: '2019-10-07 08:32:38' }
                   rawOwner: { description: 'User ID of the user who made the change', type: integer, example: 1 }
                   rawStatus: { description: 'The name of the untranslated label', type: string, example: LBL_UPDATED }
                   data: { description: 'Field system name', type: object, additionalProperties: { properties: { from: { description: 'Value before change, dynamically collected value - the data type depends on the field type', type: string, example: 'Jan Kowalski' }, to: { description: 'Value after change, dynamically collected value - the data type depends on the field type', type: string, example: 'Jan Nowak' }, rawFrom: { description: 'Value before change', type: string, example: 'Jan Kowalski' }, rawTo: { description: 'Value after change', type: string, example: 'Jan Nowak' }, targetModule: { description: 'The name of the target related module', type: string, example: Contacts }, targetLabel: { description: 'The label name of the target related module', type: string, example: 'Jan Kowalski' }, targetId: { description: 'Id of the target related module', type: integer, example: 394 } }, type: object } }
@@ -2579,7 +2579,6 @@ components:
               time:
                 description: 'Date time in user format'
                 type: string
-                format: date-time
                 example: '2021-06-01 11:57'
               status:
                 description: 'Operation name'
@@ -2696,12 +2695,10 @@ components:
             lastLoginTime:
               description: 'Post method.'
               type: string
-              format: date-time
               example: '2019-10-07 08:32:38'
             lastLogoutTime:
               description: 'Post method.'
               type: string
-              format: date-time
               example: null
             language:
               description: 'Post method.'

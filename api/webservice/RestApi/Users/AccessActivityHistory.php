@@ -96,7 +96,7 @@ class AccessActivityHistory extends \Api\Core\BaseAction
 	 *			@OA\AdditionalProperties(
 	 *				description="Condition details",
 	 *				type="object",
-	 *				@OA\Property(property="time", type="string", format="date-time", description="Date time in user format", example="2021-06-01 11:57"),
+	 *				@OA\Property(property="time", type="string", description="Date time in user format", example="2021-06-01 11:57"),
 	 *				@OA\Property(property="status", type="string", description="Operation name", example="Signed in"),
 	 *				@OA\Property(property="agent", type="string", description="User agent", example="PostmanRuntime/7.28.0"),
 	 *				@OA\Property(property="ip", type="string", description="IP address", example="127.0.0.1"),

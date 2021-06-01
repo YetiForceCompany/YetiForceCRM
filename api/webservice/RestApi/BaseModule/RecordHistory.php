@@ -152,10 +152,10 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *				@OA\AdditionalProperties(
 	 *					type="object",
 	 *					description="Key indicating the number of changes made to a given record",
-	 * 					@OA\Property(property="time", type="string", description="Showing the exact date on which the change took place",  format="date-time", example="2019-10-07 08:32:38"),
+	 * 					@OA\Property(property="time", type="string", description="Showing the exact date on which the change took place", example="2019-10-07 08:32:38"),
 	 *					@OA\Property(property="owner", type="string", description="Username of the user who made the change", example="System Admin"),
 	 *					@OA\Property(property="status", type="string", description="Name of the action that was carried out", example="changed"),
-	 * 					@OA\Property(property="rawTime", type="string", description="Showing the exact date on which the change took place",  format="date-time", example="2019-10-07 08:32:38"),
+	 * 					@OA\Property(property="rawTime", type="string", description="Showing the exact date on which the change took place", example="2019-10-07 08:32:38"),
 	 *					@OA\Property(property="rawOwner", type="integer", description="User ID of the user who made the change", example=1),
 	 *					@OA\Property(property="rawStatus", type="string", description="The name of the untranslated label", example="LBL_UPDATED"),
 	 *					@OA\Property(

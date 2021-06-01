@@ -109,7 +109,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 * 				property="fields",
 	 *				description="System field names and field labels",
 	 *				type="object",
-	 *				@OA\AdditionalProperties(description="Field label", type="boolean", example="Account name"),
+	 *				@OA\AdditionalProperties(description="Field label", type="string", example="Account name"),
 	 *			),
 	 *			@OA\Property(
 	 *				property="data",

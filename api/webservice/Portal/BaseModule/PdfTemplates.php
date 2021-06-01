@@ -119,7 +119,7 @@ class PdfTemplates extends \Api\Core\BaseAction
 	 *				@OA\Property(property="id", description="Record Id", type="integer", example=38),
 	 * 				@OA\Property(property="name", type="string", example="order"),
 	 * 				@OA\Property(property="second_name", type="string", example="order"),
-	 * 				@OA\Property(property="default", type="integer", example=null),
+	 * 				@OA\Property(property="default", type="integer", example=1),
 	 * 			),
 	 *		),
 	 *	),

@@ -3432,7 +3432,7 @@
                                 "default": {
                                     "description": "Get method - Get PDF templates list.",
                                     "type": "integer",
-                                    "example": null
+                                    "example": 1
                                 }
                             },
                             "type": "object"
@@ -3499,7 +3499,7 @@
                                 "type": "object",
                                 "additionalProperties": {
                                     "description": "Field label",
-                                    "type": "boolean",
+                                    "type": "string",
                                     "example": "Account name"
                                 }
                             },
@@ -3684,7 +3684,6 @@
                                         "time": {
                                             "description": "Showing the exact date on which the change took place",
                                             "type": "string",
-                                            "format": "date-time",
                                             "example": "2019-10-07 08:32:38"
                                         },
                                         "owner": {
@@ -3700,7 +3699,6 @@
                                         "rawTime": {
                                             "description": "Showing the exact date on which the change took place",
                                             "type": "string",
-                                            "format": "date-time",
                                             "example": "2019-10-07 08:32:38"
                                         },
                                         "rawOwner": {
@@ -4097,7 +4095,6 @@
                                 "time": {
                                     "description": "Date time in user format",
                                     "type": "string",
-                                    "format": "date-time",
                                     "example": "2021-06-01 11:57"
                                 },
                                 "status": {
@@ -4253,13 +4250,11 @@
                             "lastLoginTime": {
                                 "description": "Post method.",
                                 "type": "string",
-                                "format": "date-time",
                                 "example": "2019-10-07 08:32:38"
                             },
                             "lastLogoutTime": {
                                 "description": "Post method.",
                                 "type": "string",
-                                "format": "date-time",
                                 "example": null
                             },
                             "language": {
