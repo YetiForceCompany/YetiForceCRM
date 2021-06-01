@@ -1585,7 +1585,7 @@ $.Class(
 					view: 'Inventory',
 					mode: 'showTaxes',
 					currency: thisInstance.getCurrency(),
-					sourceRecord: app.getRecordId()
+					relatedRecord: thisInstance.getAccountId()
 				};
 				if (element.hasClass('groupTax')) {
 					parentRow = thisInstance.getInventoryItemsContainer();

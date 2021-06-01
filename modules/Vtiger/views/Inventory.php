@@ -57,19 +57,18 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$record = $request->getInteger('record');
 		$recordModule = $request->getByType('recordModule', 'Alnum');
 		$currency = $request->getInteger('currency');
-		$sourceRecord = $request->isEmpty('sourceRecord', true) ? false : $request->getInteger('sourceRecord');
+		$relatedRecord = $request->isEmpty('relatedRecord', true) ? false : $request->getInteger('relatedRecord');
 		$taxType = $request->getInteger('taxType');
 		$totalPrice = $request->getByType('totalPrice', 'Double');
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
-		$accountTaxs = $inventoryModel->getAccountTax($sourceRecord);
+		$accountTaxes = $inventoryModel->getAccountTax($relatedRecord);
 		$taxField = '';
 		if ($recordModule && ($recordModuleModel = \Vtiger_Module_Model::getInstance($recordModule))) {
 			$taxField = ($field = current($recordModuleModel->getFieldsByUiType(303))) ? $field->getName() : '';
 		}
-
 		$config = $inventoryModel->getTaxesConfig();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
@@ -83,8 +82,8 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer->assign('TAX_FIELD', $taxField);
 		$viewer->assign('AGGREGATION_TYPE', $config['aggregation']);
 		$viewer->assign('AGGREGATION_INPUT_TYPE', 0 == $config['aggregation'] ? 'radio' : 'checkbox');
-		$viewer->assign('GROUP_TAXS', $accountTaxs['taxs']);
-		$viewer->assign('ACCOUNT_NAME', $accountTaxs['name']);
+		$viewer->assign('GROUP_TAXS', $accountTaxes['taxes']);
+		$viewer->assign('ACCOUNT_NAME', $accountTaxes['name']);
 		$viewer->view('InventoryTaxes.tpl', $moduleName);
 	}
 }
