@@ -1256,18 +1256,15 @@ $.Class(
 			let conversionRate = selected.data('conversionRate');
 			let prevConversionRate = previous.data('conversionRate');
 			conversionRate = parseFloat(conversionRate) / parseFloat(prevConversionRate);
-
 			this.getInventoryItemsContainer()
 				.find(thisInstance.rowClass)
-				.each(function (index) {
+				.each(function (_) {
 					let row = $(this);
 					thisInstance.syncHeaderData(row);
-					thisInstance.setUnitPrice(
-						row,
-						App.Fields.Double.formatToDb(thisInstance.getUnitPriceValue(row) * conversionRate)
-					);
-					thisInstance.setDiscount(row, App.Fields.Double.formatToDb(thisInstance.getDiscount(row) * conversionRate));
-					thisInstance.setTax(row, App.Fields.Double.formatToDb(thisInstance.getTax(row) * conversionRate));
+					thisInstance.setUnitPrice(row, thisInstance.getUnitPriceValue(row) * conversionRate);
+					thisInstance.setDiscount(row, thisInstance.getDiscount(row) * conversionRate);
+					thisInstance.setTax(row, thisInstance.getTax(row) * conversionRate);
+					thisInstance.setPurchase(row, thisInstance.getPurchase(row) * conversionRate);
 					thisInstance.quantityChangeActions(row);
 				});
 		},
