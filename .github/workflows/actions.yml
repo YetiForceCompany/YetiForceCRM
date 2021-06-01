@@ -141,6 +141,7 @@ jobs:
         uses: docker://github/super-linter:v3.17.2
         env:
           DEFAULT_BRANCH: developer
+          FILTER_REGEX_EXCLUDE: .*(*.min.js|*.min.css).*s
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_PHP: true
           VALIDATE_JSON: true
