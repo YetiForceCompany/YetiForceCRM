@@ -199,7 +199,7 @@ $.Class(
 					let response = (params.data = data['result']['data']);
 					app.event.trigger('EditView.SelectReference', params, formElement);
 					$.each(mappingRelatedField, function (key, value) {
-						if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
+						if (response[value[0]] != 0) {
 							let mapFieldElement = formElement.find('[name="' + key + '"]');
 							let fieldinfo = mapFieldElement.data('fieldinfo');
 							if (data['result']['type'][value[0]] === 'date' || data['result']['type'][value[0]] === 'datetime') {
@@ -268,19 +268,8 @@ $.Class(
 			}
 			return this.relationOperation;
 		},
-		getMappingValuesFromUrl: function (key) {
-			let relationOperation = this.getRelationOperation();
-			if (relationOperation) {
-				return app.getUrlVar(key);
-			}
-			return false;
-		},
 		proceedRegisterEvents: function () {
-			if ($('.recordEditView').length > 0) {
-				return true;
-			} else {
-				return false;
-			}
+			return $('.recordEditView').length > 0;
 		},
 		referenceModulePopupRegisterEvent: function (container) {
 			container.on('click', '.relatedPopup', (e) => {
@@ -337,6 +326,7 @@ $.Class(
 		 */
 		registerAutoCompleteFields: function (container) {
 			let thisInstance = this;
+			let formElement = container.closest('form');
 			container.find('input.autoComplete').autocomplete({
 				delay: '600',
 				minLength: '3',
@@ -347,8 +337,10 @@ $.Class(
 					let searchValue = request.term;
 					let params = thisInstance.getReferenceSearchParams(inputElement);
 					params.search_value = searchValue;
-					//params.parent_id = app.getRecordId();
-					//params.parent_module = app.getModuleName();
+					let sourceRecordElement = $('input[name="record"]', formElement);
+					if (sourceRecordElement.length > 0 && sourceRecordElement.val()) {
+						params.src_record = sourceRecordElement.val();
+					}
 					thisInstance.searchModuleNames(params).done(function (data) {
 						let reponseDataList = [];
 						let serverDataFormat = data.result;
@@ -791,13 +783,6 @@ $.Class(
 		registerMaskFields: function (container) {
 			container.find('[data-inputmask]').inputmask();
 		},
-		triggerDisplayTypeEvent: function () {
-			let widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				let elements = $('#EditView').find('.fieldValue,.fieldLabel');
-				elements.addClass(widthType);
-			}
-		},
 		registerSubmitEvent: function () {
 			let editViewForm = this.getForm();
 			editViewForm.on('submit', function (e) {
@@ -1020,44 +1005,6 @@ $.Class(
 				form = this.getForm();
 			}
 			app.showPopoverElementView(form.find('.js-help-info'));
-		},
-		registerBlockAnimationEvent: function () {
-			const self = this;
-			let detailContentsHolder = this.getForm();
-			detailContentsHolder.on('click', '.blockHeader', function (e) {
-				const target = $(e.target);
-				if (
-					target.is('input') ||
-					target.is('button') ||
-					target.parents().is('button') ||
-					target.hasClass('js-stop-propagation') ||
-					target.parents().hasClass('js-stop-propagation')
-				) {
-					return false;
-				}
-				let currentTarget = $(e.currentTarget).find('.js-block-toggle').not('.d-none');
-				let blockId = currentTarget.data('id');
-				let closestBlock = currentTarget.closest('.js-toggle-panel');
-				let bodyContents = closestBlock.find('.blockContent');
-				let data = currentTarget.data();
-				let hideHandler = function () {
-					bodyContents.addClass('d-none');
-					app.cacheSet(self.moduleName + '.' + blockId, 0);
-				};
-				let showHandler = function () {
-					bodyContents.removeClass('d-none');
-					app.cacheSet(self.moduleName + '.' + blockId, 1);
-				};
-				if (data.mode == 'show') {
-					hideHandler();
-					currentTarget.addClass('d-none');
-					closestBlock.find('[data-mode="hide"]').removeClass('d-none');
-				} else {
-					showHandler();
-					currentTarget.addClass('d-none');
-					closestBlock.find("[data-mode='show']").removeClass('d-none');
-				}
-			});
 		},
 		registerBlockStatusCheckOnLoad: function () {
 			let blocks = this.getForm().find('.js-toggle-panel');
@@ -1537,16 +1484,19 @@ $.Class(
 			let fields = JSON.parse(event.val());
 			$.each(fields, function (key, fieldName) {
 				let fieldElement = container.find(`[name="${fieldName}"]`);
-				fieldElement.change(function () {
-					let formData = container.serializeFormData();
-					formData['action'] = 'ChangeValueHandler';
-					delete formData['view'];
-					AppConnector.request(formData).done(function (response) {
-						$.each(response.result, function (key, data) {
-							self.triggerRecordEditEvents(data);
+				fieldElement.on(
+					`change ${Vtiger_Edit_Js.referenceSelectionEvent} ${Vtiger_Edit_Js.referenceDeSelectionEvent}`,
+					function () {
+						let formData = container.serializeFormData();
+						formData['action'] = 'ChangeValueHandler';
+						delete formData['view'];
+						AppConnector.request(formData).done(function (response) {
+							$.each(response.result, function (key, data) {
+								self.triggerRecordEditEvents(data);
+							});
 						});
-					});
-				});
+					}
+				);
 			});
 		},
 		/**
@@ -1577,6 +1527,8 @@ $.Class(
 			App.Fields.Tree.register(container);
 			App.Fields.MultiCurrency.register(container);
 			App.Fields.MeetingUrl.register(container);
+			App.Fields.ChangesJson.register(container);
+			App.Fields.MultiReference.register(container);
 		},
 		registerEvents: function () {
 			let editViewForm = this.getForm();
@@ -1584,7 +1536,7 @@ $.Class(
 				return;
 			}
 			this.registerInventoryController(editViewForm);
-			this.registerBlockAnimationEvent();
+			app.registerBlockAnimationEvent(editViewForm);
 			this.registerBlockStatusCheckOnLoad();
 			this.registerEventForEditor();
 			this.stretchCKEditor();
@@ -1595,7 +1547,6 @@ $.Class(
 			this.registerValidationsFields(editViewForm);
 			this.registerAutoloadAddress();
 			editViewForm.find('.js-form-submit-btn').prop('disabled', false);
-			//this.triggerDisplayTypeEvent();
 		}
 	}
 );

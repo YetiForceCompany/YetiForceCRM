@@ -6,7 +6,7 @@
 	<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 	<input type="hidden" id="type" value="{$TYPE}" />
 	<div class="modal-header">
-		<h5 class="modal-title">{\App\Language::translate('LBL_MANAGE_PERMISSIONS', $MODULE_NAME)}</h5>
+		<h5 class="modal-title">{\App\Language::translate($TITLE_LABEL, $MODULE_NAME)}: {\App\Language::translate($RECORD_MODEL->getName(), $SOURCE_MODULE)}</h5>
 	</div>
 	<div class="modal-body">
 		<div class="">
@@ -28,7 +28,7 @@
 						{/foreach}
 					</select>
 					<div class="input-group-append">
-						<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-operator="add" title="{\App\Language::translate('LBL_ADD_PERMISSIONS', $MODULE_NAME)}" {if $IS_DEFAULT} disabled="disabled"{/if}>
+						<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-operator="1" title="{\App\Language::translate('LBL_ADD_PERMISSIONS', $MODULE_NAME)}" {if $IS_DEFAULT} disabled="disabled"{/if}>
 							<span class="fas fa-arrow-down"></span>
 						</button>
 					</div>
@@ -52,7 +52,7 @@
 						{/foreach}
 					</select>
 					<div class="input-group-append">
-						<button type="button" class="btn btn-danger moveItem" data-source="remove" data-target="add" data-operator="remove" title="{\App\Language::translate('LBL_RECEIVE_PERMISSION', $MODULE_NAME)}"><span class="fas fa-arrow-up"></span></button>
+						<button type="button" class="btn btn-danger moveItem" data-source="remove" data-target="add" data-operator="0" title="{\App\Language::translate('LBL_RECEIVE_PERMISSION', $MODULE_NAME)}"><span class="fas fa-arrow-up"></span></button>
 					</div>
 				</div>
 			</div>

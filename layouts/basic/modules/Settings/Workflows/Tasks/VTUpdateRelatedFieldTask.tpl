@@ -14,7 +14,7 @@
 				<div class="row no-gutters col-12 col-xl-6 js-conditions-row padding-bottom1per px-md-1"
 					data-js="container | clone">
 					<div class="col-md-5 mb-1 mb-md-0">
-						<select name="fieldname" class="select2" style="min-width: 250px"
+						<select name="fieldname" class="select2 form-control" style="min-width: 250px"
 								data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 							<option></option>
 							{foreach item=REFERENCE_FIELD from=$MODULE_MODEL->getFieldsByReference()}
@@ -27,6 +27,10 @@
 												{continue}
 											{/if}
 											{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
+											{if in_array($FIELD_MODEL->getFieldDataType(), ['categoryMultipicklist', 'tree'])}
+												{$FIELD_INFO['treetemplate'] = App\Purifier::decodeHtml($FIELD_MODEL->getFieldParams())}
+												{$FIELD_INFO['displayvalue'] = $FIELD_MODEL->getDisplayValue($FIELD_MAP['value'])}
+											{/if}
 											{assign var=VALUE value=$REFERENCE_FIELD->get('name')|cat:'::'|cat:$RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}
 											<option value="{$VALUE}" {if $FIELD_MAP['fieldname'] eq $VALUE} selected=""{/if}
 													data-fieldtype="{$FIELD_MODEL->getFieldType()}"
@@ -48,6 +52,10 @@
 												{continue}
 											{/if}
 										{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
+										{if in_array($FIELD_MODEL->getFieldDataType(), ['categoryMultipicklist', 'tree'])}
+											{$FIELD_INFO['treetemplate'] = App\Purifier::decodeHtml($FIELD_MODEL->getFieldParams())}
+											{$FIELD_INFO['displayvalue'] = $FIELD_MODEL->getDisplayValue($FIELD_MAP['value'])}
+										{/if}
 										<option value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}"
 												{if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}selected=""
 												{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}"

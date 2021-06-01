@@ -136,11 +136,11 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 * @param Vtiger_Record_Model $parentRecordModel
 	 * @param string              $relationModuleName
 	 * @param bool|int            $relationId
-	 * @param int                 $cvId
+	 * @param int|string          $cvId
 	 *
 	 * @return self
 	 */
-	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $relationId = false, int $cvId = 0)
+	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $relationId = false, $cvId = 0)
 	{
 		$parentModuleModel = $parentRecordModel->getModule();
 		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleModel->getName());
@@ -157,8 +157,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$instance->setRelatedModuleModel($relationModelInstance->getRelationModuleModel());
 		$queryGenerator = new \App\QueryGenerator($relationModelInstance->getRelationModuleModel()->getName());
 		if ($cvId) {
-			$instance->set('viewId', $cvId);
-			$queryGenerator->initForCustomViewById($cvId);
+			$instance->set('cvId', $cvId);
 		}
 		$relationModelInstance->set('query_generator', $queryGenerator);
 		$relationModelInstance->set('parentRecord', $parentRecordModel);
@@ -178,6 +177,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		if ($this->has('Query')) {
 			return $this->get('Query');
 		}
+		$this->loadCustomView();
 		$this->loadCondition();
 		$this->loadOrderBy();
 		$relationModelInstance = $this->getRelationModel();
@@ -218,6 +218,24 @@ class Vtiger_RelationListView_Model extends \App\Base
 		if (!$this->isEmpty('search_key')) {
 			$queryGenerator->addCondition($this->get('search_key'), $this->get('search_value'), $this->get('operator'));
 		}
+		if ($searchParams = $this->getArray('search_rel_params')) {
+			$this->getRelationModel()->setRelationConditions($searchParams);
+		}
+	}
+
+	/**
+	 * Load custom view.
+	 */
+	public function loadCustomView()
+	{
+		if ($this->has('cvId')) {
+			$cvId = $this->get('cvId');
+		} else {
+			$cvId = array_key_first($this->getRelationModel()->getCustomViewList());
+		}
+		if ('relation' !== $cvId) {
+			$this->getRelationModel()->getQueryGenerator()->initForCustomViewById($cvId);
+		}
 	}
 
 	/**
@@ -231,10 +249,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 	{
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getRelationQuery();
-		if (0 !== $pagingModel->get('limit')) {
-			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
-		}
+		$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		$rows = $query->all();
+
 		$count = \count($rows);
 		if ($count > $pageLimit) {
 			array_pop($rows);
@@ -245,6 +262,16 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$relatedRecordList = $this->getRecordsFromArray($rows);
 		$pagingModel->calculatePageRange(\count($relatedRecordList));
 		return $relatedRecordList;
+	}
+
+	/**
+	 * Gets all entries.
+	 *
+	 * @return \Vtiger_Record_Model[]
+	 */
+	public function getAllEntries(): array
+	{
+		return $this->getRecordsFromArray($this->getRelationQuery()->all());
 	}
 
 	/**
@@ -347,9 +374,8 @@ class Vtiger_RelationListView_Model extends \App\Base
 				unset($fields[$fieldName]);
 			}
 		}
-		$relationModel = $this->getRelationModel()->getTypeRelationModel();
-		if (method_exists($relationModel, 'getFields')) {
-			$fields = array_merge($fields, $relationModel->getFields());
+		if ($relFields = $this->getRelationModel()->getRelationFields()) {
+			$fields = array_merge($fields, $relFields);
 		}
 		return $fields;
 	}
@@ -507,6 +533,15 @@ class Vtiger_RelationListView_Model extends \App\Base
 					'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassDownload('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=massDownload&src_record={$parentRecordModel->getId()}&relatedModule=Documents&mode=multiple','sendByForm')",
 					'linkclass' => '',
 					'linkicon' => 'fas fa-download'
+				]);
+			}
+			if ($relationModelInstance->getRelationModuleModel()->isPermitted('QuickExportToExcel')) {
+				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'RELATEDLIST_MASSACTIONS',
+					'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
+					'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=exportToExcel&src_record={$parentRecordModel->getId()}&relatedModule={$relationModelInstance->getRelationModuleModel()->getName()}&relationId={$this->getRelationModel()->getId()}&isSortActive=true','sendByForm')",
+					'linkclass' => '',
+					'linkicon' => 'fas fa-file-excel',
 				]);
 			}
 		}

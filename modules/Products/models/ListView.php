@@ -77,4 +77,21 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		}
 		return $flag;
 	}
+
+	/** {@inheritdoc} */
+	public function getAdvancedLinks()
+	{
+		$advancedLinks = parent::getAdvancedLinks();
+		$moduleModel = $this->getModule();
+		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('Import')) {
+			$advancedLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_IMPORT_STOCKTAKING',
+				'linkdata' => ['url' => 'index.php?module=' . $moduleModel->getName() . '&view=StocktakingModal', 'type' => 'modal', 'check-selected' => 0],
+				'linkclass' => 'js-mass-action',
+				'linkicon' => 'fas fa-boxes'
+			];
+		}
+		return $advancedLinks;
+	}
 }

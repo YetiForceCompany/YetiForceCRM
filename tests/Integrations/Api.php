@@ -4,9 +4,12 @@
  *
  * @see https://github.com/Maks3w/SwaggerAssertions/
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\Integrations;
@@ -17,12 +20,6 @@ use FR3D\SwaggerAssertions\SchemaManager;
 class Api extends \Tests\Base
 {
 	use AssertsTrait;
-	/**
-	 * Server address.
-	 *
-	 * @var string
-	 */
-	private static $url;
 
 	/**
 	 * Api server id.
@@ -43,11 +40,7 @@ class Api extends \Tests\Base
 	 *
 	 * @var array
 	 */
-	private static $requestOptions = [
-		'auth' => ['portal', 'portal'],
-		'Content-Type' => 'application/json',
-		'Accept' => 'application/json'
-	];
+	private static $requestOptions = [];
 
 	/**
 	 * Details about logged in user.
@@ -72,10 +65,20 @@ class Api extends \Tests\Base
 		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . '/public_html/api/Portal.json')));
 	}
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
-		static::$url = \App\Config::main('site_URL') . 'webservice/';
-		$this->httpClient = new \GuzzleHttp\Client(\App\RequestHttp::getOptions());
+		$this->httpClient = new \GuzzleHttp\Client(\App\Utils::merge(\App\RequestHttp::getOptions(), [
+			'base_uri' => \App\Config::main('site_URL') . 'webservice/Portal/',
+			'auth' => ['portal', 'portal'],
+			'Content-Type' => 'application/json',
+			'Accept' => 'application/json',
+			'timeout' => 60,
+			'connect_timeout' => 60,
+			'http_errors' => false,
+			'headers' => [
+				'x-raw-data' => 1
+			],
+		]));
 	}
 
 	/**
@@ -83,56 +86,49 @@ class Api extends \Tests\Base
 	 */
 	public function testAddConfiguration(): void
 	{
-		$webserviceApps = \Settings_WebserviceApps_Record_Model::getCleanInstance();
-		$webserviceApps->set('type', 'Portal');
-		$webserviceApps->set('status', 1);
-		$webserviceApps->set('name', 'portal');
-		$webserviceApps->set('acceptable_url', '');
-		$webserviceApps->set('pass', 'portal');
-		$webserviceApps->save();
-		static::$serverId = (int) $webserviceApps->getId();
+		$app = \Settings_WebserviceApps_Record_Model::getCleanInstance();
+		$app->set('type', 'Portal');
+		$app->set('status', 1);
+		$app->set('name', 'portal');
+		$app->set('acceptable_url', '');
+		$app->set('pass', 'portal');
+		$app->save();
+		self::$serverId = (int) $app->getId();
 
-		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => static::$serverId])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$serverId);
+		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => self::$serverId])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$serverId);
 		$this->assertSame($row['type'], 'Portal');
 		$this->assertSame($row['status'], 1);
 		$this->assertSame($row['name'], 'portal');
 		$this->assertSame($row['pass'], 'portal');
-		static::$requestOptions['headers']['x-api-key'] = $row['api_key'];
+		self::$requestOptions['headers']['x-api-key'] = $row['api_key'];
 
-		$webserviceUsers = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
-		$webserviceUsers->setData([
-			'server_id' => static::$serverId,
-			'status' => '1',
+		$user = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
+		$user->setData([
+			'server_id' => self::$serverId,
+			'status' => 1,
 			'user_name' => 'demo@yetiforce.com',
-			'password_t' => 'demo',
-			'type' => '1',
-			'language' => 'pl-PL',
+			'password' => \App\Encryption::createPasswordHash('demo', 'Portal'),
+			'type' => 1,
 			'popupReferenceModule' => 'Contacts',
 			'crmid' => 0,
 			'crmid_display' => '',
+			'login_method' => 'PLL_PASSWORD',
+			'authy_methods' => 'PLL_AUTHY_TOTP',
 			'user_id' => \App\User::getActiveAdminId(),
 		]);
-		$webserviceUsers->save();
-		static::$apiUserId = $webserviceUsers->getId();
-		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => static::$apiUserId])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$apiUserId);
-		$this->assertSame((int) $row['server_id'], static::$serverId);
+		$user->save();
+		self::$apiUserId = $user->getId();
+		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => self::$apiUserId])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$apiUserId);
+		$this->assertSame((int) $row['server_id'], self::$serverId);
 		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
-		$this->assertSame($row['password_t'], 'demo');
-		$this->assertSame($row['language'], 'pl-PL');
+		$this->assertTrue(\App\Encryption::verifyPasswordHash('demo', $row['password'], 'Portal'));
 
+		$fieldModel = \Vtiger_Field_Model::init('Accounts', \App\Field::SYSTEM_FIELDS['share_externally']);
+		$fieldModel->fieldparams = self::$serverId;
 		$blockInstance = \vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', 'Accounts');
-		$fieldInstance = new \Vtiger_Field_Model();
-		$fieldInstance->table = 'vtiger_account';
-		$fieldInstance->label = 'FL_IN_PORTAL';
-		$fieldInstance->name = 'in_portal';
-		$fieldInstance->column = 'in_portal';
-		$fieldInstance->columntype = 'tinyint(1)';
-		$fieldInstance->uitype = 318;
-		$fieldInstance->typeofdata = 'C~O';
-		$fieldInstance->fieldparams = static::$serverId;
-		$blockInstance->addField($fieldInstance);
+		$blockInstance->addField($fieldModel);
 	}
 
 	/**
@@ -140,22 +136,37 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn(): void
 	{
-		$request = (new \GuzzleHttp\Client(
-			\App\RequestHttp::getOptions()))->post(static::$url . 'Users/Login', array_merge(
+		$request = $this->httpClient->post('Users/TwoFactorAuth', \App\Utils::merge([
+			'json' => [
+				'userName' => 'demo@yetiforce.com',
+				'password' => 'demo',
+			]
+		], self::$requestOptions)
+		);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$secretKey = $response['result']['secretKey'];
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/TwoFactorAuth', 'post', 200);
+
+		$request = $this->httpClient->post('Users/Login', \App\Utils::merge(
 				[
 					'json' => [
 						'userName' => 'demo@yetiforce.com',
 						'password' => 'demo',
+						'code' => (new \Sonata\GoogleAuthenticator\GoogleAuthenticator())->getCode($secretKey),
+						'params' => ['language' => 'pl-PL'],
 					]
-				], static::$requestOptions)
+				], self::$requestOptions)
 		);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Users/Login API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::$authUserParams = $response['result'];
-		static::$requestOptions['headers']['x-token'] = static::$authUserParams['token'];
-
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Users/Login', 'post', 200);
+		$this->assertSame(200, $request->getStatusCode(), 'Users/Login API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Users/Login API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::$authUserParams = $response['result'];
+		self::$requestOptions['headers']['x-token'] = self::$authUserParams['token'];
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/Login', 'post', 200);
 	}
 
 	/**
@@ -163,24 +174,48 @@ class Api extends \Tests\Base
 	 */
 	public function testAddRecord(): void
 	{
-		$recordData = [
+		$request = $this->httpClient->post('Accounts/Record/', \App\Utils::merge(['json' => [
 			'accountname' => 'Api YetiForce Sp. z o.o.',
 			'addresslevel5a' => 'Warszawa',
 			'addresslevel8a' => 'Marszałkowska',
 			'buildingnumbera' => 111,
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
-			'in_portal' => 1
-		];
-		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(static::$url . 'Accounts/Record/', array_merge(
-				[
-					'json' => $recordData
-				], static::$requestOptions)
-		);
+			'share_externally' => 1
+		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::$recordId = $response['result']['id'];
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/{moduleName}/Record', 'post', 200);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::$recordId = $response['result']['id'];
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record', 'post', 200);
+	}
+
+	/**
+	 * Testing add inventory record.
+	 */
+	public function testAddInventoryRecord(): void
+	{
+		$request = $this->httpClient->post('SCalculations/Record/', \App\Utils::merge(['json' => [
+			'subject' => 'Api YetiForce Sp. z o.o.',
+			'inventory' => [
+				1 => [
+					'name' => \Tests\Base\C_RecordActions::createProductRecord()->getId(),
+					'qty' => 2,
+					'price' => 5,
+					'total' => 10,
+					'marginp' => 0,
+					'margin' => 10,
+					'purchase' => 0,
+					'comment1' => 0,
+					'unit' => 'Incidents',
+				]
+			]
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'SCalculations/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'SCalculations/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record', 'post', 200);
 	}
 
 	/**
@@ -188,20 +223,80 @@ class Api extends \Tests\Base
 	 */
 	public function testEditRecord(): void
 	{
-		$recordData = [
+		$request = $this->httpClient->put('Accounts/Record/' . self::$recordId, \App\Utils::merge(['json' => [
 			'accountname' => 'Api YetiForce Sp. z o.o. New name',
 			'buildingnumbera' => 222,
-		];
-		$request = (new \GuzzleHttp\Client(
-			\App\RequestHttp::getOptions()))->put(static::$url . 'Accounts/Record/' . static::$recordId, array_merge(
-				[
-					'json' => $recordData
-				], static::$requestOptions)
-		);
+		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/{moduleName}/Record/{recordId}', 'put', 200);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'put', 200);
+	}
+
+	/**
+	 * Testing get record.
+	 */
+	public function testGetRecord(): void
+	{
+		$request = $this->httpClient->get('Accounts/Record/' . self::$recordId, self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['result']['rawData']['accountname'], 'Api YetiForce Sp. z o.o. New name');
+		$this->assertSame($response['result']['rawData']['legal_form'], 'PLL_GENERAL_PARTNERSHIP');
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'get', 200);
+	}
+
+	/**
+	 * Testing get record history.
+	 */
+	public function testGetRecordHistory(): void
+	{
+		$request = $this->httpClient->get('Accounts/RecordHistory/' . self::$recordId, self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/RecordHistory/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/RecordHistory/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordHistory/{recordId}', 'get', 200);
+	}
+
+	/**
+	 * Testing delete record.
+	 */
+	public function testDeleteRecord(): void
+	{
+		$request = $this->httpClient->post('Accounts/Record/', \App\Utils::merge(['json' => [
+			'accountname' => 'Api Delete YetiForce Sp. z o.o.',
+			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
+			'share_externally' => 1
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+
+		$request = $this->httpClient->delete('Accounts/Record/' . $response['result']['id'], self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue($response['result']);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'delete', 200);
+	}
+
+	/**
+	 * Testing get record related list.
+	 */
+	public function testGetRecordRelatedList(): void
+	{
+		$request = $this->httpClient->get('Accounts/RecordRelatedList/' . self::$recordId . '/Contacts', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/RecordRelatedList/{ID}/Contacts API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/RecordRelatedList/{ID}/Contacts API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}', 'get', 200);
 	}
 
 	/**
@@ -209,11 +304,23 @@ class Api extends \Tests\Base
 	 */
 	public function testRecordList(): void
 	{
-		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Accounts/RecordsList', static::$requestOptions);
+		$request = $this->httpClient->get('Accounts/RecordsList', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/{moduleName}/RecordsList', 'get', 200);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertGreaterThanOrEqual(1, \count($response['result']['records']));
+		$this->assertGreaterThanOrEqual(1, \count($response['result']['rawData']));
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordsList', 'get', 200);
+
+		$request = $this->httpClient->get('Users/RecordsList', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Users/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Users/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertGreaterThanOrEqual(1, \count($response['result']['records']));
+		$this->assertGreaterThanOrEqual(1, \count($response['result']['rawData']));
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordsList', 'get', 200);
 	}
 
 	/**
@@ -221,13 +328,14 @@ class Api extends \Tests\Base
 	 */
 	public function testGetFields(): void
 	{
-		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Accounts/Fields/', static::$requestOptions);
+		$request = $this->httpClient->get('Accounts/Fields/', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertTrue(!empty($response['result']['fields']), 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertTrue(!empty($response['result']['blocks']), 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/{moduleName}/Fields', 'get', 200);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Fields', 'get', 200);
 	}
 
 	/**
@@ -235,11 +343,39 @@ class Api extends \Tests\Base
 	 */
 	public function testGetPrivileges(): void
 	{
-		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Accounts/Privileges/', static::$requestOptions);
+		$request = $this->httpClient->get('Accounts/Privileges/', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/Privileges/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/Privileges/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/Privileges/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertTrue(!empty($response['result']), 'Accounts/Privileges/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Privileges', 'get', 200);
+	}
+
+	/**
+	 * Testing get Dashboard.
+	 */
+	public function testGetDashboard(): void
+	{
+		$request = $this->httpClient->get('Accounts/Dashboard/', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/Dashboard/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/Dashboard/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Dashboard', 'get', 200);
+	}
+
+	/**
+	 * Testing get PDF.
+	 */
+	public function testGetPdfTemplates(): void
+	{
+		$request = $this->httpClient->get('Accounts/PdfTemplates/' . self::$recordId, self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Accounts/PdfTemplates/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Accounts/PdfTemplates/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/PdfTemplates/{recordId}', 'get', 200);
 	}
 
 	/**
@@ -247,26 +383,13 @@ class Api extends \Tests\Base
 	 */
 	public function testGetModules(): void
 	{
-		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Modules', static::$requestOptions);
+		$request = $this->httpClient->get('Modules', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Modules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(200, $request->getStatusCode(), 'Modules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Modules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertTrue(!empty($response['result']['Accounts']), 'Modules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Modules', 'get', 200);
-	}
-
-	/**
-	 * Testing get api methods.
-	 */
-	public function testGetMethods(): void
-	{
-		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Methods', static::$requestOptions);
-		$this->logs = $body = $request->getBody()->getContents();
-		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['BaseAction']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['BaseModule']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['Users']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Modules', 'get', 200);
 	}
 
 	/**
@@ -274,11 +397,91 @@ class Api extends \Tests\Base
 	 */
 	public function testGetMenu(): void
 	{
-		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Menu', static::$requestOptions);
+		$request = $this->httpClient->get('Menu', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Menu', 'get', 200);
+		$this->assertSame(200, $request->getStatusCode(), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Menu', 'get', 200);
+	}
+
+	/**
+	 * Testing get api Install.
+	 */
+	public function testGetInstall(): void
+	{
+		$request = $this->httpClient->put('Install', \App\Utils::merge(['json' => ['xxx' => 'yyy']], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Install', 'put', 200);
+	}
+
+	/**
+	 * Testing get user.
+	 */
+	public function testGetUser(): void
+	{
+		$request = $this->httpClient->get('Users/Record/' . \App\User::getActiveAdminId(), self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Users/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Users/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/Record/{userId}', 'get', 200);
+	}
+
+	/**
+	 * Testing get products.
+	 */
+	public function testGetProducts(): void
+	{
+		$record = \Tests\Base\C_RecordActions::createProductRecord(false);
+		$request = $this->httpClient->get('Products/Record/' . $record->getId(), \App\Utils::merge([
+			'headers' => [
+				'x-unit-price' => 1,
+				'x-unit-gross' => 1,
+				'x-product-bundles' => 1,
+			]
+		], self::$requestOptions));
+		$this->logs = $record->getData();
+		$body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['result']['rawData']['productname'], 'System CRM YetiForce');
+		$this->assertTrue(isset($response['result']['ext']['unit_price']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(isset($response['result']['ext']['unit_gross']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(isset($response['result']['productBundles']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Products/Record/{recordId}', 'get', 200);
+
+		$request = $this->httpClient->get('Products/RecordsTree', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame(200, $request->getStatusCode(), 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Products/RecordsTree', 'get', 200);
+	}
+
+	/**
+	 * Testing get Files.
+	 */
+	public function testGetFiles(): void
+	{
+		$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
+		$fileDetails = $record->getFileDetails();
+		$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
+		$fileInstance = \App\Fields\File::loadFromPath($savedFile);
+		$request = $this->httpClient->put('Files', \App\Utils::merge(['json' => [
+			'module' => 'Documents',
+			'actionName' => 'DownloadFile',
+			'record' => $record->getId(),
+			'fileid' => 1
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$this->assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame($body, $fileInstance->getContents(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/Portal/Files', 'put', 200);
 	}
 
 	/**
@@ -286,12 +489,12 @@ class Api extends \Tests\Base
 	 */
 	public function testLogout(): void
 	{
-		$request = (new \GuzzleHttp\Client(
-			\App\RequestHttp::getOptions()))->put(static::$url . 'Users/Logout', static::$requestOptions);
+		$request = $this->httpClient->put('Users/Logout', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Users/Logout API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Users/Logout', 'put', 200);
+		$this->assertSame(200, $request->getStatusCode(), 'Users/Logout API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertSame(1, $response['status'], 'Users/Logout API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/Logout', 'put', 200);
 	}
 
 	/**
@@ -299,10 +502,10 @@ class Api extends \Tests\Base
 	 */
 	public function testDeleteConfiguration(): void
 	{
-		\Settings_WebserviceUsers_Record_Model::getInstanceById(static::$apiUserId, 'Portal')->delete();
-		\Settings_WebserviceApps_Record_Model::getInstanceById(static::$serverId)->delete();
+		\Settings_WebserviceUsers_Record_Model::getInstanceById(self::$apiUserId, 'Portal')->delete();
+		\Settings_WebserviceApps_Record_Model::getInstanceById(self::$serverId)->delete();
 
-		$this->assertFalse((new \App\Db\Query())->from('w_#__servers')->where(['id' => static::$serverId])->exists(), 'Record in the database should not exist');
-		$this->assertFalse((new \App\Db\Query())->from('w_#__portal_user')->where(['id' => static::$apiUserId])->exists(), 'Record in the database should not exist');
+		$this->assertFalse((new \App\Db\Query())->from('w_#__servers')->where(['id' => self::$serverId])->exists(), 'Record in the database should not exist');
+		$this->assertFalse((new \App\Db\Query())->from('w_#__portal_user')->where(['id' => self::$apiUserId])->exists(), 'Record in the database should not exist');
 	}
 }

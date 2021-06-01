@@ -2,9 +2,12 @@
 /**
  * Widget fullscreen modal view class.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -43,6 +46,7 @@ class Vtiger_WidgetFullscreen_View extends Vtiger_BasicModal_View
 		$detailModel->getWidgets();
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();
+		$detailView->record = $detailModel;
 		$mode = $request->getMode();
 		$request->set('limit', 30);
 		$request->set('isFullscreen', 'true');

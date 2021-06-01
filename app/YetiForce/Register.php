@@ -3,7 +3,7 @@
  * YetiForce register file.
  * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -41,7 +41,7 @@ class Register
 	 *
 	 * @var string
 	 */
-	private const REGISTRATION_FILE = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
+	private const REGISTRATION_FILE = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
 	/**
 	 * Status messages.
 	 *
@@ -114,7 +114,7 @@ class Register
 		try {
 			$url = static::$registrationUrl . 'add';
 			\App\Log::beginProfile("POST|Register::register|{$url}", __NAMESPACE__);
-			$response = (new \GuzzleHttp\Client())->post($url, array_merge_recursive(\App\RequestHttp::getOptions(), ['form_params' => $this->getData()]));
+			$response = (new \GuzzleHttp\Client())->post($url, \App\Utils::merge(\App\RequestHttp::getOptions(), ['form_params' => $this->getData()]));
 			\App\Log::endProfile("POST|Register::register|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
@@ -162,7 +162,7 @@ class Register
 			$url = static::$registrationUrl . 'check';
 			\App\Log::beginProfile("POST|Register::check|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
-				'form_params' => \array_merge_recursive($conf, [
+				'form_params' => \App\Utils::merge($conf, [
 					'version' => \App\Version::get(),
 					'crmKey' => static::getCrmKey(),
 					'insKey' => static::getInstanceKey(),
@@ -273,6 +273,7 @@ class Register
 			'insKey' => static::getInstanceKey(),
 			'serialKey' => $serial
 		]);
+		\App\Company::statusUpdate(6);
 		return true;
 	}
 
@@ -336,6 +337,16 @@ class Register
 	}
 
 	/**
+	 * Is the system is properly registered.
+	 *
+	 * @return bool
+	 */
+	public static function isRegistered(): bool
+	{
+		return static::getStatus() > 6;
+	}
+
+	/**
 	 * Get registration products.
 	 *
 	 * @param mixed $name
@@ -384,7 +395,7 @@ class Register
 	 */
 	public static function getProvider(): string
 	{
-		$path = \ROOT_DIRECTORY . '/app_data/installSource.txt';
+		$path = ROOT_DIRECTORY . '/app_data/installSource.txt';
 		if (\file_exists($path)) {
 			return trim(file_get_contents($path));
 		}

@@ -1,19 +1,19 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-WidgetFullscreen -->
 	<div class="modal-header">
-		<button type="button" class="btn btn-warning btn-sm float-right" data-dismiss="modal" aria-hidden="true">
-			<span class="fas fa-times"></span>
+		<h5 class="modal-title">&nbsp;</h5>
+		<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true">&times;</span>
 		</button>
-		<h5 class="modal-title">&nbsp;</h4>
 	</div>
 	<div class="modal-body">
 		<div class="col-md-12">
 			<div>
-				<div class="row">
-					{$CONTENT}
-				</div>
+				{$CONTENT}
 			</div>
 		</div>
 		<div class="clearfix"></div>
 	</div>
+	<!-- /tpl-Base-WidgetFullscreen -->
 {/strip}

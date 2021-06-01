@@ -3,6 +3,8 @@
 /**
  * Class for history widget.
  *
+ * @package Widget
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
@@ -40,14 +42,14 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		return $modules;
 	}
 
+	/**
+	 * Get URL.
+	 *
+	 * @return string
+	 */
 	public function getUrl()
 	{
-		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentRelation&page=1&limit=' . $this->Data['limit'];
-		foreach (self::getActions() as $type) {
-			$url .= '&type[]=' . $type;
-		}
-
-		return $url;
+		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentRelation&page=1&limit=' . $this->Data['limit'] . '&type=' . \App\Json::encode(self::getActions());
 	}
 
 	public function getWidget()
@@ -94,7 +96,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				$row['userModel'] = $groups[$row['user']];
 			} else {
 				$row['isGroup'] = false;
-				$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
+				$row['userModel'] = Vtiger_Record_Model::getInstanceById($row['user'], 'Users');
 			}
 			$row['class'] = self::$colors[$row['type']];
 			if (false !== strpos($row['type'], 'OSSMailView')) {

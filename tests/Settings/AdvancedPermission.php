@@ -2,6 +2,8 @@
 /**
  * AdvancedPermission test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
@@ -32,10 +34,10 @@ class AdvancedPermission extends \Tests\Base
 		$recordModel->set('priority', 0);
 		$recordModel->set('conditions', []);
 		$recordModel->save();
-		static::$id = $recordModel->getId();
+		self::$id = $recordModel->getId();
 
-		$row = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame('test', $row['name']);
 		$this->assertSame(4, $row['tabid']);
 		$this->assertSame(0, $row['action']);
@@ -72,8 +74,8 @@ class AdvancedPermission extends \Tests\Base
 			],
 		];
 
-		$recordModel = \Settings_AdvancedPermission_Record_Model::getInstance(static::$id);
-		$this->assertNotFalse($recordModel, 'No record id: ' . static::$id);
+		$recordModel = \Settings_AdvancedPermission_Record_Model::getInstance(self::$id);
+		$this->assertNotFalse($recordModel, 'No record id: ' . self::$id);
 
 		$recordModel->set('name', 'test edit');
 		$recordModel->set('tabid', 4);
@@ -84,8 +86,8 @@ class AdvancedPermission extends \Tests\Base
 		$recordModel->set('conditions', $conditions);
 		$recordModel->save();
 
-		$row = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => static::$id])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$row = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => self::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . self::$id);
 		$this->assertSame('test edit', $row['name']);
 		$this->assertSame(4, $row['tabid']);
 		$this->assertSame(0, $row['action']);
@@ -100,9 +102,9 @@ class AdvancedPermission extends \Tests\Base
 	 */
 	public function testDelteAdvancedPermission()
 	{
-		$recordModel = \Settings_AdvancedPermission_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_AdvancedPermission_Record_Model::getInstance(self::$id);
 		$recordModel->delete();
 
-		$this->assertFalse((new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+		$this->assertFalse((new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => self::$id])->exists(), 'The record was not removed from the database ID: ' . self::$id);
 	}
 }

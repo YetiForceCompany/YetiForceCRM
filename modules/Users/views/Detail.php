@@ -27,7 +27,7 @@ class Users_Detail_View extends Vtiger_Detail_View
 	 */
 	public function process(App\Request $request)
 	{
-		$recordModel = !empty($this->record) ? $this->record->getRecord() : Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
+		$recordModel = !empty($this->record) ? $this->record->getRecord() : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$dayStartPicklistValues = $recordModel->getDayStartsPicklistValues();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));

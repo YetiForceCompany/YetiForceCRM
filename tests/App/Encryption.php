@@ -51,22 +51,22 @@ class Encryption extends \Tests\Base
 	public function encryptionProvider()
 	{
 		return [
-			['AES-256-CBC', '1234567890123456'],
-			['AES-256-CTR', '1234567890123456'],
-			['AES-192-CBC', '1234567890123456'],
-			['AES-192-CTR', '1234567890123456'],
-			['DES-EDE3-CBC', '12354678'],
-			['DES-EDE3-CFB', '12354678']
+			['aes-256-cbc', '1234567890123456'],
+			['aes-256-ctr', '1234567890123456'],
+			['aes-192-cbc', '1234567890123456'],
+			['aes-192-ctr', '1234567890123456'],
+			['des-ede3-cbc', '12354678'],
+			['des-ede3-cfb', '12354678']
 		];
 	}
 
 	/**
 	 * Testing process function.
 	 *
-	 * @dataProvider encryptionProvider
-	 *
 	 * @param string $method
 	 * @param string $password
+	 *
+	 * @dataProvider encryptionProvider
 	 */
 	public function testEncryptionWithPass(string $method, string $password)
 	{
@@ -76,10 +76,19 @@ class Encryption extends \Tests\Base
 		$instance->set('method', $method);
 		$instance->set('vector', $password);
 		$instance->set('pass', \App\Config::securityKeys('encryptionPass'));
-		$testText = 'TEST TEXT';
-		$encryptText = $instance->encrypt($testText);
-		$this->assertTrue(!empty($encryptText), 'Encryption is not available');
-		$this->assertFalse($testText === $encryptText, 'Encryption is disabled');
-		$this->assertSame($testText, $instance->decrypt($encryptText), 'Encryption is disabled');
+		$this->logs = [
+			'function_exists(\'openssl_encrypt\')' => \function_exists('openssl_encrypt'),
+			'isEmpty(\'method\')' => $instance->isEmpty('method'),
+			'method !== securityKeys(\'encryptionMethod\')' => $instance->get('method') !== \App\Config::securityKeys('encryptionMethod'),
+			'method in getMethods' => \in_array($instance->get('method'), \App\Encryption::getMethods())
+		];
+		if ($instance->isActive()) {
+			$this->assertTrue($instance->isActive(), 'The encryption mechanism is not active');
+			$testText = 'TEST TEXT';
+			$encryptText = $instance->encrypt($testText);
+			$this->assertTrue(!empty($encryptText), 'Encryption is not available');
+			$this->assertFalse($testText === $encryptText, 'Encryption is not working');
+			$this->assertSame($testText, $instance->decrypt($encryptText), 'The decrypted text does not match the encrypted text');
+		}
 	}
 }

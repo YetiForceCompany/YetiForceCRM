@@ -3,7 +3,7 @@
 /**
  * Condition main class.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -86,12 +86,13 @@ class Condition
 		'hst' => 'LBL_HAS_CHANGED_TO',
 		'ro' => 'LBL_IS_RECORD_OPEN',
 		'rc' => 'LBL_IS_RECORD_CLOSED',
+		'nco' => 'LBL_NOT_CREATED_BY_OWNER',
 	];
 	/**
 	 * Operators without values.
 	 */
 	const OPERATORS_WITHOUT_VALUES = [
-		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc',
+		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc', 'nco',
 		'smallerthannow',
 		'greaterthannow',
 		'prevfy',

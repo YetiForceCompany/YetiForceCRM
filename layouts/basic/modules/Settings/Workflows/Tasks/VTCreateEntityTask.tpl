@@ -52,7 +52,6 @@
 				</strong>
 			</label>
 			<div class="col-md-6">
-				{assign var=BASE_MODULE_ID value=$WORKFLOW_MODEL->getModule()->getId()}
 				{assign var=RELATED_MODULES_INFO value=$WORKFLOW_MODEL->getDependentModules()}
 				{assign var=RELATED_MODULES value=$RELATED_MODULES_INFO|array_keys}
 				{if !empty($TASK_OBJECT->entity_type)}
@@ -68,15 +67,14 @@
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 					</optgroup>
 					{foreach from=$RELATED_MODULES item=MODULE}
-						<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE} selected="" {/if}
-								value="{$MODULE}">{\App\Language::translate($MODULE,$MODULE)}</option>
+						<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE} selected="" {/if} value="{$MODULE}">{\App\Language::translate($MODULE,$MODULE)}</option>
 					{/foreach}
 					<optgroup label="{\App\Language::translate('LBL_WORKFLOW_CUSTOM_RELATIONS', $QUALIFIED_MODULE)}">
-						{foreach from=\App\Relation::getAll($BASE_MODULE_ID) item=MODULE_INFO}
-							{assign var=MODULE value=\App\Module::getModuleName($MODULE_INFO['related_tabid'])}
-							{if $MODULE && !in_array($MODULE, $RELATED_MODULES) && false !== stripos($MODULE_INFO['actions'], 'ADD') && \App\Privilege::isPermitted($MODULE, 'EditView')}
-								<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE} selected="" {/if}
-									value="{$MODULE}">{\App\Language::translate($MODULE, $MODULE)}</option>
+						{foreach from=\App\Relation::getByModule($WORKFLOW_MODEL->getModule()->getName()) item=MODULE_INFO}
+							{if !in_array($MODULE_INFO['related_modulename'], $RELATED_MODULES) && false !== stripos($MODULE_INFO['actions'], 'ADD') && \App\Privilege::isPermitted($MODULE_INFO['related_modulename'], 'EditView')}
+								<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE_INFO['related_modulename']} selected="" {/if} value="{$MODULE_INFO['related_modulename']}">
+									{\App\Language::translate($MODULE_INFO['related_modulename'], $MODULE_INFO['related_modulename'])}
+								</option>
 							{/if}
 						{/foreach}
 					</optgroup>

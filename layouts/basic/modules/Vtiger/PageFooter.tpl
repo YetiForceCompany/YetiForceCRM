@@ -2,6 +2,7 @@
 {strip}
 	<!-- tpl-Base-PageFooter -->
 	</div>
+	<input type="hidden" id="processEvents" value="{\App\Purifier::encodeHtml(\App\Json::encode(App\Process::getEvents()))}"/>
 	{if $SHOW_FOOTER}
 		{include file=\App\Layout::getTemplatePath('Footer.tpl')}
 	{/if}

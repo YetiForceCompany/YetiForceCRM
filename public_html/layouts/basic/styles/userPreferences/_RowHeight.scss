@@ -24,6 +24,9 @@ td.listViewEntryValue.medium {
 .listViewEntries td.narrow,
 td.listViewEntryValue.narrow {
 	&:not(.listButtons) {
+		.btn.btn-sm {
+			@extend .btn-xs;
+		}
 		padding: calculate-rem(6px);
 	}
 	&[data-field-type="text"] {
@@ -94,6 +97,9 @@ td.listViewEntryValue.narrow {
 .detailViewTable {
 	.fieldLabel.narrow,
 	.fieldValue.narrow {
+		.btn.btn-sm {
+			@extend .btn-xs;
+		}
 		min-height: calculate-rem(30px);
 	}
 
@@ -107,6 +113,7 @@ td.listViewEntryValue.narrow {
 		min-height: calculate-rem(50px);
 	}
 }
+
 table {
 	.listButtons {
 		padding-top: 0;

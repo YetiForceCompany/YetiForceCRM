@@ -34,16 +34,6 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		'vtiger_osstimecontrol' => 'osstimecontrolid',
 		'vtiger_osstimecontrolcf' => 'osstimecontrolid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'No.' => ['osstimecontrol', 'osstimecontrol_no'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'Created Time' => ['crmentity', 'createdtime'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'No.' => 'osstimecontrol_no',
@@ -55,8 +45,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view from list view (Fieldname)
-	public $list_link_field = 'assigned_user_id';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		'No.' => ['osstimecontrol', 'osstimecontrol_no'],

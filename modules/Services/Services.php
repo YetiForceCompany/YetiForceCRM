@@ -36,18 +36,6 @@ class Services extends CRMEntity
 		'vtiger_service' => 'serviceid',
 		'vtiger_servicecf' => 'serviceid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'Service No' => ['service' => 'service_no'],
-		'Service Name' => ['service' => 'servicename'],
-		'Commission Rate' => ['service' => 'commissionrate'],
-		'No of Units' => ['service' => 'qty_per_unit'],
-		'Price' => ['service' => 'unit_price'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Service No' => 'service_no',
@@ -56,8 +44,7 @@ class Services extends CRMEntity
 		'No of Units' => 'qty_per_unit',
 		'Price' => 'unit_price',
 	];
-	// Make the field link to detail view
-	public $list_link_field = 'servicename';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

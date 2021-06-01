@@ -88,9 +88,14 @@ class PrivilegeFile
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
 		$user['roleName'] = $userRoleInfo['rolename'];
 
-		$multiCompany = \Vtiger_Record_Model::getInstanceById($userRoleInfo['company'], 'MultiCompany');
-		$logo = Json::isEmpty($multiCompany->get('logo')) ? [] : current(Json::decode($multiCompany->get('logo')));
-		$user['multiCompanyId'] = $multiCompany->getId();
+		$logo = null;
+		if (Record::isExists($userRoleInfo['company'], 'MultiCompany')) {
+			$multiCompany = \Vtiger_Record_Model::getInstanceById($userRoleInfo['company'], 'MultiCompany');
+			$logo = Json::isEmpty($multiCompany->get('logo')) ? [] : current(Json::decode($multiCompany->get('logo')));
+			$user['multiCompanyId'] = $multiCompany->getId();
+		} else {
+			$user['multiCompanyId'] = null;
+		}
 		$user['multiCompanyLogo'] = $logo;
 		$user['multiCompanyLogoUrl'] = $logo ? "file.php?module=MultiCompany&action=Logo&record={$userId}&key={$logo['key']}" : '';
 		file_put_contents($file, 'return ' . Utils::varExport($user) . ';' . PHP_EOL, FILE_APPEND);

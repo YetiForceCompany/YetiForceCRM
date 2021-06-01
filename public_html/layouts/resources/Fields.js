@@ -278,7 +278,7 @@ window.App.Fields = {
 				return;
 			}
 			$('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
-				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
+				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField').get(0).focus();
 			});
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
@@ -444,11 +444,12 @@ window.App.Fields = {
 					container = $('body');
 				}
 				if (container.hasClass('js-editor') && !container.prop('disabled')) {
-					return new App.Fields.Text.Editor(container, params);
+					return new App.Fields.Text.Editor(container, $.extend(params, container.data()));
 				}
 				const instances = [];
 				container.find('.js-editor:not([disabled])').each((_, e) => {
-					instances.push(new App.Fields.Text.Editor($(e), params));
+					let element = $(e);
+					instances.push(new App.Fields.Text.Editor(element, $.extend(params, element.data())));
 				});
 				return instances;
 			}
@@ -524,10 +525,10 @@ window.App.Fields = {
 				let config = {
 					language: CONFIG.langKey,
 					allowedContent: true,
+					disableNativeSpellChecker: false,
 					extraAllowedContent: 'div{page-break-after*}',
 					format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div',
 					removeButtons: '',
-					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
 					shiftEnterMode: CKEDITOR.ENTER_P,
 					emojiEnabled: false,
@@ -542,6 +543,7 @@ window.App.Fields = {
 							}
 						}
 					},
+					removePlugins: 'scayt',
 					extraPlugins:
 						'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,ckeditor-image-to-base',
 					toolbar: 'Full',
@@ -550,7 +552,7 @@ window.App.Fields = {
 							name: 'clipboard',
 							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
 						},
-						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll'] },
 						{ name: 'links', items: ['Link', 'Unlink'] },
 						{
 							name: 'insert',
@@ -607,6 +609,18 @@ window.App.Fields = {
 						},
 						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat', 'Source'] }
 					],
+					toolbar_Micro: [
+						{
+							name: 'basicstyles',
+							items: ['Bold', 'Italic', 'Underline', 'Strike']
+						},
+						{ name: 'colors', items: ['TextColor', 'BGColor'] },
+						{
+							name: 'paragraph',
+							items: ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+						},
+						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
+					],
 					toolbar_Clipboard: [
 						{ name: 'document', items: ['Print'] },
 						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] },
@@ -614,6 +628,32 @@ window.App.Fields = {
 							name: 'clipboard',
 							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
 						}
+					],
+					toolbar_PDF: [
+						{
+							name: 'clipboard',
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+						},
+						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-'] },
+						{ name: 'links', items: ['Link', 'Unlink'] },
+						{
+							name: 'insert',
+							items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'PageBreak']
+						},
+						{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+						{ name: 'document', items: ['Source'] },
+						'/',
+						{ name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+						{
+							name: 'basicstyles',
+							items: ['Bold', 'Italic', 'Underline', 'Strike']
+						},
+						{ name: 'colors', items: ['TextColor', 'BGColor'] },
+						{
+							name: 'paragraph',
+							items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight']
+						},
+						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
 					]
 				};
 				if (typeof customConfig !== 'undefined') {
@@ -717,7 +757,8 @@ window.App.Fields = {
 						records: true,
 						users: true,
 						emojis: true
-					}
+					},
+					autolink: true
 				};
 				this.params = Object.assign(basicParams, inputDiv.data(), params);
 				this.inputDiv = inputDiv;
@@ -797,7 +838,6 @@ window.App.Fields = {
 					}
 				};
 			}
-
 			/*
 			 * Mention template
 			 */
@@ -823,7 +863,108 @@ window.App.Fields = {
 							</div>
 						</div>`;
 			}
+			/**
+			 * Auto link
+			 */
+			autoLink() {
+				let fillChar = '\u200B';
+				let sel = window.getSelection(),
+					range = sel.getRangeAt(0).cloneRange(),
+					offset,
+					charCode,
+					getParentByTagName = function (node, tags) {
+						if (node && !isBody(node)) {
+							while (node) {
+								if (tags[node.tagName] || isBody(node)) {
+									return !tags[node.tagName] && isBody(node) ? null : node;
+								}
+								node = node.parentNode;
+							}
+						}
+						return null;
+					},
+					isBody = function (node) {
+						return node && node.nodeType == 1 && node.tagName.toLowerCase() == 'body';
+					},
+					html = function (str) {
+						return str.replace(/&((g|l|quo)t|amp|#39);/g, function (m) {
+							return { '&lt;': '<', '&amp;': '&', '&quot;': '"', '&gt;': '>', '&#39;': "'" }[m];
+						});
+					},
+					isFillChar = function (node) {
+						return node.nodeType == 3 && !node.nodeValue.replace(new RegExp('' + fillChar), '').length;
+					};
 
+				let start = range.startContainer;
+				while (start.nodeType == 1 && range.startOffset > 0) {
+					start = range.startContainer.childNodes[range.startOffset - 1];
+					if (!start) break;
+					range.setStart(start, start.nodeType == 1 ? start.childNodes.length : start.nodeValue.length);
+					range.collapse(true);
+					start = range.startContainer;
+				}
+				do {
+					if (range.startOffset == 0) {
+						start = range.startContainer.previousSibling;
+						while (start && start.nodeType == 1) {
+							start = start.lastChild;
+						}
+						if (!start || isFillChar(start)) break;
+						offset = start.nodeValue.length;
+					} else {
+						start = range.startContainer;
+						offset = range.startOffset;
+					}
+					range.setStart(start, offset - 1);
+					charCode = range.toString().charCodeAt(0);
+				} while (charCode != 160 && charCode != 32);
+				if (
+					range
+						.toString()
+						.replace(new RegExp(fillChar, 'g'), '')
+						.match(/(?:https?:\/\/|ssh:\/\/|ftp:\/\/|file:\/|www\.)/i)
+				) {
+					while (range.toString().length) {
+						if (/^(?:https?:\/\/|ssh:\/\/|ftp:\/\/|file:\/|www\.)/i.test(range.toString())) break;
+						try {
+							range.setStart(range.startContainer, range.startOffset + 1);
+						} catch (e) {
+							let startCont = range.startContainer,
+								next;
+							while (!(next = startCont.nextSibling)) {
+								if (isBody(startCont)) return;
+								startCont = startCont.parentNode;
+							}
+							range.setStart(next, 0);
+						}
+					}
+					if (getParentByTagName(range.startContainer, { a: 1, A: 1 })) return;
+					let href = range
+							.toString()
+							.replace(/<[^>]+>/g, '')
+							.replace(new RegExp(fillChar, 'g'), ''),
+						hrefFull = /^(?:https?:\/\/)/gi.test(href) ? href : 'http://' + href,
+						url = new URL(hrefFull);
+					let allowedHosts = CONFIG.purifierAllowedDomains;
+					if (allowedHosts !== false && allowedHosts.indexOf(url.host) === -1) {
+						return;
+					}
+					let a = document.createElement('a'),
+						text = document.createTextNode(' ');
+					a.appendChild(range.extractContents());
+					a.innerHTML = href;
+					a.href = hrefFull ? html(hrefFull) : '';
+					a.setAttribute('rel', 'noopener noreferrer');
+					a.setAttribute('target', '_blank');
+
+					range.insertNode(a);
+					a.parentNode.insertBefore(text, a.nextSibling);
+					range.setStart(text.nextSibling, 0);
+					range.collapse(true);
+					sel.removeAllRanges();
+					sel.addRange(range);
+				}
+			}
 			/**
 			 * Register
 			 * @param {jQuery} inputDiv - contenteditable div
@@ -842,6 +983,9 @@ window.App.Fields = {
 				if (this.params.completionsButtons !== undefined) {
 					this.registerCompletionsButtons();
 				}
+				if (this.params.autolink) {
+					this.registerAutoLinker(inputDiv);
+				}
 				if (this.params.emojiPanel) {
 					this.registerEmojiPanel(this.inputDiv, this.inputDiv.parents().eq(3).find('.js-completions__emojis'));
 				}
@@ -854,6 +998,18 @@ window.App.Fields = {
 						.catch((error) => console.error('Error:', error));
 				}
 				this.registerTagClick(inputDiv);
+			}
+
+			/**
+			 * Register autolink
+			 * @param {jQuery} inputDiv - contenteditable div
+			 */
+			registerAutoLinker(inputDiv) {
+				inputDiv.on('keypress', (e) => {
+					if (e.keyCode === 32 || e.keyCode === 13) {
+						this.autoLink();
+					}
+				});
 			}
 
 			/**
@@ -1091,6 +1247,13 @@ window.App.Fields = {
 						}
 						let instance = $(e.currentTarget).data('select2');
 						instance.$dropdown.css('z-index', 1000002);
+						/**
+						 * Fix auto focusing in select2 with jQuery 3.6.0
+						 * see: https://github.com/select2/select2/issues/5993
+						 */
+						if (instance.dropdown.$search) {
+							instance.dropdown.$search.get(0).focus();
+						}
 					})
 					.on('select2:unselect', () => {
 						select.data('unselecting', true);
@@ -2485,6 +2648,328 @@ window.App.Fields = {
 			}
 		}
 	},
+	/**
+	 * Changes Json
+	 */
+	ChangesJson: class ChangesJson {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-changesjson-container')) {
+				return new ChangesJson(container);
+			}
+			const instances = [];
+			container.find('.js-changesjson-container').each((_, e) => {
+				instances.push(new ChangesJson($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			$('.js-changesjson-edit', this.container)
+				.off('click')
+				.on('click', () => {
+					let field = this.getField();
+					let value = field.val() ? JSON.parse(field.val()) : { record: 0, module: '', changes: [] };
+					let relatedField = this.getRelatedField();
+					if (relatedField.length) {
+						value.record = relatedField.val();
+						value.module = $('input[name="popupReferenceModule"]', relatedField.closest('.fieldValue')).val();
+					}
+					if (!value.record || value.record == 0) {
+						app.showNotify({ text: app.vtranslate('JS_LACK_INFORMATION_ABOUT_RECORD') });
+						return false;
+					}
+					let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+					AppConnector.request({
+						module: value.module,
+						record: value.record,
+						changes: value.changes,
+						sourceModule: field.data('module'),
+						sourceField: field.attr('name'),
+						view: 'ChangesJsonModal'
+					})
+						.done((requestData) => {
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							app.showModalWindow({
+								data: requestData,
+								css: {},
+								cb: (data) => {
+									this.saveData(data, value);
+								}
+							});
+						})
+						.fail((_) => {
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						});
+				});
+		}
+		/**
+		 * Save data to field
+		 */
+		saveData(container, data) {
+			let form = container.find('form');
+			container.on('click', '.js-modal__save', (e) => {
+				if (form.validationEngine('validate')) {
+					e.preventDefault();
+					if (!form.find('input[id^="selectRow"]:checked').length) {
+						app.showNotify({
+							text: app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT'),
+							type: 'error'
+						});
+						return;
+					}
+					let invalidFields = form.data('jqv').InvalidFields;
+					if (invalidFields.length !== 0) {
+						return;
+					}
+					form.find('[id^="selectRow"]').each(function (_, checkbox) {
+						checkbox = $(checkbox);
+						if (!checkbox.prop('checked')) {
+							checkbox
+								.closest('.js-form-row-container')
+								.find('.fieldValue [name]')
+								.each(function (_, element) {
+									element = $(element);
+									element.attr('data-element-name', element.attr('name')).removeAttr('name');
+								});
+						}
+					});
+					let changeData = form.serializeFormData();
+					delete changeData['_csrf'];
+					for (let fieldName in changeData) {
+						if (fieldName.substr(-2) === '[]') {
+							let fieldNameShort = fieldName.substr(0, fieldName.length - 2);
+							changeData[fieldNameShort] = changeData[fieldName];
+							delete changeData[fieldName];
+						}
+					}
+					data.changes = changeData;
+					this.getField().val(JSON.stringify(data));
+					app.hideModalWindow(null, form.closest('.js-modal-container').attr('id'));
+				}
+			});
+		}
+		/**
+		 * Gets field
+		 */
+		getField() {
+			return this.container.find('.js-changesjson-value');
+		}
+		/**
+		 * Gets related field
+		 */
+		getRelatedField() {
+			let relatedFieldName = this.getField().data('related-field');
+			return this.container.closest('form').find(`[name=${relatedFieldName}]`);
+		}
+	},
+	/**
+	 * MultiReference
+	 */
+	MultiReference: class MultiReference {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-multiReference-container')) {
+				return new MultiReference(container);
+			}
+			const instances = [];
+			container.find('.js-multiReference-container').each((_, e) => {
+				instances.push(new MultiReference($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			$('.js-clear-selection', this.container)
+				.off('click')
+				.on('click', () => {
+					this.clear();
+				});
+			$('.js-related-popup', this.container)
+				.off('click')
+				.on('click', () => {
+					let params = {};
+					let field = this.getField();
+					let url = field.data('url');
+					if (url) {
+						params = this.convertUrl(url);
+					}
+					app.showRecordsList($.extend(params, this.getParams()), (modal, instance) => {
+						instance.setSelectEvent((data) => {
+							this.setReferenceFieldValue(data);
+						});
+					});
+				});
+			this.registerAutoComplete();
+		}
+		/**
+		 * Clear selection
+		 */
+		clear() {
+			let element = this.getField();
+			let fieldName = element.attr('name');
+			element.val('');
+			this.container.find(`#${fieldName}_display`).removeAttr('readonly').val('');
+		}
+		/**
+		 * Function which will handle the reference auto complete event registrations
+		 */
+		registerAutoComplete() {
+			let thisInstance = this;
+			let formElement = this.container.closest('form');
+			this.container.find('.js-auto-complete').autocomplete({
+				delay: '600',
+				minLength: '3',
+				source: function (request, response) {
+					let inputElement = $(this.element[0]);
+					let searchValue = request.term;
+					let params = {};
+					params.search_module = $('.js-popup-reference-module', thisInstance.container).val();
+					params.search_value = searchValue;
+					params.module = thisInstance.getField().data('module');
+					params.action = 'BasicAjax';
+					let sourceRecordElement = $('input[name="record"]', formElement);
+					if (sourceRecordElement.length > 0 && sourceRecordElement.val()) {
+						params.src_record = sourceRecordElement.val();
+					}
+					AppConnector.request(params)
+						.done(function (data) {
+							let responseDataList = [];
+							let serverDataFormat = data.result;
+							if (serverDataFormat.length <= 0) {
+								$(inputElement).val('');
+								serverDataFormat = new Array({
+									label: app.vtranslate('JS_NO_RESULTS_FOUND'),
+									type: 'no results'
+								});
+							}
+							for (let id in serverDataFormat) {
+								let responseData = serverDataFormat[id];
+								responseDataList.push(responseData);
+							}
+							response(responseDataList);
+						})
+						.fail(function (error, err) {
+							app.errorLog(error, err);
+						});
+				},
+				select: function (event, ui) {
+					if (typeof ui.item.type !== 'undefined' && ui.item.type == 'no results') {
+						return false;
+					}
+					let selectedItemData = [];
+					selectedItemData[ui.item.id] = ui.item.value;
+					thisInstance.setReferenceFieldValue(selectedItemData);
+				},
+				change: function (event, ui) {
+					let element = $(this);
+					if (element.attr('readonly') == undefined) {
+						thisInstance.clear();
+					}
+				},
+				open: function (event, ui) {
+					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
+				}
+			});
+		}
+		/**
+		 * Set reference field value
+		 * @param {object} data
+		 */
+		setReferenceFieldValue(data) {
+			let sourceField = this.getField(),
+				fieldName = sourceField.attr('name'),
+				selectedNames = [],
+				ids = [];
+			for (let index in data) {
+				ids.push(index);
+				selectedNames.push(data[index]);
+			}
+			this.clear();
+			sourceField.val(ids.join(','));
+			this.container
+				.find(`#${fieldName}_display`)
+				.val(app.decodeHTML(selectedNames.join(', ')))
+				.attr('readonly', true);
+		}
+		/**
+		 * Gets field
+		 */
+		getField() {
+			return this.container.find('.js-source-field');
+		}
+		/**
+		 * Convert URL to Object
+		 * @param {string} data
+		 */
+		convertUrl(url) {
+			let vars = {};
+			url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (_, key, value) {
+				vars[key] = value;
+			});
+			return vars;
+		}
+		/**
+		 * Gets params
+		 */
+		getParams() {
+			let form = this.container.closest('form');
+			let sourceModule = $('input[name="module"]', form).val();
+			let popupReferenceModule = $('.js-popup-reference-module', this.container).val();
+			let sourceField = this.getField();
+			let sourceFieldName = sourceField.attr('name');
+			let sourceRecordElement = $('input[name="record"]', form);
+			let sourceRecordId = '';
+			if (sourceRecordElement.length > 0) {
+				sourceRecordId = sourceRecordElement.val();
+			}
+
+			let filterFields = {};
+			let listFilterFieldsJson = form.find('input[name="listFilterFields"]').val();
+			let listFilterFields = listFilterFieldsJson ? JSON.parse(listFilterFieldsJson) : [];
+			if (
+				listFilterFields[sourceFieldName] != undefined &&
+				listFilterFields[sourceFieldName][popupReferenceModule] != undefined
+			) {
+				$.each(listFilterFields[sourceFieldName][popupReferenceModule], function (index, value) {
+					let mapFieldElement = form.find('[name="' + index + '"]');
+					if (mapFieldElement.length && mapFieldElement.val() != '') {
+						filterFields[index] = mapFieldElement.val();
+					}
+				});
+			}
+			return {
+				module: popupReferenceModule,
+				src_module: sourceModule,
+				src_field: sourceFieldName,
+				src_record: sourceRecordId,
+				filterFields: filterFields,
+				multi_select: sourceField.data('multiple')
+			};
+		}
+	},
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);
@@ -2531,6 +3016,12 @@ window.App.Fields = {
 			} else {
 				fieldElement.val(value);
 			}
+			fieldElement.trigger('change');
+			let fieldValue = fieldElement.closest('.fieldValue');
+			fieldValue.addClass('border border-info');
+			setTimeout(function () {
+				fieldValue.removeClass('border border-info');
+			}, 5000);
 		}
 	}
 };

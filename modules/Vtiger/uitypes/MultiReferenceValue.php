@@ -3,6 +3,8 @@
 /**
  * UIType MultiReferenceValue Field Class.
  *
+ * @package   UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -58,12 +60,11 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	/**
 	 * Function to get all the available picklist values for the current field.
 	 *
-	 * @return <Array> List of picklist values if the field is of type MultiReferenceValue
+	 * @return array List of picklist values if the field is of type MultiReferenceValue
 	 */
 	public function getPicklistValues()
 	{
-		$picklistValues = $this->get('picklistValues');
-		if (!empty($picklistValues)) {
+		if ($picklistValues = $this->get('picklistValues')) {
 			return $picklistValues;
 		}
 		$params = $this->getFieldModel()->getFieldParams();
@@ -172,10 +173,13 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 * @param mixed $module
 	 * @param mixed $view
 	 *
-	 * @return <Array> List of picklist values if the field is of type MultiReferenceValue
+	 * @return array List of picklist values if the field is of type MultiReferenceValue
 	 */
-	public function getPicklistValuesForModuleList($module, $view)
+	public function getPicklistValuesForModuleList($module, $view): array
 	{
+		if ($picklistValues = $this->get('picklistValues')) {
+			return $picklistValues;
+		}
 		$queryGenerator = new \App\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($view);
 		$queryGenerator->setFields([$this->getFieldModel()->get('name')]);
@@ -186,7 +190,9 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$value = explode(self::COMMA, trim($value, self::COMMA));
 			$values = array_merge($values, $value);
 		}
-		return array_unique($values);
+		$values = array_unique($values);
+		$this->set('picklistValues', $values);
+		return $values;
 	}
 
 	/** {@inheritdoc} */

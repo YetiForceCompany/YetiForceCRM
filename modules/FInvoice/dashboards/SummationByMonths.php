@@ -26,9 +26,15 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		} else {
-			$owner = $request->getByType('owner', 2);
+			$owner = $request->getByType('owner', \App\Purifier::TEXT);
 		}
-		$data = $this->getWidgetData($moduleName, $owner);
+		$fields = $this->getFilterFields($moduleName);
+		foreach ($fields as $fieldModel) {
+			if ($request->has($fieldModel->getName()) && '' !== ($value = $request->getForSql($fieldModel->getName())) && isset($fieldModel->getPicklistValues()[$value])) {
+				$fieldModel->set('fieldvalue', $value);
+			}
+		}
+		$data = $fields ? $this->getWidgetData($moduleName, $owner) : [];
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
@@ -38,11 +44,51 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('USER_CONDITIONS', $this->conditions);
+		$viewer->assign('FILTER_FIELDS', $fields);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/SummationByMonthsContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/SummationByMonths.tpl', $moduleName);
 		}
+	}
+
+	/**
+	 * Gets filter fields.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return \Vtiger_Field_Model[]
+	 */
+	public function getFilterFields($moduleName): array
+	{
+		if (!isset($this->filterFields)) {
+			$this->filterFields = [];
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$fieldModel = $moduleModel->getField('sum_total');
+			$fieldModelGross = $moduleModel->getField('sum_gross');
+			$field = new \Vtiger_Field_Model();
+			$field->set('name', 'sum_field')
+				->set('column', 'sum_field')
+				->set('label', 'DW_SUM_FIELD')
+				->set('fromOutsideList', true)
+				->set('uitype', 16)
+				->set('icon', 'mdi mdi-sigma')
+				->setModule($moduleModel);
+			$picklistValues = [];
+			if ($fieldModel && $fieldModel->isActiveField()) {
+				$picklistValues[$fieldModel->getColumnName()] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
+				$field->set('fieldvalue', $fieldModel->getColumnName());
+			}
+			if ($fieldModelGross && $fieldModelGross->isActiveField()) {
+				$picklistValues[$fieldModelGross->getColumnName()] = \App\Language::translate($fieldModelGross->getFieldLabel(), $fieldModelGross->getModuleName());
+				$field->set('fieldvalue', $fieldModelGross->getColumnName());
+			}
+			if ($picklistValues) {
+				$field->set('picklistValues', $picklistValues);
+				$this->filterFields[$field->getName()] = $field;
+			}
+		}
+		return $this->filterFields;
 	}
 
 	/**
@@ -58,9 +104,10 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		$rawData = $data = $years = [];
 		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
 		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$sumColumnName = $this->getFilterFields($moduleName)['sum_field']->get('fieldvalue') ?: 'sum_gross';
 		$y = new \yii\db\Expression('extract(year FROM saledate)');
 		$m = new \yii\db\Expression('extract(month FROM saledate)');
-		$s = new \yii\db\Expression('sum(sum_gross)');
+		$s = new \yii\db\Expression("SUM({$sumColumnName})");
 		$fieldList = ['y' => $y, 'm' => $m, 's' => $s];
 		$queryGenerator->setCustomColumn($fieldList);
 		$queryGenerator->addCondition('saledate', $date, 'a');
@@ -71,7 +118,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		$query = $queryGenerator->createQuery();
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$rawData[$row['y']][$row['m']] = [(int) $row['s']];
+			$rawData[$row['y']][$row['m']] = [round((float) $row['s'], 2)];
 		}
 		$dataReader->close();
 		$chartData = [
@@ -97,11 +144,11 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 				];
 				for ($m = 0; $m < 12; ++$m) {
 					$tempData[$y][$m] = 0;
+					$yearsData[$y]['backgroundColor'][] = \App\Colors::getRandomColor($y * 10);
 				}
 			}
-			foreach ($raw as $m => &$value) {
+			foreach ($raw as $m => $value) {
 				$tempData[$y][$m - 1] = $value[0];
-				$yearsData[$y]['backgroundColor'][] = \App\Colors::getRandomColor($y * 10);
 				$yearsData[$y]['stack'] = (string) $y;
 			}
 		}

@@ -10,25 +10,15 @@
  */
 class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 {
-	public function getCustomViews($tabId)
-	{
-		$dataReader = (new App\Db\Query())->select(['vtiger_customview.*'])
-			->from('vtiger_customview')
-			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
-			->where(['vtiger_tab.tabid' => $tabId])
-			->andWhere(['not', ['vtiger_customview.presence' => 2]])
-			->orderBy(['vtiger_customview.sequence' => SORT_ASC])
-			->createCommand()->query();
-		$moduleEntity = [];
-		while ($row = $dataReader->read()) {
-			$moduleEntity[$row['cvid']] = $row;
-		}
-		$dataReader->close();
-
-		return $moduleEntity;
-	}
-
-	public function getFilterPermissionsView($cvId, $action)
+	/**
+	 * Gets members filter by type.
+	 *
+	 * @param int    $cvId
+	 * @param string $action
+	 *
+	 * @return array
+	 */
+	public function getFilterPermissionsView(int $cvId, string $action): array
 	{
 		$query = new App\Db\Query();
 		if ('default' == $action) {
@@ -41,6 +31,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 				->from('u_#__featured_filter')
 				->where(['cvid' => $cvId])
 				->orderBy(['user' => SORT_ASC]);
+		} elseif ('permissions' == $action) {
+			$query->select(['member'])
+				->from('u_#__cv_privileges')
+				->where(['cvid' => $cvId])
+				->orderBy(['member' => SORT_ASC]);
 		}
 		$dataReader = $query->createCommand()->query();
 		$users = [];
@@ -51,28 +46,6 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		$dataReader->close();
 
 		return $users;
-	}
-
-	public static function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
-	{
-		if ('add' == $action) {
-			$dataReader = (new App\Db\Query())->select(['vtiger_customview.viewname'])
-				->from('vtiger_user_module_preferences')
-				->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
-				->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user])
-				->createCommand()->query();
-			if ($dataReader->count()) {
-				return $dataReader->readColumn(0);
-			}
-			\App\Db::getInstance()->createCommand()->insert('vtiger_user_module_preferences', [
-				'userid' => $user,
-				'tabid' => $tabid,
-				'default_cvid' => $cvId,
-			])->execute();
-		} elseif ('remove' == $action) {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
-		}
-		return false;
 	}
 
 	/**
@@ -88,30 +61,8 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
 			// To Delete the mini list widget associated with the filter
 			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['filterid' => $cvId])->execute();
+			\App\CustomView::clearCacheById($cvId);
 		}
-	}
-
-	/**
-	 * Function to update parameter.
-	 *
-	 * @param array $params
-	 *
-	 * @return bool
-	 */
-	public static function updateField($params)
-	{
-		$authorizedFields = ['setdefault', 'privileges', 'featured', 'sort'];
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		$cvid = $params['cvid'];
-		$name = $params['name'];
-		if (is_numeric($cvid) && \in_array($name, $authorizedFields)) {
-			if ('setdefault' == $name && 1 == $params['value']) {
-				$dbCommand->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $params['mod']])->execute();
-			}
-			$dbCommand->update('vtiger_customview', [$name => $params['value']], ['cvid' => $cvid])->execute();
-			return true;
-		}
-		return false;
 	}
 
 	public static function upadteSequences($params)
@@ -122,8 +73,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			$caseSequence .= ' WHEN ' . $db->quoteColumnName('cvid') . ' = ' . $db->quoteValue($cvId) . ' THEN ' . $db->quoteValue($sequence);
 		}
 		$caseSequence .= ' END';
-
-		return $db->createCommand()->update('vtiger_customview', ['sequence' => new yii\db\Expression($caseSequence)], ['cvid' => $params])->execute();
+		$i = $db->createCommand()->update('vtiger_customview', ['sequence' => new yii\db\Expression($caseSequence)], ['cvid' => $params])->execute();
+		foreach ($params as $cvId) {
+			\App\CustomView::clearCacheById($cvId);
+		}
+		return $i;
 	}
 
 	public function getUrlToEdit($module, $record)
@@ -151,6 +105,19 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		return 'index.php?module=CustomView&parent=Settings&view=SortOrderModal&type=featured&sourceModule=' . $module . '&cvid=' . $cvid;
 	}
 
+	/**
+	 * Gets URL for modal window with permission settings.
+	 *
+	 * @param string$module
+	 * @param int $cvid
+	 *
+	 * @return string
+	 */
+	public function getPrivilegesUrl(string $module, int $cvid): string
+	{
+		return 'index.php?module=CustomView&parent=Settings&view=FilterPermissions&type=permissions&sourceModule=' . $module . '&cvid=' . $cvid;
+	}
+
 	public static function getSupportedModules()
 	{
 		$modulesList = [];
@@ -166,15 +133,5 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		$dataReader->close();
 
 		return $modulesList;
-	}
-
-	public static function updateOrderAndSort($params)
-	{
-		$customViewModel = CustomView_Record_Model::getInstanceById($params['cvid']);
-		$moduleName = $customViewModel->get('entitytype');
-		$currentView = App\CustomView::getCurrentView($moduleName);
-		if ($currentView === $params['cvid']) {
-			App\CustomView::setSortBy($moduleName, $params['value'] ? \App\Json::decode($params['value']) : null);
-		}
 	}
 }

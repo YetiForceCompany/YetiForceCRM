@@ -75,12 +75,7 @@ class ActivityRegister extends Vtiger_CRMEntity
 		'FL_START_DATE' => 'start_date',
 		'FL_END_DATE' => 'end_date'
 	];
-	/**
-	 * Make the field link to detail view.
-	 *
-	 * @var string
-	 */
-	public $list_link_field = 'subject';
+
 	/**
 	 * For Popup listview and UI type support.
 	 *

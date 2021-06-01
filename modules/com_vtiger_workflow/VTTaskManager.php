@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTTask.php');
 Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTTaskType.php');
@@ -98,14 +99,16 @@ class VTTaskManager
 	/**
 	 * Return tasks for workflow.
 	 *
-	 * @param int $workflowId
+	 * @param int  $workflowId
+	 * @param bool $active
 	 *
 	 * @return array
 	 */
-	public function getTasksForWorkflow($workflowId)
+	public function getTasksForWorkflow($workflowId, $active = true)
 	{
-		if (\App\Cache::staticHas('getTasksForWorkflow', $workflowId)) {
-			return \App\Cache::staticGet('getTasksForWorkflow', $workflowId);
+		$cacheName = "{$workflowId}:{$active}";
+		if (\App\Cache::staticHas('getTasksForWorkflow', $cacheName)) {
+			return \App\Cache::staticGet('getTasksForWorkflow', $cacheName);
 		}
 		$dataReader = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->createCommand()->query();
 		$tasks = [];
@@ -115,11 +118,14 @@ class VTTaskManager
 				require_once "tasks/$taskType.php";
 			}
 			$task = unserialize($row['task']);
+			if ($active && !$task->active) {
+				continue;
+			}
 			$task->workflowId = $row['workflow_id'];
 			$task->id = $row['task_id'];
 			$tasks[] = $task;
 		}
-		\App\Cache::staticSave('getTasksForWorkflow', $workflowId, $tasks);
+		\App\Cache::staticSave('getTasksForWorkflow', $cacheName, $tasks);
 		return $tasks;
 	}
 
@@ -140,45 +146,13 @@ class VTTaskManager
 	}
 
 	/**
-	 * Return all tasks.
-	 *
-	 * @return array
-	 */
-	public function getTasks()
-	{
-		$result = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->all();
-
-		return $this->getTasksForResult($result);
-	}
-
-	/**
-	 * Create tasks from query result array.
-	 *
-	 * @param array $result
-	 *
-	 * @return VTTask[]
-	 */
-	private function getTasksForResult($result)
-	{
-		$tasks = [];
-		foreach ($result as $row) {
-			$taskType = self::taskName($row['task']);
-			if (!empty($taskType)) {
-				require_once "tasks/$taskType.php";
-			}
-			$tasks[] = unserialize($row['task']);
-		}
-		return $tasks;
-	}
-
-	/**
 	 * Return task name.
 	 *
 	 * @param string $serializedTask
 	 *
 	 * @return string
 	 */
-	private function taskName($serializedTask)
+	public static function taskName($serializedTask)
 	{
 		$matches = [];
 		preg_match('/"([^"]+)"/', $serializedTask, $matches);

@@ -17,45 +17,54 @@
 </div>
 <div id="my-tab-content" class="tab-content">
 	<div class="tab-pane {if $ACTIVE_TAB eq 'outlook'}active{/if}" id="outlook">
-		{if !\App\YetiForce\Shop::check('YetiForceOutlook')}
+	{if !\App\YetiForce\Register::isRegistered()}
+		<div class="col-md-12">
+			<div class="alert alert-danger">
+				<span class="yfi yfi-yeti-register-alert color-red-600 u-fs-5x mr-4 float-left"></span>
+				<h1 class="alert-heading">{\App\Language::translate('LBL_YETIFORCE_NOT_REGISTRATION_TITLE',$QUALIFIED_MODULE)}</h1>
+				{\App\Language::translate('LBL_YETIFORCE_NOT_REGISTRATION_DESC',$QUALIFIED_MODULE)}
+			</div>
+		</div>
+	{else}
+		{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert('YetiForceOutlook')}
+		{if $CHECK_ALERT}
 			<div class="alert alert-warning">
 				<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
-				{\App\Language::translate('LBL_PAID_FUNCTIONALITY', $QUALIFIED_MODULE)} <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceOutlook&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
+				{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')} <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceOutlook&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
 			</div>
-		{else}
-			{if !Settings_MailIntegration_Activate_Model::isActive('outlook')}
-				<div class="alert alert-danger">
-					<form action='index.php' method="POST" enctype="multipart/form-data">
-						<input type="hidden" name="module" value="MailIntegration"/>
-						<input type="hidden" name="parent" value="Settings"/>
-						<input type="hidden" name="action" value="Activate"/>
-						<input type="hidden" name="source" value="outlook"/>
-						<span class="mdi mdi-alert-outline mr-3 u-fs-10x float-left"></span>
-						{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE,'Outlook')}<br />
-						{\App\Language::translate('LBL_OUTLOOK_ACTIVATED_ALERT', $QUALIFIED_MODULE)}
-						<button type="submit" class="btn btn-primary btn-sm ml-3 float-right">
-							<span class="mdi mdi-check mr-2 float-left"></span>
-							{\App\Language::translate('LBL_ACTIVATE_FUNCTIONALITY', $QUALIFIED_MODULE)}
-						</button>
-					</form>
-				</div>
-			{/if}
-			<div class="alert alert-info">
-				<span class="mdi mdi-information-outline mr-2 u-fs-lg float-left"></span>
-				{\App\Language::translateArgs('LBL_OUTLOOK_ALERT', $QUALIFIED_MODULE, '<a rel="noreferrer noopener" target="_blank" href="https://support.microsoft.com/en-us/office/installed-add-ins-a61762b7-7a82-47bd-b14e-bbc15eaeb70f">support.microsoft.com</a>')}
-				<a href="index.php?parent=Settings&module=MailIntegration&action=Download&mode=outlook" class="btn btn-primary btn-sm float-right">
-					<span class="fas fa-download mr-2"></span>
-					{App\Language::translate('BTN_DOWNLOAD_OUTLOOK_INSTALLATION_FILE', $QUALIFIED_MODULE)}
-				</a>
-			</div>
-			<form class="js-form-single-save js-validate-form" data-js="container|validationEngine">
-				<input type="hidden" name="parent" value="Settings">
-				<input type="hidden" name="module" value="{$MODULE_NAME}">
-				<input type="hidden" name="action" value="SaveConfigForm">
-				{include file=\App\Layout::getTemplatePath('ConfigForm.tpl','Vtiger/Utils')}
-			</form>
 		{/if}
-		</table>
+		{if !Settings_MailIntegration_Activate_Model::isActive('outlook')}
+			<div class="alert alert-danger">
+				<form action='index.php' method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="module" value="MailIntegration"/>
+					<input type="hidden" name="parent" value="Settings"/>
+					<input type="hidden" name="action" value="Activate"/>
+					<input type="hidden" name="source" value="outlook"/>
+					<span class="mdi mdi-alert-outline mr-3 u-fs-10x float-left"></span>
+					{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE,'Outlook')}<br />
+					{\App\Language::translate('LBL_OUTLOOK_ACTIVATED_ALERT', $QUALIFIED_MODULE)}
+					<button type="submit" class="btn btn-primary btn-sm ml-3 float-right">
+						<span class="mdi mdi-check mr-2 float-left"></span>
+						{\App\Language::translate('LBL_ACTIVATE_FUNCTIONALITY', $QUALIFIED_MODULE)}
+					</button>
+				</form>
+			</div>
+		{/if}
+		<div class="alert alert-info">
+			<span class="mdi mdi-information-outline mr-2 u-fs-lg float-left"></span>
+			{\App\Language::translateArgs('LBL_OUTLOOK_ALERT', $QUALIFIED_MODULE, '<a rel="noreferrer noopener" target="_blank" href="https://support.microsoft.com/en-us/office/installed-add-ins-a61762b7-7a82-47bd-b14e-bbc15eaeb70f">support.microsoft.com</a>')}
+			<a href="index.php?parent=Settings&module=MailIntegration&action=Download&mode=outlook" class="btn btn-primary btn-sm float-right">
+				<span class="fas fa-download mr-2"></span>
+				{App\Language::translate('BTN_DOWNLOAD_OUTLOOK_INSTALLATION_FILE', $QUALIFIED_MODULE)}
+			</a>
+		</div>
+		<form class="js-form-single-save js-validate-form" data-js="container|validationEngine">
+			<input type="hidden" name="parent" value="Settings">
+			<input type="hidden" name="module" value="{$MODULE_NAME}">
+			<input type="hidden" name="action" value="SaveConfigForm">
+			{include file=\App\Layout::getTemplatePath('ConfigForm.tpl','Vtiger/Utils')}
+		</form>
+	{/if}
 	</div>
 </div>
 <!-- /tpl-Settings-MailIntegration-Index -->

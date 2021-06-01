@@ -97,7 +97,8 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
 			$suffix = '';
-			$viewName = (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $this->widgetModel->get('filterid')])->scalar();
+			$cvId = (int) $this->widgetModel->get('filterid');
+			$viewName = \App\CustomView::getCVDetails($cvId, $this->getTargetModule())['viewname'] ?? '';
 			if ($viewName) {
 				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
 			}
@@ -143,7 +144,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 		if (!$this->listviewRecords) {
 			if (!empty($user)) {
-				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
+				$this->queryGenerator->addCondition('assigned_user_id', $user, 'e');
 			}
 			if (!empty($this->searchParams)) {
 				$searchParamsCondition = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
@@ -168,7 +169,9 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 					}
 				}
 			} elseif ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
-				$this->queryGenerator->setOrder($targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
+				foreach ((array) $targetModuleFocus->default_order_by as $value) {
+					$this->queryGenerator->setOrder($value, $targetModuleFocus->default_sort_order);
+				}
 			}
 			$query = $this->queryGenerator->createQuery();
 			$query->limit($this->getRecordLimit());

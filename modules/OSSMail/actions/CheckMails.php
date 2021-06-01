@@ -30,7 +30,7 @@ class OSSMail_CheckMails_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
-		$users = $request->getArray('users', 'Integer');
+		$users = array_unique($request->getArray('users', 'Integer'));
 		$output = [];
 		if (\count($users) > 0) {
 			OSSMail_Record_Model::updateMailBoxmsgInfo($users);

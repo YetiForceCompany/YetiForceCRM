@@ -26,6 +26,9 @@
 					{if !empty($RECORD_ID)}
 						<input type="hidden" name="record" id="record" value="{$RECORD_ID}"/>
 					{/if}
+					{if !empty($MID)}
+						<input type="hidden" name="mid" value="{$MID}"/>
+					{/if}
 					<input type="hidden" name="module" value="{$MODULE_NAME}"/>
 					<input type="hidden" name="action" value="Save"/>
 					<input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>

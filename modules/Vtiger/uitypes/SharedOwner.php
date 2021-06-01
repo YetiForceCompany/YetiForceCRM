@@ -3,6 +3,8 @@
 /**
  * UIType sharedOwner Field Class.
  *
+ * @package   UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -82,13 +84,13 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					$userModel->setModule('Users');
 					if ('Inactive' === $userModel->get('status')) {
 						$ownerName = '<span class="redColor"><s>' . $ownerName . '</s></span>';
-					} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $value) && 'Active' === $userModel->get('status')) {
+					} elseif ($isAdmin && 'Active' === $userModel->get('status')) {
 						$detailViewUrl = 'index.php?module=Users&view=Detail&record=' . $shownerid;
 						$popoverRecordClass = 'class="js-popover-tooltip--record"';
 					}
 					break;
 				case 'Groups':
-					if (App\User::getCurrentUserModel()->isAdmin()) {
+					if ($isAdmin) {
 						$recordModel = new Settings_Groups_Record_Model();
 						$recordModel->set('groupid', $shownerid);
 						$detailViewUrl = $recordModel->getDetailViewUrl();
@@ -100,6 +102,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					break;
 			}
 			if (!empty($detailViewUrl)) {
+				if (!empty($this->fullUrl)) {
+					$detailViewUrl = Config\Main::$site_URL . $detailViewUrl;
+				}
 				$displayValue[] = "<a $popoverRecordClass href=\"$detailViewUrl\"> $ownerName </a>";
 			} else {
 				$displayValue[] = $ownerName;
@@ -127,7 +132,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					$display[$key] = $name;
 					if ('Inactive' === $userModel->get('status')) {
 						$shownerData[$key]['inactive'] = true;
-					} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $shownerid) && !$rawText) {
+					} elseif ($isAdmin && !$rawText) {
 						$shownerData[$key]['link'] = 'index.php?module=Users&view=Detail&record=' . $shownerid;
 						$shownerData[$key]['class'] = 'class="js-popover-tooltip--record"';
 					}
@@ -161,13 +166,29 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		return implode(', ', $display);
 	}
 
-	public static function getSearchViewList($moduleName, $cvId)
+	/**
+	 * Get users and group for module list.
+	 *
+	 * @param string $moduleName
+	 * @param int    $cvId
+	 * @param string $fieldName
+	 *
+	 * @return array
+	 */
+	public static function getSearchViewList($moduleName, $cvId, $fieldName = 'id'): array
 	{
 		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->initForCustomViewById($cvId);
-		$queryGenerator->setFields([]);
-		$queryGenerator->setCustomColumn('u_#__crmentity_showners.userid');
-		$queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "{$queryGenerator->getColumnName('id')} = u_#__crmentity_showners.crmid"]);
+
+		if (false !== strpos($fieldName, ':')) {
+			$queryField = $queryGenerator->getQueryRelatedField($fieldName);
+			$queryGenerator->addRelatedJoin($queryField->getRelated());
+			$fieldName = $queryField->getRelated()['sourceField'];
+		} else {
+			$fieldName = 'id';
+		}
+		$queryGenerator->clearFields()->setFields([])->setCustomColumn('u_#__crmentity_showners.userid');
+		$queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "{$queryGenerator->getColumnName($fieldName)} = u_#__crmentity_showners.crmid"]);
 		$dataReader = $queryGenerator->createQuery()->distinct()->createCommand()->query();
 		$users = $group = [];
 		while ($id = $dataReader->readColumn(0)) {
@@ -179,7 +200,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			$name = \App\Fields\Owner::getGroupName($id);
 			if (false !== $name) {
 				$group[$id] = $name;
-				continue;
 			}
 		}
 		asort($users);
@@ -221,7 +241,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		return 'ConditionBuilder/Owner.tpl';
+		return 'ConditionBuilder/SharedOwner.tpl';
 	}
 
 	/** {@inheritdoc} */

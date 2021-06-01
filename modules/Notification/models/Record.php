@@ -46,32 +46,6 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Fuction to get the Name of the record.
-	 *
-	 * @return string - Entity Name of the record
-	 */
-	public function getName()
-	{
-		$labelName = [];
-		$metaInfo = \App\Module::getEntityInfo($this->getModuleName());
-		foreach ($metaInfo['fieldnameArr'] as $columnName) {
-			$field = $this->getModule()->getFieldByColumn($columnName);
-			$labelName[] = $this->getDisplayValue($field->getName(), $this->getId(), $this);
-		}
-		return trim(implode(' ', $labelName));
-	}
-
-	/**
-	 * Function to get id.
-	 *
-	 * @return type
-	 */
-	public function getId()
-	{
-		return $this->get('id');
-	}
-
-	/**
 	 * Return name type notification.
 	 *
 	 * @return string
@@ -208,11 +182,11 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	{
 		$icon = false;
 		if ('PLL_USERS' === $this->get('notification_type')) {
-			$userModel = Users_Privileges_Model::getInstanceById($this->get('smcreatorid'));
+			$id = $this->get('smcreatorid');
 			$icon = [
 				'type' => 'image',
-				'title' => $userModel->getName(),
-				'src' => $userModel->getImage()['path'],
+				'title' => \App\Fields\Owner::getUserLabel($id),
+				'src' => \App\User::getImageById($id)['path'] ?? '',
 				'class' => 'userImage',
 			];
 		} else {

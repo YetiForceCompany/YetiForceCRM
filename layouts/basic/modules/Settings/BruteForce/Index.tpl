@@ -36,7 +36,12 @@
 									</div>
 								</div>
 								<div class="form-group row align-items-center">
-									<label class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}</label>
+									<label class="col-sm-3 col-form-label text-right">
+										{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}
+										<div class="js-popover-tooltip d-inline ml-1" data-js="popover" data-content="{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS_DESC', $QUALIFIED_MODULE)}">
+											<span class="fas fa-info-circle"></span>
+										</div>
+									</label>
 									<div class="col-sm-2">
 										<input type="text" class="form-control" name="attempsnumber" title="{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}" {' '} id="attempsNumber" value="{$CONFIG.attempsnumber}" data-validation-engine="validate[required,custom[number],min[2],max[100]]">
 									</div>

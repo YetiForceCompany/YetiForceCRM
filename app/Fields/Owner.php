@@ -5,6 +5,8 @@ namespace App\Fields;
 /**
  * Owner class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -371,6 +373,7 @@ class Owner
 			$subQuery = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2modules')->where(['tabid' => $tabId]);
 			$query->where(['groupid' => $subQuery]);
 		}
+
 		if ('private' === $private) {
 			$query->andWhere(['groupid' => $this->currentUser->getId()]);
 			if ($this->currentUser->getGroups()) {
@@ -469,7 +472,14 @@ class Owner
 			}
 		}
 		$users = $groups = [];
-		$ids = $queryGenerator->setFields([$fieldName])->createQuery()->distinct()->column();
+		$queryGenerator->clearFields();
+		if (false !== strpos($fieldName, ':')) {
+			$queryField = $queryGenerator->getQueryRelatedField($fieldName);
+			$queryGenerator->setFields([])->setCustomColumn($queryField->getColumnName())->addRelatedJoin($queryField->getRelated());
+		} else {
+			$queryGenerator->setFields([$fieldName]);
+		}
+		$ids = $queryGenerator->createQuery()->distinct()->column();
 		$adminInList = \App\Config::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
 			$userModel = \App\User::getUserModel($id);
@@ -652,6 +662,31 @@ class Owner
 			}
 		}
 		return $userLabel ?? false;
+	}
+
+	/**
+	 * Gets the member label.
+	 *
+	 * @param string $member
+	 *
+	 * @return string
+	 */
+	public static function getMemberLabel(string $member): string
+	{
+		[$type, $id] = explode(':', $member);
+		switch ($type) {
+			case \App\PrivilegeUtil::MEMBER_TYPE_GROUPS:
+				$value = self::getGroupName((int) $id) ?: '';
+				break;
+			case \App\PrivilegeUtil::MEMBER_TYPE_ROLES:
+			case \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES:
+				$value = \App\PrivilegeUtil::getRoleDetail($id)['rolename'] ?? '';
+				break;
+			default:
+				$value = '';
+				break;
+		}
+		return $value;
 	}
 
 	/**

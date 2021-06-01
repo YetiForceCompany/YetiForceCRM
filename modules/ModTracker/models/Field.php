@@ -79,9 +79,9 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	/**
 	 * Function to get name.
 	 *
-	 * @return <type>
+	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->getFieldInstance()->get('label');
 	}
@@ -91,7 +91,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getModuleName()
+	public function getModuleName(): string
 	{
 		return $this->getParent()->getModule()->getName();
 	}

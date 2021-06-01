@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-Updates -->
-{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
+{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId($WIDGET['id']|cat:_)}"}
 <div class="tpl-Detail-Widget-Updates c-detail-widget js-detail-widget" data-js="container">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 		<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
@@ -10,7 +10,7 @@
 					<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				</div>
 				<div class="c-detail-widget__header__title">
-					<h5 class="mb-0 modCT_{$WIDGET['label']}" title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}">
+					<h5 class="mb-0 modCT_{$WIDGET['moduleBaseName']}" title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}">
 						{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 					</h5>
 				</div>

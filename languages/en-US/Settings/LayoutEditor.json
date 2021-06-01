@@ -16,6 +16,8 @@
     "LBL_ADD_AFTER": "Add after",
     "LBL_ADD_CUSTOM_BLOCK": "Add custom block",
     "LBL_ADD_CUSTOM_FIELD": "Add custom field",
+    "BTN_ADD_SYSTEM_FIELD": "Add system field",
+    "LBL_NO_FIELDS_ADD": "No fields to add",
     "LBL_ALWAYS_SHOW": "Always show",
     "LBL_ALWAYS_HIDE": "Always hide",
     "LBL_DYNAMIC_SHOW": "Dynamic show",
@@ -199,6 +201,10 @@
     "LBL_NON_CUSTOM_FIELD_CANNOT_DELETE": "Cannot delete non-custom field",
     "LBL_EDIT_MAY_AFFECT_STABILITY": "Field modification may affect system stability.",
     "LBL_EDIT_MAY_AFFECT_STABILITY_DESC": "Only people with relevant technical expertise should create and change fields in the system. Field modification may affect system stability, so we recommend performing it in a test environment first.",
+    "LBL_RELATED_CUSTOM_VIEW": "Filters",
+    "LBL_RCV_PRIVATE": "Private filters (only my filters)",
+    "LBL_RCV_ALL": "All filters from the module",
+    "LBL_FILTERS_FROM_MODULE": "Filters from the module",
     "LBL_ANONYMIZATION_TARGET": "Anonymization"
   },
   "js": {

@@ -200,6 +200,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getChildMenu($roleId, $parent, int $source = 0)
 	{
+		$api = self::SRC_API === $source;
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
 		$menu = [];
 		$query = (new \App\Db\Query())->select(('yetiforce_menu.*, vtiger_tab.name'))
@@ -209,7 +210,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			->orderBy(' yetiforce_menu.sequence', 'yetiforce_menu.parentid');
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$menu[] = [
+			$row = [
 				'id' => $row['id'],
 				'tabid' => $row['module'],
 				'mod' => $row['name'],
@@ -218,14 +219,16 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'sequence' => $row['sequence'],
 				'newwindow' => $row['newwindow'],
 				'dataurl' => $settingsModel->getMenuUrl($row),
-				//'showicon' => $row['showicon'],
 				'icon' => $row['icon'],
-				//'sizeicon' => $row['sizeicon'],
 				'parent' => $row['parentid'],
 				'hotkey' => $row['hotkey'],
 				'filters' => $row['filters'],
 				'childs' => $this->getChildMenu($roleId, $row['id'], $source),
 			];
+			if ($api) {
+				$row['label'] = 'Module' === $row['type'] ? \App\Language::translate($row['name'], $row['name']) : Vtiger_Menu_Model::vtranslateMenu($row['name'], 'Menu');
+			}
+			$menu[] = $row;
 		}
 		$dataReader->close();
 		return $menu;

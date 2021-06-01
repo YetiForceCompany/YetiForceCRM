@@ -478,7 +478,7 @@ var Settings_Index_Js = {
 		this.registerStats();
 	}
 };
-$(document).ready(function () {
+jQuery(function () {
 	document.showDiff = false;
 	Settings_Index_Js.registerEvents();
 });

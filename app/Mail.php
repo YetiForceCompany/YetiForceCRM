@@ -5,6 +5,8 @@ namespace App;
 /**
  * Mail basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -82,7 +84,6 @@ class Mail
 	{
 		$queryGenerator = new \App\QueryGenerator('EmailTemplates', $userId ?? \App\User::getCurrentUserId());
 		$queryGenerator->setFields(['id', 'name', 'module_name']);
-
 		if ($moduleName) {
 			$queryGenerator->addCondition('module_name', $moduleName, 'e');
 		}

@@ -68,7 +68,8 @@
 		@include u-transition(transform 0.5s ease);
 	}
 	.collapsed {
-		.u-transform_rotate-#{$rotateDeg} {
+		.u-transform_rotate-#{$rotateDeg},
+		&.u-transform_rotate-#{$rotateDeg} {
 			transform: rotate($rotateDeg);
 		}
 	}

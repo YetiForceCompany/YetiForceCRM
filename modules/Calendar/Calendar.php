@@ -43,18 +43,7 @@ class Calendar extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = ['vtiger_activitycf', 'activityid'];
-	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = [
-		'Close' => ['activity' => 'status'],
-		'Type' => ['activity' => 'activitytype'],
-		'Subject' => ['activity' => 'subject'],
-		'Related to' => ['activity' => 'link'],
-		'Start Date' => ['activity' => 'date_start'],
-		'Start Time' => ['activity', 'time_start'],
-		'End Date' => ['activity' => 'due_date'],
-		'End Time' => ['activity', 'time_end'],
-		'Assigned To' => ['crmentity' => 'smownerid'],
-	];
+
 	public $list_fields_name = [
 		'Close' => 'status',
 		'Type' => 'activitytype',
@@ -67,7 +56,6 @@ class Calendar extends CRMEntity
 		'Start Time' => 'time_start',
 		'End Date' => 'due_date',
 		'End Time' => 'time_end', ];
-	public $list_link_field = 'subject';
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = 'date_start';
 	public $default_sort_order = 'ASC';

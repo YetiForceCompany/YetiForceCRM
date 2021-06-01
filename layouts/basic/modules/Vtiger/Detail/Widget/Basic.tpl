@@ -3,7 +3,7 @@
 <!-- tpl-Base-Detail-Widget-Basic -->
 {assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId($WIDGET['id']|cat:_)}"}
 {assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
-<div class="tpl-Detail-Widget-Basic c-detail-widget js-detail-widget" data-name="{$WIDGET['label']}" data-module-name="{$RELATED_MODULE_NAME}" {if isset($WIDGET['data']['relation_id'])}data-relation-id="{$WIDGET['data']['relation_id']}"{/if} data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}" data-js="container">
+<div class="c-detail-widget js-detail-widget" data-name="{$WIDGET['label']}" data-module-name="{$RELATED_MODULE_NAME}" {if isset($WIDGET['data']['relation_id'])}data-relation-id="{$WIDGET['data']['relation_id']}"{/if} data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}" data-js="container">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
 		<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0" data-js="container|value">
 			<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />
@@ -12,7 +12,7 @@
 					<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				</div>
 				<div class="c-detail-widget__header__title">
-					<h5 class="mb-0 text-truncate modCT_{$WIDGET['label']}">
+					<h5 class="mb-0 text-truncate modCT_{$RELATED_MODULE_NAME}">
 						{if $WIDGET['label'] eq ''}
 							{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
 						{else}
@@ -93,16 +93,33 @@
 						{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 						{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 						<select name="{$FIELD_MODEL->getName()}" class="select2 form-control form-control-sm js-filter_field"
-							data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if
-							!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if} data-fieldlable='{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}'
-							data-filter="{$FILTER}" data-urlparams="search_params" data-js="change">
+							data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+							data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
+							data-fieldlable='{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}' data-filter="{$FILTER}" data-urlparams="search_params" data-js="change">
 							<option>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}</option>
 							{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-							<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq
-								$PICKLIST_NAME} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
+								<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>
+									{\App\Purifier::encodeHtml($PICKLIST_VALUE)}
+								</option>
 							{/foreach}
 						</select>
 					</div>
+				{/if}
+				{if !empty($WIDGET['data']['customView'])}
+					{if count($WIDGET['data']['customView']) > 1}
+					{assign var=CUSTOM_VIEWS_DETAILS value=\App\CustomView::getInstance($RELATED_MODULE_NAME)->getFilters()}
+					<div class="form-group-sm w-100 mb-1">
+						<select class="select2 form-control form-control-sm js-filter_field" data-urlparams="cvId" data-return="value" data-js="change|value">
+							{foreach item=CV_ID from=$WIDGET['data']['customView']}
+								{if isset($CUSTOM_VIEWS_DETAILS[$CV_ID])}
+									<option value="{$CV_ID}">
+										{\App\Language::translate($CUSTOM_VIEWS_DETAILS[$CV_ID]['viewname'], $RELATED_MODULE_NAME)}
+									</option>
+								{/if}
+							{/foreach}
+						</select>
+					</div>
+					{/if}
 				{/if}
 				{if isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-'}
 					{assign var=checkbox value=$WIDGET['data']['checkbox']}

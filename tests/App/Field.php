@@ -2,6 +2,8 @@
 /**
  * Field test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -49,8 +51,6 @@ class Field extends \Tests\Base
 
 	/**
 	 * Relations modules ids provider.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */

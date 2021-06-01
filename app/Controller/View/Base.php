@@ -490,6 +490,7 @@ abstract class Base extends \App\Controller\Base
 				'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 				'rowHeight' => $userModel->getDetail('rowheight'),
 				'userId' => $userModel->getId(),
+				'purifierAllowedDomains' => \App\Config::security('purifierAllowedDomains', []),
 				// Modifying this file or functions that affect the footer appearance will violate the license terms!!!
 				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding'),
 				'globalSearchDefaultOperator' => \App\RecordSearch::OPERATORS[$userModel->getDetail('default_search_operator')]

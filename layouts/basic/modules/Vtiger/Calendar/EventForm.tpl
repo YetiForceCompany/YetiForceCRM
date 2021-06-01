@@ -6,10 +6,10 @@
 			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}
 		<form class="form-horizontal recordEditView js-form" id="quickCreate" name="QuickCreate" method="post" action="index.php" data-js="container">
-			<input name="module" value="{$MODULE_NAME}" type="hidden"/>
-			<input name="action" value="SaveAjax" type="hidden"/>
+			<input type="hidden" name="module" value="{$MODULE_NAME}" />
+			<input type="hidden" name="action" value="SaveAjax" />
 			{if !empty($RECORD_ID)}
-				<input name="record" value="{$RECORD_ID}" type="hidden"/>
+				<input type="hidden" name="record" value="{$RECORD_ID}" />
 				<input type="hidden" name="fromView" value="QuickEdit"/>
 				{assign var="FROM_VIEW" value='QuickEdit'}
 			{else}
@@ -19,19 +19,26 @@
 			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 			<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}"/>
 			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-				<input name="picklistDependency" type="hidden" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
+				<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 			{/if}
 			{if !empty($MAPPING_RELATED_FIELD)}
-				<input name="mappingRelatedField" type="hidden" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+				<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
 			{/if}
 			{if !empty($LIST_FILTER_FIELDS)}
-				<input name="listFilterFields" type="hidden" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
+				<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
 			{/if}
 			{if !empty($IS_POSTPONED)}
-				<input name="postponed" value="1" type="hidden"/>
+				<input type="hidden" name="postponed" value="1"/>
 			{/if}
-			<input name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
-			<input name="userChangedEndDateTime" value="0" type="hidden"/>
+			<input type="hidden" name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" />
+			<input type="hidden" name="userChangedEndDateTime" value="0" />
+			{if !empty($SOURCE_RELATED_FIELD)}
+				{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
+					<div class="d-none fieldValue source-related-fields" data-field="{$FIELD_NAME}">
+						{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
+					</div>
+				{/foreach}
+			{/if}
 			<div class="o-calendar__form w-100 d-flex flex-column">
 				<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin" data-js="perfectscrollbar">
 					<h6 class="boxEventTitle text-muted text-center mt-1">
@@ -85,13 +92,6 @@
 						{/foreach}
 					</div>
 				</div>
-				{if !empty($SOURCE_RELATED_FIELD)}
-					{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
-						<div class="d-none">
-							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
-						</div>
-					{/foreach}
-				{/if}
 				<div class="o-calendar__form__actions">
 					<div class="d-flex flex-wrap{if empty($RECORD_ID)} justify-content-center{/if}">
 						{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}

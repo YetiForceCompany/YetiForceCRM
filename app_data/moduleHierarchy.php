@@ -55,7 +55,6 @@ return [
 			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]]
 		],
 		'SSingleOrders' => [
-			'accountid' => ['Accounts' => ['company' => ['accountname']]],
 			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]],
 			'squotesid' => ['SQuotes' => ['accountid' => ['accountid']]]
 		],

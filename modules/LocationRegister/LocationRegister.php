@@ -49,19 +49,6 @@ class LocationRegister extends Vtiger_CRMEntity
 	];
 
 	/**
-	 * Mandatory for Listing (Related listview).
-	 *
-	 * @var array
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'FL_NAME' => ['locationregister', 'name'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'FL_STATUS' => ['locationregister', 'locationregister_status'],
-		'FL_CITY' => ['locationregister', 'city'],
-	];
-	/**
 	 * List fields name.
 	 *
 	 * @var array
@@ -73,12 +60,7 @@ class LocationRegister extends Vtiger_CRMEntity
 		'FL_STATUS' => 'locationregister_status',
 		'FL_CITY' => 'city'
 	];
-	/**
-	 * Make the field link to detail view.
-	 *
-	 * @var string
-	 */
-	public $list_link_field = 'name';
+
 	/**
 	 * For Popup listview and UI type support.
 	 *

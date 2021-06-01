@@ -5,6 +5,8 @@ namespace App;
 /**
  * Database connection class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -163,7 +165,7 @@ class Db extends \yii\db\Connection
 		if (false !== stripos($conf['version_comment'], 'MariaDb')) {
 			$typeDb = 'MariaDb';
 		}
-		$memory = $conf['key_buffer_size'] + $conf['query_cache_size'] + $conf['tmp_table_size'] + $conf['innodb_buffer_pool_size'] +
+		$memory = $conf['key_buffer_size'] + ($conf['query_cache_size'] ?? 0) + $conf['tmp_table_size'] + $conf['innodb_buffer_pool_size'] +
 		($conf['innodb_additional_mem_pool_size'] ?? 0) + $conf['innodb_log_buffer_size'] + ($conf['max_connections'] * ($conf['sort_buffer_size']
 				+ $conf['read_buffer_size'] + $conf['read_rnd_buffer_size'] + $conf['join_buffer_size'] + $conf['thread_stack'] + $conf['binlog_cache_size']));
 		return \array_merge($conf, [

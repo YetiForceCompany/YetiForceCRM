@@ -4,11 +4,14 @@
  *
  * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
  *
- * @package   App
+ * @package App
+ *
+ * @see https://api.stat.gov.pl/Home/RegonApi
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
@@ -73,10 +76,11 @@ class Gus extends Base
 	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
+			'Nazwa' => 'accountname',
+			'SzczegolnaFormaPrawnaNazwa' => 'legal_form',
 			'Regon' => 'registration_number_2',
 			'Krs' => 'registration_number_1',
 			'Nip' => 'vat_id',
-			'Nazwa' => 'accountname',
 			'Wojewodztwo' => 'addresslevel2a',
 			'Powiat' => 'addresslevel3a',
 			'Gmina' => 'addresslevel4a',
@@ -85,19 +89,27 @@ class Gus extends Base
 			'Ulica' => 'addresslevel8a',
 			'NumerBudynku' => 'buildingnumbera',
 			'NumerLokalu' => 'localnumbera',
-			'FormaPrawna' => 'legal_form',
 			'Kraj' => 'addresslevel1a',
+			'NumerTelefonu' => 'phone',
+			'NumerFaksu' => 'fax',
+			'AdresEmail' => 'email1',
+			'AdresStronyInternetowej' => 'website',
 		],
 		'Leads' => [
-			'Regon' => 'registration_number_2',
 			'Nazwa' => 'company',
+			'SzczegolnaFormaPrawnaNazwa' => 'legal_form',
+			'Regon' => 'registration_number_2',
 			'Wojewodztwo' => 'addresslevel2a',
 			'Powiat' => 'addresslevel3a',
 			'Gmina' => 'addresslevel4a',
 			'Miejscowosc' => 'addresslevel5a',
 			'KodPocztowy' => 'addresslevel7a',
 			'Ulica' => 'addresslevel8a',
-			'NumerBudynku' => 'buildingnumbera'
+			'NumerBudynku' => 'buildingnumbera',
+			'NumerTelefonu' => 'phone',
+			'NumerFaksu' => 'fax',
+			'AdresEmail' => 'email',
+			'AdresStronyInternetowej' => 'website',
 		],
 		'Partners' => [
 			'Nazwa' => 'subject',
@@ -148,13 +160,10 @@ class Gus extends Base
 		$taxNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('taxNumber', 'Text'));
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
 		$response = [];
-		$client = \App\RecordCollectors\Helper\GusClient::getInstance();
+		$moduleName = $this->request->getModule();
+		$client = \App\RecordCollectors\Helper\GusClient::getInstance($this->getParams($moduleName));
 		try {
 			$infoFromGus = $client->search($vatId, $ncr, $taxNumber);
-			foreach ($infoFromGus as &$info) {
-				$client->getAdvanceData($info);
-			}
-			$moduleName = $this->request->getModule();
 			if ($recordId = $this->request->getInteger('record')) {
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 				$response['recordModel'] = $recordModel;
@@ -163,28 +172,48 @@ class Gus extends Base
 				$fields = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
 			}
 			if ($infoFromGus && isset($this->formFieldsToRecordMap[$moduleName])) {
-				$data = $skip = [];
+				$additional = $data = $skip = [];
 				foreach ($infoFromGus as $key => &$row) {
 					foreach ($this->formFieldsToRecordMap[$moduleName] as $apiName => $fieldName) {
 						if (empty($fields[$fieldName]) || !$fields[$fieldName]->isActiveField()) {
-							if (empty($skip[$fieldName]['label'])) {
+							if (isset($fields[$fieldName]) && empty($skip[$fieldName]['label'])) {
 								$skip[$fieldName]['label'] = \App\Language::translate($fields[$fieldName]->getFieldLabel(), $moduleName);
+							} else {
+								$skip[$fieldName]['label'] = $fieldName;
 							}
 							$skip[$fieldName]['data'][$key]['display'] = $row[$apiName] ?? '';
+							unset($row[$apiName]);
 							continue;
 						}
 						if (isset($row[$apiName])) {
-							if (empty($data[$fieldName]['label'])) {
-								$data[$fieldName]['label'] = \App\Language::translate($fields[$fieldName]->getFieldLabel(), $moduleName);
+							$value = $row[$apiName];
+							unset($row[$apiName]);
+							$fieldModel = $fields[$fieldName];
+							if ($value && 'phone' === $fieldModel->getFieldDataType()) {
+								$details = $fieldModel->getUITypeModel()->getPhoneDetails($value, 'PL');
+								$value = $details['number'];
+								if ($fieldName !== $details['fieldName']) {
+									$fieldName = $details['fieldName'];
+									$fieldModel = $fields[$fieldName];
+								}
+							}
+							if (isset($fields[$fieldName]) && empty($data[$fieldName]['label'])) {
+								$data[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
+							} else {
+								$skip[$fieldName]['label'] = $fieldName;
 							}
 							$data[$fieldName]['data'][$key] = [
-								'raw' => $row[$apiName],
-								'display' => $fields[$fieldName]->getDisplayValue($row[$apiName]),
+								'raw' => $fieldModel->getEditViewDisplayValue($value),
+								'display' => $fieldModel->getDisplayValue($value),
 							];
 						}
 					}
+					foreach ($row as $name => $value) {
+						$additional[$name][$key] = \App\Purifier::encodeHtml($value);
+					}
 				}
 				$response['fields'] = $data;
+				$response['additional'] = $additional;
 				$response['keys'] = array_keys($infoFromGus);
 				$response['skip'] = $skip;
 			}
@@ -193,5 +222,21 @@ class Gus extends Base
 			$response['error'] = $e->faultstring;
 		}
 		return $response;
+	}
+
+	/**
+	 * Get params.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return string[]
+	 */
+	public function getParams(string $moduleName): array
+	{
+		$params = [];
+		if (isset($this->formFieldsToRecordMap[$moduleName]['PKDPodstawowyKod']) || isset($this->formFieldsToRecordMap[$moduleName]['PKDPozostaleNazwy']) || isset($this->formFieldsToRecordMap[$moduleName]['PKDPozostaleKodyNazwy'])) {
+			$params[] = 'pkd';
+		}
+		return $params;
 	}
 }

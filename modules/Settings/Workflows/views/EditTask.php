@@ -11,6 +11,15 @@
 
 class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 {
+	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
+	{
+		parent::checkPermission($request);
+		if (!$request->isEmpty('task_id') && !Settings_Workflows_TaskRecord_Model::getInstance($request->getInteger('task_id'))->isEditable()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+	}
+
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -21,14 +30,10 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$workflowId = $request->getInteger('for_workflow');
 
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
-		$taskTypes = $workflowModel->getTaskTypes();
 		if ($recordId) {
 			$taskModel = Settings_Workflows_TaskRecord_Model::getInstance($recordId);
 		} else {
 			$taskType = $request->getByType('type', 'Alnum');
-			if (empty($taskType)) {
-				$taskType = !empty($taskTypes[0]) ? $taskTypes[0]->getName() : 'VTEmailTask';
-			}
 			$taskModel = Settings_Workflows_TaskRecord_Model::getCleanInstance($workflowModel, $taskType);
 		}
 		$taskTypeModel = $taskModel->getTaskType();
@@ -107,8 +112,11 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			foreach ($moduleModel->getRelations() as $relation) {
 				if (!\in_array($relation->get('relatedModuleName'), [$sourceModule, 'Documents', 'OSSMailView'])) {
 					foreach ($relation->getRelationModuleModel()->getFieldsByType('email') as $key => $field) {
-						$relationsEmails[$relation->get('relatedModuleName') . '::' . $key] = \App\Language::translate($relation->get('relatedModuleName'), $relation->get('relatedModuleName')) . ' - ' . \App\Language::translate($field->getFieldLabel(), $relation->get('relatedModuleName'));
+						$label = $relationsEmails[$relation->get('relatedModuleName') . '::' . $key] = \App\Language::translate($relation->get('relatedModuleName'), $relation->get('relatedModuleName')) . ' - ' . \App\Language::translate($field->getFieldLabel(), $relation->get('relatedModuleName'));
+						$relationsEmails[$relation->get('relatedModuleName') . '::' . $key . '::first'] = $label . ' [' . \App\Language::translate('LBL_ONLY_TO_FIRST_LIST', $qualifiedModuleName) . ']';
 					}
+				} elseif ('OSSMailView' === $relation->get('relatedModuleName')) {
+					$relationsEmails['OSSMailView::from_email::first'] = \App\Language::translate('OSSMailView', 'OSSMailView') . ' - ' . \App\Language::translate('From', 'OSSMailView') . ' [' . \App\Language::translate('LBL_ONLY_TO_FIRST_LIST', $qualifiedModuleName) . ']';
 				}
 			}
 			$viewer->assign('RELATED_RECORDS_EMAIL', $relationsEmails);
@@ -119,7 +127,6 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$viewer->assign('WORKFLOW_ID', $workflowId);
 		$viewer->assign('DATETIME_FIELDS', $dateTimeFields);
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
-		$viewer->assign('TASK_TYPES', $taskTypes);
 		$viewer->assign('TASK_MODEL', $taskModel);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		// Adding option Line Item block for Individual tax mode

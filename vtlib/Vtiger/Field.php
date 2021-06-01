@@ -53,6 +53,7 @@ class Field extends FieldBasic
 			]);
 			$db->createCommand()->insert('vtiger_picklist', ['name' => $this->name])->execute();
 			$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');
+			$db->createCommand()->createIndex("{$this->name}_valueid_idx", $picklistTable, 'picklist_valueid', true)->execute();
 			\App\Log::trace("Creating table $picklistTable ... DONE", __METHOD__);
 		} else {
 			$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();

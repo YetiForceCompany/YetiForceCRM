@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class CustomView_Delete_Action extends \App\Controller\Action
@@ -31,6 +32,9 @@ class CustomView_Delete_Action extends \App\Controller\Action
 			\App\CustomView::resetCurrentView();
 		}
 		$listViewUrl = $customViewModel->getModule()->getListViewUrl();
-		header("location: $listViewUrl");
+		if (!$request->isEmpty('mid', 'Alnum')) {
+			$listViewUrl .= '&mid=' . $request->getInteger('mid');
+		}
+		header("location: {$listViewUrl}");
 	}
 }

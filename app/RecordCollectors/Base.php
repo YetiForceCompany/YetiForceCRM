@@ -2,7 +2,7 @@
 /**
  * Base record collector file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -64,6 +64,25 @@ class Base
 	 * @var array
 	 */
 	protected $modulesFieldsMap = [];
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		$class = last(explode('\\', static::class));
+		$config = \App\Config::component('RecordCollectors' . $class);
+		if (null === $config) {
+			return;
+		}
+		if (isset($config['allowedModules'])) {
+			static::$allowedModules = $config['allowedModules'];
+			unset($config['allowedModules']);
+		}
+		foreach ($config as $key => $value) {
+			$this->{$key} = $value;
+		}
+	}
 
 	/**
 	 * Undocumented function.

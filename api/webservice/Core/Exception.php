@@ -1,19 +1,23 @@
 <?php
 
-namespace Api\Core;
-
 /**
- * Web service exception class.
+ * Web service exception file.
+ *
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace Api\Core;
+
+/**
+ * Web service exception class.
+ */
 class Exception extends \Exception
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc}  */
 	public function __construct($message, $code = 500, \Throwable $previous = null)
 	{
 		if (!empty($previous)) {
@@ -46,6 +50,7 @@ class Exception extends \Exception
 			$body['error']['backtrace'] = \App\Debuger::getBacktrace();
 		}
 		$response = Response::getInstance();
+		$response->setRequest(Request::init());
 		$response->setBody($body);
 		$response->setStatus($code);
 		if (\App\Config::debug('apiShowExceptionReasonPhrase')) {
@@ -54,7 +59,12 @@ class Exception extends \Exception
 		$response->send();
 	}
 
-	public function handleError()
+	/**
+	 * Handle error function.
+	 *
+	 * @return void
+	 */
+	public function handleError(): void
 	{
 		if (\App\Config::debug('apiLogException')) {
 			$request = Request::init();
@@ -62,7 +72,7 @@ class Exception extends \Exception
 			$error .= "file: {$this->getFile()} ({$this->getLine()})\n";
 			$error .= '============ stacktrace: ' . PHP_EOL . $this->getTraceAsString() . PHP_EOL;
 			$error .= '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
-			$error .= 'REQUEST_METHOD: ' . $request->getRequestMethod() . PHP_EOL;
+			$error .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$error .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$error .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
 			$error .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;

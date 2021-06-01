@@ -512,7 +512,9 @@ $.Class(
 			this.getInventoryItemsContainer()
 				.find(thisInstance.rowClass)
 				.each(function (index) {
-					thisInstance.quantityChangeActions($(this));
+					let row = $(this);
+					thisInstance.syncHeaderData(row);
+					thisInstance.quantityChangeActions(row);
 				});
 			thisInstance.calculateItemNumbers();
 		},
@@ -827,14 +829,15 @@ $.Class(
 				}
 			});
 		},
-		syncHeaderData() {
+		syncHeaderData(container) {
 			let header = this.getInventoryHeadContainer();
-			this.getInventoryItemsContainer()
-				.find('.js-sync')
-				.each(function () {
-					let element = $(this);
-					element.val(header.find('.js-' + element.data('syncId')).val());
-				});
+			if (typeof container === 'undefined') {
+				container = this.getInventoryItemsContainer();
+			}
+			container.find('.js-sync').each(function () {
+				let element = $(this);
+				element.val(header.find('.js-' + element.data('syncId')).val());
+			});
 		},
 		/**
 		 * Function which will be used to handle price book popup
@@ -1258,7 +1261,7 @@ $.Class(
 				.find(thisInstance.rowClass)
 				.each(function (index) {
 					let row = $(this);
-
+					thisInstance.syncHeaderData(row);
 					thisInstance.setUnitPrice(
 						row,
 						App.Fields.Double.formatToDb(thisInstance.getUnitPriceValue(row) * conversionRate)

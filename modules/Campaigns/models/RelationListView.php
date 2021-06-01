@@ -7,6 +7,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
@@ -33,20 +34,15 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 			$emailLink->set('_sendEmail', true);
 			$relatedLinks['LISTVIEWBASIC'][] = $emailLink;
 		}
-		$relatedLinks['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'RELATEDLIST_MASSACTIONS',
-			'linklabel' => 'LBL_MASS_DELETE',
-			'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=massDeleteRelation&src_record={$id}&relatedModule={$relatedModuleName}')",
-			'linkclass' => '',
-			'linkicon' => 'fas fa-eraser',
-		]);
-		$relatedLinks['RELATEDLIST_MASSACTIONS_ADV'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'RELATEDLIST_MASSACTIONS_ADV',
-			'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-			'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=exportToExcel&src_record={$id}&relatedModule={$relatedModuleName}','sendByForm')",
-			'linkclass' => '',
-			'linkicon' => 'fas fa-file-excel',
-		]);
+		if ($this->getRelationModel()->privilegeToDelete() && $relatedModuleModel->isPermitted('Delete')) {
+			$relatedLinks['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_MASSACTIONS',
+				'linklabel' => 'LBL_MASS_DELETE',
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=massDeleteRelation&src_record={$id}&relatedModule={$relatedModuleName}')",
+				'linkclass' => '',
+				'linkicon' => 'fas fa-eraser',
+			]);
+		}
 		return $relatedLinks;
 	}
 }

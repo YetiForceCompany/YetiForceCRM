@@ -6,22 +6,29 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Services_TreeView_Model extends Vtiger_TreeView_Model
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isActive()
 	{
 		return true;
 	}
 
-	private function getRecords()
+	/**
+	 * Gets tree records.
+	 *
+	 * @return array
+	 */
+	private function getRecords(): array
 	{
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($this->getModuleName());
-		$listEntries = $listViewModel->getListViewEntries($pagingModel);
+		$listViewModel->getQueryGenerator()->setFields(['id', 'pscategory']);
 		$tree = [];
-		foreach ($listEntries as $item) {
+		foreach ($listViewModel->getAllEntries() as $item) {
 			++$this->lastTreeId;
 			$parent = $item->get('pscategory');
 			$parent = (int) str_replace('T', '', $parent);

@@ -12,14 +12,19 @@
 class API_CardDAV_Handler
 {
 	/**
-	 * CardDav fields structure.
+	 * @var array CardDav fields structure.
 	 */
 	const FIELDS = [
-		'Contacts' => ['firstname', 'lastname', 'email', 'secondary_email', 'phone', 'mobile', 'description', 'jobtitle', 'addresslevel1a', 'addresslevel2a', 'addresslevel3a', 'addresslevel4a', 'addresslevel5a', 'addresslevel6a', 'addresslevel7a', 'addresslevel8a', 'addresslevel1b', 'addresslevel2b', 'addresslevel3b', 'addresslevel4b', 'addresslevel5b', 'addresslevel6b', 'addresslevel7b', 'addresslevel8b'],
-		'OSSEmployees' => ['name', 'last_name', 'business_phone', 'business_mail', 'private_phone', 'private_mail', 'description', 'company_name', 'street', 'city', 'state', 'code', 'country', 'ship_street', 'ship_city', 'ship_state', 'ship_code', 'ship_country'],
+		'Contacts' => [
+			'firstname', 'lastname', 'email', 'secondary_email', 'phone', 'mobile', 'description', 'jobtitle', 'addresslevel1a', 'addresslevel2a', 'addresslevel3a', 'addresslevel4a', 'addresslevel5a', 'addresslevel6a', 'addresslevel7a', 'addresslevel8a', 'addresslevel1b', 'addresslevel2b', 'addresslevel3b', 'addresslevel4b', 'addresslevel5b', 'addresslevel6b', 'addresslevel7b', 'addresslevel8b', 'localnumbera', 'localnumberb'
+		],
+		'OSSEmployees' => [
+			'name', 'last_name', 'business_phone', 'business_mail', 'private_phone', 'private_mail', 'description', 'company_name', 'street', 'city', 'state', 'code', 'country', 'ship_street', 'ship_city', 'ship_state', 'ship_code', 'ship_country', 'secondary_phone'
+		],
 	];
+
 	/**
-	 * CardDav tables structure.
+	 * @var array CardDav tables structure.
 	 */
 	const TABLES = [
 		'Contacts' => ['vtiger_contactdetails', 'contactid'],

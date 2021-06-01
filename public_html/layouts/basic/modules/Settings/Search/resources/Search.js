@@ -47,24 +47,45 @@ var Settings_Index_Js = {
 			}
 		});
 	},
+	validate: function (e) {
+		let aDeferred = jQuery.Deferred();
+		let target = $(e.currentTarget);
+		let isSelect = target.is('select');
+		if (isSelect && !target.find(':selected').length) {
+			target.validationEngine(
+				'showPrompt',
+				app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
+				'error',
+				'topLeft',
+				true
+			);
+			aDeferred.reject();
+		} else if (isSelect) {
+			target.validationEngine('hide');
+			aDeferred.resolve(target);
+		} else {
+			aDeferred.resolve(target);
+		}
+		return aDeferred.promise();
+	},
 	save: function (e) {
-		var target = $(e.currentTarget);
-		Settings_Index_Js.registerSaveEvent('save', {
-			name: target.attr('name'),
-			value: target.val(),
-			tabid: target.data('tabid')
+		Settings_Index_Js.validate(e).done(function (target) {
+			Settings_Index_Js.registerSaveEvent('save', {
+				name: target.attr('name'),
+				value: target.val(),
+				tabid: target.data('tabid')
+			});
 		});
 	},
 	registerSaveEvent: function (mode, data) {
-		var progress = $.progressIndicator({
+		let progress = $.progressIndicator({
 			message: app.vtranslate('Saving changes'),
 			position: 'html',
 			blockInfo: {
 				enabled: true
 			}
 		});
-		var resp = '';
-		var params = {};
+		let params = {};
 		params.data = {
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
@@ -76,12 +97,11 @@ var Settings_Index_Js = {
 		params.dataType = 'json';
 		AppConnector.request(params)
 			.done(function (data) {
-				var response = data['result'];
-				var params = {
+				let response = data['result'];
+				app.showNotify({
 					text: response['message'],
 					type: 'success'
-				};
-				app.showNotify(params);
+				});
 				progress.progressIndicator({ mode: 'hide' });
 			})
 			.fail(function (data, err) {
@@ -205,6 +225,6 @@ var Settings_Index_Js = {
 		this.registerModuleSequenceSaveClick();
 	}
 };
-$(document).ready(function () {
+jQuery(function () {
 	Settings_Index_Js.registerEvents();
 });

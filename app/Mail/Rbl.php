@@ -2,7 +2,7 @@
 /**
  * Mail RBL file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -459,7 +459,11 @@ class Rbl extends \App\Base
 	 */
 	public function verifySender(): array
 	{
-		$from = $this->mailMimeParser->getHeader('from')->getEmail();
+		$from = $this->mailMimeParser->getHeader('from');
+		if (!$from) {
+			return ['status' => true, 'info' => ''];
+		}
+		$from = $from->getEmail();
 		$status = true;
 		$info = '';
 		if (($returnPathHeader = $this->mailMimeParser->getHeader('Return-Path')) && ($returnPath = $returnPathHeader->getEmail())) {

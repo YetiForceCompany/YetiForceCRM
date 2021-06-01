@@ -48,7 +48,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		if ($maximumLength = $this->getFieldModel()->get('maximumlength')) {
-			[$minimumLength, $maximumLength] = false !== strpos(',', $maximumLength) ? explode(',', $maximumLength) : [-$maximumLength, $maximumLength];
+			[$minimumLength, $maximumLength] = false !== strpos($maximumLength, ',') ? explode(',', $maximumLength) : [-$maximumLength, $maximumLength];
 			if ((float) $minimumLength > $value || (float) $maximumLength < $value) {
 				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . "||{$maximumLength} < {$value} < {$minimumLength}", 406);
 			}

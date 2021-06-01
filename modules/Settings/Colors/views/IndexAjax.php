@@ -2,7 +2,7 @@
 /**
  * Colors ajax requests handler class.
  *
- * @package   View
+ * @package Settings.View
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -83,7 +83,7 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SELECTED_MODULE_FIELDS', $selectedModuleFields);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
-		$viewer->assign('ALL_ACTIVE_MODULES', \vtlib\Functions::getAllModules(true, false, 1, false));
+		$viewer->assign('ALL_ACTIVE_MODULES', \vtlib\Functions::getAllModules());
 		$viewer->view('TabFieldColors.tpl', $qualifiedName);
 	}
 }

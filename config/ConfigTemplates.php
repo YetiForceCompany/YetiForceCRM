@@ -154,7 +154,7 @@ return [
 			'validation' => '\App\Validator::languageTag',
 		],
 		'application_unique_key' => [
-			'default' => '',
+			'default' => sha1(time() + random_int(1, 9999999)),
 			'description' => 'Unique Application Key',
 			'validation' => function () {
 				return !class_exists('\\Config\\Main');
@@ -182,11 +182,8 @@ return [
 			'default' => '_TIMEZONE_',
 			'description' => 'Set the default timezone as per your preference',
 			'validation' => function () {
-				if (!class_exists('UserTimeZones')) {
-					Vtiger_Loader::includeOnce('~modules/Users/UserTimeZonesArray.php');
-				}
 				$arg = func_get_arg(0);
-				return \in_array($arg, UserTimeZones::getTimeZones());
+				return \in_array($arg, timezone_identifiers_list());
 			}
 		],
 		'title_max_length' => [
@@ -228,7 +225,8 @@ return [
 		],
 		'systemMode' => [
 			'default' => 'prod',
-			'description' => 'System mode. Available: prod, demo, test'
+			'description' => 'System mode. Available: prod, demo, test',
+			'validationValues' => ['prod', 'demo', 'test']
 		],
 		'listMaxEntriesMassEdit' => [
 			'default' => 500,
@@ -250,6 +248,12 @@ return [
 		'isActiveSendingMails' => [
 			'default' => true,
 			'description' => 'Is sending emails active?'
+		],
+		'isActiveRecordTemplate' => [
+			'default' => false,
+			'description' => 'Activates / deactivates batch adding of records',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'unblockedTimeoutCronTasks' => [
 			'default' => true,
@@ -282,27 +286,60 @@ return [
 			'default' => true,
 			'description' => 'Enable advanced phone number validation. Enabling it will block saving invalid phone number.'
 		],
+		'phoneFieldAdvancedHrefFormat' => [
+			'default' => new \Nette\PhpGenerator\PhpLiteral('\libphonenumber\PhoneNumberFormat::RFC3966'),
+			'description' => "Phone number display format. Values:\nfalse - formatting is disabled \n\\libphonenumber\\PhoneNumberFormat::RFC3966 - +48-44-668-18-00\n\\libphonenumber\\PhoneNumberFormat::E164 - +48446681800 \n\\libphonenumber\\PhoneNumberFormat::INTERNATIONAL - 044 668 18 00\n\\libphonenumber\\PhoneNumberFormat::NATIONAL - +48 44 668 18 00",
+			'validation' => function () {
+				return \in_array(func_get_arg(0), [
+					false,
+					\libphonenumber\PhoneNumberFormat::RFC3966,
+					\libphonenumber\PhoneNumberFormat::E164,
+					\libphonenumber\PhoneNumberFormat::INTERNATIONAL,
+					\libphonenumber\PhoneNumberFormat::NATIONAL
+				]);
+			}
+		],
 		'headerAlertMessage' => [
 			'default' => '',
 			'description' => 'Header alert message'
 		],
 		'headerAlertType' => [
 			'default' => '',
-			'description' => 'Header alert type'
+			'description' => 'Header alert type, ex. alert-primary, alert-danger, alert-warning, alert-info'
 		],
 		'headerAlertIcon' => [
 			'default' => '',
-			'description' => 'Header alert icon'
+			'description' => 'Header alert icon, ex.  fas fa-exclamation-triangle, fas fa-exclamation-circle, fas fa-exclamation, far fa-question-circle, fas fa-info-circle'
+		],
+		'loginPageAlertMessage' => [
+			'default' => '',
+			'description' => 'Login page alert message'
+		],
+		'loginPageAlertType' => [
+			'default' => '',
+			'description' => 'Login page alert type, ex. alert-primary, alert-danger, alert-warning, alert-info'
+		],
+		'loginPageAlertIcon' => [
+			'default' => '',
+			'description' => 'Login page alert icon, ex.  fas fa-exclamation-triangle, fas fa-exclamation-circle, fas fa-exclamation, far fa-question-circle, fas fa-info-circle'
+		],
+		'showRegistrationAlert' => [
+			'default' => true,
+			'description' => 'Show the alert when the system is incorrectly registered',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 	],
 	'debug' => [
 		'LOG_TO_FILE' => [
 			'default' => false,
-			'description' => 'Enable saving logs to file. Values: false/true'
+			'description' => 'Enable saving logs to file. Values: false/true',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'LOG_TO_PROFILE' => [
 			'default' => false,
-			'description' => 'Enable saving logs profiling. Values: false/true'
+			'description' => 'Enable saving logs profiling. Values: false/true',
 		],
 		'LOG_PROFILE_CATEGORIES' => [
 			'default' => [],
@@ -311,10 +348,15 @@ return [
 		'LOG_LEVELS' => [
 			'default' => false,
 			'description' => 'Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"]',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return false === $arg || (\is_array($arg) && array_diff(['error', 'warning', 'info', 'trace', 'profile'], $arg));
+			},
 		],
 		'LOG_TRACE_LEVEL' => [
 			'default' => 0,
-			'description' => 'Level of saved/displayed tracerts. // Values: int'
+			'description' => 'Level of saved/displayed tracerts. // Values: int',
+			'validation' => '\App\Validator::naturalNumber',
 		],
 		'SQL_DIE_ON_ERROR' => [
 			'default' => false,
@@ -322,25 +364,34 @@ return [
 		],
 		'EXCEPTION_ERROR_TO_SHOW' => [
 			'default' => false,
-			'description' => 'Display errors'
+			'description' => 'Display errors',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'DISPLAY_EXCEPTION_BACKTRACE' => [
 			'default' => false,
-			'description' => 'Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true'
+			'description' => 'Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'DISPLAY_EXCEPTION_LOGS' => [
 			'default' => false,
-			'description' => 'Display logs when error exception occurs'
+			'description' => 'Display logs when error exception occurs',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'EXCEPTION_ERROR_HANDLER' => [
 			'default' => false,
-			'description' => 'Turn on/off the error handler'
+			'description' => 'Turn on/off the error handler',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'EXCEPTION_ERROR_TO_FILE' => [
 			'default' => false,
-			'description' => 'Save logs to file (cache/logs/errors.log)'
+			'description' => 'Save logs to file (cache/logs/errors.log)',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
-
 		'DISPLAY_DEBUG_CONSOLE' => [
 			'default' => false,
 			'description' => 'Display main debug console'
@@ -361,10 +412,11 @@ return [
 			'default' => [],
 			'description' => 'List of user IDs allowed to display debug console. ',
 		],
-
 		'DEBUG_CRON' => [
 			'default' => false,
-			'description' => 'Debug cron => cache/logs/cron/'
+			'description' => 'Debug cron => cache/logs/cron/',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'DEBUG_VIEWER' => [
 			'default' => false,
@@ -377,46 +429,72 @@ return [
 		'SMARTY_ERROR_REPORTING' => [
 			'default' => new \Nette\PhpGenerator\PhpLiteral('E_ALL & ~E_NOTICE'),
 			'description' => 'Do not show Smarty Notice in phpError.log',
+			'validation' => function () {
+				$arg = (string) func_get_arg(0);
+				return \in_array($arg, ['E_ALL', 'E_ALL & ~E_NOTICE']);
+			},
 		],
 		'EXCEPTION_ERROR_LEVEL' => [
 			'default' => new \Nette\PhpGenerator\PhpLiteral('E_ALL & ~E_NOTICE'),
 			'description' => "Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.\nhttps://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting\nAll errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR",
+			'validation' => function () {
+				$arg = (string) func_get_arg(0);
+				return \in_array($arg, ['E_ALL', 'E_ALL & ~E_NOTICE']);
+			},
 		],
 		'JS_DEBUG' => [
 			'default' => true,
-			'description' => 'Turn on/off error debugging in javascript'
+			'description' => 'Turn on/off error debugging in javascript',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'apiShowExceptionMessages' => [
 			'default' => false,
-			'description' => '[WebServices/API] Show exception messages in response body'
+			'description' => '[WebServices/API] Show exception messages in response body',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'apiShowExceptionReasonPhrase' => [
 			'default' => false,
-			'description' => '[WebServices/API] Show exception reason phrase in response header'
+			'description' => '[WebServices/API] Show exception reason phrase in response header',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'apiShowExceptionBacktrace' => [
 			'default' => false,
-			'description' => '[WebServices/API] Show exception backtrace in response body'
+			'description' => '[WebServices/API] Show exception backtrace in response body',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'apiLogException' => [
 			'default' => false,
-			'description' => '[WebServices/API] Log to file only exception errors in the logs'
+			'description' => '[WebServices/API] Log to file only exception errors in the logs',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'apiLogAllRequests' => [
 			'default' => false,
-			'description' => '[WebServices/API] Log to file all communications data (request + response)'
+			'description' => '[WebServices/API] Log to file all communications data (request + response)',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'DAV_DEBUG_EXCEPTIONS' => [
 			'default' => false,
-			'description' => 'API - Sabre dav - This is a flag that allows (or not) showing file, line, and code of the exception in the returned XML'
+			'description' => 'API - Sabre dav - This is a flag that allows (or not) showing file, line, and code of the exception in the returned XML',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'DAV_DEBUG_PLUGIN' => [
 			'default' => false,
-			'description' => 'Activate the plugin recording log in DAV'
+			'description' => 'Activate the plugin recording log in DAV',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'MAILER_DEBUG' => [
 			'default' => false,
-			'description' => 'Mailer debug'
+			'description' => 'Mailer debug',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'ROUNDCUBE_DEBUG_LEVEL' => [
 			'default' => 1,
@@ -462,35 +540,51 @@ return [
 	'developer' => [
 		'CHANGE_GENERATEDTYPE' => [
 			'default' => false,
-			'description' => 'Turn the possibility to change generatedtype'
+			'description' => 'Turn the possibility to change generatedtype',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'MINIMIZE_JS' => [
 			'default' => true,
-			'description' => 'Enable minimize JS files'
+			'description' => 'Enable minimize JS files',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'MINIMIZE_CSS' => [
 			'default' => true,
-			'description' => ' Enable minimize CSS files'
+			'description' => ' Enable minimize CSS files',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'CHANGE_VISIBILITY' => [
 			'default' => false,
-			'description' => 'Change of fields visibility'
+			'description' => 'Change of fields visibility',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'CHANGE_RELATIONS' => [
 			'default' => false,
-			'description' => 'Adding/Deleting relations between modules.'
+			'description' => 'Adding/Deleting relations between modules.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'MISSING_LIBRARY_DEV_MODE' => [
 			'default' => false,
-			'description' => 'Developer libraries update mode'
+			'description' => 'Developer libraries update mode',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'LANGUAGES_UPDATE_DEV_MODE' => [
 			'default' => false,
-			'description' => 'Developer libraries update mode'
+			'description' => 'Developer libraries update mode',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'updaterDevMode' => [
 			'default' => false,
-			'description' => 'Developer updater mode'
+			'description' => 'Developer updater mode',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		]
 	],
 	'layout' => [
@@ -599,7 +693,7 @@ return [
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => [
-			'default' => 1000,
+			'default' => 100,
 			'description' => 'The numbers of emails downloaded during one scanning',
 			'validation' => '\App\Validator::naturalNumber'
 		],
@@ -614,7 +708,7 @@ return [
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER' => [
-			'default' => 1000,
+			'default' => 10000,
 			'description' => 'The maximum number of record labels that cron can update during a single execution',
 			'validation' => '\App\Validator::naturalNumber'
 		],
@@ -681,11 +775,6 @@ return [
 		'CHART_MULTI_FILTER_LIMIT' => [
 			'default' => 5,
 			'description' => 'Charts multi filter limit',
-			'validation' => '\App\Validator::naturalNumber'
-		],
-		'CHART_MULTI_FILTER_STR_LEN' => [
-			'default' => 50,
-			'description' => 'Charts multi filter maximum db value length',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CHART_ADDITIONAL_FILTERS_LIMIT' => [
@@ -780,7 +869,9 @@ return [
 		],
 		'SHOW_RECORDS_COUNT' => [
 			'default' => false,
-			'description' => 'Show record count in tabs of related modules'
+			'description' => 'Show record count in tabs of related modules',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'addSearchParamsToCreateView' => [
 			'default' => true,
@@ -1015,7 +1106,7 @@ return [
 		],
 		'USER_AUTHY_MODE' => [
 			'default' => 'TOTP_OPTIONAL',
-			'description' => "User authentication mode.\n@see \\Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
+			'description' => "User authentication mode.\n\n@see \\Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE\nAvailable values:\nTOTP_OFF - 2FA TOTP is checking off\nTOTP_OPTIONAL - It is defined by the user\nTOTP_OBLIGATORY - It is obligatory.",
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return \in_array($arg, \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
@@ -1139,10 +1230,16 @@ return [
 			'description' => '@var bool Ask admin about visit purpose',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
-		],
+		], 
 		'askAdminAboutVisitSwitchUsers' => [
 			'default' => true,
 			'description' => '@var bool Ask admin about switch users purpose',
+      		'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		], 
+		'askSuperUserAboutVisitPurpose' => [
+			'default' => true,
+			'description' => '@var bool Ask super user about visit purpose, only for the settings part',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],

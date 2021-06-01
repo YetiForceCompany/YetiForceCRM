@@ -87,6 +87,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 			if (10 === $uiType && $reference) {
 				$db->createCommand()->delete('vtiger_relatedlists', ['field_name' => $fieldname, 'related_tabid' => $tabId, 'tabid' => array_map('App\Module::getModuleId', $reference)])->execute();
+				foreach ($reference as $module) {
+					\App\Relation::clearCacheByModule($module);
+				}
 				\App\Cache::delete('HierarchyByRelation', '');
 			}
 

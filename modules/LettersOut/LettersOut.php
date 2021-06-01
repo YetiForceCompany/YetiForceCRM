@@ -33,17 +33,6 @@ class LettersOut extends CRMEntity
 		'vtiger_lettersout' => 'lettersoutid',
 		'vtiger_lettersoutcf' => 'lettersoutid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'Number' => ['lettersout', 'number'],
-		'Title' => ['lettersout', 'title'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'Created Time' => ['crmentity', 'createdtime'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Number' => 'number',
@@ -56,8 +45,7 @@ class LettersOut extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view from list view (Fieldname)
-	public $list_link_field = 'title';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		'Number' => ['lettersout', 'number'],

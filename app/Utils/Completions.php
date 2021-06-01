@@ -3,7 +3,7 @@
 /**
  * Utility for processing tags in text.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -309,7 +309,7 @@ class Completions
 		if (!\App\User::isExists($userId)) {
 			$html = static::deletedRecordTemplate($recordLabel);
 		} else {
-			$isRecordPermitted = \App\Privilege::isPermitted('Users', 'DetailView', $userId);
+			$isRecordPermitted = \App\User::getCurrentUserModel()->isAdmin();
 			$popoverRecordClass = $isRecordPermitted ? 'js-popover-tooltip--record' : '';
 			$popoverRecordHref = $isRecordPermitted ? "index.php?module=Users&view=Detail&record={$userId}" : '#';
 			$html = "<a class=\"js-completions__tag $popoverRecordClass\" href=\"$popoverRecordHref\" data-id=\"@$userId\" data-js=\"click\">" .

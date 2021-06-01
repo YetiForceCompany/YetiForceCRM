@@ -323,7 +323,7 @@ class RecordStatus
 		$date = (new Db\Query())->select(['date'])
 			->from($recordModel->getModule()->get('basetable') . '_state_history')
 			->where(['crmid' => $recordModel->getId(), 'after' => $state])->orderBy(['date' => SORT_DESC])
-			->limit(1)->scalar();
+			->scalar();
 		Cache::save($cacheName, $state, $date);
 		return $date;
 	}

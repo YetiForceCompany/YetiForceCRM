@@ -110,6 +110,7 @@ docker logs YetiForceCRM
 docker stop YetiForceCRM
 docker rm -f YetiForceCRM
 docker rmi -f yetiforcecrm_yetiforce-crm
+docker rmi -f yetiforce
 
 docker stop $(docker ps -a -q)
 docker rm -f $(docker ps -a -q)

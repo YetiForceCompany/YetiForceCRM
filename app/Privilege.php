@@ -5,6 +5,8 @@ namespace App;
 /**
  * Privilege basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -176,8 +178,8 @@ class Privilege
 		}
 		//Checking and returning true if recorid is null
 		if (empty($record)) {
-			static::$isPermittedLevel = 'SEC_RECORID_IS_NULL';
-			\App\Log::trace('Exiting isPermitted method ... - SEC_RECORID_IS_NULL');
+			static::$isPermittedLevel = 'SEC_RECORD_ID_IS_NULL';
+			\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_ID_IS_NULL');
 			return true;
 		}
 		//If modules is Products,Vendors,Faq,PriceBook then no sharing
@@ -208,8 +210,8 @@ class Privilege
 			}
 			return false;
 		}
-		if (\App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && $recordMetaData['private'] &&
-			($fieldInfo = \App\Field::getFieldInfo('private', $recordMetaData['setype'])) && \in_array($fieldInfo['presence'], [0, 2])) {
+		if (\App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && $recordMetaData['private']
+			&& ($fieldInfo = \App\Field::getFieldInfo('private', $recordMetaData['setype'])) && \in_array($fieldInfo['presence'], [0, 2])) {
 			$level = 'SEC_PRIVATE_RECORD_NO';
 			$isPermittedPrivateRecord = false;
 			$recOwnId = $recordMetaData['smownerid'];

@@ -29,7 +29,7 @@
 			</div>
 			<div class="p-0 d-flex flex-column">
 				<div id="myPrefHeading">
-					<h3 class="my-0">{\App\Language::translate('LBL_MY_PREFERENCES', $MODULE_NAME)} </h3>
+					<h3 class="my-0">{\App\Language::translate('LBL_MY_PREFERENCES')} </h3>
 				</div>
 				<div>
 					{\App\Language::translate('LBL_USERDETAIL_INFO', $MODULE_NAME)}

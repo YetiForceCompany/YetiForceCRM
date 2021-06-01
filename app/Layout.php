@@ -2,6 +2,8 @@
 /**
  * Layout class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -43,7 +45,6 @@ class Layout
 			if (!IS_PUBLIC_DIR) {
 				$basePath = 'public_html/' . $basePath;
 			}
-
 			return $basePath . $name;
 		}
 		$basePath = 'layouts' . '/' . \Vtiger_Viewer::getDefaultLayoutName() . '/';
@@ -188,7 +189,7 @@ class Layout
 		$teaser = $css = $btn = '';
 		$btnTemplate = function (string $popoverText = '', ?string $btnClass = ''): string {
 			$popoverText = \App\Language::translate($popoverText);
-			return "<a href=\"#\" class=\"js-more btnNoFastEdit font-weight-lighter js-popover-tooltip {$btnClass}\" data-iframe=\"true\" data-content=\"{$popoverText}\"><span class=\"mdi mdi-overscan\"></span></a>";
+			return "<a href=\"#\" class=\"js-more noLinkBtn font-weight-lighter js-popover-tooltip {$btnClass}\" data-iframe=\"true\" data-content=\"{$popoverText}\"><span class=\"mdi mdi-overscan\"></span></a>";
 		};
 		$iframeClass = 'modal-iframe js-modal-iframe';
 		if ('full' === $size) {
@@ -215,7 +216,7 @@ class Layout
 	public static function getRecordLabel(int $record, ?string $moduleName = null): string
 	{
 		if (!$record) {
-			return  '-';
+			return '-';
 		}
 		if (null === $moduleName) {
 			$moduleName = Record::getType($record);

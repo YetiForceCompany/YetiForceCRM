@@ -383,10 +383,10 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	.addCommentBlock .commentcontent {
-		min-height: calculate-rem(56px !important);
+		min-height: calculate-rem(56px) !important;
 		overflow-x: hidden;
 		overflow-y: hidden;
-		padding: calculate-rem(7px !important);
+		padding: calculate-rem(7px) !important;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
