@@ -312,7 +312,7 @@ components:
             isMorePages:
               description: 'There are more entries'
               type: boolean
-              example: 'true'
+              example: true
           type: object
       type: object
     Exception:

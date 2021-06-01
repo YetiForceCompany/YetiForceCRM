@@ -176,7 +176,7 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *				type="object",
 	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			),
-	 * 			@OA\Property(property="count", type="string", example=54),
+	 * 			@OA\Property(property="count", type="integer", example=54),
 	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
 	 * 		),
 	 *	),

@@ -3801,7 +3801,7 @@
                             },
                             "count": {
                                 "description": "Get related record list method.",
-                                "type": "string",
+                                "type": "integer",
                                 "example": 54
                             },
                             "isMorePages": {
@@ -3851,7 +3851,7 @@
                             },
                             "numberOfRecords": {
                                 "description": "Number of records on the page",
-                                "type": "string",
+                                "type": "integer",
                                 "example": 54
                             },
                             "isMorePages": {
@@ -3861,7 +3861,7 @@
                             },
                             "numberOfAllRecords": {
                                 "description": "Number of all records, dependent on the header `x-row-count`",
-                                "type": "string",
+                                "type": "integer",
                                 "example": 54
                             }
                         },
@@ -3954,7 +3954,7 @@
                                 "type": "object",
                                 "additionalProperties": {
                                     "description": "Field label",
-                                    "type": "boolean",
+                                    "type": "string",
                                     "example": "Account name"
                                 }
                             },
@@ -4255,7 +4255,7 @@
                             "lastLogoutTime": {
                                 "description": "Post method.",
                                 "type": "string",
-                                "example": null
+                                "example": ""
                             },
                             "language": {
                                 "description": "Post method.",

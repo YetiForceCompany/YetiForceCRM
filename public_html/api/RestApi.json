@@ -2622,7 +2622,7 @@
                             },
                             "count": {
                                 "description": "Get related record list method.",
-                                "type": "string",
+                                "type": "integer",
                                 "example": 54
                             },
                             "isMorePages": {
@@ -2672,7 +2672,7 @@
                             },
                             "numberOfRecords": {
                                 "description": "Number of records on the page",
-                                "type": "string",
+                                "type": "integer",
                                 "example": 54
                             },
                             "isMorePages": {
@@ -2682,7 +2682,7 @@
                             },
                             "numberOfAllRecords": {
                                 "description": "Number of all records, dependent on the header `x-row-count`",
-                                "type": "string",
+                                "type": "integer",
                                 "example": 54
                             }
                         },

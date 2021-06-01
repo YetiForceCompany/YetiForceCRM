@@ -182,7 +182,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 								@OA\Property(property="description", description="Description", type="string", example="I confirm to have read.."),
 	 * 						),
 	 * 				),
-	 * 				@OA\Property(property="isMorePages", description="There are more entries", type="boolean", example="true"),
+	 * 				@OA\Property(property="isMorePages", description="There are more entries", type="boolean", example=true),
 	 * 		),
 	 *	),
 	 *	@OA\Schema(

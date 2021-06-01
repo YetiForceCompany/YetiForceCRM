@@ -176,9 +176,9 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *				type="object",
 	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			),
-	 * 			@OA\Property(property="numberOfRecords", type="string", description="Number of records on the page", example=54),
+	 * 			@OA\Property(property="numberOfRecords", type="integer", description="Number of records on the page", example=54),
 	 * 			@OA\Property(property="isMorePages", type="boolean", description="There are more pages", example=true),
-	 * 			@OA\Property(property="numberOfAllRecords", type="string", description="Number of all records, dependent on the header `x-row-count`", example=54),
+	 * 			@OA\Property(property="numberOfAllRecords", type="integer", description="Number of all records, dependent on the header `x-row-count`", example=54),
 	 * 		),
 	 *	),
 	 */

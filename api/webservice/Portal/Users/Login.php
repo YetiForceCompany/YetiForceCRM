@@ -180,7 +180,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *   		@OA\Property(property="name", type="string"),
 	 *    		@OA\Property(property="parentName", type="string", example="YetiForce Company"),
 	 *    		@OA\Property(property="lastLoginTime", type="string", example="2019-10-07 08:32:38"),
-	 *    		@OA\Property(property="lastLogoutTime", type="string", example=null),
+	 *    		@OA\Property(property="lastLogoutTime", type="string", example=""),
 	 *    		@OA\Property(property="language", type="string", example="pl-PL"),
 	 *    		@OA\Property(property="type", type="integer"),
 	 *    		@OA\Property(property="login_method", type="string", enum={"PLL_PASSWORD", "PLL_PASSWORD_2FA"}, example="PLL_PASSWORD_2FA"),

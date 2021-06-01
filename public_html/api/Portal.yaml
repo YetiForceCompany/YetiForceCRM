@@ -2363,7 +2363,7 @@ components:
                 $ref: '#/components/schemas/Record_Raw_Details'
             count:
               description: 'Get related record list method.'
-              type: string
+              type: integer
               example: 54
             isMorePages:
               description: 'Get related record list method.'
@@ -2400,7 +2400,7 @@ components:
                 $ref: '#/components/schemas/Record_Raw_Details'
             numberOfRecords:
               description: 'Number of records on the page'
-              type: string
+              type: integer
               example: 54
             isMorePages:
               description: 'There are more pages'
@@ -2408,7 +2408,7 @@ components:
               example: true
             numberOfAllRecords:
               description: 'Number of all records, dependent on the header `x-row-count`'
-              type: string
+              type: integer
               example: 54
           type: object
       type: object
@@ -2477,7 +2477,7 @@ components:
               type: object
               additionalProperties:
                 description: 'Field label'
-                type: boolean
+                type: string
                 example: 'Account name'
             data:
               $ref: '#/components/schemas/Record_Display_Details'
@@ -2699,7 +2699,7 @@ components:
             lastLogoutTime:
               description: 'Post method.'
               type: string
-              example: null
+              example: ''
             language:
               description: 'Post method.'
               type: string
