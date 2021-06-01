@@ -22,7 +22,7 @@ class Logout extends \Api\Core\BaseAction
 	public $allowedMethod = ['PUT'];
 
 	/** {@inheritdoc}  */
-	public function checkPermissionToModule(): void
+	protected function checkPermissionToModule(): void
 	{
 	}
 
@@ -81,9 +81,18 @@ class Logout extends \Api\Core\BaseAction
 	public function put(): bool
 	{
 		$db = \App\Db::getInstance('webservice');
-		$db->createCommand()->delete(\Api\Core\Containers::$listTables[$this->controller->app['type']]['session'], [
+		$db->createCommand()->delete($this->controller->app['tables']['session'], [
 			'id' => $this->controller->headers['x-token'],
 		])->execute();
+		\App\Db::getInstance('webservice')->createCommand()
+			->insert($this->controller->app['tables']['loginHistory'], [
+				'time' => date('Y-m-d H:i:s'),
+				'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
+				'status' => 'LBL_SIGNED_OFF',
+				'user_name' => $this->userData['user_name'],
+				'user_id' => $this->userData['id'],
+				'agent' => \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false),
+			])->execute();
 		$this->updateUser([
 			'custom_params' => [
 				'logout_time' => date('Y-m-d H:i:s')

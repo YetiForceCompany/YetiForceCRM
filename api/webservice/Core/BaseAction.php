@@ -34,6 +34,8 @@ class BaseAction
 	/**
 	 * Check called action.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return void
 	 */
 	public function checkAction(): void
@@ -52,7 +54,7 @@ class BaseAction
 	 *
 	 * @return void
 	 */
-	public function checkPermissionToModule(): void
+	protected function checkPermissionToModule(): void
 	{
 		if (!$this->controller->request->isEmpty('module') && !Module::checkModuleAccess($this->controller->request->get('module'))) {
 			throw new \Api\Core\Exception('No permissions for module', 403);
@@ -66,29 +68,13 @@ class BaseAction
 	 *
 	 * @return void
 	 */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		if (empty($this->controller->headers['x-token'])) {
 			throw new \Api\Core\Exception('No sent token', 401);
 		}
-		$sessionTable = Containers::$listTables[$this->controller->app['type']]['session'];
-		$userTable = Containers::$listTables[$this->controller->app['type']]['user'];
-		$db = \App\Db::getInstance('webservice');
-		$this->userData = (new \App\Db\Query())->select(["$userTable.*", 'sid' => "$sessionTable.id", "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])
-			->from($userTable)
-			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
-			->where(["$sessionTable.id" => $this->controller->headers['x-token'], "$userTable.status" => 1])
-			->one($db);
-		if (empty($this->userData)) {
-			throw new \Api\Core\Exception('Invalid token', 401);
-		}
-		if ((strtotime('now') > strtotime($this->userData['created']) + (\Config\Security::$apiLifetimeSessionCreate * 60)) || (strtotime('now') > strtotime($this->userData['changed']) + (\Config\Security::$apiLifetimeSessionUpdate * 60))) {
-			$db->createCommand()
-				->delete($sessionTable, ['id' => $this->controller->headers['x-token']])
-				->execute();
-			throw new \Api\Core\Exception('Token has expired', 401);
-		}
-
+		$this->loadSession();
+		$this->checkLifetimeSession();
 		$this->userData['type'] = (int) $this->userData['type'];
 		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
 		if ($this->userData['auth']) {
@@ -103,6 +89,44 @@ class BaseAction
 		\App\Privilege::setPermissionInterpreter("\\Api\\{$namespace}\\Privilege");
 		\App\PrivilegeQuery::setPermissionInterpreter("\\Api\\{$namespace}\\PrivilegeQuery");
 		$this->updateSession();
+	}
+
+	/**
+	 * Load user session data .
+	 *
+	 * @throws \Api\Core\Exception
+	 *
+	 * @return void
+	 */
+	protected function loadSession(): void
+	{
+		$sessionTable = $this->controller->app['tables']['session'];
+		$userTable = $this->controller->app['tables']['user'];
+		$this->userData = (new \App\Db\Query())->select(["$userTable.*", 'sid' => "$sessionTable.id", "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])
+			->from($userTable)
+			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
+			->where(["$sessionTable.id" => $this->controller->headers['x-token'], "$userTable.status" => 1])
+			->one(\App\Db::getInstance('webservice'));
+		if (empty($this->userData)) {
+			throw new \Api\Core\Exception('Invalid token', 401);
+		}
+	}
+
+	/**
+	 * Check lifetime user session.
+	 *
+	 * @throws \Api\Core\Exception
+	 *
+	 * @return void
+	 */
+	protected function checkLifetimeSession(): void
+	{
+		if ((strtotime('now') > strtotime($this->userData['created']) + (\Config\Security::$apiLifetimeSessionCreate * 60)) || (strtotime('now') > strtotime($this->userData['changed']) + (\Config\Security::$apiLifetimeSessionUpdate * 60))) {
+			\App\Db::getInstance('webservice')->createCommand()
+				->delete($this->controller->app['tables']['session'], ['id' => $this->controller->headers['x-token']])
+				->execute();
+			throw new \Api\Core\Exception('Token has expired', 401);
+		}
 	}
 
 	/**
@@ -183,6 +207,8 @@ class BaseAction
 	/**
 	 * Get parent record.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return int
 	 */
 	public function getParentCrmId(): int
@@ -237,8 +263,9 @@ class BaseAction
 		$data['changed'] = date('Y-m-d H:i:s');
 		$data['ip'] = $this->controller->request->getServer('REMOTE_ADDR');
 		$data['last_method'] = $this->controller->request->getServer('REQUEST_URI');
+		$data['agent'] = \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false);
 		\App\Db::getInstance('webservice')->createCommand()
-			->update(\Api\Core\Containers::$listTables[$this->controller->app['type']]['session'], $data, ['id' => $this->userData['sid']])
+			->update($this->controller->app['tables']['session'], $data, ['id' => $this->userData['sid']])
 			->execute();
 	}
 
@@ -251,6 +278,7 @@ class BaseAction
 	 */
 	public function updateUser(array $data = []): void
 	{
+		$this->userData['custom_params']['agent'] = \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false);
 		if (isset($data['custom_params'])) {
 			$data['custom_params'] = \App\Json::encode(\App\Utils::merge(($this->userData['custom_params'] ?? []), $data['custom_params']));
 		}
@@ -258,7 +286,7 @@ class BaseAction
 			$data['auth'] = \App\Encryption::getInstance()->encrypt(\App\Json::encode(\App\Utils::merge(($this->userData['auth'] ?? []), $data['auth'])));
 		}
 		\App\Db::getInstance('webservice')->createCommand()
-			->update(\Api\Core\Containers::$listTables[$this->controller->app['type']]['user'], $data, ['id' => $this->userData['id']])
+			->update($this->controller->app['tables']['user'], $data, ['id' => $this->userData['id']])
 			->execute();
 	}
 }

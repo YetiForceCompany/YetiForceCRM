@@ -26,6 +26,8 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	/**
 	 * Send e-mail.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return array
 	 *
 	 * @OA\POST(

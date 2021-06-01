@@ -26,6 +26,8 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	/**
 	 * Gets consents.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return array
 	 *
 	 * @OA\POST(

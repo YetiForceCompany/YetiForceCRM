@@ -64,6 +64,8 @@ class Controller
 	/**
 	 * Pre process function.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return bool
 	 */
 	public function preProcess(): bool
@@ -77,6 +79,7 @@ class Controller
 			return false;
 		}
 		$this->app = Core\Auth::init($this);
+		$this->app['tables'] = Core\Containers::$listTables[$this->app['type']] ?? [];
 		if ($this->app['type'] !== $this->request->getByType('_container', 'Alnum')) {
 			throw new Core\Exception('Invalid api type', 404);
 		}
@@ -97,6 +100,8 @@ class Controller
 
 	/**
 	 * Process function.
+	 *
+	 * @throws \Api\Core\Exception
 	 *
 	 * @return void
 	 */
@@ -142,6 +147,8 @@ class Controller
 
 	/**
 	 * Get action class name.
+	 *
+	 * @throws \Api\Core\Exception
 	 *
 	 * @return string
 	 */
@@ -224,6 +231,8 @@ class Controller
 	 * @param string $str
 	 * @param string $file
 	 * @param int    $line
+	 *
+	 * @throws \Api\Core\Exception
 	 *
 	 * @return void
 	 */

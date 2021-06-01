@@ -42,6 +42,8 @@ class Privilege
 	 * @param bool|int $record
 	 * @param mixed    $userId
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return bool
 	 */
 	public static function isPermitted(string $moduleName, $actionName = null, $record = false, $userId = false)

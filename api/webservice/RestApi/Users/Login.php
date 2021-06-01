@@ -25,18 +25,18 @@ class Login extends \Api\Core\BaseAction
 	public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 	}
 
 	/** {@inheritdoc}  */
-	public function checkPermissionToModule(): void
+	protected function checkPermissionToModule(): void
 	{
 	}
 
 	/**
 	 * Post method.
-	 *
+	 * @throws \Api\Core\Exception
 	 * @return array
 	 *
 	 * @OA\Post(
@@ -301,7 +301,7 @@ class Login extends \Api\Core\BaseAction
 		}
 		\App\Db::getInstance('webservice')
 			->createCommand()
-			->insert(\Api\Core\Containers::$listTables[$this->controller->app['type']]['session'], [
+			->insert($this->controller->app['tables']['session'], [
 				'id' => $this->userData['sid'],
 				'user_id' => $this->userData['id'],
 				'created' => date(self::DATE_TIME_FORMAT),
@@ -310,19 +310,21 @@ class Login extends \Api\Core\BaseAction
 				'params' => \App\Json::encode($params),
 				'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
 				'last_method' => $this->controller->request->getServer('REQUEST_URI'),
+				'agent' => \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false),
 			])->execute();
 	}
 
 	/**
 	 * Check access data.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return void
 	 */
 	protected function checkAccess(): void
 	{
-		$table = \Api\Core\Containers::$listTables[$this->controller->app['type']]['user'];
 		$db = \App\Db::getInstance('webservice');
-		$this->userData = (new \App\Db\Query())->from($table)
+		$this->userData = (new \App\Db\Query())->from($this->controller->app['tables']['user'])
 			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
 			->limit(1)->one($db);
 		if (!$this->userData) {
@@ -354,6 +356,8 @@ class Login extends \Api\Core\BaseAction
 
 	/**
 	 * Check two factor authorization.
+	 *
+	 * @throws \Api\Core\Exception
 	 *
 	 * @return string
 	 */
@@ -392,9 +396,8 @@ class Login extends \Api\Core\BaseAction
 	 */
 	protected function saveLoginHistory(array $data): void
 	{
-		\App\Db::getInstance('webservice')
-			->createCommand()
-			->insert(\Api\Core\Containers::$listTables[$this->controller->app['type']]['loginHistory'], array_merge([
+		\App\Db::getInstance('webservice')->createCommand()
+			->insert($this->controller->app['tables']['loginHistory'], array_merge([
 				'time' => date(self::DATE_TIME_FORMAT),
 				'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
 				'agent' => \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false),

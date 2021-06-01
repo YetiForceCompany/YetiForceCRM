@@ -21,12 +21,14 @@ class ReceiveFromPaymentsSystem extends \Api\Core\BaseAction
 	public $allowedMethod = ['PUT'];
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 	}
 
 	/**
 	 * Handling payment information.
+	 *
+	 * @throws \Api\Core\Exception
 	 *
 	 * @return array
 	 */

@@ -274,6 +274,9 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 							case 'error_time':
 								$row = \App\Fields\DateTime::formatToDisplay($row);
 								break;
+							default:
+							$row = \App\Purifier::encodeHtml($row);
+								break;
 						}
 						$value .= \App\Language::translate(Settings_WebserviceUsers_Record_Model::$customParamsLabels[$key], 'Settings.WebserviceUsers') . ": $row \n";
 					}

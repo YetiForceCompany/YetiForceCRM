@@ -31,7 +31,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @return bool
 	 */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		if ($this->controller->request->isEmpty('record', true) || !\App\User::isExists($this->controller->request->getInteger('record'), false)) {

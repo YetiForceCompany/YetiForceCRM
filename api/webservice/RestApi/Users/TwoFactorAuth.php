@@ -21,6 +21,8 @@ class TwoFactorAuth extends Login
 	/**
 	 * Post method.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return array
 	 *
 	 * @OA\Post(

@@ -26,6 +26,8 @@ class PrivilegeQuery
 	 * @param string        $moduleName
 	 * @param mixed         $user
 	 * @param int           $relatedRecord
+	 *
+	 * @throws \Api\Core\Exception
 	 */
 	public static function getConditions(\App\Db\Query $query, string $moduleName, $user = false, $relatedRecord = null)
 	{

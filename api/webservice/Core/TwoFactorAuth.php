@@ -94,6 +94,8 @@ class TwoFactorAuth
 	/**
 	 * Verify secret key.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return void
 	 */
 	public function verify(): void

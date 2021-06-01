@@ -23,12 +23,12 @@ class Install extends \Api\Core\BaseAction
 	public $allowedMethod = ['PUT'];
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 	}
 
 	/** {@inheritdoc}  */
-	public function checkPermissionToModule(): void
+	protected function checkPermissionToModule(): void
 	{
 	}
 

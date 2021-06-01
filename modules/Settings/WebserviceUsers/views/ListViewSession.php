@@ -33,7 +33,8 @@ class Settings_WebserviceUsers_ListViewSession_View extends \App\Controller\Moda
 		'created' => 'FL_LOGIN_TIME',
 		'changed' => 'FL_DATETIME_LAST_QUERY',
 		'params' => 'LBL_PARAMS',
-		'last_method' => 'FL_LAST_METHOD'
+		'last_method' => 'FL_LAST_METHOD',
+		'agent' => 'LBL_USER_AGENT',
 	];
 
 	/** {@inheritdoc} */

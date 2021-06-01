@@ -30,7 +30,7 @@ class Record extends \Api\Core\BaseAction
 	public $recordModel;
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();

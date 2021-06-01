@@ -67,7 +67,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		'error_time' => 'FL_LAST_ERROR_DATE',
 		'error_method' => 'FL_LAST_ERROR_METHOD',
 		'version' => 'FL_VERSION',
-		'fromUrl' => 'FL_FROM_URL'
+		'fromUrl' => 'FL_FROM_URL',
+		'agent' => 'LBL_USER_AGENT',
 	];
 
 	/**
@@ -114,7 +115,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	public function setModule($moduleModel)
 	{
 		$this->module = $moduleModel;
-
 		return $this;
 	}
 
@@ -237,7 +237,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		if (!App\Json::isEmpty($data['custom_params'])) {
 			$data['custom_params'] = \App\Json::decode($data['custom_params']);
 			$data = array_merge($data, $data['custom_params']);
-		}else{
+		} else {
 			$data['custom_params'] = [];
 		}
 		if ($data['auth']) {

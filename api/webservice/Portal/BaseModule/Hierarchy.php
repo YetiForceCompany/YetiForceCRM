@@ -35,7 +35,7 @@ class Hierarchy extends \Api\Core\BaseAction
 	public $recursion = [];
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		if (1 === $this->getPermissionType()) {
@@ -47,8 +47,9 @@ class Hierarchy extends \Api\Core\BaseAction
 	/**
 	 * Get records hierarchy.
 	 *
-	 * @return array
+	 * @throws \Api\Core\Exception
 	 *
+	 * @return array
 	 * @OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/Hierarchy",
 	 *		summary="Get records hierarchy",

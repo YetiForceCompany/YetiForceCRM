@@ -39,6 +39,8 @@ abstract class AbstractAuth
 	 *
 	 * @param string $realm
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return bool
 	 */
 	abstract protected function authenticate(string $realm): bool;

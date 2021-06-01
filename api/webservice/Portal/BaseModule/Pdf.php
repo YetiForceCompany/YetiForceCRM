@@ -21,7 +21,7 @@ class Pdf extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		if ($this->controller->request->isEmpty('record')) {

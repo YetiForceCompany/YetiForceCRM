@@ -51,8 +51,9 @@ class Files extends \Api\Core\BaseAction
 	/**
 	 * Put method.
 	 *
-	 * @return \App\Fields\File
+	 * @throws \Api\Core\Exception
 	 *
+	 * @return \App\Fields\File
 	 * @OA\Put(
 	 *		path="/webservice/RestApi/Files",
 	 *		description="Download files from the system",

@@ -34,7 +34,7 @@ class SaveInventory extends \Api\Core\BaseAction
 	private $inventory;
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();

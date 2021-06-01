@@ -39,6 +39,7 @@
     "FL_LAST_ERROR_DATE": "Date of the last error",
     "LBL_PARAMS": "Params",
     "LBL_SIGNED_IN": "Signed in",
+    "LBL_SIGNED_OFF": "Signed off",
     "ERR_INCORRECT_PASSWORD": "Incorrect password",
     "ERR_USER_NOT_FOUND": "User not found",
     "ERR_NO_CRMID": "No contact ID",

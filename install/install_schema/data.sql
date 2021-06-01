@@ -337,11 +337,15 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `i_yf_magento_servers` */
 
+/*Data for the table `l_yf_api_login_history` */
+
 /*Data for the table `l_yf_batchmethod` */
 
 /*Data for the table `l_yf_magento` */
 
 /*Data for the table `l_yf_mail` */
+
+/*Data for the table `l_yf_portal_login_history` */
 
 /*Data for the table `l_yf_profile` */
 
@@ -20093,15 +20097,11 @@ insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (38,'Documen
 
 /*Data for the table `vtiger_ws_userauthtoken` */
 
-/*Data for the table `w_yf_api_login_history` */
-
 /*Data for the table `w_yf_api_session` */
 
 /*Data for the table `w_yf_api_user` */
 
 /*Data for the table `w_yf_manage_consents_user` */
-
-/*Data for the table `w_yf_portal_login_history` */
 
 /*Data for the table `w_yf_portal_session` */
 

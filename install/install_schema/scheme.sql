@@ -649,6 +649,21 @@ CREATE TABLE `i_yf_magento_servers` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_api_login_history` */
+
+CREATE TABLE `l_yf_api_login_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` timestamp NULL DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  `agent` varchar(500) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `w_yf_api_login_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_api_user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_batchmethod` */
 
 CREATE TABLE `l_yf_batchmethod` (
@@ -693,6 +708,21 @@ CREATE TABLE `l_yf_mail` (
   `params` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `l_yf_portal_login_history` */
+
+CREATE TABLE `l_yf_portal_login_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` timestamp NULL DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  `agent` varchar(500) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `w_yf_portal_login_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_portal_user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `l_yf_profile` */
@@ -9657,21 +9687,6 @@ CREATE TABLE `vtiger_ws_userauthtoken` (
   UNIQUE KEY `userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `l_yf_api_login_history` */
-
-CREATE TABLE `l_yf_api_login_history` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `time` timestamp NULL DEFAULT NULL,
-  `user_name` varchar(255) DEFAULT NULL,
-  `user_id` int(10) unsigned DEFAULT NULL,
-  `status` varchar(30) DEFAULT NULL,
-  `agent` varchar(500) DEFAULT NULL,
-  `ip` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `w_yf_api_login_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_api_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `w_yf_api_session` */
 
 CREATE TABLE `w_yf_api_session` (
@@ -9683,6 +9698,7 @@ CREATE TABLE `w_yf_api_session` (
   `params` text DEFAULT NULL,
   `ip` varchar(100) NOT NULL,
   `last_method` varchar(100) DEFAULT NULL,
+  `agent` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `w_yf_api_session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_api_user` (`id`) ON DELETE CASCADE
@@ -9702,7 +9718,7 @@ CREATE TABLE `w_yf_api_user` (
   `user_id` int(10) DEFAULT NULL,
   `login_method` varchar(30) NOT NULL DEFAULT 'PLL_PASSWORD',
   `auth` varchar(500) DEFAULT NULL,
-  `custom_params` varchar(500) DEFAULT NULL,
+  `custom_params` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`user_name`),
   KEY `user_name_status` (`user_name`,`status`),
@@ -9726,21 +9742,6 @@ CREATE TABLE `w_yf_manage_consents_user` (
   CONSTRAINT `w_yf_manage_consents_user_fk1` FOREIGN KEY (`server_id`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `l_yf_portal_login_history` */
-
-CREATE TABLE `l_yf_portal_login_history` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `time` timestamp NULL DEFAULT NULL,
-  `user_name` varchar(255) DEFAULT NULL,
-  `user_id` int(10) unsigned DEFAULT NULL,
-  `status` varchar(30) DEFAULT NULL,
-  `agent` varchar(500) DEFAULT NULL,
-  `ip` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `w_yf_portal_login_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_portal_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `w_yf_portal_session` */
 
 CREATE TABLE `w_yf_portal_session` (
@@ -9752,6 +9753,7 @@ CREATE TABLE `w_yf_portal_session` (
   `params` text DEFAULT NULL,
   `ip` varchar(100) NOT NULL,
   `last_method` varchar(100) DEFAULT NULL,
+  `agent` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `w_yf_portal_session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_portal_user` (`id`) ON DELETE CASCADE
@@ -9772,7 +9774,7 @@ CREATE TABLE `w_yf_portal_user` (
   `istorage` int(10) DEFAULT NULL,
   `login_method` varchar(30) NOT NULL DEFAULT 'PLL_PASSWORD',
   `auth` varchar(500) DEFAULT NULL,
-  `custom_params` varchar(500) DEFAULT NULL,
+  `custom_params` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`user_name`),
   KEY `user_name_2` (`user_name`,`status`),
