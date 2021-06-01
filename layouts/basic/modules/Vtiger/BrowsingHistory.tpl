@@ -10,7 +10,7 @@
 			{elseif isset($HISTORY['viewOlder'])}
 				<h6 class="dropdown-header selectorHistory">{\App\Language::translate('LBL_YESTERDAY')}</h6>
 			{/if}
-			<a class="item dropdown-item" href="{$HISTORY['url']}" role="listitem">
+			<a class="item dropdown-item" href="/{$HISTORY['url']}" role="listitem">
 				{if $HISTORY['hour']}
 					<span class="historyHour">{$HISTORY['date']}</span>
 				{else}
