@@ -52,7 +52,7 @@
 						   data-value="{\App\Purifier::encodeHtml(\App\Json::encode($MASS_EDIT_FIELD_DETAILS))}"/>
 
 					<div class="modal-body">
-						<ul class="nav nav-tabs">
+						<ul class="nav nav-tabs massEditTabs">
 							{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name=blockIterator}
 								{if $BLOCK_FIELDS|@count gt 0}
 									<li class="nav-item col-6 col-sm-4 p-0 text-center">

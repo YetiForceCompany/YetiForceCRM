@@ -36,7 +36,7 @@ class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 			$class = 'js-show-modal';
 		}
 		$rawValue = \App\TextParser::textTruncate($rawValue, \is_int($length) ? $length : 0);
-		return '<a class="noLinkBtn btnNoFastEdit ' . $class . ' u-cursor-pointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer noopener" data-url="' . $meetingModalUrl . '">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
+		return '<a class="noLinkBtn ' . $class . ' u-cursor-pointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer noopener" data-url="' . $meetingModalUrl . '">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
 	}
 
 	/**

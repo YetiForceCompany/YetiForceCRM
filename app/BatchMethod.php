@@ -2,7 +2,7 @@
 /**
  * Batch method file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -65,7 +65,7 @@ class BatchMethod extends Base
 	 */
 	public function save()
 	{
-		$db = Db::getInstance();
+		$db = Db::getInstance('admin');
 		if ($this->get('id')) {
 			$result = $db->createCommand()->update('s_#__batchmethod', $this->getData(), ['id' => $this->get('id')])->execute();
 		} else {
@@ -87,7 +87,7 @@ class BatchMethod extends Base
 	 */
 	public function isExists(): bool
 	{
-		return (new Db\Query())->from('s_#__batchmethod')->where(['method' => $this->get('method'), 'params' => $this->get('params')])->exists();
+		return (new Db\Query())->from('s_#__batchmethod')->where(['method' => $this->get('method'), 'params' => $this->get('params')])->exists(Db::getInstance('admin'));
 	}
 
 	/**
@@ -121,7 +121,7 @@ class BatchMethod extends Base
 	 */
 	public function setStatus(int $status)
 	{
-		$result = Db::getInstance()->createCommand()->update('s_#__batchmethod', ['status' => $status], ['id' => $this->get('id')])->execute();
+		$result = Db::getInstance('admin')->createCommand()->update('s_#__batchmethod', ['status' => $status], ['id' => $this->get('id')])->execute();
 		if ($result) {
 			$this->set('status', $status);
 		}
@@ -142,7 +142,7 @@ class BatchMethod extends Base
 	 */
 	public function delete()
 	{
-		Db::getInstance()->createCommand()->delete('s_#__batchmethod', ['id' => $this->get('id')])->execute();
+		Db::getInstance('admin')->createCommand()->delete('s_#__batchmethod', ['id' => $this->get('id')])->execute();
 	}
 
 	/**
@@ -152,7 +152,7 @@ class BatchMethod extends Base
 	 */
 	public static function deleteByMethod(string $method): void
 	{
-		Db::getInstance()->createCommand()->delete('s_#__batchmethod', ['method' => $method])->execute();
+		Db::getInstance('admin')->createCommand()->delete('s_#__batchmethod', ['method' => $method])->execute();
 	}
 
 	/**

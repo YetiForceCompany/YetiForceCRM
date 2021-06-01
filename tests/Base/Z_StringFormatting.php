@@ -55,12 +55,12 @@ class Z_StringFormatting extends \Tests\Base
 	{
 		parent::setUpBeforeClass();
 		$userModel = \App\User::getCurrentUserModel();
-		static::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
-		static::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
-		static::$symbolPlacement = $userModel->getDetail('currency_symbol_placement');
-		static::$patternGrouping = $userModel->getDetail('currency_grouping_pattern');
-		static::$decimalNum = $userModel->getDetail('no_of_currency_decimals');
-		static::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
+		self::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
+		self::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
+		self::$symbolPlacement = $userModel->getDetail('currency_symbol_placement');
+		self::$patternGrouping = $userModel->getDetail('currency_grouping_pattern');
+		self::$decimalNum = $userModel->getDetail('no_of_currency_decimals');
+		self::$truncateTrailingZeros = $userModel->getDetail('truncate_trailing_zeros');
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Z_StringFormatting extends \Tests\Base
 	 */
 	public function getCombinations()
 	{
-		if (!static::$combinations) {
+		if (!self::$combinations) {
 			$query = (new \App\Db\Query())->select(
 				[
 					'decimal_separator' => 'vtiger_currency_decimal_separator.currency_decimal_separator',
@@ -107,11 +107,11 @@ class Z_StringFormatting extends \Tests\Base
 			)->from('vtiger_currency_decimal_separator')->join('cross join', 'vtiger_currency_grouping_pattern')->join('cross join', 'vtiger_currency_grouping_separator')->join('cross join', 'vtiger_currency_symbol_placement')->join('cross join', 'vtiger_no_of_currency_decimals')->createCommand()->query();
 			while ($combination = $query->read()) {
 				if ($combination['grouping_separator'] !== $combination['decimal_separator']) {
-					static::$combinations[] = $combination;
+					self::$combinations[] = $combination;
 				}
 			}
 		}
-		return static::$combinations;
+		return self::$combinations;
 	}
 
 	/**
@@ -276,19 +276,17 @@ class Z_StringFormatting extends \Tests\Base
 	/**
 	 * Restore current user preferences.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @throws \Exception
 	 */
 	public static function tearDownAfterClass(): void
 	{
 		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
-		$userModel->set('currency_decimal_separator', static::$separatorDecimal);
-		$userModel->set('currency_grouping_separator', static::$separatorGrouping);
-		$userModel->set('currency_symbol_placement', static::$symbolPlacement);
-		$userModel->set('currency_grouping_pattern', static::$patternGrouping);
-		$userModel->set('no_of_currency_decimals', static::$decimalNum);
-		$userModel->set('truncate_trailing_zeros', static::$truncateTrailingZeros);
+		$userModel->set('currency_decimal_separator', self::$separatorDecimal);
+		$userModel->set('currency_grouping_separator', self::$separatorGrouping);
+		$userModel->set('currency_symbol_placement', self::$symbolPlacement);
+		$userModel->set('currency_grouping_pattern', self::$patternGrouping);
+		$userModel->set('no_of_currency_decimals', self::$decimalNum);
+		$userModel->set('truncate_trailing_zeros', self::$truncateTrailingZeros);
 		$userModel->save();
 		parent::tearDownAfterClass();
 	}

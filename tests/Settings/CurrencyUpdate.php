@@ -2,6 +2,8 @@
 /**
  * CurrencyUpdate test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
@@ -52,7 +54,7 @@ class CurrencyUpdate extends \Tests\Base
 		try {
 			foreach (['CBR', 'ECB', 'NBR', 'NBP'] as $bankCode) {
 				if (\in_array($bankCode, ['CBR'])) {
-					echo $bankCode . ' - Disabled due to data source instability' . PHP_EOL;
+					echo "$bankCode - Disabled due to data source instability\n";
 					continue;
 				}
 				$bankClass = '\Settings_CurrencyUpdate_' . $bankCode . '_BankModel';

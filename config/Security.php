@@ -196,4 +196,7 @@ class Security
 
 	/** @var bool Ask admin about visit purpose */
 	public static $askAdminAboutVisitPurpose = true;
+
+	/** @var bool Ask super user about visit purpose, only for the settings part */
+	public static $askSuperUserAboutVisitPurpose = true;
 }

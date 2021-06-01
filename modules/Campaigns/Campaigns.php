@@ -25,14 +25,7 @@ class Campaigns extends CRMEntity
 	 */
 	public $customFieldTable = ['vtiger_campaignscf', 'campaignid'];
 	public $column_fields = [];
-	public $list_fields = [
-		'Campaign Name' => ['campaign' => 'campaignname'],
-		'Campaign Type' => ['campaign' => 'campaigntype'],
-		'Campaign Status' => ['campaign' => 'campaignstatus'],
-		'Expected Revenue' => ['campaign' => 'expectedrevenue'],
-		'Expected Close Date' => ['campaign' => 'closingdate'],
-		'Assigned To' => ['crmentity' => 'smownerid'],
-	];
+
 	public $list_fields_name = [
 		'Campaign Name' => 'campaignname',
 		'Campaign Type' => 'campaigntype',
@@ -46,7 +39,6 @@ class Campaigns extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	public $list_link_field = 'campaignname';
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';

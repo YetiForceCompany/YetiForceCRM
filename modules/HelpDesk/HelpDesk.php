@@ -27,19 +27,7 @@ class HelpDesk extends CRMEntity
 	public $column_fields = [];
 	//Pavani: Assign value to entity_table
 	public $entity_table = 'vtiger_crmentity';
-	public $list_fields = [
-		//Module Sequence Numbering
-		//'Ticket ID'=>Array('crmentity'=>'crmid'),
-		'Ticket No' => ['troubletickets' => 'ticket_no'],
-		// END
-		'Subject' => ['troubletickets' => 'title'],
-		'Related To' => ['troubletickets' => 'parent_id'],
-		'Contact Name' => ['troubletickets' => 'contact_id'],
-		'Status' => ['troubletickets' => 'status'],
-		'Priority' => ['troubletickets' => 'priority'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'FL_TOTAL_TIME_H' => ['troubletickets', 'sum_time'],
-	];
+
 	public $list_fields_name = [
 		'Ticket No' => 'ticket_no',
 		'Subject' => 'ticket_title',
@@ -55,7 +43,6 @@ class HelpDesk extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	public $list_link_field = 'ticket_title';
 	public $search_fields = [
 		//'Ticket ID' => Array('vtiger_crmentity'=>'crmid'),
 		'Ticket No' => ['troubletickets' => 'ticket_no'],

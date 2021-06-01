@@ -23,9 +23,11 @@ jQuery.Class(
 					if (type === 'RelatedModule' || type === 'RelatedModuleChart' || type === 'Documents') {
 						thisInstance.loadFilters(wizardContainer);
 						thisInstance.relatedModuleFields(wizardContainer);
+						thisInstance.customView(wizardContainer);
 						wizardContainer.find("select[name='relation_id']").on('change', function () {
 							thisInstance.changeRelatedModule(wizardContainer);
 							thisInstance.relatedModuleFields(wizardContainer);
+							thisInstance.customView(wizardContainer);
 						});
 					}
 					thisInstance.registerSort(wizardContainer);
@@ -41,13 +43,9 @@ jQuery.Class(
 								save = false;
 							}
 							if (save) {
-								var formData = form.serializeFormData();
-								if	(typeof formData.relatedfields === 'string') {
-									formData.relatedfields = [formData.relatedfields];
-								}
 								thisInstance
 									.registerSaveEvent('saveWidget', {
-										data: formData,
+										data: form.serializeFormData(),
 										tabid: tabId
 									})
 									.done((_) => {
@@ -201,6 +199,29 @@ jQuery.Class(
 			this.loadFilters(wizardContainer.find('.form-modalAddWidget'));
 		},
 
+		customView(container) {
+			const relatedModule = parseInt(container.find("input[name='relatedmodule']").val());
+			let customViews = app.getMainParams('customView', true);
+			let customView = container.find("select[name='customView']");
+			let customViewValues = container.find('.js-custom-view').val();
+			if (customViewValues) {
+				customViewValues = JSON.parse(customViewValues);
+			} else {
+				customViewValues = [];
+			}
+			customView.empty();
+			if (customViews[relatedModule] !== undefined) {
+				$.each(customViews[relatedModule], function (index, value) {
+					let option = { value: index, text: value };
+					if (customViewValues.includes(index)) {
+						option.selected = 'selected';
+					}
+					customView.append($('<option/>', option));
+				});
+			}
+			customView.trigger('change:select2');
+		},
+
 		modalFormEdit(wizardContainer) {
 			const thisInstance = this;
 			$('#massEditHeader.modal-title').text(app.vtranslate('JS_EDIT_WIDGET'));
@@ -209,9 +230,11 @@ jQuery.Class(
 			if (type == 'RelatedModule' || type === 'RelatedModuleChart' || type === 'Documents') {
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
+				thisInstance.customView(wizardContainer);
 				wizardContainer.find("select[name='relation_id']").on('change', function () {
 					thisInstance.changeRelatedModule(wizardContainer);
 					thisInstance.relatedModuleFields(wizardContainer);
+					thisInstance.customView(wizardContainer);
 				});
 			}
 			this.registerSort(wizardContainer);

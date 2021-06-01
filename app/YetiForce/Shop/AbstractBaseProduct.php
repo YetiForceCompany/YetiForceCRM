@@ -3,7 +3,7 @@
 /**
  * YetiForce shop AbstractBaseProduct file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -105,11 +105,11 @@ abstract class AbstractBaseProduct
 	/**
 	 * Verify the product.
 	 *
-	 * @return bool
+	 * @return array
 	 */
-	public function verify(): bool
+	public function verify(): array
 	{
-		return true;
+		return ['status' => true];
 	}
 
 	/**
@@ -194,7 +194,7 @@ abstract class AbstractBaseProduct
 	{
 		$filePath = null;
 		$file = 'modules/Settings/YetiForce/' . $this->name . '.png';
-		if (\file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . $file)) {
+		if (\file_exists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . $file)) {
 			$filePath = \App\Layout::getPublicUrl($file);
 		}
 		return $filePath;
@@ -289,17 +289,26 @@ abstract class AbstractBaseProduct
 	/**
 	 * Show alert.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function showAlert(): array
 	{
-		if (strtotime('now') > strtotime($this->expirationDate) || \App\Company::getSize() !== $this->paidPackage) {
-			return ['status' => true, 'type' => 'LBL_SHOP_RENEW', 'message' => 'LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED'];
+		$return = ['status' => false];
+		if (isset($this->paidPackage, $this->expirationDate)) {
+			if (strtotime('now') > strtotime($this->expirationDate)) {
+				$return = ['status' => true, 'type' => 'LBL_SHOP_RENEW', 'message' => 'LBL_SUBSCRIPTION_HAS_EXPIRED'];
+			} elseif (!\App\Company::compareSize($this->paidPackage)) {
+				$return = ['status' => true, 'type' => 'LBL_SHOP_RENEW', 'message' => 'LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED'];
+			} elseif ($analyze = $this->analyzeConfiguration()) {
+				$return = array_merge(['status' => true], $analyze);
+			}
+		} else {
+			$check = $this->verify();
+			if (!$check['status']) {
+				$return = ['status' => true, 'type' => 'LBL_SHOP_RENEW', 'message' => $check['message']];
+			}
 		}
-		if ($analyze = $this->analyzeConfiguration()) {
-			return array_merge(['status' => true], $analyze);
-		}
-		return ['status' => false];
+		return $return;
 	}
 
 	/**

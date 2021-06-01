@@ -49,22 +49,6 @@ class DataSetRegister extends Vtiger_CRMEntity
 	];
 
 	/**
-	 * Mandatory for Listing (Related listview).
-	 *
-	 * @var array
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'LBL_SUBJECT' => ['datasetregister', 'subject'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-		'FL_STATUS' => ['datasetregister', 'datasetregister_status'],
-		'FL_ADDED_TO_REGISTER' => ['datasetregister', 'added_to_register'],
-		'FL_REMOVED_FROM_REGISTER' => ['datasetregister', 'removed_from_register'],
-		'FL_DATA_SUBMITTED' => ['datasetregister', 'data_submitted']
-	];
-
-	/**
 	 * List fields name.
 	 *
 	 * @var array
@@ -78,12 +62,7 @@ class DataSetRegister extends Vtiger_CRMEntity
 		'FL_REMOVED_FROM_REGISTER' => 'removed_from_register',
 		'FL_DATA_SUBMITTED' => 'data_submitted'
 	];
-	/**
-	 * Make the field link to detail view.
-	 *
-	 * @var string
-	 */
-	public $list_link_field = 'subject';
+
 	/**
 	 * For Popup listview and UI type support.
 	 *

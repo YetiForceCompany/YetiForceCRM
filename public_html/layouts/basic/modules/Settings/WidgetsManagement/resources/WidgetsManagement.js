@@ -13,13 +13,20 @@ jQuery.Class(
 			else thisInstance.widgetWithFilterUsers = [];
 		},
 		widgetWithFilterDate: [],
-		setWidgetWithFilterDate: function () {
+		widgetWithRecordLimit: [],
+		setWidgetData: function () {
 			let thisInstance = this;
 			let element = $('[name="filter_date"]').val();
 			if (element) {
 				thisInstance.widgetWithFilterDate = JSON.parse(element);
 			} else {
 				thisInstance.widgetWithFilterDate = [];
+			}
+			let recordLimit = $('[name="record_limit"]').val();
+			if (recordLimit) {
+				thisInstance.widgetWithRecordLimit = JSON.parse(recordLimit);
+			} else {
+				thisInstance.widgetWithRecordLimit = [];
 			}
 		},
 		setWidgetWithFilterTitle: function () {
@@ -57,7 +64,7 @@ jQuery.Class(
 			return fields;
 		},
 		multipleWidgets: function () {
-			return ['Multifilter'];
+			return ['Multifilter', 'Upcoming events'];
 		},
 		getCurrentDashboardId() {
 			return $('.selectDashboard li a.active').parent().data('id');
@@ -259,6 +266,14 @@ jQuery.Class(
 							addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
 						}
 					}
+					let filterItem = JSON.parse($('[name="filter_users_item"]').val());
+					filterItem = filterItem[name] || filterItem['default'];
+					addFieldContainer.find('.widgetFilter select option').each(function () {
+						let element = $(this);
+						if ($.inArray(element.val(), filterItem) == -1) {
+							element.remove();
+						}
+					});
 				}
 				if ($.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
 					addFieldContainer
@@ -276,12 +291,19 @@ jQuery.Class(
 					data.find('select.widgets').on('change', function () {
 						data.find('.widgetFilter').remove();
 						data.find('.widgetFilterDate').remove();
+						data.find('[data-widgets]').remove();
+						data.find('.widgetLimit').remove();
+						data.find('.widgetFilterTitle').remove();
 						let elementsToFilterTitle = contents.find('.createFieldModal .widgetFilterTitle').clone(true, true);
 						let elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
 						let elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
+						let elementsToDataWidgets = contents.find('.createFieldModal [data-widgets]').clone(true, true);
+						let elementsToLimit = contents.find('.createFieldModal .widgetLimit').clone(true, true);
 						data.find('.modal-body').append(elementsToFilterTitle);
 						data.find('.modal-body').append(elementsToFilter);
-						data.find('.modal-body').append(elementsToFilterDate);
+						data.find('.modal-body').append(elementsToDataWidgets);
+						data.find('.modal-body').append(elementsToLimit);
+						app.showPopoverElementView();
 						let name = $(this).find(':selected').data('name');
 						if ($.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
 							elementsToFilter.removeClass('d-none').find('select').prop('disabled', false);
@@ -291,15 +313,42 @@ jQuery.Class(
 									addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
 								}
 							}
+							let filterItem = JSON.parse($('[name="filter_users_item"]').val());
+							filterItem = filterItem[name] || filterItem['default'];
+							addFieldContainer.find('.widgetFilter select option').each(function () {
+								let element = $(this);
+								if ($.inArray(element.val(), filterItem) == -1) {
+									element.remove();
+								}
+							});
 							App.Fields.Picklist.showSelect2ElementView(elementsToFilter.find('select'));
 						} else {
 							elementsToFilter.addClass('d-none').find('select').prop('disabled', true);
 						}
+						data.find('[data-widgets]').each(function () {
+							let element = $(this);
+							let widgets = element.data('widgets');
+							if (name === widgets || $.inArray(name, widgets) != -1) {
+								element.removeClass('d-none');
+								let select = element.find('select');
+								if (select.length) {
+									select.prop('disabled', false);
+									App.Fields.Picklist.showSelect2ElementView(select);
+								}
+							} else {
+								element.addClass('d-none').find('select').prop('disabled', true);
+							}
+						});
 						if ($.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
 							elementsToFilterDate.removeClass('d-none').find('select').prop('disabled', false);
 							App.Fields.Picklist.showSelect2ElementView(elementsToFilterDate.find('select'));
 						} else {
 							elementsToFilterDate.addClass('d-none').find('select').prop('disabled', true);
+						}
+						if ($.inArray(name, thisInstance.widgetWithRecordLimit) != -1) {
+							data.find('.widgetLimit').removeClass('d-none');
+						} else {
+							data.find('.widgetLimit').addClass('d-none');
 						}
 						if ($.inArray(name, thisInstance.widgetWithFilterTitle) != -1) {
 							elementsToFilterTitle.removeClass('d-none').find('input').prop('disabled', false);
@@ -639,9 +688,6 @@ jQuery.Class(
 			container.find('.addMiniList').on('click', function (e) {
 				thisInstance.addMiniListWidget(this, jQuery(this).data('url'));
 			});
-			container.find('.addChartFilter').on('click', function (e) {
-				thisInstance.addChartFilterWidget(this, jQuery(this).data('url'));
-			});
 			container.find('.addRss').on('click', function (e) {
 				thisInstance.addRssWidget($(e.currentTarget), jQuery(this).data('url'));
 			});
@@ -703,166 +749,6 @@ jQuery.Class(
 				params['text'] = app.vtranslate('JS_WIDGET_ADDED');
 				Settings_Vtiger_Index_Js.showMessage(params);
 				thisInstance.showCustomField(paramsForm);
-			}
-		},
-		addChartFilterWidget: function (element) {
-			var thisInstance = this;
-			element = jQuery(element);
-			app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function (wizardContainer) {
-				var form = jQuery('form', wizardContainer);
-				var chartType = jQuery('select[name="chartType"]', wizardContainer);
-				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
-				var moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
-					placeholder: app.vtranslate('JS_SELECT_MODULE')
-				});
-				var step1 = jQuery('.step1', wizardContainer);
-				var step2 = jQuery('.step2', wizardContainer);
-				var step3 = jQuery('.step3', wizardContainer);
-				var footer = jQuery('.modal-footer', wizardContainer);
-				step2.remove();
-				step3.remove();
-				footer.hide();
-				chartType.on('change', function (e) {
-					var currentTarget = $(e.currentTarget);
-					var value = currentTarget.val();
-					if (value == 'Barchat' || value == 'Horizontal') {
-						form.find('.isColorContainer').removeClass('d-none');
-					} else {
-						form.find('.isColorContainer').addClass('d-none');
-					}
-					if (wizardContainer.find('#widgetStep').val() == 4) {
-						wizardContainer.find('.step3 .groupField').trigger('change');
-					}
-				});
-				moduleNameSelect2.on('change', function () {
-					if (!moduleNameSelect2.val()) return;
-					footer.hide();
-					wizardContainer.find('.step2').remove();
-					wizardContainer.find('.step3').remove();
-					AppConnector.request({
-						module: 'Home',
-						view: 'ChartFilter',
-						step: 'step2',
-						chartType: chartType.val(),
-						selectedModule: moduleNameSelect2.val()
-					}).done(function (step2Response) {
-						step1.after(step2Response);
-						wizardContainer.find('#widgetStep').val(2);
-						const step2 = wizardContainer.find('.step2');
-						footer.hide();
-						const filtersIdElement = step2.find('.filtersId');
-						const valueTypeElement = step2.find('.valueType');
-						App.Fields.Picklist.showSelect2ElementView(filtersIdElement);
-						App.Fields.Picklist.showSelect2ElementView(valueTypeElement);
-						step2.find('.filtersId, .valueType').on('change', function () {
-							wizardContainer.find('.step3').remove();
-							wizardContainer.find('.step4').remove();
-							AppConnector.request({
-								module: 'Home',
-								view: 'ChartFilter',
-								step: 'step3',
-								selectedModule: moduleNameSelect2.val(),
-								chartType: chartType.val(),
-								filtersId: filtersIdElement.val(),
-								valueType: valueTypeElement.val()
-							}).done(function (step3Response) {
-								step2.last().after(step3Response);
-								wizardContainer.find('#widgetStep').val(3);
-								var step3 = wizardContainer.find('.step3');
-								App.Fields.Picklist.showSelect2ElementView(step3.find('select'));
-								footer.hide();
-								step3.find('.groupField').on('change', function () {
-									wizardContainer.find('.step4').remove();
-									var groupField = $(this);
-									if (!groupField.val()) return;
-									footer.show();
-									AppConnector.request({
-										module: 'Home',
-										view: 'ChartFilter',
-										step: 'step4',
-										selectedModule: moduleNameSelect2.val(),
-										filtersId: filtersIdElement.val(),
-										groupField: groupField.val(),
-										chartType: chartType.val()
-									}).done(function (step4Response) {
-										step3.last().after(step4Response);
-										wizardContainer.find('#widgetStep').val(4);
-										var step4 = wizardContainer.find('.step4');
-										App.Fields.Picklist.showSelect2ElementView(step4.find('select'));
-									});
-								});
-							});
-						});
-					});
-				});
-				form.on('submit', function (e) {
-					e.preventDefault();
-					const selectedModule = moduleNameSelect2.val();
-					const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-					const selectedFilterId = form.find('.filtersId').val();
-					const selectedFieldLabel = form.find('.groupField').find(':selected').text();
-					const data = {
-						module: selectedModule,
-						groupField: form.find('.groupField').val(),
-						chartType: chartType.val()
-					};
-					form.find('.saveParam').each(function (index, element) {
-						element = $(element);
-						if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
-							data[element.attr('name')] = element.val();
-						}
-					});
-					finializeAddChart(selectedModuleLabel, selectedFilterId, null, selectedFieldLabel, data, form);
-				});
-			});
-
-			function finializeAddChart(moduleNameLabel, filterid, filterLabel, fieldLabel, data, form) {
-				let paramsForm = {};
-				paramsForm['data'] = JSON.stringify(data);
-				paramsForm['action'] = 'addWidget';
-				paramsForm['blockid'] = element.data('block-id');
-				paramsForm['linkid'] = element.data('linkid');
-				paramsForm['label'] = moduleNameLabel;
-				if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
-					paramsForm['label'] += ' - ' + filterLabel;
-				}
-				if (typeof fieldLabel !== 'undefined' && fieldLabel !== null && fieldLabel !== '') {
-					paramsForm['label'] += ' - ' + fieldLabel;
-				}
-				paramsForm['name'] = 'ChartFilter';
-				if (Array.isArray(filterid)) {
-					filterid = filterid.join(',');
-				}
-				paramsForm['filterid'] = filterid;
-				paramsForm['title'] = form.find('[name="widgetTitle"]').val();
-				paramsForm['isdefault'] = 0;
-				paramsForm['cache'] = 0;
-				paramsForm['height'] = 4;
-				paramsForm['width'] = 4;
-				paramsForm['owners_all'] = ['mine', 'all', 'users', 'groups'];
-				paramsForm['default_owner'] = 'mine';
-
-				thisInstance.save(paramsForm, 'save').done(function (data) {
-					let result = data['result'],
-						params = {};
-					if (data['success']) {
-						app.hideModalWindow();
-						paramsForm['id'] = result['id'];
-						paramsForm['status'] = result['status'];
-						params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-						Settings_Vtiger_Index_Js.showMessage(params);
-						thisInstance.showCustomField(paramsForm);
-					} else {
-						let message = data['error']['message'],
-							errorField;
-						if (data['error']['code'] != 513) {
-							errorField = form.find('[name="fieldName"]');
-						} else {
-							errorField = form.find('[name="fieldLabel"]');
-						}
-						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-					}
-				});
 			}
 		},
 		addNoteBookWidget: function (element, url) {
@@ -1208,7 +1094,7 @@ jQuery.Class(
 			thisInstance.registerModulesChangeEvent();
 			thisInstance.setWidgetWithFilterUsers();
 			thisInstance.setRestrictFilter();
-			thisInstance.setWidgetWithFilterDate();
+			thisInstance.setWidgetData();
 			thisInstance.setWidgetWithFilterTitle();
 			thisInstance.registerAddedDashboard();
 			thisInstance.registerSelectDashboard();

@@ -66,6 +66,10 @@ class Purifier
 	 */
 	public const ALNUM_EXTENDED = 'AlnumExtended';
 	/**
+	 * Purify type HTML text parser.
+	 */
+	public const HTML_TEXT_PARSER = 'HtmlTextParser';
+	/**
 	 * Default charset.
 	 *
 	 * @var string
@@ -86,6 +90,9 @@ class Purifier
 	 */
 	private static $purifyHtmlInstanceCache = false;
 
+	/** @var bool|\HTMLPurifier Cache for Html template purify instance. */
+	private static $purifyTextParserInstanceCache = false;
+
 	/**
 	 * Html events attributes.
 	 *
@@ -97,6 +104,16 @@ class Purifier
 	'onpropertychange|onfilterchange|onstart|onfinish|onbounce|onrowsinserted|onrowsdelete|onrowexit|onrowenter|ondatasetcomplete|ondatasetchanged|ondataavailable|oncellchange|' .
 	'onbeforeupdate|onafterupdate|onerrorupdate|onhelp|onbeforeprint|onafterprint|oncontrolselect|onfocusout|onfocusin|ondeactivate|onbeforeeditfocus|onbeforedeactivate|onbeforeactivate|' .
 	'onresizeend|onmovestart|onmoveend|onmove|onbeforecopy|onbeforecut|onbeforeunload|onhashchange|onoffline|ononline|onreadystatechange|onstop|onlosecapture';
+
+	/**
+	 * Remove unnecessary code list.
+	 *
+	 * @var string[]
+	 */
+	private static $removeUnnecessaryCode = [
+		'href="javascript:window.history.back();"',
+		'href="javascript:void(0);"',
+	];
 
 	/**
 	 * Purify (Cleanup) malicious snippets of code from the input.
@@ -158,7 +175,7 @@ class Purifier
 	 *
 	 * @return string
 	 */
-	public static function purifyHtml($input, $loop = true)
+	public static function purifyHtml(string $input, $loop = true): string
 	{
 		if (empty($input)) {
 			return $input;
@@ -175,7 +192,8 @@ class Purifier
 		}
 		if (static::$purifyHtmlInstanceCache) {
 			$value = static::$purifyHtmlInstanceCache->purify($input);
-			static::purifyHtmlEventAttributes($value);
+			$value = static::removeUnnecessaryCode($value);
+			static::purifyHtmlEventAttributes(static::decodeHtml($input));
 			if ($loop) {
 				$last = '';
 				while ($last !== $value) {
@@ -190,24 +208,87 @@ class Purifier
 	}
 
 	/**
+	 * Purify HTML (Cleanup) malicious snippets of code from text parser.
+	 *
+	 * @param string $input
+	 * @param bool   $loop  Purify values in the loop
+	 *
+	 * @return string
+	 */
+	public static function purifyTextParser($input, $loop = true): string
+	{
+		if (empty($input)) {
+			return $input;
+		}
+		$cacheKey = md5($input);
+		if (Cache::has('purifyTextParser', $cacheKey)) {
+			return Cache::get('purifyTextParser', $cacheKey);
+		}
+		if (!static::$purifyTextParserInstanceCache) {
+			$config = static::getHtmlConfig(['directives' => ['HTML.AllowedCommentsRegexp' => '/^(\s+{% |{% )[\s\S]+( %}| %}\s+)$/u']]);
+			static::$purifyTextParserInstanceCache = new \HTMLPurifier($config);
+		}
+		$value = static::$purifyTextParserInstanceCache->purify($input);
+		$value = static::removeUnnecessaryCode($value);
+		static::purifyHtmlEventAttributes($value);
+		if ($loop) {
+			$last = '';
+			while ($last !== $value) {
+				$last = $value;
+				$value = static::purifyTextParser($value, false);
+			}
+		}
+		$value = preg_replace("/(^[\r\n]*|[\r\n]+)[\\s\t]*[\r\n]+/", "\n", $value);
+		Cache::save('purifyTextParser', $cacheKey, $value, Cache::SHORT);
+		return $value;
+	}
+
+	/**
 	 * To purify malicious html event attributes.
 	 *
 	 * @param string $value
 	 */
-	public static function purifyHtmlEventAttributes($value)
+	public static function purifyHtmlEventAttributes(string $value): void
 	{
-		if (preg_match('#<([^><]+?)([^a-z_\\-]on\\w*|xmlns)(\\s*=\\s*[^><]*)([>]*)#i', $value) || preg_match('/\\b(' . static::$htmlEventAttributes . ')\\s*=/i', $value) || preg_match('/javascript:[\w\.]+\(/i', $value)) {
+		if (preg_match('#(<[^><]+?[\x00-\x20"\'])([^a-z_\\-]on\\w*|xmlns)(\\s*=\\s*[^><]*)([><]*)#i', $value, $matches)) {
 			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
-			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
+			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE|1|' . print_r($matches, true) . "||$value", 406);
 		}
+		if (preg_match('#<([^><]+?)(' . static::$htmlEventAttributes . ')(\\s*=\\s*[^><]*)([>]*)#i', $value, $matches)) {
+			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
+			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE|2|' . print_r($matches, true) . "||$value", 406);
+		}
+		if (preg_match('#<([^><]+?)javascript:[\w\.]+\(([>]*)#i', $value, $matches)) {
+			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
+			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE|3|' . print_r($matches, true) . "||$value", 406);
+		}
+	}
+
+	/**
+	 * Remove unnecessary code.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public static function removeUnnecessaryCode(string $value): string
+	{
+		foreach (self::$removeUnnecessaryCode as $code) {
+			if (false !== stripos($value, $code)) {
+				$value = str_ireplace($code, '', $value);
+			}
+		}
+		return $value;
 	}
 
 	/**
 	 * Get html config.
 	 *
+	 * @param array $options
+	 *
 	 * @return \HTMLPurifier_Config
 	 */
-	public static function getHtmlConfig()
+	public static function getHtmlConfig(array $options = [])
 	{
 		$config = \HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', static::$defaultCharset);
@@ -233,6 +314,9 @@ class Purifier
 			'tel' => true,
 			'data' => true,
 		]);
+		foreach ($options['directives'] ?? [] as $key => $value) {
+			$config->set($key, $value);
+		}
 		if ($def = $config->getHTMLDefinition(true)) {
 			$def->addElement('section', 'Block', 'Flow', 'Common');
 			$def->addElement('nav', 'Block', 'Flow', 'Common');
@@ -333,7 +417,7 @@ class Purifier
 		} else {
 			$value = null;
 			if (property_exists('App\Validator', $type)) {
-				$value = Validator::{$type}($input) ? $input : null;
+				$value = Validator::{$type}($input) ?: null;
 			} else {
 				switch ($type) {
 					case 'Standard': // only word
@@ -372,6 +456,10 @@ class Purifier
 						$dateFormat = User::getCurrentUserModel()->getDetail('date_format');
 						$v = [];
 						foreach (explode(',', $input) as $i) {
+							if (!Validator::dateInUserFormat($i)) {
+								$v = [];
+								break;
+							}
 							[$y, $m, $d] = Fields\Date::explode($i, $dateFormat);
 							if (checkdate((int) $m, (int) $d, (int) $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 								$v[] = \DateTimeField::convertToDBFormat($i);
@@ -417,6 +505,9 @@ class Purifier
 						$value = preg_match('/^[\s0-9+\-()]+$/', $input) ? $input : null;
 						break;
 					case 'Email':
+						if (!$input) {
+							return '';
+						}
 						$value = Validator::email($input) ? $input : null;
 						break;
 					case 'Html':
@@ -447,16 +538,22 @@ class Purifier
 						$value = Fields\File::checkFilePath($input) ? static::encodeHtml(static::purify($input)) : null;
 						break;
 					case 'Url':
+						if (!$input) {
+							return '';
+						}
 						$value = Validator::url($input) ? $input : null;
 						break;
 					case 'MailId':
-						$value = preg_match('/^[\sA-Za-z0-9\<\>\_\[\.\]\=\-\+\@\$\!\#\%\&\'\*\+\/\?\^\_\`\{\|\}\~\-\:]+$/', $input) ? $input : null;
-						break;
+							$value = preg_match('/^[\sA-Za-z0-9\<\>\_\[\.\]\=\-\+\@\$\!\#\%\&\'\*\+\/\?\^\_\`\{\|\}\~\-\"\:\(\)]+$/', $input) ? $input : null;
+							break;
 					case 'ClassName':
 						$value = preg_match('/^[a-z\\\_]+$/i', $input) ? $input : null;
 						break;
 					case self::SQL:
 						$value = $input && Validator::sql($input) ? $input : null;
+						break;
+					case self::HTML_TEXT_PARSER:
+						$value = self::purifyTextParser($input);
 						break;
 					case 'Text':
 					default:

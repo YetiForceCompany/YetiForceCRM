@@ -330,8 +330,9 @@ body:not(.desktop) {
 //Image
 .c-img {
 	&__user {
-		width: auto;
-		height: calculate-rem(40px);
+		width: calculate-rem(48px);
+		height: calculate-rem(48px);
+		min-width: calculate-rem(48px);
 	}
 
 	&__completion {

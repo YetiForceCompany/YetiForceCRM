@@ -11,6 +11,7 @@
 		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
 
 		{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
+		{assign var="DEFAULT_INVENTORY_ROW" value=\App\Config::module($MODULE_NAME, 'defaultInventoryData', [])}
 		{if $INVENTORY_ROWS}
 			{assign var="INVENTORY_ROW" value=current($INVENTORY_ROWS)}
 		{else}
@@ -62,7 +63,7 @@
 					{/foreach}
 				</colgroup>
 				<thead>
-				<tr data-rownumber="0" class="u-min-w-650px">
+				<tr data-rownumber="0" class="u-min-w-650pxr">
 					<th class="border-bottom-0">
 						<span class="inventoryLineItemHeader">{\App\Language::translate('LBL_ADD', $MODULE)}</span>&nbsp;&nbsp;
 						<div class="d-flex">
@@ -102,6 +103,8 @@
 								{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
 								{if isset($INVENTORY_ROW[$COLUMN_NAME])}
 									{assign var="ITEM_VALUE" value=$INVENTORY_ROW[$COLUMN_NAME]}
+								{elseif isset($DEFAULT_INVENTORY_ROW[$COLUMN_NAME])}
+									{assign var="ITEM_VALUE" value=$DEFAULT_INVENTORY_ROW[$COLUMN_NAME]}
 								{else}
 									{assign var="ITEM_VALUE" value=NULL}
 								{/if}
@@ -147,25 +150,15 @@
 					<td colspan="1" class="hideTd u-w-1per-45px">&nbsp;&nbsp;</td>
 					{foreach item=FIELD from=$FIELDS[1]}
 						<td {if !$FIELD->isEditable()}colspan="0"{/if}
-								class="{if !$FIELD->isEditable()} d-none{/if} text-center
-								{if !$FIELD->isSummary()} hideTd{/if}">
-							{if $FIELD->isSummary()}
-								{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}
-							{/if}
-						</td>
-					{/foreach}
-				</tr>
-				<tr>
-					<td colspan="1" class="hideTd u-w-1per-45px">&nbsp;&nbsp;</td>
-					{foreach item=FIELD from=$FIELDS[1]}
-						<td {if !$FIELD->isEditable()}colspan="0"{/if}
 							class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right
 								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}"
 							data-sumfield="{lcfirst($FIELD->getType())}">
 							{if $FIELD->isSummary()}
 								{assign var="SUM" value=0}
 								{foreach key=KEY item=ITEM_VALUE from=$INVENTORY_ROWS}
-									{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnName')])}
+									{if isset($ITEM_VALUE[$FIELD->get('columnName')])}
+										{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnName')])}
+									{/if}
 								{/foreach}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
 							{/if}

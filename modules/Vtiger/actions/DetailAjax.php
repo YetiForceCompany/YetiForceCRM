@@ -51,7 +51,8 @@ class Vtiger_DetailAjax_Action extends App\Controller\Action
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
 		$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'));
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'), $cvId);
 		$searchParams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 		if (!empty($searchParams) && \is_array($searchParams)) {
 			$relationListView->set('search_params', $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams));

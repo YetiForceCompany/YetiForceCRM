@@ -54,7 +54,7 @@
 									<select name="relation_id"{if $RELATED_ID} readonly="readonly"{/if} class="select2 form-control form-control-sm" data-validation-engine="validate[required]">
 										{foreach from=$RELATEDMODULES item=item key=key}
 											<option value="{$item['relation_id']}" {if $RELATED_ID == $item['relation_id']}selected{/if} data-relatedmodule="{$item['related_tabid']}">
-												{\App\Language::translate($item['label'], $item['name'])}
+												{\App\Language::translate($item['label'], $item['related_modulename'])}
 											</option>
 										{/foreach}
 									</select>
@@ -68,15 +68,15 @@
 										{assign var=MODULES value=[]}
 										{foreach from=$RELATEDMODULES item=RELATED_MODULE key=key}
 											{if ($RELATED_ID && $RELATED_ID == $RELATED_MODULE['relation_id']) || (!$RELATED_ID && !isset($MODULES[$RELATED_MODULE['related_tabid']]) && $RELATED_MODULE['related_tabid'])}
-												{foreach from=Vtiger_Module_Model::getInstance($RELATED_MODULE['name'])->getFieldsByBlocks() key=BLOCK_NAME item=FIELDS}
-													<optgroup label="{\App\Language::translate($BLOCK_NAME, $RELATED_MODULE['name'])}" data-module="{$RELATED_MODULE['related_tabid']}">
+												{foreach from=Vtiger_Module_Model::getInstance($RELATED_MODULE['related_modulename'])->getFieldsByBlocks() key=BLOCK_NAME item=FIELDS}
+													<optgroup label="{\App\Language::translate($BLOCK_NAME, $RELATED_MODULE['related_modulename'])}" data-module="{$RELATED_MODULE['related_tabid']}">
 														{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME}
 															{assign var=VALUE_NAME value="{$FIELD_NAME}"}
 															<option value="{$VALUE_NAME}"{' '}
 																	{if !empty($WIDGETINFO['data']['groupField']) && $VALUE_NAME eq $WIDGETINFO['data']['groupField']}
 																		selected="selected"
 																	{/if} data-module="{$RELATED_MODULE['related_tabid']}">
-																{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['name'])}
+																{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['related_modulename'])}
 															</option>
 														{/foreach}
 													</optgroup>

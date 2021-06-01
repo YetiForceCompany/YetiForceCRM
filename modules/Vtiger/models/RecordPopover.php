@@ -80,6 +80,18 @@ class Vtiger_RecordPopover_Model extends \App\Base
 		$detailUrl = $this->recordModel->getFullDetailViewUrl();
 		$editUrl = $this->recordModel->isEditable() ? $this->recordModel->getEditViewUrl() : '';
 		if ($this->recordModel->isEditable()) {
+			if ($this->recordModel->getModule()->isQuickCreateSupported()) {
+				$links[] = [
+					'linktype' => 'RECORD_POPOVER_VIEW',
+					'linklabel' => 'LBL_QUICK_EDIT',
+					'linkicon' => 'yfi yfi-quick-creation',
+					'linkclass' => 'btn-sm btn-outline-primary js-quick-edit-modal',
+					'linkdata' => [
+						'module' => $this->recordModel->getModuleName(),
+						'record' => $this->recordModel->getId(),
+					]
+				];
+			}
 			$links[] = [
 				'linktype' => 'RECORD_POPOVER_VIEW',
 				'linklabel' => 'LBL_EDIT',

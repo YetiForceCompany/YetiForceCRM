@@ -36,17 +36,6 @@ class Assets extends CRMEntity
 		'vtiger_assets' => 'assetsid',
 		'vtiger_assetscf' => 'assetsid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'Asset No' => ['assets' => 'asset_no'],
-		'Asset Name' => ['assets' => 'assetname'],
-		'Customer Name' => ['account' => 'account'],
-		'Product Name' => ['products' => 'product'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Asset No' => 'asset_no',
@@ -54,8 +43,6 @@ class Assets extends CRMEntity
 		'Customer Name' => 'account',
 		'Product Name' => 'product',
 	];
-	// Make the field link to detail view
-	public $list_link_field = 'assetname';
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

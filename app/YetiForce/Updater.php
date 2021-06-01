@@ -3,7 +3,7 @@
  * YetiForce updater class.
  * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -34,7 +34,7 @@ class Updater
 		$fullVer = \explode('.', \App\Version::get());
 		array_pop($fullVer);
 		self::$version = \implode('.', $fullVer);
-		$file = \ROOT_DIRECTORY . '/app_data/SystemUpdater.json';
+		$file = ROOT_DIRECTORY . '/app_data/SystemUpdater.json';
 		if (\file_exists($file) && filemtime($file) > strtotime('-5 minute')) {
 			return \App\Json::read($file);
 		}

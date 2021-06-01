@@ -14,15 +14,6 @@
 class Settings_MailIntegration_SaveConfigForm_Action extends Settings_Vtiger_Basic_Action
 {
 	/** {@inheritdoc} */
-	public function checkPermission(App\Request $request)
-	{
-		parent::checkPermission($request);
-		if (!\App\YetiForce\Shop::check('YetiForceOutlook')) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
-
-	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$fields = Settings_MailIntegration_ConfigForm_Model::getFields($request->getModule(false));

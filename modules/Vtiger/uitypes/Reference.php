@@ -73,13 +73,14 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$referenceModuleName = $referenceModule->getName();
+
 		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
 			return \App\Fields\Owner::getLabel($value);
 		}
 		if (!\App\Record::isExists($value)) {
 			return '';
 		}
-		$label = \App\Record::getLabel($value);
+		$label = \App\Record::getLabel($value, $rawText);
 		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $label;
 		}
@@ -91,7 +92,11 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if ('Active' !== \App\Record::getState($value)) {
 			$label = '<s>' . $label . '</s>';
 		}
-		return "<a class='modCT_$referenceModuleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value'>$label</a>";
+		$url = "index.php?module={$referenceModuleName}&view={$referenceModule->getDetailViewName()}&record={$value}";
+		if (!empty($this->fullUrl)) {
+			$url = Config\Main::$site_URL . $url;
+		}
+		return "<a class='modCT_$referenceModuleName showReferenceTooltip js-popover-tooltip--record' href='$url'>$label</a>";
 	}
 
 	/** {@inheritdoc} */

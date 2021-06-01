@@ -6,11 +6,10 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Calendar_CalendarHandler_Handler
 {
-	const UPDATE_FIELDS = ['link', 'process', 'subprocess'];
-
 	/**
 	 * EntityAfterSave function.
 	 *
@@ -18,20 +17,22 @@ class Calendar_CalendarHandler_Handler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
-		if (vtlib\Cron::isCronAction()) {
-			return false;
-		}
-		$recordModel = $eventHandler->getRecordModel();
 		$ids = [];
-		foreach (static::UPDATE_FIELDS as &$fieldName) {
-			if (!$recordModel->isEmpty($fieldName)) {
-				$ids[$recordModel->get($fieldName)] = $fieldName;
+		$recordModel = $eventHandler->getRecordModel();
+		foreach ($recordModel->getModule()->getFieldsByReference() as $fieldModel) {
+			if (!$fieldModel->isActiveField()) {
+				continue;
 			}
-			if ($recordModel->getPreviousValue($fieldName)) {
-				$ids[$recordModel->getPreviousValue($fieldName)] = $fieldName;
+			if (!$recordModel->isEmpty($fieldModel->getName())) {
+				$ids[$recordModel->get($fieldModel->getName())] = $fieldModel->getName();
+			}
+			if ($recordModel->getPreviousValue($fieldModel->getName())) {
+				$ids[$recordModel->getPreviousValue($fieldModel->getName())] = $fieldModel->getName();
 			}
 		}
-		Calendar_Record_Model::setCrmActivity($ids);
+		if ($ids) {
+			(new \App\BatchMethod(['method' => 'Calendar_Record_Model::setCrmActivity', 'params' => [$ids]]))->save();
+		}
 	}
 
 	/**
@@ -41,14 +42,7 @@ class Calendar_CalendarHandler_Handler
 	 */
 	public function entityChangeState(App\EventHandler $eventHandler)
 	{
-		$recordModel = $eventHandler->getRecordModel();
-		$ids = [];
-		foreach (static::UPDATE_FIELDS as &$fieldName) {
-			if (!$recordModel->isEmpty($fieldName)) {
-				$ids[$recordModel->get($fieldName)] = $fieldName;
-			}
-		}
-		Calendar_Record_Model::setCrmActivity($ids);
+		$this->entityAfterSave($eventHandler);
 	}
 
 	/**

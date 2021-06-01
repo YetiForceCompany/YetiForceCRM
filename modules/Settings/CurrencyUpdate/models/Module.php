@@ -29,7 +29,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			->select(['currency_name'])
 			->from('vtiger_currencies')
 			->where(['currency_code' => $code])
-			->limit(1)->scalar();
+			->scalar();
 	}
 
 	/**
@@ -164,7 +164,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		return (new \App\Db\Query())->select(['id'])
 			->from('yetiforce_currencyupdate')
 			->where(['exchange_date' => $exchangeDate, 'currency_id' => $currencyId, 'bank_id' => $bankId])
-			->limit(1)->scalar();
+			->scalar();
 	}
 
 	/**
@@ -372,7 +372,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	 */
 	public function getActiveBankId()
 	{
-		return (new \App\Db\Query())->select(['id'])->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1)->scalar();
+		return (new \App\Db\Query())->select(['id'])->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->scalar();
 	}
 
 	/**
@@ -400,6 +400,6 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	 */
 	public function getActiveBankName()
 	{
-		return (new \App\Db\Query())->select(['bank_name'])->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1)->scalar();
+		return (new \App\Db\Query())->select(['bank_name'])->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->scalar();
 	}
 }

@@ -1,0 +1,118 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+      day: tuesday
+      time: '06:00'
+      timezone: Europe/Warsaw
+    open-pull-requests-limit: 10
+    target-branch: developer
+    ignore:
+      - dependency-name: gridstack
+        versions:
+          - 3.2.0
+          - 3.3.0
+          - 4.0.1
+          - 4.0.3
+          - 4.2.0
+          - 4.2.1
+      - dependency-name: quasar
+        versions:
+          - 1.15.1
+          - 1.15.10
+          - 1.15.2
+          - 1.15.3
+          - 1.15.5
+          - 1.15.7
+      - dependency-name: split.js
+        versions:
+          - 1.6.4
+      - dependency-name: '@fortawesome/fontawesome-free'
+        versions:
+          - 5.15.2
+          - 5.15.3
+      - dependency-name: emoji-mart-vue-fast
+        versions:
+          - 9.1.2
+      - dependency-name: datatables.net
+        versions:
+          - 1.10.24
+      - dependency-name: clipboard
+        versions:
+          - 2.0.7
+          - 2.0.8
+      - dependency-name: leaflet.markercluster
+        versions:
+          - 1.5.0
+      - dependency-name: datatables.net-bs4
+        versions:
+          - 1.10.24
+      - dependency-name: jquery
+        versions:
+          - 3.6.0
+      - dependency-name: bootstrap
+        versions:
+          - 4.6.0
+      - dependency-name: '@mdi/font'
+        versions:
+          - 5.9.55
+      - dependency-name: fullcalendar
+        versions:
+          - 5.5.1
+  - package-ecosystem: npm
+    directory: '/public_html/src'
+    schedule:
+      interval: weekly
+      day: tuesday
+      time: '06:00'
+      timezone: Europe/Warsaw
+    open-pull-requests-limit: 10
+    target-branch: developer
+  - package-ecosystem: composer
+    directory: '/'
+    schedule:
+      interval: weekly
+      day: tuesday
+      time: '06:00'
+      timezone: Europe/Warsaw
+    open-pull-requests-limit: 10
+    target-branch: developer
+    ignore:
+      - dependency-name: parsecsv/php-parsecsv
+        versions:
+          - 1.3.0
+      - dependency-name: simshaun/recurr
+        versions:
+          - 4.0.5
+      - dependency-name: giggsey/libphonenumber-for-php
+        versions:
+          - 8.12.16
+          - 8.12.18
+          - 8.12.19
+          - 8.12.20
+      - dependency-name: phpoffice/phpspreadsheet
+        versions:
+          - 1.17.1
+      - dependency-name: adhocore/jwt
+        versions:
+          - 1.1.2
+      - dependency-name: phpmailer/phpmailer
+        versions:
+          - 6.3.0
+      - dependency-name: sonata-project/google-authenticator
+        versions:
+          - 2.3.1
+      - dependency-name: sabre/dav
+        versions:
+          - 4.1.5
+      - dependency-name: mlocati/spf-lib
+        versions:
+          - 3.1.1
+      - dependency-name: maximebf/debugbar
+        versions:
+          - 1.16.5
+      - dependency-name: nette/php-generator
+        versions:
+          - 3.5.2

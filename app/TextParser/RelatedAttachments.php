@@ -3,7 +3,7 @@
 /**
  * Related attachments.
  *
- * @package   App
+ * @package TextParser
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -34,16 +34,15 @@ class RelatedAttachments extends Base
 	public function process(): string
 	{
 		$relatedModuleName = 'Documents';
-		if (!$this->textParser->recordModel ||
-			!\App\Privilege::isPermitted($relatedModuleName) ||
-			!($relationListView = \Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relatedModuleName))
+		if (!$this->textParser->recordModel
+			|| !\App\Privilege::isPermitted($relatedModuleName)
+			|| !($relationListView = \Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relatedModuleName))
 		) {
 			return '';
 		}
 
 		[$fields, $conditions, $attachFiles] = array_pad($this->params, 3, '');
 		$pdf = $attachFiles ? $this->textParser->getParam('pdf') : null;
-		$pagingModel = new \Vtiger_Paging_Model();
 		if (trim($conditions)) {
 			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(\App\Json::decode($conditions));
 			$relationListView->set('search_params', $transformedSearchParams);
@@ -58,7 +57,7 @@ class RelatedAttachments extends Base
 		$relationListView->setFields(array_unique(array_merge($fields, ['notes_title', 'filename', 'filelocationtype'])));
 		$rows = [];
 		$counter = 0;
-		foreach ($relationListView->getEntries($pagingModel) as $relatedRecordModel) {
+		foreach ($relationListView->getAllEntries() as $relatedRecordModel) {
 			++$counter;
 			$row = [];
 			foreach ($fields as $fieldName) {
@@ -67,10 +66,10 @@ class RelatedAttachments extends Base
 				$row[] = 'filename' === $fieldName ? "({$value})" : $value;
 			}
 			$rows[] = "{$counter}. " . implode(', ', $row);
-			if ($pdf && $relatedRecordModel->checkFileIntegrity() &&
-			  ($info = $relatedRecordModel->getFileDetails()) &&
-			  ($filePath = $info['path'] . $info['attachmentsid']) &&
-			  !isset($pdf->attachFiles[$filePath])
+			if ($pdf && $relatedRecordModel->checkFileIntegrity()
+			  && ($info = $relatedRecordModel->getFileDetails())
+			  && ($filePath = $info['path'] . $info['attachmentsid'])
+			  && !isset($pdf->attachFiles[$filePath])
 			) {
 				$pdf->attachFiles[$filePath] = ['name' => $info['name'], 'path' => $filePath];
 			}

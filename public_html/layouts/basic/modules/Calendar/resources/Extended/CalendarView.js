@@ -162,7 +162,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			switchingDaysState = switchSwitchingDays.find('input:checked').data('val');
 		let historyParams = app.getMainParams('historyParams', true);
 		if (historyParams === '') {
-			changeDaysState = app.getMainParams('switchingDays'); // TODO defaultDays && switchingDaysState !== defaultDays ? defaultDays : switchingDaysState;
+			changeDaysState = app.getMainParams('switchingDays');
 			changeType = app.getMainParams('showType');
 		} else {
 			changeType = historyParams.time !== undefined ? historyParams.time : app.getMainParams('showType');

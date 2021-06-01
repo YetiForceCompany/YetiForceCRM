@@ -341,8 +341,10 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
 	 *
-	 * @param mixed id or name of the module
-	 * @param mixed $value
+	 * @param int|string $mixed id or name of the module
+	 * @param mixed      $value
+	 *
+	 * @return self
 	 */
 	public static function getInstance($value)
 	{
@@ -359,9 +361,9 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @param vtlib\Module $moduleObj
 	 *
-	 * @return Vtiger_Module_Model instance
+	 * @return self instance
 	 */
-	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
+	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj): self
 	{
 		$objectProperties = get_object_vars($moduleObj);
 		$moduleModel = new self();

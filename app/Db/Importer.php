@@ -2,6 +2,8 @@
 /**
  * File that imports structure and data to database.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -73,7 +75,7 @@ class Importer
 	 */
 	public function loadFiles($path = false)
 	{
-		$dir = new \DirectoryIterator($path ? $path : $this->path);
+		$dir = new \DirectoryIterator($path ?: $this->path);
 		foreach ($dir as $fileinfo) {
 			if ('dir' !== $fileinfo->getType() && 'php' === $fileinfo->getExtension()) {
 				require $fileinfo->getPath() . \DIRECTORY_SEPARATOR . $fileinfo->getFilename();
@@ -313,7 +315,7 @@ class Importer
 			$this->logs .= "  > add: {$key[0]}, {$key[1]} ... ";
 			$start = microtime(true);
 			try {
-				$importer->db->createCommand()->addForeignKey($key[0], $key[1], $key[2], $key[3], $key[4], $key[5], $key[6])->execute();
+				$importer->db->createCommand()->addForeignKey($key[0], $key[1], $key[2], $key[3], $key[4], $key[5] ?? null, $key[6] ?? null)->execute();
 				$time = round((microtime(true) - $start), 1);
 				$this->logs .= "done    ({$time}s)\n";
 			} catch (\Throwable $e) {
@@ -795,11 +797,11 @@ class Importer
 	 */
 	protected function compareColumns(\yii\db\QueryBuilder $queryBuilder, \yii\db\ColumnSchema $baseColumn, \yii\db\ColumnSchemaBuilder $targetColumn)
 	{
-		return rtrim($baseColumn->dbType, ' unsigned') !== strtok($queryBuilder->getColumnType($targetColumn), ' ') ||
-		($baseColumn->allowNull !== (null === $targetColumn->isNotNull)) ||
-		($baseColumn->defaultValue !== $targetColumn->default) ||
-		($baseColumn->unsigned !== $targetColumn->isUnsigned) ||
-		($baseColumn->autoIncrement !== $targetColumn->autoIncrement);
+		return rtrim($baseColumn->dbType, ' unsigned') !== strtok($queryBuilder->getColumnType($targetColumn), ' ')
+		|| ($baseColumn->allowNull !== (null === $targetColumn->isNotNull))
+		|| ($baseColumn->defaultValue !== $targetColumn->default)
+		|| ($baseColumn->unsigned !== $targetColumn->isUnsigned)
+		|| ($baseColumn->autoIncrement !== $targetColumn->autoIncrement);
 	}
 
 	/**

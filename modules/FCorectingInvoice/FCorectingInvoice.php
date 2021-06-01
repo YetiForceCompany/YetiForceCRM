@@ -33,16 +33,6 @@ class FCorectingInvoice extends Vtiger_CRMEntity
 		'u_yf_fcorectinginvoice_address' => 'fcorectinginvoiceaddressid',
 	];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'FL_SUBJECT' => ['fcorectinginvoice', 'subject'],
-		'FL_SALE_DATE' => ['fcorectinginvoice', 'saledate'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'FL_SUBJECT' => 'subject',
@@ -54,8 +44,6 @@ class FCorectingInvoice extends Vtiger_CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view
-	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

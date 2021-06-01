@@ -57,7 +57,7 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 					'linklabel' => \App\Language::translate($alert['type'], 'Settings:_Base'),
 					'linkicon' => 'fas fa-exclamation-triangle',
 					'linkhref' => true,
-					'linkurl' => $alert['href'],
+					'linkurl' => $alert['href'] ?? '',
 					'linkclass' => 'btn-warning',
 					'showLabel' => 1,
 				]);

@@ -311,8 +311,8 @@ class RecordConverter extends Base
 	public function isPermitted(int $recordId): bool
 	{
 		$moduleName = Module::getModuleName($this->get('source_module'));
-		return \App\Privilege::isPermitted($moduleName, 'RecordConventer') && \App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) &&
-			(\App\Json::isEmpty($this->get('conditions')) || \App\Condition::checkConditions(\App\Json::decode($this->get('conditions')), \Vtiger_Record_Model::getInstanceById($recordId)));
+		return \App\Privilege::isPermitted($moduleName, 'RecordConventer') && \App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)
+			&& (\App\Json::isEmpty($this->get('conditions')) || \App\Condition::checkConditions(\App\Json::decode($this->get('conditions')), \Vtiger_Record_Model::getInstanceById($recordId)));
 	}
 
 	/**

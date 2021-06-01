@@ -305,7 +305,6 @@ jQuery.Class(
 			var thisInstance = this;
 			var forModule = jQuery('.contentsDiv').find('.pickListSupportedModules').val();
 			thisInstance.listViewForModule = forModule;
-			//thisInstance.triggerDisplayTypeEvent();
 			thisInstance.registerSourceModuleChangeEvent();
 		},
 		/**
@@ -498,16 +497,7 @@ jQuery.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				});
 		},
-		/**
-		 * trigger the display type event to show the width
-		 */
-		triggerDisplayTypeEvent: function () {
-			var widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				var elements = jQuery('.listViewEntriesTable').find('td,th');
-				elements.attr('class', widthType);
-			}
-		},
+
 		/**
 		 * register change event for source module in add/edit picklist dependency
 		 */

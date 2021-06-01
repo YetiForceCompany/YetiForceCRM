@@ -43,7 +43,7 @@ class Settings_MailIntegration_Download_Action extends Settings_Vtiger_Basic_Act
 
 		header('content-type: text/xml');
 		header('content-disposition: attachment; filename="outlook_manifest.xml";');
-		header('content-length: ' . mb_strlen($body));
+		header('content-length: ' . \strlen($body));
 		echo $body;
 	}
 

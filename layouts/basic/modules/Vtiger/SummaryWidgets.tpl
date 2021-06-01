@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-SummaryWidgets">
+	<div class="tpl-SummaryWidgets js-list__form" data-js="container">
 		<input type="hidden" name="page" value="{$PAGING_MODEL->get('page')}"/>
 		<input type="hidden" name="pageLimit" value="{$LIMIT}"/>
 		<input type="hidden" name="col" value="{$COLUMNS}"/>

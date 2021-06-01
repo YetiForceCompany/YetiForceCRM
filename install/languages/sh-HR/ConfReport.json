@@ -127,7 +127,6 @@
     "LBL_HELP_SESSION_COOKIE_HTTPONLY": "Datoteke kolačića sjednice dostupne su samo putem HTTP protokola. Ovo podešavanje može u dovoljnoj mjeri spriječiti krađu identiteta koja je posljedica XSS napada.",
     "LBL_HELP_SESSION_USE_ONLY_COOKIES": "Postavlja dobivanje ID-a samo iz kolačića. Ako ga omogućite, sprečava se za napade na osnovu slanja ID-ova sesije u URL-ovima.",
     "LBL_HELP_EXPOSE_PHP": "Određuje hoće li PHP server poslati broj verzije PHP-a u zaglavljima. Te informacije mogu server učiniti ranjivijim na napade, stoga preporučujemo da onemogućite ovu opciju.",
-    "LBL_HELP__HTACCESS": "Datoteka .htaccess je neaktivna, potrebno je pravilno rukovanje svim integracijama i osiguranje direktorija koji sadrže korisničke podatke.",
     "LBL_HELP_PUBLIC_HTML": "Preporučujemo da se domena usmjeri na javni_html direktorij, na taj način osiguravate da sistemske datoteke i vaši podaci nisu javno dostupni i ne mogu se preuzeti.",
     "LBL_HELP_SESSION_REGENERATE_ID": "Preporučujemo da omogućite obnavljanje ID-a sesije, to će vam teže presresti sesije korisnika. Izmjene trebaju biti u glavnoj konfiguracijskoj datoteci.",
     "LBL_HELP_SESSION_USE_STRICT_MODE": "Server će odbaciti neinicirane sesije. Preporučujemo da se ova opcija omogući iz sigurnosnih razloga.",
@@ -256,7 +255,8 @@
     "LBL_FORMAT": "Row format",
     "LBL_ENGINE": "Engine",
     "LBL_COLLATION": "Collation",
-    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files",
+    "LBL_PATH_VERIFICATION_TITLE": "Path verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Provjeravam brzinu..."

@@ -147,9 +147,9 @@ $.Class(
 						render: function (data, type, row, meta) {
 							switch (data) {
 								case 0:
-									return '<span class="fas fa-check text-success"></span>';
+									return '<span class="fas fa-times text-success"></span>';
 								case 1:
-									return '<span class="fas fa-times text-danger"></span>';
+									return '<span class="fas fa-check text-danger"></span>';
 								case 2:
 									return '<span class="fas fa-slash text-dark"></span>';
 								default:

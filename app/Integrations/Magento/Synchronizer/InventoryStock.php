@@ -75,7 +75,7 @@ class InventoryStock extends Base
 	public function getStockFromStorage()
 	{
 		$referenceInfo = \Vtiger_Relation_Model::getReferenceTableInfo('Products', 'IStorages');
-		return(new \App\Db\Query())->select([
+		return (new \App\Db\Query())->select([
 			'id' => $referenceInfo['table'] . '.' . $referenceInfo['rel'],
 			'qtyinstock' => $referenceInfo['table'] . '.qtyinstock',
 			'ean' => 'vtiger_products.ean'])

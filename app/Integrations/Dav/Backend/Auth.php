@@ -2,7 +2,7 @@
 /**
  * SabreDav authentication plugin file.
  *
- * @package   Integrations
+ * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -73,9 +73,6 @@ class Auth extends DAV\Auth\Backend\PDO
 			return $this->checkBasic($request, $response);
 		}
 		return parent::check($request, $response);
-
-
-
 	}
 
 	/**

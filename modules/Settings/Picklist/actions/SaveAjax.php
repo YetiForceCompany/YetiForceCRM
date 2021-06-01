@@ -20,6 +20,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('add');
+		$this->exposeMethod('import');
 		$this->exposeMethod('rename');
 		$this->exposeMethod('processStatus');
 		$this->exposeMethod('remove');
@@ -74,6 +75,65 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
+		$response->emit();
+	}
+
+	/**
+	 * Import Picklist.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function import(App\Request $request): void
+	{
+		if (empty($_FILES['file']['name'])) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['file']);
+		if (!$fileInstance->validate() || 'csv' !== $fileInstance->getExtension()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$moduleModel = Settings_Picklist_Module_Model::getInstance($request->getByType('source_module', 'Alnum'));
+		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
+		$csv = new \ParseCsv\Csv();
+		$csv->heading = false;
+		$csv->use_mb_convert_encoding = true;
+		if ($fileInstance->getEncoding(['UTF-8', 'ISO-8859-1']) !== \App\Config::main('default_charset', 'UTF-8')) {
+			$csv->encoding($fileInstance->getEncoding(), \App\Config::main('default_charset', 'UTF-8'));
+		}
+		$csv->auto($fileInstance->getPath());
+		$error = '';
+		$allCounter = $successCounter = $errorsCounter = 0;
+		$rolesSelected = [];
+		if ($fieldModel->isRoleBased()) {
+			$rolesSelected = (new \App\Db\Query())
+				->select(['vtiger_role.roleid'])
+				->from('vtiger_user2role')
+				->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+				->column();
+		}
+		foreach ($csv->data as $lineNo => $row) {
+			if ('' === $row[0]) {
+				continue;
+			}
+			++$allCounter;
+			try {
+				$fieldModel->validate($row[0]);
+				$moduleModel->addPickListValues($fieldModel, $row[0], $rolesSelected, $row[1] ?? '', $row[2] ?? '');
+				++$successCounter;
+			} catch (\Throwable $th) {
+				++$errorsCounter;
+				$error .= "[$lineNo] '{$row[0]}': {$th->getMessage()}\n";
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'all' => $allCounter,
+			'success' => $successCounter,
+			'errors' => $errorsCounter,
+			'errorMessage' => $error,
+		]);
 		$response->emit();
 	}
 

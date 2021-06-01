@@ -35,21 +35,12 @@ class _ModuleName_ extends Vtiger_CRMEntity
 		'<_baseTableName_>cf' => '<modulename>id',
 	];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		'<entityfieldlabel>' => ['<modulename>', '<entitycolumn>'],
-		'Assigned To' => ['crmentity', 'smownerid'],
-	];
+	/** Default fields on the list */
 	public $list_fields_name = [
-		// Format: Field Label => fieldname
 		'<entityfieldlabel>' => '<entityfieldname>',
 		'Assigned To' => 'assigned_user_id',
 	];
-	// Make the field link to detail view
-	public $list_link_field = '<entityfieldname>';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

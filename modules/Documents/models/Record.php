@@ -15,6 +15,11 @@
  */
 class Documents_Record_Model extends Vtiger_Record_Model
 {
+	/** @var string[] Types included in the preview of the file. */
+	public $filePreview = [
+		'application/pdf', 'image/png', 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/bmp', 'image/vnd.microsoft.icon', 'image/tiff', 'image/tiff'
+	];
+
 	/**
 	 * Get download file url.
 	 *
@@ -22,12 +27,29 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getDownloadFileURL()
 	{
-		if ('I' == $this->get('filelocationtype')) {
+		if ('I' == $this->getValueByField('filelocationtype')) {
 			$fileDetails = $this->getFileDetails();
 
 			return 'file.php?module=' . $this->getModuleName() . '&action=DownloadFile&record=' . $this->getId() . '&fileid=' . $fileDetails['attachmentsid'];
 		}
 		return $this->get('filename');
+	}
+
+	/** {@inheritdoc} */
+	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
+	{
+		$links = [];
+		if (!$this->isReadOnly() && \in_array($this->getValueByField('filetype'), $this->filePreview)) {
+			$links['LBL_PREVIEW_FILE'] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_PREVIEW_FILE',
+				'linkhref' => true,
+				'linkurl' => $this->getDownloadFileURL() . '&show=1',
+				'linkicon' => 'fas fa-binoculars',
+				'linkclass' => 'btn-sm btn-light',
+				'linktarget' => '_blank'
+			]);
+		}
+		return array_merge($links, parent::getRecordRelatedListViewLinksLeftSide($viewModel));
 	}
 
 	/**
@@ -245,7 +267,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			} else {
 				$file = $_FILES[$fileNameByField] ?? [];
 			}
-			if (!empty($file['name']) && isset($file['error'])) {
+			if (!empty($file['name']) && isset($file['error']) && $file['size'] > 0) {
 				if (UPLOAD_ERR_OK === $file['error'] && ($fileInstance = \App\Fields\File::loadFromRequest($file)) && $fileInstance->validateAndSecure()) {
 					$this->setFieldValue('filename', \App\Purifier::decodeHtml(App\Purifier::purify($file['name'])))
 						->setFieldValue('filetype', $fileInstance->getMimeType())
@@ -253,7 +275,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 						->setFieldValue('filedownloadcount', 0);
 				} else {
 					\App\Log::error("Error while saving a file, saving failed. | ID: {$this->getId()} | File: {$file['name']} | Error: " . \App\Fields\File::getErrorMessage($file['error']));
+					$file = [];
 				}
+			} else {
+				$file = [];
 			}
 		} elseif ('E' === $this->get('filelocationtype')) {
 			$fileName = $this->get($fileNameByField);
@@ -270,7 +295,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		parent::saveToDb();
 		//Inserting into attachments table
 		if ('I' === $this->get('filelocationtype')) {
-			if ($file && '' !== $file['name'] && $file['size'] > 0) {
+			if ($file) {
 				$file['original_name'] = \App\Request::_get('0_hidden');
 				$this->uploadAndSaveFile($file);
 			}
@@ -293,11 +318,6 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$result = false;
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$moduleName) method.");
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
-		if (!$fileInstance->validateAndSecure()) {
-			\App\Log::trace('Skip the save attachment process.');
-			return $result;
-		}
-
 		$this->ext['attachmentsName'] = $fileName = empty($fileDetails['original_name']) ? $fileDetails['name'] : $fileDetails['original_name'];
 		$db = \App\Db::getInstance();
 		$uploadFilePath = \App\Fields\File::initStorageFileDirectory($moduleName);
@@ -315,7 +335,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		} else {
 			$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $currentId])->execute();
 		}
-		\App\Log::trace('Skip the save attachment process.');
+		\App\Log::trace('Skip the uploadAndSaveFile process.');
 		return $result;
 	}
 

@@ -69,6 +69,6 @@ var Settings_UserColors_Js = {
 		this.registerSaveWorkingDays(content);
 	}
 };
-$(document).ready(function () {
+jQuery(function () {
 	Settings_UserColors_Js.registerEvents();
 });

@@ -63,13 +63,8 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if ($isUserFormat) {
-			[$y, $m, $d] = App\Fields\Date::explode($value, App\User::getCurrentUserModel()->getDetail('date_format'));
-		} else {
-			[$y, $m, $d] = explode('-', $value);
-		}
-		if (!is_numeric($m) || !is_numeric($d) || !is_numeric($y) || !checkdate($m, $d, $y)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+		if (!App\Fields\Date::isValid($value, $isUserFormat ? App\User::getCurrentUserModel()->getDetail('date_format') : null)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
@@ -98,13 +93,6 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			//Restricted Fields for to show Default Value
 			if (('birthday' === $fieldName && 'Contacts' === $moduleName) || 'Products' === $moduleName) {
 				return \App\Purifier::encodeHtml($value);
-			}
-
-			//Special Condition for field 'support_end_date' in Contacts Module
-			if ('support_end_date' === $fieldName && 'Contacts' === $moduleName) {
-				$value = DateTimeField::convertToUserFormat(date('Y-m-d', strtotime('+1 year')));
-			} elseif ('support_start_date' === $fieldName && 'Contacts' === $moduleName) {
-				$value = DateTimeField::convertToUserFormat(date('Y-m-d'));
 			}
 		} else {
 			$value = DateTimeField::convertToUserFormat($value);
@@ -194,13 +182,9 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		if (!$params) {
 			return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
 		}
-		$p = [];
-		foreach (explode('|', $params) as $row) {
-			[$key,$val] = explode('=', $row);
-			$p[$key] = $val;
-		}
-		if (isset($p['format'])) {
-			$return = (new \DateTime($value))->format($p['format']);
+		$params = \App\TextParser::parseFieldParam($params);
+		if (isset($params['format'])) {
+			$return = (new \DateTime($value))->format($params['format']);
 		} else {
 			$return = $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
 		}

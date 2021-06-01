@@ -2,7 +2,7 @@
 /**
  * Mail imap message file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -80,7 +80,7 @@ class Imap extends Base
 		}
 		$mailCrmId = $query->scalar();
 		$this->set('mailCrmId', $mailCrmId);
-		return  $mailCrmId;
+		return $mailCrmId;
 	}
 
 	/** {@inheritdoc} */

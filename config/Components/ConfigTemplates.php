@@ -183,7 +183,13 @@ return [
 				'Products' => ['productname' => 'subject']
 			],
 			'description' => "Default auto-complete data from mail bar.\n@var array Map. Example ['Accounts' => ['accountname' => 'subject']]"
-		]
+		],
+		'showEmailsInMassMail' => [
+			'default' => false,
+			'description' => "Show emails in Mass mail view.\n@var bool",
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+		],
 	],
 	'YetiForce' => [
 		'watchdogUrl' => [
@@ -238,19 +244,25 @@ return [
 		],
 		'spaceRoot' => [
 			'default' => false,
-			'description' => 'Root space',
+			'description' => 'Root CRM directory space',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'spaceStorage' => [
 			'default' => false,
-			'description' => 'Storage space',
+			'description' => 'Storage directory space',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'spaceTemp' => [
 			'default' => false,
 			'description' => 'Temporary directory space',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'spaceBackup' => [
+			'default' => false,
+			'description' => 'Backup directory space',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -305,6 +317,12 @@ return [
 		'database' => [
 			'default' => false,
 			'description' => 'Database information',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'pathVerification' => [
+			'default' => false,
+			'description' => 'Path verification',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],

@@ -2,11 +2,12 @@
 /**
  * Cron.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App;
@@ -16,40 +17,6 @@ namespace App;
  */
 class Cron
 {
-	/**
-	 * Cron run start time in microtime.
-	 *
-	 * @var int|null Cron run start time in microtime
-	 */
-	public static $cronTimeStart = null;
-	/**
-	 * Script run start time in microtime.
-	 *
-	 * @var int|null Script run start time in microtime
-	 */
-	public static $scriptTimeStart = null;
-	/**
-	 * @var string Log files directory path
-	 */
-	public $logPath = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'logs' . \DIRECTORY_SEPARATOR . 'cron' . \DIRECTORY_SEPARATOR;
-	/**
-	 * @var bool|string Current log file name
-	 */
-	public $logFile = false;
-	/**
-	 * @var bool Logging enabled flag
-	 */
-	public static $logActive = false;
-	/**
-	 * @var bool Flag to keep log file after run finish
-	 */
-	public static $keepLogFile = false;
-	/**
-	 * Max execution cron time.
-	 *
-	 * @var int
-	 */
-	private static $maxExecutionCronTime;
 	/**
 	 * @var int status disabled
 	 */
@@ -68,6 +35,53 @@ class Cron
 	const STATUS_COMPLETED = 3;
 
 	/**
+	 * Cron run start time in microtime.
+	 *
+	 * @var int|null Cron run start time in microtime
+	 */
+	public static $cronTimeStart = null;
+
+	/**
+	 * Script run start time in microtime.
+	 *
+	 * @var int|null Script run start time in microtime
+	 */
+	public static $scriptTimeStart = null;
+
+	/**
+	 * @var string Log files directory path
+	 */
+	public $logPath = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'logs' . \DIRECTORY_SEPARATOR . 'cron' . \DIRECTORY_SEPARATOR;
+
+	/**
+	 * @var bool|string Current log file name
+	 */
+	public $logFile = false;
+
+	/**
+	 * @var bool Logging enabled flag
+	 */
+	public static $logActive = false;
+
+	/** @var bool Flag to keep log file after run finish */
+	public static $keepLogFile = false;
+
+	/** @var int Max execution cron time. */
+	private static $maxExecutionCronTime;
+
+	/** @var bool Register enabled flag */
+	public static $registerIsActive = true;
+
+	/** @var bool Watchdog enabled flag */
+	public static $watchdogIsActive = true;
+
+	/** @var bool Shop enabled flag */
+	public static $shopIsActive = true;
+
+	/** @var bool ConfReport enabled flag */
+	public static $confReportIsActive = true;
+
+	/**
 	 * Init and configure object.
 	 *
 	 * @throws \App\Exceptions\CacheException
@@ -76,10 +90,14 @@ class Cron
 	{
 		static::$scriptTimeStart = microtime(true);
 		static::generateStatusFile();
-		YetiForce\Shop::generateCache();
-		if ('test' !== \Config\Main::$systemMode) {
-			YetiForce\Register::check();
+		if (self::$watchdogIsActive) {
 			YetiForce\Watchdog::send();
+		}
+		if (self::$registerIsActive) {
+			YetiForce\Register::check();
+		}
+		if (self::$shopIsActive) {
+			YetiForce\Shop::generateCache();
 		}
 		if (!(static::$logActive = Config::debug('DEBUG_CRON'))) {
 			return;
@@ -122,7 +140,10 @@ class Cron
 	 */
 	public static function generateStatusFile()
 	{
-		$all = Utils\ConfReport::getAll();
+		$all = [];
+		if (self::$confReportIsActive) {
+			$all = Utils\ConfReport::getAll();
+		}
 		$all['last_start'] = time();
 		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';', LOCK_EX);
 	}

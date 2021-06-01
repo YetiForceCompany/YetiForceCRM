@@ -5,7 +5,7 @@ namespace App;
 /**
  * Text parser class.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -208,6 +208,13 @@ class TextParser
 	public $isHtml = true;
 
 	/**
+	 * Use extended parsing.
+	 *
+	 * @var bool
+	 */
+	public $useExtension = false;
+
+	/**
 	 * Variable parser regex.
 	 *
 	 * @var string
@@ -361,7 +368,7 @@ class TextParser
 	 */
 	public function setSourceRecord($record, $moduleName = false, $recordModel = false)
 	{
-		$this->sourceRecordModel = $recordModel ? $recordModel : \Vtiger_Record_Model::getInstanceById($record, $moduleName ? $moduleName : Record::getType($record));
+		$this->sourceRecordModel = $recordModel ?: \Vtiger_Record_Model::getInstanceById($record, $moduleName ?: Record::getType($record));
 		return $this;
 	}
 
@@ -440,6 +447,24 @@ class TextParser
 	 */
 	public function parseData(string $content)
 	{
+		if ($this->useExtension) {
+			$content = preg_replace_callback('/<!--[\s]+({% [\s\S]+? %})[\s]+-->/u', function ($matches) {
+				return $matches[1] ?? '';
+			}, $content);
+			$twig = new \Twig\Environment(new \Twig\Loader\ArrayLoader(['index' => $content]));
+			$sandbox = new \Twig\Extension\SandboxExtension(\App\Extension\Twig\SecurityPolicy::getPolicy(), true);
+			$twig->addExtension($sandbox);
+			$twig->addFunction(new \Twig\TwigFunction('YFParser', function ($text) {
+				$value = '';
+				preg_match(static::VARIABLE_REGEX, $text, $matches);
+				if ($matches) {
+					[, $function, $params] = array_pad($matches, 3, '');
+					$value = \in_array($function, static::$baseFunctions) ? $this->{$function}($params) : '';
+				}
+				return $value;
+			}));
+			$content = $twig->render('index');
+		}
 		return preg_replace_callback(static::VARIABLE_REGEX, function ($matches) {
 			[, $function, $params] = array_pad($matches, 3, '');
 			return \in_array($function, static::$baseFunctions) ? $this->{$function}($params) : '';
@@ -496,9 +521,10 @@ class TextParser
 		if (false === strpos($params, '|')) {
 			return Language::translate($params);
 		}
-		$aparams = explode('|', $params);
-		$module = array_shift($aparams);
-		return Language::translate(reset($aparams), $module, $this->language);
+		$splitParams = explode('|', $params);
+		$module = array_shift($splitParams);
+		$key = array_shift($splitParams);
+		return Language::translate($key, $module, $splitParams[0] ?? $this->language);
 	}
 
 	/**
@@ -557,7 +583,7 @@ class TextParser
 			$employee = Cache::get('TextParserEmployeeDetailRows', $userId);
 		} else {
 			$employee = (new Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => $userId])
-				->limit(1)->scalar();
+				->scalar();
 			Cache::save('TextParserEmployeeDetailRows', $userId, $employee, Cache::LONG);
 		}
 		$value = '';
@@ -718,9 +744,9 @@ class TextParser
 	{
 		[$fieldName, $relatedField, $relatedModule] = array_pad(explode('|', $params, 3), 3, '');
 		if (
-			!isset($this->recordModel) ||
-			($this->permissions && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record)) ||
-			$this->recordModel->isEmpty($fieldName)
+			!isset($this->recordModel)
+			|| ($this->permissions && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record))
+			|| $this->recordModel->isEmpty($fieldName)
 		) {
 			return '';
 		}
@@ -735,7 +761,7 @@ class TextParser
 			$return = [];
 			foreach (explode(',', $relatedId) as $relatedValueId) {
 				if ('Users' === Fields\Owner::getType($relatedValueId)) {
-					$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedValueId);
+					$userRecordModel = \Vtiger_Record_Model::getInstanceById($relatedValueId, $relatedModule);
 					if ('Active' === $userRecordModel->get('status')) {
 						$instance = static::getInstanceByModel($userRecordModel);
 						foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
@@ -748,7 +774,7 @@ class TextParser
 					continue;
 				}
 				foreach (PrivilegeUtil::getUsersByGroup($relatedValueId) as $userId) {
-					$userRecordModel = \Users_Privileges_Model::getInstanceById($userId);
+					$userRecordModel = \Vtiger_Record_Model::getInstanceById($userId, $relatedModule);
 					if ('Active' === $userRecordModel->get('status')) {
 						$instance = static::getInstanceByModel($userRecordModel);
 						foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
@@ -790,9 +816,9 @@ class TextParser
 	{
 		[$fieldName, $relatedModule, $relatedRecord] = array_pad(explode('|', $params, 3), 3, '');
 		if (
-			!isset($this->recordModel) ||
-			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
-			$this->recordModel->isEmpty($fieldName)
+			!isset($this->recordModel)
+			|| !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record)
+			|| $this->recordModel->isEmpty($fieldName)
 		) {
 			return '';
 		}
@@ -866,9 +892,7 @@ class TextParser
 			return '';
 		}
 		$pagingModel = new \Vtiger_Paging_Model();
-		if ((int) $limit) {
-			$pagingModel->set('limit', (int) $limit);
-		}
+		$pagingModel->set('limit', (int) $limit);
 		if ($viewIdOrName) {
 			if (!is_numeric($viewIdOrName)) {
 				$customView = CustomView::getInstance($relatedModuleName);
@@ -960,10 +984,8 @@ class TextParser
 			}
 		}
 		$listView = \Vtiger_ListView_Model::getInstance($moduleName, $cvId);
-		$pagingModel = new \Vtiger_Paging_Model();
-		if ((int) $limit) {
-			$pagingModel->set('limit', (int) $limit);
-		}
+		$limit = (int) $limit;
+		$listView->getQueryGenerator()->setLimit((int) ($limit ?: \App\Config::main('list_max_entries_per_page', 20)));
 		if ($columns) {
 			$headerFields = [];
 			foreach (explode(',', $columns) as $fieldName) {
@@ -990,11 +1012,11 @@ class TextParser
 			}
 		}
 		$counter = 0;
-		foreach ($listView->getListViewEntries($pagingModel) as $reletedRecordModel) {
+		foreach ($listView->getAllEntries() as $relatedRecordModel) {
 			++$counter;
 			$rows .= '<tr class="row-' . $counter . '">';
 			foreach ($fields as $fieldModel) {
-				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
+				$value = $this->getDisplayValueByField($fieldModel, $relatedRecordModel);
 				if (false !== $value) {
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
@@ -1319,10 +1341,10 @@ class TextParser
 				}
 			}
 			$relRecord = false;
-			if ($skipEmpty && $this->recordModel && !(($relId = $this->recordModel->get($field->getName())) &&
-				(
-					\in_array($field->getFieldDataType(), ['userCreator', 'owner', 'sharedOwner']) ||
-					((Record::isExists($relId)) && ($relRecord = \Vtiger_Record_Model::getInstanceById($relId))->isViewable() && ($relatedModules = [Record::getType($relId)]))
+			if ($skipEmpty && $this->recordModel && !(($relId = $this->recordModel->get($field->getName()))
+				&& (
+					\in_array($field->getFieldDataType(), ['userCreator', 'owner', 'sharedOwner'])
+					|| ((Record::isExists($relId)) && ($relRecord = \Vtiger_Record_Model::getInstanceById($relId))->isViewable() && ($relatedModules = [Record::getType($relId)]))
 				)
 			)) {
 				continue;
@@ -1333,9 +1355,9 @@ class TextParser
 				foreach (\Vtiger_Module_Model::getInstance($relatedModule)->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
 						if (
-							$fieldModel->isViewable() &&
-							!($fieldType && $fieldModel->getFieldDataType() !== $fieldType) &&
-							(!$relRecord || ($relRecord && !$relRecord->isEmpty($fieldModel->getName())))
+							$fieldModel->isViewable()
+							&& !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)
+							&& (!$relRecord || ($relRecord && !$relRecord->isEmpty($fieldModel->getName())))
 						) {
 							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($blockModel->get('label'), $relatedModule);
 							$variables[$parentFieldName][$labelGroup][] = [
@@ -1637,11 +1659,7 @@ class TextParser
 			$matches = [$text];
 		}
 		foreach ($matches as $param) {
-			$part = [];
-			foreach (explode('|', $param) as $type) {
-				[$name, $value] = explode('=', $type, 2);
-				$part[$name] = $value;
-			}
+			$part = self::parseFieldParam($param);
 			if (!empty($part['name']) && !(isset($data[$part['name']]))) {
 				$data[$part['name']] = $part;
 			}
@@ -1889,5 +1907,24 @@ class TextParser
 		}
 		$instance->setContent($variable)->parse();
 		return $instance->getContent();
+	}
+
+	/**
+	 * Parse custom params.
+	 *
+	 * @param string $param
+	 *
+	 * @return array
+	 */
+	public static function parseFieldParam(string $param): array
+	{
+		$part = [];
+		if ($param) {
+			foreach (explode('|', $param) as $type) {
+				[$name, $value] = array_pad(explode('=', $type, 2), 2, '');
+				$part[$name] = $value;
+			}
+		}
+		return $part;
 	}
 }

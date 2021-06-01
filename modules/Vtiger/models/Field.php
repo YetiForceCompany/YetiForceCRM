@@ -18,13 +18,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
 	/**
-	 * Picklist values only for custom fields;.
-	 *
-	 * @var string[]
+	 * @var string[] List of modules the field referenced to.
+	 */
+	public $referenceList;
+	/**
+	 * @var string[] Picklist values only for custom fields;.
 	 */
 	public $picklistValues;
 	/**
-	 * @var bool
+	 * @var bool Is calculate field
 	 */
 	protected $isCalculateField = true;
 	/**
@@ -101,11 +103,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @param string $propertyName
 	 *
-	 * @throws Exception
-	 *
-	 * @return <Object>
+	 * @return mixed|null
 	 */
-	public function get($propertyName)
+	public function get(string $propertyName)
 	{
 		if (property_exists($this, $propertyName)) {
 			return $this->{$propertyName};
@@ -117,14 +117,13 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Function which sets value for given name.
 	 *
 	 * @param string $name  - name for which value need to be assinged
-	 * @param <type> $value - values that need to be assigned
+	 * @param mixed  $value - values that need to be assigned
 	 *
 	 * @return Vtiger_Field_Model
 	 */
-	public function set($name, $value)
+	public function set(string $name, $value)
 	{
 		$this->{$name} = $value;
-
 		return $this;
 	}
 
@@ -452,6 +451,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 327:
 						$fieldDataType = 'barcode';
 						break;
+					case 328:
+						$fieldDataType = 'changesJson';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
@@ -503,6 +505,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getReferenceList()
 	{
+		if (isset($this->referenceList)) {
+			return $this->referenceList;
+		}
 		if (\App\Cache::has('getReferenceList', $this->getId())) {
 			return \App\Cache::get('getReferenceList', $this->getId());
 		}
@@ -532,7 +537,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			}
 		}
 		\App\Cache::save('getReferenceList', $this->getId(), $list);
-
 		return $list;
 	}
 
@@ -541,23 +545,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @return bool
 	 */
-	public function isNameField()
+	public function isNameField(): bool
 	{
 		$moduleModel = $this->getModule();
-		return $moduleModel && !$this->isReferenceField() && \in_array($this->getFieldName(), $moduleModel->getNameFields());
-	}
-
-	/**
-	 * Function to check whether the current field is read-only.
-	 *
-	 * @return bool
-	 */
-	public function isReadOnly()
-	{
-		if (isset($this->isReadOnly)) {
-			return $this->isReadOnly;
-		}
-		return $this->isReadOnly = !$this->getProfileReadWritePermission();
+		return $moduleModel && !$this->isReferenceField() && !\in_array($this->getFieldDataType(), ['email', 'url', 'phone']) && \in_array($this->getFieldName(), $moduleModel->getNameFields());
 	}
 
 	/**
@@ -784,6 +775,19 @@ class Vtiger_Field_Model extends vtlib\Field
 		return false;
 	}
 
+	/**
+	 * Function to check whether the current field is read-only.
+	 *
+	 * @return bool
+	 */
+	public function isReadOnly(): bool
+	{
+		if (isset($this->isReadOnly)) {
+			return $this->isReadOnly;
+		}
+		return $this->isReadOnly = !$this->getProfileReadWritePermission();
+	}
+
 	public function isQuickCreateEnabled()
 	{
 		$moduleModel = $this->getModule();
@@ -951,12 +955,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'multiListFields':
 			case 'mailScannerFields':
 			case 'country':
-				$pickListValues = $this->getPicklistValues();
-				if (!empty($pickListValues)) {
-					$this->fieldInfo['picklistvalues'] = $pickListValues;
-				} else {
-					$this->fieldInfo['picklistvalues'] = [];
-				}
+				$this->fieldInfo['picklistvalues'] = $this->getPicklistValues() ?: [];
 				break;
 			case 'date':
 			case 'datetime':
@@ -998,6 +997,8 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'categoryMultipicklist':
 			case 'tree':
 				$this->fieldInfo['picklistvalues'] = \App\Fields\Tree::getPicklistValue($this->getFieldParams(), $this->getModuleName());
+				$this->fieldInfo['treetemplate'] = $this->getFieldParams();
+				$this->fieldInfo['modulename'] = $this->getModuleName();
 				break;
 			case 'email':
 				if (\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ACTIVE') && !empty(\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES'))) {
@@ -1146,16 +1147,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		switch ($fieldName) {
 			case 'birthday':
 				$funcName = ['name' => 'lessThanToday'];
-				$validator[] = $funcName;
-				break;
-			case 'support_end_date':
-				$funcName = ['name' => 'greaterThanDependentField',
-					'params' => ['support_start_date'], ];
-				$validator[] = $funcName;
-				break;
-			case 'support_start_date':
-				$funcName = ['name' => 'lessThanDependentField',
-					'params' => ['support_end_date'], ];
 				$validator[] = $funcName;
 				break;
 			case 'targetenddate':
@@ -1432,7 +1423,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isCalculateField()
 	{
-		return $this->isCalculateField && \in_array($this->getUIType(), [71, 7, 317, 8]);
+		return $this->isCalculateField && !$this->get('fromOutsideList') && (\in_array($this->getUIType(), [71, 7, 317, 8]) || \in_array($this->getFieldDataType(), ['integer', 'double']));
 	}
 
 	/**
@@ -1454,7 +1445,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		$fieldModel = new $className();
 		$fieldModel->initialize($field, $field['tabid']);
 		Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
-
 		return $fieldModel;
 	}
 
@@ -1475,7 +1465,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getFieldParams()
 	{
-		if (\App\Json::isJson($this->get('fieldparams'))) {
+		if (!\is_array($this->get('fieldparams')) && \App\Json::isJson($this->get('fieldparams'))) {
 			return \App\Json::decode($this->get('fieldparams'));
 		}
 		return $this->get('fieldparams') ?: [];

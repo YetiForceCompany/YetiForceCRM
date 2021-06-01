@@ -74,20 +74,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function returns the Entity Name of Record Model.
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		$name = \App\Purifier::encodeHtml($this->get('subject'));
-		if (empty($name)) {
-			$name = parent::getName();
-		}
-		return $name;
-	}
-
-	/**
 	 * Function returns the Module Name based on the activity type.
 	 *
 	 * @return string

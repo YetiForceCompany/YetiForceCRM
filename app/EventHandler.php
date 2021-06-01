@@ -5,6 +5,8 @@ namespace App;
 /**
  * Event Handler main class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -18,12 +20,17 @@ class EventHandler
 	 * @var string
 	 */
 	protected static $baseTable = 'vtiger_eventhandlers';
-	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler', 'Vtiger_RecordLabelUpdater_Handler'];
+	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler'];
 	private $recordModel;
 	private $moduleName;
 	private $params;
 	private $exceptions = [];
 	private $handlers = [];
+
+	/** @var int Handler is in system mode, no editing possible */
+	public const SYSTEM = 0;
+	/** @var int Handler is in edit mode */
+	public const EDITABLE = 1;
 
 	/** @var string Edit view, validation before saving */
 	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
@@ -168,10 +175,11 @@ class EventHandler
 	 * @param int    $priority
 	 * @param bool   $isActive
 	 * @param int    $ownerId
+	 * @param int    $mode
 	 *
 	 * @return bool
 	 */
-	public static function registerHandler(string $eventName, string $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0): bool
+	public static function registerHandler(string $eventName, string $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0, $mode = 1): bool
 	{
 		$return = false;
 		$isExists = (new \App\Db\Query())->from(self::$baseTable)->where(['event_name' => $eventName, 'handler_class' => $className])->exists();
@@ -185,6 +193,7 @@ class EventHandler
 					'exclude_modules' => $excludeModules,
 					'priority' => $priority,
 					'owner_id' => $ownerId,
+					'privileges' => $mode
 				])->execute();
 			static::clearCache();
 		}

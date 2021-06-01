@@ -3,6 +3,8 @@
 /**
  * Records list view class.
  *
+ * @package View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -151,7 +153,12 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
 			$moduleInstance = CRMEntity::getInstance($this->moduleName);
-			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
+			if ($moduleInstance->default_order_by && $moduleInstance->default_sort_order) {
+				$orderBy = [];
+				foreach ((array) $moduleInstance->default_order_by as $value) {
+					$orderBy[$value] = $moduleInstance->default_sort_order;
+				}
+			}
 		}
 		if (!empty($orderBy)) {
 			$this->recordListModel->set('orderby', $orderBy);
@@ -257,15 +264,16 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if ($this->relatedParentId && !\App\Record::isExists($this->relatedParentId)) {
 			$this->relatedParentId = $this->relatedParentModule = '';
 		}
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
 		if (!empty($this->relatedParentModule) && !empty($this->relatedParentId)) {
 			$this->showSwitch = !$request->has('showSwitch') || $request->getBoolean('showSwitch');
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->relatedParentId, $this->relatedParentModule);
 			if (!$parentRecordModel->isViewable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
-			$this->recordListModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->moduleName, $this->parentRelationId, $request->getInteger('cvId'));
+			$this->recordListModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->moduleName, $this->parentRelationId, $cvId);
 		} else {
-			$this->recordListModel = Vtiger_ListView_Model::getInstanceForPopup($this->moduleName, $this->sourceModule, $request->getInteger('cvId'));
+			$this->recordListModel = Vtiger_ListView_Model::getInstanceForPopup($this->moduleName, $this->sourceModule, $cvId);
 		}
 	}
 

@@ -2,7 +2,7 @@
 /**
  * YetiForce shop YetiForcePassword file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -38,12 +38,13 @@ class YetiForcePassword extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $featured = true;
 
 	/** {@inheritdoc} */
-	public function verify(): bool
+	public function verify(): array
 	{
+		$message = $status = true;
 		if (\App\YetiForce\Register::getProducts('YetiForcePassword')) {
-			return \App\YetiForce\Shop::check('YetiForcePassword');
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForcePassword');
 		}
-		return true;
+		return ['status' => $status, 'message' => $message];
 	}
 
 	/** {@inheritdoc} */

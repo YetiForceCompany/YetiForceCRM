@@ -35,20 +35,6 @@ class ProjectMilestone extends CRMEntity
 		'vtiger_projectmilestone' => 'projectmilestoneid',
 		'vtiger_projectmilestonecf' => 'projectmilestoneid', ];
 
-	/**
-	 * Mandatory for Listing (Related listview).
-	 */
-	public $list_fields = [
-		// Format: Field Label => Array(tablename, columnname)
-		// tablename should not have prefix 'vtiger_'
-		'Project Milestone Name' => ['projectmilestone', 'projectmilestonename'],
-		'Milestone Date' => ['projectmilestone', 'projectmilestonedate'],
-		'FL_STATUS' => ['projectmilestone', 'projectmilestone_status'],
-		'Type' => ['projectmilestone', 'projectmilestonetype'],
-		'Related to' => ['projectmilestone', 'projectid'],
-		'FL_PARENT_PROJECT_MILESTONE' => ['projectmilestone', 'parentid'],
-		//'Assigned To' => Array('crmentity','smownerid')
-	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Project Milestone Name' => 'projectmilestonename',
@@ -64,8 +50,7 @@ class ProjectMilestone extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = [];
-	// Make the field link to detail view from list view (Fieldname)
-	public $list_link_field = 'projectmilestonename';
+
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)

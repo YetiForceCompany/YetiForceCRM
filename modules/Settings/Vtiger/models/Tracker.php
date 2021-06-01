@@ -3,9 +3,12 @@
 /**
  * Main class to save modification in settings.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Vtiger_Tracker_Model
 {
@@ -18,14 +21,25 @@ class Settings_Vtiger_Tracker_Model
 		'delete' => 3,
 	];
 
-	public static function addBasic($type)
+	/**
+	 * Adding basic information about tracking.
+	 *
+	 * @param string $type
+	 *
+	 * @return void
+	 */
+	public static function addBasic(string $type): void
 	{
 		$db = App\Db::getInstance('log');
 		if ('view' == $type && App\Request::_isAjax()) {
 			self::lockTracking();
 		}
 		if (false !== self::$id || self::$lockTrack) {
-			return true;
+			return;
+		}
+		$action = \App\Process::$processType . ':' . \App\Process::$processName;
+		if ($mode = \App\Request::_getMode()) {
+			$action .= ':' . $mode;
 		}
 		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
 			'user_id' => \App\User::getCurrentUserId(),

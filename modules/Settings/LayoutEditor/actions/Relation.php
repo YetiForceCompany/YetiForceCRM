@@ -21,6 +21,8 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('addRelation');
 		$this->exposeMethod('removeRelation');
 		$this->exposeMethod('updateRelatedViewType');
+		$this->exposeMethod('updateCustomView');
+		Settings_Vtiger_Tracker_Model::addBasic('save');
 	}
 
 	public function changeStatusRelation(App\Request $request)
@@ -63,6 +65,27 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 				Vtiger_Relation_Model::updateModuleRelatedFields($relationId, $fields);
 			}
 			$response->setResult(['success' => true]);
+		} catch (Exception $e) {
+			$response->setError($e->getCode(), $e->getMessage());
+		}
+		$response->emit();
+	}
+
+	/**
+	 * Update relation custom view.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function updateCustomView(App\Request $request): void
+	{
+		$relationId = $request->getInteger('relationId');
+		$cv = $request->getArray('cv', 'Alnum');
+		$response = new Vtiger_Response();
+		try {
+			Vtiger_Relation_Model::updateRelationCustomView($relationId, $cv);
+			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SAVE_NOTIFY_OK', '')]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

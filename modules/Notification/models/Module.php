@@ -13,16 +13,18 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Get query.
 	 *
+	 * @param array $conditions
+	 *
 	 * @return \App\Db\Query
 	 */
-	public function getQuery(): App\Db\Query
+	public function getQuery(array $conditions = []): App\Db\Query
 	{
 		$queryGenerator = new App\QueryGenerator($this->getName());
-		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'linkextend', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
-		$queryGenerator->addNativeCondition(['smownerid' => \App\User::getCurrentUserId()]);
+		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'linkextend', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid', 'notification_type']);
 		if (!empty($conditions)) {
 			$queryGenerator->addNativeCondition($conditions);
 		}
+		$queryGenerator->addNativeCondition(['smownerid' => \App\User::getCurrentUserId()]);
 		$queryGenerator->addNativeCondition(['u_#__notification.notification_status' => 'PLL_UNREAD']);
 		return $queryGenerator->createQuery();
 	}
@@ -35,9 +37,9 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return Vtiger_Record_Model[]
 	 */
-	public function getEntriesInstance($limit = false, $conditions = false)
+	public function getEntriesInstance($limit = false, $conditions = [])
 	{
-		$query = $this->getQuery();
+		$query = $this->getQuery($conditions);
 		$query->andWhere(['u_#__notification.notification_status' => 'PLL_UNREAD']);
 		if (!empty($limit)) {
 			$query->limit($limit);
@@ -48,53 +50,6 @@ class Notification_Module_Model extends Vtiger_Module_Model
 			$recordModel = Vtiger_Record_Model::getCleanInstance($this->getName());
 			$recordModel->setData($row);
 			$entries[$row['id']] = $recordModel;
-		}
-		$dataReader->close();
-		return $entries;
-	}
-
-	/**
-	 * Get notifications list.
-	 *
-	 * @param int   $limit
-	 * @param array $conditions
-	 *
-	 * @return array
-	 */
-	public function getEntries(): array
-	{
-		$query = $this->getQuery();
-		$query->andWhere(['u_#__notification.notification_status' => 'PLL_UNREAD']);
-		if ($this->get('limit')) {
-			$query->limit($this->get('limit'));
-		}
-		if ($this->get('page')) {
-			$query->offset($this->get('page'));
-		}
-		if ($this->get('lastId')) {
-			$query->andWhere(['>', 'id', $this->get('lastId')]);
-		}
-		$dataReader = $query->createCommand()->query();
-		$entries = [];
-		while ($row = $dataReader->read()) {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($this->getName());
-			$recordModel->setData($row);
-			$entries[$row['id']] = [
-				'title' => $recordModel->get('title'),
-				'assignedUserId' => $recordModel->get('assigned_user_id'),
-				'assignedUserName' => $recordModel->getDisplayName('assigned_user_id'),
-				'createdUserId' => $recordModel->get('smcreatorid'),
-				'createdUserName' => $recordModel->getDisplayName('smcreatorid'),
-				'createdTimeFull' => App\Fields\DateTime::formatToDisplay($recordModel->get('createdtime')),
-				'createdTimeShort' => App\Fields\DateTime::formatDateDiffInStrings($recordModel->get('createdtime')),
-				'description' => nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml($recordModel->get('description')))),
-				'link' => $recordModel->getDisplayName('link'),
-				'linkextend' => $recordModel->getDisplayName('linkextend'),
-				'process' => $recordModel->getDisplayName('process'),
-				'subprocess' => $recordModel->getDisplayName('subprocess'),
-				'notification_type' => $recordModel->getDisplayName('notification_type'),
-				'category' => $recordModel->getDisplayName('category'),
-			];
 		}
 		$dataReader->close();
 		return $entries;
@@ -147,7 +102,6 @@ class Notification_Module_Model extends Vtiger_Module_Model
 			$entries[$row['notification_type']][$row['notificationid']] = $recordModel;
 		}
 		$dataReader->close();
-
 		return $entries;
 	}
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * Abstract modal controller class.
+ * Abstract modal controller for administration panel file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -13,7 +13,7 @@
 namespace App\Controller;
 
 /**
- * Class for modals in administration panel.
+ * Abstract modal controller for administration panel class.
  */
 abstract class ModalSettings extends Modal
 {

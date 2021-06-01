@@ -456,7 +456,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						$this->widgetsList[] = $widget['type'];
 						$widgetInstance = new $widgetName($moduleName, $moduleModel, $recordId, $widget);
 						$widgetObject = $widgetInstance->getWidget();
-						if (\count($widgetObject) > 0) {
+						if (\count($widgetObject) > 0 && (!method_exists($widgetInstance, 'isPermitted') || $widgetInstance->isPermitted())) {
 							$this->widgets[$widgetObject['wcol']][] = $widgetObject;
 						}
 					}

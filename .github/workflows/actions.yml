@@ -1,40 +1,33 @@
 name: PHP actions
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - developer
+  pull_request:
+    branches:
+      - developer
 
 jobs:
-  build:
+  composer:
     name: Composer
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate
+      - name: Validate composer.json and composer.lock
+        run: composer validate
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ runner.os }}-node-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+      - name: Cache Composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
-    - name: Install dependencies
-      with:
-        php-version: 7.4
-        coverage: none
-        extensions: intl
-      if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress --no-suggest
-
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-    # - name: Run test suite
-    #   run: composer run-script test
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
 
   code:
     name: Code
@@ -42,11 +35,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: PHP VarDump Check Action
         uses: umutphp/php-var-dump-check-action@v1
         with:
-         exclude: 'vendor,tests'
+          exclude: 'vendor,tests'
 
       - name: Check PHP syntax errors
         uses: overtrue/phplint@2.3.5
@@ -54,14 +49,133 @@ jobs:
       - name: DevSkim
         uses: microsoft/DevSkim-Action@v1
 
+      - name: codecov.io/validate
+        run: curl --data-binary @codecov.yml https://codecov.io/validate
+
   security:
     name: Security
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: PHP Security Checker
         uses: StephaneBour/actions-php-security-checker@1.1
         with:
           composer-lock: './composer.lock'
+
+  copilot:
+    name: CoPilot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Upload to CoPilot
+        run: bash <(curl -s https://copilot.blackducksoftware.com/ci/githubactions/scripts/upload)
+
+  test_swagger_editor_validator_remote:
+    runs-on: ubuntu-latest
+    name: Swagger Editor Validator Remote
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Validate OpenAPI definition - Portal.yaml
+        uses: char0n/swagger-editor-validate@v1.2.1
+        with:
+          definition-file: public_html/api/Portal.yaml
+      - name: Validate OpenAPI definition - ManageConsents.yaml
+        uses: char0n/swagger-editor-validate@v1.2.1
+        with:
+          definition-file: public_html/api/ManageConsents.yaml
+      - name: Validate OpenAPI definition - RestApi.yaml
+        uses: char0n/swagger-editor-validate@v1.2.1
+        with:
+          definition-file: public_html/api/RestApi.yaml
+
+  gitGuardian:
+    name: GitGuardian scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: GitGuardian scan
+        uses: GitGuardian/gg-shield-action@master
+        env:
+          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+
+  #
+  # Documentation:
+  # https://help.github.com/en/articles/workflow-syntax-for-github-actions
+  #
+
+  build:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Lint Code Base
+        uses: docker://github/super-linter:v3.17.2
+        env:
+          DEFAULT_BRANCH: developer
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_PHP: true
+          VALIDATE_JSON: true
+          VALIDATE_YAML: true
+          VALIDATE_XML: true
+          VALIDATE_BASH: true
+          VALIDATE_DOCKER: true
+          VALIDATE_CSS: true
+          VALIDATE_OPENAPI: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # This workflow integrates ShiftLeft Scan with GitHub's code scanning feature
+  # ShiftLeft Scan is a free open-source security tool for modern DevOps teams
+  # Visit https://docs.shiftleft.io/shiftleft/scan/integrations/github-actions for help
+  Scan-Build:
+    name: ShiftLeft Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Perform ShiftLeft Scan
+        uses: ShiftLeftSecurity/scan-action@master
+        env:
+          WORKSPACE: ''
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCAN_AUTO_BUILD: true
+        with:
+          output: reports
+          # Scan auto-detects the languages in your project. To override uncomment the below variable and set the type
+          #type: php,javascript,json,nodejs,plsql,yaml,depscan
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: shiftleft-scan-reports
+          path: reports

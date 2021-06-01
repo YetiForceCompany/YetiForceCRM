@@ -7,6 +7,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Users_Record_Model extends Vtiger_Record_Model
@@ -17,19 +18,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			return App\Session::get('baseUserId');
 		}
 		return $this->getId();
-	}
-
-	/**
-	 * Function to get the Module to which the record belongs.
-	 *
-	 * @return Vtiger_Module_Model
-	 */
-	public function getModule()
-	{
-		if (empty($this->module)) {
-			$this->module = Vtiger_Module_Model::getInstance('Users');
-		}
-		return $this->module;
 	}
 
 	/**
@@ -139,10 +127,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return string Module Name
 	 */
-	public function getModuleName()
+	public function getModuleName(): string
 	{
-		$module = $this->getModule();
-		if ($module) {
+		if ($this->getModule()) {
 			return parent::getModuleName();
 		}
 		//get from the class propety module_name
@@ -164,6 +151,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if ($this->getPreviousValue('user_password')) {
 			$this->set('date_password_change', date('Y-m-d H:i:s'));
+			if ($this->isNew() || App\User::getCurrentUserRealId() !== $this->getId()) {
+				$this->set('force_password_change', 1);
+			}
 		}
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($this);
@@ -205,7 +195,11 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if (App\Config::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
 			$db = \App\Db::getInstance('log');
-			$db->createCommand()->insert('l_#__username_history', ['user_name' => $valuesForSave['vtiger_users']['user_name'], 'user_id' => $this->getId()])->execute();
+			$db->createCommand()->insert('l_#__username_history', [
+				'user_name' => $valuesForSave['vtiger_users']['user_name'],
+				'user_id' => $this->getId(),
+				'date' => date('Y-m-d H:i:s')
+			])->execute();
 		}
 	}
 
@@ -230,6 +224,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if ($this->has('changeUserPassword') || $this->isNew()) {
 			$saveFields[] = 'user_password';
+			$saveFields[] = 'force_password_change';
 		}
 		foreach ($saveFields as $fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
@@ -338,6 +333,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				'user_id' => $this->getId(),
 				'date' => date('Y-m-d H:i:s'),
 			])->execute();
+			$this->getModule()->saveLoginHistory(strtolower($this->get('user_name')), 'LBL_PASSWORD_CHANGED');
 		}
 		if (false !== $this->getPreviousValue('language') && App\User::getCurrentUserRealId() === $this->getId()) {
 			App\Session::set('language', $this->get('language'));
@@ -911,34 +907,14 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return [];
 	}
 
-	public function getBodyLocks()
+	/**
+	 * Get locks content.
+	 *
+	 * @return string
+	 */
+	public function getBodyLocks(): string
 	{
-		$return = '';
-		foreach ($this->getLocks() as $lock) {
-			switch ($lock) {
-				case 'copy':
-					$return .= ' oncopy = "return false"';
-					break;
-				case 'cut':
-					$return .= ' oncut = "return false"';
-					break;
-				case 'paste':
-					$return .= ' onpaste = "return false"';
-					break;
-				case 'contextmenu':
-					$return .= ' oncontextmenu = "return false"';
-					break;
-				case 'selectstart':
-					$return .= ' onselectstart = "return false" onselect = "return false"';
-					break;
-				case 'drag':
-					$return .= ' ondragstart = "return false" ondrag = "return false"';
-					break;
-				default:
-					break;
-			}
-		}
-		return $return;
+		return \App\Utils::getLocksContent($this->getLocks());
 	}
 
 	public function getHeadLocks()
@@ -1095,6 +1071,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$time = (int) $passConfig['change_time'];
 		if (1 === (int) $userModel->getDetail('force_password_change')) {
 			\App\Session::set('ShowUserPasswordChange', 2);
+			\App\Process::addEvent([
+				'name' => 'ShowUserPasswordChange',
+				'priority' => 3,
+				'type' => 'modal',
+				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId()
+			]);
 			return;
 		}
 		$lastChange = strtotime($userModel->getDetail('date_password_change'));
@@ -1105,6 +1087,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 			} else {
 				\App\Session::set('ShowUserPasswordChange', 1);
 			}
+			\App\Process::addEvent([
+				'name' => 'ShowUserPasswordChange',
+				'priority' => 3,
+				'type' => 'modal',
+				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId()
+			]);
 		}
 	}
 
@@ -1142,7 +1130,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$fieldModel = $this->getModule()->getFieldByColumn($columnName);
 			$labelName[] = $fieldModel->getDisplayValue($this->get($fieldModel->getName()), $this->getId(), $this, true);
 		}
-		$label = \App\Purifier::encodeHtml(\App\TextParser::textTruncate(\App\Purifier::decodeHtml(implode(' ', $labelName)), 250, false));
+		$label = \App\TextParser::textTruncate(implode($metaInfo['separator'] ?? ' ', $labelName), 250, false);
 		if (!empty($label)) {
 			$db = \App\Db::getInstance();
 			if (!(new \App\Db\Query())->from('u_#__users_labels')->where(['id' => $this->getId()])->exists()) {

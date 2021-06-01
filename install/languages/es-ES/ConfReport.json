@@ -127,7 +127,6 @@
     "LBL_HELP_SESSION_COOKIE_HTTPONLY": "Los archivos de cookies de sesión sólo están disponibles a través del protocolo HTTP. Esta configuración puede prevenir suficientemente el robo de identidad resultante de ataques XSS.",
     "LBL_HELP_SESSION_USE_ONLY_COOKIES": "Establecer \"obtener ID sólo de cookies\". Habilitado evita ataques basados en el envío de identificadores de sesión en URLs.",
     "LBL_HELP_EXPOSE_PHP": "Determina si el servidor PHP envía el número de versión PHP en cabecera. Esta información podría hacer que el servidor sea más vulnerable a los ataques, por lo tanto recomendamos desactivar esta opción.",
-    "LBL_HELP__HTACCESS": "El archivo .htaccess está inactivo, es necesario para manejar correctamente todas las integraciones y asegurar los directorios que contienen datos de usuario.",
     "LBL_HELP_PUBLIC_HTML": "Recomendamos que el dominio se dirija al directorio public_html, haciendo esto asegura que los archivos del sistema y sus datos no están disponibles públicamente y no pueden ser descargados.",
     "LBL_HELP_SESSION_REGENERATE_ID": "Recomendamos habilitar la regeneración de ID de sesión, esto hace más difícil interceptar las sesiones de los usuarios. Los cambios deben realizarse en el archivo de configuración principal.",
     "LBL_HELP_SESSION_USE_STRICT_MODE": "El servidor rechazará las sesiones no iniciadas. Recomendamos activar esta opción por razones de seguridad.",
@@ -256,7 +255,8 @@
     "LBL_FORMAT": "Row format",
     "LBL_ENGINE": "Engine",
     "LBL_COLLATION": "Collation",
-    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files",
+    "LBL_PATH_VERIFICATION_TITLE": "Path verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Comprobando la velocidad..."

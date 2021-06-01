@@ -19,7 +19,7 @@
 					{$MODAL_TITLE}
 				</h5>
 				<span class="ml-auto u-fs-19px">
-					<span {if !$VERIFY_SENDER['status']}class="js-popover-tooltip" data-class="u-min-w-470px" data-placement="top" data-content="{\App\Language::translate('LBL_ALERT_FAKE_SENDER', $LANG_MODULE_NAME)}<br />{\App\Purifier::encodeHtml($VERIFY_SENDER['info'])}" data-js="popover" {/if}>
+					<span {if !$VERIFY_SENDER['status']}class="js-popover-tooltip" data-class="u-min-w-470pxr" data-placement="top" data-content="{\App\Language::translate('LBL_ALERT_FAKE_SENDER', $LANG_MODULE_NAME)}<br />{\App\Purifier::encodeHtml($VERIFY_SENDER['info'])}" data-js="popover" {/if}>
 						{\App\Language::translate('LBL_MAIL_SENDER', $LANG_MODULE_NAME)}:
 						{if $VERIFY_SENDER['status']}
 							<span class="ml-2 badge badge-success"><span class="fas fa-check mr-2"></span>{\App\Language::translate('LBL_CORRECT', $LANG_MODULE_NAME)}</span>
@@ -27,15 +27,15 @@
 							<span class="ml-2 badge badge-danger"><span class="fas fa-times mr-2"></span>{\App\Language::translate('LBL_INCORRECT', $LANG_MODULE_NAME)}</span>
 						{/if}
 					</span>
-					<span class="js-popover-tooltip ml-3" data-class="u-min-w-470px" data-placement="top" data-content="[{$SENDER['ip']}] {\App\Purifier::encodeHtml(\App\Language::translateArgs($VERIFY_SPF['desc'], $LANG_MODULE_NAME, $VERIFY_SPF['domain']))}" data-js="popover">
+					<span class="js-popover-tooltip ml-3" data-class="u-min-w-470pxr" data-placement="top" data-content="[{$SENDER['ip']}] {\App\Purifier::encodeHtml(\App\Language::translateArgs($VERIFY_SPF['desc'], $LANG_MODULE_NAME, $VERIFY_SPF['domain']))}" data-js="popover">
 						{\App\Language::translate('LBL_SPF', $LANG_MODULE_NAME)}:
 						<span class="ml-2 badge {$VERIFY_SPF['class']}"><span class="{$VERIFY_SPF['icon']} mr-2"></span>{\App\Language::translate($VERIFY_SPF['label'], $LANG_MODULE_NAME)}</span>
 					</span>
-					<span class="js-popover-tooltip ml-3" data-class="u-min-w-470px" data-placement="top" data-content="{\App\Purifier::encodeHtml(\App\Language::translate($VERIFY_DKIM['desc'], $LANG_MODULE_NAME))}<hr />{\App\Purifier::encodeHtml($VERIFY_DKIM['logs'])}" data-js="popover">
+					<span class="js-popover-tooltip ml-3" data-class="u-min-w-470pxr" data-placement="top" data-content="{\App\Purifier::encodeHtml(\App\Language::translate($VERIFY_DKIM['desc'], $LANG_MODULE_NAME))}<hr />{\App\Purifier::encodeHtml($VERIFY_DKIM['logs'])}" data-js="popover">
 						{\App\Language::translate('LBL_DKIM', $LANG_MODULE_NAME)}:
 						<span class="ml-2 badge {$VERIFY_DKIM['class']}"><span class="{$VERIFY_DKIM['icon']} mr-2"></span>{\App\Language::translate($VERIFY_DKIM['label'], $LANG_MODULE_NAME)}</span>
 					</span>
-					<span class="js-popover-tooltip ml-3" data-class="u-min-w-470px" data-placement="top" data-content="{\App\Purifier::encodeHtml(\App\Language::translate($VERIFY_DMARC['desc'], $LANG_MODULE_NAME))}<hr />{\App\Purifier::encodeHtml($VERIFY_DMARC['logs'])}" data-js="popover">
+					<span class="js-popover-tooltip ml-3" data-class="u-min-w-470pxr" data-placement="top" data-content="{\App\Purifier::encodeHtml(\App\Language::translate($VERIFY_DMARC['desc'], $LANG_MODULE_NAME))}<hr />{\App\Purifier::encodeHtml($VERIFY_DMARC['logs'])}" data-js="popover">
 						{\App\Language::translate('LBL_DMARC', $LANG_MODULE_NAME)}:
 						<span class="ml-2 badge {$VERIFY_DMARC['class']}"><span class="{$VERIFY_DMARC['icon']} mr-2"></span>{\App\Language::translate($VERIFY_DMARC['label'], $LANG_MODULE_NAME)}</span>
 					</span>

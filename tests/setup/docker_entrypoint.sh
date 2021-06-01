@@ -2,5 +2,5 @@
 
 service cron start
 /usr/sbin/nginx -g "daemon off;" &
-/etc/init.d/php7.3-fpm start
+/etc/init.d/php$PHP_VER-fpm start
 /usr/bin/mysqld_safe

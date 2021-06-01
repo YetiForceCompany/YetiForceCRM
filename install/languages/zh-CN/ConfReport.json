@@ -127,7 +127,6 @@
     "LBL_HELP_SESSION_COOKIE_HTTPONLY": "会话 cookie 文件仅可通过 HTTP 协议使用。此设置可以充分防止 XSS 攻击导致的身份盗窃。",
     "LBL_HELP_SESSION_USE_ONLY_COOKIES": "设置仅从 cookie 获取 ID。启用它可以防止基于在 url 中发送会话 ID 的攻击。",
     "LBL_HELP_EXPOSE_PHP": "确定 PHP 服务器是否在标头中发送 PHP 版本号。此信息可能会使服务器更容易受到攻击, 因此我们建议禁用此选项。",
-    "LBL_HELP__HTACCESS": ". htaccess 文件处于非活动状态, 需要正确处理所有集成并保护包含用户数据的目录。",
     "LBL_HELP_PUBLIC_HTML": "我们建议域定向到 public _ html 目录, 通过执行此操作, 您可以确保系统文件和数据不是公开的, 并且无法下载。",
     "LBL_HELP_SESSION_REGENERATE_ID": "我们建议启用会话ID再生, 这使得拦截用户会话变得更加困难。应在主配置文件中进行更改。",
     "LBL_HELP_SESSION_USE_STRICT_MODE": "服务器将拒绝未启动的会话。出于安全考虑, 我们建议启用此选项。",
@@ -256,7 +255,8 @@
     "LBL_FORMAT": "Row format",
     "LBL_ENGINE": "Engine",
     "LBL_COLLATION": "Collation",
-    "LBL_LAMP_CONFIG_FILES": "LAMP config files"
+    "LBL_LAMP_CONFIG_FILES": "LAMP config files",
+    "LBL_PATH_VERIFICATION_TITLE": "Path verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "检查速度..."

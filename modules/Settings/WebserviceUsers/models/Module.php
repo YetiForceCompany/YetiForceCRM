@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -50,9 +51,7 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListFields(): array
 	{
 		if (!isset($this->listFieldModels)) {
@@ -85,7 +84,7 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getTableIndex()
 	{
-		return$this->getService()->baseIndex;
+		return $this->getService()->baseIndex;
 	}
 
 	/**
@@ -96,5 +95,15 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 	public function getEditViewUrl()
 	{
 		return 'index.php?module=' . $this->getName() . '&parent=Settings&view=Edit&typeApi=' . $this->typeApi;
+	}
+
+	/**
+	 * Function to get the url for session view of the user.
+	 *
+	 * @return string - url
+	 */
+	public function getSessionViewUrl(): string
+	{
+		return 'index.php?module=' . $this->getName() . '&parent=Settings&view=ListViewSession&typeApi=' . $this->typeApi;
 	}
 }

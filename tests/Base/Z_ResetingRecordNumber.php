@@ -2,6 +2,8 @@
 /**
  * Reseting record number test class.
  *
+ * @package   Tests
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
@@ -79,7 +81,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 */
 	public static function setUpBeforeClass(): void
 	{
-		static::$transaction = \App\Db::getInstance()->beginTransaction();
+		self::$transaction = \App\Db::getInstance()->beginTransaction();
 	}
 
 	/**
@@ -342,7 +344,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 					$currentNumber = 1;
 					$currentDate = $sequence;
 				}
-				$currentNumber = \str_pad($currentNumber, $leadingZeros, '0', \STR_PAD_LEFT);
+				$currentNumber = \str_pad($currentNumber, $leadingZeros, '0', STR_PAD_LEFT);
 				$this->assertSame("$date/$currentNumber", $instance->getIncrementNumber());
 				$number = RecordNumber::getInstance('FInvoice');
 				$this->assertSame($currentNumber + 1, $number->get('cur_id'));
@@ -356,12 +358,11 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
 	public static function tearDownAfterClass(): void
 	{
-		static::$transaction->rollBack();
+		self::$transaction->rollBack();
 		\App\Cache::clear();
 	}
 }

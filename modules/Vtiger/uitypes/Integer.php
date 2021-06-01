@@ -37,7 +37,7 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		return App\Fields\Integer::formatToDisplay($value);
+		return null === $value || '' === $value ? '' : App\Fields\Integer::formatToDisplay($value);
 	}
 
 	/** {@inheritdoc} */

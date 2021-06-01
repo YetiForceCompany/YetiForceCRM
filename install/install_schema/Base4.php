@@ -469,22 +469,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_shorturls' => [
-				'columns' => [
-					'id' => $this->primaryKey(10),
-					'uid' => $this->stringType(50),
-					'handler_path' => $this->stringType(400),
-					'handler_class' => $this->stringType(100),
-					'handler_function' => $this->stringType(100),
-					'handler_data' => $this->stringType(),
-					'onetime' => $this->integer(5),
-				],
-				'index' => [
-					['uid', 'uid'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_smsnotifier' => [
 				'columns' => [
 					'smsnotifierid' => $this->integer(10)->notNull(),

@@ -3,6 +3,8 @@
 /**
  * Basic PDF Model Class.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Maciej Stencel <m.stencel@yetiforce.com>
@@ -518,6 +520,7 @@ class Vtiger_PDF_Model extends \App\Base
 				$this->textParser->setLanguage($this->get('language'));
 			}
 			$this->textParser->setType('pdf');
+			$this->textParser->useExtension = true;
 			$this->textParser->setParams(['pdf' => $this]);
 		} elseif (($this->variables['recordId'] ?? null) !== $this->textParser->record) {
 			$this->textParser = null;

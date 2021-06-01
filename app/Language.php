@@ -5,6 +5,8 @@ namespace App;
 /**
  * Language basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -306,6 +308,9 @@ class Language
 		static::loadLanguageFile($language, $moduleName);
 		if (isset(static::$languageContainer[$language][$moduleName]['php'][$key])) {
 			return Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]);
+		}
+		if (\App\Config::performance('recursiveTranslate') && static::DEFAULT_LANG !== $language) {
+			return static::translateSingleMod($key, $moduleName, static::DEFAULT_LANG);
 		}
 		return $key;
 	}

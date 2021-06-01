@@ -2,6 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "YetiForce API for Webservice App. Type: Portal",
+        "description": "Skip the `/webservice` fragment for connections via ApiProxy. There are two ways to connect to API, with or without rewrite, below are examples of both:\n * rewrite\n * - __CRM_URL__/webservice/Portal/Users/Login\n * - __CRM_URL__/webservice/Portal/Accounts/RecordRelatedList/117/Contacts\n * without rewrite\n * - __CRM_URL__/webservice.php?_container=Portal&module=Users&action=Login\n * - __CRM_URL__/webservice.php?_container=Portal&module=Accounts&action=RecordRelatedList&record=117&param=Contacts",
         "termsOfService": "https://yetiforce.com/",
         "contact": {
             "name": "Devs API Team",
@@ -12,15 +13,16 @@
             "name": "YetiForce Public License v3",
             "url": "https://yetiforce.com/en/yetiforce/license"
         },
-        "version": "0.1"
+        "version": "0.2"
     },
     "paths": {
-        "/webservice/Files": {
+        "/webservice/Portal/Files": {
             "put": {
                 "tags": [
                     "BaseAction"
                 ],
-                "summary": "Download files from the system",
+                "summary": "Download files",
+                "description": "Download files from the system",
                 "operationId": "Api\\Portal\\BaseAction\\Files::put",
                 "parameters": [
                     {
@@ -123,14 +125,14 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/Install": {
+        "/webservice/Portal/Install": {
             "put": {
                 "tags": [
                     "BaseAction"
@@ -149,7 +151,19 @@
                 ],
                 "requestBody": {
                     "description": "Base action install request body",
-                    "required": false
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseAction_Install_RequestBody"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseAction_Install_RequestBody"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
@@ -157,12 +171,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseActionInstallResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Install_ResponseBody"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseActionInstallResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Install_ResponseBody"
                                 }
                             }
                         }
@@ -170,13 +184,13 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": []
                     }
                 ]
             }
         },
-        "/webservice/Menu": {
+        "/webservice/Portal/Menu": {
             "get": {
                 "tags": [
                     "BaseAction"
@@ -193,22 +207,18 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Menu details",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseActionMenuResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Menu_ResponseBody"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseActionMenuResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Menu_ResponseBody"
                                 }
                             }
                         }
@@ -216,19 +226,20 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/Modules": {
+        "/webservice/Portal/Modules": {
             "get": {
                 "tags": [
                     "BaseAction"
                 ],
-                "summary": "Get the module list action, along with their translated action",
+                "summary": "The allowed actions of the module list",
+                "description": "Get the permitted module list action, along with their translated action",
                 "operationId": "Api\\Portal\\BaseAction\\Modules::get",
                 "parameters": [
                     {
@@ -240,48 +251,123 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty",
-                    "required": false
-                },
                 "responses": {
                     "200": {
-                        "description": "List of active modules",
+                        "description": "List of permitted modules",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseActionModulesResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Modules_ResponseBody"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseActionModulesResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Modules_ResponseBody"
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "No sent token OR Invalid token"
+                        "description": "`No sent token` OR `Invalid token`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     },
                     "403": {
-                        "description": "No permissions for module"
+                        "description": "No permissions for module",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/{moduleName}/Fields": {
+        "/webservice/Portal/{moduleName}/Dashboard": {
             "get": {
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get data about fields",
+                "summary": "Get dashboard widgets",
+                "description": "Supported widget types: Mini List , Chart Filter",
+                "operationId": "Api\\Portal\\BaseModule\\Dashboard::get",
+                "parameters": [
+                    {
+                        "name": "moduleName",
+                        "in": "path",
+                        "description": "Module name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Contacts"
+                    },
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Privileges details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseAction_Dashboard_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseAction_Dashboard_ResponseBody"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/webservice/Portal/{moduleName}/Fields": {
+            "get": {
+                "tags": [
+                    "BaseModule"
+                ],
+                "summary": "Get data about fields, blocks and inventory",
+                "description": "Returns information about fields, blocks and inventory based on the selected module",
                 "operationId": "Api\\Portal\\BaseModule\\Fields::get",
                 "parameters": [
                     {
@@ -303,13 +389,9 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
-                        "description": "Fields details",
+                        "description": "Fields, blocks and inventory details",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -326,20 +408,373 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/{moduleName}/Record/{recordId}": {
+        "/webservice/Portal/{moduleName}/Hierarchy": {
             "get": {
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get data for the record",
-                "operationId": "Api\\Portal\\BaseModule\\Record::get",
+                "summary": "Get records hierarchy",
+                "operationId": "Api\\Portal\\BaseModule\\Hierarchy::get",
+                "parameters": [
+                    {
+                        "name": "moduleName",
+                        "in": "path",
+                        "description": "Module name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Accounts"
+                    },
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Records hierarchy details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseAction_Hierarchy_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseAction_Hierarchy_ResponseBody"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "`No hierarchy` OR `Not available for this type of user`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/webservice/Portal/{moduleName}/Pdf/{recordId}": {
+            "get": {
+                "tags": [
+                    "BaseModule"
+                ],
+                "summary": "Generate PDF",
+                "operationId": "Api\\Portal\\BaseModule\\Pdf::get",
+                "parameters": [
+                    {
+                        "name": "moduleName",
+                        "in": "path",
+                        "description": "Module name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Accounts"
+                    },
+                    {
+                        "name": "recordId",
+                        "in": "path",
+                        "description": "Record id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 116
+                    },
+                    {
+                        "name": "templates",
+                        "in": "query",
+                        "description": "Pdf templates ids",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Pdf templates ids",
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Generate PDF",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseAction_Pdf_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseAction_Pdf_ResponseBody"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No permissions to view record",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No record id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "No permissions for action ExportPdf in {moduleName} module",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/webservice/Portal/{moduleName}/PdfTemplates/{recordId}": {
+            "get": {
+                "tags": [
+                    "BaseModule"
+                ],
+                "summary": "Get PDF templates list",
+                "operationId": "Api\\Portal\\BaseModule\\PdfTemplates::get",
+                "parameters": [
+                    {
+                        "name": "moduleName",
+                        "in": "path",
+                        "description": "Module name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Accounts"
+                    },
+                    {
+                        "name": "recordId",
+                        "in": "path",
+                        "description": "Record id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 116
+                    },
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get PDF templates list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseAction_PdfTemplates_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseAction_PdfTemplates_ResponseBody"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No permissions to view record",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No record id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "No permissions for action ExportPdf in {moduleName} module",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/webservice/Portal/{moduleName}/Privileges": {
+            "get": {
+                "tags": [
+                    "BaseModule"
+                ],
+                "summary": "Get privileges for module",
+                "description": "Gets the list of actions that the user has access to in the module",
+                "operationId": "Api\\Portal\\BaseModule\\Privileges::get",
+                "parameters": [
+                    {
+                        "name": "moduleName",
+                        "in": "path",
+                        "description": "Module name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Contacts"
+                    },
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Privileges details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_Privileges_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_Privileges_ResponseBody"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/webservice/Portal/{moduleName}/Record/{recordId}": {
+            "get": {
+                "tags": [
+                    "BaseModule"
+                ],
+                "summary": "Data for the record",
+                "description": "Gets the details of a record",
+                "operationId": "getRecord",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -393,10 +828,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty.",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Gets data for the record",
@@ -414,17 +845,41 @@
                         }
                     },
                     "403": {
-                        "description": "No permissions to remove record OR No permissions to view record OR No permissions to edit record"
+                        "description": "`No permissions to remove record` OR `No permissions to view record` OR `No permissions to edit record`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Record doesn't exist"
+                        "description": "`No record id` OR `Record doesn't exist`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             },
@@ -433,6 +888,7 @@
                     "BaseModule"
                 ],
                 "summary": "Edit record",
+                "description": "Retrieves data for editing a record",
                 "operationId": "Api\\Portal\\BaseModule\\Record::put",
                 "parameters": [
                     {
@@ -470,12 +926,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/BaseModule_Record_Request"
+                                "$ref": "#/components/schemas/Record_Edit_Details"
                             }
                         },
                         "application/xml": {
                             "schema": {
-                                "$ref": "#/components/schemas/BaseModule_Record_Request"
+                                "$ref": "#/components/schemas/Record_Edit_Details"
                             }
                         }
                     }
@@ -494,14 +950,19 @@
                                     "$ref": "#/components/schemas/BaseModule_Put_Record_Response"
                                 }
                             }
+                        },
+                        "links": {
+                            "GetRecordById": {
+                                "$ref": "#/components/links/GetRecordById"
+                            }
                         }
                     }
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             },
@@ -509,7 +970,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Delete record (move to the trash)",
+                "summary": "Delete record",
+                "description": "Changes the state of a record, moving it to the trash",
                 "operationId": "Api\\Portal\\BaseModule\\Record::delete",
                 "parameters": [
                     {
@@ -541,10 +1003,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty.",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of records moved to the trash",
@@ -564,19 +1022,20 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/{moduleName}/Record": {
+        "/webservice/Portal/{moduleName}/Record": {
             "post": {
                 "tags": [
                     "BaseModule"
                 ],
                 "summary": "Create record",
+                "description": "Gets data to save record",
                 "operationId": "Api\\Portal\\BaseModule\\Record::post",
                 "parameters": [
                     {
@@ -604,12 +1063,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/BaseModule_Record_Request"
+                                "$ref": "#/components/schemas/Record_Edit_Details"
                             }
                         },
                         "application/xml": {
                             "schema": {
-                                "$ref": "#/components/schemas/BaseModule_Record_Request"
+                                "$ref": "#/components/schemas/Record_Edit_Details"
                             }
                         }
                     }
@@ -628,24 +1087,30 @@
                                     "$ref": "#/components/schemas/BaseModule_Post_Record_Response"
                                 }
                             }
+                        },
+                        "links": {
+                            "GetRecordById": {
+                                "$ref": "#/components/links/GetRecordById"
+                            }
                         }
                     }
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/{moduleName}/RecordHistory/{recordId}": {
+        "/webservice/Portal/{moduleName}/RecordHistory/{recordId}": {
             "get": {
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get record history",
+                "summary": "Record history",
+                "description": "Gets the history of the record",
                 "operationId": "Api\\Portal\\BaseModule\\RecordHistory::get",
                 "parameters": [
                     {
@@ -699,6 +1164,20 @@
                         "example": 5972
                     },
                     {
+                        "name": "x-raw-data",
+                        "in": "header",
+                        "description": "Gets raw data",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
                         "name": "X-ENCRYPTED",
                         "in": "header",
                         "required": true,
@@ -707,10 +1186,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Request body does not occur",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Recent activities detail",
@@ -726,23 +1201,54 @@
                                 }
                             }
                         }
+                    },
+                    "403": {
+                        "description": "`No permissions to view record` OR `MadTracker is turned off`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record doesn't exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}": {
+        "/webservice/Portal/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}": {
             "get": {
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get the related list of records",
+                "summary": "Related list of records",
+                "description": "Gets a list of related records",
                 "operationId": "Api\\Portal\\BaseModule\\RecordRelatedList::get",
                 "parameters": [
                     {
@@ -774,6 +1280,26 @@
                             "type": "string"
                         },
                         "example": "Contacts"
+                    },
+                    {
+                        "name": "relationId",
+                        "in": "query",
+                        "description": "Relation id",
+                        "required": false,
+                        "style": "form",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cvId",
+                        "in": "query",
+                        "description": "Custom view id",
+                        "required": false,
+                        "style": "form",
+                        "schema": {
+                            "type": "integer"
+                        }
                     },
                     {
                         "name": "x-raw-data",
@@ -814,10 +1340,8 @@
                         "in": "header",
                         "description": "JSON array in the list of fields to be returned in response",
                         "required": false,
-                        "example": [],
                         "content": {
                             "application/json": {
-                                "mediaType": "application/json",
                                 "schema": {
                                     "type": "array",
                                     "items": {
@@ -834,7 +1358,6 @@
                         "required": false,
                         "content": {
                             "application/json": {
-                                "mediaType": "application/json",
                                 "schema": {
                                     "description": "Conditions details",
                                     "properties": {
@@ -865,10 +1388,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of consents",
@@ -886,7 +1405,247 @@
                         }
                     },
                     "400": {
-                        "description": "Incorrect json syntax",
+                        "description": "Relationship does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No permissions to view record",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record doesn't exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "No relation module name",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/webservice/Portal/{moduleName}/RecordsList": {
+            "get": {
+                "tags": [
+                    "BaseModule"
+                ],
+                "summary": "List of records",
+                "description": "Gets a list of records",
+                "operationId": "Api\\Portal\\BaseModule\\RecordsList::get",
+                "parameters": [
+                    {
+                        "name": "moduleName",
+                        "in": "path",
+                        "description": "Module name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Contacts"
+                    },
+                    {
+                        "name": "x-raw-data",
+                        "in": "header",
+                        "description": "Get rows limit, default: 0",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "x-row-limit",
+                        "in": "header",
+                        "description": "Get rows limit, default: 1000",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 100
+                    },
+                    {
+                        "name": "x-row-offset",
+                        "in": "header",
+                        "description": "Offset, default: 0",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 0
+                    },
+                    {
+                        "name": "x-row-order-field",
+                        "in": "header",
+                        "description": "Sets the ORDER BY part of the query record list",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "lastname"
+                    },
+                    {
+                        "name": "x-row-order",
+                        "in": "header",
+                        "description": "Sorting direction",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "ASC",
+                                "DESC"
+                            ]
+                        },
+                        "example": "DESC"
+                    },
+                    {
+                        "name": "x-fields",
+                        "in": "header",
+                        "description": "JSON array in the list of fields to be returned in response",
+                        "required": false,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "x-condition",
+                        "in": "header",
+                        "description": "Conditions [Json format]",
+                        "required": false,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conditions details",
+                                    "properties": {
+                                        "fieldName": {
+                                            "description": "Field name",
+                                            "type": "string",
+                                            "example": "lastname"
+                                        },
+                                        "value": {
+                                            "description": "Search value",
+                                            "type": "string",
+                                            "example": "Kowalski"
+                                        },
+                                        "operator": {
+                                            "description": "Field operator",
+                                            "type": "string",
+                                            "example": "e"
+                                        },
+                                        "group": {
+                                            "description": "Condition group if true is AND",
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "x-only-column",
+                        "in": "header",
+                        "description": "Return only column names",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "x-parent-id",
+                        "in": "header",
+                        "description": "Parent record id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 5
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of consents",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_RecordsList_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_RecordsList_ResponseBody"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Incorrect json syntax: x-fields",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -948,20 +1707,20 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/{moduleName}/RecordsList": {
-            "get": {
+        "/webservice/Portal/{moduleName}/SaveInventory": {
+            "post": {
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get the list of records",
-                "operationId": "Api\\Portal\\BaseModule\\RecordsList::get",
+                "summary": "Create inventory record from cart",
+                "operationId": "Api\\Portal\\BaseModule\\SaveInventory::post",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -971,8 +1730,213 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Contacts"
+                        "example": "Accounts"
                     },
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contents of the response contains only id nd module name",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseAction_SaveInventory_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseAction_SaveInventory_ResponseBody"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No permissions to create record",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/webservice/Portal/Products/Record/{recordId}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get data for the record",
+                "operationId": "Api\\Portal\\Products\\Record::get",
+                "parameters": [
+                    {
+                        "name": "recordId",
+                        "in": "path",
+                        "description": "Record id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 116
+                    },
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    },
+                    {
+                        "name": "x-raw-data",
+                        "in": "header",
+                        "description": "Gets raw data",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "x-parent-id",
+                        "in": "header",
+                        "description": "Gets parent id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "x-unit-price",
+                        "in": "header",
+                        "description": "Get additional unit price",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "x-unit-gross",
+                        "in": "header",
+                        "description": "Get additional unit gross",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "x-product-bundles",
+                        "in": "header",
+                        "description": "Get additional product bundles",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Gets data for the record",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Products_Get_Record_Response"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Products_Get_Record_Response"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "`No permissions to remove record` OR `No permissions to view record` OR `No permissions to edit record`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "`No record id` OR `Record doesn't exist`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/webservice/Portal/Products/RecordsTree": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get the list of records",
+                "parameters": [
                     {
                         "name": "x-raw-data",
                         "in": "header",
@@ -1036,10 +2000,8 @@
                         "in": "header",
                         "description": "JSON array in the list of fields to be returned in response",
                         "required": false,
-                        "example": [],
                         "content": {
                             "application/json": {
-                                "mediaType": "application/json",
                                 "schema": {
                                     "type": "array",
                                     "items": {
@@ -1056,7 +2018,6 @@
                         "required": false,
                         "content": {
                             "application/json": {
-                                "mediaType": "application/json",
                                 "schema": {
                                     "description": "Conditions details",
                                     "properties": {
@@ -1097,28 +2058,24 @@
                         "example": 5
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of consents",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_RecordsList_ResponseBody"
+                                    "$ref": "#/components/schemas/Products_RecordsList_ResponseBody"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_RecordsList_ResponseBody"
+                                    "$ref": "#/components/schemas/Products_RecordsList_ResponseBody"
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Incorrect json syntax",
+                        "description": "Incorrect json syntax: x-fields",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1180,19 +2137,20 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/Users/Login": {
+        "/webservice/Portal/Users/Login": {
             "post": {
                 "tags": [
                     "Users"
                 ],
-                "summary": "Logs user into the system",
+                "summary": "Logs user",
+                "description": "Logs user into the system",
                 "operationId": "Api\\Portal\\Users\\Login::post",
                 "parameters": [
                     {
@@ -1210,17 +2168,17 @@
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "$ref": "#/components/schemas/UsersLoginRequestBody"
+                                "$ref": "#/components/schemas/Users_Login_RequestBody"
                             }
                         },
                         "application/x-www-form-urlencoded": {
                             "schema": {
-                                "$ref": "#/components/schemas/UsersLoginRequestBody"
+                                "$ref": "#/components/schemas/Users_Login_RequestBody"
                             }
                         },
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/UsersLoginRequestBody"
+                                "$ref": "#/components/schemas/Users_Login_RequestBody"
                             }
                         }
                     }
@@ -1231,37 +2189,77 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UsersLoginResponseBody"
+                                    "$ref": "#/components/schemas/Users_Login_ResponseBody"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UsersLoginResponseBody"
+                                    "$ref": "#/components/schemas/Users_Login_ResponseBody"
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "Invalid data access OR Invalid user password OR No crmid"
+                        "description": "`Invalid data access` OR `Invalid user password` OR `No crmid`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     },
                     "405": {
-                        "description": "Invalid method"
+                        "description": "Invalid method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "412": {
+                        "description": "No 2FA TOTP code",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": []
                     }
                 ]
             }
         },
-        "/webservice/Users/Logout": {
+        "/webservice/Portal/Users/Logout": {
             "put": {
                 "tags": [
                     "Users"
                 ],
-                "summary": "Logout user out the system",
+                "summary": "Logout user",
+                "description": "Logout user out the system",
                 "operationId": "Api\\Portal\\Users\\Logout::put",
                 "parameters": [
                     {
@@ -1273,10 +2271,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Users logout request body",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "User details",
@@ -1296,19 +2290,20 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/Users/Record/{userId}": {
+        "/webservice/Portal/Users/Record/{userId}": {
             "get": {
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get data for the user",
+                "summary": "Data for the user",
+                "description": "Gets details about the user",
                 "operationId": "Api\\Portal\\Users\\Record::get",
                 "parameters": [
                     {
@@ -1344,10 +2339,6 @@
                         "example": 1
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty.",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "Gets data for the user",
@@ -1365,27 +2356,52 @@
                         }
                     },
                     "403": {
-                        "description": "Access denied, access for administrators only"
+                        "description": "Access denied, access for administrators only",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "User doesn't exist"
+                        "description": "User doesn't exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
         },
-        "/webservice/Users/RecordsList": {
+        "/webservice/Portal/Users/RecordsList": {
             "get": {
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get the list of users",
+                "summary": "List of users",
+                "description": "Gets a list of all users",
                 "operationId": "Api\\Portal\\Users\\RecordsList::get",
                 "parameters": [
                     {
@@ -1451,10 +2467,8 @@
                         "in": "header",
                         "description": "JSON array in the list of fields to be returned in response",
                         "required": false,
-                        "example": [],
                         "content": {
                             "application/json": {
-                                "mediaType": "application/json",
                                 "schema": {
                                     "type": "array",
                                     "items": {
@@ -1471,7 +2485,6 @@
                         "required": false,
                         "content": {
                             "application/json": {
-                                "mediaType": "application/json",
                                 "schema": {
                                     "description": "Conditions details",
                                     "properties": {
@@ -1512,10 +2525,6 @@
                         "example": 5
                     }
                 ],
-                "requestBody": {
-                    "description": "The content of the request is empty",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "description": "List of consents",
@@ -1533,7 +2542,7 @@
                         }
                     },
                     "400": {
-                        "description": "Incorrect json syntax",
+                        "description": "Incorrect json syntax: x-fields",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1595,9 +2604,103 @@
                 },
                 "security": [
                     {
-                        "basicAuth": "",
-                        "ApiKeyAuth": "",
-                        "token": ""
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/webservice/Portal/Users/TwoFactorAuth": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "This API allows you to manage two factor authentication (2FA) for users. Auth methods: TOTP ",
+                "description": "Two Factor authentication",
+                "operationId": "Api\\Portal\\Users\\TwoFactorAuth::post",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Input data format",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_TwoFactorAuth_RequestBody"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_TwoFactorAuth_RequestBody"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_TwoFactorAuth_RequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User access details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_TwoFactorAuth_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_TwoFactorAuth_ResponseBody"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.` OR `Invalid data access` OR `Invalid user password` OR `No crmid`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -1606,26 +2709,47 @@
     "components": {
         "schemas": {
             "BaseAction_Files_Request": {
-                "title": "Base action - Files request",
+                "title": "Base action - Files request schema",
                 "description": "Action parameters to download the file",
-                "type": "object",
-                "example": {
-                    "module": "Documents",
-                    "actionName": "DownloadFile",
-                    "record": 1111,
-                    "fileid": 333
-                }
+                "properties": {
+                    "module": {
+                        "description": "Put method.",
+                        "type": "string",
+                        "example": "Documents"
+                    },
+                    "actionName": {
+                        "description": "Put method.",
+                        "type": "string",
+                        "example": "DownloadFile"
+                    },
+                    "record": {
+                        "description": "Put method.",
+                        "type": "integer",
+                        "example": 1111
+                    },
+                    "fileid": {
+                        "description": "Put method.",
+                        "type": "integer",
+                        "example": 333
+                    }
+                },
+                "type": "object"
             },
-            "BaseActionInstallResponseBody": {
-                "title": "Base action - Install",
+            "BaseAction_Install_RequestBody": {
+                "title": "Base action - Install response",
+                "description": "The representation of a base action install",
+                "type": "object"
+            },
+            "BaseAction_Install_ResponseBody": {
+                "title": "Base action - Install response",
                 "description": "The representation of a base action install",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
+                            0,
+                            1
                         ]
                     },
                     "result": {
@@ -1635,7 +2759,7 @@
                 },
                 "type": "object"
             },
-            "BaseActionMenuResponseBody": {
+            "BaseAction_Menu_ResponseBody": {
                 "title": "Base action - Menu",
                 "description": "Base action menu response body",
                 "properties": {
@@ -1643,9 +2767,10 @@
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
-                        ]
+                            0,
+                            1
+                        ],
+                        "example": 1
                     },
                     "result": {
                         "description": "Menu items selected in the system, consists of parents and children",
@@ -1653,62 +2778,83 @@
                             "items": {
                                 "title": "Parent parameters",
                                 "description": "Get method.",
-                                "properties": {
-                                    "id": {
-                                        "description": "Get method.",
-                                        "type": "integer"
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Tree item",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Get method.",
+                                            "type": "integer",
+                                            "example": 171
+                                        },
+                                        "tabid": {
+                                            "description": "Get method.",
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "mod": {
+                                            "description": "Get method.",
+                                            "type": "string",
+                                            "example": "Accounts"
+                                        },
+                                        "name": {
+                                            "description": "Get method.",
+                                            "type": "string",
+                                            "example": "Accounts"
+                                        },
+                                        "type": {
+                                            "description": "Get method.",
+                                            "type": "string",
+                                            "example": "Module"
+                                        },
+                                        "sequence": {
+                                            "description": "Get method.",
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "newwindow": {
+                                            "description": "Get method.",
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "dataurl": {
+                                            "description": "Get method.",
+                                            "type": "string",
+                                            "example": "index.php?module=Module&view=List&mid=172"
+                                        },
+                                        "icon": {
+                                            "description": "Get method.",
+                                            "type": "string",
+                                            "example": "dminIcon-shared-owner"
+                                        },
+                                        "parent": {
+                                            "description": "Get method.",
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "hotkey": {
+                                            "description": "Get method.",
+                                            "type": "string",
+                                            "example": "ctrl+k"
+                                        },
+                                        "filters": {
+                                            "description": "Get method.",
+                                            "type": "string",
+                                            "example": "4,130"
+                                        },
+                                        "childs": {
+                                            "title": "Children parameters",
+                                            "description": "Get method.",
+                                            "type": "object"
+                                        },
+                                        "label": {
+                                            "description": "Get method.",
+                                            "type": "string",
+                                            "example": "My home page"
+                                        }
                                     },
-                                    "tabid": {
-                                        "description": "Get method.",
-                                        "type": "integer"
-                                    },
-                                    "mod": {
-                                        "description": "Get method.",
-                                        "type": "string"
-                                    },
-                                    "name": {
-                                        "description": "Get method.",
-                                        "type": "string"
-                                    },
-                                    "type": {
-                                        "description": "Get method.",
-                                        "type": "string"
-                                    },
-                                    "sequence": {
-                                        "description": "Get method.",
-                                        "type": "integer"
-                                    },
-                                    "newwindow": {
-                                        "description": "Get method.",
-                                        "type": "integer"
-                                    },
-                                    "dataurl": {
-                                        "description": "Get method.",
-                                        "type": "string"
-                                    },
-                                    "icon": {
-                                        "description": "Get method.",
-                                        "type": "string"
-                                    },
-                                    "parent": {
-                                        "description": "Get method.",
-                                        "type": "integer"
-                                    },
-                                    "hotkey": {
-                                        "description": "Get method.",
-                                        "type": "string"
-                                    },
-                                    "filters": {
-                                        "description": "Get method.",
-                                        "type": "string"
-                                    },
-                                    "childs": {
-                                        "title": "Children parameters",
-                                        "description": "Get method.",
-                                        "type": "object"
-                                    }
-                                },
-                                "type": "object"
+                                    "type": "object"
+                                }
                             }
                         },
                         "type": "object"
@@ -1716,20 +2862,21 @@
                 },
                 "type": "object"
             },
-            "BaseActionModulesResponseBody": {
-                "title": "Base action - List of modules",
+            "BaseAction_Modules_ResponseBody": {
+                "title": "Base action - List of permitted modules",
                 "description": "List of available modules",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
-                        ]
+                            0,
+                            1
+                        ],
+                        "example": 1
                     },
                     "result": {
-                        "description": "List of modules accessed",
+                        "description": "List of permitted modules",
                         "type": "object",
                         "additionalProperties": {
                             "description": "Module name",
@@ -1740,141 +2887,92 @@
                 },
                 "type": "object"
             },
-            "BaseModule_Fields_ResponseBody": {
-                "title": "Base module - Response action fields",
-                "description": "Module action fields response body",
+            "BaseAction_Dashboard_ResponseBody": {
+                "title": "Base module - Dashboard response schema",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
-                        ]
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "result": {
+                        "description": "Tabs and widgets data",
+                        "properties": {
+                            "types": {
+                                "title": "Tabs list",
+                                "description": "Get widgets.",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Tab menu item",
+                                    "properties": {
+                                        "name": {
+                                            "description": "Get widgets.",
+                                            "type": "string",
+                                            "example": "Dashboard"
+                                        },
+                                        "id": {
+                                            "description": "Get widgets.",
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "system": {
+                                            "description": "Get widgets.",
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "widgets": {
+                                "title": "Tabs list",
+                                "description": "Get widgets.",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Tree item",
+                                    "properties": {
+                                        "type": {
+                                            "description": "Get widgets.",
+                                            "type": "string",
+                                            "example": "ChartFilter"
+                                        },
+                                        "data": {
+                                            "title": "Widget data",
+                                            "description": "Get widgets.",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "BaseModule_Fields_ResponseBody": {
+                "title": "Base module - Response action fields",
+                "description": "Fields, blocks and inventory details",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
                     },
                     "result": {
                         "description": "Fields parameters",
                         "properties": {
                             "fields": {
                                 "description": "List of all available fields in the module",
-                                "properties": {
-                                    "blocks": {
-                                        "description": "Fields blocks",
-                                        "type": "object",
-                                        "additionalProperties": {
-                                            "description": "Field block details",
-                                            "properties": {
-                                                "id": {
-                                                    "description": "Block id",
-                                                    "type": "integer",
-                                                    "example": 195
-                                                },
-                                                "tabid": {
-                                                    "description": "Module id",
-                                                    "type": "integer",
-                                                    "example": 9
-                                                },
-                                                "label": {
-                                                    "description": "Block label",
-                                                    "type": "string",
-                                                    "example": "Account details"
-                                                },
-                                                "sequence": {
-                                                    "description": "Block sequence",
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "showtitle": {
-                                                    "description": "Specifies whether the title should be visible",
-                                                    "type": "integer",
-                                                    "example": 0
-                                                },
-                                                "visible": {
-                                                    "description": "Determines the visibility",
-                                                    "type": "integer",
-                                                    "example": 0
-                                                },
-                                                "increateview": {
-                                                    "description": "Determines the visibility in creat view",
-                                                    "type": "integer",
-                                                    "example": 0
-                                                },
-                                                "ineditview": {
-                                                    "description": "Determines the visibility in edit view",
-                                                    "type": "integer",
-                                                    "example": 0
-                                                },
-                                                "indetailview": {
-                                                    "description": "Determines the visibility in detail view",
-                                                    "type": "integer",
-                                                    "example": 0
-                                                },
-                                                "display_status": {
-                                                    "description": "Determines whether the block should be expanded",
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "iscustom": {
-                                                    "description": "Determines if the block has been added by the user",
-                                                    "type": "integer",
-                                                    "example": 0
-                                                },
-                                                "icon": {
-                                                    "description": "Block icon class",
-                                                    "type": "string",
-                                                    "example": "far fa-calendar-alt"
-                                                },
-                                                "name": {
-                                                    "description": "Block name translated into the user's language",
-                                                    "type": "string",
-                                                    "example": "Informacje podstawowe o firmie"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "inventory": {
-                                        "description": "Inventory field group",
-                                        "properties": {
-                                            "1": {
-                                                "description": "Inventory field list",
-                                                "type": "object",
-                                                "additionalProperties": {
-                                                    "description": "Inventory field details",
-                                                    "properties": {
-                                                        "label": {
-                                                            "description": "Field label translated into the user's language",
-                                                            "type": "string",
-                                                            "example": "Unit price"
-                                                        },
-                                                        "type": {
-                                                            "description": "Field type",
-                                                            "type": "string",
-                                                            "example": "UnitPrice"
-                                                        },
-                                                        "columnname": {
-                                                            "description": "Field column name in db",
-                                                            "type": "string",
-                                                            "example": "price"
-                                                        },
-                                                        "isSummary": {
-                                                            "description": "Is the field contains summary",
-                                                            "type": "boolean",
-                                                            "example": false
-                                                        },
-                                                        "isVisibleInDetail": {
-                                                            "description": "Check if field is visible in detail view",
-                                                            "type": "boolean",
-                                                            "example": true
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                },
                                 "type": "object",
                                 "additionalProperties": {
                                     "properties": {
@@ -2008,9 +3106,14 @@
                                             "type": "object"
                                         },
                                         "id": {
-                                            "description": "Check if record is editable",
+                                            "description": "Field ID",
                                             "type": "integer",
                                             "example": 24862
+                                        },
+                                        "uitype": {
+                                            "description": "Field UiType",
+                                            "type": "integer",
+                                            "example": 1
                                         },
                                         "isEditable": {
                                             "description": "Check if record is editable",
@@ -2022,8 +3125,13 @@
                                             "type": "boolean",
                                             "example": true
                                         },
+                                        "isReadOnly": {
+                                            "description": "Check if record is read only (based on profiles)",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
                                         "isEditableReadOnly": {
-                                            "description": "Check if record is editable or read only",
+                                            "description": "Check if record is editable or read only (based on the field type)",
                                             "type": "boolean",
                                             "example": false
                                         },
@@ -2044,7 +3152,7 @@
                                         "helpInfo": {
                                             "description": "Additional field description",
                                             "type": "string",
-                                            "example": "x y z"
+                                            "example": "Edit,Detail"
                                         },
                                         "dbStructure": {
                                             "description": "Info about field structure in database",
@@ -2061,45 +3169,38 @@
                                         },
                                         "referenceList": {
                                             "description": "List of related modules, available only for reference field",
-                                            "properties": {
-                                                "treeValues": {
-                                                    "description": "Tree items, available only for tree field",
-                                                    "type": "object",
-                                                    "additionalProperties": {
-                                                        "description": "Tree item",
-                                                        "properties": {
-                                                            "id": {
-                                                                "description": "Number tree without prefix",
-                                                                "type": "integer",
-                                                                "example": 1
-                                                            },
-                                                            "tree": {
-                                                                "description": "Tree id",
-                                                                "type": "string",
-                                                                "example": "T10"
-                                                            },
-                                                            "parent": {
-                                                                "description": "Parent tree id",
-                                                                "type": "string",
-                                                                "example": "T1"
-                                                            },
-                                                            "text": {
-                                                                "description": "Tree value",
-                                                                "type": "string",
-                                                                "example": "Tree value"
-                                                            }
-                                                        },
-                                                        "type": "object"
-                                                    }
-                                                }
-                                            },
                                             "type": "object",
                                             "additionalProperties": {
+                                                "description": "Tree item",
+                                                "type": "string",
+                                                "example": "Accounts"
+                                            }
+                                        },
+                                        "treeValues": {
+                                            "description": "Tree items, available only for tree field",
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "description": "Tree item",
                                                 "properties": {
-                                                    "name": {
-                                                        "description": "Field name",
+                                                    "id": {
+                                                        "description": "Number tree without prefix",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "tree": {
+                                                        "description": "Tree id",
                                                         "type": "string",
-                                                        "example": "subject"
+                                                        "example": "T10"
+                                                    },
+                                                    "parent": {
+                                                        "description": "Parent tree id",
+                                                        "type": "string",
+                                                        "example": "T1"
+                                                    },
+                                                    "text": {
+                                                        "description": "Tree value",
+                                                        "type": "string",
+                                                        "example": "Tree value"
                                                     }
                                                 },
                                                 "type": "object"
@@ -2108,9 +3209,272 @@
                                     },
                                     "type": "object"
                                 }
+                            },
+                            "blocks": {
+                                "description": "List of all available blocks in the module",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Block details",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Block id",
+                                            "type": "integer",
+                                            "example": 195
+                                        },
+                                        "tabid": {
+                                            "description": "Module id",
+                                            "type": "integer",
+                                            "example": 9
+                                        },
+                                        "label": {
+                                            "description": "Block label",
+                                            "type": "string",
+                                            "example": "Account details"
+                                        },
+                                        "sequence": {
+                                            "description": "Block sequence",
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "showtitle": {
+                                            "description": "Specifies whether the title should be visible",
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "visible": {
+                                            "description": "Determines the visibility",
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "increateview": {
+                                            "description": "Determines the visibility in creat view",
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "ineditview": {
+                                            "description": "Determines the visibility in edit view",
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "indetailview": {
+                                            "description": "Determines the visibility in detail view",
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "display_status": {
+                                            "description": "Determines whether the block should be expanded",
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "iscustom": {
+                                            "description": "Determines if the block has been added by the user",
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "icon": {
+                                            "description": "Block icon class",
+                                            "type": "string",
+                                            "example": "far fa-calendar-alt"
+                                        },
+                                        "name": {
+                                            "description": "Block name translated into the user's language",
+                                            "type": "string",
+                                            "example": "Informacje podstawowe o firmie"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "inventory": {
+                                "description": "Inventory field group, available depending on the type of module",
+                                "properties": {
+                                    "1": {
+                                        "description": "Inventory field list",
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "description": "Inventory field details",
+                                            "properties": {
+                                                "label": {
+                                                    "description": "Field label translated into the user's language",
+                                                    "type": "string",
+                                                    "example": "Unit price"
+                                                },
+                                                "type": {
+                                                    "description": "Field type",
+                                                    "type": "string",
+                                                    "example": "UnitPrice"
+                                                },
+                                                "columnname": {
+                                                    "description": "Field column name in db",
+                                                    "type": "string",
+                                                    "example": "price"
+                                                },
+                                                "isSummary": {
+                                                    "description": "Is the field contains summary",
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "isVisibleInDetail": {
+                                                    "description": "Check if field is visible in detail view",
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "BaseAction_Hierarchy_ResponseBody": {
+                "title": "Base module - Hierarchy response schema",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "result": {
+                        "description": "Records",
+                        "type": "object",
+                        "additionalProperties": {
+                            "description": "Record details",
+                            "properties": {
+                                "id": {
+                                    "description": "Get records hierarchy.",
+                                    "type": "integer",
+                                    "example": 117
+                                },
+                                "parent": {
+                                    "description": "Get records hierarchy.",
+                                    "type": "integer",
+                                    "example": 0
+                                },
+                                "name": {
+                                    "description": "Get records hierarchy.",
+                                    "type": "string",
+                                    "example": "YetiForce Sp. z o.o."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "BaseAction_Pdf_ResponseBody": {
+                "title": "Base module - Generate PDF response schema",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "result": {
+                        "description": "Pdf",
+                        "type": "object",
+                        "additionalProperties": {
+                            "description": "Pdf detail",
+                            "properties": {
+                                "name": {
+                                    "description": "Get method - Generate PDF.",
+                                    "type": "string",
+                                    "example": "order.pdf"
+                                },
+                                "data": {
+                                    "description": "Get method - Generate PDF.",
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "BaseAction_PdfTemplates_ResponseBody": {
+                "title": "Base module - Get PDF templates list response schema",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "result": {
+                        "description": "Pdf templates",
+                        "type": "object",
+                        "additionalProperties": {
+                            "description": "Pdf template detail",
+                            "properties": {
+                                "id": {
+                                    "description": "Record Id",
+                                    "type": "integer",
+                                    "example": 38
+                                },
+                                "name": {
+                                    "description": "Get method - Get PDF templates list.",
+                                    "type": "string",
+                                    "example": "order"
+                                },
+                                "second_name": {
+                                    "description": "Get method - Get PDF templates list.",
+                                    "type": "string",
+                                    "example": "order"
+                                },
+                                "default": {
+                                    "description": "Get method - Get PDF templates list.",
+                                    "type": "integer",
+                                    "example": null
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "BaseModule_Privileges_ResponseBody": {
+                "title": "Base module - Privileges response schema",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "result": {
+                        "description": "List of module privileges",
+                        "type": "object",
+                        "example": {
+                            "Import": true,
+                            "Export": true
+                        },
+                        "additionalProperties": {
+                            "description": "Action",
+                            "type": "boolean"
+                        }
                     }
                 },
                 "type": "object"
@@ -2141,12 +3505,16 @@
                                 "example": 152
                             },
                             "fields": {
-                                "description": "Field name items",
-                                "type": "object"
+                                "description": "System field names and field labels",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Field label",
+                                    "type": "boolean",
+                                    "example": "Account name"
+                                }
                             },
                             "data": {
-                                "description": "Record data",
-                                "type": "object"
+                                "$ref": "#/components/schemas/Record_Display_Details"
                             },
                             "privileges": {
                                 "description": "Parameters determining checking of editing rights and moving to the trash",
@@ -2173,8 +3541,7 @@
                                 "type": "object"
                             },
                             "rawData": {
-                                "description": "Raw record data",
-                                "type": "object"
+                                "$ref": "#/components/schemas/Record_Raw_Details"
                             },
                             "rawInventory": {
                                 "description": "Inventory data",
@@ -2194,8 +3561,8 @@
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
+                            0,
+                            1
                         ]
                     },
                     "result": {
@@ -2213,8 +3580,8 @@
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
+                            0,
+                            1
                         ]
                     },
                     "result": {
@@ -2236,13 +3603,39 @@
                 },
                 "type": "object"
             },
-            "BaseModule_Record_Request": {
-                "title": "Base module - Request body for record create or update",
-                "description": "Contents of the request contains an associative array with the data record.",
+            "Record_Edit_Details": {
+                "title": "Record edit details",
+                "description": "Record data in user format for edit view",
                 "type": "object",
                 "example": {
-                    "firstname": "Tom",
-                    "lastname": "Kowalski"
+                    "field_name_1": "Tom",
+                    "field_name_2": "Kowalski",
+                    "assigned_user_id": 1,
+                    "createdtime": "2014-09-24 20:51:12"
+                }
+            },
+            "Record_Raw_Details": {
+                "title": "Record raw details",
+                "description": "Record data in the system format as stored in a database",
+                "type": "object",
+                "example": {
+                    "id": 11,
+                    "field_name_1": "Tom",
+                    "field_name_2": "Kowalski",
+                    "assigned_user_id": 1,
+                    "createdtime": "2014-09-24 20:51:12"
+                }
+            },
+            "Record_Display_Details": {
+                "title": "Record display details",
+                "description": "Record data in user format for preview",
+                "type": "object",
+                "example": {
+                    "id": 11,
+                    "field_name_1": "Tom",
+                    "field_name_2": "Kowalski",
+                    "assigned_user_id": "YetiForce Administrator",
+                    "createdtime": "2014-09-24 20:51"
                 }
             },
             "BaseModule_Post_Record_Response": {
@@ -2253,8 +3646,8 @@
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
+                            0,
+                            1
                         ]
                     },
                     "result": {
@@ -2284,8 +3677,8 @@
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
+                            0,
+                            1
                         ],
                         "example": 1
                     },
@@ -2313,6 +3706,12 @@
                                             "description": "Name of the action that was carried out",
                                             "type": "string",
                                             "example": "changed"
+                                        },
+                                        "rawTime": {
+                                            "description": "Showing the exact date on which the change took place",
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2019-10-07 08:32:38"
                                         },
                                         "rawOwner": {
                                             "description": "User ID of the user who made the change",
@@ -2386,12 +3785,12 @@
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
+                            0,
+                            1
                         ]
                     },
                     "result": {
-                        "description": "List of modules accessed",
+                        "description": "List of related records",
                         "properties": {
                             "headers": {
                                 "description": "Column names",
@@ -2399,19 +3798,17 @@
                                 "additionalProperties": {}
                             },
                             "records": {
-                                "description": "List of modules accessed",
+                                "description": "Records display details",
                                 "type": "object",
                                 "additionalProperties": {
-                                    "description": "Column data",
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Record_Display_Details"
                                 }
                             },
                             "rawData": {
-                                "description": "Raw data",
+                                "description": "Records raw details",
                                 "type": "object",
                                 "additionalProperties": {
-                                    "description": "Column data to display",
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Record_Raw_Details"
                                 }
                             },
                             "count": {
@@ -2438,12 +3835,12 @@
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
+                            0,
+                            1
                         ]
                     },
                     "result": {
-                        "description": "List of modules accessed",
+                        "description": "List of records",
                         "properties": {
                             "headers": {
                                 "description": "Column names",
@@ -2451,28 +3848,233 @@
                                 "additionalProperties": {}
                             },
                             "records": {
-                                "description": "List of modules accessed",
+                                "description": "Records display details",
                                 "type": "object",
                                 "additionalProperties": {
-                                    "description": "Column data",
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Record_Display_Details"
                                 }
                             },
                             "rawData": {
-                                "description": "Raw data",
+                                "description": "Records raw details",
                                 "type": "object",
                                 "additionalProperties": {
-                                    "description": "Column data to display",
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Record_Raw_Details"
                                 }
                             },
-                            "count": {
-                                "description": "Get record list method.",
+                            "numberOfRecords": {
+                                "description": "Number of records on the page",
                                 "type": "string",
                                 "example": 54
                             },
                             "isMorePages": {
-                                "description": "Get record list method.",
+                                "description": "There are more pages",
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "numberOfAllRecords": {
+                                "description": "Number of all records, dependent on the header `x-row-count`",
+                                "type": "string",
+                                "example": 54
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "BaseAction_SaveInventory_ResponseBody": {
+                "title": "Base module - Create inventory record response schema",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "result": {
+                        "description": "Create result",
+                        "type": "object",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/BaseAction_SaveInventory_ResponseBodySuccess"
+                            },
+                            {
+                                "$ref": "#/components/schemas/BaseAction_SaveInventory_ResponseBodyError"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "BaseAction_SaveInventory_ResponseBodySuccess": {
+                "title": "Base module - Create inventory record response success schema",
+                "properties": {
+                    "id": {
+                        "description": "Record Id",
+                        "type": "integer",
+                        "example": 38
+                    },
+                    "moduleName": {
+                        "description": "Create inventory record.",
+                        "type": "string",
+                        "example": "SSingleOrders"
+                    }
+                },
+                "type": "object"
+            },
+            "BaseAction_SaveInventory_ResponseBodyError": {
+                "title": "Base module - Create inventory record response error schema",
+                "properties": {
+                    "errors": {
+                        "description": "Error details",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Products_Get_Record_Response": {
+                "title": "Base module - Response body for Record",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "result": {
+                        "description": "Record data",
+                        "properties": {
+                            "name": {
+                                "description": "Record name",
+                                "type": "string",
+                                "example": "Driving school"
+                            },
+                            "id": {
+                                "description": "Record Id",
+                                "type": "integer",
+                                "example": 152
+                            },
+                            "fields": {
+                                "description": "System field names and field labels",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Field label",
+                                    "type": "boolean",
+                                    "example": "Account name"
+                                }
+                            },
+                            "data": {
+                                "$ref": "#/components/schemas/Record_Display_Details"
+                            },
+                            "privileges": {
+                                "description": "Parameters determining checking of editing rights and moving to the trash",
+                                "properties": {
+                                    "isEditable": {
+                                        "description": "Check if record is editable",
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "moveToTrash": {
+                                        "description": "Permission to delete",
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "rawData": {
+                                "$ref": "#/components/schemas/Record_Raw_Details"
+                            },
+                            "productBundles": {
+                                "description": "Product bundles",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Product",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Record_Raw_Details"
+                                        },
+                                        "rawData": {
+                                            "$ref": "#/components/schemas/Record_Raw_Details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "ext": {
+                                "description": "Product bundles",
+                                "properties": {
+                                    "unit_price": {
+                                        "description": "Unit price",
+                                        "type": "integer",
+                                        "example": 44
+                                    },
+                                    "unit_gross": {
+                                        "description": "Unit gross",
+                                        "type": "integer",
+                                        "example": 55
+                                    },
+                                    "qtyinstock": {
+                                        "description": "Qty In Stock",
+                                        "type": "integer",
+                                        "example": 66
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Products_RecordsList_ResponseBody": {
+                "title": "Products - Response action record list",
+                "description": "Module action record list response body",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "result": {
+                        "description": "List of records",
+                        "properties": {
+                            "headers": {
+                                "description": "Column names",
+                                "type": "object",
+                                "additionalProperties": {}
+                            },
+                            "records": {
+                                "description": "Records display details",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "$ref": "#/components/schemas/Record_Display_Details"
+                                }
+                            },
+                            "rawData": {
+                                "description": "Records raw details",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "$ref": "#/components/schemas/Record_Raw_Details"
+                                }
+                            },
+                            "count": {
+                                "description": "Construct.",
+                                "type": "string",
+                                "example": 54
+                            },
+                            "isMorePages": {
+                                "description": "Construct.",
                                 "type": "boolean",
                                 "example": true
                             }
@@ -2491,7 +4093,7 @@
                     1
                 ]
             },
-            "UsersLoginRequestBody": {
+            "Users_Login_RequestBody": {
                 "title": "Users module - Users login request body",
                 "description": "JSON or form-data",
                 "properties": {
@@ -2503,17 +4105,25 @@
                         "description": "Webservice user password",
                         "type": "string"
                     },
+                    "code": {
+                        "description": "2FA TOTP code (optional property), Pass code length = 6, Code period = 30",
+                        "type": "string"
+                    },
                     "params": {
                         "description": "Additional parameters sent by the user, extending the current settings, e.g. language",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
+                        "properties": {
+                            "language": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "example": "pl-PL"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
             },
-            "UsersLoginResponseBody": {
+            "Users_Login_ResponseBody": {
                 "title": "Users module - Users login response body",
                 "description": "Users login response body",
                 "properties": {
@@ -2541,7 +4151,8 @@
                             },
                             "parentName": {
                                 "description": "Post method.",
-                                "type": "string"
+                                "type": "string",
+                                "example": "YetiForce Company"
                             },
                             "lastLoginTime": {
                                 "description": "Post method.",
@@ -2553,7 +4164,7 @@
                                 "description": "Post method.",
                                 "type": "string",
                                 "format": "date-time",
-                                "example": "null"
+                                "example": null
                             },
                             "language": {
                                 "description": "Post method.",
@@ -2563,6 +4174,24 @@
                             "type": {
                                 "description": "Post method.",
                                 "type": "integer"
+                            },
+                            "login_method": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "enum": [
+                                    "PLL_PASSWORD",
+                                    "PLL_PASSWORD_2FA"
+                                ],
+                                "example": "PLL_PASSWORD_2FA"
+                            },
+                            "authy_methods": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "enum": [
+                                    "",
+                                    "PLL_AUTHY_TOTP"
+                                ],
+                                "example": "PLL_AUTHY_TOTP"
                             },
                             "companyId": {
                                 "description": "Post method.",
@@ -2578,7 +4207,8 @@
                                     },
                                     "sum_open_orders": {
                                         "description": "Post method.",
-                                        "type": "integer"
+                                        "type": "number",
+                                        "format": "double"
                                     },
                                     "creditlimit": {
                                         "description": "Post method.",
@@ -2596,80 +4226,99 @@
                                 "properties": {
                                     "activity_view": {
                                         "description": "Post method.",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "This Month"
                                     },
                                     "hour_format": {
                                         "description": "Post method.",
-                                        "type": "integer"
+                                        "type": "string",
+                                        "example": "24"
                                     },
                                     "start_hour": {
                                         "description": "Post method.",
-                                        "type": "string"
-                                    },
-                                    "date_format": {
-                                        "description": "Post method.",
-                                        "type": "string"
-                                    },
-                                    "date_format_js": {
-                                        "description": "Post method.",
-                                        "type": "string"
-                                    },
-                                    "dayoftheweek": {
-                                        "description": "Post method.",
-                                        "type": "string"
-                                    },
-                                    "time_zone": {
-                                        "description": "Post method.",
-                                        "type": "string"
-                                    },
-                                    "currency_id": {
-                                        "description": "Post method.",
-                                        "type": "integer"
-                                    },
-                                    "currency_grouping_pattern": {
-                                        "description": "Post method.",
-                                        "type": "string"
-                                    },
-                                    "currency_decimal_separator": {
-                                        "description": "Post method.",
-                                        "type": "string"
-                                    },
-                                    "currency_grouping_separator": {
-                                        "description": "Post method.",
-                                        "type": "string"
-                                    },
-                                    "currency_symbol_placement": {
-                                        "description": "Post method.",
-                                        "type": "string"
-                                    },
-                                    "no_of_currency_decimals": {
-                                        "description": "Post method.",
-                                        "type": "integer"
-                                    },
-                                    "truncate_trailing_zeros": {
-                                        "description": "Post method.",
-                                        "type": "integer"
+                                        "type": "string",
+                                        "example": "08:00"
                                     },
                                     "end_hour": {
                                         "description": "Post method.",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "16:00"
+                                    },
+                                    "date_format": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": "yyyy-mm-dd"
+                                    },
+                                    "date_format_js": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": "Y-m-d"
+                                    },
+                                    "dayoftheweek": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": "Monday"
+                                    },
+                                    "time_zone": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": "Europe/Warsaw"
+                                    },
+                                    "currency_id": {
+                                        "description": "Post method.",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "currency_grouping_pattern": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": "123,456,789"
+                                    },
+                                    "currency_decimal_separator": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": "."
+                                    },
+                                    "currency_grouping_separator": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": " "
+                                    },
+                                    "currency_symbol_placement": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": "1.0$"
+                                    },
+                                    "no_of_currency_decimals": {
+                                        "description": "Post method.",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "truncate_trailing_zeros": {
+                                        "description": "Post method.",
+                                        "type": "integer",
+                                        "example": 0
                                     },
                                     "currency_name": {
                                         "description": "Post method.",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Poland, Zlotych"
                                     },
                                     "currency_code": {
                                         "description": "Post method.",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "PLN"
                                     },
                                     "currency_symbol": {
                                         "description": "Post method.",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "zł"
                                     },
                                     "conv_rate": {
                                         "description": "Post method.",
                                         "type": "number",
-                                        "format": "float"
+                                        "format": "float",
+                                        "example": "1.00000"
                                     }
                                 },
                                 "type": "object"
@@ -2681,8 +4330,7 @@
                 "type": "object"
             },
             "Exception": {
-                "title": "Exception",
-                "description": "Is the content request is encrypted",
+                "title": "Error exception",
                 "properties": {
                     "status": {
                         "description": "0 - error",
@@ -2696,7 +4344,7 @@
                         "description": "Error  details",
                         "properties": {
                             "message": {
-                                "description": "Post method.",
+                                "description": "To show more details turn on: config\\Debug.php apiShowExceptionMessages = true",
                                 "type": "string",
                                 "example": "Invalid method"
                             },
@@ -2706,19 +4354,19 @@
                                 "example": 405
                             },
                             "file": {
-                                "description": "Post method.",
+                                "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
                                 "type": "string",
                                 "example": "api\\webservice\\Portal\\BaseAction\\Files.php"
                             },
                             "line": {
-                                "description": "Post method.",
+                                "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
                                 "type": "integer",
                                 "example": 101
                             },
                             "backtrace": {
-                                "description": "Post method.",
+                                "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
                                 "type": "string",
-                                "example": "#0 api\\\\webservice\\\\Portal\\\\BaseAction\\\\Files.php (101) ...."
+                                "example": "#0 api\\webservice\\Portal\\BaseAction\\Files.php (101) ...."
                             }
                         },
                         "type": "object"
@@ -2813,12 +4461,12 @@
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
-                            "0",
-                            "1"
+                            0,
+                            1
                         ]
                     },
                     "result": {
-                        "description": "List of modules accessed",
+                        "description": "List of records",
                         "properties": {
                             "headers": {
                                 "description": "Column names",
@@ -2826,19 +4474,17 @@
                                 "additionalProperties": {}
                             },
                             "records": {
-                                "description": "List of modules accessed",
+                                "description": "Records display details",
                                 "type": "object",
                                 "additionalProperties": {
-                                    "description": "Column data",
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Record_Display_Details"
                                 }
                             },
                             "rawData": {
-                                "description": "Raw data",
+                                "description": "Records raw details",
                                 "type": "object",
                                 "additionalProperties": {
-                                    "description": "Column data to display, administrator access only",
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Record_Raw_Details"
                                 }
                             },
                             "count": {
@@ -2856,25 +4502,81 @@
                     }
                 },
                 "type": "object"
+            },
+            "Users_TwoFactorAuth_RequestBody": {
+                "title": "Users module - Users login request body",
+                "description": "JSON or form-data",
+                "properties": {
+                    "userName": {
+                        "description": "Webservice user name",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "Webservice user password",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Users_TwoFactorAuth_ResponseBody": {
+                "title": "Users module - Users login response body",
+                "description": "Users login response body",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "result": {
+                        "description": "Content of responses from a given method",
+                        "properties": {
+                            "authMethods": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "example": "TOTP"
+                            },
+                            "secretKey": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "example": "LJUJWCOEGUKP6WS2"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
             "basicAuth": {
                 "type": "http",
-                "in": "header",
+                "description": "Basic Authentication header",
                 "scheme": "basic"
             },
             "ApiKeyAuth": {
                 "type": "apiKey",
-                "description": "Webservice api key",
+                "description": "Webservice api key header",
                 "name": "X-API-KEY",
                 "in": "header"
             },
             "token": {
                 "type": "apiKey",
-                "description": "Webservice api token, generated when logging into the system, required for communication",
+                "description": "Webservice api token by user header",
                 "name": "X-TOKEN",
                 "in": "header"
+            }
+        },
+        "links": {
+            "GetRecordById": {
+                "operationId": "getRecord",
+                "parameters": {
+                    "recordId": "$response.body#/result/id"
+                },
+                "description": "The `id` value returned in the response can be used as the `recordId` parameter in `GET /webservice/{moduleName}/Record/{recordId}`."
             }
         }
     },
@@ -2886,6 +4588,10 @@
         {
             "name": "BaseModule",
             "description": "Access to record methods"
+        },
+        {
+            "name": "Products",
+            "description": "Products methods"
         },
         {
             "name": "Users",

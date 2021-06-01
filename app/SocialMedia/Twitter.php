@@ -3,7 +3,7 @@
 /**
  * SocialMedia Twitter class.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -59,9 +59,9 @@ class Twitter extends Base
 	public static function isActive()
 	{
 		$configTitter = \App\SocialMedia::getInstance(static::$socialMediaType);
-		return class_exists('\Abraham\TwitterOAuth\TwitterOAuth') &&
-			!empty($configTitter->get('twitter_api_key')) &&
-			!empty($configTitter->get('twitter_api_secret'));
+		return class_exists('\Abraham\TwitterOAuth\TwitterOAuth')
+			&& !empty($configTitter->get('twitter_api_key'))
+			&& !empty($configTitter->get('twitter_api_secret'));
 	}
 
 	/**

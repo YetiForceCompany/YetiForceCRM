@@ -174,17 +174,21 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 
 	/**
 	 * Function to delete the current Record Model.
+	 *
+	 * @return bool
 	 */
-	public function delete()
+	public function delete(): bool
 	{
-		$db = \App\Db::getInstance('admin');
-		$db->createCommand()
+		$delete = \App\Db::getInstance('admin')->createCommand()
 			->delete('a_#__adv_permission', ['id' => $this->getId()])
 			->execute();
-		\App\PrivilegeAdvanced::reloadCache();
-		if ($this->has('conditions')) {
-			\App\Privilege::setUpdater(\App\Module::getModuleName($this->get('tabid')));
+		if ($delete) {
+			\App\PrivilegeAdvanced::reloadCache();
+			if ($this->has('conditions')) {
+				\App\Privilege::setUpdater(\App\Module::getModuleName($this->get('tabid')));
+			}
 		}
+		return $delete;
 	}
 
 	/**

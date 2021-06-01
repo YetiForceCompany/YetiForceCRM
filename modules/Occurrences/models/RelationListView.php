@@ -25,15 +25,15 @@ class Occurrences_RelationListView_Model extends Vtiger_RelationListView_Model
 				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'LISTVIEWMASSACTION',
 					'linklabel' => 'LBL_MASS_SEND_EMAIL',
-					'linkurl' => 'javascript:Occurrences_RelatedList_Js.triggerSendEmail();',
+					'linkurl' => 'javascript:Vtiger_RelatedList_Js.triggerSendEmail();',
 					'linkicon' => 'fas fa-envelope',
 				]);
 			}
-			if ($contactModel->getName() === $relatedModuleModel->getName() && $contactModel->isActive() &&
-				$contactModel->isPermitted('CreateView') && $contactModel->isPermitted('Import') &&
-				$relationModelInstance->isAddActionSupported() &&
-				$this->getParentRecordModel()->isViewable() &&
-				$relationModelInstance->getParentModuleModel()->getName() === $this->getParentRecordModel()->getModuleName()
+			if ($contactModel->getName() === $relatedModuleModel->getName() && $contactModel->isActive()
+				&& $contactModel->isPermitted('CreateView') && $contactModel->isPermitted('Import')
+				&& $relationModelInstance->isAddActionSupported()
+				&& $this->getParentRecordModel()->isViewable()
+				&& $relationModelInstance->getParentModuleModel()->getName() === $this->getParentRecordModel()->getModuleName()
 		) {
 				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'LISTVIEWMASSACTION',

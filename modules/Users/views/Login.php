@@ -11,14 +11,10 @@
 
 class Users_Login_View extends \App\Controller\View\Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $csrfActive = false;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -35,45 +31,36 @@ class Users_Login_View extends \App\Controller\View\Base
 		$this->headers->csp['object-src'] = '\'none\'';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function loginRequired()
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule());
+		$viewer->assign('SHOW_FOOTER_BAR', false);
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -93,9 +80,7 @@ class Users_Login_View extends \App\Controller\View\Base
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
@@ -103,9 +88,7 @@ class Users_Login_View extends \App\Controller\View\Base
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderScripts(App\Request $request)
 	{
 		return array_merge(parent::getHeaderScripts($request), $this->checkAndConvertJsScripts([

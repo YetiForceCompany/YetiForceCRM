@@ -36,13 +36,13 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Fuction to get the Name of the Record.
+	 * Function to get the Name of the record.
 	 *
-	 * @return string
+	 * @return string - Entity Name of the record
 	 */
-	public function getName()
+	public function getName(): string
 	{
-		return $this->get('rsstitle');
+		return \App\Purifier::encodeHtml($this->get('rsstitle'));
 	}
 
 	/**

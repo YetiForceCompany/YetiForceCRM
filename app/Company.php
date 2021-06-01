@@ -2,7 +2,7 @@
 /**
  * Company basic file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -40,7 +40,7 @@ class Company extends Base
 		if (Cache::has('CompanyGetAll', '')) {
 			return Cache::get('CompanyGetAll', '');
 		}
-		$rows = (new Db\Query())->from('s_#__companies')->all();
+		$rows = (new Db\Query())->from('s_#__companies')->all(Db::getInstance('admin'));
 		Cache::save('CompanyGetAll', '', $rows, Cache::LONG);
 		return $rows;
 	}
@@ -112,7 +112,7 @@ class Company extends Base
 		$return = 'Micro';
 		$last = 0;
 		foreach (self::$sizes as $size => $value) {
-			if (0 !== $value && 0 !== $value && $count <= $value && $count > $last) {
+			if (0 !== $value && $count <= $value && $count > $last) {
 				return $size;
 			}
 			if (0 === $value && $count > 1000) {
@@ -121,5 +121,21 @@ class Company extends Base
 			$last = $value;
 		}
 		return $return;
+	}
+
+	/**
+	 * Compare company size.
+	 *
+	 * @param string $package
+	 *
+	 * @return bool
+	 */
+	public static function compareSize(string $package): bool
+	{
+		$size = self::$sizes[$package] ?? '';
+		if (0 === $size) {
+			return true;
+		}
+		return $size >= User::getNumberOfUsers();
 	}
 }

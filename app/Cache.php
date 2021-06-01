@@ -2,7 +2,7 @@
 /**
  * Cache main file.
  *
- * @package   App
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -107,9 +107,9 @@ class Cache
 	 *
 	 * @return bool
 	 */
-	public static function clear()
+	public static function clear(): bool
 	{
-		static::$pool->clear();
+		return static::$pool->clear();
 	}
 
 	/**

@@ -20,9 +20,9 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('record')) {
-			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			if (!$this->record->isEditable() ||
-				(true === $request->getBoolean('isDuplicate') && (!$this->record->isCreateable() || !$this->record->isPermitted('ActivityPostponed')))
+			$this->recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+			if (!$this->recordModel->isEditable()
+				|| (true === $request->getBoolean('isDuplicate') && (!$this->recordModel->isCreateable() || !$this->recordModel->isPermitted('ActivityPostponed')))
 			) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
@@ -39,24 +39,10 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		if ($request->has('record')) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+			$recordModel = $this->recordModel ?: Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$recordStructure = $recordStructureInstance->getStructure();
-			$fieldValues = [];
-			$fieldList = $recordModel->getModule()->getFields();
-			$sourceRelatedField = $recordModel->getModule()->getValuesFromSource($request);
-			foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
-				if (isset($recordStructure[$fieldName])) {
-					$fieldvalue = $recordStructure[$fieldName]->get('fieldvalue');
-					if (empty($fieldvalue)) {
-						$recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
-					}
-				} elseif (isset($fieldList[$fieldName])) {
-					$fieldModel = $fieldList[$fieldName];
-					$fieldModel->set('fieldvalue', $fieldValue);
-					$fieldValues[$fieldName] = $fieldModel;
-				}
-			}
+			$fieldValues = $this->loadFieldValuesFromSource($request);
 			$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
 			$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 			$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));

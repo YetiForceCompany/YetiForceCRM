@@ -20,15 +20,12 @@
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
-			{include file=\App\Layout::getTemplatePath('ListView/TableHeader.tpl', $QUALIFIED_MODULE) EMPTY_COLUMN=1}
+			{include file=\App\Layout::getTemplatePath('ListView/TableHeader.tpl', $QUALIFIED_MODULE)}
 			<tbody>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
 						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 						>
-						<td data-recordurl='' width="1%" nowrap class="{$WIDTHTYPE}">
-
-						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}

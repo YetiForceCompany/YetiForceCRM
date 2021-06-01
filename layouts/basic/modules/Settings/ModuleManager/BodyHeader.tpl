@@ -12,14 +12,11 @@
 						<span class="fas fa-bars fa-fw" title="{\App\Language::translate('LBL_MENU')}"></span>
 					</a>
 				</div>
-			</div>
-			{if !\App\YetiForce\Shop::verify()}
-				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-						{if $USER_MODEL->isAdminUser()}
-							href="index.php?module=YetiForce&parent=Settings&view=Shop"
-						{else}
-							href="#"
-						{/if} >
+			</div>dd
+			{assign var=VERIFY value=\App\YetiForce\Shop::verify()}
+			{if $VERIFY}
+				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{$VERIFY}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+					{if $USER_MODEL->isAdminUser()} href="index.php?module=YetiForce&parent=Settings&view=Shop"{else} href="#"{/if}>
 					<span class="yfi yfi-shop-alert fa-2x"></span>
 				</a>
 			{/if}
@@ -77,22 +74,19 @@
 								{assign var="HREF" value=$LINK}
 							{/if}
 							<div class="o-action-menu__item">
-								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}"
+								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" href="{$HREF}"  data-placement="bottom"
 								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
-								   data-placement="bottom"
-								   href="{$HREF}"
 										{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
-									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-										data-{$DATA_NAME}="{$DATA_VALUE}"
-									{/foreach}
+											{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+												data-{$DATA_NAME}="{$DATA_VALUE}"
+											{/foreach}
 										{/if}>
 									{if $ICON}
-										<span class="{$ICON}" title="{\App\Language::translate($TITLE,$MODULE)}"></span>
-										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE,$MODULE)}</span>
+										<span class="{$ICON}" title="{\App\Language::translate($TITLE)}"></span>
+										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE)}</span>
 									{/if}
 									{if $ICON_PATH}
-										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}"
-											 title="{\App\Language::translate($TITLE,$MODULE)}"/>
+										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}"/>
 									{/if}
 								</a>
 								{if !empty($CHILD_LINKS)}
@@ -110,15 +104,13 @@
 													{assign var="href" value="javascript:;"}
 												{/if}
 												<li>
-													<a class="dropdown-item" target="{$obj->target}"
-													   id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}"
-													   {if $label=='Switch to old look'}switchLook{/if}
-													   href="{$href}" {$onclick}
-															{if $obj->linkdata && is_array($obj->linkdata)}
-														{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-															data-{$DATA_NAME}="{$DATA_VALUE}"
-														{/foreach}
-															{/if}>{\App\Language::translate($label,$MODULE)}</a>
+													<a class="dropdown-item" href="{$href}" target="{$obj->target}" {$onclick}
+														id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}"
+													   	{if $obj->linkdata && is_array($obj->linkdata)}
+															{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}data-{$DATA_NAME}="{$DATA_VALUE}"{/foreach}
+														{/if}>
+														{\App\Language::translate($label)}
+													</a>
 												</li>
 											{/if}
 										{/foreach}

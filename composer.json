@@ -59,7 +59,7 @@
     "ext-hash": "*",
     "composer/ca-bundle": "^1.1",
     "sabre/dav": "^4.1",
-    "smarty/smarty": "^v3.1.33",
+    "smarty/smarty": "^v3.1.39",
     "phpmailer/phpmailer": "^v6.1",
     "ezyang/htmlpurifier": "^v4.11.0",
     "simshaun/recurr": "^v4.0",
@@ -75,13 +75,15 @@
     "yetiforce/csrf-magic": "^v1.1.1",
     "maximebf/debugbar": "1.*",
     "yetiforce/yii2": "2.0.39.2",
-    "yetiforce/yetiforcepdf": "0.1.31",
+    "yetiforce/yetiforcepdf": "0.1.32",
     "abraham/twitteroauth": "^2.0",
     "adhocore/jwt": "^1.0",
     "zbateson/mail-mime-parser": "^1.2",
     "mlocati/spf-lib": "^3",
     "phpmailer/dkimvalidator": "^v0.3",
-    "league/climate": "^3.6"
+    "league/climate": "^3.6",
+    "twig/twig": "^3.0",
+    "illuminate/support": "^8.0"
   },
   "suggest": {
     "ext-imagick": "Library recommended for securing potentially dangerous graphic files",
@@ -111,7 +113,6 @@
       "Api\\": "api/webservice/",
       "Config\\": "config/",
       "Cron\\": "cron/",
-      "Tests\\": "tests/",
       "Exception\\": "include/exceptions/"
     }
   },
