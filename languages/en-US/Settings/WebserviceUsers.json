@@ -3,7 +3,7 @@
     "WebserviceUsers": "Web service - Users",
     "LBL_WEBSERVICE_USERS": "Web service - Users",
     "LBL_WEBSERVICE_USERS_DESCRIPTION": " ",
-    "LBL_SESSION_RECORD": "User session list",
+    "LBL_SESSION_RECORD": "API User session list",
     "FL_SERVER": "Server",
     "FL_STATUS": "Status",
     "FL_LOGIN": "Login",

@@ -18,6 +18,12 @@ class Settings_WebserviceUsers_ListViewSession_View extends \App\Controller\Moda
 	/** {@inheritdoc} */
 	public $modalSize = 'modal-full';
 
+	/** {@inheritdoc} */
+	public $modalIcon = 'fas fa-users-cog';
+
+	/** {@inheritdoc} */
+	public $pageTitle = 'LBL_SESSION_RECORD';
+
 	/** {@inheritdoc}  */
 	public $showFooter = false;
 
@@ -25,20 +31,10 @@ class Settings_WebserviceUsers_ListViewSession_View extends \App\Controller\Moda
 	public static $columnsToShow = [
 		'language' => 'FL_LANGUAGE',
 		'created' => 'FL_LOGIN_TIME',
-		'changed' => 'LBL_CHANGED',
+		'changed' => 'FL_DATETIME_LAST_QUERY',
 		'params' => 'LBL_PARAMS',
 		'last_method' => 'FL_LAST_METHOD'
 	];
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function preProcessAjax(App\Request $request)
-	{
-		$this->modalIcon = 'fas fa-users-cog';
-		$this->pageTitle = \App\Language::translate('LBL_SESSION_RECORD', $this->qualifiedModuleName);
-		parent::preProcessAjax($request);
-	}
 
 	/** {@inheritdoc} */
 	public function process(App\Request $request)

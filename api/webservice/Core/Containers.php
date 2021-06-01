@@ -31,12 +31,12 @@ class Containers
 		'RestApi' => [
 			'user' => 'w_#__api_user',
 			'session' => 'w_#__api_session',
-			'loginHistory' => 'w_#__api_login_history',
+			'loginHistory' => 'l_#__api_login_history',
 		],
 		'Portal' => [
 			'user' => 'w_#__portal_user',
 			'session' => 'w_#__portal_session',
-			'loginHistory' => 'w_#__portal_login_history',
+			'loginHistory' => 'l_#__portal_login_history',
 		]
 	];
 }

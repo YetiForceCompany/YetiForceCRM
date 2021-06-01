@@ -9657,9 +9657,9 @@ CREATE TABLE `vtiger_ws_userauthtoken` (
   UNIQUE KEY `userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `w_yf_api_login_history` */
+/*Table structure for table `l_yf_api_login_history` */
 
-CREATE TABLE `w_yf_api_login_history` (
+CREATE TABLE `l_yf_api_login_history` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `time` timestamp NULL DEFAULT NULL,
   `user_name` varchar(255) DEFAULT NULL,
@@ -9726,9 +9726,9 @@ CREATE TABLE `w_yf_manage_consents_user` (
   CONSTRAINT `w_yf_manage_consents_user_fk1` FOREIGN KEY (`server_id`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `w_yf_portal_login_history` */
+/*Table structure for table `l_yf_portal_login_history` */
 
-CREATE TABLE `w_yf_portal_login_history` (
+CREATE TABLE `l_yf_portal_login_history` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `time` timestamp NULL DEFAULT NULL,
   `user_name` varchar(255) DEFAULT NULL,
