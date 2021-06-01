@@ -96,6 +96,44 @@ class Login extends \Api\RestApi\Users\Login
 	 *   	default=0
 	 *	),
 	 *	@OA\Schema(
+	 *		schema="Conditions-Mix-For-Query-Generator",
+	 *		type="object",
+	 *  	description="Multiple or one condition for a query query generator",
+	 *		oneOf={
+	 *			@OA\Schema(ref="#/components/schemas/Condition-For-Query-Generator"),
+	 *			@OA\Schema(ref="#/components/schemas/Conditions-For-Query-Generator"),
+	 *		}
+	 *	),
+	 *	@OA\Schema(
+	 *		schema="Condition-For-Query-Generator",
+	 *		type="object",
+	 *  	description="One condition for query generator",
+	 *		@OA\Property(property="fieldName", description="Field name", type="string", example="lastname"),
+	 *		@OA\Property(property="value", description="Search value", type="string", example="Kowalski"),
+	 *		@OA\Property(property="operator", description="Field operator", type="string", example="e"),
+	 *		@OA\Property(property="group", description="Condition group if true is AND", type="boolean", example=true),
+	 *	),
+	 *	@OA\Schema(
+	 *		schema="Conditions-For-Query-Generator",
+	 *		type="object",
+	 *  	description="Multiple conditions for query generator",
+	 *		@OA\AdditionalProperties(
+	 *			description="Condition details",
+	 *			type="object",
+	 *			@OA\Schema(ref="#/components/schemas/Condition-For-Query-Generator"),
+	 *		),
+	 *	),
+	 *	@OA\Schema(
+	 *		schema="Conditions-For-Native-Query",
+	 *		type="object",
+	 *  	description="Conditions for native query, based on YII 2",
+	 *		example={"column_name1" : "searched value 1", "column_name2" : "searched value 2"},
+	 *		@OA\ExternalDocumentation(
+	 *			description="Database communication engine",
+	 *			url="https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/new-db-communication-engine"
+	 *		),
+	 *	),
+	 *	@OA\Schema(
 	 * 		schema="Users_Login_RequestBody",
 	 * 		title="Users module - Users login request body",
 	 * 		description="JSON or form-data",

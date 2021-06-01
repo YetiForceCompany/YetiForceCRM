@@ -101,14 +101,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 * 			description="Conditions [Json format]",
 	 *			in="header",
 	 *			required=false,
-	 *			@OA\JsonContent(
-	 *				description="Conditions details",
-	 *				type="object",
-	 *				@OA\Property(property="fieldName", description="Field name", type="string", example="lastname"),
-	 *				@OA\Property(property="value", description="Search value", type="string", example="Kowalski"),
-	 *				@OA\Property(property="operator", description="Field operator", type="string", example="e"),
-	 *				@OA\Property(property="group", description="Condition group if true is AND", type="boolean", example=true),
-	 *			),
+	 *			@OA\JsonContent(ref="#/components/schemas/Conditions-Mix-For-Query-Generator"),
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-parent-id",
