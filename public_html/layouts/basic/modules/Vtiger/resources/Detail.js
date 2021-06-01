@@ -412,6 +412,36 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
+
+		/**
+		 * Adding relationships in the products and services widget.
+		 */
+		registerWidgetProductAndServices: function () {
+			let thisInstance = this;
+			this.getForm().on('click', '.js-widget-products-services', (e) => {
+				let currentTarget = $(e.currentTarget);
+				let params = {
+					module: app.getModuleName(),
+					action: 'RelationAjax',
+					mode: 'updateRelation',
+					recordsToAdd: [],
+					src_record: app.getRecordId(),
+					related_module: currentTarget.closest('.js-detail-widget-header').find('[name="relatedModule"]').val()
+				};
+				let url = currentTarget.data('url');
+				app.showRecordsList(url, (_, instance) => {
+					instance.setSelectEvent((data) => {
+						for (let i in data) {
+							params.recordsToAdd.push(i);
+						}
+						AppConnector.request(params).done(function (res) {
+							thisInstance.reloadTabContent();
+						});
+					});
+				});
+			});
+		},
+
 		widgetRelatedRecordView: function (container, load) {
 			let cacheKey = this.getRecordId() + '_' + container.data('id');
 			let relatedRecordCacheID = app.moduleCacheGet(cacheKey);
@@ -3140,7 +3170,8 @@ jQuery.Class(
 			if (detailViewContainer.length <= 0) {
 				// Not detail view page
 				return;
-			}
+			} 
+			this.registerWidgetProductAndServices(); 
 			this.registerSetReadRecord(detailViewContainer);
 			this.registerEventForPicklistDependencySetup(this.getForm());
 			this.getForm().validationEngine(app.validationEngineOptionsForRecord);
