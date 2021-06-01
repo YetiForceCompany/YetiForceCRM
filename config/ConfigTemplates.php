@@ -1230,13 +1230,13 @@ return [
 			'description' => '@var bool Ask admin about visit purpose',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
-		], 
+		],
 		'askAdminAboutVisitSwitchUsers' => [
 			'default' => true,
 			'description' => '@var bool Ask admin about switch users purpose',
-      		'validation' => '\App\Validator::bool',
+			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
-		], 
+		],
 		'askSuperUserAboutVisitPurpose' => [
 			'default' => true,
 			'description' => '@var bool Ask super user about visit purpose, only for the settings part',
