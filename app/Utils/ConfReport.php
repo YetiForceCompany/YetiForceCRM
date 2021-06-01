@@ -40,7 +40,7 @@ class ConfReport
 	 *
 	 * @var array
 	 */
-	public static $urlsToCheck = ['root' => 'shorturl.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
+	public static $urlsToCheck = ['root' => 'token.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
 
 	/**
 	 * List all variables.
@@ -1400,7 +1400,7 @@ class ConfReport
 	{
 		unset($name);
 		$supported = [];
-		$requestUrl = static::$crmUrl . 'shorturl.php';
+		$requestUrl = static::$crmUrl . 'token.php';
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
@@ -1585,7 +1585,7 @@ class ConfReport
 	public static function getAllErrors(bool $cache = false)
 	{
 		$fileCache = ROOT_DIRECTORY . '/app_data/ConfReport_AllErrors.php';
-		if ($cache && file_exists($fileCache) && filemtime($fileCache) > strtotime('-5 minute')) {
+		if ($cache && file_exists($fileCache) && filemtime($fileCache) > strtotime('-15 minute')) {
 			return require $fileCache;
 		}
 		$result = [];

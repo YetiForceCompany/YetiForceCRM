@@ -1,7 +1,4 @@
 <?php
-
-namespace App;
-
 /**
  * Global privileges basic class.
  *
@@ -10,7 +7,11 @@ namespace App;
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+namespace App;
+
 class PrivilegeUpdater
 {
 	private static $globalSearchPermissionsCache = [];
@@ -72,29 +73,24 @@ class PrivilegeUpdater
 	{
 		$searchUsers = $recordAccessUsers = '';
 		$users = Fields\Owner::getUsersIds();
+		$searchable = isset(\App\RecordSearch::getSearchableModules()[$moduleName]);
 		foreach ($users as &$userId) {
 			if (Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$recordAccessUsers .= ',' . $userId;
 				$searchUsers .= ',' . $userId;
-			} elseif (static::checkGlobalSearchPermissions($moduleName, $userId)) {
+			} elseif ($searchable && static::checkGlobalSearchPermissions($moduleName, $userId)) {
 				$searchUsers .= ',' . $userId;
 			}
-		}
-		if (!empty($searchUsers)) {
-			$searchUsers .= ',';
 		}
 		if (!empty($recordAccessUsers)) {
 			$recordAccessUsers .= ',';
 		}
 		$createCommand = Db::getInstance()->createCommand();
-		$createCommand->update('u_#__crmentity_search_label', [
-			'userid' => $searchUsers,
-		], 'crmid = ' . $record)
-			->execute();
-		$createCommand->update('vtiger_crmentity', [
-			'users' => $recordAccessUsers,
-		], 'crmid = ' . $record)
-			->execute();
+		$createCommand->update('vtiger_crmentity', ['users' => $recordAccessUsers], ['crmid' => $record])->execute();
+		if ($searchable) {
+			$searchUsers = $searchUsers ? $searchUsers . ',' : $searchUsers;
+			$createCommand->update('u_#__crmentity_search_label', ['userid' => $searchUsers], ['crmid' => $record])->execute();
+		}
 	}
 
 	/**
@@ -107,7 +103,7 @@ class PrivilegeUpdater
 	{
 		$searchUsers = '';
 		$users = Fields\Owner::getUsersIds();
-		foreach ($users as &$userId) {
+		foreach ($users as $userId) {
 			if (static::checkGlobalSearchPermissions($moduleName, $userId) || Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$searchUsers .= ',' . $userId;
 			}
@@ -116,10 +112,7 @@ class PrivilegeUpdater
 			$searchUsers .= ',';
 		}
 		Db::getInstance()->createCommand()
-			->update('u_#__crmentity_search_label', [
-				'userid' => $searchUsers,
-			], 'crmid = ' . $record)
-			->execute();
+			->update('u_#__crmentity_search_label', ['userid' => $searchUsers], ['crmid' => $record])->execute();
 	}
 
 	/**

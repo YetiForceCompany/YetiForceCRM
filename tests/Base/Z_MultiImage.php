@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\Base;
@@ -65,9 +66,9 @@ class Z_MultiImage extends \Tests\Base
 	public function providerDeleteImageForRecord()
 	{
 		return [
-			['Users', 'imagename', 9],
-			['Contacts', 'imagename', 10],
-			['Products', 'imagename', 11],
+			['Users', 'imagename'],
+			['Contacts', 'imagename'],
+			['Products', 'imagename'],
 		];
 	}
 
@@ -100,8 +101,8 @@ class Z_MultiImage extends \Tests\Base
 				return; // @codeCoverageIgnore
 				break;
 		}
-		$filePathSrc = 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . self::$files[$file];
-		$filePathDst = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . md5(rand(0, 9999)) . substr(self::$files[$file], \strpos(self::$files[$file], '.'));
+		$filePathSrc = ROOT_DIRECTORY . '/tests/data/MultiImage/' . self::$files[$file];
+		$filePathDst = ROOT_DIRECTORY . '/storage/MultiImage/' . md5(rand(0, 9999)) . substr(self::$files[$file], \strpos(self::$files[$file], '.'));
 		\copy($filePathSrc, $filePathDst);
 		$fileObj = \App\Fields\File::loadFromPath($filePathDst);
 		$hash = $fileObj->generateHash(true, $filePathDst);
@@ -118,10 +119,11 @@ class Z_MultiImage extends \Tests\Base
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
 		$fieldModel = $recordModel->getField($field);
 		$data = \App\Json::decode(\App\Purifier::decodeHtml($fieldModel->getUITypeModel()->getDisplayValueEncoded($recordModel->get($field), $recordModel->getId(), $fieldModel->getFieldInfo()['limit'])));
+		$dataPath = \App\Json::decode($recordModel->get($field))[0]['path'];
 		$this->assertNotEmpty($data);
 		$this->assertSame(self::$files[$file], $data[0]['name'], 'File name should be equal');
 		$this->assertSame(\vtlib\Functions::showBytes($fileObj->getSize()), $data[0]['size'], 'File size should be equal');
-		$this->assertFileExists($fileObj->getPath(), 'File should exists');
+		$this->assertFileExists($dataPath, 'File should exists');
 		$this->assertSame($hash, $data[0]['key'], 'Key should be equal');
 		parse_str(\parse_url($data[0]['imageSrc'])['query'], $url);
 		$this->assertSame($module, $url['module'], 'Module in image url should be equal to provided');
@@ -134,14 +136,12 @@ class Z_MultiImage extends \Tests\Base
 	 * Delete record image test.
 	 *
 	 * @param $module
-	 * @param $record
 	 * @param $field
-	 * @param $file
 	 *
 	 * @throws \App\Exceptions\AppException
 	 * @dataProvider providerDeleteImageForRecord
 	 */
-	public function testDeleteImage($module, $field, $file): void
+	public function testDeleteImage($module, $field): void
 	{
 		switch ($module) {
 			case 'Users':
@@ -161,12 +161,12 @@ class Z_MultiImage extends \Tests\Base
 		}
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
 		$data = \App\Json::decode($recordModel->get($field));
-		\Vtiger_MultiImage_UIType::deleteRecord($recordModel);
-		$this->assertFileDoesNotExist($data[0]['path'], 'File should be removed');
-		$recordModel->set($field, \App\Json::encode([]));
+		$this->assertFileExists($data[0]['path'], 'File should exists');
+		$recordModel->set($field, '');
 		$recordModel->save();
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
-		$this->assertSame(\App\Json::encode([]), $recordModel->get($field), 'Value should be empty');
+		$this->assertSame('', $recordModel->get($field), 'Value should be empty');
+		$this->assertFileDoesNotExist($data[0]['path'], 'File should be removed');
 	}
 
 	/**
@@ -215,7 +215,6 @@ class Z_MultiImage extends \Tests\Base
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
 	public static function tearDownAfterClass(): void

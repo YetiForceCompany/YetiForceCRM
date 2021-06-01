@@ -1,49 +1,181 @@
 <?php
 /**
- * The file contains: Get record detail class.
+ * Portal container - Get product record detail file.
  *
  * @package Api
  *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\Portal\Products;
 
 /**
- * Get record detail class.
+ * Portal container - Get product record detail class.
  */
 class Record extends \Api\Portal\BaseModule\Record
 {
 	/** {@inheritdoc}  */
 	public $allowedHeaders = ['x-parent-id', 'x-unit-price', 'x-unit-gross', 'x-product-bundles'];
-	/**
-	 * Is user permissions.
-	 *
-	 * @var bool
-	 */
+
+	/** @var bool Is user permissions. */
 	private $isUserPermissions;
 
-	/**
-	 * Unit price.
-	 *
-	 * @var float|null
-	 */
+	/** @var float|null Unit price. */
 	private $unitPrice;
 
 	/**
-	 * Construct.
+	 * {@inheritdoc}
+	 *
+	 *	@OA\Get(
+	 *		path="/webservice/Portal/Products/Record/{recordId}",
+	 *		summary="Get data for the record",
+	 *		tags={"Products"},
+	 *		security={
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
+	 *		},
+	 *		@OA\Parameter(
+	 *			name="recordId",
+	 *			description="Record id",
+	 *			@OA\Schema(type="integer"),
+	 *			in="path",
+	 *			example=116,
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="X-ENCRYPTED",
+	 *			in="header",
+	 *			required=true,
+	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-raw-data",
+	 *			description="Gets raw data",
+	 *			@OA\Schema(type="integer", enum={0, 1}),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-parent-id",
+	 *			description="Gets parent id",
+	 *			@OA\Schema(type="integer"),
+	 *			in="header",
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-unit-price",
+	 *			description="Get additional unit price",
+	 *			@OA\Schema(type="integer", enum={0, 1}),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-unit-gross",
+	 *			description="Get additional unit gross",
+	 *			@OA\Schema(type="integer", enum={0, 1}),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-product-bundles",
+	 *			description="Get additional product bundles",
+	 *			@OA\Schema(type="integer", enum={0, 1}),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="Gets data for the record",
+	 *			@OA\JsonContent(ref="#/components/schemas/Products_Get_Record_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Products_Get_Record_Response"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="`No permissions to remove record` OR `No permissions to view record` OR `No permissions to edit record`",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=404,
+	 *			description="`No record id` OR `Record doesn't exist`",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *	),
+	 *	@OA\Schema(
+	 *		schema="Products_Get_Record_Response",
+	 *		title="Base module - Response body for Record",
+	 *		type="object",
+	 *		@OA\Property(
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={0, 1},
+	 *			type="integer",
+	 *        	example=1
+	 *		),
+	 *		@OA\Property(
+	 *			property="result",
+	 *			description="Record data",
+	 *			type="object",
+	 *			@OA\Property(property="name", description="Record name", type="string", example="Driving school"),
+	 *			@OA\Property(property="id", description="Record Id", type="integer", example=152),
+	 *			@OA\Property(
+	 * 				property="fields",
+	 *				description="System field names and field labels",
+	 *				type="object",
+	 *				@OA\AdditionalProperties(description="Field label", type="boolean", example="Account name"),
+	 *			),
+	 *			@OA\Property(
+	 *				property="data",
+	 *				description="Record data",
+	 *				type="object",
+	 *				ref="#/components/schemas/Record_Display_Details",
+	 *			),
+	 *			@OA\Property(
+	 *				property="privileges",
+	 *				description="Parameters determining checking of editing rights and moving to the trash",
+	 * 				type="object",
+	 *				@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
+	 *				@OA\Property(property="moveToTrash", description="Permission to delete", type="boolean", example=false),
+	 *			),
+	 *			@OA\Property(property="rawData", type="object", description="Raw record data", ref="#/components/schemas/Record_Raw_Details"),
+	 *			@OA\Property(
+	 * 				property="productBundles",
+	 *				description="Product bundles",
+	 *				type="object",
+	 *				@OA\AdditionalProperties(
+	 *					description="Product",
+	 *					type="object",
+	 * 					@OA\Property(property="data", type="object", description="Record data", ref="#/components/schemas/Record_Raw_Details"),
+	 * 					@OA\Property(property="rawData", type="object", description="Raw record data", ref="#/components/schemas/Record_Raw_Details"),
+	 * 				),
+	 *			),
+	 *			@OA\Property(
+	 * 				property="ext",
+	 *				description="Product bundles",
+	 *				type="object",
+	 *				@OA\Property(property="unit_price", description="Unit price", type="integer", example=44),
+	 *				@OA\Property(property="unit_gross", description="Unit gross", type="integer", example=55),
+	 *				@OA\Property(property="qtyinstock", description="Qty In Stock", type="integer", example=66),
+	 *			),
+	 *		),
+	 *	),
+	 *	@OA\Tag(
+	 *		name="Products",
+	 *		description="Products methods"
+	 * )
 	 */
-	public function __construct()
-	{
-		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === (int) \App\User::getCurrentUserModel()->get('permission_type');
-	}
-
-	/** {@inheritdoc}  */
 	public function get(): array
 	{
+		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->userData['type'];
 		$response = parent::get();
+		$response['ext'] = $response['productBundles'] = [];
 		if (1 === $this->controller->request->getHeader('x-unit-price')) {
 			$response['ext']['unit_price'] = $this->getUnitPrice($response);
 		}
@@ -158,8 +290,10 @@ class Record extends \Api\Portal\BaseModule\Record
 			}
 			$taxParam = \Api\Portal\Record::getTaxParam($availableTaxes, $row['taxes'], $regionalTaxes);
 			$row['unit_gross'] = $unitPrice + (new \Vtiger_Tax_InventoryField())->getTaxValue($taxParam, $unitPrice, $taxConfigAggregation);
-			$products[$row['id']]['rawData'] = $row;
-			$products[$row['id']]['data'] = $this->getRecordFromRow($row, $fieldsModel);
+			$products[$row['id']] = [
+				'data' => $this->getRecordFromRow($row, $fieldsModel),
+				'rawData' => $row,
+			];
 		}
 		$dataReader->close();
 		return $products;
@@ -175,7 +309,10 @@ class Record extends \Api\Portal\BaseModule\Record
 	 */
 	private function getRecordFromRow(array $row, array $fieldsModel): array
 	{
-		$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
+		$record = [
+			'id' => $row['id'],
+			'recordLabel' => \App\Record::getLabel($row['id']),
+		];
 		$recordModel = \Vtiger_Record_Model::getCleanInstance($this->controller->request->getModule());
 		foreach ($fieldsModel as $fieldName => $fieldModel) {
 			if (isset($row[$fieldName])) {
@@ -185,7 +322,6 @@ class Record extends \Api\Portal\BaseModule\Record
 		}
 		$record['unit_price'] = \CurrencyField::convertToUserFormatSymbol($row['unit_price']);
 		$record['unit_gross'] = \CurrencyField::convertToUserFormatSymbol($row['unit_gross']);
-		$record['id'] = $row['id'];
 		return $record;
 	}
 }

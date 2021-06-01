@@ -118,9 +118,11 @@ class Fixer
 	/**
 	 * Fixes the maximum value allowed for fields.
 	 *
+	 * @param array $conditions Additional query conditions
+	 *
 	 * @return int[]
 	 */
-	public static function maximumFieldsLength(): array
+	public static function maximumFieldsLength(array $conditions = []): array
 	{
 		$typesNotSupported = ['datetime', 'date', 'year', 'timestamp', 'time'];
 		$uiTypeNotSupported = [30];
@@ -129,6 +131,9 @@ class Fixer
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
 		$query = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldid', 'maximumlength', 'uitype'])->from('vtiger_field');
+		if ($conditions) {
+			$query->andWhere($conditions);
+		}
 		$dataReader = $query->createCommand()->query();
 		while ($field = $dataReader->read()) {
 			$column = $schema->getTableSchema($field['tablename'])->columns[$field['columnname']];

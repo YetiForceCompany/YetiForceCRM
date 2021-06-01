@@ -21,7 +21,7 @@ class Settings_Workflows_TasksList_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 
-		$viewer->assign('TASK_LIST', $workflowModel->getTasks());
+		$viewer->assign('TASK_LIST', $workflowModel->getTasks(false));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

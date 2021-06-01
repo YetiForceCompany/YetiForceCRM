@@ -231,7 +231,7 @@ This file is auto-generated.
 		$file = new \Nette\PhpGenerator\PhpFile();
 		$file->addComment($this->license);
 		$class = $file->addClass($className);
-		$class->addComment('Configuration Class.');
+		$class->addComment("Configuration file: $className.");
 		foreach ($this->template as $parameterName => $parameter) {
 			if (isset($parameter['type']) && 'function' === $parameter['type']) {
 				$class->addMethod($parameterName)->setStatic()->setBody($parameter['default'])->addComment($parameter['description']);

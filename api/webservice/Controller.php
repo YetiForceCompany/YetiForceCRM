@@ -1,44 +1,40 @@
 <?php
-
-namespace Api;
-
 /**
- * Base class to handle communication via web services.
+ * Base file to handle communication via web services.
+ *
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace Api;
+
+/**
+ * Base class to handle communication via web services.
+ */
 class Controller
 {
 	/** @var \self */
 	private static $instance;
+
 	/** @var Core\BaseAction */
-	private static $action;
-	/**
-	 * Request instance.
-	 *
-	 * @var \Api\Core\Request
-	 * */
+	private $actionHandler;
+
+	/** @var \Api\Core\Request Request instance. */
 	public $request;
-	/**
-	 * Response instance.
-	 *
-	 * @var \Api\Core\Response
-	 */
+
+	/** @var \Api\Core\Response Response instance. */
 	public $response;
-	/**
-	 * Request method.
-	 *
-	 * @var string
-	 */
+
+	/** @var string Request method. */
 	public $method;
-	/**
-	 * Headers.
-	 *
-	 * @var array
-	 */
+
+	/** @var array Headers. */
 	public $headers;
+
+	/** @var array Current server details (w_#__servers). */
 	public $app;
 
 	/**
@@ -49,7 +45,7 @@ class Controller
 		$this->request = Core\Request::init();
 		$this->response = Core\Response::getInstance();
 		$this->response->setRequest($this->request);
-		$this->method = strtoupper($this->request->getRequestMethod());
+		$this->method = \App\Request::getRequestMethod();
 	}
 
 	/**
@@ -57,7 +53,7 @@ class Controller
 	 *
 	 * @return \self
 	 */
-	public static function getInstance()
+	public static function getInstance(): self
 	{
 		if (isset(self::$instance)) {
 			return self::$instance;
@@ -65,23 +61,26 @@ class Controller
 		return self::$instance = new self();
 	}
 
-	public static function getAction()
+	/**
+	 * Pre process function.
+	 *
+	 * @return bool
+	 */
+	public function preProcess(): bool
 	{
-		return self::$action;
-	}
-
-	public function preProcess()
-	{
-		set_error_handler([$this, 'exceptionErrorHandler']);
-		$this->app = Core\Auth::init($this);
-		$this->headers = $this->request->getHeaders();
+		set_error_handler([$this, 'errorHandler']);
 		if ('OPTIONS' === $this->method) {
-			$handlerClass = $this->getModuleClassName();
+			$handlerClass = $this->getActionClassName();
 			$handler = new $handlerClass();
 			$this->response->setAcceptableHeaders($handler->allowedHeaders);
 			$this->response->setAcceptableMethods($handler->allowedMethod);
 			return false;
 		}
+		$this->app = Core\Auth::init($this);
+		if ($this->app['type'] !== $this->request->getByType('_container', 'Alnum')) {
+			throw new Core\Exception('Invalid api type', 404);
+		}
+		$this->headers = $this->request->getHeaders();
 		if (!empty($this->app['acceptable_url'])) {
 			if (!\in_array(\App\RequestUtil::getRemoteIP(true), array_map('trim', explode(',', $this->app['acceptable_url'])))) {
 				throw new Core\Exception('Illegal IP address', 401);
@@ -90,27 +89,31 @@ class Controller
 		if ($this->headers['x-api-key'] !== \App\Encryption::getInstance()->decrypt($this->app['api_key'])) {
 			throw new Core\Exception('Invalid api key', 401);
 		}
-		if (empty($this->request->get('action'))) {
+		if (empty($this->request->getByType('action', 'Alnum'))) {
 			throw new Core\Exception('No action', 404);
 		}
 		return true;
 	}
 
-	public function process()
+	/**
+	 * Process function.
+	 *
+	 * @return void
+	 */
+	public function process(): void
 	{
-		$handlerClass = $this->getModuleClassName();
+		$handlerClass = $this->getActionClassName();
 		$this->request->getData();
 		$this->debugRequest();
-		self::$action = $handler = new $handlerClass();
-		$handler->controller = $this;
-		if ($handler->checkAction()) {
-			$this->response->setAcceptableHeaders($handler->allowedHeaders);
-			$this->response->setAcceptableMethods($handler->allowedMethod);
-			$handler->preProcess();
-			$return = \call_user_func([$handler, strtolower($this->method)]);
-		}
+		$this->actionHandler = new $handlerClass();
+		$this->actionHandler->controller = $this;
+		$this->actionHandler->checkAction();
+		$this->response->setAcceptableHeaders($this->actionHandler->allowedHeaders);
+		$this->response->setAcceptableMethods($this->actionHandler->allowedMethod);
+		$this->actionHandler->preProcess();
+		$return = \call_user_func([$this->actionHandler, strtolower($this->method)]);
 		if (null !== $return) {
-			switch ($handler->responseType) {
+			switch ($this->actionHandler->responseType) {
 				case 'data':
 					$this->response->setBody([
 						'status' => 1,
@@ -121,22 +124,32 @@ class Controller
 					$this->response->setFile($return);
 					break;
 				default:
-					throw new Core\Exception('Unsupported response type: ' . $handler->responseType, 400);
+					throw new Core\Exception('Unsupported response type: ' . $this->actionHandler->responseType, 400);
 					break;
 			}
 		}
 	}
 
-	public function postProcess()
+	/**
+	 * Post process function.
+	 *
+	 * @return void
+	 */
+	public function postProcess(): void
 	{
 		$this->response->send();
 	}
 
-	private function getModuleClassName()
+	/**
+	 * Get action class name.
+	 *
+	 * @return string
+	 */
+	private function getActionClassName(): string
 	{
-		$type = $this->app['type'];
-		$actionName = $this->request->get('action');
-		$module = $this->request->get('module');
+		$type = $this->request->getByType('_container', 'Standard');
+		$actionName = $this->request->getByType('action', 'Alnum');
+		$module = $this->request->getModule('module');
 		if ($module) {
 			$className = "Api\\$type\\$module\\$actionName";
 			if (class_exists($className)) {
@@ -154,11 +167,16 @@ class Controller
 		throw new Core\Exception('No action found', 405);
 	}
 
-	public function debugRequest()
+	/**
+	 * Debug request function.
+	 *
+	 * @return void
+	 */
+	public function debugRequest(): void
 	{
 		if (\App\Config::debug('apiLogAllRequests')) {
 			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
-			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMethod() . PHP_EOL;
+			$log .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
 			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
@@ -178,10 +196,41 @@ class Controller
 		}
 	}
 
-	public function exceptionErrorHandler($errno, $errstr, $errfile, $errline)
+	/**
+	 * Handle error function.
+	 *
+	 * @param \Throwable $e
+	 *
+	 * @return void
+	 */
+	public function handleError(\Throwable $e): void
 	{
-		if (\in_array($errno, [E_ERROR, E_WARNING, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR])) {
-			throw new Core\Exception($errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline);
+		$this->actionHandler->updateSession();
+		$this->actionHandler->updateUser([
+			'custom_params' => [
+				'last_error' => $e->getMessage(),
+				'error_time' => date('Y-m-d H:i:s'),
+				'error_method' => $this->request->getServer('REQUEST_URI'),
+			]
+		]);
+	}
+
+	/**
+	 * Exception error handler function..
+	 *
+	 * @see https://secure.php.net/manual/en/function.set-error-handler.php
+	 *
+	 * @param int    $no
+	 * @param string $str
+	 * @param string $file
+	 * @param int    $line
+	 *
+	 * @return void
+	 */
+	public static function errorHandler(int $no, string $str, string $file, int $line): void
+	{
+		if (\in_array($no, [E_ERROR, E_WARNING, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR])) {
+			throw new Core\Exception($no . ': ' . $str . ' in ' . $file . ', line ' . $line);
 		}
 	}
 }

@@ -3,17 +3,16 @@
 /**
  * Save Application.
  *
+ * @package Settings.Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
-	/**
-	 * Save.
-	 *
-	 * @param \App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$typeApi = $request->getByType('typeApi', 'Alnum');
@@ -23,7 +22,6 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 			$recordModel = Settings_WebserviceUsers_Record_Model::getCleanInstance($typeApi);
 		}
 		$recordModel->setDataFromRequest($request);
-
 		try {
 			if ($response = $recordModel->checkData()) {
 				$result = ['success' => false, 'message' => \App\Language::translate($response, $request->getModule(false))];
@@ -32,9 +30,9 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 				$result = ['success' => true];
 			}
 		} catch (\Exception $e) {
+			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 			$result = ['success' => false, 'message' => \App\Language::translate('ERR_NOT_ALLOWED_VALUE')];
 		}
-
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

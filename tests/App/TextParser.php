@@ -135,14 +135,6 @@ class TextParser extends \Tests\Base
 			self::$parserClean->setContent('+ $(general : UserTimeZone)$ +')->parse()->getContent(),
 			'Clean instance: $(general : UserTimeZone)$ should return user timezone'
 		);
-		$currUser = \App\User::getCurrentUserId();
-		\App\User::setCurrentUserId(0);
-		$this->assertSame('+ ' . \App\Config::main('default_timezone') . ' +', self::$parserClean
-			->setContent('+ $(general : UserTimeZone)$ +')
-			->parse()
-			->getContent(), 'Clean instance: $(general : UserTimeZone)$ when current user not set/exist should return default timezone');
-		\App\User::setCurrentUserId($currUser);
-
 		$this->assertSame('+ ' . \App\Config::main('site_URL') . ' +', self::$parserClean
 			->setContent('+ $(general : SiteUrl)$ +')
 			->parse()
@@ -233,7 +225,7 @@ class TextParser extends \Tests\Base
 		$tmpUser = \App\User::getCurrentUserId();
 		\App\User::setCurrentUserId((new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['not in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
 			->column()])
-			->limit(1)->scalar());
+			->scalar());
 		$text = '+ $(employee : last_name)$ +';
 		$this->assertSame('+  +', self::$parserClean
 			->setContent($text)
@@ -259,7 +251,7 @@ class TextParser extends \Tests\Base
 		$currentUser = \App\User::getCurrentUserId();
 		$userName = 'Employee';
 		$userExistsId = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $userName])
-			->limit(1)->scalar();
+			->scalar();
 		$employeeUser = $userExistsId ? \Vtiger_Record_Model::getInstanceById($userExistsId, 'Users') : \Vtiger_Record_Model::getCleanInstance('Users');
 
 		$employeeUser->set('user_name', $userName);

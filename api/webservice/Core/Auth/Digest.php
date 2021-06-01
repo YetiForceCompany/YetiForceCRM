@@ -1,15 +1,23 @@
 <?php
-
 /**
- * Digest Authorization class.
+ * Digest authorization file.
+ *
+ * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class DigestAuth
+
+namespace Api\Core\Auth;
+
+/**
+ * Digest authorization class.
+ */
+class Digest extends AbstractAuth
 {
-	public function authenticate()
+	/** {@inheritdoc}  */
+	public function authenticate(string $realm): bool
 	{
 		$userpass = $this->getCredentials();
 		if (!$userpass) {

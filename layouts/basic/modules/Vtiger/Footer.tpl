@@ -175,8 +175,12 @@
 							<img class="u-h-120px" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo_hor.png')}" title="YetiForceCRM" alt="YetiForceCRM"/>
 						</p>
 						<p class="text-center">
-							<span class="badge badge-primary mr-2">APP ID</span>
-							{\App\YetiForce\Register::getInstanceKey()}
+							<ul class="list-group o-min-width m-auto">
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<span class="badge badge-primary mr-2 badge-pill">APP ID</span>
+									<span>{\App\YetiForce\Register::getInstanceKey()}</span>
+								</li>
+							</ul>
 						</p>
 						<p>Copyright © YetiForce.com All rights reserved.</p>
 						<p class="my-2">The Program is provided AS IS, without warranty. Licensed under

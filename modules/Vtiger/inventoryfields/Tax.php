@@ -152,18 +152,19 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	public function getTaxValue(array $taxParam, float $netPrice, int $mode): float
 	{
 		$value = 0.0;
-		$types = $taxParam['aggregationType'];
-		if (!\is_array($types)) {
-			$types = [$types];
-		}
-		foreach ($types as $type) {
-			$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
-			$value += $taxValue;
-			if (2 === $mode) {
-				$netPrice += $taxValue;
+		if ($taxParam) {
+			$types = $taxParam['aggregationType'];
+			if (!\is_array($types)) {
+				$types = [$types];
+			}
+			foreach ($types as $type) {
+				$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
+				$value += $taxValue;
+				if (2 === $mode) {
+					$netPrice += $taxValue;
+				}
 			}
 		}
-
 		return $value;
 	}
 }

@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\Base;
@@ -38,6 +39,9 @@ class C_RecordActions extends \Tests\Base
 	 * @var \Vtiger_Record_Model
 	 */
 	protected static $recordProducts;
+
+	/** @var \Vtiger_Record_Model Temporary Documents record object. */
+	protected static $recordDocuments;
 	/**
 	 * Temporary SQuotes record object.
 	 *
@@ -98,7 +102,7 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createLeadRecord($cache = true)
+	public static function createLeadRecord($cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordLeads && $cache) {
 			return self::$recordLeads;
@@ -118,7 +122,7 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createContactRecord($cache = true)
+	public static function createContactRecord($cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordContacts && $cache) {
 			return self::$recordContacts;
@@ -142,7 +146,7 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @param mixed $cache
 	 */
-	public static function createAccountRecord($cache = true)
+	public static function createAccountRecord($cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordAccounts && $cache) {
 			return self::$recordAccounts;
@@ -156,13 +160,13 @@ class C_RecordActions extends \Tests\Base
 	}
 
 	/**
-	 * Creating Product module record for tests.
+	 * Creating SQuotes module record for tests.
 	 *
 	 * @var bool
 	 *
 	 * @param mixed $cache
 	 */
-	public static function createSQuotesRecord($cache = true)
+	public static function createSQuotesRecord($cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordSQuotes && $cache) {
 			return self::$recordSQuotes;
@@ -196,15 +200,52 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @param mixed $cache
 	 */
-	public static function createProductRecord($cache = true)
+	public static function createProductRecord($cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordProducts && $cache) {
 			return self::$recordProducts;
 		}
 		$record = \Vtiger_Record_Model::getCleanInstance('Products');
 		$record->set('productname', 'System CRM YetiForce');
+		$record->set('discontinued', 1);
+		$record->set('unit_price', '{"currencies":{"1":{"price":"2222"}},"currencyId":1}');
+		$record->set('pscategory', 'T3');
+		$record->set('imagename', '[]');
 		$record->save();
 		self::$recordProducts = $record;
+		return $record;
+	}
+
+	/**
+	 * Creating Documents module record for tests.
+	 *
+	 * @var bool
+	 *
+	 * @param mixed $cache
+	 */
+	public static function createDocumentsRecord($cache = true): \Vtiger_Record_Model
+	{
+		if (self::$recordDocuments && $cache) {
+			return self::$recordDocuments;
+		}
+		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
+		$path = \App\Fields\File::getTmpPath() . 'phpunit.xml';
+		copy(ROOT_DIRECTORY . '/tests/phpunit.xml', $path);
+		$file = \App\Fields\File::loadFromPath($path);
+		$fileName = $file->getName();
+		$record->set('notes_title', $fileName);
+		$record->set('filename', $fileName);
+		$record->set('filestatus', 1);
+		$record->set('filelocationtype', 'I');
+		$record->file = [
+			'name' => $fileName,
+			'size' => $file->getSize(),
+			'type' => $file->getMimeType(),
+			'tmp_name' => $file->getPath(),
+			'error' => 0
+		];
+		$record->save();
+		self::$recordDocuments = $record;
 		return $record;
 	}
 
@@ -213,7 +254,14 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testCreateRecord()
 	{
-		self::assertIsInt(self::createAccountRecord()->getId());
+		$record = self::createAccountRecord();
+		self::assertIsInt($record->getId());
+		self::assertSame('Accounts', $record->getModuleName());
+		self::createSQuotesRecord();
+		$record = self::createSQuotesRecord();
+		self::assertIsInt($record->getId());
+		self::assertSame('SQuotes', $record->getModuleName());
+		self::assertNotEmpty($record->getInventoryData());
 	}
 
 	/**

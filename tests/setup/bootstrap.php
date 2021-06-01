@@ -7,6 +7,8 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ *
+ * @codeCoverageIgnore
  */
 chdir(__DIR__ . '/../../');
 
@@ -18,7 +20,7 @@ if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
 }
 
-$installDatabase = true;
+$installDatabase = getenv('YETI_INSTALLED') ? false : true;
 \App\Process::$requestMode = 'TEST';
 
 //fix phpunit console for windows
@@ -32,9 +34,6 @@ if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
 }
 App\Session::init();
 
-if (IS_WINDOWS) {
-	App\User::setCurrentUserId(1);
-}
 if (empty($_SERVER['YETI_MAIL_PASS'])) {
 	echo 'No mailbox password provided, please set YETI_MAIL_PASS in $_SERVER array' . PHP_EOL;
 }
@@ -58,4 +57,19 @@ if ($installDatabase) {
 	}
 } else {
 	echo 'Skipped test database install ...' . PHP_EOL;
+}
+
+$id = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => 'demo'])->scalar();
+\App\User::setCurrentUserId($id ?: \Users::getActiveAdminId());
+
+\App\Cron::$confReportIsActive = false;
+\App\Cron::$registerIsActive = false;
+\App\Cron::$watchdogIsActive = false;
+\App\Cron::$shopIsActive = false;
+
+if (\extension_loaded('pcov') && ini_get('pcov.enabled')) {
+	echo 'Coverage driver: PCOV - ' . phpversion('pcov') . PHP_EOL;
+}
+if (\extension_loaded('xdebug') && ini_get('xdebug.enable')) {
+	echo 'Coverage driver: Xdebug - ' . phpversion('xdebug') . PHP_EOL;
 }

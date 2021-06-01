@@ -45,15 +45,24 @@
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 			<div class="flex-row">
-			<div class="d-inline-flex">
-			<button type="button"
-				class="btn btn-sm btn-light js-update-widget-button"
-				title="{\App\Language::translate('LBL_UPDATES_WIDGET_CONFIGURATION', $MODULE_NAME)}"
-				data-js="click">
-					<span class="fas fa-cog"></span>
-			</button>
-			</div>
-			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
+				<div class="d-inline-flex">
+					{if !\App\YetiForce\Shop::check('YetiForceWidgets')}
+						{if \App\Security\AdminAccess::isPermitted('YetiForce')}
+							<a class="btn btn-light btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceWidgets&mode=showProductModal" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"><span class="yfi-premium color-red-600"></span></a>
+						{else}
+							<span class="btn btn-sm" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"><span class="yfi-premium color-red-600"></span></span>
+						{/if}
+					{/if}
+				</div>
+				<div class="d-inline-flex">
+					<button type="button"
+						class="btn btn-sm btn-light js-update-widget-button"
+						title="{\App\Language::translate('LBL_UPDATES_WIDGET_CONFIGURATION', $MODULE_NAME)}"
+						data-js="click">
+							<span class="fas fa-cog"></span>
+					</button>
+				</div>
+				{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<hr class="widgetHr" />

@@ -2,6 +2,8 @@
 /**
  * UIType MultiImage Field Class.
  *
+ * @package   UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Michał Lorencik <m.lorencik@yetiforce.com>
@@ -277,7 +279,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		foreach ($value as $item) {
 			$path = \App\Fields\File::getLocalPath($item['path']);
 			if (!file_exists($path)) {
-				throw new \Api\Core\Exception('File does not exist', 404);
+				throw new \Api\Core\Exception('File does not exist: ' . $path, 404);
 			}
 			$file = \App\Fields\File::loadFromInfo([
 				'path' => $path,
@@ -429,6 +431,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 					$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
 					if (file_exists($path)) {
 						unlink($path);
+					} else {
+						\App\Log::warning('Deleted file does not exist: ' . print_r($image, true));
 					}
 				}
 			}

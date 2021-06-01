@@ -97,7 +97,7 @@ class Filter
 	public function __delete()
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_customview', ['cvid' => $this->id])->execute();
-		\App\CustomView::clearCacheById($this->id);
+		\App\CustomView::clearCacheById($this->id, $this->module->name);
 	}
 
 	/**
@@ -197,7 +197,7 @@ class Filter
 		$instance = false;
 		$moduleName = is_numeric($module) ? \App\Module::getModuleName($module) : $module;
 		if (Utils::isNumber($value)) {
-			$result = \App\CustomView::getCustomViewsDetails([$value])[$value] ?? [];
+			$result = \App\CustomView::getCVDetails((int) $value, $moduleName ?: null);
 		} else {
 			$result = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleName])->one();
 		}
@@ -239,7 +239,7 @@ class Filter
 		$cvIds = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleInstance->name])->column();
 		\App\Db::getInstance()->createCommand()->delete('vtiger_customview', ['entitytype' => $moduleInstance->name])->execute();
 		foreach ($cvIds as $cvId) {
-			\App\CustomView::clearCacheById($cvId);
+			\App\CustomView::clearCacheById($cvId, $moduleInstance->name);
 		}
 	}
 }

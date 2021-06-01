@@ -3,6 +3,8 @@
 /**
  * Vtiger menu model class.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -52,13 +54,15 @@ class Vtiger_Menu_Model
 		} else {
 			require 'user_privileges/menu_0.php';
 		}
-		if (0 === \count($menus)) {
+		if (empty($menus)) {
 			require 'user_privileges/menu_0.php';
 		}
 		$moduleName = $request->getModule();
 		$view = $request->getByType('view', 'Alnum');
 		$parent = $request->getByType('parent', 'Alnum');
+		$mid = $request->isEmpty('mid', 'Alnum') ? null : $request->getInteger('mid');
 		if ('Settings' !== $parent) {
+			$parent = (!$parent && $mid) ? ($parentList[$mid]['parent'] ?? null) : $parent;
 			if (empty($parent)) {
 				foreach ($parentList as &$parentItem) {
 					if ($moduleName === $parentItem['mod']) {
@@ -74,9 +78,14 @@ class Vtiger_Menu_Model
 			if ('AppComponents' !== $moduleName) {
 				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 				if ($moduleModel && $moduleModel->getDefaultUrl()) {
+					if ($mid) {
+						$url = $menus[$mid]['dataurl'] ?? $parentList[$mid]['url'];
+					} else {
+						$url = $moduleModel->getDefaultUrl();
+					}
 					$breadcrumbs[] = [
 						'name' => \App\Language::translate($moduleName, $moduleName),
-						'url' => $moduleModel->getDefaultUrl(),
+						'url' => $url
 					];
 				} else {
 					$breadcrumbs[] = [
@@ -104,6 +113,7 @@ class Vtiger_Menu_Model
 			$breadcrumbs[] = [
 				'name' => \App\Language::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
+				'icon' => 'fas fa-cog fa-fw',
 			];
 			$menu = Settings_Vtiger_MenuItem_Model::getAll();
 			foreach ($menu as $menuModel) {
@@ -113,7 +123,10 @@ class Vtiger_Menu_Model
 					)
 				) {
 					$parent = $menuModel->getBlock();
-					$breadcrumbs[] = ['name' => App\Language::translate($parent->getLabel(), $qualifiedModuleName)];
+					$breadcrumbs[] = [
+						'name' => App\Language::translate($parent->getLabel(), $qualifiedModuleName),
+						'icon' => $parent->get('icon'),
+					];
 					$breadcrumbs[] = [
 						'name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
 						'url' => $menuModel->getUrl(),

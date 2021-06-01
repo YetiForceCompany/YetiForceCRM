@@ -1736,7 +1736,6 @@ jQuery.Class(
 							'boolean',
 							'fileLocationType',
 							'userRole',
-							'companySelect',
 							'multiReferenceValue'
 						]) >= 0
 					) {
@@ -2949,7 +2948,6 @@ YetiForce_Widget_Js(
 	{},
 	{
 		postLoadWidget: function () {
-			app.hideModalWindow();
 			this.restrictContentDrag();
 			this.registerFilter();
 			this.registerFilterChangeEvent();

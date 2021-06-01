@@ -71,7 +71,6 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		$cronConfigFileName = ROOT_DIRECTORY . '/app_data/cron.php';
 		if (file_exists($cronConfigFileName)) {
 			$cronConfig = include $cronConfigFileName;
-
 			if ($cronConfig && isset($cronConfig['last_start'])) {
 				return $this->lastCronStart = (int) $cronConfig['last_start'];
 			}

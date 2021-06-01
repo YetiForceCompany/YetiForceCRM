@@ -712,4 +712,83 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		return $result;
 	}
+
+	/**
+	 * Get missing system fields.
+	 *
+	 * @return \Vtiger_Field_Model[]
+	 */
+	public function getMissingSystemFields(): array
+	{
+		$fields = $this->getFields();
+		$systemFields = \App\Field::SYSTEM_FIELDS;
+		$missingFields = [];
+		foreach (Settings_WebserviceApps_Module_Model::getServers() as $id => $field) {
+			$name = 'share_externally_' . $id;
+			$systemFields[$name] = array_merge($systemFields['share_externally'], [
+				'name' => $name,
+				'column' => $name,
+				'label' => $field['name'] . " ({$field['type']})",
+				'fieldparams' => $id
+			]);
+		}
+		unset($systemFields['share_externally']);
+		foreach ($systemFields as $name => $field) {
+			$validationConditions = $field['validationConditions'];
+			if ($validationConditions === ['name']) {
+				$exist = isset($fields[$name]);
+			} else {
+				$exist = true;
+				foreach ($validationConditions as $validationCondition) {
+					$status = true;
+					foreach ($fields as $fieldModel) {
+						if ($fieldModel->get($validationCondition) == $field[$validationCondition]) {
+							$status = false;
+							continue 2;
+						}
+					}
+					$exist = !$status;
+				}
+			}
+			if (!$exist) {
+				unset($field['validationConditions']);
+				$missingFields[$name] = \Vtiger_Field_Model::init($this->name, $field, $field['name']);
+			}
+		}
+		return $missingFields;
+	}
+
+	/**
+	 * Create system field.
+	 *
+	 * @param string $sysName
+	 * @param int    $blockId
+	 * @param array  $params
+	 *
+	 * @return void
+	 */
+	public function addSystemField(string $sysName, int $blockId, array $params = []): void
+	{
+		$missingSystemFields = $this->getMissingSystemFields();
+		if (empty($missingSystemFields[$sysName])) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
+		}
+		$fieldModel = $missingSystemFields[$sysName];
+		if ($params) {
+			foreach ($params as $key => $value) {
+				$fieldModel->set($key, $value);
+			}
+		}
+		if ($this->checkFieldLabelExists($fieldModel->get('name'))) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
+		}
+		if ($this->checkFieldNameCharacters($fieldModel->get('name'))) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
+		}
+		if ($this->checkFieldNameExists($fieldModel->get('name'))) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
+		}
+		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this->name);
+		$blockModel->addField($fieldModel);
+	}
 }

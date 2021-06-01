@@ -344,7 +344,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 					$currentNumber = 1;
 					$currentDate = $sequence;
 				}
-				$currentNumber = \str_pad($currentNumber, $leadingZeros, '0', \STR_PAD_LEFT);
+				$currentNumber = \str_pad($currentNumber, $leadingZeros, '0', STR_PAD_LEFT);
 				$this->assertSame("$date/$currentNumber", $instance->getIncrementNumber());
 				$number = RecordNumber::getInstance('FInvoice');
 				$this->assertSame($currentNumber + 1, $number->get('cur_id'));
@@ -358,7 +358,6 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
 	public static function tearDownAfterClass(): void

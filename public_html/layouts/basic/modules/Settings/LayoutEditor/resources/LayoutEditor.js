@@ -13,6 +13,7 @@ $.Class(
 	'Settings_LayoutEditor_Js',
 	{},
 	{
+		container: false,
 		updatedBlockSequence: {},
 		inActiveFieldsList: false,
 		updatedBlockFieldsList: [],
@@ -23,7 +24,7 @@ $.Class(
 		 */
 		setInactiveFieldsList: function () {
 			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			var json = contents.find('.inActiveFieldsArray');
 			if (0 < json.length) {
 				thisInstance.inActiveFieldsList = JSON.parse(json.val());
@@ -34,7 +35,7 @@ $.Class(
 		 */
 		makeBlocksListSortable: function () {
 			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			var table = contents.find('.blockSortable');
 			contents.sortable({
 				containment: contents,
@@ -83,7 +84,7 @@ $.Class(
 		 */
 		updateBlocksListByOrder: function () {
 			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			contents.find('.editFieldsTable.blockSortable').each(function (index, domElement) {
 				var blockTable = $(domElement);
 				var blockId = blockTable.data('blockId');
@@ -455,7 +456,7 @@ $.Class(
 		 */
 		makeFieldsListSortable: function () {
 			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			var table = contents.find('.editFieldsTable');
 			table.each(function () {
 				var containment = $(this).closest('.moduleBlocks');
@@ -549,7 +550,7 @@ $.Class(
 		 */
 		createUpdatedBlockFieldsList: function () {
 			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 
 			for (var index in thisInstance.updatedBlocksList) {
 				var updatedBlockId = thisInstance.updatedBlocksList[index];
@@ -598,30 +599,21 @@ $.Class(
 		 * Function will save the field sequences
 		 */
 		updateFieldSequence: function () {
-			var thisInstance = this;
-			var progressIndicatorElement = $.progressIndicator({
-				position: 'html',
-				blockInfo: {
-					enabled: true
-				}
-			});
-			var params = {};
-			params['module'] = app.getModuleName();
-			params['parent'] = app.getParentModuleName();
-			params['action'] = 'Field';
-			params['mode'] = 'move';
-			params['updatedFields'] = thisInstance.updatedBlockFieldsList;
-
-			AppConnector.request(params)
-				.done(function (data) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+			let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'Field',
+				mode: 'move',
+				updatedFields: this.updatedBlockFieldsList
+			})
+				.done(function () {
+					progress.progressIndicator({ mode: 'hide' });
 					window.location.reload();
-					var params = {};
-					params['text'] = app.vtranslate('JS_FIELD_SEQUENCE_UPDATED');
-					Settings_Vtiger_Index_Js.showMessage(params);
+					Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_FIELD_SEQUENCE_UPDATED') });
 				})
 				.fail(function (error) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					progress.progressIndicator({ mode: 'hide' });
 				});
 		},
 		/**
@@ -653,15 +645,50 @@ $.Class(
 			return aDeferred.promise();
 		},
 		/**
-		 * Function to register click evnet add custom field button
+		 * Function to register click event add system field button
+		 */
+		registerAddSystemFieldEvent() {
+			let contents = this.container.find('.contents');
+			contents.find('.js-add-system-field').on('click', (e) => {
+				let blockId = $(e.currentTarget).closest('.editFieldsTable').data('blockId');
+				let selectedModule = this.container.find('[name="layoutEditorModules"]').val();
+				app.showModalWindow(
+					null,
+					'index.php?module=LayoutEditor&parent=Settings&view=CreateSystemFields&sourceModule=' + selectedModule,
+					(modalContainer) => {
+						console.log(modalContainer);
+						modalContainer.find('.js-modal__save').on('click', () => {
+							let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+							AppConnector.request({
+								module: app.getModuleName(),
+								parent: app.getParentModuleName(),
+								action: 'Field',
+								mode: 'createSystemField',
+								sourceModule: selectedModule,
+								blockId: blockId,
+								field: modalContainer.find('.js-system-fields').val()
+							})
+								.done(function () {
+									progress.progressIndicator({ mode: 'hide' });
+									window.location.reload();
+								})
+								.fail(function () {
+									progress.progressIndicator({ mode: 'hide' });
+								});
+						});
+					}
+				);
+			});
+		},
+		/**
+		 * Function to register click event add custom field button
 		 */
 		registerAddCustomFieldEvent() {
 			const thisInstance = this;
-			let container = $('#layoutEditorContainer'),
-				contents = container.find('.contents');
+			let contents = this.container.find('.contents');
 			contents.find('.addCustomField').on('click', (e) => {
 				let blockId = $(e.currentTarget).closest('.editFieldsTable').data('blockId'),
-					addFieldContainer = container.find('.createFieldModal').clone(true, true);
+					addFieldContainer = this.container.find('.createFieldModal').clone(true, true);
 				addFieldContainer.removeClass('d-none').show();
 				let callBackFunction = (data) => {
 					App.Fields.Picklist.showSelect2ElementView(data.find('select'), { width: '100%' });
@@ -780,7 +807,6 @@ $.Class(
 					Settings_Vtiger_Index_Js.showMessage(params);
 					this.showCustomField(result);
 				} else {
-					message = data['error']['message'];
 					app.showNotify({
 						title:
 							data['error']['code'] != 513 ? form.find('.fieldNameForm').text() : form.find('.fieldLabelForm').text(),
@@ -918,7 +944,7 @@ $.Class(
 		 */
 		showCustomField: function (result) {
 			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			var relatedBlock = contents.find('.block_' + result['blockid']);
 			var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
 			var fieldContainer = fieldCopy.find('.js-custom-field');
@@ -960,7 +986,7 @@ $.Class(
 		 */
 		registerAddCustomBlockEvent: function () {
 			const thisInstance = this;
-			let contents = $('#layoutEditorContainer').find('.contents');
+			let contents = this.container.find('.contents');
 			contents.find('.addCustomBlock').on('click', function (e) {
 				let addBlockContainer = contents.find('.addBlockModal').clone(true, true),
 					callBackFunction = function (data) {
@@ -1052,7 +1078,7 @@ $.Class(
 		 * Function used to display the new custom block ui after save
 		 */
 		displayNewCustomBlock: function (result) {
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			var beforeBlockId = result['beforeBlockId'];
 			var beforeBlock = contents.find('.block_' + beforeBlockId);
 
@@ -1075,7 +1101,7 @@ $.Class(
 		 * Function to update the sequence for all blocks after adding new Block
 		 */
 		updateNewSequenceForBlocks: function (sequenceList) {
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			$.each(sequenceList, function (blockId, sequence) {
 				contents.find('.block_' + blockId).data('sequence', sequence);
 			});
@@ -1084,7 +1110,7 @@ $.Class(
 		 * Function to update the block list with the new block label in the clone container
 		 */
 		appendNewBlockToBlocksList: function (result, form) {
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			var hiddenAddBlockModel = contents.find('.addBlockModal');
 			var blocksListSelect = hiddenAddBlockModel.find('[name="beforeBlockId"]');
 			var option = $('<option>', {
@@ -1097,7 +1123,7 @@ $.Class(
 		 * Function to update the block list to remove the deleted custom block label in the clone container
 		 */
 		removeBlockFromBlocksList: function (blockId) {
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			var hiddenAddBlockModel = contents.find('.addBlockModal');
 			var blocksListSelect = hiddenAddBlockModel.find('[name="beforeBlockId"]');
 			blocksListSelect.find('option[value="' + blockId + '"]').remove();
@@ -1107,7 +1133,7 @@ $.Class(
 		 */
 		registerBlockVisibilityEvent: function () {
 			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			contents.on('click', '.js-block-visibility', function (e) {
 				var currentTarget = $(e.currentTarget);
 				thisInstance.updateBlockStatus(currentTarget);
@@ -1155,7 +1181,7 @@ $.Class(
 		 */
 		registerInactiveFieldsEvent: function () {
 			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			contents.on('click', '.js-inactive-fields-btn', function (e) {
 				var currentTarget = $(e.currentTarget);
 				var currentBlock = currentTarget.closest('.editFieldsTable');
@@ -1284,7 +1310,7 @@ $.Class(
 		 */
 		registerDeleteCustomBlockEvent: function () {
 			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			contents.on('click', '.js-delete-custom-block-btn', function (e) {
 				var currentTarget = $(e.currentTarget);
 				var table = currentTarget.closest('div.editFieldsTable');
@@ -1341,7 +1367,7 @@ $.Class(
 		 * Function to remove the deleted custom block from the ui
 		 */
 		removeDeletedBlock: function (blockId) {
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			var deletedTable = contents.find('.block_' + blockId);
 			deletedTable.fadeOut('slow').remove();
 		},
@@ -1351,7 +1377,7 @@ $.Class(
 		registerDeleteCustomFieldEvent: function (contents) {
 			const thisInstance = this;
 			if (typeof contents === 'undefined') {
-				contents = $('#layoutEditorContainer').find('.contents');
+				contents = this.container.find('.contents');
 			}
 			contents.find('.deleteCustomField').on('click', function (e) {
 				let currentTarget = $(e.currentTarget),
@@ -1450,7 +1476,7 @@ $.Class(
 		 */
 		relatedModulesTabClickEvent: function () {
 			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			var contents = this.container.find('.contents');
 			var relatedContainer = contents.find('#relatedTabOrder');
 			var relatedTab = contents.find('.relatedListTab');
 			relatedTab.on('click', function () {
@@ -1543,7 +1569,7 @@ $.Class(
 		 */
 		registerModulesChangeEvent: function () {
 			var thisInstance = this;
-			var container = $('#layoutEditorContainer');
+			var container = this.container;
 			var contentsDiv = container.closest('.contentsDiv');
 
 			App.Fields.Picklist.showSelect2ElementView(container.find('[name="layoutEditorModules"]'));
@@ -1559,7 +1585,7 @@ $.Class(
 		},
 		registerRelModulesChangeEvent: function () {
 			var thisInstance = this;
-			var container = $('#layoutEditorContainer');
+			var container = this.container;
 			var contentsDiv = container.closest('.contentsDiv');
 
 			App.Fields.Picklist.showSelect2ElementView(container.find('[name="layoutEditorRelModules"]'));
@@ -1590,7 +1616,7 @@ $.Class(
 		registerEditFieldDetailsClick: function (contents) {
 			var thisInstance = this;
 			if (typeof contents === 'undefined') {
-				contents = $('#layoutEditorContainer').find('.contents');
+				contents = this.container.find('.contents');
 			}
 			contents.find('.editFieldDetails').on('click', function (e) {
 				var currentTarget = $(e.currentTarget);
@@ -1682,6 +1708,7 @@ $.Class(
 			var thisInstance = this;
 			thisInstance.makeBlocksListSortable();
 			thisInstance.registerAddCustomFieldEvent();
+			thisInstance.registerAddSystemFieldEvent();
 			thisInstance.registerBlockVisibilityEvent();
 			thisInstance.registerInactiveFieldsEvent();
 			thisInstance.registerDeleteCustomBlockEvent();
@@ -1692,7 +1719,7 @@ $.Class(
 		registerFieldEvents: function (contents) {
 			var thisInstance = this;
 			if (typeof contents === 'undefined') {
-				contents = $('#layoutEditorContainer').find('.contents');
+				contents = this.container.find('.contents');
 			}
 			App.Fields.Date.register(contents);
 			App.Fields.Picklist.changeSelectElementView(contents);
@@ -1717,7 +1744,7 @@ $.Class(
 		 * Function to register switch
 		 */
 		registerSwitch: function () {
-			var container = $('#layoutEditorContainer');
+			var container = this.container;
 			container.find('.js-switch--inventory').on('click', function (event) {
 				event.preventDefault();
 				var switchBtn = $(event.currentTarget);
@@ -1762,7 +1789,7 @@ $.Class(
 			let container = thisInstance.getInventoryViewLayout();
 			container.find('.addInventoryField').on('click', (e) => {
 				let currentTarget = $(e.currentTarget);
-				let selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+				let selectedModule = this.container.find('[name="layoutEditorModules"]').val();
 				let blockId = currentTarget.closest('.inventoryBlock').data('block-id');
 				const progress = $.progressIndicator();
 				app.showModalWindow(
@@ -1818,7 +1845,7 @@ $.Class(
 		registerStep1(container, blockId) {
 			const thisInstance = this;
 			container.find('.js-next-button').on('click', (e) => {
-				let selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+				let selectedModule = this.container.find('[name="layoutEditorModules"]').val();
 				let type = container.find('select.type').val();
 				if (type === null) {
 					container
@@ -1854,7 +1881,7 @@ $.Class(
 			let thisInstance = this;
 			let containerInventory = thisInstance.getInventoryViewLayout();
 			let form = container.find('form');
-			let selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			let selectedModule = this.container.find('[name="layoutEditorModules"]').val();
 			form.validationEngine(app.validationEngineOptions);
 			form.on('submit', function (e) {
 				let formData = form.serializeFormData();
@@ -1918,7 +1945,7 @@ $.Class(
 		registerInventoryFieldSequenceSaveClick: function () {
 			var thisInstance = this;
 			var containerInventory = thisInstance.getInventoryViewLayout();
-			var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			var selectedModule = this.container.find('[name="layoutEditorModules"]').val();
 			containerInventory.on('click', '.saveFieldSequence', function (e) {
 				var button = $(e.currentTarget);
 				var target = button.closest('.inventoryBlock');
@@ -1937,7 +1964,7 @@ $.Class(
 		registerDeleteInventoryField: function () {
 			var thisInstance = this;
 			var container = thisInstance.getInventoryViewLayout();
-			var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			var selectedModule = this.container.find('[name="layoutEditorModules"]').val();
 			container.find('.deleteInventoryField').on('click', function (e) {
 				var currentTarget = $(e.currentTarget);
 				var liElement = currentTarget.closest('li');
@@ -2118,39 +2145,34 @@ $.Class(
 		 * register events for layout editor
 		 */
 		registerEvents: function () {
-			var thisInstance = this;
-
-			thisInstance.registerBlockEvents();
-			thisInstance.registerFieldEvents();
-			thisInstance.setInactiveFieldsList();
-			thisInstance.registerAddCustomBlockEvent();
-
-			thisInstance.relatedModulesTabClickEvent();
-			thisInstance.registerModulesChangeEvent();
-			thisInstance.registerRelModulesChangeEvent();
-
+			this.container = $('#layoutEditorContainer');
+			this.registerBlockEvents();
+			this.registerFieldEvents();
+			this.setInactiveFieldsList();
+			this.registerAddCustomBlockEvent();
+			this.relatedModulesTabClickEvent();
+			this.registerModulesChangeEvent();
+			this.registerRelModulesChangeEvent();
 			if (1 === $('#relatedTabOrder').length) {
-				thisInstance.registerRelatedListEvents();
-				thisInstance.makeRelatedModuleSortable();
+				this.registerRelatedListEvents();
+				this.makeRelatedModuleSortable();
 			}
-
-			thisInstance.registerSwitch();
-			thisInstance.registerAddInventoryField();
-			thisInstance.registerEditInventoryField();
-			thisInstance.registerInventoryFieldSequenceSaveClick();
-			thisInstance.registerDeleteInventoryField();
+			this.registerSwitch();
+			this.registerAddInventoryField();
+			this.registerEditInventoryField();
+			this.registerInventoryFieldSequenceSaveClick();
+			this.registerDeleteInventoryField();
 			this.registerFieldSequenceSaveClick();
 		},
 		registerBasicEvents: function () {
-			var container = $('#layoutEditorContainer');
 			this.registerEvents();
 			this.registerCopyClipboard();
-			this.registerContextHelp(container);
+			this.registerContextHelp();
 		}
 	}
 );
 
-$(document).ready(function () {
+jQuery(function () {
 	var instance = new Settings_LayoutEditor_Js();
 	instance.registerBasicEvents();
 });

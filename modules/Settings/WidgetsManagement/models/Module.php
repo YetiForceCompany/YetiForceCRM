@@ -20,6 +20,20 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		];
 	}
 
+	/**
+	 * Exclude defined values from filters.
+	 *
+	 * @return array
+	 */
+	public function filerItems(): array
+	{
+		return [
+			'Mini List' => ['mine', 'all', 'users', 'groups', 'groupUsers', 'roleUsers', 'rsUsers'],
+			'DW_SUMMATION_BY_MONTHS' => ['mine', 'all', 'users', 'groups', 'groupUsers', 'roleUsers', 'rsUsers'],
+			'default' => ['mine', 'all', 'users', 'groups'],
+		];
+	}
+
 	public function getWidgetsWithLimit(): array
 	{
 		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks',
@@ -55,7 +69,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 */
 	public function getFilterSelect(): array
 	{
-		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups'];
+		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups', 'LBL_GROUP_USERS' => 'groupUsers', 'LBL_ROLE_USERS' => 'roleUsers', 'LBL_ROLE_AND_SUBORDINATES_USERS' => 'rsUsers'];
 	}
 
 	public function getFilterSelectDefault(): array
@@ -406,11 +420,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$filters = $data['filterid'];
 			}
 			if (\count($filters) > \App\Config::performance('CHART_MULTI_FILTER_LIMIT')) {
-				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
-			}
-			// if filters total length will be longer than database column
-			if (\strlen(implode(',', $filters)) > \App\Config::performance('CHART_MULTI_FILTER_STR_LEN')) {
-				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
+				throw new App\Exceptions\IllegalValue("ERR_VALUE_IS_TOO_LONG||filterid||{$moduleName}||" . implode(',', $filters), 406);
 			}
 		}
 		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data'] ?? ''));
@@ -533,6 +543,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$query = (new \App\Db\Query())->from('vtiger_links')
 			->where(['tabid' => $tabId, 'linklabel' => self::getWidgetSpecial()]);
 		$dataReader = $query->createCommand()->query();
+		$widgets = [];
 		while ($row = $dataReader->read()) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}

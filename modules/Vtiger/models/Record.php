@@ -236,9 +236,6 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getModule(): Vtiger_Module_Model
 	{
-		if (!isset($this->module)) {
-			$this->module = Vtiger_Module_Model::getInstance($this->getModuleName());
-		}
 		return $this->module;
 	}
 
@@ -336,7 +333,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getDetailViewUrl()
 	{
 		$menuUrl = '';
-		if (isset($_REQUEST['parent'])) {
+		if (isset($_REQUEST['parent']) && 'Settings' !== $_REQUEST['parent']) {
 			$menuUrl .= '&parent=' . \App\Request::_getInteger('parent');
 		}
 		if (isset($_REQUEST['mid'])) {
@@ -789,55 +786,6 @@ class Vtiger_Record_Model extends \App\Base
 		$recordModel->setData($focus->column_fields)->setId($recordId)->setModuleFromInstance($moduleModel)->setEntity($focus);
 
 		return $recordModel;
-	}
-
-	/**
-	 * Static Function to get the list of records matching the search key.
-	 *
-	 * @param string $searchKey
-	 * @param mixed  $module
-	 * @param mixed  $limit
-	 * @param mixed  $operator
-	 *
-	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
-	 */
-	public static function getSearchResult($searchKey, $module = false, $limit = false, $operator = false)
-	{
-		if (!$limit) {
-			$limit = App\Config::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
-		}
-		$recordSearch = new \App\RecordSearch($searchKey, $module, $limit);
-		if ($operator) {
-			$recordSearch->operator = $operator;
-		}
-		$rows = $recordSearch->search();
-
-		$ids = $matchingRecords = $leadIdsList = [];
-		foreach ($rows as $row) {
-			$ids[] = $row['crmid'];
-			if ('Leads' === $row['setype']) {
-				$leadIdsList[] = $row['crmid'];
-			}
-		}
-		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
-		$labels = \App\Record::getLabel($ids);
-		foreach ($rows as $row) {
-			if ('Leads' === $row['setype'] && $convertedInfo[$row['crmid']]) {
-				continue;
-			}
-			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
-			$row['id'] = $row['crmid'];
-			$row['label'] = App\Purifier::decodeHtml($labels[$row['crmid']]);
-			$row['assigned_user_id'] = $recordMeta['smownerid'];
-			$row['createdtime'] = $recordMeta['createdtime'];
-			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
-			$moduleName = $row['setype'];
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
-			$recordInstance = new $modelClassName();
-			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
-		}
-		return $matchingRecords;
 	}
 
 	/**

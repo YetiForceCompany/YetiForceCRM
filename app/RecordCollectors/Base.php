@@ -66,6 +66,25 @@ class Base
 	protected $modulesFieldsMap = [];
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		$class = last(explode('\\', static::class));
+		$config = \App\Config::component('RecordCollectors' . $class);
+		if (null === $config) {
+			return;
+		}
+		if (isset($config['allowedModules'])) {
+			static::$allowedModules = $config['allowedModules'];
+			unset($config['allowedModules']);
+		}
+		foreach ($config as $key => $value) {
+			$this->{$key} = $value;
+		}
+	}
+
+	/**
 	 * Undocumented function.
 	 *
 	 * @param \App\Request $request

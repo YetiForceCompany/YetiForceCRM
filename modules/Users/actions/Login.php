@@ -11,9 +11,7 @@
 
 class Users_Login_Action extends \App\Controller\Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -44,31 +42,25 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	private $userModel;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function loginRequired()
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
-			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($request->getByType('username', 'Text')), 'Blocked IP');
+			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($request->getByType('username', 'Text')), 'ERR_LOGIN_DESP_IP_BLOCK');
 			header('location: index.php?module=Users&view=Login');
 			return false;
 		}
@@ -86,7 +78,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function check2fa(App\Request $request)
+	public function check2fa(App\Request $request): void
 	{
 		$userId = \App\Session::get('2faUserId');
 		if (Users_Totp_Authmethod::verifyCode(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'), $request->getByType('user_code', 'Digital'))) {
@@ -97,14 +89,14 @@ class Users_Login_Action extends \App\Controller\Action
 		} else {
 			\App\Session::set('UserLoginMessage', \App\Language::translate('LBL_2FA_WRONG_CODE', 'Users'));
 			\App\Session::set('UserLoginMessageType', 'error');
-			$this->failedLogin($request);
+			$this->failedLogin($request, '2fa');
 		}
 	}
 
 	/**
 	 * Redirect the user to a different page.
 	 */
-	private function redirectUser()
+	private function redirectUser(): void
 	{
 		if ($param = ($_SESSION['return_params'] ?? false)) {
 			unset($_SESSION['return_params']);
@@ -121,9 +113,9 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public function login(App\Request $request)
+	public function login(App\Request $request): void
 	{
 		$userName = $request->getByType('username', 'Text');
 		$password = $request->getRaw('password');
@@ -134,16 +126,16 @@ class Users_Login_Action extends \App\Controller\Action
 		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
 			$this->userModel = App\User::getUserModel($this->userRecordModel->getId());
 			$this->afterLogin($request);
-			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName)); //Track the login History
+			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName), 'Signed in'); //Track the login History
 			if ($this->isMultiFactorAuthentication() && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
 				header('location: index.php');
 			} else {
 				$this->redirectUser();
 			}
-			return true;
+			return;
 		}
 		\App\Session::set('UserLoginMessage', App\Language::translate('LBL_INVALID_USER_OR_PASSWORD', 'Users'));
-		$this->failedLogin($request);
+		$this->failedLogin($request, 'login');
 	}
 
 	/**
@@ -232,7 +224,7 @@ class Users_Login_Action extends \App\Controller\Action
 	/**
 	 * Clean installation files.
 	 */
-	public function cleanInstallationFiles()
+	public function cleanInstallationFiles(): void
 	{
 		\vtlib\Functions::recurseDelete('install');
 		\vtlib\Functions::recurseDelete('public_html/install');
@@ -241,7 +233,7 @@ class Users_Login_Action extends \App\Controller\Action
 		\vtlib\Functions::recurseDelete('.gitattributes');
 		\vtlib\Functions::recurseDelete('.gitignore');
 		\vtlib\Functions::recurseDelete('.travis.yml');
-		\vtlib\Functions::recurseDelete('.codecov.yml');
+		\vtlib\Functions::recurseDelete('codecov.yml');
 		\vtlib\Functions::recurseDelete('.gitlab-ci.yml');
 		\vtlib\Functions::recurseDelete('.php_cs.dist');
 		\vtlib\Functions::recurseDelete('.scrutinizer.yml');
@@ -261,10 +253,11 @@ class Users_Login_Action extends \App\Controller\Action
 	 * Failed login function.
 	 *
 	 * @param \App\Request $request
+	 * @param string       $type
 	 */
-	public function failedLogin(App\Request $request)
+	public function failedLogin(App\Request $request, string $type): void
 	{
-		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
+		$status = '2fa' === $type ? 'Failed login' : 'ERR_WRONG_2FA_CODE';
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive()) {
 			$bfInstance->updateBlockedIp();
@@ -272,8 +265,10 @@ class Users_Login_Action extends \App\Controller\Action
 				$bfInstance->sendNotificationEmail();
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', 'Users'));
 				\App\Session::set('UserLoginMessageType', 'error');
+				$status = '2fa' === $type ? 'ERR_LOGIN_IP_BLOCK' : 'ERR_2FA_IP_BLOCK';
 			}
 		}
+		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), $status);
 		header('location: index.php?module=Users&view=Login');
 	}
 }

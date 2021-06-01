@@ -32,7 +32,7 @@ class Products_SummaryWidget_Model
 			$limit = $request->getInteger('limit');
 		}
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('page', 0);
+		$pagingModel->set('page', 1);
 		$pagingModel->set('limit', $limit);
 
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);

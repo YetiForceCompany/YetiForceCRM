@@ -24,6 +24,7 @@ class System extends Base
 		'history' => 'History of uploaded updates',
 		'update' => 'Update',
 		'checkRegStatus' => 'Check registration status',
+		'showProducts' => 'Show active products',
 		'reloadModule' => 'Reload modules',
 		'reloadUserPrivileges' => 'Reload users privileges',
 	];
@@ -45,7 +46,9 @@ class System extends Base
 		} else {
 			$this->climate->lightGreen('No updates');
 		}
-		$this->cli->actionsList('System');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
 	}
 
 	/**
@@ -188,7 +191,40 @@ class System extends Base
 		$this->climate->border('─', 200);
 		$this->climate->bold('Provider: ' . \App\YetiForce\Register::getProvider());
 		$this->climate->border('─', 200);
-		$this->cli->actionsList('System');
+		$table = [];
+		foreach (\App\Company::getAll() as $row) {
+			$table[] = [
+				'name' => $row['name'],
+				'status' => $row['status'],
+				'type' => $row['type'],
+				'companysize' => $row['companysize'],
+				'vat_id' => $row['vat_id'],
+			];
+		}
+		$this->climate->table($table);
+		$this->climate->border('─', 200);
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
+	}
+
+	/**
+	 * Show active products.
+	 *
+	 * @return void
+	 */
+	public function showProducts(): void
+	{
+		$table = [];
+		foreach (\App\YetiForce\Register::getProducts() as $row) {
+			$row['params'] = \App\Utils::varExport($row['params']);
+			$table[] = $row;
+		}
+		$table ? $this->climate->table($table) : $this->climate->bold('None');
+		$this->climate->border('─', 200);
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
 	}
 
 	/**
@@ -207,7 +243,9 @@ class System extends Base
 		\App\Colors::generate();
 		$this->climate->bold('Colors');
 		$this->climate->lightYellow()->border('─', 200);
-		$this->cli->actionsList('System');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
 	}
 
 	/**
@@ -219,6 +257,8 @@ class System extends Base
 	{
 		$this->climate->bold('Users: ' . \App\UserPrivilegesFile::recalculateAll());
 		$this->climate->lightYellow()->border('─', 200);
-		$this->cli->actionsList('System');
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
 	}
 }

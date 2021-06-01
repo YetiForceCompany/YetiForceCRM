@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\ManageConsents\BaseModule;
@@ -28,11 +29,11 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 * @return array
 	 *
 	 * @OA\POST(
-	 *		path="/webservice/{moduleName}/SendEmail",
+	 *		path="/webservice/ManageConsents/{moduleName}/SendEmail",
 	 *		summary="Send e-mail",
 	 *		tags={"Consents"},
 	 *    security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *    },
 	 *		@OA\RequestBody(
 	 *				required=true,
@@ -64,7 +65,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
-	 *				description="No sent token OR Invalid token",
+	 *				description="`No sent token` OR `Invalid token`",
 	 *		),
 	 *		@OA\Response(
 	 *				response=403,
@@ -108,7 +109,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *		@OA\Property(
 	 *				property="result",
 	 *				description="Added mail to quote for send: true - success , false - fail",
-	 *				type="bool",
+	 *				type="boolean",
 	 * 				example=true
 	 * 		),
 	 *	),

@@ -42,24 +42,23 @@ class Users_Module_Model extends Vtiger_Module_Model
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function searchRecord(string $searchValue): array
+	/** {@inheritdoc} */
+	public function getQueryForRecords(string $searchValue, int $limit, int $srcRecord = null): App\QueryGenerator
 	{
-		$matchingRecords = [];
-		if (!empty($searchValue)) {
-			$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
-			$dataReader = (new App\Db\Query())->from('vtiger_users')
-				->where(['and', ['status' => 'Active'], ['like', \App\Module::getSqlForNameInDisplayFormat('Users'), $searchValue]])
-				->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$recordInstance = new $modelClassName();
-				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
-			}
-			$dataReader->close();
+		$searchTableName = 'u_#__users_labels';
+		$searchColumnName = "{$searchTableName}.label";
+
+		$queryGenerator = new \App\QueryGenerator($this->getName());
+		$queryGenerator->setFields(['id'])
+			->setCustomColumn(['search_label' => $searchColumnName])
+			->addJoin(['INNER JOIN', $searchTableName, "{$queryGenerator->getColumnName('id')} = {$searchTableName}.id"])
+			->addCondition('status', 'Active', 'e')
+			->addNativeCondition(['like', $searchColumnName, $searchValue])
+			->setLimit($limit);
+		if ($srcRecord) {
+			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
-		return $matchingRecords;
+		return $queryGenerator;
 	}
 
 	/**
@@ -95,10 +94,12 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to store the login history.
 	 *
-	 * @param type  $userName
-	 * @param mixed $status
+	 * @param string $userName
+	 * @param string $status
+	 *
+	 * @return void
 	 */
-	public function saveLoginHistory($userName, $status = 'Signed in')
+	public function saveLoginHistory(string $userName, string $status): void
 	{
 		$userIPAddress = \App\RequestUtil::getRemoteIP();
 		$browser = \App\RequestUtil::getBrowserInfo();
@@ -143,16 +144,16 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Get user login history.
 	 *
-	 * @param int|bool $limit
+	 * @param int|null $limit
 	 *
 	 * @return array
 	 */
-	public static function getLoginHistory($limit = false)
+	public static function getLoginHistory($limit = null): array
 	{
 		return (new \App\Db\Query())->from('vtiger_loginhistory')
 			->where(['or', ['user_name' => \App\Session::get('user_name')], ['userid' => \App\Session::get('authenticated_user_id')]])
 			->orderBy(['login_id' => SORT_DESC])
-			->limit($limit ?? App\Config::performance('LOGIN_HISTORY_VIEW_LIMIT'))
+			->limit($limit ?: App\Config::performance('LOGIN_HISTORY_VIEW_LIMIT'))
 			->all();
 	}
 

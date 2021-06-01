@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\ManageConsents\Approvals;
@@ -30,16 +31,12 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * @return array
 	 *
 	 * @OA\GET(
-	 *		path="/webservice/Approvals/RecordsList",
+	 *		path="/webservice/ManageConsents/Approvals/RecordsList",
 	 *		summary="Gets the list of consents",
 	 *		tags={"Consents"},
-	 *    security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
-	 *    },
-	 *		@OA\RequestBody(
-	 *				required=false,
-	 *				description="The content of the request is empty",
-	 *		),
+	 *		security={
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
+	 *		},
 	 *		@OA\Parameter(
 	 *				name="x-row-limit",
 	 *  		 	description="Limit",
@@ -81,62 +78,69 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *  		required=false
 	 * 		),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="List of consents",
-	 *				@OA\JsonContent(ref="#/components/schemas/ConsentsResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/ConsentsResponseBody"),
+	 *			response=200,
+	 *			description="List of consents",
+	 *			@OA\JsonContent(ref="#/components/schemas/ConsentsResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/ConsentsResponseBody"),
 	 *		),
 	 *		@OA\Response(
-	 *				response=401,
-	 *				description="No sent token OR Invalid token",
+	 *			response=401,
+	 *			description="`No sent token` OR `Invalid token`",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *		@OA\Response(
-	 *				response=403,
-	 *				description="No permissions for module",
+	 *			response=403,
+	 *			description="No permissions for module",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *		@OA\Response(
-	 *				response=405,
-	 *				description="Method Not Allowed",
+	 *			response=405,
+	 *			description="Method Not Allowed",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
 	 *		schema="ApprovalsConditionsRequest",
 	 *		title="Conditions",
 	 *		description="The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. ",
-	 *		type="text",
+	 *		type="string",
+	 *		format="json",
 	 * 		example={"fieldName" : "approvals_status", "value" : "PLL_ACTIVE", "operator" : "e"}
 	 *	),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="basicAuth",
+	 *	@OA\SecurityScheme(
 	 *		type="http",
-	 *   	in="header",
-	 *		scheme="basic"
-	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="ApiKeyAuth",
+	 *		securityScheme="basicAuth",
+	 *		scheme="basic",
+	 *   	description="Basic Authentication header"
+	 *	),
+	 *	@OA\SecurityScheme(
+	 * 		name="X-API-KEY",
 	 *   	type="apiKey",
 	 *    	in="header",
-	 * 		name="X-API-KEY",
-	 *   	description="Webservice api key"
-	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="token",
+	 *		securityScheme="ApiKeyAuth",
+	 *   	description="Webservice api key header"
+	 *	),
+	 *	@OA\SecurityScheme(
+	 * 		name="X-TOKEN",
 	 *   	type="apiKey",
 	 *   	in="header",
-	 * 		name="X-TOKEN",
-	 *   	description="Webservice api token by user"
-	 * ),
+	 *		securityScheme="token",
+	 *   	description="Webservice api token by user header"
+	 *	),
 	 * @OA\Schema(
 	 *		schema="ConsentsResponseBody",
 	 *		title="List of consents",
 	 *		description="List of obtained consents",
 	 *		type="object",
 	 *		@OA\Property(
-	 *				property="status",
-	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *				enum={0, 1},
-	 *				type="integer",
-	 *        example=1
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={0, 1},
+	 *			type="integer",
+	 *			example=1
 	 *		),
 	 *		@OA\Property(
 	 *				property="result",
@@ -180,6 +184,28 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 				),
 	 * 				@OA\Property(property="isMorePages", description="There are more entries", type="boolean", example="true"),
 	 * 		),
+	 *	),
+	 *	@OA\Schema(
+	 *		schema="Exception",
+	 *		title="Error exception",
+	 *		type="object",
+	 *  	@OA\Property(
+	 * 			property="status",
+	 *			description="0 - error",
+	 * 			enum={0},
+	 *			type="integer",
+	 *			example=0
+	 * 		),
+	 *		@OA\Property(
+	 * 			property="error",
+	 *     	 	description="Error  details",
+	 *    	 	type="object",
+	 *   		@OA\Property(property="message", type="string", example="Invalid method", description="To show more details turn on: config\Debug.php apiShowExceptionMessages = true"),
+	 *   		@OA\Property(property="code", type="integer", example=405),
+	 *   		@OA\Property(property="file", type="string", example="api\webservice\Portal\BaseAction\Files.php", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
+	 *   		@OA\Property(property="line", type="integer", example=101, description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
+	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\Portal\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
+	 *    	),
 	 *	),
 	 */
 	public function get()

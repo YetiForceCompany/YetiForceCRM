@@ -278,7 +278,7 @@ window.App.Fields = {
 				return;
 			}
 			$('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
-				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
+				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField').get(0).focus();
 			});
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
@@ -1247,6 +1247,13 @@ window.App.Fields = {
 						}
 						let instance = $(e.currentTarget).data('select2');
 						instance.$dropdown.css('z-index', 1000002);
+						/**
+						 * Fix auto focusing in select2 with jQuery 3.6.0
+						 * see: https://github.com/select2/select2/issues/5993
+						 */
+						if (instance.dropdown.$search) {
+							instance.dropdown.$search.get(0).focus();
+						}
 					})
 					.on('select2:unselect', () => {
 						select.data('unselecting', true);
@@ -2769,6 +2776,200 @@ window.App.Fields = {
 			return this.container.closest('form').find(`[name=${relatedFieldName}]`);
 		}
 	},
+	/**
+	 * MultiReference
+	 */
+	MultiReference: class MultiReference {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-multiReference-container')) {
+				return new MultiReference(container);
+			}
+			const instances = [];
+			container.find('.js-multiReference-container').each((_, e) => {
+				instances.push(new MultiReference($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			$('.js-clear-selection', this.container)
+				.off('click')
+				.on('click', () => {
+					this.clear();
+				});
+			$('.js-related-popup', this.container)
+				.off('click')
+				.on('click', () => {
+					let params = {};
+					let field = this.getField();
+					let url = field.data('url');
+					if (url) {
+						params = this.convertUrl(url);
+					}
+					app.showRecordsList($.extend(params, this.getParams()), (modal, instance) => {
+						instance.setSelectEvent((data) => {
+							this.setReferenceFieldValue(data);
+						});
+					});
+				});
+			this.registerAutoComplete();
+		}
+		/**
+		 * Clear selection
+		 */
+		clear() {
+			let element = this.getField();
+			let fieldName = element.attr('name');
+			element.val('');
+			this.container.find(`#${fieldName}_display`).removeAttr('readonly').val('');
+		}
+		/**
+		 * Function which will handle the reference auto complete event registrations
+		 */
+		registerAutoComplete() {
+			let thisInstance = this;
+			let formElement = this.container.closest('form');
+			this.container.find('.js-auto-complete').autocomplete({
+				delay: '600',
+				minLength: '3',
+				source: function (request, response) {
+					let inputElement = $(this.element[0]);
+					let searchValue = request.term;
+					let params = {};
+					params.search_module = $('.js-popup-reference-module', thisInstance.container).val();
+					params.search_value = searchValue;
+					params.module = thisInstance.getField().data('module');
+					params.action = 'BasicAjax';
+					let sourceRecordElement = $('input[name="record"]', formElement);
+					if (sourceRecordElement.length > 0 && sourceRecordElement.val()) {
+						params.src_record = sourceRecordElement.val();
+					}
+					AppConnector.request(params)
+						.done(function (data) {
+							let responseDataList = [];
+							let serverDataFormat = data.result;
+							if (serverDataFormat.length <= 0) {
+								$(inputElement).val('');
+								serverDataFormat = new Array({
+									label: app.vtranslate('JS_NO_RESULTS_FOUND'),
+									type: 'no results'
+								});
+							}
+							for (let id in serverDataFormat) {
+								let responseData = serverDataFormat[id];
+								responseDataList.push(responseData);
+							}
+							response(responseDataList);
+						})
+						.fail(function (error, err) {
+							app.errorLog(error, err);
+						});
+				},
+				select: function (event, ui) {
+					if (typeof ui.item.type !== 'undefined' && ui.item.type == 'no results') {
+						return false;
+					}
+					let selectedItemData = [];
+					selectedItemData[ui.item.id] = ui.item.value;
+					thisInstance.setReferenceFieldValue(selectedItemData);
+				},
+				change: function (event, ui) {
+					let element = $(this);
+					if (element.attr('readonly') == undefined) {
+						thisInstance.clear();
+					}
+				},
+				open: function (event, ui) {
+					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
+				}
+			});
+		}
+		/**
+		 * Set reference field value
+		 * @param {object} data
+		 */
+		setReferenceFieldValue(data) {
+			let sourceField = this.getField(),
+				fieldName = sourceField.attr('name'),
+				selectedNames = [],
+				ids = [];
+			for (let index in data) {
+				ids.push(index);
+				selectedNames.push(data[index]);
+			}
+			this.clear();
+			sourceField.val(ids.join(','));
+			this.container
+				.find(`#${fieldName}_display`)
+				.val(app.decodeHTML(selectedNames.join(', ')))
+				.attr('readonly', true);
+		}
+		/**
+		 * Gets field
+		 */
+		getField() {
+			return this.container.find('.js-source-field');
+		}
+		/**
+		 * Convert URL to Object
+		 * @param {string} data
+		 */
+		convertUrl(url) {
+			let vars = {};
+			url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (_, key, value) {
+				vars[key] = value;
+			});
+			return vars;
+		}
+		/**
+		 * Gets params
+		 */
+		getParams() {
+			let form = this.container.closest('form');
+			let sourceModule = $('input[name="module"]', form).val();
+			let popupReferenceModule = $('.js-popup-reference-module', this.container).val();
+			let sourceField = this.getField();
+			let sourceFieldName = sourceField.attr('name');
+			let sourceRecordElement = $('input[name="record"]', form);
+			let sourceRecordId = '';
+			if (sourceRecordElement.length > 0) {
+				sourceRecordId = sourceRecordElement.val();
+			}
+
+			let filterFields = {};
+			let listFilterFieldsJson = form.find('input[name="listFilterFields"]').val();
+			let listFilterFields = listFilterFieldsJson ? JSON.parse(listFilterFieldsJson) : [];
+			if (
+				listFilterFields[sourceFieldName] != undefined &&
+				listFilterFields[sourceFieldName][popupReferenceModule] != undefined
+			) {
+				$.each(listFilterFields[sourceFieldName][popupReferenceModule], function (index, value) {
+					let mapFieldElement = form.find('[name="' + index + '"]');
+					if (mapFieldElement.length && mapFieldElement.val() != '') {
+						filterFields[index] = mapFieldElement.val();
+					}
+				});
+			}
+			return {
+				module: popupReferenceModule,
+				src_module: sourceModule,
+				src_field: sourceFieldName,
+				src_record: sourceRecordId,
+				filterFields: filterFields,
+				multi_select: sourceField.data('multiple')
+			};
+		}
+	},
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);
@@ -2815,6 +3016,12 @@ window.App.Fields = {
 			} else {
 				fieldElement.val(value);
 			}
+			fieldElement.trigger('change');
+			let fieldValue = fieldElement.closest('.fieldValue');
+			fieldValue.addClass('border border-info');
+			setTimeout(function () {
+				fieldValue.removeClass('border border-info');
+			}, 5000);
 		}
 	}
 };

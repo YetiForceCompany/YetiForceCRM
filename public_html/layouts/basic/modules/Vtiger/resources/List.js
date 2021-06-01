@@ -241,56 +241,44 @@ $.Class(
 					return true;
 				};
 			}
-			let listInstance = Vtiger_List_Js.getInstance();
-			let validationResult = listInstance.checkListRecordSelected();
-			if (validationResult != true) {
-				let progressIndicatorElement = $.progressIndicator();
-				let actionParams = {
-					type: 'POST',
-					url: massActionUrl,
-					dataType: 'html',
-					data: listInstance.getSearchParams()
-				};
-				if (typeof css === 'undefined') {
-					css = {};
-				}
-				css = $.extend({ 'text-align': 'left' }, css);
-				AppConnector.request(actionParams)
-					.done(function (data) {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						if (data) {
-							let result = beforeShowCb(data);
-							if (!result) {
-								return;
-							}
-							app.showModalWindow(
-								data,
-								function (data) {
-									app.event.trigger('MassEditModal.AfterLoad', data, massActionUrl);
-									if (typeof callBackFunction == 'function') {
-										callBackFunction(data);
-										//listInstance.triggerDisplayTypeEvent();
-									}
-								},
-								css
-							);
-							//register inactive fields for massedit modal
-							if ($('#massEditContainer').length) {
-								listInstance.inactiveFieldsValidation($('#massEditContainer').find('form'));
-							}
-						}
-					})
-					.fail(function (error, err) {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						app.showNotify({
-							title: app.vtranslate('JS_MESSAGE'),
-							text: err,
-							type: 'error'
-						});
-					});
-			} else {
-				listInstance.noRecordSelectedAlert();
+			let progressIndicatorElement = $.progressIndicator();
+			let actionParams = {
+				type: 'POST',
+				url: massActionUrl,
+				dataType: 'html',
+				data: Vtiger_List_Js.getInstance().getSearchParams()
+			};
+			if (typeof css === 'undefined') {
+				css = {};
 			}
+			css = $.extend({ 'text-align': 'left' }, css);
+			AppConnector.request(actionParams)
+				.done(function (data) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					if (data) {
+						let result = beforeShowCb(data);
+						if (!result) {
+							return;
+						}
+						app.showModalWindow(
+							data,
+							function (data) {
+								if (typeof callBackFunction == 'function') {
+									callBackFunction(data);
+								}
+							},
+							css
+						);
+					}
+				})
+				.fail(function (error, err) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					app.showNotify({
+						title: app.vtranslate('JS_MESSAGE'),
+						text: err,
+						type: 'error'
+					});
+				});
 		},
 		triggerMassEdit: function (massEditUrl) {
 			let selectedCount = this.getSelectedRecordCount();
@@ -306,6 +294,7 @@ $.Class(
 			Vtiger_List_Js.triggerMassAction(
 				massEditUrl,
 				function (container) {
+					app.event.trigger('MassEditModal.AfterLoad', container, massEditUrl);
 					let massEditForm = container.find('#massEdit');
 					massEditForm.validationEngine(app.validationEngineOptions);
 					let listInstance = Vtiger_List_Js.getInstance();
@@ -314,6 +303,10 @@ $.Class(
 					editInstance.registerBasicEvents(massEditForm);
 					listInstance.postMassEdit(container);
 					listInstance.registerSlimScrollMassEdit();
+
+					if ($('#massEditContainer').length) {
+						listInstance.inactiveFieldsValidation($('#massEditContainer').find('form'));
+					}
 				},
 				{ width: '65%' }
 			);
@@ -614,7 +607,6 @@ $.Class(
 				searchInstance.registerBasicEvents();
 			}
 			Vtiger_Index_Js.registerMailButtons(container);
-			//self.triggerDisplayTypeEvent();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			let selectedIds = self.readSelectedIds();
 			if (selectedIds != '') {
@@ -784,6 +776,9 @@ $.Class(
 		readSelectedIds: function (decode) {
 			let cvId = this.getCurrentCvId();
 			let selectedIdsElement = $('#selectedIds');
+			if (selectedIdsElement.length <= 0) {
+				return '';
+			}
 			let selectedIdsDataAttr = cvId + 'selectedIds';
 			let selectedIdsElementDataAttributes = selectedIdsElement.data();
 			let selectedIds = [];
@@ -1493,9 +1488,8 @@ $.Class(
 							? 'title="' + app.vtranslate('JS_REMOVE_TO_FAVORITES') + '"'
 							: 'title="' + app.vtranslate('JS_ADD_TO_FAVORITES') + '"'
 					} data-value="favorites" data-js="click"
-						  class=" mr-1 js-filter-favorites ${
-								currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'
-							}"></span>
+						  class=" mr-1 js-filter-favorites ${currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'}
+						  		 ${currentOptionElement.data('featured') === undefined ? 'd-none' : ''}""></span>
 					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate" data-js="click"
 						  class="fas fa-retweet mr-1 js-filter-duplicate ${$('#createFilter').length !== 0 ? '' : 'd-none'}"></span>
 					<span title="${app.vtranslate('JS_EDIT')}" data-value="edit" data-js="click"
@@ -1844,13 +1838,6 @@ $.Class(
 					});
 			}
 		},
-		triggerDisplayTypeEvent: function () {
-			let widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				let elements = $('.listViewEntriesTable').find('td,th');
-				elements.attr('class', widthType);
-			}
-		},
 		/**
 		 * Function to show total records count in listview on hover
 		 * of pageNumber text
@@ -2063,7 +2050,10 @@ $.Class(
 				let element = $(e.currentTarget);
 				let url = element.data('url');
 				if (typeof url != 'undefined') {
-					if (this.checkListRecordSelected() !== true) {
+					if (
+						(element.data('checkSelected') !== undefined && element.data('checkSelected') == 0) ||
+						this.checkListRecordSelected() !== true
+					) {
 						switch (element.data('type')) {
 							case 'modal':
 								Vtiger_List_Js.triggerMassAction(url);
@@ -2162,7 +2152,6 @@ $.Class(
 			this.registerPhoneFieldClickEvent();
 			this.registerMassActionModalEvents();
 			this.registerMassActionsBtnEvents();
-			//this.triggerDisplayTypeEvent();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			this.registerUrlFieldClickEvent();
 			this.registerEventForTotalRecordsCount();
@@ -2186,7 +2175,6 @@ $.Class(
 			listInstance.getListViewRecords().done(function (data) {
 				$('#recordsCount').val('');
 				$('#totalPageCount').text('');
-				//listInstance.triggerDisplayTypeEvent();
 				$('#deSelectAllMsg').trigger('click');
 				listInstance.calculatePages().done(function () {
 					listInstance.updatePagination();

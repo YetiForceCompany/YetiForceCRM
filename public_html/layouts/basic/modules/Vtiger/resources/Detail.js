@@ -412,6 +412,36 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
+
+		/**
+		 * Adding relationships in the products and services widget.
+		 */
+		registerWidgetProductAndServices: function () {
+			let thisInstance = this;
+			this.getForm().on('click', '.js-widget-products-services', (e) => {
+				let currentTarget = $(e.currentTarget);
+				let params = {
+					module: app.getModuleName(),
+					action: 'RelationAjax',
+					mode: 'updateRelation',
+					recordsToAdd: [],
+					src_record: app.getRecordId(),
+					related_module: currentTarget.closest('.js-detail-widget-header').find('[name="relatedModule"]').val()
+				};
+				let url = currentTarget.data('url');
+				app.showRecordsList(url, (_, instance) => {
+					instance.setSelectEvent((data) => {
+						for (let i in data) {
+							params.recordsToAdd.push(i);
+						}
+						AppConnector.request(params).done(function (res) {
+							thisInstance.reloadTabContent();
+						});
+					});
+				});
+			});
+		},
+
 		widgetRelatedRecordView: function (container, load) {
 			let cacheKey = this.getRecordId() + '_' + container.data('id');
 			let relatedRecordCacheID = app.moduleCacheGet(cacheKey);
@@ -486,7 +516,6 @@ jQuery.Class(
 			AppConnector.requestPjax(params).done(function (responseData) {
 				detailContentsHolder.html(responseData);
 				responseData = detailContentsHolder.html();
-				//thisInstance.triggerDisplayTypeEvent();
 				thisInstance.registerBlockStatusCheckOnLoad();
 				//Make select box more usability
 				App.Fields.Picklist.changeSelectElementView(detailContentsHolder);
@@ -1361,13 +1390,6 @@ jQuery.Class(
 				};
 				editElement.on('clickoutside', saveHandler);
 			});
-		},
-		triggerDisplayTypeEvent: function () {
-			let widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				let elements = jQuery('#detailView').find('td');
-				elements.addClass(widthType);
-			}
 		},
 		/**
 		 * Function updates the hidden elements which is used for creating relations
@@ -3135,7 +3157,6 @@ jQuery.Class(
 			});
 		},
 		registerEvents: function () {
-			//this.triggerDisplayTypeEvent();
 			this.registerSendSmsSubmitEvent();
 			this.registerAjaxEditEvent();
 			this.registerRelatedRowClickEvent();
@@ -3149,7 +3170,8 @@ jQuery.Class(
 			if (detailViewContainer.length <= 0) {
 				// Not detail view page
 				return;
-			}
+			} 
+			this.registerWidgetProductAndServices(); 
 			this.registerSetReadRecord(detailViewContainer);
 			this.registerEventForPicklistDependencySetup(this.getForm());
 			this.getForm().validationEngine(app.validationEngineOptionsForRecord);

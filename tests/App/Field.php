@@ -52,8 +52,6 @@ class Field extends \Tests\Base
 	/**
 	 * Relations modules ids provider.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @return array
 	 */
 	public function relationsProvider()

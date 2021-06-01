@@ -5,12 +5,14 @@
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-6"}
 			<div class="d-inline-flex">
-				<button class="btn btn-sm btn-light downloadWidget" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}">
-					<span class="far fa-arrow-alt-circle-down"></span>
-				</button>&nbsp;
-				<button class="btn btn-sm btn-light printWidget" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}">
-					<span class="fas fa-print"></span>
-				</button>&nbsp;
+				{if $CHART_MODEL->isDownloadable()}
+					<button class="btn btn-sm btn-light downloadWidget" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}">
+						<span class="far fa-arrow-alt-circle-down"></span>
+					</button>&nbsp;
+					<button class="btn btn-sm btn-light printWidget" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}">
+						<span class="fas fa-print"></span>
+					</button>&nbsp;
+				{/if}
 				{if count($CHART_MODEL->getFilterIds())<=1}
 					<button class="btn btn-sm btn-light recordCount" data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">
 						<span class="fas fa-signal" aria-hidden="false"></span>

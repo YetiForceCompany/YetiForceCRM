@@ -82,7 +82,8 @@
     "mlocati/spf-lib": "^3",
     "phpmailer/dkimvalidator": "^v0.3",
     "league/climate": "^3.6",
-    "twig/twig": "^3.0"
+    "twig/twig": "^3.0",
+    "illuminate/support": "^8.0"
   },
   "require-dev": {
     "zircote/swagger-php": "^3.0",

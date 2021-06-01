@@ -45,7 +45,6 @@ class Layout
 			if (!IS_PUBLIC_DIR) {
 				$basePath = 'public_html/' . $basePath;
 			}
-
 			return $basePath . $name;
 		}
 		$basePath = 'layouts' . '/' . \Vtiger_Viewer::getDefaultLayoutName() . '/';

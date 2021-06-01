@@ -37,6 +37,9 @@ class User
 	 */
 	public static function setCurrentUserId($userId)
 	{
+		if (!self::isExists($userId, false)) {
+			throw new \App\Exceptions\AppException('User not exists: ' . $userId);
+		}
 		static::$currentUserId = $userId;
 		static::$currentUserCache = false;
 	}
@@ -293,7 +296,7 @@ class User
 	/**
 	 * Get user parent roles seq.
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function getParentRolesSeq()
 	{
@@ -425,7 +428,7 @@ class User
 				->from('vtiger_users')
 				->where(['is_admin' => 'on', 'status' => 'Active'])
 				->orderBy(['id' => SORT_ASC])
-				->limit(1)->scalar();
+				->scalar();
 		}
 		Cache::save($cacheName, $key, $adminId, Cache::LONG);
 
@@ -444,7 +447,7 @@ class User
 		if (Cache::has('UserIdByName', $name)) {
 			return Cache::get('UserIdByName', $name);
 		}
-		$userId = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $name])->limit(1)->scalar();
+		$userId = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $name])->scalar();
 		return Cache::save('UserIdByName', $name, false !== $userId ? $userId : null, Cache::LONG);
 	}
 
@@ -483,6 +486,24 @@ class User
 		$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$this->getId()}&key={$imageData['key']}";
 		Cache::save('UserImageById', $this->getId(), $imageData);
 		return $imageData;
+	}
+
+	/**
+	 * Gets member structure.
+	 *
+	 * @return array
+	 */
+	public function getMemberStructure(): array
+	{
+		$member[] = \App\PrivilegeUtil::MEMBER_TYPE_USERS . ":{$this->getId()}";
+		$member[] = \App\PrivilegeUtil::MEMBER_TYPE_ROLES . ":{$this->getRole()}";
+		foreach ($this->getGroups() as $groupId) {
+			$member[] = \App\PrivilegeUtil::MEMBER_TYPE_GROUPS . ":{$groupId}";
+		}
+		foreach (explode('::', $this->getParentRolesSeq()) as $role) {
+			$member[] = \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES . ":{$role}";
+		}
+		return $member;
 	}
 
 	/**

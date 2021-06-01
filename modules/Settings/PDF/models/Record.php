@@ -227,7 +227,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		$value = $this->get($key);
 		switch ($key) {
 			case 'status':
-				$value = $value ? 'PLL_ACTIVE' : 'PLL_INACTIVE';
+				$value = $value ? 'FL_ACTIVE' : 'FL_INACTIVE';
 				break;
 			case 'margin_chkbox':
 				$value = $value ? 'LBL_YES' : 'LBL_NO';

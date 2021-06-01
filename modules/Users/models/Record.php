@@ -151,6 +151,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if ($this->getPreviousValue('user_password')) {
 			$this->set('date_password_change', date('Y-m-d H:i:s'));
+			if ($this->isNew() || App\User::getCurrentUserRealId() !== $this->getId()) {
+				$this->set('force_password_change', 1);
+			}
 		}
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($this);
@@ -192,7 +195,11 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if (App\Config::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
 			$db = \App\Db::getInstance('log');
-			$db->createCommand()->insert('l_#__username_history', ['user_name' => $valuesForSave['vtiger_users']['user_name'], 'user_id' => $this->getId()])->execute();
+			$db->createCommand()->insert('l_#__username_history', [
+				'user_name' => $valuesForSave['vtiger_users']['user_name'],
+				'user_id' => $this->getId(),
+				'date' => date('Y-m-d H:i:s')
+			])->execute();
 		}
 	}
 
@@ -217,6 +224,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if ($this->has('changeUserPassword') || $this->isNew()) {
 			$saveFields[] = 'user_password';
+			$saveFields[] = 'force_password_change';
 		}
 		foreach ($saveFields as $fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
@@ -325,6 +333,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				'user_id' => $this->getId(),
 				'date' => date('Y-m-d H:i:s'),
 			])->execute();
+			$this->getModule()->saveLoginHistory(strtolower($this->get('user_name')), 'LBL_PASSWORD_CHANGED');
 		}
 		if (false !== $this->getPreviousValue('language') && App\User::getCurrentUserRealId() === $this->getId()) {
 			App\Session::set('language', $this->get('language'));

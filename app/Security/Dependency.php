@@ -106,7 +106,7 @@ class Dependency
 					]
 				]);
 				if (200 === $response->getStatusCode()) {
-					$result = (array) \App\Json::decode($response->getBody());
+					$result = (array) \App\Json::decode($response->getBody()->getContents());
 					$result = (\is_array($result) && !empty($result)) ? $result : [];
 				}
 			} catch (\Throwable $e) {

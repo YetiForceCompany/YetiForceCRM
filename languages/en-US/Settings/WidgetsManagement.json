@@ -45,7 +45,7 @@
     "LBL_SAVE_DASHBOARD": "Save dashboard",
     "LBL_NAME_DASHBOARD": "Dashboard name",
     "Upcoming events": "Upcoming events based on selected date fields.",
-    "LBL_FIELD_DATE": "Data field",
+    "LBL_FIELD_DATE": "Date field",
     "LBL_SKIP_YEAR": "Skip the year",
     "LBL_SKIP_YEAR_DESC": "Skip the year of the event by only considering the month and day."
   },

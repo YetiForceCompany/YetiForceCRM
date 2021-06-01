@@ -309,6 +309,9 @@ class Language
 		if (isset(static::$languageContainer[$language][$moduleName]['php'][$key])) {
 			return Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]);
 		}
+		if (\App\Config::performance('recursiveTranslate') && static::DEFAULT_LANG !== $language) {
+			return static::translateSingleMod($key, $moduleName, static::DEFAULT_LANG);
+		}
 		return $key;
 	}
 

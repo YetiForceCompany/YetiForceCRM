@@ -41,7 +41,6 @@ class Picklist
 				$fldVal[] = \App\Purifier::decodeHtml($row[$fieldName]);
 			}
 		}
-
 		return $fldVal;
 	}
 

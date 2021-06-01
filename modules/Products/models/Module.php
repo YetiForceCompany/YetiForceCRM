@@ -59,4 +59,12 @@ class Products_Module_Model extends Vtiger_Module_Model
 	{
 		return false;
 	}
+
+	/** {@inheritdoc} */
+	public function getQueryForRecords(string $searchValue, int $limit, int $srcRecord = null): App\QueryGenerator
+	{
+		$queryGenerator = parent::getQueryForRecords($searchValue, $limit, $srcRecord);
+		$queryGenerator->addCondition('discontinued', 1, 'e');
+		return $queryGenerator;
+	}
 }

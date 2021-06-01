@@ -249,7 +249,6 @@ jQuery.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					//replace the new list view contents
 					jQuery('#listViewContents').html(data);
-					//thisInstance.triggerDisplayTypeEvent();
 				})
 				.fail(function (error, err) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -297,14 +296,6 @@ jQuery.Class(
 				Settings_Vtiger_Index_Js.showMessage(params);
 				currentTrEle.fadeOut('slow').remove();
 			});
-		},
-
-		triggerDisplayTypeEvent: function () {
-			var widthType = app.cacheGet('widthType', 'narrowWidthType');
-			if (widthType) {
-				var elements = jQuery('.listViewEntriesTable').find('td,th');
-				elements.attr('class', widthType);
-			}
 		},
 
 		registerRowClick: function () {

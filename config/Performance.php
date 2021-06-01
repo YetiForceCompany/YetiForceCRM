@@ -116,9 +116,6 @@ class Performance
 	/** Charts multi filter limit */
 	public static $CHART_MULTI_FILTER_LIMIT = 5;
 
-	/** Charts multi filter maximum db value length */
-	public static $CHART_MULTI_FILTER_STR_LEN = 50;
-
 	/** Additional filters limit for ChartFilter's */
 	public static $CHART_ADDITIONAL_FILTERS_LIMIT = 6;
 

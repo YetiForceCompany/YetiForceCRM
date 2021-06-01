@@ -58,6 +58,7 @@ class VTSendPdf extends VTTask
 			$filePath .= basename($tmpFileName);
 			Vtiger_PDF_Model::exportToPdf($recordModel->getId(), $this->pdfTemplate, $filePath, 'F');
 			$templateRecord = Vtiger_PDF_Model::getInstanceById($this->pdfTemplate);
+			$templateRecord->setVariable('recordId', (int) $recordModel->getId());
 			if (!file_exists($filePath)) {
 				App\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
 				return false;

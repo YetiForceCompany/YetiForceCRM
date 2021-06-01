@@ -10,6 +10,9 @@
 			<div class="row p-2 d-flex justify-content-between">
 				<div style="word-wrap: break-word;">
 					<span class="fieldLabel ml-3">{\App\Language::translate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
+					{if $LINK_LABEL_KEY === 'LBL_UPDATES' && !\App\YetiForce\Shop::check('YetiForceWidgets')}
+						<a class="btn btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceWidgets&mode=showProductModal" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"><span class="yfi-premium color-red-600"></span></a>
+					{/if}
 				</div>
 				<span class="btn-group mr-3 actions">
 					<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
@@ -87,7 +90,7 @@
 										</div>
 										<div class="col-md-7 text-center">
 											<input type="text" name="plotTickSize" class="form-control"
-												   value="{$WIDGET_INFO['plotTickSize']}">
+												   value="{if isset($WIDGET_INFO['plotTickSize'])}{$WIDGET_INFO['plotTickSize']}{else}0{/if}">
 										</div>
 									</div>
 									<div class="row pt-2">
@@ -96,7 +99,7 @@
 										</div>
 										<div class="col-md-7 text-center">
 											<input type="text" name="plotLimit" class="form-control"
-												   value="{$WIDGET_INFO['plotLimit']}">
+												   value="{if isset($WIDGET_INFO['plotLimit'])}{$WIDGET_INFO['plotLimit']}{else}0{/if}">
 										</div>
 									</div>
 								{/if}
@@ -138,6 +141,11 @@
 									{if !is_array($WIDGET_OWNERS.available)}
 										{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
 									{/if}
+									{if isset($FILTER_USER_ITEM[$LINK_LABEL_KEY])}
+										{assign var=FILTER_WIDGET_ITEMS value=$FILTER_USER_ITEM[$LINK_LABEL_KEY]}
+									{else}
+										{assign var=FILTER_WIDGET_ITEMS value=$FILTER_USER_ITEM['default']}
+									{/if}
 									<div class="row pt-2">
 										<div class="col-md-5 col-form-label text-left">
 											{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
@@ -148,7 +156,7 @@
 													placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-													{if !in_array($OWNER_ID, $RESTRICT_FILTER_FOR_LABEL) }
+													{if !in_array($OWNER_ID, $RESTRICT_FILTER_FOR_LABEL) && in_array($OWNER_ID, $FILTER_WIDGET_ITEMS)}
 														<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >													{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}
 														</option>
 													{/if}

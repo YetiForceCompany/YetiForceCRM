@@ -36,7 +36,7 @@ class File
 		$handlerClass = \Vtiger_Loader::getComponentClassName('File', $action, $moduleName);
 		$handler = new $handlerClass();
 		if ($handler) {
-			$method = $request->getRequestMethod();
+			$method = \App\Request::getRequestMethod();
 			$permissionFunction = $method . 'CheckPermission';
 			if (!$handler->{$permissionFunction}($request)) {
 				throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 403);

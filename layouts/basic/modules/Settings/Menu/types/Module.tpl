@@ -22,11 +22,18 @@
 <div class="form-group row">
 	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_AVAILABLE_FILTERS', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
-		<select name="filters" multiple class="select2 type form-control">
-			{foreach from=$MODULE_MODEL->getCustomViewList() item=ITEM}
-				<option value="{$ITEM.cvid}" {if $RECORD && in_array($ITEM['cvid'],$FILTERS)} selected="" {/if} data-tabid="{$ITEM['tabid']}">{\App\Language::translate($ITEM['viewname'], $ITEM['entitytype'])}</option>
-			{/foreach}
-		</select>
+		<div class="input-group">
+			<select name="filters" multiple class="select2 type form-control">
+				{foreach from=$MODULE_MODEL->getCustomViewList() item=ITEM}
+					<option value="{$ITEM.cvid}" {if $RECORD && in_array($ITEM['cvid'],$FILTERS)} selected="" {/if} data-tabid="{$ITEM['tabid']}">{\App\Language::translate($ITEM['viewname'], $ITEM['entitytype'])}</option>
+				{/foreach}
+			</select>
+			<span class="input-group-append">
+				<button class="btn btn-light js-popover-tooltip" type="button" data-content="{\App\Language::translate('LBL_CUSTOM_VIEW_FILTER_RESTRICTIONS_DESC', $QUALIFIED_MODULE)}">
+					<span class="fas fa-info-circle"></span>
+				</button>
+			</span>
+		</div>
 	</div>
 </div>
 <div class="form-group row">

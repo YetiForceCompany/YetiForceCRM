@@ -3,27 +3,22 @@
 /**
  * Record Model.
  *
- * @package Service
+ * @package Settings
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_WebserviceUsers_ManageConsents_Service extends Settings_WebserviceUsers_Record_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $baseTable = 'w_#__manage_consents_user';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $baseIndex = 'id';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $editFields = [
 		'server_id' => 'FL_SERVER',
 		'status' => 'FL_STATUS',
@@ -32,16 +27,13 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 		'user_id' => 'FL_USER'
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $listFields = [
 		'server_id' => 'FL_SERVER',
 		'status' => 'FL_STATUS',
 		'user_id' => 'FL_USER',
 		'type' => 'FL_TYPE',
 		'login_time' => 'FL_LOGIN_TIME',
-		'logout_time' => 'FL_LOGOUT_TIME',
 		'language' => 'FL_LANGUAGE'
 	];
 
@@ -60,7 +52,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 		switch ($name) {
 			case 'status':
 				$params['uitype'] = 16;
-				$params['picklistValues'] = [1 => \App\Language::translate('PLL_ACTIVE', $moduleName), 0 => \App\Language::translate('PLL_INACTIVE', $moduleName)];
+				$params['picklistValues'] = [1 => \App\Language::translate('FL_ACTIVE'), 0 => \App\Language::translate('FL_INACTIVE')];
 				break;
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Module_Model::getActiveServers($this->getModule()->typeApi);
@@ -122,9 +114,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFieldsForSave()
 	{
 		$fields = $this->getEditFields();
@@ -132,9 +122,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 		return $fields = array_intersect_key($fields, $this->changes);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDataForSave()
 	{
 		if ($this->isNew()) {
@@ -181,7 +169,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 				$value = $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
 				break;
 			case 'status':
-				$value = empty($this->get($name)) ? 'PLL_INACTIVE' : 'PLL_ACTIVE';
+				$value = \App\Language::translate((empty($this->get($name)) ? 'FL_INACTIVE' : 'FL_ACTIVE'));
 				break;
 			case 'user_id':
 				$value = \App\Fields\Owner::getLabel($this->get($name));

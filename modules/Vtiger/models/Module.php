@@ -922,28 +922,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get the list of all searchable modules.
-	 *
-	 * @return array - List of Vtiger_Module_Model instances
-	 */
-	public static function getSearchableModules()
-	{
-		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$entityModules = self::getEntityModules();
-		$searchableModules = [];
-		foreach ($entityModules as $moduleModel) {
-			$moduleName = $moduleModel->getName();
-			if ('Users' == $moduleName || empty(\App\Module::getEntityInfo($moduleName)['turn_off'])) {
-				continue;
-			}
-			if ($userPrivModel->hasModuleActionPermission($moduleModel->getId(), 'DetailView')) {
-				$searchableModules[$moduleName] = $moduleModel;
-			}
-		}
-		return $searchableModules;
-	}
-
-	/**
 	 * Get modules with picklists.
 	 *
 	 * @return \self[]
@@ -1206,14 +1184,21 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function searches the records in the module.
+	 * Mainly used in reference fields for autocomplete mechanisms.
 	 *
-	 * @param string $searchValue Search value
+	 * @param string $searchValue
+	 * @param int    $limit
+	 * @param int    $srcRecord
 	 *
-	 * @return Vtiger_Record_Model[]
+	 * @return App\QueryGenerator
 	 */
-	public function searchRecord(string $searchValue): array
+	public function getQueryForRecords(string $searchValue, int $limit, int $srcRecord = null): App\QueryGenerator
 	{
-		return empty($searchValue) ? [] : Vtiger_Record_Model::getSearchResult($searchValue, $this->getName());
+		$queryGenerator = \App\RecordSearch::getQueryByModule($searchValue, $this->getName(), $limit);
+		if ($srcRecord && \App\Record::getType($srcRecord) === $this->getName()) {
+			$queryGenerator->addCondition('id', $srcRecord, 'n');
+		}
+		return $queryGenerator;
 	}
 
 	/**
@@ -1385,7 +1370,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 			$modelFields = $moduleModel->getFields();
 			foreach ($modelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField()) {
+				if ($fieldModel->isReferenceField() && $fieldModel->isViewable()) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (!empty($referenceList)) {
 						foreach ($referenceList as $referenceModule) {
@@ -1399,8 +1384,17 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 
 			$sourceModelFields = $sourceModuleModel->getFields();
+			$fillFields = 'all' === $request->getRaw('fillFields');
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField()) {
+				if (!$fieldModel->isViewable()) {
+					continue;
+				}
+				if ($fillFields) {
+					$fieldValue = $recordModel->get($fieldName);
+					if ('' !== $fieldValue) {
+						$data[$fieldName] = $fieldValue;
+					}
+				} elseif ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (!empty($referenceList)) {
 						foreach ($referenceList as $referenceModule) {
@@ -1421,7 +1415,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 						if ($relatedModule == $sourceModule) {
 							foreach ($relatedFields as $to => $from) {
 								$fieldValue = $recordModel->get($from[0]);
-								if (!empty($fieldValue)) {
+								if ($recordModel->getField($from[0])->isViewable() && '' !== $fieldValue) {
 									$data[$to] = $fieldValue;
 								}
 							}

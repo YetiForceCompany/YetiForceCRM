@@ -119,12 +119,12 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', 2));
 			$viewer->assign('SOURCE_RECORD', $request->getInteger('sourceRecord'));
 			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
-			foreach ($recordStructure as &$block) {
+			foreach ($recordStructure as $block) {
 				foreach ($sourceRelatedField as $field => $value) {
-					if (isset($block[$field])) {
-						$fieldvalue = $block[$field]->get('fieldvalue');
-						if (empty($fieldvalue)) {
-							$block[$field]->set('fieldvalue', $value);
+					if (isset($block[$field]) && '' !== $value) {
+						$fieldModel = $block[$field];
+						if ($fieldModel->isEditable() && '' === $fieldModel->get('fieldvalue')) {
+							$fieldModel->set('fieldvalue', $value);
 						}
 					}
 				}

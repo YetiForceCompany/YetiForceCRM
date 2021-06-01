@@ -3,17 +3,16 @@
 /**
  * Class to delete.
  *
+ * @package Settings.Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_WebserviceUsers_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
-	/**
-	 * Function  proccess.
-	 *
-	 * @param \App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');

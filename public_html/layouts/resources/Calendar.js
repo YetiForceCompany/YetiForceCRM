@@ -134,13 +134,10 @@ window.Calendar_Js = class {
 		switch (partOfDate) {
 			case 'month':
 				return parseMonthFormat[formatDate];
-				break;
 			case 'week':
 				return parseWeekAndDayFormat[formatDate];
-				break;
 			case 'day':
 				return parseWeekAndDayFormat[formatDate];
-				break;
 		}
 	}
 
@@ -784,9 +781,7 @@ window.Calendar_Js = class {
  *  Class representing a calendar with creating events by day click instead of selecting days.
  * @extends Calendar_Js
  */
-window.Calendar_Unselectable_Js = class extends (
-	Calendar_Js
-) {
+window.Calendar_Unselectable_Js = class extends Calendar_Js {
 	/**
 	 * Set calendar module options.
 	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}

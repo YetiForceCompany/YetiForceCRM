@@ -251,7 +251,9 @@ return [
 		],
 		'isActiveRecordTemplate' => [
 			'default' => false,
-			'description' => 'Activates / deactivates batch adding of records'
+			'description' => 'Activates / deactivates batch adding of records',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'unblockedTimeoutCronTasks' => [
 			'default' => true,
@@ -303,11 +305,11 @@ return [
 		],
 		'headerAlertType' => [
 			'default' => '',
-			'description' => 'Header alert type'
+			'description' => 'Header alert type, ex. alert-primary, alert-danger, alert-warning, alert-info'
 		],
 		'headerAlertIcon' => [
 			'default' => '',
-			'description' => 'Header alert icon'
+			'description' => 'Header alert icon, ex.  fas fa-exclamation-triangle, fas fa-exclamation-circle, fas fa-exclamation, far fa-question-circle, fas fa-info-circle'
 		],
 		'loginPageAlertMessage' => [
 			'default' => '',
@@ -315,11 +317,11 @@ return [
 		],
 		'loginPageAlertType' => [
 			'default' => '',
-			'description' => 'Login page alert type'
+			'description' => 'Login page alert type, ex. alert-primary, alert-danger, alert-warning, alert-info'
 		],
 		'loginPageAlertIcon' => [
 			'default' => '',
-			'description' => 'Login page alert icon'
+			'description' => 'Login page alert icon, ex.  fas fa-exclamation-triangle, fas fa-exclamation-circle, fas fa-exclamation, far fa-question-circle, fas fa-info-circle'
 		],
 		'showRegistrationAlert' => [
 			'default' => true,
@@ -773,11 +775,6 @@ return [
 		'CHART_MULTI_FILTER_LIMIT' => [
 			'default' => 5,
 			'description' => 'Charts multi filter limit',
-			'validation' => '\App\Validator::naturalNumber'
-		],
-		'CHART_MULTI_FILTER_STR_LEN' => [
-			'default' => 50,
-			'description' => 'Charts multi filter maximum db value length',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CHART_ADDITIONAL_FILTERS_LIMIT' => [

@@ -44,7 +44,7 @@ class Message
 		if (\App\Cache::staticHas('App\Mail\Message::findByCid', $cid)) {
 			return \App\Cache::staticGet('App\Mail\Message::findByCid', $cid);
 		}
-		$mailCrmId = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['cid' => $cid])->limit(1)->scalar();
+		$mailCrmId = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['cid' => $cid])->scalar();
 		\App\Cache::staticSave('App\Mail\Message::findByCid', $cid, $mailCrmId);
 		return $mailCrmId;
 	}
@@ -64,7 +64,7 @@ class Message
 		if (\App\Cache::staticHas('App\Mail\Message::findByMessageId', $key)) {
 			return \App\Cache::staticGet('App\Mail\Message::findByMessageId', $key);
 		}
-		$mailCrmId = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['uid' => $messageId, 'rc_user' => $rcUser])->limit(1)->scalar();
+		$mailCrmId = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['uid' => $messageId, 'rc_user' => $rcUser])->scalar();
 		\App\Cache::staticSave('App\Mail\Message::findByMessageId', $key, $mailCrmId);
 		return $mailCrmId;
 	}

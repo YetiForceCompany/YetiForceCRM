@@ -373,6 +373,7 @@ class Owner
 			$subQuery = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2modules')->where(['tabid' => $tabId]);
 			$query->where(['groupid' => $subQuery]);
 		}
+
 		if ('private' === $private) {
 			$query->andWhere(['groupid' => $this->currentUser->getId()]);
 			if ($this->currentUser->getGroups()) {
@@ -483,7 +484,7 @@ class Owner
 		foreach ($ids as $id) {
 			$userModel = \App\User::getUserModel($id);
 			$name = $userModel->getName();
-			if ($userModel->isActive() && !empty($name) && ($adminInList || (!$adminInList && !$userModel->isAdmin()))) {
+			if (!empty($name) && ($adminInList || (!$adminInList && !$userModel->isAdmin()))) {
 				$users[$id] = $name;
 				if ($this->showRoleName) {
 					$roleName = \App\Language::translate($userModel->getRoleInstance()->getName());
@@ -661,6 +662,31 @@ class Owner
 			}
 		}
 		return $userLabel ?? false;
+	}
+
+	/**
+	 * Gets the member label.
+	 *
+	 * @param string $member
+	 *
+	 * @return string
+	 */
+	public static function getMemberLabel(string $member): string
+	{
+		[$type, $id] = explode(':', $member);
+		switch ($type) {
+			case \App\PrivilegeUtil::MEMBER_TYPE_GROUPS:
+				$value = self::getGroupName((int) $id) ?: '';
+				break;
+			case \App\PrivilegeUtil::MEMBER_TYPE_ROLES:
+			case \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES:
+				$value = \App\PrivilegeUtil::getRoleDetail($id)['rolename'] ?? '';
+				break;
+			default:
+				$value = '';
+				break;
+		}
+		return $value;
 	}
 
 	/**

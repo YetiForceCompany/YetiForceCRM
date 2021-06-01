@@ -41,6 +41,7 @@
     "PLL_PAID": "Paid",
     "PLL_OVERPAID": "Over paid",
     "PLL_UNDERPAID": "Underpaid",
-    "FL_PAYMENT_SUM": "Total payments"
+    "FL_PAYMENT_SUM": "Total payments",
+    "DW_SUM_FIELD": "Summation field"
   }
 }

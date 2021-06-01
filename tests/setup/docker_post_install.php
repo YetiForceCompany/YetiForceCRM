@@ -7,6 +7,14 @@ if (file_exists($path)) {
 	$content = str_replace('password = ', 'password = ' . getenv('DB_ROOT_PASS'), file_get_contents($path));
 	file_put_contents($path, $content);
 }
+$path = '/etc/php/' . getenv('PHP_VER') . '/fpm/php-fpm.conf';
+if (file_exists($path)) {
+	$content = str_replace(
+		['; Pool Definitions ;', ''],
+		["; Pool Definitions ;\nlog_level = warning\nerror_log = /var/log/fpm-php.www.log\n"],
+	 file_get_contents($path));
+	file_put_contents($path, $content);
+}
 
 $path = '/etc/php/' . getenv('PHP_VER') . '/fpm/pool.d/www.conf';
 if (file_exists($path)) {
@@ -16,13 +24,14 @@ if (file_exists($path)) {
 	'clear_env = no' . PHP_EOL .
 	'request_terminate_timeout = 600' . PHP_EOL .
 	'pm.max_requests = 5000' . PHP_EOL .
+	'pm.max_children = 6' . PHP_EOL .
 	'pm.process_idle_timeout = 600s;';
 	file_put_contents($path, $conf, FILE_APPEND);
 }
 
 if ('TEST' === getenv('INSTALL_MODE')) {
 	chdir(__DIR__ . '/../../');
-	include_once 'include/main/WebUI.php';
+	require_once 'include/main/WebUI.php';
 
 	$configFile = new \App\ConfigFile('db');
 	$configFile->set('db_server', 'localhost');

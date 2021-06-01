@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -25,85 +26,85 @@ class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 	public function process()
 	{
 		$this->limit = App\Config::performance('CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER');
-		if (!$this->newEntries()) {
-			return;
+		$this->addLabels();
+		if ($this->limit && !$this->checkTimeout()) {
+			$this->addSearchLabel();
 		}
-		$this->updateEntries();
+		if (!$this->checkTimeout()) {
+			$this->clear();
+		}
 	}
 
 	/**
-	 * Generate labels for new entries.
+	 * Add labels for records.
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public function newEntries(): bool
+	private function addLabels(): void
 	{
-		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype',
-			'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel', ])
+		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
 			->from('vtiger_crmentity')
-			->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
+			->innerJoin('vtiger_entityname', 'vtiger_tab.tabid = vtiger_entityname.tabid')
+			->leftJoin('u_#__crmentity_label', 'u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
+			->where(['and',
+				['vtiger_crmentity.deleted' => 0],
+				['vtiger_tab.presence' => 0],
+				['not', ['vtiger_entityname.fieldname' => '']],
+				['u_#__crmentity_label.label' => null]
+			])->limit($this->limit);
+		foreach ($query->each(100) as $row) {
+			\App\Record::updateLabel($row['setype'], $row['crmid']);
+			--$this->limit;
+			if ($this->checkTimeout()) {
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Add search labels for records.
+	 *
+	 * @return void
+	 */
+	private function addSearchLabel(): void
+	{
+		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
+			->from('vtiger_crmentity')
+			->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
+			->innerJoin('vtiger_entityname', 'vtiger_tab.tabid = vtiger_entityname.tabid')
 			->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
 			->where(['and',
 				['vtiger_crmentity.deleted' => 0],
-				['or',
-					['u_#__crmentity_label.label' => null],
-					['u_#__crmentity_search_label.searchlabel' => null]
-				],
+				['vtiger_tab.presence' => 0],
+				['vtiger_entityname.turn_off' => 1],
+				['not', ['vtiger_entityname.searchcolumn' => '']],
+				['u_#__crmentity_search_label.searchlabel' => null]
 			])
 			->limit($this->limit);
-		$skipModules = (new App\Db\Query())->select(['vtiger_tab.name'])->from('vtiger_tab')
-			->leftJoin('vtiger_entityname', 'vtiger_tab.tabid = vtiger_entityname.tabid')
-			->where(['vtiger_tab.isentitytype' => 1])
-			->andWhere([
-				'or',
-				['vtiger_tab.presence' => 1],
-				['vtiger_entityname.modulename' => null],
-				['vtiger_entityname.fieldname' => '', 'vtiger_entityname.searchcolumn' => ''],
-			])
-			->column();
-		if ($skipModules) {
-			$query->andWhere(['not in', 'vtiger_crmentity.setype', $skipModules]);
-		}
-		foreach ($query->batch(100) as $rows) {
-			foreach ($rows as $row) {
-				$updater = false;
-				if (null === $row['label'] && null !== $row['searchlabel']) {
-					$updater = 'label';
-				} elseif (null === $row['searchlabel'] && null !== $row['label']) {
-					$updater = 'searchlabel';
-				}
-				\App\Record::updateLabel($row['setype'], $row['crmid'], true, $updater);
-				--$this->limit;
-			}
+		foreach ($query->each(100) as $row) {
+			\App\Record::updateLabel($row['setype'], $row['crmid']);
 			if ($this->checkTimeout()) {
-				return false;
+				break;
 			}
 		}
-		return true;
 	}
 
 	/**
-	 * Generate labels for update entries.
-	 *
-	 * @return bool
+	 * Clear data.
 	 */
-	public function updateEntries(): bool
+	private function clear()
 	{
-		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid'])
-			->from('vtiger_crmentity')
-			->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
-			->where(['and',
+		$query = (new App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')
+			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
+			->leftJoin('vtiger_entityname', 'vtiger_tab.tabid = vtiger_entityname.tabid')
+			->where(['or',
 				['vtiger_crmentity.deleted' => 1],
-				['not', ['u_#__crmentity_search_label.searchlabel' => null]]
-			])
-			->limit($this->limit);
-		$createCommand = App\Db::getInstance()->createCommand();
-		foreach ($query->batch(50) as $rows) {
-			$createCommand->delete('u_#__crmentity_search_label', ['crmid' => array_column($rows, 'crmid')])->execute();
-			if ($this->checkTimeout()) {
-				return false;
-			}
-		}
-		return true;
+				['vtiger_tab.presence' => 1],
+				['vtiger_tab.name' => null],
+				['vtiger_entityname.searchcolumn' => ''],
+				['vtiger_entityname.turn_off' => 0]
+			]);
+		App\Db::getInstance()->createCommand()->delete('u_#__crmentity_search_label', ['crmid' => $query])->execute();
 	}
 }

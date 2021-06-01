@@ -47,8 +47,8 @@
 						<input type="hidden" name="filter_title" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_TITLE))}'>
 						<input type="hidden" name="filter_date" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_DATE))}'>
 						<input type="hidden" name="record_limit" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_RECORD_LIMIT))}'>
-						<input type="hidden" name="filter_users"
-							   value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_USERS))}'>
+						<input type="hidden" name="filter_users" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_USERS))}'>
+						<input type="hidden" name="filter_users_item" value='{\App\Purifier::encodeHtml(\App\Json::encode($FILTER_USER_ITEM))}'>
 						<input type="hidden" name="filter_restrict" value='{\App\Purifier::encodeHtml(\App\Json::encode($RESTRICT_FILTER))}'>
 						{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 							{if isset($AUTHORIZATION_INFO['name'])}
@@ -108,13 +108,15 @@
 											{if $SPECIAL_WIDGETS['ChartFilter']}
 												{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 												<div class="btn-group ml-1">
-													<button class="btn btn-success btn-sm addChartFilter" type="button"
-															data-url="{$CHART_FILTER_WIDGET->getUrl()}"
+													<button class="btn btn-success btn-sm js-show-modal" type="button"
+															data-url="index.php?module={$SELECTED_MODULE_NAME}&view=ChartFilter&step=step1"
 															data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}"
 															data-name="{$CHART_FILTER_WIDGET->getName()}"
 															data-width="{$CHART_FILTER_WIDGET->getWidth()}"
 															data-height="{$CHART_FILTER_WIDGET->getHeight()}"
-															data-block-id="{$AUTHORIZATION_KEY}"><span
+															data-block-id="{$AUTHORIZATION_KEY}"
+															data-module="{$SELECTED_MODULE_NAME}"
+															data-modalId="{\App\Layout::getUniqueId('ChartFilter')}"><span
 																class="fas fa-plus mr-2"></span>&nbsp;
 														<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 													</button>
@@ -203,7 +205,7 @@
 														{/foreach}
 													</optgroup>
 													{if count($ALL_SERVERS)}
-														<optgroup label="{\App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}">
+														<optgroup label="{\App\Language::translate('WebserviceApps', 'Settings.WebserviceApps')}">
 															{foreach from=$ALL_SERVERS item=SERVER key=ID}
 																<option value="{$ID}">{\App\Purifier::encodeHTML($SERVER['name'])}</option>
 															{/foreach}
@@ -266,14 +268,17 @@
 									{/if}
 									{if $SPECIAL_WIDGETS['ChartFilter']}
 										{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
-										<div class="btn-group">
-											<button class="btn btn-success btn-sm addChartFilter specialWidget"
-													type="button" data-url="{$CHART_FILTER_WIDGET->getUrl()}"
+										<div class="btn-group ml-1">
+											<button class="btn btn-success btn-sm js-show-modal" type="button"
+													data-url="index.php?module={$SELECTED_MODULE_NAME}&view=ChartFilter&step=step1"
 													data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}"
 													data-name="{$CHART_FILTER_WIDGET->getName()}"
 													data-width="{$CHART_FILTER_WIDGET->getWidth()}"
-													data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="">
-												<span class="fas fa-plus"></span>&nbsp;
+													data-height="{$CHART_FILTER_WIDGET->getHeight()}"
+													data-block-id="{$AUTHORIZATION_KEY}"
+													data-module="{$SELECTED_MODULE_NAME}"
+													data-modalId="{\App\Layout::getUniqueId('ChartFilter')}"><span
+														class="fas fa-plus"></span>&nbsp;
 												<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 											</button>
 										</div>
@@ -439,8 +444,7 @@
 														name="owners_all"
 														placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 													{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-														<option value="{$OWNER_ID}"
-																selected>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+														<option value="{$OWNER_ID}" {if in_array($OWNER_ID,['mine','all','users','groups'])} selected{/if}>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 													{/foreach}
 												</select>
 											</div>
@@ -553,8 +557,7 @@
 															name="owners_all"
 															placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 														{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-															<option value="{$OWNER_ID}"
-																	selected>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+															<option value="{$OWNER_ID}" {if in_array($OWNER_ID,['mine','all','users','groups'])} selected{/if}>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 														{/foreach}
 													</select>
 												</div>
