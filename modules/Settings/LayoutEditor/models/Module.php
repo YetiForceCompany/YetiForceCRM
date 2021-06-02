@@ -168,7 +168,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 					} elseif (\strlen($value) > 30) {
 						$message = \App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor');
 						$code = 512;
-					} elseif (isset($data['fieldType']) && \in_array($data['fieldType'], ['Picklist', 'MultiSelectCombo']) && ($result = !$this->checkIsAvailablePicklistFieldName($value))) {
+					} elseif (isset($data['fieldType']) && \in_array($data['fieldType'], ['Picklist', 'MultiSelectCombo']) && ($result = $this->checkIfPicklistFieldNameReserved($value))) {
 						$message = \App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor');
 						$code = 512;
 					}
@@ -570,7 +570,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'id', 'seq', 'header_type', 'header_class',
 			'module', 'parent', 'action', 'mode', 'view', 'selected_ids',
 			'excluded_ids', 'search_params', 'search_key', 'page', 'operator',
-			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory', 'private', 'src_record', 'relationId', 'relation_id'
+			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory', 'private', 'src_record', 'relationId', 'relation_id', 'picklist'
 		]);
 	}
 
@@ -739,13 +739,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return bool
 	 */
-	public function checkIsAvailablePicklistFieldName(string $fieldName): bool
+	public function checkIfPicklistFieldNameReserved(string $fieldName): bool
 	{
-		$result = true;
-		if (\App\Fields\Picklist::isPicklistExist($fieldName)) {
-			$result = (new \App\Db\Query())->from('vtiger_field')->where(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])->exists();
-		}
-		return $result;
+		return (
+			\App\Fields\Picklist::isPicklistExist($fieldName)
+			&& !(new \App\Db\Query())->from('vtiger_field')->where(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])->exists()
+		) || \in_array($fieldName, (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('Users'), 'uitype' => [16, 15, 33, 115]])->column());
 	}
 
 	/**

@@ -723,7 +723,7 @@ $.Class(
 								} else {
 									for (let index in response) {
 										let field = form.find(`[name="${index}"]`);
-										field.validationEngine('showPrompt', response[index], 'error', 'topLeft', true);
+										field.validationEngine('showPrompt', response[index], 'error', 'bottomLeft', true);
 									}
 									saveButton.removeAttr('disabled');
 								}
