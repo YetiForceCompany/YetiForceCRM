@@ -29,7 +29,7 @@ commit_failure_conditions:
   - 'project.severity.info > 100'
 
 exclude_patterns:
-    - */*.map
+  - '*/*.map'
 
 rules:
   composer.warning:
