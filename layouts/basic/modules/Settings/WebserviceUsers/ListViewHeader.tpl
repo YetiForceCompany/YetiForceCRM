@@ -6,8 +6,8 @@
 		<div class="col-md-8">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
-		<div class="col-md-4 d-flex justify-content-lg-end pr-3">
-			<a href="index.php?module=WebserviceApps&view=Index&parent=Settings" class="btn btn-success float-right mr-3">
+		<div class="col-md-4 d-flex justify-content-lg-end">
+			<a href="index.php?module=WebserviceApps&view=Index&parent=Settings" class="btn btn-success float-right">
 				<span class="adminIcon-webservice-apps u-fs-lg mr-2"></span>
 				{\App\Language::translate('LBL_WEBSERVICE_APPS','Settings.WebserviceApps')}
 			</a>
