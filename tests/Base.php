@@ -15,12 +15,11 @@ use PHPUnit\Framework\TestCase;
 
 abstract class Base extends TestCase
 {
-	/**
-	 * Last logs.
-	 *
-	 * @var mixed
-	 */
+	/** @var mixed Last logs. */
 	public $logs;
+
+	/** @var bool Last logs. */
+	private $logToFile;
 
 	/**
 	 * This method is called when a test method did not execute successfully.
@@ -38,5 +37,26 @@ abstract class Base extends TestCase
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		}
 		throw $t;
+	}
+
+	/**
+	 * Disable system logs.
+	 *
+	 * @return void
+	 */
+	protected function disableLogs(): void
+	{
+		$this->logToFile = \App\Log::$logToFile;
+		\App\Log::$logToFile = false;
+	}
+
+	/**
+	 * Enable system logs.
+	 *
+	 * @return void
+	 */
+	protected function enableLogs(): void
+	{
+		\App\Log::$logToFile = $this->logToFile;
 	}
 }

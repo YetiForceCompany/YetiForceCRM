@@ -81,10 +81,10 @@ class Zip extends \Tests\Base
 	 */
 	public function testCreateFileBadDir(): void
 	{
-		$zip = \App\Zip::createFile('tests/data/NxDir/NxFile.zip');
+		$zip = \App\Zip::createFile(ROOT_DIRECTORY . '/tests/data/NxDir/NxFile.zip');
 		$zip->addFromString('filename.txt', '<minimal content>');
 		$this->expectWarning();
 		$this->assertFalse($zip->close());
-		$this->assertFileDoesNotExist('tests/data/NxDir/NxFile.zip');
+		$this->assertFileDoesNotExist(ROOT_DIRECTORY . '/tests/data/NxDir/NxFile.zip');
 	}
 }
