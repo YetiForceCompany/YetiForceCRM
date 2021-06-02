@@ -40,11 +40,11 @@ use OpenApi\Annotations as OA;
  * )
  * @OA\Server(
  *		url="https://gitdeveloper.yetiforce.com",
- *		description="URL address for the developer demo version",
+ *		description="Demo server of the development version",
  * )
  * @OA\Server(
  *		url="https://gitstable.yetiforce.com",
- *		description="URL address for the latest stable demo version",
+ *		description="Demo server of the latest stable version",
  * )
  */
 class BaseAction extends \Api\Core\BaseAction

@@ -18,11 +18,11 @@
     "servers": [
         {
             "url": "https://gitdeveloper.yetiforce.com",
-            "description": "URL address for the developer demo version"
+            "description": "Demo server of the development version"
         },
         {
             "url": "https://gitstable.yetiforce.com",
-            "description": "URL address for the latest stable demo version"
+            "description": "Demo server of the latest stable version"
         }
     ],
     "paths": {
