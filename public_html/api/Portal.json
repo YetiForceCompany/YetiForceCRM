@@ -4069,7 +4069,7 @@
                             },
                             "count": {
                                 "description": "Construct.",
-                                "type": "string",
+                                "type": "integer",
                                 "example": 54
                             },
                             "isMorePages": {

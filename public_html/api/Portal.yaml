@@ -2558,7 +2558,7 @@ components:
                 $ref: '#/components/schemas/Record_Raw_Details'
             count:
               description: Construct.
-              type: string
+              type: integer
               example: 54
             isMorePages:
               description: Construct.
