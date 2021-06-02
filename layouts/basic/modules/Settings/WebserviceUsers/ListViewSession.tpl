@@ -15,7 +15,7 @@
 		</thead>
 		<tbody>
 			<div class="alert alert-info">
-				{\App\Language::translate('LBL_LIMIT_INFO')}
+				{\App\Language::translateArgs('LBL_LIMIT_INFO', $QUALIFIED_MODULE, 30)}
 			</div>
 			{foreach item="LISTVIEW_ENTRY" from=$SESSION_HISTORY_ENTRIES}
 				<tr class="listViewEntries">
