@@ -31,6 +31,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('unHide');
 		$this->exposeMethod('getPicklist');
 		$this->exposeMethod('checkPicklistExist');
+		$this->exposeMethod('validate');
 		$this->exposeMethod('createSystemField');
 		Settings_Vtiger_Tracker_Model::addBasic('save');
 	}
@@ -61,6 +62,32 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
+		$response->emit();
+	}
+
+	/**
+	 * Validate field.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	public function validate(App\Request $request): void
+	{
+		$data = [];
+		foreach (['fieldType', 'fieldLabel', 'fieldName', 'pickListValues'] as $name) {
+			if ($request->has($name)) {
+				if ('pickListValues' === $name) {
+					$value = $request->getArray($name, \App\Purifier::TEXT);
+				} else {
+					$value = $request->getByType($name, \App\Purifier::TEXT);
+				}
+				$data[$name] = $value;
+			}
+		}
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($request->getByType('sourceModule', 'Alnum'));
+		$response = new Vtiger_Response();
+		$response->setResult($moduleModel->validate($data, false));
 		$response->emit();
 	}
 

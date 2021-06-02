@@ -210,11 +210,9 @@
 								{App\Language::translate('LBL_TREE_TEMPLATE', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
-								<select class="TreeList form-control" name="tree">
+								<select class="TreeList form-control" name="tree" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
 									{foreach key=key item=item from=$SELECTED_MODULE_MODEL->getTreeTemplates($SELECTED_MODULE_NAME)}
 										<option value="{$key}">{App\Language::translate($item, $SELECTED_MODULE_NAME)}</option>
-										{foreachelse}
-										<option value="-">{App\Language::translate('LBL_NONE')}</option>
 									{/foreach}
 								</select>
 							</div>
@@ -225,11 +223,9 @@
 								{App\Language::translate('WebserviceApps', 'Settings.WebserviceApps')}
 							</div>
 							<div class="col-md-8 controls">
-								<select class="form-control" name="server">
+								<select class="form-control" name="server" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
 									{foreach key=key item=SERVER from=Settings_WebserviceApps_Module_Model::getServers()}
 										<option value="{$key}">{App\Purifier::encodeHtml($SERVER['name'])}</option>
-									{foreachelse}
-										<option value="-">{App\Language::translate('LBL_NONE')}</option>
 									{/foreach}
 								</select>
 							</div>

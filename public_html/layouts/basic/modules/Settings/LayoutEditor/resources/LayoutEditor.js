@@ -703,22 +703,32 @@ $.Class(
 					this.registerMultiReferenceFilterFieldChangeEvent(form);
 					let params = app.getvalidationEngineOptions(true);
 					params.onValidationComplete = (form, valid) => {
-						if (valid && thisInstance.validateFieldsValue(form)) {
+						if (valid) {
 							let saveButton = form.find(':submit'),
 								fieldNameValue = $('[name="fieldName"]', form).val(),
 								fieldTypeValue = $('[name="fieldType"]', form).val();
 							saveButton.attr('disabled', 'disabled');
-							if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
-								thisInstance.checkPicklistExist(fieldNameValue).done((result) => {
-									if (result) {
-										thisInstance.saveCustomField(blockId, form);
+							thisInstance.validateFieldsValue(form).done((response) => {
+								if (!response) {
+									if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
+										thisInstance.checkPicklistExist(fieldNameValue).done((result) => {
+											if (result) {
+												thisInstance.saveCustomField(blockId, form);
+											} else {
+												saveButton.removeAttr('disabled');
+											}
+										});
 									} else {
-										saveButton.removeAttr('disabled');
+										thisInstance.saveCustomField(blockId, form);
 									}
-								});
-							} else {
-								thisInstance.saveCustomField(blockId, form);
-							}
+								} else {
+									for (let index in response) {
+										let field = form.find(`[name="${index}"]`);
+										field.validationEngine('showPrompt', response[index], 'error', 'topLeft', true);
+									}
+									saveButton.removeAttr('disabled');
+								}
+							});
 						}
 						return false;
 					};
@@ -739,59 +749,22 @@ $.Class(
 		 * Function to validate fields value
 		 */
 		validateFieldsValue: function (form) {
-			let fieldTypeValue = $('[name="fieldType"]', form).val(),
-				fieldNameValue = $('[name="fieldName"]', form).val(),
-				message;
-			if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
-				let pickListValueElement = $('#pickListValues', form),
-					pickListValuesArray = pickListValueElement.val(),
-					pickListValuesArraySize = pickListValuesArray.length,
-					i,
-					select2Element,
-					specialChars = /["]/;
-				if (fieldNameValue.toLowerCase() === 'status' || 'picklist' === fieldNameValue.toLowerCase()) {
-					message = app.vtranslate('JS_RESERVED_PICKLIST_NAME');
-					$('[name="fieldName"]', form).validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
-					return false;
-				}
-				for (i = 0; i < pickListValuesArraySize; i++) {
-					if (specialChars.test(pickListValuesArray[i])) {
-						select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
-						message = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' " ' + app.vtranslate('JS_NOT_ALLOWED');
-						select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
-						return false;
-					}
-				}
-				let lowerCasedpickListValuesArray = $.map(pickListValuesArray, (item, index) => {
-						return item.toLowerCase();
-					}),
-					uniqueLowerCasedpickListValuesArray = $.uniqueSort(lowerCasedpickListValuesArray),
-					uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length,
-					arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
-				if (arrayDiffSize > 0) {
-					select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
-					message = app.vtranslate('JS_DUPLICATES_VALUES_FOUND');
-					select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
-					return false;
-				}
-			}
-			if (fieldTypeValue == 'Tree' || fieldTypeValue == 'CategoryMultipicklist') {
-				let treeListElement = form.find('select.TreeList');
-				if (treeListElement.val() == '-') {
-					message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
-					form.find('.TreeList').validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
-					return false;
-				}
-			}
-			if (fieldTypeValue == 'ServerAccess') {
-				let serverListElement = form.find('select[name="server"]');
-				if (serverListElement.val() == '-') {
-					message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
-					serverListElement.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
-					return false;
-				}
-			}
-			return true;
+			let aDeferred = $.Deferred();
+			let params = form.serializeFormData();
+			params['module'] = app.getModuleName();
+			params['parent'] = app.getParentModuleName();
+			params['action'] = 'Field';
+			params['mode'] = 'validate';
+			params['sourceModule'] = $('#selectedModuleName').val();
+			AppConnector.request(params)
+				.done(function (data) {
+					aDeferred.resolve(data.result);
+				})
+				.fail(function (error, err) {
+					app.errorLog(error, err);
+					aDeferred.resolve(true);
+				});
+			return aDeferred.promise();
 		},
 		/**
 		 * Function to save field and show message

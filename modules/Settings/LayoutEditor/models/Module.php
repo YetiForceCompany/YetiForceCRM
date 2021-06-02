@@ -136,6 +136,78 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
+	 * Verification of data.
+	 *
+	 * @param array $data
+	 * @param bool  $throw
+	 */
+	public function validate(array $data, bool $throw = true)
+	{
+		$message = null;
+		$code = null;
+		$result = false;
+		foreach ($data as $key => $value) {
+			switch ($key) {
+				case 'fieldLabel':
+					if ($result = $this->checkFieldLabelExists($value)) {
+						$message = \App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor');
+						$code = 513;
+					}
+					break;
+				case 'fieldName':
+					$value = strtolower($value);
+					if ($result = $this->checkFieldNameCharacters($value)) {
+						$message = \App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor');
+						$code = 512;
+					} elseif ($result = $this->checkFieldNameExists($value)) {
+						$message = \App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor');
+						$code = 512;
+					} elseif ($result = $this->checkFieldNameIsAnException($value)) {
+						$message = \App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor');
+						$code = 512;
+					} elseif (\strlen($value) > 30) {
+						$message = \App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor');
+						$code = 512;
+					} elseif (isset($data['fieldType']) && \in_array($data['fieldType'], ['Picklist', 'MultiSelectCombo']) && ($result = !$this->checkIsAvailablePicklistFieldName($value))) {
+						$message = \App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor');
+						$code = 512;
+					}
+					break;
+				case 'fieldType':
+					if ($result = !\in_array($value, $this->getAddSupportedFieldTypes())) {
+						$message = \App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor');
+						$code = 513;
+					}
+					break;
+				case 'pickListValues':
+					foreach ($value as $val) {
+						if (($result = preg_match('/[\<\>\"\#\,]/', $val)) || ($result = preg_match('/[\<\>\"\#\,]/', \App\Purifier::decodeHtml($val)))) {
+							$message = \App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,');
+							$code = 512;
+						} elseif ($result = \strlen($val) > 200) {
+							$message = \App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions');
+							$code = 512;
+						}
+					}
+					if (\count($value) !== \count(array_unique(array_map('strtolower', $value)))) {
+						$message = \App\Language::translate('LBL_DUPLICATES_VALUES_FOUND', 'Other.Exceptions');
+						$code = 512;
+					}
+					break;
+				default:
+					break;
+			}
+			if ($result) {
+				if ($throw) {
+					throw new \App\Exceptions\AppException($message, $code);
+				}
+				return [$key => $message];
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Add field.
 	 *
 	 * @param string $fieldType
@@ -150,43 +222,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	{
 		$label = $params['fieldLabel'];
 		$name = strtolower($params['fieldName']);
+		$pickListValues = [];
+		if (\array_key_exists('pickListValues', $params)) {
+			$pickListValues = $params['pickListValues'] = \is_string($params['pickListValues']) ? [$params['pickListValues']] : $params['pickListValues'];
+		}
 		$fieldParams = '';
-		if ($this->checkFieldLabelExists($label)) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
-		}
-		if ($this->checkFieldNameCharacters($name)) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
-		}
-		if ($this->checkFieldNameExists($name)) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
-		}
-		if ($this->checkFieldNameIsAnException($name)) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
-		}
-		if (\strlen($name) > 30) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor'), 512);
-		}
-		$supportedFieldTypes = $this->getAddSupportedFieldTypes();
-		if (!\in_array($fieldType, $supportedFieldTypes)) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
-		}
-		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
-			if (!$this->checkIsAvailablePicklistFieldName($name)) {
-				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
-			}
-			$pickListValues = $params['pickListValues'];
-			if (\is_string($pickListValues)) {
-				$pickListValues = [$pickListValues];
-			}
-			foreach ($pickListValues as $value) {
-				if (preg_match('/[\<\>\"\#\,]/', $value)) {
-					throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
-				}
-				if (\strlen($value) > 200) {
-					throw new \App\Exceptions\AppException(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
-				}
-			}
-		}
+		$this->validate($params);
 		$moduleName = $this->getName();
 		$tableName = $this->getTableName($params['fieldTypeList']);
 		if ('Tree' === $fieldType || 'CategoryMultipicklist' === $fieldType) {
@@ -486,15 +527,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return bool
 	 */
-	public function checkFieldNameCharacters($name)
+	public function checkFieldNameCharacters($name): bool
 	{
-		if (preg_match('#[^a-z0-9_]#is', $name) || !preg_match('/[a-z]/i', $name)) {
-			return true;
-		}
-		if (false !== strpos($name, ' ')) {
-			return true;
-		}
-		return false;
+		return preg_match('#[^a-z0-9_]#is', $name) || !preg_match('/[a-z]/i', $name) || false !== strpos($name, ' ');
 	}
 
 	/**

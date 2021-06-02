@@ -205,7 +205,8 @@
     "LBL_RCV_PRIVATE": "Private filters (only my filters)",
     "LBL_RCV_ALL": "All filters from the module",
     "LBL_FILTERS_FROM_MODULE": "Filters from the module",
-    "LBL_ANONYMIZATION_TARGET": "Anonymization"
+    "LBL_ANONYMIZATION_TARGET": "Anonymization",
+    "LBL_DUPLICATES_VALUES_FOUND": "Duplicate values found"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",
