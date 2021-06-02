@@ -14,6 +14,9 @@
 			</tr>
 		</thead>
 		<tbody>
+			<div class="alert alert-info">
+				{\App\Language::translateArgs('LBL_LIMIT_INFO', $QUALIFIED_MODULE, 30)}
+			</div>
 			{foreach item="LISTVIEW_ENTRY" from=$SESSION_HISTORY_ENTRIES}
 				<tr class="listViewEntries">
 					{foreach key=LISTVIEW_ENTRY_COLUMN_NAME item=LISTVIEW_ENTRY_COLUMN from=$TABLE_COLUMNS}

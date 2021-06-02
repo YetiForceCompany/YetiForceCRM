@@ -849,7 +849,7 @@ return [
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'LOGIN_HISTORY_VIEW_LIMIT' => [
-			'default' => 10,
+			'default' => 30,
 			'description' => 'Number of records that can be shown in history login modal',
 			'validation' => '\App\Validator::naturalNumber'
 		],
