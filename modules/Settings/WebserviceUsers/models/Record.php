@@ -154,13 +154,13 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Get user session.
 	 *
-	 * @param string $typeApi
+	 * @param string $container
 	 *
 	 * @return array
 	 */
-	public function getUserSession(string $typeApi): array
+	public function getUserSession(string $container): array
 	{
-		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::$listTables[$typeApi]['session'])
+		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::$listTables[$container]['session'])
 			->where(['user_id' => $this->getId()])->createCommand()->query();
 		$data = [];
 		while ($row = $dataReader->read()) {
@@ -172,13 +172,13 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Get user session.
 	 *
-	 * @param string $typeApi
+	 * @param string $container
 	 *
 	 * @return array
 	 */
-	public function getUserHistoryAccessActivity(string $typeApi): array
+	public function getUserHistoryAccessActivity(string $container): array
 	{
-		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::$listTables[$typeApi]['loginHistory'])
+		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::$listTables[$container]['loginHistory'])
 			->where(['user_id' => $this->getId()])->createCommand()->query();
 		$data = [];
 		while ($row = $dataReader->read()) {
@@ -217,6 +217,9 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 					break;
 				default:
 					break;
+			}
+			if ('params' !== $key) {
+				$row[$key] = App\Purifier::encodeHtml($row[$key]);
 			}
 		}
 		return $row;
