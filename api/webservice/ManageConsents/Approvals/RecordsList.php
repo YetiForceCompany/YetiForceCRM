@@ -38,26 +38,26 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		@OA\Parameter(
-	 *				name="x-row-limit",
-	 *  		 	description="Limit",
-	 *  		 	@OA\Schema(
-	 *  		  		type="integer",
-	 *  		 			format="int64",
-	 *  		 ),
-	 *  		 in="header",
-	 * 			 example="0",
-	 *  		 required=false
+	 *			name="x-row-limit",
+	 *			description="Limit",
+	 *			@OA\Schema(
+	 *				type="integer",
+	 *				format="int64",
+	 *			),
+	 *			in="header",
+	 *			example=0,
+	 *			required=false
 	 * 		),
 	 *		@OA\Parameter(
 	 *		  	name="x-row-offset",
 	 * 		  	description="Offset",
 	 * 		  	@OA\Schema(
-	 * 		    		type="integer",
-	 * 		    		format="int64",
+	 * 		    	type="integer",
+	 * 		    	format="int64",
 	 * 		  	),
-	 *  		 	in="header",
-	 * 			 	example="0",
-	 *  		 	required=false
+	 *			in="header",
+	 *			example=0,
+	 *			required=false
 	 * 		),
 	 *		@OA\Parameter(
 	 *		   	name="x-raw-data",
@@ -66,9 +66,9 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 		    	type="integer",
 	 * 		    	format="int64",
 	 * 		  	),
-	 *  		 	in="header",
-	 * 			 	example="1",
-	 *  		 	required=false
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
 	 * 		),
 	 *		@OA\Parameter(
 	 *		   	name="x-condition",
@@ -106,8 +106,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *		schema="ApprovalsConditionsRequest",
 	 *		title="Conditions",
 	 *		description="The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. ",
-	 *		type="string",
-	 *		format="json",
+	 *		type="object",
 	 * 		example={"fieldName" : "approvals_status", "value" : "PLL_ACTIVE", "operator" : "e"}
 	 *	),
 	 *	@OA\SecurityScheme(

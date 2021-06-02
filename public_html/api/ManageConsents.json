@@ -21,7 +21,7 @@
             "description": "URL address for the developer demo version"
         },
         {
-            "url": "https://gitstable.yetiforce.com/",
+            "url": "https://gitstable.yetiforce.com",
             "description": "URL address for the latest stable demo version"
         }
     ],
@@ -106,7 +106,7 @@
                             "type": "integer",
                             "format": "int64"
                         },
-                        "example": "0"
+                        "example": 0
                     },
                     {
                         "name": "x-row-offset",
@@ -117,7 +117,7 @@
                             "type": "integer",
                             "format": "int64"
                         },
-                        "example": "0"
+                        "example": 0
                     },
                     {
                         "name": "x-raw-data",
@@ -128,7 +128,7 @@
                             "type": "integer",
                             "format": "int64"
                         },
-                        "example": "1"
+                        "example": 1
                     },
                     {
                         "name": "x-condition",
@@ -412,8 +412,7 @@
             "ApprovalsConditionsRequest": {
                 "title": "Conditions",
                 "description": "The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. ",
-                "type": "string",
-                "format": "json",
+                "type": "object",
                 "example": {
                     "fieldName": "approvals_status",
                     "value": "PLL_ACTIVE",

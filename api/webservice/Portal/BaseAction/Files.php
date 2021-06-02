@@ -42,7 +42,7 @@ use OpenApi\Annotations as OA;
  *		description="URL address for the developer demo version",
  * )
  * @OA\Server(
- *		url="https://gitstable.yetiforce.com/",
+ *		url="https://gitstable.yetiforce.com",
  *		description="URL address for the latest stable demo version",
  * )
  */
