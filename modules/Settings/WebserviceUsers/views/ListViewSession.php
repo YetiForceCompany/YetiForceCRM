@@ -41,11 +41,11 @@ class Settings_WebserviceUsers_ListViewSession_View extends \App\Controller\Moda
 	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$typeApi = $request->getByType('typeApi', 'Alnum');
-		$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($request->getInteger('record', ''), $typeApi);
+		$container = $request->getByType('typeApi', 'Alnum');
+		$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($request->getInteger('record', ''), $container);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TABLE_COLUMNS', static::$columnsToShow);
-		$viewer->assign('SESSION_HISTORY_ENTRIES', $recordModel->getUserSession($typeApi));
+		$viewer->assign('SESSION_HISTORY_ENTRIES', $recordModel->getUserSession($container));
 		$viewer->view('ListViewSession.tpl', $qualifiedModuleName);
 	}
 }
