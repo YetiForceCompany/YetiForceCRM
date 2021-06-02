@@ -121,7 +121,7 @@ final class RestApiTest extends \Tests\Base
 		]);
 		$user->save();
 		self::$apiUserId = $user->getId();
-		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => self::$apiUserId])->one();
+		$row = (new \App\Db\Query())->from('w_#__api_user')->where(['id' => self::$apiUserId])->one();
 		static::assertNotFalse($row, 'No record id: ' . self::$apiUserId);
 		static::assertSame((int) $row['server_id'], self::$serverId);
 		static::assertSame($row['user_name'], 'api@yetiforce.com');
