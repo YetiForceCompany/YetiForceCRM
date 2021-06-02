@@ -48,7 +48,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 * 			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 * 			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
 	 *      ),
 	 *		@OA\Response(
 	 *			response=200,
@@ -89,8 +89,9 @@ class Login extends \Api\RestApi\Users\Login
 	 *   	description="Webservice api key header"
 	 *	),
 	 *	@OA\Schema(
-	 *		schema="X-ENCRYPTED",
-	 *		type="string",
+	 *		schema="Header-Encrypted",
+	 *		type="integer",
+	 *		title="Header - Encrypted",
 	 *  	description="Is the content request is encrypted",
 	 *  	enum={0, 1},
 	 *   	default=0
@@ -98,6 +99,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *	@OA\Schema(
 	 *		schema="Conditions-Mix-For-Query-Generator",
 	 *		type="object",
+	 *		title="General - Mix conditions for query generator",
 	 *  	description="Multiple or one condition for a query query generator",
 	 *		oneOf={
 	 *			@OA\Schema(ref="#/components/schemas/Condition-For-Query-Generator"),
@@ -107,6 +109,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *	@OA\Schema(
 	 *		schema="Condition-For-Query-Generator",
 	 *		type="object",
+	 *		title="General - Condition for query generator",
 	 *  	description="One condition for query generator",
 	 *		@OA\Property(property="fieldName", description="Field name", type="string", example="lastname"),
 	 *		@OA\Property(property="value", description="Search value", type="string", example="Kowalski"),
@@ -116,6 +119,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *	@OA\Schema(
 	 *		schema="Conditions-For-Query-Generator",
 	 *		type="object",
+	 *		title="General - Conditions for query generator",
 	 *  	description="Multiple conditions for query generator",
 	 *		@OA\AdditionalProperties(
 	 *			description="Condition details",
@@ -126,6 +130,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *	@OA\Schema(
 	 *		schema="Conditions-For-Native-Query",
 	 *		type="object",
+	 *		title="General - Conditions for native query",
 	 *  	description="Conditions for native query, based on YII 2",
 	 *		example={"column_name1" : "searched value 1", "column_name2" : "searched value 2"},
 	 *		@OA\ExternalDocumentation(
@@ -216,13 +221,13 @@ class Login extends \Api\RestApi\Users\Login
 	 *    			@OA\Property(property="currency_name", type="string", example="Poland, Zlotych"),
 	 *    			@OA\Property(property="currency_code", type="string", example="PLN"),
 	 *    			@OA\Property(property="currency_symbol", type="string", example="zł"),
-	 *    			@OA\Property(property="conv_rate", type="number", format="float", example="1.00000"),
+	 *    			@OA\Property(property="conv_rate", type="number", format="float", example=1.00000),
 	 * 			),
 	 *    ),
 	 *	),
 	 *	@OA\Schema(
 	 *		schema="Exception",
-	 *		title="Error exception",
+	 *		title="General - Error exception",
 	 *		type="object",
 	 *  	@OA\Property(
 	 * 			property="status",

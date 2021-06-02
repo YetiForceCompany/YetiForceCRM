@@ -48,7 +48,7 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-raw-data",

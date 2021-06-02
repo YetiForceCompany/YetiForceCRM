@@ -37,6 +37,14 @@ use OpenApi\Annotations as OA;
  *     		url="https://yetiforce.com/en/yetiforce/license"
  *   	),
  * )
+ * @OA\Server(
+ *		url="https://gitdeveloper.yetiforce.com",
+ *		description="URL address for the developer demo version",
+ * )
+ * @OA\Server(
+ *		url="https://gitstable.yetiforce.com/",
+ *		description="URL address for the latest stable demo version",
+ * )
  */
 class Files extends \Api\RestApi\BaseAction\Files
 {
@@ -63,7 +71,7 @@ class Files extends \Api\RestApi\BaseAction\Files
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
 	 *		),
 	 *		@OA\Response(
 	 *			response=200,

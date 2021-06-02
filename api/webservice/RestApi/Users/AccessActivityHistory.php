@@ -46,7 +46,7 @@ class AccessActivityHistory extends \Api\Core\BaseAction
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-row-limit",
@@ -80,7 +80,7 @@ class AccessActivityHistory extends \Api\Core\BaseAction
 	 *	),
 	 *	@OA\Schema(
 	 *		schema="Users_Get_AccessActivityHistory_Response",
-	 *		title="Users - History of access activity data",
+	 *		title="Users module - History of access activity data",
 	 *		type="object",
 	 *		@OA\Property(
 	 *			property="status",

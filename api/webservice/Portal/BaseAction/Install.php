@@ -54,7 +54,7 @@ class Install extends \Api\Core\BaseAction
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
 	 *			),
 	 *		@OA\Response(
 	 *			response=200,

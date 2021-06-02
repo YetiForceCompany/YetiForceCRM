@@ -15,6 +15,16 @@
         },
         "version": "0.2"
     },
+    "servers": [
+        {
+            "url": "https://gitdeveloper.yetiforce.com",
+            "description": "URL address for the developer demo version"
+        },
+        {
+            "url": "https://gitstable.yetiforce.com/",
+            "description": "URL address for the latest stable demo version"
+        }
+    ],
     "paths": {
         "/webservice/Portal/Files": {
             "put": {
@@ -30,7 +40,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -145,7 +155,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -203,7 +213,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -247,7 +257,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -331,7 +341,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -385,7 +395,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -438,7 +448,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -530,7 +540,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -638,7 +648,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -737,7 +747,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -801,7 +811,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     },
                     {
@@ -916,7 +926,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -999,7 +1009,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -1053,7 +1063,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -1182,7 +1192,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -1691,7 +1701,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -1759,7 +1769,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     },
                     {
@@ -2089,7 +2099,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     },
                     {
@@ -2166,7 +2176,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -2275,7 +2285,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -2329,7 +2339,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     },
                     {
@@ -2610,7 +2620,7 @@
                         "in": "header",
                         "required": true,
                         "schema": {
-                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                            "$ref": "#/components/schemas/Header-Encrypted"
                         }
                     }
                 ],
@@ -3594,7 +3604,7 @@
                 "type": "object"
             },
             "Record_Edit_Details": {
-                "title": "Record edit details",
+                "title": "General - Record edit details",
                 "description": "Record data in user format for edit view",
                 "type": "object",
                 "example": {
@@ -3605,7 +3615,7 @@
                 }
             },
             "Record_Raw_Details": {
-                "title": "Record raw details",
+                "title": "General - Record raw details",
                 "description": "Record data in the system format as stored in a database",
                 "type": "object",
                 "example": {
@@ -3617,7 +3627,7 @@
                 }
             },
             "Record_Display_Details": {
-                "title": "Record display details",
+                "title": "General - Record display details",
                 "description": "Record data in user format for preview",
                 "type": "object",
                 "example": {
@@ -4074,7 +4084,7 @@
                 "type": "object"
             },
             "Users_Get_AccessActivityHistory_Response": {
-                "title": "Users - History of access activity data",
+                "title": "Users module - History of access activity data",
                 "description": "Get user history of access activity.",
                 "properties": {
                     "status": {
@@ -4119,9 +4129,10 @@
                 },
                 "type": "object"
             },
-            "X-ENCRYPTED": {
+            "Header-Encrypted": {
+                "title": "Header - Encrypted",
                 "description": "Is the content request is encrypted",
-                "type": "string",
+                "type": "integer",
                 "default": 0,
                 "enum": [
                     0,
@@ -4129,6 +4140,7 @@
                 ]
             },
             "Conditions-Mix-For-Query-Generator": {
+                "title": "General - Mix conditions for query generator",
                 "description": "Multiple or one condition for a query query generator",
                 "type": "object",
                 "oneOf": [
@@ -4141,6 +4153,7 @@
                 ]
             },
             "Condition-For-Query-Generator": {
+                "title": "General - Condition for query generator",
                 "description": "One condition for query generator",
                 "properties": {
                     "fieldName": {
@@ -4167,6 +4180,7 @@
                 "type": "object"
             },
             "Conditions-For-Query-Generator": {
+                "title": "General - Conditions for query generator",
                 "description": "Multiple conditions for query generator",
                 "type": "object",
                 "additionalProperties": {
@@ -4175,6 +4189,7 @@
                 }
             },
             "Conditions-For-Native-Query": {
+                "title": "General - Conditions for native query",
                 "description": "Conditions for native query, based on YII 2",
                 "type": "object",
                 "externalDocs": {
@@ -4409,7 +4424,7 @@
                                         "description": "Post method.",
                                         "type": "number",
                                         "format": "float",
-                                        "example": "1.00000"
+                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -4421,7 +4436,7 @@
                 "type": "object"
             },
             "Exception": {
-                "title": "Error exception",
+                "title": "General - Error exception",
                 "properties": {
                     "status": {
                         "description": "0 - error",
@@ -4486,7 +4501,7 @@
                 "type": "object"
             },
             "Users_Get_Record_Response": {
-                "title": "Users - Response body for user",
+                "title": "Users module - Response body for user",
                 "description": "Get user detail.",
                 "properties": {
                     "status": {
@@ -4546,7 +4561,7 @@
                 "type": "object"
             },
             "Users_RecordsList_ResponseBody": {
-                "title": "Users - Response action users list",
+                "title": "Users module - Response action users list",
                 "description": "Module action record list response body",
                 "properties": {
                     "status": {
@@ -4581,7 +4596,7 @@
                             },
                             "count": {
                                 "description": "Get users list method.",
-                                "type": "string",
+                                "type": "integer",
                                 "example": 54
                             },
                             "isMorePages": {

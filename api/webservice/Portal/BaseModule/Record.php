@@ -52,7 +52,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-raw-data",
@@ -181,7 +181,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
 	 *		),
 	 *		@OA\Response(
 	 *			response=200,
@@ -252,7 +252,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			name="X-ENCRYPTED",
 	 * 			in="header",
 	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
 	 *		),
 	 *		@OA\Response(
 	 *			response=200,
@@ -284,21 +284,21 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 * ),
 	 * @OA\Schema(
 	 *		schema="Record_Edit_Details",
-	 *		title="Record edit details",
+	 *		title="General - Record edit details",
 	 *		description="Record data in user format for edit view",
 	 *		type="object",
 	 *		example={"field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : 1, "createdtime" : "2014-09-24 20:51:12"},
 	 * ),
 	 * @OA\Schema(
 	 *		schema="Record_Raw_Details",
-	 *		title="Record raw details",
+	 *		title="General - Record raw details",
 	 *		description="Record data in the system format as stored in a database",
 	 *		type="object",
 	 *		example={"id" : 11, "field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : 1, "createdtime" : "2014-09-24 20:51:12"},
 	 * ),
 	 * @OA\Schema(
 	 *		schema="Record_Display_Details",
-	 *		title="Record display details",
+	 *		title="General - Record display details",
 	 *		description="Record data in user format for preview",
 	 *		type="object",
 	 *		example={"id" : 11, "field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : "YetiForce Administrator", "createdtime" : "2014-09-24 20:51"},
@@ -340,7 +340,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
 	 *		),
 	 *		@OA\Response(
 	 *			response=200,
@@ -370,7 +370,8 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
 	 * ),
-	 *	@OA\Link(link="GetRecordById",
+	 *	@OA\Link(
+	 *		link="GetRecordById",
 	 *		description="The `id` value returned in the response can be used as the `recordId` parameter in `GET /webservice/{moduleName}/Record/{recordId}`.",
 	 *		operationId="getRecord",
 	 *		parameters={

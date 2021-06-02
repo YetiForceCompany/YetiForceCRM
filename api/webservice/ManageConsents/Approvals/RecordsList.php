@@ -187,7 +187,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *	),
 	 *	@OA\Schema(
 	 *		schema="Exception",
-	 *		title="Error exception",
+	 *		title="General - Error exception",
 	 *		type="object",
 	 *  	@OA\Property(
 	 * 			property="status",

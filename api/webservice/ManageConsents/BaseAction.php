@@ -36,7 +36,15 @@ use OpenApi\Annotations as OA;
  *   	@OA\License(
  *    		name="YetiForce Public License v3",
  *     		url="https://yetiforce.com/en/yetiforce/license"
- *   	),
+ *		),
+ * )
+ * @OA\Server(
+ *		url="https://gitdeveloper.yetiforce.com",
+ *		description="URL address for the developer demo version",
+ * )
+ * @OA\Server(
+ *		url="https://gitstable.yetiforce.com/",
+ *		description="URL address for the latest stable demo version",
  * )
  */
 class BaseAction extends \Api\Core\BaseAction

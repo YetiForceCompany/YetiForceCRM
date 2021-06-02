@@ -15,6 +15,16 @@
         },
         "version": "0.2"
     },
+    "servers": [
+        {
+            "url": "https://gitdeveloper.yetiforce.com",
+            "description": "URL address for the developer demo version"
+        },
+        {
+            "url": "https://gitstable.yetiforce.com/",
+            "description": "URL address for the latest stable demo version"
+        }
+    ],
     "paths": {
         "/webservice/ManageConsents/ApprovalsRegister/Record": {
             "post": {
@@ -562,7 +572,7 @@
                 "type": "object"
             },
             "Exception": {
-                "title": "Error exception",
+                "title": "General - Error exception",
                 "description": "Gets consents.",
                 "properties": {
                     "status": {

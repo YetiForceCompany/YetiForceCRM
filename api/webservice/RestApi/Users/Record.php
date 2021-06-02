@@ -68,7 +68,7 @@ class Record extends \Api\Core\BaseAction
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-raw-data",
@@ -99,7 +99,7 @@ class Record extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 *		schema="Users_Get_Record_Response",
-	 *		title="Users - Response body for user",
+	 *		title="Users module - Response body for user",
 	 *		type="object",
 	 *		@OA\Property(
 	 *			property="status",

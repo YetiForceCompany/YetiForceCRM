@@ -11,6 +11,13 @@ info:
     name: 'YetiForce Public License v3'
     url: 'https://yetiforce.com/en/yetiforce/license'
   version: '0.2'
+servers:
+  -
+    url: 'https://gitdeveloper.yetiforce.com'
+    description: 'URL address for the developer demo version'
+  -
+    url: 'https://gitstable.yetiforce.com/'
+    description: 'URL address for the latest stable demo version'
 paths:
   /webservice/Portal/Files:
     put:
@@ -25,7 +32,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       requestBody:
         description: 'Action parameters to download the file'
         required: true
@@ -97,7 +104,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       requestBody:
         description: 'Base action install request body'
         required: false
@@ -134,7 +141,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'Menu details'
@@ -163,7 +170,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'List of permitted modules'
@@ -218,7 +225,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'Privileges details'
@@ -255,7 +262,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'Fields, blocks and inventory details'
@@ -291,7 +298,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'Records hierarchy details'
@@ -354,7 +361,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'Generate PDF'
@@ -425,7 +432,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'Get PDF templates list'
@@ -489,7 +496,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'Privileges details'
@@ -534,7 +541,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
         -
           name: x-raw-data
           in: header
@@ -614,7 +621,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       requestBody:
         description: 'Contents of the request contains an associative array with the data record.'
         required: true
@@ -671,7 +678,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'List of records moved to the trash'
@@ -708,7 +715,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       requestBody:
         description: 'Contents of the request contains an associative array with the data record.'
         required: true
@@ -801,7 +808,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'Recent activities detail'
@@ -1153,7 +1160,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'Contents of the response contains only id nd module name'
@@ -1198,7 +1205,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
         -
           name: x-raw-data
           in: header
@@ -1427,7 +1434,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
         -
           name: x-row-limit
           in: header
@@ -1481,7 +1488,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       requestBody:
         description: 'Input data format'
         required: true
@@ -1549,7 +1556,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       responses:
         '200':
           description: 'User details'
@@ -1586,7 +1593,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
         -
           name: x-raw-data
           in: header
@@ -1777,7 +1784,7 @@ paths:
           in: header
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
+            $ref: '#/components/schemas/Header-Encrypted'
       requestBody:
         description: 'Input data format'
         required: true
@@ -2253,7 +2260,7 @@ components:
           type: object
       type: object
     Record_Edit_Details:
-      title: 'Record edit details'
+      title: 'General - Record edit details'
       description: 'Record data in user format for edit view'
       type: object
       example:
@@ -2262,7 +2269,7 @@ components:
         assigned_user_id: 1
         createdtime: '2014-09-24 20:51:12'
     Record_Raw_Details:
-      title: 'Record raw details'
+      title: 'General - Record raw details'
       description: 'Record data in the system format as stored in a database'
       type: object
       example:
@@ -2272,7 +2279,7 @@ components:
         assigned_user_id: 1
         createdtime: '2014-09-24 20:51:12'
     Record_Display_Details:
-      title: 'Record display details'
+      title: 'General - Record display details'
       description: 'Record data in user format for preview'
       type: object
       example:
@@ -2560,7 +2567,7 @@ components:
           type: object
       type: object
     Users_Get_AccessActivityHistory_Response:
-      title: 'Users - History of access activity data'
+      title: 'Users module - History of access activity data'
       description: 'Get user history of access activity.'
       properties:
         status:
@@ -2594,14 +2601,16 @@ components:
                 example: 127.0.0.1
             type: object
       type: object
-    X-ENCRYPTED:
+    Header-Encrypted:
+      title: 'Header - Encrypted'
       description: 'Is the content request is encrypted'
-      type: string
+      type: integer
       default: 0
       enum:
         - 0
         - 1
     Conditions-Mix-For-Query-Generator:
+      title: 'General - Mix conditions for query generator'
       description: 'Multiple or one condition for a query query generator'
       type: object
       oneOf:
@@ -2610,6 +2619,7 @@ components:
         -
           $ref: '#/components/schemas/Conditions-For-Query-Generator'
     Condition-For-Query-Generator:
+      title: 'General - Condition for query generator'
       description: 'One condition for query generator'
       properties:
         fieldName:
@@ -2630,12 +2640,14 @@ components:
           example: true
       type: object
     Conditions-For-Query-Generator:
+      title: 'General - Conditions for query generator'
       description: 'Multiple conditions for query generator'
       type: object
       additionalProperties:
         description: 'Condition details'
         type: object
     Conditions-For-Native-Query:
+      title: 'General - Conditions for native query'
       description: 'Conditions for native query, based on YII 2'
       type: object
       externalDocs:
@@ -2821,12 +2833,12 @@ components:
                   description: 'Post method.'
                   type: number
                   format: float
-                  example: '1.00000'
+                  example: 1
               type: object
           type: object
       type: object
     Exception:
-      title: 'Error exception'
+      title: 'General - Error exception'
       properties:
         status:
           description: '0 - error'
@@ -2875,7 +2887,7 @@ components:
           type: boolean
       type: object
     Users_Get_Record_Response:
-      title: 'Users - Response body for user'
+      title: 'Users module - Response body for user'
       description: 'Get user detail.'
       properties:
         status:
@@ -2920,7 +2932,7 @@ components:
           type: object
       type: object
     Users_RecordsList_ResponseBody:
-      title: 'Users - Response action users list'
+      title: 'Users module - Response action users list'
       description: 'Module action record list response body'
       properties:
         status:
@@ -2948,7 +2960,7 @@ components:
                 $ref: '#/components/schemas/Record_Raw_Details'
             count:
               description: 'Get users list method.'
-              type: string
+              type: integer
               example: 54
             isMorePages:
               description: 'Get users list method.'

@@ -144,7 +144,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *),
 	 * @OA\Schema(
 	 *		schema="Users_RecordsList_ResponseBody",
-	 *		title="Users - Response action users list",
+	 *		title="Users module - Response action users list",
 	 *		description="Module action record list response body",
 	 *		type="object",
 	 *		@OA\Property(
@@ -175,7 +175,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *				type="object",
 	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			),
-	 * 			@OA\Property(property="count", type="string", example=54),
+	 * 			@OA\Property(property="count", type="integer", example=54),
 	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
 	 * 		),
 	 *	),
