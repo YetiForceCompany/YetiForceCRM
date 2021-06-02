@@ -1241,34 +1241,29 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$value = $recordModel->get($fieldName);
 		$fieldModel = $recordModel->getModule()->getFieldByName($fieldName);
 		$history = [];
+		$dataEnd = null;
 		foreach (ModTracker_Record_Model::getFieldHistory($request->getInteger('record'), $fieldName) as $row) {
-			if ($pre = $history[$row['prevalue']] ?? []) {
-				$history[$row['prevalue']] = array_merge($pre, [
-					'date' => $row['changedon'],
-					'time' => $pre['time'] + \App\Fields\DateTime::getDiff($pre['date'], $row['changedon'], 'minutes'),
-				]);
-				$history[$row['postvalue']] = [
-					'date' => $row['changedon'],
-					'time' => $history[$row['postvalue']]['time'] ?? 0,
-					'value' => $history[$row['postvalue']]['value'] ?? $fieldModel->getDisplayValue($row['postvalue'], $recordModel->getId(), $recordModel),
-				];
-			} else {
-				$history[$row['postvalue']] = [
-					'date' => $row['changedon'],
+			$dataStart = $row['changedon'];
+			$label = $row['postvalue'];
+			if (!isset($history[$label])) {
+				$history[$label] = [
 					'time' => 0,
-					'value' => $fieldModel->getDisplayValue($row['postvalue'], $recordModel->getId(), $recordModel),
+					'value' => $fieldModel->getDisplayValue($label, $recordModel->getId(), $recordModel)
 				];
 			}
-		}
-		foreach ($history as $key => $row) {
-			if (empty($row['time'])) {
-				if ($value === $key) {
-					$history[$key]['time'] = \App\Fields\DateTime::getDiff($row['date'], date('Y-m-d H:i:s'), 'minutes');
-				} else {
-					unset($history[$key]);
-				}
+			$history[$label]['date'] = $dataStart;
+			if ($pre = $history[$row['prevalue']] ?? null) {
+				$history[$row['prevalue']]['time'] = $pre['time'] + \App\Fields\DateTime::getDiff($dataStart, $dataEnd, 'minutes');
 			}
+			$dataEnd = $dataStart;
 		}
+		$locks = array_merge_recursive(\App\RecordStatus::getLockStatus($moduleName), $recordModel->getEntity()->getLockFields());
+		if (isset($history[$value]) && (!isset($locks[$fieldName]) || !\in_array($value, $locks[$fieldName]))) {
+			$history[$value]['time'] = $history[$value]['time'] + \App\Fields\DateTime::getDiff($history[$value]['date'], date('Y-m-d H:i:s'), 'minutes');
+		}
+		uasort($history, function ($a, $b) {
+			return strnatcmp($b['date'], $a['date']);
+		});
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VIEW', 'Detail');
 		$viewer->assign('FIELD_HISTORY', $history);
