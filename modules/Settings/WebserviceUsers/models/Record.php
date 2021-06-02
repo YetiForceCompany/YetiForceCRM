@@ -163,6 +163,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::$listTables[$container]['session'])
 			->where(['user_id' => $this->getId()])
 			->orderBy(['changed' => SORT_DESC])
+			->limit(30)
 			->createCommand()->query();
 		$data = [];
 		while ($row = $dataReader->read()) {
@@ -183,6 +184,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::$listTables[$container]['loginHistory'])
 			->where(['user_id' => $this->getId()])
 			->orderBy(['id' => SORT_DESC])
+			->limit(30)
 			->createCommand()->query();
 		$data = [];
 		while ($row = $dataReader->read()) {

@@ -1489,7 +1489,8 @@
     "LBL_DAILY": "Daily",
     "LBL_MONTHLY": "Monthly",
     "LBL_YEARLY": "Yearly",
-    "LBL_USER_AGENT": "User agent"
+    "LBL_USER_AGENT": "User agent",
+    "LBL_LIMIT_INFO": "The history shows only the last 30 entries, the full list is available in the admin panel."
   },
   "js": {
     "JS_APPROVE": "Approve",
