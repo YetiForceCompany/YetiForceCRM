@@ -895,6 +895,48 @@ paths:
           basicAuth: []
           ApiKeyAuth: []
           token: []
+  /webservice/RestApi/Users/ChangePassword:
+    put:
+      tags:
+        - Users
+      summary: 'User password change'
+      description: 'User password change'
+      operationId: 'Api\RestApi\Users\ChangePassword::put'
+      parameters:
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Header-Encrypted'
+      requestBody:
+        description: 'Input data'
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Users_Put_ChangePassword_Request'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Users_Put_ChangePassword_Request'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users_Put_ChangePassword_Request'
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users_Put_ChangePassword_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Users_Put_ChangePassword_Response'
+      security:
+        -
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   /webservice/RestApi/Users/Login:
     post:
       tags:
@@ -1687,6 +1729,32 @@ components:
                 type: string
                 example: 127.0.0.1
             type: object
+      type: object
+    Users_Put_ChangePassword_Request:
+      title: 'Users module - Users password change request body'
+      properties:
+        currentPassword:
+          description: 'Current password'
+          type: string
+        newPassword:
+          description: 'New password'
+          type: string
+      type: object
+    Users_Put_ChangePassword_Response:
+      title: 'Users module - Users password change response body'
+      description: 'Put method.'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+          example: 1
+        result:
+          description: 'Password change status'
+          type: boolean
+          example: false
       type: object
     Header-Encrypted:
       title: 'Header - Encrypted'

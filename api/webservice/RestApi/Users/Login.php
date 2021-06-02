@@ -18,6 +18,8 @@ use OpenApi\Annotations as OA;
  */
 class Login extends \Api\Core\BaseAction
 {
+	use \Api\Core\Traits\LoginHistory;
+
 	/** {@inheritdoc}  */
 	public $allowedMethod = ['POST'];
 
@@ -430,25 +432,5 @@ class Login extends \Api\Core\BaseAction
 			throw new \Api\Core\Exception('2FA verification error: ' . $th->getMessage(), 401, $th);
 		}
 		return '';
-	}
-
-	/**
-	 * Function to store the login history.
-	 *
-	 * @param array $data
-	 *
-	 * @return void
-	 */
-	protected function saveLoginHistory(array $data): void
-	{
-		\App\Db::getInstance('webservice')->createCommand()
-			->insert($this->controller->app['tables']['loginHistory'], array_merge([
-				'time' => date(self::DATE_TIME_FORMAT),
-				'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
-				'agent' => \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false),
-				'user_name' => $this->controller->request->get('userName'),
-				'user_id' => $this->userData['id'] ?? null,
-			],
-			$data))->execute();
 	}
 }
