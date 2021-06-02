@@ -656,7 +656,6 @@ $.Class(
 					null,
 					'index.php?module=LayoutEditor&parent=Settings&view=CreateSystemFields&sourceModule=' + selectedModule,
 					(modalContainer) => {
-						console.log(modalContainer);
 						modalContainer.find('.js-modal__save').on('click', () => {
 							let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
 							AppConnector.request({
