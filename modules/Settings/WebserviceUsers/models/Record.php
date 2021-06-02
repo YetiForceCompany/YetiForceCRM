@@ -154,15 +154,35 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Get user session.
 	 *
+	 * @param string $typeApi
+	 *
 	 * @return array
 	 */
-	public function getUserSession(): array
+	public function getUserSession(string $typeApi): array
 	{
-		$dataReader = (new \App\Db\Query())->from('w_#__portal_session')
+		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::$listTables[$typeApi]['session'])
 			->where(['user_id' => $this->getId()])->createCommand()->query();
 		$data = [];
 		while ($row = $dataReader->read()) {
 			$data[] = $this->getFormatDataSession($row);
+		}
+		return $data;
+	}
+
+	/**
+	 * Get user session.
+	 *
+	 * @param string $typeApi
+	 *
+	 * @return array
+	 */
+	public function getUserHistoryAccessActivity(string $typeApi): array
+	{
+		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::$listTables[$typeApi]['loginHistory'])
+			->where(['user_id' => $this->getId()])->createCommand()->query();
+		$data = [];
+		while ($row = $dataReader->read()) {
+			$data[] = $this->getFormatLoginHistory($row);
 		}
 		return $data;
 	}
@@ -194,6 +214,30 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 						}
 						$row[$key] = \App\Layout::truncateText($value, 50, true);
 					}
+					break;
+				default:
+					break;
+			}
+		}
+		return $row;
+	}
+
+	/**
+	 * Get format data session.
+	 *
+	 * @param array $row
+	 *
+	 * @return array
+	 */
+	public function getFormatLoginHistory(array $row): array
+	{
+		foreach ($row as $key => $value) {
+			switch ($key) {
+				case 'time':
+					$row[$key] = \App\Fields\DateTime::formatToDisplay($value);
+					break;
+				case 'status':
+						$row[$key] = \App\Language::translate($value, 'Settings::' . $this->getModule()->getName());
 					break;
 				default:
 					break;

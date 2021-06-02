@@ -106,4 +106,14 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		return 'index.php?module=' . $this->getName() . '&parent=Settings&view=ListViewSession&typeApi=' . $this->typeApi;
 	}
+
+	/**
+	 * Function to get the url for history activity view of the user.
+	 *
+	 * @return string - url
+	 */
+	public function getHistoryAccessActivityUrl(): string
+	{
+		return 'index.php?module=' . $this->getName() . '&parent=Settings&view=HistoryAccessActivity&typeApi=' . $this->typeApi;
+	}
 }

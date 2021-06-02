@@ -299,6 +299,14 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 		$recordLinks = [
 			[
 				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_HISTORY_ACTIVITY',
+				'linkicon' => 'yfi yfi-login-history',
+				'linkclass' => 'btn btn-sm btn-primary',
+				'linkurl' => $this->getModule()->getHistoryAccessActivityUrl() . '&record=' . $this->getId(),
+				'modalView' => true,
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_SESSION_RECORD',
 				'linkicon' => 'fas fa-users-cog',
 				'linkclass' => 'btn btn-sm btn-primary',
