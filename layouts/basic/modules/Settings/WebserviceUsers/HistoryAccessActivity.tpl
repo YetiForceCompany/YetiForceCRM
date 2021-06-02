@@ -1,7 +1,7 @@
 {*
 <!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-WebserviceUsers-ListViewSession -->
+<!-- tpl-Settings-WebserviceUsers-HistoryAccessActivity -->
 <div class="modal-body">
 	<table class="table table-bordered u-fs-13px">
 		<thead>
@@ -14,12 +14,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			{foreach item="LISTVIEW_ENTRY" from=$SESSION_HISTORY_ENTRIES}
+			{foreach item=LISTVIEW_ENTRY from=$HISTORY_ACTIVITY_ENTRIES}
 				<tr class="listViewEntries">
 					{foreach key=LISTVIEW_ENTRY_COLUMN_NAME item=LISTVIEW_ENTRY_COLUMN from=$TABLE_COLUMNS}
 						<td class="noWrap {$WIDTHTYPE}">
 							{if isset($LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME]) && !empty($LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME])}
-								{$LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME]}
+								{\App\Purifier::encodeHtml($LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME])}
 							{else}
 								--
 							{/if}
@@ -30,5 +30,5 @@
 		</tbody>
 	</table>
 </div>
-<!-- /tpl-Settings-WebserviceUsers-ListViewSession -->
+<!-- /tpl-Settings-WebserviceUsers-HistoryAccessActivity -->
 {/strip}

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * List view session file.
+ * History access activity file.
  *
  * @package Settings.View
  *
@@ -11,30 +11,28 @@
  */
 
 /**
- * List view session class.
+ * History access activity class.
  */
-class Settings_WebserviceUsers_ListViewSession_View extends \App\Controller\ModalSettings
+class Settings_WebserviceUsers_HistoryAccessActivity_View extends \App\Controller\ModalSettings
 {
 	/** {@inheritdoc} */
 	public $modalSize = 'modal-full';
 
 	/** {@inheritdoc} */
-	public $modalIcon = 'fas fa-users-cog';
+	public $modalIcon = 'yfi yfi-login-history';
 
 	/** {@inheritdoc} */
-	public $pageTitle = 'LBL_SESSION_RECORD';
+	public $pageTitle = 'LBL_HISTORY_ACTIVITY';
 
 	/** {@inheritdoc}  */
 	public $showFooter = false;
 
 	/** @var array Columns to show on the list session. */
 	public static $columnsToShow = [
-		'language' => 'FL_LANGUAGE',
-		'created' => 'FL_LOGIN_TIME',
-		'changed' => 'FL_DATETIME_LAST_QUERY',
-		'params' => 'LBL_PARAMS',
-		'last_method' => 'FL_LAST_METHOD',
+		'time' => 'FL_LOGIN_TIME',
+		'status' => 'FL_STATUS',
 		'agent' => 'LBL_USER_AGENT',
+		'ip' => 'LBL_IP_ADDRESS',
 	];
 
 	/** {@inheritdoc} */
@@ -45,7 +43,7 @@ class Settings_WebserviceUsers_ListViewSession_View extends \App\Controller\Moda
 		$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($request->getInteger('record', ''), $container);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TABLE_COLUMNS', static::$columnsToShow);
-		$viewer->assign('SESSION_HISTORY_ENTRIES', $recordModel->getUserSession($container));
-		$viewer->view('ListViewSession.tpl', $qualifiedModuleName);
+		$viewer->assign('HISTORY_ACTIVITY_ENTRIES', $recordModel->getUserHistoryAccessActivity($container));
+		$viewer->view('HistoryAccessActivity.tpl', $qualifiedModuleName);
 	}
 }
