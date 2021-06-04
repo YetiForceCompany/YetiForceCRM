@@ -1252,14 +1252,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				];
 			}
 			$history[$label]['date'] = $dataStart;
-			if ($pre = $history[$row['prevalue']] ?? null) {
-				$history[$row['prevalue']]['time'] = $pre['time'] + \App\Fields\DateTime::getDiff($dataStart, $dataEnd, 'minutes');
+			if (isset($history[$row['prevalue']]) && $row['prevalue'] !== $label) {
+				$history[$row['prevalue']]['time'] += \App\Fields\DateTime::getDiff($dataStart, $dataEnd, 'minutes');
 			}
 			$dataEnd = $dataStart;
 		}
 		$locks = array_merge_recursive(\App\RecordStatus::getLockStatus($moduleName), $recordModel->getEntity()->getLockFields());
 		if (isset($history[$value]) && (!isset($locks[$fieldName]) || !\in_array($value, $locks[$fieldName]))) {
-			$history[$value]['time'] = $history[$value]['time'] + \App\Fields\DateTime::getDiff($history[$value]['date'], date('Y-m-d H:i:s'), 'minutes');
+			$history[$value]['time'] += \App\Fields\DateTime::getDiff($history[$value]['date'], date('Y-m-d H:i:s'), 'minutes');
 		}
 		uasort($history, function ($a, $b) {
 			return strnatcmp($b['date'], $a['date']);
