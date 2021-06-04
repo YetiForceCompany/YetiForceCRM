@@ -27,7 +27,6 @@ Vtiger_List_Js(
 					listInstance.getListViewRecords({
 						module: app.getModuleName(),
 						view: 'List',
-						parent: app.getModuleName(),
 						sourceModule: container.find('.js-source-module').val()
 					});
 				});
@@ -57,7 +56,6 @@ Vtiger_List_Js(
 					listInstance.getListViewRecords({
 						module: app.getModuleName(),
 						view: 'List',
-						parent: app.getModuleName(),
 						sourceModule: container.find('.js-source-module').val()
 					});
 				});
@@ -77,12 +75,11 @@ Vtiger_List_Js(
 					.getListViewRecords({
 						module: app.getModuleName(),
 						view: 'List',
-						parent: app.getModuleName(),
 						sourceModule: e.params.args.data.id
 					})
 					.done(function () {
 						self.calculatePages().done(function () {
-							container.find('.js-pagination-list').data('totalCount', '');
+							container.find('.js-pagination-list').data('totalCount', 0);
 							self.updatePagination();
 						});
 					});

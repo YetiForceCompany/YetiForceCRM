@@ -79,7 +79,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
-		if ($request->isEmpty('viewname') && App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
+		if ($this->viewName && $request->isEmpty('viewname') && App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($this->viewName);
 			if ($customViewModel) {
 				App\CustomView::setSortBy($moduleName, $customViewModel->getSortOrderBy());
@@ -122,7 +122,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 				$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
 			}
 			$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
-			if (App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
+			if ($this->viewName && App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
 				if ($orderBy || ($customViewModel = CustomView_Record_Model::getInstanceById($this->viewName))) {
 					App\CustomView::setSortBy($moduleName, $orderBy ?: $customViewModel->getSortOrderBy());
 				}
