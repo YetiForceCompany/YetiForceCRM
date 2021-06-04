@@ -52,7 +52,7 @@
 									<div class="quickDetailWidget">
 										{if !empty($WIDGET['title'])}
 											{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId($WIDGET['widgetData']['id']|cat:_)}"}
-											<div class="c-detail-widget js-detail-widget" data-name="{$WIDGET['title']}" data-module-name="{$RELATED_MODULE_NAME}" {if isset($WIDGET['widgetData']['data']['relation_id'])} data-relation-id="{$WIDGET['widgetData']['data']['relation_id']}" {/if} data-type="{$WIDGET['widgetData']['type']}" data-id="{$WIDGET['widgetData']['id']}" data-js="container">
+											<div class="c-detail-widget js-detail-widget" data-name="{$WIDGET['title']}" {if isset($WIDGET['widgetData']['data']['relation_id'])} data-relation-id="{$WIDGET['widgetData']['data']['relation_id']}" {/if} data-type="{$WIDGET['widgetData']['type']}" data-id="{$WIDGET['widgetData']['id']}" data-js="container">
 												<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['widgetData']['url'])}" data-name="{$WIDGET['title']}" data-type="{$WIDGET['widgetData']['type']}" data-id="{$WIDGET['widgetData']['id']}">
 													<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0" data-js="container|value">
 														<div class="c-detail-widget__header__container d-flex align-items-center py-1">
