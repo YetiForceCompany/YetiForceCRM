@@ -712,25 +712,12 @@ jQuery.Class(
 		getRelatedListCurrentPageNum: function () {
 			return jQuery('input[name="currentPageNum"]', this.getContentHolder()).val();
 		},
-		/**
-		 * function to hide comment block.
-		 */
-		removeCommentBlock: function () {
-			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).remove();
-		},
 
 		/**
 		 * function to hide button action.
 		 */
 		hideButtonAction: function () {
 			$('.js-hb__container').removeClass('u-hidden-block__opened');
-		},
-
-		/**
-		 * function to show comment block.
-		 */
-		showCommentBlock: function () {
-			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).show();
 		},
 
 		/**
@@ -2364,20 +2351,20 @@ jQuery.Class(
 				let commentInfoBlock = $(e.currentTarget.closest('.js-comment-single'));
 				commentInfoBlock.find('.js-comment-container').show();
 				commentInfoBlock.find('.js-comment-info').show();
-				self.removeCommentBlock();
+				commentInfoBlock.find('.js-add-comment-block').remove();
 			});
 			detailContentsHolder.on('click', '.js-reply-comment', function (e) {
-				self.removeCommentBlock();
-				self.hideButtonAction();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
-				commentInfoBlock.find('.js-comment-container').hide();
+				commentInfoBlock.find('.js-add-comment-block').remove();
+				self.hideButtonAction();
+				commentInfoBlock.find('.js-comment-info').show();
 				self.getCommentBlock().appendTo(commentInfoBlock).show();
 			});
 			detailContentsHolder.on('click', '.js-edit-comment', function (e) {
-				self.removeCommentBlock();
+				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
+				commentInfoBlock.find('.js-add-comment-block').remove();
 				self.hideButtonAction();
-				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
-					commentInfoContent = commentInfoBlock.find('.js-comment-info'),
+				let commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 					editCommentBlock = self.getEditCommentBlock();
 				editCommentBlock.find('.js-comment-content').html(commentInfoContent.html());
 				editCommentBlock.find('.js-reason-to-edit').html(commentInfoBlock.find('.js-edit-reason-span').text());
@@ -2416,7 +2403,6 @@ jQuery.Class(
 							element.removeAttr('disabled');
 							app.errorLog(error, err);
 						});
-					self.showCommentBlock();
 				}
 			});
 			detailContentsHolder.on('click', '.js-more-recent-comments ', function () {
@@ -3170,8 +3156,8 @@ jQuery.Class(
 			if (detailViewContainer.length <= 0) {
 				// Not detail view page
 				return;
-			} 
-			this.registerWidgetProductAndServices(); 
+			}
+			this.registerWidgetProductAndServices();
 			this.registerSetReadRecord(detailViewContainer);
 			this.registerEventForPicklistDependencySetup(this.getForm());
 			this.getForm().validationEngine(app.validationEngineOptionsForRecord);
