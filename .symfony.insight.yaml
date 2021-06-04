@@ -33,8 +33,8 @@ exclude_patterns:
 
 rules:
   composer.warning:
-    enabled: true
+    enabled: false
   web.apache_config:
-    enabled: true
+    enabled: false
   php.duplicated_code:
     enabled: false
