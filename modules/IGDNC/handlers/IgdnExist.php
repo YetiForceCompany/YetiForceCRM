@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * IGDNC_IgdnExist_Handler class.
@@ -21,7 +22,7 @@ class IGDNC_IgdnExist_Handler
 	public function editViewPreSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		$response = ['result' => false];
+		$response = ['result' => true];
 		$fieldModel = $recordModel->getModule()->getFieldByName('igdnid');
 		if ($fieldModel->isViewable() && ($id = $recordModel->get($fieldModel->getName()))) {
 			$queryGenerator = new \App\QueryGenerator($recordModel->getModuleName());
