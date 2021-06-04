@@ -32,7 +32,7 @@
 					<a href="#" class="btn mt-1 btn-danger js-summary-close-edit ml-auto"
 					   title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
 						<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"></span>
-						<span class="ml-1 d-none{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL} d-xl-inline{else} d-xxl-inline{/if}">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</span>
+						<span class="ml-1 d-none d-xl-inline">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</span>
 					</a>
 				</div>
 			</div>
