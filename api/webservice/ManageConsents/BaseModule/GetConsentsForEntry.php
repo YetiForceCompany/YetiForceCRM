@@ -129,7 +129,7 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 		$queryGenerator = (new \App\QueryGenerator($this->controller->request->getModule()));
 		$fieldToken = current($queryGenerator->getModuleModel()->getFieldsByType('token', true));
 		foreach ($queryGenerator->getModuleModel()->getFieldsByType('multiReference', true) as $fieldModel) {
-			if ($fieldModel->isActiveField() && $fieldModel->getReferenceList() === $relatedModule) {
+			if ($fieldModel->isActiveField() && $fieldModel->getReferenceList() === [$relatedModule]) {
 				$referenceFieldModel = $fieldModel;
 				break;
 			}

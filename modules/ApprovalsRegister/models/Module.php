@@ -33,7 +33,7 @@ class ApprovalsRegister_Module_Model extends Vtiger_Module_Model
 			$recordModel = \Vtiger_Record_Model::getInstanceById($contactId);
 			$referenceFieldModel = null;
 			foreach ($recordModel->getModule()->getFieldsByType('multiReference') as $fieldModel) {
-				if ($fieldModel->isActiveField() && $fieldModel->getReferenceList() === $relatedModule) {
+				if ($fieldModel->isActiveField() && $fieldModel->getReferenceList() === [$relatedModule]) {
 					$referenceFieldModel = $fieldModel;
 					break;
 				}
