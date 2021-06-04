@@ -17,8 +17,13 @@ namespace App;
  */
 class Cache
 {
+	/** @var int Long time data storage */
 	const LONG = 3600;
+
+	/** @var int Medium time data storage */
 	const MEDIUM = 300;
+
+	/** @var int Short time data storage */
 	const SHORT = 60;
 	public static $pool;
 	public static $staticPool;

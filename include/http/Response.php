@@ -72,8 +72,10 @@ class Vtiger_Response
 	 * @param mixed      $code
 	 * @param mixed|null $message
 	 * @param mixed      $trace
+	 *
+	 * @return void
 	 */
-	public function setError($code = 500, $message = null, $trace = false)
+	public function setError($code = 500, $message = null, $trace = false): void
 	{
 		if (null === $message) {
 			$message = $code;
@@ -92,7 +94,7 @@ class Vtiger_Response
 	 *
 	 * @return void
 	 */
-	public function setException(Throwable $e)
+	public function setException(Throwable $e): void
 	{
 		$error = [
 			'code' => $e->getCode(),
