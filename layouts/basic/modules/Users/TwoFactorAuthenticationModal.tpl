@@ -1,8 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<form name="TwoFactorAuthenticationModal" class="tpl-TwoFactorAuthenticationModal form-horizontal validateForm"
-		  action="index.php" method="post"
-		  autocomplete="off">
+	<form name="TwoFactorAuthenticationModal" class="tpl-TwoFactorAuthenticationModal form-horizontal validateForm" action="index.php" method="post" autocomplete="off">
 		<input type="hidden" name="module" value="{$MODULE_NAME}"/>
 		<input type="hidden" name="action" value="TwoFactorAuthentication"/>
 		<input type="hidden" name="mode" value="secret"/>
@@ -51,7 +49,6 @@
 					</a>
 					<span class="mdi mdi-information-outline u-fs-38px mr-2 float-left"></span>
 					{\App\Language::translate('LBL_2FA_TOTP_DESC', $MODULE_NAME)}<br />
-
 				</div>
 		</div>
 		<div class="modal-footer">

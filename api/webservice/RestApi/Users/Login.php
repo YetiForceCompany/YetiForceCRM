@@ -72,7 +72,7 @@ class Login extends \Api\Core\BaseAction
 	 *      ),
 	 *		@OA\Response(
 	 *			response=200,
-	 *			description="User access details",
+	 *			description="User details",
 	 *			@OA\JsonContent(ref="#/components/schemas/Users_Login_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Users_Login_ResponseBody")
 	 *		),
@@ -208,7 +208,6 @@ class Login extends \Api\Core\BaseAction
 	 *    		@OA\Property(property="language", type="string", example="pl-PL"),
 	 *    		@OA\Property(property="type", type="integer"),
 	 *    		@OA\Property(property="login_method", type="string", enum={"PLL_PASSWORD", "PLL_PASSWORD_2FA"}, example="PLL_PASSWORD_2FA"),
-	 *    		@OA\Property(property="authy_methods", type="string", enum={"", "PLL_AUTHY_TOTP"}, example="PLL_AUTHY_TOTP"),
 	 *    		@OA\Property(property="logged", type="boolean"),
 	 *    		@OA\Property(
 	 *    			property="preferences",
@@ -229,6 +228,8 @@ class Login extends \Api\Core\BaseAction
 	 *    			@OA\Property(property="currency_symbol", type="string", example="zł"),
 	 *    			@OA\Property(property="conv_rate", type="number", format="float", example=1.00000),
 	 * 			),
+	 *    		@OA\Property(property="authy_methods", type="string", enum={"", "PLL_AUTHY_TOTP"}, example="PLL_AUTHY_TOTP"),
+	 *    		@OA\Property(property="2faObligatory", type="boolean", example=true),
 	 *		),
 	 *	),
 	 *	@OA\Schema(
@@ -301,7 +302,7 @@ class Login extends \Api\Core\BaseAction
 	protected function returnData(): array
 	{
 		$userModel = \App\User::getUserModel($this->userData['user_id']);
-		return [
+		$data = [
 			'token' => $this->userData['sid'],
 			'name' => $this->userData['crmid'] ? \App\Record::getLabel($this->userData['crmid']) : $userModel->getName(),
 			'lastLoginTime' => $this->userData['login_time'],
@@ -309,7 +310,6 @@ class Login extends \Api\Core\BaseAction
 			'language' => $this->userData['language'],
 			'type' => $this->userData['type'],
 			'login_method' => $this->userData['login_method'],
-			'authy_methods' => $this->userData['auth']['authy_methods'] ?? '',
 			'logged' => true,
 			'preferences' => [
 				'hour_format' => $userModel->getDetail('hour_format'),
@@ -329,6 +329,13 @@ class Login extends \Api\Core\BaseAction
 				'conv_rate' => $userModel->getDetail('conv_rate'),
 			],
 		];
+		if ('PLL_PASSWORD_2FA' === $this->userData['login_method']) {
+			$data['authy_methods'] = $this->userData['auth']['authy_methods'] ?? '';
+			if ($this->controller->request->isEmpty('code')) {
+				$params['2faObligatory'] = 'TOTP_OBLIGATORY' === \App\Config::security('USER_AUTHY_MODE');
+			}
+		}
+		return $data;
 	}
 
 	/**
