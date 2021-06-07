@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Controller\Components\Action;
@@ -44,7 +45,7 @@ class InterestsConflict extends \App\Controller\Action
 				break;
 			case 'getConfirm':
 			case 'updateConfirmStatus':
-				if (!\in_array(\App\User::getCurrentUserId(), \Config\Components\InterestsConflict::$unlockUsersAccess) && !\App\User::getCurrentUserModel()->isAdmin()) {
+				if (!\in_array(\App\User::getCurrentUserId(), \Config\Components\InterestsConflict::$confirmUsersAccess) && !\App\User::getCurrentUserModel()->isAdmin()) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 				}
 				break;
