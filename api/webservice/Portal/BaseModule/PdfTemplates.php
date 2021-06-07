@@ -12,6 +12,8 @@
 
 namespace Api\Portal\BaseModule;
 
+use OpenApi\Annotations as OA;
+
 /**
  * Portal container - Get PDF templates list class.
  */

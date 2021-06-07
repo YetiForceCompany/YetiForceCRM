@@ -13,6 +13,8 @@
 
 namespace Api\RestApi\BaseModule;
 
+use OpenApi\Annotations as OA;
+
 /**
  * RestApi container - Get Privileges  class.
  */

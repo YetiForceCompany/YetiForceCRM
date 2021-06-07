@@ -12,6 +12,8 @@
 
 namespace Api\Portal\BaseModule;
 
+use OpenApi\Annotations as OA;
+
 /**
  * Portal container - Pdf action class.
  */
