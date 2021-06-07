@@ -8,7 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\ManageConsents\BaseModule;
@@ -134,19 +134,22 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 				break;
 			}
 		}
-		$recordData = $queryGenerator->setFields(['id', $referenceFieldModel->getName()])
-			->addCondition($fieldToken->getName(), $this->controller->request->getByType('token', \App\Purifier::ALNUM), 'e')
-			->createQuery()
-			->one();
-
-		if (empty($recordData)) {
+		if (!$referenceFieldModel
+			|| !$fieldToken
+			|| empty($recordData = $queryGenerator->setFields(['id', $referenceFieldModel->getName()])
+				->addCondition($fieldToken->getName(), $this->controller->request->getByType('token', \App\Purifier::ALNUM), 'e')
+				->createQuery()
+				->one())
+		) {
 			throw new \Api\Core\Exception('Not Found', 404);
 		}
+
 		$referenceUiTypeModel = $referenceFieldModel->getUITypeModel();
-		$consents = $referenceUiTypeModel->getEditViewDisplayValue($recordData[$referenceFieldModel->getName()]);
-		foreach ($consents as $key => $recordId) {
-			if (!\App\Record::isExists($recordId)) {
-				unset($consents[$key]);
+		if ($consents = $referenceUiTypeModel->getArrayValues($recordData[$referenceFieldModel->getName()]) ?: []) {
+			foreach ($consents as $key => $recordId) {
+				if (!\App\Record::isExists($recordId)) {
+					unset($consents[$key]);
+				}
 			}
 		}
 

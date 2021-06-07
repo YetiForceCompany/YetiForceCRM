@@ -144,6 +144,18 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 		return implode(', ', $displayValueRaw);
 	}
 
+	/**
+	 * Gets an array values.
+	 *
+	 * @param string|null $value
+	 *
+	 * @return int[]
+	 */
+	public function getArrayValues(?string $value): array
+	{
+		return $value ? explode(self::COMMA, $value) : [];
+	}
+
 	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
