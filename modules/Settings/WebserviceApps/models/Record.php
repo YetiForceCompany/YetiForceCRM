@@ -35,7 +35,7 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Functtion to get instance without data.
+	 * Function to get instance without data.
 	 *
 	 * @return \self
 	 */
