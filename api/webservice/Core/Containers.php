@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Core;
@@ -37,6 +38,9 @@ class Containers
 			'user' => 'w_#__portal_user',
 			'session' => 'w_#__portal_session',
 			'loginHistory' => 'l_#__portal_login_history',
+		],
+		'ManageConsents' => [
+			'user' => 'w_#__manage_consents_user'
 		]
 	];
 }

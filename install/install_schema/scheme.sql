@@ -9737,6 +9737,7 @@ CREATE TABLE `w_yf_manage_consents_user` (
   `login_time` datetime DEFAULT NULL,
   `language` varchar(10) DEFAULT NULL,
   `user_id` int(10) DEFAULT NULL,
+  `custom_params` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_uq` (`server_id`,`token`),
   CONSTRAINT `w_yf_manage_consents_user_fk1` FOREIGN KEY (`server_id`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE

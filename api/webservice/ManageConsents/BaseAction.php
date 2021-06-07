@@ -65,7 +65,13 @@ class BaseAction extends \Api\Core\BaseAction
 		if (!$this->userData) {
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
+		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
 		$db->createCommand()->update($userTable, ['login_time' => date('Y-m-d H:i:s')], ['id' => $this->userData['id']])->execute();
 		\App\User::setCurrentUserId($this->userData['user_id']);
+	}
+
+	/** {@inheritdoc} */
+	public function updateSession(array $data = []): void
+	{
 	}
 }

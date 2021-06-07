@@ -287,13 +287,13 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			->from($instance->baseTable)
 			->where([$instance->baseIndex => $id])
 			->one(App\Db::getInstance('webservice'));
-		if (!App\Json::isEmpty($data['custom_params'])) {
+		if (!empty($data['custom_params']) && !App\Json::isEmpty($data['custom_params'])) {
 			$data['custom_params'] = \App\Json::decode($data['custom_params']);
 			$data = array_merge($data, $data['custom_params']);
 		} else {
 			$data['custom_params'] = [];
 		}
-		if ($data['auth']) {
+		if (!empty($data['auth'])) {
 			$data['auth'] = \App\Json::decode(\App\Encryption::getInstance()->decrypt($data['auth']));
 		} else {
 			$data['auth'] = [];
