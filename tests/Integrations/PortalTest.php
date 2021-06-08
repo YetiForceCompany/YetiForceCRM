@@ -80,7 +80,7 @@ final class PortalTest extends \Tests\Base
 			'connect_timeout' => 60,
 			'http_errors' => false,
 			'headers' => [
-				'x-raw-data' => 1
+				'x-raw-data' => 1,
 			],
 		]));
 	}
@@ -118,7 +118,6 @@ final class PortalTest extends \Tests\Base
 			'crmid' => 0,
 			'crmid_display' => '',
 			'login_method' => 'PLL_PASSWORD',
-			'authy_methods' => 'PLL_AUTHY_TOTP',
 			'user_id' => \App\User::getActiveAdminId(),
 		]);
 		$user->save();
@@ -140,28 +139,13 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testLogIn(): void
 	{
-		$request = $this->httpClient->post('Users/TwoFactorAuth', \App\Utils::merge([
-			'json' => [
-				'userName' => 'demo@yetiforce.com',
-				'password' => 'demo',
-			]
-		], self::$requestOptions)
-		);
-		$this->logs = $body = $request->getBody()->getContents();
-		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$secretKey = $response['result']['secretKey'];
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/TwoFactorAuth', 'post', 200);
-
 		$request = $this->httpClient->post('Users/Login', \App\Utils::merge(
 				[
 					'json' => [
 						'userName' => 'demo@yetiforce.com',
 						'password' => 'demo',
-						'code' => (new \Sonata\GoogleAuthenticator\GoogleAuthenticator())->getCode($secretKey),
 						'params' => ['language' => 'pl-PL'],
-					]
+					],
 				], self::$requestOptions)
 		);
 		$this->logs = $body = $request->getBody()->getContents();
@@ -184,7 +168,7 @@ final class PortalTest extends \Tests\Base
 			'addresslevel8a' => 'Marszałkowska',
 			'buildingnumbera' => 111,
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
-			'share_externally' => 1
+			'share_externally' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
@@ -212,8 +196,8 @@ final class PortalTest extends \Tests\Base
 					'purchase' => 0,
 					'comment1' => 0,
 					'unit' => 'Incidents',
-				]
-			]
+				],
+			],
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
@@ -274,7 +258,7 @@ final class PortalTest extends \Tests\Base
 		$request = $this->httpClient->post('Accounts/Record/', \App\Utils::merge(['json' => [
 			'accountname' => 'Api Delete YetiForce Sp. z o.o.',
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
-			'share_externally' => 1
+			'share_externally' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
@@ -446,7 +430,7 @@ final class PortalTest extends \Tests\Base
 				'x-unit-price' => 1,
 				'x-unit-gross' => 1,
 				'x-product-bundles' => 1,
-			]
+			],
 		], self::$requestOptions));
 		$this->logs = $record->getData();
 		$body = $request->getBody()->getContents();
@@ -480,7 +464,7 @@ final class PortalTest extends \Tests\Base
 			'module' => 'Documents',
 			'actionName' => 'DownloadFile',
 			'record' => $record->getId(),
-			'fileid' => 1
+			'fileid' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);

@@ -79,7 +79,7 @@ final class RestApiTest extends \Tests\Base
 			'connect_timeout' => 60,
 			'http_errors' => false,
 			'headers' => [
-				'x-raw-data' => 1
+				'x-raw-data' => 1,
 			],
 		]));
 	}
@@ -117,6 +117,7 @@ final class RestApiTest extends \Tests\Base
 			'crmid' => 0,
 			'crmid_display' => '',
 			'login_method' => 'PLL_PASSWORD',
+			'authy_methods' => 'PLL_AUTHY_TOTP',
 			'user_id' => \App\User::getActiveAdminId(),
 		]);
 		$user->save();
@@ -144,7 +145,8 @@ final class RestApiTest extends \Tests\Base
 					'json' => [
 						'userName' => 'api@yetiforce.com',
 						'password' => 'api',
-					]
+						'params' => ['language' => 'pl-PL'],
+					],
 				], self::$requestOptions)
 		);
 		$this->logs = $body = $request->getBody()->getContents();
@@ -154,6 +156,46 @@ final class RestApiTest extends \Tests\Base
 		self::$authUserParams = $response['result'];
 		self::$requestOptions['headers']['x-token'] = self::$authUserParams['token'];
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/RestApi/Users/Login', 'post', 200);
+	}
+
+	/**
+	 * Test logon 2fa .
+	 */
+	public function testLogIn2fa(): void
+	{
+		$request = $this->httpClient->get('Users/TwoFactorAuth', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame('TOTP', $response['result']['authMethods'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$secretKey = $response['result']['secretKey'];
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/RestApi/Users/TwoFactorAuth', 'get', 200);
+
+		$request = $this->httpClient->post('Users/Login', \App\Utils::merge(
+			[
+				'json' => [
+					'userName' => 'api@yetiforce.com',
+					'password' => 'api',
+					'code' => (new \Sonata\GoogleAuthenticator\GoogleAuthenticator())->getCode($secretKey),
+				],
+			], self::$requestOptions)
+		);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Users/Login API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Users/Login API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::$authUserParams = $response['result'];
+		self::$requestOptions['headers']['x-token'] = self::$authUserParams['token'];
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/RestApi/Users/Login', 'post', 200);
+
+		$request = $this->httpClient->delete('Users/TwoFactorAuth', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertTrue($response['result'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/RestApi/Users/TwoFactorAuth', 'delete', 200);
 	}
 
 	/**
