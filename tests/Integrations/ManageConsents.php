@@ -174,4 +174,50 @@ final class ManageConsents extends \Tests\Base
 		static::assertNotEmpty($response['result']['records'][self::$approvalId], 'Approvals/RecordsList record:' . self::$approvalId . ' not exists');
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/ManageConsents/Approvals/RecordsList', 'get', 200);
 	}
+
+	/**
+	 * Adds an consent entry.
+	 *
+	 * @return void
+	 */
+	public function testAddConsent(): void
+	{
+		$request = $this->httpClient->post('ApprovalsRegister/Record', \App\Utils::merge(['json' => [
+			'subject' => 'Text',
+			'approvalsid' => self::$approvalId,
+			'contactid' => self::$recordId,
+			'approvals_register_type' => 'PLL_ACCEPTANCE',
+			'approvals_register_status' => 'PLL_ACCEPTED',
+			'registration_date' => date('Y-m-d H:i:s')
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'ApprovalsRegister/RecordAPI error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'ApprovalsRegister/Record API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertNotEmpty($response['result'], 'ApprovalsRegister/Record result is empty and should have at least one entry.');
+		static::assertNotEmpty($response['result']['id'], 'ApprovalsRegister/Record record should not be empty');
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/ManageConsents/ApprovalsRegister/Record', 'post', 200);
+		\ApprovalsRegister_Module_Model::reloadApprovals(self::$recordId);
+	}
+
+	/**
+	 * Gets the list of consents for specific entry.
+	 *
+	 * @return void
+	 */
+	public function testGetConsents(): void
+	{
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$recordId);
+		$approvalField = current($recordModel->getModule()->getFieldsByType('multiReference', true));
+		$request = $this->httpClient->post('Contacts/GetConsentsForEntry', \App\Utils::merge(['json' => [
+			'token' => $recordModel->get('token')
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Contacts/GetConsentsForEntry error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Contacts/GetConsentsForEntry API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(self::$recordId, $response['result']['id'], 'Contacts/GetConsentsForEntry record should be the same: ' . self::$recordId);
+		static::assertSame($approvalField->getUITypeModel()->getArrayValues($recordModel->get($approvalField->getName())), $response['result']['consents'], 'Contacts/GetConsentsForEntry record should be the same: (array) ' . self::$approvalId);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/ManageConsents/Contacts/GetConsentsForEntry', 'post', 200);
+	}
 }
