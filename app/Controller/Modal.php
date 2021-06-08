@@ -55,42 +55,49 @@ abstract class Modal extends View\Base
 	 * @var string
 	 */
 	public $modalId = '';
+
 	/**
 	 * The name of the success button.
 	 *
 	 * @var string
 	 */
 	public $successBtn = 'LBL_SAVE';
+
 	/**
 	 * The name of the success button icon.
 	 *
 	 * @var string
 	 */
 	public $successBtnIcon = 'fas fa-check';
+
 	/**
 	 * The name of the danger button.
 	 *
 	 * @var string
 	 */
 	public $dangerBtn = 'LBL_CANCEL';
+
 	/**
 	 * The name of the footerClass.
 	 *
 	 * @var string
 	 */
 	public $footerClass = '';
+
 	/**
 	 * Block the window closing.
 	 *
 	 * @var bool
 	 */
 	public $lockExit = false;
+
 	/**
 	 * Show modal header.
 	 *
 	 * @var bool
 	 */
 	public $showHeader = true;
+
 	/**
 	 * Show modal footer.
 	 *
