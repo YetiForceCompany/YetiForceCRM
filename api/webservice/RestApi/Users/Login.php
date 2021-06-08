@@ -336,7 +336,7 @@ class Login extends \Api\Core\BaseAction
 		if ('PLL_PASSWORD_2FA' === $this->userData['login_method']) {
 			$data['authy_methods'] = $this->userData['auth']['authy_methods'] ?? '';
 			if ($this->controller->request->isEmpty('code')) {
-				$params['2faObligatory'] = 'TOTP_OBLIGATORY' === \App\Config::security('USER_AUTHY_MODE');
+				$data['2faObligatory'] = 'TOTP_OBLIGATORY' === \App\Config::security('USER_AUTHY_MODE');
 			}
 		}
 		return $data;
