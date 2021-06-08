@@ -101,7 +101,7 @@ final class ManageConsents extends \Tests\Base
 	{
 		$moduleName = 'Contacts';
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		if (!($field = current($moduleModel->getFieldsByDisplayType('token')))) {
+		if (!($field = current($moduleModel->getFieldsByType('token', true)))) {
 			$blockInstance = current($moduleModel->getBlocks());
 			$field = new \vtlib\Field();
 			$field->name = 'token';
@@ -128,7 +128,7 @@ final class ManageConsents extends \Tests\Base
 		\App\Fields\Token::setTokens($field->name, $moduleName);
 
 		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$recordId);
-		static::assertNotEmpty($recordModel->get('token'), 'Token should not be empty');
+		static::assertNotEmpty($recordModel->get('token'), 'Token should not be empty for field: ' . $field->name);
 	}
 
 	/**
