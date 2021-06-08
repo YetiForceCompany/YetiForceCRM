@@ -66,6 +66,39 @@ final class ManageConsents extends \Tests\Base
 	public static function setUpBeforeClass(): void
 	{
 		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . '/public_html/api/ManageConsents.json')));
+		$recordModel = \Vtiger_Record_Model::getCleanInstance('Approvals');
+		$recordModel->set('name', 'Consent1');
+		$recordModel->set('approvals_status', 'PLL_ACTIVE');
+		$recordModel->set('assigned_user_id', \App\User::getCurrentUserId());
+		$recordModel->save();
+		self::$approvalId = $recordModel->getId();
+	}
+
+	/**
+	 * Before a test method is run, this method is invoked.
+	 *
+	 * @return void
+	 */
+	protected function setUp(): void
+	{
+		$this->httpClient = new \GuzzleHttp\Client(\App\Utils::merge(\App\RequestHttp::getOptions(), [
+			'base_uri' => \App\Config::main('site_URL') . 'webservice/ManageConsents/',
+			'Content-Type' => 'application/json',
+			'Accept' => 'application/json',
+			'timeout' => 60,
+			'connect_timeout' => 60,
+			'http_errors' => false,
+			'headers' => [
+				'x-raw-data' => 1
+			]
+		]));
+	}
+
+	/**
+	 * Testing generate token.
+	 */
+	public function testGenerateToken(): void
+	{
 		$moduleName = 'Contacts';
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		if (!($field = current($moduleModel->getFieldsByDisplayType('token')))) {
@@ -94,32 +127,8 @@ final class ManageConsents extends \Tests\Base
 		self::$recordId = $recordModel->getId();
 		\App\Fields\Token::setTokens($field->name, $moduleName);
 
-		$recordModel = \Vtiger_Record_Model::getCleanInstance('Approvals');
-		$recordModel->set('name', 'Consent1');
-		$recordModel->set('approvals_status', 'PLL_ACTIVE');
-		$recordModel->set('assigned_user_id', \App\User::getCurrentUserId());
-		$recordModel->save();
-		self::$approvalId = $recordModel->getId();
-	}
-
-	/**
-	 * Before a test method is run, this method is invoked.
-	 *
-	 * @return void
-	 */
-	protected function setUp(): void
-	{
-		$this->httpClient = new \GuzzleHttp\Client(\App\Utils::merge(\App\RequestHttp::getOptions(), [
-			'base_uri' => \App\Config::main('site_URL') . 'webservice/ManageConsents/',
-			'Content-Type' => 'application/json',
-			'Accept' => 'application/json',
-			'timeout' => 60,
-			'connect_timeout' => 60,
-			'http_errors' => false,
-			'headers' => [
-				'x-raw-data' => 1
-			]
-		]));
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$recordId);
+		static::assertNotEmpty($recordModel->get('token'), 'Token should not be empty');
 	}
 
 	/**

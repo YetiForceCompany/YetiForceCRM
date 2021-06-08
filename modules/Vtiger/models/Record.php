@@ -118,14 +118,17 @@ class Vtiger_Record_Model extends \App\Base
 	 * Set custom data for save.
 	 *
 	 * @param array $data
+	 *
+	 * @return $this
 	 */
-	public function setDataForSave(array $data)
+	public function setDataForSave(array $data): self
 	{
 		$db = \App\Db::getInstance();
 		foreach ($data as $tableName => $tableData) {
 			$tableName = $db->quoteSql($tableName);
 			$this->dataForSave[$tableName] = isset($this->dataForSave[$tableName]) ? array_merge($this->dataForSave[$tableName], $tableData) : $tableData;
 		}
+		return $this;
 	}
 
 	/**

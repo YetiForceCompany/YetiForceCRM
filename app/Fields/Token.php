@@ -36,7 +36,8 @@ class Token
 				->query();
 			while ($recordId = $dataReader->readColumn(0)) {
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->generateToken())->save();
+				$token = $fieldModel->getUITypeModel()->generateToken();
+				$recordModel->set($fieldModel->getName(), $token)->setDataForSave([$fieldModel->getTableName() => [$fieldModel->getColumnName() => $token]])->save();
 				if (!$limit) {
 					break;
 				}
