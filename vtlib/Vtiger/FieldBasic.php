@@ -377,6 +377,8 @@ class FieldBasic
 	protected function clearCache()
 	{
 		\App\Cache::staticDelete('ModuleFields', $this->getModuleId());
+		\App\Cache::delete('AllFieldForModule', $this->getModuleId());
 		\App\Cache::staticDelete('module', $this->getModuleName());
+		\App\Cache::delete('BlocksForModule', $this->getModuleId());
 	}
 }
