@@ -76,6 +76,7 @@ final class ManageConsents extends \Tests\Base
 			$field->label = 'token';
 			$field->column = 'token';
 			$field->columntype = 'varchar(' . \Vtiger_Token_UIType::MAX_LENGTH . ')';
+			$field->maximumlength = \Vtiger_Token_UIType::MAX_LENGTH;
 			$field->uitype = 324;
 			$field->typeofdata = 'V~O';
 			$field->defaultvalue = '';
