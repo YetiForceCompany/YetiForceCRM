@@ -42,6 +42,7 @@
     "LBL_SIGNED_IN": "Signed in",
     "LBL_SIGNED_OFF": "Signed off",
     "ERR_INCORRECT_PASSWORD": "Incorrect password",
+    "ERR_NO_2FA_TOTP_CODE": "No 2FA TOTP code",
     "ERR_USER_NOT_FOUND": "User not found",
     "ERR_NO_CRMID": "No contact ID",
     "ERR_2FA_NOT_BEEN_ENABLED": "Two-factor authentication has not been enabled",

@@ -2672,13 +2672,12 @@
             }
         },
         "/webservice/Portal/Users/TwoFactorAuth": {
-            "post": {
+            "get": {
                 "tags": [
                     "Users"
                 ],
-                "summary": "This API allows you to manage two factor authentication (2FA) for users. Auth methods: TOTP ",
-                "description": "Two Factor authentication",
-                "operationId": "Api\\Portal\\Users\\TwoFactorAuth::post",
+                "summary": "Get two factor authentication details",
+                "operationId": "Api\\Portal\\Users\\TwoFactorAuth::get",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -2689,45 +2688,24 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Input data format",
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Users_TwoFactorAuth_RequestBody"
-                            }
-                        },
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Users_TwoFactorAuth_RequestBody"
-                            }
-                        },
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Users_TwoFactorAuth_RequestBody"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
-                        "description": "User access details",
+                        "description": "Authentication secret details",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Users_TwoFactorAuth_ResponseBody"
+                                    "$ref": "#/components/schemas/Users_Get_TwoFactorAuth_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Users_TwoFactorAuth_ResponseBody"
+                                    "$ref": "#/components/schemas/Users_Get_TwoFactorAuth_Response"
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.` OR `Invalid data access` OR `Invalid user password` OR `No crmid`",
+                        "description": "Two-factor authentication has not been enabled",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2760,7 +2738,150 @@
                 "security": [
                     {
                         "basicAuth": [],
-                        "ApiKeyAuth": []
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Activate two factor authentication",
+                "operationId": "Api\\Portal\\Users\\TwoFactorAuth::post",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Header-Encrypted"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Access details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_post_TwoFactorAuth_Response"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_post_TwoFactorAuth_Response"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Disable two factor authentication",
+                "operationId": "Api\\Portal\\Users\\TwoFactorAuth::delete",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Header-Encrypted"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Disable two factor authentication response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_Delete_TwoFactorAuth_Response"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_Delete_TwoFactorAuth_Response"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Two-factor authentication has not been enabled",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -4357,11 +4478,6 @@
                                 "description": "Post method.",
                                 "type": "string"
                             },
-                            "parentName": {
-                                "description": "Post method.",
-                                "type": "string",
-                                "example": "YetiForce Company"
-                            },
                             "lastLoginTime": {
                                 "description": "Post method.",
                                 "type": "string",
@@ -4390,39 +4506,6 @@
                                 ],
                                 "example": "PLL_PASSWORD_2FA"
                             },
-                            "authy_methods": {
-                                "description": "Post method.",
-                                "type": "string",
-                                "enum": [
-                                    "",
-                                    "PLL_AUTHY_TOTP"
-                                ],
-                                "example": "PLL_AUTHY_TOTP"
-                            },
-                            "companyId": {
-                                "description": "Post method.",
-                                "type": "integer"
-                            },
-                            "companyDetails": {
-                                "title": "Company details, optional parameter depending on the user type",
-                                "description": "Post method.",
-                                "properties": {
-                                    "check_stock_levels": {
-                                        "description": "Post method.",
-                                        "type": "boolean"
-                                    },
-                                    "sum_open_orders": {
-                                        "description": "Post method.",
-                                        "type": "number",
-                                        "format": "double"
-                                    },
-                                    "creditlimit": {
-                                        "description": "Post method.",
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": "object"
-                            },
                             "logged": {
                                 "description": "Post method.",
                                 "type": "boolean"
@@ -4430,11 +4513,6 @@
                             "preferences": {
                                 "description": "Post method.",
                                 "properties": {
-                                    "activity_view": {
-                                        "description": "Post method.",
-                                        "type": "string",
-                                        "example": "This Month"
-                                    },
                                     "hour_format": {
                                         "description": "Post method.",
                                         "type": "string",
@@ -4454,16 +4532,6 @@
                                         "description": "Post method.",
                                         "type": "string",
                                         "example": "yyyy-mm-dd"
-                                    },
-                                    "date_format_js": {
-                                        "description": "Post method.",
-                                        "type": "string",
-                                        "example": "Y-m-d"
-                                    },
-                                    "dayoftheweek": {
-                                        "description": "Post method.",
-                                        "type": "string",
-                                        "example": "Monday"
                                     },
                                     "time_zone": {
                                         "description": "Post method.",
@@ -4500,11 +4568,6 @@
                                         "type": "integer",
                                         "example": 2
                                     },
-                                    "truncate_trailing_zeros": {
-                                        "description": "Post method.",
-                                        "type": "integer",
-                                        "example": 0
-                                    },
                                     "currency_name": {
                                         "description": "Post method.",
                                         "type": "string",
@@ -4525,6 +4588,69 @@
                                         "type": "number",
                                         "format": "float",
                                         "example": 1
+                                    },
+                                    "activity_view": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": "This Month"
+                                    },
+                                    "date_format_js": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": "Y-m-d"
+                                    },
+                                    "dayoftheweek": {
+                                        "description": "Post method.",
+                                        "type": "string",
+                                        "example": "Monday"
+                                    },
+                                    "truncate_trailing_zeros": {
+                                        "description": "Post method.",
+                                        "type": "integer",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "authy_methods": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "enum": [
+                                    "",
+                                    "PLL_AUTHY_TOTP"
+                                ],
+                                "example": "PLL_AUTHY_TOTP"
+                            },
+                            "2faObligatory": {
+                                "description": "Post method.",
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "companyId": {
+                                "description": "Post method.",
+                                "type": "integer"
+                            },
+                            "parentName": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "example": "YetiForce Company"
+                            },
+                            "companyDetails": {
+                                "title": "Company details, optional parameter depending on the user type",
+                                "description": "Post method.",
+                                "properties": {
+                                    "check_stock_levels": {
+                                        "description": "Post method.",
+                                        "type": "boolean"
+                                    },
+                                    "sum_open_orders": {
+                                        "description": "Post method.",
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "creditlimit": {
+                                        "description": "Post method.",
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -4710,24 +4836,41 @@
                 },
                 "type": "object"
             },
-            "Users_TwoFactorAuth_RequestBody": {
-                "title": "Users module - Users login request body",
-                "description": "JSON or form-data",
+            "Users_Get_TwoFactorAuth_Response": {
+                "title": "Users module - Authentication secret details",
+                "description": "Get user history of access activity.",
                 "properties": {
-                    "userName": {
-                        "description": "Webservice user name",
-                        "type": "string"
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success, 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
                     },
-                    "password": {
-                        "description": "Webservice user password",
-                        "type": "string"
+                    "result": {
+                        "description": "Content of responses from a given method",
+                        "properties": {
+                            "authMethods": {
+                                "description": "Get user history of access activity.",
+                                "type": "string",
+                                "example": "TOTP"
+                            },
+                            "secretKey": {
+                                "description": "Get user history of access activity.",
+                                "type": "string",
+                                "example": "LJUJWCOEGUKP6WS2"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
             },
-            "Users_TwoFactorAuth_ResponseBody": {
-                "title": "Users module - Users login response body",
-                "description": "Users login response body",
+            "Users_post_TwoFactorAuth_Response": {
+                "title": "Users module - Activate two factor authentication",
+                "description": "Activate two factor authentication response body",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4740,19 +4883,26 @@
                     },
                     "result": {
                         "description": "Content of responses from a given method",
-                        "properties": {
-                            "authMethods": {
-                                "description": "Post method.",
-                                "type": "string",
-                                "example": "TOTP"
-                            },
-                            "secretKey": {
-                                "description": "Post method.",
-                                "type": "string",
-                                "example": "LJUJWCOEGUKP6WS2"
-                            }
-                        },
-                        "type": "object"
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Users_Delete_TwoFactorAuth_Response": {
+                "title": "Users module - Disable two factor authentication",
+                "description": "Disable two factor authentication response",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success, 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "result": {
+                        "description": "Status of successful",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"

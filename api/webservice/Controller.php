@@ -71,6 +71,11 @@ class Controller
 	 */
 	public function preProcess(): bool
 	{
+		register_shutdown_function(function () {
+			if ($error = error_get_last()) {
+				$this->errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+			}
+		});
 		set_error_handler([$this, 'errorHandler']);
 		if ('OPTIONS' === $this->method) {
 			$handlerClass = $this->getActionClassName();
@@ -217,7 +222,7 @@ class Controller
 				'last_error' => $e->getMessage(),
 				'error_time' => date('Y-m-d H:i:s'),
 				'error_method' => $this->request->getServer('REQUEST_URI'),
-			]
+			],
 		]);
 	}
 

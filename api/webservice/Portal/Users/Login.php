@@ -21,7 +21,7 @@ class Login extends \Api\RestApi\Users\Login
 	/**
 	 * Post method.
 	 *
-	 * @return array
+	 * @return array|null
 	 *
 	 *	@OA\Post(
 	 *		path="/webservice/Portal/Users/Login",
@@ -253,7 +253,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *		description="Access to user methods"
 	 *	)
 	 */
-	public function post(): array
+	public function post(): ?array
 	{
 		return parent::post();
 	}

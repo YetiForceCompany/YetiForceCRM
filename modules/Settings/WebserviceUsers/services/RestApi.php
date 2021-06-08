@@ -275,10 +275,12 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 								$row = \App\Fields\DateTime::formatToDisplay($row);
 								break;
 							default:
-							$row = \App\Purifier::encodeHtml($row);
+								$row = \App\Purifier::encodeHtml($row);
 								break;
 						}
-						$value .= \App\Language::translate(Settings_WebserviceUsers_Record_Model::$customParamsLabels[$key], 'Settings.WebserviceUsers') . ": $row \n";
+						if (isset(Settings_WebserviceUsers_Record_Model::$customParamsLabels[$key])) {
+							$value .= \App\Language::translate(Settings_WebserviceUsers_Record_Model::$customParamsLabels[$key], 'Settings.WebserviceUsers') . ": $row \n";
+						}
 					}
 					$value = \App\Layout::truncateText($value, 50, true);
 				}

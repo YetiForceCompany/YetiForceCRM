@@ -204,7 +204,8 @@ class Response
 		if (empty($requestContentType) || '*/*' === $requestContentType) {
 			$requestContentType = $this->request->contentType;
 		}
-		if (!headers_sent()) {
+		$headersSent = headers_sent();
+		if (!$headersSent) {
 			header('Access-Control-Allow-Origin: *');
 			header('Access-Control-Allow-Methods: ' . implode(', ', $this->acceptableMethods));
 			header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(', ', $this->acceptableHeaders));
@@ -223,12 +224,18 @@ class Response
 			switch ($this->responseType) {
 				case 'data':
 					if (!empty($this->body)) {
-						header("Content-type: $requestContentType");
+						if (!$headersSent) {
+							header("Content-type: $requestContentType");
+						}
 						if (false !== strpos($requestContentType, 'application/xml')) {
-							header('Content-disposition: attachment; filename="api.xml"');
+							if (!$headersSent) {
+								header('Content-disposition: attachment; filename="api.xml"');
+							}
 							echo $this->encodeXml($this->body);
 						} else {
-							header('Content-disposition: attachment; filename="api.json"');
+							if (!$headersSent) {
+								header('Content-disposition: attachment; filename="api.json"');
+							}
 							echo $this->encodeJson($this->body);
 						}
 					}

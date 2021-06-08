@@ -41,7 +41,7 @@ class Login extends \Api\Core\BaseAction
 	 *
 	 * @throws \Api\Core\Exception
 	 *
-	 * @return array
+	 * @return array|null
 	 *
 	 * @OA\Post(
 	 *		path="/webservice/RestApi/Users/Login",
@@ -259,7 +259,7 @@ class Login extends \Api\Core\BaseAction
 	 *		description="Access to user methods"
 	 *	)
 	 */
-	public function post(): array
+	public function post(): ?array
 	{
 		$this->checkAccess();
 		if ('PLL_PASSWORD_2FA' === $this->userData['login_method'] && ($response = $this->twoFactorAuth())) {
@@ -267,10 +267,14 @@ class Login extends \Api\Core\BaseAction
 				'status' => $response,
 			]);
 			$this->controller->response->setStatus(412);
-			return ['error' => [
-				'message' => $response,
-				'code' => 412,
-			]];
+			$this->controller->response->setBody([
+				'status' => 0,
+				'error' => [
+					'message' => \App\Language::translate($response, 'Other.Exceptions'),
+					'code' => 412,
+				],
+			]);
+			return null;
 		}
 		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type'] && (empty($this->userData['crmid']) || !\App\Record::isExists($this->userData['crmid']))) {
 			$this->saveLoginHistory([
@@ -280,7 +284,7 @@ class Login extends \Api\Core\BaseAction
 				'custom_params' => [
 					'invalid_login' => 'No crmid',
 					'invalid_login_time' => date(static::DATE_TIME_FORMAT),
-				]
+				],
 			]);
 			throw new \Api\Core\Exception('No crmid', 401);
 		}
@@ -399,7 +403,7 @@ class Login extends \Api\Core\BaseAction
 				'custom_params' => [
 					'invalid_login' => 'Invalid user password',
 					'invalid_login_time' => date(static::DATE_TIME_FORMAT),
-				]
+				],
 			]);
 			$this->saveLoginHistory([
 				'status' => 'ERR_INCORRECT_PASSWORD',
@@ -431,10 +435,10 @@ class Login extends \Api\Core\BaseAction
 				'custom_params' => [
 					'invalid_login' => '2FA verification error: ' . $th->getMessage(),
 					'invalid_login_time' => date(static::DATE_TIME_FORMAT),
-				]
+				],
 			]);
 			$this->saveLoginHistory([
-				'status' => '2FA:' . $th->getMessage()
+				'status' => '2FA:' . $th->getMessage(),
 			]);
 			throw new \Api\Core\Exception('2FA verification error: ' . $th->getMessage(), 401, $th);
 		}

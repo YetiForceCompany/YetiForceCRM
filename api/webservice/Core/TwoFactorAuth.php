@@ -66,29 +66,58 @@ class TwoFactorAuth
 	 */
 	public function generate(): array
 	{
-		$key = (new GoogleAuthenticator())->generateSecret();
-		$this->action->updateUser([
-			'custom_params' => [
-				'authy_secret_key' => $key
-			]
-		]);
 		return [
 			'authMethods' => 'TOTP',
-			'secretKey' => $key,
+			'secretKey' => (new GoogleAuthenticator())->generateSecret(),
 		];
 	}
 
 	/**
-	 * Verification of the required data entry.
+	 * Get details.
 	 *
 	 * @return string
 	 */
-	public function hasRequiresAdditionalData(): string
+	public function details(): array
 	{
-		if ($this->action->controller->request->isEmpty('code')) {
-			return 'ERR_NO_2FA_TOTP_CODE';
+		return [
+			'authMethods' => 'TOTP',
+		];
+	}
+
+	/**
+	 * Delete authy secret key.
+	 *
+	 * @return string
+	 */
+	public function delete(): void
+	{
+		$this->action->updateUser([
+			'custom_params' => [
+				'authy_secret_key' => '',
+			],
+		]);
+	}
+
+	/**
+	 * Verify secret key.
+	 *
+	 * @throws \Api\Core\Exception
+	 *
+	 * @return string
+	 */
+	public function activate(): string
+	{
+		$code = $this->action->controller->request->getByType('code', \App\Purifier::ALNUM);
+		$secret = $this->action->controller->request->getByType('secret', \App\Purifier::ALNUM);
+		if (!(new GoogleAuthenticator())->checkCode($secret, (string) $code)) {
+			return \App\Language::translate('ERR_INCORRECT_2FA_TOTP_CODE', 'Other.Exceptions');
 		}
-		return '';
+		$this->action->updateUser([
+			'custom_params' => [
+				'authy_secret_key' => $secret,
+			],
+		]);
+		return 'Ok';
 	}
 
 	/**
@@ -104,5 +133,18 @@ class TwoFactorAuth
 		if (!(new GoogleAuthenticator())->checkCode($params['authy_secret_key'], (string) $this->action->controller->request->get('code'))) {
 			throw new \Exception('Incorrect 2FA TOTP code');
 		}
+	}
+
+	/**
+	 * Verification of the required data entry.
+	 *
+	 * @return string
+	 */
+	public function hasRequiresAdditionalData(): string
+	{
+		if ($this->action->controller->request->isEmpty('code')) {
+			return 'ERR_NO_2FA_TOTP_CODE';
+		}
+		return '';
 	}
 }

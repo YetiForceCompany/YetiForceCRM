@@ -1408,7 +1408,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "User access details",
+                        "description": "User details",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1812,13 +1812,12 @@
             }
         },
         "/webservice/RestApi/Users/TwoFactorAuth": {
-            "post": {
+            "get": {
                 "tags": [
                     "Users"
                 ],
-                "summary": "This API allows you to manage two factor authentication (2FA) for users. Auth methods: TOTP ",
-                "description": "Two Factor authentication",
-                "operationId": "Api\\RestApi\\Users\\TwoFactorAuth::post",
+                "summary": "Get two factor authentication details",
+                "operationId": "Api\\RestApi\\Users\\TwoFactorAuth::get",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -1829,45 +1828,24 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "Input data format",
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Users_TwoFactorAuth_RequestBody"
-                            }
-                        },
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Users_TwoFactorAuth_RequestBody"
-                            }
-                        },
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Users_TwoFactorAuth_RequestBody"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
-                        "description": "User access details",
+                        "description": "Authentication secret details",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Users_TwoFactorAuth_ResponseBody"
+                                    "$ref": "#/components/schemas/Users_Get_TwoFactorAuth_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Users_TwoFactorAuth_ResponseBody"
+                                    "$ref": "#/components/schemas/Users_Get_TwoFactorAuth_Response"
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.` OR `Invalid data access` OR `Invalid user password` OR `No crmid`",
+                        "description": "Two-factor authentication has not been enabled",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1900,7 +1878,150 @@
                 "security": [
                     {
                         "basicAuth": [],
-                        "ApiKeyAuth": []
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Activate two factor authentication",
+                "operationId": "Api\\RestApi\\Users\\TwoFactorAuth::post",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Header-Encrypted"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Access details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_post_TwoFactorAuth_Response"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_post_TwoFactorAuth_Response"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Disable two factor authentication",
+                "operationId": "Api\\RestApi\\Users\\TwoFactorAuth::delete",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Header-Encrypted"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Disable two factor authentication response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_Delete_TwoFactorAuth_Response"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_Delete_TwoFactorAuth_Response"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Two-factor authentication has not been enabled",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
                     }
                 ]
             }
@@ -3003,15 +3124,6 @@
                                 ],
                                 "example": "PLL_PASSWORD_2FA"
                             },
-                            "authy_methods": {
-                                "description": "Post method.",
-                                "type": "string",
-                                "enum": [
-                                    "",
-                                    "PLL_AUTHY_TOTP"
-                                ],
-                                "example": "PLL_AUTHY_TOTP"
-                            },
                             "logged": {
                                 "description": "Post method.",
                                 "type": "boolean"
@@ -3097,6 +3209,20 @@
                                     }
                                 },
                                 "type": "object"
+                            },
+                            "authy_methods": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "enum": [
+                                    "",
+                                    "PLL_AUTHY_TOTP"
+                                ],
+                                "example": "PLL_AUTHY_TOTP"
+                            },
+                            "2faObligatory": {
+                                "description": "Post method.",
+                                "type": "boolean",
+                                "example": true
                             }
                         },
                         "type": "object"
@@ -3279,24 +3405,41 @@
                 },
                 "type": "object"
             },
-            "Users_TwoFactorAuth_RequestBody": {
-                "title": "Users module - Users login request body",
-                "description": "JSON or form-data",
+            "Users_Get_TwoFactorAuth_Response": {
+                "title": "Users module - Authentication secret details",
+                "description": "Get user history of access activity.",
                 "properties": {
-                    "userName": {
-                        "description": "Webservice user name",
-                        "type": "string"
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success, 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
                     },
-                    "password": {
-                        "description": "Webservice user password",
-                        "type": "string"
+                    "result": {
+                        "description": "Content of responses from a given method",
+                        "properties": {
+                            "authMethods": {
+                                "description": "Get user history of access activity.",
+                                "type": "string",
+                                "example": "TOTP"
+                            },
+                            "secretKey": {
+                                "description": "Get user history of access activity.",
+                                "type": "string",
+                                "example": "LJUJWCOEGUKP6WS2"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
             },
-            "Users_TwoFactorAuth_ResponseBody": {
-                "title": "Users module - Users login response body",
-                "description": "Users login response body",
+            "Users_post_TwoFactorAuth_Response": {
+                "title": "Users module - Activate two factor authentication",
+                "description": "Activate two factor authentication response body",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -3309,19 +3452,26 @@
                     },
                     "result": {
                         "description": "Content of responses from a given method",
-                        "properties": {
-                            "authMethods": {
-                                "description": "Post method.",
-                                "type": "string",
-                                "example": "TOTP"
-                            },
-                            "secretKey": {
-                                "description": "Post method.",
-                                "type": "string",
-                                "example": "LJUJWCOEGUKP6WS2"
-                            }
-                        },
-                        "type": "object"
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Users_Delete_TwoFactorAuth_Response": {
+                "title": "Users module - Disable two factor authentication",
+                "description": "Disable two factor authentication response",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success, 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "result": {
+                        "description": "Status of successful",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"
