@@ -92,7 +92,7 @@
     "store": "^2.0.12",
     "tributejs": "^5.0.0",
     "url-polyfill": "^1.1.7",
-    "vue": "^2.6.11",
+    "vue": "^2.6.14",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {},
