@@ -171,10 +171,21 @@ final class RestApiTest extends \Tests\Base
 		static::assertSame('TOTP', $response['result']['authMethods'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$secretKey = $response['result']['secretKey'];
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/RestApi/Users/TwoFactorAuth', 'get', 200);
-		var_dump($response);
-		$row = (new \App\Db\Query())->from('w_#__api_user')->where(['id' => self::$apiUserId])->one();
 
-		var_dump($row);
+		$request = $this->httpClient->post('Users/TwoFactorAuth', \App\Utils::merge(
+			[
+				'json' => [
+					'methods' => 'TOPO',
+					'secret' => $secretKey,
+					'code' => (new \Sonata\GoogleAuthenticator\GoogleAuthenticator())->getCode($secretKey),
+				],
+			], self::$requestOptions)
+		);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/RestApi/Users/TwoFactorAuth', 'post', 200);
 
 		$request = $this->httpClient->post('Users/Login', \App\Utils::merge(
 			[
