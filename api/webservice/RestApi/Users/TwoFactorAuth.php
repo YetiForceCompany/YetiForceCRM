@@ -93,14 +93,14 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 				'status' => 'ERR_2FA_NOT_BEEN_ENABLED',
 			]);
 			$this->updateUser([
-				'custom_params' => [
+				'auth' => [
 					'invalid_2fa' => 'Two-factor authentication has not been enabled',
 					'invalid_2fa_time' => date('Y-m-d H:i:s'),
 				],
 			]);
 			throw new \Api\Core\Exception('Two-factor authentication has not been enabled', 401);
 		}
-		if (empty($this->userData['custom_params']['authy_secret_key'])) {
+		if (empty($this->userData['auth']['authy_secret_key'])) {
 			return $multiFactorAuth->generate();
 		}
 		return $multiFactorAuth->details();
@@ -179,7 +179,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 			]);
 			throw new \Api\Core\Exception('Two-factor authentication has not been enabled', 401);
 		}
-		if (!empty($this->userData['custom_params']['authy_secret_key'])) {
+		if (!empty($this->userData['auth']['authy_secret_key'])) {
 			$this->saveLoginHistory([
 				'status' => 'ERR_2FA_ALREADY_GENERATED',
 			]);

@@ -52,7 +52,7 @@ class TwoFactorAuth
 	 */
 	public function check(): string
 	{
-		$params = $this->action->getUserData('custom_params');
+		$params = $this->action->getUserData('auth');
 		if (empty($params['authy_secret_key'])) {
 			return '2FA TOTP secret not generated';
 		}
@@ -92,7 +92,7 @@ class TwoFactorAuth
 	public function delete(): void
 	{
 		$this->action->updateUser([
-			'custom_params' => [
+			'auth' => [
 				'authy_secret_key' => '',
 			],
 		]);
@@ -113,7 +113,7 @@ class TwoFactorAuth
 			return \App\Language::translate('ERR_INCORRECT_2FA_TOTP_CODE', 'Other.Exceptions');
 		}
 		$this->action->updateUser([
-			'custom_params' => [
+			'auth' => [
 				'authy_secret_key' => $secret,
 			],
 		]);
@@ -129,7 +129,7 @@ class TwoFactorAuth
 	 */
 	public function verify(): void
 	{
-		$params = $this->action->getUserData('custom_params');
+		$params = $this->action->getUserData('auth');
 		if (!(new GoogleAuthenticator())->checkCode($params['authy_secret_key'], (string) $this->action->controller->request->get('code'))) {
 			throw new \Exception('Incorrect 2FA TOTP code');
 		}
