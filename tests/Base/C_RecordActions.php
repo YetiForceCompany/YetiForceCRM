@@ -242,7 +242,7 @@ class C_RecordActions extends \Tests\Base
 			'size' => $file->getSize(),
 			'type' => $file->getMimeType(),
 			'tmp_name' => $file->getPath(),
-			'error' => 0
+			'error' => 0,
 		];
 		$record->save();
 		self::$recordDocuments = $record;
@@ -262,6 +262,7 @@ class C_RecordActions extends \Tests\Base
 		self::assertIsInt($record->getId());
 		self::assertSame('SQuotes', $record->getModuleName());
 		self::assertNotEmpty($record->getInventoryData());
+		self::createDocumentsRecord();
 	}
 
 	/**

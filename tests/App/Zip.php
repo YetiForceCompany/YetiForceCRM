@@ -85,6 +85,5 @@ class Zip extends \Tests\Base
 		$zip->addFromString('filename.txt', '<minimal content>');
 		$this->expectWarning();
 		$this->assertFalse($zip->close());
-		$this->assertFileDoesNotExist(ROOT_DIRECTORY . '/tests/data/NxDir/NxFile.zip');
 	}
 }

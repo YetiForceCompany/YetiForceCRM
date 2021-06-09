@@ -145,8 +145,12 @@ class Purifier extends \Tests\Base
 		$this->assertSame('', \App\Purifier::encodeHtml(''), 'Empty text should be unchanged');
 		$this->assertSame('', \App\Purifier::decodeHtml(''), 'Empty text should be unchanged');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
-		$this->assertSame('', \App\Purifier::purifySql('', false), 'Empty text should be unchanged');
-		$this->enableLogs();
+		try {
+			$this->assertSame('', \App\Purifier::purifySql('', false), 'Empty text should be unchanged');
+		} catch (\Throwable $th) {
+			$this->enableLogs();
+			throw $th;
+		}
 	}
 
 	/**
@@ -214,11 +218,15 @@ class Purifier extends \Tests\Base
 	{
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->disableLogs();
-		$purifyHtml = \App\Purifier::purifyHtml($text);
-		if ($purifyHtml !== $text) {
-			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
+		try {
+			$purifyHtml = \App\Purifier::purifyHtml($text);
+			if ($purifyHtml !== $text) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
+			}
+		} catch (\Throwable $th) {
+			$this->enableLogs();
+			throw $th;
 		}
-		$this->enableLogs();
 	}
 
 	/**

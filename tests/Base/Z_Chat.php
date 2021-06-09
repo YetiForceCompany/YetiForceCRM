@@ -114,9 +114,6 @@ class Z_Chat extends \Tests\Base
 	public static function setUpBeforeClass(): void
 	{
 		self::$chatActive = \App\Module::isModuleActive('Chat');
-		if (!self::$chatActive) {
-			(new \Settings_ModuleManager_Module_Model())->enableModule('Chat');
-		}
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$recordModel = C_RecordActions::createContactRecord();
 		self::$listId[] = $recordModel->getId();
