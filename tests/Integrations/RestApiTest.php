@@ -198,6 +198,7 @@ final class RestApiTest extends \Tests\Base
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/RestApi/Users/TwoFactorAuth', 'delete', 200);
 	}
 
+
 	/**
 	 * Testing Logout.
 	 */

@@ -105,7 +105,7 @@ class ChangePassword extends \Api\Core\BaseAction
 	{
 		if (\App\Encryption::verifyPasswordHash($this->controller->request->getRaw('currentPassword'), $this->userData['password'], $this->controller->app['type'])) {
 			$this->updateUser([
-				'password' => \App\Encryption::createPasswordHash($this->controller->request->getRaw('currentPassword'), $this->controller->app['type']),
+				'password' => \App\Encryption::createPasswordHash($this->controller->request->getRaw('newPassword'), $this->controller->app['type']),
 			]);
 			$this->saveLoginHistory([
 				'status' => 'LBL_PASSWORD_CHANGED',

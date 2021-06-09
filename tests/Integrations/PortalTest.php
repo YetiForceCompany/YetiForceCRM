@@ -473,6 +473,40 @@ final class PortalTest extends \Tests\Base
 	}
 
 	/**
+	 * Testing get Files.
+	 */
+	public function testAccessActivityHistory(): void
+	{
+		$request = $this->httpClient->get('Users/AccessActivityHistory', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Users/AccessActivityHistory API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Users/AccessActivityHistory API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertNotEmpty(isset($response['result']), 'Users/AccessActivityHistory API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/AccessActivityHistory', 'get', 200);
+	}
+
+	/**
+	 * Testing change password.
+	 */
+	public function testChangePassword(): void
+	{
+		$request = $this->httpClient->put('Users/ChangePassword', \App\Utils::merge(
+			[
+				'json' => [
+					'currentPassword' => 'demo',
+					'newPassword' => 'demo2',
+				],
+			], self::$requestOptions)
+		);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Users/ChangePassword API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Users/ChangePassword API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/ChangePassword', 'put', 200);
+	}
+
+	/**
 	 * Testing Logout.
 	 */
 	public function testLogout(): void
