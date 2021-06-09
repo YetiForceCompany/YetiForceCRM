@@ -94,7 +94,8 @@ final class PortalTest extends \Tests\Base
 		$app->set('type', 'Portal');
 		$app->set('status', 1);
 		$app->set('name', 'portal');
-		$app->set('acceptable_url', '');
+		$app->set('url', '');
+		$app->set('ips', '');
 		$app->set('pass', 'portal');
 		$app->save();
 		self::$serverId = (int) $app->getId();

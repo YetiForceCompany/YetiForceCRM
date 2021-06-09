@@ -93,7 +93,8 @@ final class RestApiTest extends \Tests\Base
 		$app->set('type', 'RestApi');
 		$app->set('status', 1);
 		$app->set('name', 'api');
-		$app->set('acceptable_url', '');
+		$app->set('url', '');
+		$app->set('ips', '');
 		$app->set('pass', 'api');
 		$app->save();
 		self::$serverId = (int) $app->getId();

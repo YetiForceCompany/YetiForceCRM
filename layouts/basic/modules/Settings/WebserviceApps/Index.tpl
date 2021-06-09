@@ -8,7 +8,8 @@
 					<th><strong>{\App\Language::translate('LBL_APP_NAME',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{\App\Language::translate('Status',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{\App\Language::translate('LBL_TYPE_SERVER', $QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{\App\Language::translate('LBL_ADDRESS_URL',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{\App\Language::translate('LBL_ALLOWED_IPS',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{\App\Language::translate('LBL_PUBLIC_URL',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{\App\Language::translate('LBL_API_KEY',$QUALIFIED_MODULE)}</strong></th>
 				</tr>
 			</thead>
@@ -26,7 +27,8 @@
 						<td>
 							{\App\Language::translate($SERVER['type'], $QUALIFIED_MODULE)}
 						</td>
-						<td>{$SERVER['acceptable_url']}</td>
+						<td>{$SERVER['ips']}</td>
+						<td>{$SERVER['url']}</td>
 						<td>
 							<div class="action">
 								*******************

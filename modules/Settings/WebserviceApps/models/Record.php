@@ -3,9 +3,12 @@
 /**
  * Record Model.
  *
+ * @package Settings.Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -103,7 +106,8 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 		$data = [
 			'status' => $this->get('status') ? 1 : 0,
 			'name' => $this->get('name'),
-			'acceptable_url' => $this->get('acceptable_url'),
+			'url' => $this->get('url'),
+			'ips' => $this->get('ips'),
 			'pass' => App\Encryption::getInstance()->encrypt($this->get('pass')),
 		];
 		if ($this->isEmpty('id')) {

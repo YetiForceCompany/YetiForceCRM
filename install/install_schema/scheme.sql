@@ -9792,7 +9792,8 @@ CREATE TABLE `w_yf_servers` (
   `name` varchar(100) NOT NULL,
   `pass` varchar(500) NOT NULL,
   `api_key` varchar(500) NOT NULL,
-  `acceptable_url` varchar(255) DEFAULT NULL,
+  `ips` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

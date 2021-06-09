@@ -35,7 +35,7 @@ class Webservice extends \App\Db\Importers\Base
 					['user_uq', ['server_id', 'token']],
 				],
 				'engine' => 'InnoDB',
-				'charset' => 'utf8'
+				'charset' => 'utf8',
 			],
 			'w_#__portal_session' => [
 				'columns' => [
@@ -50,10 +50,10 @@ class Webservice extends \App\Db\Importers\Base
 					['user_id', 'user_id'],
 				],
 				'primaryKeys' => [
-					['portal_session_pk', 'id']
+					['portal_session_pk', 'id'],
 				],
 				'engine' => 'InnoDB',
-				'charset' => 'utf8'
+				'charset' => 'utf8',
 			],
 			'w_#__portal_user' => [
 				'columns' => [
@@ -81,17 +81,18 @@ class Webservice extends \App\Db\Importers\Base
 					['server_id', 'server_id'],
 				],
 				'engine' => 'InnoDB',
-				'charset' => 'utf8'
+				'charset' => 'utf8',
 			],
 			'w_#__servers' => [
 				'columns' => [
 					'id' => $this->primaryKey(10)->unsigned(),
 					'name' => $this->stringType(100)->notNull(),
 					'pass' => $this->stringType(100),
-					'acceptable_url' => $this->stringType(),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'api_key' => $this->stringType(100)->notNull(),
 					'type' => $this->stringType(40)->notNull(),
+					'url' => $this->stringType(),
+					'ips' => $this->stringType(),
 				],
 				'columns_mysql' => [
 					'status' => $this->tinyInteger(1)->notNull()->defaultValue(0),
@@ -100,7 +101,7 @@ class Webservice extends \App\Db\Importers\Base
 					['name', ['name', 'status']],
 				],
 				'engine' => 'InnoDB',
-				'charset' => 'utf8'
+				'charset' => 'utf8',
 			],
 		];
 		$this->foreignKey = [

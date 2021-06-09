@@ -45,9 +45,9 @@
 				<div class="form-group form-row col-sm-12">
 					<label class="col-sm-2 col-form-label text-right u-text-small-bold">{\App\Language::translate('LBL_TYPE_SERVER', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
-						<select class="select2 typeServer" {if $RECORD_MODEL} disabled {/if}>
+						<select name="type" class="select2 typeServer" {if $RECORD_MODEL}readonly="readonly"{/if}>
 							{foreach from=\Api\Core\Containers::$list item=TYPE}
-								<option value="{$TYPE}" {if $RECORD_MODEL && $TYPE eq  $RECORD_MODEL->get('type')}selected{/if}>
+								<option value="{$TYPE}" {if $TYPE eq $APP_TYPE}selected{/if}>
 									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
 								</option>
 							{/foreach}
@@ -56,13 +56,24 @@
 				</div>
 				<div class="form-group form-row col-sm-12">
 					<label class="col-sm-2 col-form-label text-right u-text-small-bold">
-						{\App\Language::translate('LBL_ADDRESS_URL', $QUALIFIED_MODULE)}
-						<a href="#" class="js-popover-tooltip ml-2" data-placement="top" data-content="{\App\Language::translate('LBL_ADDRESS_URL_INFO', $QUALIFIED_MODULE)} x.x.x.x , y.y.y.y">
+						{\App\Language::translate('LBL_ALLOWED_IPS', $QUALIFIED_MODULE)}
+						<a href="#" class="js-popover-tooltip ml-2" data-placement="top" data-content="{\App\Language::translate('LBL_ALLOWED_IPS_INFO', $QUALIFIED_MODULE)} x.x.x.x , y.y.y.y">
 							<i class="fas fa-info-circle"></i>
 						</a>
 					</label>
 					<div class="col-sm-10">
-						<input type="text" name="addressUrl" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('acceptable_url')}{/if}" class="form-control">
+						<input type="text" name="ips" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('ips')}{/if}" class="form-control">
+					</div>
+				</div>
+				<div class="form-group form-row col-sm-12">
+					<label class="col-sm-2 col-form-label text-right u-text-small-bold">
+						{\App\Language::translate('LBL_PUBLIC_URL', $QUALIFIED_MODULE)}
+						<a href="#" class="js-popover-tooltip ml-2" data-placement="top" data-content="{\App\Language::translate('LBL_PUBLIC_URL_INFO', $QUALIFIED_MODULE)}">
+							<i class="fas fa-info-circle"></i>
+						</a>
+					</label>
+					<div class="col-sm-10">
+						<input type="text" name="url" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('url')}{/if}" class="form-control">
 					</div>
 				</div>
 				<div class="col-sm-12">

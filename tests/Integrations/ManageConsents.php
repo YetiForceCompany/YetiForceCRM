@@ -140,7 +140,8 @@ final class ManageConsents extends \Tests\Base
 		$app->set('type', 'ManageConsents');
 		$app->set('status', 1);
 		$app->set('name', 'manage_consents');
-		$app->set('acceptable_url', '');
+		$app->set('url', '');
+		$app->set('ips', '');
 		$app->set('pass', 'manage_consents');
 		$app->save();
 		self::$serverId = (int) $app->getId();

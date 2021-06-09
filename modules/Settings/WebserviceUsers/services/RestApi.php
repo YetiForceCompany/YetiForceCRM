@@ -83,7 +83,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				$params['uitype'] = 10;
 				$params['referenceList'] = ['Contacts'];
 				$params['fieldparams'] = [
-					'searchParams' => '[[["email","ny",""]]]'
+					'searchParams' => '[[["email","ny",""]]]',
 				];
 				break;
 			case 'status':
@@ -387,7 +387,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				'to' => $this->get('user_name'),
 				'password' => $this->get('password'),
 				'login' => $this->get('user_name'),
-				'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('acceptable_url')
+				'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('url'),
 			]);
 		}
 	}
