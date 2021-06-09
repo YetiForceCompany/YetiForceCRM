@@ -53,14 +53,14 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 	 *			@OA\XmlContent(ref="#/components/schemas/Users_Get_TwoFactorAuth_Response"),
 	 *		),
 	 *		@OA\Response(
-	 *			response=401,
-	 *			description="Two-factor authentication has not been enabled",
+	 *			response=405,
+	 *			description="Invalid method",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
 	 *		@OA\Response(
-	 *			response=405,
-	 *			description="Invalid method",
+	 *			response=500,
+	 *			description="Two-factor authentication has not been enabled",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
@@ -98,7 +98,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 					'invalid_2fa_time' => date('Y-m-d H:i:s'),
 				],
 			]);
-			throw new \Api\Core\Exception('Two-factor authentication has not been enabled', 401);
+			throw new \Api\Core\Exception('Two-factor authentication has not been enabled');
 		}
 		if (empty($this->userData['auth']['authy_secret_key'])) {
 			return $multiFactorAuth->generate();
@@ -133,14 +133,14 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 	 *			@OA\XmlContent(ref="#/components/schemas/Users_post_TwoFactorAuth_Response")
 	 *		),
 	 *		@OA\Response(
-	 *			response=401,
-	 *			description="`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.`",
+	 *			response=405,
+	 *			description="Invalid method",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
 	 *		@OA\Response(
-	 *			response=405,
-	 *			description="Invalid method",
+	 *			response=500,
+	 *			description="`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
@@ -177,7 +177,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 					'invalid_2fa_time' => date('Y-m-d H:i:s'),
 				],
 			]);
-			throw new \Api\Core\Exception('Two-factor authentication has not been enabled', 401);
+			throw new \Api\Core\Exception('Two-factor authentication has not been enabled');
 		}
 		if (!empty($this->userData['auth']['authy_secret_key'])) {
 			$this->saveLoginHistory([
@@ -219,14 +219,14 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 	 *			@OA\XmlContent(ref="#/components/schemas/Users_Delete_TwoFactorAuth_Response"),
 	 *		),
 	 *		@OA\Response(
-	 *			response=401,
-	 *			description="Two-factor authentication has not been enabled",
+	 *			response=405,
+	 *			description="Invalid method",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
 	 *		@OA\Response(
-	 *			response=405,
-	 *			description="Invalid method",
+	 *			response=500,
+	 *			description="Two-factor authentication has not been enabled",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
@@ -262,7 +262,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 					'invalid_2fa_time' => date('Y-m-d H:i:s'),
 				],
 			]);
-			throw new \Api\Core\Exception('Two-factor authentication has not been enabled', 401);
+			throw new \Api\Core\Exception('Two-factor authentication has not been enabled');
 		}
 		if ($check = $multiFactorAuth->check()) {
 			throw new \Api\Core\Exception($check, 401);

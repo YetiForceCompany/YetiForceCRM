@@ -51,6 +51,8 @@ class Files extends \Api\RestApi\BaseAction\Files
 	/**
 	 * Put method.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return \App\Fields\File
 	 *
 	 * @OA\Put(

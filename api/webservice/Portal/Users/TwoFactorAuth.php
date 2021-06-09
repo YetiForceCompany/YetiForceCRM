@@ -41,14 +41,14 @@ class TwoFactorAuth extends \Api\RestApi\Users\TwoFactorAuth
 	 *			@OA\XmlContent(ref="#/components/schemas/Users_Get_TwoFactorAuth_Response"),
 	 *		),
 	 *		@OA\Response(
-	 *			response=401,
-	 *			description="Two-factor authentication has not been enabled",
+	 *			response=405,
+	 *			description="Invalid method",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
 	 *		@OA\Response(
-	 *			response=405,
-	 *			description="Invalid method",
+	 *			response=500,
+	 *			description="Two-factor authentication has not been enabled",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
@@ -105,14 +105,14 @@ class TwoFactorAuth extends \Api\RestApi\Users\TwoFactorAuth
 	 *			@OA\XmlContent(ref="#/components/schemas/Users_post_TwoFactorAuth_Response")
 	 *		),
 	 *		@OA\Response(
-	 *			response=401,
-	 *			description="`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.`",
+	 *			response=405,
+	 *			description="Invalid method",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
 	 *		@OA\Response(
-	 *			response=405,
-	 *			description="Invalid method",
+	 *			response=500,
+	 *			description="`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
@@ -166,14 +166,14 @@ class TwoFactorAuth extends \Api\RestApi\Users\TwoFactorAuth
 	 *			@OA\XmlContent(ref="#/components/schemas/Users_Delete_TwoFactorAuth_Response"),
 	 *		),
 	 *		@OA\Response(
-	 *			response=401,
-	 *			description="Two-factor authentication has not been enabled",
+	 *			response=405,
+	 *			description="Invalid method",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
 	 *		@OA\Response(
-	 *			response=405,
-	 *			description="Invalid method",
+	 *			response=500,
+	 *			description="Two-factor authentication has not been enabled",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),

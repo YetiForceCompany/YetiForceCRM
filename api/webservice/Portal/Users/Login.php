@@ -58,7 +58,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
-	 *			description="`Invalid data access` OR `Invalid user password` OR `No crmid`",
+	 *			description="`Invalid data access` OR `Invalid user password` OR `No crmid` OR `2FA verification error`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),

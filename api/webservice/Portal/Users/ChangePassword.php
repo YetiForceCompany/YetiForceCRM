@@ -32,7 +32,7 @@ class ChangePassword extends \Api\RestApi\Users\ChangePassword
 	 * @return bool
 	 *
 	 * @OA\Put(
-	 *		path="/webservice/RestApi/Users/ChangePassword",
+	 *		path="/webservice/Portal/Users/ChangePassword",
 	 *		description="User password change",
 	 *		summary="User password change",
 	 *		tags={"Users"},

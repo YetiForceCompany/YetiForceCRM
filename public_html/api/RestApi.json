@@ -1844,8 +1844,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Two-factor authentication has not been enabled",
+                    "405": {
+                        "description": "Invalid method",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1859,8 +1859,8 @@
                             }
                         }
                     },
-                    "405": {
-                        "description": "Invalid method",
+                    "500": {
+                        "description": "Two-factor authentication has not been enabled",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1915,8 +1915,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.`",
+                    "405": {
+                        "description": "Invalid method",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1930,8 +1930,8 @@
                             }
                         }
                     },
-                    "405": {
-                        "description": "Invalid method",
+                    "500": {
+                        "description": "`Two-factor authentication has not been enabled` OR `A secret 2FA key has already been generated.`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1986,8 +1986,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Two-factor authentication has not been enabled",
+                    "405": {
+                        "description": "Invalid method",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2001,8 +2001,8 @@
                             }
                         }
                     },
-                    "405": {
-                        "description": "Invalid method",
+                    "500": {
+                        "description": "Two-factor authentication has not been enabled",
                         "content": {
                             "application/json": {
                                 "schema": {
