@@ -2085,7 +2085,7 @@
                 ]
             }
         },
-        "/webservice/RestApi/Users/AccessActivityHistory": {
+        "/webservice/Portal/Users/AccessActivityHistory": {
             "get": {
                 "tags": [
                     "Users"

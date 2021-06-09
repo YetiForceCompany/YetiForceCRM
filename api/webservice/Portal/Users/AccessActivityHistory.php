@@ -28,7 +28,7 @@ class AccessActivityHistory extends \Api\RestApi\Users\AccessActivityHistory
 	 * @return array
 	 *
 	 *	@OA\Get(
-	 *		path="/webservice/RestApi/Users/AccessActivityHistory",
+	 *		path="/webservice/Portal/Users/AccessActivityHistory",
 	 *		description="Get user history of access activity",
 	 *		summary="History of access activity data",
 	 *		tags={"Users"},
