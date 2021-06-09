@@ -290,11 +290,11 @@ class Vtiger_ListView_Model extends \App\Base
 			];
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		if ($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView') && $moduleModel->isPermitted('MassAddComment')) {
+		if ($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('CreateView') && $moduleModel->isPermitted('MassAddComment')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD_COMMENT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassAction("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showAddCommentForm")',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassComment("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showAddCommentForm")',
 				'linkicon' => 'fas fa-comments'
 			];
 		}

@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o.
 ********************************************************************************/
 -->*}
 {strip}
@@ -36,13 +36,22 @@
 					<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}"/>
 					<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}"/>
 					<input type="hidden" name="entityState" value="{$ENTITY_STATE}"/>
-					<div class="modal-body">
-						<textarea name="commentcontent" class="c-textarea--completions" data-validation-engine="validate[required]"></textarea>
-						<div contenteditable="true" class="form-control-lg form-control js-comment-content js-completions"
-							 id="commentcontent" data-completions-textarea="true"
-							 title="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}"
-							 placeholder="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}..."
-							 data-js="html | tribute.js"></div>
+					<div class="modal-body commentContainer">
+						<div class="js-add-comment-block addCommentBlock" data-js="container|remove">
+							<div class="input-group input-group-sm">
+								<div class="input-group-prepend">
+									<span class="input-group-text">
+										<span class="fas fa-comments"></span>
+									</span>
+								</div>
+								<div contenteditable="true"
+									class="js-comment-content js-completions commentcontent form-control"
+									title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+									placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+									data-js="html | tribute.js"></div>
+							</div>
+						</div>
+						<textarea name="commentcontent" class="c-textarea--completions js-comment-value" data-validation-engine="validate[required]"></textarea>
 					</div>
 					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>
