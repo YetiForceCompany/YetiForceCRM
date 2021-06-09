@@ -447,6 +447,36 @@ $.Class(
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}
+		},
+		/*
+		 * Function to register the submit event for mass comment
+		 */
+		triggerMassComment: function (massActionUrl) {
+			let listInstance = Vtiger_List_Js.getInstance();
+			if (!listInstance.checkListRecordSelected()) {
+				Vtiger_List_Js.triggerMassAction(massActionUrl, (data) => {
+					new App.Fields.Text.Completions($(data).find('.js-completions').eq(0), { emojiPanel: false });
+					$(data).on('submit', '#massSave', (e) => {
+						e.preventDefault();
+						let form = $(e.currentTarget),
+							commentContent = form.find('.js-comment-content'),
+							commentContentValue = commentContent.html();
+						if (commentContentValue === '') {
+							let errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY');
+							commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
+							return;
+						}
+						form.find('.js-comment-value').val(commentContentValue);
+						commentContent.validationEngine('hide');
+						form.find('[name=saveButton]').attr('disabled', 'disabled');
+						listInstance.massActionSave(form).done(function () {
+							Vtiger_List_Js.clearList();
+						});
+					});
+				});
+			} else {
+				listInstance.noRecordSelectedAlert();
+			}
 		}
 	},
 	{
@@ -1769,28 +1799,6 @@ $.Class(
 				height: app.getScreenHeight(70) + 'px'
 			});
 		},
-		/*
-		 * Function to register the submit event for mass Actions save
-		 */
-		registerMassActionSubmitEvent: function () {
-			$('body').on('submit', '#massSave', (e) => {
-				let form = $(e.currentTarget),
-					commentContent = form.find('#commentcontent'),
-					commentContentValue = commentContent.html();
-				if (commentContentValue === '') {
-					let errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY');
-					commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
-					e.preventDefault();
-					return;
-				}
-				commentContent.validationEngine('hide');
-				$(form).find('[name=saveButton]').attr('disabled', 'disabled');
-				this.massActionSave(form).done(function (data) {
-					Vtiger_List_Js.clearList();
-				});
-				e.preventDefault();
-			});
-		},
 		changeCustomFilterElementView: function () {
 			const thisInstance = this;
 			let filterSelectElement = this.getFilterSelectElement();
@@ -2137,7 +2145,6 @@ $.Class(
 			this.registerMassRecordsEvents();
 			this.registerMassActionsBtnMergeEvents();
 			this.registerHeadersClickEvent();
-			this.registerMassActionSubmitEvent();
 			this.changeCustomFilterElementView();
 			this.registerFeaturedFilterClickEvent();
 			this.registerChangeCustomFilterEventListeners();
