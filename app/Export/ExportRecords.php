@@ -6,7 +6,7 @@
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Adrian Kon <a.kon@yetiforce.com>
  */
 
 namespace App\Export;
@@ -121,6 +121,7 @@ abstract class ExportRecords extends \App\Base
 		if ($request->has('quickExport') && !$request->isEmpty('quickExport')) {
 			$this->quickExport = true;
 			$this->queryGeneratorForList = \Vtiger_Mass_Action::getQuery($request);
+			$this->setRecordList(\Vtiger_Mass_Action::getRecordsListFromRequest($request));
 		}
 		if (!$request->isEmpty('export_type')) {
 			$this->exportType = $request->getByType('export_type');
@@ -313,7 +314,6 @@ abstract class ExportRecords extends \App\Base
 		if (!empty($this->queryOptions['viewname'])) {
 			$queryGenerator->initForCustomViewById($this->queryOptions['viewname']);
 		}
-
 		$queryGenerator->setFields($this->getFieldsForExportQuery());
 		if ($this->exportColumns) {
 			foreach (explode(',', $this->exportColumns) as $index => $columnInfo) {
@@ -350,6 +350,7 @@ abstract class ExportRecords extends \App\Base
 				$query->limit($limit)->offset($currentPageStart);
 				break;
 			case 'ExportSelectedRecords':
+			default:
 				$idList = $this->recordsListFromRequest;
 				$baseTable = $this->moduleInstance->get('basetable');
 				$baseTableColumnId = $this->moduleInstance->get('basetableid');
@@ -361,8 +362,6 @@ abstract class ExportRecords extends \App\Base
 					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $this->queryOptions['excluded_ids']]);
 				}
 				$query->limit(\App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'));
-				break;
-			default:
 				break;
 		}
 		return $query;
