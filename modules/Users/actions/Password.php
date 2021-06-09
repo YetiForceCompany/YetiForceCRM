@@ -90,7 +90,10 @@ class Users_Password_Action extends \App\Controller\Action
 			'moduleName' => $moduleName,
 			'recordId' => $userRecordModel->getId(),
 			'to' => $userRecordModel->get('email1'),
-			'password' => $password,
+			'token' => $password,
+			'siteUrl' => \Config\Main::$site_URL,
+			'url' => '',
+			'expirationDate' => '-',
 		]);
 		$response = new Vtiger_Response();
 		$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USER', 'Users')]]);
@@ -177,7 +180,10 @@ class Users_Password_Action extends \App\Controller\Action
 				'moduleName' => $moduleName,
 				'recordId' => $userRecordModel->getId(),
 				'to' => $userRecordModel->get('email1'),
-				'password' => $password,
+				'token' => $password,
+				'siteUrl' => \Config\Main::$site_URL,
+				'url' => '',
+				'expirationDate' => '-',
 			]);
 		}
 		$response = new Vtiger_Response();

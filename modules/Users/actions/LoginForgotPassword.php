@@ -43,8 +43,10 @@ class Users_LoginForgotPassword_Action extends Users_Login_Action
 					'moduleName' => $moduleName,
 					'recordId' => $id,
 					'to' => $userRecordModel->get('email1'),
-					'url' => Config\Main::$site_URL . 'index.php?module=Users&view=LoginPassChange&token=' . $token,
+					'url' => \Config\Main::$site_URL . 'index.php?module=Users&view=LoginPassChange&token=' . $token,
 					'expirationDate' => $expirationDate,
+					'token' => $token,
+					'siteUrl' => \Config\Main::$site_URL,
 				]);
 				$response->setResult(\App\Language::translate('LBL_PASSWORD_LINK_SENT', 'Users'));
 			}

@@ -50,7 +50,10 @@
     "ERR_FORGOT_PASSWORD_SEND_MAIL": "Email with password change has been sent",
     "ERR_WRONG_2FA_CODE": "Wrong 2FA/TOPO code",
     "LBL_PASSWORD_CHANGED": "Password changed",
-    "LBL_FAILED_PASSWORD_CHANGED": "Failed attempt to change password"
+    "LBL_FAILED_PASSWORD_CHANGED": "Failed attempt to change password",
+    "LBL_RESET_PASSWORD_REQUEST": "Password reset request",
+    "ERR_RESET_PASSWORD_REQUEST_SMTP_ERROR": "Error sending email with password reset",
+    "LBL_RESET_PASSWORD_CHANGED": "Password reset"
   },
   "js": {
     "JS_DELETE_CONFIRMATION": "Are you sure you want to remove the key?",

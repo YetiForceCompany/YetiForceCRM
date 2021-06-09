@@ -99,7 +99,10 @@ class Users extends Base
 				'moduleName' => 'Users',
 				'recordId' => $userRecordModel->getId(),
 				'to' => $userRecordModel->get('email1'),
-				'password' => $password,
+				'token' => $password,
+				'siteUrl' => \Config\Main::$site_URL,
+				'url' => '',
+				'expirationDate' => '-',
 			]);
 		}
 		if (!$this->climate->arguments->defined('action')) {
@@ -151,7 +154,10 @@ class Users extends Base
 				'moduleName' => 'Users',
 				'recordId' => $userRecordModel->getId(),
 				'to' => $userRecordModel->get('email1'),
-				'password' => $password,
+				'token' => $password,
+				'siteUrl' => \Config\Main::$site_URL,
+				'url' => '',
+				'expirationDate' => '-',
 			]);
 			$progress->advance();
 			++$i;
