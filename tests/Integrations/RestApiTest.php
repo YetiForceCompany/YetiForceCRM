@@ -172,6 +172,9 @@ final class RestApiTest extends \Tests\Base
 		$secretKey = $response['result']['secretKey'];
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/RestApi/Users/TwoFactorAuth', 'get', 200);
 
+		$row = (new \App\Db\Query())->from('w_#__api_user')->where(['id' => self::$apiUserId])->one();
+		var_dump($row);
+
 		$request = $this->httpClient->post('Users/Login', \App\Utils::merge(
 			[
 				'json' => [
@@ -197,7 +200,6 @@ final class RestApiTest extends \Tests\Base
 		static::assertTrue($response['result'], 'Users/TwoFactorAuth API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/RestApi/Users/TwoFactorAuth', 'delete', 200);
 	}
-
 
 	/**
 	 * Testing Logout.
