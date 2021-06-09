@@ -263,6 +263,7 @@ class C_RecordActions extends \Tests\Base
 		self::assertSame('SQuotes', $record->getModuleName());
 		self::assertNotEmpty($record->getInventoryData());
 		self::createDocumentsRecord();
+		self::createDocumentsRecord();
 	}
 
 	/**
