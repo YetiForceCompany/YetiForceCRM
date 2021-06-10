@@ -73,35 +73,46 @@ class Privilege
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
 		}
 		if (!($permissionFieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app')))) {
+			\App\Privilege::$isPermittedLevel = 'FIELD_PERMISSION_NOT_EXISTS';
 			return false;
 		}
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
-			return $parentRecordId === $record;
+			$permission = $parentRecordId === $record;
+			\App\Privilege::$isPermittedLevel = 'RECORD_HIERARCHY_LEVEL_' . ($permission ? 'YES' : 'NO');
+			return $permission;
 		}
-		$parentModule = \App\Record::getType($parentRecordId);
-		$fields = \App\Field::getRelatedFieldForModule($moduleName);
+
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		if (!$recordModel->get($permissionFieldInfo['fieldname'])) {
+			\App\Privilege::$isPermittedLevel = 'FIELD_PERMISSION_NO';
 			return false;
 		}
+
+		$parentModule = \App\Record::getType($parentRecordId);
+		$fields = \App\Field::getRelatedFieldForModule($moduleName);
 		if (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
 			$field = $fields[$parentModule];
-			return ((int) $recordModel->get($field['fieldname'])) === $parentRecordId;
+			$permission = ((int) $recordModel->get($field['fieldname'])) === $parentRecordId;
+			\App\Privilege::$isPermittedLevel = 'RECORD_RELATED_' . ($permission ? 'YES' : 'NO');
+			return $permission;
 		}
 		if (\in_array($moduleName, ['Products', 'Services'])) {
-			return (bool) $recordModel->get('discontinued');
+			$permission = (bool) $recordModel->get('discontinued');
+			\App\Privilege::$isPermittedLevel = $moduleName . '_DISCONTINUED_' . ($permission ? 'YES' : 'NO');
+			return $permission;
 		}
-		if ($fields) {
-			foreach ($fields as $relatedModuleName => $field) {
-				if ($relatedModuleName === $parentModule) {
-					continue;
-				}
-				if ($relatedField = \App\Field::getRelatedFieldForModule($relatedModuleName, $parentModule)) {
-					$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($recordModel->get($field['fieldname'], $relatedModuleName));
-					return ((int) $relatedRecordModel->get($relatedField['fieldname'])) === $parentRecordId;
-				}
+		foreach ($fields as $relatedModuleName => $field) {
+			if ($relatedModuleName === $parentModule) {
+				continue;
+			}
+			if ($relatedField = \App\Field::getRelatedFieldForModule($relatedModuleName, $parentModule)) {
+				$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($recordModel->get($field['fieldname'], $relatedModuleName));
+				$permission = ((int) $relatedRecordModel->get($relatedField['fieldname'])) === $parentRecordId;
+				\App\Privilege::$isPermittedLevel = $moduleName . '_RELATED_' . ($permission ? 'YES' : 'NO');
+				return $permission;
 			}
 		}
+		\App\Privilege::$isPermittedLevel = 'ALL_PERMISSION_NO';
 		return false;
 	}
 }
