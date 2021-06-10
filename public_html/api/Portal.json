@@ -2671,6 +2671,177 @@
                 ]
             }
         },
+        "/webservice/Portal/Users/ResetPassword": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User password reset",
+                "description": "User password reset",
+                "operationId": "Api\\Portal\\Users\\ResetPassword::put",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Header-Encrypted"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Input data",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_Put_ResetPassword_Request"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_Put_ResetPassword_Request"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_Put_ResetPassword_Request"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_Put_ResetPassword_Response"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_Put_ResetPassword_Response"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User with this email address does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "ERR_TOKEN_DOES_NOT_EXIST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User password reset",
+                "description": "User password reset",
+                "operationId": "Api\\Portal\\Users\\ResetPassword::post",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Header-Encrypted"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Input data",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_Post_ResetPassword_Request"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_Post_ResetPassword_Request"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_Post_ResetPassword_Request"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_Post_ResetPassword_Response"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_Post_ResetPassword_Response"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User with this email address does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
         "/webservice/Portal/Users/TwoFactorAuth": {
             "get": {
                 "tags": [
@@ -4832,6 +5003,83 @@
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Users_Post_ResetPassword_Request": {
+                "title": "Users module - Users password reset request body",
+                "properties": {
+                    "userName": {
+                        "description": "User name / email",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Users_Post_ResetPassword_Response": {
+                "title": "Users module - Users password reset response body",
+                "description": "Post method.",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "result": {
+                        "description": "Content of responses from a given method",
+                        "properties": {
+                            "expirationDate": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "example": "2019-10-07 08:32:38"
+                            },
+                            "mailerStatus": {
+                                "description": "Post method.",
+                                "type": "boolean",
+                                "example": true
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Users_Put_ResetPassword_Request": {
+                "title": "Users module - Users password reset request body",
+                "properties": {
+                    "token": {
+                        "description": "A one-time password reset token",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "New password",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Users_Put_ResetPassword_Response": {
+                "title": "Users module - Users password reset response body",
+                "description": "Put method.",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "result": {
+                        "description": "Password reset status",
+                        "type": "boolean",
+                        "example": false
                     }
                 },
                 "type": "object"

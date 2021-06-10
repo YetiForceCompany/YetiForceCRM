@@ -44,7 +44,7 @@ class Users_LoginForgotPassword_Action extends Users_Login_Action
 					'recordId' => $id,
 					'to' => $userRecordModel->get('email1'),
 					'url' => \Config\Main::$site_URL . 'index.php?module=Users&view=LoginPassChange&token=' . $token,
-					'expirationDate' => $expirationDate,
+					'expirationDate' => \App\Fields\DateTime::formatToDisplay($expirationDate),
 					'token' => $token,
 					'siteUrl' => \Config\Main::$site_URL,
 				]);
