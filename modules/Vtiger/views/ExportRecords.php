@@ -16,7 +16,7 @@
 class Vtiger_ExportRecords_View extends \App\Controller\Modal
 {
 	/** {@inheritdoc} */
-	public $pageTitle = 'LBL_QUICK_EXPORT_TO_EXCEL';
+	public $pageTitle = 'LBL_QUICK_EXPORT';
 	/** {@inheritdoc} */
 	public $successBtn = 'LBL_GENERATE';
 	/** {@inheritdoc} */

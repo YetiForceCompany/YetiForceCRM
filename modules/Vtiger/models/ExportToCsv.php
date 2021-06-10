@@ -15,11 +15,7 @@
  */
 class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 {
-	/**
-	 * File extension.
-	 *
-	 * @var string
-	 */
+	/** @var string File extension. */
 	protected $fileExtension = 'csv';
 
 	/**
@@ -51,12 +47,12 @@ class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 				$inventoryFields = $inventoryModel->getFields();
 				$inventoryTable = $inventoryModel->getDataTableName();
 			}
-			$i = 0;
+			$rowsCounter = 0;
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$sanitizedRow = $this->sanitizeValues($row);
 				if ($isInventory) {
-					$sanitizedRow[] = $i++;
+					$sanitizedRow[] = $rowsCounter++;
 					$rows = (new \App\Db\Query())->from($inventoryTable)->where(['crmid' => $row['id']])->orderBy('seq')->all();
 					if ($rows) {
 						foreach ($rows as &$row) {
@@ -81,7 +77,7 @@ class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 	 * @param array $headers - output file header
 	 * @param array $entries - outfput file data
 	 */
-	public function output($headers, $entries)
+	public function output(array $headers, array $entries)
 	{
 		$output = fopen('php://output', 'w');
 		fputcsv($output, $headers);
@@ -89,10 +85,5 @@ class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 			fputcsv($output, $row);
 		}
 		fclose($output);
-	}
-
-	public function getModuleName()
-	{
-		return $this->moduleName;
 	}
 }

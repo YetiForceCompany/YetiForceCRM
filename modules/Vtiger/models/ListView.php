@@ -203,7 +203,7 @@ class Vtiger_ListView_Model extends \App\Base
 		if ($moduleModel->isPermitted('QuickExportToExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
+				'linklabel' => 'LBL_QUICK_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExport("' . $moduleModel->getName() . '")',
 				'linkicon' => 'fas fa-file-export',
 			];

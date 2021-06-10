@@ -52,7 +52,7 @@
     "MassMoveDocuments": "Mass move documents",
     "ReadRecord": "Read all changes performed on records",
     "WorkflowTrigger": "Workflow trigger",
-    "QuickExportToExcel": "Quick export to Excel",
+    "QuickExportToExcel": "Quick export",
     "CreateDashboardFilter": "Create filter widgets",
     "DetailTransferOwnership": "Record preview - change the owner",
     "ExportPdf": "Export to PDF",
