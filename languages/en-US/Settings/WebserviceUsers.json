@@ -37,6 +37,7 @@
     "FL_LAST_INVALID_LOGIN": "Error message of the last failed login",
     "FL_LAST_ERROR": "Last error message",
     "FL_LAST_ERROR_METHOD": "Last error method",
+    "LBL_DEVICE_ID": "Device ID",
     "FL_LAST_ERROR_DATE": "Date of the last error",
     "LBL_PARAMS": "Params",
     "LBL_SIGNED_IN": "Signed in",

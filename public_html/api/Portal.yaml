@@ -1817,8 +1817,8 @@ paths:
     put:
       tags:
         - Users
-      summary: 'User password reset'
-      description: 'User password reset'
+      summary: 'User password reset - Password change'
+      description: 'User password reset - Password change'
       operationId: 'Api\Portal\Users\ResetPassword::put'
       parameters:
         -
@@ -1875,8 +1875,8 @@ paths:
     post:
       tags:
         - Users
-      summary: 'User password reset'
-      description: 'User password reset'
+      summary: 'User password reset - Generating and sending a one-time token'
+      description: 'User password reset - Generating and sending a one-time token'
       operationId: 'Api\Portal\Users\ResetPassword::post'
       parameters:
         -
@@ -2925,10 +2925,26 @@ components:
         params:
           description: 'Additional parameters sent by the user, extending the current settings, e.g. language'
           properties:
+            version:
+              description: 'Portal version'
+              type: string
+              example: '1.1'
             language:
-              description: 'Post method.'
+              description: 'Portal language'
               type: string
               example: pl-PL
+            ip:
+              description: 'Portal user IP'
+              type: string
+              example: 127.0.0.1
+            fromUrl:
+              description: 'Portal URL'
+              type: string
+              example: 'https://gitdevportal.yetiforce.com/'
+            deviceId:
+              description: 'Portal user device ID'
+              type: string
+              example: d520c7a8-421b-4563-b955-f5abc56b97ec
           type: object
       type: object
     Users_Login_ResponseBody:
@@ -3231,6 +3247,10 @@ components:
         userName:
           description: 'User name / email'
           type: string
+        deviceId:
+          description: 'Portal user device ID'
+          type: string
+          example: d520c7a8-421b-4563-b955-f5abc56b97ec
       type: object
     Users_Post_ResetPassword_Response:
       title: 'Users module - Users password reset response body'
@@ -3265,6 +3285,10 @@ components:
         password:
           description: 'New password'
           type: string
+        deviceId:
+          description: 'Portal user device ID'
+          type: string
+          example: d520c7a8-421b-4563-b955-f5abc56b97ec
       type: object
     Users_Put_ResetPassword_Response:
       title: 'Users module - Users password reset response body'

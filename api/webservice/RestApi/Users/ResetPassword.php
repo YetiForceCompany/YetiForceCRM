@@ -36,10 +36,10 @@ class ResetPassword extends \Api\Core\BaseAction
 	 *
 	 * @return bool
 	 *
-	 * @OA\Post(
+	 *	@OA\Post(
 	 *		path="/webservice/RestApi/Users/ResetPassword",
-	 *		description="User password reset",
-	 *		summary="User password reset",
+	 *		description="User password reset - Generating and sending a one-time token",
+	 *		summary="User password reset-Generatingandsendingaone-timetoken",
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
@@ -75,18 +75,14 @@ class ResetPassword extends \Api\Core\BaseAction
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 * ),
+	 *	),
 	 *	@OA\Schema(
 	 * 		schema="Users_Post_ResetPassword_Request",
 	 * 		title="Users module - Users password reset request body",
 	 *		type="object",
-	 *  	@OA\Property(
-	 *       	property="userName",
-	 *			description="User name / email",
-	 *			type="string",
-	 * 		),
+	 *  	@OA\Property(property="userName", type="string", description="User name / email"),
 	 *	),
-	 * @OA\Schema(
+	 *	@OA\Schema(
 	 * 		schema="Users_Post_ResetPassword_Response",
 	 * 		title="Users module - Users password reset response body",
 	 *		type="object",
@@ -104,7 +100,7 @@ class ResetPassword extends \Api\Core\BaseAction
 	 *    		@OA\Property(property="expirationDate", type="string", example="2019-10-07 08:32:38"),
 	 *    		@OA\Property(property="mailerStatus", type="boolean", example=true),
 	 *		),
-	 * ),
+	 *	),
 	 */
 	public function post(): array
 	{
@@ -153,8 +149,8 @@ class ResetPassword extends \Api\Core\BaseAction
 	 *
 	 *	@OA\Put(
 	 *		path="/webservice/RestApi/Users/ResetPassword",
-	 *		description="User password reset",
-	 *		summary="User password reset",
+	 *		description="User password reset - Password change",
+	 *		summary="User password reset-Passwordchange",
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
@@ -201,16 +197,8 @@ class ResetPassword extends \Api\Core\BaseAction
 	 * 		schema="Users_Put_ResetPassword_Request",
 	 * 		title="Users module - Users password reset request body",
 	 *		type="object",
-	 *  	@OA\Property(
-	 *       	property="token",
-	 *			description="A one-time password reset token",
-	 *			type="string",
-	 * 		),
-	 *		@OA\Property(
-	 *			property="password",
-	 *			description="New password",
-	 *			type="string"
-	 *		),
+	 *  	@OA\Property(property="token", type="string", description="A one-time password reset token"),
+	 *  	@OA\Property(property="password", type="string", description="New password"),
 	 *	),
 	 *	@OA\Schema(
 	 * 		schema="Users_Put_ResetPassword_Response",
@@ -234,7 +222,7 @@ class ResetPassword extends \Api\Core\BaseAction
 	public function put(): bool
 	{
 		$token = $this->controller->request->getByType('token', \App\Purifier::ALNUM);
-		$tokenData = \App\Utils\Tokens::get($token, false);
+		$tokenData = \App\Utils\Tokens::get($token);
 		if (empty($tokenData) || empty($tokenData['params'][0])) {
 			throw new \App\Exceptions\Security('ERR_TOKEN_DOES_NOT_EXIST', 405);
 		}

@@ -1237,8 +1237,8 @@ paths:
     put:
       tags:
         - Users
-      summary: 'User password reset'
-      description: 'User password reset'
+      summary: 'User password reset-Passwordchange'
+      description: 'User password reset - Password change'
       operationId: 'Api\RestApi\Users\ResetPassword::put'
       parameters:
         -
@@ -1295,8 +1295,8 @@ paths:
     post:
       tags:
         - Users
-      summary: 'User password reset'
-      description: 'User password reset'
+      summary: 'User password reset-Generatingandsendingaone-timetoken'
+      description: 'User password reset - Generating and sending a one-time token'
       operationId: 'Api\RestApi\Users\ResetPassword::post'
       parameters:
         -

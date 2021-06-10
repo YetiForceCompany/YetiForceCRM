@@ -23,8 +23,8 @@ class ResetPassword extends \Api\RestApi\Users\ResetPassword
 	 *
 	 * @OA\Post(
 	 *		path="/webservice/Portal/Users/ResetPassword",
-	 *		description="User password reset",
-	 *		summary="User password reset",
+	 *		description="User password reset - Generating and sending a one-time token",
+	 *		summary="User password reset - Generating and sending a one-time token",
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
@@ -60,18 +60,15 @@ class ResetPassword extends \Api\RestApi\Users\ResetPassword
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 * ),
+	 *	),
 	 *	@OA\Schema(
 	 * 		schema="Users_Post_ResetPassword_Request",
 	 * 		title="Users module - Users password reset request body",
 	 *		type="object",
-	 *  	@OA\Property(
-	 *       	property="userName",
-	 *			description="User name / email",
-	 *			type="string",
-	 * 		),
+	 *  	@OA\Property(property="userName", type="string", description="User name / email"),
+	 * 		@OA\Property(property="deviceId", type="string", description="Portal user device ID", example="d520c7a8-421b-4563-b955-f5abc56b97ec"),
 	 *	),
-	 * @OA\Schema(
+	 *	@OA\Schema(
 	 * 		schema="Users_Post_ResetPassword_Response",
 	 * 		title="Users module - Users password reset response body",
 	 *		type="object",
@@ -89,7 +86,7 @@ class ResetPassword extends \Api\RestApi\Users\ResetPassword
 	 *    		@OA\Property(property="expirationDate", type="string", example="2019-10-07 08:32:38"),
 	 *    		@OA\Property(property="mailerStatus", type="boolean", example=true),
 	 *		),
-	 * ),
+	 *	),
 	 */
 	public function post(): array
 	{
@@ -103,8 +100,8 @@ class ResetPassword extends \Api\RestApi\Users\ResetPassword
 	 *
 	 *	@OA\Put(
 	 *		path="/webservice/Portal/Users/ResetPassword",
-	 *		description="User password reset",
-	 *		summary="User password reset",
+	 *		description="User password reset - Password change",
+	 *		summary="User password reset - Password change",
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
@@ -151,16 +148,9 @@ class ResetPassword extends \Api\RestApi\Users\ResetPassword
 	 * 		schema="Users_Put_ResetPassword_Request",
 	 * 		title="Users module - Users password reset request body",
 	 *		type="object",
-	 *  	@OA\Property(
-	 *       	property="token",
-	 *			description="A one-time password reset token",
-	 *			type="string",
-	 * 		),
-	 *		@OA\Property(
-	 *			property="password",
-	 *			description="New password",
-	 *			type="string"
-	 *		),
+	 *  	@OA\Property(property="token", type="string", description="A one-time password reset token"),
+	 *  	@OA\Property(property="password", type="string", description="New password"),
+	 *		@OA\Property(property="deviceId", type="string", description="Portal user device ID", example="d520c7a8-421b-4563-b955-f5abc56b97ec"),
 	 *	),
 	 *	@OA\Schema(
 	 * 		schema="Users_Put_ResetPassword_Response",
@@ -184,5 +174,13 @@ class ResetPassword extends \Api\RestApi\Users\ResetPassword
 	public function put(): bool
 	{
 		return parent::put();
+	}
+
+	/** {@inheritdoc}  */
+	protected function saveLoginHistory(array $data): void
+	{
+		parent::saveLoginHistory(array_merge($data, [
+			'device_id' => $this->controller->request->getByType('deviceId', \App\Purifier::ALNUM_EXTENDED),
+		]));
 	}
 }

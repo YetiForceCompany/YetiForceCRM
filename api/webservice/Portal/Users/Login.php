@@ -162,7 +162,11 @@ class Login extends \Api\RestApi\Users\Login
 	 *       	property="params",
 	 *       	description="Additional parameters sent by the user, extending the current settings, e.g. language",
 	 *       	type="object",
-	 *       	@OA\Property(property="language", type="string", example="pl-PL"),
+	 *       	@OA\Property(property="version", type="string", description="Portal version", example="1.1"),
+	 *       	@OA\Property(property="language", type="string", description="Portal language", example="pl-PL"),
+	 *       	@OA\Property(property="ip", type="string", description="Portal user IP", example="127.0.0.1"),
+	 *       	@OA\Property(property="fromUrl", type="string", description="Portal URL", example="https://gitdevportal.yetiforce.com/"),
+	 *       	@OA\Property(property="deviceId", type="string", description="Portal user device ID", example="d520c7a8-421b-4563-b955-f5abc56b97ec"),
 	 *		)
 	 *	),
 	 *	@OA\Schema(
@@ -256,6 +260,23 @@ class Login extends \Api\RestApi\Users\Login
 	public function post(): ?array
 	{
 		return parent::post();
+	}
+
+	/** {@inheritdoc}  */
+	protected function saveData(): void
+	{
+		$params = $this->controller->request->getArray('params');
+		$this->updateUser([
+			'login_time' => date(static::DATE_TIME_FORMAT),
+			'custom_params' => [
+				'deviceId' => $params['deviceId'] ?? '',
+			],
+		]);
+		$this->createSession();
+		$this->saveLoginHistory([
+			'status' => 'LBL_SIGNED_IN',
+			'device_id' => $params['deviceId'] ?? '',
+		]);
 	}
 
 	/** {@inheritdoc}  */

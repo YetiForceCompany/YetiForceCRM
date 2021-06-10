@@ -69,6 +69,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		'version' => 'FL_VERSION',
 		'fromUrl' => 'FL_FROM_URL',
 		'agent' => 'LBL_USER_AGENT',
+		'deviceId' => 'LBL_DEVICE_ID',
 	];
 
 	/**
@@ -216,7 +217,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 						$params = \App\Json::decode($value);
 						$value = '';
 						foreach ($params as $paramsKey => $paramsValue) {
-							$value .= \App\Language::translate(self::$customParamsLabels[$paramsKey], 'Settings.WebserviceUsers') . ": $paramsValue \n";
+							$value .= \App\Language::translate(self::$customParamsLabels[$paramsKey] ?? $paramsKey, 'Settings.WebserviceUsers') . ": $paramsValue \n";
 						}
 						$row[$key] = \App\Layout::truncateText($value, 50, true);
 					}

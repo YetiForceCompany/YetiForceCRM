@@ -720,6 +720,7 @@ CREATE TABLE `l_yf_portal_login_history` (
   `status` varchar(50) DEFAULT NULL,
   `agent` varchar(500) DEFAULT NULL,
   `ip` varchar(100) DEFAULT NULL,
+  `device_id` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `w_yf_portal_login_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_portal_user` (`id`) ON DELETE CASCADE

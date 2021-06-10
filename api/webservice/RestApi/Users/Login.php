@@ -288,6 +288,17 @@ class Login extends \Api\Core\BaseAction
 			]);
 			throw new \Api\Core\Exception('No crmid', 401);
 		}
+		$this->saveData();
+		return $this->returnData();
+	}
+
+	/**
+	 * Save user data and logs.
+	 *
+	 * @return void
+	 */
+	protected function saveData(): void
+	{
 		$this->updateUser([
 			'login_time' => date(static::DATE_TIME_FORMAT),
 		]);
@@ -295,7 +306,6 @@ class Login extends \Api\Core\BaseAction
 		$this->saveLoginHistory([
 			'status' => 'LBL_SIGNED_IN',
 		]);
-		return $this->returnData();
 	}
 
 	/**
