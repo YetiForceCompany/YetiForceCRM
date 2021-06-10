@@ -56,6 +56,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 			'plotTickSize' => 'Integer',
 			'plotLimit' => 'Integer',
 			'defaultFilter' => 'Integer',
+			'showUsers' => 'Integer',
 			'_csrf' => 'Text',
 		]);
 		$moduleName = $request->getByType('sourceModule', 2);

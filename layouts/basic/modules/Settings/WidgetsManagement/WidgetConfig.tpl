@@ -109,8 +109,7 @@
 											{\App\Language::translate('LBL_SHOW_USERS', $QUALIFIED_MODULE)}
 										</div>
 										<div class="col-md-7 text-center checkboxForm">
-											<input type="checkbox" name="showUsers"
-													{if $WIDGET_INFO['showUsers'] eq 1} checked {/if}>
+											<input type="checkbox" name="showUsers"	{if !empty($WIDGET_INFO['showUsers'])} checked {/if} value="1">
 										</div>
 									</div>
 								{/if}
