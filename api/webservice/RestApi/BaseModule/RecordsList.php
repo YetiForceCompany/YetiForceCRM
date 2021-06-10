@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\RestApi\BaseModule;
@@ -209,7 +210,11 @@ class RecordsList extends \Api\Core\BaseAction
 		if ((int) $this->controller->request->getHeader('x-only-column')) {
 			return $response;
 		}
+		if ($limit) {
+			$this->queryGenerator->setLimit($limit + 1);
+		}
 		$query = $this->queryGenerator->createQuery();
+
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$response['records'][$row['id']] = $this->getRecordFromRow($row);
@@ -218,8 +223,14 @@ class RecordsList extends \Api\Core\BaseAction
 			}
 		}
 		$dataReader->close();
+		$isMorePages = false;
+		if ($limit && \count($response['records']) > $limit) {
+			$key = array_key_last($response['records']);
+			unset($response['records'][$key], $response['rawData'][$key]);
+			$isMorePages = true;
+		}
 		$response['numberOfRecords'] = \count($response['records']);
-		$response['isMorePages'] = $response['numberOfRecords'] === $limit;
+		$response['isMorePages'] = $isMorePages;
 		if ($this->controller->request->getHeader('x-row-count')) {
 			$response['numberOfAllRecords'] = $query->count();
 		}
