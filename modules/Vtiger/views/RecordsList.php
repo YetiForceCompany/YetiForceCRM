@@ -29,8 +29,12 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if (!$request->isEmpty('src_module') && (!$currentUserPrivilegesModel->isAdminUser() && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('src_module', 2)))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module', 2), 'DetailView', $request->getInteger('related_parent_id'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		if (!$request->isEmpty('related_parent_id', true)) {
+			$this->relatedParentId = $request->getInteger('related_parent_id');
+			$this->relatedParentModule = $request->isEmpty('related_parent_module', true) ? \App\Record::getType($this->relatedParentId) : $request->getByType('related_parent_module', \App\Purifier::ALNUM);
+			if (!\App\Privilege::isPermitted($this->relatedParentModule, 'DetailView', $this->relatedParentId)) {
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			}
 		}
 		if (!$request->isEmpty('src_record', true) && !\in_array($request->getByType('src_module', 2), ['Users', 'WebserviceUsers']) && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -129,8 +133,12 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$this->sourceModule = $request->getByType('src_module', 2);
 		$this->sourceField = $request->isEmpty('src_field', true) ? '' : $request->getByType('src_field', 2);
 		$this->sourceRecord = $request->isEmpty('src_record', true) ? 0 : $request->getInteger('src_record');
-		$this->relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
-		$this->relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
+		if (!isset($this->relatedParentModule)) {
+			$this->relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
+		}
+		if (!isset($this->relatedParentId)) {
+			$this->relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
+		}
 		$filterFields = $request->getArray('filterFields', 'Text');
 		$multiSelectMode = $request->has('multi_select') ? $request->getBoolean('multi_select') : false;
 		$currencyId = $request->isEmpty('currency_id', true) ? '' : $request->getInteger('currency_id');
