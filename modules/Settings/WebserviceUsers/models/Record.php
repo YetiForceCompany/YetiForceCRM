@@ -222,10 +222,13 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 						$row[$key] = \App\Layout::truncateText($value, 50, true);
 					}
 					break;
+					case 'agent':
+						$row[$key] = \App\Layout::truncateText($value, 50, true);
+						break;
 				default:
 					break;
 			}
-			if ('params' !== $key) {
+			if (!\in_array($key, ['params', 'agent'])) {
 				$row[$key] = App\Purifier::encodeHtml($row[$key]);
 			}
 		}
@@ -249,8 +252,14 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				case 'status':
 						$row[$key] = \App\Language::translate($value, 'Settings::' . $this->getModule()->getName());
 					break;
+				case 'agent':
+					$row[$key] = \App\Layout::truncateText($value, 50, true);
+					break;
 				default:
 					break;
+			}
+			if ('agent' !== $key) {
+				$row[$key] = App\Purifier::encodeHtml($row[$key]);
 			}
 		}
 		return $row;
