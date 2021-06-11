@@ -55,6 +55,14 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 		'custom_params' => 'FL_CUSTOM_PARAMS',
 	];
 
+	/** @var array Columns to show on the list session. */
+	public $columnsToShow = [
+		'time' => 'FL_LOGIN_TIME',
+		'status' => 'FL_STATUS',
+		'agent' => 'LBL_USER_AGENT',
+		'ip' => 'LBL_IP_ADDRESS',
+	];
+
 	/** {@inheritdoc} */
 	public $paramsFields = ['language', 'logout_time'];
 

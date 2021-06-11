@@ -47,6 +47,15 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 		'custom_params' => 'FL_CUSTOM_PARAMS',
 	];
 
+	/** @var array Columns to show on the list session. */
+	public $columnsToShow = [
+		'time' => 'FL_LOGIN_TIME',
+		'status' => 'FL_STATUS',
+		'agent' => 'LBL_USER_AGENT',
+		'ip' => 'LBL_IP_ADDRESS',
+		'device_id' => 'LBL_DEVICE_ID',
+	];
+
 	/** {@inheritdoc} */
 	public function getFieldInstanceByName($name)
 	{
