@@ -83,7 +83,8 @@
     "phpmailer/dkimvalidator": "^v0.3",
     "league/climate": "^3.6",
     "twig/twig": "^3.0",
-    "illuminate/support": "^8.0"
+    "illuminate/support": "^8.0",
+    "globalcitizen/php-iban": "4.0.0"
   },
   "suggest": {
     "ext-imagick": "Library recommended for securing potentially dangerous graphic files",

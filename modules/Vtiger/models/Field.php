@@ -454,6 +454,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 328:
 						$fieldDataType = 'changesJson';
 						break;
+					case 329:
+						$fieldDataType = 'iban';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
