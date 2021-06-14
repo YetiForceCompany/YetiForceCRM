@@ -260,6 +260,9 @@ class BaseAction
 	 */
 	public function updateSession(array $data = []): void
 	{
+		if (empty($this->userData['sid'])) {
+			return;
+		}
 		$data['changed'] = date('Y-m-d H:i:s');
 		$data['ip'] = $this->controller->request->getServer('REMOTE_ADDR');
 		$data['last_method'] = $this->controller->request->getServer('REQUEST_URI');

@@ -540,7 +540,7 @@ final class PortalTest extends \Tests\Base
 		static::assertTrue($response['result']['mailerStatus'], $assertMessage);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/ResetPassword', 'post', 200);
 
-		$row = (new \App\Db\Query())->from('s_#__tokens')->where(['method' => 'Api\RestApi\Users\ResetPassword::post'])->one();
+		$row = (new \App\Db\Query())->from('s_#__tokens')->where(['method' => '\Api\RestApi\Users\ResetPassword::post'])->one();
 		static::assertNotEmpty($row, $assertMessage);
 		static::assertNotEmpty($row['uid'], $assertMessage);
 
