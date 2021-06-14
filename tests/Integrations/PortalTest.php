@@ -532,8 +532,8 @@ final class PortalTest extends \Tests\Base
 				],
 			], self::$requestOptions)
 		);
-		$assertMessage = "Users/ResetPassword API error: \n{$request->getReasonPhrase()}|$body";
 		$this->logs = $body = $request->getBody()->getContents();
+		$assertMessage = "Users/ResetPassword API error: \n{$request->getReasonPhrase()}|$body";
 		$response = \App\Json::decode($body);
 		static::assertSame(200, $request->getStatusCode(), $assertMessage);
 		static::assertSame(1, $response['status'], $assertMessage);
@@ -553,8 +553,8 @@ final class PortalTest extends \Tests\Base
 				],
 			], self::$requestOptions)
 		);
-		$assertMessage = "Users/ResetPassword API error: \n{$request->getReasonPhrase()}|$body";
 		$this->logs = $body = $request->getBody()->getContents();
+		$assertMessage = "Users/ResetPassword API error: \n{$request->getReasonPhrase()}|$body";
 		$response = \App\Json::decode($body);
 		static::assertSame(200, $request->getStatusCode(), $assertMessage);
 		static::assertSame(1, $response['status'], $assertMessage);
