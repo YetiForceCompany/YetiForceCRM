@@ -1360,23 +1360,17 @@ $.Class(
 						let row = $(element);
 						thisInstance.hideExpandedRow(row);
 					});
+					let num = $(ui.item).attr('numrow');
+					items.find('[numrowex="' + num + '"] .js-inventory-item-comment').each(function () {
+						App.Fields.Text.destroyEditor($(this));
+					});
 					ui.item.startPos = ui.item.index();
 				},
 				stop: function (event, ui) {
 					let numrow = $(ui.item).attr('numrow');
-					let child = items
-						.find('.numRow' + numrow)
-						.remove()
-						.clone();
+					let child = items.find('.numRow' + numrow);
 					items.find('[numrow="' + numrow + '"]').after(child);
-					if (ui.item.startPos < ui.item.index()) {
-						child = items
-							.find('.numRow' + numrow)
-							.next()
-							.remove()
-							.clone();
-						items.find('[numrow="' + numrow + '"]').before(child);
-					}
+					App.Fields.Text.Editor.register(child);
 					thisInstance.updateRowSequence();
 				}
 			});
