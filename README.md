@@ -94,7 +94,6 @@ Testing Supported By<br/>
 <img width="70" src="https://validator.swagger.io/validator?url=https://gitdeveloper.yetiforce.com/api/ManageConsents.json" />
 </a>
 
-[![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2e9276651b48a905f0ee/maintainability)](https://codeclimate.com/github/YetiForceCompany/YetiForceCRM/maintainability)
 [![Snyk - Known Vulnerabilities](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM/badge.svg)](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM)
 <a href="https://scan.coverity.com/projects/yetiforcecompany-yetiforcecrm">
