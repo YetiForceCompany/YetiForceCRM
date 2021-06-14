@@ -118,7 +118,7 @@ class ResetPassword extends \Api\Core\BaseAction
 		\App\User::setCurrentUserId($this->userData['user_id']);
 		$id = (int) $this->userData['id'];
 		$expirationDate = date('Y-m-d H:i:s', strtotime('+1 hour'));
-		$token = \App\Utils\Tokens::generate('\Api\RestApi\Users\ResetPassword::post', [$id], $expirationDate);
+		$token = \App\Utils\Tokens::generate('\Api\RestApi\Users\ResetPassword', [$id], $expirationDate);
 		$status = \App\Mailer::sendFromTemplate([
 			'template' => 'UsersResetPassword',
 			'to' => $this->userData['user_name'],

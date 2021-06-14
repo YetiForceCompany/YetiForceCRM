@@ -37,7 +37,7 @@ class Users_LoginForgotPassword_Action extends Users_Login_Action
 				$userRecordModel = Users_Record_Model::getInstanceFromFile($id);
 				\App\User::setCurrentUserId($id);
 				$expirationDate = date('Y-m-d H:i:s', strtotime('+1 hour'));
-				$token = \App\Utils\Tokens::generate('Users_LoginForgotPassword_Action::process', [$id], $expirationDate);
+				$token = \App\Utils\Tokens::generate('Users_LoginForgotPassword_Action', [$id], $expirationDate);
 				\App\Mailer::sendFromTemplate([
 					'template' => 'UsersResetPassword',
 					'moduleName' => $moduleName,

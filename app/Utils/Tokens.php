@@ -46,19 +46,7 @@ class Tokens
 	 */
 	public static function generate(string $method, array $params, string $expirationDate = null): string
 	{
-		print_r([
-			$method,
-			\is_callable($method),
-			\function_exists($method),
-			// \method_exists($method),
-		]);
-		file_put_contents(ROOT_DIRECTORY . '/cache/logs/system.log', print_r([
-			$method,
-			\is_callable($method),
-			\function_exists($method),
-			// \method_exists($method),
-		], true), FILE_APPEND);
-		if (!\is_callable($method)) {
+		if (!\is_callable($method) && !class_exists($method)) {
 			throw new \App\Exceptions\AppException("The method `$method` does not exist");
 		}
 		$uid = self::generateUid();
