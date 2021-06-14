@@ -50,9 +50,14 @@ class Tokens
 			$method,
 			\is_callable($method),
 			\function_exists($method),
-			\method_exists($method),
+			// \method_exists($method),
 		]);
-
+		file_put_contents(ROOT_DIRECTORY . '/cache/logs/system.log', print_r([
+			$method,
+			\is_callable($method),
+			\function_exists($method),
+			// \method_exists($method),
+		], true), FILE_APPEND);
 		if (!\is_callable($method)) {
 			throw new \App\Exceptions\AppException("The method `$method` does not exist");
 		}
