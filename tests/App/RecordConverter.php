@@ -1,6 +1,6 @@
 <?php
 /**
- * RecordConverter test class.
+ * RecordConverter test file.
  *
  * @package   Tests
  *
@@ -12,7 +12,7 @@
 namespace Tests\App;
 
 /**
- * Class RecordConverter tests.
+ * RecordConverter test class.
  */
 class RecordConverter extends \Tests\Base
 {
@@ -36,7 +36,7 @@ class RecordConverter extends \Tests\Base
 					['auto']
 				),
 				'show_in_list' => 1,
-				'show_in_detail' => 1
+				'show_in_detail' => 1,
 			]
 		)->execute();
 		$this->assertTrue(\App\RecordConverter::isActive('SQuotes', 'Detail'));

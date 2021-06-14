@@ -1,16 +1,20 @@
 <?php
 /**
- * TextParser test class.
+ * TextParser test file.
  *
  * @package   Tests
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Tests\App;
 
+/**
+ * TextParser test class.
+ */
 class TextParser extends \Tests\Base
 {
 	/**
@@ -224,7 +228,7 @@ class TextParser extends \Tests\Base
 	{
 		$tmpUser = \App\User::getCurrentUserId();
 		\App\User::setCurrentUserId((new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['not in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
-			->column()])
+			->column(), ])
 			->scalar());
 		$text = '+ $(employee : last_name)$ +';
 		$this->assertSame('+  +', self::$parserClean

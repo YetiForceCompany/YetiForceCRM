@@ -1,18 +1,19 @@
 <?php
 /**
- * Encryption test class.
+ * Encryption test file.
  *
  * @package   Tests
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Tests\App;
 
 /**
- * Class Encryption tests.
+ * Encryption test class.
  */
 class Encryption extends \Tests\Base
 {
@@ -56,7 +57,7 @@ class Encryption extends \Tests\Base
 			['aes-192-cbc', '1234567890123456'],
 			['aes-192-ctr', '1234567890123456'],
 			['des-ede3-cbc', '12354678'],
-			['des-ede3-cfb', '12354678']
+			['des-ede3-cfb', '12354678'],
 		];
 	}
 
@@ -80,7 +81,7 @@ class Encryption extends \Tests\Base
 			'function_exists(\'openssl_encrypt\')' => \function_exists('openssl_encrypt'),
 			'isEmpty(\'method\')' => $instance->isEmpty('method'),
 			'method !== securityKeys(\'encryptionMethod\')' => $instance->get('method') !== \App\Config::securityKeys('encryptionMethod'),
-			'method in getMethods' => \in_array($instance->get('method'), \App\Encryption::getMethods())
+			'method in getMethods' => \in_array($instance->get('method'), \App\Encryption::getMethods()),
 		];
 		if ($instance->isActive()) {
 			$this->assertTrue($instance->isActive(), 'The encryption mechanism is not active');

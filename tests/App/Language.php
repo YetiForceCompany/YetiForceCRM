@@ -1,6 +1,6 @@
 <?php
 /**
- * Languages test class.
+ * Languages test file.
  *
  * @package   Tests
  *
@@ -8,10 +8,14 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Tests\App;
 
+/**
+ * Languages test class.
+ */
 class Language extends \Tests\Base
 {
 	/**

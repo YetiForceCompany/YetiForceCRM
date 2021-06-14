@@ -1,6 +1,6 @@
 <?php
 /**
- * Db\Fixer test class.
+ * Db Fixer test file.
  *
  * @package   Tests
  *
@@ -11,6 +11,9 @@
 
 namespace Tests\App;
 
+/**
+ * Db Fixer test class.
+ */
 class Db_Fixer extends \Tests\Base
 {
 	/**

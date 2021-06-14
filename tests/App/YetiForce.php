@@ -1,18 +1,19 @@
 <?php
 /**
- * YetiForce test class.
+ * YetiForce test file.
  *
  * @package   Tests
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Tests\App;
 
 /**
- * Class YetiForce tests.
+ * YetiForce test class.
  */
 class YetiForce extends \Tests\Base
 {

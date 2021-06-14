@@ -101,6 +101,8 @@ if ('TEST' === getenv('INSTALL_MODE')) {
 	$configFile->create();
 
 	\App\Config::set('module', 'OSSMail', 'root_directory', new \Nette\PhpGenerator\PhpLiteral('ROOT_DIRECTORY . DIRECTORY_SEPARATOR'));
+	\App\Config::set('component', 'Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING', true);
+
 	$skip = ['db', 'main', 'debug', 'developer', 'security', 'module', 'component'];
 	foreach (array_diff(\App\ConfigFile::TYPES, $skip) as $type) {
 		(new \App\ConfigFile($type))->create();
