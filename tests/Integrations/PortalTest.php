@@ -25,19 +25,17 @@ final class PortalTest extends \Tests\Base
 {
 	use AssertsTrait;
 
-	/**
-	 * Api server id.
-	 *
-	 * @var int
-	 */
+	/** @var int Api server id. */
 	private static $serverId;
 
-	/**
-	 * Api user id.
-	 *
-	 * @var int
-	 */
+	/** @var int Api user id. */
 	private static $apiUserId;
+
+	/** @var int Api user id. */
+	private static $apiUserName = 'demo@yetiforce.com';
+
+	/** @var int Api user id. */
+	private static $apiUserPass = 'demo';
 
 	/**
 	 * Request options.
@@ -112,8 +110,8 @@ final class PortalTest extends \Tests\Base
 		$user->setData([
 			'server_id' => self::$serverId,
 			'status' => 1,
-			'user_name' => 'demo@yetiforce.com',
-			'password' => \App\Encryption::createPasswordHash('demo', 'Portal'),
+			'user_name' => self::$apiUserName,
+			'password' => \App\Encryption::createPasswordHash(self::$apiUserPass, 'Portal'),
 			'type' => 1,
 			'popupReferenceModule' => 'Contacts',
 			'crmid' => 0,
@@ -126,8 +124,8 @@ final class PortalTest extends \Tests\Base
 		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => self::$apiUserId])->one();
 		static::assertNotFalse($row, 'No record id: ' . self::$apiUserId);
 		static::assertSame((int) $row['server_id'], self::$serverId);
-		static::assertSame($row['user_name'], 'demo@yetiforce.com');
-		static::assertTrue(\App\Encryption::verifyPasswordHash('demo', $row['password'], 'Portal'));
+		static::assertSame($row['user_name'], self::$apiUserName);
+		static::assertTrue(\App\Encryption::verifyPasswordHash(self::$apiUserPass, $row['password'], 'Portal'));
 
 		$fieldModel = \Vtiger_Field_Model::init('Accounts', \App\Field::SYSTEM_FIELDS['share_externally']);
 		$fieldModel->fieldparams = self::$serverId;
@@ -143,8 +141,8 @@ final class PortalTest extends \Tests\Base
 		$request = $this->httpClient->post('Users/Login', \App\Utils::merge(
 				[
 					'json' => [
-						'userName' => 'demo@yetiforce.com',
-						'password' => 'demo',
+						'userName' => self::$apiUserName,
+						'password' => self::$apiUserPass,
 						'params' => ['language' => 'pl-PL'],
 					],
 				], self::$requestOptions)
@@ -495,7 +493,7 @@ final class PortalTest extends \Tests\Base
 		$request = $this->httpClient->put('Users/ChangePassword', \App\Utils::merge(
 			[
 				'json' => [
-					'currentPassword' => 'demo',
+					'currentPassword' => self::$apiUserPass,
 					'newPassword' => 'demo2',
 				],
 			], self::$requestOptions)
@@ -518,6 +516,50 @@ final class PortalTest extends \Tests\Base
 		static::assertSame(200, $request->getStatusCode(), 'Users/Logout API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(1, $response['status'], 'Users/Logout API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/Logout', 'put', 200);
+		unset(self::$requestOptions['headers']['x-token']);
+	}
+
+	/**
+	 * Testing reset password .
+	 */
+	public function testResetPassword(): void
+	{
+		$request = $this->httpClient->post('Users/ResetPassword', \App\Utils::merge(
+			[
+				'json' => [
+					'userName' => self::$apiUserName,
+					'deviceId' => 'tests',
+				],
+			], self::$requestOptions)
+		);
+		$assertMessage = "Users/ResetPassword API error: \n{$request->getReasonPhrase()}|$body";
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), $assertMessage);
+		static::assertSame(1, $response['status'], $assertMessage);
+		static::assertTrue($response['result']['mailerStatus'], $assertMessage);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/ResetPassword', 'post', 200);
+
+		$row = (new \App\Db\Query())->from('s_#__tokens')->where(['method' => 'Api\RestApi\Users\ResetPassword::post'])->one();
+		static::assertNotEmpty($row, $assertMessage);
+		static::assertNotEmpty($row['uid'], $assertMessage);
+
+		$request = $this->httpClient->put('Users/ResetPassword', \App\Utils::merge(
+			[
+				'json' => [
+					'token' => $row['uid'],
+					'password' => self::$apiUserPass,
+					'deviceId' => 'tests',
+				],
+			], self::$requestOptions)
+		);
+		$assertMessage = "Users/ResetPassword API error: \n{$request->getReasonPhrase()}|$body";
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), $assertMessage);
+		static::assertSame(1, $response['status'], $assertMessage);
+		static::assertTrue($response['result'], $assertMessage);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Users/ResetPassword', 'post', 200);
 	}
 
 	/**
