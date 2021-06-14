@@ -52,7 +52,7 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 #### :computer: Code Documentation: [doc.yetiforce.com/code/](https://doc.yetiforce.com/code/)
 
-#### :globe_with_meridians: API documentation: [doc.yetiforce.com/api/](https://doc.yetiforce.com/api/) (in progres)
+#### :globe_with_meridians: API documentation: [doc.yetiforce.com/api/](https://doc.yetiforce.com/api/)
 
 Join our [LinkedIn group](https://www.linkedin.com/groups/8177576) and connect with other users and community members to discuss topics surrounding CRM and YetiForce.
 
