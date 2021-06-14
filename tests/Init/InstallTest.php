@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Install test class.
+ * Init install test file.
  *
  * @package   Tests
  *
@@ -12,7 +12,13 @@
 
 namespace Tests\Init;
 
-class B_Install extends \Tests\Base
+/**
+ * Init install test class.
+ *
+ * @internal
+ * @coversNothing
+ */
+final class InstallTest extends \Tests\Base
 {
 	/**
 	 * Testing database installation from SQL file.
@@ -22,9 +28,9 @@ class B_Install extends \Tests\Base
 		$db = \App\Db::getInstance();
 		$schema = $db->getSchema();
 
-		$this->assertNotNull($schema->getTableSchema('a_yf_adv_permission'));
-		$this->assertNotNull($schema->getTableSchema('yetiforce_updates'));
-		$this->assertTrue(((new \App\Db\Query())->from('vtiger_ws_fieldtype')->count()) > 0);
+		static::assertNotNull($schema->getTableSchema('a_yf_adv_permission'));
+		static::assertNotNull($schema->getTableSchema('yetiforce_updates'));
+		static::assertTrue(((new \App\Db\Query())->from('vtiger_ws_fieldtype')->count()) > 0);
 	}
 
 	/**
@@ -34,7 +40,7 @@ class B_Install extends \Tests\Base
 	{
 		\Settings_ModuleManager_Library_Model::downloadAll();
 		foreach (\Settings_ModuleManager_Library_Model::$libraries as $name => $lib) {
-			$this->assertFileExists($lib['dir'] . 'version.php');
+			static::assertFileExists($lib['dir'] . 'version.php');
 		}
 	}
 }

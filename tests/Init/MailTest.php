@@ -1,6 +1,6 @@
 <?php
 /**
- * Mail test class.
+ * Init mail test file.
  *
  * @package   Tests
  *
@@ -9,9 +9,11 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Tests\App;
+namespace Tests\Init;
 
 /**
+ * Init mail test class.
+ *
  * @internal
  * @coversNothing
  */
