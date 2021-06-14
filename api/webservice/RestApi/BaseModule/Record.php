@@ -210,13 +210,6 @@ class Record extends \Api\Core\BaseAction
 			$value = $this->recordModel->get($fieldModel->getName());
 			$displayData[$fieldModel->getName()] = $uiTypeModel->getApiDisplayValue($value, $this->recordModel);
 			$fieldsLabel[$fieldModel->getName()] = \App\Language::translate($fieldModel->get('label'), $moduleName);
-			if ($fieldModel->isReferenceField()) {
-				$referenceModule = $uiTypeModel->getReferenceModule($value);
-				$rawData[$fieldModel->getName() . '_module'] = $referenceModule ? $referenceModule->getName() : null;
-			}
-			if ('taxes' === $fieldModel->getFieldDataType()) {
-				$rawData[$fieldModel->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$fieldModel->getName()]);
-			}
 		}
 		$response = [
 			'name' => $this->recordModel->getName(),
@@ -225,8 +218,8 @@ class Record extends \Api\Core\BaseAction
 			'data' => $displayData,
 			'privileges' => [
 				'isEditable' => $this->recordModel->isEditable(),
-				'moveToTrash' => $this->recordModel->privilegeToDelete()
-			]
+				'moveToTrash' => $this->recordModel->privilegeToDelete(),
+			],
 		];
 		if ($this->recordModel->getModule()->isInventory()) {
 			$rawInventory = $this->recordModel->getInventoryData();

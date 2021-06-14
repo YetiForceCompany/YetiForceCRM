@@ -118,6 +118,27 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		if (empty($value) || !($referenceModule = $this->getReferenceModule($value))) {
+			return '';
+		}
+		$referenceModuleName = $referenceModule->getName();
+		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
+			return \App\Fields\Owner::getLabel($value);
+		}
+		if (!\App\Record::isExists($value)) {
+			return '';
+		}
+		return [
+			'value' => \App\Record::getLabel($value, true),
+			'record' => $value,
+			'referenceModule' => $referenceModuleName,
+			'isPermitted' => \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value),
+		];
+	}
+
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		$fieldModel = $this->getFieldModel();

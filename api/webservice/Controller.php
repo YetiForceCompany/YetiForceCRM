@@ -99,6 +99,8 @@ class Controller
 		if (empty($this->request->getByType('action', 'Alnum'))) {
 			throw new Core\Exception('No action', 404);
 		}
+		\App\Process::$processName = $this->request->getByType('action', 'Alnum');
+		\App\Process::$processType = $this->app['type'];
 		return true;
 	}
 
