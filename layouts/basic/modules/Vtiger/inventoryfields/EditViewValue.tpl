@@ -6,7 +6,7 @@
 	{if $FIELD->isReadOnly() || $FIELD->getMapDetail($REFERENCE_MODULE)}
 		{assign var="INPUT_TYPE" value='hidden'}
 		<span class="{$FIELD->getColumnName()}Text valueText">
-			{$FIELD->getDisplayValue($VALUE, $INVENTORY_ROW)}
+			{$FIELD->getDisplayValue($VALUE, $ITEM_DATA)}
 		</span>
 	{/if}
 	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="{$INPUT_TYPE}" class="form-control form-control-sm {$FIELD->getColumnName()} valueVal" data-validation-engine="validate[maxSize[{$FIELD->getRangeValues()}]]" value="{$FIELD->getEditValue($VALUE)}" {if $FIELD->isReadOnly()}readonly="readonly"{/if}/>

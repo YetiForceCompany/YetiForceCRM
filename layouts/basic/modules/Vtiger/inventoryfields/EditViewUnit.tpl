@@ -6,7 +6,7 @@
 		   value="{$ITEM_VALUE}"
 		   readonly="readonly"/>
 	<span class="{$FIELD->getColumnName()}Text valueText">
-		{$FIELD->getDisplayValue($ITEM_VALUE, $INVENTORY_ROW)}
+		{$FIELD->getDisplayValue($ITEM_VALUE, $ITEM_DATA)}
 	</span>
 	<!-- /tpl-Base-inventoryfields-EditViewUnit -->
 {/strip}
