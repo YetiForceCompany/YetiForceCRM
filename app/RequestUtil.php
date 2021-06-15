@@ -1,15 +1,18 @@
 <?php
-
-namespace App;
-
 /**
- * Request Utils basic class.
+ * Request Utils basic file.
  *
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App;
+
+/**
+ * Request Utils basic class.
  */
 class RequestUtil
 {
@@ -20,11 +23,7 @@ class RequestUtil
 	 */
 	protected static $browserCache;
 
-	/**
-	 * Cache https check variable.
-	 *
-	 * @var bool
-	 */
+	/** @var bool Cache https check variable. */
 	protected static $httpsCache;
 
 	/**
@@ -70,7 +69,12 @@ class RequestUtil
 		return empty($address) ? '' : $address;
 	}
 
-	public static function getBrowserInfo()
+	/**
+	 * Get browser details.
+	 *
+	 * @return object
+	 */
+	public static function getBrowserInfo(): object
 	{
 		if (empty(self::$browserCache)) {
 			$browserAgent = strtolower(\App\Request::_getServer('HTTP_USER_AGENT', ''));

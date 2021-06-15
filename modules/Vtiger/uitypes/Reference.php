@@ -134,6 +134,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			'value' => \App\Record::getLabel($value, true),
 			'record' => $value,
 			'referenceModule' => $referenceModuleName,
+			'state' => \App\Record::getState($value),
 			'isPermitted' => \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value),
 		];
 	}

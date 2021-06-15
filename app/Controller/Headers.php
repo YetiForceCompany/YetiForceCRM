@@ -22,20 +22,20 @@ class Headers
 	 * @var string[]
 	 */
 	protected $headers = [
-		'access-control-allow-methods' => 'GET, POST',
-		'access-control-allow-origin' => '*',
-		'expires' => '-',
-		'last-modified' => '-',
-		'pragma' => 'no-cache',
-		'cache-control' => 'private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
-		'content-type' => 'text/html; charset=UTF-8',
-		'referrer-policy' => 'no-referrer',
-		'expect-ct' => 'enforce; max-age=3600',
-		'x-frame-options' => 'sameorigin',
-		'x-xss-protection' => '1; mode=block',
-		'x-content-type-options' => 'nosniff',
-		'x-robots-tag' => 'none',
-		'x-permitted-cross-domain-policies' => 'none',
+		'Access-Control-Allow-Methods' => 'GET, POST',
+		'Access-Control-Allow-Origin' => '*',
+		'Expires' => '-',
+		'Last-Modified' => '-',
+		'Pragma' => 'no-cache',
+		'Cache-Control' => 'private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
+		'Content-Type' => 'text/html; charset=UTF-8',
+		'Referrer-Policy' => 'no-referrer',
+		'Expect-Ct' => 'enforce; max-age=3600',
+		'X-Frame-Options' => 'sameorigin',
+		'X-Xss-Protection' => '1; mode=block',
+		'X-Content-Type-Options' => 'nosniff',
+		'X-Robots-Tag' => 'none',
+		'X-Permitted-Cross-Domain-Policies' => 'none',
 	];
 	/**
 	 * Default CSP header values.
@@ -57,7 +57,7 @@ class Headers
 	 *
 	 * @var string[]
 	 */
-	protected $headersToDelete = ['x-powered-by', 'server'];
+	protected $headersToDelete = ['X-Powered-By', 'Server'];
 
 	/**
 	 * Headers instance..
@@ -85,23 +85,23 @@ class Headers
 	public function __construct()
 	{
 		$browser = \App\RequestUtil::getBrowserInfo();
-		$this->headers['expires'] = gmdate('D, d M Y H:i:s') . ' GMT';
-		$this->headers['last-modified'] = gmdate('D, d M Y H:i:s') . ' GMT';
+		$this->headers['Expires'] = gmdate('D, d M Y H:i:s') . ' GMT';
+		$this->headers['Last-Modified'] = gmdate('D, d M Y H:i:s') . ' GMT';
 		if ($browser->ie) {
-			$this->headers['x-ua-compatible'] = 'IE=11,edge';
+			$this->headers['X-Ua-Compatible'] = 'IE=11,edge';
 			if ($browser->https) {
-				$this->headers['pragma'] = 'private';
-				$this->headers['cache-control'] = 'private, must-revalidate';
+				$this->headers['Pragma'] = 'private';
+				$this->headers['Cache-Control'] = 'private, must-revalidate';
 			}
 		}
 		if ($browser->https) {
-			$this->headers['strict-transport-security'] = 'max-age=31536000; includeSubDomains; preload';
+			$this->headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload';
 		}
 		if (\App\Config::security('cspHeaderActive')) {
 			$this->loadCsp();
 		}
 		if ($keys = \App\Config::security('hpkpKeysHeader')) {
-			$this->headers['public-key-pins'] = 'pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;';
+			$this->headers['Public-Key-Pins'] = 'pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;';
 		}
 	}
 
@@ -142,7 +142,7 @@ class Headers
 	public function getHeaders(): array
 	{
 		if (\App\Config::security('cspHeaderActive')) {
-			$this->headers['content-security-policy'] = $this->getCspHeader();
+			$this->headers['Content-Security-Policy'] = $this->getCspHeader();
 		}
 		$return = [];
 		foreach ($this->headers as $name => $value) {
