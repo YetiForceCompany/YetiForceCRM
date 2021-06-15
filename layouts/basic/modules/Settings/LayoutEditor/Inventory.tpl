@@ -4,7 +4,7 @@
 	<div class="tpl-Settings-LayoutEditor-Inventory">
 		<div class="moduleBlocks inventoryBlock" data-block-id="0">
 			<div class="editFieldsTable block card card-default mb-2">
-				<div class="card-header py-1 px-2">
+				<div class="card-header px-2">
 					<div class="float-right">
 						<button class="btn btn-sm btn-success pr-1 saveFieldSequence invisible inventorySequence"
 								type="button">
@@ -51,9 +51,9 @@
 		</div>
 		<div class="moduleBlocks inventoryBlock" data-block-id="1">
 			<div class="editFieldsTable block card card-default mb-2">
-				<div class="card-header py-1 px-2">
+				<div class="card-header px-2">
 					<div class="float-right">
-						<button class="btn btn-sm btn-success saveFieldSequence invisible inventorySequence"
+						<button class="btn btn-sm btn-success saveFieldSequence invisible inventorySequence mr-1"
 								type="button">
 							<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 						</button>
@@ -98,7 +98,7 @@
 		</div>
 		<div class="moduleBlocks inventoryBlock" data-block-id="2">
 			<div class="editFieldsTable block card card-default mb-2">
-				<div class="card-header py-1 px-2">
+				<div class="card-header px-2">
 					<div class="float-right">
 						<button class="btn btn-sm btn-success saveFieldSequence invisible inventorySequence"
 								type="button">
