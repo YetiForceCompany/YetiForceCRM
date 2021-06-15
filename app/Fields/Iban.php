@@ -107,13 +107,11 @@ class Iban
 	{
 		$clientPattern = $this->fieldParams['clientIdPattern'];
 		$patternLength = \strlen($clientPattern);
-
 		$payerId = '';
 		$letters = range('A', 'Z');
 		$numbers = range('0', '9');
 		$lettersAndNumbers = array_merge($letters, $numbers);
 		for ($charPosition = 0; $charPosition < $patternLength; ++$charPosition) {
-			$clientPattern[$charPosition];
 			switch ($clientPattern[$charPosition]) {
 				case 'N':
 					$payerId .= rand(0, 9);
