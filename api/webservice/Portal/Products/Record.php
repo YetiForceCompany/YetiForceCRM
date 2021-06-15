@@ -207,7 +207,7 @@ class Record extends \Api\Portal\BaseModule\Record
 	{
 		$availableTaxes = [];
 		if ($this->isUserPermissions) {
-			$availableTaxes = 'LBL_GROUP';
+			$availableTaxes = 'LBL_GROUP_TAX';
 			$regionalTaxes = '';
 		} else {
 			$parentRecordModel = \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts');
@@ -256,7 +256,7 @@ class Record extends \Api\Portal\BaseModule\Record
 		$queryGenerator = $productRelationModel->getQuery();
 		$queryGenerator->setField(['ean', 'taxes', 'imagename']);
 		if ($this->isUserPermissions) {
-			$availableTaxes = 'LBL_GROUP';
+			$availableTaxes = 'LBL_GROUP_TAX';
 			$regionalTaxes = '';
 		} else {
 			$parentRecordModel = \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts');
