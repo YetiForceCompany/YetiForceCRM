@@ -16,7 +16,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_REFERENCE';
 	protected $columnName = 'ref';
 	protected $dbType = 'int';
-	protected $params = ['modules'];
+	protected $params = ['modules', 'mandatory'];
 	protected $maximumLength = '-2147483648,2147483647';
 	protected $purifyType = \App\Purifier::INTEGER;
 
@@ -119,5 +119,18 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if ($rangeValues[1] < $value || $rangeValues[0] > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
+	}
+
+	/**
+	 * Getting value to display.
+	 *
+	 * @return array
+	 */
+	public function mandatoryValues()
+	{
+		return [
+			['id' => 'true', 'name' => 'LBL_YES'],
+			['id' => 'false', 'name' => 'LBL_NO']
+		];
 	}
 }
