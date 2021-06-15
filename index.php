@@ -13,7 +13,7 @@ require_once __DIR__ . '/include/main/WebUI.php';
 require_once __DIR__ . '/include/RequirementsValidation.php';
 
 if ('OPTIONS' === $_SERVER['REQUEST_METHOD']) {
-	\App\Headers::getInstance()->send();
+	\App\Controller\Headers::getInstance()->send();
 	return;
 }
 if (!\App\Config::main('application_unique_key', false)) {

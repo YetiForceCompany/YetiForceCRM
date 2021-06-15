@@ -47,7 +47,7 @@ abstract class Base
 	 */
 	public function __construct()
 	{
-		$this->headers = \App\Headers::getInstance();
+		$this->headers = \App\Controller\Headers::getInstance();
 		if (!self::$activatedLocale && \App\Config::performance('CHANGE_LOCALE')) {
 			\App\Language::initLocale();
 			self::$activatedLocale = true;

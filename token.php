@@ -12,7 +12,7 @@ chdir(__DIR__);
 require __DIR__ . '/include/main/WebUI.php';
 require __DIR__ . '/include/RequirementsValidation.php';
 
-\App\Headers::getInstance()->send();
+\App\Controller\Headers::getInstance()->send();
 \App\Process::$startTime = microtime(true);
 \App\Process::$requestMode = 'Token';
 

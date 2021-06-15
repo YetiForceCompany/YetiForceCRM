@@ -1190,7 +1190,7 @@ class ConfReport
 	{
 		unset($sapi);
 		$header = strtolower(\str_replace('Header: ', '', $name));
-		$row['recommended'] = trim(\App\Headers::getInstance()->getCspHeader());
+		$row['recommended'] = trim(\App\Controller\Headers::getInstance()->getCspHeader());
 		if (isset(static::$request[$header])) {
 			$row['www'] = static::$request[$header]['root'] ?? '-';
 			$row['status'] = strtolower($row['www']) === strtolower($row['recommended']);

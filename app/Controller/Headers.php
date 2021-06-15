@@ -1,18 +1,18 @@
 <?php
 /**
- * Headers file.
+ * Headers controller file.
  *
- * @package App
+ * @package Controller
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App;
+namespace App\Controller;
 
 /**
- * Headers class.
+ * Headers controller class.
  */
 class Headers
 {
