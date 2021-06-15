@@ -235,7 +235,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 		$unitPrice = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
 		$regionalTaxes = $availableTaxes = '';
 		if ($this->isUserPermissions) {
-			$availableTaxes = 'LBL_GROUP';
+			$availableTaxes = 'LBL_GROUP_TAX';
 		} else {
 			if (isset($this->parentRecordModel)) {
 				$availableTaxes = $this->parentRecordModel->get('accounts_available_taxes');
