@@ -84,7 +84,7 @@ class Headers
 	 */
 	public function __construct()
 	{
-		$browser = RequestUtil::getBrowserInfo();
+		$browser = \App\RequestUtil::getBrowserInfo();
 		$this->headers['expires'] = gmdate('D, d M Y H:i:s') . ' GMT';
 		$this->headers['last-modified'] = gmdate('D, d M Y H:i:s') . ' GMT';
 		if ($browser->ie) {
