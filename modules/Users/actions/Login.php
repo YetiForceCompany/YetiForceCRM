@@ -20,7 +20,7 @@ class Users_Login_Action extends \App\Controller\Action
 		}
 		$this->headers->csp['default-src'] = '\'self\'';
 		$this->headers->csp['script-src'] = str_replace([
-			' \'unsafe-inline\'', ' blob:'
+			' \'unsafe-inline\'', ' blob:',
 		], '', $this->headers->csp['script-src']);
 		$this->headers->csp['form-action'] = '\'self\'';
 		$this->headers->csp['style-src'] = '\'self\'';
@@ -145,6 +145,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function afterLogin(App\Request $request): void
 	{
+		\App\Controller\Headers::generateCspToken();
 		if (\Config\Security::$loginSessionRegenerate) {
 			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
@@ -156,7 +157,7 @@ class Users_Login_Action extends \App\Controller\Action
 					'priority' => 7,
 					'execution' => 'TOTP_OPTIONAL' === \App\Config::security('USER_AUTHY_MODE') ? 'once' : 'constant',
 					'type' => 'modal',
-					'url' => 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' . $this->userRecordModel->getId()
+					'url' => 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' . $this->userRecordModel->getId(),
 				]);
 			} else {
 				\App\Session::set('LoginAuthyMethod', '2fa');
@@ -190,7 +191,7 @@ class Users_Login_Action extends \App\Controller\Action
 			\App\Process::addEvent([
 				'name' => 'showVisitPurpose',
 				'type' => 'modal',
-				'url' => 'index.php?module=Users&view=VisitPurpose'
+				'url' => 'index.php?module=Users&view=VisitPurpose',
 			]);
 		}
 		if (\App\YetiForce\Shop::verify(false, true)) {
@@ -198,7 +199,7 @@ class Users_Login_Action extends \App\Controller\Action
 				'name' => 'YetiForceShopAlert',
 				'type' => 'modal',
 				'execution' => 'once',
-				'url' => 'index.php?module=Users&view=YetiForce&view=YetiForce&mode=shop'
+				'url' => 'index.php?module=Users&view=YetiForce&view=YetiForce&mode=shop',
 			]);
 		}
 		if (!empty(\Config\Main::$showRegistrationAlert) && !\App\YetiForce\Register::isRegistered()) {
@@ -206,7 +207,7 @@ class Users_Login_Action extends \App\Controller\Action
 				'name' => 'YetiForceRegistrationAlert',
 				'type' => 'modal',
 				'execution' => 'once',
-				'url' => 'index.php?module=Users&view=YetiForce&view=YetiForce&mode=registration'
+				'url' => 'index.php?module=Users&view=YetiForce&view=YetiForce&mode=registration',
 			]);
 		}
 	}

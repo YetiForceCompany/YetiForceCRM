@@ -16,11 +16,7 @@ namespace App\Controller;
  */
 abstract class Base
 {
-	/**
-	 * Headers instance.
-	 *
-	 * @var \App\Headers
-	 */
+	/** @var \App\Headers Headers instance. */
 	public $headers;
 	/**
 	 * CSRF is active?.

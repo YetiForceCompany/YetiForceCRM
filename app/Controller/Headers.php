@@ -188,4 +188,14 @@ class Headers
 		}
 		return $scp;
 	}
+
+	/**
+	 * Generate Content Security Policy token.
+	 *
+	 * @return void
+	 */
+	public static function generateCspToken(): void
+	{
+		\App\Session::set('CSP_TOKEN', hash('sha256', \App\Encryption::generatePassword(10)));
+	}
 }
