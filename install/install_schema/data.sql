@@ -3431,6 +3431,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (92,'UsersAfterLogin','App\\Extension\\PwnedPassword',1,'Users','',4,0,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (93,'UsersAfterPasswordChange','App\\Extension\\PwnedPassword',1,'Users','',4,0,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (94,'EntityAfterSave','Queue_Queue_Handler',1,'Queue','',5,134,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (95,'EntityBeforeSave','Vtiger_AutoFillIban_Handler',0,'','',5,0,1);
 
 /*Data for the table `vtiger_expectedresponse` */
 
