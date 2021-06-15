@@ -161,7 +161,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			foreach ($autoCompleteField as $field) {
 				$fieldModel = $recordModel->getField($field['field']);
 				if ($fieldModel && ($fieldValue = $recordModel->get($field['field']))) {
-					$autoFields[$field['tofield']] = $fieldModel->getEditViewDisplayValue($fieldValue, $recordModel);
+					$autoFields[$field['tofield']] = $fieldModel->isReferenceField() ? $fieldValue : $fieldModel->getEditViewDisplayValue($fieldValue, $recordModel);
 					$autoFields[$field['tofield'] . 'Text'] = $fieldModel->getDisplayValue($fieldValue, $recordId, $recordModel, true);
 				}
 			}
