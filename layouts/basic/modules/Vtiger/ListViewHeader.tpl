@@ -44,7 +44,7 @@
 												data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" {' '}
 												data-editable="{$CUSTOM_VIEW->isEditable()}"
 												data-deletable="{$CUSTOM_VIEW->privilegeToDelete()}" {' '}
-												{if !$CUSTOM_VIEW->get('featured')}
+												{if $CUSTOM_VIEW->isFeaturedEditable()}
 													data-featured="{$CUSTOM_VIEW->isFeatured()}"
 												{/if}
 												data-pending="{$CUSTOM_VIEW->isPending()}" {' '}

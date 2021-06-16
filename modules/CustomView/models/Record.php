@@ -14,11 +14,144 @@
  */
 class CustomView_Record_Model extends \App\Base
 {
-	protected $isFeatured = false;
-	protected $isDefault = false;
+	/** @var bool Is featured */
+	protected $isFeatured;
+	/** @var bool Is default */
+	protected $isDefault;
 
 	/** @var array Record changes */
 	protected $changes = [];
+
+	/**
+	 * Function to get all the accessible Custom Views, for a given module if specified.
+	 *
+	 * @param string $moduleName
+	 * @param bool   $fromFile
+	 *
+	 * @return array Array of Vtiger_CustomView_Record models
+	 */
+	public static function getAll($moduleName = '', bool $fromFile = true)
+	{
+		$currentUser = \App\User::getCurrentUserModel();
+		$cacheName = "{$moduleName}_{$currentUser->getId()}_{$fromFile}";
+		if (App\Cache::has('getAllFilters', $cacheName)) {
+			return App\Cache::get('getAllFilters', $cacheName);
+		}
+		$query = (new App\Db\Query())->from('vtiger_customview');
+		if (!empty($moduleName)) {
+			$query->where(['entitytype' => $moduleName]);
+		}
+		if (!$currentUser->isAdmin()) {
+			$query->andWhere([
+				'or',
+				['userid' => $currentUser->getId()],
+				['status' => [\App\CustomView::CV_STATUS_DEFAULT, \App\CustomView::CV_STATUS_PUBLIC]],
+				['and', ['status' => \App\CustomView::CV_STATUS_PRIVATE], ['cvid' => (new \App\Db\Query())->select(['cvid'])->from('u_#__cv_privileges')->where(['member' => $currentUser->getMemberStructure()])]]
+			]);
+		}
+		$dataReader = $query->orderBy(['sequence' => SORT_ASC])->createCommand()->query();
+		$customViews = [];
+		while ($row = $dataReader->read()) {
+			$customView = new self();
+			if (\strlen(App\Purifier::decodeHtml($row['viewname'])) > 40) {
+				$row['viewname'] = substr(App\Purifier::decodeHtml($row['viewname']), 0, 36) . '...';
+			}
+			$customViews[$row['cvid']] = $customView->setData($row)->setModule($row['entitytype']);
+		}
+		$dataReader->close();
+
+		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters';
+		if ($fromFile && $moduleName && file_exists($filterDir)) {
+			$view = ['setdefault' => 0, 'setmetrics' => 0, 'status' => 0, 'privileges' => 0];
+			$filters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
+			foreach ($filters as $filter) {
+				$name = str_replace('.php', '', $filter->getFilename());
+				$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $name, $moduleName);
+				if (class_exists($handlerClass)) {
+					$handler = new $handlerClass();
+					$view['viewname'] = $handler->getViewName();
+					$view['cvid'] = $name;
+					$view['status'] = App\CustomView::CV_STATUS_SYSTEM;
+					$customView = new self();
+					$customViews[$name] = $customView->setData($view)->setModule($moduleName);
+				}
+			}
+		}
+		\App\Cache::save('getAllFilters', $cacheName, $customViews, \App\Cache::LONG);
+		return $customViews;
+	}
+
+	/**
+	 * Function to get the instance of Custom View module, given custom view id.
+	 *
+	 * @param int $cvId
+	 *
+	 * @return CustomView_Record_Model instance, if exists. Null otherwise
+	 */
+	public static function getInstanceById($cvId)
+	{
+		if ($row = \App\CustomView::getCVDetails($cvId)) {
+			$customView = new self();
+			return $customView->setData($row)->setModule($row['entitytype']);
+		}
+		return null;
+	}
+
+	/**
+	 * Function to get all the custom views, of a given module if specified, grouped by their status.
+	 *
+	 * @param string $moduleName
+	 * @param mixed  $menuId
+	 *
+	 * @return <Array> - Associative array of Status label to an array of Vtiger_CustomView_Record models
+	 */
+	public static function getAllByGroup($moduleName = '', $menuId = false)
+	{
+		$customViews = self::getAll($moduleName);
+		$groupedCustomViews = [];
+		if (!$menuId || empty($filters = \App\CustomView::getModuleFiltersByMenuId($menuId, $moduleName))) {
+			$filters = array_keys($customViews);
+		}
+		foreach ($filters as $id) {
+			$customView = $customViews[$id];
+			if ($customView->isSystem()) {
+				$groupedCustomViews['System'][] = $customView;
+			} elseif ($customView->isMine()) {
+				$groupedCustomViews['Mine'][] = $customView;
+			} elseif ($customView->isPending()) {
+				$groupedCustomViews['Pending'][] = $customView;
+			} else {
+				$groupedCustomViews['Others'][] = $customView;
+			}
+		}
+		return $groupedCustomViews;
+	}
+
+	/**
+	 * Function gives default custom view for a module.
+	 *
+	 * @param string $module
+	 *
+	 * @return CustomView_Record_Model
+	 */
+	public static function getAllFilterByModule($module)
+	{
+		$viewId = (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['viewname' => 'All', 'entitytype' => $module])->scalar();
+		if (!$viewId) {
+			$viewId = App\CustomView::getInstance($module)->getViewId();
+		}
+		return self::getInstanceById($viewId);
+	}
+
+	/**
+	 * Function to get Clean instance of this record.
+	 *
+	 * @return self
+	 */
+	public static function getCleanInstance()
+	{
+		return new self();
+	}
 
 	/**
 	 * Function to get the Id.
@@ -115,7 +248,7 @@ class CustomView_Record_Model extends \App\Base
 	public function isDefault()
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
-		if (false === $this->isDefault) {
+		if (null === $this->isDefault) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$cvId = $this->getId();
 			if (!$cvId) {
@@ -199,52 +332,40 @@ class CustomView_Record_Model extends \App\Base
 		return App\CustomView::CV_STATUS_PUBLIC == $this->get('status') || App\CustomView::CV_STATUS_PENDING == $this->get('status');
 	}
 
-	public function isFeatured($editView = false)
+	/**
+	 * Check if filter is featured.
+	 *
+	 * @return bool
+	 */
+	public function isFeatured(): bool
 	{
-		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
-		if (false === $this->isFeatured) {
-			if (empty($editView)) {
-				if (!empty($this->get('featured'))) {
-					$this->isFeatured = true;
-				} else {
-					$this->isFeatured = $this->checkPermissionToFeatured();
-				}
-			} else {
-				$this->isFeatured = $this->checkFeaturedInEditView();
-			}
+		if (null === $this->isFeatured) {
+			$this->isFeatured = $this->get('featured')
+			|| (new \App\Db\Query())->from('u_#__featured_filter')->where(['cvid' => $this->getId(), 'user' => \App\User::getCurrentUserModel()->getMemberStructure()])->exists();
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
-
 		return $this->isFeatured;
 	}
 
-	public function checkFeaturedInEditView()
+	/**
+	 * Check if user can change featured.
+	 *
+	 * @return bool
+	 */
+	public function isFeaturedEditable(): bool
 	{
-		$db = App\Db::getInstance('admin');
-		$cvId = $this->getId();
-		if (!$cvId) {
-			return false;
-		}
-		return (new App\Db\Query())->from('u_#__featured_filter')
-			->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
-			->exists($db);
+		return !$this->isFeatured() || (new App\Db\Query())->from('u_#__featured_filter')
+			->where(['cvid' => $this->getId(), 'user' => \App\PrivilegeUtil::MEMBER_TYPE_USERS . ':' . \App\User::getCurrentUserId()])
+			->exists();
 	}
 
-	public function checkPermissionToFeatured($editView = false)
+	/**
+	 * Function to check permission.
+	 *
+	 * @return bool
+	 */
+	public function isPermitted()
 	{
-		$currentUser = \App\User::getCurrentUserModel();
-		$query = (new \App\Db\Query())->from('u_#__featured_filter');
-		$where = ['or', ['user' => 'Users:' . $currentUser->getId()], ['user' => 'Roles:' . $currentUser->getRole()]];
-		foreach ($currentUser->getGroups() as $groupId) {
-			$where[] = ['user' => "Groups:$groupId"];
-		}
-		foreach (explode('::', $currentUser->getParentRolesSeq()) as $role) {
-			$where[] = ['user' => "RoleAndSubordinates:$role"];
-		}
-		$query->where(['cvid' => $this->getId()]);
-		$query->andWhere($where);
-
-		return $query->exists();
+		return \App\CustomView::isPermitted($this->getId());
 	}
 
 	/**
@@ -890,143 +1011,6 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the advanced filter option names by Field type.
-	 *
-	 * @return <Array>
-	 */
-	public static function getAdvancedFilterOpsByFieldType()
-	{
-		return [
-			'V' => ['e', 'n', 's', 'ew', 'c', 'k'],
-			'N' => ['e', 'n', 'l', 'g', 'm', 'h'],
-			'T' => ['e', 'n', 'l', 'g', 'm', 'h', 'bw', 'b', 'a'],
-			'I' => ['e', 'n', 'l', 'g', 'm', 'h'],
-			'C' => ['e', 'n'],
-			'D' => ['e', 'n', 'bw', 'b', 'a'],
-			'DT' => ['e', 'n', 'bw', 'b', 'a'],
-			'NN' => ['e', 'n', 'l', 'g', 'm', 'h'],
-			'E' => ['e', 'n', 's', 'ew', 'c', 'k'],
-		];
-	}
-
-	/**
-	 * Function to get all the accessible Custom Views, for a given module if specified.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return <Array> - Array of Vtiger_CustomView_Record models
-	 */
-	public static function getAll($moduleName = '')
-	{
-		\App\Log::trace('Entering ' . __METHOD__ . " ($moduleName) method ...");
-		$currentUser = \App\User::getCurrentUserModel();
-		$cacheName = $moduleName . $currentUser->getId();
-		if (App\Cache::has('getAllFilters', $cacheName)) {
-			return App\Cache::get('getAllFilters', $cacheName);
-		}
-		$query = (new App\Db\Query())->from('vtiger_customview');
-		if (!empty($moduleName)) {
-			$query->where(['entitytype' => $moduleName]);
-		}
-		if (!$currentUser->isAdmin()) {
-			$query->andWhere([
-				'or',
-				['userid' => $currentUser->getId()],
-				['status' => [\App\CustomView::CV_STATUS_DEFAULT, \App\CustomView::CV_STATUS_PUBLIC]],
-				['and', ['status' => \App\CustomView::CV_STATUS_PRIVATE], ['cvid' => (new \App\Db\Query())->select(['cvid'])->from('u_#__cv_privileges')->where(['member' => $currentUser->getMemberStructure()])]]
-			]);
-		}
-		$dataReader = $query->orderBy(['sequence' => SORT_ASC])->createCommand()->query();
-		$customViews = [];
-		while ($row = $dataReader->read()) {
-			$customView = new self();
-			if (\strlen(App\Purifier::decodeHtml($row['viewname'])) > 40) {
-				$row['viewname'] = substr(App\Purifier::decodeHtml($row['viewname']), 0, 36) . '...';
-			}
-			$customViews[$row['cvid']] = $customView->setData($row)->setModule($row['entitytype']);
-		}
-		$dataReader->close();
-
-		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters';
-		if ($moduleName && file_exists($filterDir)) {
-			$view = ['setdefault' => 0, 'setmetrics' => 0, 'status' => 0, 'privileges' => 0];
-			$filters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
-			foreach ($filters as $filter) {
-				$name = str_replace('.php', '', $filter->getFilename());
-				$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $name, $moduleName);
-				if (class_exists($handlerClass)) {
-					$handler = new $handlerClass();
-					$view['viewname'] = $handler->getViewName();
-					$view['cvid'] = $name;
-					$view['status'] = App\CustomView::CV_STATUS_SYSTEM;
-					$customView = new self();
-					$customViews[$name] = $customView->setData($view)->setModule($moduleName);
-				}
-			}
-		}
-		\App\Cache::save('getAllFilters', $cacheName, $customViews, \App\Cache::LONG);
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
-
-		return $customViews;
-	}
-
-	/**
-	 * Function to get the instance of Custom View module, given custom view id.
-	 *
-	 * @param int $cvId
-	 *
-	 * @return CustomView_Record_Model instance, if exists. Null otherwise
-	 */
-	public static function getInstanceById($cvId)
-	{
-		if ($row = \App\CustomView::getCVDetails($cvId)) {
-			$customView = new self();
-			return $customView->setData($row)->setModule($row['entitytype']);
-		}
-		return null;
-	}
-
-	/**
-	 * Function to get all the custom views, of a given module if specified, grouped by their status.
-	 *
-	 * @param string $moduleName
-	 * @param mixed  $menuId
-	 *
-	 * @return <Array> - Associative array of Status label to an array of Vtiger_CustomView_Record models
-	 */
-	public static function getAllByGroup($moduleName = '', $menuId = false)
-	{
-		$customViews = self::getAll($moduleName);
-		$groupedCustomViews = [];
-		if (!$menuId || empty($filters = \App\CustomView::getModuleFiltersByMenuId($menuId, $moduleName))) {
-			$filters = array_keys($customViews);
-		}
-		foreach ($filters as $id) {
-			$customView = $customViews[$id];
-			if ($customView->isSystem()) {
-				$groupedCustomViews['System'][] = $customView;
-			} elseif ($customView->isMine()) {
-				$groupedCustomViews['Mine'][] = $customView;
-			} elseif ($customView->isPending()) {
-				$groupedCustomViews['Pending'][] = $customView;
-			} else {
-				$groupedCustomViews['Others'][] = $customView;
-			}
-		}
-		return $groupedCustomViews;
-	}
-
-	/**
-	 * Function to get Clean instance of this record.
-	 *
-	 * @return self
-	 */
-	public static function getCleanInstance()
-	{
-		return new self();
-	}
-
-	/**
 	 * Function to check duplicates from database.
 	 *
 	 * @return bool
@@ -1040,22 +1024,6 @@ class CustomView_Record_Model extends \App\Base
 			$query->andWhere(['<>', 'cvid', $cvid]);
 		}
 		return $query->exists();
-	}
-
-	/**
-	 * Function gives default custom view for a module.
-	 *
-	 * @param string $module
-	 *
-	 * @return CustomView_Record_Model
-	 */
-	public static function getAllFilterByModule($module)
-	{
-		$viewId = (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['viewname' => 'All', 'entitytype' => $module])->scalar();
-		if (!$viewId) {
-			$viewId = App\CustomView::getInstance($module)->getViewId();
-		}
-		return self::getInstanceById($viewId);
 	}
 
 	/**

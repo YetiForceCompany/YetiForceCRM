@@ -552,12 +552,7 @@ class CustomView
 	 */
 	public function isPermittedCustomView($viewId)
 	{
-		return !empty($viewId)
-		&& ($data = $this->getFilterInfo($viewId))
-		&& ($this->user->isAdmin()
-		|| $data['userid'] === $this->user->getId()
-		|| \in_array($data['status'], [self::CV_STATUS_DEFAULT, self::CV_STATUS_PUBLIC])
-		|| (self::CV_STATUS_PRIVATE && array_intersect($this->user->getMemberStructure(), $data['members'])));
+		return self::isPermitted($viewId, $this->moduleName, $this->user->getId());
 	}
 
 	/**
@@ -625,6 +620,25 @@ class CustomView
 	public function getFilters(): array
 	{
 		return self::getFiltersByModule($this->moduleName);
+	}
+
+	/**
+	 * Check permissions.
+	 *
+	 * @param int    $cvId
+	 * @param string $moduleName
+	 * @param int    $userId
+	 *
+	 * @return bool
+	 */
+	public static function isPermitted(int $cvId, string $moduleName = null, int $userId = null): bool
+	{
+		$userModel = $userId ? \App\User::getUserModel($userId) : \App\User::getCurrentUserModel();
+		return ($data = self::getCVDetails($cvId, $moduleName))
+		&& ($userModel->isAdmin()
+		|| $data['userid'] === $userModel->getId()
+		|| \in_array($data['status'], [self::CV_STATUS_DEFAULT, self::CV_STATUS_PUBLIC])
+		|| (self::CV_STATUS_PRIVATE && array_intersect($userModel->getMemberStructure(), $data['members'])));
 	}
 
 	/**

@@ -226,14 +226,15 @@
 									  data-check="fa-eye" data-unchecked="fa-eye-slash"></span>
 								{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE_NAME)}
 							</label>
-							<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isFeatured(true)} active{/if}"
+							<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isFeatured()} active{/if}"
 								   title="{\App\Language::translate('LBL_FEATURED',$MODULE_NAME)}">
 								<input name="featured" value="1" type="checkbox"
 									   class="js-filter-preference"
 									   data-js="change" id="featured"
-										{if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if}
+										{if $CUSTOMVIEW_MODEL->isFeatured()} checked="checked"{/if}
+										{if !$CUSTOMVIEW_MODEL->isFeaturedEditable()} disabled="disabled" {/if}
 									   autocomplete="off"/>
-								<span class="{if $CUSTOMVIEW_MODEL->isFeatured(true)}fas{else}far{/if} fa-star mr-1"
+								<span class="{if $CUSTOMVIEW_MODEL->isFeatured()}fas{else}far{/if} fa-star mr-1"
 									  data-check="fas" data-unchecked="far"></span>
 								{\App\Language::translate('LBL_FEATURED',$MODULE_NAME)}
 							</label>
