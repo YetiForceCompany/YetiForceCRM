@@ -363,9 +363,9 @@ class CustomView_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function isPermitted()
+	public function isPermitted(): bool
 	{
-		return \App\CustomView::isPermitted($this->getId());
+		return \App\CustomView::isPermitted($this->getId(), $this->getModule()->getName());
 	}
 
 	/**
