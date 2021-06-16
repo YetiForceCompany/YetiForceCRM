@@ -1,9 +1,3 @@
-/*
-SQLyog Ultimate v13.0.0 (64 bit)
-MySQL - 10.2.13-MariaDB : Database - test
-*********************************************************************
-*/
-
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;

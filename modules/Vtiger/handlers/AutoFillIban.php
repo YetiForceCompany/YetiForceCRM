@@ -22,17 +22,12 @@ class Vtiger_AutoFillIban_Handler
 	public function entityBeforeSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		$ibanUiType = 329;
-		$allIbanFields = $recordModel->getModule()->getFieldsByUiType($ibanUiType);
-		if ($allIbanFields) {
-			$recordData = $recordModel->getData();
-			foreach ($allIbanFields as $moduleIbanField) {
-				if (!$moduleIbanField->hasDefaultValue() && !$recordModel->get($moduleIbanField->getName())) {
-					$ibanField = new \App\Fields\Iban();
-					$fieldParams = $moduleIbanField->getFieldParams();
-					$ibanValue = $ibanField->getIBANValue($fieldParams, $recordData);
-					$recordModel->set($moduleIbanField->getName(), $ibanValue);
-				}
+		foreach ($recordModel->getModule()->getFieldsByType('iban', true) as $field) {
+			if (!$field->hasDefaultValue() && $recordModel->isEmpty($field->getName())) {
+				$ibanField = new \App\Fields\Iban();
+				$fieldParams = $field->getFieldParams();
+				$ibanValue = $ibanField->getIBANValue($fieldParams, $recordModel->getData());
+				$recordModel->set($field->getName(), $ibanValue)->setDataForSave([$field->getTableName() => [$field->getColumnName() => $ibanValue]]);
 			}
 		}
 	}
