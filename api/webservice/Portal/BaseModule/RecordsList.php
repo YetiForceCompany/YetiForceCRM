@@ -112,6 +112,14 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *			example=5,
 	 *			required=false
 	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-cv-id",
+	 *			description="Custom view ID",
+	 *			@OA\Schema(type="integer"),
+	 *			in="header",
+	 *			example=5,
+	 *			required=false
+	 *		),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of entries",
@@ -132,7 +140,7 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
-	 *			description="No permissions for module",
+	 *			description="`No permissions for module` OR `No permissions for custom view: x-cv-id`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),

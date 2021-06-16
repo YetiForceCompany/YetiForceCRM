@@ -1590,6 +1590,16 @@
                             "type": "integer"
                         },
                         "example": 5
+                    },
+                    {
+                        "name": "x-cv-id",
+                        "in": "header",
+                        "description": "Custom view ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 5
                     }
                 ],
                 "responses": {
@@ -1639,7 +1649,7 @@
                         }
                     },
                     "403": {
-                        "description": "No permissions for module",
+                        "description": "`No permissions for module` OR `No permissions for custom view: x-cv-id`",
                         "content": {
                             "application/json": {
                                 "schema": {

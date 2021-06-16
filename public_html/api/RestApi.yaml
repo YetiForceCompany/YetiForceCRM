@@ -827,7 +827,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
         '403':
-          description: 'No permissions for module or data provided in the request'
+          description: '`No permissions for module` OR `No permissions for custom view: x-cv-id`'
           content:
             application/json:
               schema:

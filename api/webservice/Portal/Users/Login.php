@@ -151,7 +151,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *  	@OA\Property(
 	 *       	property="password",
 	 *			description="Webservice user password",
-	 *		type="string"
+	 *			type="string"
 	 *      ),
 	 *  	@OA\Property(
 	 *			property="code",

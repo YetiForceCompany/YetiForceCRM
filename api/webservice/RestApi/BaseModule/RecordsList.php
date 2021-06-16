@@ -156,7 +156,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
-	 *			description="No permissions for module or data provided in the request",
+	 *			description="`No permissions for module` OR `No permissions for custom view: x-cv-id`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
@@ -340,7 +340,7 @@ class RecordsList extends \Api\Core\BaseAction
 			foreach ($this->relatedFields as $relatedModuleName => $fields) {
 				foreach ($fields as $sourceField => $field) {
 					$recordData = [
-						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0
+						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0,
 					];
 					foreach ($field as $relatedFieldName) {
 						$recordData[$relatedFieldName] = $row[$sourceField . $relatedModuleName . $relatedFieldName];
