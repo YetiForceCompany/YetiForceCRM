@@ -2,10 +2,12 @@
 {strip}
 <!-- tpl-Base-Detail-HeaderProgress -->
 {if isset($FIELDS_HEADER['progress'])}
-	{assign var=CLOSE_STATES value=\App\RecordStatus::getLockStatus($MODULE_MODEL->getName(), false)}
-	{assign var=PICKLIST_DEPENDENCY value=\App\Fields\Picklist::getPicklistDependencyDatasource($MODULE_MODEL->getName())}
 	{foreach from=$FIELDS_HEADER['progress'] key=NAME item=FIELD_MODEL}
 		{if !$RECORD->isEmpty($NAME)}
+			{assign var=PROGRESS_HEADER value=$FIELD_MODEL->getUITypeModel()->getProgressHeader($RECORD)}
+
+			{assign var=CLOSE_STATES value=\App\RecordStatus::getLockStatus($MODULE_MODEL->getName(), false)}
+			{assign var=PICKLIST_DEPENDENCY value=\App\Fields\Picklist::getPicklistDependencyDatasource($MODULE_MODEL->getName())}
 			{assign var=DEPENDENT_SOURCE_FIELD value=\App\Fields\Picklist::getDependentSourceField($FIELD_MODEL->getModuleName(), $FIELD_MODEL->getName())}
 			{assign var=PICKLIST_OF_FIELD value=$FIELD_MODEL->getPicklistValues()}
 			{assign var=PICKLIST_VALUES value=\App\Fields\Picklist::getValues($NAME)}
