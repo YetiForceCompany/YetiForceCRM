@@ -35,19 +35,12 @@ class Language
 	 * @var string
 	 */
 	public static $customDirectory = 'custom';
-	/**
-	 * Current language.
-	 *
-	 * @var bool|string
-	 */
-	private static $language = false;
 
-	/**
-	 * Temporary language.
-	 *
-	 * @var bool|string
-	 */
-	private static $temporaryLanguage = false;
+	/** @var string Current language. */
+	private static $language = '';
+
+	/** @var string Temporary language. */
+	private static $temporaryLanguage = '';
 
 	/**
 	 * Short current language.
@@ -110,7 +103,7 @@ class Language
 	 *
 	 * @param string $language
 	 */
-	public static function setTemporaryLanguage($language)
+	public static function setTemporaryLanguage(string $language)
 	{
 		static::$temporaryLanguage = $language;
 	}

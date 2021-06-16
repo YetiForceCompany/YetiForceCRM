@@ -478,7 +478,9 @@ class Request
 		}
 		$data = array_change_key_case(getallheaders(), CASE_LOWER);
 		foreach ($data as $key => &$value) {
-			$value = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
+			if (!empty($value)) {
+				$value = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
+			}
 		}
 		return $this->headers = $data;
 	}
