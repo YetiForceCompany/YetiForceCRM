@@ -114,7 +114,7 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *		),
 	 *		@OA\Response(
 	 *			response=200,
-	 *			description="List of consents",
+	 *			description="List of entries",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
 	 *		),

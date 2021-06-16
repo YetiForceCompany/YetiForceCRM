@@ -62,7 +62,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 * 		),
 	 *		@OA\Response(
 	 *				response=200,
-	 *				description="List of consents for specific entry",
+	 *				description="Status of adding an email to the queue",
 	 *				@OA\JsonContent(ref="#/components/schemas/SendEmailResponseBody"),
 	 *		),
 	 *		@OA\Response(

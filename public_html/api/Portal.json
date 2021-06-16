@@ -1377,7 +1377,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of consents",
+                        "description": "List of entries",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1594,7 +1594,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of consents",
+                        "description": "List of entries",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2001,7 +2001,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of consents",
+                        "description": "List of entries",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2587,7 +2587,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of consents",
+                        "description": "List of entries",
                         "content": {
                             "application/json": {
                                 "schema": {

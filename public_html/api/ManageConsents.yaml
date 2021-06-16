@@ -222,7 +222,7 @@ paths:
               $ref: '#/components/schemas/SendEmailRequestBody'
       responses:
         '200':
-          description: 'List of consents for specific entry'
+          description: 'Status of adding an email to the queue'
           content:
             application/json:
               schema:

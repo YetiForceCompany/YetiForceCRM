@@ -113,7 +113,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=200,
-	 *			description="List of consents",
+	 *			description="List of entries",
 	 *			@OA\JsonContent(ref="#/components/schemas/Users_RecordsList_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Users_RecordsList_ResponseBody"),
 	 *		),

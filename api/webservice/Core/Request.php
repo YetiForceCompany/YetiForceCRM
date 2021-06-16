@@ -44,6 +44,7 @@ class Request extends \App\Request
 		'x-start-with' => \App\Purifier::INTEGER,
 		'x-only-column' => \App\Purifier::INTEGER,
 		'x-row-count' => \App\Purifier::INTEGER,
+		'x-cv-id' => \App\Purifier::INTEGER,
 	];
 
 	/**

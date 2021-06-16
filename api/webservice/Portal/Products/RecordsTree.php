@@ -118,7 +118,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 *		),
 	 *		@OA\Response(
 	 *			response=200,
-	 *			description="List of consents",
+	 *			description="List of entries",
 	 *			@OA\JsonContent(ref="#/components/schemas/Products_RecordsList_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Products_RecordsList_ResponseBody"),
 	 *		),

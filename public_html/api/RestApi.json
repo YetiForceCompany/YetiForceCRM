@@ -924,7 +924,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of consents",
+                        "description": "List of entries",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1137,11 +1137,21 @@
                             "type": "integer"
                         },
                         "example": 5
+                    },
+                    {
+                        "name": "x-cv-id",
+                        "in": "header",
+                        "description": "Custom view ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 5
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of consents",
+                        "description": "List of entries",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1186,7 +1196,7 @@
                         }
                     },
                     "403": {
-                        "description": "No permissions for module",
+                        "description": "No permissions for module or data provided in the request",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1727,7 +1737,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of consents",
+                        "description": "List of entries",
                         "content": {
                             "application/json": {
                                 "schema": {

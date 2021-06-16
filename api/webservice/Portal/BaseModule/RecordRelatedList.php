@@ -114,7 +114,7 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *		),
 	 *		@OA\Response(
 	 *			response=200,
-	 *			description="List of consents",
+	 *			description="List of entries",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"),
 	 *		),

@@ -23,7 +23,7 @@ class RecordsList extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** {@inheritdoc}  */
-	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-only-column', 'x-row-count', 'x-parent-id'];
+	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-only-column', 'x-row-count', 'x-parent-id', 'x-cv-id'];
 
 	/** @var \App\QueryGenerator Query generator instance. */
 	protected $queryGenerator;
@@ -128,9 +128,17 @@ class RecordsList extends \Api\Core\BaseAction
 	 *			example=5,
 	 *			required=false
 	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-cv-id",
+	 *			description="Custom view ID",
+	 *			@OA\Schema(type="integer"),
+	 *			in="header",
+	 *			example=5,
+	 *			required=false
+	 *		),
 	 *		@OA\Response(
 	 *			response=200,
-	 *			description="List of consents",
+	 *			description="List of entries",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
 	 *		),
@@ -148,7 +156,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
-	 *			description="No permissions for module",
+	 *			description="No permissions for module or data provided in the request",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
@@ -244,8 +252,18 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function createQuery(): void
 	{
-		$this->queryGenerator = new \App\QueryGenerator($this->controller->request->getModule());
-		$this->queryGenerator->initForDefaultCustomView();
+		$moduleName = $this->controller->request->getModule();
+		$this->queryGenerator = new \App\QueryGenerator($moduleName);
+		if ($cvId = $this->controller->request->getHeader('x-cv-id')) {
+			$cv = \App\CustomView::getInstance($moduleName);
+			if (!$cv->isPermittedCustomView($cvId)) {
+				throw new \Api\Core\Exception('No permissions for custom view: x-cv-id', 403);
+			}
+			$this->queryGenerator->initForCustomViewById($cvId);
+		} else {
+			$this->queryGenerator->initForDefaultCustomView();
+		}
+
 		$limit = 100;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
