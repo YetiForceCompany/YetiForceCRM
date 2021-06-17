@@ -144,6 +144,7 @@ class Record extends \Api\Core\BaseAction
 	 *		schema="BaseModule_Get_Record_Response",
 	 *		title="Base module - Response body for Record",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -155,6 +156,7 @@ class Record extends \Api\Core\BaseAction
 	 *			property="result",
 	 *			description="Record data",
 	 *			type="object",
+	 *			required={"name", "id", "fields", "data"},
 	 *			@OA\Property(property="name", description="Record name", type="string", example="Driving school"),
 	 *			@OA\Property(property="id", description="Record Id", type="integer", example=152),
 	 *			@OA\Property(
@@ -173,6 +175,7 @@ class Record extends \Api\Core\BaseAction
 	 *				property="privileges",
 	 *				description="Parameters determining checking of editing rights and moving to the trash",
 	 * 				type="object",
+	 * 				required={"isEditable", "moveToTrash"},
 	 *				@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
 	 *				@OA\Property(property="moveToTrash", description="Permission to delete", type="boolean", example=false),
 	 *			),
@@ -297,6 +300,7 @@ class Record extends \Api\Core\BaseAction
 	 *		title="Base module - Transfer to the trash",
 	 *		description="List of records moved to the trash",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -370,6 +374,7 @@ class Record extends \Api\Core\BaseAction
 	 *		title="Base module - Response body for Record",
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -381,6 +386,7 @@ class Record extends \Api\Core\BaseAction
 	 *			title="Gets data for the record",
 	 *			description="Updated record id.",
 	 *			type="object",
+	 *			required={"id"},
 	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
 	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
@@ -458,6 +464,7 @@ class Record extends \Api\Core\BaseAction
 	 *		title="Base module - Created records",
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -469,6 +476,7 @@ class Record extends \Api\Core\BaseAction
 	 *			title="Gets data for the record",
 	 *			description="Created record id.",
 	 *			type="object",
+	 *			required={"id"},
 	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
 	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),

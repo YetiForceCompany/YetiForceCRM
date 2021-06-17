@@ -1828,6 +1828,9 @@ components:
       type: object
     BaseModule_Get_Record_Response:
       title: 'Base module - Response body for Record'
+      required:
+        - status
+        - result
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -1838,6 +1841,11 @@ components:
           example: 1
         result:
           description: 'Record data'
+          required:
+            - name
+            - id
+            - fields
+            - data
           properties:
             name:
               description: 'Record name'
@@ -1858,6 +1866,9 @@ components:
               $ref: '#/components/schemas/Record_Display_Details'
             privileges:
               description: 'Parameters determining checking of editing rights and moving to the trash'
+              required:
+                - isEditable
+                - moveToTrash
               properties:
                 isEditable:
                   description: 'Check if record is editable'
@@ -1884,6 +1895,9 @@ components:
     BaseModule_Delete_Record_Response:
       title: 'Base module - Transfer to the trash'
       description: 'List of records moved to the trash'
+      required:
+        - status
+        - result
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -1898,6 +1912,9 @@ components:
     BaseModule_Put_Record_Response:
       title: 'Base module - Response body for Record'
       description: 'Contents of the response contains only id'
+      required:
+        - status
+        - result
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -1908,6 +1925,8 @@ components:
         result:
           title: 'Gets data for the record'
           description: 'Updated record id.'
+          required:
+            - id
           properties:
             id:
               description: 'Id of the newly created record'
@@ -1950,6 +1969,9 @@ components:
     BaseModule_Post_Record_Response:
       title: 'Base module - Created records'
       description: 'Contents of the response contains only id'
+      required:
+        - status
+        - result
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -1960,6 +1982,8 @@ components:
         result:
           title: 'Gets data for the record'
           description: 'Created record id.'
+          required:
+            - id
           properties:
             id:
               description: 'Id of the newly created record'
@@ -2159,6 +2183,10 @@ components:
     Condition-For-Query-Generator:
       title: 'General - Condition for query generator'
       description: 'One condition for query generator'
+      required:
+        - fieldName
+        - value
+        - operator
       properties:
         fieldName:
           description: 'Field name'
@@ -2197,6 +2225,9 @@ components:
     Users_Login_RequestBody:
       title: 'Users module - Users login request body'
       description: 'JSON or form-data'
+      required:
+        - userName
+        - password
       properties:
         userName:
           description: 'Webservice user name'
@@ -2219,6 +2250,9 @@ components:
     Users_Login_ResponseBody:
       title: 'Users module - Users login response body'
       description: 'Users login response body'
+      required:
+        - status
+        - result
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -2229,6 +2263,15 @@ components:
           example: 1
         result:
           description: 'Content of responses from a given method'
+          required:
+            - token
+            - name
+            - lastLoginTime
+            - lastLogoutTime
+            - language
+            - type
+            - login_method
+            - preferences
           properties:
             token:
               description: 'Post method.'
@@ -2265,6 +2308,22 @@ components:
               type: boolean
             preferences:
               description: 'Post method.'
+              required:
+                - hour_format
+                - start_hour
+                - end_hour
+                - date_format
+                - time_zone
+                - currency_id
+                - currency_grouping_pattern
+                - currency_decimal_separator
+                - currency_grouping_separator
+                - currency_symbol_placement
+                - no_of_currency_decimals
+                - currency_name
+                - currency_code
+                - currency_symbol
+                - conv_rate
               properties:
                 hour_format:
                   description: 'Post method.'
@@ -2343,6 +2402,9 @@ components:
       type: object
     Exception:
       title: 'General - Error exception'
+      required:
+        - status
+        - error
       properties:
         status:
           description: '0 - error'
@@ -2352,6 +2414,9 @@ components:
           example: 0
         error:
           description: 'Error  details'
+          required:
+            - message
+            - code
           properties:
             message:
               description: 'To show more details turn on: config\Debug.php apiShowExceptionMessages = true'
@@ -2369,6 +2434,9 @@ components:
               description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
               type: integer
               example: 101
+            previous:
+              description: 'Previous exception'
+              type: object
             backtrace:
               description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
               type: string
@@ -2378,6 +2446,9 @@ components:
     UsersLogoutResponseBody:
       title: 'Users module - Users logout response body'
       description: 'JSON data'
+      required:
+        - status
+        - result
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'

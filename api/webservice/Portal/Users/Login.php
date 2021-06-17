@@ -111,6 +111,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *		type="object",
 	 *		title="General - Condition for query generator",
 	 *  	description="One condition for query generator",
+	 *  	required={"fieldName", "value", "operator"},
 	 *		@OA\Property(property="fieldName", description="Field name", type="string", example="lastname"),
 	 *		@OA\Property(property="value", description="Search value", type="string", example="Kowalski"),
 	 *		@OA\Property(property="operator", description="Field operator", type="string", example="e"),
@@ -143,21 +144,10 @@ class Login extends \Api\RestApi\Users\Login
 	 * 		title="Users module - Users login request body",
 	 * 		description="JSON or form-data",
 	 *		type="object",
-	 *  	@OA\Property(
-	 *       	property="userName",
-	 *			description="Webservice user name",
-	 *			type="string",
-	 * 		),
-	 *  	@OA\Property(
-	 *       	property="password",
-	 *			description="Webservice user password",
-	 *			type="string"
-	 *      ),
-	 *  	@OA\Property(
-	 *			property="code",
-	 *			description="2FA TOTP code (optional property), Pass code length = 6, Code period = 30",
-	 *			type="string"
-	 *		),
+	 *		required={"userName", "password"},
+	 *  	@OA\Property(property="userName", description="Webservice user name", type="string"),
+	 *  	@OA\Property(property="password", description="Webservice user password", type="string"),
+	 *  	@OA\Property(property="code", description="2FA TOTP code (optional property), Pass code length = 6, Code period = 30", type="string"),
 	 *		@OA\Property(
 	 *       	property="params",
 	 *       	description="Additional parameters sent by the user, extending the current settings, e.g. language",
@@ -174,6 +164,7 @@ class Login extends \Api\RestApi\Users\Login
 	 * 		title="Users module - Users login response body",
 	 * 		description="Users login response body",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
 	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -185,6 +176,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *     		property="result",
 	 *     	 	description="Content of responses from a given method",
 	 *    	 	type="object",
+	 *    	 	required={"token", "name", "lastLoginTime", "lastLogoutTime", "language", "type", "login_method", "preferences"},
 	 *   		@OA\Property(property="token", type="string", minLength=40, maxLength=40),
 	 *   		@OA\Property(property="name", type="string"),
 	 *    		@OA\Property(property="lastLoginTime", type="string", example="2019-10-07 08:32:38"),
@@ -196,6 +188,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *    		@OA\Property(
 	 * 				property="preferences",
 	 * 				type="object",
+	 * 				required={"hour_format", "start_hour", "end_hour", "date_format", "time_zone", "currency_id", "currency_grouping_pattern", "currency_decimal_separator", "currency_grouping_separator", "currency_symbol_placement", "no_of_currency_decimals", "currency_name", "currency_code", "currency_symbol", "conv_rate", "activity_view", "date_format_js", "dayoftheweek", "truncate_trailing_zeros"},
 	 *    			@OA\Property(property="hour_format", type="string", example="24"),
 	 *    			@OA\Property(property="start_hour", type="string", example="08:00"),
 	 *    			@OA\Property(property="end_hour", type="string", example="16:00"),
@@ -224,6 +217,7 @@ class Login extends \Api\RestApi\Users\Login
 	 * 				property="companyDetails",
 	 * 				type="object",
 	 * 				title="Company details, optional parameter depending on the user type",
+	 * 				required={"check_stock_levels", "sum_open_orders"},
 	 *  			@OA\Property(property="check_stock_levels", type="boolean"),
 	 * 				@OA\Property(property="sum_open_orders", type="number", format="double"),
 	 * 				@OA\Property(property="creditlimit", type="integer")
@@ -234,6 +228,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *		schema="Exception",
 	 *		title="General - Error exception",
 	 *		type="object",
+	 *		required={"status", "error"},
 	 *  	@OA\Property(
 	 * 			property="status",
 	 *			description="0 - error",
@@ -243,12 +238,14 @@ class Login extends \Api\RestApi\Users\Login
 	 * 		),
 	 *		@OA\Property(
 	 * 			property="error",
-	 *     	 	description="Error  details",
+	 *     	 	description="Error details",
 	 *    	 	type="object",
+	 *    	 	required={"message", "code"},
 	 *   		@OA\Property(property="message", type="string", example="Invalid method", description="To show more details turn on: config\Debug.php apiShowExceptionMessages = true"),
 	 *   		@OA\Property(property="code", type="integer", example=405),
 	 *   		@OA\Property(property="file", type="string", example="api\webservice\Portal\BaseAction\Files.php", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
 	 *   		@OA\Property(property="line", type="integer", example=101, description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
+	 *   		@OA\Property(property="previous", type="object", description="Previous exception"),
 	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\Portal\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
 	 *    	),
 	 *	),

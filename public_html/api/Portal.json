@@ -4127,6 +4127,10 @@
             },
             "BaseModule_Get_Record_Response": {
                 "title": "Base module - Response body for Record",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4139,6 +4143,12 @@
                     },
                     "result": {
                         "description": "Record data",
+                        "required": [
+                            "name",
+                            "id",
+                            "fields",
+                            "data"
+                        ],
                         "properties": {
                             "name": {
                                 "description": "Record name",
@@ -4164,6 +4174,10 @@
                             },
                             "privileges": {
                                 "description": "Parameters determining checking of editing rights and moving to the trash",
+                                "required": [
+                                    "isEditable",
+                                    "moveToTrash"
+                                ],
                                 "properties": {
                                     "isEditable": {
                                         "description": "Check if record is editable",
@@ -4192,6 +4206,86 @@
                             "rawInventory": {
                                 "description": "Inventory data",
                                 "type": "object"
+                            },
+                            "headerFields": {
+                                "description": "Get headers fields details.",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Header field details",
+                                    "required": [
+                                        "type",
+                                        "label"
+                                    ],
+                                    "properties": {
+                                        "type": {
+                                            "description": "Header field type",
+                                            "type": "string",
+                                            "example": "value"
+                                        },
+                                        "label": {
+                                            "description": "Translated field label",
+                                            "type": "string",
+                                            "example": "Assigned To"
+                                        },
+                                        "class": {
+                                            "description": "Class name",
+                                            "type": "string",
+                                            "example": "badge-info"
+                                        },
+                                        "value": {
+                                            "description": "Class name, available for types: `value`, `highlights`",
+                                            "type": "string",
+                                            "example": "YetiForce Sales"
+                                        },
+                                        "values": {
+                                            "description": "Class name, available for type: `progress`",
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "description": "Header field details",
+                                                "required": [
+                                                    "label",
+                                                    "isActive",
+                                                    "isLocked",
+                                                    "isEditable"
+                                                ],
+                                                "properties": {
+                                                    "label": {
+                                                        "description": "Value to display",
+                                                        "type": "string",
+                                                        "example": "Awaiting verification"
+                                                    },
+                                                    "isActive": {
+                                                        "description": "Is active",
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "isLocked": {
+                                                        "description": "Is locked",
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "isEditable": {
+                                                        "description": "Is editable",
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "description": {
+                                                        "description": "Description",
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "color": {
+                                                        "description": "Color",
+                                                        "type": "string",
+                                                        "example": "ffa800"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
                             }
                         },
                         "type": "object"
@@ -4202,6 +4296,10 @@
             "BaseModule_Delete_Record_Response": {
                 "title": "Base module - Transfer to the trash",
                 "description": "List of records moved to the trash",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4221,6 +4319,10 @@
             "BaseModule_Put_Record_Response": {
                 "title": "Base module - Response body for Record",
                 "description": "Contents of the response contains only id",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4233,6 +4335,9 @@
                     "result": {
                         "title": "Gets data for the record",
                         "description": "Updated record id.",
+                        "required": [
+                            "id"
+                        ],
                         "properties": {
                             "id": {
                                 "description": "Id of the newly created record",
@@ -4287,6 +4392,10 @@
             "BaseModule_Post_Record_Response": {
                 "title": "Base module - Created records",
                 "description": "Contents of the response contains only id",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4299,6 +4408,9 @@
                     "result": {
                         "title": "Gets data for the record",
                         "description": "Created record id.",
+                        "required": [
+                            "id"
+                        ],
                         "properties": {
                             "id": {
                                 "description": "Id of the newly created record",
@@ -4836,6 +4948,11 @@
             "Condition-For-Query-Generator": {
                 "title": "General - Condition for query generator",
                 "description": "One condition for query generator",
+                "required": [
+                    "fieldName",
+                    "value",
+                    "operator"
+                ],
                 "properties": {
                     "fieldName": {
                         "description": "Field name",
@@ -4885,6 +5002,10 @@
             "Users_Login_RequestBody": {
                 "title": "Users module - Users login request body",
                 "description": "JSON or form-data",
+                "required": [
+                    "userName",
+                    "password"
+                ],
                 "properties": {
                     "userName": {
                         "description": "Webservice user name",
@@ -4935,6 +5056,10 @@
             "Users_Login_ResponseBody": {
                 "title": "Users module - Users login response body",
                 "description": "Users login response body",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4947,6 +5072,16 @@
                     },
                     "result": {
                         "description": "Content of responses from a given method",
+                        "required": [
+                            "token",
+                            "name",
+                            "lastLoginTime",
+                            "lastLogoutTime",
+                            "language",
+                            "type",
+                            "login_method",
+                            "preferences"
+                        ],
                         "properties": {
                             "token": {
                                 "description": "Post method.",
@@ -4992,6 +5127,27 @@
                             },
                             "preferences": {
                                 "description": "Post method.",
+                                "required": [
+                                    "hour_format",
+                                    "start_hour",
+                                    "end_hour",
+                                    "date_format",
+                                    "time_zone",
+                                    "currency_id",
+                                    "currency_grouping_pattern",
+                                    "currency_decimal_separator",
+                                    "currency_grouping_separator",
+                                    "currency_symbol_placement",
+                                    "no_of_currency_decimals",
+                                    "currency_name",
+                                    "currency_code",
+                                    "currency_symbol",
+                                    "conv_rate",
+                                    "activity_view",
+                                    "date_format_js",
+                                    "dayoftheweek",
+                                    "truncate_trailing_zeros"
+                                ],
                                 "properties": {
                                     "hour_format": {
                                         "description": "Post method.",
@@ -5118,6 +5274,10 @@
                             "companyDetails": {
                                 "title": "Company details, optional parameter depending on the user type",
                                 "description": "Post method.",
+                                "required": [
+                                    "check_stock_levels",
+                                    "sum_open_orders"
+                                ],
                                 "properties": {
                                     "check_stock_levels": {
                                         "description": "Post method.",
@@ -5143,6 +5303,10 @@
             },
             "Exception": {
                 "title": "General - Error exception",
+                "required": [
+                    "status",
+                    "error"
+                ],
                 "properties": {
                     "status": {
                         "description": "0 - error",
@@ -5153,7 +5317,11 @@
                         "example": 0
                     },
                     "error": {
-                        "description": "Error  details",
+                        "description": "Error details",
+                        "required": [
+                            "message",
+                            "code"
+                        ],
                         "properties": {
                             "message": {
                                 "description": "To show more details turn on: config\\Debug.php apiShowExceptionMessages = true",
@@ -5175,6 +5343,10 @@
                                 "type": "integer",
                                 "example": 101
                             },
+                            "previous": {
+                                "description": "Previous exception",
+                                "type": "object"
+                            },
                             "backtrace": {
                                 "description": "default disabled to enable set: config\\Debug.php apiShowExceptionBacktrace = true",
                                 "type": "string",
@@ -5189,6 +5361,10 @@
             "UsersLogoutResponseBody": {
                 "title": "Users module - Users logout response body",
                 "description": "JSON data",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",

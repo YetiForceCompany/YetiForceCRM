@@ -65,6 +65,7 @@ class Logout extends \Api\Core\BaseAction
 	 * 		title="Users module - Users logout response body",
 	 * 		description="JSON data",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -90,8 +91,8 @@ class Logout extends \Api\Core\BaseAction
 		]);
 		$this->updateUser([
 			'custom_params' => [
-				'logout_time' => date('Y-m-d H:i:s')
-			]
+				'logout_time' => date('Y-m-d H:i:s'),
+			],
 		]);
 		return true;
 	}
