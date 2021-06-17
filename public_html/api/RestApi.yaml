@@ -139,6 +139,130 @@ paths:
           basicAuth: []
           ApiKeyAuth: []
           token: []
+  '/webservice/RestApi/{moduleName}/CustomView':
+    get:
+      tags:
+        - BaseModule
+      summary: 'List of custom view'
+      description: 'Gets a list of custom view'
+      operationId: 'Api\RestApi\BaseModule\CustomView::get'
+      parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+      responses:
+        '200':
+          description: 'List of custom view'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_CustomView_ResponseBody'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_CustomView_ResponseBody'
+        '401':
+          description: '`No sent token`, `Invalid token`, `Token has expired`'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '403':
+          description: '`No permissions for module`'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '405':
+          description: '`Invalid method`'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+      security:
+        -
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
+  '/webservice/RestApi/{moduleName}/CustomView/{cvId}':
+    get:
+      tags:
+        - BaseModule
+      summary: 'Data of custom view'
+      description: 'Gets data of custom view'
+      operationId: 'Api\RestApi\BaseModule\CustomView::get(cvId)'
+      parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+        -
+          name: cvId
+          in: path
+          description: 'Custom view ID'
+          required: true
+          schema:
+            type: integer
+          example: 12
+      responses:
+        '200':
+          description: 'Data of custom view'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_CustomViewById_ResponseBody'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_CustomViewById_ResponseBody'
+        '401':
+          description: '`No sent token`, `Invalid token`, `Token has expired`'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '403':
+          description: '`No permissions for module or data provided in the request`'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '405':
+          description: '`Invalid method`'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+      security:
+        -
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/RestApi/{moduleName}/Fields':
     get:
       tags:
@@ -1526,6 +1650,72 @@ components:
             description: 'Module name'
             type: string
             example: Accounts
+      type: object
+    BaseModule_CustomView_ResponseBody:
+      title: 'Base module - Response action - data of custom view list'
+      description: 'Module action - Data of custom view list - response body'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+        result:
+          description: 'List of custom view'
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BaseModule_CustomViewById_Result'
+      type: object
+    BaseModule_CustomViewById_ResponseBody:
+      title: 'Base module - Response action - data of custom view by specific ID'
+      description: 'Module action - custom view for specific ID - response body'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+        result:
+          $ref: '#/components/schemas/BaseModule_CustomViewById_Result'
+      type: object
+    BaseModule_CustomViewById_Result:
+      title: 'Data of custom view by specific ID'
+      description: 'Module action - custom view for specific ID - response data'
+      properties:
+        cvid:
+          description: 'Custom view ID'
+          type: integer
+          example: 12
+        viewname:
+          description: 'Custom view name'
+          type: string
+          example: 'Test 1'
+        entitytype:
+          description: 'Module name'
+          type: string
+          example: Accounts
+        sequence:
+          description: Sequence
+          type: integer
+          example: 1
+        description:
+          description: 'Custom view description'
+          type: string
+          example: Description
+        color:
+          description: 'Color for custom view'
+          type: string
+          example: '#c28306'
+        isFeatured:
+          description: 'Custom view is in favorites'
+          type: boolean
+          example: false
+        isDefault:
+          description: 'Custom view is default'
+          type: boolean
+          example: false
       type: object
     BaseModule_Fields_ResponseBody:
       title: 'Base module - Response action fields'
