@@ -239,13 +239,13 @@ class CustomView extends \Api\Core\BaseAction
 		if ($this->cvId) {
 			$recordModel = \CustomView_Record_Model::getInstanceById($this->cvId);
 			$response = array_intersect_key($recordModel->getData(), $columns);
-			$response['viewname'] = \App\Language::translate($recordModel->getName(), $moduleName);
+			$response['viewname'] = \App\Language::translate(\App\Purifier::decodeHtml($recordModel->getName()), $moduleName, false, false);
 			$response['isFeatured'] = $recordModel->isFeatured();
 			$response['isDefault'] = $defaultId === $recordModel->getId();
 		} else {
 			foreach (\CustomView_Record_Model::getAll($moduleName, false) as $cvId => $recordModel) {
 				$response[$cvId] = array_intersect_key($recordModel->getData(), $columns);
-				$response[$cvId]['viewname'] = \App\Language::translate($recordModel->getName(), $moduleName);
+				$response[$cvId]['viewname'] = \App\Language::translate(\App\Purifier::decodeHtml($recordModel->getName()), $moduleName, false, false);
 				$response[$cvId]['isFeatured'] = $recordModel->isFeatured();
 				$response[$cvId]['isDefault'] = $defaultId === $recordModel->getId();
 			}

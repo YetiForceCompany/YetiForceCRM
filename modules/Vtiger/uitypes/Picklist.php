@@ -134,7 +134,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		$dependentSourceField = \App\Fields\Picklist::getDependentSourceField($moduleName, $fieldName);
 		$closeStates = \App\RecordStatus::getLockStatus($moduleName, false);
 		$values = [];
-		foreach (\App\Fields\Picklist::getValues($fieldModel->getName()) as $key => $value) {
+		foreach (\App\Fields\Picklist::getValues($fieldModel->getName()) as $value) {
 			if ($dependentSourceField && isset($picklistDependency[$dependentSourceField][$recordModel->get($dependentSourceField)][$fieldName]) && !\in_array($value['picklistValue'], $picklistDependency[$dependentSourceField][$recordModel->get($dependentSourceField)][$fieldName])) {
 				continue;
 			}
