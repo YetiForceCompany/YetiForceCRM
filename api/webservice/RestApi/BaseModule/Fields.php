@@ -243,6 +243,9 @@ class Fields extends \Api\Core\BaseAction
 		$module = \Vtiger_Module_Model::getInstance($moduleName);
 		$return = $inventoryFields = $fields = $blocks = [];
 		foreach ($module->getFields() as $fieldModel) {
+			if (!$fieldModel->isActiveField()) {
+				continue;
+			}
 			$block = $fieldModel->get('block');
 			if (!isset($blocks[$block->id])) {
 				$blockProperties = get_object_vars($block);

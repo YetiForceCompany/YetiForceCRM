@@ -18,12 +18,15 @@ use OpenApi\Annotations as OA;
  */
 class Record extends \Api\RestApi\BaseModule\Record
 {
+	/** {@inheritdoc}  */
+	public $allowedHeaders = ['x-parent-id', 'x-header-fields'];
+
 	/**
 	 * Get record detail.
 	 *
 	 * @return array
 	 *
-	 * @OA\Get(
+	 *	@OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/Record/{recordId}",
 	 *		description="Gets the details of a record",
 	 *		summary="Data for the record",
@@ -87,11 +90,12 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="BaseModule_Get_Record_Response",
 	 *		title="Base module - Response body for Record",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -103,6 +107,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			property="result",
 	 *			description="Record data",
 	 *			type="object",
+	 *			required={"name", "id", "fields", "data"},
 	 *			@OA\Property(property="name", description="Record name", type="string", example="Driving school"),
 	 *			@OA\Property(property="id", description="Record Id", type="integer", example=152),
 	 *			@OA\Property(
@@ -121,6 +126,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *				property="privileges",
 	 *				description="Parameters determining checking of editing rights and moving to the trash",
 	 * 				type="object",
+	 * 				required={"isEditable", "moveToTrash"},
 	 *				@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
 	 *				@OA\Property(property="moveToTrash", description="Permission to delete", type="boolean", example=false),
 	 *			),
@@ -136,16 +142,64 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			),
 	 *			@OA\Property(property="rawData", description="Raw record data", type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			@OA\Property(property="rawInventory", description="Inventory data", type="object"),
+	 *			@OA\Property(
+	 *				property="headerFields",
+	 *				description="Get headers fields details.",
+	 * 				type="object",
+	 *				@OA\AdditionalProperties(
+	 *					type="object",
+	 *					description="Header field details",
+	 *					required={"type", "label"},
+	 *					@OA\Property(property="type", type="string", description="Header field type", example="value"),
+	 *					@OA\Property(property="label", type="string", description="Translated field label", example="Assigned To"),
+	 *					@OA\Property(property="class", type="string", description="Class name", example="badge-info"),
+	 *					@OA\Property(property="value", type="string", description="Class name, available for types: `value`, `highlights`", example="YetiForce Sales"),
+	 *					@OA\Property(property="values", type="object", description="Class name, available for type: `progress`",
+	 *						@OA\AdditionalProperties(
+	 *							type="object",
+	 *							description="Header field details",
+	 *							required={"label", "isActive", "isLocked", "isEditable"},
+	 *							@OA\Property(property="label", type="string", description="Value to display", example="Awaiting verification"),
+	 *							@OA\Property(property="isActive", type="boolean", description="Is active", example=false),
+	 *							@OA\Property(property="isLocked", type="boolean", description="Is locked", example=false),
+	 *							@OA\Property(property="isEditable", type="boolean", description="Is editable", example=false),
+	 *							@OA\Property(property="description", type="string", description="Description", example=""),
+	 *							@OA\Property(property="color", type="string", description="Color", example="ffa800"),
+	 *						),
+	 *					),
+	 *				),
+	 *			),
 	 *		),
-	 * ),
-	 * @OA\Tag(
+	 *	),
+	 *	@OA\Tag(
 	 *		name="BaseModule",
 	 *		description="Access to record methods"
-	 * )
+	 *	)
 	 */
 	public function get(): array
 	{
-		return parent::get();
+		$return = parent::get();
+		if ($this->controller->headers['x-header-fields'] ?? 0) {
+			$fieldsHeader = [];
+			foreach ($this->recordModel->getModule()->getFields() as $fieldModel) {
+				if (!$fieldModel->isActiveField() || !($headerField = $fieldModel->getHeaderField())) {
+					continue;
+				}
+				$headerField['label'] = $fieldModel->getFullLabelTranslation();
+				if ('progress' === $headerField['type']) {
+					$headerField['values'] = $fieldModel->getUITypeModel()->getProgressHeader($this->recordModel);
+				} else {
+					$value = $this->recordModel->get($fieldModel->getName());
+					if ('' === $value) {
+						continue;
+					}
+					$headerField['value'] = $fieldModel->getUITypeModel()->getApiDisplayValue($value, $this->recordModel);
+				}
+				$fieldsHeader[$fieldModel->getName()] = $headerField;
+			}
+			$return['headerFields'] = $fieldsHeader;
+		}
+		return $return;
 	}
 
 	/**
@@ -153,7 +207,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *
 	 * @return bool
 	 *
-	 * @OA\Delete(
+	 *	@OA\Delete(
 	 *		path="/webservice/Portal/{moduleName}/Record/{recordId}",
 	 *		description="Changes the state of a record, moving it to the trash",
 	 *		summary="Delete record",
@@ -189,12 +243,13 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Delete_Record_Response"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Delete_Record_Response"),
 	 *		),
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="BaseModule_Delete_Record_Response",
 	 *		title="Base module - Transfer to the trash",
 	 *		description="List of records moved to the trash",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -206,7 +261,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			description="Status of successful transfer of the record to the recycle bin",
 	 *			type="boolean",
 	 *		),
-	 * ),
+	 *	),
 	 */
 	public function delete(): bool
 	{
@@ -218,7 +273,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *
 	 * @return array
 	 *
-	 * @OA\Put(
+	 *	@OA\Put(
 	 *		path="/webservice/Portal/{moduleName}/Record/{recordId}",
 	 *		description="Retrieves data for editing a record",
 	 *		summary="Edit record",
@@ -261,12 +316,13 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
 	 *			@OA\Link(link="GetRecordById", ref="#/components/links/GetRecordById")
 	 *		),
-	 * ),
-	 * @OA\Schema(
+	 * 	),
+	 *	@OA\Schema(
 	 *		schema="BaseModule_Put_Record_Response",
 	 *		title="Base module - Response body for Record",
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -278,31 +334,32 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			title="Gets data for the record",
 	 *			description="Updated record id.",
 	 *			type="object",
+	 *			required={"id"},
 	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
 	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="Record_Edit_Details",
 	 *		title="General - Record edit details",
 	 *		description="Record data in user format for edit view",
 	 *		type="object",
 	 *		example={"field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : 1, "createdtime" : "2014-09-24 20:51:12"},
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="Record_Raw_Details",
 	 *		title="General - Record raw details",
 	 *		description="Record data in the system format as stored in a database",
 	 *		type="object",
 	 *		example={"id" : 11, "field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : 1, "createdtime" : "2014-09-24 20:51:12"},
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="Record_Display_Details",
 	 *		title="General - Record display details",
 	 *		description="Record data in user format for preview",
 	 *		type="object",
 	 *		example={"id" : 11, "field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : "YetiForce Administrator", "createdtime" : "2014-09-24 20:51"},
-	 * ),
+	 *	),
 	 */
 	public function put(): array
 	{
@@ -314,7 +371,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *
 	 * @return array
 	 *
-	 * @OA\Post(
+	 *	@OA\Post(
 	 *		path="/webservice/Portal/{moduleName}/Record",
 	 *		description="Gets data to save record",
 	 *		summary="Create record",
@@ -349,12 +406,13 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Post_Record_Response"),
 	 *			@OA\Link(link="GetRecordById", ref="#/components/links/GetRecordById")
 	 *		),
-	 * ),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="BaseModule_Post_Record_Response",
 	 *		title="Base module - Created records",
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -366,10 +424,11 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			title="Gets data for the record",
 	 *			description="Created record id.",
 	 *			type="object",
+	 *			required={"id"},
 	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
 	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
-	 * ),
+	 *	),
 	 *	@OA\Link(
 	 *		link="GetRecordById",
 	 *		description="The `id` value returned in the response can be used as the `recordId` parameter in `GET /webservice/{moduleName}/Record/{recordId}`.",
