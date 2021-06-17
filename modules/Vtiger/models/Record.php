@@ -775,7 +775,6 @@ class Vtiger_Record_Model extends \App\Base
 		$instance->setId($recordId);
 		$instance->isNew = false;
 		\App\Cache::staticSave('RecordModel', $cacheName, $instance);
-
 		return $instance;
 	}
 

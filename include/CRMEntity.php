@@ -43,7 +43,14 @@ class CRMEntity
 		$this->column_fields = vtlib\Deprecated::getColumnFields(static::class);
 	}
 
-	public static function getInstance($module)
+	/**
+	 * Get CRMEntity instance.
+	 *
+	 * @param string $module
+	 *
+	 * @return self
+	 */
+	public static function getInstance(string $module): self
 	{
 		if (is_numeric($module)) {
 			$module = App\Module::getModuleName($module);
@@ -65,7 +72,6 @@ class CRMEntity
 		$focus = new $module();
 		$focus->moduleName = $module;
 		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
-
 		return $focus;
 	}
 
