@@ -52,7 +52,7 @@ class Developer
 				echo "<pre>$msg</pre><hr>";
 			}, E_ALL);
 		}
-		$openApi = \OpenApi\scan(ROOT_DIRECTORY . '/api/webservice/' . $type);
+		$openApi = \OpenApi\Generator::scan([ROOT_DIRECTORY . '/api/webservice/' . $type]);
 		$openApi->saveAs(ROOT_DIRECTORY . "/public_html/api/{$type}.json");
 		$openApi->saveAs(ROOT_DIRECTORY . "/public_html/api/{$type}.yaml");
 		return $openApi->toJson();
