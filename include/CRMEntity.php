@@ -50,7 +50,7 @@ class CRMEntity
 	 *
 	 * @return self
 	 */
-	public static function getInstance(string $module): self
+	public static function getInstance(string $module)
 	{
 		if (is_numeric($module)) {
 			$module = App\Module::getModuleName($module);
@@ -58,7 +58,6 @@ class CRMEntity
 		if (\App\Cache::staticHas('CRMEntity', $module)) {
 			return clone \App\Cache::staticGet('CRMEntity', $module);
 		}
-
 		// File access security check
 		if (!class_exists($module)) {
 			if (App\Config::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$module.php")) {
