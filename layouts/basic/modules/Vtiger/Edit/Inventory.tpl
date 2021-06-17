@@ -141,6 +141,7 @@
 				{foreachelse}
 					{if $IS_REQUIRED_INVENTORY}
 						{assign var="ROW_NO" value=1}
+						{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 						{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
 					{/if}
 				{/foreach}
