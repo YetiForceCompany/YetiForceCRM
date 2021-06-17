@@ -1,6 +1,6 @@
 <?php
 /**
- * Tools for iban class.
+ * Tools for iban file.
  *
  * @package App
  *
@@ -19,25 +19,24 @@ class Iban
 	/**
 	 * Function returns IBAN value.
 	 *
-	 * @param array $fieldParams
-	 * @param array $recordData
+	 * @param array               $fieldParams
+	 * @param Vtiger_Record_Model $recordModel
 	 *
 	 * @return string
 	 */
-	public function getIBANValue(array $fieldParams, array $recordData): string
+	public function getIbanValue(array $fieldParams, \Vtiger_Record_Model $recordModel): string
 	{
 		$this->fieldParams = $fieldParams;
-		$this->recordData = $recordData;
+		$this->recordModel = $recordModel;
 		if ($this->checkIfFieldHasMandatoryParams()) {
 			$iban = new \PHP_IBAN\IBAN();
-			$this->countryIBAN = new \PHP_IBAN\IBANCountry($this->fieldParams['country']);
-			$countryIBANLength = $this->countryIBAN->IBANLength();
-			$checkSumValueForCreateIBAN = '00';
+			$this->countryIban = new \PHP_IBAN\IBANCountry($this->fieldParams['country']);
+			$countryIbanLength = $this->countryIban->IBANLength();
+			$checkSumValueForCreateIban = '00';
 			$payerId = $this->getPayerId();
-			$ibanNumberForCalculateCheckSum = $this->fieldParams['country'] . $checkSumValueForCreateIBAN . $this->fieldParams['sortCode'] . $this->fieldParams['clientId'] . $payerId;
+			$ibanNumberForCalculateCheckSum = $this->fieldParams['country'] . $checkSumValueForCreateIban . $this->fieldParams['sortCode'] . $this->fieldParams['clientId'] . $payerId;
 			$checkSumValue = $iban->FindChecksum($ibanNumberForCalculateCheckSum);
-
-			if ((int) $countryIBANLength !== \strlen($ibanNumberForCalculateCheckSum)) {
+			if ((int) $countryIbanLength !== \strlen($ibanNumberForCalculateCheckSum)) {
 				return '';
 			}
 			return $this->fieldParams['country'] . $checkSumValue . $this->fieldParams['sortCode'] . $this->fieldParams['clientId'] . $payerId;
@@ -47,11 +46,16 @@ class Iban
 	/**
 	 * Checks if field params has mandatory values.
 	 *
+	 *  @throws \App\Exceptions\AppException
+	 *
 	 * @return bool
 	 */
 	protected function checkIfFieldHasMandatoryParams(): bool
 	{
-		return isset($this->fieldParams['country']) && isset($this->fieldParams['sortCode'], $this->fieldParams['clientId'], $this->fieldParams['conditions']);
+		if (isset($this->fieldParams['country'], $this->fieldParams['sortCode'], $this->fieldParams['clientId'], $this->fieldParams['conditions'])) {
+			return true;
+		}
+		throw new \App\Exceptions\AppException('ERR_NO_VALUE');
 	}
 
 	/**
@@ -61,16 +65,14 @@ class Iban
 	 */
 	protected function getPayerId(): string
 	{
-		$bbanLength = $this->countryIBAN->BBANLength();
+		$bbanLength = $this->countryIban->BBANLength();
 		$conditionsForPayerId = $this->fieldParams['conditions'];
 		$payerCharactersAmount = $bbanLength - \strlen($this->fieldParams['sortCode']) - \strlen($this->fieldParams['clientId']);
-
 		if (\is_array($conditionsForPayerId)) {
 			foreach ($conditionsForPayerId as $conditionValues) {
-				[$fieldNameForCondition,$fieldToGetValue, $fieldValue] = array_pad(explode(':', $conditionValues), 3, false);
 				[$fieldNameForCondition, $fieldValueForCondition, $fieldFromGetValue] = array_pad(explode(':', $conditionValues), 3, false);
-				if ('defaultValue' === $fieldNameForCondition || (isset($this->recordData) && $fieldValueForCondition === $this->recordData[$fieldNameForCondition])) {
-					$valueForPayerId = $this->recordData[$fieldFromGetValue] ?? '';
+				if ('defaultValue' === $fieldNameForCondition || $fieldValueForCondition === $this->recordModel->get($fieldNameForCondition)) {
+					$valueForPayerId = $this->recordModel->get($fieldFromGetValue);
 					if ($valueForPayerId && \strlen($valueForPayerId) !== $payerCharactersAmount) {
 						return $this->addLeadingZeros($payerCharactersAmount, $valueForPayerId);
 					}
@@ -81,7 +83,6 @@ class Iban
 		if ('random' === $conditionsForPayerId && isset($this->fieldParams['clientIdPattern'])) {
 			return $this->createRandomPayerId();
 		}
-
 		return '';
 	}
 
