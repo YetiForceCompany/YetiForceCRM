@@ -69,17 +69,19 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 	 *		schema="Users_Get_TwoFactorAuth_Response",
 	 *		title="Users module - Authentication secret details",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success, 0 - error",
+	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success, 0 - error",
 	 *			enum={0, 1},
 	 *			type="integer",
 	 *        	example=1
 	 *		),
 	 *		@OA\Property(
 	 *     		property="result",
-	 *     	 	description="Content of responses from a given method",
+	 *     	 	title="Content of responses from a given method",
 	 *    	 	type="object",
+	 *    	 	required={"authMethods", "secretKey"},
 	 *   		@OA\Property(property="authMethods", type="string", example="TOTP"),
 	 *   		@OA\Property(property="secretKey", type="string", example="LJUJWCOEGUKP6WS2"),
 	 *		),
@@ -152,7 +154,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 	 *		type="object",
 	 *		@OA\Property(
 	 *			property="status",
-	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 * 			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 * 			enum={0, 1},
 	 *     	  	type="integer",
 	 * 			example=1

@@ -69,14 +69,15 @@ class ChangePassword extends \Api\RestApi\Users\ChangePassword
 	 * 		schema="Users_Put_ChangePassword_Request",
 	 * 		title="Users module - Users password change request body",
 	 *		type="object",
+	 *		required={"currentPassword", "newPassword"},
 	 *  	@OA\Property(
 	 *       	property="currentPassword",
-	 *			description="Current password",
+	 *			title="Current password",
 	 *			type="string",
 	 * 		),
 	 *		@OA\Property(
 	 *			property="newPassword",
-	 *			description="New password",
+	 *			title="New password",
 	 *			type="string"
 	 *		),
 	 *	),
@@ -84,16 +85,17 @@ class ChangePassword extends \Api\RestApi\Users\ChangePassword
 	 * 		schema="Users_Put_ChangePassword_Response",
 	 * 		title="Users module - Users password change response body",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={0, 1},
 	 *			type="integer",
 	 *			example=1,
 	 *		),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="Password change status",
+	 *			title="Password change status",
 	 *			type="boolean",
 	 *			example=false,
 	 *		),

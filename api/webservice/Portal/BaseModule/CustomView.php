@@ -124,7 +124,7 @@ class CustomView extends \Api\RestApi\BaseModule\CustomView
 	 *		@OA\Property(
 	 *			property="status",
 	 *			type="integer",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={0, 1},
 	 *		),
 	 *		@OA\Property(
@@ -143,7 +143,7 @@ class CustomView extends \Api\RestApi\BaseModule\CustomView
 	 *		@OA\Property(
 	 *			property="status",
 	 *			type="integer",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={0, 1},
 	 *		),
 	 *		@OA\Property(

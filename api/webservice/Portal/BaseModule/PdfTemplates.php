@@ -106,19 +106,19 @@ class PdfTemplates extends \Api\Core\BaseAction
 	 *		type="object",
 	 *		@OA\Property(
 	 *			property="status",
-	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 * 			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 * 			enum={0, 1},
 	 *     	  	type="integer",
 	 * 			example=1
 	 * 		),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="Pdf templates",
+	 *			title="Pdf templates",
 	 *			type="object",
 	 *			@OA\AdditionalProperties(
-	 *				description="Pdf template detail",
+	 *				title="Pdf template detail",
 	 *				type="object",
-	 *				@OA\Property(property="id", description="Record Id", type="integer", example=38),
+	 *				@OA\Property(property="id", title="Record Id", type="integer", example=38),
 	 * 				@OA\Property(property="name", type="string", example="order"),
 	 * 				@OA\Property(property="second_name", type="string", example="order"),
 	 * 				@OA\Property(property="default", type="integer", example=1),
@@ -139,7 +139,7 @@ class PdfTemplates extends \Api\Core\BaseAction
 				'id' => $template->getId(),
 				'name' => \App\Language::translate($template->getName(), $template->get('module_name')),
 				'second_name' => \App\Language::translate($template->get('secondary_name'), $template->get('module_name')),
-				'default' => $template->get('default')
+				'default' => $template->get('default'),
 			];
 		}
 		return $templatesData;

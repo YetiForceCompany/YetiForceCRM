@@ -98,73 +98,101 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={0, 1},
 	 *			type="integer",
 	 *        	example=1
 	 *		),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="Record data",
+	 *			title="Record data",
 	 *			type="object",
 	 *			required={"name", "id", "fields", "data"},
-	 *			@OA\Property(property="name", description="Record name", type="string", example="Driving school"),
-	 *			@OA\Property(property="id", description="Record Id", type="integer", example=152),
+	 *			@OA\Property(property="name", title="Record name", type="string", example="Driving school"),
+	 *			@OA\Property(property="id", title="Record Id", type="integer", example=152),
 	 *			@OA\Property(
 	 * 				property="fields",
-	 *				description="System field names and field labels",
+	 *				title="System field names and field labels",
 	 *				type="object",
-	 *				@OA\AdditionalProperties(description="Field label", type="string", example="Account name"),
+	 *				@OA\AdditionalProperties(title="Field label", type="string", example="Account name"),
 	 *			),
-	 *			@OA\Property(
-	 *				property="data",
-	 *				description="Record data",
-	 *				type="object",
-	 *				ref="#/components/schemas/Record_Display_Details",
-	 *			),
+	 *			@OA\Property(property="data", title="Record data", type="object", ref="#/components/schemas/Record_Display_Details"),
 	 *			@OA\Property(
 	 *				property="privileges",
-	 *				description="Parameters determining checking of editing rights and moving to the trash",
+	 *				title="Parameters determining checking of editing rights and moving to the trash",
 	 * 				type="object",
 	 * 				required={"isEditable", "moveToTrash"},
-	 *				@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
-	 *				@OA\Property(property="moveToTrash", description="Permission to delete", type="boolean", example=false),
+	 *				@OA\Property(property="isEditable", title="Check if record is editable", type="boolean", example=true),
+	 *				@OA\Property(property="moveToTrash", title="Permission to delete", type="boolean", example=false),
 	 *			),
+	 *			@OA\Property(property="inventory", title="Value inventory data", type="object"),
+	 *			@OA\Property(property="summaryInventory", title="Value summary inventory data", type="object"),
+	 *			@OA\Property(property="rawData", title="Raw record data", type="object", ref="#/components/schemas/Record_Raw_Details"),
+	 *			@OA\Property(property="rawInventory", title="Inventory data", type="object"),
 	 *			@OA\Property(
-	 *				property="inventory",
-	 *				description="Value inventory data",
-	 * 				type="object",
-	 *			),
-	 *			@OA\Property(
-	 *				property="summaryInventory",
-	 *				description="Value summary inventory data",
-	 * 				type="object",
-	 *			),
-	 *			@OA\Property(property="rawData", description="Raw record data", type="object", ref="#/components/schemas/Record_Raw_Details"),
-	 *			@OA\Property(property="rawInventory", description="Inventory data", type="object"),
-	 *			@OA\Property(
-	 *				property="headerFields",
-	 *				description="Get headers fields details.",
-	 * 				type="object",
-	 *				@OA\AdditionalProperties(
-	 *					type="object",
-	 *					description="Header field details",
-	 *					required={"type", "label"},
-	 *					@OA\Property(property="type", type="string", description="Header field type", example="value"),
-	 *					@OA\Property(property="label", type="string", description="Translated field label", example="Assigned To"),
-	 *					@OA\Property(property="class", type="string", description="Class name", example="badge-info"),
-	 *					@OA\Property(property="value", type="string", description="Class name, available for types: `value`, `highlights`", example="YetiForce Sales"),
-	 *					@OA\Property(property="values", type="object", description="Class name, available for type: `progress`",
-	 *						@OA\AdditionalProperties(
-	 *							type="object",
-	 *							description="Header field details",
-	 *							required={"label", "isActive", "isLocked", "isEditable"},
-	 *							@OA\Property(property="label", type="string", description="Value to display", example="Awaiting verification"),
-	 *							@OA\Property(property="isActive", type="boolean", description="Is active", example=false),
-	 *							@OA\Property(property="isLocked", type="boolean", description="Is locked", example=false),
-	 *							@OA\Property(property="isEditable", type="boolean", description="Is editable", example=false),
-	 *							@OA\Property(property="description", type="string", description="Description", example=""),
-	 *							@OA\Property(property="color", type="string", description="Color", example="ffa800"),
+	 *				property="headerFields", type="object", title="Get header fields details.",
+	 *				@OA\Property(
+	 *					property="progress", type="object", title="Progress header fields",
+	 *					@OA\AdditionalProperties(
+	 *						type="object", title="Header field details",
+	 *						required={"type", "label", "values"},
+	 *						@OA\Property(property="type", type="string", title="Header field type", example="value"),
+	 *						@OA\Property(property="label", type="string", title="Translated field label", example="Assigned To"),
+	 *						@OA\Property(property="class", type="string", title="Class name", example="badge-info"),
+	 *						@OA\Property(
+	 *							property="values", type="object", title="Class name",
+	 *							@OA\AdditionalProperties(
+	 *								type="object", title="Header field details",
+	 *								required={"label", "isActive", "isLocked", "isEditable"},
+	 *								@OA\Property(property="label", type="string", title="Value to display", example="Awaiting verification"),
+	 *								@OA\Property(property="isActive", type="boolean", title="Is active", example=false),
+	 *								@OA\Property(property="isLocked", type="boolean", title="Is locked", example=false),
+	 *								@OA\Property(property="isEditable", type="boolean", title="Is editable", example=false),
+	 *								@OA\Property(property="description", type="string", title="Description", example=""),
+	 *								@OA\Property(property="color", type="string", title="Color", example="ffa800"),
+	 *							),
+	 *						),
+	 *					),
+	 *				),
+	 *				@OA\Property(
+	 *					property="value",
+	 *					title="Value header fields",
+	 * 					type="object",
+	 *					@OA\AdditionalProperties(
+	 *						type="object",
+	 *						title="Header field details",
+	 *						required={"type", "label", "value"},
+	 *						@OA\Property(property="type", type="string", title="Header field type", example="value"),
+	 *						@OA\Property(property="label", type="string", title="Translated field label", example="Assigned To"),
+	 *						@OA\Property(property="class", type="string", title="Class name", example="badge-info"),
+	 *						@OA\Property(property="value", title="Data in API format",
+	 *							oneOf={
+	 *								@OA\Schema(type="object"),
+	 *								@OA\Schema(type="string"),
+	 *								@OA\Schema(type="number"),
+	 *								@OA\Schema(type="integer"),
+	 *							}
+	 *						),
+	 *					),
+	 *				),
+	 *				@OA\Property(
+	 *					property="highlights",
+	 *					title="Highlights header fields",
+	 * 					type="object",
+	 *					@OA\AdditionalProperties(
+	 *						type="object",
+	 *						title="Header field details",
+	 *						required={"type", "label", "value"},
+	 *						@OA\Property(property="type", type="string", title="Header field type", example="value"),
+	 *						@OA\Property(property="label", type="string", title="Translated field label", example="Assigned To"),
+	 *						@OA\Property(property="class", type="string", title="Class name", example="badge-info"),
+	 *						@OA\Property(property="value", title="Data in API format",
+	 *							oneOf={
+	 *								@OA\Schema(type="object"),
+	 *								@OA\Schema(type="string"),
+	 *								@OA\Schema(type="number"),
+	 *								@OA\Schema(type="integer"),
+	 *							}
 	 *						),
 	 *					),
 	 *				),
@@ -195,7 +223,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 					}
 					$headerField['value'] = $fieldModel->getUITypeModel()->getApiDisplayValue($value, $this->recordModel);
 				}
-				$fieldsHeader[$fieldModel->getName()] = $headerField;
+				$fieldsHeader[$headerField['type']][$fieldModel->getName()] = $headerField;
 			}
 			$return['headerFields'] = $fieldsHeader;
 		}
@@ -252,13 +280,13 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={0, 1},
 	 * 			type="integer",
 	 *		),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="Status of successful transfer of the record to the recycle bin",
+	 *			title="Status of successful transfer of the record to the recycle bin",
 	 *			type="boolean",
 	 *		),
 	 *	),
@@ -325,7 +353,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={0, 1},
 	 *			type="integer",
 	 *		),
@@ -335,8 +363,8 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			description="Updated record id.",
 	 *			type="object",
 	 *			required={"id"},
-	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
-	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
+	 *			@OA\Property(property="id", title="Id of the newly created record", type="integer", example=22),
+	 *			@OA\Property(property="skippedData", title="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
 	 *	),
 	 *	@OA\Schema(
@@ -415,7 +443,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={0, 1},
 	 *			type="integer",
 	 *		),
@@ -425,8 +453,8 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			description="Created record id.",
 	 *			type="object",
 	 *			required={"id"},
-	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
-	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
+	 *			@OA\Property(property="id", title="Id of the newly created record", type="integer", example=22),
+	 *			@OA\Property(property="skippedData", title="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
 	 *	),
 	 *	@OA\Link(

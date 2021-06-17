@@ -2434,7 +2434,8 @@
                 "description": "List of available modules",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get permitted modules.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -2463,7 +2464,8 @@
                 ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get custom view list method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -2489,7 +2491,8 @@
                 ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get custom view list method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -2562,9 +2565,14 @@
             "BaseModule_Fields_ResponseBody": {
                 "title": "Base module - Response action fields",
                 "description": "Fields, blocks and inventory details",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get data about fields, blocks and inventory.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -2573,63 +2581,112 @@
                         "example": 1
                     },
                     "result": {
-                        "description": "Fields parameters",
+                        "title": "Fields parameters",
+                        "description": "Get data about fields, blocks and inventory.",
+                        "required": [
+                            "fields",
+                            "blocks"
+                        ],
                         "properties": {
                             "fields": {
-                                "description": "List of all available fields in the module",
+                                "title": "List of all available fields in the module",
+                                "description": "Get data about fields, blocks and inventory.",
+                                "required": [
+                                    "name",
+                                    "label",
+                                    "type",
+                                    "mandatory",
+                                    "defaultvalue",
+                                    "presence",
+                                    "quickcreate",
+                                    "masseditable",
+                                    "header_field",
+                                    "maxlengthtext",
+                                    "maximumlength",
+                                    "maxwidthcolumn",
+                                    "tabindex",
+                                    "fieldtype",
+                                    "tabindex",
+                                    "tabindex",
+                                    "tabindex",
+                                    "tabindex",
+                                    "id",
+                                    "uitype",
+                                    "isEditable",
+                                    "isViewable",
+                                    "isReadOnly",
+                                    "isEditableReadOnly",
+                                    "sequence",
+                                    "fieldparams",
+                                    "blockId",
+                                    "helpInfo",
+                                    "dbStructure",
+                                    "queryOperators"
+                                ],
                                 "type": "object",
                                 "additionalProperties": {
                                     "properties": {
                                         "name": {
-                                            "description": "Field name",
+                                            "title": "Field name",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string",
                                             "example": "subject"
                                         },
                                         "label": {
-                                            "description": "Field label translated into the user's language",
+                                            "title": "Field label translated into the user's language",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string",
                                             "example": "Subject"
                                         },
                                         "type": {
-                                            "description": "Field type",
+                                            "title": "Field type",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string",
                                             "example": "string"
                                         },
                                         "mandatory": {
-                                            "description": "Check if field is mandatory",
+                                            "title": "Check if field is mandatory",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "defaultvalue": {
-                                            "description": "Default field value",
+                                            "title": "Default field value",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string",
                                             "example": ""
                                         },
                                         "presence": {
-                                            "description": "Check if field is active",
+                                            "title": "Check if field is active",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "quickcreate": {
-                                            "description": "Check if field is active",
+                                            "title": "Check if field is active",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "masseditable": {
-                                            "description": "Check if field is quick create enabled",
+                                            "title": "Check if field is quick create enabled",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "header_field": {
-                                            "description": "Field configuration available in the header",
+                                            "title": "Field configuration available in the header",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "properties": {
                                                 "type": {
-                                                    "description": "Type",
+                                                    "title": "Type",
+                                                    "description": "Get data about fields, blocks and inventory.",
                                                     "type": "string",
                                                     "example": "value"
                                                 },
                                                 "class": {
-                                                    "description": "Gui class",
+                                                    "title": "Gui class",
+                                                    "description": "Get data about fields, blocks and inventory.",
                                                     "type": "string",
                                                     "example": "badge-info"
                                                 }
@@ -2637,172 +2694,207 @@
                                             "type": "object"
                                         },
                                         "maxlengthtext": {
-                                            "description": "Max length text",
+                                            "title": "Max length text",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "maximumlength": {
-                                            "description": "Maximum field range",
+                                            "title": "Maximum field range",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string",
                                             "example": "-2147483648,2147483647"
                                         },
                                         "maxwidthcolumn": {
-                                            "description": "Max width column",
+                                            "title": "Max width column",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "tabindex": {
-                                            "description": "Field tab index",
+                                            "title": "Field tab index",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "fieldtype": {
-                                            "description": "Field short data type",
+                                            "title": "Field short data type",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string",
                                             "example": "V"
                                         },
                                         "picklistvalues": {
-                                            "description": "Picklist values, available only for type of field: picklist, multipicklist, multiowner, multiReferenceValue, inventoryLimit, languages, currencyList, fileLocationType, taxes, multiListFields, mailScannerFields, country, modules, sharedOwner, categoryMultipicklist, tree",
+                                            "title": "Picklist values, available only for type of field: picklist, multipicklist, multiowner, multiReferenceValue, inventoryLimit, languages, currencyList, fileLocationType, taxes, multiListFields, mailScannerFields, country, modules, sharedOwner, categoryMultipicklist, tree",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "object"
                                         },
                                         "date-format": {
-                                            "description": "Date format, available only for type of field: date, datetime",
+                                            "title": "Date format, available only for type of field: date, datetime",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string"
                                         },
                                         "time-format": {
-                                            "description": "Time format, available only for type of field: time",
+                                            "title": "Time format, available only for type of field: time",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string"
                                         },
                                         "currency_symbol": {
-                                            "description": "Currency symbol, available only for type of field: currency",
+                                            "title": "Currency symbol, available only for type of field: currency",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string"
                                         },
                                         "decimal_separator": {
-                                            "description": "Currency decimal separator, available only for type of field: currency",
+                                            "title": "Currency decimal separator, available only for type of field: currency",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string"
                                         },
                                         "group_separator": {
-                                            "description": "Currency group separator, available only for type of field: currency",
+                                            "title": "Currency group separator, available only for type of field: currency",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string"
                                         },
                                         "restrictedDomains": {
-                                            "description": "Email restricted domains, available only for type of field: email",
+                                            "title": "Email restricted domains, available only for type of field: email",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "properties": {
                                                 "yeti.com": {
-                                                    "description": "List of domains reserved by email",
+                                                    "title": "List of domains reserved by email",
+                                                    "description": "Get data about fields, blocks and inventory.",
                                                     "example": "yeti.com"
                                                 }
                                             },
                                             "type": "object"
                                         },
                                         "limit": {
-                                            "description": "Limit the amount of images, available only for type of field: multiImage, image",
+                                            "title": "Limit the amount of images, available only for type of field: multiImage, image",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer"
                                         },
                                         "formats": {
-                                            "description": "File Format, available only for type of field: multiImage, image",
+                                            "title": "File Format, available only for type of field: multiImage, image",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "properties": {
                                                 "jpg": {
-                                                    "description": "List of file data formats",
+                                                    "title": "List of file data formats",
+                                                    "description": "Get data about fields, blocks and inventory.",
                                                     "example": "jpg"
                                                 }
                                             },
                                             "type": "object"
                                         },
                                         "id": {
-                                            "description": "Field ID",
+                                            "title": "Field ID",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 24862
                                         },
                                         "uitype": {
-                                            "description": "Field UiType",
+                                            "title": "Field UiType",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 1
                                         },
                                         "isEditable": {
-                                            "description": "Check if record is editable",
+                                            "title": "Check if record is editable",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "isViewable": {
-                                            "description": "Check if record is viewable",
+                                            "title": "Check if record is viewable",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "isReadOnly": {
-                                            "description": "Check if record is read only (based on profiles)",
+                                            "title": "Check if record is read only (based on profiles)",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "boolean",
                                             "example": false
                                         },
                                         "isEditableReadOnly": {
-                                            "description": "Check if record is editable or read only (based on the field type)",
+                                            "title": "Check if record is editable or read only (based on the field type)",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "boolean",
                                             "example": false
                                         },
                                         "sequence": {
-                                            "description": "Sequence field",
+                                            "title": "Sequence field",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 24862
                                         },
                                         "fieldparams": {
-                                            "description": "Field params",
+                                            "title": "Field params",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "object"
                                         },
                                         "blockId": {
-                                            "description": "Field block id",
+                                            "title": "Field block id",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 280
                                         },
                                         "helpInfo": {
-                                            "description": "Additional field description",
+                                            "title": "Additional field description",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string",
                                             "example": "Edit,Detail"
                                         },
                                         "dbStructure": {
-                                            "description": "Info about field structure in database",
+                                            "title": "Info about field structure in database",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "object"
                                         },
                                         "queryOperators": {
-                                            "description": "Field query operators",
+                                            "title": "Field query operators",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "object"
                                         },
                                         "isEmptyPicklistOptionAllowed": {
-                                            "description": "Defines empty picklist element availability",
+                                            "title": "Defines empty picklist element availability",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "boolean",
                                             "example": false
                                         },
                                         "referenceList": {
-                                            "description": "List of related modules, available only for reference field",
+                                            "title": "List of related modules, available only for reference field",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "object",
                                             "additionalProperties": {
-                                                "description": "Tree item",
+                                                "title": "Tree item",
                                                 "type": "string",
                                                 "example": "Accounts"
                                             }
                                         },
                                         "treeValues": {
-                                            "description": "Tree items, available only for tree field",
+                                            "title": "Tree items, available only for tree field",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "object",
                                             "additionalProperties": {
-                                                "description": "Tree item",
+                                                "title": "Tree item",
                                                 "properties": {
                                                     "id": {
-                                                        "description": "Number tree without prefix",
+                                                        "title": "Number tree without prefix",
+                                                        "description": "Get data about fields, blocks and inventory.",
                                                         "type": "integer",
                                                         "example": 1
                                                     },
                                                     "tree": {
-                                                        "description": "Tree id",
+                                                        "title": "Tree id",
+                                                        "description": "Get data about fields, blocks and inventory.",
                                                         "type": "string",
                                                         "example": "T10"
                                                     },
                                                     "parent": {
-                                                        "description": "Parent tree id",
+                                                        "title": "Parent tree id",
+                                                        "description": "Get data about fields, blocks and inventory.",
                                                         "type": "string",
                                                         "example": "T1"
                                                     },
                                                     "text": {
-                                                        "description": "Tree value",
+                                                        "title": "Tree value",
+                                                        "description": "Get data about fields, blocks and inventory.",
                                                         "type": "string",
                                                         "example": "Tree value"
                                                     }
@@ -2815,73 +2907,102 @@
                                 }
                             },
                             "blocks": {
-                                "description": "List of all available blocks in the module",
+                                "title": "List of all available blocks in the module",
+                                "description": "Get data about fields, blocks and inventory.",
                                 "type": "object",
                                 "additionalProperties": {
-                                    "description": "Block details",
+                                    "title": "Block details",
+                                    "required": [
+                                        "id",
+                                        "tabid",
+                                        "label",
+                                        "sequence",
+                                        "showtitle",
+                                        "visible",
+                                        "increateview",
+                                        "ineditview",
+                                        "indetailview",
+                                        "display_status",
+                                        "iscustom",
+                                        "icon",
+                                        "name"
+                                    ],
                                     "properties": {
                                         "id": {
-                                            "description": "Block id",
+                                            "title": "Block id",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 195
                                         },
                                         "tabid": {
-                                            "description": "Module id",
+                                            "title": "Module id",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 9
                                         },
                                         "label": {
-                                            "description": "Block label",
+                                            "title": "Block label",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string",
                                             "example": "Account details"
                                         },
                                         "sequence": {
-                                            "description": "Block sequence",
+                                            "title": "Block sequence",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 1
                                         },
                                         "showtitle": {
-                                            "description": "Specifies whether the title should be visible",
+                                            "title": "Specifies whether the title should be visible",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "visible": {
-                                            "description": "Determines the visibility",
+                                            "title": "Determines the visibility",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "increateview": {
-                                            "description": "Determines the visibility in creat view",
+                                            "title": "Determines the visibility in creat view",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "ineditview": {
-                                            "description": "Determines the visibility in edit view",
+                                            "title": "Determines the visibility in edit view",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "indetailview": {
-                                            "description": "Determines the visibility in detail view",
+                                            "title": "Determines the visibility in detail view",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "display_status": {
-                                            "description": "Determines whether the block should be expanded",
+                                            "title": "Determines whether the block should be expanded",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 2
                                         },
                                         "iscustom": {
-                                            "description": "Determines if the block has been added by the user",
+                                            "title": "Determines if the block has been added by the user",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "icon": {
-                                            "description": "Block icon class",
+                                            "title": "Block icon class",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string",
                                             "example": "far fa-calendar-alt"
                                         },
                                         "name": {
-                                            "description": "Block name translated into the user's language",
+                                            "title": "Block name translated into the user's language",
+                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string",
                                             "example": "Informacje podstawowe o firmie"
                                         }
@@ -2890,36 +3011,50 @@
                                 }
                             },
                             "inventory": {
-                                "description": "Inventory field group, available depending on the type of module",
+                                "title": "Inventory field group, available depending on the type of module",
+                                "description": "Get data about fields, blocks and inventory.",
                                 "properties": {
                                     "1": {
-                                        "description": "Inventory field list",
+                                        "title": "Inventory field list",
+                                        "description": "Get data about fields, blocks and inventory.",
                                         "type": "object",
                                         "additionalProperties": {
-                                            "description": "Inventory field details",
+                                            "title": "Inventory field details",
+                                            "required": [
+                                                "label",
+                                                "type",
+                                                "columnname",
+                                                "isSummary",
+                                                "isVisibleInDetail"
+                                            ],
                                             "properties": {
                                                 "label": {
-                                                    "description": "Field label translated into the user's language",
+                                                    "title": "Field label translated into the user's language",
+                                                    "description": "Get data about fields, blocks and inventory.",
                                                     "type": "string",
                                                     "example": "Unit price"
                                                 },
                                                 "type": {
-                                                    "description": "Field type",
+                                                    "title": "Field type",
+                                                    "description": "Get data about fields, blocks and inventory.",
                                                     "type": "string",
                                                     "example": "UnitPrice"
                                                 },
                                                 "columnname": {
-                                                    "description": "Field column name in db",
+                                                    "title": "Field column name in db",
+                                                    "description": "Get data about fields, blocks and inventory.",
                                                     "type": "string",
                                                     "example": "price"
                                                 },
                                                 "isSummary": {
-                                                    "description": "Is the field contains summary",
+                                                    "title": "Is the field contains summary",
+                                                    "description": "Get data about fields, blocks and inventory.",
                                                     "type": "boolean",
                                                     "example": false
                                                 },
                                                 "isVisibleInDetail": {
-                                                    "description": "Check if field is visible in detail view",
+                                                    "title": "Check if field is visible in detail view",
+                                                    "description": "Get data about fields, blocks and inventory.",
                                                     "type": "boolean",
                                                     "example": true
                                                 }
@@ -2941,7 +3076,8 @@
                 "description": "Get privileges for module.",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get privileges for module.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -2950,14 +3086,15 @@
                         "example": 1
                     },
                     "result": {
-                        "description": "List of module privileges",
+                        "title": "List of module privileges",
+                        "description": "Get privileges for module.",
                         "type": "object",
                         "example": {
                             "Import": true,
                             "Export": true
                         },
                         "additionalProperties": {
-                            "description": "Action",
+                            "title": "Action",
                             "type": "boolean"
                         }
                     }
@@ -2972,7 +3109,8 @@
                 ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get record detail.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -2981,7 +3119,8 @@
                         "example": 1
                     },
                     "result": {
-                        "description": "Record data",
+                        "title": "Record data",
+                        "description": "Get record detail.",
                         "required": [
                             "name",
                             "id",
@@ -2990,20 +3129,23 @@
                         ],
                         "properties": {
                             "name": {
-                                "description": "Record name",
+                                "title": "Record name",
+                                "description": "Get record detail.",
                                 "type": "string",
                                 "example": "Driving school"
                             },
                             "id": {
-                                "description": "Record Id",
+                                "title": "Record Id",
+                                "description": "Get record detail.",
                                 "type": "integer",
                                 "example": 152
                             },
                             "fields": {
-                                "description": "System field names and field labels",
+                                "title": "System field names and field labels",
+                                "description": "Get record detail.",
                                 "type": "object",
                                 "additionalProperties": {
-                                    "description": "Field label",
+                                    "title": "Field label",
                                     "type": "string",
                                     "example": "Account name"
                                 }
@@ -3012,19 +3154,22 @@
                                 "$ref": "#/components/schemas/Record_Display_Details"
                             },
                             "privileges": {
-                                "description": "Parameters determining checking of editing rights and moving to the trash",
+                                "title": "Parameters determining checking of editing rights and moving to the trash",
+                                "description": "Get record detail.",
                                 "required": [
                                     "isEditable",
                                     "moveToTrash"
                                 ],
                                 "properties": {
                                     "isEditable": {
-                                        "description": "Check if record is editable",
+                                        "title": "Check if record is editable",
+                                        "description": "Get record detail.",
                                         "type": "boolean",
                                         "example": true
                                     },
                                     "moveToTrash": {
-                                        "description": "Permission to delete",
+                                        "title": "Permission to delete",
+                                        "description": "Get record detail.",
                                         "type": "boolean",
                                         "example": false
                                     }
@@ -3032,18 +3177,21 @@
                                 "type": "object"
                             },
                             "inventory": {
-                                "description": "Value inventory data",
+                                "title": "Value inventory data",
+                                "description": "Get record detail.",
                                 "type": "object"
                             },
                             "summaryInventory": {
-                                "description": "Value summary inventory data",
+                                "title": "Value summary inventory data",
+                                "description": "Get record detail.",
                                 "type": "object"
                             },
                             "rawData": {
                                 "$ref": "#/components/schemas/Record_Raw_Details"
                             },
                             "rawInventory": {
-                                "description": "Inventory data",
+                                "title": "Inventory data",
+                                "description": "Get record detail.",
                                 "type": "object"
                             }
                         },
@@ -3061,7 +3209,8 @@
                 ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Delete record.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3069,7 +3218,8 @@
                         ]
                     },
                     "result": {
-                        "description": "Status of successful transfer of the record to the recycle bin",
+                        "title": "Status of successful transfer of the record to the recycle bin",
+                        "description": "Delete record.",
                         "type": "boolean"
                     }
                 },
@@ -3084,7 +3234,8 @@
                 ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Edit record.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3099,12 +3250,14 @@
                         ],
                         "properties": {
                             "id": {
-                                "description": "Id of the newly created record",
+                                "title": "Id of the newly created record",
+                                "description": "Edit record.",
                                 "type": "integer",
                                 "example": 22
                             },
                             "skippedData": {
-                                "description": "List of parameters passed in the request that were skipped in the write process",
+                                "title": "List of parameters passed in the request that were skipped in the write process",
+                                "description": "Edit record.",
                                 "type": "object"
                             }
                         },
@@ -3157,7 +3310,8 @@
                 ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Create record.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3172,12 +3326,14 @@
                         ],
                         "properties": {
                             "id": {
-                                "description": "Id of the newly created record",
+                                "title": "Id of the newly created record",
+                                "description": "Create record.",
                                 "type": "integer",
                                 "example": 22
                             },
                             "skippedData": {
-                                "description": "List of parameters passed in the request that were skipped in the write process",
+                                "title": "List of parameters passed in the request that were skipped in the write process",
+                                "description": "Create record.",
                                 "type": "object"
                             }
                         },
@@ -3191,7 +3347,8 @@
                 "description": "Action module for recent activities in CRM",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get related record list method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3200,81 +3357,97 @@
                         "example": 1
                     },
                     "result": {
-                        "description": "Returns recent activities that took place in CRM",
+                        "title": "Returns recent activities that took place in CRM",
+                        "description": "Get related record list method.",
                         "properties": {
                             "response": {
-                                "description": "Contains what actions have been performed and returns the data that has changed",
+                                "title": "Contains what actions have been performed and returns the data that has changed",
+                                "description": "Get related record list method.",
                                 "type": "object",
                                 "additionalProperties": {
-                                    "description": "Key indicating the number of changes made to a given record",
+                                    "title": "Key indicating the number of changes made to a given record",
                                     "properties": {
                                         "time": {
-                                            "description": "Showing the exact date on which the change took place",
+                                            "title": "Showing the exact date on which the change took place",
+                                            "description": "Get related record list method.",
                                             "type": "string",
                                             "example": "2019-10-07 08:32:38"
                                         },
                                         "owner": {
-                                            "description": "Username of the user who made the change",
+                                            "title": "Username of the user who made the change",
+                                            "description": "Get related record list method.",
                                             "type": "string",
                                             "example": "System Admin"
                                         },
                                         "status": {
-                                            "description": "Name of the action that was carried out",
+                                            "title": "Name of the action that was carried out",
+                                            "description": "Get related record list method.",
                                             "type": "string",
                                             "example": "changed"
                                         },
                                         "rawTime": {
-                                            "description": "Showing the exact date on which the change took place",
+                                            "title": "Showing the exact date on which the change took place",
+                                            "description": "Get related record list method.",
                                             "type": "string",
                                             "example": "2019-10-07 08:32:38"
                                         },
                                         "rawOwner": {
-                                            "description": "User ID of the user who made the change",
+                                            "title": "User ID of the user who made the change",
+                                            "description": "Get related record list method.",
                                             "type": "integer",
                                             "example": 1
                                         },
                                         "rawStatus": {
-                                            "description": "The name of the untranslated label",
+                                            "title": "The name of the untranslated label",
+                                            "description": "Get related record list method.",
                                             "type": "string",
                                             "example": "LBL_UPDATED"
                                         },
                                         "data": {
-                                            "description": "Field system name",
+                                            "title": "Field system name",
+                                            "description": "Get related record list method.",
                                             "type": "object",
                                             "additionalProperties": {
                                                 "properties": {
                                                     "from": {
-                                                        "description": "Value before change, dynamically collected value - the data type depends on the field type",
+                                                        "title": "Value before change, dynamically collected value - the data type depends on the field type",
+                                                        "description": "Get related record list method.",
                                                         "type": "string",
                                                         "example": "Jan Kowalski"
                                                     },
                                                     "to": {
-                                                        "description": "Value after change, dynamically collected value - the data type depends on the field type",
+                                                        "title": "Value after change, dynamically collected value - the data type depends on the field type",
+                                                        "description": "Get related record list method.",
                                                         "type": "string",
                                                         "example": "Jan Nowak"
                                                     },
                                                     "rawFrom": {
-                                                        "description": "Value before change",
+                                                        "title": "Value before change",
+                                                        "description": "Get related record list method.",
                                                         "type": "string",
                                                         "example": "Jan Kowalski"
                                                     },
                                                     "rawTo": {
-                                                        "description": "Value after change",
+                                                        "title": "Value after change",
+                                                        "description": "Get related record list method.",
                                                         "type": "string",
                                                         "example": "Jan Nowak"
                                                     },
                                                     "targetModule": {
-                                                        "description": "The name of the target related module",
+                                                        "title": "The name of the target related module",
+                                                        "description": "Get related record list method.",
                                                         "type": "string",
                                                         "example": "Contacts"
                                                     },
                                                     "targetLabel": {
-                                                        "description": "The label name of the target related module",
+                                                        "title": "The label name of the target related module",
+                                                        "description": "Get related record list method.",
                                                         "type": "string",
                                                         "example": "Jan Kowalski"
                                                     },
                                                     "targetId": {
-                                                        "description": "Id of the target related module",
+                                                        "title": "Id of the target related module",
+                                                        "description": "Get related record list method.",
                                                         "type": "integer",
                                                         "example": 394
                                                     }
@@ -3297,7 +3470,8 @@
                 "description": "Module action related record list response body",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get related record list method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3305,22 +3479,26 @@
                         ]
                     },
                     "result": {
-                        "description": "List of related records",
+                        "title": "List of related records",
+                        "description": "Get related record list method.",
                         "properties": {
                             "headers": {
-                                "description": "Column names",
+                                "title": "Column names",
+                                "description": "Get related record list method.",
                                 "type": "object",
                                 "additionalProperties": {}
                             },
                             "records": {
-                                "description": "Records display details",
+                                "title": "Records display details",
+                                "description": "Get related record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "$ref": "#/components/schemas/Record_Display_Details"
                                 }
                             },
                             "rawData": {
-                                "description": "Records raw details",
+                                "title": "Records raw details",
+                                "description": "Get related record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "$ref": "#/components/schemas/Record_Raw_Details"
@@ -3347,7 +3525,8 @@
                 "description": "Module action record list response body",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get record list method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3400,9 +3579,14 @@
             "Users_Get_AccessActivityHistory_Response": {
                 "title": "Users module - History of access activity data",
                 "description": "Get user history of access activity.",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get user history of access activity.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3411,28 +3595,33 @@
                         "example": 1
                     },
                     "result": {
-                        "description": "User data",
+                        "title": "User data",
+                        "description": "Get user history of access activity.",
                         "type": "object",
                         "additionalProperties": {
-                            "description": "Condition details",
+                            "title": "Condition details",
                             "properties": {
                                 "time": {
-                                    "description": "Date time in user format",
+                                    "title": "Date time in user format",
+                                    "description": "Get user history of access activity.",
                                     "type": "string",
                                     "example": "2021-06-01 11:57"
                                 },
                                 "status": {
-                                    "description": "Operation name",
+                                    "title": "Operation name",
+                                    "description": "Get user history of access activity.",
                                     "type": "string",
                                     "example": "Signed in"
                                 },
                                 "agent": {
-                                    "description": "User agent",
+                                    "title": "User agent",
+                                    "description": "Get user history of access activity.",
                                     "type": "string",
                                     "example": "PostmanRuntime/7.28.0"
                                 },
                                 "ip": {
-                                    "description": "IP address",
+                                    "title": "IP address",
+                                    "description": "Get user history of access activity.",
                                     "type": "string",
                                     "example": "127.0.0.1"
                                 }
@@ -3445,13 +3634,19 @@
             },
             "Users_Put_ChangePassword_Request": {
                 "title": "Users module - Users password change request body",
+                "required": [
+                    "currentPassword",
+                    "newPassword"
+                ],
                 "properties": {
                     "currentPassword": {
-                        "description": "Current password",
+                        "title": "Current password",
+                        "description": "Put method.",
                         "type": "string"
                     },
                     "newPassword": {
-                        "description": "New password",
+                        "title": "New password",
+                        "description": "Put method.",
                         "type": "string"
                     }
                 },
@@ -3460,9 +3655,14 @@
             "Users_Put_ChangePassword_Response": {
                 "title": "Users module - Users password change response body",
                 "description": "Put method.",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Put method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3471,7 +3671,8 @@
                         "example": 1
                     },
                     "result": {
-                        "description": "Password change status",
+                        "title": "Password change status",
+                        "description": "Put method.",
                         "type": "boolean",
                         "example": false
                     }
@@ -3598,7 +3799,8 @@
                 ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Post method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3846,7 +4048,8 @@
                 ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Put method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3866,7 +4069,8 @@
                 "description": "Get user detail.",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get user detail.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3926,7 +4130,8 @@
                 "description": "Module action record list response body",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get users list method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3973,9 +4178,13 @@
             },
             "Users_Post_ResetPassword_Request": {
                 "title": "Users module - Users password reset request body",
+                "required": [
+                    "userName"
+                ],
                 "properties": {
                     "userName": {
-                        "description": "User name / email",
+                        "title": "User name / email",
+                        "description": "Post method.",
                         "type": "string"
                     }
                 },
@@ -3984,9 +4193,14 @@
             "Users_Post_ResetPassword_Response": {
                 "title": "Users module - Users password reset response body",
                 "description": "Post method.",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Post method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3995,7 +4209,8 @@
                         "example": 1
                     },
                     "result": {
-                        "description": "Content of responses from a given method",
+                        "title": "Content of responses from a given method",
+                        "description": "Post method.",
                         "properties": {
                             "expirationDate": {
                                 "description": "Post method.",
@@ -4015,13 +4230,19 @@
             },
             "Users_Put_ResetPassword_Request": {
                 "title": "Users module - Users password reset request body",
+                "required": [
+                    "token",
+                    "password"
+                ],
                 "properties": {
                     "token": {
-                        "description": "A one-time password reset token",
+                        "title": "A one-time password reset token",
+                        "description": "Put method.",
                         "type": "string"
                     },
                     "password": {
-                        "description": "New password",
+                        "title": "New password",
+                        "description": "Put method.",
                         "type": "string"
                     }
                 },
@@ -4030,9 +4251,14 @@
             "Users_Put_ResetPassword_Response": {
                 "title": "Users module - Users password reset response body",
                 "description": "Put method.",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Put method.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4041,7 +4267,8 @@
                         "example": 1
                     },
                     "result": {
-                        "description": "Password reset status",
+                        "title": "Password reset status",
+                        "description": "Put method.",
                         "type": "boolean",
                         "example": false
                     }
@@ -4051,9 +4278,14 @@
             "Users_Get_TwoFactorAuth_Response": {
                 "title": "Users module - Authentication secret details",
                 "description": "Get user history of access activity.",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success, 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success, 0 - error",
+                        "description": "Get user history of access activity.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4062,7 +4294,12 @@
                         "example": 1
                     },
                     "result": {
-                        "description": "Content of responses from a given method",
+                        "title": "Content of responses from a given method",
+                        "description": "Get user history of access activity.",
+                        "required": [
+                            "authMethods",
+                            "secretKey"
+                        ],
                         "properties": {
                             "authMethods": {
                                 "description": "Get user history of access activity.",
@@ -4085,7 +4322,8 @@
                 "description": "Activate two factor authentication response body",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Post method.",
                         "type": "integer",
                         "enum": [
                             0,
