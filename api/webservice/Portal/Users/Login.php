@@ -284,7 +284,7 @@ class Login extends \Api\RestApi\Users\Login
 		if (!empty($parentId)) {
 			$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentId, 'Accounts');
 			$data['companyId'] = $parentId;
-			$data['parentName'] = $parentRecordModel->getName();
+			$data['parentName'] = \App\Purifier::decodeHtml($parentRecordModel->getName());
 			$companyDetails = [];
 			$companyDetails['check_stock_levels'] = (bool) $parentRecordModel->get('check_stock_levels');
 			$companyDetails['sum_open_orders'] = $parentRecordModel->get('sum_open_orders');

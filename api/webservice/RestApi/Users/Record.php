@@ -154,14 +154,14 @@ class Record extends \Api\Core\BaseAction
 		}
 		unset($fieldsLabel['user_password'],$fieldsLabel['confirm_password'],$fieldsLabel['accesskey'],$displayData['user_password'],$displayData['confirm_password'],$displayData['accesskey'],$rawData['user_password'],$rawData['confirm_password'],$rawData['accesskey']);
 		$response = [
-			'name' => $this->recordModel->getName(),
+			'name' => \App\Purifier::decodeHtml($this->recordModel->getName()),
 			'id' => $this->recordModel->getId(),
 			'fields' => $fieldsLabel,
 			'data' => $displayData,
 			'privileges' => [
 				'isEditable' => false,
-				'moveToTrash' => false
-			]
+				'moveToTrash' => false,
+			],
 		];
 		if (1 === (int) $this->controller->headers['x-raw-data'] ?? 0) {
 			$response['rawData'] = $rawData;

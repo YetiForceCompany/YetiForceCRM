@@ -215,7 +215,7 @@ class Record extends \Api\Core\BaseAction
 			$fieldsLabel[$fieldModel->getName()] = \App\Language::translate($fieldModel->get('label'), $moduleName);
 		}
 		$response = [
-			'name' => $this->recordModel->getName(),
+			'name' => \App\Purifier::decodeHtml($this->recordModel->getName()),
 			'id' => $this->recordModel->getId(),
 			'fields' => $fieldsLabel,
 			'data' => $displayData,
