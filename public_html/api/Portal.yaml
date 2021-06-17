@@ -226,10 +226,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseModule_CustomView_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_CustomView_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseModule_CustomView_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_CustomView_Response'
         '401':
           description: '`No sent token`, `Invalid token`, `Token has expired`'
           content:
@@ -292,10 +292,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseModule_CustomViewById_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_CustomViewById_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseModule_CustomViewById_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_CustomViewById_Response'
         '401':
           description: '`No sent token`, `Invalid token`, `Token has expired`'
           content:
@@ -306,7 +306,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
         '403':
-          description: '`No permissions for module or data provided in the request`'
+          description: '`No permissions to view record` OR `No permissions for module or data provided in the request`'
           content:
             application/json:
               schema:
@@ -2287,9 +2287,12 @@ components:
             type: string
             example: Accounts
       type: object
-    BaseModule_CustomView_ResponseBody:
+    BaseModule_Get_CustomView_Response:
       title: 'Base module - Response action - data of custom view list'
       description: 'Module action - Data of custom view list - response body'
+      required:
+        - status
+        - result
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -2303,9 +2306,12 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/BaseModule_CustomViewById_Result'
       type: object
-    BaseModule_CustomViewById_ResponseBody:
+    BaseModule_Get_CustomViewById_Response:
       title: 'Base module - Response action - data of custom view by specific ID'
       description: 'Module action - custom view for specific ID - response body'
+      required:
+        - status
+        - result
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -2319,6 +2325,15 @@ components:
     BaseModule_CustomViewById_Result:
       title: 'Data of custom view by specific ID'
       description: 'Module action - custom view for specific ID - response data'
+      required:
+        - cvid
+        - viewname
+        - entitytype
+        - sequence
+        - description
+        - color
+        - isFeatured
+        - isDefault
       properties:
         cvid:
           description: 'Custom view ID'

@@ -242,12 +242,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_CustomView_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_CustomView_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_CustomView_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_CustomView_Response"
                                 }
                             }
                         }
@@ -343,12 +343,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_CustomViewById_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_CustomViewById_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_CustomViewById_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_CustomViewById_Response"
                                 }
                             }
                         }
@@ -369,7 +369,7 @@
                         }
                     },
                     "403": {
-                        "description": "`No permissions for module or data provided in the request`",
+                        "description": "`No permissions to view record` OR `No permissions for module or data provided in the request`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2454,9 +2454,13 @@
                 },
                 "type": "object"
             },
-            "BaseModule_CustomView_ResponseBody": {
+            "BaseModule_Get_CustomView_Response": {
                 "title": "Base module - Response action - data of custom view list",
                 "description": "Module action - Data of custom view list - response body",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -2476,9 +2480,13 @@
                 },
                 "type": "object"
             },
-            "BaseModule_CustomViewById_ResponseBody": {
+            "BaseModule_Get_CustomViewById_Response": {
                 "title": "Base module - Response action - data of custom view by specific ID",
                 "description": "Module action - custom view for specific ID - response body",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -2497,6 +2505,16 @@
             "BaseModule_CustomViewById_Result": {
                 "title": "Data of custom view by specific ID",
                 "description": "Module action - custom view for specific ID - response data",
+                "required": [
+                    "cvid",
+                    "viewname",
+                    "entitytype",
+                    "sequence",
+                    "description",
+                    "color",
+                    "isFeatured",
+                    "isDefault"
+                ],
                 "properties": {
                     "cvid": {
                         "description": "Custom view ID",

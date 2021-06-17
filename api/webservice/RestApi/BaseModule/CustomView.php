@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\RestApi\BaseModule;
@@ -30,6 +31,7 @@ class CustomView extends \Api\Core\BaseAction
 	/** @var \App\CustomView Custom view instance. */
 	protected $customView;
 
+	/** {@inheritdoc}  */
 	protected function checkPermission(): void
 	{
 		parent::checkPermission();
@@ -47,7 +49,7 @@ class CustomView extends \Api\Core\BaseAction
 	 *
 	 * @return array
 	 *
-	 * @OA\GET(
+	 *	@OA\Get(
 	 *		path="/webservice/RestApi/{moduleName}/CustomView",
 	 *		description="Gets a list of custom view",
 	 *		summary="List of custom view",
@@ -66,8 +68,8 @@ class CustomView extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of custom view",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_CustomView_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_CustomView_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_CustomView_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_CustomView_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
@@ -87,8 +89,8 @@ class CustomView extends \Api\Core\BaseAction
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 * ),
-	 * @OA\GET(
+	 *	),
+	 *	@OA\Get(
 	 *		path="/webservice/RestApi/{moduleName}/CustomView/{cvId}",
 	 *		operationId="Api\RestApi\BaseModule\CustomView::get(cvId)",
 	 *		description="Gets data of custom view",
@@ -116,8 +118,8 @@ class CustomView extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Data of custom view",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_CustomViewById_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_CustomViewById_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_CustomViewById_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_CustomViewById_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
@@ -127,7 +129,7 @@ class CustomView extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
-	 *			description="`No permissions for module or data provided in the request`",
+	 *			description="`No permissions to view record` OR `No permissions for module or data provided in the request`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
@@ -139,38 +141,40 @@ class CustomView extends \Api\Core\BaseAction
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseModule_CustomView_ResponseBody",
+	 *		schema="BaseModule_Get_CustomView_Response",
 	 *		title="Base module - Response action - data of custom view list",
 	 *		description="Module action - Data of custom view list - response body",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
+	 *			type="integer",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={0, 1},
-	 *			type="integer",
 	 *		),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="List of custom view",
 	 *			type="object",
+	 *			description="List of custom view",
 	 *			@OA\AdditionalProperties(type="object", ref="#/components/schemas/BaseModule_CustomViewById_Result"),
 	 * 		),
 	 *	),
 	 * @OA\Schema(
-	 *		schema="BaseModule_CustomViewById_ResponseBody",
+	 *		schema="BaseModule_Get_CustomViewById_Response",
 	 *		title="Base module - Response action - data of custom view by specific ID",
 	 *		description="Module action - custom view for specific ID - response body",
 	 *		type="object",
+	 *		required={"status", "result"},
 	 *		@OA\Property(
 	 *			property="status",
+	 *			type="integer",
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={0, 1},
-	 *			type="integer",
 	 *		),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="Data of custom view",
 	 *			type="object",
+	 *			description="Data of custom view",
 	 *			ref="#/components/schemas/BaseModule_CustomViewById_Result",
 	 * 		),
 	 *	),
@@ -179,54 +183,15 @@ class CustomView extends \Api\Core\BaseAction
 	 *		title="Data of custom view by specific ID",
 	 *		description="Module action - custom view for specific ID - response data",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="cvid",
-	 *			description="Custom view ID",
-	 *			type="integer",
-	 *			example=12
-	 *		),
-	 *		@OA\Property(
-	 *			property="viewname",
-	 *			description="Custom view name",
-	 *			type="string",
-	 *			example="Test 1"
-	 *		),
-	 *		@OA\Property(
-	 *			property="entitytype",
-	 *			description="Module name",
-	 *			type="string",
-	 *			example="Accounts"
-	 *		),
-	 *		@OA\Property(
-	 *			property="sequence",
-	 *			description="Sequence",
-	 *			type="integer",
-	 *			example=1
-	 *		),
-	 *		@OA\Property(
-	 *			property="description",
-	 *			description="Custom view description",
-	 *			type="string",
-	 *			example="Description"
-	 *		),
-	 *		@OA\Property(
-	 *			property="color",
-	 *			description="Color for custom view",
-	 *			type="string",
-	 *			example="#c28306"
-	 *		),
-	 *		@OA\Property(
-	 *			property="isFeatured",
-	 *			description="Custom view is in favorites",
-	 *			type="boolean",
-	 *			example=false
-	 *		),
-	 *		@OA\Property(
-	 *			property="isDefault",
-	 *			description="Custom view is default",
-	 *			type="boolean",
-	 *			example=false
-	 *		),
+	 *		required={"cvid", "viewname", "entitytype", "sequence", "description", "color", "isFeatured", "isDefault"},
+	 *		@OA\Property(property="cvid", type="integer", description="Custom view ID", example=12),
+	 *		@OA\Property(property="viewname", type="string", description="Custom view name", example="Test 1"),
+	 *		@OA\Property(property="entitytype", type="string", description="Module name", example="Accounts"),
+	 *		@OA\Property(property="sequence", type="integer", description="Sequence", example=1),
+	 *		@OA\Property(property="description", type="string", description="Custom view description", example="Description"),
+	 *		@OA\Property(property="color", type="string", description="Color for custom view", example="#c28306"),
+	 *		@OA\Property(property="isFeatured", type="boolean", description="Custom view is in favorites", example=false),
+	 *		@OA\Property(property="isDefault", type="boolean", description="Custom view is default", example=false),
 	 *	),
 	 */
 	public function get(): array
@@ -250,7 +215,6 @@ class CustomView extends \Api\Core\BaseAction
 				$response[$cvId]['isDefault'] = $defaultId === $recordModel->getId();
 			}
 		}
-
 		return $response;
 	}
 }
