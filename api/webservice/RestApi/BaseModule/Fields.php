@@ -80,7 +80,7 @@ class Fields extends \Api\Core\BaseAction
 	 *				property="fields",
 	 *				title="List of all available fields in the module",
 	 *				type="object",
-	 *				required={"name", "label", "type", "mandatory", "defaultvalue", "presence", "quickcreate", "masseditable", "header_field", "maxlengthtext", "maximumlength", "maxwidthcolumn", "tabindex", "fieldtype", "tabindex", "tabindex", "tabindex", "tabindex", "id", "uitype", "isEditable", "isViewable", "isReadOnly", "isEditableReadOnly", "sequence", "fieldparams", "blockId", "helpInfo", "dbStructure", "queryOperators"},
+	 *				required={"name", "label", "type", "mandatory", "defaultvalue", "presence", "quickcreate", "masseditable", "header_field", "maxlengthtext", "maximumlength", "maxwidthcolumn", "tabindex", "fieldtype", "id", "uitype", "isEditable", "isViewable", "isReadOnly", "isEditableReadOnly", "sequence", "fieldparams", "blockId", "helpInfo", "dbStructure", "queryOperators"},
 	 *				@OA\AdditionalProperties(
 	 *					@OA\Property(property="name", type="string", title="Field name", example="subject"),
 	 *					@OA\Property(property="label", type="string", title="Field label translated into the user's language", example="Subject"),
