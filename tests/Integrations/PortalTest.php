@@ -292,7 +292,7 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testRelatedModules(): void
 	{
-		$request = $this->httpClient->get('Accounts/RelatedModules', self::$requestOptions);
+		$request = $this->httpClient->get('Accounts/RelatedModules/' . self::$recordId, self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		static::assertSame(200, $request->getStatusCode(), 'Accounts/RelatedModules/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
