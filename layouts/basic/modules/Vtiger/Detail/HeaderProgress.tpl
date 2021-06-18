@@ -9,8 +9,8 @@
 					data-js="container">
 					{assign var=ARROW_CLASS value="before"}
 					{assign var=ICON_CLASS value="fas fa-check"}
-					{foreach from=$FIELD_MODEL->getUITypeModel()->getProgressHeader($RECORD) key=$PROGRESS_HEADER_LABEL item=$PROGRESS_HEADER_VALUE name=progressHeaderValue}
-						<li class="c-progress__item list-inline-item mx-0 {if $smarty.foreach.progressHeaderValue.first}first{/if} {if $PROGRESS_HEADER_VALUE['isActive']}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $PROGRESS_HEADER_VALUE['isEditable'] && $PROGRESS_HEADER_LABEL !== $RECORD->get($NAME)} u-cursor-pointer js-access{/if}" data-picklist-value="{$PROGRESS_HEADER_LABEL}" data-picklist-label="{\App\Purifier::encodeHtml($PROGRESS_HEADER_LABEL)}" data-js="confirm|click|data">
+					{foreach from=$FIELD_MODEL->getUITypeModel()->getProgressHeader($RECORD) key=$PROGRESS_HEADER_KEY item=$PROGRESS_HEADER_VALUE name=progressHeaderValue}
+						<li class="c-progress__item list-inline-item mx-0 {if $smarty.foreach.progressHeaderValue.first}first{/if} {if $PROGRESS_HEADER_VALUE['isActive']}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $PROGRESS_HEADER_VALUE['isEditable'] && $PROGRESS_HEADER_KEY !== $RECORD->get($NAME)} u-cursor-pointer js-access{/if}" data-picklist-value="{$PROGRESS_HEADER_KEY}" data-picklist-label="{\App\Purifier::encodeHtml($PROGRESS_HEADER_KEY)}" data-js="confirm|click|data">
 							<div class="c-progress__icon__container">
 								<span class="
 							{if $PROGRESS_HEADER_VALUE['isLocked']}
@@ -31,8 +31,8 @@
 										<span class="fas fa-info-circle"></span>
 									</span>
 								{/if}
-								<span class=" js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{{\App\Language::translate($PROGRESS_HEADER_LABEL, $MODULE_NAME)}}" data-js="popover">
-									<span class="c-progress__text">{\App\Language::translate($PROGRESS_HEADER_LABEL, $MODULE_NAME)}</span>
+								<span class=" js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{$PROGRESS_HEADER_VALUE['label']}" data-js="popover">
+									<span class="c-progress__text">{$PROGRESS_HEADER_VALUE['label']}</span>
 								</span>
 							</div>
 						</li>
