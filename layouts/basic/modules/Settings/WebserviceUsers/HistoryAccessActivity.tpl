@@ -22,7 +22,7 @@
 					{foreach key=LISTVIEW_ENTRY_COLUMN_NAME item=LISTVIEW_ENTRY_COLUMN from=$TABLE_COLUMNS}
 						<td class="noWrap {$WIDTHTYPE}">
 							{if !empty($LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME])}
-								{\App\Purifier::encodeHtml($LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME])}
+								{$LISTVIEW_ENTRY[$LISTVIEW_ENTRY_COLUMN_NAME]}
 							{else}
 								--
 							{/if}

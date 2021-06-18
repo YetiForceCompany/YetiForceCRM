@@ -27,22 +27,16 @@ class Settings_WebserviceUsers_HistoryAccessActivity_View extends \App\Controlle
 	/** {@inheritdoc}  */
 	public $showFooter = false;
 
-	/** @var array Columns to show on the list session. */
-	public static $columnsToShow = [
-		'time' => 'FL_LOGIN_TIME',
-		'status' => 'FL_STATUS',
-		'agent' => 'LBL_USER_AGENT',
-		'ip' => 'LBL_IP_ADDRESS',
-	];
-
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$container = $request->getByType('typeApi', 'Alnum');
+		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
+		$moduleInstance->typeApi = $container;
 		$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($request->getInteger('record', ''), $container);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('TABLE_COLUMNS', static::$columnsToShow);
+		$viewer->assign('TABLE_COLUMNS', $moduleInstance->getService()->columnsToShow);
 		$viewer->assign('HISTORY_ACTIVITY_ENTRIES', $recordModel->getUserHistoryAccessActivity($container));
 		$viewer->view('HistoryAccessActivity.tpl', $qualifiedModuleName);
 	}
