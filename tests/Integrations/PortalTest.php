@@ -288,6 +288,21 @@ final class PortalTest extends \Tests\Base
 	}
 
 	/**
+	 * Testing get related modules list.
+	 */
+	public function testRelatedModules(): void
+	{
+		$request = $this->httpClient->get('Accounts/RelatedModules', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Accounts/RelatedModules/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Accounts/RelatedModules/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertTrue(isset($response['result']['base']), 'Accounts/RelatedModules/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertTrue(isset($response['result']['related']), 'Accounts/RelatedModules/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RelatedModules/{recordId}', 'get', 200);
+	}
+
+	/**
 	 * Testing record list.
 	 */
 	public function testRecordList(): void
@@ -497,7 +512,7 @@ final class PortalTest extends \Tests\Base
 	}
 
 	/**
-	 * Testing get Files.
+	 * Testing get access activity history.
 	 */
 	public function testAccessActivityHistory(): void
 	{

@@ -1889,6 +1889,92 @@
                 ]
             }
         },
+        "/webservice/Portal/{moduleName}/RelatedModules/{recordId}": {
+            "get": {
+                "tags": [
+                    "BaseModule"
+                ],
+                "summary": "Related list of modules",
+                "description": "Gets a list of related modules",
+                "operationId": "Api\\Portal\\BaseModule\\RelatedModules::get",
+                "parameters": [
+                    {
+                        "name": "moduleName",
+                        "in": "path",
+                        "description": "Module name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Contacts"
+                    },
+                    {
+                        "name": "recordId",
+                        "in": "path",
+                        "description": "Record id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 116
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of related modules",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_Get_RelatedModules_Response"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_Get_RelatedModules_Response"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "`No permissions to view record`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "`Record doesn't exist` OR `No record id`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/webservice/Portal/{moduleName}/SaveInventory": {
             "post": {
                 "tags": [
@@ -4950,6 +5036,91 @@
                                 "description": "Number of all records, dependent on the header `x-row-count`",
                                 "type": "integer",
                                 "example": 54
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "BaseModule_Get_RelatedModules_Response": {
+                "title": "Base module - Response action related modules list",
+                "description": "Module action related modules list response body",
+                "properties": {
+                    "status": {
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "description": "Get related modules list method.",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "result": {
+                        "title": "List of related records",
+                        "description": "Get related modules list method.",
+                        "properties": {
+                            "base": {
+                                "title": "Base list",
+                                "description": "Get related modules list method.",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "properties": {
+                                        "type": {
+                                            "title": "Type",
+                                            "description": "Get related modules list method.",
+                                            "type": "string",
+                                            "example": "LBL_RECORD_SUMMARY"
+                                        },
+                                        "label": {
+                                            "title": "Translated label",
+                                            "description": "Get related modules list method.",
+                                            "type": "string",
+                                            "example": "Summary"
+                                        },
+                                        "icon": {
+                                            "title": "Icon class",
+                                            "description": "Get related modules list method.",
+                                            "type": "string",
+                                            "example": "far fa-address-card"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "related": {
+                                "title": "Base list",
+                                "description": "Get related modules list method.",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "properties": {
+                                        "relationId": {
+                                            "title": "Relation ID",
+                                            "description": "Get related modules list method.",
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "relatedModuleName": {
+                                            "title": "Related module name",
+                                            "description": "Get related modules list method.",
+                                            "type": "string",
+                                            "example": "Documents"
+                                        },
+                                        "icon": {
+                                            "title": "Icon class",
+                                            "description": "Get related modules list method.",
+                                            "type": "string",
+                                            "example": "far fa-address-card"
+                                        },
+                                        "label": {
+                                            "title": "Translated label",
+                                            "description": "Get related modules list method.",
+                                            "type": "string",
+                                            "example": "Documents"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
                             }
                         },
                         "type": "object"
