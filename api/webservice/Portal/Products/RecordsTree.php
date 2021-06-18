@@ -44,7 +44,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	/**
 	 * Construct.
 	 *
-	 * @OA\GET(
+	 * @OA\Get(
 	 *		path="/webservice/Portal/Products/RecordsTree",
 	 *		summary="Get the list of records",
 	 *		tags={"Products"},

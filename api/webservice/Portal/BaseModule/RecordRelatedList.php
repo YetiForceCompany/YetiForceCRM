@@ -23,7 +23,7 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *
 	 * @return array
 	 *
-	 * @OA\GET(
+	 * @OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}",
 	 *		description="Gets a list of related records",
 	 *		summary="Related list of records",

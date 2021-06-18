@@ -30,7 +30,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *
 	 * @return array
 	 *
-	 * @OA\POST(
+	 * @OA\Post(
 	 *		path="/webservice/ManageConsents/{moduleName}/SendEmail",
 	 *		summary="Send e-mail",
 	 *		tags={"Consents"},

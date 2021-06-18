@@ -30,7 +30,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *
 	 * @return array
 	 *
-	 * @OA\GET(
+	 * @OA\Get(
 	 *		path="/webservice/ManageConsents/Approvals/RecordsList",
 	 *		summary="Gets the list of consents",
 	 *		tags={"Consents"},

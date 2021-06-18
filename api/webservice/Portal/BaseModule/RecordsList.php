@@ -23,7 +23,7 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *
 	 * @return array
 	 *
-	 * @OA\GET(
+	 * @OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/RecordsList",
 	 *		description="Gets a list of records",
 	 *		summary="List of records",

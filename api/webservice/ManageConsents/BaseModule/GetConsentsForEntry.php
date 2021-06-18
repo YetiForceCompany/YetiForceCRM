@@ -30,7 +30,7 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 *
 	 * @return array
 	 *
-	 * @OA\POST(
+	 * @OA\Post(
 	 *		path="/webservice/ManageConsents/{moduleName}/GetConsentsForEntry",
 	 *		summary="Gets the list of consents for specific entry",
 	 *		tags={"Consents"},

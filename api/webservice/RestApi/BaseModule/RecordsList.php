@@ -39,7 +39,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *
 	 * @return array
 	 *
-	 * @OA\GET(
+	 * @OA\Get(
 	 *		path="/webservice/RestApi/{moduleName}/RecordsList",
 	 *		description="Gets a list of records",
 	 *		summary="List of records",

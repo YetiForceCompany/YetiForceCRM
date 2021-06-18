@@ -23,7 +23,7 @@ class RecordsList extends \Api\RestApi\Users\RecordsList
 	 *
 	 * @return array
 	 *
-	 * @OA\GET(
+	 * @OA\Get(
 	 *		path="/webservice/Portal/Users/RecordsList",
 	 *		description="Gets a list of all users",
 	 *		summary="List of users",
