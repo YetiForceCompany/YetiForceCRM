@@ -64,12 +64,7 @@ class Login extends \Api\Core\BaseAction
 	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
 	 *     		),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 * 			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
-	 *      ),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="User details",
@@ -181,13 +176,7 @@ class Login extends \Api\Core\BaseAction
 	 * 		description="Users login response body",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(
-	 *			property="status",
-	 * 			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 			enum={0, 1},
-	 *     	  	type="integer",
-	 * 			example=1
-	 * 		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *     		property="result",
 	 *     	 	description="Content of responses from a given method",
@@ -230,13 +219,7 @@ class Login extends \Api\Core\BaseAction
 	 *		title="General - Error exception",
 	 *		type="object",
 	 *		required={"status", "error"},
-	 *  	@OA\Property(
-	 * 			property="status",
-	 *			description="0 - error",
-	 * 			enum={0},
-	 *			type="integer",
-	 *			example=0
-	 * 		),
+	 *		@OA\Property(property="status", type="integer", enum={0}, title="0 - error", example=0),
 	 *		@OA\Property(
 	 * 			property="error",
 	 *     	 	description="Error  details",

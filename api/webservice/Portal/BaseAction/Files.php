@@ -69,12 +69,7 @@ class Files extends \Api\RestApi\BaseAction\Files
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Files_Request"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Files_Request"),
 	 *	  	),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
-	 *		),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="File content, mediaType is dynamic depending on the type of file being downloaded",

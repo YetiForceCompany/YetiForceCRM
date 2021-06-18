@@ -84,36 +84,10 @@ class Record extends \Api\Core\BaseAction
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
 	 *		operationId="getRecord",
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="recordId",
-	 *			description="Record id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="path",
-	 *			example=116,
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-raw-data",
-	 *			description="Gets raw data",
-	 *			@OA\Schema(type="integer", enum={0, 1}),
-	 *			in="header",
-	 *			example=1,
-	 *			required=false
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
+	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
 	 *		@OA\Parameter(
 	 *			name="x-parent-id",
 	 *			description="Gets parent id",
@@ -145,13 +119,7 @@ class Record extends \Api\Core\BaseAction
 	 *		title="Base module - Response body for Record",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(
-	 *			property="status",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *        	example=1
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="Record data",
@@ -253,28 +221,9 @@ class Record extends \Api\Core\BaseAction
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="recordId",
-	 *			description="Record id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="path",
-	 *			example=116,
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of records moved to the trash",
@@ -288,12 +237,7 @@ class Record extends \Api\Core\BaseAction
 	 *		description="List of records moved to the trash",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(
-	 *			property="status",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 * 			type="integer",
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="Status of successful transfer of the record to the recycle bin",
@@ -326,28 +270,9 @@ class Record extends \Api\Core\BaseAction
 	 *			@OA\JsonContent(ref="#/components/schemas/Record_Edit_Details"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Record_Edit_Details"),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="recordId",
-	 *			description="Record id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="path",
-	 *			example=116,
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 * 			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Contents of the response contains only id",
@@ -362,12 +287,7 @@ class Record extends \Api\Core\BaseAction
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(
-	 *			property="status",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="Gets data for the record",
@@ -424,20 +344,8 @@ class Record extends \Api\Core\BaseAction
 	 *			@OA\JsonContent(ref="#/components/schemas/Record_Edit_Details"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Record_Edit_Details"),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Contents of the response contains only id",
@@ -452,12 +360,7 @@ class Record extends \Api\Core\BaseAction
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(
-	 *			property="status",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="Gets data for the record",

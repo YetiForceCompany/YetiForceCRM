@@ -31,22 +31,8 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="recordId",
-	 *			description="Record id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="path",
-	 *			example=116,
-	 *			required=true
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
 	 *		@OA\Parameter(
 	 *			name="relatedModuleName",
 	 *			description="Related module name",
@@ -71,30 +57,9 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *			@OA\Schema(type="integer"),
 	 *			style="form"
 	 *     ),
-	 *		@OA\Parameter(
-	 *			name="x-raw-data",
-	 *			description="Get rows limit, default: 0",
-	 *			@OA\Schema(type="integer", enum={0, 1}),
-	 *			in="header",
-	 *			example=1,
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-limit",
-	 *			description="Get rows limit, default: 1000",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=1000,
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-offset",
-	 *			description="Offset, default: 0",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=0,
-	 *			required=false
-	 *		),
+	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
+	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 1000", required=false, example=1000),
+	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
 	 *		@OA\Parameter(
 	 *			name="x-fields",
 	 *			description="JSON array in the list of fields to be returned in response",
@@ -148,12 +113,7 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *		title="Base module - Response action related record list",
 	 *		description="Module action related record list response body",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="List of related records",

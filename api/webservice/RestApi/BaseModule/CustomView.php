@@ -57,14 +57,7 @@ class CustomView extends \Api\Core\BaseAction
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of custom view",
@@ -99,14 +92,7 @@ class CustomView extends \Api\Core\BaseAction
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 * 		@OA\Parameter(
 	 *			name="cvId",
 	 *			description="Custom view ID",
@@ -146,12 +132,7 @@ class CustomView extends \Api\Core\BaseAction
 	 *		description="Module action - Data of custom view list - response body",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(
-	 *			property="status",
-	 *			type="integer",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			type="object",
@@ -165,12 +146,7 @@ class CustomView extends \Api\Core\BaseAction
 	 *		description="Module action - custom view for specific ID - response body",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(
-	 *			property="status",
-	 *			type="integer",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			type="object",

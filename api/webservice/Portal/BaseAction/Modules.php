@@ -32,12 +32,7 @@ class Modules extends \Api\RestApi\BaseAction\Modules
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
-	 *		),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of permitted modules",
@@ -62,13 +57,7 @@ class Modules extends \Api\RestApi\BaseAction\Modules
 	 *		title="Base action - List of permitted modules",
 	 *		description="List of available modules",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 * 			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 			enum={0, 1},
-	 *     	  	type="integer",
-	 * 			example=1
-	 * 		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="List of permitted modules",

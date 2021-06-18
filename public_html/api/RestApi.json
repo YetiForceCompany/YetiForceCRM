@@ -1053,7 +1053,7 @@
                     {
                         "name": "x-raw-data",
                         "in": "header",
-                        "description": "Get rows limit, default: 0",
+                        "description": "Gets raw data",
                         "required": false,
                         "schema": {
                             "type": "integer",
@@ -1222,7 +1222,7 @@
                     {
                         "name": "x-raw-data",
                         "in": "header",
-                        "description": "Get rows limit, default: 0",
+                        "description": "Gets raw data",
                         "required": false,
                         "schema": {
                             "type": "integer",
@@ -1241,7 +1241,7 @@
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 100
+                        "example": 1000
                     },
                     {
                         "name": "x-row-offset",
@@ -1832,7 +1832,7 @@
                     {
                         "name": "x-raw-data",
                         "in": "header",
-                        "description": "Get rows limit, default: 0",
+                        "description": "Gets raw data",
                         "required": false,
                         "schema": {
                             "type": "integer",
@@ -2440,8 +2440,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "description": "List of permitted modules",
@@ -2577,8 +2576,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "title": "Fields parameters",
@@ -3078,8 +3076,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "title": "List of module privileges",
@@ -3111,8 +3108,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "title": "Record data",
@@ -3349,8 +3345,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "title": "Returns recent activities that took place in CRM",
@@ -3587,8 +3582,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "title": "User data",
@@ -3663,8 +3657,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "title": "Password change status",
@@ -3801,8 +3794,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "description": "Content of responses from a given method",
@@ -3986,7 +3978,8 @@
                 ],
                 "properties": {
                     "status": {
-                        "description": "0 - error",
+                        "title": "0 - error",
+                        "description": "Post method.",
                         "type": "integer",
                         "enum": [
                             0
@@ -4050,8 +4043,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "description": "Content of responses from a given method",
@@ -4071,8 +4063,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "description": "User data",
@@ -4201,8 +4192,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "title": "Content of responses from a given method",
@@ -4259,8 +4249,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "title": "Password reset status",
@@ -4280,14 +4269,13 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success, 0 - error",
+                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "description": "Get user history of access activity.",
                         "type": "integer",
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "title": "Content of responses from a given method",
@@ -4324,8 +4312,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "description": "Content of responses from a given method",

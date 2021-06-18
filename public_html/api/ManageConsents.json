@@ -100,22 +100,20 @@
                     {
                         "name": "x-row-limit",
                         "in": "header",
-                        "description": "Limit",
+                        "description": "Get rows limit, default: 1000",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "integer"
                         },
-                        "example": 0
+                        "example": 1000
                     },
                     {
                         "name": "x-row-offset",
                         "in": "header",
-                        "description": "Offset",
+                        "description": "Offset, default: 0",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "integer"
                         },
                         "example": 0
                     },
@@ -126,7 +124,10 @@
                         "required": false,
                         "schema": {
                             "type": "integer",
-                            "format": "int64"
+                            "enum": [
+                                0,
+                                1
+                            ]
                         },
                         "example": 1
                     },
@@ -388,8 +389,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "description": "Result of adding entry",
@@ -431,8 +431,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "description": "Specific response",
@@ -639,8 +638,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "description": "Specific response",
@@ -690,8 +688,7 @@
                         "enum": [
                             0,
                             1
-                        ],
-                        "example": 1
+                        ]
                     },
                     "result": {
                         "description": "Added mail to quote for send: true - success , false - fail",

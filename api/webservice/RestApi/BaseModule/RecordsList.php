@@ -47,38 +47,10 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-raw-data",
-	 *			description="Get rows limit, default: 0",
-	 *			@OA\Schema(type="integer", enum={0, 1}),
-	 *			in="header",
-	 *			example=1,
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-limit",
-	 *			description="Get rows limit, default: 1000",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=100,
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-offset",
-	 *			description="Offset, default: 0",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=0,
-	 *			required=false
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
+	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 1000", required=false, example=1000),
+	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
 	 *		@OA\Parameter(
 	 *			name="x-row-order-field",
 	 *			description="Sets the ORDER BY part of the query record list",
@@ -172,12 +144,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		title="Base module - Response action record list",
 	 *		description="Module action record list response body",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="List of records",

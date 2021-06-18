@@ -50,16 +50,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *         		@OA\Schema(ref="#/components/schemas/SendEmailRequestBody")
 	 *     		),
 	 *		),
-	 *		@OA\Parameter(
-	 *				name="moduleName",
-	 *  		 	description="Module name",
-	 *  		 	@OA\Schema(
-	 *  		  		type="string"
-	 *  		 ),
-	 *  		 in="path",
-	 * 			 example="Contacts",
-	 *  		 required=true
-	 * 		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Response(
 	 *				response=200,
 	 *				description="Status of adding an email to the queue",
@@ -101,13 +92,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *		schema="SendEmailResponseBody",
 	 *		title="Response body for SendEmail",
 	 *		type="object",
-	 *		@OA\Property(
-	 *				property="status",
-	 *				title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *				enum={0, 1},
-	 *				type="integer",
-	 *        example=1
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *				property="result",
 	 *				description="Added mail to quote for send: true - success , false - fail",
@@ -141,7 +126,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 			'moduleName' => $moduleName,
 			'template' => $templateId,
 			'to' => $email,
-			'recordId' => $recordId
+			'recordId' => $recordId,
 		]);
 	}
 }

@@ -39,20 +39,8 @@ class Record extends \Api\RestApi\Users\Record
 	 *			example=116,
 	 *			required=true
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-raw-data",
-	 *			description="Gets raw data",
-	 *			@OA\Schema(type="integer", enum={0, 1}),
-	 *			in="header",
-	 *			example=1,
-	 *			required=false
-	 *		),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
+	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Gets data for the user",
@@ -76,13 +64,7 @@ class Record extends \Api\RestApi\Users\Record
 	 *		schema="Users_Get_Record_Response",
 	 *		title="Users module - Response body for user",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *        	example=1
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="User data",

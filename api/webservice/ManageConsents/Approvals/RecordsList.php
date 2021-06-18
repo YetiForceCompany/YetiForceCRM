@@ -37,39 +37,9 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\Parameter(
-	 *			name="x-row-limit",
-	 *			description="Limit",
-	 *			@OA\Schema(
-	 *				type="integer",
-	 *				format="int64",
-	 *			),
-	 *			in="header",
-	 *			example=0,
-	 *			required=false
-	 * 		),
-	 *		@OA\Parameter(
-	 *		  	name="x-row-offset",
-	 * 		  	description="Offset",
-	 * 		  	@OA\Schema(
-	 * 		    	type="integer",
-	 * 		    	format="int64",
-	 * 		  	),
-	 *			in="header",
-	 *			example=0,
-	 *			required=false
-	 * 		),
-	 *		@OA\Parameter(
-	 *		   	name="x-raw-data",
-	 * 		  	description="Gets raw data",
-	 * 		  	@OA\Schema(
-	 * 		    	type="integer",
-	 * 		    	format="int64",
-	 * 		  	),
-	 *			in="header",
-	 *			example=1,
-	 *			required=false
-	 * 		),
+	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 1000", required=false, example=1000),
+	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
+	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
 	 *		@OA\Parameter(
 	 *		   	name="x-condition",
 	 * 		  	description="Add conditions [Json format]",
@@ -134,13 +104,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *		title="List of consents",
 	 *		description="List of obtained consents",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *			example=1
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *				property="result",
 	 *				description="Specific response",

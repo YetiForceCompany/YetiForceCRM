@@ -684,6 +684,13 @@ paths:
           required: false
           schema:
             type: integer
+        -
+          name: x-header-fields
+          in: header
+          description: 'Get header fields'
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: 'Gets data for the record'
@@ -1017,7 +1024,7 @@ paths:
         -
           name: x-raw-data
           in: header
-          description: 'Get rows limit, default: 0'
+          description: 'Gets raw data'
           required: false
           schema:
             type: integer
@@ -1131,7 +1138,7 @@ paths:
         -
           name: x-raw-data
           in: header
-          description: 'Get rows limit, default: 0'
+          description: 'Gets raw data'
           required: false
           schema:
             type: integer
@@ -1146,7 +1153,7 @@ paths:
           required: false
           schema:
             type: integer
-          example: 100
+          example: 1000
         -
           name: x-row-offset
           in: header
@@ -1431,7 +1438,7 @@ paths:
         -
           name: x-raw-data
           in: header
-          description: 'Get rows limit, default: 0'
+          description: 'Gets raw data'
           required: false
           schema:
             type: integer
@@ -1823,7 +1830,7 @@ paths:
         -
           name: x-raw-data
           in: header
-          description: 'Get rows limit, default: 0'
+          description: 'Gets raw data'
           required: false
           schema:
             type: integer
@@ -2242,7 +2249,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           description: 'Menu items selected in the system, consists of parents and children'
           properties:
@@ -2281,7 +2287,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           description: 'List of permitted modules'
           type: object
@@ -2384,7 +2389,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           description: 'Tabs and widgets data'
           properties:
@@ -2425,7 +2429,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: 'Fields parameters'
           description: 'Get data about fields, blocks and inventory.'
@@ -2563,7 +2566,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           description: Records
           type: object
@@ -2595,7 +2597,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: Pdf
           description: 'Get method - Generate PDF.'
@@ -2624,7 +2625,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: 'Pdf templates'
           description: 'Get method - Get PDF templates list.'
@@ -2662,7 +2662,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: 'List of module privileges'
           description: 'Get privileges for module.'
@@ -2687,7 +2686,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: 'Record data'
           description: 'Get record detail.'
@@ -2892,7 +2890,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: 'Returns recent activities that took place in CRM'
           description: 'Get related record list method.'
@@ -3008,7 +3005,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           description: 'Create result'
           type: object
@@ -3048,7 +3044,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           description: 'Record data'
           properties:
@@ -3162,7 +3157,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: 'User data'
           description: 'Get user history of access activity.'
@@ -3221,7 +3215,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: 'Password change status'
           description: 'Put method.'
@@ -3342,7 +3335,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           description: 'Content of responses from a given method'
           required:
@@ -3584,7 +3576,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           description: 'Content of responses from a given method'
           type: boolean
@@ -3600,7 +3591,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           description: 'User data'
           properties:
@@ -3703,7 +3693,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: 'Content of responses from a given method'
           description: 'Post method.'
@@ -3753,7 +3742,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: 'Password reset status'
           description: 'Put method.'
@@ -3768,13 +3756,12 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success, 0 - error'
+          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           description: 'Get user history of access activity.'
           type: integer
           enum:
             - 0
             - 1
-          example: 1
         result:
           title: 'Content of responses from a given method'
           description: 'Get user history of access activity.'
@@ -3803,7 +3790,6 @@ components:
           enum:
             - 0
             - 1
-          example: 1
         result:
           description: 'Content of responses from a given method'
           type: string

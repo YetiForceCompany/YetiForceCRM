@@ -56,38 +56,10 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="recordId",
-	 *			description="Record id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="path",
-	 *			example=116,
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-limit",
-	 *			description="Get rows limit, default: 1000",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=1000,
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-offset",
-	 *			description="Offset, default: 0",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=0,
-	 *			required=false
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
+	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 1000", required=false, example=1000),
+	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
 	 *		@OA\Parameter(
 	 *			name="x-start-with",
 	 *			description="Show history from given ID",
@@ -96,20 +68,8 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *			example=5972,
 	 *			required=false
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-raw-data",
-	 *			description="Gets raw data",
-	 *			@OA\Schema(type="integer", enum={0, 1}),
-	 *			in="header",
-	 *			example=1,
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
-	 *		),
+	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Recent activities detail",
@@ -134,13 +94,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *		title="Base module - Response action history record",
 	 *		description="Action module for recent activities in CRM",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *			example=1
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="Returns recent activities that took place in CRM",

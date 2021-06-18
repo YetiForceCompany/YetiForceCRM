@@ -35,28 +35,9 @@ class AccessActivityHistory extends \Api\RestApi\Users\AccessActivityHistory
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *		},
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/Header-Encrypted")
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-limit",
-	 *			description="Get rows limit, default: 50",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=1000,
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-offset",
-	 *			description="Offset, default: 0",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=0,
-	 *			required=false
-	 *		),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
+	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 50", required=false, example=1000),
+	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
 	 *		@OA\Parameter(
 	 *			name="x-condition",
 	 * 			description="Conditions [Json format]",
@@ -76,13 +57,7 @@ class AccessActivityHistory extends \Api\RestApi\Users\AccessActivityHistory
 	 *		title="Users module - History of access activity data",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(
-	 *			property="status",
-	 *			title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *        	example=1
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="User data",
