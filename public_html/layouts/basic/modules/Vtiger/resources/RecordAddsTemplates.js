@@ -44,7 +44,11 @@ $.Class(
 										text: response.message ? response.message : app.vtranslate('JS_SAVE_NOTIFY_OK'),
 										type: 'success'
 									});
-									window.location.reload();
+									if (response.url) {
+										window.location.href = response.url;
+									} else {
+										window.location.reload();
+									}
 								} else {
 									app.showNotify({
 										text: response.message ? response.message : app.vtranslate('JS_ERROR'),
