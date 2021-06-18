@@ -5070,7 +5070,7 @@
                                             "title": "Type",
                                             "description": "Get related modules list method.",
                                             "type": "string",
-                                            "example": "LBL_RECORD_SUMMARY"
+                                            "example": "Summary"
                                         },
                                         "label": {
                                             "title": "Translated label",

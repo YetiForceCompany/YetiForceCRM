@@ -132,20 +132,12 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *					title="Value header fields",
 	 * 					type="object",
 	 *					@OA\AdditionalProperties(
-	 *						type="object",
-	 *						title="Header field details",
+	 *						type="object", title="Header field details",
 	 *						required={"type", "label", "value"},
 	 *						@OA\Property(property="type", type="string", title="Header field type", example="value"),
 	 *						@OA\Property(property="label", type="string", title="Translated field label", example="Assigned To"),
 	 *						@OA\Property(property="class", type="string", title="Class name", example="badge-info"),
-	 *						@OA\Property(property="value", title="Data in API format",
-	 *							oneOf={
-	 *								@OA\Schema(type="object"),
-	 *								@OA\Schema(type="string"),
-	 *								@OA\Schema(type="number"),
-	 *								@OA\Schema(type="integer"),
-	 *							}
-	 *						),
+	 *						@OA\Property(property="value", title="Data in API format", oneOf={@OA\Schema(type="object"), @OA\Schema(type="string"), @OA\Schema(type="number"), @OA\Schema(type="integer")}),
 	 *					),
 	 *				),
 	 *				@OA\Property(
@@ -153,20 +145,12 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *					title="Highlights header fields",
 	 * 					type="object",
 	 *					@OA\AdditionalProperties(
-	 *						type="object",
-	 *						title="Header field details",
+	 *						type="object", title="Header field details",
 	 *						required={"type", "label", "value"},
 	 *						@OA\Property(property="type", type="string", title="Header field type", example="value"),
 	 *						@OA\Property(property="label", type="string", title="Translated field label", example="Assigned To"),
 	 *						@OA\Property(property="class", type="string", title="Class name", example="badge-info"),
-	 *						@OA\Property(property="value", title="Data in API format",
-	 *							oneOf={
-	 *								@OA\Schema(type="object"),
-	 *								@OA\Schema(type="string"),
-	 *								@OA\Schema(type="number"),
-	 *								@OA\Schema(type="integer"),
-	 *							}
-	 *						),
+	 *						@OA\Property(property="value", title="Data in API format", oneOf={@OA\Schema(type="object"), @OA\Schema(type="string"), @OA\Schema(type="number"), @OA\Schema(type="integer")}),
 	 *					),
 	 *				),
 	 *			),

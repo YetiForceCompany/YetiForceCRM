@@ -79,7 +79,7 @@ class RelatedModules extends \Api\Core\BaseAction
 	 *		@OA\Property(property="result", type="object", title="List of related records",
 	 *			@OA\Property(property="base", type="object", title="Base list",
 	 *				@OA\AdditionalProperties(type="object",
-	 * 					@OA\Property(property="type", type="string", title="Type", example="LBL_RECORD_SUMMARY"),
+	 * 					@OA\Property(property="type", type="string", title="Type", example="Summary"),
 	 * 					@OA\Property(property="label", type="string", title="Translated label", example="Summary"),
 	 * 					@OA\Property(property="icon", type="string", title="Icon class", example="far fa-address-card"),
 	 * 				),
@@ -98,11 +98,12 @@ class RelatedModules extends \Api\Core\BaseAction
 	public function get(): array
 	{
 		$moduleName = $this->controller->request->getModule();
+		$allowed = ['LBL_RECORD_SUMMARY' => 'Summary', 'LBL_RECORD_DETAILS' => 'Details', 'ModComments' => 'Comments', 'LBL_UPDATES' => 'Updates'];
 		$return = [];
 		foreach ($this->recordView->getDetailViewRelatedLinks() as $link) {
-			if ('DETAILVIEWTAB' === $link['linktype']) {
+			if ('DETAILVIEWTAB' === $link['linktype'] && isset($allowed[$link['linklabel']])) {
 				$return['base'][] = [
-					'type' => $link['linkKey'] ?? $link['related'] ?? $link['linklabel'],
+					'type' => $allowed[$link['linklabel']],
 					'label' => \App\Language::translate($link['linklabel'], $moduleName),
 					'icon' => $link['linkicon'] ?? '',
 				];

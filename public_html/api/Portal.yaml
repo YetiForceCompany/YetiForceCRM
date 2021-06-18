@@ -3073,7 +3073,7 @@ components:
               type: object
               additionalProperties:
                 properties:
-                  type: { title: Type, description: 'Get related modules list method.', type: string, example: LBL_RECORD_SUMMARY }
+                  type: { title: Type, description: 'Get related modules list method.', type: string, example: Summary }
                   label: { title: 'Translated label', description: 'Get related modules list method.', type: string, example: Summary }
                   icon: { title: 'Icon class', description: 'Get related modules list method.', type: string, example: 'far fa-address-card' }
                 type: object
