@@ -79,6 +79,7 @@ final class PortalTest extends \Tests\Base
 			'http_errors' => false,
 			'headers' => [
 				'x-raw-data' => 1,
+				'x-header-fields' => 1,
 			],
 		]));
 	}
@@ -315,13 +316,13 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testGetFields(): void
 	{
-		$request = $this->httpClient->get('Accounts/Fields/', self::$requestOptions);
+		$request = $this->httpClient->get('SQuotes/Fields/', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertTrue(!empty($response['result']['fields']), 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertTrue(!empty($response['result']['blocks']), 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(200, $request->getStatusCode(), 'SQuotes/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'SQuotes/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertTrue(!empty($response['result']['fields']), 'SQuotes/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertTrue(!empty($response['result']['blocks']), 'SQuotes/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Fields', 'get', 200);
 	}
 
