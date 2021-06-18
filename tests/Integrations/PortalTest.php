@@ -393,6 +393,30 @@ final class PortalTest extends \Tests\Base
 	}
 
 	/**
+	 * Tests for custom view api method.
+	 */
+	public function testCustomView(): void
+	{
+		$request = $this->httpClient->get('Accounts/CustomView', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertNotEmpty($response['result'], 'Result should not be empty' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/CustomView', 'get', 200);
+
+		$cvId = key($response['result']);
+		$request = $this->httpClient->get('Accounts/CustomView/' . $cvId, self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertNotEmpty($response['result'], 'Result should not be empty' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame($cvId, $response['result']['cvid'], 'Result should the same' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/CustomView/{cvId}', 'get', 200);
+	}
+
+	/**
 	 * Testing get api Install.
 	 */
 	public function testGetInstall(): void
