@@ -28,9 +28,7 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *		description="Gets a list of related records",
 	 *		summary="Related list of records",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
 	 *		@OA\Parameter(

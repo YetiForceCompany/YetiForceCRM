@@ -32,9 +32,7 @@ class Fields extends \Api\Core\BaseAction
 	 *		description="Returns information about fields, blocks and inventory based on the selected module",
 	 *		summary="Get data about fields, blocks and inventory",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(

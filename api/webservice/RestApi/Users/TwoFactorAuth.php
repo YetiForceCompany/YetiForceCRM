@@ -37,9 +37,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 	 *		path="/webservice/RestApi/Users/TwoFactorAuth",
 	 *		summary="Get two factor authentication details",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
@@ -108,9 +106,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 	 *		path="/webservice/RestApi/Users/TwoFactorAuth",
 	 *		summary="Activate two factor authentication",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
@@ -183,9 +179,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 	 *		path="/webservice/RestApi/Users/TwoFactorAuth",
 	 *		summary="Disable two factor authentication",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,

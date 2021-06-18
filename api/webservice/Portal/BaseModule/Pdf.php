@@ -51,9 +51,7 @@ class Pdf extends \Api\Core\BaseAction
 	 *		path="/webservice/Portal/{moduleName}/Pdf/{recordId}",
 	 *		summary="Generate PDF",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),
 	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
 	 *		@OA\Parameter(

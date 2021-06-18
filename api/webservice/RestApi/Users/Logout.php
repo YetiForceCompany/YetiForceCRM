@@ -37,9 +37,7 @@ class Logout extends \Api\Core\BaseAction
 	 *		description="Logout user out the system",
 	 *		summary="Logout user",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,

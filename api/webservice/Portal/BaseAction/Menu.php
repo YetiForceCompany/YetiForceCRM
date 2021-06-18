@@ -31,9 +31,7 @@ class Menu extends \Api\Core\BaseAction
 	 *		path="/webservice/Portal/Menu",
 	 *		summary="Get menu into the system",
 	 *		tags={"BaseAction"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,

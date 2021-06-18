@@ -31,9 +31,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		description="Gets the details of a record",
 	 *		summary="Data for the record",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		operationId="getRecord",
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
@@ -215,9 +213,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		description="Changes the state of a record, moving it to the trash",
 	 *		summary="Delete record",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
@@ -257,9 +253,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		description="Retrieves data for editing a record",
 	 *		summary="Edit record",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *			required=true,
 	 *			description="Contents of the request contains an associative array with the data record.",
@@ -331,9 +325,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		description="Gets data to save record",
 	 *		summary="Create record",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *			required=true,
 	 *			description="Contents of the request contains an associative array with the data record.",

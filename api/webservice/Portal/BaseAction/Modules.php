@@ -29,9 +29,7 @@ class Modules extends \Api\RestApi\BaseAction\Modules
 	 *		description="Get the permitted module list action, along with their translated action",
 	 *		summary="The allowed actions of the module list",
 	 *		tags={"BaseAction"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,

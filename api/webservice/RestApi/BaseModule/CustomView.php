@@ -54,9 +54,7 @@ class CustomView extends \Api\Core\BaseAction
 	 *		description="Gets a list of custom view",
 	 *		summary="List of custom view",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Response(
 	 *			response=200,
@@ -89,9 +87,7 @@ class CustomView extends \Api\Core\BaseAction
 	 *		description="Gets data of custom view",
 	 *		summary="Data of custom view",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 * 		@OA\Parameter(
 	 *			name="cvId",

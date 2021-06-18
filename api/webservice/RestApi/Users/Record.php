@@ -53,9 +53,7 @@ class Record extends \Api\Core\BaseAction
 	 *		description="Gets details about the user",
 	 *		summary="Data for the user",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(
 	 *			name="userId",
 	 *			description="User id",

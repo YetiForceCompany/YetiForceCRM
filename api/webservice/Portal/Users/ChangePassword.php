@@ -36,9 +36,7 @@ class ChangePassword extends \Api\RestApi\Users\ChangePassword
 	 *		description="User password change",
 	 *		summary="User password change",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data",
