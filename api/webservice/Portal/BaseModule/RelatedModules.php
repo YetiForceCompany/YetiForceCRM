@@ -98,7 +98,7 @@ class RelatedModules extends \Api\Core\BaseAction
 	public function get(): array
 	{
 		$moduleName = $this->controller->request->getModule();
-		$allowed = ['LBL_RECORD_SUMMARY' => 'Summary', 'LBL_RECORD_DETAILS' => 'Details', 'ModComments' => 'Comments', 'LBL_UPDATES' => 'Updates'];
+		$allowed = ['LBL_RECORD_SUMMARY' => 'summary', 'LBL_RECORD_DETAILS' => 'details', 'ModComments' => 'comments', 'LBL_UPDATES' => 'updates'];
 		$return = [];
 		foreach ($this->recordView->getDetailViewRelatedLinks() as $link) {
 			if ('DETAILVIEWTAB' === $link['linktype'] && isset($allowed[$link['linklabel']])) {
