@@ -76,7 +76,6 @@ class Iban
 					if ($valueForPayerId && \strlen($valueForPayerId) !== $payerCharactersAmount) {
 						return $this->addLeadingZeros($payerCharactersAmount, $valueForPayerId);
 					}
-					return $valueForPayerId;
 				}
 			}
 		}
