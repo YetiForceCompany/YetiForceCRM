@@ -127,4 +127,21 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 	{
 		return 'RelatedModuleConfig';
 	}
+
+	/** {@inheritdoc} */
+	public function getApiData(array $row): array
+	{
+		$data = $this->Data;
+		$relModuleName = is_numeric($this->Data['relatedmodule']) ? App\Module::getModuleName($this->Data['relatedmodule']) : $this->Data['relatedmodule'];
+		$data['relatedModuleName'] = $relModuleName;
+		foreach ($data['relatedfields'] as &$fieldName) {
+			$fieldName = explode('::', $fieldName)[1];
+		}
+		$row['name'] = \App\Language::translate($row['label'] ?: $relModuleName, $relModuleName, false, false);
+		$row['data'] = $data;
+		if (!\App\Privilege::isPermitted($row['data']['relatedModuleName'])) {
+			$row = [];
+		}
+		return $row;
+	}
 }
