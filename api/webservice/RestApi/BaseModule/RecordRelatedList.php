@@ -87,35 +87,17 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
 	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 1000", required=false, example=1000),
 	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
-	 *		@OA\Parameter(
-	 *			name="x-fields",
-	 *			description="JSON array in the list of fields to be returned in response",
-	 *			in="header",
-	 *			required=false,
-	 *			@OA\JsonContent(
-	 *				type="array",
-	 * 				@OA\Items(type="string"),
-	 * 			)
+	 *		@OA\Parameter(name="x-fields", in="header", description="JSON array in the list of fields to be returned in response", required=false,
+	 *			@OA\JsonContent(type="array", @OA\Items(type="string"))
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-condition",
-	 * 			description="Conditions [Json format]",
-	 *			in="header",
-	 *			required=false,
+	 *		@OA\Parameter(name="x-condition", in="header", description="Conditions [Json format]", required=false,
 	 *			@OA\JsonContent(ref="#/components/schemas/Conditions-Mix-For-Query-Generator"),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-order-by",
-	 * 			description="Set the sorted results by columns [Json format]",
-	 *			in="header",
-	 *			required=false,
-	 * 			@OA\JsonContent(
-	 * 				type="object",
-	 * 				title="Sort conditions",
-	 * 				description="Multiple or one condition for a query generator",
-	 * 				@OA\Property(property="field_name_1", description="Field name", type="string", example="ASC"),
-	 *				@OA\Property(property="field_name_2", description="Search value", type="string", example="DESC")
-	 * 			)
+	 *		@OA\Parameter(name="x-order-by", in="header", description="Set the sorted results by columns [Json format]", required=false,
+	 * 			@OA\JsonContent(type="object", title="Sort conditions", description="Multiple or one condition for a query generator",
+	 * 				example={"field_name_1" : "ASC", "field_name_2" : "DESC"},
+	 * 				@OA\AdditionalProperties(type="string", title="Sort Direction", enum={"ASC", "DESC"}),
+	 * 			),
 	 *		),
 	 *		@OA\Response(
 	 *			response=200,

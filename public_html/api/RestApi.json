@@ -1123,19 +1123,19 @@
                                 "schema": {
                                     "title": "Sort conditions",
                                     "description": "Multiple or one condition for a query generator",
-                                    "properties": {
-                                        "field_name_1": {
-                                            "description": "Field name",
-                                            "type": "string",
-                                            "example": "ASC"
-                                        },
-                                        "field_name_2": {
-                                            "description": "Search value",
-                                            "type": "string",
-                                            "example": "DESC"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "title": "Sort Direction",
+                                        "type": "string",
+                                        "enum": [
+                                            "ASC",
+                                            "DESC"
+                                        ]
+                                    }
+                                },
+                                "example": {
+                                    "field_name_1": "ASC",
+                                    "field_name_2": "DESC"
                                 }
                             }
                         }
