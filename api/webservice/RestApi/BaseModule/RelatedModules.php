@@ -1,6 +1,6 @@
 <?php
 /**
- * Portal container - Get related modules file.
+ * RestApi container - Get related modules file.
  *
  * @package API
  *
@@ -9,22 +9,45 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Api\Portal\BaseModule;
+namespace Api\RestApi\BaseModule;
 
 use OpenApi\Annotations as OA;
 
 /**
- * Portal container - Get related modules class.
+ * RestApi container - Get related modules class.
  */
-class RelatedModules extends \Api\RestApi\BaseModule\RelatedModules
+class RelatedModules extends \Api\Core\BaseAction
 {
+	/** {@inheritdoc}  */
+	public $allowedMethod = ['GET'];
+
+	/** @var \Vtiger_DetailView_Model Record view model instance. */
+	public $recordView;
+
+	/** {@inheritdoc}  */
+	protected function checkPermission(): void
+	{
+		parent::checkPermission();
+		if ($this->controller->request->isEmpty('record')) {
+			throw new \Api\Core\Exception('No record id', 404);
+		}
+		$moduleName = $this->controller->request->getModule();
+		if (!\App\Record::isExists($this->controller->request->getInteger('record'), $moduleName)) {
+			throw new \Api\Core\Exception('Record doesn\'t exist', 404);
+		}
+		$this->recordView = \Vtiger_DetailView_Model::getInstance($moduleName, $this->controller->request->getInteger('record'));
+		if (!$this->recordView->getRecord()->isViewable()) {
+			throw new \Api\Core\Exception('No permissions to view record', 403);
+		}
+	}
+
 	/**
 	 * Get related modules list method.
 	 *
 	 * @return array
 	 *
 	 *	@OA\Get(
-	 *		path="/webservice/Portal/{moduleName}/RelatedModules/{recordId}",
+	 *		path="/webservice/RestApi/{moduleName}/RelatedModules/{recordId}",
 	 *		description="Gets a list of related modules",
 	 *		summary="Related list of modules",
 	 *		tags={"BaseModule"},
@@ -74,6 +97,25 @@ class RelatedModules extends \Api\RestApi\BaseModule\RelatedModules
 	 */
 	public function get(): array
 	{
-		return parent::get();
+		$moduleName = $this->controller->request->getModule();
+		$allowed = ['LBL_RECORD_SUMMARY' => 'summary', 'LBL_RECORD_DETAILS' => 'details', 'ModComments' => 'comments', 'LBL_UPDATES' => 'updates'];
+		$return = [];
+		foreach ($this->recordView->getDetailViewRelatedLinks() as $link) {
+			if ('DETAILVIEWTAB' === $link['linktype'] && isset($allowed[$link['linklabel']])) {
+				$return['base'][] = [
+					'type' => $allowed[$link['linklabel']],
+					'label' => \App\Language::translate($link['linklabel'], $moduleName),
+					'icon' => $link['linkicon'] ?? '',
+				];
+			} elseif ('DETAILVIEWRELATED' === $link['linktype']) {
+				$return['related'][] = [
+					'relationId' => $link['relationId'],
+					'relatedModuleName' => $link['relatedModuleName'],
+					'icon' => $link['linkicon'] ?: 'yfm-' . $link['relatedModuleName'],
+					'label' => \App\Language::translate($link['linklabel'], $link['relatedModuleName']),
+				];
+			}
+		}
+		return $return;
 	}
 }
