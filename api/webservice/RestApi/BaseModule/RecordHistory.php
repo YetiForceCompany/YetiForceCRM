@@ -64,8 +64,8 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Recent activities detail",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordHistory_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordHistory_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_RecordHistory_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_RecordHistory_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
@@ -81,7 +81,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *		),
 	 *	),
 	 *	@OA\Schema(
-	 *		schema="BaseModule_RecordHistory_ResponseBody",
+	 *		schema="BaseModule_Get_RecordHistory_Response",
 	 *		title="Base module - Response action history record",
 	 *		description="Action module for recent activities in CRM",
 	 *		type="object",
@@ -96,14 +96,14 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *				@OA\Property(property="rawStatus", type="string", title="The name of the untranslated label", example="LBL_UPDATED"),
 	 *				@OA\Property(property="data", title="Additional information",
 	 *					oneOf={
-	 *						@OA\Property(type="object", title="Record data create",
+	 *						@OA\Schema(type="object", title="Record data create",
 	 *							@OA\AdditionalProperties(
 	 *								@OA\Property(property="label", type="string", title="Translated field label", example="Name"),
 	 *								@OA\Property(property="value", type="string", title="Value, the data type depends on the field type", example="Jan Kowalski"),
 	 *								@OA\Property(property="raw", type="string", title="Value in database format, only available in `x-raw-data`", example="Jan Kowalski"),
 	 *							),
 	 *						),
-	 *						@OA\Property(type="object", title="Record data change", description="Edit, conversation",
+	 *						@OA\Schema(type="object", title="Record data change", description="Edit, conversation",
 	 *							@OA\AdditionalProperties(
 	 *								@OA\Property(property="label", type="string", title="Translated field label", example="Name"),
 	 *								@OA\Property(property="from", type="string", title="Value before change, the data type depends on the field type", example="Jan Kowalski"),
@@ -112,7 +112,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *								@OA\Property(property="rawTo", type="string", title="Value after change, value in database format, only available in `x-raw-data`", example="Jan Nowak"),
 	 *							),
 	 *						),
-	 *						@OA\Property(type="object", title="Operations on related records", description="Adding relations, removing relations, transferring records",
+	 *						@OA\Schema(type="object", title="Operations on related records", description="Adding relations, removing relations, transferring records",
 	 *							@OA\Property(property="targetModule", type="string", title="The name of the target related module", example="Contacts"),
 	 *							@OA\Property(property="targetModuleLabel", type="string", title="Translated module name", example="Kontakt"),
 	 *							@OA\Property(property="targetLabel", type="string", title="The label name of the target related module", example="Jan Kowalski"),

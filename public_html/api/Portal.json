@@ -1403,12 +1403,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_RecordHistory_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_RecordHistory_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_RecordHistory_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_RecordHistory_Response"
                                 }
                             }
                         }
@@ -4928,7 +4928,7 @@
                 },
                 "type": "object"
             },
-            "BaseModule_RecordHistory_ResponseBody": {
+            "BaseModule_Get_RecordHistory_Response": {
                 "title": "Base module - Response action history record",
                 "description": "Action module for recent activities in CRM",
                 "properties": {
@@ -4989,9 +4989,7 @@
                                     "description": "Get related record list method.",
                                     "oneOf": [
                                         {
-                                            "property": null,
                                             "title": "Record data create",
-                                            "description": "Get related record list method.",
                                             "type": "object",
                                             "additionalProperties": {
                                                 "properties": {
@@ -5018,7 +5016,6 @@
                                             }
                                         },
                                         {
-                                            "property": null,
                                             "title": "Record data change",
                                             "description": "Edit, conversation",
                                             "type": "object",
@@ -5059,7 +5056,6 @@
                                             }
                                         },
                                         {
-                                            "property": null,
                                             "title": "Operations on related records",
                                             "description": "Adding relations, removing relations, transferring records",
                                             "properties": {

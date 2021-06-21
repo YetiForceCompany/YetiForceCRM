@@ -946,10 +946,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseModule_RecordHistory_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_RecordHistory_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseModule_RecordHistory_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_RecordHistory_Response'
         '403':
           description: '`No permissions to view record` OR `MadTracker is turned off`'
           content:
@@ -3012,7 +3012,7 @@ components:
               type: object
           type: object
       type: object
-    BaseModule_RecordHistory_ResponseBody:
+    BaseModule_Get_RecordHistory_Response:
       title: 'Base module - Response action history record'
       description: 'Action module for recent activities in CRM'
       properties:
@@ -3064,9 +3064,9 @@ components:
                 title: 'Additional information'
                 description: 'Get related record list method.'
                 oneOf:
-                  - { property: null, title: 'Record data create', description: 'Get related record list method.', type: object, additionalProperties: { properties: { label: { title: 'Translated field label', description: 'Get related record list method.', type: string, example: Name }, value: { title: 'Value, the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, raw: { title: 'Value in database format, only available in `x-raw-data`', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' } }, type: object } }
-                  - { property: null, title: 'Record data change', description: 'Edit, conversation', type: object, additionalProperties: { properties: { label: { title: 'Translated field label', description: 'Get related record list method.', type: string, example: Name }, from: { title: 'Value before change, the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, to: { title: 'Value after change, the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Nowak' }, rawFrom: { title: 'Value before change, value in database format, only available in `x-raw-data`', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, rawTo: { title: 'Value after change, value in database format, only available in `x-raw-data`', description: 'Get related record list method.', type: string, example: 'Jan Nowak' } }, type: object } }
-                  - { property: null, title: 'Operations on related records', description: 'Adding relations, removing relations, transferring records', properties: { targetModule: { title: 'The name of the target related module', description: 'Get related record list method.', type: string, example: Contacts }, targetModuleLabel: { title: 'Translated module name', description: 'Get related record list method.', type: string, example: Kontakt }, targetLabel: { title: 'The label name of the target related module', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, targetId: { title: 'Id of the target related module', description: 'Get related record list method.', type: integer, example: 394 } }, type: object }
+                  - { title: 'Record data create', type: object, additionalProperties: { properties: { label: { title: 'Translated field label', description: 'Get related record list method.', type: string, example: Name }, value: { title: 'Value, the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, raw: { title: 'Value in database format, only available in `x-raw-data`', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' } }, type: object } }
+                  - { title: 'Record data change', description: 'Edit, conversation', type: object, additionalProperties: { properties: { label: { title: 'Translated field label', description: 'Get related record list method.', type: string, example: Name }, from: { title: 'Value before change, the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, to: { title: 'Value after change, the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Nowak' }, rawFrom: { title: 'Value before change, value in database format, only available in `x-raw-data`', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, rawTo: { title: 'Value after change, value in database format, only available in `x-raw-data`', description: 'Get related record list method.', type: string, example: 'Jan Nowak' } }, type: object } }
+                  - { title: 'Operations on related records', description: 'Adding relations, removing relations, transferring records', properties: { targetModule: { title: 'The name of the target related module', description: 'Get related record list method.', type: string, example: Contacts }, targetModuleLabel: { title: 'Translated module name', description: 'Get related record list method.', type: string, example: Kontakt }, targetLabel: { title: 'The label name of the target related module', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, targetId: { title: 'Id of the target related module', description: 'Get related record list method.', type: integer, example: 394 } }, type: object }
             type: object
       type: object
     BaseModule_RecordRelatedList_ResponseBody:
