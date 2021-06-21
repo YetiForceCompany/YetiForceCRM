@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\RestApi\BaseModule;
@@ -22,7 +23,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** {@inheritdoc}  */
-	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id', 'x-condition'];
+	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id', 'x-condition', 'x-order-by'];
 
 	/** @var \Vtiger_Record_Model Record model instance. */
 	protected $recordModel;
@@ -103,6 +104,19 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 *			required=false,
 	 *			@OA\JsonContent(ref="#/components/schemas/Conditions-Mix-For-Query-Generator"),
 	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-order-by",
+	 * 			description="Set the sorted results by columns [Json format]",
+	 *			in="header",
+	 *			required=false,
+	 * 			@OA\JsonContent(
+	 * 				type="object",
+	 * 				title="Sort conditions",
+	 * 				description="Multiple or one condition for a query generator",
+	 * 				@OA\Property(property="field_name_1", description="Field name", type="string", example="ASC"),
+	 *				@OA\Property(property="field_name_2", description="Search value", type="string", example="DESC")
+	 * 			)
+	 *		),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of entries",
@@ -133,7 +147,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *),
+	 *  ),
 	 * @OA\Schema(
 	 *		schema="BaseModule_RecordRelatedList_ResponseBody",
 	 *		title="Base module - Response action related record list",
@@ -201,6 +215,17 @@ class RecordRelatedList extends \Api\Core\BaseAction
 			} else {
 				foreach ($conditions as $condition) {
 					$relationListView->getQueryGenerator()->addCondition($condition['fieldName'], $condition['value'], $condition['operator'], $condition['group'] ?? true, true);
+				}
+			}
+		}
+		if ($orderBy = $this->controller->request->getHeader('x-order-by')) {
+			$orderBy = \App\Json::decode($orderBy);
+			if (!empty($orderBy) && \is_array($orderBy)) {
+				foreach ($orderBy as $fieldName => $sortFlag) {
+					$field = $relationListView->getRelatedModuleModel()->getFieldByName($fieldName);
+					if (($field && $field->isActiveField()) || 'id' === $fieldName) {
+						$relationListView->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+					}
 				}
 			}
 		}

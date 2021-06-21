@@ -1068,6 +1068,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Conditions-Mix-For-Query-Generator'
+        -
+          name: x-order-by
+          in: header
+          description: 'Set the sorted results by columns [Json format]'
+          required: false
+          content:
+            application/json:
+              schema:
+                title: 'Sort conditions'
+                description: 'Multiple or one condition for a query generator'
+                properties:
+                  field_name_1: { description: 'Field name', type: string, example: ASC }
+                  field_name_2: { description: 'Search value', type: string, example: DESC }
+                type: object
       responses:
         '200':
           description: 'List of entries'
@@ -3326,7 +3340,7 @@ components:
         - 1
     Conditions-Mix-For-Query-Generator:
       title: 'General - Mix conditions for query generator'
-      description: 'Multiple or one condition for a query query generator'
+      description: 'Multiple or one condition for a query generator'
       type: object
       oneOf:
         -

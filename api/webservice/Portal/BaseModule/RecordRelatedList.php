@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Portal\BaseModule;
@@ -75,6 +76,19 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *			required=false,
 	 *			@OA\JsonContent(ref="#/components/schemas/Conditions-Mix-For-Query-Generator"),
 	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-order-by",
+	 * 			description="Set the sorted results by columns [Json format]",
+	 *			in="header",
+	 *			required=false,
+	 * 			@OA\JsonContent(
+	 * 				type="object",
+	 * 				title="Sort conditions",
+	 * 				description="Multiple or one condition for a query generator",
+	 * 				@OA\Property(property="field_name_1", description="Field name", type="string", example="ASC"),
+	 *				@OA\Property(property="field_name_2", description="Search value", type="string", example="DESC")
+	 * 			)
+	 *		),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of entries",
@@ -105,7 +119,7 @@ class RecordRelatedList extends \Api\RestApi\BaseModule\RecordRelatedList
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *),
+	 * ),
 	 * @OA\Schema(
 	 *		schema="BaseModule_RecordRelatedList_ResponseBody",
 	 *		title="Base module - Response action related record list",

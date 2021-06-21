@@ -95,7 +95,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *		schema="Conditions-Mix-For-Query-Generator",
 	 *		type="object",
 	 *		title="General - Mix conditions for query generator",
-	 *  	description="Multiple or one condition for a query query generator",
+	 *  	description="Multiple or one condition for a query generator",
 	 *		oneOf={
 	 *			@OA\Schema(ref="#/components/schemas/Condition-For-Query-Generator"),
 	 *			@OA\Schema(ref="#/components/schemas/Conditions-For-Query-Generator"),
