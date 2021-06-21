@@ -1395,6 +1395,64 @@ paths:
           basicAuth: []
           ApiKeyAuth: []
           token: []
+  '/webservice/Portal/{moduleName}/Widgets':
+    get:
+      tags:
+        - BaseModule
+      summary: 'List of widgets'
+      description: 'Gets a list of widgets'
+      operationId: 'Api\Portal\BaseModule\Widgets::get'
+      parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+      responses:
+        '200':
+          description: 'List of widgets'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Get_Widgets_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Get_Widgets_Response'
+        '401':
+          description: '`No sent token`, `Invalid token`, `Token has expired`'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '403':
+          description: '`No permissions for module`'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '405':
+          description: '`Invalid method`'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+      security:
+        -
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/Products/Record/{recordId}':
     get:
       tags:
@@ -3142,6 +3200,88 @@ components:
         errors:
           description: 'Error details'
           type: object
+      type: object
+    BaseModule_Get_Widgets_Response:
+      title: 'Base module - Response action - data of widgets'
+      description: 'Module action - Data of widgets - response body'
+      required:
+        - status
+        - result
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+        result:
+          description: 'List of widgets'
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BaseModule_Widget_Result'
+      type: object
+    BaseModule_Widget_Result:
+      title: 'Widget data by specific ID'
+      description: 'Module action - Widget for specific ID - response data'
+      required:
+        - id
+        - type
+        - label
+        - wcol
+        - sequence
+        - name
+        - data
+      properties:
+        id:
+          description: 'Widget ID'
+          type: integer
+          example: 12
+        type:
+          description: 'Widget type'
+          type: string
+          example: RelatedModule
+        label:
+          description: 'Widget label'
+          type: string
+          example: Contacts
+        wcol:
+          description: 'Widget position'
+          type: integer
+          enum:
+            - 1
+            - 2
+            - 3
+          example: 1
+        sequence:
+          description: Sequence
+          type: integer
+          example: 1
+        name:
+          description: 'The translated name of the widget'
+          type: string
+          example: Contacts
+        data:
+          description: 'Widget specific data'
+          type: object
+          example:
+            relation_id: 1
+            relatedmodule: 4
+            relatedfields:
+              - firstname
+              - lastname
+              - phone
+              - email
+            viewtype: List
+            customView: []
+            limit: 5
+            action: 1
+            actionSelect: '0'
+            no_result_text: '0'
+            switchHeader: '-'
+            filter: '-'
+            checkbox: '-'
+            orderby: []
+            relatedModuleName: Contacts
       type: object
     Products_Get_Record_Response:
       title: 'Base module - Response body for Record'
