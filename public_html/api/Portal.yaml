@@ -902,11 +902,11 @@ paths:
         -
           name: x-row-limit
           in: header
-          description: 'Get rows limit, default: 1000'
+          description: 'Get rows limit, default: 100'
           required: false
           schema:
             type: integer
-          example: 1000
+          example: 50
         -
           name: x-row-offset
           in: header
@@ -1163,11 +1163,11 @@ paths:
         -
           name: x-row-limit
           in: header
-          description: 'Get rows limit, default: 1000'
+          description: 'Get rows limit, default: 100'
           required: false
           schema:
             type: integer
-          example: 1000
+          example: 50
         -
           name: x-row-offset
           in: header
@@ -3022,23 +3022,48 @@ components:
         result:
           title: 'Returns recent activities that took place in CRM'
           description: 'Get related record list method.'
-          properties:
-            response:
-              title: 'Contains what actions have been performed and returns the data that has changed'
-              description: 'Get related record list method.'
-              type: object
-              additionalProperties:
-                title: 'Key indicating the number of changes made to a given record'
-                properties:
-                  time: { title: 'Showing the exact date on which the change took place', description: 'Get related record list method.', type: string, example: '2019-10-07 08:32:38' }
-                  owner: { title: 'Username of the user who made the change', description: 'Get related record list method.', type: string, example: 'System Admin' }
-                  status: { title: 'Name of the action that was carried out', description: 'Get related record list method.', type: string, example: changed }
-                  rawTime: { title: 'Showing the exact date on which the change took place', description: 'Get related record list method.', type: string, example: '2019-10-07 08:32:38' }
-                  rawOwner: { title: 'User ID of the user who made the change', description: 'Get related record list method.', type: integer, example: 1 }
-                  rawStatus: { title: 'The name of the untranslated label', description: 'Get related record list method.', type: string, example: LBL_UPDATED }
-                  data: { title: 'Field system name', description: 'Get related record list method.', type: object, additionalProperties: { properties: { from: { title: 'Value before change, dynamically collected value - the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, to: { title: 'Value after change, dynamically collected value - the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Nowak' }, rawFrom: { title: 'Value before change', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, rawTo: { title: 'Value after change', description: 'Get related record list method.', type: string, example: 'Jan Nowak' }, targetModule: { title: 'The name of the target related module', description: 'Get related record list method.', type: string, example: Contacts }, targetLabel: { title: 'The label name of the target related module', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, targetId: { title: 'Id of the target related module', description: 'Get related record list method.', type: integer, example: 394 } }, type: object } }
-                type: object
           type: object
+          additionalProperties:
+            title: 'Key indicating the number of changes made to a given record'
+            properties:
+              time:
+                title: 'Showing the exact date on which the change took place'
+                description: 'Get related record list method.'
+                type: string
+                example: '2019-10-07 08:32:38'
+              owner:
+                title: 'Username of the user who made the change'
+                description: 'Get related record list method.'
+                type: string
+                example: 'System Admin'
+              status:
+                title: 'Name of the action that was carried out'
+                description: 'Get related record list method.'
+                type: string
+                example: changed
+              rawTime:
+                title: 'Showing the exact date on which the change took place'
+                description: 'Get related record list method.'
+                type: string
+                example: '2019-10-07 08:32:38'
+              rawOwner:
+                title: 'User ID of the user who made the change'
+                description: 'Get related record list method.'
+                type: integer
+                example: 1
+              rawStatus:
+                title: 'The name of the untranslated label'
+                description: 'Get related record list method.'
+                type: string
+                example: LBL_UPDATED
+              data:
+                title: 'Additional information'
+                description: 'Get related record list method.'
+                oneOf:
+                  - { property: null, title: 'Record data create', description: 'Get related record list method.', type: object, additionalProperties: { properties: { label: { title: 'Translated field label', description: 'Get related record list method.', type: string, example: Name }, value: { title: 'Value, the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, raw: { title: 'Value in database format, only available in `x-raw-data`', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' } }, type: object } }
+                  - { property: null, title: 'Record data change', description: 'Edit, conversation', type: object, additionalProperties: { properties: { label: { title: 'Translated field label', description: 'Get related record list method.', type: string, example: Name }, from: { title: 'Value before change, the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, to: { title: 'Value after change, the data type depends on the field type', description: 'Get related record list method.', type: string, example: 'Jan Nowak' }, rawFrom: { title: 'Value before change, value in database format, only available in `x-raw-data`', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, rawTo: { title: 'Value after change, value in database format, only available in `x-raw-data`', description: 'Get related record list method.', type: string, example: 'Jan Nowak' } }, type: object } }
+                  - { property: null, title: 'Operations on related records', description: 'Adding relations, removing relations, transferring records', properties: { targetModule: { title: 'The name of the target related module', description: 'Get related record list method.', type: string, example: Contacts }, targetModuleLabel: { title: 'Translated module name', description: 'Get related record list method.', type: string, example: Kontakt }, targetLabel: { title: 'The label name of the target related module', description: 'Get related record list method.', type: string, example: 'Jan Kowalski' }, targetId: { title: 'Id of the target related module', description: 'Get related record list method.', type: integer, example: 394 } }, type: object }
+            type: object
       type: object
     BaseModule_RecordRelatedList_ResponseBody:
       title: 'Base module - Response action related record list'
