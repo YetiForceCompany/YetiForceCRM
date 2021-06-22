@@ -1580,6 +1580,20 @@
                         }
                     },
                     {
+                        "name": "x-only-column",
+                        "in": "header",
+                        "description": "Return only column names",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
                         "name": "x-order-by",
                         "in": "header",
                         "description": "Set the sorted results by columns [Json format]",
@@ -1591,7 +1605,7 @@
                                     "description": "Multiple or one condition for a query generator",
                                     "type": "object",
                                     "additionalProperties": {
-                                        "title": "Sort Direction",
+                                        "description": "Sort Direction",
                                         "type": "string",
                                         "enum": [
                                             "ASC",
@@ -1747,33 +1761,6 @@
                         "example": 0
                     },
                     {
-                        "name": "x-order-by",
-                        "in": "header",
-                        "description": "Set the sorted results by columns [Json format]",
-                        "required": false,
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "title": "Sort conditions",
-                                    "description": "Multiple or one condition for a query generator",
-                                    "type": "object",
-                                    "additionalProperties": {
-                                        "title": "Sort Direction",
-                                        "type": "string",
-                                        "enum": [
-                                            "ASC",
-                                            "DESC"
-                                        ]
-                                    }
-                                },
-                                "example": {
-                                    "field_name_1": "ASC",
-                                    "field_name_2": "DESC"
-                                }
-                            }
-                        }
-                    },
-                    {
                         "name": "x-fields",
                         "in": "header",
                         "description": "JSON array in the list of fields to be returned in response",
@@ -1839,6 +1826,33 @@
                             "type": "integer"
                         },
                         "example": 5
+                    },
+                    {
+                        "name": "x-order-by",
+                        "in": "header",
+                        "description": "Set the sorted results by columns [Json format]",
+                        "required": false,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Sort conditions",
+                                    "description": "Multiple or one condition for a query generator",
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "title": "Sort Direction",
+                                        "type": "string",
+                                        "enum": [
+                                            "ASC",
+                                            "DESC"
+                                        ]
+                                    }
+                                },
+                                "example": {
+                                    "field_name_1": "ASC",
+                                    "field_name_2": "DESC"
+                                }
+                            }
+                        }
                     }
                 ],
                 "responses": {
@@ -4530,14 +4544,12 @@
                         ],
                         "properties": {
                             "name": {
-                                "title": "Record name",
-                                "description": "Get record detail.",
+                                "description": "Record name",
                                 "type": "string",
                                 "example": "Driving school"
                             },
                             "id": {
-                                "title": "Record Id",
-                                "description": "Get record detail.",
+                                "description": "Record Id",
                                 "type": "integer",
                                 "example": 152
                             },
@@ -4546,7 +4558,7 @@
                                 "description": "Get record detail.",
                                 "type": "object",
                                 "additionalProperties": {
-                                    "title": "Field label",
+                                    "description": "Field label",
                                     "type": "string",
                                     "example": "Account name"
                                 }
@@ -4563,14 +4575,12 @@
                                 ],
                                 "properties": {
                                     "isEditable": {
-                                        "title": "Check if record is editable",
-                                        "description": "Get record detail.",
+                                        "description": "Check if record is editable",
                                         "type": "boolean",
                                         "example": true
                                     },
                                     "moveToTrash": {
-                                        "title": "Permission to delete",
-                                        "description": "Get record detail.",
+                                        "description": "Permission to delete",
                                         "type": "boolean",
                                         "example": false
                                     }
@@ -4578,21 +4588,18 @@
                                 "type": "object"
                             },
                             "inventory": {
-                                "title": "Value inventory data",
-                                "description": "Get record detail.",
+                                "description": "Value inventory data",
                                 "type": "object"
                             },
                             "summaryInventory": {
-                                "title": "Value summary inventory data",
-                                "description": "Get record detail.",
+                                "description": "Value summary inventory data",
                                 "type": "object"
                             },
                             "rawData": {
                                 "$ref": "#/components/schemas/Record_Raw_Details"
                             },
                             "rawInventory": {
-                                "title": "Inventory data",
-                                "description": "Get record detail.",
+                                "description": "Inventory data",
                                 "type": "object"
                             },
                             "headerFields": {
@@ -4612,20 +4619,17 @@
                                             ],
                                             "properties": {
                                                 "type": {
-                                                    "title": "Header field type",
-                                                    "description": "Get record detail.",
+                                                    "description": "Header field type",
                                                     "type": "string",
                                                     "example": "value"
                                                 },
                                                 "label": {
-                                                    "title": "Translated field label",
-                                                    "description": "Get record detail.",
+                                                    "description": "Translated field label",
                                                     "type": "string",
                                                     "example": "Assigned To"
                                                 },
                                                 "class": {
-                                                    "title": "Class name",
-                                                    "description": "Get record detail.",
+                                                    "description": "Class name",
                                                     "type": "string",
                                                     "example": "badge-info"
                                                 },
@@ -4643,38 +4647,32 @@
                                                         ],
                                                         "properties": {
                                                             "label": {
-                                                                "title": "Value to display",
-                                                                "description": "Get record detail.",
+                                                                "description": "Value to display",
                                                                 "type": "string",
                                                                 "example": "Awaiting verification"
                                                             },
                                                             "isActive": {
-                                                                "title": "Is active",
-                                                                "description": "Get record detail.",
+                                                                "description": "Is active",
                                                                 "type": "boolean",
                                                                 "example": false
                                                             },
                                                             "isLocked": {
-                                                                "title": "Is locked",
-                                                                "description": "Get record detail.",
+                                                                "description": "Is locked",
                                                                 "type": "boolean",
                                                                 "example": false
                                                             },
                                                             "isEditable": {
-                                                                "title": "Is editable",
-                                                                "description": "Get record detail.",
+                                                                "description": "Is editable",
                                                                 "type": "boolean",
                                                                 "example": false
                                                             },
                                                             "description": {
-                                                                "title": "Description",
-                                                                "description": "Get record detail.",
+                                                                "description": "Description",
                                                                 "type": "string",
                                                                 "example": ""
                                                             },
                                                             "color": {
-                                                                "title": "Color",
-                                                                "description": "Get record detail.",
+                                                                "description": "Color",
                                                                 "type": "string",
                                                                 "example": "ffa800"
                                                             }
@@ -4699,26 +4697,22 @@
                                             ],
                                             "properties": {
                                                 "type": {
-                                                    "title": "Header field type",
-                                                    "description": "Get record detail.",
+                                                    "description": "Header field type",
                                                     "type": "string",
                                                     "example": "value"
                                                 },
                                                 "label": {
-                                                    "title": "Translated field label",
-                                                    "description": "Get record detail.",
+                                                    "description": "Translated field label",
                                                     "type": "string",
                                                     "example": "Assigned To"
                                                 },
                                                 "class": {
-                                                    "title": "Class name",
-                                                    "description": "Get record detail.",
+                                                    "description": "Class name",
                                                     "type": "string",
                                                     "example": "badge-info"
                                                 },
                                                 "value": {
-                                                    "title": "Data in API format",
-                                                    "description": "Get record detail.",
+                                                    "description": "Data in API format",
                                                     "oneOf": [
                                                         {
                                                             "type": "object"
@@ -4751,26 +4745,22 @@
                                             ],
                                             "properties": {
                                                 "type": {
-                                                    "title": "Header field type",
-                                                    "description": "Get record detail.",
+                                                    "description": "Header field type",
                                                     "type": "string",
                                                     "example": "value"
                                                 },
                                                 "label": {
-                                                    "title": "Translated field label",
-                                                    "description": "Get record detail.",
+                                                    "description": "Translated field label",
                                                     "type": "string",
                                                     "example": "Assigned To"
                                                 },
                                                 "class": {
-                                                    "title": "Class name",
-                                                    "description": "Get record detail.",
+                                                    "description": "Class name",
                                                     "type": "string",
                                                     "example": "badge-info"
                                                 },
                                                 "value": {
-                                                    "title": "Data in API format",
-                                                    "description": "Get record detail.",
+                                                    "description": "Data in API format",
                                                     "oneOf": [
                                                         {
                                                             "type": "object"
@@ -4816,8 +4806,7 @@
                         ]
                     },
                     "result": {
-                        "title": "Status of successful transfer of the record to the recycle bin",
-                        "description": "Delete record.",
+                        "description": "Status of successful transfer of the record to the recycle bin",
                         "type": "boolean"
                     }
                 },
@@ -4847,14 +4836,12 @@
                         ],
                         "properties": {
                             "id": {
-                                "title": "Id of the newly created record",
-                                "description": "Edit record.",
+                                "description": "Id of the newly created record",
                                 "type": "integer",
                                 "example": 22
                             },
                             "skippedData": {
-                                "title": "List of parameters passed in the request that were skipped in the write process",
-                                "description": "Edit record.",
+                                "description": "List of parameters passed in the request that were skipped in the write process",
                                 "type": "object"
                             }
                         },
@@ -4922,14 +4909,12 @@
                         ],
                         "properties": {
                             "id": {
-                                "title": "Id of the newly created record",
-                                "description": "Create record.",
+                                "description": "Id of the newly created record",
                                 "type": "integer",
                                 "example": 22
                             },
                             "skippedData": {
-                                "title": "List of parameters passed in the request that were skipped in the write process",
-                                "description": "Create record.",
+                                "description": "List of parameters passed in the request that were skipped in the write process",
                                 "type": "object"
                             }
                         },
@@ -4962,38 +4947,32 @@
                                     "title": "Key indicating the number of changes made to a given record",
                                     "properties": {
                                         "time": {
-                                            "title": "Showing the exact date on which the change took place",
-                                            "description": "Get the record history.",
+                                            "description": "Showing the exact date on which the change took place",
                                             "type": "string",
                                             "example": "2019-10-07 08:32:38"
                                         },
                                         "owner": {
-                                            "title": "Username of the user who made the change",
-                                            "description": "Get the record history.",
+                                            "description": "Username of the user who made the change",
                                             "type": "string",
                                             "example": "System Admin"
                                         },
                                         "status": {
-                                            "title": "Name of the action that was carried out",
-                                            "description": "Get the record history.",
+                                            "description": "Name of the action that was carried out",
                                             "type": "string",
                                             "example": "changed"
                                         },
                                         "rawTime": {
-                                            "title": "Showing the exact date on which the change took place",
-                                            "description": "Get the record history.",
+                                            "description": "Showing the exact date on which the change took place",
                                             "type": "string",
                                             "example": "2019-10-07 08:32:38"
                                         },
                                         "rawOwner": {
-                                            "title": "User ID of the user who made the change",
-                                            "description": "Get the record history.",
+                                            "description": "User ID of the user who made the change",
                                             "type": "integer",
                                             "example": 1
                                         },
                                         "rawStatus": {
-                                            "title": "The name of the untranslated label",
-                                            "description": "Get the record history.",
+                                            "description": "The name of the untranslated label",
                                             "type": "string",
                                             "example": "LBL_UPDATED"
                                         },
@@ -5007,20 +4986,17 @@
                                                     "additionalProperties": {
                                                         "properties": {
                                                             "label": {
-                                                                "title": "Translated field label",
-                                                                "description": "Get the record history.",
+                                                                "description": "Translated field label",
                                                                 "type": "string",
                                                                 "example": "Name"
                                                             },
                                                             "value": {
-                                                                "title": "Value, the data type depends on the field type",
-                                                                "description": "Get the record history.",
+                                                                "description": "Value, the data type depends on the field type",
                                                                 "type": "string",
                                                                 "example": "Jan Kowalski"
                                                             },
                                                             "raw": {
-                                                                "title": "Value in database format, only available in `x-raw-data`",
-                                                                "description": "Get the record history.",
+                                                                "description": "Value in database format, only available in `x-raw-data`",
                                                                 "type": "string",
                                                                 "example": "Jan Kowalski"
                                                             }
@@ -5035,32 +5011,27 @@
                                                     "additionalProperties": {
                                                         "properties": {
                                                             "label": {
-                                                                "title": "Translated field label",
-                                                                "description": "Get the record history.",
+                                                                "description": "Translated field label",
                                                                 "type": "string",
                                                                 "example": "Name"
                                                             },
                                                             "from": {
-                                                                "title": "Value before change, the data type depends on the field type",
-                                                                "description": "Get the record history.",
+                                                                "description": "Value before change, the data type depends on the field type",
                                                                 "type": "string",
                                                                 "example": "Jan Kowalski"
                                                             },
                                                             "to": {
-                                                                "title": "Value after change, the data type depends on the field type",
-                                                                "description": "Get the record history.",
+                                                                "description": "Value after change, the data type depends on the field type",
                                                                 "type": "string",
                                                                 "example": "Jan Nowak"
                                                             },
                                                             "rawFrom": {
-                                                                "title": "Value before change, value in database format, only available in `x-raw-data`",
-                                                                "description": "Get the record history.",
+                                                                "description": "Value before change, value in database format, only available in `x-raw-data`",
                                                                 "type": "string",
                                                                 "example": "Jan Kowalski"
                                                             },
                                                             "rawTo": {
-                                                                "title": "Value after change, value in database format, only available in `x-raw-data`",
-                                                                "description": "Get the record history.",
+                                                                "description": "Value after change, value in database format, only available in `x-raw-data`",
                                                                 "type": "string",
                                                                 "example": "Jan Nowak"
                                                             }
@@ -5073,26 +5044,22 @@
                                                     "description": "Adding relations, removing relations, transferring records",
                                                     "properties": {
                                                         "targetModule": {
-                                                            "title": "The name of the target related module",
-                                                            "description": "Get the record history.",
+                                                            "description": "The name of the target related module",
                                                             "type": "string",
                                                             "example": "Contacts"
                                                         },
                                                         "targetModuleLabel": {
-                                                            "title": "Translated module name",
-                                                            "description": "Get the record history.",
+                                                            "description": "Translated module name",
                                                             "type": "string",
                                                             "example": "Kontakt"
                                                         },
                                                         "targetLabel": {
-                                                            "title": "The label name of the target related module",
-                                                            "description": "Get the record history.",
+                                                            "description": "The label name of the target related module",
                                                             "type": "string",
                                                             "example": "Jan Kowalski"
                                                         },
                                                         "targetId": {
-                                                            "title": "Id of the target related module",
-                                                            "description": "Get the record history.",
+                                                            "description": "Id of the target related module",
                                                             "type": "integer",
                                                             "example": 394
                                                         }
@@ -5119,6 +5086,10 @@
             "BaseModule_RecordRelatedList_ResponseBody": {
                 "title": "Base module - Response action related record list",
                 "description": "Module action related record list response body",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -5131,12 +5102,27 @@
                     "result": {
                         "title": "List of related records",
                         "description": "Get related record list method.",
+                        "required": [
+                            "headers",
+                            "records",
+                            "permissions",
+                            "numberOfRecords",
+                            "isMorePages"
+                        ],
                         "properties": {
                             "headers": {
                                 "title": "Column names",
                                 "description": "Get related record list method.",
-                                "type": "object",
-                                "additionalProperties": {}
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "example": {
+                                    "field_name_1": "Field label 1",
+                                    "field_name_2": "Field label 2",
+                                    "assigned_user_id": "Assigned user",
+                                    "createdtime": "Created time"
+                                }
                             },
                             "records": {
                                 "title": "Records display details",
@@ -5146,23 +5132,53 @@
                                     "$ref": "#/components/schemas/Record_Display_Details"
                                 }
                             },
+                            "permissions": {
+                                "title": "Records action permissions",
+                                "description": "Get related record list method.",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "title": "Record action permissions",
+                                    "required": [
+                                        "isEditable",
+                                        "moveToTrash"
+                                    ],
+                                    "properties": {
+                                        "isEditable": {
+                                            "description": "Check if record is editable",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "moveToTrash": {
+                                            "description": "Permission to delete",
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
                             "rawData": {
-                                "title": "Records raw details",
+                                "title": "Records raw details, dependent on the header `x-raw-data`",
                                 "description": "Get related record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "$ref": "#/components/schemas/Record_Raw_Details"
                                 }
                             },
-                            "count": {
-                                "description": "Get related record list method.",
+                            "numberOfRecords": {
+                                "description": "Number of records on the page",
                                 "type": "integer",
-                                "example": 54
+                                "example": 20
                             },
                             "isMorePages": {
-                                "description": "Get related record list method.",
+                                "description": "There are more pages",
                                 "type": "boolean",
                                 "example": true
+                            },
+                            "numberOfAllRecords": {
+                                "description": "Number of all records, dependent on the header `x-row-count`",
+                                "type": "integer",
+                                "example": 54
                             }
                         },
                         "type": "object"
@@ -5173,6 +5189,10 @@
             "BaseModule_RecordsList_ResponseBody": {
                 "title": "Base module - Response action record list",
                 "description": "Module action record list response body",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -5183,22 +5203,66 @@
                         ]
                     },
                     "result": {
-                        "description": "List of records",
+                        "title": "List of records",
+                        "description": "Get record list method.",
+                        "required": [
+                            "headers",
+                            "records",
+                            "permissions",
+                            "numberOfRecords",
+                            "isMorePages"
+                        ],
                         "properties": {
                             "headers": {
-                                "description": "Column names",
-                                "type": "object",
-                                "additionalProperties": {}
+                                "title": "Column names",
+                                "description": "Get record list method.",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "example": {
+                                    "field_name_1": "Field label 1",
+                                    "field_name_2": "Field label 2",
+                                    "assigned_user_id": "Assigned user",
+                                    "createdtime": "Created time"
+                                }
                             },
                             "records": {
-                                "description": "Records display details",
+                                "title": "Records display details",
+                                "description": "Get record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "$ref": "#/components/schemas/Record_Display_Details"
                                 }
                             },
+                            "permissions": {
+                                "title": "Records action permissions",
+                                "description": "Get record list method.",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "title": "Record action permissions",
+                                    "required": [
+                                        "isEditable",
+                                        "moveToTrash"
+                                    ],
+                                    "properties": {
+                                        "isEditable": {
+                                            "description": "Get record list method.",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "moveToTrash": {
+                                            "description": "Get record list method.",
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
                             "rawData": {
-                                "description": "Records raw details",
+                                "title": "Records raw details, dependent on the header `x-raw-data`",
+                                "description": "Get record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "$ref": "#/components/schemas/Record_Raw_Details"
@@ -5207,7 +5271,7 @@
                             "numberOfRecords": {
                                 "description": "Number of records on the page",
                                 "type": "integer",
-                                "example": 54
+                                "example": 20
                             },
                             "isMorePages": {
                                 "description": "There are more pages",

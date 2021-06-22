@@ -103,9 +103,9 @@ class RecordsList extends \Api\Core\BaseAction
 	 *			),
 	 *			@OA\Property(property="permissions", type="object", title="Records action permissions",
 	 *				@OA\AdditionalProperties(type="object", title="Record action permissions",
-	 *					required={"isEditable", "isDeletable"},
+	 *					required={"isEditable", "moveToTrash"},
 	 *					@OA\Property(property="isEditable", type="boolean", example=true),
-	 *					@OA\Property(property="isDeletable", type="boolean", example=true),
+	 *					@OA\Property(property="moveToTrash", type="boolean", example=true),
 	 *				),
 	 *			),
 	 *			@OA\Property(property="rawData", type="object", title="Records raw details, dependent on the header `x-raw-data`",
@@ -252,7 +252,7 @@ class RecordsList extends \Api\Core\BaseAction
 			$recordModel = $moduleModel->getRecordFromArray($row);
 			$this->permissions = [
 				'isEditable' => $recordModel->isEditable(),
-				'isDeletable' => $recordModel->privilegeToMoveToTrash(),
+				'moveToTrash' => $recordModel->privilegeToMoveToTrash(),
 			];
 			foreach ($this->fields as $fieldName => $fieldModel) {
 				if (isset($row[$fieldName])) {

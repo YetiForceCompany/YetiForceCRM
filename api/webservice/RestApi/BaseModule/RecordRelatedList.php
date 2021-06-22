@@ -191,7 +191,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		foreach ($relationListView->getAllEntries() as $id => $relatedRecordModel) {
 			$response['permissions'][$id] = [
 				'isEditable' => $relatedRecordModel->isEditable(),
-				'isDeletable' => $relatedRecordModel->privilegeToMoveToTrash(),
+				'moveToTrash' => $relatedRecordModel->privilegeToMoveToTrash(),
 			];
 			$response['records'][$id] = [];
 			foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {

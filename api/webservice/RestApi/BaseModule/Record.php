@@ -234,11 +234,7 @@ class Record extends \Api\Core\BaseAction
 	 *		type="object",
 	 *		required={"status", "result"},
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			description="Status of successful transfer of the record to the recycle bin",
-	 *			type="boolean",
-	 *		),
+	 *		@OA\Property(property="result", type="boolean", description="Status of successful transfer of the record to the recycle bin"),
 	 * ),
 	 */
 	public function delete(): bool
@@ -359,8 +355,8 @@ class Record extends \Api\Core\BaseAction
 	 *			description="Created record id.",
 	 *			type="object",
 	 *			required={"id"},
-	 *			@OA\Property(property="id", title="Id of the newly created record", type="integer", example=22),
-	 *			@OA\Property(property="skippedData", title="List of parameters passed in the request that were skipped in the write process", type="object"),
+	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
+	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
 	 * ),
 	 *	@OA\Link(
