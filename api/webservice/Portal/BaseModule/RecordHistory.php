@@ -1,6 +1,6 @@
 <?php
 /**
- * Portal container - Get record history file.
+ * Portal container - Get the record history file.
  *
  * @package API
  *
@@ -15,12 +15,12 @@ namespace Api\Portal\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Portal container - Get record history class.
+ * Portal container - Get the record history class.
  */
 class RecordHistory extends \Api\RestApi\BaseModule\RecordHistory
 {
 	/**
-	 * Get related record list method.
+	 * Get the record history.
 	 *
 	 * @return array
 	 * @OA\Get(
