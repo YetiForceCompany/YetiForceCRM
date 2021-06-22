@@ -165,15 +165,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 */
 	public function get(): array
 	{
-		$pagingModel = new \Vtiger_Paging_Model();
-		$limit = 1000;
-		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
-			$limit = (int) $requestLimit;
-		}
-		$pagingModel->set('limit', $limit);
-		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
-			$pagingModel->set('page', (int) $requestOffset);
-		}
+		$limit = 100;
 		$relationModuleName = $this->controller->request->getByType('param', 'Alnum');
 		$relationId = false;
 		$cvId = 0;
@@ -211,6 +203,13 @@ class RecordRelatedList extends \Api\Core\BaseAction
 				}
 			}
 		}
+		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
+			$limit = (int) $requestLimit;
+		}
+		$relationListView->getQueryGenerator()->setLimit($limit);
+		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
+			$relationListView->getQueryGenerator()->setOffset((int) $requestOffset);
+		}
 		$response = [
 			'headers' => [],
 			'records' => [],
@@ -219,7 +218,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 			$response['headers'][$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
 		}
 		$isRawData = $this->isRawData();
-		foreach ($relationListView->getEntries($pagingModel) as $id => $relatedRecordModel) {
+		foreach ($relationListView->getAllEntries() as $id => $relatedRecordModel) {
 			$response['records'][$id] = [];
 			foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
 				$value = $relatedRecordModel->get($fieldName);
