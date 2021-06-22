@@ -128,7 +128,7 @@ class CustomView extends \Api\Core\BaseAction
 	 *		description="Module action - Data of custom view list - response body",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			type="object",
@@ -142,7 +142,7 @@ class CustomView extends \Api\Core\BaseAction
 	 *		description="Module action - custom view for specific ID - response body",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			type="object",

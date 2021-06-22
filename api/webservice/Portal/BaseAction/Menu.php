@@ -45,7 +45,7 @@ class Menu extends \Api\Core\BaseAction
 	 *		title="Base action - Menu",
 	 *		description="Base action menu response body",
 	 *		type="object",
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="Menu items selected in the system, consists of parents and children",

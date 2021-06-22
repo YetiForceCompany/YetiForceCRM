@@ -94,7 +94,7 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *		schema="Products_Get_Record_Response",
 	 *		title="Base module - Response body for Record",
 	 *		type="object",
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="Record data",

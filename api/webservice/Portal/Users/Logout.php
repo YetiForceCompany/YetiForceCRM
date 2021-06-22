@@ -50,7 +50,7 @@ class Logout extends \Api\RestApi\Users\Logout
 	 * 		description="JSON data",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="Content of responses from a given method",

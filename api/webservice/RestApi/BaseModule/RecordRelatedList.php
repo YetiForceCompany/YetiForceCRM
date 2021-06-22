@@ -23,7 +23,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** {@inheritdoc}  */
-	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id', 'x-condition', 'x-order-by'];
+	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id', 'x-condition', 'x-order-by', 'x-row-count'];
 
 	/** @var \Vtiger_Record_Model Record model instance. */
 	protected $recordModel;
@@ -60,30 +60,9 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
-	 *		@OA\Parameter(
-	 *			name="relatedModuleName",
-	 *			description="Related module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="relationId",
-	 *			in="query",
-	 *			description="Relation id",
-	 *			required=false,
-	 *			@OA\Schema(type="integer"),
-	 *			style="form"
-	 *     ),
-	 *		@OA\Parameter(
-	 *			name="cvId",
-	 *			in="query",
-	 *			description="Custom view id",
-	 *			required=false,
-	 *			@OA\Schema(type="integer"),
-	 *			style="form"
-	 *     ),
+	 *		@OA\Parameter(name="relatedModuleName", in="path", @OA\Schema(type="string"), description="Related module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="relationId", in="query", @OA\Schema(type="integer"), style="form", description="Relation id", required=false),
+	 *		@OA\Parameter(name="cvId", in="query", @OA\Schema(type="integer"), style="form", description="Custom view id", required=false),
 	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
 	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 100", required=false, example=1000),
 	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
@@ -93,39 +72,30 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 *		@OA\Parameter(name="x-condition", in="header", description="Conditions [Json format]", required=false,
 	 *			@OA\JsonContent(ref="#/components/schemas/Conditions-Mix-For-Query-Generator"),
 	 *		),
+	 *		@OA\Parameter(name="x-only-column", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Return only column names", required=false, example=1),
 	 *		@OA\Parameter(name="x-order-by", in="header", description="Set the sorted results by columns [Json format]", required=false,
 	 * 			@OA\JsonContent(type="object", title="Sort conditions", description="Multiple or one condition for a query generator",
 	 * 				example={"field_name_1" : "ASC", "field_name_2" : "DESC"},
-	 * 				@OA\AdditionalProperties(type="string", title="Sort Direction", enum={"ASC", "DESC"}),
+	 * 				@OA\AdditionalProperties(type="string", description="Sort Direction", enum={"ASC", "DESC"}),
 	 * 			),
 	 *		),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="List of entries",
+	 *		@OA\Response(response=200, description="List of entries",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=400,
-	 *			description="Relationship does not exist",
+	 *		@OA\Response(response=400, description="Relationship does not exist",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=403,
-	 *			description="No permissions to view record",
+	 *		@OA\Response(response=403, description="No permissions to view record",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=404,
-	 *			description="Record doesn't exist",
+	 *		@OA\Response(response=404, description="Record doesn't exist",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=405,
-	 *			description="No relation module name",
+	 *		@OA\Response(response=405, description="No relation module name",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
@@ -135,31 +105,27 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 *		title="Base module - Response action related record list",
 	 *		description="Module action related record list response body",
 	 *		type="object",
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			title="List of related records",
-	 *			type="object",
-	 *			@OA\Property(
-	 *				property="headers",
-	 *				title="Column names",
-	 *				type="object",
-	 *				@OA\AdditionalProperties,
-	 *			),
-	 *			@OA\Property(
-	 *				property="records",
-	 *				title="Records display details",
-	 *				type="object",
+	 *		required={"status", "result"},
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="result", type="object", title="List of related records",
+	 *			required={"headers", "records", "permissions", "numberOfRecords", "isMorePages"},
+	 *			@OA\Property(property="headers", type="array", title="Column names", example={"field_name_1" : "Field label 1", "field_name_2" : "Field label 2", "assigned_user_id" : "Assigned user", "createdtime" : "Created time"}, @OA\Items(type="string")),
+	 *			@OA\Property(property="records", type="object", title="Records display details",
 	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Display_Details"),
 	 *			),
-	 *			@OA\Property(
-	 *				property="rawData",
-	 *				title="Records raw details",
-	 *				type="object",
+	 *			@OA\Property(property="permissions", type="object", title="Records action permissions",
+	 *				@OA\AdditionalProperties(type="object", title="Record action permissions",
+	 *					required={"isEditable", "moveToTrash"},
+	 *					@OA\Property(property="isEditable", type="boolean", description="Check if record is editable", example=true),
+	 *					@OA\Property(property="moveToTrash", type="boolean", description="Permission to delete", example=true),
+	 *				),
+	 *			),
+	 *			@OA\Property(property="rawData", type="object", title="Records raw details, dependent on the header `x-raw-data`",
 	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			),
-	 * 			@OA\Property(property="count", type="integer", example=54),
-	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
+	 * 			@OA\Property(property="numberOfRecords", type="integer", description="Number of records on the page", example=20),
+	 * 			@OA\Property(property="isMorePages", type="boolean", description="There are more pages", example=true),
+	 * 			@OA\Property(property="numberOfAllRecords", type="integer", description="Number of all records, dependent on the header `x-row-count`", example=54),
 	 * 		),
 	 *	),
 	 */
@@ -181,6 +147,17 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		}
 		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
 			$relationListView->setFields(\array_merge(['id'], \App\Json::decode($requestFields)));
+		}
+		$response = [
+			'headers' => [],
+			'records' => [],
+			'permissions' => [],
+		];
+		foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
+			$response['headers'][$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
+		}
+		if ((int) $this->controller->request->getHeader('x-only-column')) {
+			return $response;
 		}
 		if ($conditions = $this->controller->request->getHeader('x-condition')) {
 			$conditions = \App\Json::decode($conditions);
@@ -206,19 +183,16 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
 		}
-		$relationListView->getQueryGenerator()->setLimit($limit);
+		$relationListView->getQueryGenerator()->setLimit($limit + 1);
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$relationListView->getQueryGenerator()->setOffset((int) $requestOffset);
 		}
-		$response = [
-			'headers' => [],
-			'records' => [],
-		];
-		foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
-			$response['headers'][$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
-		}
 		$isRawData = $this->isRawData();
 		foreach ($relationListView->getAllEntries() as $id => $relatedRecordModel) {
+			$response['permissions'][$id] = [
+				'isEditable' => $relatedRecordModel->isEditable(),
+				'isDeletable' => $relatedRecordModel->privilegeToMoveToTrash(),
+			];
 			$response['records'][$id] = [];
 			foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
 				$value = $relatedRecordModel->get($fieldName);
@@ -228,8 +202,17 @@ class RecordRelatedList extends \Api\Core\BaseAction
 				}
 			}
 		}
-		$response['count'] = \count($response['records']);
-		$response['isMorePages'] = $response['count'] === $limit;
+		$response['numberOfRecords'] = \count($response['records']);
+		$isMorePages = false;
+		if ($limit && $response['numberOfRecords'] > $limit) {
+			$key = array_key_last($response['records']);
+			unset($response['records'][$key], $response['rawData'][$key]);
+			$isMorePages = true;
+		}
+		$response['isMorePages'] = $isMorePages;
+		if ($this->controller->request->getHeader('x-row-count')) {
+			$response['numberOfAllRecords'] = $relationListView->getRelationQuery()->count();
+		}
 		return $response;
 	}
 

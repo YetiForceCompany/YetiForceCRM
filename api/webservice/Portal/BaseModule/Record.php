@@ -75,7 +75,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		title="Base module - Response body for Record",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="Record data",
@@ -214,7 +214,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		description="List of records moved to the trash",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="Status of successful transfer of the record to the recycle bin",
@@ -261,7 +261,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="Gets data for the record",
@@ -332,7 +332,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
 	 *		required={"status", "result"},
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			title="Gets data for the record",

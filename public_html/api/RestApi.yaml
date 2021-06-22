@@ -766,6 +766,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/Conditions-Mix-For-Query-Generator'
         -
+          name: x-only-column
+          in: header
+          description: 'Return only column names'
+          required: false
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+          example: 1
+        -
           name: x-order-by
           in: header
           description: 'Set the sorted results by columns [Json format]'
@@ -777,7 +788,7 @@ paths:
                 description: 'Multiple or one condition for a query generator'
                 type: object
                 additionalProperties:
-                  title: 'Sort Direction'
+                  description: 'Sort Direction'
                   type: string
                   enum: [ASC, DESC]
               example:
@@ -878,24 +889,6 @@ paths:
             type: integer
           example: 0
         -
-          name: x-order-by
-          in: header
-          description: 'Set the sorted results by columns [Json format]'
-          required: false
-          content:
-            application/json:
-              schema:
-                title: 'Sort conditions'
-                description: 'Multiple or one condition for a query generator'
-                type: object
-                additionalProperties:
-                  title: 'Sort Direction'
-                  type: string
-                  enum: [ASC, DESC]
-              example:
-                field_name_1: ASC
-                field_name_2: DESC
-        -
           name: x-fields
           in: header
           description: 'JSON array in the list of fields to be returned in response'
@@ -945,6 +938,24 @@ paths:
           schema:
             type: integer
           example: 5
+        -
+          name: x-order-by
+          in: header
+          description: 'Set the sorted results by columns [Json format]'
+          required: false
+          content:
+            application/json:
+              schema:
+                title: 'Sort conditions'
+                description: 'Multiple or one condition for a query generator'
+                type: object
+                additionalProperties:
+                  title: 'Sort Direction'
+                  type: string
+                  enum: [ASC, DESC]
+              example:
+                field_name_1: ASC
+                field_name_2: DESC
       responses:
         '200':
           description: 'List of entries'
@@ -1719,8 +1730,7 @@ components:
       description: 'List of available modules'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get permitted modules.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -1741,8 +1751,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get custom view list method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -1761,8 +1770,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get custom view list method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -1824,8 +1832,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get data about fields, blocks and inventory.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -1961,8 +1968,7 @@ components:
       description: 'Get privileges for module.'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get privileges for module.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -1985,8 +1991,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get record detail.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2001,13 +2006,11 @@ components:
             - data
           properties:
             name:
-              title: 'Record name'
-              description: 'Get record detail.'
+              description: 'Record name'
               type: string
               example: 'Driving school'
             id:
-              title: 'Record Id'
-              description: 'Get record detail.'
+              description: 'Record Id'
               type: integer
               example: 152
             fields:
@@ -2015,7 +2018,7 @@ components:
               description: 'Get record detail.'
               type: object
               additionalProperties:
-                title: 'Field label'
+                description: 'Field label'
                 type: string
                 example: 'Account name'
             data:
@@ -2028,29 +2031,24 @@ components:
                 - moveToTrash
               properties:
                 isEditable:
-                  title: 'Check if record is editable'
-                  description: 'Get record detail.'
+                  description: 'Check if record is editable'
                   type: boolean
                   example: true
                 moveToTrash:
-                  title: 'Permission to delete'
-                  description: 'Get record detail.'
+                  description: 'Permission to delete'
                   type: boolean
                   example: false
               type: object
             inventory:
-              title: 'Value inventory data'
-              description: 'Get record detail.'
+              description: 'Value inventory data'
               type: object
             summaryInventory:
-              title: 'Value summary inventory data'
-              description: 'Get record detail.'
+              description: 'Value summary inventory data'
               type: object
             rawData:
               $ref: '#/components/schemas/Record_Raw_Details'
             rawInventory:
-              title: 'Inventory data'
-              description: 'Get record detail.'
+              description: 'Inventory data'
               type: object
           type: object
       type: object
@@ -2062,15 +2060,13 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Delete record.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
             - 1
         result:
-          title: 'Status of successful transfer of the record to the recycle bin'
-          description: 'Delete record.'
+          description: 'Status of successful transfer of the record to the recycle bin'
           type: boolean
       type: object
     BaseModule_Put_Record_Response:
@@ -2081,8 +2077,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Edit record.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2094,13 +2089,11 @@ components:
             - id
           properties:
             id:
-              title: 'Id of the newly created record'
-              description: 'Edit record.'
+              description: 'Id of the newly created record'
               type: integer
               example: 22
             skippedData:
-              title: 'List of parameters passed in the request that were skipped in the write process'
-              description: 'Edit record.'
+              description: 'List of parameters passed in the request that were skipped in the write process'
               type: object
           type: object
       type: object
@@ -2141,8 +2134,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Create record.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2169,8 +2161,7 @@ components:
       description: 'Action module for recent activities in CRM'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get related record list method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2203,10 +2194,12 @@ components:
     BaseModule_RecordRelatedList_ResponseBody:
       title: 'Base module - Response action related record list'
       description: 'Module action related record list response body'
+      required:
+        - status
+        - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get related record list method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2214,66 +2207,126 @@ components:
         result:
           title: 'List of related records'
           description: 'Get related record list method.'
+          required:
+            - headers
+            - records
+            - permissions
+            - numberOfRecords
+            - isMorePages
           properties:
             headers:
               title: 'Column names'
               description: 'Get related record list method.'
-              type: object
-              additionalProperties: {  }
+              type: array
+              items:
+                type: string
+              example:
+                field_name_1: 'Field label 1'
+                field_name_2: 'Field label 2'
+                assigned_user_id: 'Assigned user'
+                createdtime: 'Created time'
             records:
               title: 'Records display details'
               description: 'Get related record list method.'
               type: object
               additionalProperties:
                 $ref: '#/components/schemas/Record_Display_Details'
-            rawData:
-              title: 'Records raw details'
+            permissions:
+              title: 'Records action permissions'
               description: 'Get related record list method.'
               type: object
               additionalProperties:
-                $ref: '#/components/schemas/Record_Raw_Details'
-            count:
-              description: 'Get related record list method.'
-              type: integer
-              example: 54
-            isMorePages:
-              description: 'Get related record list method.'
-              type: boolean
-              example: true
-          type: object
-      type: object
-    BaseModule_RecordsList_ResponseBody:
-      title: 'Base module - Response action record list'
-      description: 'Module action record list response body'
-      properties:
-        status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get record list method.'
-          type: integer
-          enum:
-            - 0
-            - 1
-        result:
-          description: 'List of records'
-          properties:
-            headers:
-              description: 'Column names'
-              type: object
-              additionalProperties: {  }
-            records:
-              description: 'Records display details'
-              type: object
-              additionalProperties:
-                $ref: '#/components/schemas/Record_Display_Details'
+                title: 'Record action permissions'
+                required:
+                  - isEditable
+                  - moveToTrash
+                properties:
+                  isEditable: { description: 'Check if record is editable', type: boolean, example: true }
+                  moveToTrash: { description: 'Permission to delete', type: boolean, example: true }
+                type: object
             rawData:
-              description: 'Records raw details'
+              title: 'Records raw details, dependent on the header `x-raw-data`'
+              description: 'Get related record list method.'
               type: object
               additionalProperties:
                 $ref: '#/components/schemas/Record_Raw_Details'
             numberOfRecords:
               description: 'Number of records on the page'
               type: integer
+              example: 20
+            isMorePages:
+              description: 'There are more pages'
+              type: boolean
+              example: true
+            numberOfAllRecords:
+              description: 'Number of all records, dependent on the header `x-row-count`'
+              type: integer
               example: 54
+          type: object
+      type: object
+    BaseModule_RecordsList_ResponseBody:
+      title: 'Base module - Response action record list'
+      description: 'Module action record list response body'
+      required:
+        - status
+        - result
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+        result:
+          title: 'List of records'
+          description: 'Get record list method.'
+          required:
+            - headers
+            - records
+            - permissions
+            - numberOfRecords
+            - isMorePages
+          properties:
+            headers:
+              title: 'Column names'
+              description: 'Get record list method.'
+              type: array
+              items:
+                type: string
+              example:
+                field_name_1: 'Field label 1'
+                field_name_2: 'Field label 2'
+                assigned_user_id: 'Assigned user'
+                createdtime: 'Created time'
+            records:
+              title: 'Records display details'
+              description: 'Get record list method.'
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/Record_Display_Details'
+            permissions:
+              title: 'Records action permissions'
+              description: 'Get record list method.'
+              type: object
+              additionalProperties:
+                title: 'Record action permissions'
+                required:
+                  - isEditable
+                  - isDeletable
+                properties:
+                  isEditable: { description: 'Get record list method.', type: boolean, example: true }
+                  isDeletable: { description: 'Get record list method.', type: boolean, example: true }
+                type: object
+            rawData:
+              title: 'Records raw details, dependent on the header `x-raw-data`'
+              description: 'Get record list method.'
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/Record_Raw_Details'
+            numberOfRecords:
+              description: 'Number of records on the page'
+              type: integer
+              example: 20
             isMorePages:
               description: 'There are more pages'
               type: boolean
@@ -2289,8 +2342,7 @@ components:
       description: 'Module action related modules list response body'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get related modules list method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2330,8 +2382,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get user history of access activity.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2388,8 +2439,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Put method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2492,8 +2542,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Post method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2689,8 +2738,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Put method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2704,8 +2752,7 @@ components:
       description: 'Get user detail.'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get user detail.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2749,8 +2796,7 @@ components:
       description: 'Module action record list response body'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get users list method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2800,8 +2846,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Post method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2843,8 +2888,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Put method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2863,8 +2907,7 @@ components:
         - result
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Get user history of access activity.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -2891,8 +2934,7 @@ components:
       description: 'Activate two factor authentication response body'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Post method.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0

@@ -3537,8 +3537,7 @@
                 "description": "The representation of a base action install",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Put method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3557,8 +3556,7 @@
                 "description": "Base action menu response body",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3660,8 +3658,7 @@
                 "description": "List of available modules",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get permitted modules.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3689,8 +3686,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get custom view list method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3716,8 +3712,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get custom view list method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3792,8 +3787,7 @@
                 "description": "Get widgets.",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get widgets.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -3865,8 +3859,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get data about fields, blocks and inventory.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4365,8 +4358,7 @@
                 "description": "Get records hierarchy.",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get records hierarchy.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4406,8 +4398,7 @@
                 "description": "Get method - Generate PDF.",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get method - Generate PDF.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4443,8 +4434,7 @@
                 "description": "Get method - Get PDF templates list.",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get method - Get PDF templates list.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4491,8 +4481,7 @@
                 "description": "Get privileges for module.",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get privileges for module.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4523,8 +4512,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get record detail.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4820,8 +4808,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Delete record.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4845,8 +4832,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Edit record.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4921,8 +4907,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Create record.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -4958,8 +4943,7 @@
                 "description": "Action module for recent activities in CRM",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get the record history.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -5137,8 +5121,7 @@
                 "description": "Module action related record list response body",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get related record list method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -5192,8 +5175,7 @@
                 "description": "Module action record list response body",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get record list method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -5248,8 +5230,7 @@
                 "description": "Module action related modules list response body",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get related modules list method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -5332,8 +5313,7 @@
                 "title": "Base module - Create inventory record response schema",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Create inventory record.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -5488,8 +5468,7 @@
                 "title": "Base module - Response body for Record",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "{@inheritdoc}",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -5588,8 +5567,7 @@
                 "description": "Module action record list response body",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Construct.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -5643,8 +5621,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get user history of access activity.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -5718,8 +5695,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Put method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -5875,8 +5851,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Post method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -6180,8 +6155,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Put method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -6200,8 +6174,7 @@
                 "description": "Get user detail.",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get user detail.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -6260,8 +6233,7 @@
                 "description": "Module action record list response body",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get users list method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -6336,8 +6308,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Post method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -6400,8 +6371,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Put method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -6426,8 +6396,7 @@
                 ],
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Get user history of access activity.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -6463,8 +6432,7 @@
                 "description": "Activate two factor authentication response body",
                 "properties": {
                     "status": {
-                        "title": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-                        "description": "Post method.",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,

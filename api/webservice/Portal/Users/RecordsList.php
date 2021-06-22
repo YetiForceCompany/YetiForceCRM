@@ -93,7 +93,7 @@ class RecordsList extends \Api\RestApi\Users\RecordsList
 	 *		title="Users module - Response action users list",
 	 *		description="Module action record list response body",
 	 *		type="object",
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="List of records",

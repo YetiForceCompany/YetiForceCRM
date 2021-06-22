@@ -86,7 +86,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *		title="Base module - Response action history record",
 	 *		description="Action module for recent activities in CRM",
 	 *		type="object",
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(property="result", type="object", title="Returns recent activities that took place in CRM",
 	 * 			@OA\Property(
 	 *				property="records",

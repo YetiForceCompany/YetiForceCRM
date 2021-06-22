@@ -75,7 +75,7 @@ class RelatedModules extends \Api\Core\BaseAction
 	 *		title="Base module - Response action related modules list",
 	 *		description="Module action related modules list response body",
 	 *		type="object",
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(property="result", type="object", title="List of related records",
 	 *			@OA\Property(property="base", type="object", title="Base list",
 	 *				@OA\AdditionalProperties(type="object",

@@ -75,7 +75,7 @@ class SaveInventory extends \Api\Core\BaseAction
 	 *		schema="BaseAction_SaveInventory_ResponseBody",
 	 *		title="Base module - Create inventory record response schema",
 	 *		type="object",
-	 *		@OA\Property(property="status", type="integer", enum={0, 1}, title="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="Create result",

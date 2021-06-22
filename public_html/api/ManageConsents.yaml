@@ -258,8 +258,7 @@ components:
       description: 'Result of adding entry'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Add record.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -290,8 +289,7 @@ components:
       description: 'List of obtained consents'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Gets consents.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -368,8 +366,7 @@ components:
       description: 'Gets consents.'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Gets consents.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
@@ -405,8 +402,7 @@ components:
       description: 'Send e-mail.'
       properties:
         status:
-          title: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          description: 'Send e-mail.'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           enum:
             - 0
