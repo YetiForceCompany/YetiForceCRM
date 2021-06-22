@@ -58,15 +58,8 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 * 				@OA\AdditionalProperties(type="string", title="Sort Direction", enum={"ASC", "DESC"}),
 	 * 			),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-fields",
-	 *			description="JSON array in the list of fields to be returned in response",
-	 *			in="header",
-	 *			required=false,
-	 *			@OA\JsonContent(
-	 *				type="array",
-	 * 				@OA\Items(type="string"),
-	 * 			)
+	 *		@OA\Parameter(name="x-fields", in="header", description="JSON array in the list of fields to be returned in response", required=false,
+	 *			@OA\JsonContent(type="array", example={"field_name_1", "field_name_2"}, @OA\Items(type="string")),
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-condition",
@@ -166,7 +159,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 					$this->queryGenerator->addJoin([
 						'LEFT JOIN',
 						'vtiger_pricebookproductrel',
-						"vtiger_pricebookproductrel.pricebookid={$pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid"]
+						"vtiger_pricebookproductrel.pricebookid={$pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid", ]
 					);
 				}
 			} else {
@@ -179,7 +172,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 			$this->queryGenerator->addJoin([
 				'LEFT JOIN',
 				'u_#__istorages_products',
-				"u_#__istorages_products.crmid={$storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid"]
+				"u_#__istorages_products.crmid={$storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid", ]
 			);
 		}
 	}

@@ -1067,7 +1067,7 @@
                     {
                         "name": "x-row-limit",
                         "in": "header",
-                        "description": "Get rows limit, default: 1000",
+                        "description": "Get rows limit, default: 100",
                         "required": false,
                         "schema": {
                             "type": "integer"
@@ -1096,7 +1096,11 @@
                                     "items": {
                                         "type": "string"
                                     }
-                                }
+                                },
+                                "example": [
+                                    "field_name_1",
+                                    "field_name_2"
+                                ]
                             }
                         }
                     },
@@ -1319,7 +1323,11 @@
                                     "items": {
                                         "type": "string"
                                     }
-                                }
+                                },
+                                "example": [
+                                    "field_name_1",
+                                    "field_name_2"
+                                ]
                             }
                         }
                     },
@@ -2018,7 +2026,11 @@
                                     "items": {
                                         "type": "string"
                                     }
-                                }
+                                },
+                                "example": [
+                                    "field_name_1",
+                                    "field_name_2"
+                                ]
                             }
                         }
                     },

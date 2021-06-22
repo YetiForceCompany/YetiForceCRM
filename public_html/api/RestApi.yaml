@@ -729,7 +729,7 @@ paths:
         -
           name: x-row-limit
           in: header
-          description: 'Get rows limit, default: 1000'
+          description: 'Get rows limit, default: 100'
           required: false
           schema:
             type: integer
@@ -753,6 +753,9 @@ paths:
                 type: array
                 items:
                   type: string
+              example:
+                - field_name_1
+                - field_name_2
         -
           name: x-condition
           in: header
@@ -903,6 +906,9 @@ paths:
                 type: array
                 items:
                   type: string
+              example:
+                - field_name_1
+                - field_name_2
         -
           name: x-condition
           in: header
@@ -1370,6 +1376,9 @@ paths:
                 type: array
                 items:
                   type: string
+              example:
+                - field_name_1
+                - field_name_2
         -
           name: x-condition
           in: header

@@ -39,15 +39,8 @@ class RecordsList extends \Api\RestApi\Users\RecordsList
 	 * 				@OA\AdditionalProperties(type="string", title="Sort Direction", enum={"ASC", "DESC"}),
 	 * 			),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-fields",
-	 *			description="JSON array in the list of fields to be returned in response",
-	 *			in="header",
-	 *			required=false,
-	 *			@OA\JsonContent(
-	 *				type="array",
-	 * 				@OA\Items(type="string"),
-	 * 			)
+	 *		@OA\Parameter(name="x-fields", in="header", description="JSON array in the list of fields to be returned in response", required=false,
+	 *			@OA\JsonContent(type="array", example={"field_name_1", "field_name_2"}, @OA\Items(type="string")),
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-condition",
