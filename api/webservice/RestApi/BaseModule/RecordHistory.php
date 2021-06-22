@@ -159,10 +159,6 @@ class RecordHistory extends \Api\Core\BaseAction
 
 		$isRawData = $this->isRawData();
 		while ($row = $dataReader->read()) {
-			if (!--$limit) {
-				$isMorePages = true;
-				break;
-			}
 			$recordModel = (new \ModTracker_Record_Model())->setData($row)->setParent($row['crmid'], $row['module']);
 			$row = [
 				'time' => $recordModel->getDisplayActivityTime(),
@@ -209,6 +205,10 @@ class RecordHistory extends \Api\Core\BaseAction
 				}
 			}
 			$records[$recordModel->get('id')] = $row;
+			if (!--$limit) {
+				$isMorePages = true;
+				break;
+			}
 		}
 		$dataReader->close();
 		return [
