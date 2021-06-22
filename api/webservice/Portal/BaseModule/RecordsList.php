@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Portal\BaseModule;
@@ -33,21 +34,11 @@ class RecordsList extends \Api\RestApi\BaseModule\RecordsList
 	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
 	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 100", required=false, example=50),
 	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
-	 *		@OA\Parameter(
-	 *			name="x-row-order-field",
-	 *			description="Sets the ORDER BY part of the query record list",
-	 *			@OA\Schema(type="string"),
-	 *			in="header",
-	 *			example="lastname",
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-order",
-	 *			description="Sorting direction",
-	 *			@OA\Schema(type="string", enum={"ASC", "DESC"}),
-	 *			in="header",
-	 *			example="DESC",
-	 *			required=false
+	 *		@OA\Parameter(name="x-order-by", in="header", description="Set the sorted results by columns [Json format]", required=false,
+	 * 			@OA\JsonContent(type="object", title="Sort conditions", description="Multiple or one condition for a query generator",
+	 * 				example={"field_name_1" : "ASC", "field_name_2" : "DESC"},
+	 * 				@OA\AdditionalProperties(type="string", title="Sort Direction", enum={"ASC", "DESC"}),
+	 * 			),
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-fields",

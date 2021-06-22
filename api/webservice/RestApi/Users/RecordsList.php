@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\RestApi\Users;
@@ -22,7 +23,7 @@ class RecordsList extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** {@inheritdoc}  */
-	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-parent-id'];
+	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-order-by', 'x-parent-id'];
 
 	/** @var \App\QueryGenerator Query generator instance. */
 	protected $queryGenerator;
@@ -47,21 +48,11 @@ class RecordsList extends \Api\Core\BaseAction
 	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
 	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 1000", required=false, example=1000),
 	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
-	 *		@OA\Parameter(
-	 *			name="x-row-order-field",
-	 *			description="Sets the ORDER BY part of the query record list",
-	 *			@OA\Schema(type="string"),
-	 *			in="header",
-	 *			example="lastname",
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-order",
-	 *			description="Sorting direction",
-	 *			@OA\Schema(type="string", enum={"ASC", "DESC"}),
-	 *			in="header",
-	 *			example="DESC",
-	 *			required=false
+	 *		@OA\Parameter(name="x-order-by", in="header", description="Set the sorted results by columns [Json format]", required=false,
+	 * 			@OA\JsonContent(type="object", title="Sort conditions", description="Multiple or one condition for a query generator",
+	 * 				example={"field_name_1" : "ASC", "field_name_2" : "DESC"},
+	 * 				@OA\AdditionalProperties(type="string", title="Sort Direction", enum={"ASC", "DESC"}),
+	 * 			),
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-fields",
@@ -187,9 +178,6 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
 		}
-		if ($orderField = $this->controller->request->getHeader('x-row-order-field')) {
-			$this->queryGenerator->setOrder($orderField, $this->controller->request->getHeader('x-row-order'));
-		}
 		$offset = 0;
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$offset = (int) $requestOffset;
@@ -207,6 +195,17 @@ class RecordsList extends \Api\Core\BaseAction
 				}
 			} else {
 				$this->queryGenerator->setFields(['first_name', 'last_name', 'roleid', 'email1', 'primary_phone']);
+			}
+		}
+		if ($orderBy = $this->controller->request->getHeader('x-order-by')) {
+			$orderBy = \App\Json::decode($orderBy);
+			if (!empty($orderBy) && \is_array($orderBy)) {
+				foreach ($orderBy as $fieldName => $sortFlag) {
+					$field = $this->queryGenerator->getModuleField($fieldName);
+					if (($field && $field->isActiveField()) || 'id' === $fieldName) {
+						$this->queryGenerator->setOrder($fieldName, $sortFlag);
+					}
+				}
 			}
 		}
 		$this->fields = $this->queryGenerator->getListViewFields();

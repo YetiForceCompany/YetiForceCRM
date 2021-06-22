@@ -875,24 +875,23 @@ paths:
             type: integer
           example: 0
         -
-          name: x-row-order-field
+          name: x-order-by
           in: header
-          description: 'Sets the ORDER BY part of the query record list'
+          description: 'Set the sorted results by columns [Json format]'
           required: false
-          schema:
-            type: string
-          example: lastname
-        -
-          name: x-row-order
-          in: header
-          description: 'Sorting direction'
-          required: false
-          schema:
-            type: string
-            enum:
-              - ASC
-              - DESC
-          example: DESC
+          content:
+            application/json:
+              schema:
+                title: 'Sort conditions'
+                description: 'Multiple or one condition for a query generator'
+                type: object
+                additionalProperties:
+                  title: 'Sort Direction'
+                  type: string
+                  enum: [ASC, DESC]
+              example:
+                field_name_1: ASC
+                field_name_2: DESC
         -
           name: x-fields
           in: header
@@ -1343,24 +1342,23 @@ paths:
             type: integer
           example: 0
         -
-          name: x-row-order-field
+          name: x-order-by
           in: header
-          description: 'Sets the ORDER BY part of the query record list'
+          description: 'Set the sorted results by columns [Json format]'
           required: false
-          schema:
-            type: string
-          example: lastname
-        -
-          name: x-row-order
-          in: header
-          description: 'Sorting direction'
-          required: false
-          schema:
-            type: string
-            enum:
-              - ASC
-              - DESC
-          example: DESC
+          content:
+            application/json:
+              schema:
+                title: 'Sort conditions'
+                description: 'Multiple or one condition for a query generator'
+                type: object
+                additionalProperties:
+                  title: 'Sort Direction'
+                  type: string
+                  enum: [ASC, DESC]
+              example:
+                field_name_1: ASC
+                field_name_2: DESC
         -
           name: x-fields
           in: header

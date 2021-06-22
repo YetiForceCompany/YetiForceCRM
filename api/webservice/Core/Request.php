@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Core;
@@ -39,8 +40,6 @@ class Request extends \App\Request
 		'x-unit-price' => \App\Purifier::INTEGER,
 		'x-unit-gross' => \App\Purifier::INTEGER,
 		'x-product-bundles' => \App\Purifier::INTEGER,
-		'x-row-order-field' => \App\Purifier::ALNUM_EXTENDED,
-		'x-row-order' => \App\Purifier::ALNUM,
 		'x-start-with' => \App\Purifier::INTEGER,
 		'x-only-column' => \App\Purifier::INTEGER,
 		'x-row-count' => \App\Purifier::INTEGER,
