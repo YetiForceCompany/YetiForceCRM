@@ -15,14 +15,19 @@
 class Users_YetiForce_View extends \App\Controller\Modal
 {
 	use \App\Controller\ExposeMethod;
+
 	/** {@inheritdoc} */
 	public $modalIcon = 'fas fa-radiation-alt';
+
 	/** {@inheritdoc} */
 	public $modalId = 'YetiForceAlert';
+
 	/** {@inheritdoc} */
 	public $successBtn = '';
+
 	/** {@inheritdoc} */
 	public $dangerBtn = '';
+
 	/** {@inheritdoc} */
 	public $lockExit = true;
 

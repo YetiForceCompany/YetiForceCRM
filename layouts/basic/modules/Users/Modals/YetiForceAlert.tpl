@@ -25,6 +25,14 @@
 			</a>
 		{/if}
 	{/if}
+	<div class="clearfix"></div>
+	<div class="mt-3">
+		<div class="progress">
+			<div class="progress-bar progress-bar-striped progress-bar-animated js-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 100%;" data-js="container">
+				<span class="sr-only"></span>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- /tpl-Users-Modals-RegistrationAlert -->
 {/strip}

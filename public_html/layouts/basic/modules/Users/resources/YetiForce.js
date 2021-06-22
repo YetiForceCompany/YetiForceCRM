@@ -10,9 +10,17 @@ $.Class(
 		 * @param {jQuery} modal Modal container
 		 */
 		registerEvents: function (modal) {
-			setTimeout(function () {
-				modal.modal('hide');
-			}, 7000);
+			let counter = 7000,
+				time = counter;
+			let progress = modal.find('.js-progress-bar');
+			let counterBack = setInterval(() => {
+				counter = counter - 100;
+				progress.css('width', (counter / time) * 100 + '%');
+				if (counter <= 0) {
+					clearInterval(counterBack);
+					modal.modal('hide');
+				}
+			}, 100);
 		}
 	}
 );
