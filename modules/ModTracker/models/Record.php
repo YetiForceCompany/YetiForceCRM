@@ -245,9 +245,18 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return "index.php?module=$moduleName&$action&record=" . $this->get('crmid');
 	}
 
+	/**
+	 * Undocumented function.
+	 *
+	 * @param int    $id
+	 * @param string $moduleName
+	 *
+	 * @return $this
+	 */
 	public function setParent($id, $moduleName)
 	{
 		$this->parent = Vtiger_Record_Model::getInstanceById($id, $moduleName);
+		return $this;
 	}
 
 	public function getParent()

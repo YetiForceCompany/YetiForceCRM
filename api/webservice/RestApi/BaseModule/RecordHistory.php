@@ -139,20 +139,31 @@ class RecordHistory extends \Api\Core\BaseAction
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
 		}
-		$pagingModel->set('limit', $limit + 1);
+		$pagingModel->set('limit', $limit);
 		if ($page = $this->controller->request->getHeader('x-page')) {
 			$pagingModel->set('page', (int) $page);
 		}
-		$recentActivities = \ModTracker_Record_Model::getUpdates($this->controller->request->getInteger('record'), $pagingModel, 'changes', $this->controller->request->getHeader('x-start-with'));
-		if ($limit && \count($recentActivities) > $limit) {
-			$key = array_key_last($recentActivities);
-			unset($recentActivities[$key]);
-			$isMorePages = true;
+		$startIndex = $pagingModel->getStartIndex();
+		$query = (new \App\Db\Query())
+			->from('vtiger_modtracker_basic')
+			->where(['crmid' => $this->controller->request->getInteger('record')])
+			->andWhere(['not in', 'status', [\ModTracker_Record_Model::DISPLAYED, \ModTracker_Record_Model::SHOW_HIDDEN_DATA]])
+			->limit($limit + 1)
+			->offset($startIndex)
+			->orderBy(['changedon' => SORT_DESC]);
+		if ($startWith = $this->controller->request->getHeader('x-start-with')) {
+			$query->andWhere(['>=', 'id', (int) $startWith]);
 		}
+		$dataReader = $query->createCommand()->query();
 		$records = [];
 
 		$isRawData = $this->isRawData();
-		foreach ($recentActivities as $recordModel) {
+		while ($row = $dataReader->read()) {
+			if (!--$limit) {
+				$isMorePages = true;
+				break;
+			}
+			$recordModel = (new \ModTracker_Record_Model())->setData($row)->setParent($row['crmid'], $row['module']);
 			$row = [
 				'time' => $recordModel->getDisplayActivityTime(),
 				'owner' => \App\Fields\Owner::getUserLabel($recordModel->get('whodid')) ?: '',
@@ -199,6 +210,7 @@ class RecordHistory extends \Api\Core\BaseAction
 			}
 			$records[$recordModel->get('id')] = $row;
 		}
+		$dataReader->close();
 		return [
 			'records' => $records,
 			'isMorePages' => $isMorePages
