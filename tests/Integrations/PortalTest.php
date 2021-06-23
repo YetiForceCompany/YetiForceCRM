@@ -292,14 +292,14 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testRelatedModules(): void
 	{
-		$request = $this->httpClient->get('Accounts/RelatedModules/' . self::$recordId, self::$requestOptions);
+		$request = $this->httpClient->get('Accounts/RelatedModules', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/RelatedModules/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/RelatedModules/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertTrue(isset($response['result']['base']), 'Accounts/RelatedModules/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertTrue(isset($response['result']['related']), 'Accounts/RelatedModules/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RelatedModules/{recordId}', 'get', 200);
+		static::assertSame(200, $request->getStatusCode(), 'Accounts/RelatedModules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Accounts/RelatedModules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertTrue(isset($response['result']['base']), 'Accounts/RelatedModules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertTrue(isset($response['result']['related']), 'Accounts/RelatedModules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RelatedModules', 'get', 200);
 	}
 
 	/**

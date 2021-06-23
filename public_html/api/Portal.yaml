@@ -2855,10 +2855,14 @@ components:
               title: 'System field names and field labels'
               description: 'Get record detail.'
               type: object
+              example:
+                field_name_1: 'Field label 1'
+                field_name_2: 'Field label 2'
+                assigned_user_id: 'Assigned user'
+                createdtime: 'Created time'
               additionalProperties:
                 description: 'Field label'
                 type: string
-                example: 'Account name'
             data:
               $ref: '#/components/schemas/Record_Display_Details'
             privileges:
@@ -3395,12 +3399,17 @@ components:
               type: integer
               example: 152
             fields:
-              description: 'System field names and field labels'
+              title: 'System field names and field labels'
+              description: '{@inheritdoc}'
               type: object
+              example:
+                field_name_1: 'Field label 1'
+                field_name_2: 'Field label 2'
+                assigned_user_id: 'Assigned user'
+                createdtime: 'Created time'
               additionalProperties:
                 description: 'Field label'
                 type: string
-                example: 'Account name'
             data:
               $ref: '#/components/schemas/Record_Display_Details'
             privileges:
@@ -3933,8 +3942,15 @@ components:
               type: integer
               example: 1
             fields:
-              description: 'Field name items'
+              title: 'System field names and field labels'
+              description: 'Get user detail.'
               type: object
+              example:
+                field_name_1: 'Field label 1'
+                field_name_2: 'Field label 2'
+              additionalProperties:
+                description: 'Field label'
+                type: string
             data:
               description: 'User data'
               type: object

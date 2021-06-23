@@ -119,11 +119,8 @@ class Record extends \Api\Core\BaseAction
 	 *			required={"name", "id", "fields", "data"},
 	 *			@OA\Property(property="name", description="Record name", type="string", example="Driving school"),
 	 *			@OA\Property(property="id", description="Record Id", type="integer", example=152),
-	 *			@OA\Property(
-	 * 				property="fields",
-	 *				title="System field names and field labels",
-	 *				type="object",
-	 *				@OA\AdditionalProperties(description="Field label", type="string", example="Account name"),
+	 *			@OA\Property(property="fields", type="object", title="System field names and field labels", example={"field_name_1" : "Field label 1", "field_name_2" : "Field label 2", "assigned_user_id" : "Assigned user", "createdtime" : "Created time"},
+	 * 				@OA\AdditionalProperties(type="string", description="Field label"),
 	 *			),
 	 *			@OA\Property(property="data", title="Record data", type="object", ref="#/components/schemas/Record_Display_Details"),
 	 *			@OA\Property(

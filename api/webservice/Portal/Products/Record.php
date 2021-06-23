@@ -95,11 +95,8 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *			type="object",
 	 *			@OA\Property(property="name", description="Record name", type="string", example="Driving school"),
 	 *			@OA\Property(property="id", description="Record Id", type="integer", example=152),
-	 *			@OA\Property(
-	 * 				property="fields",
-	 *				description="System field names and field labels",
-	 *				type="object",
-	 *				@OA\AdditionalProperties(description="Field label", type="string", example="Account name"),
+	 *			@OA\Property(property="fields", type="object", title="System field names and field labels", example={"field_name_1" : "Field label 1", "field_name_2" : "Field label 2", "assigned_user_id" : "Assigned user", "createdtime" : "Created time"},
+	 * 				@OA\AdditionalProperties(type="string", description="Field label"),
 	 *			),
 	 *			@OA\Property(
 	 *				property="data",
@@ -231,7 +228,7 @@ class Record extends \Api\Portal\BaseModule\Record
 				$queryGenerator->addJoin([
 					'LEFT JOIN',
 					'vtiger_pricebookproductrel',
-					"vtiger_pricebookproductrel.pricebookid={$pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid"]
+					"vtiger_pricebookproductrel.pricebookid={$pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid", ]
 				);
 			}
 		}
@@ -241,7 +238,7 @@ class Record extends \Api\Portal\BaseModule\Record
 			$queryGenerator->addJoin([
 				'LEFT JOIN',
 				'u_#__istorages_products',
-				"u_#__istorages_products.crmid={$storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid"]
+				"u_#__istorages_products.crmid={$storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid", ]
 			);
 		}
 		$fieldsModel = $queryGenerator->getListViewFields();

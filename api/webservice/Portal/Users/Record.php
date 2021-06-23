@@ -69,10 +69,8 @@ class Record extends \Api\RestApi\Users\Record
 	 *			type="object",
 	 *			@OA\Property(property="name", description="User label", type="string", example="System Admin"),
 	 *			@OA\Property(property="id", description="User Id", type="integer", example=1),
-	 *			@OA\Property(
-	 * 				property="fields",
-	 *				description="Field name items",
-	 *				type="object",
+	 *			@OA\Property(property="fields", type="object", title="System field names and field labels", example={"field_name_1" : "Field label 1", "field_name_2" : "Field label 2"},
+	 * 				@OA\AdditionalProperties(type="string", description="Field label"),
 	 *			),
 	 *			@OA\Property(
 	 *				property="data",
