@@ -53,13 +53,14 @@ class PrivilegeQuery
 			default:
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
 		}
+		$where = ['and'];
 		$fieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app'));
-		if (!$fieldInfo) {
+		if ($fieldInfo) {
+			$where[] = [$fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] => 1];
+		} elseif ('ModComments' !== $moduleName) {
 			$query->andWhere(new Expression('0=1'));
 			return;
 		}
-		$where = ['and'];
-		$where[] = [$fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] => 1];
 		$parentModule = \App\Record::getType($parentId);
 		$fields = \App\Field::getRelatedFieldForModule($moduleName);
 		$foundField = true;

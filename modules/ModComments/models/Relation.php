@@ -39,4 +39,19 @@ class ModComments_Relation_Model extends Vtiger_Relation_Model
 		}
 		return $result;
 	}
+
+	/**
+	 * Set exceptional data.
+	 */
+	public function setExceptionData()
+	{
+		$data = [
+			'tabid' => $this->getParentModuleModel()->getId(),
+			'related_tabid' => $this->getRelationModuleModel()->getId(),
+			'name' => 'getRelatedRecord',
+			'actions' => '',
+			'modulename' => $this->getParentModuleModel()->getName(),
+		];
+		$this->setData($data);
+	}
 }
