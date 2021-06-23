@@ -208,7 +208,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		$isMorePages = false;
 		if ($limit && $response['numberOfRecords'] > $limit) {
 			$key = array_key_last($response['records']);
-			unset($response['records'][$key], $response['rawData'][$key]);
+			unset($response['records'][$key], $response['rawData'][$key], $response['permissions'][$key]);
 			$isMorePages = true;
 		}
 		$response['isMorePages'] = $isMorePages;
