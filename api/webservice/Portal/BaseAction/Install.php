@@ -76,10 +76,6 @@ class Install extends \Api\Core\BaseAction
 	 *			type="object"
 	 *		),
 	 *	),
-	 *	@OA\Tag(
-	 *		name="BaseAction",
-	 *		description="Access to user methods"
-	 *	)
 	 */
 	public function put()
 	{

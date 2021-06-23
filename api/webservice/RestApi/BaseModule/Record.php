@@ -146,10 +146,6 @@ class Record extends \Api\Core\BaseAction
 	 *			@OA\Property(property="rawInventory", description="Inventory data", type="object"),
 	 *		),
 	 * ),
-	 * @OA\Tag(
-	 *		name="BaseModule",
-	 *		description="Access to record methods"
-	 * )
 	 */
 	public function get(): array
 	{

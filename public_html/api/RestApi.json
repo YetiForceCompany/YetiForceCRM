@@ -2334,7 +2334,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get two factor authentication details",
+                "summary": "Two factor authentication details",
+                "description": "Get two factor authentication details",
                 "operationId": "Api\\RestApi\\Users\\TwoFactorAuth::get",
                 "parameters": [
                     {
@@ -2405,7 +2406,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Activate two factor authentication",
+                "summary": "Activate 2FA",
+                "description": "Activate two factor authentication",
                 "operationId": "Api\\RestApi\\Users\\TwoFactorAuth::post",
                 "parameters": [
                     {
@@ -2476,7 +2478,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Disable two factor authentication",
+                "summary": "Disable 2FA",
+                "description": "Disable two factor authentication",
                 "operationId": "Api\\RestApi\\Users\\TwoFactorAuth::delete",
                 "parameters": [
                     {
@@ -2762,50 +2765,42 @@
                                 "additionalProperties": {
                                     "properties": {
                                         "name": {
-                                            "title": "Field name",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Field name",
                                             "type": "string",
                                             "example": "subject"
                                         },
                                         "label": {
-                                            "title": "Field label translated into the user's language",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Field label translated into the user's language",
                                             "type": "string",
                                             "example": "Subject"
                                         },
                                         "type": {
-                                            "title": "Field type",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Field type",
                                             "type": "string",
                                             "example": "string"
                                         },
                                         "mandatory": {
-                                            "title": "Check if field is mandatory",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Check if field is mandatory",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "defaultvalue": {
-                                            "title": "Default field value",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Default field value",
                                             "type": "string",
                                             "example": ""
                                         },
                                         "presence": {
-                                            "title": "Check if field is active",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Check if field is active",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "quickcreate": {
-                                            "title": "Check if field is active",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Check if field is active",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "masseditable": {
-                                            "title": "Check if field is quick create enabled",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Check if field is quick create enabled",
                                             "type": "boolean",
                                             "example": true
                                         },
@@ -2814,14 +2809,12 @@
                                             "description": "Get data about fields, blocks and inventory.",
                                             "properties": {
                                                 "type": {
-                                                    "title": "Type",
-                                                    "description": "Get data about fields, blocks and inventory.",
+                                                    "description": "Type",
                                                     "type": "string",
                                                     "example": "value"
                                                 },
                                                 "class": {
-                                                    "title": "Gui class",
-                                                    "description": "Get data about fields, blocks and inventory.",
+                                                    "description": "Gui class",
                                                     "type": "string",
                                                     "example": "badge-info"
                                                 }
@@ -2829,32 +2822,27 @@
                                             "type": "object"
                                         },
                                         "maxlengthtext": {
-                                            "title": "Max length text",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Max length text",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "maximumlength": {
-                                            "title": "Maximum field range",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Maximum field range",
                                             "type": "string",
                                             "example": "-2147483648,2147483647"
                                         },
                                         "maxwidthcolumn": {
-                                            "title": "Max width column",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Max width column",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "tabindex": {
-                                            "title": "Field tab index",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Field tab index",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "fieldtype": {
-                                            "title": "Field short data type",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Field short data type",
                                             "type": "string",
                                             "example": "V"
                                         },
@@ -2893,8 +2881,7 @@
                                             "description": "Get data about fields, blocks and inventory.",
                                             "properties": {
                                                 "yeti.com": {
-                                                    "title": "List of domains reserved by email",
-                                                    "description": "Get data about fields, blocks and inventory.",
+                                                    "description": "List of domains reserved by email",
                                                     "example": "yeti.com"
                                                 }
                                             },
@@ -2910,85 +2897,71 @@
                                             "description": "Get data about fields, blocks and inventory.",
                                             "properties": {
                                                 "jpg": {
-                                                    "title": "List of file data formats",
-                                                    "description": "Get data about fields, blocks and inventory.",
+                                                    "description": "List of file data formats",
                                                     "example": "jpg"
                                                 }
                                             },
                                             "type": "object"
                                         },
                                         "id": {
-                                            "title": "Field ID",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Field ID",
                                             "type": "integer",
                                             "example": 24862
                                         },
                                         "uitype": {
-                                            "title": "Field UiType",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Field UiType",
                                             "type": "integer",
                                             "example": 1
                                         },
                                         "isEditable": {
-                                            "title": "Check if record is editable",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Check if record is editable",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "isViewable": {
-                                            "title": "Check if record is viewable",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Check if record is viewable",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "isReadOnly": {
-                                            "title": "Check if record is read only (based on profiles)",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Check if record is read only (based on profiles)",
                                             "type": "boolean",
                                             "example": false
                                         },
                                         "isEditableReadOnly": {
-                                            "title": "Check if record is editable or read only (based on the field type)",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Check if record is editable or read only (based on the field type)",
                                             "type": "boolean",
                                             "example": false
                                         },
                                         "sequence": {
-                                            "title": "Sequence field",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Sequence field",
                                             "type": "integer",
                                             "example": 24862
                                         },
                                         "fieldparams": {
-                                            "title": "Field params",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Field params",
                                             "type": "object"
                                         },
                                         "blockId": {
-                                            "title": "Field block id",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Field block id",
                                             "type": "integer",
                                             "example": 280
                                         },
                                         "helpInfo": {
-                                            "title": "Additional field description",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Additional field description",
                                             "type": "string",
                                             "example": "Edit,Detail"
                                         },
                                         "dbStructure": {
-                                            "title": "Info about field structure in database",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Info about field structure in database",
                                             "type": "object"
                                         },
                                         "queryOperators": {
-                                            "title": "Field query operators",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Field query operators",
                                             "type": "object"
                                         },
                                         "isEmptyPicklistOptionAllowed": {
-                                            "title": "Defines empty picklist element availability",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Defines empty picklist element availability",
                                             "type": "boolean",
                                             "example": false
                                         },
@@ -2997,7 +2970,7 @@
                                             "description": "Get data about fields, blocks and inventory.",
                                             "type": "object",
                                             "additionalProperties": {
-                                                "title": "Tree item",
+                                                "description": "Tree item",
                                                 "type": "string",
                                                 "example": "Accounts"
                                             }
@@ -3010,26 +2983,22 @@
                                                 "title": "Tree item",
                                                 "properties": {
                                                     "id": {
-                                                        "title": "Number tree without prefix",
-                                                        "description": "Get data about fields, blocks and inventory.",
+                                                        "description": "Number tree without prefix",
                                                         "type": "integer",
                                                         "example": 1
                                                     },
                                                     "tree": {
-                                                        "title": "Tree id",
-                                                        "description": "Get data about fields, blocks and inventory.",
+                                                        "description": "Tree id",
                                                         "type": "string",
                                                         "example": "T10"
                                                     },
                                                     "parent": {
-                                                        "title": "Parent tree id",
-                                                        "description": "Get data about fields, blocks and inventory.",
+                                                        "description": "Parent tree id",
                                                         "type": "string",
                                                         "example": "T1"
                                                     },
                                                     "text": {
-                                                        "title": "Tree value",
-                                                        "description": "Get data about fields, blocks and inventory.",
+                                                        "description": "Tree value",
                                                         "type": "string",
                                                         "example": "Tree value"
                                                     }
@@ -3064,80 +3033,67 @@
                                     ],
                                     "properties": {
                                         "id": {
-                                            "title": "Block id",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Block id",
                                             "type": "integer",
                                             "example": 195
                                         },
                                         "tabid": {
-                                            "title": "Module id",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Module id",
                                             "type": "integer",
                                             "example": 9
                                         },
                                         "label": {
-                                            "title": "Block label",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Block label",
                                             "type": "string",
                                             "example": "Account details"
                                         },
                                         "sequence": {
-                                            "title": "Block sequence",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Block sequence",
                                             "type": "integer",
                                             "example": 1
                                         },
                                         "showtitle": {
-                                            "title": "Specifies whether the title should be visible",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Specifies whether the title should be visible",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "visible": {
-                                            "title": "Determines the visibility",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Determines the visibility",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "increateview": {
-                                            "title": "Determines the visibility in creat view",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Determines the visibility in creat view",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "ineditview": {
-                                            "title": "Determines the visibility in edit view",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Determines the visibility in edit view",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "indetailview": {
-                                            "title": "Determines the visibility in detail view",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Determines the visibility in detail view",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "display_status": {
-                                            "title": "Determines whether the block should be expanded",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Determines whether the block should be expanded",
                                             "type": "integer",
                                             "example": 2
                                         },
                                         "iscustom": {
-                                            "title": "Determines if the block has been added by the user",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Determines if the block has been added by the user",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "icon": {
-                                            "title": "Block icon class",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Block icon class",
                                             "type": "string",
                                             "example": "far fa-calendar-alt"
                                         },
                                         "name": {
-                                            "title": "Block name translated into the user's language",
-                                            "description": "Get data about fields, blocks and inventory.",
+                                            "description": "Block name translated into the user's language",
                                             "type": "string",
                                             "example": "Informacje podstawowe o firmie"
                                         }
@@ -3164,32 +3120,27 @@
                                             ],
                                             "properties": {
                                                 "label": {
-                                                    "title": "Field label translated into the user's language",
-                                                    "description": "Get data about fields, blocks and inventory.",
+                                                    "description": "Field label translated into the user's language",
                                                     "type": "string",
                                                     "example": "Unit price"
                                                 },
                                                 "type": {
-                                                    "title": "Field type",
-                                                    "description": "Get data about fields, blocks and inventory.",
+                                                    "description": "Field type",
                                                     "type": "string",
                                                     "example": "UnitPrice"
                                                 },
                                                 "columnname": {
-                                                    "title": "Field column name in db",
-                                                    "description": "Get data about fields, blocks and inventory.",
+                                                    "description": "Field column name in db",
                                                     "type": "string",
                                                     "example": "price"
                                                 },
                                                 "isSummary": {
-                                                    "title": "Is the field contains summary",
-                                                    "description": "Get data about fields, blocks and inventory.",
+                                                    "description": "Is the field contains summary",
                                                     "type": "boolean",
                                                     "example": false
                                                 },
                                                 "isVisibleInDetail": {
-                                                    "title": "Check if field is visible in detail view",
-                                                    "description": "Get data about fields, blocks and inventory.",
+                                                    "description": "Check if field is visible in detail view",
                                                     "type": "boolean",
                                                     "example": true
                                                 }
@@ -3236,6 +3187,7 @@
             },
             "BaseModule_Get_Record_Response": {
                 "title": "Base module - Response body for Record",
+                "description": "Get record detail.",
                 "required": [
                     "status",
                     "result"
@@ -3646,17 +3598,18 @@
                         ],
                         "properties": {
                             "headers": {
-                                "title": "Column names",
+                                "title": "Fields names",
                                 "description": "Get related record list method.",
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
+                                "type": "object",
                                 "example": {
                                     "field_name_1": "Field label 1",
                                     "field_name_2": "Field label 2",
                                     "assigned_user_id": "Assigned user",
                                     "createdtime": "Created time"
+                                },
+                                "additionalProperties": {
+                                    "description": "Field name",
+                                    "type": "string"
                                 }
                             },
                             "records": {
@@ -3749,17 +3702,18 @@
                         ],
                         "properties": {
                             "headers": {
-                                "title": "Column names",
+                                "title": "Fields names",
                                 "description": "Get record list method.",
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
+                                "type": "object",
                                 "example": {
                                     "field_name_1": "Field label 1",
                                     "field_name_2": "Field label 2",
                                     "assigned_user_id": "Assigned user",
                                     "createdtime": "Created time"
+                                },
+                                "additionalProperties": {
+                                    "description": "Field name",
+                                    "type": "string"
                                 }
                             },
                             "records": {
@@ -3847,20 +3801,17 @@
                                 "additionalProperties": {
                                     "properties": {
                                         "type": {
-                                            "title": "Type",
-                                            "description": "Get related modules list method.",
+                                            "description": "Type",
                                             "type": "string",
                                             "example": "Summary"
                                         },
                                         "label": {
-                                            "title": "Translated label",
-                                            "description": "Get related modules list method.",
+                                            "description": "Translated label",
                                             "type": "string",
                                             "example": "Summary"
                                         },
                                         "icon": {
-                                            "title": "Icon class",
-                                            "description": "Get related modules list method.",
+                                            "description": "Icon class",
                                             "type": "string",
                                             "example": "far fa-address-card"
                                         }
@@ -3875,26 +3826,22 @@
                                 "additionalProperties": {
                                     "properties": {
                                         "relationId": {
-                                            "title": "Relation ID",
-                                            "description": "Get related modules list method.",
+                                            "description": "Relation ID",
                                             "type": "integer",
                                             "example": 3
                                         },
                                         "relatedModuleName": {
-                                            "title": "Related module name",
-                                            "description": "Get related modules list method.",
+                                            "description": "Related module name",
                                             "type": "string",
                                             "example": "Documents"
                                         },
                                         "icon": {
-                                            "title": "Icon class",
-                                            "description": "Get related modules list method.",
+                                            "description": "Icon class",
                                             "type": "string",
                                             "example": "far fa-address-card"
                                         },
                                         "label": {
-                                            "title": "Translated label",
-                                            "description": "Get related modules list method.",
+                                            "description": "Translated label",
                                             "type": "string",
                                             "example": "Documents"
                                         }
@@ -3932,26 +3879,22 @@
                             "title": "Condition details",
                             "properties": {
                                 "time": {
-                                    "title": "Date time in user format",
-                                    "description": "Get user history of access activity.",
+                                    "description": "Date time in user format",
                                     "type": "string",
                                     "example": "2021-06-01 11:57"
                                 },
                                 "status": {
-                                    "title": "Operation name",
-                                    "description": "Get user history of access activity.",
+                                    "description": "Operation name",
                                     "type": "string",
                                     "example": "Signed in"
                                 },
                                 "agent": {
-                                    "title": "User agent",
-                                    "description": "Get user history of access activity.",
+                                    "description": "User agent",
                                     "type": "string",
                                     "example": "PostmanRuntime/7.28.0"
                                 },
                                 "ip": {
-                                    "title": "IP address",
-                                    "description": "Get user history of access activity.",
+                                    "description": "IP address",
                                     "type": "string",
                                     "example": "127.0.0.1"
                                 }
@@ -3999,8 +3942,7 @@
                         ]
                     },
                     "result": {
-                        "title": "Password change status",
-                        "description": "Put method.",
+                        "description": "Password change status",
                         "type": "boolean",
                         "example": false
                     }
@@ -4019,7 +3961,7 @@
             },
             "Conditions-Mix-For-Query-Generator": {
                 "title": "General - Mix conditions for query generator",
-                "description": "Multiple or one condition for a query query generator",
+                "description": "Multiple or one condition for a query generator",
                 "type": "object",
                 "oneOf": [
                     {
@@ -4108,7 +4050,7 @@
                         "description": "Additional parameters sent by the user, extending the current settings, e.g. language",
                         "properties": {
                             "language": {
-                                "description": "Post method.",
+                                "description": "Users language",
                                 "type": "string",
                                 "example": "pl-PL"
                             }
@@ -4310,6 +4252,7 @@
             },
             "Exception": {
                 "title": "General - Error exception",
+                "description": "Post method.",
                 "required": [
                     "status",
                     "error"
@@ -4505,8 +4448,7 @@
                 ],
                 "properties": {
                     "userName": {
-                        "title": "User name / email",
-                        "description": "Post method.",
+                        "description": "User name / email",
                         "type": "string"
                     }
                 },
@@ -4556,13 +4498,11 @@
                 ],
                 "properties": {
                     "token": {
-                        "title": "A one-time password reset token",
-                        "description": "Put method.",
+                        "description": "A one-time password reset token",
                         "type": "string"
                     },
                     "password": {
-                        "title": "New password",
-                        "description": "Put method.",
+                        "description": "New password",
                         "type": "string"
                     }
                 },
@@ -4595,7 +4535,7 @@
             },
             "Users_Get_TwoFactorAuth_Response": {
                 "title": "Users module - Authentication secret details",
-                "description": "Get user history of access activity.",
+                "description": "Get two factor authentication details.",
                 "required": [
                     "status",
                     "result"
@@ -4611,19 +4551,19 @@
                     },
                     "result": {
                         "title": "Content of responses from a given method",
-                        "description": "Get user history of access activity.",
+                        "description": "Get two factor authentication details.",
                         "required": [
                             "authMethods",
                             "secretKey"
                         ],
                         "properties": {
                             "authMethods": {
-                                "description": "Get user history of access activity.",
+                                "description": "Get two factor authentication details.",
                                 "type": "string",
                                 "example": "TOTP"
                             },
                             "secretKey": {
-                                "description": "Get user history of access activity.",
+                                "description": "Get two factor authentication details.",
                                 "type": "string",
                                 "example": "LJUJWCOEGUKP6WS2"
                             }
@@ -4705,6 +4645,14 @@
         {
             "name": "BaseModule",
             "description": "Access to record methods"
+        },
+        {
+            "name": "BaseAction",
+            "description": "Access to user methods"
+        },
+        {
+            "name": "Products",
+            "description": "Products methods"
         },
         {
             "name": "Users",

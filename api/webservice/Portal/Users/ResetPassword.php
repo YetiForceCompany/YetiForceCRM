@@ -61,8 +61,8 @@ class ResetPassword extends \Api\RestApi\Users\ResetPassword
 	 * 		title="Users module - Users password reset request body",
 	 *		type="object",
 	 *		required={"userName", "deviceId"},
-	 *  	@OA\Property(property="userName", type="string", title="User name / email"),
-	 * 		@OA\Property(property="deviceId", type="string", title="Portal user device ID", example="d520c7a8-421b-4563-b955-f5abc56b97ec"),
+	 *  	@OA\Property(property="userName", type="string", description="User name / email"),
+	 * 		@OA\Property(property="deviceId", type="string", description="Portal user device ID", example="d520c7a8-421b-4563-b955-f5abc56b97ec"),
 	 *	),
 	 *	@OA\Schema(
 	 * 		schema="Users_Post_ResetPassword_Response",
@@ -135,9 +135,9 @@ class ResetPassword extends \Api\RestApi\Users\ResetPassword
 	 * 		title="Users module - Users password reset request body",
 	 *		type="object",
 	 *		required={"token", "password", "deviceId"},
-	 *  	@OA\Property(property="token", type="string", title="A one-time password reset token"),
-	 *  	@OA\Property(property="password", type="string", title="New password"),
-	 *		@OA\Property(property="deviceId", type="string", title="Portal user device ID", example="d520c7a8-421b-4563-b955-f5abc56b97ec"),
+	 *  	@OA\Property(property="token", type="string", description="A one-time password reset token"),
+	 *  	@OA\Property(property="password", type="string", description="New password"),
+	 *		@OA\Property(property="deviceId", type="string", description="Portal user device ID", example="d520c7a8-421b-4563-b955-f5abc56b97ec"),
 	 *	),
 	 *	@OA\Schema(
 	 * 		schema="Users_Put_ResetPassword_Response",

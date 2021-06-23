@@ -17,13 +17,14 @@ namespace Api\Portal\Users;
 class TwoFactorAuth extends \Api\RestApi\Users\TwoFactorAuth
 {
 	/**
-	 * Get user history of access activity.
+	 * Get two factor authentication details.
 	 *
 	 * @return array
 	 *
 	 *	@OA\Get(
 	 *		path="/webservice/Portal/Users/TwoFactorAuth",
-	 *		summary="Get two factor authentication details",
+	 *		summary="2FA details",
+	 *		description="Get two factor authentication details",
 	 *		tags={"Users"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
@@ -76,7 +77,8 @@ class TwoFactorAuth extends \Api\RestApi\Users\TwoFactorAuth
 	 *
 	 * @OA\Post(
 	 *		path="/webservice/Portal/Users/TwoFactorAuth",
-	 *		summary="Activate two factor authentication",
+	 *		summary="Activate 2FA",
+	 *		description="Activate two factor authentication",
 	 *		tags={"Users"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
@@ -124,7 +126,8 @@ class TwoFactorAuth extends \Api\RestApi\Users\TwoFactorAuth
 	 *
 	 * @OA\Delete(
 	 *		path="/webservice/Portal/Users/TwoFactorAuth",
-	 *		summary="Disable two factor authentication",
+	 *		summary="Disable 2FA",
+	 *		description="Disable two factor authentication",
 	 *		tags={"Users"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),

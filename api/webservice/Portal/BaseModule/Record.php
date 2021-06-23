@@ -156,10 +156,6 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *			),
 	 *		),
 	 *	),
-	 *	@OA\Tag(
-	 *		name="BaseModule",
-	 *		description="Access to record methods"
-	 *	)
 	 */
 	public function get(): array
 	{

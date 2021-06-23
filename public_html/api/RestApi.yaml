@@ -1570,7 +1570,8 @@ paths:
     get:
       tags:
         - Users
-      summary: 'Get two factor authentication details'
+      summary: 'Two factor authentication details'
+      description: 'Get two factor authentication details'
       operationId: 'Api\RestApi\Users\TwoFactorAuth::get'
       parameters:
         -
@@ -1615,7 +1616,8 @@ paths:
     post:
       tags:
         - Users
-      summary: 'Activate two factor authentication'
+      summary: 'Activate 2FA'
+      description: 'Activate two factor authentication'
       operationId: 'Api\RestApi\Users\TwoFactorAuth::post'
       parameters:
         -
@@ -1660,7 +1662,8 @@ paths:
     delete:
       tags:
         - Users
-      summary: 'Disable two factor authentication'
+      summary: 'Disable 2FA'
+      description: 'Disable two factor authentication'
       operationId: 'Api\RestApi\Users\TwoFactorAuth::delete'
       parameters:
         -
@@ -1877,44 +1880,44 @@ components:
               type: object
               additionalProperties:
                 properties:
-                  name: { title: 'Field name', description: 'Get data about fields, blocks and inventory.', type: string, example: subject }
-                  label: { title: 'Field label translated into the user''s language', description: 'Get data about fields, blocks and inventory.', type: string, example: Subject }
-                  type: { title: 'Field type', description: 'Get data about fields, blocks and inventory.', type: string, example: string }
-                  mandatory: { title: 'Check if field is mandatory', description: 'Get data about fields, blocks and inventory.', type: boolean, example: true }
-                  defaultvalue: { title: 'Default field value', description: 'Get data about fields, blocks and inventory.', type: string, example: '' }
-                  presence: { title: 'Check if field is active', description: 'Get data about fields, blocks and inventory.', type: boolean, example: true }
-                  quickcreate: { title: 'Check if field is active', description: 'Get data about fields, blocks and inventory.', type: boolean, example: true }
-                  masseditable: { title: 'Check if field is quick create enabled', description: 'Get data about fields, blocks and inventory.', type: boolean, example: true }
-                  header_field: { title: 'Field configuration available in the header', description: 'Get data about fields, blocks and inventory.', properties: { type: { title: Type, description: 'Get data about fields, blocks and inventory.', type: string, example: value }, class: { title: 'Gui class', description: 'Get data about fields, blocks and inventory.', type: string, example: badge-info } }, type: object }
-                  maxlengthtext: { title: 'Max length text', description: 'Get data about fields, blocks and inventory.', type: integer, example: 0 }
-                  maximumlength: { title: 'Maximum field range', description: 'Get data about fields, blocks and inventory.', type: string, example: '-2147483648,2147483647' }
-                  maxwidthcolumn: { title: 'Max width column', description: 'Get data about fields, blocks and inventory.', type: integer, example: 0 }
-                  tabindex: { title: 'Field tab index', description: 'Get data about fields, blocks and inventory.', type: integer, example: 0 }
-                  fieldtype: { title: 'Field short data type', description: 'Get data about fields, blocks and inventory.', type: string, example: V }
+                  name: { description: 'Field name', type: string, example: subject }
+                  label: { description: 'Field label translated into the user''s language', type: string, example: Subject }
+                  type: { description: 'Field type', type: string, example: string }
+                  mandatory: { description: 'Check if field is mandatory', type: boolean, example: true }
+                  defaultvalue: { description: 'Default field value', type: string, example: '' }
+                  presence: { description: 'Check if field is active', type: boolean, example: true }
+                  quickcreate: { description: 'Check if field is active', type: boolean, example: true }
+                  masseditable: { description: 'Check if field is quick create enabled', type: boolean, example: true }
+                  header_field: { title: 'Field configuration available in the header', description: 'Get data about fields, blocks and inventory.', properties: { type: { description: Type, type: string, example: value }, class: { description: 'Gui class', type: string, example: badge-info } }, type: object }
+                  maxlengthtext: { description: 'Max length text', type: integer, example: 0 }
+                  maximumlength: { description: 'Maximum field range', type: string, example: '-2147483648,2147483647' }
+                  maxwidthcolumn: { description: 'Max width column', type: integer, example: 0 }
+                  tabindex: { description: 'Field tab index', type: integer, example: 0 }
+                  fieldtype: { description: 'Field short data type', type: string, example: V }
                   picklistvalues: { title: 'Picklist values, available only for type of field: picklist, multipicklist, multiowner, multiReferenceValue, inventoryLimit, languages, currencyList, fileLocationType, taxes, multiListFields, mailScannerFields, country, modules, sharedOwner, categoryMultipicklist, tree', description: 'Get data about fields, blocks and inventory.', type: object }
                   date-format: { title: 'Date format, available only for type of field: date, datetime', description: 'Get data about fields, blocks and inventory.', type: string }
                   time-format: { title: 'Time format, available only for type of field: time', description: 'Get data about fields, blocks and inventory.', type: string }
                   currency_symbol: { title: 'Currency symbol, available only for type of field: currency', description: 'Get data about fields, blocks and inventory.', type: string }
                   decimal_separator: { title: 'Currency decimal separator, available only for type of field: currency', description: 'Get data about fields, blocks and inventory.', type: string }
                   group_separator: { title: 'Currency group separator, available only for type of field: currency', description: 'Get data about fields, blocks and inventory.', type: string }
-                  restrictedDomains: { title: 'Email restricted domains, available only for type of field: email', description: 'Get data about fields, blocks and inventory.', properties: { yeti.com: { title: 'List of domains reserved by email', description: 'Get data about fields, blocks and inventory.', example: yeti.com } }, type: object }
+                  restrictedDomains: { title: 'Email restricted domains, available only for type of field: email', description: 'Get data about fields, blocks and inventory.', properties: { yeti.com: { description: 'List of domains reserved by email', example: yeti.com } }, type: object }
                   limit: { title: 'Limit the amount of images, available only for type of field: multiImage, image', description: 'Get data about fields, blocks and inventory.', type: integer }
-                  formats: { title: 'File Format, available only for type of field: multiImage, image', description: 'Get data about fields, blocks and inventory.', properties: { jpg: { title: 'List of file data formats', description: 'Get data about fields, blocks and inventory.', example: jpg } }, type: object }
-                  id: { title: 'Field ID', description: 'Get data about fields, blocks and inventory.', type: integer, example: 24862 }
-                  uitype: { title: 'Field UiType', description: 'Get data about fields, blocks and inventory.', type: integer, example: 1 }
-                  isEditable: { title: 'Check if record is editable', description: 'Get data about fields, blocks and inventory.', type: boolean, example: true }
-                  isViewable: { title: 'Check if record is viewable', description: 'Get data about fields, blocks and inventory.', type: boolean, example: true }
-                  isReadOnly: { title: 'Check if record is read only (based on profiles)', description: 'Get data about fields, blocks and inventory.', type: boolean, example: false }
-                  isEditableReadOnly: { title: 'Check if record is editable or read only (based on the field type)', description: 'Get data about fields, blocks and inventory.', type: boolean, example: false }
-                  sequence: { title: 'Sequence field', description: 'Get data about fields, blocks and inventory.', type: integer, example: 24862 }
-                  fieldparams: { title: 'Field params', description: 'Get data about fields, blocks and inventory.', type: object }
-                  blockId: { title: 'Field block id', description: 'Get data about fields, blocks and inventory.', type: integer, example: 280 }
-                  helpInfo: { title: 'Additional field description', description: 'Get data about fields, blocks and inventory.', type: string, example: 'Edit,Detail' }
-                  dbStructure: { title: 'Info about field structure in database', description: 'Get data about fields, blocks and inventory.', type: object }
-                  queryOperators: { title: 'Field query operators', description: 'Get data about fields, blocks and inventory.', type: object }
-                  isEmptyPicklistOptionAllowed: { title: 'Defines empty picklist element availability', description: 'Get data about fields, blocks and inventory.', type: boolean, example: false }
-                  referenceList: { title: 'List of related modules, available only for reference field', description: 'Get data about fields, blocks and inventory.', type: object, additionalProperties: { title: 'Tree item', type: string, example: Accounts } }
-                  treeValues: { title: 'Tree items, available only for tree field', description: 'Get data about fields, blocks and inventory.', type: object, additionalProperties: { title: 'Tree item', properties: { id: { title: 'Number tree without prefix', description: 'Get data about fields, blocks and inventory.', type: integer, example: 1 }, tree: { title: 'Tree id', description: 'Get data about fields, blocks and inventory.', type: string, example: T10 }, parent: { title: 'Parent tree id', description: 'Get data about fields, blocks and inventory.', type: string, example: T1 }, text: { title: 'Tree value', description: 'Get data about fields, blocks and inventory.', type: string, example: 'Tree value' } }, type: object } }
+                  formats: { title: 'File Format, available only for type of field: multiImage, image', description: 'Get data about fields, blocks and inventory.', properties: { jpg: { description: 'List of file data formats', example: jpg } }, type: object }
+                  id: { description: 'Field ID', type: integer, example: 24862 }
+                  uitype: { description: 'Field UiType', type: integer, example: 1 }
+                  isEditable: { description: 'Check if record is editable', type: boolean, example: true }
+                  isViewable: { description: 'Check if record is viewable', type: boolean, example: true }
+                  isReadOnly: { description: 'Check if record is read only (based on profiles)', type: boolean, example: false }
+                  isEditableReadOnly: { description: 'Check if record is editable or read only (based on the field type)', type: boolean, example: false }
+                  sequence: { description: 'Sequence field', type: integer, example: 24862 }
+                  fieldparams: { description: 'Field params', type: object }
+                  blockId: { description: 'Field block id', type: integer, example: 280 }
+                  helpInfo: { description: 'Additional field description', type: string, example: 'Edit,Detail' }
+                  dbStructure: { description: 'Info about field structure in database', type: object }
+                  queryOperators: { description: 'Field query operators', type: object }
+                  isEmptyPicklistOptionAllowed: { description: 'Defines empty picklist element availability', type: boolean, example: false }
+                  referenceList: { title: 'List of related modules, available only for reference field', description: 'Get data about fields, blocks and inventory.', type: object, additionalProperties: { description: 'Tree item', type: string, example: Accounts } }
+                  treeValues: { title: 'Tree items, available only for tree field', description: 'Get data about fields, blocks and inventory.', type: object, additionalProperties: { title: 'Tree item', properties: { id: { description: 'Number tree without prefix', type: integer, example: 1 }, tree: { description: 'Tree id', type: string, example: T10 }, parent: { description: 'Parent tree id', type: string, example: T1 }, text: { description: 'Tree value', type: string, example: 'Tree value' } }, type: object } }
                 type: object
             blocks:
               title: 'List of all available blocks in the module'
@@ -1937,19 +1940,19 @@ components:
                   - icon
                   - name
                 properties:
-                  id: { title: 'Block id', description: 'Get data about fields, blocks and inventory.', type: integer, example: 195 }
-                  tabid: { title: 'Module id', description: 'Get data about fields, blocks and inventory.', type: integer, example: 9 }
-                  label: { title: 'Block label', description: 'Get data about fields, blocks and inventory.', type: string, example: 'Account details' }
-                  sequence: { title: 'Block sequence', description: 'Get data about fields, blocks and inventory.', type: integer, example: 1 }
-                  showtitle: { title: 'Specifies whether the title should be visible', description: 'Get data about fields, blocks and inventory.', type: integer, example: 0 }
-                  visible: { title: 'Determines the visibility', description: 'Get data about fields, blocks and inventory.', type: integer, example: 0 }
-                  increateview: { title: 'Determines the visibility in creat view', description: 'Get data about fields, blocks and inventory.', type: integer, example: 0 }
-                  ineditview: { title: 'Determines the visibility in edit view', description: 'Get data about fields, blocks and inventory.', type: integer, example: 0 }
-                  indetailview: { title: 'Determines the visibility in detail view', description: 'Get data about fields, blocks and inventory.', type: integer, example: 0 }
-                  display_status: { title: 'Determines whether the block should be expanded', description: 'Get data about fields, blocks and inventory.', type: integer, example: 2 }
-                  iscustom: { title: 'Determines if the block has been added by the user', description: 'Get data about fields, blocks and inventory.', type: integer, example: 0 }
-                  icon: { title: 'Block icon class', description: 'Get data about fields, blocks and inventory.', type: string, example: 'far fa-calendar-alt' }
-                  name: { title: 'Block name translated into the user''s language', description: 'Get data about fields, blocks and inventory.', type: string, example: 'Informacje podstawowe o firmie' }
+                  id: { description: 'Block id', type: integer, example: 195 }
+                  tabid: { description: 'Module id', type: integer, example: 9 }
+                  label: { description: 'Block label', type: string, example: 'Account details' }
+                  sequence: { description: 'Block sequence', type: integer, example: 1 }
+                  showtitle: { description: 'Specifies whether the title should be visible', type: integer, example: 0 }
+                  visible: { description: 'Determines the visibility', type: integer, example: 0 }
+                  increateview: { description: 'Determines the visibility in creat view', type: integer, example: 0 }
+                  ineditview: { description: 'Determines the visibility in edit view', type: integer, example: 0 }
+                  indetailview: { description: 'Determines the visibility in detail view', type: integer, example: 0 }
+                  display_status: { description: 'Determines whether the block should be expanded', type: integer, example: 2 }
+                  iscustom: { description: 'Determines if the block has been added by the user', type: integer, example: 0 }
+                  icon: { description: 'Block icon class', type: string, example: 'far fa-calendar-alt' }
+                  name: { description: 'Block name translated into the user''s language', type: string, example: 'Informacje podstawowe o firmie' }
                 type: object
             inventory:
               title: 'Inventory field group, available depending on the type of module'
@@ -1959,7 +1962,7 @@ components:
                   title: 'Inventory field list'
                   description: 'Get data about fields, blocks and inventory.'
                   type: object
-                  additionalProperties: { title: 'Inventory field details', required: [label, type, columnname, isSummary, isVisibleInDetail], properties: { label: { title: 'Field label translated into the user''s language', description: 'Get data about fields, blocks and inventory.', type: string, example: 'Unit price' }, type: { title: 'Field type', description: 'Get data about fields, blocks and inventory.', type: string, example: UnitPrice }, columnname: { title: 'Field column name in db', description: 'Get data about fields, blocks and inventory.', type: string, example: price }, isSummary: { title: 'Is the field contains summary', description: 'Get data about fields, blocks and inventory.', type: boolean, example: false }, isVisibleInDetail: { title: 'Check if field is visible in detail view', description: 'Get data about fields, blocks and inventory.', type: boolean, example: true } }, type: object }
+                  additionalProperties: { title: 'Inventory field details', required: [label, type, columnname, isSummary, isVisibleInDetail], properties: { label: { description: 'Field label translated into the user''s language', type: string, example: 'Unit price' }, type: { description: 'Field type', type: string, example: UnitPrice }, columnname: { description: 'Field column name in db', type: string, example: price }, isSummary: { description: 'Is the field contains summary', type: boolean, example: false }, isVisibleInDetail: { description: 'Check if field is visible in detail view', type: boolean, example: true } }, type: object }
               type: object
           type: object
       type: object
@@ -1986,6 +1989,7 @@ components:
       type: object
     BaseModule_Get_Record_Response:
       title: 'Base module - Response body for Record'
+      description: 'Get record detail.'
       required:
         - status
         - result
@@ -2213,16 +2217,17 @@ components:
             - isMorePages
           properties:
             headers:
-              title: 'Column names'
+              title: 'Fields names'
               description: 'Get related record list method.'
-              type: array
-              items:
-                type: string
+              type: object
               example:
                 field_name_1: 'Field label 1'
                 field_name_2: 'Field label 2'
                 assigned_user_id: 'Assigned user'
                 createdtime: 'Created time'
+              additionalProperties:
+                description: 'Field name'
+                type: string
             records:
               title: 'Records display details'
               description: 'Get related record list method.'
@@ -2286,16 +2291,17 @@ components:
             - isMorePages
           properties:
             headers:
-              title: 'Column names'
+              title: 'Fields names'
               description: 'Get record list method.'
-              type: array
-              items:
-                type: string
+              type: object
               example:
                 field_name_1: 'Field label 1'
                 field_name_2: 'Field label 2'
                 assigned_user_id: 'Assigned user'
                 createdtime: 'Created time'
+              additionalProperties:
+                description: 'Field name'
+                type: string
             records:
               title: 'Records display details'
               description: 'Get record list method.'
@@ -2355,9 +2361,9 @@ components:
               type: object
               additionalProperties:
                 properties:
-                  type: { title: Type, description: 'Get related modules list method.', type: string, example: Summary }
-                  label: { title: 'Translated label', description: 'Get related modules list method.', type: string, example: Summary }
-                  icon: { title: 'Icon class', description: 'Get related modules list method.', type: string, example: 'far fa-address-card' }
+                  type: { description: Type, type: string, example: Summary }
+                  label: { description: 'Translated label', type: string, example: Summary }
+                  icon: { description: 'Icon class', type: string, example: 'far fa-address-card' }
                 type: object
             related:
               title: 'Base list'
@@ -2365,10 +2371,10 @@ components:
               type: object
               additionalProperties:
                 properties:
-                  relationId: { title: 'Relation ID', description: 'Get related modules list method.', type: integer, example: 3 }
-                  relatedModuleName: { title: 'Related module name', description: 'Get related modules list method.', type: string, example: Documents }
-                  icon: { title: 'Icon class', description: 'Get related modules list method.', type: string, example: 'far fa-address-card' }
-                  label: { title: 'Translated label', description: 'Get related modules list method.', type: string, example: Documents }
+                  relationId: { description: 'Relation ID', type: integer, example: 3 }
+                  relatedModuleName: { description: 'Related module name', type: string, example: Documents }
+                  icon: { description: 'Icon class', type: string, example: 'far fa-address-card' }
+                  label: { description: 'Translated label', type: string, example: Documents }
                 type: object
           type: object
       type: object
@@ -2393,23 +2399,19 @@ components:
             title: 'Condition details'
             properties:
               time:
-                title: 'Date time in user format'
-                description: 'Get user history of access activity.'
+                description: 'Date time in user format'
                 type: string
                 example: '2021-06-01 11:57'
               status:
-                title: 'Operation name'
-                description: 'Get user history of access activity.'
+                description: 'Operation name'
                 type: string
                 example: 'Signed in'
               agent:
-                title: 'User agent'
-                description: 'Get user history of access activity.'
+                description: 'User agent'
                 type: string
                 example: PostmanRuntime/7.28.0
               ip:
-                title: 'IP address'
-                description: 'Get user history of access activity.'
+                description: 'IP address'
                 type: string
                 example: 127.0.0.1
             type: object
@@ -2443,8 +2445,7 @@ components:
             - 0
             - 1
         result:
-          title: 'Password change status'
-          description: 'Put method.'
+          description: 'Password change status'
           type: boolean
           example: false
       type: object
@@ -2458,7 +2459,7 @@ components:
         - 1
     Conditions-Mix-For-Query-Generator:
       title: 'General - Mix conditions for query generator'
-      description: 'Multiple or one condition for a query query generator'
+      description: 'Multiple or one condition for a query generator'
       type: object
       oneOf:
         -
@@ -2527,7 +2528,7 @@ components:
           description: 'Additional parameters sent by the user, extending the current settings, e.g. language'
           properties:
             language:
-              description: 'Post method.'
+              description: 'Users language'
               type: string
               example: pl-PL
           type: object
@@ -2686,6 +2687,7 @@ components:
       type: object
     Exception:
       title: 'General - Error exception'
+      description: 'Post method.'
       required:
         - status
         - error
@@ -2832,8 +2834,7 @@ components:
         - userName
       properties:
         userName:
-          title: 'User name / email'
-          description: 'Post method.'
+          description: 'User name / email'
           type: string
       type: object
     Users_Post_ResetPassword_Response:
@@ -2870,12 +2871,10 @@ components:
         - password
       properties:
         token:
-          title: 'A one-time password reset token'
-          description: 'Put method.'
+          description: 'A one-time password reset token'
           type: string
         password:
-          title: 'New password'
-          description: 'Put method.'
+          description: 'New password'
           type: string
       type: object
     Users_Put_ResetPassword_Response:
@@ -2899,7 +2898,7 @@ components:
       type: object
     Users_Get_TwoFactorAuth_Response:
       title: 'Users module - Authentication secret details'
-      description: 'Get user history of access activity.'
+      description: 'Get two factor authentication details.'
       required:
         - status
         - result
@@ -2912,17 +2911,17 @@ components:
             - 1
         result:
           title: 'Content of responses from a given method'
-          description: 'Get user history of access activity.'
+          description: 'Get two factor authentication details.'
           required:
             - authMethods
             - secretKey
           properties:
             authMethods:
-              description: 'Get user history of access activity.'
+              description: 'Get two factor authentication details.'
               type: string
               example: TOTP
             secretKey:
-              description: 'Get user history of access activity.'
+              description: 'Get two factor authentication details.'
               type: string
               example: LJUJWCOEGUKP6WS2
           type: object
@@ -2980,6 +2979,12 @@ tags:
   -
     name: BaseModule
     description: 'Access to record methods'
+  -
+    name: BaseAction
+    description: 'Access to user methods'
+  -
+    name: Products
+    description: 'Products methods'
   -
     name: Users
     description: 'Access to user methods'

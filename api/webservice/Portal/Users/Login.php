@@ -218,13 +218,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *		title="General - Error exception",
 	 *		type="object",
 	 *		required={"status", "error"},
-	 *  	@OA\Property(
-	 * 			property="status",
-	 *			description="0 - error",
-	 * 			enum={0},
-	 *			type="integer",
-	 *			example=0
-	 * 		),
+	 *		@OA\Property(property="status", type="integer", enum={0}, title="0 - error", example=0),
 	 *		@OA\Property(
 	 * 			property="error",
 	 *     	 	description="Error details",
@@ -238,10 +232,6 @@ class Login extends \Api\RestApi\Users\Login
 	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\Portal\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
 	 *    	),
 	 *	),
-	 *	@OA\Tag(
-	 *		name="Users",
-	 *		description="Access to user methods"
-	 *	)
 	 */
 	public function post(): ?array
 	{

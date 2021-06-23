@@ -115,7 +115,7 @@ class Login extends \Api\Core\BaseAction
 	 *		schema="Conditions-Mix-For-Query-Generator",
 	 *		type="object",
 	 *		title="General - Mix conditions for query generator",
-	 *  	description="Multiple or one condition for a query query generator",
+	 *  	description="Multiple or one condition for a query generator",
 	 *		oneOf={
 	 *			@OA\Schema(ref="#/components/schemas/Condition-For-Query-Generator"),
 	 *			@OA\Schema(ref="#/components/schemas/Conditions-For-Query-Generator"),
@@ -167,7 +167,7 @@ class Login extends \Api\Core\BaseAction
 	 *			property="params",
 	 *			description="Additional parameters sent by the user, extending the current settings, e.g. language",
 	 *			type="object",
-	 *			@OA\Property(property="language", type="string", example="pl-PL"),
+	 *			@OA\Property(property="language", type="string", description="Users language", example="pl-PL"),
 	 *		)
 	 *	),
 	 *	@OA\Schema(
@@ -233,10 +233,6 @@ class Login extends \Api\Core\BaseAction
 	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\RestApi\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
 	 *    	),
 	 *	),
-	 *	@OA\Tag(
-	 *		name="Users",
-	 *		description="Access to user methods"
-	 *	)
 	 */
 	public function post(): ?array
 	{

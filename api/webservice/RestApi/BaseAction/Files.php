@@ -17,7 +17,7 @@ use OpenApi\Annotations as OA;
 /**
  * RestApi container - Get elements of menu class.
  *
- * @OA\Info(
+ *	@OA\Info(
  * 		title="YetiForce API for Webservice App. Type: RestApi",
  * 		description="Skip the `/webservice` fragment for connections via ApiProxy. There are two ways to connect to API, with or without rewrite, below are examples of both:
  * rewrite
@@ -37,15 +37,31 @@ use OpenApi\Annotations as OA;
  *    		name="YetiForce Public License v3",
  *     		url="https://yetiforce.com/en/yetiforce/license"
  *   	),
- * )
- * @OA\Server(
+ *	)
+ *	@OA\Server(
  *		url="https://gitdeveloper.yetiforce.com",
  *		description="Demo server of the development version",
- * )
- * @OA\Server(
+ *	)
+ *	@OA\Server(
  *		url="https://gitstable.yetiforce.com",
  *		description="Demo server of the latest stable version",
+ * 	)
+ *	@OA\Tag(
+ *		name="BaseModule",
+ *		description="Access to record methods"
+ *	)
+ *	@OA\Tag(
+ *		name="BaseAction",
+ *		description="Access to user methods"
+ *	)
+ *	@OA\Tag(
+ *		name="Products",
+ *		description="Products methods"
  * )
+ *	@OA\Tag(
+ *		name="Users",
+ *		description="Access to user methods"
+ *	)
  */
 class Files extends \Api\Core\BaseAction
 {

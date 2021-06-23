@@ -76,7 +76,7 @@ class ResetPassword extends \Api\Core\BaseAction
 	 * 		title="Users module - Users password reset request body",
 	 *		type="object",
 	 *		required={"userName"},
-	 *  	@OA\Property(property="userName", type="string", title="User name / email"),
+	 *  	@OA\Property(property="userName", type="string", description="User name / email"),
 	 *	),
 	 *	@OA\Schema(
 	 * 		schema="Users_Post_ResetPassword_Response",
@@ -184,8 +184,8 @@ class ResetPassword extends \Api\Core\BaseAction
 	 * 		title="Users module - Users password reset request body",
 	 *		type="object",
 	 *		required={"token", "password"},
-	 *  	@OA\Property(property="token", type="string", title="A one-time password reset token"),
-	 *  	@OA\Property(property="password", type="string", title="New password"),
+	 *  	@OA\Property(property="token", type="string", description="A one-time password reset token"),
+	 *  	@OA\Property(property="password", type="string", description="New password"),
 	 *	),
 	 *	@OA\Schema(
 	 * 		schema="Users_Put_ResetPassword_Response",

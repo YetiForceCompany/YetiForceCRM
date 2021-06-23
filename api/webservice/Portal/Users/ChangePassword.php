@@ -80,12 +80,7 @@ class ChangePassword extends \Api\RestApi\Users\ChangePassword
 	 *		type="object",
 	 *		required={"status", "result"},
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			title="Password change status",
-	 *			type="boolean",
-	 *			example=false,
-	 *		),
+	 *		@OA\Property(property="result", type="boolean", description="Password change status", example=false),
 	 * ),
 	 */
 	public function put(): bool

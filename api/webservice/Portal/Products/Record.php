@@ -142,10 +142,6 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *			),
 	 *		),
 	 *	),
-	 *	@OA\Tag(
-	 *		name="Products",
-	 *		description="Products methods"
-	 * )
 	 */
 	public function get(): array
 	{
