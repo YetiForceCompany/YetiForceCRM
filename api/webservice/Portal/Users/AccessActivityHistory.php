@@ -36,16 +36,10 @@ class AccessActivityHistory extends \Api\RestApi\Users\AccessActivityHistory
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 50", required=false, example=1000),
 	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
-	 *		@OA\Parameter(
-	 *			name="x-condition",
-	 * 			description="Conditions [Json format]",
-	 *			in="header",
-	 *			required=false,
-	 *			@OA\JsonContent(ref="#/components/schemas/Conditions-For-Native-Query")
+	 *		@OA\Parameter(name="x-condition", in="header", description="Conditions [Json format]", required=false,
+	 *			@OA\JsonContent(ref="#/components/schemas/Conditions-For-Native-Query"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="User history of access activity",
+	 *		@OA\Response(response=200, description="User history of access activity",
 	 *			@OA\JsonContent(ref="#/components/schemas/Users_Get_AccessActivityHistory_Response"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Users_Get_AccessActivityHistory_Response"),
 	 *		),

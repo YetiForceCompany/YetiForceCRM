@@ -1023,11 +1023,12 @@
                     {
                         "name": "x-parent-id",
                         "in": "header",
-                        "description": "Gets parent id",
+                        "description": "Parent record id",
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 5
                     },
                     {
                         "name": "x-header-fields",
@@ -1941,7 +1942,7 @@
                 ]
             }
         },
-        "/webservice/Portal/{moduleName}/RelatedModules/{recordId}": {
+        "/webservice/Portal/{moduleName}/RelatedModules": {
             "get": {
                 "tags": [
                     "BaseModule"
@@ -1959,16 +1960,6 @@
                             "type": "string"
                         },
                         "example": "Contacts"
-                    },
-                    {
-                        "name": "recordId",
-                        "in": "path",
-                        "description": "Record id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 116
                     }
                 ],
                 "responses": {
@@ -1987,8 +1978,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "`No permissions to view record`",
+                    "401": {
+                        "description": "`No sent token` OR `Invalid token`",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2002,8 +1993,23 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "`Record doesn't exist` OR `No record id`",
+                    "403": {
+                        "description": "No permissions for module",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2229,11 +2235,12 @@
                     {
                         "name": "x-parent-id",
                         "in": "header",
-                        "description": "Gets parent id",
+                        "description": "Parent record id",
                         "required": false,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 5
                     },
                     {
                         "name": "x-unit-price",
@@ -5246,6 +5253,10 @@
             "BaseModule_Get_RelatedModules_Response": {
                 "title": "Base module - Response action related modules list",
                 "description": "Module action related modules list response body",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -5258,12 +5269,21 @@
                     "result": {
                         "title": "List of related records",
                         "description": "Get related modules list method.",
+                        "required": [
+                            "base",
+                            "related"
+                        ],
                         "properties": {
                             "base": {
                                 "title": "Base list",
                                 "description": "Get related modules list method.",
                                 "type": "object",
                                 "additionalProperties": {
+                                    "required": [
+                                        "type",
+                                        "label",
+                                        "icon"
+                                    ],
                                     "properties": {
                                         "type": {
                                             "description": "Type",
@@ -5278,7 +5298,7 @@
                                         "icon": {
                                             "description": "Icon class",
                                             "type": "string",
-                                            "example": "far fa-address-card"
+                                            "example": "fas fa-desktop"
                                         }
                                     },
                                     "type": "object"
@@ -5289,7 +5309,21 @@
                                 "description": "Get related modules list method.",
                                 "type": "object",
                                 "additionalProperties": {
+                                    "required": [
+                                        "label",
+                                        "relationId",
+                                        "relatedModuleName",
+                                        "icon",
+                                        "actions",
+                                        "viewType",
+                                        "customView"
+                                    ],
                                     "properties": {
+                                        "label": {
+                                            "description": "Translated label",
+                                            "type": "string",
+                                            "example": "Documents"
+                                        },
                                         "relationId": {
                                             "description": "Relation ID",
                                             "type": "integer",
@@ -5303,12 +5337,40 @@
                                         "icon": {
                                             "description": "Icon class",
                                             "type": "string",
-                                            "example": "far fa-address-card"
+                                            "example": "yfm-Documents"
                                         },
-                                        "label": {
-                                            "description": "Translated label",
-                                            "type": "string",
-                                            "example": "Documents"
+                                        "actions": {
+                                            "description": "Actions",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "add",
+                                                "select"
+                                            ]
+                                        },
+                                        "viewType": {
+                                            "description": "View types",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "RelatedTab",
+                                                "DetailBottom"
+                                            ]
+                                        },
+                                        "customView": {
+                                            "description": "Custom view",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "relation",
+                                                "all"
+                                            ]
                                         }
                                     },
                                     "type": "object"

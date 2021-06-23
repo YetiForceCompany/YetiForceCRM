@@ -96,7 +96,7 @@ paths:
         -
           name: x-condition
           in: header
-          description: 'Add conditions [Json format]'
+          description: 'Conditions [Json format]'
           required: false
           content:
             application/json:

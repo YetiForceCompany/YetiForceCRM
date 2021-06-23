@@ -40,13 +40,7 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
-	 *		@OA\Parameter(
-	 *			name="x-parent-id",
-	 *			description="Gets parent id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			required=false
-	 *		),
+	 *		@OA\Parameter(name="x-parent-id", in="header", @OA\Schema(type="integer"), description="Parent record id", required=false, example=5),
 	 *		@OA\Parameter(
 	 *			name="x-unit-price",
 	 *			description="Get additional unit price",

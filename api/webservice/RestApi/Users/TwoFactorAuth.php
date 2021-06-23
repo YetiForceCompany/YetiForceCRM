@@ -35,7 +35,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 	 *
 	 *	@OA\Get(
 	 *		path="/webservice/RestApi/Users/TwoFactorAuth",
-	 *		summary="Two factor authentication details",
+	 *		summary="2FA details",
 	 *		description="Get two factor authentication details",
 	 *		tags={"Users"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
