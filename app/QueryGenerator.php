@@ -423,16 +423,21 @@ class QueryGenerator
 	 * Set source record.
 	 *
 	 * @param int $sourceRecord
+	 *
+	 * @return $this
 	 */
 	public function setSourceRecord($sourceRecord)
 	{
 		$this->sourceRecord = $sourceRecord;
+		return $this;
 	}
 
 	/**
 	 * Appends a JOIN part to the query.
 	 *
 	 * @param array $join
+	 *
+	 * @return $this
 	 */
 	public function addJoin($join)
 	{
