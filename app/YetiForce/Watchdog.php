@@ -81,7 +81,7 @@ class Watchdog
 				],
 				'allow_redirects' => false,
 				'timeout' => 5,
-				'json' => $info
+				'json' => $info,
 			]);
 			\App\Log::endProfile("POST|Watchdog::send|{$url}", __NAMESPACE__);
 		} catch (\Throwable $e) {
@@ -161,7 +161,7 @@ class Watchdog
 	public function getOsVersion()
 	{
 		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
+			$this->cache['environment'] = \App\Utils::merge(\App\Utils\ConfReport::get('environment'), \App\Utils\ConfReport::getEnv());
 		}
 		return $this->cache['environment']['operatingSystem']['www'] ?? '';
 	}

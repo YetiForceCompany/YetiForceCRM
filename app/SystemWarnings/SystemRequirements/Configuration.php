@@ -31,6 +31,7 @@ class Configuration extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
+		\App\Utils\ConfReport::saveEnv();
 		$this->status = 1;
 		$errorsText = '<br><pre>';
 		$errorsStability = \App\Utils\ConfReport::getErrors('stability', true);

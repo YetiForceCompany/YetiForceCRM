@@ -20,6 +20,7 @@ class Settings_YetiForce_Shop_View extends Settings_Vtiger_Index_View
 	 */
 	public function process(App\Request $request)
 	{
+		\App\Utils\ConfReport::saveEnv();
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('MODULE_NAME', $qualifiedModuleName);

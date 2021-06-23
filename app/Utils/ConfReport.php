@@ -17,17 +17,10 @@ namespace App\Utils;
  */
 class ConfReport
 {
-	/**
-	 * System URL.
-	 *
-	 * @var string
-	 */
+	/** @var string System URL. */
 	private static $crmUrl;
-	/**
-	 * Optional database configuration for offline use.
-	 *
-	 * @var array
-	 */
+
+	/** @var array Optional database configuration for offline use. */
 	public static $dbConfig = [
 		'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=yetiforce;',
 		'user' => '',
@@ -35,11 +28,7 @@ class ConfReport
 		'options' => [],
 	];
 
-	/**
-	 * Urls to check in request.
-	 *
-	 * @var array
-	 */
+	/** @var array Urls to check in request. */
 	public static $urlsToCheck = ['root' => 'token.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
 
 	/**
@@ -108,7 +97,7 @@ class ConfReport
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
 		'disable_functions' => ['recommended' => 'shell_exec, exec, system, passthru, popen', 'type' => 'In', 'container' => 'php', 'testCli' => false],
-		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true]
+		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 	];
 
 	/**
@@ -619,8 +608,8 @@ class ConfReport
 				'lastCronStartDateTime' => $lastCronStart,
 				'protocolVersion' => isset($_SERVER['SERVER_PROTOCOL']) ? substr($_SERVER['SERVER_PROTOCOL'], strpos($_SERVER['SERVER_PROTOCOL'], '/') + 1) : '-',
 				'SSL_CERT_FILE' => getenv('SSL_CERT_FILE') ?? '',
-				'SSL_CERT_DIR' => getenv('SSL_CERT_DIR') ?? ''
-			]
+				'SSL_CERT_DIR' => getenv('SSL_CERT_DIR') ?? '',
+			],
 		];
 	}
 
@@ -1666,5 +1655,41 @@ class ConfReport
 			}
 		}
 		return $ver;
+	}
+
+	/**
+	 * Save environment variables.
+	 *
+	 * @return void
+	 */
+	public static function saveEnv(): void
+	{
+		$data = self::getEnv();
+		$key = \PHP_SAPI !== 'cli' ? 'www' : 'cli';
+		$data[$key]['operatingSystem'] = [
+			'sapi' => \PHP_SAPI,
+			'machineType' => php_uname('m'),
+			'hostName' => php_uname('n'),
+			'release' => php_uname('r'),
+			'operatingSystem' => php_uname('s'),
+			'version' => php_uname('v'),
+		];
+		if (isset($_SERVER['SERVER_SOFTWARE'])) {
+			$data[$key]['serverSoftware'] = $_SERVER['SERVER_SOFTWARE'];
+		}
+		if (isset($_SERVER['GATEWAY_INTERFACE'])) {
+			$data[$key]['gatewayInterface'] = $_SERVER['GATEWAY_INTERFACE'];
+		}
+		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/ConfReport_Env.php', $data, '', 0, true);
+	}
+	/**
+	 * Get environment variables.
+	 *
+	 * @return array
+	 */
+	public static function getEnv(): array
+	{
+		$path = ROOT_DIRECTORY . '/app_data/ConfReport_Env.php';
+		return file_exists($path) ? (require $path) : [];
 	}
 }

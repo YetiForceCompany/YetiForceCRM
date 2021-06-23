@@ -102,8 +102,9 @@ class Dependency
 					'json' => [
 						'php' => PHP_VERSION,
 						'os' => php_uname(),
+						'env' => \App\Utils\ConfReport::getEnv(),
 						'dependencies' => $lockFile,
-					]
+					],
 				]);
 				if (200 === $response->getStatusCode()) {
 					$result = (array) \App\Json::decode($response->getBody()->getContents());
