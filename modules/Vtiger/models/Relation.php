@@ -133,7 +133,6 @@ class Vtiger_Relation_Model extends \App\Base
 		}
 		$actions = explode(',', strtolower($this->get('actions')));
 		$this->set('actions', $actions);
-
 		return $actions;
 	}
 
@@ -583,7 +582,7 @@ class Vtiger_Relation_Model extends \App\Base
 			'sourceModule' => $sourceModuleName,
 			'sourceRecordId' => $sourceRecordId,
 			'destinationModule' => $this->getRelationModuleModel()->getName(),
-			'relationId' => $this->getId()
+			'relationId' => $this->getId(),
 		];
 		$eventHandler = new \App\EventHandler();
 		$eventHandler->setModuleName($sourceModuleName);
@@ -650,7 +649,7 @@ class Vtiger_Relation_Model extends \App\Base
 		$params = ['sourceRecordId' => $recordId,
 			'sourceModule' => $this->getParentModuleModel()->getName(),
 			'destinationModule' => $this->getRelationModuleModel()->getName(),
-			'destinationRecordId' => $relId];
+			'destinationRecordId' => $relId, ];
 		$eventHandler = new \App\EventHandler();
 		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
 		$eventHandler->setParams($params);
@@ -1010,7 +1009,7 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Gets relation data fields
+	 * Gets relation data fields.
 	 *
 	 * @return array
 	 */
@@ -1020,16 +1019,17 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Set conditions for relation fields
+	 * Set conditions for relation fields.
 	 *
 	 * @param array $conditions
+	 *
 	 * @return self
 	 */
 	public function setRelationConditions(array $conditions): self
 	{
 		$group = 'and';
 		$relFields = $this->getRelationFields();
-		foreach($conditions as $groupInfo){
+		foreach ($conditions as $groupInfo) {
 			if (empty($groupInfo) || !array_filter($groupInfo)) {
 				$group = 'or';
 				continue;
@@ -1038,14 +1038,14 @@ class Vtiger_Relation_Model extends \App\Base
 			foreach ($groupInfo as $fieldSearchInfo) {
 				[$fieldName, $operator, $fieldValue] = array_pad($fieldSearchInfo, 3, false);
 				$field = $relFields[$fieldName] ?? null;
-				if(!$field || (($className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field') && !class_exists($className))){
+				if (!$field || (($className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field') && !class_exists($className))) {
 					continue;
 				}
 				$queryField = new $className($this->getQueryGenerator(), $field);
 				$queryField->setValue($fieldValue);
 				$queryField->setOperator($operator);
 				$condition = $queryField->getCondition();
-				if($condition){
+				if ($condition) {
 					$dataGroup[] = $condition;
 				}
 			}
