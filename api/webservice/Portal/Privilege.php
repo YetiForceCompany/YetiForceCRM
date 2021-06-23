@@ -72,7 +72,7 @@ class Privilege
 			default:
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
 		}
-		if (!($permissionFieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app')))) {
+		if ('ModComments' !== $moduleName && !($permissionFieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app')))) {
 			\App\Privilege::$isPermittedLevel = 'FIELD_PERMISSION_NOT_EXISTS';
 			return false;
 		}
@@ -83,7 +83,7 @@ class Privilege
 		}
 
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		if (!$recordModel->get($permissionFieldInfo['fieldname'])) {
+		if ('ModComments' !== $moduleName && !$recordModel->get($permissionFieldInfo['fieldname'])) {
 			\App\Privilege::$isPermittedLevel = 'FIELD_PERMISSION_NO';
 			return false;
 		}
