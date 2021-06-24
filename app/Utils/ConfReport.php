@@ -1674,6 +1674,16 @@ class ConfReport
 			'operatingSystem' => php_uname('s'),
 			'version' => php_uname('v'),
 		];
+		if (($db = \App\Db::getInstance()) && $db->getMasterPdo() && ($dbInfo = $db->getInfo())) {
+			$data[$key]['sql'] = [
+				'clientVersion' => $dbInfo['clientVersion'],
+				'serverVersion' => $dbInfo['serverVersion'],
+				'typeDb' => $dbInfo['typeDb'],
+				'version' => $dbInfo['version'] ?? '',
+				'versionComment' => $dbInfo['version_comment'] ?? '',
+				'versionSslLibrary' => $dbInfo['version_ssl_library'] ?? '',
+			];
+		}
 		if (isset($_SERVER['SERVER_SOFTWARE'])) {
 			$data[$key]['serverSoftware'] = $_SERVER['SERVER_SOFTWARE'];
 		}

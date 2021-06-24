@@ -98,14 +98,11 @@ class Dependency
 			$options['headers']['APP-ID'] = \App\YetiForce\Register::getInstanceKey();
 			\App\Log::beginProfile("POST|Dependency::check|{$this->checkUrl}", __NAMESPACE__);
 			try {
-				$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, [
-					'json' => [
-						'php' => PHP_VERSION,
-						'os' => php_uname(),
-						'env' => \App\Utils\ConfReport::getEnv(),
-						'dependencies' => $lockFile,
-					],
-				]);
+				$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, ['json' => [
+					'php' => PHP_VERSION,
+					'env' => \App\Utils\ConfReport::getEnv(),
+					'dependencies' => $lockFile,
+				]]);
 				if (200 === $response->getStatusCode()) {
 					$result = (array) \App\Json::decode($response->getBody()->getContents());
 					$result = (\is_array($result) && !empty($result)) ? $result : [];
