@@ -2355,6 +2355,7 @@
                 ],
                 "summary": "Tree list of records",
                 "description": "Get the tree list of records",
+                "operationId": "7f4c631d46ce2149e454313f841e517b",
                 "parameters": [
                     {
                         "name": "x-raw-data",

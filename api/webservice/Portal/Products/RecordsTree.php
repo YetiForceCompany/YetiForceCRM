@@ -120,8 +120,6 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 * 		),
 	 *	),
 	 */
-
-	/** {@inheritdoc}  */
 	public function createQuery(): void
 	{
 		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->userData['type'];
