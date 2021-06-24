@@ -253,7 +253,7 @@ class Fields extends \Api\Core\BaseAction
 			if ($fieldModel->isTreeField()) {
 				$fieldInfo['treeValues'] = \App\Fields\Tree::getTreeValues((int) $fieldModel->getFieldParams(), $moduleName);
 			}
-			$fields[$fieldModel->getId()] = $fieldInfo;
+			$fields[$fieldModel->getName()] = $fieldInfo;
 		}
 		$return['fields'] = $fields;
 		$return['blocks'] = $blocks;
