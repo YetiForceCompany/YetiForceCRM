@@ -40,6 +40,7 @@ class Install extends \Api\Core\BaseAction
 	 *	@OA\Put(
 	 *		path="/webservice/Portal/Install",
 	 *		summary="Install the system",
+	 *		description="Test method for the customer portal",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}

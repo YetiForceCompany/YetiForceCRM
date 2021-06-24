@@ -53,7 +53,8 @@ class SaveInventory extends \Api\Core\BaseAction
 	 *
 	 *	@OA\Post(
 	 *		path="/webservice/Portal/{moduleName}/SaveInventory",
-	 *		summary="Create inventory record from cart",
+	 *		summary="Add inventory record from cart",
+	 *		description="Creating inventory records for the functionality of the store",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),
@@ -151,7 +152,7 @@ class SaveInventory extends \Api\Core\BaseAction
 				if ($grossFieldModel && $grossFieldModel->getSummaryValuesFromData($inventoryData) > (($limits[$creditLimitId]['value'] ?? 0) - $parentRecordModel->get('sum_open_orders'))) {
 					return [
 						'errors' => [
-							'limit' => 'Merchant limit was exceeded'
+							'limit' => 'Merchant limit was exceeded',
 						],
 					];
 				}
@@ -175,7 +176,7 @@ class SaveInventory extends \Api\Core\BaseAction
 		if (!$this->controller->request->has('inventory')) {
 			return [
 				'errors' => [
-					'record' => 'There are no inventory records'
+					'record' => 'There are no inventory records',
 				],
 			];
 		}
@@ -183,14 +184,14 @@ class SaveInventory extends \Api\Core\BaseAction
 		if (!$this->moduleModel->isInventory()) {
 			return [
 				'errors' => [
-					'record' => 'This is not an inventory module'
+					'record' => 'This is not an inventory module',
 				],
 			];
 		}
 		$this->inventory = new \Api\Portal\Inventory($this->moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId(), $this->getParentCrmId());
 		if ($this->getCheckStockLevels() && !$this->inventory->validate()) {
 			return [
-				'errors' => $this->inventory->getErrors()
+				'errors' => $this->inventory->getErrors(),
 			];
 		}
 		return [];

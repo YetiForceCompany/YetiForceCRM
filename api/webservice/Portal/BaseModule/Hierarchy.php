@@ -55,7 +55,8 @@ class Hierarchy extends \Api\Core\BaseAction
 	 * @return array
 	 * @OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/Hierarchy",
-	 *		summary="Get records hierarchy",
+	 *		summary="Hierarchy of records",
+	 *		description="Get records hierarchy",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),

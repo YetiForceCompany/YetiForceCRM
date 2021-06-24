@@ -34,7 +34,8 @@ class Record extends \Api\Portal\BaseModule\Record
 	 *
 	 *	@OA\Get(
 	 *		path="/webservice/Portal/Products/Record/{recordId}",
-	 *		summary="Get data for the record",
+	 *		summary="Data for the product",
+	 *		description="Gets the details of a product",
 	 *		tags={"Products"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),

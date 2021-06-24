@@ -46,7 +46,8 @@ class PdfTemplates extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/PdfTemplates/{recordId}",
-	 *		summary="Get PDF templates list",
+	 *		summary="PDF templates",
+	 *		description="Get PDF templates list",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),

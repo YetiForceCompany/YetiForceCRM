@@ -114,7 +114,7 @@ class RelatedModules extends \Api\Core\BaseAction
 			];
 		}
 		foreach ($moduleModel->getRelations() as $relation) {
-			$return['related'][] = [
+			$return['related'][$relation->get('relation_id')] = [
 				'label' => \App\Language::translate($relation->get('label'), $relation->get('relatedModuleName')),
 				'relationId' => $relation->get('relation_id'),
 				'relatedModuleName' => $relation->get('relatedModuleName'),

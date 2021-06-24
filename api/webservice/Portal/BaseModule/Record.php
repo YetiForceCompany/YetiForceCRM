@@ -28,8 +28,8 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *
 	 *	@OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/Record/{recordId}",
-	 *		description="Gets the details of a record",
 	 *		summary="Data for the record",
+	 *		description="Gets the details of a record",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		operationId="getRecord",

@@ -29,7 +29,8 @@ class Menu extends \Api\Core\BaseAction
 	 *
 	 *	@OA\Get(
 	 *		path="/webservice/Portal/Menu",
-	 *		summary="Get menu into the system",
+	 *		summary="Get menu",
+	 *		description="Get menu for the customer portal",
 	 *		tags={"BaseAction"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
@@ -79,7 +80,7 @@ class Menu extends \Api\Core\BaseAction
 	public function get(): array
 	{
 		return [
-			'items' => \Settings_Menu_Record_Model::getCleanInstance()->getChildMenu($this->controller->app['id'], 0, \Settings_Menu_Record_Model::SRC_API)
+			'items' => \Settings_Menu_Record_Model::getCleanInstance()->getChildMenu($this->controller->app['id'], 0, \Settings_Menu_Record_Model::SRC_API),
 		];
 	}
 }

@@ -148,6 +148,7 @@
                     "BaseAction"
                 ],
                 "summary": "Install the system",
+                "description": "Test method for the customer portal",
                 "operationId": "02a0b167fa2ba08237b79041d6c2eb40",
                 "parameters": [
                     {
@@ -205,7 +206,8 @@
                 "tags": [
                     "BaseAction"
                 ],
-                "summary": "Get menu into the system",
+                "summary": "Get menu",
+                "description": "Get menu for the customer portal",
                 "operationId": "921fff2e889d45059b970a17ef050803",
                 "parameters": [
                     {
@@ -622,7 +624,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get records hierarchy",
+                "summary": "Hierarchy of records",
+                "description": "Get records hierarchy",
                 "operationId": "93793ff66fea029f0ba79afe86c95628",
                 "parameters": [
                     {
@@ -691,6 +694,7 @@
                     "BaseModule"
                 ],
                 "summary": "Generate PDF",
+                "description": "Generate and download a PDF file from a template",
                 "operationId": "47c66c79907f1ceb90e413e4dc8e9e15",
                 "parameters": [
                     {
@@ -812,7 +816,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get PDF templates list",
+                "summary": "PDF templates",
+                "description": "Get PDF templates list",
                 "operationId": "2f8120b2614eacf47a46075e124b8725",
                 "parameters": [
                     {
@@ -2038,7 +2043,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Create inventory record from cart",
+                "summary": "Add inventory record from cart",
+                "description": "Creating inventory records for the functionality of the store",
                 "operationId": "99ff9c49cb47397852556445cdef9187",
                 "parameters": [
                     {
@@ -2197,7 +2203,8 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Get data for the record",
+                "summary": "Data for the product",
+                "description": "Gets the details of a product",
                 "operationId": "ea8bce5f040495f74ededb4dfef41923",
                 "parameters": [
                     {
@@ -2346,7 +2353,8 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Get the list of records",
+                "summary": "Tree list of records",
+                "description": "Get the tree list of records",
                 "parameters": [
                     {
                         "name": "x-raw-data",

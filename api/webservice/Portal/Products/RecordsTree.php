@@ -44,9 +44,10 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	/**
 	 * Construct.
 	 *
-	 * @OA\Get(
+	 *	@OA\Get(
 	 *		path="/webservice/Portal/Products/RecordsTree",
-	 *		summary="Get the list of records",
+	 *		summary="Tree list of records",
+	 *		description="Get the tree list of records",
 	 *		tags={"Products"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
@@ -85,8 +86,8 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *),
-	 * @OA\Schema(
+	 *	),
+	 *	@OA\Schema(
 	 *		schema="Products_RecordsList_ResponseBody",
 	 *		title="Products - Response action record list",
 	 *		description="Module action record list response body",
