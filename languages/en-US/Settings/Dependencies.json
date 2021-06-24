@@ -10,6 +10,8 @@
     "LBL_SECURITY_DEPENDENCIES": "Security vulnerabilities in used libraries",
     "LBL_SECURITY_PHP": "Security vulnerabilities in PHP engine",
     "LBL_SECURITY_OS": "Security vulnerabilities in operating system",
+    "LBL_SECURITY_APACHE": "Security vulnerabilities in Apache HTTP Server",
+    "LBL_SECURITY_OPENSSL": "Security vulnerabilities in OpenSSL library",
     "LBL_LIB_NAME": "Library/app name",
     "LBL_VULNERABILITY_NAME": "Vulnerability name",
     "LBL_VULNERABILITY_URL": "Vulnerability address",

@@ -1682,6 +1682,7 @@ class ConfReport
 		}
 		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/ConfReport_Env.php', $data, '', 0, true);
 	}
+
 	/**
 	 * Get environment variables.
 	 *

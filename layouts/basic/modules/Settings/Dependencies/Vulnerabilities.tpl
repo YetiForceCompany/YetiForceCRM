@@ -42,7 +42,7 @@
 								<th colspan="1" class="mediumWidthType">
 									<span>{App\Language::translate('LBL_VULNERABILITY_URL', $QUALIFIED_MODULE)}</span>
 								</th>
-								<th colspan="1" class="mediumWidthType">
+								<th colspan="1" class="mediumWidthType u-w-3per-150px">
 									<span>CVE</span>
 								</th>
 							</tr>
