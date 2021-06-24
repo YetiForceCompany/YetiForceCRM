@@ -33,7 +33,7 @@
                 ],
                 "summary": "Download files",
                 "description": "Download files from the system",
-                "operationId": "Api\\Portal\\BaseAction\\Files::put",
+                "operationId": "5fe24864f339d3042b9b06edb83235bc",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -148,7 +148,7 @@
                     "BaseAction"
                 ],
                 "summary": "Install the system",
-                "operationId": "Api\\Portal\\BaseAction\\Install::put",
+                "operationId": "02a0b167fa2ba08237b79041d6c2eb40",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -206,7 +206,7 @@
                     "BaseAction"
                 ],
                 "summary": "Get menu into the system",
-                "operationId": "Api\\Portal\\BaseAction\\Menu::get",
+                "operationId": "921fff2e889d45059b970a17ef050803",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -250,7 +250,7 @@
                 ],
                 "summary": "The allowed actions of the module list",
                 "description": "Get the permitted module list action, along with their translated action",
-                "operationId": "Api\\Portal\\BaseAction\\Modules::get",
+                "operationId": "088ae9be7d3a0572905b3f9159b4c0ae",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -324,7 +324,7 @@
                 ],
                 "summary": "List of custom view",
                 "description": "Gets a list of custom view",
-                "operationId": "Api\\Portal\\BaseModule\\CustomView::get",
+                "operationId": "675e6cb697c50c751392300555e3d7ff",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -516,7 +516,7 @@
                 ],
                 "summary": "Get dashboard widgets",
                 "description": "Supported widget types: Mini List , Chart Filter",
-                "operationId": "Api\\Portal\\BaseModule\\Dashboard::get",
+                "operationId": "b36d55e77002783f046fbdc62eac513e",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -570,7 +570,7 @@
                 ],
                 "summary": "Get data about fields, blocks and inventory",
                 "description": "Returns information about fields, blocks and inventory based on the selected module",
-                "operationId": "Api\\Portal\\BaseModule\\Fields::get",
+                "operationId": "d486974b694884102dcc757b03fda4fa",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -623,7 +623,7 @@
                     "BaseModule"
                 ],
                 "summary": "Get records hierarchy",
-                "operationId": "Api\\Portal\\BaseModule\\Hierarchy::get",
+                "operationId": "93793ff66fea029f0ba79afe86c95628",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -691,7 +691,7 @@
                     "BaseModule"
                 ],
                 "summary": "Generate PDF",
-                "operationId": "Api\\Portal\\BaseModule\\Pdf::get",
+                "operationId": "47c66c79907f1ceb90e413e4dc8e9e15",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -813,7 +813,7 @@
                     "BaseModule"
                 ],
                 "summary": "Get PDF templates list",
-                "operationId": "Api\\Portal\\BaseModule\\PdfTemplates::get",
+                "operationId": "2f8120b2614eacf47a46075e124b8725",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -922,7 +922,7 @@
                 ],
                 "summary": "Get privileges for module",
                 "description": "Gets the list of actions that the user has access to in the module",
-                "operationId": "Api\\Portal\\BaseModule\\Privileges::get",
+                "operationId": "2a0a35dc3cbb4d9c16ff707591e80726",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1101,7 +1101,7 @@
                 ],
                 "summary": "Edit record",
                 "description": "Retrieves data for editing a record",
-                "operationId": "Api\\Portal\\BaseModule\\Record::put",
+                "operationId": "4c8ca02854d352a582cc14305e987bcc",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1184,7 +1184,7 @@
                 ],
                 "summary": "Delete record",
                 "description": "Changes the state of a record, moving it to the trash",
-                "operationId": "Api\\Portal\\BaseModule\\Record::delete",
+                "operationId": "209b5c0e79e5bae08b74103ae84789a8",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1248,7 +1248,7 @@
                 ],
                 "summary": "Create record",
                 "description": "Gets data to save record",
-                "operationId": "Api\\Portal\\BaseModule\\Record::post",
+                "operationId": "a278a39d54e0e6d7f001062375567d9d",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1323,7 +1323,7 @@
                 ],
                 "summary": "Record history",
                 "description": "Gets the history of the record",
-                "operationId": "Api\\Portal\\BaseModule\\RecordHistory::get",
+                "operationId": "368577c0b42b640566105270a459b3bb",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1461,7 +1461,7 @@
                 ],
                 "summary": "Related list of records",
                 "description": "Gets a list of related records",
-                "operationId": "Api\\Portal\\BaseModule\\RecordRelatedList::get",
+                "operationId": "37080bbab2c27abad48f82067cd2109e",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1715,7 +1715,7 @@
                 ],
                 "summary": "List of records",
                 "description": "Gets a list of records",
-                "operationId": "Api\\Portal\\BaseModule\\RecordsList::get",
+                "operationId": "6de8c20a849a76e301a5093f50e114af",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -1949,7 +1949,7 @@
                 ],
                 "summary": "Related list of modules",
                 "description": "Gets a list of related modules",
-                "operationId": "Api\\Portal\\BaseModule\\RelatedModules::get",
+                "operationId": "0b8f3b38a5481b0c5456137d0394de35",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -2039,7 +2039,7 @@
                     "BaseModule"
                 ],
                 "summary": "Create inventory record from cart",
-                "operationId": "Api\\Portal\\BaseModule\\SaveInventory::post",
+                "operationId": "99ff9c49cb47397852556445cdef9187",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -2108,7 +2108,7 @@
                 ],
                 "summary": "List of widgets",
                 "description": "Gets a list of widgets",
-                "operationId": "Api\\Portal\\BaseModule\\Widgets::get",
+                "operationId": "9c95fa7059b4fd223397215d5837711a",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -2198,7 +2198,7 @@
                     "Products"
                 ],
                 "summary": "Get data for the record",
-                "operationId": "Api\\Portal\\Products\\Record::get",
+                "operationId": "ea8bce5f040495f74ededb4dfef41923",
                 "parameters": [
                     {
                         "name": "recordId",
@@ -2546,7 +2546,7 @@
                 ],
                 "summary": "History of access activity data",
                 "description": "Get user history of access activity",
-                "operationId": "Api\\Portal\\Users\\AccessActivityHistory::get",
+                "operationId": "c18a68769226388bb8eebd16dfbe44ef",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -2623,7 +2623,7 @@
                 ],
                 "summary": "User password change",
                 "description": "User password change",
-                "operationId": "Api\\Portal\\Users\\ChangePassword::put",
+                "operationId": "ef6db263c03aba0337614c9728017913",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -2688,7 +2688,7 @@
                 ],
                 "summary": "Logs user",
                 "description": "Logs user into the system",
-                "operationId": "Api\\Portal\\Users\\Login::post",
+                "operationId": "89f0523cd8ff4e4f9e93230ec3d23674",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -2797,7 +2797,7 @@
                 ],
                 "summary": "Logout user",
                 "description": "Logout user out the system",
-                "operationId": "Api\\Portal\\Users\\Logout::put",
+                "operationId": "e5072b920831b314b8d50a5bdb41603f",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -2841,7 +2841,7 @@
                 ],
                 "summary": "Data for the user",
                 "description": "Gets details about the user",
-                "operationId": "Api\\Portal\\Users\\Record::get",
+                "operationId": "b807a74168ffc00e300e8a2449edf3f2",
                 "parameters": [
                     {
                         "name": "userId",
@@ -2939,7 +2939,7 @@
                 ],
                 "summary": "List of users",
                 "description": "Gets a list of all users",
-                "operationId": "Api\\Portal\\Users\\RecordsList::get",
+                "operationId": "b1ff69035aa9fb92cfd14bea9d580240",
                 "parameters": [
                     {
                         "name": "x-raw-data",
@@ -3139,7 +3139,7 @@
                 ],
                 "summary": "User password reset - Password change",
                 "description": "User password reset - Password change",
-                "operationId": "Api\\Portal\\Users\\ResetPassword::put",
+                "operationId": "31b89b9483445ddb16be9bce63b6d071",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -3231,7 +3231,7 @@
                 ],
                 "summary": "User password reset - Generating and sending a one-time token",
                 "description": "User password reset - Generating and sending a one-time token",
-                "operationId": "Api\\Portal\\Users\\ResetPassword::post",
+                "operationId": "41e97e33fb0abe55d98119d430a7743b",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -3310,7 +3310,7 @@
                 ],
                 "summary": "2FA details",
                 "description": "Get two factor authentication details",
-                "operationId": "Api\\Portal\\Users\\TwoFactorAuth::get",
+                "operationId": "21983d6e7a64eba3d3f252abaebbf837",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -3382,7 +3382,7 @@
                 ],
                 "summary": "Activate 2FA",
                 "description": "Activate two factor authentication",
-                "operationId": "Api\\Portal\\Users\\TwoFactorAuth::post",
+                "operationId": "6bb0673fd954edf24bad2e179f047989",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -3454,7 +3454,7 @@
                 ],
                 "summary": "Disable 2FA",
                 "description": "Disable two factor authentication",
-                "operationId": "Api\\Portal\\Users\\TwoFactorAuth::delete",
+                "operationId": "c69c385e73e85413a62743d92cca09cf",
                 "parameters": [
                     {
                         "name": "X-ENCRYPTED",
@@ -3529,22 +3529,18 @@
                 "description": "Action parameters to download the file",
                 "properties": {
                     "module": {
-                        "description": "Put method.",
                         "type": "string",
                         "example": "Documents"
                     },
                     "actionName": {
-                        "description": "Put method.",
                         "type": "string",
                         "example": "DownloadFile"
                     },
                     "record": {
-                        "description": "Put method.",
                         "type": "integer",
                         "example": 1111
                     },
                     "fileid": {
-                        "description": "Put method.",
                         "type": "integer",
                         "example": 333
                     }
@@ -3592,78 +3588,63 @@
                         "properties": {
                             "items": {
                                 "title": "Parent parameters",
-                                "description": "Get method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "description": "Tree item",
                                     "properties": {
                                         "id": {
-                                            "description": "Get method.",
                                             "type": "integer",
                                             "example": 171
                                         },
                                         "tabid": {
-                                            "description": "Get method.",
                                             "type": "integer",
                                             "example": 3
                                         },
                                         "mod": {
-                                            "description": "Get method.",
                                             "type": "string",
                                             "example": "Accounts"
                                         },
                                         "name": {
-                                            "description": "Get method.",
                                             "type": "string",
                                             "example": "Accounts"
                                         },
                                         "type": {
-                                            "description": "Get method.",
                                             "type": "string",
                                             "example": "Module"
                                         },
                                         "sequence": {
-                                            "description": "Get method.",
                                             "type": "integer",
                                             "example": 1
                                         },
                                         "newwindow": {
-                                            "description": "Get method.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "dataurl": {
-                                            "description": "Get method.",
                                             "type": "string",
                                             "example": "index.php?module=Module&view=List&mid=172"
                                         },
                                         "icon": {
-                                            "description": "Get method.",
                                             "type": "string",
                                             "example": "dminIcon-shared-owner"
                                         },
                                         "parent": {
-                                            "description": "Get method.",
                                             "type": "integer",
                                             "example": 0
                                         },
                                         "hotkey": {
-                                            "description": "Get method.",
                                             "type": "string",
                                             "example": "ctrl+k"
                                         },
                                         "filters": {
-                                            "description": "Get method.",
                                             "type": "string",
                                             "example": "4,130"
                                         },
                                         "childs": {
                                             "title": "Children parameters",
-                                            "description": "Get method.",
                                             "type": "object"
                                         },
                                         "label": {
-                                            "description": "Get method.",
                                             "type": "string",
                                             "example": "My home page"
                                         }
@@ -3823,23 +3804,19 @@
                         "properties": {
                             "types": {
                                 "title": "Tabs list",
-                                "description": "Get widgets.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "description": "Tab menu item",
                                     "properties": {
                                         "name": {
-                                            "description": "Get widgets.",
                                             "type": "string",
                                             "example": "Dashboard"
                                         },
                                         "id": {
-                                            "description": "Get widgets.",
                                             "type": "integer",
                                             "example": 1
                                         },
                                         "system": {
-                                            "description": "Get widgets.",
                                             "type": "integer",
                                             "example": 1
                                         }
@@ -3849,19 +3826,16 @@
                             },
                             "widgets": {
                                 "title": "Tabs list",
-                                "description": "Get widgets.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "description": "Tree item",
                                     "properties": {
                                         "type": {
-                                            "description": "Get widgets.",
                                             "type": "string",
                                             "example": "ChartFilter"
                                         },
                                         "data": {
                                             "title": "Widget data",
-                                            "description": "Get widgets.",
                                             "type": "object"
                                         }
                                     },
@@ -3892,7 +3866,6 @@
                     },
                     "result": {
                         "title": "Fields parameters",
-                        "description": "Get data about fields, blocks and inventory.",
                         "required": [
                             "fields",
                             "blocks"
@@ -3900,7 +3873,6 @@
                         "properties": {
                             "fields": {
                                 "title": "List of all available fields in the module",
-                                "description": "Get data about fields, blocks and inventory.",
                                 "required": [
                                     "name",
                                     "label",
@@ -3974,7 +3946,6 @@
                                         },
                                         "header_field": {
                                             "title": "Field configuration available in the header",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "properties": {
                                                 "type": {
                                                     "description": "Type",
@@ -4016,37 +3987,30 @@
                                         },
                                         "picklistvalues": {
                                             "title": "Picklist values, available only for type of field: picklist, multipicklist, multiowner, multiReferenceValue, inventoryLimit, languages, currencyList, fileLocationType, taxes, multiListFields, mailScannerFields, country, modules, sharedOwner, categoryMultipicklist, tree",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "object"
                                         },
                                         "date-format": {
                                             "title": "Date format, available only for type of field: date, datetime",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string"
                                         },
                                         "time-format": {
                                             "title": "Time format, available only for type of field: time",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string"
                                         },
                                         "currency_symbol": {
                                             "title": "Currency symbol, available only for type of field: currency",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string"
                                         },
                                         "decimal_separator": {
                                             "title": "Currency decimal separator, available only for type of field: currency",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string"
                                         },
                                         "group_separator": {
                                             "title": "Currency group separator, available only for type of field: currency",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "string"
                                         },
                                         "restrictedDomains": {
                                             "title": "Email restricted domains, available only for type of field: email",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "properties": {
                                                 "yeti.com": {
                                                     "description": "List of domains reserved by email",
@@ -4057,12 +4021,10 @@
                                         },
                                         "limit": {
                                             "title": "Limit the amount of images, available only for type of field: multiImage, image",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "integer"
                                         },
                                         "formats": {
                                             "title": "File Format, available only for type of field: multiImage, image",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "properties": {
                                                 "jpg": {
                                                     "description": "List of file data formats",
@@ -4135,7 +4097,6 @@
                                         },
                                         "referenceList": {
                                             "title": "List of related modules, available only for reference field",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "object",
                                             "additionalProperties": {
                                                 "description": "Tree item",
@@ -4145,7 +4106,6 @@
                                         },
                                         "treeValues": {
                                             "title": "Tree items, available only for tree field",
-                                            "description": "Get data about fields, blocks and inventory.",
                                             "type": "object",
                                             "additionalProperties": {
                                                 "title": "Tree item",
@@ -4180,7 +4140,6 @@
                             },
                             "blocks": {
                                 "title": "List of all available blocks in the module",
-                                "description": "Get data about fields, blocks and inventory.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "title": "Block details",
@@ -4271,11 +4230,9 @@
                             },
                             "inventory": {
                                 "title": "Inventory field group, available depending on the type of module",
-                                "description": "Get data about fields, blocks and inventory.",
                                 "properties": {
                                     "1": {
                                         "title": "Inventory field list",
-                                        "description": "Get data about fields, blocks and inventory.",
                                         "type": "object",
                                         "additionalProperties": {
                                             "title": "Inventory field details",
@@ -4344,17 +4301,14 @@
                             "description": "Record details",
                             "properties": {
                                 "id": {
-                                    "description": "Get records hierarchy.",
                                     "type": "integer",
                                     "example": 117
                                 },
                                 "parent": {
-                                    "description": "Get records hierarchy.",
                                     "type": "integer",
                                     "example": 0
                                 },
                                 "name": {
-                                    "description": "Get records hierarchy.",
                                     "type": "string",
                                     "example": "YetiForce Sp. z o.o."
                                 }
@@ -4379,18 +4333,15 @@
                     },
                     "result": {
                         "title": "Pdf",
-                        "description": "Get method - Generate PDF.",
                         "type": "object",
                         "additionalProperties": {
                             "title": "Pdf detail",
                             "properties": {
                                 "name": {
-                                    "description": "Get method - Generate PDF.",
                                     "type": "string",
                                     "example": "order.pdf"
                                 },
                                 "data": {
-                                    "description": "Get method - Generate PDF.",
                                     "type": "string",
                                     "format": "binary"
                                 }
@@ -4415,29 +4366,24 @@
                     },
                     "result": {
                         "title": "Pdf templates",
-                        "description": "Get method - Get PDF templates list.",
                         "type": "object",
                         "additionalProperties": {
                             "title": "Pdf template detail",
                             "properties": {
                                 "id": {
                                     "title": "Record Id",
-                                    "description": "Get method - Get PDF templates list.",
                                     "type": "integer",
                                     "example": 38
                                 },
                                 "name": {
-                                    "description": "Get method - Get PDF templates list.",
                                     "type": "string",
                                     "example": "order"
                                 },
                                 "second_name": {
-                                    "description": "Get method - Get PDF templates list.",
                                     "type": "string",
                                     "example": "order"
                                 },
                                 "default": {
-                                    "description": "Get method - Get PDF templates list.",
                                     "type": "integer",
                                     "example": 1
                                 }
@@ -4462,7 +4408,6 @@
                     },
                     "result": {
                         "title": "List of module privileges",
-                        "description": "Get privileges for module.",
                         "type": "object",
                         "example": {
                             "Import": true,
@@ -4494,7 +4439,6 @@
                     },
                     "result": {
                         "title": "Record data",
-                        "description": "Get record detail.",
                         "required": [
                             "name",
                             "id",
@@ -4514,7 +4458,6 @@
                             },
                             "fields": {
                                 "title": "System field names and field labels",
-                                "description": "Get record detail.",
                                 "type": "object",
                                 "example": {
                                     "field_name_1": "Field label 1",
@@ -4532,7 +4475,6 @@
                             },
                             "privileges": {
                                 "title": "Parameters determining checking of editing rights and moving to the trash",
-                                "description": "Get record detail.",
                                 "required": [
                                     "isEditable",
                                     "moveToTrash"
@@ -4568,11 +4510,9 @@
                             },
                             "headerFields": {
                                 "title": "Get header fields details.",
-                                "description": "Get record detail.",
                                 "properties": {
                                     "progress": {
                                         "title": "Progress header fields",
-                                        "description": "Get record detail.",
                                         "type": "object",
                                         "additionalProperties": {
                                             "title": "Header field details",
@@ -4599,7 +4539,6 @@
                                                 },
                                                 "values": {
                                                     "title": "Class name",
-                                                    "description": "Get record detail.",
                                                     "type": "object",
                                                     "additionalProperties": {
                                                         "title": "Header field details",
@@ -4650,7 +4589,6 @@
                                     },
                                     "value": {
                                         "title": "Value header fields",
-                                        "description": "Get record detail.",
                                         "type": "object",
                                         "additionalProperties": {
                                             "title": "Header field details",
@@ -4698,7 +4636,6 @@
                                     },
                                     "highlights": {
                                         "title": "Highlights header fields",
-                                        "description": "Get record detail.",
                                         "type": "object",
                                         "additionalProperties": {
                                             "title": "Header field details",
@@ -4901,11 +4838,9 @@
                     },
                     "result": {
                         "title": "Returns recent activities that took place in CRM",
-                        "description": "Get the record history.",
                         "properties": {
                             "records": {
                                 "title": "Entires of recent record activities",
-                                "description": "Get the record history.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "title": "Key indicating the number of changes made to a given record",
@@ -4942,7 +4877,6 @@
                                         },
                                         "data": {
                                             "title": "Additional information",
-                                            "description": "Get the record history.",
                                             "oneOf": [
                                                 {
                                                     "title": "Record data create",
@@ -5037,7 +4971,6 @@
                                 }
                             },
                             "isMorePages": {
-                                "description": "Get the record history.",
                                 "type": "boolean",
                                 "example": true
                             }
@@ -5065,7 +4998,6 @@
                     },
                     "result": {
                         "title": "List of related records",
-                        "description": "Get related record list method.",
                         "required": [
                             "headers",
                             "records",
@@ -5076,7 +5008,6 @@
                         "properties": {
                             "headers": {
                                 "title": "Fields names",
-                                "description": "Get related record list method.",
                                 "type": "object",
                                 "example": {
                                     "field_name_1": "Field label 1",
@@ -5091,7 +5022,6 @@
                             },
                             "records": {
                                 "title": "Records display details",
-                                "description": "Get related record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "$ref": "#/components/schemas/Record_Display_Details"
@@ -5099,7 +5029,6 @@
                             },
                             "permissions": {
                                 "title": "Records action permissions",
-                                "description": "Get related record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "title": "Record action permissions",
@@ -5124,7 +5053,6 @@
                             },
                             "rawData": {
                                 "title": "Records raw details, dependent on the header `x-raw-data`",
-                                "description": "Get related record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "$ref": "#/components/schemas/Record_Raw_Details"
@@ -5169,7 +5097,6 @@
                     },
                     "result": {
                         "title": "List of records",
-                        "description": "Get record list method.",
                         "required": [
                             "headers",
                             "records",
@@ -5180,7 +5107,6 @@
                         "properties": {
                             "headers": {
                                 "title": "Fields names",
-                                "description": "Get record list method.",
                                 "type": "object",
                                 "example": {
                                     "field_name_1": "Field label 1",
@@ -5195,7 +5121,6 @@
                             },
                             "records": {
                                 "title": "Records display details",
-                                "description": "Get record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "$ref": "#/components/schemas/Record_Display_Details"
@@ -5203,7 +5128,6 @@
                             },
                             "permissions": {
                                 "title": "Records action permissions",
-                                "description": "Get record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "title": "Record action permissions",
@@ -5213,12 +5137,10 @@
                                     ],
                                     "properties": {
                                         "isEditable": {
-                                            "description": "Get record list method.",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "moveToTrash": {
-                                            "description": "Get record list method.",
                                             "type": "boolean",
                                             "example": true
                                         }
@@ -5228,7 +5150,6 @@
                             },
                             "rawData": {
                                 "title": "Records raw details, dependent on the header `x-raw-data`",
-                                "description": "Get record list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "$ref": "#/components/schemas/Record_Raw_Details"
@@ -5273,7 +5194,6 @@
                     },
                     "result": {
                         "title": "List of related records",
-                        "description": "Get related modules list method.",
                         "required": [
                             "base",
                             "related"
@@ -5281,7 +5201,6 @@
                         "properties": {
                             "base": {
                                 "title": "Base list",
-                                "description": "Get related modules list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "required": [
@@ -5311,7 +5230,6 @@
                             },
                             "related": {
                                 "title": "Base list",
-                                "description": "Get related modules list method.",
                                 "type": "object",
                                 "additionalProperties": {
                                     "required": [
@@ -5422,7 +5340,6 @@
                         "example": 38
                     },
                     "moduleName": {
-                        "description": "Create inventory record.",
                         "type": "string",
                         "example": "SSingleOrders"
                     }
@@ -5569,7 +5486,6 @@
                             },
                             "fields": {
                                 "title": "System field names and field labels",
-                                "description": "{@inheritdoc}",
                                 "type": "object",
                                 "example": {
                                     "field_name_1": "Field label 1",
@@ -5682,12 +5598,10 @@
                                 }
                             },
                             "count": {
-                                "description": "Construct.",
                                 "type": "integer",
                                 "example": 54
                             },
                             "isMorePages": {
-                                "description": "Construct.",
                                 "type": "boolean",
                                 "example": true
                             }
@@ -5715,7 +5629,6 @@
                     },
                     "result": {
                         "title": "User data",
-                        "description": "Get user history of access activity.",
                         "type": "object",
                         "additionalProperties": {
                             "title": "Condition details",
@@ -5756,12 +5669,10 @@
                 "properties": {
                     "currentPassword": {
                         "title": "Current password",
-                        "description": "Put method.",
                         "type": "string"
                     },
                     "newPassword": {
                         "title": "New password",
-                        "description": "Put method.",
                         "type": "string"
                     }
                 },
@@ -5952,36 +5863,29 @@
                         ],
                         "properties": {
                             "token": {
-                                "description": "Post method.",
                                 "type": "string",
                                 "maxLength": 40,
                                 "minLength": 40
                             },
                             "name": {
-                                "description": "Post method.",
                                 "type": "string"
                             },
                             "lastLoginTime": {
-                                "description": "Post method.",
                                 "type": "string",
                                 "example": "2019-10-07 08:32:38"
                             },
                             "lastLogoutTime": {
-                                "description": "Post method.",
                                 "type": "string",
                                 "example": ""
                             },
                             "language": {
-                                "description": "Post method.",
                                 "type": "string",
                                 "example": "pl-PL"
                             },
                             "type": {
-                                "description": "Post method.",
                                 "type": "integer"
                             },
                             "login_method": {
-                                "description": "Post method.",
                                 "type": "string",
                                 "enum": [
                                     "PLL_PASSWORD",
@@ -5990,11 +5894,9 @@
                                 "example": "PLL_PASSWORD_2FA"
                             },
                             "logged": {
-                                "description": "Post method.",
                                 "type": "boolean"
                             },
                             "preferences": {
-                                "description": "Post method.",
                                 "required": [
                                     "hour_format",
                                     "start_hour",
@@ -6018,98 +5920,79 @@
                                 ],
                                 "properties": {
                                     "hour_format": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "24"
                                     },
                                     "start_hour": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "08:00"
                                     },
                                     "end_hour": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "16:00"
                                     },
                                     "date_format": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "yyyy-mm-dd"
                                     },
                                     "time_zone": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "Europe/Warsaw"
                                     },
                                     "currency_id": {
-                                        "description": "Post method.",
                                         "type": "integer",
                                         "example": 1
                                     },
                                     "currency_grouping_pattern": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "123,456,789"
                                     },
                                     "currency_decimal_separator": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "."
                                     },
                                     "currency_grouping_separator": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": " "
                                     },
                                     "currency_symbol_placement": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "1.0$"
                                     },
                                     "no_of_currency_decimals": {
-                                        "description": "Post method.",
                                         "type": "integer",
                                         "example": 2
                                     },
                                     "currency_name": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "Poland, Zlotych"
                                     },
                                     "currency_code": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "PLN"
                                     },
                                     "currency_symbol": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "zł"
                                     },
                                     "conv_rate": {
-                                        "description": "Post method.",
                                         "type": "number",
                                         "format": "float",
                                         "example": 1
                                     },
                                     "activity_view": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "This Month"
                                     },
                                     "date_format_js": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "Y-m-d"
                                     },
                                     "dayoftheweek": {
-                                        "description": "Post method.",
                                         "type": "string",
                                         "example": "Monday"
                                     },
                                     "truncate_trailing_zeros": {
-                                        "description": "Post method.",
                                         "type": "integer",
                                         "example": 0
                                     }
@@ -6117,7 +6000,6 @@
                                 "type": "object"
                             },
                             "authy_methods": {
-                                "description": "Post method.",
                                 "type": "string",
                                 "enum": [
                                     "",
@@ -6126,38 +6008,31 @@
                                 "example": "PLL_AUTHY_TOTP"
                             },
                             "2faObligatory": {
-                                "description": "Post method.",
                                 "type": "boolean",
                                 "example": true
                             },
                             "companyId": {
-                                "description": "Post method.",
                                 "type": "integer"
                             },
                             "parentName": {
-                                "description": "Post method.",
                                 "type": "string",
                                 "example": "YetiForce Company"
                             },
                             "companyDetails": {
                                 "title": "Company details, optional parameter depending on the user type",
-                                "description": "Post method.",
                                 "required": [
                                     "check_stock_levels",
                                     "sum_open_orders"
                                 ],
                                 "properties": {
                                     "check_stock_levels": {
-                                        "description": "Post method.",
                                         "type": "boolean"
                                     },
                                     "sum_open_orders": {
-                                        "description": "Post method.",
                                         "type": "number",
                                         "format": "double"
                                     },
                                     "creditlimit": {
-                                        "description": "Post method.",
                                         "type": "integer"
                                     }
                                 },
@@ -6179,7 +6054,6 @@
                 "properties": {
                     "status": {
                         "title": "0 - error",
-                        "description": "Post method.",
                         "type": "integer",
                         "enum": [
                             0
@@ -6199,7 +6073,6 @@
                                 "example": "Invalid method"
                             },
                             "code": {
-                                "description": "Post method.",
                                 "type": "integer",
                                 "example": 405
                             },
@@ -6278,7 +6151,6 @@
                             },
                             "fields": {
                                 "title": "System field names and field labels",
-                                "description": "Get user detail.",
                                 "type": "object",
                                 "example": {
                                     "field_name_1": "Field label 1",
@@ -6354,12 +6226,10 @@
                                 }
                             },
                             "count": {
-                                "description": "Get users list method.",
                                 "type": "integer",
                                 "example": 54
                             },
                             "isMorePages": {
-                                "description": "Get users list method.",
                                 "type": "boolean",
                                 "example": true
                             }
@@ -6406,15 +6276,12 @@
                     },
                     "result": {
                         "title": "Content of responses from a given method",
-                        "description": "Post method.",
                         "properties": {
                             "expirationDate": {
-                                "description": "Post method.",
                                 "type": "string",
                                 "example": "2019-10-07 08:32:38"
                             },
                             "mailerStatus": {
-                                "description": "Post method.",
                                 "type": "boolean",
                                 "example": true
                             }
@@ -6466,7 +6333,6 @@
                     },
                     "result": {
                         "title": "Password reset status",
-                        "description": "Put method.",
                         "type": "boolean",
                         "example": false
                     }
@@ -6491,19 +6357,16 @@
                     },
                     "result": {
                         "title": "Content of responses from a given method",
-                        "description": "Get two factor authentication details.",
                         "required": [
                             "authMethods",
                             "secretKey"
                         ],
                         "properties": {
                             "authMethods": {
-                                "description": "Get two factor authentication details.",
                                 "type": "string",
                                 "example": "TOTP"
                             },
                             "secretKey": {
-                                "description": "Get two factor authentication details.",
                                 "type": "string",
                                 "example": "LJUJWCOEGUKP6WS2"
                             }

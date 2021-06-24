@@ -24,7 +24,7 @@ paths:
       tags:
         - Consents
       summary: 'Adds an consent entry'
-      operationId: 'Api\ManageConsents\ApprovalsRegister\Record::post'
+      operationId: 425399d47c958ba5c538827d258fde0a
       requestBody:
         description: 'Required data for communication'
         required: true
@@ -64,7 +64,7 @@ paths:
       tags:
         - Consents
       summary: 'Gets the list of consents'
-      operationId: 'Api\ManageConsents\Approvals\RecordsList::get'
+      operationId: 04e7ebb08f943d466f20bb0e98311271
       parameters:
         -
           name: x-row-limit
@@ -149,7 +149,7 @@ paths:
       tags:
         - Consents
       summary: 'Gets the list of consents for specific entry'
-      operationId: 'Api\ManageConsents\BaseModule\GetConsentsForEntry::post'
+      operationId: 9fd993e544cb6935282883e505b8d1d6
       parameters:
         -
           name: moduleName
@@ -197,7 +197,7 @@ paths:
       tags:
         - Consents
       summary: 'Send e-mail'
-      operationId: 'Api\ManageConsents\BaseModule\SendEmail::post'
+      operationId: 86c8610aedbae9a8690ab71a3ae22134
       parameters:
         -
           name: moduleName
@@ -298,19 +298,15 @@ components:
           description: 'Specific response'
           properties:
             records:
-              description: 'Gets consents.'
               properties:
                 '24862':
-                  description: 'Gets consents.'
-                  properties: { id: { description: 'Consent ID', type: integer, example: 24862 }, name: { description: Text, type: string, example: 'Consent for email' }, approvals_status: { description: Status, type: string, example: Active }, number: { description: Text, type: string, example: N12 }, assigned_user_id: { description: 'Assigned user name', type: string, example: 'Kowalski Adam' }, createdtime: { description: 'Gets consents.', type: string, example: '2019-10-07 08:32:38' }, modifiedtime: { description: 'Gets consents.', type: string, example: '2019-10-07 08:32:38' }, created_user_id: { description: 'Assigned user name', type: string, example: 'Kowalski Adam' }, shownerid: { description: 'Assigned user name', type: string, example: 'Kowalski Adam' }, description: { description: Description, type: string, example: 'I confirm to have read..' } }
+                  properties: { id: { description: 'Consent ID', type: integer, example: 24862 }, name: { description: Text, type: string, example: 'Consent for email' }, approvals_status: { description: Status, type: string, example: Active }, number: { description: Text, type: string, example: N12 }, assigned_user_id: { description: 'Assigned user name', type: string, example: 'Kowalski Adam' }, createdtime: { type: string, example: '2019-10-07 08:32:38' }, modifiedtime: { type: string, example: '2019-10-07 08:32:38' }, created_user_id: { description: 'Assigned user name', type: string, example: 'Kowalski Adam' }, shownerid: { description: 'Assigned user name', type: string, example: 'Kowalski Adam' }, description: { description: Description, type: string, example: 'I confirm to have read..' } }
                   type: object
               type: object
             rawData:
-              description: 'Gets consents.'
               properties:
                 '24862':
-                  description: 'Gets consents.'
-                  properties: { id: { description: 'Consent ID', type: integer, example: 24862 }, name: { description: Text, type: string, example: 'Consent for email' }, approvals_status: { description: Status, type: string, example: PLL_ACTIVE }, number: { description: Text, type: string, example: N12 }, assigned_user_id: { description: 'Assigned user ID', type: integer, example: 245 }, createdtime: { description: 'Gets consents.', type: string, example: '2019-10-07 08:32:38' }, modifiedtime: { description: 'Gets consents.', type: string, example: '2019-10-07 08:32:38' }, created_user_id: { description: 'Assigned user ID', type: integer, example: 245 }, shownerid: { description: 'Assigned user name', type: string, example: 'Kowalski Adam' }, description: { description: Description, type: string, example: 'I confirm to have read..' } }
+                  properties: { id: { description: 'Consent ID', type: integer, example: 24862 }, name: { description: Text, type: string, example: 'Consent for email' }, approvals_status: { description: Status, type: string, example: PLL_ACTIVE }, number: { description: Text, type: string, example: N12 }, assigned_user_id: { description: 'Assigned user ID', type: integer, example: 245 }, createdtime: { type: string, example: '2019-10-07 08:32:38' }, modifiedtime: { type: string, example: '2019-10-07 08:32:38' }, created_user_id: { description: 'Assigned user ID', type: integer, example: 245 }, shownerid: { description: 'Assigned user name', type: string, example: 'Kowalski Adam' }, description: { description: Description, type: string, example: 'I confirm to have read..' } }
                   type: object
               type: object
             isMorePages:
@@ -337,7 +333,6 @@ components:
               type: string
               example: 'Invalid method'
             code:
-              description: 'Gets consents.'
               type: integer
               example: 405
             file:

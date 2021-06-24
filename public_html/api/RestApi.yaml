@@ -25,7 +25,7 @@ paths:
         - BaseAction
       summary: 'Download files'
       description: 'Download files from the system'
-      operationId: 'Api\RestApi\BaseAction\Files::put'
+      operationId: e7e5964f6f553d84faa1c533f45fb323
       parameters:
         -
           name: X-ENCRYPTED
@@ -98,7 +98,7 @@ paths:
         - BaseAction
       summary: 'The allowed actions of the module list'
       description: 'Get the permitted module list action, along with their translated action'
-      operationId: 'Api\RestApi\BaseAction\Modules::get'
+      operationId: df1ca264d776bc635ad40182dd4e6159
       parameters:
         -
           name: X-ENCRYPTED
@@ -145,7 +145,7 @@ paths:
         - BaseModule
       summary: 'List of custom view'
       description: 'Gets a list of custom view'
-      operationId: 'Api\RestApi\BaseModule\CustomView::get'
+      operationId: aac14296f707d0c16ecb78bf67044d48
       parameters:
         -
           name: moduleName
@@ -269,7 +269,7 @@ paths:
         - BaseModule
       summary: 'Get data about fields, blocks and inventory'
       description: 'Returns information about fields, blocks and inventory based on the selected module'
-      operationId: 'Api\RestApi\BaseModule\Fields::get'
+      operationId: a2cf7c7b2b5da1f48caf19abe4069b97
       parameters:
         -
           name: moduleName
@@ -306,7 +306,7 @@ paths:
         - BaseModule
       summary: 'Get privileges for module'
       description: 'Gets the list of actions that the user has access to in the module'
-      operationId: 'Api\RestApi\BaseModule\Privileges::get'
+      operationId: 259df69f1738a6b3164a2db69fdaf391
       parameters:
         -
           name: moduleName
@@ -424,7 +424,7 @@ paths:
         - BaseModule
       summary: 'Edit record'
       description: 'Retrieves data for editing a record'
-      operationId: 'Api\RestApi\BaseModule\Record::put'
+      operationId: 65777ed4b801f8d7f770c48832a5b8d3
       parameters:
         -
           name: moduleName
@@ -481,7 +481,7 @@ paths:
         - BaseModule
       summary: 'Delete record'
       description: 'Changes the state of a record, moving it to the trash'
-      operationId: 'Api\RestApi\BaseModule\Record::delete'
+      operationId: 19a8bf7823fc975cdc2a87d35b5560a5
       parameters:
         -
           name: moduleName
@@ -526,7 +526,7 @@ paths:
         - BaseModule
       summary: 'Create record'
       description: 'Gets data to save record'
-      operationId: 'Api\RestApi\BaseModule\Record::post'
+      operationId: 770ccd2c1675cd956bb501dcb76aa7ef
       parameters:
         -
           name: moduleName
@@ -576,7 +576,7 @@ paths:
         - BaseModule
       summary: 'Record history'
       description: 'Gets the history of the record'
-      operationId: 'Api\RestApi\BaseModule\RecordHistory::get'
+      operationId: 3be62bdf1b0d79699f735984ce3f9b44
       parameters:
         -
           name: moduleName
@@ -674,7 +674,7 @@ paths:
         - BaseModule
       summary: 'Related list of records'
       description: 'Gets a list of related records'
-      operationId: 'Api\RestApi\BaseModule\RecordRelatedList::get'
+      operationId: ff2e1330b1ef2f8301a5aab71283cfb8
       parameters:
         -
           name: moduleName
@@ -852,7 +852,7 @@ paths:
         - BaseModule
       summary: 'List of records'
       description: 'Gets a list of records'
-      operationId: 'Api\RestApi\BaseModule\RecordsList::get'
+      operationId: 617a14bec66caca8bb41e81e63f6b22b
       parameters:
         -
           name: moduleName
@@ -1014,7 +1014,7 @@ paths:
         - BaseModule
       summary: 'Related list of modules'
       description: 'Gets a list of related modules'
-      operationId: 'Api\RestApi\BaseModule\RelatedModules::get'
+      operationId: 71a4571db20bb07554e32ffaf0d2ae7c
       parameters:
         -
           name: moduleName
@@ -1072,7 +1072,7 @@ paths:
         - Users
       summary: 'History of access activity data'
       description: 'Get user history of access activity'
-      operationId: 'Api\RestApi\Users\AccessActivityHistory::get'
+      operationId: 9411ff6e3e5688bfcee71f6617c382f2
       parameters:
         -
           name: X-ENCRYPTED
@@ -1126,7 +1126,7 @@ paths:
         - Users
       summary: 'User password change'
       description: 'User password change'
-      operationId: 'Api\RestApi\Users\ChangePassword::put'
+      operationId: d1dc376660ea2f2fb3e5a4468281b1b3
       parameters:
         -
           name: X-ENCRYPTED
@@ -1168,7 +1168,7 @@ paths:
         - Users
       summary: 'Logs user'
       description: 'Logs user into the system'
-      operationId: 'Api\RestApi\Users\Login::post'
+      operationId: 07c6db55b2af71558ab59bc78681eafb
       parameters:
         -
           name: X-ENCRYPTED
@@ -1236,7 +1236,7 @@ paths:
         - Users
       summary: 'Logout user'
       description: 'Logout user out the system'
-      operationId: 'Api\RestApi\Users\Logout::put'
+      operationId: cdb50ef2e332551075d55b73fc0f19f8
       parameters:
         -
           name: X-ENCRYPTED
@@ -1265,7 +1265,7 @@ paths:
         - Users
       summary: 'Data for the user'
       description: 'Gets details about the user'
-      operationId: 'Api\RestApi\Users\Record::get'
+      operationId: d772610cb13d45f61fd38f99b4841658
       parameters:
         -
           name: userId
@@ -1331,7 +1331,7 @@ paths:
         - Users
       summary: 'List of users'
       description: 'Gets a list of all users'
-      operationId: 'Api\RestApi\Users\RecordsList::get'
+      operationId: 06283061eb0b2567eb3452326eba3be0
       parameters:
         -
           name: x-raw-data
@@ -1466,7 +1466,7 @@ paths:
         - Users
       summary: 'User password reset-Passwordchange'
       description: 'User password reset - Password change'
-      operationId: 'Api\RestApi\Users\ResetPassword::put'
+      operationId: d95ed76e2118df6c4e85e9c912ff6a65
       parameters:
         -
           name: X-ENCRYPTED
@@ -1524,7 +1524,7 @@ paths:
         - Users
       summary: 'User password reset-Generatingandsendingaone-timetoken'
       description: 'User password reset - Generating and sending a one-time token'
-      operationId: 'Api\RestApi\Users\ResetPassword::post'
+      operationId: 1afb975ceee34717503a9e5403f49a58
       parameters:
         -
           name: X-ENCRYPTED
@@ -1574,7 +1574,7 @@ paths:
         - Users
       summary: '2FA details'
       description: 'Get two factor authentication details'
-      operationId: 'Api\RestApi\Users\TwoFactorAuth::get'
+      operationId: e559de23e6df4e58325d739f59306392
       parameters:
         -
           name: X-ENCRYPTED
@@ -1620,7 +1620,7 @@ paths:
         - Users
       summary: 'Activate 2FA'
       description: 'Activate two factor authentication'
-      operationId: 'Api\RestApi\Users\TwoFactorAuth::post'
+      operationId: 72c912b1b67230fdfc169614345636f2
       parameters:
         -
           name: X-ENCRYPTED
@@ -1666,7 +1666,7 @@ paths:
         - Users
       summary: 'Disable 2FA'
       description: 'Disable two factor authentication'
-      operationId: 'Api\RestApi\Users\TwoFactorAuth::delete'
+      operationId: f8fb6d3b711bb1143fbcff29f2996a0a
       parameters:
         -
           name: X-ENCRYPTED
@@ -1714,19 +1714,15 @@ components:
       description: 'Action parameters to download the file'
       properties:
         module:
-          description: 'Put method.'
           type: string
           example: Documents
         actionName:
-          description: 'Put method.'
           type: string
           example: DownloadFile
         record:
-          description: 'Put method.'
           type: integer
           example: 1111
         fileid:
-          description: 'Put method.'
           type: integer
           example: 333
       type: object
@@ -1844,14 +1840,12 @@ components:
             - 1
         result:
           title: 'Fields parameters'
-          description: 'Get data about fields, blocks and inventory.'
           required:
             - fields
             - blocks
           properties:
             fields:
               title: 'List of all available fields in the module'
-              description: 'Get data about fields, blocks and inventory.'
               required:
                 - name
                 - label
@@ -1890,21 +1884,21 @@ components:
                   presence: { description: 'Check if field is active', type: boolean, example: true }
                   quickcreate: { description: 'Check if field is active', type: boolean, example: true }
                   masseditable: { description: 'Check if field is quick create enabled', type: boolean, example: true }
-                  header_field: { title: 'Field configuration available in the header', description: 'Get data about fields, blocks and inventory.', properties: { type: { description: Type, type: string, example: value }, class: { description: 'Gui class', type: string, example: badge-info } }, type: object }
+                  header_field: { title: 'Field configuration available in the header', properties: { type: { description: Type, type: string, example: value }, class: { description: 'Gui class', type: string, example: badge-info } }, type: object }
                   maxlengthtext: { description: 'Max length text', type: integer, example: 0 }
                   maximumlength: { description: 'Maximum field range', type: string, example: '-2147483648,2147483647' }
                   maxwidthcolumn: { description: 'Max width column', type: integer, example: 0 }
                   tabindex: { description: 'Field tab index', type: integer, example: 0 }
                   fieldtype: { description: 'Field short data type', type: string, example: V }
-                  picklistvalues: { title: 'Picklist values, available only for type of field: picklist, multipicklist, multiowner, multiReferenceValue, inventoryLimit, languages, currencyList, fileLocationType, taxes, multiListFields, mailScannerFields, country, modules, sharedOwner, categoryMultipicklist, tree', description: 'Get data about fields, blocks and inventory.', type: object }
-                  date-format: { title: 'Date format, available only for type of field: date, datetime', description: 'Get data about fields, blocks and inventory.', type: string }
-                  time-format: { title: 'Time format, available only for type of field: time', description: 'Get data about fields, blocks and inventory.', type: string }
-                  currency_symbol: { title: 'Currency symbol, available only for type of field: currency', description: 'Get data about fields, blocks and inventory.', type: string }
-                  decimal_separator: { title: 'Currency decimal separator, available only for type of field: currency', description: 'Get data about fields, blocks and inventory.', type: string }
-                  group_separator: { title: 'Currency group separator, available only for type of field: currency', description: 'Get data about fields, blocks and inventory.', type: string }
-                  restrictedDomains: { title: 'Email restricted domains, available only for type of field: email', description: 'Get data about fields, blocks and inventory.', properties: { yeti.com: { description: 'List of domains reserved by email', example: yeti.com } }, type: object }
-                  limit: { title: 'Limit the amount of images, available only for type of field: multiImage, image', description: 'Get data about fields, blocks and inventory.', type: integer }
-                  formats: { title: 'File Format, available only for type of field: multiImage, image', description: 'Get data about fields, blocks and inventory.', properties: { jpg: { description: 'List of file data formats', example: jpg } }, type: object }
+                  picklistvalues: { title: 'Picklist values, available only for type of field: picklist, multipicklist, multiowner, multiReferenceValue, inventoryLimit, languages, currencyList, fileLocationType, taxes, multiListFields, mailScannerFields, country, modules, sharedOwner, categoryMultipicklist, tree', type: object }
+                  date-format: { title: 'Date format, available only for type of field: date, datetime', type: string }
+                  time-format: { title: 'Time format, available only for type of field: time', type: string }
+                  currency_symbol: { title: 'Currency symbol, available only for type of field: currency', type: string }
+                  decimal_separator: { title: 'Currency decimal separator, available only for type of field: currency', type: string }
+                  group_separator: { title: 'Currency group separator, available only for type of field: currency', type: string }
+                  restrictedDomains: { title: 'Email restricted domains, available only for type of field: email', properties: { yeti.com: { description: 'List of domains reserved by email', example: yeti.com } }, type: object }
+                  limit: { title: 'Limit the amount of images, available only for type of field: multiImage, image', type: integer }
+                  formats: { title: 'File Format, available only for type of field: multiImage, image', properties: { jpg: { description: 'List of file data formats', example: jpg } }, type: object }
                   id: { description: 'Field ID', type: integer, example: 24862 }
                   uitype: { description: 'Field UiType', type: integer, example: 1 }
                   isEditable: { description: 'Check if record is editable', type: boolean, example: true }
@@ -1918,12 +1912,11 @@ components:
                   dbStructure: { description: 'Info about field structure in database', type: object }
                   queryOperators: { description: 'Field query operators', type: object }
                   isEmptyPicklistOptionAllowed: { description: 'Defines empty picklist element availability', type: boolean, example: false }
-                  referenceList: { title: 'List of related modules, available only for reference field', description: 'Get data about fields, blocks and inventory.', type: object, additionalProperties: { description: 'Tree item', type: string, example: Accounts } }
-                  treeValues: { title: 'Tree items, available only for tree field', description: 'Get data about fields, blocks and inventory.', type: object, additionalProperties: { title: 'Tree item', properties: { id: { description: 'Number tree without prefix', type: integer, example: 1 }, tree: { description: 'Tree id', type: string, example: T10 }, parent: { description: 'Parent tree id', type: string, example: T1 }, text: { description: 'Tree value', type: string, example: 'Tree value' } }, type: object } }
+                  referenceList: { title: 'List of related modules, available only for reference field', type: object, additionalProperties: { description: 'Tree item', type: string, example: Accounts } }
+                  treeValues: { title: 'Tree items, available only for tree field', type: object, additionalProperties: { title: 'Tree item', properties: { id: { description: 'Number tree without prefix', type: integer, example: 1 }, tree: { description: 'Tree id', type: string, example: T10 }, parent: { description: 'Parent tree id', type: string, example: T1 }, text: { description: 'Tree value', type: string, example: 'Tree value' } }, type: object } }
                 type: object
             blocks:
               title: 'List of all available blocks in the module'
-              description: 'Get data about fields, blocks and inventory.'
               type: object
               additionalProperties:
                 title: 'Block details'
@@ -1958,11 +1951,9 @@ components:
                 type: object
             inventory:
               title: 'Inventory field group, available depending on the type of module'
-              description: 'Get data about fields, blocks and inventory.'
               properties:
                 '1':
                   title: 'Inventory field list'
-                  description: 'Get data about fields, blocks and inventory.'
                   type: object
                   additionalProperties: { title: 'Inventory field details', required: [label, type, columnname, isSummary, isVisibleInDetail], properties: { label: { description: 'Field label translated into the user''s language', type: string, example: 'Unit price' }, type: { description: 'Field type', type: string, example: UnitPrice }, columnname: { description: 'Field column name in db', type: string, example: price }, isSummary: { description: 'Is the field contains summary', type: boolean, example: false }, isVisibleInDetail: { description: 'Check if field is visible in detail view', type: boolean, example: true } }, type: object }
               type: object
@@ -1980,7 +1971,6 @@ components:
             - 1
         result:
           title: 'List of module privileges'
-          description: 'Get privileges for module.'
           type: object
           example:
             Import: true
@@ -2004,7 +1994,6 @@ components:
             - 1
         result:
           title: 'Record data'
-          description: 'Get record detail.'
           required:
             - name
             - id
@@ -2021,7 +2010,6 @@ components:
               example: 152
             fields:
               title: 'System field names and field labels'
-              description: 'Get record detail.'
               type: object
               example:
                 field_name_1: 'Field label 1'
@@ -2035,7 +2023,6 @@ components:
               $ref: '#/components/schemas/Record_Display_Details'
             privileges:
               title: 'Parameters determining checking of editing rights and moving to the trash'
-              description: 'Get record detail.'
               required:
                 - isEditable
                 - moveToTrash
@@ -2176,11 +2163,9 @@ components:
             - 1
         result:
           title: 'Returns recent activities that took place in CRM'
-          description: 'Get related record list method.'
           properties:
             records:
               title: 'Entires of recent record activities'
-              description: 'Get related record list method.'
               type: object
               additionalProperties:
                 title: 'Key indicating the number of changes made to a given record'
@@ -2191,10 +2176,9 @@ components:
                   rawTime: { description: 'Showing the exact date on which the change took place', type: string, example: '2019-10-07 08:32:38' }
                   rawOwner: { description: 'User ID of the user who made the change', type: integer, example: 1 }
                   rawStatus: { description: 'The name of the untranslated label', type: string, example: LBL_UPDATED }
-                  data: { title: 'Additional information', description: 'Get related record list method.', oneOf: [{ title: 'Record data create', type: object, additionalProperties: { properties: { label: { description: 'Translated field label', type: string, example: Name }, value: { description: 'Value, the data type depends on the field type', type: string, example: 'Jan Kowalski' }, raw: { description: 'Value in database format, only available in `x-raw-data`', type: string, example: 'Jan Kowalski' } }, type: object } }, { title: 'Record data change', description: 'Edit, conversation', type: object, additionalProperties: { properties: { label: { description: 'Translated field label', type: string, example: Name }, from: { description: 'Value before change, the data type depends on the field type', type: string, example: 'Jan Kowalski' }, to: { description: 'Value after change, the data type depends on the field type', type: string, example: 'Jan Nowak' }, rawFrom: { description: 'Value before change, value in database format, only available in `x-raw-data`', type: string, example: 'Jan Kowalski' }, rawTo: { description: 'Value after change, value in database format, only available in `x-raw-data`', type: string, example: 'Jan Nowak' } }, type: object } }, { title: 'Operations on related records', description: 'Adding relations, removing relations, transferring records', properties: { targetModule: { description: 'The name of the target related module', type: string, example: Contacts }, targetModuleLabel: { description: 'Translated module name', type: string, example: Kontakt }, targetLabel: { description: 'The label name of the target related module', type: string, example: 'Jan Kowalski' }, targetId: { description: 'Id of the target related module', type: integer, example: 394 } }, type: object }] }
+                  data: { title: 'Additional information', oneOf: [{ title: 'Record data create', type: object, additionalProperties: { properties: { label: { description: 'Translated field label', type: string, example: Name }, value: { description: 'Value, the data type depends on the field type', type: string, example: 'Jan Kowalski' }, raw: { description: 'Value in database format, only available in `x-raw-data`', type: string, example: 'Jan Kowalski' } }, type: object } }, { title: 'Record data change', description: 'Edit, conversation', type: object, additionalProperties: { properties: { label: { description: 'Translated field label', type: string, example: Name }, from: { description: 'Value before change, the data type depends on the field type', type: string, example: 'Jan Kowalski' }, to: { description: 'Value after change, the data type depends on the field type', type: string, example: 'Jan Nowak' }, rawFrom: { description: 'Value before change, value in database format, only available in `x-raw-data`', type: string, example: 'Jan Kowalski' }, rawTo: { description: 'Value after change, value in database format, only available in `x-raw-data`', type: string, example: 'Jan Nowak' } }, type: object } }, { title: 'Operations on related records', description: 'Adding relations, removing relations, transferring records', properties: { targetModule: { description: 'The name of the target related module', type: string, example: Contacts }, targetModuleLabel: { description: 'Translated module name', type: string, example: Kontakt }, targetLabel: { description: 'The label name of the target related module', type: string, example: 'Jan Kowalski' }, targetId: { description: 'Id of the target related module', type: integer, example: 394 } }, type: object }] }
                 type: object
             isMorePages:
-              description: 'Get related record list method.'
               type: boolean
               example: true
           type: object
@@ -2214,7 +2198,6 @@ components:
             - 1
         result:
           title: 'List of related records'
-          description: 'Get related record list method.'
           required:
             - headers
             - records
@@ -2224,7 +2207,6 @@ components:
           properties:
             headers:
               title: 'Fields names'
-              description: 'Get related record list method.'
               type: object
               example:
                 field_name_1: 'Field label 1'
@@ -2236,13 +2218,11 @@ components:
                 type: string
             records:
               title: 'Records display details'
-              description: 'Get related record list method.'
               type: object
               additionalProperties:
                 $ref: '#/components/schemas/Record_Display_Details'
             permissions:
               title: 'Records action permissions'
-              description: 'Get related record list method.'
               type: object
               additionalProperties:
                 title: 'Record action permissions'
@@ -2255,7 +2235,6 @@ components:
                 type: object
             rawData:
               title: 'Records raw details, dependent on the header `x-raw-data`'
-              description: 'Get related record list method.'
               type: object
               additionalProperties:
                 $ref: '#/components/schemas/Record_Raw_Details'
@@ -2288,7 +2267,6 @@ components:
             - 1
         result:
           title: 'List of records'
-          description: 'Get record list method.'
           required:
             - headers
             - records
@@ -2298,7 +2276,6 @@ components:
           properties:
             headers:
               title: 'Fields names'
-              description: 'Get record list method.'
               type: object
               example:
                 field_name_1: 'Field label 1'
@@ -2310,13 +2287,11 @@ components:
                 type: string
             records:
               title: 'Records display details'
-              description: 'Get record list method.'
               type: object
               additionalProperties:
                 $ref: '#/components/schemas/Record_Display_Details'
             permissions:
               title: 'Records action permissions'
-              description: 'Get record list method.'
               type: object
               additionalProperties:
                 title: 'Record action permissions'
@@ -2324,12 +2299,11 @@ components:
                   - isEditable
                   - moveToTrash
                 properties:
-                  isEditable: { description: 'Get record list method.', type: boolean, example: true }
-                  moveToTrash: { description: 'Get record list method.', type: boolean, example: true }
+                  isEditable: { type: boolean, example: true }
+                  moveToTrash: { type: boolean, example: true }
                 type: object
             rawData:
               title: 'Records raw details, dependent on the header `x-raw-data`'
-              description: 'Get record list method.'
               type: object
               additionalProperties:
                 $ref: '#/components/schemas/Record_Raw_Details'
@@ -2362,14 +2336,12 @@ components:
             - 1
         result:
           title: 'List of related records'
-          description: 'Get related modules list method.'
           required:
             - base
             - related
           properties:
             base:
               title: 'Base list'
-              description: 'Get related modules list method.'
               type: object
               additionalProperties:
                 required:
@@ -2383,7 +2355,6 @@ components:
                 type: object
             related:
               title: 'Base list'
-              description: 'Get related modules list method.'
               type: object
               additionalProperties:
                 required:
@@ -2420,7 +2391,6 @@ components:
             - 1
         result:
           title: 'User data'
-          description: 'Get user history of access activity.'
           type: object
           additionalProperties:
             title: 'Condition details'
@@ -2451,11 +2421,9 @@ components:
       properties:
         currentPassword:
           title: 'Current password'
-          description: 'Put method.'
           type: string
         newPassword:
           title: 'New password'
-          description: 'Put method.'
           type: string
       type: object
     Users_Put_ChangePassword_Response:
@@ -2586,40 +2554,31 @@ components:
             - preferences
           properties:
             token:
-              description: 'Post method.'
               type: string
               maxLength: 40
               minLength: 40
             name:
-              description: 'Post method.'
               type: string
             lastLoginTime:
-              description: 'Post method.'
               type: string
               example: '2019-10-07 08:32:38'
             lastLogoutTime:
-              description: 'Post method.'
               type: string
               example: ''
             language:
-              description: 'Post method.'
               type: string
               example: pl-PL
             type:
-              description: 'Post method.'
               type: integer
             login_method:
-              description: 'Post method.'
               type: string
               enum:
                 - PLL_PASSWORD
                 - PLL_PASSWORD_2FA
               example: PLL_PASSWORD_2FA
             logged:
-              description: 'Post method.'
               type: boolean
             preferences:
-              description: 'Post method.'
               required:
                 - hour_format
                 - start_hour
@@ -2638,76 +2597,59 @@ components:
                 - conv_rate
               properties:
                 hour_format:
-                  description: 'Post method.'
                   type: string
                   example: '24'
                 start_hour:
-                  description: 'Post method.'
                   type: string
                   example: '08:00'
                 end_hour:
-                  description: 'Post method.'
                   type: string
                   example: '16:00'
                 date_format:
-                  description: 'Post method.'
                   type: string
                   example: yyyy-mm-dd
                 time_zone:
-                  description: 'Post method.'
                   type: string
                   example: Europe/Warsaw
                 currency_id:
-                  description: 'Post method.'
                   type: integer
                   example: 1
                 currency_grouping_pattern:
-                  description: 'Post method.'
                   type: string
                   example: '123,456,789'
                 currency_decimal_separator:
-                  description: 'Post method.'
                   type: string
                   example: .
                 currency_grouping_separator:
-                  description: 'Post method.'
                   type: string
                   example: ' '
                 currency_symbol_placement:
-                  description: 'Post method.'
                   type: string
                   example: 1.0$
                 no_of_currency_decimals:
-                  description: 'Post method.'
                   type: integer
                   example: 2
                 currency_name:
-                  description: 'Post method.'
                   type: string
                   example: 'Poland, Zlotych'
                 currency_code:
-                  description: 'Post method.'
                   type: string
                   example: PLN
                 currency_symbol:
-                  description: 'Post method.'
                   type: string
                   example: zł
                 conv_rate:
-                  description: 'Post method.'
                   type: number
                   format: float
                   example: 1
               type: object
             authy_methods:
-              description: 'Post method.'
               type: string
               enum:
                 - ''
                 - PLL_AUTHY_TOTP
               example: PLL_AUTHY_TOTP
             2faObligatory:
-              description: 'Post method.'
               type: boolean
               example: true
           type: object
@@ -2721,7 +2663,6 @@ components:
       properties:
         status:
           title: '0 - error'
-          description: 'Post method.'
           type: integer
           enum:
             - 0
@@ -2737,7 +2678,6 @@ components:
               type: string
               example: 'Invalid method'
             code:
-              description: 'Post method.'
               type: integer
               example: 405
             file:
@@ -2797,7 +2737,6 @@ components:
               example: 1
             fields:
               title: 'System field names and field labels'
-              description: 'Get user detail.'
               type: object
               example:
                 field_name_1: 'Field label 1'
@@ -2853,11 +2792,9 @@ components:
               additionalProperties:
                 $ref: '#/components/schemas/Record_Raw_Details'
             count:
-              description: 'Get users list method.'
               type: integer
               example: 54
             isMorePages:
-              description: 'Get users list method.'
               type: boolean
               example: true
           type: object
@@ -2886,14 +2823,11 @@ components:
             - 1
         result:
           title: 'Content of responses from a given method'
-          description: 'Post method.'
           properties:
             expirationDate:
-              description: 'Post method.'
               type: string
               example: '2019-10-07 08:32:38'
             mailerStatus:
-              description: 'Post method.'
               type: boolean
               example: true
           type: object
@@ -2926,7 +2860,6 @@ components:
             - 1
         result:
           title: 'Password reset status'
-          description: 'Put method.'
           type: boolean
           example: false
       type: object
@@ -2945,17 +2878,14 @@ components:
             - 1
         result:
           title: 'Content of responses from a given method'
-          description: 'Get two factor authentication details.'
           required:
             - authMethods
             - secretKey
           properties:
             authMethods:
-              description: 'Get two factor authentication details.'
               type: string
               example: TOTP
             secretKey:
-              description: 'Get two factor authentication details.'
               type: string
               example: LJUJWCOEGUKP6WS2
           type: object

@@ -32,7 +32,7 @@
                     "Consents"
                 ],
                 "summary": "Adds an consent entry",
-                "operationId": "Api\\ManageConsents\\ApprovalsRegister\\Record::post",
+                "operationId": "425399d47c958ba5c538827d258fde0a",
                 "requestBody": {
                     "description": "Required data for communication",
                     "required": true,
@@ -95,7 +95,7 @@
                     "Consents"
                 ],
                 "summary": "Gets the list of consents",
-                "operationId": "Api\\ManageConsents\\Approvals\\RecordsList::get",
+                "operationId": "04e7ebb08f943d466f20bb0e98311271",
                 "parameters": [
                     {
                         "name": "x-row-limit",
@@ -222,7 +222,7 @@
                     "Consents"
                 ],
                 "summary": "Gets the list of consents for specific entry",
-                "operationId": "Api\\ManageConsents\\BaseModule\\GetConsentsForEntry::post",
+                "operationId": "9fd993e544cb6935282883e505b8d1d6",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -295,7 +295,7 @@
                     "Consents"
                 ],
                 "summary": "Send e-mail",
-                "operationId": "Api\\ManageConsents\\BaseModule\\SendEmail::post",
+                "operationId": "86c8610aedbae9a8690ab71a3ae22134",
                 "parameters": [
                     {
                         "name": "moduleName",
@@ -435,10 +435,8 @@
                         "description": "Specific response",
                         "properties": {
                             "records": {
-                                "description": "Gets consents.",
                                 "properties": {
                                     "24862": {
-                                        "description": "Gets consents.",
                                         "properties": {
                                             "id": {
                                                 "description": "Consent ID",
@@ -466,12 +464,10 @@
                                                 "example": "Kowalski Adam"
                                             },
                                             "createdtime": {
-                                                "description": "Gets consents.",
                                                 "type": "string",
                                                 "example": "2019-10-07 08:32:38"
                                             },
                                             "modifiedtime": {
-                                                "description": "Gets consents.",
                                                 "type": "string",
                                                 "example": "2019-10-07 08:32:38"
                                             },
@@ -497,10 +493,8 @@
                                 "type": "object"
                             },
                             "rawData": {
-                                "description": "Gets consents.",
                                 "properties": {
                                     "24862": {
-                                        "description": "Gets consents.",
                                         "properties": {
                                             "id": {
                                                 "description": "Consent ID",
@@ -528,12 +522,10 @@
                                                 "example": 245
                                             },
                                             "createdtime": {
-                                                "description": "Gets consents.",
                                                 "type": "string",
                                                 "example": "2019-10-07 08:32:38"
                                             },
                                             "modifiedtime": {
-                                                "description": "Gets consents.",
                                                 "type": "string",
                                                 "example": "2019-10-07 08:32:38"
                                             },
@@ -590,7 +582,6 @@
                                 "example": "Invalid method"
                             },
                             "code": {
-                                "description": "Gets consents.",
                                 "type": "integer",
                                 "example": 405
                             },
