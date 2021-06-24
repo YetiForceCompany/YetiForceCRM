@@ -417,7 +417,7 @@
                 ],
                 "summary": "Data of custom view",
                 "description": "Gets data of custom view",
-                "operationId": "Api\\Portal\\BaseModule\\CustomView::get(cvId)",
+                "operationId": "eeac9decfc9caf8b128cebeb3365a22e",
                 "parameters": [
                     {
                         "name": "moduleName",

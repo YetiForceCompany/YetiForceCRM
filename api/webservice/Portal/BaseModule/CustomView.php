@@ -58,7 +58,6 @@ class CustomView extends \Api\RestApi\BaseModule\CustomView
 	 * ),
 	 *	@OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/CustomView/{cvId}",
-	 *		operationId="Api\Portal\BaseModule\CustomView::get(cvId)",
 	 *		description="Gets data of custom view",
 	 *		summary="Data of custom view",
 	 *		tags={"BaseModule"},
