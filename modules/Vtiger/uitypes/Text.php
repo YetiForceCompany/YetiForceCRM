@@ -101,8 +101,18 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
 	{
-		$value = \App\Purifier::decodeHtml($this->getDisplayValue($value, $recordModel->getId(), $recordModel, true, false));
-		return \App\Utils\Completions::decode($value, \App\Utils\Completions::FORMAT_TEXT);
+		$value = \App\Utils\Completions::decode($value, \App\Utils\Completions::FORMAT_TEXT);
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true, false);
+	}
+
+	/** {@inheritdoc} */
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
+	{
+		if (\in_array('modTrackerDisplay', $this->getFieldModel()->getAnonymizationTarget())) {
+			return '****';
+		}
+		$value = \App\Utils\Completions::decode($value, \App\Utils\Completions::FORMAT_TEXT);
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, $rawText, \App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 	}
 
 	/** {@inheritdoc} */

@@ -202,7 +202,7 @@ class RecordHistory extends \Api\Core\BaseAction
 				$row['data'] = [
 					'targetModule' => $relationInstance->get('targetmodule'),
 					'targetModuleLabel' => \App\Language::translateSingularModuleName($relationInstance->get('targetmodule')),
-					'targetLabel' => $relationInstance->getValue(),
+					'targetLabel' => \App\Purifier::encodeHtml(\App\Utils\Completions::decode(\App\Record::getLabel($relationInstance->get('targetid'), true), \App\Utils\Completions::FORMAT_TEXT))
 				];
 				if ($isRawData) {
 					$row['data']['targetId'] = $relationInstance->get('targetid');
