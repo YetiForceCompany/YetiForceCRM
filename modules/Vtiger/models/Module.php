@@ -939,7 +939,14 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $modulesModelsList;
 	}
 
-	public static function getCleanInstance($moduleName)
+	/**
+	 * Undocumented function.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return $this
+	 */
+	public static function getCleanInstance(string $moduleName)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $moduleName);
 		return new $modelClassName();

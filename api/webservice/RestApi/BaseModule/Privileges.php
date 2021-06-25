@@ -14,6 +14,7 @@
 namespace Api\RestApi\BaseModule;
 
 use OpenApi\Annotations as OA;
+use Vtiger_Module_Model;
 
 /**
  * RestApi container - Get Privileges  class.
@@ -31,14 +32,12 @@ class Privileges extends \Api\Core\BaseAction
 	 * @OA\Get(
 	 *		path="/webservice/RestApi/{moduleName}/Privileges",
 	 *		description="Gets the list of actions that the user has access to in the module",
-	 *		summary="Get privileges for module",
+	 *		summary="Privileges for module actions",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="Privileges details",
+	 *		@OA\Response(response=200, description="Privileges details",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Privileges_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Privileges_ResponseBody"),
 	 *		),
@@ -48,12 +47,9 @@ class Privileges extends \Api\Core\BaseAction
 	 * 		title="Base module - Privileges response schema",
 	 *		type="object",
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			title="List of module privileges",
-	 *			type="object",
-	 *			example={"Import" : true, "Export" : true},
-	 *			@OA\AdditionalProperties(title="Action", type="boolean"),
+	 *		@OA\Property(property="result", type="object", description="List of module privileges",
+	 *			example={"IsQuickCreateSupported" : true, "EditView" : true, "Delete" : true, "DetailView" : true, "CreateView" : true},
+	 *			@OA\AdditionalProperties(type="boolean", description="Action"),
 	 * 		),
 	 * ),
 	 */
@@ -61,7 +57,10 @@ class Privileges extends \Api\Core\BaseAction
 	{
 		$privileges = [];
 		if (\App\User::isExists($this->userData['user_id'])) {
-			$moduleId = \App\Module::getModuleId($this->controller->request->getModule('module'));
+			$moduleName = $this->controller->request->getModule('module');
+			$moduleId = \App\Module::getModuleId($moduleName);
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$privileges['IsQuickCreateSupported'] = $moduleModel->isQuickCreateSupported();
 			$actionPermissions = \App\User::getPrivilegesFile($this->userData['user_id']);
 			$isAdmin = $actionPermissions['is_admin'];
 			$permission = $actionPermissions['profile_action_permission'][$moduleId] ?? false;

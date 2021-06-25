@@ -290,7 +290,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return \Self
 	 */
-	public static function getCleanInstance($moduleName)
+	public static function getCleanInstance(string $moduleName)
 	{
 		$wm = new VTWorkflowManager();
 		$wf = $wm->newWorkflow($moduleName);

@@ -467,7 +467,7 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get privileges for module",
+                "summary": "Privileges for module actions",
                 "description": "Gets the list of actions that the user has access to in the module",
                 "operationId": "259df69f1738a6b3164a2db69fdaf391",
                 "parameters": [
@@ -3155,14 +3155,17 @@
                         ]
                     },
                     "result": {
-                        "title": "List of module privileges",
+                        "description": "List of module privileges",
                         "type": "object",
                         "example": {
-                            "Import": true,
-                            "Export": true
+                            "IsQuickCreateSupported": true,
+                            "EditView": true,
+                            "Delete": true,
+                            "DetailView": true,
+                            "CreateView": true
                         },
                         "additionalProperties": {
-                            "title": "Action",
+                            "description": "Action",
                             "type": "boolean"
                         }
                     }

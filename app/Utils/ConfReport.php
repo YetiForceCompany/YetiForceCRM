@@ -1666,8 +1666,8 @@ class ConfReport
 	{
 		$data = self::getEnv();
 		$key = \PHP_SAPI !== 'cli' ? 'www' : 'cli';
+		$data[$key]['sapi'] = \PHP_SAPI;
 		$data[$key]['operatingSystem'] = [
-			'sapi' => \PHP_SAPI,
 			'machineType' => php_uname('m'),
 			'hostName' => php_uname('n'),
 			'release' => php_uname('r'),
