@@ -404,7 +404,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			unset($data[$name]);
 		}
-		$data['custom_params'] = \App\Json::encode($params);
+		$data['custom_params'] = $params ? \App\Json::encode($params) : null;
 		if (empty($data['authy_methods']) || '-' === $data['authy_methods']) {
 			$data['auth'] = '';
 		} else {
@@ -441,7 +441,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				$email = Vtiger_Record_Model::getInstanceById($this->get('crmid'), 'Contacts')->get('email');
 			} catch (\Throwable $th) {
 			}
-		} elseif ('RestApi' === $this->module->typeApi) {
+		} else {
 			$email = \App\User::getUserModel($this->get('user_id'))->getDetail('email1');
 		}
 		$this->set('user_name', $email);
