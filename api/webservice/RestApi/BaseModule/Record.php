@@ -265,14 +265,11 @@ class Record extends \Api\Core\BaseAction
 	 *		type="object",
 	 *		required={"status", "result"},
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			title="Gets data for the record",
-	 *			description="Updated record id.",
-	 *			type="object",
-	 *			required={"id"},
-	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
-	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
+	 *		@OA\Property(property="result", type="object", title="Record data", description="Created record id and name.",
+	 *			required={"id", "name"},
+	 *			@OA\Property(property="id", type="integer", description="Id of the newly created record", example=22),
+	 *			@OA\Property(property="name", type="string", description="Id of the newly created record", example="YetiForce Name"),
+	 *			@OA\Property(property="skippedData", type="object", description="List of parameters passed in the request that were skipped in the write process"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
@@ -336,14 +333,11 @@ class Record extends \Api\Core\BaseAction
 	 *		type="object",
 	 *		required={"status", "result"},
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			title="Gets data for the record",
-	 *			description="Created record id.",
-	 *			type="object",
-	 *			required={"id"},
-	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
-	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
+	 *		@OA\Property(property="result", type="object", title="Record data", description="Created record id and name.",
+	 *			required={"id", "name"},
+	 *			@OA\Property(property="id", type="integer", description="Id of the newly created record", example=22),
+	 *			@OA\Property(property="name", type="string", description="Id of the newly created record", example="YetiForce Name"),
+	 *			@OA\Property(property="skippedData", type="object", description="List of parameters passed in the request that were skipped in the write process"),
 	 *		),
 	 * ),
 	 *	@OA\Link(
@@ -360,7 +354,10 @@ class Record extends \Api\Core\BaseAction
 		$saveModel = new \Api\RestApi\Save();
 		$saveModel->init($this);
 		$saveModel->saveRecord($this->controller->request);
-		$return = ['id' => $this->recordModel->getId()];
+		$return = [
+			'id' => $this->recordModel->getId(),
+			'name' => $this->recordModel->getName(),
+		];
 		if ($saveModel->skippedData) {
 			$return['skippedData'] = $saveModel->skippedData;
 		}

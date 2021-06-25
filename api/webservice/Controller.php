@@ -161,6 +161,7 @@ class Controller
 	private function getActionClassName(): string
 	{
 		$type = $this->request->getByType('_container', 'Standard');
+		$this->request->delete('_container');
 		$actionName = $this->request->getByType('action', 'Alnum');
 		$module = $this->request->getModule('module');
 		if ($module) {
