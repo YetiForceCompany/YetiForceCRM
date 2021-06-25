@@ -270,7 +270,7 @@ class ModTracker
 	public static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$LINK);
-		if (\in_array($sourceModule, App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+		if (\in_array($targetModule, Vtiger_HistoryRelation_Widget::getActions()) && \in_array($sourceModule, App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
 		}
 	}
@@ -286,7 +286,7 @@ class ModTracker
 	public static function unLinkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
-		if (\in_array($sourceModule, App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+		if (\in_array($targetModule, Vtiger_HistoryRelation_Widget::getActions()) && \in_array($sourceModule, App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
 		}
 	}
@@ -303,7 +303,7 @@ class ModTracker
 	public static function transferRelation(string $sourceModule, int $sourceId, string $targetModule, int $targetId, int $process)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $process);
-		if (\in_array($sourceModule, App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+		if (\in_array($targetModule, Vtiger_HistoryRelation_Widget::getActions()) && \in_array($sourceModule, App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
 		}
 	}

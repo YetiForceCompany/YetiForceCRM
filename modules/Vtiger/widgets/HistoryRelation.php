@@ -156,15 +156,15 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 					'body' => new \yii\db\Expression($db->quoteValue('')),
 					'attachments_exist' => new \yii\db\Expression($db->quoteValue('')),
 					'type' => new \yii\db\Expression($db->quoteValue('ModComments')),
-					'id' => 'm.modcommentsid',
-					'content' => 'm.commentcontent',
+					'id' => 'vtiger_modcomments.modcommentsid',
+					'content' => 'vtiger_modcomments.commentcontent',
 					'user' => 'vtiger_crmentity.smownerid',
 					'time' => 'vtiger_crmentity.createdtime',
 				])
-				->from('vtiger_modcomments m')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = m.modcommentsid')
+				->from('vtiger_modcomments')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_modcomments.modcommentsid')
 				->where(['vtiger_crmentity.deleted' => 0])
-				->andWhere(['=', 'related_to', $recordId]);
+				->andWhere(['=', 'vtiger_modcomments.related_to', $recordId]);
 			\App\PrivilegeQuery::getConditions($query, 'ModComments', false, $recordId);
 			$queries[] = $query;
 		}
