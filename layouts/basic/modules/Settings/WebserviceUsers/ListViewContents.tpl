@@ -13,7 +13,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="listViewContentDiv mt-2" id="listViewContents">
+			<div class="listViewContentDiv mt-2 table-responsive" id="listViewContents">
 				{include file=\App\Layout::getTemplatePath('ListViewContents.tpl', 'Settings:Vtiger')}
 			</div>
 		</div>

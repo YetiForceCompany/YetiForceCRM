@@ -20,8 +20,8 @@ class Settings_WebserviceUsers_DeleteAjax_Action extends Settings_Vtiger_Delete_
 		$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($recordId, $typeApi);
 		$result = $recordModel->delete();
 
-		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($result);
-		$responceToEmit->emit();
+		$response = new Vtiger_Response();
+		$response->setResult(['success' => $result]);
+		$response->emit();
 	}
 }
