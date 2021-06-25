@@ -14,7 +14,6 @@
 namespace Api\RestApi\BaseModule;
 
 use OpenApi\Annotations as OA;
-use Vtiger_Module_Model;
 
 /**
  * RestApi container - Get Privileges  class.
@@ -59,7 +58,7 @@ class Privileges extends \Api\Core\BaseAction
 		if (\App\User::isExists($this->userData['user_id'])) {
 			$moduleName = $this->controller->request->getModule('module');
 			$moduleId = \App\Module::getModuleId($moduleName);
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 			$privileges['IsQuickCreateSupported'] = $moduleModel->isQuickCreateSupported();
 			$actionPermissions = \App\User::getPrivilegesFile($this->userData['user_id']);
 			$isAdmin = $actionPermissions['is_admin'];
