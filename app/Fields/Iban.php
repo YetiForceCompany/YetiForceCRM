@@ -70,8 +70,8 @@ class Iban
 		$payerCharactersAmount = $bbanLength - \strlen($this->fieldParams['sortCode']) - \strlen($this->fieldParams['clientId']);
 		if (\is_array($conditionsForPayerId)) {
 			foreach ($conditionsForPayerId as $conditionValues) {
-				[$fieldNameForCondition, $fieldValueForCondition, $fieldFromGetValue] = array_pad(explode(':', $conditionValues), 3, false);
-				if ('defaultValue' === $fieldNameForCondition || $fieldValueForCondition === $this->recordModel->get($fieldNameForCondition)) {
+				[$fieldNameForCondition, $fieldFromGetValue, $fieldValueForCondition] = array_pad(explode(':', $conditionValues), 3, false);
+				if ('defaultValue' === $fieldNameForCondition || ($fieldValueForCondition && $fieldValueForCondition === $this->recordModel->get($fieldNameForCondition))) {
 					$valueForPayerId = $this->recordModel->get($fieldFromGetValue);
 					if ($valueForPayerId && \strlen($valueForPayerId) !== $payerCharactersAmount) {
 						return $this->addLeadingZeros($payerCharactersAmount, $valueForPayerId);
