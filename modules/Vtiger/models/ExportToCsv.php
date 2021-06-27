@@ -20,8 +20,10 @@ class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 
 	/**
 	 * Function exports the data based on the mode.
+	 *
+	 * @return void
 	 */
-	public function exportData()
+	public function exportData(): void
 	{
 		$entries = [];
 		if (!$this->exportColumns && $this->quickExport && $this->queryOptions['viewname']) {

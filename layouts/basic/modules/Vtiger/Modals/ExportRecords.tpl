@@ -11,10 +11,9 @@
 			</label>
 			<div class="col-sm-12 p-0">
 				<select name="export_type" class="select2 form-control">
-					<option value="xls">{\App\Language::translate('LBL_XLS',$MODULE_NAME)}</option>
-					<option value="xlsx">{\App\Language::translate('LBL_XLSX',$MODULE_NAME)}</option>
-					<option value="ods">{\App\Language::translate('LBL_ODS',$MODULE_NAME)}</option>
-					<option value="csv">{\App\Language::translate('LBL_CSV',$MODULE_NAME)}</option>
+					{foreach from=$EXPORT_TYPE item=EXPORT_TYPE key=NAME }
+						<option value="{$EXPORT_TYPE}">{\App\Language::translate($NAME,$MODULE_NAME)}</option>
+					{/foreach}
 				</select>
 			</div>
 			<div class="form-group">
@@ -25,7 +24,7 @@
 				</label>
 				<div class="columnsSelectDiv col-md-12 p-0">
 					<div>
-						<select name="exportColumns"
+						<select name="exportColumns[]"
 							data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE_NAME)}"
 							multiple="multiple" class="select2 form-control js-view-columns-select"
 							data-select-cb="registerSelectSortable" id="viewColumnsSelect"

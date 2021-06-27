@@ -20,9 +20,13 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 	protected $fileExtension = 'xml';
 
 	/**
-	 * {@inheritdoc}
+	 * Initialize data fromrequest.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
 	 */
-	public function initializeFromRequest(App\Request $request)
+	public function initializeFromRequest(App\Request $request): void
 	{
 		parent::initializeFromRequest($request);
 		if ($request->has('xmlExportType')) {
@@ -61,6 +65,13 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 		}
 	}
 
+	/**
+	 * Sanitize values.
+	 *
+	 * @param array $recordValues
+	 *
+	 * @return array
+	 */
 	public function sanitizeValues(array $recordValues): array
 	{
 		return $this->getRecordDataInExportFormat($recordValues);
@@ -73,7 +84,7 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 	 *
 	 * @return array
 	 */
-	public function getEntriesInventory($recordData)
+	public function getEntriesInventory($recordData): array
 	{
 		$entries = [];
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleName);
@@ -88,6 +99,15 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 		return $entries;
 	}
 
+	/**
+	 * Sanitize inventory value.
+	 *
+	 * @param [type] $value
+	 * @param [type] $columnName
+	 * @param bool   $formated
+	 *
+	 * @return void
+	 */
 	public function sanitizeInventoryValue($value, $columnName, $formated = false)
 	{
 		if ($field = $this->inventoryFields[$columnName] ?? false) {
@@ -106,8 +126,6 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 				}
 			} elseif ('Currency' === $field->getType()) {
 				$value = $field->getDisplayValue($value);
-			} else {
-				$value;
 			}
 		} elseif (\in_array($columnName, ['taxparam', 'discountparam', 'currencyparam'])) {
 			if ('currencyparam' === $columnName) {

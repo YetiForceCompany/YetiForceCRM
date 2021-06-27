@@ -232,7 +232,7 @@ abstract class ExportRecords extends \App\Base
 	{
 		$relatedFields = \Vtiger_Module_Model::getInstance($relatedModule)->getFields();
 		if (!isset($this->moduleFieldInstances[$referenceField], $relatedFields[$relatedFieldName])) {
-			throw new \App\Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$relatedFieldName}||");
+			throw new \App\Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$relatedFieldName}");
 		}
 		$referenceFieldName = $referenceField . $relatedModule . $relatedFieldName;
 		$this->relatedModuleFields[$referenceFieldName] = $relatedFields[$relatedFieldName];
@@ -485,6 +485,13 @@ abstract class ExportRecords extends \App\Base
 		return $inventoryEntries;
 	}
 
+	/**
+	 * Get data from record in display format.
+	 *
+	 * @param array $recordValues
+	 *
+	 * @return array
+	 */
 	public function getRecordDataInUserFormat(array $recordValues): array
 	{
 		foreach ($recordValues as $fieldName => &$value) {
@@ -585,8 +592,10 @@ abstract class ExportRecords extends \App\Base
 
 	/**
 	 * Send HTTP Header.
+	 *
+	 * @return void
 	 */
-	public function sendHttpHeader()
+	public function sendHttpHeader(): void
 	{
 		header("content-disposition: attachment; filename=\"{$this->getFileName()}\"");
 		header("content-type: {$this->getExportContentType()}; charset=UTF-8");
