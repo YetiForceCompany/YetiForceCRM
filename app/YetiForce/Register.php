@@ -125,7 +125,7 @@ class Register
 						'status' => $body['status'],
 						'text' => $body['text'],
 						'serialKey' => $body['serialKey'] ?? '',
-						'last_check_time' => ''
+						'last_check_time' => '',
 					]);
 					$result = true;
 				}
@@ -168,7 +168,7 @@ class Register
 					'insKey' => static::getInstanceKey(),
 					'provider' => static::getProvider(),
 					'package' => \App\Company::getSize(),
-				])
+				]),
 			]);
 			\App\Log::endProfile("POST|Register::check|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
@@ -180,7 +180,7 @@ class Register
 						'text' => $body['text'],
 						'serialKey' => $body['serialKey'],
 						'last_check_time' => date('Y-m-d H:i:s'),
-						'products' => $body['activeProducts']
+						'products' => $body['activeProducts'],
 					];
 					$status = 1;
 				} else {
@@ -196,7 +196,7 @@ class Register
 			static::updateMetaData([
 				'last_error' => $e->getMessage(),
 				'last_error_date' => date('Y-m-d H:i:s'),
-				'last_check_time' => date('Y-m-d H:i:s')
+				'last_check_time' => date('Y-m-d H:i:s'),
 			]);
 			$status = $e->getCode();
 		}
@@ -271,7 +271,7 @@ class Register
 			'status' => 6,
 			'text' => 'OK',
 			'insKey' => static::getInstanceKey(),
-			'serialKey' => $serial
+			'serialKey' => $serial,
 		]);
 		\App\Company::statusUpdate(6);
 		return true;
@@ -286,8 +286,7 @@ class Register
 	 */
 	public static function verifySerial(string $serial): bool
 	{
-		$key = substr($serial, 0, 20) . substr(crc32(substr($serial, 0, 20)), 2, 5);
-		return 0 === strcmp($serial, $key . substr(sha1($key), 5, 15));
+		return hash_equals($serial, hash('sha1', self::getInstanceKey() . self::getCrmKey()));
 	}
 
 	/**

@@ -230,9 +230,7 @@ class Record extends \Api\RestApi\BaseModule\Record
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="Contents of the response contains only id",
+	 *		@OA\Response(response=200, description="Contents of the response contains only id",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
 	 *			@OA\Link(link="GetRecordById", ref="#/components/links/GetRecordById")

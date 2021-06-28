@@ -61,15 +61,11 @@ class Hierarchy extends \Api\Core\BaseAction
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="Records hierarchy details",
+	 *		@OA\Response(response=200, description="Records hierarchy details",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Hierarchy_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Hierarchy_ResponseBody"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=405,
-	 *			description="`No hierarchy` OR `Not available for this type of user`",
+	 *		@OA\Response(response=405, description="`No hierarchy` OR `Not available for this type of user`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),

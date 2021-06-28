@@ -176,11 +176,11 @@ class Request
 	 * Function to get the boolean value for a given key.
 	 *
 	 * @param string $key
-	 * @param mixed  $defaultValue Default value
+	 * @param bool   $defaultValue Default value
 	 *
 	 * @return bool
 	 */
-	public function getBoolean($key, $defaultValue = '')
+	public function getBoolean(string $key, bool $defaultValue = null)
 	{
 		$value = $this->get($key, $defaultValue);
 		if (\is_bool($value)) {

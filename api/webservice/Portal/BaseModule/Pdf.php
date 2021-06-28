@@ -55,16 +55,9 @@ class Pdf extends \Api\Core\BaseAction
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),
 	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
-	 *		@OA\Parameter(
-	 *			name="templates",
-	 *			in="query",
-	 *			description="Pdf templates ids",
-	 *			required=true,
-	 *			@OA\JsonContent(
-	 *				description="Pdf templates ids",
-	 *				type="integer",
-	 *			),
-	 *     ),
+	 *		@OA\Parameter(name="templates", in="query", description="Pdf templates ids", required=true,
+	 *			@OA\JsonContent(type="integer", description="Pdf templates ids"),
+	 *		),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,

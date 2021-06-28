@@ -32,9 +32,7 @@ class Fields extends \Api\RestApi\BaseModule\Fields
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="Fields, blocks and inventory details",
+	 *		@OA\Response(response=200, description="Fields, blocks and inventory details",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Fields_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Fields_ResponseBody"),
 	 *		),

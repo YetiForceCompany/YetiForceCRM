@@ -36,9 +36,7 @@ class Dashboard extends \Api\Core\BaseAction
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="Privileges details",
+	 *		@OA\Response(response=200, description="Privileges details",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Dashboard_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Dashboard_ResponseBody"),
 	 *		),
