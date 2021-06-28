@@ -47,7 +47,7 @@ class Privileges extends \Api\Core\BaseAction
 	 *		type="object",
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(property="result", type="object", description="List of module privileges",
-	 *			example={"IsQuickCreateSupported" : true, "EditView" : true, "Delete" : true, "DetailView" : true, "CreateView" : true},
+	 *			example={"EditView" : true, "Delete" : true, "DetailView" : true, "CreateView" : true},
 	 *			@OA\AdditionalProperties(type="boolean", description="Action"),
 	 * 		),
 	 * ),
@@ -58,8 +58,6 @@ class Privileges extends \Api\Core\BaseAction
 		if (\App\User::isExists($this->userData['user_id'])) {
 			$moduleName = $this->controller->request->getModule('module');
 			$moduleId = \App\Module::getModuleId($moduleName);
-			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-			$privileges['IsQuickCreateSupported'] = $moduleModel->isQuickCreateSupported();
 			$actionPermissions = \App\User::getPrivilegesFile($this->userData['user_id']);
 			$isAdmin = $actionPermissions['is_admin'];
 			$permission = $actionPermissions['profile_action_permission'][$moduleId] ?? false;

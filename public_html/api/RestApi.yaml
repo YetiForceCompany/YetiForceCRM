@@ -1973,7 +1973,6 @@ components:
           description: 'List of module privileges'
           type: object
           example:
-            IsQuickCreateSupported: true
             EditView: true
             Delete: true
             DetailView: true
@@ -2083,15 +2082,20 @@ components:
             - 0
             - 1
         result:
-          title: 'Gets data for the record'
-          description: 'Updated record id.'
+          title: 'Record data'
+          description: 'Created record id and name.'
           required:
             - id
+            - name
           properties:
             id:
               description: 'Id of the newly created record'
               type: integer
               example: 22
+            name:
+              description: 'Id of the newly created record'
+              type: string
+              example: 'YetiForce Name'
             skippedData:
               description: 'List of parameters passed in the request that were skipped in the write process'
               type: object
@@ -2140,15 +2144,20 @@ components:
             - 0
             - 1
         result:
-          title: 'Gets data for the record'
-          description: 'Created record id.'
+          title: 'Record data'
+          description: 'Created record id and name.'
           required:
             - id
+            - name
           properties:
             id:
               description: 'Id of the newly created record'
               type: integer
               example: 22
+            name:
+              description: 'Id of the newly created record'
+              type: string
+              example: 'YetiForce Name'
             skippedData:
               description: 'List of parameters passed in the request that were skipped in the write process'
               type: object

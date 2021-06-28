@@ -766,9 +766,10 @@ var app = (window.app = {
 	 * Function returns the record id
 	 */
 	getRecordId: function () {
-		var view = this.getViewName();
-		var recordId;
-		if ($.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1) {
+		let recordId;
+		if (
+			$.inArray(this.getViewName(), ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1
+		) {
 			recordId = this.getMainParams('recordId');
 		}
 		return recordId;
