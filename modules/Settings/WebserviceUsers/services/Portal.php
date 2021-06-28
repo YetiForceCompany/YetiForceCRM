@@ -152,6 +152,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 						break;
 					case 'password':
 						$value = $request->getRaw($field, null);
+						parent::set($field, $value);
 						break;
 					default:
 					throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||{$field}", 406);

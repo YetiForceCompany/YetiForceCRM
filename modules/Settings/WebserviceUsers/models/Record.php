@@ -89,8 +89,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function isNew()
 	{
-		$previousValue = $this->changes['id'] ?? null;
-		return !$this->getId() || $this->getId() === $previousValue;
+		return !$this->getId() || $this->getId() && \array_key_exists('id', $this->changes) && empty($this->changes['id']);
 	}
 
 	/**
@@ -135,8 +134,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/** {@inheritdoc} */
 	public function set($key, $value)
 	{
-		if (($this->value[$key] ?? null) !== $value) {
-			$this->changes[$key] = $value;
+		if (($prev = $this->value[$key] ?? null) !== $value) {
+			$this->changes[$key] = $prev;
 		}
 		parent::set($key, $value);
 		return $this;

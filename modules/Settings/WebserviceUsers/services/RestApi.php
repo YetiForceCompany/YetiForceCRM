@@ -175,6 +175,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 						break;
 					case 'password':
 						$value = $request->getRaw($field, null);
+						parent::set($field, $value);
 						break;
 					default:
 					throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||{$field}", 406);
@@ -393,7 +394,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				'moduleName' => $moduleName,
 				'recordId' => $this->get('crmid'),
 				'to' => $this->get('user_name'),
-				'password' => $this->get('password'),
+				'password' => $this->changes['password'],
 				'login' => $this->get('user_name'),
 				'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('url'),
 			]);
