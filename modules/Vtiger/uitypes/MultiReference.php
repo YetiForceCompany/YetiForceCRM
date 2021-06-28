@@ -144,6 +144,29 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 		return implode(', ', $displayValueRaw);
 	}
 
+	/** {@inheritdoc} */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		$referenceModuleName = current($this->getReferenceList());
+		if (empty($value) || !$referenceModuleName || !($referenceModule = \Vtiger_Module_Model::getInstance($referenceModuleName)) || !$referenceModule->isActive()) {
+			return '';
+		}
+
+		$result = [];
+		foreach (explode(self::COMMA, $value) as $recordId) {
+			if (\App\Record::isExists($recordId)) {
+				$result[$recordId] = [
+					'value' => \App\Record::getLabel($recordId, true),
+					'record' => $recordId,
+					'referenceModule' => $referenceModuleName,
+					'state' => \App\Record::getState($recordId),
+					'isPermitted' => \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $recordId),
+				];
+			}
+		}
+		return $result;
+	}
+
 	/**
 	 * Gets an array values.
 	 *
