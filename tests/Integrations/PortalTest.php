@@ -428,8 +428,22 @@ final class PortalTest extends \Tests\Base
 		static::assertSame(200, $request->getStatusCode(), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(1, $response['status'], 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertNotEmpty($response['result'], 'Result should not be empty' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame($cvId, $response['result']['cvid'], 'Result should the same' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame($cvId, $response['result']['cvid'], 'Result should be the same' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/CustomView/{cvId}', 'get', 200);
+	}
+
+	/**
+	 * Tests for widgets api method.
+	 */
+	public function testWidgets(): void
+	{
+		$request = $this->httpClient->get('Accounts/Widgets', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertNotEmpty($response['result'], 'Result should not be empty' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Widgets', 'get', 200);
 	}
 
 	/**
