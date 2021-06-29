@@ -47,7 +47,8 @@ Vtiger_Base_Validator_Js(
 		 * @return false if validation error occurs
 		 */
 		validateValue: function (fieldValue) {
-			var emailFilter = /^[_/a-zA-Z0-9*]+([!"#$%&'()*+,./:;<=>?\^_`{|}~-]?[a-zA-Z0-9/_/-])*@[a-zA-Z0-9]+([\_\-\.]?[a-zA-Z0-9]+)*\.([\-\_]?[a-zA-Z0-9])+(\.?[a-zA-Z0-9]+)?$/;
+			var emailFilter =
+				/^[_/a-zA-Z0-9*]+([!"#$%&'()*+,./:;<=>?\^_`{|}~-]?[a-zA-Z0-9/_/-])*@[a-zA-Z0-9]+([\_\-\.]?[a-zA-Z0-9]+)*\.([\-\_]?[a-zA-Z0-9])+(\.?[a-zA-Z0-9]+)?$/;
 			var illegalChars = /[\(\)\<\>\,\;\:\\\"\[\]]/;
 
 			if (!emailFilter.test(fieldValue)) {
@@ -1233,16 +1234,16 @@ Vtiger_Email_Validator_Js(
 			}
 			let allFields = $(this.field).closest('div.js-multi-email').eq(0).find('.js-multi-email-item');
 			let arrayLength = allFields.length;
-			let amoutOfDuplicateEmails = 0;
+			let amountOfDuplicateEmails = 0;
 			for (let i = 0; i < arrayLength; ++i) {
 				let inputField = $(allFields[i]).find('input.js-multi-email');
 				if (inputField.val() === '') {
 					continue;
 				}
 				if (inputField.val() === fieldValue) {
-					++amoutOfDuplicateEmails;
+					++amountOfDuplicateEmails;
 				}
-				if (2 <= amoutOfDuplicateEmails) {
+				if (2 <= amountOfDuplicateEmails) {
 					this.setError(app.vtranslate('JS_EMAIL_DUPLICATED'));
 					return false;
 				}

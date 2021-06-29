@@ -78,13 +78,17 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 		}
 		$emails = [];
 		foreach ($value as $item) {
+			if ($rawText) {
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length);
+				continue;
+			}
 			if ($item['o']) {
 				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length) . '<span class="fas fa-check text-success ml-2" title="' . \App\Language::translate('LBL_CONSENT_TO_SEND') . '"></span>';
 			} else {
 				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, true, $length) . '<span class="fas fa-ban text-danger ml-2"></span>';
 			}
 		}
-		return implode('<br>', $emails);
+		return implode($rawText ? ', ' : '<br>', $emails);
 	}
 
 	/** {@inheritdoc} */
