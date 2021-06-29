@@ -53,6 +53,7 @@ class Privilege
 		} else {
 			$user = \App\User::getUserModel($userId);
 		}
+		$userId = $user->getId();
 		if (empty($record) || !$user->has('permission_type')) {
 			return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
 		}
@@ -89,29 +90,52 @@ class Privilege
 		}
 
 		$parentModule = \App\Record::getType($parentRecordId);
-		$fields = \App\Field::getRelatedFieldForModule($moduleName);
-		if (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
-			$field = $fields[$parentModule];
-			$permission = ((int) $recordModel->get($field['fieldname'])) === $parentRecordId;
-			\App\Privilege::$isPermittedLevel = 'RECORD_RELATED_' . ($permission ? 'YES' : 'NO');
-			return $permission;
-		}
-		if (\in_array($moduleName, ['Products', 'Services'])) {
-			$permission = (bool) $recordModel->get('discontinued');
-			\App\Privilege::$isPermittedLevel = $moduleName . '_DISCONTINUED_' . ($permission ? 'YES' : 'NO');
-			return $permission;
-		}
-		foreach ($fields as $relatedModuleName => $field) {
-			if ($relatedModuleName === $parentModule) {
-				continue;
+
+		$moduleModel = $recordModel->getModule();
+		if (\App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && ($privateField = $recordModel->getField('private')) && $privateField->isActiveField() && $recordModel->get($privateField->getName())) {
+			$isPermittedPrivateRecord = false;
+			$recOwnId = $recordModel->get('assigned_user_id');
+			$recOwnType = \App\Fields\Owner::getType($recOwnId);
+			if ('Users' === $recOwnType) {
+				if ($userId === $recOwnId) {
+					$isPermittedPrivateRecord = true;
+				}
+			} elseif ('Groups' === $recOwnType) {
+				if (\in_array($recOwnId, $user->getGroups())) {
+					$isPermittedPrivateRecord = true;
+				}
 			}
-			if ($relatedField = \App\Field::getRelatedFieldForModule($relatedModuleName, $parentModule)) {
-				$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($recordModel->get($field['fieldname'], $relatedModuleName));
-				$permission = ((int) $relatedRecordModel->get($relatedField['fieldname'])) === $parentRecordId;
-				\App\Privilege::$isPermittedLevel = $moduleName . '_RELATED_' . ($permission ? 'YES' : 'NO');
-				return $permission;
+			if (!$isPermittedPrivateRecord && \App\Config::security('PERMITTED_BY_SHARED_OWNERS')) {
+				$shownerIds = \App\Fields\SharedOwner::getById($record);
+				if (\in_array($userId, $shownerIds) || \count(array_intersect($shownerIds, $user->getGroups())) > 0) {
+					$isPermittedPrivateRecord = true;
+				}
+			}
+			if (!$isPermittedPrivateRecord) {
+				\App\Privilege::$isPermittedLevel = 'SEC_PRIVATE_RECORD_NO';
+				return $isPermittedPrivateRecord;
 			}
 		}
+		if (\in_array($moduleName, ['Products', 'Services']) && !$recordModel->get('discontinued')) {
+			\App\Privilege::$isPermittedLevel = $moduleName . '_DISCONTINUED_NO';
+			return false;
+		}
+		if ($parentModule !== $moduleName && ($referenceField = current($moduleModel->getReferenceFieldsForModule($parentModule))) && $recordModel->get($referenceField->getName()) === $parentRecordId) {
+			\App\Privilege::$isPermittedLevel = 'RECORD_RELATED_YES';
+			return true;
+		}
+		if ($relationId = key(\App\Relation::getByModule($parentModule, true, $moduleName))) {
+			$relationModel = \Vtiger_Relation_Model::getInstanceById($relationId);
+			$relationModel->set('parentRecord', \Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModule));
+			$queryGenerator = $relationModel->getQuery();
+			$queryGenerator->permissions = false;
+			$queryGenerator->clearFields()->setFields(['id'])->addCondition('id', $record, 'e');
+			if ($queryGenerator->createQuery()->exists()) {
+				\App\Privilege::$isPermittedLevel = $moduleName . '_RELATED_YES';
+				return true;
+			}
+		}
+
 		\App\Privilege::$isPermittedLevel = 'ALL_PERMISSION_NO';
 		return false;
 	}

@@ -322,9 +322,6 @@ class Vtiger_Relation_Model extends \App\Base
 	{
 		if (!isset(self::$cachedInstancesById[$relationId])) {
 			$row = \App\Relation::getById($relationId);
-			if (1 === $row['presence']) {
-				$row = [];
-			}
 			$relationModel = false;
 			if ($row) {
 				$row['modulename'] = $row['related_modulename'];
