@@ -62,21 +62,15 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *		@OA\Parameter(name="x-start-with", in="header", @OA\Schema(type="integer"), description="Show history from given ID", required=false, example=5972),
 	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="Recent activities detail",
+	 *		@OA\Response(response=200, description="Recent activities detail",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_RecordHistory_Response"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_RecordHistory_Response"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=403,
-	 *			description="`No permissions to view record` OR `MadTracker is turned off`",
+	 *		@OA\Response(response=403, description="`No permissions to view record` OR `MadTracker is turned off`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=404,
-	 *			description="Record doesn't exist",
+	 *		@OA\Response(response=404, description="Record doesn't exist",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
@@ -88,21 +82,21 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *		type="object",
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(property="result", type="object", title="Returns recent activities that took place in CRM",
-	 * 			@OA\Property(
-	 *				property="records",
-	 *				title="Entires of recent record activities",
-	 *				type="object",
+	 *			required={"records", "isMorePages"},
+	 * 			@OA\Property(property="records", type="object", title="Entires of recent record activities",
 	 *				@OA\AdditionalProperties(type="object", title="Key indicating the number of changes made to a given record",
-	 * 					@OA\Property(property="time", type="string", description="Showing the exact date on which the change took place", example="2019-10-07 08:32:38"),
+	 *					required={"time", "owner", "status"},
+	 * 					@OA\Property(property="time", type="string", description="Showing the exact date on which the change took place", example="2019-10-07 08 : 32 : 38"),
 	 *					@OA\Property(property="owner", type="string", description="Username of the user who made the change", example="System Admin"),
 	 *					@OA\Property(property="status", type="string", description="Name of the action that was carried out", example="changed"),
-	 * 					@OA\Property(property="rawTime", type="string", description="Showing the exact date on which the change took place",  example="2019-10-07 08:32:38"),
+	 * 					@OA\Property(property="rawTime", type="string", description="Showing the exact date on which the change took place",  example="2019-10-07 08 : 32 : 38"),
 	 *					@OA\Property(property="rawOwner", type="integer", description="User ID of the user who made the change", example=1),
 	 *					@OA\Property(property="rawStatus", type="string", description="The name of the untranslated label", example="LBL_UPDATED"),
 	 *					@OA\Property(property="data", title="Additional information",
 	 *						oneOf={
 	 *							@OA\Schema(type="object", title="Record data create",
 	 *								@OA\AdditionalProperties(
+	 *									required={"label", "value", "raw"},
 	 *									@OA\Property(property="label", type="string", description="Translated field label", example="Name"),
 	 *									@OA\Property(property="value", type="string", description="Value, the data type depends on the field type", example="Jan Kowalski"),
 	 *									@OA\Property(property="raw", type="string", description="Value in database format, only available in `x-raw-data`", example="Jan Kowalski"),
@@ -110,6 +104,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *							),
 	 *							@OA\Schema(type="object", title="Record data change", description="Edit, conversation",
 	 *								@OA\AdditionalProperties(
+	 *									required={"label", "from", "to"},
 	 *									@OA\Property(property="label", type="string", description="Translated field label", example="Name"),
 	 *									@OA\Property(property="from", type="string", description="Value before change, the data type depends on the field type", example="Jan Kowalski"),
 	 *									@OA\Property(property="to", type="string", description="Value after change, the data type depends on the field type", example="Jan Nowak"),
@@ -118,6 +113,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *								),
 	 *							),
 	 *							@OA\Schema(type="object", title="Operations on related records", description="Adding relations, removing relations, transferring records",
+	 *								required={"targetModule", "targetModuleLabel", "targetLabel"},
 	 *								@OA\Property(property="targetModule", type="string", description="The name of the target related module", example="Contacts"),
 	 *								@OA\Property(property="targetModuleLabel", type="string", description="Translated module name", example="Kontakt"),
 	 *								@OA\Property(property="targetLabel", type="string", description="The label name of the target related module", example="Jan Kowalski"),
@@ -202,7 +198,7 @@ class RecordHistory extends \Api\Core\BaseAction
 				$row['data'] = [
 					'targetModule' => $relationInstance->get('targetmodule'),
 					'targetModuleLabel' => \App\Language::translateSingularModuleName($relationInstance->get('targetmodule')),
-					'targetLabel' => \App\Purifier::encodeHtml(\App\Utils\Completions::decode(\App\Record::getLabel($relationInstance->get('targetid'), true), \App\Utils\Completions::FORMAT_TEXT))
+					'targetLabel' => \App\Purifier::encodeHtml(\App\Utils\Completions::decode(\App\Record::getLabel($relationInstance->get('targetid'), true), \App\Utils\Completions::FORMAT_TEXT)),
 				];
 				if ($isRawData) {
 					$row['data']['targetId'] = $relationInstance->get('targetid');
@@ -213,7 +209,7 @@ class RecordHistory extends \Api\Core\BaseAction
 		$dataReader->close();
 		return [
 			'records' => $records,
-			'isMorePages' => $isMorePages
+			'isMorePages' => $isMorePages,
 		];
 	}
 

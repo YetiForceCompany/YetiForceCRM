@@ -3447,17 +3447,26 @@
                     },
                     "result": {
                         "title": "Returns recent activities that took place in CRM",
+                        "required": [
+                            "records",
+                            "isMorePages"
+                        ],
                         "properties": {
                             "records": {
                                 "title": "Entires of recent record activities",
                                 "type": "object",
                                 "additionalProperties": {
                                     "title": "Key indicating the number of changes made to a given record",
+                                    "required": [
+                                        "time",
+                                        "owner",
+                                        "status"
+                                    ],
                                     "properties": {
                                         "time": {
                                             "description": "Showing the exact date on which the change took place",
                                             "type": "string",
-                                            "example": "2019-10-07 08:32:38"
+                                            "example": "2019-10-07 08 : 32 : 38"
                                         },
                                         "owner": {
                                             "description": "Username of the user who made the change",
@@ -3472,7 +3481,7 @@
                                         "rawTime": {
                                             "description": "Showing the exact date on which the change took place",
                                             "type": "string",
-                                            "example": "2019-10-07 08:32:38"
+                                            "example": "2019-10-07 08 : 32 : 38"
                                         },
                                         "rawOwner": {
                                             "description": "User ID of the user who made the change",
@@ -3491,6 +3500,11 @@
                                                     "title": "Record data create",
                                                     "type": "object",
                                                     "additionalProperties": {
+                                                        "required": [
+                                                            "label",
+                                                            "value",
+                                                            "raw"
+                                                        ],
                                                         "properties": {
                                                             "label": {
                                                                 "description": "Translated field label",
@@ -3516,6 +3530,11 @@
                                                     "description": "Edit, conversation",
                                                     "type": "object",
                                                     "additionalProperties": {
+                                                        "required": [
+                                                            "label",
+                                                            "from",
+                                                            "to"
+                                                        ],
                                                         "properties": {
                                                             "label": {
                                                                 "description": "Translated field label",
@@ -3549,6 +3568,11 @@
                                                 {
                                                     "title": "Operations on related records",
                                                     "description": "Adding relations, removing relations, transferring records",
+                                                    "required": [
+                                                        "targetModule",
+                                                        "targetModuleLabel",
+                                                        "targetLabel"
+                                                    ],
                                                     "properties": {
                                                         "targetModule": {
                                                             "description": "The name of the target related module",

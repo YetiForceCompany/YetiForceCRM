@@ -1426,6 +1426,53 @@ paths:
           basicAuth: []
           ApiKeyAuth: []
           token: []
+  '/webservice/Portal/{moduleName}/SourceBasedData':
+    put:
+      tags:
+        - BaseModule
+      summary: 'Get the source-based data'
+      description: 'Get the record data from sources'
+      operationId: e630f1e4b17a1917c964639aacabfdb9
+      parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Header-Encrypted'
+      requestBody:
+        description: 'Contents of the request contains an associative array with the data record.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseModule_Put_SourceBasedData_Request'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BaseModule_Put_SourceBasedData_Request'
+      responses:
+        '200':
+          description: 'Source-based data response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Put_SourceBasedData_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Put_SourceBasedData_Response'
+      security:
+        -
+          basicAuth: []
+          ApiKeyAuth: []
+          token: []
   '/webservice/Portal/{moduleName}/Widgets':
     get:
       tags:
@@ -3034,12 +3081,19 @@ components:
             - 1
         result:
           title: 'Returns recent activities that took place in CRM'
+          required:
+            - records
+            - isMorePages
           properties:
             records:
               title: 'Entires of recent record activities'
               type: object
               additionalProperties:
                 title: 'Key indicating the number of changes made to a given record'
+                required:
+                  - time
+                  - owner
+                  - status
                 properties:
                   time: { description: 'Showing the exact date on which the change took place', type: string, example: '2019-10-07 08:32:38' }
                   owner: { description: 'Username of the user who made the change', type: string, example: 'System Admin' }
@@ -3047,7 +3101,7 @@ components:
                   rawTime: { description: 'Showing the exact date on which the change took place', type: string, example: '2019-10-07 08:32:38' }
                   rawOwner: { description: 'User ID of the user who made the change', type: integer, example: 1 }
                   rawStatus: { description: 'The name of the untranslated label', type: string, example: LBL_UPDATED }
-                  data: { title: 'Additional information', oneOf: [{ title: 'Record data create', type: object, additionalProperties: { properties: { label: { description: 'Translated field label', type: string, example: Name }, value: { description: 'Value, the data type depends on the field type', type: string, example: 'Jan Kowalski' }, raw: { description: 'Value in database format, only available in `x-raw-data`', type: string, example: 'Jan Kowalski' } }, type: object } }, { title: 'Record data change', description: 'Edit, conversation', type: object, additionalProperties: { properties: { label: { description: 'Translated field label', type: string, example: Name }, from: { description: 'Value before change, the data type depends on the field type', type: string, example: 'Jan Kowalski' }, to: { description: 'Value after change, the data type depends on the field type', type: string, example: 'Jan Nowak' }, rawFrom: { description: 'Value before change, value in database format, only available in `x-raw-data`', type: string, example: 'Jan Kowalski' }, rawTo: { description: 'Value after change, value in database format, only available in `x-raw-data`', type: string, example: 'Jan Nowak' } }, type: object } }, { title: 'Operations on related records', description: 'Adding relations, removing relations, transferring records', properties: { targetModule: { description: 'The name of the target related module', type: string, example: Contacts }, targetModuleLabel: { description: 'Translated module name', type: string, example: Kontakt }, targetLabel: { description: 'The label name of the target related module', type: string, example: 'Jan Kowalski' }, targetId: { description: 'Id of the target related module', type: integer, example: 394 } }, type: object }] }
+                  data: { title: 'Additional information', oneOf: [{ title: 'Record data create', type: object, additionalProperties: { required: [label, value, raw], properties: { label: { description: 'Translated field label', type: string, example: Name }, value: { description: 'Value, the data type depends on the field type', type: string, example: 'Jan Kowalski' }, raw: { description: 'Value in database format, only available in `x-raw-data`', type: string, example: 'Jan Kowalski' } }, type: object } }, { title: 'Record data change', description: 'Edit, conversation', type: object, additionalProperties: { required: [label, from, to], properties: { label: { description: 'Translated field label', type: string, example: Name }, from: { description: 'Value before change, the data type depends on the field type', type: string, example: 'Jan Kowalski' }, to: { description: 'Value after change, the data type depends on the field type', type: string, example: 'Jan Nowak' }, rawFrom: { description: 'Value before change, value in database format, only available in `x-raw-data`', type: string, example: 'Jan Kowalski' }, rawTo: { description: 'Value after change, value in database format, only available in `x-raw-data`', type: string, example: 'Jan Nowak' } }, type: object } }, { title: 'Operations on related records', description: 'Adding relations, removing relations, transferring records', required: [targetModule, targetModuleLabel, targetLabel], properties: { targetModule: { description: 'The name of the target related module', type: string, example: Contacts }, targetModuleLabel: { description: 'Translated module name', type: string, example: Kontakt }, targetLabel: { description: 'The label name of the target related module', type: string, example: 'Jan Kowalski' }, targetId: { description: 'Id of the target related module', type: integer, example: 394 } }, type: object }] }
                 type: object
             isMorePages:
               type: boolean
@@ -3282,6 +3336,58 @@ components:
       properties:
         errors:
           description: 'Error details'
+          type: object
+      type: object
+    BaseModule_Put_SourceBasedData_Request:
+      title: 'Base module - Source-based data request'
+      type: object
+      oneOf:
+        -
+          title: 'Create a record from a related module'
+          required:
+            - sourceModule
+            - sourceRecord
+          properties:
+            sourceModule:
+              description: 'Source module'
+              type: string
+              example: Accounts
+            sourceRecord:
+              description: 'Source record ID'
+              type: integer
+              example: 221
+          type: object
+        -
+          title: 'Create a record from a reference field'
+          required:
+            - sourceRecordData
+          properties:
+            sourceRecordData:
+              $ref: '#/components/schemas/Record_Edit_Details'
+          type: object
+    BaseModule_Put_SourceBasedData_Response:
+      title: 'Base module - Source-based data response'
+      description: 'Data to auto-complete in compose view'
+      required:
+        - status
+        - result
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+        result:
+          title: 'Returns record data'
+          required:
+            - data
+            - rawData
+          properties:
+            data:
+              $ref: '#/components/schemas/Record_Display_Details'
+            rawData:
+              $ref: '#/components/schemas/Record_Raw_Details'
           type: object
       type: object
     BaseModule_Get_Widgets_Response:
