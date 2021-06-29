@@ -48,6 +48,11 @@
                     "description": "Action parameters to download the file",
                     "required": true,
                     "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseAction_Files_Request"
+                            }
+                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/BaseAction_Files_Request"
@@ -3536,22 +3541,40 @@
             "BaseAction_Files_Request": {
                 "title": "Base action - Files request schema",
                 "description": "Action parameters to download the file",
+                "required": [
+                    "module",
+                    "actionName",
+                    "record"
+                ],
                 "properties": {
                     "module": {
+                        "description": "Module name",
                         "type": "string",
-                        "example": "Documents"
+                        "example": "Contacts"
                     },
                     "actionName": {
+                        "description": "Action name",
                         "type": "string",
-                        "example": "DownloadFile"
+                        "enum": [
+                            "MultiImage",
+                            "DownloadFile"
+                        ],
+                        "example": "MultiImage"
                     },
                     "record": {
+                        "description": "Record ID",
                         "type": "integer",
-                        "example": 1111
+                        "example": 123
                     },
-                    "fileid": {
-                        "type": "integer",
-                        "example": 333
+                    "field": {
+                        "description": "Field name. Required for MultiImage action",
+                        "type": "string",
+                        "example": "imagename"
+                    },
+                    "key": {
+                        "description": "Unique key for attachment. Required for MultiImage action",
+                        "type": "string",
+                        "example": "14f01c4ea4da107c4145f0519ea1b9027fb24aa7MS2AqcUFuC"
                     }
                 },
                 "type": "object"

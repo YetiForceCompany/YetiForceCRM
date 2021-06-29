@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Portal\BaseAction;
@@ -82,6 +83,10 @@ class Files extends \Api\RestApi\BaseAction\Files
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *			description="Action parameters to download the file",
+	 * 			@OA\MediaType(
+	 *         		mediaType="application/x-www-form-urlencoded",
+	 *         		@OA\Schema(ref="#/components/schemas/BaseAction_Files_Request")
+	 *     		),
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Files_Request"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Files_Request"),
 	 *	  	),
@@ -127,10 +132,12 @@ class Files extends \Api\RestApi\BaseAction\Files
 	 * 		title="Base action - Files request schema",
 	 * 		description="Action parameters to download the file",
 	 *		type="object",
-	 *		@OA\Property(property="module", type="string", example="Documents"),
-	 *		@OA\Property(property="actionName", type="string", example="DownloadFile"),
-	 *		@OA\Property(property="record", type="integer", example=1111),
-	 *		@OA\Property(property="fileid", type="integer", example=333),
+	 *		required={"module", "actionName", "record"},
+	 *		@OA\Property(property="module", type="string", description="Module name", example="Contacts"),
+	 *		@OA\Property(property="actionName", type="string", enum={"MultiImage", "DownloadFile"}, description="Action name",  example="MultiImage"),
+	 *		@OA\Property(property="record", type="integer", description="Record ID",  example=123),
+	 *		@OA\Property(property="field", type="string", description="Field name. Required for MultiImage action", example="imagename"),
+	 *		@OA\Property(property="key", type="string", description="Unique key for attachment. Required for MultiImage action", example="14f01c4ea4da107c4145f0519ea1b9027fb24aa7MS2AqcUFuC")
 	 * ),
 	 */
 	public function put()

@@ -516,8 +516,7 @@ final class PortalTest extends \Tests\Base
 		$request = $this->httpClient->put('Files', \App\Utils::merge(['json' => [
 			'module' => 'Documents',
 			'actionName' => 'DownloadFile',
-			'record' => $record->getId(),
-			'fileid' => 1,
+			'record' => $record->getId()
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
