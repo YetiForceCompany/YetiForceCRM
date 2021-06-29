@@ -3466,7 +3466,7 @@
                                         "time": {
                                             "description": "Showing the exact date on which the change took place",
                                             "type": "string",
-                                            "example": "2019-10-07 08 : 32 : 38"
+                                            "example": "2019-10-07 08:32:38"
                                         },
                                         "owner": {
                                             "description": "Username of the user who made the change",
@@ -3481,7 +3481,7 @@
                                         "rawTime": {
                                             "description": "Showing the exact date on which the change took place",
                                             "type": "string",
-                                            "example": "2019-10-07 08 : 32 : 38"
+                                            "example": "2019-10-07 08:32:38"
                                         },
                                         "rawOwner": {
                                             "description": "User ID of the user who made the change",
