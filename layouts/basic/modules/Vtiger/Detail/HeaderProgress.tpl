@@ -4,50 +4,35 @@
 {if isset($FIELDS_HEADER['progress'])}
 	{foreach from=$FIELDS_HEADER['progress'] key=NAME item=FIELD_MODEL}
 		{if !$RECORD->isEmpty($NAME)}
-			{assign var=PROGRESS_HEADER value=$FIELD_MODEL->getUITypeModel()->getProgressHeader($RECORD)}
-
-			{assign var=CLOSE_STATES value=\App\RecordStatus::getLockStatus($MODULE_MODEL->getName(), false)}
-			{assign var=PICKLIST_DEPENDENCY value=\App\Fields\Picklist::getPicklistDependencyDatasource($MODULE_MODEL->getName())}
-			{assign var=DEPENDENT_SOURCE_FIELD value=\App\Fields\Picklist::getDependentSourceField($FIELD_MODEL->getModuleName(), $FIELD_MODEL->getName())}
-			{assign var=PICKLIST_OF_FIELD value=$FIELD_MODEL->getPicklistValues()}
-			{assign var=PICKLIST_VALUES value=\App\Fields\Picklist::getValues($NAME)}
-			{assign var=IS_EDITABLE value=$RECORD->isEditable() && $FIELD_MODEL->isAjaxEditable() && !$FIELD_MODEL->isEditableReadOnly()}
-			{assign var=PROGRESS_EDITABLE value=App\Config::module($MODULE_NAME,'headerProgressIsEditable',true)}
 			<div class="c-progress px-3 w-100">
 				<ul class="c-progress__container js-header-progress-bar list-inline my-0 py-1 js-scrollbar c-scrollbar-x--small" data-picklist-name="{$NAME}"
 					data-js="container">
 					{assign var=ARROW_CLASS value="before"}
 					{assign var=ICON_CLASS value="fas fa-check"}
-					{foreach from=$PICKLIST_VALUES item=VALUE_DATA name=picklistValues}
-						{if $DEPENDENT_SOURCE_FIELD && isset($PICKLIST_DEPENDENCY[$DEPENDENT_SOURCE_FIELD][$RECORD->get($DEPENDENT_SOURCE_FIELD)][$NAME]) && !in_array($VALUE_DATA['picklistValue'], $PICKLIST_DEPENDENCY[$DEPENDENT_SOURCE_FIELD][$RECORD->get($DEPENDENT_SOURCE_FIELD)][$NAME])}
-							{continue}
-						{/if}
-						{assign var=IS_ACTIVE value=$VALUE_DATA['picklistValue'] eq $RECORD->get($NAME)}
-						{assign var=IS_LOCKED value=isset($VALUE_DATA['picklist_valueid']) && isset($CLOSE_STATES[$VALUE_DATA['picklist_valueid']])}
-						{assign var=PICKLIST_LABEL value=$FIELD_MODEL->getDisplayValue($VALUE_DATA['picklistValue'], false, false, true)}
-						<li class="c-progress__item list-inline-item mx-0 {if $smarty.foreach.picklistValues.first}first{/if} {if $IS_ACTIVE}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $PROGRESS_EDITABLE && $IS_EDITABLE && $VALUE_DATA['picklistValue'] !== $RECORD->get($NAME) && isset($PICKLIST_OF_FIELD[$VALUE_DATA['picklistValue']])} u-cursor-pointer js-access{/if}" data-picklist-value="{$VALUE_DATA['picklistValue']}" data-picklist-label="{\App\Purifier::encodeHtml($PICKLIST_LABEL)}" data-js="confirm|click|data">
+					{foreach from=$FIELD_MODEL->getUITypeModel()->getProgressHeader($RECORD) key=$PROGRESS_HEADER_KEY item=$PROGRESS_HEADER_VALUE name=progressHeaderValue}
+						<li class="c-progress__item list-inline-item mx-0 {if $smarty.foreach.progressHeaderValue.first}first{/if} {if $PROGRESS_HEADER_VALUE['isActive']}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $PROGRESS_HEADER_VALUE['isEditable'] && $PROGRESS_HEADER_KEY !== $RECORD->get($NAME)} u-cursor-pointer js-access{/if}" data-picklist-value="{$PROGRESS_HEADER_KEY}" data-picklist-label="{\App\Purifier::encodeHtml($PROGRESS_HEADER_KEY)}" data-js="confirm|click|data">
 							<div class="c-progress__icon__container">
 								<span class="
-							{if $IS_LOCKED}
+							{if $PROGRESS_HEADER_VALUE['isLocked']}
 								fas fa-lock
-							{elseif $IS_ACTIVE}
+							{elseif $PROGRESS_HEADER_VALUE['isActive']}
 								far fa-dot-circle
 							{else}
 								{$ICON_CLASS}
 							{/if}
-							{if $IS_ACTIVE}
+							{if $PROGRESS_HEADER_VALUE['isActive']}
 								{assign var=ICON_CLASS value="c-progress__icon__dot"}
 							{/if}
 								{' '}c-progress__icon"></span>
 							</div>
 							<div class="c-progress__link">
-								{if !empty($VALUE_DATA['description'])}
-									<span class="c-progress__icon-info js-popover-tooltip" data-js="popover" data-trigger="hover focus" data-content="{\App\Purifier::encodeHtml($VALUE_DATA['description'])}">
+								{if !empty($PROGRESS_HEADER_VALUE['description'])}
+									<span class="c-progress__icon-info js-popover-tooltip" data-js="popover" data-trigger="hover focus" data-content="{\App\Purifier::encodeHtml($PROGRESS_HEADER_VALUE['description'])}">
 										<span class="fas fa-info-circle"></span>
 									</span>
 								{/if}
-								<span class=" js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{$PICKLIST_LABEL}" data-js="popover">
-									<span class="c-progress__text">{$PICKLIST_LABEL}</span>
+								<span class=" js-popover-tooltip--ellipsis" data-toggle="popover" data-content="{$PROGRESS_HEADER_VALUE['label']}" data-js="popover">
+									<span class="c-progress__text">{$PROGRESS_HEADER_VALUE['label']}</span>
 								</span>
 							</div>
 						</li>
