@@ -66,6 +66,8 @@ class PrivilegeQuery
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			$where[] = ["{$moduleModel->basetable}.{$moduleModel->basetableid}" => $parentId];
+		} elseif ('ModComments' === $moduleName && $relatedRecord && \App\Privilege::isPermitted(\App\Record::getType($relatedRecord), 'DetailView', $relatedRecord, $user->getId())) {
+			return;
 		} elseif ($parentModule !== $moduleName && ($referenceField = current($moduleModel->getReferenceFieldsForModule($parentModule)))) {
 			$where[] = ["{$referenceField->getTableName()}.{$referenceField->getColumnName()}" => $parentId];
 		} elseif ($relationId = key(\App\Relation::getByModule($parentModule, true, $moduleName))) {
