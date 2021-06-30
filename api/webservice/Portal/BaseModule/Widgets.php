@@ -22,7 +22,7 @@ class Widgets extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** @var string[] Supported widget types */
-	protected $supportedTypes = ['RelatedModule', 'Updates', 'Comments'];
+	protected $supportedTypes = ['RelatedModule', 'Updates', 'Comments', 'DetailView'];
 
 	/**
 	 * Get widgets list method.
