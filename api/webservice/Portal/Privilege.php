@@ -134,6 +134,23 @@ class Privilege
 				\App\Privilege::$isPermittedLevel = $moduleName . '_RELATED_YES';
 				return true;
 			}
+		} elseif ($fields = $moduleModel->getFieldsByReference()) {
+			foreach ($fields as $fieldModel) {
+				if (!$fieldModel->isActiveField() || $recordModel->isEmpty($fieldModel->getName())) {
+					continue;
+				}
+				$relRecordId = $recordModel->get($fieldModel->getName());
+				foreach ($fieldModel->getReferenceList() as $relModuleName) {
+					if ('Users' === $relModuleName || $relModuleName === $parentModule || $relModuleName === $moduleName) {
+						continue;
+					}
+					$relModuleModel = \Vtiger_Module_Model::getInstance($relModuleName);
+					if (($referenceField = current($relModuleModel->getReferenceFieldsForModule($parentModule))) && \App\Record::isExists($relRecordId, $relModuleName) && \App\Record::getType($relRecordId) === $relModuleName && \Vtiger_Record_Model::getInstanceById($relRecordId, $relModuleName)->get($referenceField->getName()) === $parentRecordId) {
+						\App\Privilege::$isPermittedLevel = $moduleName . '_RELATED_SL_YES';
+						return true;
+					}
+				}
+			}
 		}
 
 		\App\Privilege::$isPermittedLevel = 'ALL_PERMISSION_NO';

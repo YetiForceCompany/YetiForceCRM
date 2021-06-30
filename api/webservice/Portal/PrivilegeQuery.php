@@ -83,13 +83,13 @@ class PrivilegeQuery
 					continue;
 				}
 				foreach ($fieldModel->getReferenceList() as $relModuleName) {
-					if ('Users' === $relModuleName || $relModuleName === $parentModule) {
+					if ('Users' === $relModuleName || $relModuleName === $parentModule || $relModuleName === $moduleName) {
 						continue;
 					}
-					$relModuleModel = \Vtiger_Module_Model::getInstance($moduleName);
-					if ($referenceField = current($moduleModel->getReferenceFieldsForModule($parentModule))) {
-						$queryGenerator = new \App\QueryGenerator($relModuleModel);
-						$queryGenerator->permission = false;
+					$relModuleModel = \Vtiger_Module_Model::getInstance($relModuleName);
+					if ($referenceField = current($relModuleModel->getReferenceFieldsForModule($parentModule))) {
+						$queryGenerator = new \App\QueryGenerator($relModuleName);
+						$queryGenerator->permissions = false;
 						$queryGenerator->setFields(['id'])->addCondition($referenceField->getName(), $parentId, 'eid');
 						$subQuery = $queryGenerator->createQuery()->select($queryGenerator->getColumnName('id'));
 						$where[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => $subQuery];
