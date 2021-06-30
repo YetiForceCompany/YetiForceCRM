@@ -125,7 +125,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$mixed = 1;
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-		return $moduleModel->isActive() && (($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()][$actionId]) && Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $profileTabsPermissions[$moduleModel->getId()][$actionId])));
+		return $moduleModel->isActive() && $this->hasModulePermission($mixed) && (($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()][$actionId]) && Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $profileTabsPermissions[$moduleModel->getId()][$actionId])));
 	}
 
 	/**
