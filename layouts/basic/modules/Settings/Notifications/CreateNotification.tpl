@@ -14,7 +14,7 @@
 						<label>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</label>
 					</div>
 					<div class="col-sm-8">
-						<input name="name" value="{$RECORD->getName()}" data-validation-engine="validate[required]" class="form-control"> 
+						<input name="name" value="{$RECORD->getName()}" data-validation-engine="validate[required]" class="form-control">
 					</div>
 				</div>
 			</div>

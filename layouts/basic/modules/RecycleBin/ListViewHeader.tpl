@@ -54,4 +54,3 @@
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
 {/strip}
-

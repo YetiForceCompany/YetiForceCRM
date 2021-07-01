@@ -39,5 +39,5 @@
 				</button>
 			</div>
 		</div>
-	</form>		
+	</form>
 {/strip}

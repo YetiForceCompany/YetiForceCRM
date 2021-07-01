@@ -43,4 +43,3 @@
 <div class="dashboardWidgetContent allTimeControl paddingBottom10">
 	{include file=\App\Layout::getTemplatePath('dashboards/TimeControlContents.tpl', $MODULE_NAME)}
 </div>
-

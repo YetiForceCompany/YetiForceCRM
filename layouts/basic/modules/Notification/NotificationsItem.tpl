@@ -10,7 +10,7 @@
 							{assign var=IMAGE_PATH value=$ICON['src']}
 							{if $IMAGE_PATH}
 								<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
-							{else}	
+							{else}
 								<span class="mr-1 fas fa-user userImage"></span>
 							{/if}
 						</div>

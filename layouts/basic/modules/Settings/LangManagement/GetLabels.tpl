@@ -30,10 +30,10 @@
 										<td class="col-4">
 											<input 	data-lang="{$LANG}"
 													data-type="{$TYPE}"
-													name="{$LABEL}" 
-													class="form-control {if $VALUE == NULL}empty_value{/if}" 
-													type="text" 
-													data-mod="{$SOURCE_MODULE}" 
+													name="{$LABEL}"
+													class="form-control {if $VALUE == NULL}empty_value{/if}"
+													type="text"
+													data-mod="{$SOURCE_MODULE}"
 													value ="{$VALUE}">
 										</td>
 										<td>
@@ -44,7 +44,7 @@
 									{else}
 										<td>{$VALUE}</td>
 									{/if}
-								{/foreach}	
+								{/foreach}
 							</tr>
 						{/foreach}
 					{/foreach}

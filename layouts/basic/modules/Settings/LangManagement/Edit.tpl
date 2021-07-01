@@ -65,13 +65,13 @@
 							<tr data-langkey="{$LANG_KEY}" data-type="php">
 								<td>{$LANG_KEY}</td>
 								{foreach from=$langs item=item key=lang}
-									<td><input 
+									<td><input
 											data-lang="{$lang}"
 											data-type="php"
-											name="{$LANG_KEY}" 
-											class="translation form-control {if $item == NULL}empty_value{/if}" 
-											{if $item == NULL} placeholder="{\App\Language::translate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if} 
-											type="text" 
+											name="{$LANG_KEY}"
+											class="translation form-control {if $item == NULL}empty_value{/if}"
+											{if $item == NULL} placeholder="{\App\Language::translate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if}
+											type="text"
 											value ="{$item}" />
 									</td>
 								{/foreach}
@@ -101,13 +101,13 @@
 							<tr data-langkey="{$LANG_KEY}" data-type="js">
 								<td>{$LANG_KEY}</td>
 								{foreach from=$langs item=item key=lang}
-									<td><input 
+									<td><input
 											data-lang="{$lang}"
 											data-type="js"
-											name="{$LANG_KEY}" 
-											class="translation form-control {if $item == NULL}empty_value{/if}" 
-											{if $item == NULL} placeholder="{\App\Language::translate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if} 
-											type="text" 
+											name="{$LANG_KEY}"
+											class="translation form-control {if $item == NULL}empty_value{/if}"
+											{if $item == NULL} placeholder="{\App\Language::translate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if}
+											type="text"
 											value ="{$item}" />
 									</td>
 								{/foreach}
