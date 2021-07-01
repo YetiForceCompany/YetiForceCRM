@@ -55,11 +55,11 @@ class YetiForceApiPortal extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
-		return [
+		$links = [
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'Website',
 				'relatedModuleName' => '_Base',
-				'linkicon' => 'fas fa-globe',
+				'linkicon' => 'fas fa-globe mr-2',
 				'linkhref' => true,
 				'linkExternal' => true,
 				'linktarget' => '_blank',
@@ -68,5 +68,28 @@ class YetiForceApiPortal extends \App\YetiForce\Shop\AbstractBaseProduct
 				'showLabel' => 1,
 			]),
 		];
+		if (\App\Security\AdminAccess::isPermitted('WebserviceApps')) {
+			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'WebserviceApps',
+				'relatedModuleName' => 'Settings:WebserviceApps',
+				'linkicon' => 'adminIcon-webservice-apps mr-2',
+				'linkhref' => true,
+				'linkurl' => 'index.php?module=WebserviceApps&view=Index&parent=Settings',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			]);
+		}
+		if (\App\Security\AdminAccess::isPermitted('WebserviceUsers')) {
+			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'WebserviceUsers',
+				'relatedModuleName' => 'Settings:WebserviceUsers',
+				'linkicon' => 'adminIcon-webservice-users mr-2',
+				'linkhref' => true,
+				'linkurl' => 'index.php?module=WebserviceUsers&view=List&parent=Settings&typeApi=Portal',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			]);
+		}
+		return $links;
 	}
 }

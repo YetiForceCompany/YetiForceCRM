@@ -64,7 +64,7 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'Website',
 				'relatedModuleName' => '_Base',
-				'linkicon' => 'fas fa-globe',
+				'linkicon' => 'fas fa-globe mr-2',
 				'linkhref' => true,
 				'linkExternal' => true,
 				'linktarget' => '_blank',

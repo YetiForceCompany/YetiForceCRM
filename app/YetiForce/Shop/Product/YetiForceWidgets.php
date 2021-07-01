@@ -61,11 +61,11 @@ class YetiForceWidgets extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
-		return [
+		$links = [
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'Website',
 				'relatedModuleName' => '_Base',
-				'linkicon' => 'fas fa-globe',
+				'linkicon' => 'fas fa-globe mr-2',
 				'linkhref' => true,
 				'linkExternal' => true,
 				'linktarget' => '_blank',
@@ -74,5 +74,28 @@ class YetiForceWidgets extends \App\YetiForce\Shop\AbstractBaseProduct
 				'showLabel' => 1,
 			]),
 		];
+		if (\App\Security\AdminAccess::isPermitted('WidgetsManagement')) {
+			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'WidgetsManagement',
+				'relatedModuleName' => 'Settings:WidgetsManagement',
+				'linkicon' => 'adminIcon-widgets-configuration mr-2',
+				'linkhref' => true,
+				'linkurl' => 'index.php?module=WidgetsManagement&parent=Settings&view=Configuration',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			]);
+		}
+		if (\App\Security\AdminAccess::isPermitted('Widgets')) {
+			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'Widgets',
+				'relatedModuleName' => 'Settings:Widgets',
+				'linkicon' => 'adminIcon-modules-widgets mr-2',
+				'linkhref' => true,
+				'linkurl' => 'index.php?module=Widgets&parent=Settings&view=Index',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			]);
+		}
+		return $links;
 	}
 }

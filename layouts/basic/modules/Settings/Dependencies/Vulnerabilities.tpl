@@ -36,14 +36,14 @@
 								<th colspan="1" class="mediumWidthType">
 									<span>{App\Language::translate('LBL_LIB_NAME', $QUALIFIED_MODULE)}</span>
 								</th>
+								<th colspan="1" class="mediumWidthType u-w-3per-150px">
+									<span>CVE</span>
+								</th>
 								<th colspan="1" class="mediumWidthType">
 									<span>{App\Language::translate('LBL_VULNERABILITY_NAME', $QUALIFIED_MODULE)}</span>
 								</th>
 								<th colspan="1" class="mediumWidthType">
 									<span>{App\Language::translate('LBL_VULNERABILITY_URL', $QUALIFIED_MODULE)}</span>
-								</th>
-								<th colspan="1" class="mediumWidthType u-w-3per-150px">
-									<span>CVE</span>
 								</th>
 							</tr>
 						</thead>
@@ -52,6 +52,7 @@
 								{foreach from=$LIB['advisories'] item=ADVISORIE}
 									<tr>
 										<td><label>{\App\Purifier::encodeHtml($LIB_NAME)} ({\App\Purifier::encodeHtml($LIB['version'])})</label></td>
+										<td><label>{if isset($ADVISORIE['cve'])}{\App\Purifier::encodeHtml($ADVISORIE['cve'])}{/if}</label></td>
 										<td><label>{\App\Purifier::encodeHtml($ADVISORIE['title'])}</label></td>
 										<td><label>
 											{if isset($ADVISORIE['link'])}
@@ -60,7 +61,7 @@
 												</a>
 											{/if}
 										</label></td>
-										<td><label>{if isset($ADVISORIE['cve'])}{\App\Purifier::encodeHtml($ADVISORIE['cve'])}{/if}</label></td>
+
 									</tr>
 								{/foreach}
 							{/foreach}

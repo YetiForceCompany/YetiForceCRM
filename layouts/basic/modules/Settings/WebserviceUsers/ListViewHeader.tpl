@@ -16,7 +16,7 @@
 	<ul id="tabs" class="nav nav-tabs mt-2 mr-0" data-tabs="tabs">
 		{foreach item=VALUE from=\Api\Core\Containers::$listTab name=typeLoop}
 			<li class="tabApi nav-item" data-typeapi="{$VALUE}">
-				<a class="nav-link {if $smarty.foreach.typeLoop.first} active{/if} " data-toggle="tab">
+				<a class="nav-link {if $TYPE_API === $VALUE} active{/if} " data-toggle="tab">
 					<strong>{\App\Language::translate($VALUE, 'Settings.WebserviceApps')}</strong>
 					{if $VALUE === 'Portal'}
 						<span class="yfi-premium color-red-600 ml-2" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"></span>
