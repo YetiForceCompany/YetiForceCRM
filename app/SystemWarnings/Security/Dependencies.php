@@ -32,8 +32,8 @@ class Dependencies extends \App\SystemWarnings\Template
 	public function process()
 	{
 		try {
-			$vulnerabilities = (new \App\Security\Dependency())->securityChecker();
-			$this->status = $vulnerabilities ? 0 : 1;
+			$checker = (new \App\Security\Dependency())->securityChecker();
+			$this->status = $checker ? 0 : 1;
 		} catch (\Throwable $e) {
 			$this->status = 1;
 		}
@@ -43,12 +43,17 @@ class Dependencies extends \App\SystemWarnings\Template
 				$this->linkTitle = \App\Language::translate('Security', 'Settings:SystemWarnings');
 			}
 			$this->description = \App\Language::translate('LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC', 'Settings:SystemWarnings') . '<br />';
-			foreach ($vulnerabilities as $name => $vulnerability) {
-				$this->description .= "$name({$vulnerability['version']}):<br />";
-				foreach ($vulnerability['advisories'] as $data) {
-					$this->description .= "{$data['title']} {$data['cve']}<br />";
+			foreach ($checker as $type => $vulnerabilities) {
+				$type = strtoupper($type);
+				$this->description .= '<h3><u>' . \App\Language::translate("LBL_SECURITY_{$type}", 'Settings:Dependencies') . ':</u></h3><br />';
+				foreach ($vulnerabilities as $name => $vulnerability) {
+					$this->description .= "<h4>$name ({$vulnerability['version']}):</h4><br />";
+					$this->description .= '<ul>';
+					foreach ($vulnerability['advisories'] as $data) {
+						$this->description .= "<li><h5><a rel=\"noreferrer noopener\" target=\"_blank\" href=\"{$data['link']}\">{$data['cve']}</a></h5> {$data['title']}</li>";
+					}
+					$this->description .= '</ul><hr />';
 				}
-				$this->description .= '<hr />';
 			}
 		}
 	}

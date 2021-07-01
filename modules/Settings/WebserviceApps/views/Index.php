@@ -31,9 +31,17 @@ class Settings_WebserviceApps_Index_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 
 		$listServers = Settings_WebserviceApps_Module_Model::getServers();
+		$isPortal = false;
+		foreach ($listServers as $value) {
+			if ('Portal' === $value['type']) {
+				$isPortal = true;
+				continue;
+			}
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('LIST_SERVERS', $listServers);
+		$viewer->assign('IS_PORTAL', $isPortal);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}

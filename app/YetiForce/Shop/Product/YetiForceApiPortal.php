@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForce Vulnerabilities file.
+ * YetiForce shop YetiForce Api portal file.
  *
  * @package App
  *
@@ -12,26 +12,26 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForce Vulnerabilities class.
+ * YetiForce shop YetiForce Api portal class.
  */
-class YetiForceVulnerabilities extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceApiPortal extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce Vulnerabilities';
+	public $label = 'YetiForce API Portal';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-vulnerabilities';
+	public $website = 'https://yetiforce.com/en/yetiforce-portal';
 
 	/** {@inheritdoc} */
 	public $prices = [
-		'Micro' => 5,
-		'Small' => 12,
-		'Medium' => 25,
-		'Large' => 50,
-		'Corporation' => 100,
+		'Micro' => 45,
+		'Small' => 85,
+		'Medium' => 165,
+		'Large' => 325,
+		'Corporation' => 645,
 	];
 
 	/** {@inheritdoc} */
@@ -41,8 +41,13 @@ class YetiForceVulnerabilities extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceVulnerabilities')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceVulnerabilities');
+		if (\App\YetiForce\Register::getProducts('YetiForceApiPortal')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceApiPortal');
+		} else {
+			if ((new \App\Db\Query())->from('w_#__servers')->where(['type' => 'Portal'])->exists()) {
+				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
+				$status = false;
+			}
 		}
 		return ['status' => $status, 'message' => $message];
 	}
@@ -50,7 +55,7 @@ class YetiForceVulnerabilities extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
-		$links = [
+		return [
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'Website',
 				'relatedModuleName' => '_Base',
@@ -63,17 +68,5 @@ class YetiForceVulnerabilities extends \App\YetiForce\Shop\AbstractBaseProduct
 				'showLabel' => 1,
 			]),
 		];
-		if (\App\Security\AdminAccess::isPermitted('Dav')) {
-			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_VULNERABILITIES',
-				'relatedModuleName' => 'Settings:Dependencies',
-				'linkicon' => 'yfi yfi-security-errors-2',
-				'linkhref' => true,
-				'linkurl' => 'index.php?parent=Settings&module=Dependencies&view=Vulnerabilities',
-				'linkclass' => 'btn-primary',
-				'showLabel' => 1,
-			]);
-		}
-		return $links;
 	}
 }
