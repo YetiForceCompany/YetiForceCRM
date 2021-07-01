@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'yfi';
-	src: url('fonts/yfi.eot?93a0ly');
-	src: url('fonts/yfi.eot?93a0ly#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?93a0ly') format('truetype'),
-		url('fonts/yfi.woff?93a0ly') format('woff'), url('fonts/yfi.svg?93a0ly#yfi') format('svg');
+	src: url('fonts/yfi.eot?1p4f1r');
+	src: url('fonts/yfi.eot?1p4f1r#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?1p4f1r') format('truetype'),
+		url('fonts/yfi.woff?1p4f1r') format('woff'), url('fonts/yfi.svg?1p4f1r#yfi') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -18,14 +18,17 @@
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
-	display: inline-block;
+
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.yfi-map:before {
+	content: '\e920';
+}
 .yfi-rbl:before {
-	content: '\e9df';
+	content: '\e9ce';
 }
 .yfi-free-support:before {
 	content: '\e9c1';
@@ -35,9 +38,6 @@
 }
 .yfi-twitter:before {
 	content: '\e9c3';
-}
-.yfi-social-media2:before {
-	content: '\e9c4';
 }
 .yfi-partner-solution-shop:before {
 	content: '\e9c5';
@@ -223,7 +223,7 @@
 	content: '\e91f';
 }
 .yfi-automatic-assignment:before {
-	content: '\e920';
+	content: '\e972';
 }
 .yfi-automation:before {
 	content: '\e921';
@@ -469,7 +469,7 @@
 	content: '\e971';
 }
 .yfi-owner:before {
-	content: '\e972';
+	content: '\e9c4';
 }
 .yfi-password-encryption:before {
 	content: '\e973';
