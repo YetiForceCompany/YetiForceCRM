@@ -69,11 +69,11 @@ class Rbl extends \App\Base
 			'[Security] Overloading infrastructure or application' => 'LBL_SECURITY_OVERLOADING_INFRASTRUCTURE_OR_APPLICATION',
 			'[Other] The message contains inappropriate words' => 'LBL_OTHER_MESSAGE_CONTAINS_INAPPROPRIATE_WORDS',
 			'[Other] The message contains inappropriate materials' => 'LBL_OTHER_MESSAGE_CONTAINS_INAPPROPRIATE_MATERIALS',
-			'[Other] Malicious message' => 'LBL_OTHER_MALICIOUS_MESSAGE'
+			'[Other] Malicious message' => 'LBL_OTHER_MALICIOUS_MESSAGE',
 		],
 		'White' => [
-			'[Whitelist] Trusted sender' => 'LBL_TRUSTED_SENDER'
-		]
+			'[Whitelist] Trusted sender' => 'LBL_TRUSTED_SENDER',
+		],
 	];
 	/**
 	 * RLB black list type.
@@ -438,7 +438,7 @@ class Rbl extends \App\Base
 	public function getSenders(): array
 	{
 		$senders = [
-			'From' => $this->mailMimeParser->getHeaderValue('From')
+			'From' => $this->mailMimeParser->getHeaderValue('From'),
 		];
 		if ($returnPath = $this->mailMimeParser->getHeaderValue('Return-Path')) {
 			$senders['Return-Path'] = $returnPath;
@@ -836,7 +836,7 @@ class Rbl extends \App\Base
 			'user' => \App\User::getCurrentUserId(),
 			'type' => $data['type'],
 			'header' => $data['header'],
-			'body' => $data['body'] ?? null
+			'body' => $data['body'] ?? null,
 		])->execute();
 		$record = $db->getLastInsertID();
 		if ($status && $record) {
@@ -877,8 +877,8 @@ class Rbl extends \App\Base
 				'ik' => \App\YetiForce\Register::getInstanceKey(),
 				'ip' => $recordModel->getSender()['ip'] ?? '-',
 				'header' => $recordModel->get('header'),
-				'body' => $recordModel->get('body')
-			])
+				'body' => $recordModel->get('body'),
+			]),
 		]);
 		\App\Log::endProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
 		$body = \App\Json::decode($response->getBody()->getContents());

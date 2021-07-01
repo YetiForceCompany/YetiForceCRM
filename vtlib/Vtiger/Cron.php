@@ -191,7 +191,7 @@ class Cron
 
 	public function getLockStatus()
 	{
-		return isset($this->data['lockStatus']) ? $this->data['lockStatus'] : false;
+		return $this->data['lockStatus'] ?? false;
 	}
 
 	/**
@@ -329,8 +329,8 @@ class Cron
 	 */
 	public function checkTimeout(): bool
 	{
-		return $this->cronInstance->checkCronTimeout() ||
-		(!empty($this->data['max_exe_time']) && $this->getLastStart() && time() >= (($this->data['max_exe_time'] * 60) + $this->getLastStart()));
+		return $this->cronInstance->checkCronTimeout()
+		|| (!empty($this->data['max_exe_time']) && $this->getLastStart() && time() >= (($this->data['max_exe_time'] * 60) + $this->getLastStart()));
 	}
 
 	/**
@@ -403,7 +403,6 @@ class Cron
 		if (isset(self::$instanceCache["$name"])) {
 			$instance = self::$instanceCache["$name"];
 		}
-
 		if (false === $instance) {
 			$data = (new \App\Db\Query())->from(self::$baseTable)->where(['name' => $name])->one();
 			if ($data) {
