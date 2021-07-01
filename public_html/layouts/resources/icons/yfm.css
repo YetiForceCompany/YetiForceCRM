@@ -27,7 +27,7 @@
 [class*=' yfm-']:before {
 	content: '\e972';
 }
-.yfm-queue:before {
+.yfm-Queue:before {
 	content: '\e982';
 }
 .yfm-Approvals:before {
