@@ -9,7 +9,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Calendar_ExportToIcal_Model extends Vtiger_Export_Model
+class Calendar_ExportToIcal_Model extends \App\Export\ExportRecords
 {
 	/**
 	 * {@inheritdoc}
