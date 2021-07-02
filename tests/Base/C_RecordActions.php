@@ -153,7 +153,7 @@ class C_RecordActions extends \Tests\Base
 		}
 		$record = \Vtiger_Record_Model::getCleanInstance('Accounts');
 		$record->set('accountname', 'YetiForce Sp. z o.o.');
-		$record->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
+		$record->set('legal_form', 'PLL_COMPANY');
 		$record->save();
 		self::$recordAccounts = $record;
 		return $record;

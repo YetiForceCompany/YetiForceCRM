@@ -167,7 +167,7 @@ final class PortalTest extends \Tests\Base
 			'addresslevel5a' => 'Warszawa',
 			'addresslevel8a' => 'Marszałkowska',
 			'buildingnumbera' => 111,
-			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
+			'legal_form' => 'PLL_COMPANY',
 			'share_externally' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
@@ -233,7 +233,7 @@ final class PortalTest extends \Tests\Base
 		static::assertSame(200, $request->getStatusCode(), 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(1, $response['status'], 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame($response['result']['rawData']['accountname'], 'Api YetiForce Sp. z o.o. New name');
-		static::assertSame($response['result']['rawData']['legal_form'], 'PLL_GENERAL_PARTNERSHIP');
+		static::assertSame($response['result']['rawData']['legal_form'], 'PLL_COMPANY');
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'get', 200);
 	}
 
@@ -257,7 +257,7 @@ final class PortalTest extends \Tests\Base
 	{
 		$request = $this->httpClient->post('Accounts/Record/', \App\Utils::merge(['json' => [
 			'accountname' => 'Api Delete YetiForce Sp. z o.o.',
-			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
+			'legal_form' => 'PLL_COMPANY',
 			'share_externally' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
@@ -516,7 +516,7 @@ final class PortalTest extends \Tests\Base
 		$request = $this->httpClient->put('Files', \App\Utils::merge(['json' => [
 			'module' => 'Documents',
 			'actionName' => 'DownloadFile',
-			'record' => $record->getId()
+			'record' => $record->getId(),
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
