@@ -79,17 +79,17 @@ class Files extends \Api\RestApi\BaseAction\Files
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *    	},
+	 *		},
 	 *		@OA\RequestBody(
-	 *  		required=true,
+	 *			required=true,
 	 *			description="Action parameters to download the file",
-	 * 			@OA\MediaType(
-	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/BaseAction_Files_Request")
-	 *     		),
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Files_Request"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Files_Request"),
-	 *	  	),
+	 *			@OA\MediaType(
+	 *				mediaType="application/x-www-form-urlencoded",
+	 *				@OA\Schema(ref="#/components/schemas/BaseAction_Put_Files_Request")
+	 *			),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Put_Files_Request"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Put_Files_Request"),
+	 *		),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
@@ -128,7 +128,7 @@ class Files extends \Api\RestApi\BaseAction\Files
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 * 		schema="BaseAction_Files_Request",
+	 * 		schema="BaseAction_Put_Files_Request",
 	 * 		title="Base action - Files request schema",
 	 * 		description="Action parameters to download the file",
 	 *		type="object",

@@ -33,8 +33,8 @@ class Logout extends \Api\RestApi\Users\Logout
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="User details",
-	 *			@OA\JsonContent(ref="#/components/schemas/UsersLogoutResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/UsersLogoutResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/Users_Put_Logout_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Users_Put_Logout_Response"),
 	 *		),
 	 * ),
 	 *	@OA\SecurityScheme(
@@ -45,7 +45,7 @@ class Logout extends \Api\RestApi\Users\Logout
 	 *   	description="Webservice api token by user header"
 	 *	),
 	 * @OA\Schema(
-	 * 		schema="UsersLogoutResponseBody",
+	 * 		schema="Users_Put_Logout_Response",
 	 * 		title="Users module - Users logout response body",
 	 * 		description="JSON data",
 	 *		type="object",

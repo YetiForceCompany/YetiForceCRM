@@ -37,12 +37,12 @@ class Menu extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Menu details",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Menu_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Menu_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Get_Menu_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Get_Menu_Response"),
 	 *		),
 	 *	),
 	 *	@OA\Schema(
-	 *		schema="BaseAction_Menu_ResponseBody",
+	 *		schema="BaseAction_Get_Menu_Response",
 	 *		title="Base action - Menu",
 	 *		description="Base action menu response body",
 	 *		type="object",
