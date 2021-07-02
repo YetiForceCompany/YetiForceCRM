@@ -81,7 +81,7 @@ class Field
 					'vtiger_field.fieldname',
 					'vtiger_field.columnname',
 					'vtiger_profile2field.readonly',
-					'vtiger_profile2field.visible'
+					'vtiger_profile2field.visible',
 				])
 				->from('vtiger_field')
 				->innerJoin('vtiger_profile2field', 'vtiger_profile2field.fieldid = vtiger_field.fieldid')
@@ -89,7 +89,7 @@ class Field
 					'vtiger_field.tabid' => (int) $tabId,
 					'vtiger_profile2field.visible' => 0,
 					'vtiger_field.visible' => 0,
-					'vtiger_field.presence' => [0, 2]
+					'vtiger_field.presence' => [0, 2],
 				]);
 			$profileList = \App\User::getCurrentUserModel()->getProfiles();
 			if ($profileList) {

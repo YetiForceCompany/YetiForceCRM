@@ -22,7 +22,7 @@ class Order extends Record
 {
 	/** {@inheritdoc} */
 	protected static $updateFields = [
-		'ssingleorders_status', 'status_magento'
+		'ssingleorders_status', 'status_magento',
 	];
 
 	/** {@inheritdoc} */

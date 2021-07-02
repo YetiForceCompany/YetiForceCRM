@@ -37,7 +37,7 @@ class Token extends Base
 			->post($url, [
 				'timeout' => 0,
 				'http_errors' => false,
-				'json' => ['username' => $this->config->get('user_name'), 'password' => $this->config->get('password')]]);
+				'json' => ['username' => $this->config->get('user_name'), 'password' => $this->config->get('password')], ]);
 		\App\Log::endProfile("POST|Token::authorize|{$url}", 'App\Integrations\Magento');
 		if (200 !== $response->getStatusCode()) {
 			throw new AppException($response->getReasonPhrase(), $response->getStatusCode());
@@ -52,11 +52,11 @@ class Token extends Base
 		\App\Log::beginProfile("{$method}|Token::request|{$url}", 'App\Integrations\Magento');
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($method, $url, [
 			'headers' => [
-				'authorization' => 'Bearer ' . $this->token
+				'authorization' => 'Bearer ' . $this->token,
 			],
 			'timeout' => 0,
 			'http_errors' => false,
-			'json' => $params]);
+			'json' => $params, ]);
 		\App\Log::endProfile("{$method}|Token::request|{$url}", 'App\Integrations\Magento');
 		if (200 !== $response->getStatusCode()) {
 			throw new AppException($response->getReasonPhrase(), $response->getStatusCode());

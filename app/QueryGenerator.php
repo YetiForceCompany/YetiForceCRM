@@ -681,7 +681,7 @@ class QueryGenerator
 			$this->addRelatedField([
 				'sourceField' => $sourceFieldName,
 				'relatedModule' => $cvColumn['module_name'],
-				'relatedField' => $fieldName
+				'relatedField' => $fieldName,
 			]);
 		}
 	}
@@ -748,7 +748,7 @@ class QueryGenerator
 						'relatedField' => $fieldName,
 						'sourceField' => $sourceFieldName,
 						'value' => $rule['value'],
-						'operator' => $rule['operator']
+						'operator' => $rule['operator'],
 					]);
 				} else {
 					$condition = $this->getCondition($fieldName, $rule['value'], $rule['operator']);
@@ -796,7 +796,7 @@ class QueryGenerator
 							'relatedField' => $filter['field_name'],
 							'value' => $filter['value'],
 							'operator' => $filter['comparator'],
-							'conditionGroup' => $and
+							'conditionGroup' => $and,
 						]);
 					} else {
 						$this->addCondition($filter['field_name'], $filter['value'], $filter['comparator'], $and);
@@ -1228,7 +1228,7 @@ class QueryGenerator
 			$relatedInfo = [
 				'sourceField' => $sourceFieldName,
 				'relatedModule' => $relatedModule,
-				'relatedField' => $fieldName
+				'relatedField' => $fieldName,
 			];
 		}
 		$relatedModule = $relatedInfo['relatedModule'];

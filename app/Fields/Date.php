@@ -126,7 +126,7 @@ class Date
 			if (!empty($range[0]) && !empty($range[1])) {
 				return [
 					static::formatToDisplay($range[0]),
-					static::formatToDisplay($range[1])
+					static::formatToDisplay($range[1]),
 				];
 			}
 			return false;

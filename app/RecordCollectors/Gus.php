@@ -37,16 +37,16 @@ class Gus extends Base
 	protected $fields = [
 		'vatId' => [
 			'labelModule' => '_Base',
-			'label' => 'Vat ID'
+			'label' => 'Vat ID',
 		],
 		'ncr' => [
 			'labelModule' => '_Base',
-			'label' => 'Registration number 1'
+			'label' => 'Registration number 1',
 		],
 		'taxNumber' => [
 			'labelModule' => '_Base',
-			'label' => 'Registration number 2'
-		]
+			'label' => 'Registration number 2',
+		],
 	];
 
 	/** {@inheritdoc} */
@@ -54,23 +54,23 @@ class Gus extends Base
 		'Accounts' => [
 			'vatId' => 'vat_id',
 			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1'
+			'ncr' => 'registration_number_1',
 		],
 		'Leads' => [
 			'vatId' => 'vat_id',
 			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1'
+			'ncr' => 'registration_number_1',
 		],
 		'Vendors' => [
 			'vatId' => 'vat_id',
 			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1'
+			'ncr' => 'registration_number_1',
 		],
 		'Competition' => [
 			'vatId' => 'vat_id',
 			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1'
-		]
+			'ncr' => 'registration_number_1',
+		],
 	];
 
 	/** {@inheritdoc} */
@@ -119,7 +119,7 @@ class Gus extends Base
 			'Miejscowosc' => 'addresslevel5a',
 			'KodPocztowy' => 'addresslevel7a',
 			'Ulica' => 'addresslevel8a',
-			'NumerBudynku' => 'buildingnumbera'
+			'NumerBudynku' => 'buildingnumbera',
 		],
 		'Vendors' => [
 			'Nazwa' => 'vendorname',
@@ -130,7 +130,7 @@ class Gus extends Base
 			'Miejscowosc' => 'addresslevel5a',
 			'KodPocztowy' => 'addresslevel7a',
 			'Ulica' => 'addresslevel8a',
-			'NumerBudynku' => 'buildingnumbera'
+			'NumerBudynku' => 'buildingnumbera',
 		],
 		'Competition' => [
 			'Nazwa' => 'subject',
@@ -140,7 +140,7 @@ class Gus extends Base
 			'Miejscowosc' => 'addresslevel5a',
 			'KodPocztowy' => 'addresslevel7a',
 			'Ulica' => 'addresslevel8a',
-			'NumerBudynku' => 'buildingnumbera'
+			'NumerBudynku' => 'buildingnumbera',
 		],
 	];
 

@@ -43,14 +43,14 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 			'label' => 'LBL_SHOP_DOMAIN_PREFIX',
 			'type' => 'text',
 			'append' => '.yetiforce.cloud',
-			'validator' => 'required,custom[onlyLetterNumber],minSize[3],maxSize[20]'
+			'validator' => 'required,custom[onlyLetterNumber],minSize[3],maxSize[20]',
 		],
 		'email' => [
 			'label' => 'LBL_EMAIL',
 			'type' => 'email',
 			'info' => 'LBL_EMAIL_INFO',
-			'validator' => 'required,funcCall[Vtiger_Email_Validator_Js.invokeValidation]'
-		]
+			'validator' => 'required,funcCall[Vtiger_Email_Validator_Js.invokeValidation]',
+		],
 	];
 
 	/** {@inheritdoc} */

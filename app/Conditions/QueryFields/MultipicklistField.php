@@ -88,8 +88,8 @@ class MultipicklistField extends BaseField
 				[
 					"%{$this->separator}{$value}{$this->separator}%",
 					"{$value}{$this->separator}%",
-					"%{$this->separator}{$value}"
-				], false
+					"%{$this->separator}{$value}",
+				], false,
 			]);
 		}
 		return $condition;
@@ -108,8 +108,8 @@ class MultipicklistField extends BaseField
 				[
 					"%{$this->separator}{$value}{$this->separator}%",
 					"{$value}{$this->separator}%",
-					"%{$this->separator}{$value}"
-				], false
+					"%{$this->separator}{$value}",
+				], false,
 			]]);
 		}
 		return $condition;

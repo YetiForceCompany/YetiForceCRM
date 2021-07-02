@@ -285,7 +285,7 @@ class RecordFlowUpdater
 		if (false !== $config) {
 			(new \App\BatchMethod([
 				'method' => static::class . '::update',
-				'params' => [\App\Module::getModuleName($config['source_module']), $recordId]
+				'params' => [\App\Module::getModuleName($config['source_module']), $recordId],
 			]))->save();
 		}
 	}

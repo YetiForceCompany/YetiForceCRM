@@ -32,23 +32,23 @@ final class Chat
 			'group' => 'u_#__chat_messages_group',
 			'global' => 'u_#__chat_messages_global',
 			'private' => 'u_#__chat_messages_private',
-			'user' => 'u_#__chat_messages_user'
+			'user' => 'u_#__chat_messages_user',
 		],
 		'room' => [
 			'crm' => 'u_#__chat_rooms_crm',
 			'group' => 'u_#__chat_rooms_group',
 			'global' => 'u_#__chat_rooms_global',
 			'private' => 'u_#__chat_rooms_private',
-			'user' => 'u_#__chat_rooms_user'
+			'user' => 'u_#__chat_rooms_user',
 		],
 		'room_name' => [
 			'crm' => 'u_#__crmentity_label',
 			'group' => 'vtiger_groups',
 			'global' => 'u_#__chat_global',
 			'private' => 'u_#__chat_private',
-			'user' => 'u_#__chat_user'
+			'user' => 'u_#__chat_user',
 		],
-		'users' => 'vtiger_users'
+		'users' => 'vtiger_users',
 	];
 
 	/**
@@ -60,22 +60,22 @@ final class Chat
 			'group' => 'groupid',
 			'global' => 'globalid',
 			'private' => 'privateid',
-			'user' => 'roomid'
+			'user' => 'roomid',
 		],
 		'room' => [
 			'crm' => 'crmid',
 			'group' => 'groupid',
 			'global' => 'global_room_id',
 			'private' => 'private_room_id',
-			'user' => 'roomid'
+			'user' => 'roomid',
 		],
 		'room_name' => [
 			'crm' => 'label',
 			'group' => 'groupname',
 			'global' => 'name',
 			'private' => 'name',
-			'user' => 'roomid'
-		]
+			'user' => 'roomid',
+		],
 	];
 
 	/**
@@ -122,7 +122,7 @@ final class Chat
 	public static function setCurrentRoom(?string $roomType, ?int $recordId)
 	{
 		$_SESSION['chat'] = [
-			'roomType' => $roomType, 'recordId' => $recordId
+			'roomType' => $roomType, 'recordId' => $recordId,
 		];
 	}
 
@@ -191,7 +191,7 @@ final class Chat
 		Db::getInstance()->createCommand()->insert($table, [
 			'userid' => $userId,
 			'last_message' => 0,
-			$recordIdName => $recordId
+			$recordIdName => $recordId,
 		])->execute();
 		$instance->recordId = $recordId;
 		$instance->roomType = $roomType;
@@ -237,12 +237,12 @@ final class Chat
 			->select([new \yii\db\Expression('COUNT(*)')])
 			->from(['CM' => static::TABLE_NAME['message']['global']])
 			->where([
-				'CM.globalid' => new \yii\db\Expression("CR.{$roomIdName}")
+				'CM.globalid' => new \yii\db\Expression("CR.{$roomIdName}"),
 			])->andWhere(['>', 'CM.id', new \yii\db\Expression('CR.last_message')]);
 		$subQuery = (new Db\Query())
 			->select([
 				'CR.*',
-				'cnt_new_message' => $cntQuery
+				'cnt_new_message' => $cntQuery,
 			])
 			->from(['CR' => static::TABLE_NAME['room']['global']]);
 		$query = (new Db\Query())
@@ -302,7 +302,7 @@ final class Chat
 			->select([new \yii\db\Expression('COUNT(*)')])
 			->from(['CM' => static::TABLE_NAME['message']['private']])
 			->where([
-				'CM.privateid' => new \yii\db\Expression('CR.private_room_id')
+				'CM.privateid' => new \yii\db\Expression('CR.private_room_id'),
 			])->andWhere(['>', 'CM.id', new \yii\db\Expression('CR.last_message')]);
 		$subQuery = (new Db\Query())
 			->select([
@@ -451,7 +451,7 @@ final class Chat
 				$rows[$id] = [
 					'recordid' => $id,
 					'name' => $groupName,
-					'roomType' => 'group'
+					'roomType' => 'group',
 				];
 			}
 		}
@@ -475,7 +475,7 @@ final class Chat
 			->select([new \yii\db\Expression('COUNT(*)')])
 			->from(['MESSAGES' => static::TABLE_NAME['message'][$roomType]])
 			->where([
-				'MESSAGES.roomid' => new \yii\db\Expression('ROOM_PINNED.roomid')
+				'MESSAGES.roomid' => new \yii\db\Expression('ROOM_PINNED.roomid'),
 			])->andWhere(['>', 'MESSAGES.id', new \yii\db\Expression('ROOM_PINNED.last_message')]);
 		$query = (new Db\Query())
 			->select(['ROOM_PINNED.last_message', 'ROOM_SRC.userid', 'ROOM_SRC.reluserid', 'recordid' => 'ROOM_SRC.roomid', 'cnt_new_message' => $cntQuery])
@@ -743,7 +743,7 @@ final class Chat
 		$subQueryGlobal = (new Db\Query())
 			->select([
 				static::COLUMN_NAME['message']['global'],
-				'id' => new \yii\db\Expression('max(id)')
+				'id' => new \yii\db\Expression('max(id)'),
 			])->from(static::TABLE_NAME['message']['global'])
 			->groupBy([static::COLUMN_NAME['message']['global']]);
 		return (new Db\Query())
@@ -768,7 +768,7 @@ final class Chat
 		$subQuery = (new Db\Query())
 			->select([
 				static::COLUMN_NAME['message']['private'],
-				'id' => new \yii\db\Expression('max(id)')
+				'id' => new \yii\db\Expression('max(id)'),
 			])->from(static::TABLE_NAME['message']['private'])
 			->groupBy([static::COLUMN_NAME['message']['private']]);
 		return (new Db\Query())
@@ -793,7 +793,7 @@ final class Chat
 		$subQueryCrm = (new Db\Query())
 			->select([
 				static::COLUMN_NAME['message']['crm'],
-				'id' => new \yii\db\Expression('max(id)')
+				'id' => new \yii\db\Expression('max(id)'),
 			])->from(static::TABLE_NAME['message']['crm'])
 			->groupBy([static::COLUMN_NAME['message']['crm']]);
 		return (new Db\Query())
@@ -817,7 +817,7 @@ final class Chat
 		$subQueryGroup = (new Db\Query())
 			->select([
 				static::COLUMN_NAME['message']['group'],
-				'id' => new \yii\db\Expression('max(id)')
+				'id' => new \yii\db\Expression('max(id)'),
 			])->from(static::TABLE_NAME['message']['group'])
 			->groupBy([static::COLUMN_NAME['message']['group']]);
 		return (new Db\Query())
@@ -865,7 +865,7 @@ final class Chat
 				'roomid' => null,
 				'userid' => null,
 				'record_id' => $recordId,
-				'last_message' => null
+				'last_message' => null,
 			];
 		}
 	}
@@ -983,7 +983,7 @@ final class Chat
 			'userid' => $this->userId,
 			'messages' => $message,
 			'created' => date('Y-m-d H:i:s'),
-			static::COLUMN_NAME['message'][$this->roomType] => $this->recordId
+			static::COLUMN_NAME['message'][$this->roomType] => $this->recordId,
 		])->execute();
 		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
 	}
@@ -1070,7 +1070,7 @@ final class Chat
 		$query = (new Db\Query())
 			->select([
 				'id', 'messages', 'GL.userid', 'GL.created',
-				'recordid' => "GL.{$columnMessage}", 'room_name' => "RN.{$columnRoomName}"
+				'recordid' => "GL.{$columnMessage}", 'room_name' => "RN.{$columnRoomName}",
 			])
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
 			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$roomNameId} = GL.{$columnMessage}")
@@ -1132,7 +1132,7 @@ final class Chat
 		if (false !== $row) {
 			$room = [
 				'roomType' => null,
-				'recordId' => null
+				'recordId' => null,
 			];
 		}
 		Cache::save('Chat', 'DefaultRoom', $room);
@@ -1324,7 +1324,7 @@ final class Chat
 				static::TABLE_NAME['room'][$this->roomType],
 				[
 					'userid' => $userId,
-					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
+					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId,
 				]
   )->execute();
 			if ($userId === $this->userId) {
@@ -1370,7 +1370,7 @@ final class Chat
 			[
 				'last_message' => $lastMessage['id'] ?? 0,
 				'userid' => !empty($userId) ? $userId : $this->userId,
-				static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
+				static::COLUMN_NAME['room'][$this->roomType] => $this->recordId,
 			]
 		)->execute();
 	}
@@ -1418,7 +1418,7 @@ final class Chat
 			$roomsTable,
 			[
 				'userid' => $this->userId,
-				'reluserid' => $relUserId
+				'reluserid' => $relUserId,
 			]
 		)->execute();
 		return Db::getInstance()->getLastInsertID("{$roomsTable}_roomid_seq");
@@ -1438,7 +1438,7 @@ final class Chat
 				[
 					'name' => $name,
 					'creatorid' => $this->userId,
-					'created' => date('Y-m-d H:i:s')
+					'created' => date('Y-m-d H:i:s'),
 				]
 			)->execute();
 		Db::getInstance()->createCommand()->insert(
@@ -1446,7 +1446,7 @@ final class Chat
 				[
 					'userid' => $this->userId,
 					'last_message' => 0,
-					static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID("{$table}_{$roomIdColumn}_seq")
+					static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID("{$table}_{$roomIdColumn}_seq"),
 				]
 			)->execute();
 	}
@@ -1624,8 +1624,8 @@ final class Chat
 				['last_message' => $this->lastMessageId],
 				['and', [
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId,
-					'userid' => $this->userId
-				]
+					'userid' => $this->userId,
+				],
 				])->execute();
 			$this->room['last_message'] = $this->lastMessageId;
 		}
@@ -1673,7 +1673,7 @@ final class Chat
 			if ($userPrivilegesModel->hasModulePermission($moduleName)) {
 				$activeModules[] = [
 					'id' => $moduleName,
-					'label' => Language::translate($moduleName, $moduleName)
+					'label' => Language::translate($moduleName, $moduleName),
 				];
 			}
 		}

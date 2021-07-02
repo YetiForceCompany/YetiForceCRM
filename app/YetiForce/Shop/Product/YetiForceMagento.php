@@ -59,7 +59,7 @@ class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 		return [
 			'message' => \App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', 'Settings:Magento', 'Magento'),
 			'type' => 'LBL_REQUIRES_INTERVENTION',
-			'href' => 'index.php?parent=Settings&module=Magento&view=List'
+			'href' => 'index.php?parent=Settings&module=Magento&view=List',
 		];
 	}
 

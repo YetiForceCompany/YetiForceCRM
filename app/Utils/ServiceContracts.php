@@ -248,7 +248,7 @@ class ServiceContracts
 							$times = [
 								'reaction_time' => $row['reaction_time'],
 								'idle_time' => $row['idle_time'],
-								'resolve_time' => $row['resolve_time']
+								'resolve_time' => $row['resolve_time'],
 							];
 						}
 					}

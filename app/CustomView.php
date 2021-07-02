@@ -331,7 +331,7 @@ class CustomView
 			'u_#__cv_condition_group.id',
 			'u_#__cv_condition_group.condition',
 			'u_#__cv_condition_group.parent_id',
-			'group_index' => 'u_#__cv_condition_group.index'
+			'group_index' => 'u_#__cv_condition_group.index',
 		])->from('u_#__cv_condition_group')
 			->leftJoin('u_#__cv_condition', 'u_#__cv_condition.group_id = u_#__cv_condition_group.id')
 			->where(['u_#__cv_condition_group.cvid' => $id])
@@ -351,13 +351,13 @@ class CustomView
 				$referenceParent[$condition['parent_id']][$condition['condition_index']] = [
 					'fieldname' => $fieldName,
 					'operator' => $condition['operator'],
-					'value' => $value
+					'value' => $value,
 				];
 			} elseif (isset($referenceGroup[$condition['parent_id']])) {
 				if ($isEmptyCondition) {
 					$referenceGroup[$condition['parent_id']][$condition['group_index']] = [
 						'condition' => $condition['condition'],
-						'rules' => []
+						'rules' => [],
 					];
 				} else {
 					$referenceGroup[$condition['parent_id']][$condition['group_index']] = [
@@ -366,9 +366,9 @@ class CustomView
 							$condition['condition_index'] => [
 								'fieldname' => $fieldName,
 								'operator' => $condition['operator'],
-								'value' => $value
-							]
-						]
+								'value' => $value,
+							],
+						],
 					];
 				}
 				$referenceParent[$condition['parent_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
@@ -377,7 +377,7 @@ class CustomView
 				if ($isEmptyCondition) {
 					$conditions = [
 						'condition' => $condition['condition'],
-						'rules' => []
+						'rules' => [],
 					];
 				} else {
 					$conditions = [
@@ -386,9 +386,9 @@ class CustomView
 							$condition['condition_index'] => [
 								'fieldname' => $fieldName,
 								'operator' => $condition['operator'],
-								'value' => $value
-							]
-						]
+								'value' => $value,
+							],
+						],
 					];
 				}
 				$referenceParent[$condition['parent_id']] = &$conditions['rules'];

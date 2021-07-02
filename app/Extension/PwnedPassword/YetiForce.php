@@ -47,7 +47,7 @@ class YetiForce extends Base
 				if (isset($response['count'])) {
 					$status = [
 						'message' => \App\Language::translateArgs('LBL_ALERT_PWNED_PASSWORD', 'Settings:Password', $response['count']),
-						'status' => 0 == $response['count']
+						'status' => 0 == $response['count'],
 					];
 				} elseif ($response['error']) {
 					throw new \App\Exceptions\AppException('Error with response |' . $response['error']);

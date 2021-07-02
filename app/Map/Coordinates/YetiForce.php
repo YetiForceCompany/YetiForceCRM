@@ -36,7 +36,7 @@ class YetiForce extends Base
 		], $addressInfo);
 		$options = [
 			'timeout' => 60,
-			'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]
+			'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()],
 		];
 		if (isset($product['params']['token'])) {
 			$params['yf_token'] = $product['params']['token'];

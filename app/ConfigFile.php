@@ -31,7 +31,7 @@ class ConfigFile extends Base
 		'sounds',
 		'search',
 		'component',
-		'layout'
+		'layout',
 	];
 
 	/** @var string Type of configuration file */

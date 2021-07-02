@@ -355,7 +355,7 @@ class InterestsConflict
 						'value' => \App\Json::encode([
 							'base' => $targetModuleName,
 							'related' => $sourceModuleName,
-							'relatedFieldName' => $field['fieldname']
+							'relatedFieldName' => $field['fieldname'],
 						]),
 						'map' => \App\Language::translateSingularModuleName($targetModuleName) . ' << ' . \App\Language::translateSingularModuleName($sourceModuleName) . ' (' . \App\Language::translate($field['fieldlabel'], $sourceModuleName) . ')',
 						'field' => $field,
@@ -378,7 +378,7 @@ class InterestsConflict
 								'intermediate' => $targetModuleName,
 								'intermediateFieldName' => $parent['field']['fieldname'],
 								'related' => $sourceModuleName,
-								'relatedFieldName' => $field['fieldname']
+								'relatedFieldName' => $field['fieldname'],
 							]),
 							'map' => $parent['map'] . ' << ' . \App\Language::translateSingularModuleName($sourceModuleName) . ' (' . \App\Language::translate($field['fieldlabel'], $sourceModuleName) . ')',
 						];

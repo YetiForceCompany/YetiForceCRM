@@ -60,7 +60,7 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 		return [
 			'message' => \App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', 'Settings:MailIntegration', 'Outlook'),
 			'type' => 'LBL_REQUIRES_INTERVENTION',
-			'href' => 'index.php?parent=Settings&module=MailIntegration&view=Index'
+			'href' => 'index.php?parent=Settings&module=MailIntegration&view=Index',
 		];
 	}
 

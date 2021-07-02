@@ -34,7 +34,7 @@ trait SettingsPermission
 			\App\Process::addEvent([
 				'name' => 'showSuperUserVisitPurpose',
 				'type' => 'modal',
-				'url' => 'index.php?module=Users&view=VisitPurpose'
+				'url' => 'index.php?module=Users&view=VisitPurpose',
 			]);
 		}
 	}

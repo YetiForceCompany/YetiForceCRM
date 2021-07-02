@@ -940,7 +940,7 @@ class File
 			'size' => $file->getSize(),
 			'type' => $file->getMimeType(),
 			'tmp_name' => $file->getPath(),
-			'error' => 0
+			'error' => 0,
 		];
 		$record->save();
 		$file->delete();
@@ -1225,7 +1225,7 @@ class File
 						'size' => \vtlib\Functions::showBytes($file->getSize()),
 						'key' => $key,
 						'hash' => $request->getByType('hash', 'Alnum'),
-						'info' => $additionalNotes
+						'info' => $additionalNotes,
 					];
 				} else {
 					$db->createCommand()->delete(static::TABLE_NAME_TEMP, ['key' => $key])->execute();
@@ -1448,7 +1448,7 @@ class File
 				'size' => \vtlib\Functions::showBytes($file->getSize()),
 				'key' => $key,
 				'hash' => \md5_file($savePath . $key),
-				'path' => $savePath . $key
+				'path' => $savePath . $key,
 			];
 		}
 		$file->delete();
@@ -1476,7 +1476,7 @@ class File
 						'size' => \vtlib\Functions::showBytes($file->getSize()),
 						'key' => $key,
 						'hash' => \md5_file($savePath . $key),
-						'path' => $savePath . $key
+						'path' => $savePath . $key,
 					];
 				}
 			} else {

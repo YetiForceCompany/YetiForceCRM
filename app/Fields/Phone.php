@@ -80,5 +80,4 @@ class Phone
 		}
 		throw new \App\Exceptions\FieldException('LBL_INVALID_PHONE_NUMBER');
 	}
-
 }

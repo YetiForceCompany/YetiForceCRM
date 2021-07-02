@@ -150,7 +150,7 @@ abstract class Page extends Base
 				'linklabel' => 'LBL_VIDEO_CONFERENCE',
 				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . \App\User::getCurrentUserRealId()],
 				'icon' => 'mdi mdi-card-account-phone c-mdi',
-				'linkclass' => 'js-show-modal'
+				'linkclass' => 'js-show-modal',
 			];
 		}
 		if ($userModel->isAdmin() || $userModel->isSuperUser()) {

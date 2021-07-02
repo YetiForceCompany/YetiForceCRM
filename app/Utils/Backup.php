@@ -53,7 +53,7 @@ class Backup
 				}
 			} else {
 				$record = [
-					'name' => $element->getBasename()
+					'name' => $element->getBasename(),
 				];
 				if ($element->isDir()) {
 					if ($element->isReadable()) {

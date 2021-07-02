@@ -83,15 +83,15 @@ class Benchmarks
 		return [
 			'math' => [
 				'operations' => $mathOperations,
-				'time' => (int) ($mathOperations / $mathTime)
+				'time' => (int) ($mathOperations / $mathTime),
 			],
 			'hash' => [
 				'operations' => $hashOperations,
-				'time' => (int) ($hashOperations / $hashTime)
+				'time' => (int) ($hashOperations / $hashTime),
 			],
 			'string' => [
 				'operations' => $stringOperations,
-				'time' => (int) ($stringOperations / $stringTime)
+				'time' => (int) ($stringOperations / $stringTime),
 			],
 		];
 	}
@@ -131,11 +131,11 @@ class Benchmarks
 		return [
 			'read' => [
 				'operations' => $readOperations,
-				'time' => (int) ($readOperations / $readTime)
+				'time' => (int) ($readOperations / $readTime),
 			],
 			'write' => [
 				'operations' => $writeOperations,
-				'time' => (int) ($writeOperations / $writeTime)
+				'time' => (int) ($writeOperations / $writeTime),
 			],
 		];
 	}
@@ -169,7 +169,7 @@ class Benchmarks
 			}
 			$write[$key] = [
 				'operations' => $writeOperations,
-				'time' => (int) ($writeOperations / (microtime(true) - $timeStart))
+				'time' => (int) ($writeOperations / (microtime(true) - $timeStart)),
 			];
 		}
 		foreach ([1, 10, 100] as $value) {
@@ -190,7 +190,7 @@ class Benchmarks
 			}
 			$read[$value] = [
 				'operations' => $readOperations,
-				'time' => (int) ($readOperations / (microtime(true) - $timeStart))
+				'time' => (int) ($readOperations / (microtime(true) - $timeStart)),
 			];
 		}
 		register_shutdown_function(function () {

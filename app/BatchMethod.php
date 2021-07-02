@@ -33,7 +33,7 @@ class BatchMethod extends Base
 		'userid' => 'integer',
 		'status' => 'integer',
 		'params' => 'string',
-		'method' => 'string'
+		'method' => 'string',
 	];
 
 	/** Previous status */
@@ -168,7 +168,7 @@ class BatchMethod extends Base
 			'method' => $this->get('method'),
 			'params' => $this->get('params'),
 			'userid' => $this->get('userid'),
-			'message' => $message
+			'message' => $message,
 		])->execute();
 	}
 }

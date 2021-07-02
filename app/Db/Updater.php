@@ -118,11 +118,7 @@ class Updater
 			try {
 				$s += $dbCommand->update($row[0], $row[1], $row[2])->execute();
 			} catch (\Throwable $th) {
-				throw new \App\Exceptions\DbException(\App\Utils::varExport([
-					'tableName' => $row[0],
-					'columns' => $row[1],
-					'conditions' => $row[2] ?? null,
-				]) . PHP_EOL . $th->__toString(), $th->getCode());
+				throw new \App\Exceptions\DbException(\App\Utils::varExport(['tableName' => $row[0], 'columns' => $row[1], 'conditions' => $row[2] ?? null]) . PHP_EOL . $th->__toString(), $th->getCode());
 			}
 		}
 		return ['affected' => $s, 'all' => \count($rows)];
@@ -152,11 +148,7 @@ class Updater
 					++$s;
 				}
 			} catch (\Throwable $th) {
-				throw new \App\Exceptions\DbException(\App\Utils::varExport([
-					'tableName' => $row[0],
-					'columns' => $row[1],
-					'conditions' => $row[2] ?? null,
-				]) . PHP_EOL . $th->__toString(), $th->getCode());
+				throw new \App\Exceptions\DbException(\App\Utils::varExport(['tableName' => $row[0], 'columns' => $row[1], 'conditions' => $row[2] ?? null]) . PHP_EOL . $th->__toString(), $th->getCode());
 			}
 		}
 		return ['affected' => $s, 'all' => \count($rows)];
@@ -183,10 +175,7 @@ class Updater
 			try {
 				$s += $dbCommand->delete($row[0], $row[1])->execute();
 			} catch (\Throwable $th) {
-				throw new \App\Exceptions\DbException(\App\Utils::varExport([
-					'tableName' => $row[0],
-					'conditions' => $row[1] ?? null,
-				]) . PHP_EOL . $th->__toString(), $th->getCode());
+				throw new \App\Exceptions\DbException(\App\Utils::varExport(['tableName' => $row[0], 'conditions' => $row[1] ?? null]) . PHP_EOL . $th->__toString(), $th->getCode());
 			}
 		}
 		return ['affected' => $s, 'all' => \count($rows)];

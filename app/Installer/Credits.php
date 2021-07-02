@@ -52,7 +52,7 @@ class Credits
 			'license' => 'YetiForce Public License v3',
 			'homepage' => 'https://yetiforce.com/en/yetiforce/license',
 			'notPackageFile' => true,
-			'showLicenseModal' => true
+			'showLicenseModal' => true,
 		],
 		'Vtiger' => [
 			'name' => 'Vtiger',
@@ -60,7 +60,7 @@ class Credits
 			'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/',
 			'notPackageFile' => true,
 			'showLicenseModal' => true,
-			'description' => 'LBL_VTIGER_DESCRIPTION'
+			'description' => 'LBL_VTIGER_DESCRIPTION',
 		],
 		'Sugar' => [
 			'name' => 'Sugar CRM',
@@ -69,7 +69,7 @@ class Credits
 			'homepage' => 'https://www.sugarcrm.com/',
 			'notPackageFile' => true,
 			'showLicenseModal' => true,
-			'description' => 'LBL_SUGAR_DESCRIPTION'
+			'description' => 'LBL_SUGAR_DESCRIPTION',
 		],
 		'ChatSound' => [
 			'name' => 'Notification Sounds - Time Is Now',
@@ -78,7 +78,7 @@ class Credits
 			'homepage' => 'https://notificationsounds.com/notification-sounds/time-is-now-585',
 			'notPackageFile' => true,
 			'showLicenseModal' => false,
-			'description' => 'LBL_CHAT_SOUND_DESCRIPTION'
+			'description' => 'LBL_CHAT_SOUND_DESCRIPTION',
 		],
 	];
 

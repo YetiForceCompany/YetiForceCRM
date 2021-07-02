@@ -82,7 +82,7 @@ class Yours extends Base
 			'startLat' => $startLat,
 			'startLon' => $startLon,
 			'endLat' => $this->end['lat'],
-			'endLon' => $this->end['lon']
+			'endLon' => $this->end['lon'],
 		];
 		return $tracks;
 	}

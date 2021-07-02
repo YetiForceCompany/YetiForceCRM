@@ -255,7 +255,7 @@ abstract class AbstractBaseProduct
 			'p3' => 1,
 			'item_name' => $this->name,
 			'currency_code' => $this->currencyCode,
-			'on0' => 'Package'
+			'on0' => 'Package',
 		];
 		if (!$productSelection) {
 			$data['os0'] = \App\Company::getSize();

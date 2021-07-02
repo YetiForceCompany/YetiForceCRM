@@ -86,7 +86,7 @@ class YetiForcePDF extends PDF
 		'top' => 40,
 		'bottom' => 40,
 		'header' => 10,
-		'footer' => 10
+		'footer' => 10,
 	];
 
 	/**

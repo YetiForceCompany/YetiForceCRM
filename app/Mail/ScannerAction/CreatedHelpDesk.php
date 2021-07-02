@@ -61,7 +61,7 @@ class CreatedHelpDesk extends Base
 				'reverse' => true,
 				'relatedModule' => 'OSSMailView',
 				'relatedRecords' => [$mailId],
-				'params' => $scanner->get('date')
+				'params' => $scanner->get('date'),
 			];
 		}
 		$recordModel->save();

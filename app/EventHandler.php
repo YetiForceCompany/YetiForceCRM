@@ -193,7 +193,7 @@ class EventHandler
 					'exclude_modules' => $excludeModules,
 					'priority' => $priority,
 					'owner_id' => $ownerId,
-					'privileges' => $mode
+					'privileges' => $mode,
 				])->execute();
 			static::clearCache();
 		}

@@ -94,12 +94,12 @@ class Config extends \App\Base
 		if (false !== $name) {
 			$data = [
 				'name' => "{$type}_last_scan_{$name}",
-				'value' => $id
+				'value' => $id,
 			];
 		} else {
 			$data = [
 				'name' => $type . '_start_scan_date',
-				'value' => date('Y-m-d H:i:s')
+				'value' => date('Y-m-d H:i:s'),
 			];
 		}
 		if (!(new Query())->from(self::TABLE_NAME)->where(['server_id' => $this->get('id'), 'name' => $data['name']])->exists()) {
@@ -127,11 +127,11 @@ class Config extends \App\Base
 		$saveData = [
 			[
 				'name' => $type . '_end_scan_date',
-				'value' => $date
+				'value' => $date,
 			], [
 				'name' => $type . '_last_scan_id',
-				'value' => 0
-			]
+				'value' => 0,
+			],
 		];
 		foreach ($saveData as $data) {
 			if (!(new Query())->from(self::TABLE_NAME)->where(['server_id' => $this->get('id'), 'name' => $data['name']])->exists()) {

@@ -84,7 +84,7 @@ class RecordStatus
 			'response_expected' => 'FL_RESPONSE_EXPECTED',
 			'solution_expected' => 'FL_SOLUTION_EXPECTED',
 			'idle_expected' => 'FL_IDLE_DATE_EXPECTED',
-		]
+		],
 	];
 
 	/**
@@ -97,7 +97,7 @@ class RecordStatus
 		return [
 			self::RECORD_STATE_NO_CONCERN => 'LBL_RECORD_STATE_NO_CONCERN',
 			self::RECORD_STATE_OPEN => 'LBL_RECORD_STATE_OPEN',
-			self::RECORD_STATE_CLOSED => 'LBL_RECORD_STATE_CLOSED'
+			self::RECORD_STATE_CLOSED => 'LBL_RECORD_STATE_CLOSED',
 		];
 	}
 
@@ -173,7 +173,7 @@ class RecordStatus
 				}
 				EventHandler::update([
 					'is_active' => 1,
-					'include_modules' => \implode(',', $modules)
+					'include_modules' => \implode(',', $modules),
 				], $handler['eventhandler_id']);
 			}
 		}
@@ -207,7 +207,7 @@ class RecordStatus
 						'fieldTypeList' => 0,
 						'generatedtype' => 1,
 						'displayType' => 2,
-						'helpinfo' => 'Detail'
+						'helpinfo' => 'Detail',
 					]);
 				}
 			}
@@ -251,7 +251,7 @@ class RecordStatus
 				}
 				EventHandler::update([
 					'is_active' => $modules ? 1 : 0,
-					'include_modules' => \implode(',', $modules)
+					'include_modules' => \implode(',', $modules),
 				], $handler['eventhandler_id']);
 			}
 		}
@@ -276,7 +276,7 @@ class RecordStatus
 					'crmid' => $recordModel->getId(),
 					'before' => $before,
 					'after' => $after,
-					'date' => date('Y-m-d H:i:s')
+					'date' => date('Y-m-d H:i:s'),
 				])->execute();
 			Cache::save("RecordStatus::StateDates::{$recordModel->getId()}", $after, date('Y-m-d H:i:s'));
 		}

@@ -173,7 +173,7 @@ class Order extends Inventory
 					'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":0}',
 					'purchase' => 0,
 					'taxparam' => '{"aggregationType":"individual","individualTax":' . $tax . '}',
-					'comment1' => ''
+					'comment1' => '',
 				];
 			}
 		}
@@ -229,10 +229,10 @@ class Order extends Inventory
 		return [
 			'entity' => array_merge([
 				'entity_id' => $this->dataCrm['magento_id'],
-				'increment_id' => $this->dataCrm['subject']
+				'increment_id' => $this->dataCrm['subject'],
 			],
 				self::$statusForMagento[$this->dataCrm['ssingleorders_status']]
-			)
+			),
 		];
 	}
 }

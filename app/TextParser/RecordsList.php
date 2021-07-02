@@ -52,7 +52,7 @@ class RecordsList extends Base
 				$roles[] = [
 					'fieldname' => $fieldModel->getCustomViewSelectColumnName((string) $fieldModel->get('source_field_name')),
 					'operator' => $operator,
-					'value' => $value
+					'value' => $value,
 				];
 			}
 			if ($searchParams = $pdf->getVariable('search_params')) {
@@ -61,7 +61,7 @@ class RecordsList extends Base
 			$roles[] = \App\CustomView::getConditions($cvId);
 			$conditions = [
 				'condition' => 'AND',
-				'rules' => array_filter($roles)
+				'rules' => array_filter($roles),
 			];
 			$html .= $this->parseConditions($conditions, $listView->getQueryGenerator());
 		}
@@ -130,7 +130,7 @@ class RecordsList extends Base
 					$queryField = $queryGenerator->getQueryRelatedField([
 						'relatedModule' => $moduleName,
 						'relatedField' => $fieldName,
-						'sourceField' => $sourceFieldName
+						'sourceField' => $sourceFieldName,
 					]);
 				} else {
 					$queryField = $queryGenerator->getQueryField($fieldName);

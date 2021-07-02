@@ -34,7 +34,7 @@ class RecordSearch
 		'PLL_FULLTEXT_WORD' => 'FulltextWord',
 		'PLL_CONTAINS' => 'Contain',
 		'PLL_STARTS_WITH' => 'Begin',
-		'PLL_ENDS_WITH' => 'End'
+		'PLL_ENDS_WITH' => 'End',
 	];
 
 	public $searchValue;

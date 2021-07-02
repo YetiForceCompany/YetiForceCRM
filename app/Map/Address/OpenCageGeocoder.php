@@ -30,7 +30,7 @@ class OpenCageGeocoder extends Base
 		],
 		'key' => [
 			'type' => 'text',
-			'validator' => 'required,custom[onlyLetterNumber]'
+			'validator' => 'required,custom[onlyLetterNumber]',
 		],
 	];
 	/**
@@ -84,7 +84,7 @@ class OpenCageGeocoder extends Base
 					}
 					$rows[] = [
 						'label' => $row['formatted'],
-						'address' => \call_user_func_array($mappingFunction, [$row])
+						'address' => \call_user_func_array($mappingFunction, [$row]),
 					];
 				}
 			}

@@ -28,6 +28,6 @@ class ErrorCodes
 	public static $errorCodesMail = [
 		1 => 'No SMTP configuration id provided',
 		2 => 'SMTP configuration with provided id not exists',
-		3 => 'No target email address provided'
+		3 => 'No target email address provided',
 	];
 }

@@ -39,7 +39,7 @@ class TextParser
 		'LBL_RECORDS_LIST' => '$(recordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
 		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(custom : dynamicInventoryColumnsTable)$',
-		'LBL_BARCODE' => '$(barcode : type=EAN13 class=DNS1D , value=12345678)$'
+		'LBL_BARCODE' => '$(barcode : type=EAN13 class=DNS1D , value=12345678)$',
 	];
 
 	/**
@@ -991,7 +991,7 @@ class TextParser
 			foreach (explode(',', $columns) as $fieldName) {
 				$headerFields[] = [
 					'field_name' => $fieldName,
-					'module_name' => $moduleName
+					'module_name' => $moduleName,
 				];
 			}
 			$listView->set('header_fields', $headerFields);
@@ -1749,7 +1749,7 @@ class TextParser
 	{
 		preg_match('/type=(\w+)/', $params, $matches);
 		$config = [
-			'type' => ($matches[1] ?? false)
+			'type' => ($matches[1] ?? false),
 		];
 		$params = ltrim($params, $matches[0] . ' ');
 		foreach (explode(' , ', $params) as $value) {

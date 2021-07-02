@@ -66,12 +66,12 @@ class Vies extends Base
 				'SI' => 'Slovenia',
 				'SK' => 'Slovakia',
 			],
-			'typeofdata' => 'V~M'
+			'typeofdata' => 'V~M',
 		],
 		'vatNumber' => [
 			'labelModule' => '_Base',
 			'label' => 'Vat ID',
-			'typeofdata' => 'V~M'
+			'typeofdata' => 'V~M',
 		],
 	];
 
@@ -88,7 +88,7 @@ class Vies extends Base
 		],
 		'Competition' => [
 			'vatNumber' => 'vat_id',
-		]
+		],
 	];
 
 	/**

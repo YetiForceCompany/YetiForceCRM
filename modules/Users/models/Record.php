@@ -197,7 +197,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			\App\Db::getInstance('log')->createCommand()->insert('l_#__username_history', [
 				'user_name' => $valuesForSave['vtiger_users']['user_name'],
 				'user_id' => $this->getId(),
-				'date' => date('Y-m-d H:i:s')
+				'date' => date('Y-m-d H:i:s'),
 			])->execute();
 		}
 	}
@@ -703,7 +703,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 					'linkurl' => $this->getDuplicateRecordUrl(),
 					'linkicon' => 'fas fa-clone',
 					'linkclass' => 'btn-outline-dark btn-sm',
-					'title' => \App\Language::translate('LBL_DUPLICATE_RECORD')
+					'title' => \App\Language::translate('LBL_DUPLICATE_RECORD'),
 				];
 			}
 		}
@@ -713,7 +713,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
 					'linkicon' => 'fas fa-eraser',
-					'linkclass' => 'btn-sm btn-primary deleteRecordButton'
+					'linkclass' => 'btn-sm btn-primary deleteRecordButton',
 				];
 			} else {
 				$recordLinks['LBL_DELETE_USER_PERMANENTLY'] = [
@@ -1074,7 +1074,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				'name' => 'ShowUserPasswordChange',
 				'priority' => 3,
 				'type' => 'modal',
-				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId()
+				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId(),
 			]);
 			return;
 		}
@@ -1090,7 +1090,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				'name' => 'ShowUserPasswordChange',
 				'priority' => 3,
 				'type' => 'modal',
-				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId()
+				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId(),
 			]);
 		}
 	}

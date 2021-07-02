@@ -31,7 +31,7 @@ class YetiForceHelp extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Small' => 80,
 		'Medium' => 200,
 		'Large' => 400,
-		'Corporation' => 800
+		'Corporation' => 800,
 	];
 	/** {@inheritdoc} */
 	public $featured = true;

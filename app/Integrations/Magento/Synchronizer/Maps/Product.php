@@ -42,7 +42,7 @@ class Product extends Base
 
 	/** {@inheritdoc} */
 	public static $fieldsDefaultValue = [
-		'description' => ''
+		'description' => '',
 	];
 
 	/**

@@ -157,7 +157,7 @@ class InterestsConflict extends \App\Controller\Action
 			'draw' => $request->getInteger('draw'),
 			'iTotalRecords' => (new \App\Db\Query())->from('u_#__interests_conflict_unlock')->count(),
 			'iTotalDisplayRecords' => $query->count(),
-			'aaData' => $rows
+			'aaData' => $rows,
 		];
 	}
 
@@ -207,7 +207,7 @@ class InterestsConflict extends \App\Controller\Action
 	public function getConfirmResponse(\App\Request $request): array
 	{
 		$queries = [
-			'base' => $this->getConfirmQuery($request, 'u')
+			'base' => $this->getConfirmQuery($request, 'u'),
 		];
 		if ($request->getBoolean('showHistory')) {
 			$queries['log'] = $this->getConfirmQuery($request, 'b');
@@ -260,7 +260,7 @@ class InterestsConflict extends \App\Controller\Action
 			'draw' => $request->getInteger('draw'),
 			'iTotalRecords' => $all,
 			'iTotalDisplayRecords' => $filter,
-			'aaData' => $rows
+			'aaData' => $rows,
 		];
 	}
 

@@ -37,7 +37,7 @@ class Logger extends AbstractLogger
 		$this->logs[] = [
 			$level,
 			$message,
-			$context
+			$context,
 		];
 	}
 }

@@ -188,7 +188,7 @@ abstract class Base
 				'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $data['shipping']['total']['shipping_discount_amount'] . '}',
 				'purchase' => 0,
 				'taxparam' => '{"aggregationType":"individual","individualTax":' . round($tax) . '}',
-				'comment1' => ''
+				'comment1' => '',
 			];
 		}
 		return [];

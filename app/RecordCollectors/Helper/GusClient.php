@@ -31,11 +31,11 @@ class GusClient extends \SoapClient
 			'1' => 'BIR11OsFizycznaDzialalnoscCeidg',
 			'2' => 'BIR11OsFizycznaDzialalnoscRolnicza',
 			'3' => 'BIR11OsFizycznaDzialalnoscPozostala',
-			'4' => 'BIR11OsFizycznaDzialalnoscSkreslonaDo20141108'
+			'4' => 'BIR11OsFizycznaDzialalnoscSkreslonaDo20141108',
 		],
 		'LF' => 'BIR11OsFizycznaDzialalnoscSkreslonaDo20141108',
 		'P' => 'BIR11OsPrawna',
-		'LP' => 'BIR11JednLokalnaOsPrawnej'
+		'LP' => 'BIR11JednLokalnaOsPrawnej',
 	];
 	/**
 	 * Mapping field from report to number local field in record.
@@ -47,7 +47,7 @@ class GusClient extends \SoapClient
 		'BIR11OsFizycznaDzialalnoscSkreslonaDo20141108' => 'fiz_adSiedzNumerNieruchomosci',
 		'BIR11OsFizycznaDzialalnoscPozostala' => 'fiz_adSiedzNumerNieruchomosci',
 		'BIR11OsFizycznaDzialalnoscRolnicza' => 'fiz_adSiedzNumerNieruchomosci',
-		'BIR11OsFizycznaDzialalnoscCeidg' => 'fiz_adSiedzNumerNieruchomosci'
+		'BIR11OsFizycznaDzialalnoscCeidg' => 'fiz_adSiedzNumerNieruchomosci',
 	];
 	/**
 	 * Variable for mapping report names to value prefix.

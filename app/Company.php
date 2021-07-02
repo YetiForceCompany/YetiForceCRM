@@ -27,7 +27,7 @@ class Company extends Base
 		'Small' => 50,
 		'Medium' => 250,
 		'Large' => 1000,
-		'Corporation' => 0
+		'Corporation' => 0,
 	];
 
 	/**
@@ -58,12 +58,12 @@ class Company extends Base
 		if ($name) {
 			Db::getInstance('admin')->createCommand()
 				->update('s_#__companies', [
-					'status' => $status
+					'status' => $status,
 				], ['name' => $name])->execute();
 		}
 		Db::getInstance('admin')->createCommand()
 			->update('s_#__companies', [
-				'status' => $status
+				'status' => $status,
 			])->execute();
 	}
 

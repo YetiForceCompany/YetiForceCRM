@@ -58,7 +58,7 @@ class ReferenceField extends BaseField
 					$referenceTable = $relField->getTableName() . $fieldName;
 					$this->queryGenerator->addJoin(['LEFT JOIN',
 						"{$relField->getTableName()} {$referenceTable}",
-						"{$this->getColumnName()} = {$referenceTable}.{$relTableIndexes[$relField->getTableName()]}"
+						"{$this->getColumnName()} = {$referenceTable}.{$relTableIndexes[$relField->getTableName()]}",
 					]);
 					$formattedTables[] = "{$referenceTable}.{$column}";
 				}

@@ -91,7 +91,7 @@ $this->pageTitle = \App\Language::translate('LBL_CONFIRMATIONS', 'Settings:Inter
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
-			'components.InterestsConflict'
+			'components.InterestsConflict',
 		]));
 	}
 

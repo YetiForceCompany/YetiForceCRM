@@ -749,7 +749,7 @@ class Vtiger_Record_Model extends \App\Base
 	 * @param int    $recordId
 	 * @param string $module
 	 *
-	 * @return \Vtiger_Record_Model Module Specific Record Model instance
+	 * @return $this Module Specific Record Model instance
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{

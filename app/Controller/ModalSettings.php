@@ -31,7 +31,7 @@ abstract class ModalSettings extends Modal
 		$viewName = $request->getByType('view', 2);
 		return $this->checkAndConvertJsScripts([
 			"modules.Settings.Vtiger.resources.$viewName",
-			"modules.Settings.{$request->getModule()}.resources.$viewName"
+			"modules.Settings.{$request->getModule()}.resources.$viewName",
 		]);
 	}
 
@@ -47,7 +47,7 @@ abstract class ModalSettings extends Modal
 		$viewName = $request->getByType('view', 2);
 		return $this->checkAndConvertCssStyles([
 			"modules.Settings.Vtiger.$viewName",
-			"modules.Settings.{$request->getModule()}.$viewName"
+			"modules.Settings.{$request->getModule()}.$viewName",
 		]);
 	}
 

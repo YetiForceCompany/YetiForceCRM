@@ -27,12 +27,12 @@ class Install_InitSchema_Model
 				->update('vtiger_currency_info', [
 					'currency_name' => $_SESSION['config_file_info']['currency_name'],
 					'currency_code' => $_SESSION['config_file_info']['currency_code'],
-					'currency_symbol' => $_SESSION['config_file_info']['currency_symbol']
+					'currency_symbol' => $_SESSION['config_file_info']['currency_symbol'],
 				])->execute();
 			$this->db->createCommand()
 				->update('vtiger_version', [
 					'current_version' => \App\Version::get(),
-					'old_version' => \App\Version::get()
+					'old_version' => \App\Version::get(),
 				])->execute();
 			// recalculate all sharing rules for users
 			require_once 'include/utils/CommonUtils.php';
@@ -117,6 +117,10 @@ class Install_InitSchema_Model
 		$userRecordModel = Users_Record_Model::getInstanceById(1, 'Users');
 		$userRecordModel->set('user_password', $_SESSION['config_file_info']['password']);
 		$userRecordModel->save();
+		$this->db->createCommand()
+			->update('vtiger_users', [
+				'force_password_change' => 0,
+			])->execute();
 		require_once 'app/UserPrivilegesFile.php';
 		\App\UserPrivilegesFile::createUserPrivilegesfile(1);
 	}

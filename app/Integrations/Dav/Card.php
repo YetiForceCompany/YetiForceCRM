@@ -32,7 +32,7 @@ class Card
 				'addresslevel2a' => ['state'],
 				'addresslevel5a' => ['city'],
 				'addresslevel8a' => ['street'],
-				'localnumbera' => ['localNumber']
+				'localnumbera' => ['localNumber'],
 			],
 			'HOME' => [
 				'addresslevel1b' => ['country'],
@@ -40,7 +40,7 @@ class Card
 				'addresslevel2b' => ['state'],
 				'addresslevel5b' => ['city'],
 				'addresslevel8b' => ['street'],
-				'localnumberb' => ['localNumber']
+				'localnumberb' => ['localNumber'],
 			],
 		],
 		'OSSEmployees' => [
@@ -157,10 +157,10 @@ class Card
 			'uri' => $uri,
 			'synctoken' => (int) $addressBook['synctoken'],
 			'addressbookid' => $addressBookId,
-			'operation' => $operation
+			'operation' => $operation,
 		])->execute();
 		$dbCommand->update('dav_addressbooks', [
-			'synctoken' => ((int) $addressBook['synctoken']) + 1
+			'synctoken' => ((int) $addressBook['synctoken']) + 1,
 		], ['id' => $addressBookId])
 			->execute();
 	}

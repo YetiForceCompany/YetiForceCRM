@@ -35,7 +35,7 @@ class NominatimGeocoder extends Base
 		],
 		'map_url' => [
 			'type' => 'url',
-			'validator' => 'required,funcCall[Vtiger_Url_Validator_Js.invokeValidation]'
+			'validator' => 'required,funcCall[Vtiger_Url_Validator_Js.invokeValidation]',
 		],
 	];
 
@@ -60,7 +60,7 @@ class NominatimGeocoder extends Base
 			'addressdetails' => 1,
 			'limit' => \App\Map\Address::getConfig()['global']['result_num'],
 			'accept-language' => \App\Language::getLanguage() . ',' . \App\Config::main('default_language') . ',en-US',
-			'q' => $value
+			'q' => $value,
 		];
 		if (!empty($this->config['country_codes'])) {
 			$params['countrycodes'] = $this->config['country_codes'];
@@ -94,7 +94,7 @@ class NominatimGeocoder extends Base
 					}
 					$rows[] = [
 						'label' => $row['display_name'],
-						'address' => \call_user_func_array($mappingFunction, [$row])
+						'address' => \call_user_func_array($mappingFunction, [$row]),
 					];
 				}
 			}

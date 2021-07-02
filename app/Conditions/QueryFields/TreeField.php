@@ -71,8 +71,8 @@ class TreeField extends StringField
 				[
 					"%{$this->separator}{$value}{$this->separator}%",
 					"{$value}{$this->separator}%",
-					"%{$this->separator}{$value}"
-				], false
+					"%{$this->separator}{$value}",
+				], false,
 			]);
 		}
 		return $condition;
