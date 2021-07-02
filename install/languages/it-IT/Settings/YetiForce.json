@@ -8,7 +8,7 @@
     "LBL_REGISTERED": "Registrazione riuscita",
     "LBL_REGISTRATION_KEY": "Chiave di registrazione",
     "LBL_REGISTRATION_OFFLINE_DESC": "Per registrare una versione del sistema che non ha accesso a Internet invia un'email a %s con i seguenti dati:",
-    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Soggetto: Registrazione offline di YetiForce\n\nMessaggio:\nRegistrazione CRM:\nIl nome della tua azienda:\nPaese:\nCittà:\nIl numero di dipendenti dell'azienda:\nIl sito web della tua azienda:\nChiave prodotto: %s \nID APP: %s\nVersione: %s",
+    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nCompany name or first and last name:\nCountry:\nCity:\nThe number of employees of the company:\nYour company's website:\nProduct key: %s \nAPP ID: %s\nVersion: %s",
     "LBL_SUPPLIERS": "Fornitori",
     "LBL_INVALID_OFFLINE_KEY": "Inserita chiave non corretta",
     "LBL_ONLINE_REGISTRATION_FAILED": "Errore durante la registrazione",

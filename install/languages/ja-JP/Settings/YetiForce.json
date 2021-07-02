@@ -8,7 +8,7 @@
     "LBL_REGISTERED": "登録が完了しました",
     "LBL_REGISTRATION_KEY": "登録キー",
     "LBL_REGISTRATION_OFFLINE_DESC": "インターネットにアクセスできないバージョンのシステムを登録するには、次のデータを持つ %s に電子メールを送信します",
-    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nThe name of your company:\nCountry:\nCity:\nThe number of employees of the company:\nYour company's website:\nProduct key: %s \nAPP ID: %s\nVersion: %s",
+    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nCompany name or first and last name:\nCountry:\nCity:\nThe number of employees of the company:\nYour company's website:\nProduct key: %s \nAPP ID: %s\nVersion: %s",
     "LBL_SUPPLIERS": "仕入先",
     "LBL_INVALID_OFFLINE_KEY": "入力された不正な鍵です",
     "LBL_ONLINE_REGISTRATION_FAILED": "登録中のエラーです。",

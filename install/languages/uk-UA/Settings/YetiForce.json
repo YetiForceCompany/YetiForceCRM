@@ -8,7 +8,7 @@
     "LBL_REGISTERED": "Реєстрація пройшла успішно",
     "LBL_REGISTRATION_KEY": "Реєстраційний ключ",
     "LBL_REGISTRATION_OFFLINE_DESC": "Для реєстрації версії системи, що не має доступу до інтернету, відправляйте email до %s з наступними даними",
-    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nThe name of your company:\nCountry:\nCity:\nThe number of employees of the company:\nYour company's website:\nProduct key: %s \nAPP ID: %s\nVersion: %s",
+    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nCompany name or first and last name:\nCountry:\nCity:\nThe number of employees of the company:\nYour company's website:\nProduct key: %s \nAPP ID: %s\nVersion: %s",
     "LBL_SUPPLIERS": "Постачальники",
     "LBL_INVALID_OFFLINE_KEY": "Введено неправильний ключ",
     "LBL_ONLINE_REGISTRATION_FAILED": "Помилка при реєстрації.",

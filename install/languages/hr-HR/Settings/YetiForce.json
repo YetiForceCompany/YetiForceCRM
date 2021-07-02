@@ -8,7 +8,7 @@
     "LBL_REGISTERED": "Registracija uspješna",
     "LBL_REGISTRATION_KEY": "Registracija ključ",
     "LBL_REGISTRATION_OFFLINE_DESC": "Da biste registrirali verziju sistema koja nema pristup internetu, pošaljite poruku %s sa sljedećim podacima",
-    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nThe name of your company:\nCountry:\nCity:\nThe number of employees of the company:\nYour company's website:\nProduct key: %s \nAPP ID: %s\nVersion: %s",
+    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nCompany name or first and last name:\nCountry:\nCity:\nThe number of employees of the company:\nYour company's website:\nProduct key: %s \nAPP ID: %s\nVersion: %s",
     "LBL_SUPPLIERS": "Dobavljači",
     "LBL_INVALID_OFFLINE_KEY": "Unesen neispravan ključ",
     "LBL_ONLINE_REGISTRATION_FAILED": "Grešaka tokom registracije.",

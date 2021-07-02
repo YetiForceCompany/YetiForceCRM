@@ -8,7 +8,7 @@
     "LBL_REGISTERED": "تم التسجيل بنجاح",
     "LBL_REGISTRATION_KEY": "مفتاح التسجيل:",
     "LBL_REGISTRATION_OFFLINE_DESC": "تسجيل نسخة من النظام الذي لا يوجد لديه إمكانية الوصول إلى الإنترنت إرسال بريد إلكتروني إلى %s مع البيانات التالية",
-    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nThe name of your company:\nCountry:\nCity:\nThe number of employees of the company:\nYour company's website:\nProduct key: %s \nAPP ID: %s\nVersion: %s",
+    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nCompany name or first and last name:\nCountry:\nCity:\nThe number of employees of the company:\nYour company's website:\nProduct key: %s \nAPP ID: %s\nVersion: %s",
     "LBL_SUPPLIERS": "الموردون",
     "LBL_INVALID_OFFLINE_KEY": "دخلت غير صحيحة الرئيسية",
     "LBL_ONLINE_REGISTRATION_FAILED": "عرض أثناء التسجيل",
