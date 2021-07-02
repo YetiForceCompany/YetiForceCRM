@@ -1,5 +1,5 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /**
  * Retrieves a color value from the $material-colors Sass map
  * Inspired by https://github.com/nilskaspersson/Google-Material-UI-Color-Palette/
@@ -10,7 +10,7 @@
  * @param {string} [color-variant='500']  - quoted, lowercase color variant (e.g.
  *                                          '200', 'a100')
  */
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -12348,7 +12348,7 @@ a.text-dark:hover, a.text-dark:focus {
   .flag-icon-xk.flag-icon-squared {
     background-image: url(../../../libraries/flag-icon-css/flags//1x1/xk.svg); }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (max-width: 767.98px) {
   .daterangepicker.show-calendar.js-visible {
     display: flex;
@@ -12663,7 +12663,7 @@ body:not(.desktop) .ps__rail-y {
 .dataTables_processing {
   z-index: 4000; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table thead th, .c-detail-widget__table thead th,
 .table-bordered thead td {
   border-bottom-width: 1px; }
@@ -12774,7 +12774,7 @@ label.btn[class*="btn-outline-"]:not(.active) {
     border-bottom: none;
     border-right: 1px solid #dee2e6; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardWidgetCalendar .fc-widget-content .fc-scroller.fc-day-grid-container {
   height: 18.6rem !important; }
 
@@ -12964,7 +12964,7 @@ label.btn[class*="btn-outline-"]:not(.active) {
 .fc-event {
   color: #353c44 !important; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .quasar-reset .row,
 body > .q-dialog:not(.quasar-reset) .row {
   margin: unset;
@@ -13014,7 +13014,7 @@ body > .q-dialog:not(.quasar-reset) .q-field .col {
   .singleComment .comment-actions {
     visibility: hidden; } }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media print {
   .noprint {
     display: none; } }
@@ -15572,7 +15572,7 @@ ul.tweets li {
 .c-menu--open .marketplace-product {
   max-width: 24.875rem; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table td.wide:not(.listButtons), .c-detail-widget__table td.wide:not(.listButtons),
 .listViewEntries td.wide:not(.listButtons),
 td.listViewEntryValue.wide:not(.listButtons) {
@@ -15653,7 +15653,7 @@ table .listButtons {
 table .listButtons.narrow .c-badge__icon {
   font-size: 0.625rem; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .u-fs-1x {
   font-size: 1rem !important; }
 
@@ -17321,7 +17321,7 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
     position: static;
     display: block; } }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,
 .bodyContents,
 .mainContainer,
@@ -17863,7 +17863,7 @@ input[type="checkbox"][disabled] {
   .hideSiteBar .o-expandable__panel__tabs {
     right: 0px; } }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
   background-color: #ddd;
@@ -18036,7 +18036,7 @@ input[type="checkbox"][disabled] {
   height: 2.1875rem;
   opacity: 0.8; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 input[type="checkbox"] {
   border: 1px solid rgba(0, 0, 0, 0.54);
   width: 17px;
@@ -18136,7 +18136,7 @@ input[type="radio"]:checked {
 input[type="radio"]:checked:before {
   background-color: #4a5364; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-condition-builder__row {
   position: relative;
   margin-left: 1.25rem; }
@@ -18175,7 +18175,7 @@ input[type="radio"]:checked:before {
   .c-condition-builder__group .c-condition-builder__group:last-of-type::after {
     height: 1.4375rem; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 body {
   overflow: hidden; }
 
@@ -18325,7 +18325,7 @@ body > .o-exception-fixed-block {
 .o-min-width {
   width: min-content; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-header {
   background-color: #4a5364;
   top: 0;
@@ -18660,7 +18660,7 @@ body > .o-exception-fixed-block {
   .c-menu__container.js-expand + .c-header .c-header__btn__container {
     margin-bottom: 0.25rem; } }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .user-info--active .c-menu__container {
   bottom: calc(2rem + 1rem); }
 
@@ -19022,7 +19022,7 @@ ul.c-process-line {
   ul.c-process-line li.c-process-line__active > a:after {
     border-left: 20px solid #5bc0de !important; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-footer {
   background: #343a40;
   height: 2rem;
@@ -19073,7 +19073,7 @@ ul.c-process-line {
   .c-footer--user-info-active {
     height: 2rem; } }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .modal-content {
   -moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
@@ -19163,7 +19163,7 @@ ul.c-process-line {
 .clonedPopupUi.modal {
   top: 3.125rem; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardContainer {
   padding: 0; }
   .dashboardContainer .dashboardHeading hr {
@@ -19365,7 +19365,7 @@ ul.c-process-line {
 .inventoryItems .subProductsContainer ul {
   margin-bottom: 0; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .calendarViewContainer .widget_header {
   margin-right: -20px;
   margin-left: -25px; }
@@ -20064,7 +20064,7 @@ ul.c-process-line {
 .fc-day-top.fc-mon {
   position: relative; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (max-width: 767.98px) {
   .o-view-detail {
     font-size: 90%; } }
@@ -20536,7 +20536,7 @@ ul.c-process-line {
 .process-content .c-panel__body {
   padding: 0 0.25rem 0.25rem 0.25rem; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .paginationDiv .listViewBasicAction.dropdown-menu {
   width: 35%; }
 
@@ -20697,7 +20697,7 @@ td.fieldValue .input-group {
     top: 0;
     left: 0; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (min-width: 992px) {
   .c-list-preview {
     float: left;
@@ -20805,14 +20805,14 @@ td.fieldValue .input-group {
       margin-right: 0;
       margin-bottom: 10px; } }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-menu-shortcut .close {
   display: none; }
 
 .c-menu-shortcut:hover .close {
   display: inline-block; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .o-small-product {
   height: 100%;
   cursor: pointer; }
@@ -20839,7 +20839,7 @@ td.fieldValue .input-group {
     .o-shop__nav__item .yfi.yfi-for-partners {
       font-size: 1.1875rem; }
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (max-width: 991.98px) {
   .c-module-table-row {
     width: calc(100vw - 4.125rem); } }
