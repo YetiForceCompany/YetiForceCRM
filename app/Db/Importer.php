@@ -760,7 +760,7 @@ class Importer
 						}
 					}
 					if ($status) {
-						$this->logs .= "  > update primary key: {$primaryKey[0]} , table: $tableName , column: {$primaryKey[1]} ... ";
+						$this->logs .= "  > update primary key: {$primaryKey[0]} , table: $tableName , column: " . (\is_array($primaryKey[1]) ? implode(',', $primaryKey[1]) : $primaryKey[1]) . ' ... ';
 						$start = microtime(true);
 						try {
 							if (isset($dbPrimaryKeys[$primaryKey[0]])) {
