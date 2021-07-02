@@ -68,17 +68,17 @@
 		.js-tree-container {
 			.input-group {
 				@extend .input-group-sm;
-				 .input-group-prepend {
+				.input-group-prepend {
 					border-top-right-radius: 0 !important;
 					border-bottom-right-radius: 0 !important;
-				 }
-				 .input-group-append {
+				}
+				.input-group-append {
 					border-top-left-radius: 0 !important;
 					border-bottom-left-radius: 0 !important;
-				 }
-				 input {
+				}
+				input {
 					border-radius: 0 !important;
-				 }
+				}
 			}
 		}
 	}
@@ -142,7 +142,6 @@
 		.fc-bg {
 			pointer-events: none;
 		}
-
 	}
 
 	.widgeticons {

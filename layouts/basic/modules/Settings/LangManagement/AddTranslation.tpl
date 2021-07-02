@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="modal fade AddNewTranslationMondal" tabindex="-1" role="dialog" aria-labelledby="AddTranslation" aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content">	
+		<div class="modal-content">
 			<div class="modal-header">
 				<h5 id="AddTranslation" class="modal-title">{\App\Language::translate('LBL_ADD_Translate',$QUALIFIED_MODULE)}</h5>
 				<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
@@ -9,7 +9,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal AddTranslationForm">	
+				<form class="form-horizontal AddTranslationForm">
 					<input type="hidden" name="langs" value="" />
 					<div class="form-group">
 						<label for="translation_type" class="col-sm-4 col-form-label">{\App\Language::translate('LBL_TranslationType', $QUALIFIED_MODULE)}:</label>
@@ -28,7 +28,7 @@
 					</div>
 					<div class="add_translation_block">
 					</div>
-				</form>	
+				</form>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-primary">{\App\Language::translate('LBL_AddLanguage', $QUALIFIED_MODULE)}</button>

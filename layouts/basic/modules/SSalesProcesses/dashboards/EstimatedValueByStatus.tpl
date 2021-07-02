@@ -14,4 +14,3 @@
 <div class="dashboardWidgetContent">
 	{include file=\App\Layout::getTemplatePath('dashboards/DashBoardWidgetContents.tpl', $MODULE_NAME)}
 </div>
-

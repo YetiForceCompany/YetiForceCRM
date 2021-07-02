@@ -3,4 +3,4 @@
 	<div class="row">
 
 	</div>
-{/strip}	
+{/strip}

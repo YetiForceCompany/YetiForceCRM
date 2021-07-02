@@ -5,9 +5,7 @@
  * Class representing a standard calendar.
  * @extends Calendar_Js
  */
-window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends (
-	Calendar_Js
-) {
+window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	constructor(container, readonly) {
 		super(container, readonly, false);
 		this.browserHistory = false;

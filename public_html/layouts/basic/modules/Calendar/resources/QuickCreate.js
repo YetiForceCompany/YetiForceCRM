@@ -5,9 +5,7 @@
  *  Class representing a modal calendar.
  * @extends Calendar_CalendarExtended_Js
  */
-window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends (
-	Calendar_CalendarExtended_Js
-) {
+window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calendar_CalendarExtended_Js {
 	constructor(container, readonly) {
 		super(container, readonly);
 		this.isSwitchAllDays = false;

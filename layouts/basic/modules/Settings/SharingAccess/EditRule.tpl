@@ -51,7 +51,7 @@
 										</optgroup>
 									{/foreach}
 								</select>
-							</div>	
+							</div>
 						</div>
 						<div class="row form-group align-items-center">
 							<label class="col-md-5 col-form-label text-right">{\App\Language::translate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>

@@ -726,8 +726,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 
 				@at-root .c-calendar-quickcreate #{&} {
 					height: calc(
-						100vh - #{$h-footer} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} -
-							#{$modal-body-paddings}
+						100vh - #{$h-footer} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
 					);
 					overflow-y: auto;
 					overflow-x: hidden;
@@ -808,15 +807,13 @@ $h-calendar-form-actions: calculate-rem(49px);
 		}
 		.user-info--active .c-calendar-quickcreate .o-calendar__form__wrapper {
 			height: calc(
-				100vh - #{$h-footer-user-info} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} -
-					#{$modal-body-paddings}
+				100vh - #{$h-footer-user-info} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
 			);
 		}
 
 		.limited-footer--active .c-calendar-quickcreate .o-calendar__form__wrapper {
 			height: calc(
-				100vh - #{$h-footer-limited} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} -
-					#{$modal-body-paddings}
+				100vh - #{$h-footer-limited} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
 			);
 		}
 

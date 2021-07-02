@@ -16,4 +16,4 @@
 			</select>
 		</div>
 	</div>
-{/strip}	
+{/strip}
