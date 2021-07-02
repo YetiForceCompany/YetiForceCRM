@@ -13,7 +13,7 @@
 namespace Config;
 
 /**
- * Configuration Class.
+ * Configuration file: Config\Performance.
  */
 class Performance
 {

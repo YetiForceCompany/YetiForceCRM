@@ -13,7 +13,7 @@
 namespace Config;
 
 /**
- * Configuration Class.
+ * Configuration file: Config\Security.
  */
 class Security
 {
@@ -118,7 +118,12 @@ class Security
 
 	/**
 	 * User authentication mode.
-	 * @see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.
+	 *
+	 * @see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE
+	 * Available values:
+	 * TOTP_OFF - 2FA TOTP is checking off
+	 * TOTP_OPTIONAL - It is defined by the user
+	 * TOTP_OBLIGATORY - It is obligatory.
 	 */
 	public static $USER_AUTHY_MODE = 'TOTP_OPTIONAL';
 
@@ -196,6 +201,9 @@ class Security
 
 	/** @var bool Ask admin about visit purpose */
 	public static $askAdminAboutVisitPurpose = true;
+
+	/** @var bool Ask admin about switch users purpose */
+	public static $askAdminAboutVisitSwitchUsers = true;
 
 	/** @var bool Ask super user about visit purpose, only for the settings part */
 	public static $askSuperUserAboutVisitPurpose = true;
