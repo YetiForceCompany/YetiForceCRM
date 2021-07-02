@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<form id="pdfExportModal" class="tpl-Vtiger-ExportPDF" action="index.php?module={$MODULE_NAME}&action=PDF&mode=generate" target="_blank" method="POST">
 		<div class="modal-header">

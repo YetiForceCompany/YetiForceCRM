@@ -1,51 +1,15 @@
-YetiForce Public License v3
-Open license based on MIT license
-Copyright (c) 2017 YetiForce Sp. z o.o. (Ltd.)
+YetiForce Public License v4
+Producer: YetiForce Sp. z oo, PL1180002425
+Email: registration@yetiforce.com (registration of the Software)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,  and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
-The inclusion of abovementioned notices may be in a form of an active link to the license, as stated in Appendix A. 
+a) Any file under this license must contain the content of the license or a link to the content of the license;
+b) The Software must, if technically possible, be registered with the Software Manufacturer using the built-in form or via e-mail as described on the Producer’s website. Each Entity that uses, configures or modifies the Software is subject to registration, regardless of whether it registers the Software for itself or on behalf of other entities. In the case of groups of people, i.e. an organization, company, family or any group of people, it is enough to register only a group of people by providing the data of the organization / company or data of one person from the family / group. If, despite many correct attempts to register the Software, there is no reply from the Producer, the Entity may generate the registration keys on its own;
+c) Data used for registration must be true. All provided registration information, including the company’s name, can be used by YetiForce Sp. z o.o. (Ltd.) for marketing purposes (i.e. preparation of statistics, publication on the website).
+YetiForce Sp. z o.o. (Ltd.) does not sell or transfer that data to other entities and guarantees confidentiality of personal data.
+d) The content of the system footer, printouts and emails (including links and mechanisms controlling product registration and purchase of paid products) cannot be changed in the system, unless a written consent from the Producer is obtained or an official addon sold by the Producer is purchased, which allows the purchaser to modify the footer. The color of the footer can be changed as long as the footer content remains legible.
+e) In the case of products marked as paid, an appropriate license / subscription must be purchased from the Producer or an official Producer Partner;
+f) The entity using the Software is obligated to keep a history of changes introduced into the Software and, at the request of the Producer, enable an inspection to verify that the Entity complies with the terms of this license. The inspection may not take place more often than once every 3 years;
 
-The Software used for more than 14 days must be registered via the built-in form. 
-If such registration is not possible, further use of the Software requires registration via email (registration@yetiforce.com), as stated in Appendix B. 
-The registration form is properly submitted if sent (data entry to electronic communication system) and if it contains complete and true data. 
-Registration is mandatory for any company (registration does not apply to employees of these companies or private individuals) that uses, configures and/or modifies the Software, regardless of whether the entity does it for itself or for other subjects.
-
-Data used for registration must be true. All sent registration information, including the company’s name, may be used by YetiForce Sp. z o.o. (Ltd.) for marketing purposes (i.e. preparation of statistics, publication on the website). 
-YetiForce Sp. z o.o. (Ltd.) does not sell or transfer that data to other entities and guarantees its confidentiality.
-
-By using the Software, it is forbidden to remove or alter the content of the system footer, including referrals to the website and social media of YetiForce Sp. z o.o. (Ltd.). 
-The footer can be customized in color as long as the system template changes, provided the readability is maintained. 
-The footer of the system may be removed with the prior written consent of YetiForce Sp. z o.o. (Ltd.).
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-Appendix A
-
-
-Minimal description of the license and copyrights required for PHP files; it can be expanded by phpDocumentator elements unless they modify the license and/or existing copyrights to files.
-/**
-* @copyright YetiForce Sp. z o.o.
-* @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
-*/
-
-Minimal description of the license and copyrights required for TPL files; it can be expanded by additional elements unless these changes  modify the license and/or existing copyrights to files.
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-
-Minimal description of the license and copyrights required for JS files; it can be expanded by additional elements unless these changes  modify the license and/or existing copyrights to files.
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
-
-Appendix B
-
-
-All data below must be true, it is an obligatory condition of registering the product that results from the license terms. 
-1. Registration information (data below is used for statistical purposes and may be published on the producer’s website):
-	Full company name
-	Country
-	City
-	Company size
-2. Product key - enter the unique product key that can be seen on the administrator’s panel main page.
-
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

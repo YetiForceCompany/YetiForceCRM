@@ -3,7 +3,7 @@
  * Date time range class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-install-tpl-StepChooseHost -->
 {assign var=COL_CLASS value='col-12 col-lg-4 text-white p-1 p-lg-2 p-xl-3 pt-xl-2 d-flex flex-column'}

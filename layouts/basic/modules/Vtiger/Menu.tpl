@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<nav class="tpl-Menu js-menu__content c-menu__content" id="submenu-0" data-js="container" aria-label="{\App\Language::translate("LBL_MAIN_MENU")}" data-js="keydown | focus">
 		<ul class="nav flex-column modulesList">
 			{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}

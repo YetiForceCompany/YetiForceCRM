@@ -4,7 +4,7 @@
  * Export to XML Class for PDF Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Maciej Stencel <m.stencel@yetiforce.com>
  */
 class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Action

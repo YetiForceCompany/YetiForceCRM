@@ -185,7 +185,7 @@
 						<p>Copyright © YetiForce.com All rights reserved.</p>
 						<p class="my-2">The Program is provided AS IS, without warranty. Licensed under
 							<a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" class="ml-2" target="_blank" rel="noreferrer noopener">
-								<strong>YetiForce Public License 3.0</strong>
+								<strong>YetiForce Public License 4.0</strong>
 							</a>.
 						</p>
 						<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br/><br/>
@@ -194,7 +194,7 @@
 							<p>
 								<span class="badge badge-secondary mr-2">License</span>
 								<a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" target="_blank" rel="noreferrer noopener">
-									<strong>YetiForce Public License 3.0</strong>
+									<strong>YetiForce Public License 4.0</strong>
 								</a>
 							</p>
 							<p>
