@@ -4,7 +4,7 @@
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
 ![release date](https://img.shields.io/github/release-date/YetiForceCompany/YetiForceCRM)
 ![PHP Version](https://img.shields.io/packagist/php-v/yetiforce/yetiforce-crm)
-[![Tested on PHP 7.3 to nightly](https://img.shields.io/badge/tested%20on-PHP%207.3%20|%207.4%20|%208.0%20-brightgreen.svg?maxAge=2419200)](https://github.com/PHPCompatibility/PHPCompatibility/actions?query=workflow%3Atests)
+[![Tested on PHP 7.3 to nightly](https://img.shields.io/badge/tested%20on-PHP%207.3%20|%207.4%20|%208.0%20-brightgreen.svg?maxAge=2419200)](https://github.com/YetiForceCompany/YetiForceCRM/actions?query=workflow%3Atests)
 [![Download YetiForce CRM](https://img.shields.io/sourceforge/dt/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
 [![GitHub contributors](https://img.shields.io/github/contributors/YetiForceCompany/YetiForceCRM.svg)](https://GitHub.com/YetiForceCompany/YetiForceCRM/graphs/contributors/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
