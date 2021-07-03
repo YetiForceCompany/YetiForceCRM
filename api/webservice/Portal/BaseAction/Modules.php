@@ -34,8 +34,8 @@ class Modules extends \Api\RestApi\BaseAction\Modules
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of permitted modules",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Modules_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Modules_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Get_Modules_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Get_Modules_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
@@ -51,7 +51,7 @@ class Modules extends \Api\RestApi\BaseAction\Modules
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseAction_Modules_ResponseBody",
+	 *		schema="BaseAction_Get_Modules_Response",
 	 *		title="Base action - List of permitted modules",
 	 *		description="List of available modules",
 	 *		type="object",

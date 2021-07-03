@@ -62,8 +62,8 @@ class Pdf extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Generate PDF",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Pdf_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Pdf_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_Pdf_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_Pdf_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
@@ -85,7 +85,7 @@ class Pdf extends \Api\Core\BaseAction
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseAction_Pdf_ResponseBody",
+	 *		schema="BaseModule_Get_Pdf_Response",
 	 *		title="Base module - Generate PDF response schema",
 	 *		type="object",
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),

@@ -56,8 +56,8 @@ class PdfTemplates extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Get PDF templates list",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_PdfTemplates_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_PdfTemplates_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_PdfTemplates_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_PdfTemplates_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
@@ -79,7 +79,7 @@ class PdfTemplates extends \Api\Core\BaseAction
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseAction_PdfTemplates_ResponseBody",
+	 *		schema="BaseModule_Get_PdfTemplates_Response",
 	 *		title="Base module - Get PDF templates list response schema",
 	 *		type="object",
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),

@@ -34,22 +34,22 @@ class Login extends \Api\RestApi\Users\Login
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data format",
-	 *    		@OA\JsonContent(ref="#/components/schemas/Users_Login_RequestBody"),
+	 *    		@OA\JsonContent(ref="#/components/schemas/Users_Post_Login_Request"),
 	 *     		@OA\MediaType(
 	 *         		mediaType="multipart/form-data",
-	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/Users_Post_Login_Request")
 	 *     		),
 	 *     		@OA\MediaType(
 	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/Users_Post_Login_Request")
 	 *     		),
 	 *		),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="User details",
-	 *			@OA\JsonContent(ref="#/components/schemas/Users_Login_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/Users_Login_ResponseBody")
+	 *			@OA\JsonContent(ref="#/components/schemas/Users_Post_Login_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Users_Post_Login_Response")
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
@@ -135,7 +135,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *		),
 	 *	),
 	 *	@OA\Schema(
-	 * 		schema="Users_Login_RequestBody",
+	 * 		schema="Users_Post_Login_Request",
 	 * 		title="Users module - Users login request body",
 	 * 		description="JSON or form-data",
 	 *		type="object",
@@ -155,7 +155,7 @@ class Login extends \Api\RestApi\Users\Login
 	 *		)
 	 *	),
 	 *	@OA\Schema(
-	 * 		schema="Users_Login_ResponseBody",
+	 * 		schema="Users_Post_Login_Response",
 	 * 		title="Users module - Users login response body",
 	 * 		description="Users login response body",
 	 *		type="object",
