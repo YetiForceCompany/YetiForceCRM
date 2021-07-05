@@ -34,7 +34,7 @@ use OpenApi\Annotations as OA;
  *     		url="https://yetiforce.com/"
  *   	),
  *   	@OA\License(
- *    		name="YetiForce Public License v3",
+ *    		name="YetiForce Public License",
  *     		url="https://yetiforce.com/en/yetiforce/license"
  *   	),
  *	)

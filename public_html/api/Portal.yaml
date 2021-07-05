@@ -8,7 +8,7 @@ info:
     url: 'https://yetiforce.com/'
     email: devs@yetiforce.com
   license:
-    name: 'YetiForce Public License v3'
+    name: 'YetiForce Public License'
     url: 'https://yetiforce.com/en/yetiforce/license'
   version: '0.2'
 servers:
@@ -39,13 +39,13 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/BaseAction_Files_Request'
+              $ref: '#/components/schemas/BaseAction_Put_Files_Request'
           application/json:
             schema:
-              $ref: '#/components/schemas/BaseAction_Files_Request'
+              $ref: '#/components/schemas/BaseAction_Put_Files_Request'
           application/xml:
             schema:
-              $ref: '#/components/schemas/BaseAction_Files_Request'
+              $ref: '#/components/schemas/BaseAction_Put_Files_Request'
       responses:
         '200':
           description: 'File content, mediaType is dynamic depending on the type of file being downloaded'
@@ -115,20 +115,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BaseAction_Install_RequestBody'
+              $ref: '#/components/schemas/BaseAction_Put_Install_Request'
           application/xml:
             schema:
-              $ref: '#/components/schemas/BaseAction_Install_RequestBody'
+              $ref: '#/components/schemas/BaseAction_Put_Install_Request'
       responses:
         '200':
           description: 'Base action details'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseAction_Install_ResponseBody'
+                $ref: '#/components/schemas/BaseAction_Put_Install_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseAction_Install_ResponseBody'
+                $ref: '#/components/schemas/BaseAction_Put_Install_Response'
       security:
         -
           basicAuth: []
@@ -153,10 +153,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseAction_Menu_ResponseBody'
+                $ref: '#/components/schemas/BaseAction_Get_Menu_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseAction_Menu_ResponseBody'
+                $ref: '#/components/schemas/BaseAction_Get_Menu_Response'
       security:
         -
           basicAuth: []
@@ -182,10 +182,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseAction_Modules_ResponseBody'
+                $ref: '#/components/schemas/BaseAction_Get_Modules_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseAction_Modules_ResponseBody'
+                $ref: '#/components/schemas/BaseAction_Get_Modules_Response'
         '401':
           description: '`No sent token` OR `Invalid token`'
           content:
@@ -361,10 +361,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseAction_Dashboard_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Dashboard_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseAction_Dashboard_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Dashboard_Response'
       security:
         -
           basicAuth: []
@@ -398,10 +398,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseModule_Fields_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Fields_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseModule_Fields_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Fields_Response'
       security:
         -
           basicAuth: []
@@ -435,10 +435,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseAction_Hierarchy_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Hierarchy_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseAction_Hierarchy_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Hierarchy_Response'
         '405':
           description: '`No hierarchy` OR `Not available for this type of user`'
           content:
@@ -499,10 +499,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseAction_Pdf_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Pdf_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseAction_Pdf_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Pdf_Response'
         '403':
           description: 'No permissions to view record'
           content:
@@ -571,10 +571,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseAction_PdfTemplates_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_PdfTemplates_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseAction_PdfTemplates_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_PdfTemplates_Response'
         '403':
           description: 'No permissions to view record'
           content:
@@ -635,10 +635,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseModule_Privileges_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Privileges_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseModule_Privileges_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Privileges_Response'
       security:
         -
           basicAuth: []
@@ -1115,10 +1115,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseModule_RecordRelatedList_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_RecordRelatedList_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseModule_RecordRelatedList_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_RecordRelatedList_Response'
         '400':
           description: 'Relationship does not exist'
           content:
@@ -1277,10 +1277,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseModule_RecordsList_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_RecordsList_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseModule_RecordsList_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_RecordsList_Response'
         '400':
           description: 'Incorrect json syntax: x-fields'
           content:
@@ -1728,10 +1728,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Products_RecordsList_ResponseBody'
+                $ref: '#/components/schemas/Products_Get_RecordsList_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Products_RecordsList_ResponseBody'
+                $ref: '#/components/schemas/Products_Get_RecordsList_Response'
         '400':
           description: 'Incorrect json syntax: x-fields'
           content:
@@ -1889,23 +1889,23 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Users_Login_RequestBody'
+              $ref: '#/components/schemas/Users_Post_Login_Request'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Users_Login_RequestBody'
+              $ref: '#/components/schemas/Users_Post_Login_Request'
           application/json:
             schema:
-              $ref: '#/components/schemas/Users_Login_RequestBody'
+              $ref: '#/components/schemas/Users_Post_Login_Request'
       responses:
         '200':
           description: 'User details'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Users_Login_ResponseBody'
+                $ref: '#/components/schemas/Users_Post_Login_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Users_Login_ResponseBody'
+                $ref: '#/components/schemas/Users_Post_Login_Response'
         '401':
           description: '`Invalid data access` OR `Invalid user password` OR `No crmid` OR `2FA verification error`'
           content:
@@ -1957,10 +1957,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsersLogoutResponseBody'
+                $ref: '#/components/schemas/Users_Put_Logout_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/UsersLogoutResponseBody'
+                $ref: '#/components/schemas/Users_Put_Logout_Response'
       security:
         -
           basicAuth: []
@@ -2122,10 +2122,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Users_RecordsList_ResponseBody'
+                $ref: '#/components/schemas/Users_Get_RecordsList_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Users_RecordsList_ResponseBody'
+                $ref: '#/components/schemas/Users_Get_RecordsList_Response'
         '400':
           description: 'Incorrect json syntax: x-fields'
           content:
@@ -2416,7 +2416,7 @@ paths:
           token: []
 components:
   schemas:
-    BaseAction_Files_Request:
+    BaseAction_Put_Files_Request:
       title: 'Base action - Files request schema'
       description: 'Action parameters to download the file'
       required:
@@ -2448,11 +2448,11 @@ components:
           type: string
           example: 14f01c4ea4da107c4145f0519ea1b9027fb24aa7MS2AqcUFuC
       type: object
-    BaseAction_Install_RequestBody:
+    BaseAction_Put_Install_Request:
       title: 'Base action - Install response'
       description: 'The representation of a base action install'
       type: object
-    BaseAction_Install_ResponseBody:
+    BaseAction_Put_Install_Response:
       title: 'Base action - Install response'
       description: 'The representation of a base action install'
       properties:
@@ -2466,7 +2466,7 @@ components:
           description: 'Content of responses from a given method'
           type: object
       type: object
-    BaseAction_Menu_ResponseBody:
+    BaseAction_Get_Menu_Response:
       title: 'Base action - Menu'
       description: 'Base action menu response body'
       properties:
@@ -2502,7 +2502,7 @@ components:
                 type: object
           type: object
       type: object
-    BaseAction_Modules_ResponseBody:
+    BaseAction_Get_Modules_Response:
       title: 'Base action - List of permitted modules'
       description: 'List of available modules'
       properties:
@@ -2601,7 +2601,7 @@ components:
           type: boolean
           example: false
       type: object
-    BaseAction_Dashboard_ResponseBody:
+    BaseModule_Get_Dashboard_Response:
       title: 'Base module - Dashboard response schema'
       description: 'Get widgets.'
       properties:
@@ -2635,7 +2635,7 @@ components:
                 type: object
           type: object
       type: object
-    BaseModule_Fields_ResponseBody:
+    BaseModule_Get_Fields_Response:
       title: 'Base module - Response action fields'
       description: 'Fields, blocks and inventory details'
       required:
@@ -2769,7 +2769,7 @@ components:
               type: object
           type: object
       type: object
-    BaseAction_Hierarchy_ResponseBody:
+    BaseModule_Get_Hierarchy_Response:
       title: 'Base module - Hierarchy response schema'
       description: 'Get records hierarchy.'
       properties:
@@ -2796,7 +2796,7 @@ components:
                 example: 'YetiForce Sp. z o.o.'
             type: object
       type: object
-    BaseAction_Pdf_ResponseBody:
+    BaseModule_Get_Pdf_Response:
       title: 'Base module - Generate PDF response schema'
       description: 'Get method - Generate PDF.'
       properties:
@@ -2820,7 +2820,7 @@ components:
                 format: binary
             type: object
       type: object
-    BaseAction_PdfTemplates_ResponseBody:
+    BaseModule_Get_PdfTemplates_Response:
       title: 'Base module - Get PDF templates list response schema'
       description: 'Get method - Get PDF templates list.'
       properties:
@@ -2851,7 +2851,7 @@ components:
                 example: 1
             type: object
       type: object
-    BaseModule_Privileges_ResponseBody:
+    BaseModule_Get_Privileges_Response:
       title: 'Base module - Privileges response schema'
       description: 'Get privileges for module.'
       properties:
@@ -3108,7 +3108,7 @@ components:
               example: true
           type: object
       type: object
-    BaseModule_RecordRelatedList_ResponseBody:
+    BaseModule_Get_RecordRelatedList_Response:
       title: 'Base module - Response action related record list'
       description: 'Module action related record list response body'
       required:
@@ -3177,7 +3177,7 @@ components:
               example: 54
           type: object
       type: object
-    BaseModule_RecordsList_ResponseBody:
+    BaseModule_Get_RecordsList_Response:
       title: 'Base module - Response action record list'
       description: 'Module action record list response body'
       required:
@@ -3547,7 +3547,7 @@ components:
               type: object
           type: object
       type: object
-    Products_RecordsList_ResponseBody:
+    Products_Get_RecordsList_Response:
       title: 'Products - Response action record list'
       description: 'Module action record list response body'
       properties:
@@ -3709,7 +3709,7 @@ components:
       example:
         column_name1: 'searched value 1'
         column_name2: 'searched value 2'
-    Users_Login_RequestBody:
+    Users_Post_Login_Request:
       title: 'Users module - Users login request body'
       description: 'JSON or form-data'
       required:
@@ -3750,7 +3750,7 @@ components:
               example: d520c7a8-421b-4563-b955-f5abc56b97ec
           type: object
       type: object
-    Users_Login_ResponseBody:
+    Users_Post_Login_Response:
       title: 'Users module - Users login response body'
       description: 'Users login response body'
       required:
@@ -3954,7 +3954,7 @@ components:
               example: '#0 api\webservice\Portal\BaseAction\Files.php (101) ....'
           type: object
       type: object
-    UsersLogoutResponseBody:
+    Users_Put_Logout_Response:
       title: 'Users module - Users logout response body'
       description: 'JSON data'
       required:
@@ -4021,7 +4021,7 @@ components:
               type: object
           type: object
       type: object
-    Users_RecordsList_ResponseBody:
+    Users_Get_RecordsList_Response:
       title: 'Users module - Response action users list'
       description: 'Module action record list response body'
       properties:

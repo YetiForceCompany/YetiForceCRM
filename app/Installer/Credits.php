@@ -47,9 +47,9 @@ class Credits
 	 */
 	public static $libraries = [
 		'YetiForce' => [
-			'name' => 'Yetiforce',
-			'version' => '4.4',
-			'license' => 'YetiForce Public License v3',
+			'name' => 'YetiForce',
+			'version' => '6.2',
+			'license' => 'YetiForce Public License 4.0',
 			'homepage' => 'https://yetiforce.com/en/yetiforce/license',
 			'notPackageFile' => true,
 			'showLicenseModal' => true,

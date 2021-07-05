@@ -10,7 +10,7 @@
             "email": "devs@yetiforce.com"
         },
         "license": {
-            "name": "YetiForce Public License v3",
+            "name": "YetiForce Public License",
             "url": "https://yetiforce.com/en/yetiforce/license"
         },
         "version": "0.2"
@@ -50,17 +50,17 @@
                     "content": {
                         "application/x-www-form-urlencoded": {
                             "schema": {
-                                "$ref": "#/components/schemas/BaseAction_Files_Request"
+                                "$ref": "#/components/schemas/BaseAction_Put_Files_Request"
                             }
                         },
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/BaseAction_Files_Request"
+                                "$ref": "#/components/schemas/BaseAction_Put_Files_Request"
                             }
                         },
                         "application/xml": {
                             "schema": {
-                                "$ref": "#/components/schemas/BaseAction_Files_Request"
+                                "$ref": "#/components/schemas/BaseAction_Put_Files_Request"
                             }
                         }
                     }
@@ -171,12 +171,12 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/BaseAction_Install_RequestBody"
+                                "$ref": "#/components/schemas/BaseAction_Put_Install_Request"
                             }
                         },
                         "application/xml": {
                             "schema": {
-                                "$ref": "#/components/schemas/BaseAction_Install_RequestBody"
+                                "$ref": "#/components/schemas/BaseAction_Put_Install_Request"
                             }
                         }
                     }
@@ -187,12 +187,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Install_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Put_Install_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Install_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Put_Install_Response"
                                 }
                             }
                         }
@@ -230,12 +230,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Menu_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Get_Menu_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Menu_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Get_Menu_Response"
                                 }
                             }
                         }
@@ -274,12 +274,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Modules_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Get_Modules_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Modules_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseAction_Get_Modules_Response"
                                 }
                             }
                         }
@@ -550,12 +550,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Dashboard_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_Dashboard_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Dashboard_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_Dashboard_Response"
                                 }
                             }
                         }
@@ -604,12 +604,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_Fields_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_Fields_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_Fields_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_Fields_Response"
                                 }
                             }
                         }
@@ -658,12 +658,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Hierarchy_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_Hierarchy_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Hierarchy_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_Hierarchy_Response"
                                 }
                             }
                         }
@@ -751,12 +751,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Pdf_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_Pdf_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_Pdf_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_Pdf_Response"
                                 }
                             }
                         }
@@ -860,12 +860,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_PdfTemplates_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_PdfTemplates_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseAction_PdfTemplates_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_PdfTemplates_Response"
                                 }
                             }
                         }
@@ -959,12 +959,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_Privileges_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_Privileges_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_Privileges_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_Privileges_Response"
                                 }
                             }
                         }
@@ -1638,12 +1638,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_RecordRelatedList_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_RecordRelatedList_Response"
                                 }
                             }
                         }
@@ -1872,12 +1872,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_RecordsList_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_RecordsList_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseModule_RecordsList_ResponseBody"
+                                    "$ref": "#/components/schemas/BaseModule_Get_RecordsList_Response"
                                 }
                             }
                         }
@@ -2543,12 +2543,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Products_RecordsList_ResponseBody"
+                                    "$ref": "#/components/schemas/Products_Get_RecordsList_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Products_RecordsList_ResponseBody"
+                                    "$ref": "#/components/schemas/Products_Get_RecordsList_Response"
                                 }
                             }
                         }
@@ -2789,17 +2789,17 @@
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "$ref": "#/components/schemas/Users_Login_RequestBody"
+                                "$ref": "#/components/schemas/Users_Post_Login_Request"
                             }
                         },
                         "application/x-www-form-urlencoded": {
                             "schema": {
-                                "$ref": "#/components/schemas/Users_Login_RequestBody"
+                                "$ref": "#/components/schemas/Users_Post_Login_Request"
                             }
                         },
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Users_Login_RequestBody"
+                                "$ref": "#/components/schemas/Users_Post_Login_Request"
                             }
                         }
                     }
@@ -2810,12 +2810,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Users_Login_ResponseBody"
+                                    "$ref": "#/components/schemas/Users_Post_Login_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Users_Login_ResponseBody"
+                                    "$ref": "#/components/schemas/Users_Post_Login_Response"
                                 }
                             }
                         }
@@ -2898,12 +2898,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UsersLogoutResponseBody"
+                                    "$ref": "#/components/schemas/Users_Put_Logout_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UsersLogoutResponseBody"
+                                    "$ref": "#/components/schemas/Users_Put_Logout_Response"
                                 }
                             }
                         }
@@ -3136,12 +3136,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Users_RecordsList_ResponseBody"
+                                    "$ref": "#/components/schemas/Users_Get_RecordsList_Response"
                                 }
                             },
                             "application/xml": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Users_RecordsList_ResponseBody"
+                                    "$ref": "#/components/schemas/Users_Get_RecordsList_Response"
                                 }
                             }
                         }
@@ -3608,7 +3608,7 @@
     },
     "components": {
         "schemas": {
-            "BaseAction_Files_Request": {
+            "BaseAction_Put_Files_Request": {
                 "title": "Base action - Files request schema",
                 "description": "Action parameters to download the file",
                 "required": [
@@ -3649,12 +3649,12 @@
                 },
                 "type": "object"
             },
-            "BaseAction_Install_RequestBody": {
+            "BaseAction_Put_Install_Request": {
                 "title": "Base action - Install response",
                 "description": "The representation of a base action install",
                 "type": "object"
             },
-            "BaseAction_Install_ResponseBody": {
+            "BaseAction_Put_Install_Response": {
                 "title": "Base action - Install response",
                 "description": "The representation of a base action install",
                 "properties": {
@@ -3673,7 +3673,7 @@
                 },
                 "type": "object"
             },
-            "BaseAction_Menu_ResponseBody": {
+            "BaseAction_Get_Menu_Response": {
                 "title": "Base action - Menu",
                 "description": "Base action menu response body",
                 "properties": {
@@ -3760,7 +3760,7 @@
                 },
                 "type": "object"
             },
-            "BaseAction_Modules_ResponseBody": {
+            "BaseAction_Get_Modules_Response": {
                 "title": "Base action - List of permitted modules",
                 "description": "List of available modules",
                 "properties": {
@@ -3889,7 +3889,7 @@
                 },
                 "type": "object"
             },
-            "BaseAction_Dashboard_ResponseBody": {
+            "BaseModule_Get_Dashboard_Response": {
                 "title": "Base module - Dashboard response schema",
                 "description": "Get widgets.",
                 "properties": {
@@ -3950,7 +3950,7 @@
                 },
                 "type": "object"
             },
-            "BaseModule_Fields_ResponseBody": {
+            "BaseModule_Get_Fields_Response": {
                 "title": "Base module - Response action fields",
                 "description": "Fields, blocks and inventory details",
                 "required": [
@@ -4384,7 +4384,7 @@
                 },
                 "type": "object"
             },
-            "BaseAction_Hierarchy_ResponseBody": {
+            "BaseModule_Get_Hierarchy_Response": {
                 "title": "Base module - Hierarchy response schema",
                 "description": "Get records hierarchy.",
                 "properties": {
@@ -4421,7 +4421,7 @@
                 },
                 "type": "object"
             },
-            "BaseAction_Pdf_ResponseBody": {
+            "BaseModule_Get_Pdf_Response": {
                 "title": "Base module - Generate PDF response schema",
                 "description": "Get method - Generate PDF.",
                 "properties": {
@@ -4454,7 +4454,7 @@
                 },
                 "type": "object"
             },
-            "BaseAction_PdfTemplates_ResponseBody": {
+            "BaseModule_Get_PdfTemplates_Response": {
                 "title": "Base module - Get PDF templates list response schema",
                 "description": "Get method - Get PDF templates list.",
                 "properties": {
@@ -4496,7 +4496,7 @@
                 },
                 "type": "object"
             },
-            "BaseModule_Privileges_ResponseBody": {
+            "BaseModule_Get_Privileges_Response": {
                 "title": "Base module - Privileges response schema",
                 "description": "Get privileges for module.",
                 "properties": {
@@ -5118,7 +5118,7 @@
                 },
                 "type": "object"
             },
-            "BaseModule_RecordRelatedList_ResponseBody": {
+            "BaseModule_Get_RecordRelatedList_Response": {
                 "title": "Base module - Response action related record list",
                 "description": "Module action related record list response body",
                 "required": [
@@ -5217,7 +5217,7 @@
                 },
                 "type": "object"
             },
-            "BaseModule_RecordsList_ResponseBody": {
+            "BaseModule_Get_RecordsList_Response": {
                 "title": "Base module - Response action record list",
                 "description": "Module action record list response body",
                 "required": [
@@ -5774,7 +5774,7 @@
                 },
                 "type": "object"
             },
-            "Products_RecordsList_ResponseBody": {
+            "Products_Get_RecordsList_Response": {
                 "title": "Products - Response action record list",
                 "description": "Module action record list response body",
                 "properties": {
@@ -5990,7 +5990,7 @@
                     "column_name2": "searched value 2"
                 }
             },
-            "Users_Login_RequestBody": {
+            "Users_Post_Login_Request": {
                 "title": "Users module - Users login request body",
                 "description": "JSON or form-data",
                 "required": [
@@ -6044,7 +6044,7 @@
                 },
                 "type": "object"
             },
-            "Users_Login_ResponseBody": {
+            "Users_Post_Login_Response": {
                 "title": "Users module - Users login response body",
                 "description": "Users login response body",
                 "required": [
@@ -6312,7 +6312,7 @@
                 },
                 "type": "object"
             },
-            "UsersLogoutResponseBody": {
+            "Users_Put_Logout_Response": {
                 "title": "Users module - Users logout response body",
                 "description": "JSON data",
                 "required": [
@@ -6402,7 +6402,7 @@
                 },
                 "type": "object"
             },
-            "Users_RecordsList_ResponseBody": {
+            "Users_Get_RecordsList_Response": {
                 "title": "Users module - Response action users list",
                 "description": "Module action record list response body",
                 "properties": {
