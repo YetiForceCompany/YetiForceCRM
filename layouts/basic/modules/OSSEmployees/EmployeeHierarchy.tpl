@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div id="accountHierarchyContainer" class="modelContainer modal fade" taindex="-1">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">{\App\Language::translate('LBL_SHOW_EMPLOYEES_HIERARCHY', $MODULE)}</h5>
