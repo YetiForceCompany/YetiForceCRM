@@ -55,7 +55,7 @@
     "fullcalendar": "3.10.2",
     "gantt-elastic": "^1.0.12",
     "gridstack": "^1.0.0",
-    "html2canvas": "^1.0.0-alpha.12",
+    "html2canvas": "^1.0.0",
     "html5shiv": "^3.7.3",
     "inputmask": "^5.0.2",
     "jQuery-Validation-Engine": "https://github.com/YetiForceCompany/jQuery-Validation-Engine#master",
