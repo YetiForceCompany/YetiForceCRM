@@ -133,7 +133,6 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 	public function __getParentEmployees($id, &$parentAccounts, &$encounteredAccounts)
 	{
-		\App\Log::trace('Entering __getParentEmployees(' . $id . ',' . $parentAccounts . ') method ...');
 		$parentId = (new App\Db\Query())
 			->select(['parentid'])
 			->from('vtiger_ossemployees')
@@ -167,14 +166,12 @@ class OSSEmployees extends Vtiger_CRMEntity
 			}
 		}
 		$parentAccounts[$id] = $parentAccountInfo;
-		\App\Log::trace('Exiting __getParentEmployees method ...');
 
 		return $parentAccounts;
 	}
 
 	public function __getChildEmployees($id, &$childAccounts, $depth)
 	{
-		\App\Log::trace('Entering __getChildEmployees(' . $id . ',' . $childAccounts . ',' . $depth . ') method ...');
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())
 			->select(['vtiger_ossemployees.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
@@ -203,8 +200,6 @@ class OSSEmployees extends Vtiger_CRMEntity
 				$this->__getChildEmployees($childAccId, $childAccounts, $depth);
 			}
 		}
-		\App\Log::trace('Exiting __getChildEmployees method ...');
-
 		return $childAccounts;
 	}
 
