@@ -7,19 +7,7 @@ Vtiger_Detail_Js(
 		employeeHierarchyResponseCache: {},
 		triggerEmployeeHierarchy: function (HierarchyUrl) {
 			OSSEmployees_Detail_Js.getEmployeeHierarchyResponseData(HierarchyUrl).done(function (data) {
-				let callbackFunction = function () {
-					app.showScrollBar($('#hierarchyScroll'), {
-						height: '300px',
-						railVisible: true,
-						size: '6px'
-					});
-				};
-				app.showModalWindow(data, function (modalContainer) {
-					App.Components.Scrollbar.xy($('#hierarchyScroll', modalContainer));
-					if (typeof callbackFunction == 'function' && $('#hierarchyScroll', modalContainer).height() > 300) {
-						callbackFunction();
-					}
-				});
+				app.showModalWindow(data);
 			});
 		},
 		getEmployeeHierarchyResponseData: function (params) {
