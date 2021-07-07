@@ -57,6 +57,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Module_Model::getActiveServers($this->getModule()->typeApi);
 				$params['uitype'] = 16;
+				$params['picklistValues'] = [];
 				foreach ($servers as $key => $value) {
 					$params['picklistValues'][$key] = $value['name'];
 				}

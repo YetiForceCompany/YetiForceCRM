@@ -108,6 +108,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 				case 'name':
 					$params['uitype'] = 16;
 					$params['table'] = $this->getBaseTable();
+					$params['picklistValues'] = [];
 					$modules = (new \App\Db\Query())->from($this->getBaseTable())->select(['name'])->column();
 					foreach ($modules as $module) {
 						$params['picklistValues'][$module] = \App\Language::translate($module, "Settings:{$module}");
@@ -123,6 +124,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 					$params['typeofdata'] = 'V~O';
 					$params['sort'] = 'false';
 					$params['table'] = 'a_#__settings_access';
+					$params['picklistValues'] = [];
 					foreach ($this->getUsers() as $userId) {
 						$params['picklistValues'][$userId] = \App\Fields\Owner::getUserLabel($userId);
 					}
@@ -146,6 +148,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 					$params['typeofdata'] = 'V~O';
 					$params['sort'] = 'false';
 					$params['table'] = 'l_#__users_login_purpose';
+					$params['picklistValues'] = [];
 					foreach ($this->getUsers() as $userId) {
 						$params['picklistValues'][$userId] = \App\Fields\Owner::getUserLabel($userId);
 					}

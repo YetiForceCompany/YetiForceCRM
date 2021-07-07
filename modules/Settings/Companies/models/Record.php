@@ -280,6 +280,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'industry':
 				$params['uitype'] = 16;
 				$params['maximumlength'] = '50';
+				$params['picklistValues'] = [];
 				foreach (Settings_Companies_Module_Model::getIndustryList() as $industry) {
 					$params['picklistValues'][$industry] = \App\Language::translate($industry, $moduleName);
 				}
@@ -291,6 +292,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'country':
 				$params['uitype'] = 16;
 				$params['maximumlength'] = '100';
+				$params['picklistValues'] = [];
 				foreach (\App\Fields\Country::getAll() as $country) {
 					$params['picklistValues'][$country['name']] = \App\Language::translateSingleMod($country['name'], 'Other.Country');
 				}

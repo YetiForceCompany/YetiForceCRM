@@ -82,6 +82,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Module_Model::getActiveServers($this->getModule()->typeApi);
 				$params['uitype'] = 16;
+				$params['picklistValues'] = [];
 				foreach ($servers as $key => $value) {
 					$params['picklistValues'][$key] = $value['name'];
 				}
