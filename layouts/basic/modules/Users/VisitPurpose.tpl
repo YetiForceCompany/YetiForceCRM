@@ -16,12 +16,6 @@
 					{\App\Language::translate("LBL_VISIT_PURPOSE_ALERT")}
 				</div>
 			{/if}
-			{if \App\Security\AdminAccess::isPermitted('AdminAccess')}
-				<a href="index.php?parent=Settings&module=AdminAccess&view=Index&tab=visitPurpose" class="btn btn-primary mr-2">
-					<span class="ayfi yfi-admin-access mr-2"></span>
-					{App\Language::translate('LBL_ADMIN_ACCESS','Settings::AdminAccess')} > {App\Language::translate('LBL_HISTORY_ADMINS_VISIT_PURPOSE','Settings::AdminAccess')}
-				</a>
-			{/if}
 		</div>
 	</form>
 <!-- /tpl-Users-VisitPurpose -->
