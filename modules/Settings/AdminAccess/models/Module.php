@@ -51,6 +51,20 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
+	 * Function returns list of fields available in edit view.
+	 *
+	 * @return \Vtiger_Field_Model[]
+	 */
+	public function getEditFields(): array
+	{
+		$fields = [];
+		foreach (array_keys($this->listFields) as $fieldName) {
+			$fields[$fieldName] = $this->getFieldInstanceByName($fieldName, true);
+		}
+		return $fields;
+	}
+
+	/**
 	 * Function gives list fields for save.
 	 *
 	 * @return array
@@ -96,10 +110,11 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 	 * Gets field instance by name.
 	 *
 	 * @param string $name
+	 * @param bool   $edit
 	 *
 	 * @return \Vtiger_Field_Model
 	 */
-	public function getFieldInstanceByName($name)
+	public function getFieldInstanceByName($name, $edit = false)
 	{
 		if (!isset($this->fields[$name])) {
 			$moduleName = $this->getName(true);
@@ -123,9 +138,10 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 					$params['uitype'] = 33;
 					$params['typeofdata'] = 'V~O';
 					$params['sort'] = 'false';
-					$params['table'] = 'a_#__settings_access';
+					$params['table'] = \App\Security\AdminAccess::ACCESS_TABLE_NAME;
 					$params['picklistValues'] = [];
-					foreach ($this->getUsers() as $userId) {
+					$users = $edit ? $this->getUsers() : (new \App\Db\Query())->from($params['table'])->select([$name])->column();
+					foreach ($users as $userId) {
 						$params['picklistValues'][$userId] = \App\Fields\Owner::getUserLabel($userId);
 					}
 					break;
@@ -149,7 +165,8 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 					$params['sort'] = 'false';
 					$params['table'] = 'l_#__users_login_purpose';
 					$params['picklistValues'] = [];
-					foreach ($this->getUsers() as $userId) {
+					$users = (new \App\Db\Query())->from($params['table'])->select([$name])->column();
+					foreach ($users as $userId) {
 						$params['picklistValues'][$userId] = \App\Fields\Owner::getUserLabel($userId);
 					}
 					break;
@@ -191,11 +208,11 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Gets admin users.
+	 * Gets users.
 	 *
 	 * @return int[]
 	 */
-	public static function getUsers(): array
+	public function getUsers(): array
 	{
 		return (new \App\QueryGenerator('Users'))->setFields(['id'])
 			->addCondition('is_admin', 'on', 'n')->createQuery()->column();
