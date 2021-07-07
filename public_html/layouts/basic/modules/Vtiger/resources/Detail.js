@@ -271,37 +271,6 @@ jQuery.Class(
 		//Event that will triggered before saving the ajax edit of fields
 		fieldPreSave: 'Vtiger.Field.PreSave',
 		tempData: [],
-		referenceFieldNames: {
-			Calendar: {
-				Accounts: 'link',
-				Leads: 'link',
-				Vendors: 'link',
-				OSSEmployees: 'link',
-				Contacts: 'linkextend',
-				Campaigns: 'process',
-				HelpDesk: 'process',
-				Projects: 'process',
-				ServiceContracts: 'process'
-			},
-			OutsourcedProducts: {
-				Leads: 'parent_id',
-				Accounts: 'parent_id',
-				Contacts: 'parent_id'
-			},
-			Assets: {
-				Accounts: 'parent_id',
-				Contacts: 'parent_id'
-			},
-			OSSOutsourcedServices: {
-				Leads: 'parent_id',
-				Accounts: 'parent_id',
-				Contacts: 'parent_id'
-			},
-			OSSSoldServices: {
-				Accounts: 'parent_id',
-				Contacts: 'parent_id'
-			}
-		},
 		//constructor
 		init: function () {},
 		loadWidgetsEvents: function () {
@@ -1406,15 +1375,6 @@ jQuery.Class(
 				let customParams = {};
 				customParams['sourceModule'] = module;
 				customParams['sourceRecord'] = recordId;
-				if (
-					module != '' &&
-					referenceModuleName != '' &&
-					typeof thisInstance.referenceFieldNames[referenceModuleName] !== 'undefined' &&
-					typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== 'undefined'
-				) {
-					let relField = thisInstance.referenceFieldNames[referenceModuleName][module];
-					customParams[relField] = recordId;
-				}
 				let fullFormUrl = element.data('url');
 				let preQuickCreateSave = function (data) {
 					thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);
@@ -1849,15 +1809,6 @@ jQuery.Class(
 				let customParams = {};
 				customParams['sourceModule'] = module;
 				customParams['sourceRecord'] = recordId;
-				if (
-					module != '' &&
-					referenceModuleName != '' &&
-					typeof thisInstance.referenceFieldNames[referenceModuleName] !== 'undefined' &&
-					typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== 'undefined'
-				) {
-					let fieldName = thisInstance.referenceFieldNames[referenceModuleName][module];
-					customParams[fieldName] = recordId;
-				}
 
 				let postQuickCreateSave = function (data) {
 					thisInstance.postSummaryWidgetAddRecord(data, currentElement);
