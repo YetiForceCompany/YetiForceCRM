@@ -12,7 +12,7 @@
 						<span class="fas fa-bars fa-fw" title="{\App\Language::translate('LBL_MENU')}"></span>
 					</a>
 				</div>
-			</div>dd
+			</div>
 			{assign var=VERIFY value=\App\YetiForce\Shop::verify()}
 			{if $VERIFY}
 				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{$VERIFY}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
