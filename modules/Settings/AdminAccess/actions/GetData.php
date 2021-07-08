@@ -116,6 +116,8 @@ class Settings_AdminAccess_GetData_Action extends \App\Controller\Action
 				if ('datetime' === $fieldModel->getFieldDataType()) {
 					$value = explode(',', $value);
 					$conditions[] = ['between', $fieldModel->getColumnName(), $value[0], $value[1]];
+				} elseif ('text' === $fieldModel->getFieldDataType()) {
+					$conditions[] = ['like', $fieldModel->getColumnName(), $value];
 				} else {
 					$conditions[] = [$fieldModel->getColumnName() => $value];
 				}

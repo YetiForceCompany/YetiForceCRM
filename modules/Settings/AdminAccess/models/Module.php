@@ -202,6 +202,9 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 			case 'datetime':
 				$value = $this->getFieldInstanceByName($fieldName)->getUITypeModel()->getDbConditionBuilderValue($request->getByType($fieldName, 'Text'), 'bw');
 				break;
+			case 'purpose':
+				$value = $this->getFieldInstanceByName($fieldName)->getUITypeModel()->getDbConditionBuilderValue($request->getByType($fieldName, 'Text'), 'c');
+				break;
 			default: break;
 		}
 		return $value;
