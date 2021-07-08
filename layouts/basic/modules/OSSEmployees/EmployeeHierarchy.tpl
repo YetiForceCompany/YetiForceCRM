@@ -11,22 +11,22 @@
 					</button>
 				</div>
 				<div class="modal-body pb-0">
-					<div class="table-responsive u-max-h-400px">
+					<div class="table-responsive maxHeightModal">
 						<table class="table table-bordered">
 							<thead>
-							<tr class="blockHeader">
-								{foreach item=HEADERNAME from=$EMPLOYEES_HIERARCHY['header']}
-									<th>{\App\Language::translate($HEADERNAME, $MODULE)}</th>
-								{/foreach}
-							</tr>
+								<tr class="blockHeader">
+									{foreach item=HEADERNAME from=$EMPLOYEES_HIERARCHY['header']}
+										<th>{\App\Language::translate($HEADERNAME, $MODULE)}</th>
+									{/foreach}
+								</tr>
 							</thead>
 							{foreach item=ENTRIES from=$EMPLOYEES_HIERARCHY['entries']}
 								<tbody>
-								<tr>
-									{foreach item=LISTFIELDS from=$ENTRIES}
-										<td>{$LISTFIELDS}</td>
-									{/foreach}
-								</tr>
+									<tr>
+										{foreach item=LISTFIELDS from=$ENTRIES}
+											<td>{$LISTFIELDS}</td>
+										{/foreach}
+									</tr>
 								</tbody>
 							{/foreach}
 						</table>
