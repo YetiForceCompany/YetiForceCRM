@@ -152,9 +152,9 @@ bootstrap@^4.3.1, bootstrap@^4.4.0:
   integrity sha512-Io55IuQY3kydzHtbGvQya3H+KorS/M9rSNyfCGCg9WZ4pyT/lCxIlpJgG1GXW/PswzC84Tr2fBYi+7+jFVQQBw==
 
 chart.js@>2.7.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.4.0.tgz#4fb2a750225fcc1b387221422f5d4260b55b4579"
-  integrity sha512-mJsRm2apQm5mwz2OgYqGNG4erZh/qljcRZkWSa0kLkFr3UC3e1wKRMgnIh6WdhUrNu0w/JT9PkjLyylqEqHXEQ==
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.4.1.tgz#ff3b2b2a04a37b83618b4a6399a5f87ccc0f1e8a"
+  integrity sha512-0R4mL7WiBcYoazIhrzSYnWcOw6RmrRn7Q4nKZNsBQZCBrlkZKodQbfeojCCo8eETPRCs1ZNTsAcZhIfyhyP61g==
 
 chart.js@^2.9.4:
   version "2.9.4"
@@ -281,9 +281,9 @@ datatables.net@1.10.25, datatables.net@^1.10.15, datatables.net@^1.10.23:
     jquery ">=1.7"
 
 dayjs@^1.8.16:
-  version "1.10.5"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.5.tgz#5600df4548fc2453b3f163ebb2abbe965ccfb986"
-  integrity sha512-BUFis41ikLz+65iH6LHQCDm4YPMj5r1YFLdupPIyM4SGcXMmtiLQ7U37i+hGS8urIuqe7I/ou3IS1jVc4nbN4g==
+  version "1.10.6"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.6.tgz#288b2aa82f2d8418a6c9d4df5898c0737ad02a63"
+  integrity sha512-AztC/IOW4L1Q41A86phW5Thhcrco3xuAA+YX/BLpLWWjRcTj5TOt/QImBLmCKlrF7u7k47arTnOyL6GnbG8Hvw==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -387,9 +387,9 @@ gridstack@^1.0.0:
   integrity sha512-yhcwA8ty1RaC1Vijd+C6v2jFOZhaDjweN5JtOQ35KXPFfnwItrPEejTLUij58GdG+Doc1bvHwg534El5xd4B6w==
 
 html2canvas@^1.0.0-alpha.12:
-  version "1.0.0-rc.7"
-  resolved "https://registry.yarnpkg.com/html2canvas/-/html2canvas-1.0.0-rc.7.tgz#70c159ce0e63954a91169531894d08ad5627ac98"
-  integrity sha512-yvPNZGejB2KOyKleZspjK/NruXVQuowu8NnV2HYG7gW7ytzl+umffbtUI62v2dCHQLDdsK6HIDtyJZ0W3neerA==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/html2canvas/-/html2canvas-1.1.1.tgz#f36d85fca796a7871428a8d0546f4c4cf210aef3"
+  integrity sha512-e2AFvL3/rnq5YH0TMMda8MMpZkKBw04u8PxRQoUFToFTvGfjdUF+aYe887NaZjthiiclBXiSe/vWO/sCLYchPQ==
   dependencies:
     css-line-break "1.1.1"
 
@@ -562,9 +562,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.15.21"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.15.21.tgz#3336e03a953be0286baef3a3865dc6e276b67fdc"
-  integrity sha512-4LP6/ckeNFjH1qRHbHBCjnq8jpuJAUzpGNVD4Py4+Qjj4Wuzo3qOeA4ujvQ2VPTFeKTydBci8DfhuhaaMBfsZw==
+  version "1.15.22"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.15.22.tgz#5534c84f66a0881c90427887b06f5946aacb2003"
+  integrity sha512-B2qe26czaAGkDx4hXb7yLKtq4QkxtaM0Z+46EWk+273u6I3SFG0Z7N7/wqG4BhotTaNlax8bnYd6bD6Jhk6Bbg==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
