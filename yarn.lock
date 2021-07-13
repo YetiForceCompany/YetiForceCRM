@@ -386,10 +386,10 @@ gridstack@^1.0.0:
   resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-1.2.1.tgz#4505b3a5c3e11f3d5be0a5bb7f5d2194506487e5"
   integrity sha512-yhcwA8ty1RaC1Vijd+C6v2jFOZhaDjweN5JtOQ35KXPFfnwItrPEejTLUij58GdG+Doc1bvHwg534El5xd4B6w==
 
-html2canvas@^1.0.0-alpha.12:
-  version "1.0.0-rc.7"
-  resolved "https://registry.yarnpkg.com/html2canvas/-/html2canvas-1.0.0-rc.7.tgz#70c159ce0e63954a91169531894d08ad5627ac98"
-  integrity sha512-yvPNZGejB2KOyKleZspjK/NruXVQuowu8NnV2HYG7gW7ytzl+umffbtUI62v2dCHQLDdsK6HIDtyJZ0W3neerA==
+html2canvas@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/html2canvas/-/html2canvas-1.1.1.tgz#f36d85fca796a7871428a8d0546f4c4cf210aef3"
+  integrity sha512-e2AFvL3/rnq5YH0TMMda8MMpZkKBw04u8PxRQoUFToFTvGfjdUF+aYe887NaZjthiiclBXiSe/vWO/sCLYchPQ==
   dependencies:
     css-line-break "1.1.1"
 
