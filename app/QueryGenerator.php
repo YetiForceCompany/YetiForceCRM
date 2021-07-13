@@ -967,7 +967,7 @@ class QueryGenerator
 			$this->joins['duplicates'] = ['INNER JOIN', ['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause)];
 		}
 		uksort($this->joins, function ($a, $b) use ($moduleTableIndexList) {
-			return !isset($moduleTableIndexList[$a]) && isset($moduleTableIndexList[$b]);
+			return (int) (!isset($moduleTableIndexList[$a]) && isset($moduleTableIndexList[$b]));
 		});
 		foreach ($this->joins as $join) {
 			$on = $join[2] ?? '';

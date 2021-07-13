@@ -56,7 +56,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		if (!empty($users) && $favouriteUsers = $currentUser->getFavouritesUsers()) {
 			uksort($users,
 				function ($a, $b) use ($favouriteUsers) {
-					return !isset($favouriteUsers[$a]) && isset($favouriteUsers[$b]);
+					return (int) (!isset($favouriteUsers[$a]) && isset($favouriteUsers[$b]));
 				});
 			$viewer->assign('FAVOURITES_USERS', $favouriteUsers);
 		}
