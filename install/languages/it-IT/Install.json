@@ -111,7 +111,7 @@
     "LBL_ERROR_INSTALL": "Installazione fallita",
     "LBL_SESSION_ERROR_TITLE": "ID sessione errato.",
     "LBL_SESSION_ERROR_DESC": "Esiste nella configurazione del server che causa perdita dei dati di sessione.\nSi consiglia di rimuovere la cache del browser, nel caso in cui non aiutasse a correggere la configurazione del server.",
-    "LBL_NAME": "Company name or first and last name",
+    "LBL_NAME": "Nome dell'azienda o nome e cognome",
     "LBL_INDUSTRY": "Settore",
     "LBL_CITY": "Comune",
     "LBL_COUNTRY": "Paese",

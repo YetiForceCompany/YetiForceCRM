@@ -111,7 +111,7 @@
     "LBL_ERROR_INSTALL": "Установка невдала",
     "LBL_SESSION_ERROR_TITLE": "Неправильний ідентифікатор сесії.",
     "LBL_SESSION_ERROR_DESC": "Ми рекомендуємо видалити кеш браузера, і якщо це не вирішить проблему, рекомендуємо виправити конфігурацію сервера.",
-    "LBL_NAME": "Company name or first and last name",
+    "LBL_NAME": "Назва організації або Ім'я таПрізвище",
     "LBL_INDUSTRY": "Галузь",
     "LBL_CITY": "Місто",
     "LBL_COUNTRY": "Країна",
