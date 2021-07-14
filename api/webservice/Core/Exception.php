@@ -20,6 +20,7 @@ class Exception extends \Exception
 	/** {@inheritdoc}  */
 	public function __construct($message, $code = 500, \Throwable $previous = null)
 	{
+		$message = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $message), PHP_EOL);
 		if (!empty($previous)) {
 			parent::__construct($message, $code, $previous);
 			$this->file = $previous->getFile();
