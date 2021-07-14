@@ -26,7 +26,16 @@
 	<a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
 	<a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
 	<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor">
-		<img alt="SourceForge Logo" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/dark-default" height="120px">
+		<img alt="SourceForge Logo" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/light-default" height="120px">
+	</a>
+	<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor">
+		<img alt="SourceForge Customers Love" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/customers-love-us-white" height="120px">
+	</a>
+	<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor">
+		<img alt="SourceForge Top Performer 2021 Summer" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/top-performer-summer-white?achievement=top-performer-seasonal-2021-summer" height="120px">
+	</a>
+	<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor">
+		<img alt="SourceForge Top Performer 2021 Spring" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/top-performer-spring-white?achievement=top-performer-seasonal-2021-spring" height="120px">
 	</a>
 </p>
 
