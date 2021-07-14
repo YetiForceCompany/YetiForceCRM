@@ -290,7 +290,8 @@ class Login extends \Api\Core\BaseAction
 	 */
 	protected function returnData(): array
 	{
-		$userModel = \App\User::getUserModel($this->userData['user_id']);
+		\App\User::setCurrentUserId($this->userData['user_id']);
+		$userModel = \App\User::getCurrentUserModel();
 		$data = [
 			'token' => $this->userData['sid'],
 			'name' => $this->userData['crmid'] ? \App\Record::getLabel($this->userData['crmid']) : $userModel->getName(),
