@@ -116,9 +116,7 @@ class Watchdog
 		if (empty($this->cache['stability'])) {
 			$this->cache['stability'] = \App\Utils\ConfReport::get('stability');
 		}
-		$value = [
-			'main' => PHP_VERSION,
-		];
+		$value = [];
 		if (isset($this->cache['stability']['phpVersion']['www'])) {
 			$value['www'] = $this->cache['stability']['phpVersion']['www'];
 		}
@@ -189,6 +187,74 @@ class Watchdog
 			$value = $cron;
 		}
 		return $value;
+	}
+
+	/**
+	 * Get CRM root directory space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceRoot()
+	{
+		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
+		return is_dir($dir) ? disk_total_space($dir) : 0;
+	}
+
+	/**
+	 * Get storage directory space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceStorage()
+	{
+		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'storage';
+		return is_dir($dir) ? disk_total_space($dir) : 0;
+	}
+
+	/**
+	 * Get temporary directory space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceTemp()
+	{
+		$dir = \App\Fields\File::getTmpPath();
+		return is_dir($dir) ? disk_total_space($dir) : 0;
+	}
+
+	/**
+	 * Get backup directory space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceBackup()
+	{
+		$dir = \App\Utils\Backup::getBackupCatalogPath();
+		return (empty($dir) || !is_dir($dir)) ? 0 : disk_total_space($dir);
+	}
+
+	/**
+	 * Get domain.
+	 *
+	 * @return array
+	 */
+	public function getDomain()
+	{
+		return \App\Config::main('site_URL');
+	}
+
+	/**
+	 * Get updates.
+	 *
+	 * @return array
+	 */
+	public function getUpdates()
+	{
+		$rows = [];
+		foreach (\Settings_Updates_Module_Model::getUpdates() as $row) {
+			$rows[] = [$row['name'], $row['from_version'], $row['to_version'], $row['result']];
+		}
+		return $rows;
 	}
 
 	/**
@@ -410,81 +476,5 @@ class Watchdog
 	public function getSapiVersion()
 	{
 		return [];
-	}
-
-	/**
-	 * Get CRM root directory space.
-	 *
-	 * @return array
-	 */
-	public function getSpaceRoot()
-	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['spaceRoot']['spaceFree'] ?? 0;
-	}
-
-	/**
-	 * Get storage directory space.
-	 *
-	 * @return array
-	 */
-	public function getSpaceStorage()
-	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['spaceStorage']['spaceFree'] ?? 0;
-	}
-
-	/**
-	 * Get temporary directory space.
-	 *
-	 * @return array
-	 */
-	public function getSpaceTemp()
-	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['spaceTemp']['spaceFree'] ?? 0;
-	}
-
-	/**
-	 * Get backup directory space.
-	 *
-	 * @return array
-	 */
-	public function getSpaceBackup()
-	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['spaceBackup']['spaceFree'] ?? 0;
-	}
-
-	/**
-	 * Get domain.
-	 *
-	 * @return array
-	 */
-	public function getDomain()
-	{
-		return \App\Config::main('site_URL');
-	}
-
-	/**
-	 * Get updates.
-	 *
-	 * @return array
-	 */
-	public function getUpdates()
-	{
-		$rows = [];
-		foreach (\Settings_Updates_Module_Model::getUpdates() as $row) {
-			$rows[] = [$row['name'], $row['from_version'], $row['to_version'], $row['result']];
-		}
-		return $rows;
 	}
 }

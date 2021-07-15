@@ -1350,7 +1350,7 @@ class ConfReport
 	{
 		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
 		switch ($name) {
-			case 'spaceRoot':
+			case 'spaceStorage':
 				$dir .= 'storage';
 				break;
 			case 'spaceTemp':
