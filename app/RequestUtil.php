@@ -16,22 +16,17 @@ namespace App;
  */
 class RequestUtil
 {
-	/**
-	 * Browser cache variable.
-	 *
-	 * @var stdClass
-	 */
+	/** @var stdClass Browser cache variable. */
 	protected static $browserCache;
 
 	/** @var bool Cache https check variable. */
 	protected static $httpsCache;
 
-	/**
-	 * Net connection cache.
-	 *
-	 * @var bool
-	 */
+	/** @var bool Net connection cache. */
 	protected static $connectionCache;
+
+	/** @var string Cache request id variable. */
+	protected static $requestId;
 
 	/**
 	 * IP fields names variable.
@@ -194,5 +189,18 @@ class RequestUtil
 			$ip = '';
 		}
 		return \App\Cache::save(__METHOD__, $name, $ip);
+	}
+
+	/**
+	 * Get request id.
+	 *
+	 * @return string
+	 */
+	public static function requestId(): string
+	{
+		if (empty(self::$requestId)) {
+			self::$requestId = sprintf('%08x', abs(crc32($_SERVER['REMOTE_ADDR'] . $_SERVER['REQUEST_TIME_FLOAT'] . $_SERVER['REMOTE_PORT'])));
+		}
+		return self::$requestId;
 	}
 }

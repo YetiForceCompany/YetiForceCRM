@@ -255,7 +255,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 					$row[$key] = \App\Layout::truncateText($value, 50, true);
 					break;
 				case 'device_id':
-					$row[$key] = "<div class=\"js-popover-tooltip ml-2 mr-2 d-inline mt-2\" data-js=\"popover\" data-content=\"$value\">" . \App\TextParser::textTruncate($value, 8) . '</div>';
+					$row[$key] = "<div class=\"js-popover-tooltip ml-2 mr-2 d-inline mt-2\" data-js=\"popover\" data-content=\"$value\">" . \App\TextParser::textTruncate($value, 14) . '</div>';
 					break;
 				default:
 					break;

@@ -298,7 +298,7 @@ class Encryption extends Base
 	 */
 	public static function createPasswordHash(string $text, string $pepper): string
 	{
-		return password_hash(hash_hmac('sha256', $text, $pepper . \App\Config::main('application_unique_key')), PASSWORD_ARGON2ID);
+		return password_hash(hash_hmac('sha256', $text, $pepper . \App\Config::main('application_unique_key')), \defined('PASSWORD_ARGON2ID') ? PASSWORD_ARGON2ID : PASSWORD_DEFAULT);
 	}
 
 	/**
