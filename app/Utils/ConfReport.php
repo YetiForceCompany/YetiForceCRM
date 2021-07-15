@@ -20,6 +20,9 @@ class ConfReport
 	/** @var string System URL. */
 	private static $crmUrl;
 
+	/** @var string System URL. */
+	public static $testCli = false;
+
 	/** @var array Optional database configuration for offline use. */
 	public static $dbConfig = [
 		'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=yetiforce;',
@@ -681,7 +684,7 @@ class ConfReport
 				if (isset($main[$key])) {
 					$item[static::$sapi] = $main[$key];
 				}
-				if ($item['testCli'] && 'www' === static::$sapi) {
+				if (self::$testCli || ($item['testCli'] && 'www' === static::$sapi)) {
 					if (isset($cron[$key]['cron'])) {
 						$item['cron'] = $cron[$key]['cron'];
 					}
@@ -692,7 +695,7 @@ class ConfReport
 						if ('www' === static::$sapi) {
 							$item = static::$methodName($key, $item, 'www');
 						}
-						if ($item['testCli'] && !empty($cron)) {
+						if (self::$testCli || ($item['testCli'] && !empty($cron))) {
 							$item = static::$methodName($key, $item, 'cron');
 						}
 					}
@@ -1247,9 +1250,9 @@ class ConfReport
 	private static function validateIn(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$value = $row[$sapi];
-		if (!\is_array($row[$sapi])) {
-			$value = \explode(',', $row[$sapi]);
+		$value = $row[$sapi] ?? '';
+		if (!\is_array($value)) {
+			$value = \explode(',', $value);
 		}
 		$value = \array_map('trim', $value);
 		$recommended = \array_map('trim', \explode(',', $row['recommended']));

@@ -68,11 +68,13 @@ class Watchdog
 		$info = [
 			'insKey' => \App\YetiForce\Register::getInstanceKey(),
 		];
+		\App\Utils\ConfReport::$testCli = true;
 		foreach ($config as $name => $state) {
 			if ($state) {
 				$info[$name] = \call_user_func([$status, 'get' . ucfirst($name)]);
 			}
 		}
+		\App\Utils\ConfReport::$testCli = false;
 		try {
 			\App\Log::beginProfile("POST|Watchdog::send|{$url}", __NAMESPACE__);
 			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
@@ -114,7 +116,9 @@ class Watchdog
 		if (empty($this->cache['stability'])) {
 			$this->cache['stability'] = \App\Utils\ConfReport::get('stability');
 		}
-		$value = [];
+		$value = [
+			'main' => PHP_VERSION,
+		];
 		if (isset($this->cache['stability']['phpVersion']['www'])) {
 			$value['www'] = $this->cache['stability']['phpVersion']['www'];
 		}
@@ -131,10 +135,7 @@ class Watchdog
 	 */
 	public function getCrmVersion()
 	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['crmVersion']['www'] ?? '';
+		return \App\Version::get();
 	}
 
 	/**
@@ -144,13 +145,18 @@ class Watchdog
 	 */
 	public function getDbVersion()
 	{
-		if (empty($this->cache['database'])) {
-			$this->cache['database'] = \App\Utils\ConfReport::get('database');
+		$value = [];
+		if (($db = \App\Db::getInstance()) && $db->getMasterPdo() && ($dbInfo = $db->getInfo())) {
+			$value = [
+				'version' => $dbInfo['serverVersion'],
+				'comment' => $dbInfo['version_comment'] ?? '',
+				'clientVersion' => $dbInfo['clientVersion'],
+				'typeDb' => $dbInfo['typeDb'],
+				'version' => $dbInfo['version'] ?? '',
+				'versionSslLibrary' => $dbInfo['version_ssl_library'] ?? '',
+			];
 		}
-		return [
-			'version' => $this->cache['database']['serverVersion']['www'] ?? '',
-			'comment' => $this->cache['database']['version_comment']['www'] ?? '',
-		];
+		return $value;
 	}
 
 	/**
@@ -160,10 +166,14 @@ class Watchdog
 	 */
 	public function getOsVersion()
 	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils::merge(\App\Utils\ConfReport::get('environment'), \App\Utils\ConfReport::getEnv());
-		}
-		return $this->cache['environment']['operatingSystem']['www'] ?? '';
+		return [
+			'full' => php_uname(),
+			'machineType' => php_uname('m'),
+			'hostName' => php_uname('n'),
+			'release' => php_uname('r'),
+			'operatingSystem' => php_uname('s'),
+			'version' => php_uname('v'),
+		];
 	}
 
 	/**
