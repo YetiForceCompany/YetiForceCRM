@@ -33,28 +33,28 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 * @OA\Post(
 	 *		path="/webservice/ManageConsents/{moduleName}/SendEmail",
 	 *		summary="Send e-mail",
-	 *		tags={"Consents"},
+	 *		tags={"BaseModule"},
 	 *    security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *    },
 	 *		@OA\RequestBody(
 	 *				required=true,
 	 *				description="Required data for communication",
-	 *				@OA\JsonContent(ref="#/components/schemas/SendEmailRequestBody"),
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Post_SendEmail_Request"),
 	 *     		@OA\MediaType(
 	 *         		mediaType="multipart/form-data",
-	 *         		@OA\Schema(ref="#/components/schemas/SendEmailRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/BaseModule_Post_SendEmail_Request")
 	 *     		),
 	 *     		@OA\MediaType(
 	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/SendEmailRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/BaseModule_Post_SendEmail_Request")
 	 *     		),
 	 *		),
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Response(
 	 *				response=200,
 	 *				description="Status of adding an email to the queue",
-	 *				@OA\JsonContent(ref="#/components/schemas/SendEmailResponseBody"),
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Post_SendEmail_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
@@ -74,7 +74,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="SendEmailRequestBody",
+	 *		schema="BaseModule_Post_SendEmail_Request",
 	 *		title="Request body for SendEmail",
 	 *		type="object",
 	 *		@OA\Property(
@@ -89,7 +89,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *		),
 	 *	),
 	 * @OA\Schema(
-	 *		schema="SendEmailResponseBody",
+	 *		schema="BaseModule_Post_SendEmail_Response",
 	 *		title="Response body for SendEmail",
 	 *		type="object",
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),

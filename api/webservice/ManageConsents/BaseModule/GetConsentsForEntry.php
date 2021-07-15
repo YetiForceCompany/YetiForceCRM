@@ -33,28 +33,28 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 * @OA\Post(
 	 *		path="/webservice/ManageConsents/{moduleName}/GetConsentsForEntry",
 	 *		summary="Gets the list of consents for specific entry",
-	 *		tags={"Consents"},
+	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *	},
 	 *		@OA\RequestBody(
 	 *				required=true,
 	 *				description="Required data for communication",
-	 *				@OA\JsonContent(ref="#/components/schemas/ConsentsForEntryRequestBody"),
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Post_GetConsentsForEntry_Request"),
 	 *			@OA\MediaType(
 	 *				mediaType="multipart/form-data",
-	 *				@OA\Schema(ref="#/components/schemas/ConsentsForEntryRequestBody")
+	 *				@OA\Schema(ref="#/components/schemas/BaseModule_Post_GetConsentsForEntry_Request")
 	 *			),
 	 *		@OA\MediaType(
 	 *				mediaType="application/x-www-form-urlencoded",
-	 *			@OA\Schema(ref="#/components/schemas/ConsentsForEntryRequestBody")
+	 *			@OA\Schema(ref="#/components/schemas/BaseModule_Post_GetConsentsForEntry_Request")
 	 *		),
 	 *		),
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of consents for specific entry",
-	 *			@OA\JsonContent(ref="#/components/schemas/ConsentsForEntryResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Post_GetConsentsForEntry_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
@@ -74,7 +74,7 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="ConsentsForEntryRequestBody",
+	 *		schema="BaseModule_Post_GetConsentsForEntry_Request",
 	 *		title="Request body for GetConsentsForEntry",
 	 *		type="object",
 	 *		@OA\Property(
@@ -84,7 +84,7 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 *		),
 	 *	),
 	 * @OA\Schema(
-	 *		schema="ConsentsForEntryResponseBody",
+	 *		schema="BaseModule_Post_GetConsentsForEntry_Response",
 	 *		title="Response body for GetConsentsForEntry",
 	 *		type="object",
 	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
