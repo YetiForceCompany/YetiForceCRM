@@ -36,7 +36,7 @@
     "bootstrap-daterangepicker": "^3.0.4",
     "bootstrap-tabdrop": "https://github.com/jmschabdach/bootstrap-tabdrop",
     "chart.js": "^2.9.4",
-    "chartjs-plugin-datalabels": "^0.7.0",
+    "chartjs-plugin-datalabels": "^1.0.0",
     "chartjs-plugin-funnel": "^1.1.5",
     "ckeditor-image-to-base": "^0.0.3",
     "clipboard": ">=2.0.0",
