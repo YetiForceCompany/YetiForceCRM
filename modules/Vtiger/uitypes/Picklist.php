@@ -141,7 +141,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 			$values[$value[$fieldName]] = [
 				'label' => \App\Language::translate($value['picklistValue'], $moduleName),
 				'isActive' => $value['picklistValue'] === $fieldValue,
-				'isLocked' => isset($closeStates[$value['picklist_valueid']]),
+				'isLocked' => isset($value['picklist_valueid']) && isset($closeStates[$value['picklist_valueid']]),
 				'isEditable' => $isEditable && $value['picklistValue'] !== $fieldValue && isset($picklistOfField[$value['picklistValue']]),
 				'description' => $value['description'] ?? null,
 				'color' => $value['color'] ?? null,
