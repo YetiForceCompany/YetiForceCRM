@@ -260,23 +260,24 @@ class Response
 		return $encrypted;
 	}
 
+	/**
+	 * Debug response function.
+	 *
+	 * @return void
+	 */
 	public function debugResponse()
 	{
 		if (\App\Config::debug('apiLogAllRequests')) {
-			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
-			$log .= "Status: {$this->status}\n";
+			$log = '============ Request ' . \App\RequestUtil::requestId() . ' (Response) ======  ' . date('Y-m-d H:i:s') . "  ======\n";
 			$log .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
 			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
-			if ($this->headers) {
-				$log .= "----------- Response Headers -----------\n";
-				foreach ($this->headers as $key => $header) {
-					$log .= "$key : $header\n";
-				}
+			$log .= 'IP: ' . $_SERVER['REMOTE_ADDR'] . PHP_EOL;
+			if ($this->body) {
+				$log .= "----------- Response data -----------\n";
+				$log .= print_r($this->body, true) . PHP_EOL;
 			}
-			$log .= "----------- Response data -----------\n";
-			$log .= print_r($this->body, true) . PHP_EOL;
 			file_put_contents('cache/logs/webserviceDebug.log', $log, FILE_APPEND);
 		}
 	}

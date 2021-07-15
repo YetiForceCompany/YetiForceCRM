@@ -189,23 +189,30 @@ class Controller
 	public function debugRequest(): void
 	{
 		if (\App\Config::debug('apiLogAllRequests')) {
-			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
+			$log = '============ Request ' . \App\RequestUtil::requestId() . ' (Controller) ======  ' . date('Y-m-d H:i:s') . "  ======\n";
 			$log .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
 			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
+			$log .= 'IP: ' . $_SERVER['REMOTE_ADDR'] . PHP_EOL;
 			$log .= '----------- Headers -----------' . PHP_EOL;
 			foreach ($this->request->getHeaders() as $key => $header) {
 				$log .= "$key : $header\n";
 			}
 			$log .= '----------- Request data -----------' . PHP_EOL;
 			$log .= print_r($this->request->getAllRaw(), true) . PHP_EOL;
-			$log .= "----------- _GET -----------\n";
-			$log .= print_r($_GET, true) . PHP_EOL;
-			$log .= "----------- _POST -----------\n";
-			$log .= print_r($_POST, true) . PHP_EOL;
-			$log .= "----------- Request payload -----------\n";
-			$log .= print_r(file_get_contents('php://input'), true) . PHP_EOL;
+			if ($_GET) {
+				$log .= "----------- _GET -----------\n";
+				$log .= print_r($_GET, true) . PHP_EOL;
+			}
+			if ($_POST) {
+				$log .= "----------- _POST -----------\n";
+				$log .= print_r($_POST, true) . PHP_EOL;
+			}
+			if ($payload = file_get_contents('php://input')) {
+				$log .= "----------- Request payload -----------\n";
+				$log .= print_r($payload, true) . PHP_EOL;
+			}
 			file_put_contents('cache/logs/webserviceDebug.log', $log, FILE_APPEND);
 		}
 	}

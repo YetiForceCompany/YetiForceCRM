@@ -112,7 +112,6 @@ class Request extends \App\Request
 		}
 		$privateKey = openssl_pkey_get_private($privateKey);
 		openssl_private_decrypt($data, $decrypted, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
-
 		return $decrypted;
 	}
 }

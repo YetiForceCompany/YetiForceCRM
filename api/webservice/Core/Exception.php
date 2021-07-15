@@ -72,23 +72,30 @@ class Exception extends \Exception
 			$error = "code: {$this->getCode()} | message: {$this->getMessage()}\n";
 			$error .= "file: {$this->getFile()} ({$this->getLine()})\n";
 			$error .= '============ stacktrace: ' . PHP_EOL . $this->getTraceAsString() . PHP_EOL;
-			$error .= '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
+			$error .= '============ Request ' . \App\RequestUtil::requestId() . ' ======  ' . date('Y-m-d H:i:s') . "  ======\n";
 			$error .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$error .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$error .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
 			$error .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
+			$error .= 'IP: ' . $_SERVER['REMOTE_ADDR'] . PHP_EOL;
 			$error .= '----------- Headers -----------' . PHP_EOL;
 			foreach ($request->getHeaders() as $key => $header) {
 				$error .= $key . ': ' . $header . PHP_EOL;
 			}
 			$error .= '----------- Request data -----------' . PHP_EOL;
 			$error .= print_r($request->getAllRaw(), true) . PHP_EOL;
-			$error .= "----------- _GET -----------\n";
-			$error .= print_r($_GET, true) . PHP_EOL;
-			$error .= "----------- _POST -----------\n";
-			$error .= print_r($_POST, true) . PHP_EOL;
-			$error .= "----------- Request payload -----------\n";
-			$error .= print_r(file_get_contents('php://input'), true) . PHP_EOL;
+			if ($_GET) {
+				$error .= "----------- _GET -----------\n";
+				$error .= print_r($_GET, true) . PHP_EOL;
+			}
+			if ($_POST) {
+				$error .= "----------- _POST -----------\n";
+				$error .= print_r($_POST, true) . PHP_EOL;
+			}
+			if ($payload = file_get_contents('php://input')) {
+				$error .= "----------- Request payload -----------\n";
+				$error .= print_r($payload, true) . PHP_EOL;
+			}
 			file_put_contents('cache/logs/webserviceErrors.log', '============ Error exception ====== ' . date('Y-m-d H:i:s') . ' ======'
 				. PHP_EOL . $error . PHP_EOL, FILE_APPEND);
 		}
