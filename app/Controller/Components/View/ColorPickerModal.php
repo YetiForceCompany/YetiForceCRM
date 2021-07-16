@@ -8,6 +8,7 @@
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Controller\Components\View;
@@ -48,9 +49,7 @@ class ColorPickerModal extends \App\Controller\Modal
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		if ($request->has('color') && !$request->isEmpty('color')) {
-			$viewer->assign('COLOR', $request->getByType('color', 'Alnum'));
-		}
+		$viewer->assign('COLOR', !$request->isEmpty('color') ? $request->getByType('color', \App\Purifier::ALNUM) : '');
 		$viewer->view('ColorPickerModal.tpl', $request->getModule());
 	}
 
