@@ -36,8 +36,6 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 	 * Process.
 	 *
 	 * @param \App\Request $request
-	 *
-	 * @return type
 	 */
 	public function process(App\Request $request)
 	{
@@ -183,6 +181,22 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		} else {
 			$viewer->assign('IS_WIDGETS', false);
 		}
-		return $viewer->view('RelatedList.tpl', $moduleName, true);
+		return $this->loadView();
+	}
+
+	/**
+	 * Load template.
+	 */
+	public function loadView()
+	{
+		return $this->viewer->view($this->getTemplateName(), $this->viewer->getTemplateVars('MODULE_NAME'), true);
+	}
+
+	/**
+	 * Template name.
+	 */
+	public function getTemplateName()
+	{
+		return 'RelatedList.tpl';
 	}
 }
