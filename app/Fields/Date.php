@@ -183,31 +183,31 @@ class Date
 		}
 		switch ($format) {
 			case 'dd-mm-yyyy':
-				[$d, $m, $y] = explode('-', $date, 3);
+				[$d, $m, $y] = array_pad(explode('-', $date, 3), 3, null);
 				break;
 			case 'mm-dd-yyyy':
-				[$m, $d, $y] = explode('-', $date, 3);
+				[$m, $d, $y] = array_pad(explode('-', $date, 3), 3, null);
 				break;
 			case 'yyyy-mm-dd':
-				[$y, $m, $d] = explode('-', $date, 3);
+				[$y, $m, $d] = array_pad(explode('-', $date, 3), 3, null);
 				break;
 			case 'dd.mm.yyyy':
-				[$d, $m, $y] = explode('.', $date, 3);
+				[$d, $m, $y] = array_pad(explode('.', $date, 3), 3, null);
 				break;
 			case 'mm.dd.yyyy':
-				[$m, $d, $y] = explode('.', $date, 3);
+				[$m, $d, $y] = array_pad(explode('.', $date, 3), 3, null);
 				break;
 			case 'yyyy.mm.dd':
-				[$y, $m, $d] = explode('.', $date, 3);
+				[$y, $m, $d] = array_pad(explode('.', $date, 3), 3, null);
 				break;
 			case 'dd/mm/yyyy':
-				[$d, $m, $y] = explode('/', $date, 3);
+				[$d, $m, $y] = array_pad(explode('/', $date, 3), 3, null);
 				break;
 			case 'mm/dd/yyyy':
-				[$m, $d, $y] = explode('/', $date, 3);
+				[$m, $d, $y] = array_pad(explode('/', $date, 3), 3, null);
 				break;
 			case 'yyyy/mm/dd':
-				[$y, $m, $d] = explode('/', $date, 3);
+				[$y, $m, $d] = array_pad(explode('/', $date, 3), 3, null);
 				break;
 			default:
 				break;
@@ -388,14 +388,9 @@ class Date
 	 */
 	public static function isValid(string $date, ?string $format = null): bool
 	{
-		if (!strtotime($date) || !(false !== strpos($date, '-') || false !== strpos($date, '.') || false !== strpos($date, '/'))) {
-			return false;
-		}
-		if ($format) {
-			[$y, $m, $d] = self::explode($date, $format);
-		} else {
-			[$y, $m, $d] = explode('-', $date);
-		}
-		return is_numeric($m) && is_numeric($d) && is_numeric($y) && checkdate($m, $d, $y);
+		return (false !== strpos($date, '-') || false !== strpos($date, '.') || false !== strpos($date, '/'))
+		&& ([$y, $m, $d] = self::explode($date, $format))
+		&& is_numeric($m) && is_numeric($d) && is_numeric($y)
+		&& checkdate($m, $d, $y) && strtotime("{$y}-{$m}-{$d}");
 	}
 }
