@@ -8,14 +8,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class MultiCompany_Record_Model extends Vtiger_Record_Model
 {
-	/**
-	 * Function returns the details of IStorages Hierarchy.
-	 *
-	 * @return array
-	 */
+	/** {@inheritdoc} */
 	public function getHierarchy()
 	{
 		$focus = CRMEntity::getInstance($this->getModuleName());
@@ -34,14 +31,30 @@ class MultiCompany_Record_Model extends Vtiger_Record_Model
 		return $hierarchy;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function save()
 	{
 		parent::save();
 		if (false !== $this->getPreviousValue('logo')) {
 			\App\UserPrivilegesFile::reloadByMultiCompany($this->getId());
 		}
+	}
+
+	/** {@inheritdoc} */
+	public function privilegeToDelete()
+	{
+		if (!isset($this->privileges['Deleted'])) {
+			$this->privileges['Deleted'] = parent::privilegeToDelete() && !\App\MultiCompany::getRolesByCompany($this->getId());
+		}
+		return $this->privileges['Deleted'];
+	}
+
+	/** {@inheritdoc} */
+	public function privilegeToMoveToTrash()
+	{
+		if (!isset($this->privileges['MoveToTrash'])) {
+			$this->privileges['MoveToTrash'] = parent::privilegeToMoveToTrash() && !\App\MultiCompany::getRolesByCompany($this->getId());
+		}
+		return $this->privileges['MoveToTrash'];
 	}
 }

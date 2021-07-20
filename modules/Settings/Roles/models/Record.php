@@ -355,12 +355,12 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$profileIds = $this->get('profileIds');
 		if ($rolePreviousData) {
 			$oldProfileIds = $this->getProfileIdList();
-			if ($rolePreviousData['listrelatedrecord'] != $this->get('listrelatedrecord') ||
-					$rolePreviousData['previewrelatedrecord'] != $this->get('previewrelatedrecord') ||
-					$rolePreviousData['editrelatedrecord'] != $this->get('editrelatedrecord') ||
-					$rolePreviousData['permissionsrelatedfield'] != $permissionsRelatedField ||
-					$rolePreviousData['searchunpriv'] != $searchunpriv ||
-				($profileIds && !empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds))))) {
+			if ($rolePreviousData['listrelatedrecord'] != $this->get('listrelatedrecord')
+					|| $rolePreviousData['previewrelatedrecord'] != $this->get('previewrelatedrecord')
+					|| $rolePreviousData['editrelatedrecord'] != $this->get('editrelatedrecord')
+					|| $rolePreviousData['permissionsrelatedfield'] != $permissionsRelatedField
+					|| $rolePreviousData['searchunpriv'] != $searchunpriv
+				|| ($profileIds && !empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds))))) {
 				\App\Privilege::setAllUpdater();
 			}
 		}
@@ -385,6 +385,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Cache::delete('RoleDetail', $roleId);
 		\App\Cache::delete('getUsersByCompany', '');
 		\App\Cache::delete('getUsersByCompany', $this->get('company'));
+		\App\Cache::delete('getCompanyRoles', '');
 		if (isset($rolePreviousData['company'])) {
 			\App\Cache::delete('getUsersByCompany', $rolePreviousData['company']);
 		}
