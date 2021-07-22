@@ -280,6 +280,19 @@ class TextParser
 	}
 
 	/**
+	 * Set the active state of extended parsing functionality.
+	 *
+	 * @param bool $state
+	 *
+	 * @return $this
+	 */
+	public function setExtensionState(bool $state)
+	{
+		$this->useExtension = $state;
+		return $this;
+	}
+
+	/**
 	 * Set without translations.
 	 *
 	 * @param string $type

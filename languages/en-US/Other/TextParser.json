@@ -71,6 +71,7 @@
     "LBL_SUMMARY_FIELDS": "List of fields visible in the summary",
     "LBL_RELATED_ATTACHMENTS": "Related attachments",
     "LBL_DISPLAY_BARCODE": "Barcode",
-    "LBL_RECORDS_LIST_DATA_TEMPLATE": "Related records data (array)"
+    "LBL_RECORDS_LIST_DATA_TEMPLATE": "Related records data (array)",
+    "LBL_RECORDS_LIST_DATA_FROM_FIELD_TEMPLATE": "Related records data from dependent field (array)"
   }
 }
