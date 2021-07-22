@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 {
@@ -542,10 +543,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$scanId = $scannerModel->addScanHistory(['user' => $whoTrigger]);
 		foreach ($accounts as $account) {
 			\App\Log::trace('Start checking account: ' . $account['username']);
-			if (!$this->isConnection($account)) {
+			if (empty($account['actions']) || empty($folders = $scannerModel->getFolders($account['user_id'])) || !$this->isConnection($account)) {
 				continue;
 			}
-			foreach ($scannerModel->getFolders($account['user_id']) as $folderRow) {
+			foreach ($folders as $folderRow) {
 				$folder = \App\Utils::convertCharacterEncoding($folderRow['folder'], 'UTF-8', 'UTF7-IMAP');
 				\App\Log::trace('Start checking folder: ' . $folder);
 				$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder, false);
