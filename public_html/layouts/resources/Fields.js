@@ -293,7 +293,7 @@ window.App.Fields = {
 					monthNames: App.Fields.Date.fullMonthsTranslated
 				};
 			}
-			return this.locale;
+			return { ...this.locale };
 		}
 
 		/**
