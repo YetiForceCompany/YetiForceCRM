@@ -204,23 +204,15 @@ window.App.Fields = {
 				moment().subtract(1, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [moment().startOf('month'), moment().add(6, 'month').endOf('month')];
+
+			let locale = App.Fields.DateTime.getDefaultLocale();
+			locale.format = format;
 			let params = {
+				language: CONFIG.langKey,
 				autoUpdateInput: false,
 				autoApply: true,
 				ranges: ranges,
-				locale: {
-					format: format,
-					separator: ',',
-					applyLabel: app.vtranslate('JS_APPLY'),
-					cancelLabel: app.vtranslate('JS_CANCEL'),
-					fromLabel: app.vtranslate('JS_FROM'),
-					toLabel: app.vtranslate('JS_TO'),
-					customRangeLabel: app.vtranslate('JS_CUSTOM'),
-					weekLabel: app.vtranslate('JS_WEEK').substr(0, 1),
-					firstDay: CONFIG.firstDayOfWeekNo,
-					daysOfWeek: App.Fields.Date.daysTranslated,
-					monthNames: App.Fields.Date.fullMonthsTranslated
-				}
+				locale: locale
 			};
 
 			if (typeof customParams !== 'undefined') {
@@ -258,58 +250,37 @@ window.App.Fields = {
 			});
 		}
 	},
-	DateTime: {
-		/*
-		 * Initialization datetime fields
-		 * @param {jQuery} parentElement
-		 * @param {object} customParams
+	DateTime: class DateTime {
+		constructor(container, params) {
+			this.container = container;
+			this.init(params);
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 * @param {Object} params
 		 */
-		register: function (parentElement, customParams) {
-			if (typeof parentElement === 'undefined') {
-				parentElement = $('body');
-			} else {
-				parentElement = $(parentElement);
+		static register(container, params) {
+			if (typeof container === 'undefined') {
+				container = $('body');
 			}
-			let elements = $('.dateTimePickerField', parentElement);
-			if (parentElement.hasClass('dateTimePickerField')) {
-				elements = parentElement;
+			if (container.hasClass('dateTimePickerField') && !container.prop('disabled')) {
+				return new DateTime(container, params);
 			}
-			if (elements.length === 0) {
-				return;
-			}
-			$('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
-				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField').get(0).focus();
+			const instances = [];
+			container.find('.dateTimePickerField:not([disabled])').each((_, e) => {
+				let element = $(e);
+				instances.push(new DateTime(element, params));
 			});
-			let dateFormat = CONFIG.dateFormat.toUpperCase();
-			const elementDateFormat = elements.data('dateFormat');
-			if (typeof elementDateFormat !== 'undefined') {
-				dateFormat = elementDateFormat.toUpperCase();
-			}
-			let hourFormat = CONFIG.hourFormat;
-			const elementHourFormat = elements.data('hourFormat');
-			if (typeof elementHourFormat !== 'undefined') {
-				hourFormat = elementHourFormat;
-			}
-			let timePicker24Hour = true;
-			let timeFormat = 'HH:mm';
-			if (hourFormat != '24') {
-				timePicker24Hour = false;
-				timeFormat = 'hh:mm A';
-			}
-			const format = dateFormat + ' ' + timeFormat;
-			let isDateRangePicker = elements.data('calendarType') !== 'range';
-			let params = {
-				parentEl: parentElement,
-				singleDatePicker: isDateRangePicker,
-				showDropdowns: true,
-				timePicker: true,
-				autoUpdateInput: false,
-				timePicker24Hour: timePicker24Hour,
-				timePickerIncrement: 1,
-				autoApply: true,
-				opens: 'left',
-				locale: {
-					format: format,
+			return instances;
+		}
+		/**
+		 * Gets default locale data
+		 * @returns {Object}
+		 */
+		static getDefaultLocale() {
+			if (!this.locale) {
+				this.locale = {
 					separator: ',',
 					applyLabel: app.vtranslate('JS_APPLY'),
 					cancelLabel: app.vtranslate('JS_CANCEL'),
@@ -320,12 +291,55 @@ window.App.Fields = {
 					firstDay: CONFIG.firstDayOfWeekNo,
 					daysOfWeek: App.Fields.Date.daysTranslated,
 					monthNames: App.Fields.Date.fullMonthsTranslated
-				}
+				};
+			}
+			return this.locale;
+		}
+
+		/**
+		 * Initialization datetime
+		 */
+		init(customParams) {
+			$('.input-group-text', this.container.closest('.dateTime')).on('click', function (e) {
+				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField').get(0).focus();
+			});
+			let dateFormat = CONFIG.dateFormat.toUpperCase();
+			const elementDateFormat = this.container.data('dateFormat');
+			if (typeof elementDateFormat !== 'undefined') {
+				dateFormat = elementDateFormat.toUpperCase();
+			}
+			let hourFormat = CONFIG.hourFormat;
+			const elementHourFormat = this.container.data('hourFormat');
+			if (typeof elementHourFormat !== 'undefined') {
+				hourFormat = elementHourFormat;
+			}
+			let timePicker24Hour = true;
+			let timeFormat = 'HH:mm';
+			if (hourFormat != '24') {
+				timePicker24Hour = false;
+				timeFormat = 'hh:mm A';
+			}
+			const format = dateFormat + ' ' + timeFormat;
+			let isDateRangePicker = this.container.data('calendarType') !== 'range';
+			let locale = App.Fields.DateTime.getDefaultLocale();
+			locale.format = format;
+			let params = {
+				language: CONFIG.langKey,
+				parentEl: this.container.closest('.dateTime'),
+				singleDatePicker: isDateRangePicker,
+				showDropdowns: true,
+				timePicker: true,
+				autoUpdateInput: false,
+				timePicker24Hour: timePicker24Hour,
+				timePickerIncrement: 1,
+				autoApply: true,
+				opens: 'left',
+				locale: locale
 			};
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
 			}
-			elements
+			this.container
 				.daterangepicker(params)
 				.on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
 					if (isDateRangePicker) {
@@ -338,9 +352,7 @@ window.App.Fields = {
 					App.Fields.Utils.positionPicker(ev, picker);
 					picker.container.addClass('js-visible');
 				});
-			elements.each((index, element) => {
-				App.Fields.Utils.registerMobileDateRangePicker($(element));
-			});
+			App.Fields.Utils.registerMobileDateRangePicker(this.container);
 		}
 	},
 	Colors: {

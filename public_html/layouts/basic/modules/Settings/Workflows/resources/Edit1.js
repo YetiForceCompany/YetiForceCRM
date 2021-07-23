@@ -83,7 +83,7 @@ Settings_Workflows_Edit_Js(
 
 			app.registerEventForClockPicker($('.clockPicker'));
 			App.Fields.Date.register('#scheduleByDate', true);
-			App.Fields.DateTime.register('#scheduleByDate', true);
+			App.Fields.DateTime.register($('#scheduleByDate'));
 			let newElement = App.Fields.Date.register('#annualDates', false, {
 				maxViewMode: 1,
 				multidate: true,

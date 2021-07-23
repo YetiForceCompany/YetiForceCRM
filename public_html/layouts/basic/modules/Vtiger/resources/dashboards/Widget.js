@@ -1700,6 +1700,7 @@ jQuery.Class(
 			});
 			App.Fields.Date.register(container);
 			App.Fields.Date.registerRange(container);
+			App.Fields.DateTime.register(container);
 			search.on('change apply.daterangepicker', (e) => {
 				let searchParams = [];
 				container.find('.listSearchContributor').each((index, domElement) => {

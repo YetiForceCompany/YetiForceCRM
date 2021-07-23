@@ -12507,6 +12507,9 @@ header .c-header__btn__container .select2-selection {
 .awesome-marker .fas {
   margin-top: 11px; }
 
+.daterangepicker.show-calendar.js-visible:not(.single):before, .daterangepicker.show-calendar.js-visible:not(.single):after {
+  content: none !important; }
+
 .daterangepicker .ranges li {
   padding: 4px 12px; }
 

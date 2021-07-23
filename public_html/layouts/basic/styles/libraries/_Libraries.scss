@@ -292,6 +292,12 @@ header {
 .daterangepicker {
 	&.show-calendar {
 		@extend .p-0;
+		&.js-visible:not(.single) {
+			&:before,
+			&:after {
+				content: none !important;
+			}
+		}
 	}
 
 	.left,
