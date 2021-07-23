@@ -429,7 +429,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 *
 	 * @param mixed $value
 	 */
-	public function convertToUsSerFormat($value)
+	public function convertToUserFormat($value)
 	{
 		if (!empty($this->valueFieldModel)) {
 			$value = $this->valueFieldModel->getDisplayValue($value, false, false, true);

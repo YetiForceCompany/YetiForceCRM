@@ -9,11 +9,11 @@
 				<div class="container-fluid pt-3">
 						<input type="hidden" id="widgetStep" value=""/>
 						<div>
-							<div class="form-group row">
+							<div class="form-group row mb-2">
 								<label class="{$COL_LBL}">{\App\Language::translate('LBL_WIDGET_NAME','Home')}</label>
 								<div class="{$COL_CTRL}"><input type="text" class="form-control" name="widgetTitle" value=""></div>
 							</div>
-							<div class="form-group row">
+							<div class="form-group row mb-2">
 								<label class="{$COL_LBL}"><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}</label>
 								<div class="{$COL_CTRL}">
 									<select class="form-control select2 saveParam" name="chartType">
@@ -25,7 +25,7 @@
 							</div>
 						</div>
 						<div class="step1">
-							<div class="form-group row">
+							<div class="form-group row mb-2">
 								<label class="{$COL_LBL}"><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_MODULE')}</label>
 								<div class="{$COL_CTRL}">
 									<select class="form-control saveParam" name="module">
@@ -47,7 +47,7 @@
 			</div>
 		</form>
 	{elseif $WIZARD_STEP eq 'step2'}
-		<div class="form-group row">
+		<div class="form-group row mb-2">
 			<label class="{$COL_LBL}"><span class="redColor">*</span>{\App\Language::translate('LBL_FILTER')}</label>
 			<div class="{$COL_CTRL}">
 				<select class="form-control filtersId" {if $CHART_TYPE!=='Funnel' && $CHART_TYPE!=='Table' }name="filtersId"
@@ -66,7 +66,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group row">
+		<div class="form-group row mb-2">
 			<label class="{$COL_LBL}"><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_TYPE', 'Home')}</label>
 			<div class="{$COL_CTRL}">
 				<select class="form-control valueType saveParam" name="valueType" size="2">
@@ -79,7 +79,7 @@
 			</div>
 		</div>
 	{elseif $WIZARD_STEP eq 'step3'}
-		<div class="form-group row">
+		<div class="form-group row mb-2">
 			<div class="{$COL_LBL}"><label><span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_FIELD','Home')}</label></div>
 			<div class="{$COL_CTRL}">
 				<select class="form-control groupField saveParam" name="groupField" size="2" data-validation-engine="validate[required]">
@@ -95,7 +95,7 @@
 			</div>
 		</div>
 		{if $VALUE_TYPE !== 'count'}
-			<div class="form-group row">
+			<div class="form-group row mb-2">
 				<div class="{$COL_LBL}"><label><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}</label></div>
 				<div class="{$COL_CTRL}">
 					<select class="form-control saveParam valueField" name="valueField" size="2" data-validation-engine="validate[required]">
@@ -114,7 +114,7 @@
 		{/if}
 	{elseif $WIZARD_STEP eq 'step4'}
 		{if $SHOW_GROUP_VALUES}
-			<div class="form-group row">
+			<div class="form-group row mb-2">
 				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_GROUP_VALUES','Home')}</label></div>
 				<div class="{$COL_CTRL}">
 					<select class="form-control select saveParam" data-select="tags" name="sectorField">
@@ -128,7 +128,7 @@
 				</div>
 			</div>
 		{elseif in_array($CHART_TYPE,['Bar','Line','Pie','LinePlain','Donut','Horizontal', 'Table']) && count($FILTERS)<=1}
-			<div class="form-group row">
+			<div class="form-group row mb-2">
 				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_DIVIDING_FIELD','Home')}</label></div>
 				<div class="{$COL_CTRL}">
 					<select class="form-control saveParam" name="dividingField" size="2" data-allow-clear="true">
@@ -143,7 +143,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group row d-none js-sector-container">
+			<div class="form-group row d-none js-sector-container mb-2">
 				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_GROUP_VALUES','Home')}</label></div>
 				<div class="{$COL_CTRL}">
 					<select class="form-control select saveParam" data-select="tags" name="sectorField" disabled>
@@ -157,31 +157,31 @@
 				</div>
 			</div>
 			{if $CHART_TYPE neq 'Table'}
-				<div class="form-group row">
+				<div class="form-group row mb-2">
 					<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_COLORS_FROM_DIVIDING_FIELD','Home')}</label></div>
-					<div class="{$COL_CTRL}">
-						<input type="checkbox" class="form-control saveParam mx-auto" name="colorsFromDividingField" value="1" checked>
+					<div class="{$COL_CTRL} m-auto">
+						<input type="checkbox" class="form-control saveParam" name="colorsFromDividingField" value="1" checked>
 					</div>
 				</div>
 			{/if}
 		{/if}
 		{if in_array($CHART_TYPE,['Bar','Horizontal','Line','LinePlain'])}
-			<div class="form-group row">
+			<div class="form-group row mb-2">
 				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_CHART_STACKED','Home')}</label></div>
-				<div class="{$COL_CTRL}">
-					<input type="checkbox" class="form-control saveParam mx-auto" name="stacked" value="1">
+				<div class="{$COL_CTRL} m-auto">
+					<input type="checkbox" class="form-control saveParam" name="stacked" value="1">
 				</div>
 			</div>
 		{/if}
 		{if count($FILTERS)>1}
-			<div class="form-group row">
+			<div class="form-group row mb-2">
 				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_CHART_COLORS_FROM_FILTER','Home')}</label></div>
-				<div class="{$COL_CTRL}">
+				<div class="{$COL_CTRL} m-auto">
 					<input type="checkbox" class="form-control saveParam" name="colorsFromFilter" value="1" checked>
 				</div>
 			</div>
 		{/if}
-		<div class="form-group row">
+		<div class="form-group row mb-2">
 			<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_ADDITIONAL_FILTERS','Home')}</label></div>
 			<div class="{$COL_CTRL}">
 				<select class="form-control saveParam" name="additionalFiltersFields" size="2" multiple data-maximum-selection-length="{\App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')}">
@@ -195,6 +195,14 @@
 				</select>
 			</div>
 		</div>
+		{if $CHART_TYPE eq 'Table'}
+			<div class="form-group row mb-2">
+				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_WIDGET_SHOW_SUMMARY','Home')}</label></div>
+				<div class="{$COL_CTRL} m-auto">
+					<input type="checkbox" class="form-control saveParam" name="summary" value="1">
+				</div>
+			</div>
+		{/if}
 	{/if}
 	<!-- /tpl-dashboards-ChartFilter -->
 {/strip}

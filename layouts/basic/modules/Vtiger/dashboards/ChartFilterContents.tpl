@@ -9,6 +9,8 @@
 	{if $CHART_MODEL->getType() === 'Table' && $CHART_DATA}
 		{assign var=FIRST_ROW value=current($CHART_DATA)}
 		{assign var=HEADERS value=array_keys($CHART_DATA)}
+		{assign var=IS_SUMMARY value=$CHART_MODEL->getExtraData('summary')}
+		{assign var=SUMMARY value=[]}
 		<div style="margin: -5px; line-height: 1;">
 			<div class="table-responsive">
 				<table class="config-table table u-word-break-all">
@@ -30,7 +32,6 @@
 					<tbody>
 						{assign var=GROUPS value=array_keys($FIRST_ROW)}
 						{assign var=VALUE_TYPE value=$CHART_MODEL->getValueType()}
-						{assign var=FIELD_VALUE value=$CHART_MODEL->getValueType()}
 						{foreach from=$GROUPS item=GROUP_HEADER}
 							<tr>
 								<td class="u-white-space-nowrap pr-0">
@@ -38,7 +39,8 @@
 								</td>
 								{foreach from=$HEADERS item=HEADER}
 									<td class="text-center noWrap listButtons narrow">
-										{assign var=VALUE value=$CHART_MODEL->convertToUsSerFormat($CHART_DATA.$HEADER.$GROUP_HEADER.$VALUE_TYPE)}
+										{if $IS_SUMMARY} {$SUMMARY[$HEADER][] = $CHART_DATA.$HEADER.$GROUP_HEADER.$VALUE_TYPE} {/if}
+										{assign var=VALUE value=$CHART_MODEL->convertToUserFormat($CHART_DATA.$HEADER.$GROUP_HEADER.$VALUE_TYPE)}
 										{if !empty($CHART_DATA.$HEADER.$GROUP_HEADER.link)}
 											<a href="{$CHART_DATA.$HEADER.$GROUP_HEADER.link}">{$VALUE}</a>
 										{else}
@@ -48,6 +50,19 @@
 								{/foreach}
 							</tr>
 						{/foreach}
+						{if $IS_SUMMARY}
+							<tr>
+								<td class="u-white-space-nowrap pr-0 border-secondary">
+									<b>{\App\Language::translate('LBL_SUMMARY')}</b>
+								</td>
+								{foreach from=$HEADERS item=HEADER}
+									<td class="text-center noWrap listButtons narrow border-secondary">
+										{assign var=HEADER_SUM value=array_sum($SUMMARY[$HEADER])}
+									    <b>{$CHART_MODEL->convertToUserFormat($HEADER_SUM)}</b>
+									</td>
+								{/foreach}
+							</tr>
+						{/if}
 					</tbody>
 				</table>
 			</div>
