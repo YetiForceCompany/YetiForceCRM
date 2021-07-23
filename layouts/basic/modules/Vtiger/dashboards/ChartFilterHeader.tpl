@@ -37,7 +37,7 @@
 				{assign var=SEARCH_INFO value=[]}
 			{/if}
 			{if $COUNTER % 2 === 0}<div class="row no-gutters">{/if}
-				<div class="col-ceq-xsm-6">
+				<div class="col-ceq-xsm-6 input-group-sm">
 					{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE=$WIDGET_DATA['module'] CLASS_SIZE='input-group-sm'}
 				</div>
 			{if $COUNTER % 2 !==0 || $COUNTER===count($ADDITIONAL_FILTERS_FIELDS)-1}</div>{/if}
