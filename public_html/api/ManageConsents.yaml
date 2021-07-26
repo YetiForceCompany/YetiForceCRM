@@ -22,7 +22,7 @@ paths:
   /webservice/ManageConsents/ApprovalsRegister/Record:
     post:
       tags:
-        - Consents
+        - ApprovalsRegister
       summary: 'Adds an consent entry'
       operationId: 425399d47c958ba5c538827d258fde0a
       requestBody:
@@ -31,23 +31,23 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/ApprovalsRegisterRequestBody'
+              $ref: '#/components/schemas/ApprovalsRegister_Post_Record_Request'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/ApprovalsRegisterRequestBody'
+              $ref: '#/components/schemas/ApprovalsRegister_Post_Record_Request'
           application/json:
             schema:
-              $ref: '#/components/schemas/ApprovalsRegisterRequestBody'
+              $ref: '#/components/schemas/ApprovalsRegister_Post_Record_Request'
       responses:
         '200':
           description: 'Result of adding entry'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApprovalsRegisterResponseBody'
+                $ref: '#/components/schemas/ApprovalsRegister_Post_Record_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ApprovalsRegisterResponseBody'
+                $ref: '#/components/schemas/ApprovalsRegister_Post_Record_Response'
         '401':
           description: '`No sent token` OR `Invalid token`'
         '403':
@@ -62,7 +62,7 @@ paths:
   /webservice/ManageConsents/Approvals/RecordsList:
     get:
       tags:
-        - Consents
+        - Approvals
       summary: 'Gets the list of consents'
       operationId: 04e7ebb08f943d466f20bb0e98311271
       parameters:
@@ -101,17 +101,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApprovalsConditionsRequest'
+                $ref: '#/components/schemas/Approvals_Get_RecordsList_Request'
       responses:
         '200':
           description: 'List of consents'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ConsentsResponseBody'
+                $ref: '#/components/schemas/Approvals_Get_RecordsList_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ConsentsResponseBody'
+                $ref: '#/components/schemas/Approvals_Get_RecordsList_Response'
         '401':
           description: '`No sent token` OR `Invalid token`'
           content:
@@ -147,7 +147,7 @@ paths:
   '/webservice/ManageConsents/{moduleName}/GetConsentsForEntry':
     post:
       tags:
-        - Consents
+        - BaseModule
       summary: 'Gets the list of consents for specific entry'
       operationId: 9fd993e544cb6935282883e505b8d1d6
       parameters:
@@ -165,20 +165,20 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/ConsentsForEntryRequestBody'
+              $ref: '#/components/schemas/BaseModule_Post_GetConsentsForEntry_Request'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/ConsentsForEntryRequestBody'
+              $ref: '#/components/schemas/BaseModule_Post_GetConsentsForEntry_Request'
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsentsForEntryRequestBody'
+              $ref: '#/components/schemas/BaseModule_Post_GetConsentsForEntry_Request'
       responses:
         '200':
           description: 'List of consents for specific entry'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ConsentsForEntryResponseBody'
+                $ref: '#/components/schemas/BaseModule_Post_GetConsentsForEntry_Response'
         '401':
           description: '`No sent token` OR `Invalid token`'
         '403':
@@ -195,7 +195,7 @@ paths:
   '/webservice/ManageConsents/{moduleName}/SendEmail':
     post:
       tags:
-        - Consents
+        - BaseModule
       summary: 'Send e-mail'
       operationId: 86c8610aedbae9a8690ab71a3ae22134
       parameters:
@@ -213,20 +213,20 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/SendEmailRequestBody'
+              $ref: '#/components/schemas/BaseModule_Post_SendEmail_Request'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/SendEmailRequestBody'
+              $ref: '#/components/schemas/BaseModule_Post_SendEmail_Request'
           application/json:
             schema:
-              $ref: '#/components/schemas/SendEmailRequestBody'
+              $ref: '#/components/schemas/BaseModule_Post_SendEmail_Request'
       responses:
         '200':
           description: 'Status of adding an email to the queue'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SendEmailResponseBody'
+                $ref: '#/components/schemas/BaseModule_Post_SendEmail_Response'
         '401':
           description: '`No sent token` OR `Invalid token`'
         '403':
@@ -242,7 +242,7 @@ paths:
           token: []
 components:
   schemas:
-    ApprovalsRegisterRequestBody:
+    ApprovalsRegister_Post_Record_Request:
       title: 'A list of fields required while creating an entry'
       description: 'The list is based on fields in the Consent register module. Accepting or declining consent takes place based on the value in the approvals_register_status field.'
       type: object
@@ -253,7 +253,7 @@ components:
         approvals_register_type: PLL_ACCEPTANCE
         approvals_register_status: PLL_FOR_VERIFICATION
         registration_date: '2019-11-12 12:00'
-    ApprovalsRegisterResponseBody:
+    ApprovalsRegister_Post_Record_Response:
       title: 'Adding an entry'
       description: 'Result of adding entry'
       properties:
@@ -276,7 +276,7 @@ components:
               example: ''
           type: object
       type: object
-    ApprovalsConditionsRequest:
+    Approvals_Get_RecordsList_Request:
       title: Conditions
       description: 'The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. '
       type: object
@@ -284,7 +284,7 @@ components:
         fieldName: approvals_status
         value: PLL_ACTIVE
         operator: e
-    ConsentsResponseBody:
+    Approvals_Get_RecordsList_Response:
       title: 'List of consents'
       description: 'List of obtained consents'
       properties:
@@ -349,14 +349,14 @@ components:
               example: '#0 api\webservice\Portal\BaseAction\Files.php (101) ....'
           type: object
       type: object
-    ConsentsForEntryRequestBody:
+    BaseModule_Post_GetConsentsForEntry_Request:
       title: 'Request body for GetConsentsForEntry'
       properties:
         token:
           description: 'Entry unique ID (Token type field in the module is required)'
           type: string
       type: object
-    ConsentsForEntryResponseBody:
+    BaseModule_Post_GetConsentsForEntry_Response:
       title: 'Response body for GetConsentsForEntry'
       description: 'Gets consents.'
       properties:
@@ -382,7 +382,7 @@ components:
                 example: 24862
           type: object
       type: object
-    SendEmailRequestBody:
+    BaseModule_Post_SendEmail_Request:
       title: 'Request body for SendEmail'
       properties:
         e-mail:
@@ -392,7 +392,7 @@ components:
           description: 'Specific ID of the email template'
           type: integer
       type: object
-    SendEmailResponseBody:
+    BaseModule_Post_SendEmail_Response:
       title: 'Response body for SendEmail'
       description: 'Send e-mail.'
       properties:
