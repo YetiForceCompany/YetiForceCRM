@@ -11,6 +11,8 @@
 
 namespace Api\Portal\Users;
 
+use OpenApi\Annotations as OA;
+
 /**
  * Portal container - Users two-factor authentication action class.
  */

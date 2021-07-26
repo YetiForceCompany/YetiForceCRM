@@ -11,6 +11,8 @@
 
 namespace Api\Portal\Users;
 
+use OpenApi\Annotations as OA;
+
 /**
  * Portal container - User password reset action class.
  */

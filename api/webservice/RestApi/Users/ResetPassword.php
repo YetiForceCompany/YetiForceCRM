@@ -11,6 +11,8 @@
 
 namespace Api\RestApi\Users;
 
+use OpenApi\Annotations as OA;
+
 /**
  * RestApi container - User password reset action class.
  */
