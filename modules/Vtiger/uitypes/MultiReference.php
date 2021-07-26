@@ -76,6 +76,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 		$values = explode(self::COMMA, $value);
 		$maxLength = \is_int($length) ? $length : \App\Config::main('href_max_length');
 		foreach ($values as $recordId) {
+			$recordId = (int) $recordId;
 			if ($name = App\Record::getLabel($recordId)) {
 				$name = $rawText ? $name : \App\TextParser::textTruncate($name, $maxLength);
 				if (!$rawText && \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $recordId)) {
@@ -119,6 +120,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 		$maxLength = empty($length) ? \App\Config::main('href_max_length') : $length;
 		$break = false;
 		foreach ($values as $recordId) {
+			$recordId = (int) $recordId;
 			if ($name = App\Record::getLabel($recordId)) {
 				$displayValueRaw[$recordId] = $name;
 				if (!$rawText) {

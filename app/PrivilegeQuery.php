@@ -56,7 +56,7 @@ class PrivilegeQuery
 	 *
 	 * @param \App\Db\Query $query
 	 * @param string        $moduleName
-	 * @param int           $user
+	 * @param int|\App\User $user
 	 * @param int           $relatedRecord
 	 *
 	 * @return void

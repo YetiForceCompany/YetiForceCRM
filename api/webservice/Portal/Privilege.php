@@ -89,7 +89,7 @@ class Privilege
 			return false;
 		}
 
-		$parentModule = \App\Record::getType($parentRecordId);
+		$parentModule = \App\Record::getType($parentRecordId) ?? '';
 
 		$moduleModel = $recordModel->getModule();
 		if (\App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && ($privateField = $recordModel->getField('private')) && $privateField->isActiveField() && $recordModel->get($privateField->getName())) {

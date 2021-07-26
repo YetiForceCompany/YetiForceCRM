@@ -61,7 +61,7 @@ class PrivilegeQuery
 			$query->andWhere(new Expression('0=1'));
 			return;
 		}
-		$parentModule = \App\Record::getType($parentId);
+		$parentModule = \App\Record::getType($parentId) ?? '';
 
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {

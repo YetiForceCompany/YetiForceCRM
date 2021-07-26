@@ -250,7 +250,6 @@ class RecordsList extends \Api\Core\BaseAction
 		$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
 		if ($this->fields) {
 			$moduleModel = reset($this->fields)->getModule();
-			$extRecordModel = [];
 			$recordModel = $moduleModel->getRecordFromArray($row);
 			$this->permissions = [
 				'isEditable' => $recordModel->isEditable(),
