@@ -48,28 +48,28 @@ class Record extends \Api\ManageConsents\BaseAction
 	 * @OA\Post(
 	 *		path="/webservice/ManageConsents/ApprovalsRegister/Record",
 	 *		summary="Adds an consent entry",
-	 *		tags={"Consents"},
+	 *		tags={"ApprovalsRegister"},
 	 *    security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *    },
 	 *		@OA\RequestBody(
 	 *				required=true,
 	 *				description="Required data for communication",
-	 *				@OA\JsonContent(ref="#/components/schemas/ApprovalsRegisterRequestBody"),
+	 *				@OA\JsonContent(ref="#/components/schemas/ApprovalsRegister_Post_Record_Request"),
 	 *     		@OA\MediaType(
 	 *         		mediaType="multipart/form-data",
-	 *         		@OA\Schema(ref="#/components/schemas/ApprovalsRegisterRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/ApprovalsRegister_Post_Record_Request")
 	 *     		),
 	 *     		@OA\MediaType(
 	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/ApprovalsRegisterRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/ApprovalsRegister_Post_Record_Request")
 	 *     		),
 	 *		),
 	 *		@OA\Response(
 	 *				response=200,
 	 *				description="Result of adding entry",
-	 *				@OA\JsonContent(ref="#/components/schemas/ApprovalsRegisterResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/ApprovalsRegisterResponseBody"),
+	 *				@OA\JsonContent(ref="#/components/schemas/ApprovalsRegister_Post_Record_Response"),
+	 *				@OA\XmlContent(ref="#/components/schemas/ApprovalsRegister_Post_Record_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
@@ -85,7 +85,7 @@ class Record extends \Api\ManageConsents\BaseAction
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="ApprovalsRegisterRequestBody",
+	 *		schema="ApprovalsRegister_Post_Record_Request",
 	 *		title="A list of fields required while creating an entry",
 	 *		description="The list is based on fields in the Consent register module. Accepting or declining consent takes place based on the value in the approvals_register_status field.",
 	 *		type="object",
@@ -99,7 +99,7 @@ class Record extends \Api\ManageConsents\BaseAction
 	 * 		}
 	 *	),
 	 * @OA\Schema(
-	 *		schema="ApprovalsRegisterResponseBody",
+	 *		schema="ApprovalsRegister_Post_Record_Response",
 	 *		title="Adding an entry",
 	 *		description="Result of adding entry",
 	 *		type="object",
