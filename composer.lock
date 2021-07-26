@@ -514,16 +514,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.27",
+            "version": "8.12.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "f4d3aab2d2f7e0f82381303019be77fd22c49efe"
+                "reference": "f503d56d269e9b8572440820ef029e296dadaa1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/f4d3aab2d2f7e0f82381303019be77fd22c49efe",
-                "reference": "f4d3aab2d2f7e0f82381303019be77fd22c49efe",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/f503d56d269e9b8572440820ef029e296dadaa1e",
+                "reference": "f503d56d269e9b8572440820ef029e296dadaa1e",
                 "shasum": ""
             },
             "require": {
@@ -583,7 +583,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2021-07-07T10:05:03+00:00"
+            "time": "2021-07-20T13:33:24+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -910,16 +910,16 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v8.49.2",
+            "version": "v8.51.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "f9311a35779750f38bed47456c031c4dc4962274"
+                "reference": "7942bc71aca503d2f2721469c650fce38b1058e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/f9311a35779750f38bed47456c031c4dc4962274",
-                "reference": "f9311a35779750f38bed47456c031c4dc4962274",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/7942bc71aca503d2f2721469c650fce38b1058e3",
+                "reference": "7942bc71aca503d2f2721469c650fce38b1058e3",
                 "shasum": ""
             },
             "require": {
@@ -960,11 +960,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-06-28T13:56:26+00:00"
+            "time": "2021-07-15T14:07:19+00:00"
         },
         {
             "name": "illuminate/contracts",
-            "version": "v8.49.2",
+            "version": "v8.51.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1012,7 +1012,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v8.49.2",
+            "version": "v8.51.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1058,16 +1058,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v8.49.2",
+            "version": "v8.51.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "0ecdbb8e61919e972c120c0956fb1c0a3b085967"
+                "reference": "ee397b851a411ad490363a47df7476a24f93ca2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/0ecdbb8e61919e972c120c0956fb1c0a3b085967",
-                "reference": "0ecdbb8e61919e972c120c0956fb1c0a3b085967",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/ee397b851a411ad490363a47df7476a24f93ca2e",
+                "reference": "ee397b851a411ad490363a47df7476a24f93ca2e",
                 "shasum": ""
             },
             "require": {
@@ -1086,7 +1086,7 @@
             },
             "suggest": {
                 "illuminate/filesystem": "Required to use the composer class (^8.0).",
-                "league/commonmark": "Required to use Str::markdown() and Stringable::markdown() (^1.3).",
+                "league/commonmark": "Required to use Str::markdown() and Stringable::markdown() (^1.3|^2.0).",
                 "ramsey/uuid": "Required to use Str::uuid() (^4.0).",
                 "symfony/process": "Required to use the composer class (^5.1.4).",
                 "symfony/var-dumper": "Required to use the dd function (^5.1.4).",
@@ -1122,7 +1122,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-07-02T16:40:19+00:00"
+            "time": "2021-07-16T12:34:54+00:00"
         },
         {
             "name": "league/climate",
