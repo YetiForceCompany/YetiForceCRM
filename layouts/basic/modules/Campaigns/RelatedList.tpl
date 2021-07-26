@@ -28,13 +28,14 @@
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'/>
 		<input type="hidden" id="autoRefreshListOnChange" value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
+		{assign var=CUSTOM_VIEW_LIST value=$RELATION_MODEL->getCustomViewList()}
 		<div class="relatedHeader">
-			<div class="btn-toolbar row">
-				<div class="col-lg-9">
+			<div class="w-100 d-inline-flex flex-wrap">
+				<div class="col-12 px-0 u-w-sm-down-100 d-flex flex-xl-nowrap flex-wrap px-0">
 					{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
-						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0'}
+						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1'}
 					{/if}
-					<div class="btn-group col-md-3 mb-2">
+					<div class="col-md col-12 px-0 btn-group mr-sm-1 mb-1">
 						<span class="customFilterMainSpan">
 							{if isset($CUSTOM_VIEWS)}
 								<select id="customFilter" class="col-md-12"
@@ -58,7 +59,7 @@
 							{/if}
 						</span>
 					</div>
-					<div class="btn-group pr-2 mb-2">
+					<div class="col-md col-12 px-0 btn-group mr-1 text-nowrap mb-1">
 						<button type="button" class="btn btn-light loadFormFilterButton js-popover-tooltip"
 								data-js="popover"
 								data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
@@ -68,7 +69,7 @@
 					</div>
 					{if isset($RELATED_LIST_LINKS['LISTVIEWBASIC'])}
 						{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-							<div class="btn-group pr-2 mb-2">
+							<div class="col-md col-12 px-0 btn-group mr-1 text-nowrap mb-1">
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 								{assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
 								<button type="button" class="btn btn-light addButton
@@ -88,11 +89,34 @@
 							</div>
 						{/foreach}
 					{/if}
-				</div>
-				<div class="col-lg-3 mb-2">
-					<div class="float-right">
+					{if $CUSTOM_VIEW_LIST}
+						<div class="col-md col-12 px-0 mb-lg-0 mb-sm-1">
+							{if count($CUSTOM_VIEW_LIST) === 1}
+								<input type="hidden" class="js-relation-cv-id" value="{array_key_first($CUSTOM_VIEW_LIST)}" data-js="value" />
+							{else}
+								<div class="d-flex flex-nowrap input-group">
+									<div class="input-group-prepend">
+										<div class="input-group-text">
+											<span class="fas fa-filter"></span>
+										</div>
+									</div>
+									<select class="form-control select2 js-relation-cv-id" data-js="change|select2|value">
+										{foreach key=CV_ID item=CV_NAME from=$CUSTOM_VIEW_LIST}
+											<option value="{$CV_ID}" {if $CV_ID == $VIEW_MODEL->get('cvId')}selected{/if}>
+												{$CV_NAME}
+											</option>
+										{/foreach}
+									</select>
+								</div>
+							{/if}
+						</div>
+					{/if}
+					<div class="col-md col-12 px-0 d-flex flex-nowrap u-w-sm-down-100 ml-auto mb-1 justify-content-end">
+						<div class="paginationDiv pl-lg-1 pl-md-0">
+							{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
+						</div>
 						{if $VIEW_MODEL}
-							<div class="float-right pl-1">
+							<div class="ml-md-1 ml-auto">
 								{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 								<input type="hidden" class="entityState"
 										value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}"/>
@@ -144,32 +168,6 @@
 								</div>
 							</div>
 						{/if}
-					</div>
-					{assign var=CUSTOM_VIEW_LIST value=$RELATION_MODEL->getCustomViewList()}
-					{if $CUSTOM_VIEW_LIST}
-						<div class="d-flex justify-content-start">
-							{if count($CUSTOM_VIEW_LIST) === 1}
-								<input type="hidden" class="js-relation-cv-id" value="{array_key_first($CUSTOM_VIEW_LIST)}" data-js="value" />
-							{else}
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<div class="input-group-text">
-											<span class="fas fa-filter"></span>
-										</div>
-									</div>
-									<div class="input-group-append">
-										<select class="form-control select2 js-relation-cv-id" data-js="change|select2|value">
-											{foreach key=CV_ID item=CV_NAME from=$CUSTOM_VIEW_LIST}
-												<option value="{$CV_ID}" {if $CV_ID == $VIEW_MODEL->get('cvId')}selected{/if}>{$CV_NAME}</option>
-											{/foreach}
-										</select>
-									</div>
-								</div>
-							{/if}
-						</div>
-					{/if}
-					<div class="paginationDiv pl-1 d-flex justify-content-end">
-						{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
 					</div>
 				</div>
 			</div>
