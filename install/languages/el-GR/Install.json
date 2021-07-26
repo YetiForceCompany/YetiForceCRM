@@ -111,7 +111,7 @@
     "LBL_ERROR_INSTALL": "Ανεπιτυχής εγκατάσταση",
     "LBL_SESSION_ERROR_TITLE": "Wrong session ID.",
     "LBL_SESSION_ERROR_DESC": "Exists in server configuration which causes loss of session data.\nWe recommend removing browser cache, in case it does not help please fix your server configuration.",
-    "LBL_NAME": "Company name or first and last name",
+    "LBL_NAME": "Όνομα εταιρείας ή ονοματεπώνυμο",
     "LBL_INDUSTRY": "Κλάδος",
     "LBL_CITY": "Πόλη/Χωριό",
     "LBL_COUNTRY": "Χώρα",
