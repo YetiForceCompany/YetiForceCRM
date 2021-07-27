@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSMailScanner_CreatedEmail_ScannerAction
 {
@@ -86,7 +87,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 	public function parseContent(OSSMail_Mail_Model $mail)
 	{
 		$html = $mail->get('body');
-		if (!\App\Utils::isHtml($html)) {
+		if (!\App\Utils::isHtml($html) || !$mail->get('isHtml')) {
 			$html = nl2br($html);
 		}
 		$attachments = $mail->get('attachments');

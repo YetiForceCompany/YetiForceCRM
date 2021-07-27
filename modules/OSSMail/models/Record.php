@@ -260,10 +260,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mail->set('bcc_email', \App\Purifier::purify($mail->getEmail('bcc')));
 		$mail->set('subject', isset($header->subject) ? \App\TextParser::textTruncate(\App\Purifier::purify(self::decodeText($header->subject)), 65535, false) : '');
 		$mail->set('date', date('Y-m-d H:i:s', $header->udate));
+
 		if ($fullMode) {
 			$structure = self::getBodyAttach($mbox, $id, $msgno);
 			$mail->set('body', $structure['body']);
 			$mail->set('attachments', $structure['attachment']);
+			$mail->set('isHtml', $structure['isHtml']);
 
 			$clean = '';
 			\App\Log::beginProfile(__METHOD__ . '|imap_fetch_overview', 'Mail|IMAP');
@@ -379,6 +381,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return [
 			'body' => $body,
 			'attachment' => $attachment,
+			'isHtml' => !empty($mail['textHtml'])
 		];
 	}
 
@@ -461,6 +464,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				if (!isset($mail['textPlain'])) {
 					$mail['textPlain'] = '';
 				}
+				if (isset($params['format']) && 'flowed' === $params['format']) {
+					$uuDecode['text'] = self::unfoldFlowed($uuDecode['text'], isset($params['delsp']) && 'yes' === strtolower($params['delsp']));
+				}
 				$mail['textPlain'] .= $uuDecode['text'];
 			} else {
 				if (!isset($mail['textHtml'])) {
@@ -523,6 +529,65 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			];
 		}
 		return ['attachments' => $attachments, 'text' => $input];
+	}
+
+	/**
+	 * Parse format=flowed message body.
+	 *
+	 * @param string $text
+	 * @param bool   $delSp
+	 *
+	 * @return string
+	 */
+	protected static function unfoldFlowed(string $text, bool $delSp = false): string
+	{
+		$text = preg_split('/\r?\n/', $text);
+		$last = -1;
+		$qLevel = 0;
+		foreach ($text as $idx => $line) {
+			if ($q = strspn($line, '>')) {
+				$line = substr($line, $q);
+				if (isset($line[0]) && ' ' === $line[0]) {
+					$line = substr($line, 1);
+				}
+				if ($q == $qLevel
+					&& isset($text[$last]) && ' ' == $text[$last][\strlen($text[$last]) - 1]
+					&& !preg_match('/^>+ {0,1}$/', $text[$last])
+				) {
+					if ($delSp) {
+						$text[$last] = substr($text[$last], 0, -1);
+					}
+					$text[$last] .= $line;
+					unset($text[$idx]);
+				} else {
+					$last = $idx;
+				}
+			} else {
+				if ('-- ' == $line) {
+					$last = $idx;
+				} else {
+					if (isset($line[0]) && ' ' === $line[0]) {
+						$line = substr($line, 1);
+					}
+					if (isset($text[$last]) && $line && !$qLevel
+						&& '-- ' !== $text[$last]
+						&& isset($text[$last][\strlen($text[$last]) - 1]) && ' ' === $text[$last][\strlen($text[$last]) - 1]
+					) {
+						if ($delSp) {
+							$text[$last] = substr($text[$last], 0, -1);
+						}
+						$text[$last] .= $line;
+						unset($text[$idx]);
+					} else {
+						$text[$idx] = $line;
+						$last = $idx;
+					}
+				}
+			}
+			$qLevel = $q;
+		}
+
+		return implode("\r\n", $text);
 	}
 
 	/**
