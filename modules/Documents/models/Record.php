@@ -327,7 +327,12 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			'path' => $uploadFilePath
 		])->execute();
 		$currentId = $db->getLastInsertID('vtiger_attachments_attachmentsid_seq');
-		if ($fileInstance->moveFile(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $uploadFilePath . $currentId)) {
+		if (\App\Config::module($this->getModuleName(), 'storagePath')) {
+			$destinyFilePath = $uploadFilePath . $currentId;
+		} else {
+			$destinyFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $uploadFilePath . $currentId;
+		}
+		if ($fileInstance->moveFile($destinyFilePath)) {
 			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
 			$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
 			$this->ext['attachmentsId'] = $currentId;
