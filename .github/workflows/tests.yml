@@ -48,6 +48,20 @@ jobs:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
+  tests74MariaDB106:
+    runs-on: ubuntu-latest
+    name: PHP 7.4 - MariaDB 10.6
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Tests
+        uses: YetiForceCompany/YetiForceCRM-Tests/mariadb-10.6@main
+        env:
+          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+
   tests74MySQL57:
     runs-on: ubuntu-latest
     name: PHP 7.4 - Percona MySQL 5.7
@@ -75,21 +89,6 @@ jobs:
         env:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-
-  tests74MariaDB106:
-    runs-on: ubuntu-latest
-    name: PHP 7.4 - MariaDB 10.6
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/mariadb-10.6@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-
   coverage:
     runs-on: ubuntu-latest
     name: Code Coverage
