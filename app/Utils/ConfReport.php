@@ -355,7 +355,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $pathVerification = [
-		'webservice/' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'webservice/RestApi/' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'.well-known/carddav' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'.well-known/caldav' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'robots.txt' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
@@ -1396,7 +1396,7 @@ class ConfReport
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
-				if (200 === $response->getStatusCode() && 'No uid' === (string) $response->getBody()) {
+				if (200 === $response->getStatusCode() && 'No token' === (string) $response->getBody()) {
 					$supported[] = $type;
 				}
 			} catch (\Throwable $e) {
@@ -1562,7 +1562,10 @@ class ConfReport
 	{
 		$row = self::validateNotEmpty($name, $row, $sapi);
 		if ($row['status']) {
-			$row['status'] = is_dir(\dirname($row[$sapi]));
+			$dir = \dirname($row[$sapi]);
+			if (!is_dir($dir) && !is_readable($dir)) {
+				$row['status'] = true;
+			}
 		}
 		return $row;
 	}
