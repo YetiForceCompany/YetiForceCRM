@@ -9,5 +9,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 chdir(__DIR__ . '/../');
-\define('IS_PUBLIC_DIR', true);
+if (!\defined('IS_PUBLIC_DIR')) {
+	\define('IS_PUBLIC_DIR', true);
+}
 require './token.php';
