@@ -959,7 +959,9 @@ class File
 	 */
 	public static function initStorageFileDirectory($suffix = false)
 	{
-		$filepath = 'storage' . \DIRECTORY_SEPARATOR;
+		if (!$filepath = \App\Config::module($suffix, 'storagePath')) {
+			$filepath = 'storage' . \DIRECTORY_SEPARATOR;
+		}
 		if ($suffix) {
 			$filepath .= $suffix . \DIRECTORY_SEPARATOR;
 		}
