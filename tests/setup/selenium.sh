@@ -11,6 +11,7 @@ serverUrl='http://127.0.0.1:4444'
 
 # Versions
 CHROME_DRIVER_VERSION=`curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE`
+#CHROME_DRIVER_VERSION="92.0.4515.107"
 SELENIUM_STANDALONE_VERSION=3.9.0
 SELENIUM_SUBDIR=$(echo "$SELENIUM_STANDALONE_VERSION" | cut -d"." -f-2)
 
@@ -27,7 +28,7 @@ apt-get install -y --no-install-recommends openjdk-8-jre-headless xvfb xauth lib
 
 # Install Chrome.
 echo '-- # Install Chrome. --'
-apt-get install -y --no-install-recommends google-chrome-stable >> /var/www/html/cache/logs/apt-get-install.log
+apt-get install -y --no-install-recommends google-chrome-beta >> /var/www/html/cache/logs/apt-get-install.log
 
 # Install ChromeDriver.
 echo '-- Install ChromeDriver. --'
