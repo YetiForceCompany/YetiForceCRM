@@ -64,6 +64,7 @@ jobs:
 
   tests74MySQLLatest:
     runs-on: ubuntu-latest
+    continue-on-error: true
     name: PHP 7.4 - MySQL Latest (8.0)
     steps:
       - uses: actions/checkout@v2
@@ -92,6 +93,7 @@ jobs:
 
   tests74MySQL80:
     runs-on: ubuntu-latest
+    continue-on-error: true
     name: PHP 7.4 - Percona MySQL 8.0
     steps:
       - uses: actions/checkout@v2
