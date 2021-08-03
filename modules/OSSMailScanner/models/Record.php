@@ -29,9 +29,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$iterator = new DirectoryIterator($moduleModel->actionsDir);
 		$actions = [];
 		foreach ($iterator as $i => $fileInfo) {
-			if (!$fileInfo->isDot()) {
-				$action = $fileInfo->getFilename();
-				$action = rtrim($action, '.php');
+			if (!$fileInfo->isDot() && 'php' === $fileInfo->getExtension()) {
+				$action = trim($fileInfo->getBasename('.php'));
 				$key = array_search($action, $accountsPriority);
 				if (false === $key) {
 					$key = $i + 100;
