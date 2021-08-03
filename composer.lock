@@ -1431,16 +1431,16 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.16.5",
+            "version": "v1.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "6d51ee9e94cff14412783785e79a4e7ef97b9d62"
+                "reference": "0a3532556be0145603f8a9de23e76dc28eed7054"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/6d51ee9e94cff14412783785e79a4e7ef97b9d62",
-                "reference": "6d51ee9e94cff14412783785e79a4e7ef97b9d62",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/0a3532556be0145603f8a9de23e76dc28eed7054",
+                "reference": "0a3532556be0145603f8a9de23e76dc28eed7054",
                 "shasum": ""
             },
             "require": {
@@ -1459,7 +1459,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.16-dev"
+                    "dev-master": "1.17-dev"
                 }
             },
             "autoload": {
@@ -1490,9 +1490,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.16.5"
+                "source": "https://github.com/maximebf/php-debugbar/tree/v1.17.1"
             },
-            "time": "2020-12-07T11:07:24+00:00"
+            "time": "2021-08-01T09:19:02+00:00"
         },
         {
             "name": "milon/barcode",
@@ -3758,16 +3758,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.23.0",
+            "version": "v1.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "2df51500adbaebdc4c38dea4c89a2e131c45c8a1"
+                "reference": "9174a3d80210dca8daa7f31fec659150bbeabfc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2df51500adbaebdc4c38dea4c89a2e131c45c8a1",
-                "reference": "2df51500adbaebdc4c38dea4c89a2e131c45c8a1",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/9174a3d80210dca8daa7f31fec659150bbeabfc6",
+                "reference": "9174a3d80210dca8daa7f31fec659150bbeabfc6",
                 "shasum": ""
             },
             "require": {
@@ -3818,7 +3818,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.23.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.23.1"
             },
             "funding": [
                 {
@@ -3834,20 +3834,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-27T09:27:20+00:00"
+            "time": "2021-05-27T12:26:48+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.23.0",
+            "version": "v1.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "eca0bf41ed421bed1b57c4958bab16aa86b757d0"
+                "reference": "1100343ed1a92e3a38f9ae122fc0eb21602547be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/eca0bf41ed421bed1b57c4958bab16aa86b757d0",
-                "reference": "eca0bf41ed421bed1b57c4958bab16aa86b757d0",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/1100343ed1a92e3a38f9ae122fc0eb21602547be",
+                "reference": "1100343ed1a92e3a38f9ae122fc0eb21602547be",
                 "shasum": ""
             },
             "require": {
@@ -3901,7 +3901,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.23.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.23.1"
             },
             "funding": [
                 {
@@ -3917,7 +3917,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-19T12:13:01+00:00"
+            "time": "2021-07-28T13:41:28+00:00"
         },
         {
             "name": "symfony/translation",
@@ -4094,22 +4094,22 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.3.3",
+            "version": "v5.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "46aa709affb9ad3355bd7a810f9662d71025c384"
+                "reference": "3dd8ddd1e260e58ecc61bb78da3b6584b3bfcba0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/46aa709affb9ad3355bd7a810f9662d71025c384",
-                "reference": "46aa709affb9ad3355bd7a810f9662d71025c384",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/3dd8ddd1e260e58ecc61bb78da3b6584b3bfcba0",
+                "reference": "3dd8ddd1e260e58ecc61bb78da3b6584b3bfcba0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
                 "symfony/polyfill-mbstring": "~1.0",
-                "symfony/polyfill-php80": "^1.15"
+                "symfony/polyfill-php80": "^1.16"
             },
             "conflict": {
                 "phpunit/phpunit": "<5.4.3",
@@ -4162,7 +4162,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v5.3.3"
+                "source": "https://github.com/symfony/var-dumper/tree/v5.3.6"
             },
             "funding": [
                 {
@@ -4178,7 +4178,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-24T08:13:00+00:00"
+            "time": "2021-07-27T01:56:02+00:00"
         },
         {
             "name": "twig/twig",
@@ -4772,5 +4772,5 @@
         "ext-hash": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
