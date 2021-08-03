@@ -1,20 +1,33 @@
 <?php
 
 /**
- * Vtiger activities widget class.
+ * Activities widget - file.
  *
  * @package Widget
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
+
+/**
+ * Activities widget class.
+ */
 class Vtiger_Activities_Widget extends Vtiger_Basic_Widget
 {
-	public $allowedModules = ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees', 'Campaigns', 'HelpDesk', 'Project', 'ServiceContracts', 'SSalesProcesses', 'SQuoteEnquiries', 'SRequirementsCards', 'SCalculations', 'SQuotes', 'SSingleOrders', 'SRecurringOrders', 'SVendorEnquiries'];
+	/** {@inheritdoc} */
+	public function isPermitted(): bool
+	{
+		return parent::isPermitted() && \App\Relation::getByModule($this->moduleModel->getName(), true, 'Calendar');
+	}
 
+	/**
+	 * Get URL.
+	 *
+	 * @return string
+	 */
 	public function getUrl()
 	{
-		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getActivities&page=1&limit=' . $this->Data['limit'] . '&search_params=' . App\Json::encode([$this->getSearchParams('current')]).'&orderby=' . App\Json::encode(['date_start' => 'ASC', 'time_start' => 'ASC']);
+		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getActivities&page=1&limit=' . $this->Data['limit'] . '&search_params=' . App\Json::encode([$this->getSearchParams('current')]) . '&orderby=' . App\Json::encode(['date_start' => 'ASC', 'time_start' => 'ASC']);
 	}
 
 	public function getConfigTplName()
