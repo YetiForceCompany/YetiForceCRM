@@ -213,7 +213,7 @@ class Controller
 				$log .= "----------- Request payload -----------\n";
 				$log .= print_r($payload, true) . PHP_EOL;
 			}
-			file_put_contents('cache/logs/webserviceDebug.log', $log, FILE_APPEND);
+			file_put_contents(ROOT_DIRECTORY . '/cache/logs/webserviceDebug.log', $log, FILE_APPEND);
 		}
 	}
 

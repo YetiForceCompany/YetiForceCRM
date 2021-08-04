@@ -96,7 +96,7 @@ class Exception extends \Exception
 				$error .= "----------- Request payload -----------\n";
 				$error .= print_r($payload, true) . PHP_EOL;
 			}
-			file_put_contents('cache/logs/webserviceErrors.log', '============ Error exception ====== ' . date('Y-m-d H:i:s') . ' ======'
+			file_put_contents(ROOT_DIRECTORY . '/cache/logs/webserviceErrors.log', '============ Error exception ====== ' . date('Y-m-d H:i:s') . ' ======'
 				. PHP_EOL . $error . PHP_EOL, FILE_APPEND);
 		}
 	}
