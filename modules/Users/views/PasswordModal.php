@@ -124,9 +124,9 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		if (App\User::getCurrentUserId() === $request->getInteger('record')) {
 			$userModel = App\User::getCurrentUserModel();
 			if (1 === (int) $userModel->getDetail('force_password_change')) {
-				$viewer->assign('WARNING', \App\Language::translate('LBL_FORCE_PASSWORD_CHANGE_ALERT', 'Users'));
+				$viewer->assign('WARNING', \App\Language::translate('LBL_FORCE_PASSWORD_CHANGE_ALERT', $moduleName));
 			} elseif ('pwned' === $request->getByType('type')) {
-				$viewer->assign('WARNING', \App\Language::translate('LBL_PWNED_PASSWORD_CHANGE_ALERT', 'Users'));
+				$viewer->assign('WARNING', \App\Language::translate('LBL_PWNED_PASSWORD_CHANGE_ALERT', $moduleName));
 			} else {
 				switch ((int) \App\Session::get('ShowUserPasswordChange')) {
 					case 1:
@@ -135,12 +135,12 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 						\App\Session::delete('ShowUserPasswordChange');
 						break;
 					case 2:
-						$viewer->assign('WARNING', \App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', 'Users'));
+						$viewer->assign('WARNING', \App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', $moduleName));
 						break;
 				}
 			}
 		} else {
-			$viewer->assign('WARNING', \App\Language::translate('LBL_CHANGING_PASSWORD_OF_ANOTHER_USER', 'Users'));
+			$viewer->assign('WARNING', \App\Language::translate('LBL_CHANGING_PASSWORD_OF_ANOTHER_USER', $moduleName));
 		}
 		$viewer->view('Modals/PasswordModal.tpl', $moduleName);
 	}

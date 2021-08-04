@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Users_Password_Action extends \App\Controller\Action
 {
@@ -115,27 +116,28 @@ class Users_Password_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$isOtherUser = App\User::getCurrentUserId() !== $request->getInteger('record');
 		if (!$isOtherUser && 'PASSWORD' !== \App\Session::get('UserAuthMethod')) {
-			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', 'Users'), 'type' => 'error']]);
+			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', $moduleName), 'type' => 'error']]);
 		} elseif ($password !== $request->getRaw('confirm_password')) {
-			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', 'Users'), 'type' => 'error']]);
+			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', $moduleName), 'type' => 'error']]);
 		} elseif (!$isOtherUser && !$userRecordModel->verifyPassword($request->getRaw('oldPassword'))) {
-			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', 'Users'), 'type' => 'error']]);
+			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', $moduleName), 'type' => 'error']]);
 		} else {
 			$userRecordModel->set('changeUserPassword', true);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
+			if ($userRecordModel->getId() === \App\User::getCurrentUserRealId()) {
+				$userRecordModel->set('force_password_change', 0);
+			}
 			try {
 				$eventHandler = new \App\EventHandler();
 				$eventHandler->setRecordModel($userRecordModel);
-				$eventHandler->setModuleName('Users');
+				$eventHandler->setModuleName($moduleName);
 				$eventHandler->setParams(['action' => 'change']);
 				$eventHandler->trigger('UsersBeforePasswordChange');
-
 				$userRecordModel->save();
-
 				$eventHandler->trigger('UsersAfterPasswordChange');
 
-				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users')]]);
+				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', $moduleName)]]);
 				if (\App\Session::has('ShowUserPasswordChange')) {
 					\App\Session::delete('ShowUserPasswordChange');
 					\App\Process::removeEvent('ShowUserPasswordChange');
