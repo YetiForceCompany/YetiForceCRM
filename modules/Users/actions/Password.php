@@ -86,15 +86,16 @@ class Users_Password_Action extends \App\Controller\Action
 
 		$eventHandler->trigger('UsersAfterPasswordChange');
 
+		$expirationDate = date('Y-m-d H:i:s', strtotime('+24 hour'));
+		$token = \App\Utils\Tokens::generate('Users_LoginForgotPassword_Action', [$userRecordModel->getId()], $expirationDate);
 		\App\Mailer::sendFromTemplate([
 			'template' => 'UsersResetPassword',
-			'moduleName' => $moduleName,
+			'moduleName' => 'Users',
 			'recordId' => $userRecordModel->getId(),
 			'to' => $userRecordModel->get('email1'),
-			'token' => $password,
-			'siteUrl' => \Config\Main::$site_URL,
-			'url' => '',
-			'expirationDate' => '-',
+			'url' => \Config\Main::$site_URL . 'index.php?module=Users&view=LoginPassChange&token=' . $token,
+			'expirationDate' => \App\Fields\DateTime::formatToDisplay($expirationDate),
+			'token' => $token,
 		]);
 		$response = new Vtiger_Response();
 		$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USER', 'Users')]]);
@@ -177,15 +178,16 @@ class Users_Password_Action extends \App\Controller\Action
 
 			$eventHandler->trigger('UsersAfterPasswordChange');
 
+			$expirationDate = date('Y-m-d H:i:s', strtotime('+24 hour'));
+			$token = \App\Utils\Tokens::generate('Users_LoginForgotPassword_Action', [$userRecordModel->getId()], $expirationDate);
 			\App\Mailer::sendFromTemplate([
 				'template' => 'UsersResetPassword',
-				'moduleName' => $moduleName,
+				'moduleName' => 'Users',
 				'recordId' => $userRecordModel->getId(),
 				'to' => $userRecordModel->get('email1'),
-				'token' => $password,
-				'siteUrl' => \Config\Main::$site_URL,
-				'url' => '',
-				'expirationDate' => '-',
+				'url' => \Config\Main::$site_URL . 'index.php?module=Users&view=LoginPassChange&token=' . $token,
+				'expirationDate' => \App\Fields\DateTime::formatToDisplay($expirationDate),
+				'token' => $token,
 			]);
 		}
 		$response = new Vtiger_Response();

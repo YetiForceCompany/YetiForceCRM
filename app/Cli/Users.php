@@ -74,13 +74,8 @@ class Users extends Base
 		if ($this->climate->arguments->defined('password')) {
 			$password = $this->climate->arguments->get('password');
 		} else {
-			if ($this->climate->arguments->defined('confirmation') || $this->climate->confirm('Generate a password?')->confirmed()) {
-				$password = \App\Encryption::generateUserPassword();
-				$this->climate->lightGreen('New password: ' . $password);
-			} else {
-				$input = $this->climate->password('Please enter a new password:');
-				$password = $input->prompt();
-			}
+			$password = \App\Encryption::generateUserPassword();
+			$this->climate->lightGreen('New password: ' . $password);
 		}
 		$userRecordModel->set('changeUserPassword', true);
 		$userRecordModel->set('user_password', $password);
@@ -93,16 +88,17 @@ class Users extends Base
 		$eventHandler->trigger('UsersBeforePasswordChange');
 		$userRecordModel->save();
 		$eventHandler->trigger('UsersAfterPasswordChange');
-		if ($this->climate->arguments->defined('confirmation') || $this->climate->confirm('Send password to user\'s email address?')->confirmed()) {
+		if ($this->climate->arguments->defined('confirmation') || $this->climate->confirm('Send password reset link to user\'s email address?')->confirmed()) {
+			$expirationDate = date('Y-m-d H:i:s', strtotime('+24 hour'));
+			$token = \App\Utils\Tokens::generate('Users_LoginForgotPassword_Action', [$userRecordModel->getId()], $expirationDate);
 			\App\Mailer::sendFromTemplate([
 				'template' => 'UsersResetPassword',
 				'moduleName' => 'Users',
 				'recordId' => $userRecordModel->getId(),
 				'to' => $userRecordModel->get('email1'),
-				'token' => $password,
-				'siteUrl' => \Config\Main::$site_URL,
-				'url' => '',
-				'expirationDate' => '-',
+				'url' => \Config\Main::$site_URL . 'index.php?module=Users&view=LoginPassChange&token=' . $token,
+				'expirationDate' => \App\Fields\DateTime::formatToDisplay($expirationDate),
+				'token' => $token,
 			]);
 		}
 		if (!$this->climate->arguments->defined('action')) {
@@ -135,10 +131,9 @@ class Users extends Base
 		$progress = $this->climate->progress()->total(\count($userIds));
 		$i = 0;
 		foreach ($userIds as $userId) {
-			$password = \App\Encryption::generateUserPassword();
 			$userRecordModel = \Users_Record_Model::getInstanceById($userId, 'Users');
 			$userRecordModel->set('changeUserPassword', true);
-			$userRecordModel->set('user_password', $password);
+			$userRecordModel->set('user_password', \App\Encryption::generateUserPassword());
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 
 			$eventHandler = new \App\EventHandler();
@@ -149,15 +144,16 @@ class Users extends Base
 			$userRecordModel->save();
 			$eventHandler->trigger('UsersAfterPasswordChange');
 
+			$expirationDate = date('Y-m-d H:i:s', strtotime('+24 hour'));
+			$token = \App\Utils\Tokens::generate('Users_LoginForgotPassword_Action', [$userRecordModel->getId()], $expirationDate);
 			\App\Mailer::sendFromTemplate([
 				'template' => 'UsersResetPassword',
 				'moduleName' => 'Users',
 				'recordId' => $userRecordModel->getId(),
 				'to' => $userRecordModel->get('email1'),
-				'token' => $password,
-				'siteUrl' => \Config\Main::$site_URL,
-				'url' => '',
-				'expirationDate' => '-',
+				'url' => \Config\Main::$site_URL . 'index.php?module=Users&view=LoginPassChange&token=' . $token,
+				'expirationDate' => \App\Fields\DateTime::formatToDisplay($expirationDate),
+				'token' => $token,
 			]);
 			$progress->advance();
 			++$i;
