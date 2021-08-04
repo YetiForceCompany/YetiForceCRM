@@ -40,15 +40,17 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 		$viewer = $this->getViewer($request);
 		if ($request->has('record')) {
 			$recordModel = $this->recordModel ?: Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
-			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
-			$recordStructure = $recordStructureInstance->getStructure();
+			$this->fields = $recordModel->getModule()->getFields();
+			$this->loadFieldValuesFromRequest($request);
+			$recordStructureInstance = $this->getRecordStructure();
+			$this->recordStructure = $recordStructureInstance->getStructure();
 			$fieldValues = $this->loadFieldValuesFromSource($request);
 			$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
 			$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 			$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 			$viewer->assign('LIST_FILTER_FIELDS', \App\Json::encode(\App\ModuleHierarchy::getFieldsForListFilter($moduleName)));
 			$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-			$viewer->assign('RECORD_STRUCTURE', $recordStructure);
+			$viewer->assign('RECORD_STRUCTURE', $this->recordStructure);
 			$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 			$viewer->assign('IS_POSTPONED', $request->getBoolean('isDuplicate'));
 			$viewer->assign('RECORD', $recordModel);
