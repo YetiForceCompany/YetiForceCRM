@@ -269,7 +269,7 @@ var App = (window.App = {
 										} else if ('Detail' === app.getViewName()) {
 											if (app.getUrlVar('mode') === 'showRelatedList') {
 												Vtiger_Detail_Js.getInstance().loadRelatedList();
-											} else {
+											} else if (params && params.data) {
 												window.location.reload();
 											}
 										}
