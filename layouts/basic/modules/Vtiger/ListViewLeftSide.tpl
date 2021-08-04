@@ -1,5 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Base-ListViewLeftSide -->
+<div class="d-flex align-items-center">
 	<div>
 		<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" />
 	</div>
@@ -25,7 +27,7 @@
 			{/if}
 		</div>
 	{/if}
-	<div>
+	<div class="d-flex align-items-center">
 		{if in_array($MODULE_NAME, \App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW', [])) && $MODULE_MODEL->isPermitted('TimeLineList')}
 			<a  data-url="{$LISTVIEW_ENTRY->getTimeLineUrl()}" class="c-badge__icon fa-fw timeLineIconList d-none u-cursor-pointer"></a>
 		{/if}
@@ -36,4 +38,6 @@
 			</a>
 		{/if}
 	</div>
+</div>
+<!-- /tpl-Base-ListViewLeftSide -->
 {/strip}

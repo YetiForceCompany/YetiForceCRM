@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Base-RelatedListLeftSide -->
 	{if !empty($IS_FAVORITES)}
 		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 		<div>
@@ -50,13 +51,14 @@
 		<div>
 			<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed alignMiddle d-none"
 			   aria-label="{\App\Language::translate('LBL_NOTIFICATIONS')}">
-				<span class="badge bgDanger all"
+				<span class="badge bgDanger c-badge--md all"
 					  title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"
 					  aria-label="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>
-				<span class="badge bgBlue mail noLeftRadius noRightRadius"
+				<span class="badge bgBlue c-badge--md mail noLeftRadius noRightRadius"
 					  title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"
 					  aria-label="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"></span>
 			</a>
 		</div>
 	{/if}
+<!-- /tpl-Base-RelatedListLeftSide -->
 {/strip}
