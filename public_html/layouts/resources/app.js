@@ -1407,7 +1407,7 @@ var app = (window.app = {
 								if (responseData.result.notify) {
 									Vtiger_Helper_Js.showMessage(responseData.result.notify);
 								}
-								if (responseData.result.procesStop) {
+								if (responseData.result.processStop) {
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
 									return false;
 								}

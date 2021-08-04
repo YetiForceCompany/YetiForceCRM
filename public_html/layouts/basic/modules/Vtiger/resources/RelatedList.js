@@ -99,7 +99,7 @@ jQuery.Class(
 								if (responseData.result.reloadList) {
 									Vtiger_Detail_Js.reloadRelatedList();
 								}
-								if (responseData.result.procesStop) {
+								if (responseData.result.processStop) {
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
 									return false;
 								}

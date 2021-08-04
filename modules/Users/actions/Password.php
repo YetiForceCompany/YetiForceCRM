@@ -116,11 +116,11 @@ class Users_Password_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$isOtherUser = App\User::getCurrentUserId() !== $request->getInteger('record');
 		if (!$isOtherUser && 'PASSWORD' !== \App\Session::get('UserAuthMethod')) {
-			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', $moduleName), 'type' => 'error']]);
+			$response->setResult(['processStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', $moduleName), 'type' => 'error']]);
 		} elseif ($password !== $request->getRaw('confirm_password')) {
-			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', $moduleName), 'type' => 'error']]);
+			$response->setResult(['processStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', $moduleName), 'type' => 'error']]);
 		} elseif (!$isOtherUser && !$userRecordModel->verifyPassword($request->getRaw('oldPassword'))) {
-			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', $moduleName), 'type' => 'error']]);
+			$response->setResult(['processStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', $moduleName), 'type' => 'error']]);
 		} else {
 			$userRecordModel->set('changeUserPassword', true);
 			$userRecordModel->set('user_password', $password);
@@ -143,9 +143,9 @@ class Users_Password_Action extends \App\Controller\Action
 					\App\Process::removeEvent('ShowUserPasswordChange');
 				}
 			} catch (\App\Exceptions\SaveRecord $exc) {
-				$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translateSingleMod($exc->getMessage(), 'Other.Exceptions'), 'type' => 'error']]);
+				$response->setResult(['processStop' => true, 'notify' => ['text' => \App\Language::translateSingleMod($exc->getMessage(), 'Other.Exceptions'), 'type' => 'error']]);
 			} catch (\App\Exceptions\Security $exc) {
-				$response->setResult(['procesStop' => true, 'notify' => ['text' => $exc->getMessage(), 'type' => 'error']]);
+				$response->setResult(['processStop' => true, 'notify' => ['text' => $exc->getMessage(), 'type' => 'error']]);
 			}
 		}
 		$response->emit();
