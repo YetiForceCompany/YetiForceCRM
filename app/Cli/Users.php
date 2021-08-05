@@ -22,6 +22,7 @@ class Users extends Base
 	/** @var string[] Methods list */
 	public $methods = [
 		'resetPassword' => 'Reset user password',
+		'passwordAuth' => 'Disable 2FA od LDAP auth',
 		'resetAllPasswords' => 'Reset all user passwords',
 	];
 
@@ -159,5 +160,52 @@ class Users extends Base
 			++$i;
 		}
 		$this->climate->lightGreen('Number of passwords reset: ' . $i);
+	}
+
+	/**
+	 * Disable 2FA od LDAP auth of any user.
+	 *
+	 * @return void
+	 */
+	public function passwordAuth(): void
+	{
+		$this->climate->arguments->add([
+			'login' => [
+				'prefix' => 'l',
+				'description' => 'Login/User name',
+			],
+		]);
+		if ($this->helpMode) {
+			return;
+		}
+		$this->climate->arguments->parse();
+		if ($this->climate->arguments->defined('login')) {
+			$userName = $this->climate->arguments->get('login');
+		} else {
+			$input = $this->climate->input('Enter login/username:');
+			$userName = $input->prompt();
+		}
+		$row = (new \App\Db\Query())->select(['id', 'deleted'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->limit(1)->one();
+		if (!$row) {
+			$this->climate->red('User not found');
+			if ($this->climate->confirm('Re-enter login?')->confirmed()) {
+				$this->passwordAuth();
+			} else {
+				$this->cli->actionsList('Users');
+			}
+			return;
+		}
+		$userRecordModel = \Users_Record_Model::getInstanceById($row['id'], 'Users');
+		$this->climate->lightBlue($userRecordModel->getDisplayName() . ' (' . $userRecordModel->getDisplayValue('roleid', false, true) . ')');
+		if (0 !== (int) $row['deleted']) {
+			$this->climate->lightGreen('User inactive!!!');
+		}
+		$userRecordModel->set('login_method', 'PLL_PASSWORD');
+		$userRecordModel->set('authy_secret_totp', '');
+		$userRecordModel->set('authy_methods', '');
+		$userRecordModel->save();
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('Users');
+		}
 	}
 }
