@@ -22,7 +22,7 @@ class Users extends Base
 	/** @var string[] Methods list */
 	public $methods = [
 		'resetPassword' => 'Reset user password',
-		'passwordAuth' => 'Disable 2FA od LDAP auth',
+		'passwordAuth' => 'Disable 2FA or LDAP auth',
 		'resetAllPasswords' => 'Reset all user passwords',
 	];
 
@@ -163,7 +163,7 @@ class Users extends Base
 	}
 
 	/**
-	 * Disable 2FA od LDAP auth of any user.
+	 * Disable 2FA or LDAP auth of any user.
 	 *
 	 * @return void
 	 */
