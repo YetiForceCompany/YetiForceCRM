@@ -226,14 +226,16 @@ class Controller
 	 */
 	public function handleError(\Throwable $e): void
 	{
-		$this->actionHandler->updateSession();
-		$this->actionHandler->updateUser([
-			'custom_params' => [
-				'last_error' => $e->getMessage(),
-				'error_time' => date('Y-m-d H:i:s'),
-				'error_method' => $this->request->getServer('REQUEST_URI'),
-			],
-		]);
+		if (isset($this->actionHandler)) {
+			$this->actionHandler->updateSession();
+			$this->actionHandler->updateUser([
+				'custom_params' => [
+					'last_error' => $e->getMessage(),
+					'error_time' => date('Y-m-d H:i:s'),
+					'error_method' => $this->request->getServer('REQUEST_URI'),
+				],
+			]);
+		}
 	}
 
 	/**
