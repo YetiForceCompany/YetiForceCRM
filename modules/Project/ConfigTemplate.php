@@ -56,5 +56,11 @@ return [
 			],
 		],
 		'description' => 'Default colors of statuses for gantt chart. f not specified - picklists colors are taken or random color is assigned if there is not one in picklist.'
-	]
+	],
+	'showGanttTab' => [
+		'default' => true,
+		'description' => 'Show / hide Gantt tab in module Projects',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
 ];
