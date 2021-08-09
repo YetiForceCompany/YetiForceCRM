@@ -62,7 +62,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Charts',
 			];
 		}
-		if (\App\Config::module('Project', 'showGanttTab') && \App\Module::isModuleActive('ProjectTask') && \App\Module::isModuleActive('ProjectMilestone')) {
+		if (\App\Config::module('Project', 'showGanttTab', true) && \App\Module::isModuleActive('ProjectTask') && \App\Module::isModuleActive('ProjectMilestone')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => \App\Language::translate('LBL_GANTT', $moduleName),
