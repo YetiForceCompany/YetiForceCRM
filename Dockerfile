@@ -35,7 +35,7 @@ RUN rm /var/www/html/index.nginx-debian.html
 COPY ./tests/setup/db/mysql.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./tests/setup/nginx/docker.conf /etc/nginx/sites-available/default
 COPY ./tests/setup/nginx/yetiforce.conf /etc/nginx/yetiforce.conf
-COPY ./tests/setup/fpm/www.conf /etc/php/$PHP_VER/fpm/pool.d/www.conf
+COPY ./tests/setup/fpm/docker.conf /etc/php/$PHP_VER/fpm/pool.d/www.conf
 COPY ./ /var/www/html
 COPY ./tests/setup/crons.conf /etc/cron.d/yetiforcecrm
 COPY ./tests/setup/php/prod.ini /etc/php/$PHP_VER/mods-available/yetiforce.ini
