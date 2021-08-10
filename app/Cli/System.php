@@ -24,6 +24,7 @@ class System extends Base
 		'history' => 'History of uploaded updates',
 		'update' => 'Update',
 		'checkRegStatus' => 'Check registration status',
+		'deleteRegistration' => 'Delete registration data',
 		'showProducts' => 'Show active products',
 		'reloadModule' => 'Reload modules',
 		'reloadUserPrivileges' => 'Reload users privileges',
@@ -260,5 +261,15 @@ class System extends Base
 		if (!$this->climate->arguments->defined('action')) {
 			$this->cli->actionsList('System');
 		}
+	}
+
+	/**
+	 * Delete registration data.
+	 *
+	 * @return void
+	 */
+	public function deleteRegistration(): void
+	{
+		\App\Db::getInstance('admin')->createCommand()->delete('s_#__companies')->execute();
 	}
 }
