@@ -17,6 +17,26 @@ namespace App\Conditions\RecordFields;
 class PicklistField extends BaseField
 {
 	/**
+	 * Equals operator.
+	 *
+	 * @return bool
+	 */
+	public function operatorE(): bool
+	{
+		return \in_array($this->getValue(), explode(' |##| ', $this->value));
+	}
+
+	/**
+	 * Not equal operator.
+	 *
+	 * @return bool
+	 */
+	public function operatorN(): bool
+	{
+		return !\in_array($this->getValue(), explode(' |##| ', $this->value));
+	}
+
+	/**
 	 * Record open operator.
 	 *
 	 * @return bool

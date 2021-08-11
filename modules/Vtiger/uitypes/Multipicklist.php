@@ -16,12 +16,12 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	{
 		$values = [];
 		if (!\is_array($value)) {
-			$value = $value ? explode('##', $value) : [];
+			$value = $value ? explode(' |##| ', $value) : [];
 		}
 		foreach ($value as $val) {
 			$values[] = parent::getDbConditionBuilderValue($val, $operator);
 		}
-		return implode('##', $values);
+		return implode(' |##| ', $values);
 	}
 
 	/** {@inheritdoc} */
@@ -44,14 +44,14 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 			$value = explode(' |##| ', $value);
 		}
 		if (!\is_array($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		foreach ($value as $item) {
 			if (!\is_string($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 			if ($item != strip_tags($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 		}
 		$this->validate[$hashValue] = true;
@@ -67,7 +67,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		$values = explode(' |##| ', $value);
 		$trValueRaw = $trValue = [];
 		$moduleName = $this->getFieldModel()->getModuleName();
-		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
+		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getName());
 		foreach ($values as $value) {
 			$displayValue = App\Language::translate($value, $moduleName);
 			$value = App\Colors::sanitizeValue($value);
