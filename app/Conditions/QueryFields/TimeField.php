@@ -14,33 +14,13 @@ namespace App\Conditions\QueryFields;
 class TimeField extends BaseField
 {
 	/**
-	 * Greater operator.
-	 *
-	 * @return array
-	 */
-	public function operatorG()
-	{
-		return ['>', $this->getColumnName(), $this->getValue()];
-	}
-
-	/**
-	 * Lower operator.
-	 *
-	 * @return array
-	 */
-	public function operatorL()
-	{
-		return ['<', $this->getColumnName(), $this->getValue()];
-	}
-
-	/**
 	 * Before operator.
 	 *
 	 * @return array
 	 */
 	public function operatorB()
 	{
-		return ['<=', $this->getColumnName(), $this->getValue()];
+		return ['<', $this->getColumnName(), $this->getValue()];
 	}
 
 	/**
@@ -50,6 +30,6 @@ class TimeField extends BaseField
 	 */
 	public function operatorA()
 	{
-		return ['>=', $this->getColumnName(), $this->getValue()];
+		return ['>', $this->getColumnName(), $this->getValue()];
 	}
 }

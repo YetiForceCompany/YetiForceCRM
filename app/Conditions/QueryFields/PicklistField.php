@@ -53,6 +53,6 @@ class PicklistField extends BaseField
 		if (\is_array($this->value)) {
 			return $this->value;
 		}
-		return explode('##', $this->value);
+		return explode(' |##| ', $this->value);
 	}
 }
