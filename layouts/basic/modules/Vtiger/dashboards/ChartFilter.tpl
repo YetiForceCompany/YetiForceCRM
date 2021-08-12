@@ -40,6 +40,7 @@
 						<div class="step2"></div>
 						<div class="step3"></div>
 						<div class="step4"></div>
+						<div class="step5"></div>
 				</div>
 			</div>
 			<div class="js-chart-footer" style="display: none;">
@@ -200,6 +201,21 @@
 				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_WIDGET_SHOW_SUMMARY','Home')}</label></div>
 				<div class="{$COL_CTRL} m-auto">
 					<input type="checkbox" class="form-control saveParam" name="summary" value="1">
+				</div>
+			</div>
+		{/if}
+	{elseif $WIZARD_STEP eq 'step5' }
+		{if in_array($CHART_TYPE,['Bar','Horizontal','Line','LinePlain']) && !$DIVIDING_FIELD && !$STACKED}
+			<div class="form-group row mb-2">
+				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_SORTING_SETTINGS')}</label></div>
+				<div class="{$COL_CTRL}">
+					<select class="form-control select saveParam" name="sortOrder">
+						<optgroup class="p-0">
+							<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
+						</optgroup>
+						<option value="{\App\Db::DESC}">{\App\Language::translate('LBL_SORT_DESCENDING')}</option>
+						<option value="{\App\Db::ASC}">{\App\Language::translate('LBL_SORT_ASCENDING')}</option>
+					</select>
 				</div>
 			</div>
 		{/if}

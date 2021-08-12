@@ -781,7 +781,12 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$queryGenerator->parseAdvFilter($transformedSearchParams);
 		}
 		$this->addPicklistsToQuery($queryGenerator);
-		return $queryGenerator->createQuery();
+		$query = $queryGenerator->createQuery();
+		if (isset($this->extraData['sortOrder']) && !empty($this->extraData['sortOrder'])) {
+			$order = 'ASC' === $this->extraData['sortOrder'] ? SORT_ASC : SORT_DESC;
+			$query->orderBy(['count' => $order]);
+		}
+		return $query;
 	}
 
 	/**
@@ -828,16 +833,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 		}
 		unset($group, $values);
-		$groupCalculate = $this->groupFieldModel->isCalculateField();
-		ksort($this->data, SORT_LOCALE_STRING);
-		foreach ($this->data as &$dividing) {
-			if ($groupCalculate) {
-				ksort($dividing, SORT_NUMERIC);
-			} else {
-				ksort($dividing, SORT_LOCALE_STRING);
-			}
-			foreach ($dividing as &$group) {
-				ksort($group);
+		if (isset($this->extraData['sortOrder']) && empty($this->extraData['sortOrder'])) {
+			$groupCalculate = $this->groupFieldModel->isCalculateField();
+			ksort($this->data, SORT_LOCALE_STRING);
+			foreach ($this->data as &$dividing) {
+				if ($groupCalculate) {
+					ksort($dividing, SORT_NUMERIC);
+				} else {
+					ksort($dividing, SORT_LOCALE_STRING);
+				}
+				foreach ($dividing as &$group) {
+					ksort($group);
+				}
 			}
 		}
 	}

@@ -14,6 +14,7 @@ $.Class(
 			this.step2 = $('.step2', this.container);
 			this.step3 = $('.step3', this.container);
 			this.step4 = $('.step4', this.container);
+			this.step5 = $('.step5', this.container);
 			this.footer = $('.js-chart-footer', this.container);
 			this.form = $('form', this.container);
 			this.stepNumber = $('#widgetStep', this.container);
@@ -133,7 +134,35 @@ $.Class(
 					selector.find('select').attr('disabled', true);
 				}
 			});
+			this.registerRequestForStep5();
+			this.step4.find('[name="dividingField"], [name="stacked"]').on('change', (e) => {
+				this.step5.empty();
+				this.registerRequestForStep5();
+			});
 			app.registerModalEvents(this.container);
+		},
+		registerRequestForStep5() {
+			AppConnector.request({
+				module: this.sourceModuleName,
+				view: this.widgetName,
+				step: 'step5',
+				selectedModule: this.moduleName,
+				filtersId: this.step2.find('.filtersId').val(),
+				groupField: this.step3.find('.groupField option:selected').val(),
+				chartType: this.chartTypeValue,
+				dividingField: this.step4.find('[name="dividingField"] option:selected').val(),
+				stacked: this.step4.find('[name="stacked"]').is(':checked')
+			}).done((data) => {
+				this.registerStep5(data);
+			});
+		},
+		/**
+		 * Register fifth step elements
+		 */
+		registerStep5(stepContainer) {
+			this.step5.append(stepContainer);
+			this.stepNumber.val(5);
+			App.Fields.Picklist.showSelect2ElementView(this.step5.find('select'));
 		},
 		/**
 		 * Register submit

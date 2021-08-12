@@ -101,7 +101,14 @@ class Vtiger_ChartFilter_View extends \App\Controller\Modal
 				$viewer->assign('GROUP_FIELD', $groupFieldName);
 				$viewer->assign('GROUP_FIELD_MODEL', $groupField);
 				$filters = $request->getArray('filtersId', 'Integer');
+				$viewer->assign('DIVIDING_FIELD', false);
+				$viewer->assign('STACKED', false);
 				$viewer->assign('FILTERS', $filters);
+				break;
+			case 'step5':
+				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
+				$viewer->assign('DIVIDING_FIELD', $request->getByType('dividingField'));
+				$viewer->assign('STACKED', $request->getBoolean('stacked', false));
 				break;
 			default:
 				break;
