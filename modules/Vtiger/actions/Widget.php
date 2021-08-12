@@ -117,7 +117,8 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 			'dashboardId' => 'Integer',
 			'limit' => 'Integer',
 			'cache' => 'Integer',
-			'default_date' => 'Standard'
+			'default_date' => 'Standard',
+			'sortOrder' => 'Text',
 		]);
 		if (!\is_array($data) || !$data) {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
