@@ -47,7 +47,9 @@
     "Upcoming events": "Upcoming events based on selected date fields.",
     "LBL_FIELD_DATE": "Date field",
     "LBL_SKIP_YEAR": "Skip the year",
-    "LBL_SKIP_YEAR_DESC": "Skip the year of the event by only considering the month and day."
+    "LBL_SKIP_YEAR_DESC": "Skip the year of the event by only considering the month and day.",
+    "LBL_WIDGET_NAME": "Widget name",
+    "BTN_NEXT": "Next"
   },
   "js": {
     "JS_BLOCK_ADDED": "Block has been added successfully",

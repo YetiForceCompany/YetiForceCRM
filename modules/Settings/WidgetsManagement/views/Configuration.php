@@ -34,30 +34,21 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$size = $widgetsManagementModel->getSize();
 		$widgetsWithLimit = $widgetsManagementModel->getWidgetsWithLimit();
 		$authorization = Settings_Roles_Record_Model::getAll();
-		$bloks = $widgetsManagementModel->getBlocksId($currentDashboard);
+		$blocks = $widgetsManagementModel->getBlocksId($currentDashboard);
 		$specialWidgets = Settings_WidgetsManagement_Module_Model::getSpecialWidgets($sourceModule);
 		$filterSelect = $widgetsManagementModel->getFilterSelect();
 		$filterSelectDefault = $widgetsManagementModel->getFilterSelectDefault();
-		$widgetsWithFilterUsers = $widgetsManagementModel->getWidgetsWithFilterUsers();
-		$restrictFilter = $widgetsManagementModel->getRestrictFilter();
-		$filerItems = $widgetsManagementModel->filerItems();
 
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
 		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('FILTER_SELECT', $filterSelect);
-		$viewer->assign('FILTER_USER_ITEM', $filerItems);
 		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
-		$viewer->assign('SELECT_FIELD_TYPE_DATE', $widgetsManagementModel->getFieldsByTypeDate());
 		$viewer->assign('DATE_SELECT_DEFAULT', Settings_WidgetsManagement_Module_Model::getDateSelectDefault());
-		$viewer->assign('WIDGETS_WITH_FILTER_TITLE', Settings_WidgetsManagement_Module_Model::getWidgetsWithTitle());
-		$viewer->assign('WIDGETS_WITH_FILTER_DATE', Settings_WidgetsManagement_Module_Model::getWidgetsWithDate());
-		$viewer->assign('WIDGETS_WITH_RECORD_LIMIT', Settings_WidgetsManagement_Module_Model::getWidgetsWithRecordLimit());
-		$viewer->assign('WIDGETS_WITH_FILTER_USERS', $widgetsWithFilterUsers);
 		$viewer->assign('ALL_AUTHORIZATION', $authorization);
 		$viewer->assign('ALL_SERVERS', Settings_WebserviceApps_Module_Model::getServers());
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', array_keys($dashboardModules));
-		$viewer->assign('DASHBOARD_AUTHORIZATION_BLOCKS', $bloks[$sourceModule] ?? []);
+		$viewer->assign('DASHBOARD_AUTHORIZATION_BLOCKS', $blocks[$sourceModule] ?? []);
 		$viewer->assign('WIDGETS_AUTHORIZATION_INFO', $dashboardStored);
 		$viewer->assign('SPECIAL_WIDGETS', $specialWidgets);
 		$viewer->assign('WIDGETS', $widgets);
@@ -65,7 +56,6 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer->assign('DEFAULTVALUES', $defaultValues);
 		$viewer->assign('TITLE_OF_LIMIT', $widgetsWithLimit);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
-		$viewer->assign('RESTRICT_FILTER', $restrictFilter);
 
 		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
 		\App\Log::trace(__METHOD__ . ' | End');

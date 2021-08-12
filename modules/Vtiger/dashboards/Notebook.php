@@ -26,7 +26,13 @@ class Vtiger_Notebook_Dashboard extends Vtiger_IndexAjax_View
 
 		$mode = $request->getMode();
 		if ('save' == $mode) {
-			$widget->save($request);
+			$content = $request->getByType('contents', 'Text');
+			$dataValue = [];
+			$dataValue['contents'] = strip_tags($content);
+			$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
+			$data = \App\Json::encode((object) $dataValue);
+			$widget->set('data', $data);
+			$widget->save();
 		}
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

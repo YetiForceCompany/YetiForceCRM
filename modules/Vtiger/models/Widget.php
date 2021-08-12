@@ -14,16 +14,27 @@
  */
 class Vtiger_Widget_Model extends \App\Base
 {
+	/**
+	 * Get ID.
+	 *
+	 * @return int
+	 */
+	public function getId(): int
+	{
+		return (int) $this->get('id');
+	}
+
 	public function getWidth()
 	{
 		$defaultSize = 4;
 		$size = $this->get('size');
 		if ($size) {
 			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
-			if (isset($size[App\Session::get('fingerprint')])) {
-				return (int) $size[App\Session::get('fingerprint')]['width'];
+			if (isset($size[App\Session::get('fingerprint')], $size[App\Session::get('fingerprint')]['width'])) {
+				$defaultSize = (int) $size[App\Session::get('fingerprint')]['width'];
+			} elseif (!empty($size['width'])) {
+				$defaultSize = (int) $size['width'];
 			}
-			return (int) ($size['width']);
 		}
 		return $defaultSize;
 	}
@@ -34,10 +45,11 @@ class Vtiger_Widget_Model extends \App\Base
 		$size = $this->get('size');
 		if ($size) {
 			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
-			if (isset($size[App\Session::get('fingerprint')])) {
-				return (int) $size[App\Session::get('fingerprint')]['height'];
+			if (isset($size[App\Session::get('fingerprint')], $size[App\Session::get('fingerprint')]['height'])) {
+				$defaultSize = (int) $size[App\Session::get('fingerprint')]['height'];
+			} elseif (!empty($size['height'])) {
+				$defaultSize = (int) ($size['height']);
 			}
-			return (int) ($size['height']);
 		}
 		return $defaultSize;
 	}
@@ -107,16 +119,22 @@ class Vtiger_Widget_Model extends \App\Base
 	/**
 	 * Function to get the instance of Vtiger Widget Model from the given array of key-value mapping.
 	 *
-	 * @param <Array> $valueMap
+	 * @param array $valueMap
 	 *
-	 * @return Vtiger_Widget_Model instance
+	 * @return \Vtiger_Widget_Model instance
 	 */
 	public static function getInstanceFromValues($valueMap)
 	{
-		$self = new self();
-		$self->setData($valueMap);
+		$className = '';
+		if (!empty($valueMap['handler_class'])) {
+			$className = $valueMap['handler_class'];
+		} elseif (!empty($valueMap['linkid'])) {
+			$className = \vtlib\Link::getLinkData($valueMap['linkid'])['handler_class'] ?? null;
+		}
+		$instance = $className ? new $className() : new static();
+		$instance->setData($valueMap);
 
-		return $self;
+		return $instance;
 	}
 
 	public static function getInstance($linkId, $userId)
@@ -125,11 +143,36 @@ class Vtiger_Widget_Model extends \App\Base
 			->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid')
 			->where(['linktype' => 'DASHBOARDWIDGET', 'vtiger_links.linkid' => $linkId, 'userid' => $userId])
 			->one();
-		$self = new self();
-		if ($row) {
-			$self->setData($row);
-		}
-		return $self;
+
+		return $row ? static::getInstanceFromValues($row) : new static();
+	}
+
+	/**
+	 * Get widget instance by id.
+	 *
+	 * @param int $widgetId
+	 * @param int $userId
+	 *
+	 * @return \self
+	 */
+	public static function getInstanceWithWidgetId($widgetId, $userId)
+	{
+		$row = (new \App\Db\Query())->from('vtiger_module_dashboard_widgets')
+			->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid')
+			->where(['linktype' => 'DASHBOARDWIDGET', 'vtiger_module_dashboard_widgets.id' => $widgetId, 'userid' => $userId])
+			->one();
+
+		return $row ? static::getInstanceFromValues($row) : new static();
+	}
+
+	public static function getInstanceWithTemplateId(int $widgetId)
+	{
+		$row = (new \App\Db\Query())->from('vtiger_module_dashboard')
+			->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard.linkid')
+			->where(['linktype' => 'DASHBOARDWIDGET', 'vtiger_module_dashboard.id' => $widgetId])
+			->one();
+
+		return $row ? static::getInstanceFromValues($row) : new static();
 	}
 
 	public static function updateWidgetPosition($position, $linkId, $widgetId, $userId)
@@ -168,44 +211,6 @@ class Vtiger_Widget_Model extends \App\Base
 		$currentSize = App\Json::decode((new \App\Db\Query())->select(['size'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
 		$currentSize[App\Session::get('fingerprint')] = App\Json::decode($size);
 		\App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['size' => App\Json::encode($currentSize)], $where)->execute();
-	}
-
-	/**
-	 * Get widget instance by id.
-	 *
-	 * @param int $widgetId
-	 * @param int $userId
-	 *
-	 * @return \self
-	 */
-	public static function getInstanceWithWidgetId($widgetId, $userId)
-	{
-		$row = (new \App\Db\Query())->from('vtiger_module_dashboard_widgets')
-			->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid')
-			->where(['linktype' => 'DASHBOARDWIDGET', 'vtiger_module_dashboard_widgets.id' => $widgetId, 'userid' => $userId])
-			->one();
-		$self = new self();
-		if ($row) {
-			if ('Mini List' === $row['linklabel']) {
-				if (!$row['isdefault'] && \App\Privilege::isPermitted(\App\Module::getModuleName($row['module']), 'CreateDashboardFilter', false, $userId)) {
-					$row['deleteFromList'] = true;
-				}
-				$minilistWidget = self::getInstanceFromValues($row);
-				$minilistWidgetModel = new Vtiger_MiniList_Model();
-				$minilistWidgetModel->setWidgetModel($minilistWidget);
-				$row['title'] = $minilistWidgetModel->getTitle();
-			} elseif ('ChartFilter' === $row['linklabel']) {
-				if (!$row['isdefault'] && \App\Privilege::isPermitted(\App\Module::getModuleName($row['module']), 'CreateDashboardChartFilter', false, $userId)) {
-					$row['deleteFromList'] = true;
-				}
-				$chartFilterWidget = self::getInstanceFromValues($row);
-				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
-				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
-				$row['title'] = $chartFilterWidgetModel->getTitle();
-			}
-			$self->setData($row);
-		}
-		return $self;
 	}
 
 	/**
@@ -305,5 +310,243 @@ class Vtiger_Widget_Model extends \App\Base
 			$dbCommand->delete('vtiger_module_dashboard', ['id' => $templateId])->execute();
 		}
 		$dbCommand->delete('vtiger_module_dashboard_widgets', ['id' => $id])->execute();
+	}
+
+	/**
+	 * Function to get the Quick Links in settings view.
+	 *
+	 * @return array List of Vtiger_Link_Model instances
+	 */
+	public function getSettingsLinks()
+	{
+		$links = [];
+		if (\App\User::getCurrentUserModel()->isAdmin()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_EDIT',
+				'linkclass' => 'btn btn-success btn-xs js-edit-widget',
+				'linkicon' => 'yfi yfi-full-editing-view',
+				'linkdata' => ['url' => "index.php?parent=Settings&module=WidgetsManagement&view=EditWidget&linkId={$this->get('linkid')}&blockId={$this->get('blockid')}&widgetId={$this->getId()}"]
+			]);
+		}
+		if (\App\User::getCurrentUserModel()->isAdmin()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_DELETE',
+				'linkclass' => 'btn-danger btn-xs js-delete-widget',
+				'linkicon' => 'fas fa-trash-alt',
+				'linkdata' => ['id' => $this->getId()]
+			]);
+		}
+
+		return $links;
+	}
+
+	/** @var array Custom fields for edit */
+	public $customFields = [];
+
+	/** @var array Fields for edit */
+	public $editFields = [
+		'isdefault' => ['label' => 'LBL_MANDATORY_WIDGET', 'purifyType' => \App\Purifier::BOOL],
+		'cache' => ['label' => 'LBL_CACHE_WIDGET', 'purifyType' => \App\Purifier::BOOL],
+		'width' => ['label' => 'LBL_WIDTH', 'purifyType' => \App\Purifier::INTEGER],
+		'height' => ['label' => 'LBL_HEIGHT', 'purifyType' => \App\Purifier::INTEGER]
+	];
+
+	/**
+	 * Gets fields for edit view.
+	 *
+	 * @return array
+	 */
+	public function getEditFields(): array
+	{
+		$fields = [];
+		$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
+		if (\in_array($this->get('linklabel'), $widgetsManagementModel->getWidgetsWithLimit())) {
+			$fields['limit'] = ['label' => 'LBL_NUMBER_OF_RECORDS_DISPLAYED', 'purifyType' => \App\Purifier::INTEGER];
+		}
+		if (\in_array($this->get('linklabel'), $widgetsManagementModel->getWidgetsWithDate())) {
+			$fields['default_date'] = ['label' => 'LBL_DEFAULT_DATE', 'purifyType' => \App\Purifier::STANDARD];
+		}
+		if (\in_array($this->get('linklabel'), $widgetsManagementModel->getWidgetsWithFilterUsers())) {
+			$fields['default_owner'] = ['label' => 'LBL_DEFAULT_FILTER', 'purifyType' => \App\Purifier::STANDARD];
+			$fields['owners_all'] = ['label' => 'LBL_FILTERS_AVAILABLE', 'purifyType' => \App\Purifier::STANDARD];
+		}
+
+		return $this->editFields + $fields + $this->customFields;
+	}
+
+	/**
+	 * Gets field instance by name.
+	 *
+	 * @param string $name
+	 *
+	 * @return \Vtiger_Field_Model
+	 */
+	public function getFieldInstanceByName($name)
+	{
+		$moduleName = 'Settings:WidgetsManagement';
+		$field = $this->getEditFields()[$name] ?? null;
+		if (!$field) {
+			return null;
+		}
+		$params = [
+			'label' => $field['label'],
+			'tooltip' => $field['tooltip'] ?? ''
+		];
+		switch ($name) {
+			case 'cache':
+			case 'isdefault':
+				$params['uitype'] = 56;
+				$params['typeofdata'] = 'C~O';
+				$params['fieldvalue'] = (int) $this->get($name);
+				break;
+			case 'title':
+				$params['uitype'] = 1;
+				$params['typeofdata'] = empty($field['required']) ? 'V~O' : 'V~M';
+				$params['maximumlength'] = '100';
+				$params['fieldvalue'] = $this->get($name) ?: '';
+				break;
+			case 'width':
+				$params['uitype'] = 16;
+				$params['typeofdata'] = 'V~M';
+				$params['picklistValues'] = [3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10, 11 => 11, 12 => 12];
+				$params['fieldvalue'] = $this->getWidth();
+				break;
+			case 'height':
+				$params['uitype'] = 16;
+				$params['typeofdata'] = 'V~M';
+				$params['picklistValues'] = [3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10, 11 => 11, 12 => 12];
+				$params['fieldvalue'] = $this->getHeight();
+				break;
+			case 'limit':
+				$params['uitype'] = 7;
+				$params['typeofdata'] = 'I~M';
+				$params['fieldvalue'] = $this->get('limit') ?: 10;
+				break;
+			case 'default_owner':
+				$params['uitype'] = 16;
+				$params['typeofdata'] = 'V~M';
+				$picklistValue = ['mine' => 'LBL_MINE', 'all' => 'LBL_ALL'];
+				foreach ($picklistValue as $key => $label) {
+					$params['picklistValues'][$key] = \App\Language::translate($label, $moduleName);
+				}
+				$value = $this->get('owners') ? \App\Json::decode($this->get('owners')) : [];
+				$params['fieldvalue'] = $value['default'] ?? 'mine';
+				break;
+			case 'owners_all':
+				$params['uitype'] = 33;
+				$params['typeofdata'] = 'V~M';
+				$picklistValue = [
+					'mine' => 'LBL_MINE',
+					'all' => 'LBL_ALL',
+					'users' => 'LBL_USERS',
+					'groups' => 'LBL_GROUPS',
+				];
+				foreach ($picklistValue as $key => $label) {
+					$params['picklistValues'][$key] = \App\Language::translate($label, $moduleName);
+				}
+				$owners = $this->get('owners') ? \App\Json::decode($this->get('owners')) : [];
+				$value = $owners['available'] ?? ['mine'];
+				$params['fieldvalue'] = implode(' |##| ', $value);
+				break;
+			case 'default_date':
+				$params['uitype'] = 16;
+				$params['typeofdata'] = 'V~M';
+				$picklistValue = [
+					'day' => 'PLL_CURRENT_DAY',
+					'week' => 'PLL_CURRENT_WEEK',
+					'month' => 'PLL_CURRENT_MONTH',
+					'year' => 'PLL_CURRENT_YEAR'
+				];
+				foreach ($picklistValue as $key => $label) {
+					$params['picklistValues'][$key] = \App\Language::translate($label, $moduleName);
+				}
+				$params['fieldvalue'] = $this->get('date');
+				break;
+			default: break;
+		}
+		return \Vtiger_Field_Model::init($moduleName, $params, $name);
+	}
+
+	/**
+	 * Sets data from request.
+	 *
+	 * @param App\Request $request
+	 */
+	public function setDataFromRequest(App\Request $request)
+	{
+		foreach ($this->getEditFields() as $fieldName => $fieldInfo) {
+			if ($request->has($fieldName) && !isset($this->customFields[$fieldName])) {
+				$value = $request->getByType($fieldName, $fieldInfo['purifyType']);
+				$fieldModel = $this->getFieldInstanceByName($fieldName)->getUITypeModel();
+				$fieldModel->validate($value, true);
+				$value = $fieldModel->getDBValue($value);
+
+				switch ($fieldName) {
+					case 'width':
+					case 'height':
+						$size = $this->get('size') ? \App\Json::decode($this->get('size')) : [];
+						$size[$fieldName] = $value;
+						$this->set('size', \App\Json::encode($size));
+						break;
+					case 'default_owner':
+						$owners = $this->get('owners') ? \App\Json::decode($this->get('owners')) : [];
+						$owners['default'] = $value;
+						$this->set('owners', \App\Json::encode($owners));
+						break;
+					case 'owners_all':
+						$value = $value ? explode(' |##| ', $value) : [];
+						$owners = $this->get('owners') ? \App\Json::decode($this->get('owners')) : [];
+						$owners['available'] = $value;
+						$this->set('owners', \App\Json::encode($owners));
+						break;
+					case 'default_date':
+						$this->set('date', $value);
+						break;
+					default:
+						$this->set($fieldName, $value);
+						break;
+				}
+			}
+		}
+		if (!$this->getId() && !$request->isEmpty('blockId')) {
+			$this->set('blockid', $request->getInteger('blockId'));
+		}
+	}
+
+	/**
+	 * Function to save.
+	 *
+	 * @return bool
+	 */
+	public function save(): bool
+	{
+		$db = App\Db::getInstance();
+		$params = array_intersect_key($this->getData(), array_flip(['title', 'data', 'size', 'limit', 'isdefault', 'owners', 'cache', 'date']));
+		$tableName = 'vtiger_module_dashboard';
+		if ($this->getId()) {
+			$result = $db->createCommand()->update($tableName, $params, ['id' => $this->getId()])->execute();
+			if ($result) {
+				$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['templateid' => $this->getId()])->execute();
+			}
+		} else {
+			$params['blockid'] = $this->get('blockid');
+			$params['linkid'] = $this->get('linkid');
+			$result = $db->createCommand()->insert($tableName, $params)->execute();
+			$this->set('id', $db->getLastInsertID("{$tableName}_id_seq"));
+		}
+
+		return (bool) $result;
+	}
+
+	/**
+	 * Remove widget template.
+	 *
+	 * @return bool
+	 */
+	public function delete(): bool
+	{
+		return (bool) \App\Db::getInstance()->createCommand()
+			->delete('vtiger_module_dashboard', ['vtiger_module_dashboard.id' => $this->getId()])
+			->execute();
 	}
 }
