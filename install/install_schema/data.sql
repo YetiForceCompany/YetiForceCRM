@@ -212,6 +212,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (79,'MailRbl',1,'2020-09-18 11:19:36');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (80,'FieldsDependency',1,'2020-10-13 09:49:22');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (81,'Proxy',1,'2021-02-02 08:38:48');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (82,'Kanban',1,'2021-08-13 11:36:47');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -436,6 +437,8 @@ insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) valu
 /*Data for the table `s_yf_fields_dependency` */
 
 insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`,`mandatory`,`fields`,`conditions`,`conditionsFields`) values (1,6,1,'Legal form','[\"Create\",\"Edit\",\"Detail\",\"QuickCreate\",\"QuickEdit\"]',1,0,'[\"vat_id\",\"registration_number_2\",\"registration_number_1\",\"siccode\"]','{\"condition\":\"OR\",\"rules\":[{\"fieldname\":\"legal_form:Accounts\",\"operator\":\"n\",\"value\":\"PLL_NATURAL_PERSON\"}]}','[\"legal_form\"]');
+
+/*Data for the table `s_yf_kanban_boards` */
 
 /*Data for the table `s_yf_mail_queue` */
 
@@ -18901,6 +18904,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (131,5,'LBL_MAIL_INTEGRATION','yfi yfi-mail-integrator-panel','LBL_MAIL_INTEGRATION_DESCRIPTION','index.php?parent=Settings&module=MailIntegration&view=Index',16,0,0,1,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (133,14,'LBL_LOGS_VIEWER','yfi yfi-view-logs','LBL_LOGS_VIEWER_DESCRIPTION','index.php?parent=Settings&module=Log&view=LogsViewer',6,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (134,7,'LBL_CONFIG_PROXY','yfi yfi-server-configuration','LBL_CONFIG_PROXY_DESCRIPTION','index.php?parent=Settings&module=Proxy&view=Index',8,0,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (135,2,'LBL_KANBAN','fas fa-table','LBL_KANBAN_DESCRIPTION','index.php?parent=Settings&module=Kanban&view=Index',17,0,0,1,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
