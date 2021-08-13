@@ -12,6 +12,12 @@
 
 class Users_Record_Model extends Vtiger_Record_Model
 {
+	/** {@inheritdoc} */
+	public function getModule(): Vtiger_Module_Model
+	{
+		return $this->module ?? Users_Module_Model::getCleanInstance('Users');
+	}
+
 	public function getRealId()
 	{
 		if (App\Session::has('baseUserId') && '' != App\Session::get('baseUserId')) {
