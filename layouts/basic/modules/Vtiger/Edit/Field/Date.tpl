@@ -18,7 +18,7 @@
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 		<input name="{$FIELD_MODEL->getFieldName()}" class="{if !$FIELD_MODEL->isEditableReadOnly()}dateField datepicker{/if} form-control"
 		title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"
-		{if $PARAMS && $PARAMS['onChangeCopyValue']}data-copy-to-field="{$PARAMS['onChangeCopyValue']}"{/if} data-date-format="{$dateFormat}"
+		{if isset($PARAMS['onChangeCopyValue'])}data-copy-to-field="{$PARAMS['onChangeCopyValue']}"{/if} data-date-format="{$dateFormat}"
 		value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}" tabindex="{$FIELD_MODEL->getTabIndex()}"
 		data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 		{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'{/if} data-fieldinfo='{$FIELD_INFO}'
