@@ -23,11 +23,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	 */
 	protected $listViewModel;
 
-	/**
-	 * List view name or id.
-	 *
-	 * @var int|string
-	 */
+	/** @var int|string  List view name or id. */
 	protected $viewName;
 
 	/** {@inheritdoc} */
