@@ -26,8 +26,8 @@
 		};
 
 		this.blockOverlayCSS = {
-			opacity: '0.2',
-			'background-color': ''
+			opacity: 0.8,
+			'background-color': '#fff'
 		};
 
 		this.blockCss = {
