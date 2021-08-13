@@ -16718,6 +16718,9 @@ table .listButtons.narrow .c-badge__icon {
 .u-cursor-move {
   cursor: move; }
 
+.u-cursor-no-move {
+  cursor: no-drop; }
+
 .u-cursor-grab {
   cursor: -webkit-grab; }
 
@@ -20858,7 +20861,7 @@ td.fieldValue .input-group {
   border-radius: 0; }
 
 .c-kanban__records {
-  min-height: 3rem; }
+  min-height: 5rem; }
 
 .c-kanban__record {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);

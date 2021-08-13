@@ -11,6 +11,9 @@
 			{elseif !empty($COLUMN['icon'])}
 				<span class="{$COLUMN['icon']} mr-2"></span>
 			{/if}
+			{if !$COLUMN['isEditable']}
+				<span class="fas fa-ban text-danger mr-3 js-popover-tooltip" data-content="{\App\Language::translate('LBL_OPERATION_NOT_PERMITTED')}" data-js="popover"></span>
+			{/if}
 			{$COLUMN['label']}
 			<span class="ml-1 badge badge-secondary">{$DATA['columnCounter'][$COLUMN_NAME]}</span>
 			{if !empty($COLUMN['description'])}
@@ -31,10 +34,11 @@
 				{/foreach}
 			</div>
 		{/if}
-		<div class="c-kanban__records js-kanban-records" data-field="{$ACTIVE_FIELD->getName()}" data-value="{$COLUMN_NAME}" data-js="container">
+		<div class="c-kanban__records {if $COLUMN['isEditable']}js-kanban-records{/if}" data-field="{$ACTIVE_FIELD->getName()}" data-value="{$COLUMN_NAME}" data-js="container">
 			{if !empty($DATA['records'][$COLUMN_NAME])}
 				{foreach key=RECORD_ID item=RECORD from=$DATA['records'][$COLUMN_NAME]}
-					<div class="c-kanban__record js-kanban-record mt-2" data-id="{$RECORD_ID}" data-js="sortable">
+					{assign var=RECORD_IS_EDITABLE value=$RECORD->isEditable()}
+					<div class="c-kanban__record js-kanban-record {if $COLUMN['isEditable'] && $RECORD_IS_EDITABLE}u-cursor-move{else}js-kanban-disabled u-cursor-no-move{/if} mt-2" data-id="{$RECORD_ID}" data-js="sortable">
 						<div class="card {$COLUMN['colorBr']}">
 							<div class="card-body px-2 py-0">
 								<p class="card-text js-popover-tooltip--record" href="index.php?module={$MODULE_NAME}&view=Detail&record={$RECORD_ID}">
@@ -60,9 +64,11 @@
 										<a class="btn btn-xs btn-link js-popover-tooltip mr-1" href="index.php?module={$MODULE_NAME}&view=Detail&record={$RECORD_ID}" data-content="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS')}" data-js="popover">
 											<span class="fas fa-th-list"></span>
 										</a>
-										<a role="button" class="btn btn-xs btn-link js-popover-tooltip js-quick-edit-modal"  href="index.php?module={$MODULE_NAME}&view=Edit&record={$RECORD_ID}" data-content="{\App\Language::translate('BTN_RECORD_EDIT')}" data-module="{$MODULE_NAME}" data-record="{$RECORD_ID}" data-js="popover|click">
-											<span class="yfi yfi-full-editing-view"></span>
-										</a>
+										{if $COLUMN['isEditable'] && $RECORD_IS_EDITABLE}
+											<a role="button" class="btn btn-xs btn-link js-popover-tooltip js-quick-edit-modal"  href="index.php?module={$MODULE_NAME}&view=Edit&record={$RECORD_ID}" data-content="{\App\Language::translate('BTN_RECORD_EDIT')}" data-module="{$MODULE_NAME}" data-record="{$RECORD_ID}" data-js="popover|click">
+												<span class="yfi yfi-full-editing-view"></span>
+											</a>
+										{/if}
 									</div>
 									<span class="text-right">
 										{$RECORD->getDisplayValue('assigned_user_id')}

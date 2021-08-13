@@ -567,6 +567,10 @@
 	cursor: move;
 }
 
+.u-cursor-no-move {
+	cursor: no-drop;
+}
+
 .u-cursor-grab {
 	cursor: -webkit-grab;
 }

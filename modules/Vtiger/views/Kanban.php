@@ -89,25 +89,26 @@ class Vtiger_Kanban_View extends Vtiger_Index_View
 		$fieldNameForColor = App\Colors::sanitizeValue($fieldName);
 		switch ($this->fieldModel->getFieldDataType()) {
 			case 'picklist':
+				$allowedValues = $this->fieldModel->getPicklistValues();
 				$picklistValues = App\Fields\Picklist::getValues($fieldName);
-				$column = array_column($picklistValues, 'picklistValueId', 'picklistValue');
-				foreach ($this->fieldModel->getPicklistValues() as $key => $value) {
-					$color = "{$moduleName}_{$fieldNameForColor}_" . App\Colors::sanitizeValue($key);
-					$picklist = $picklistValues[$column[$key]];
-					$this->columns[$key] = [
-						'label' => $value,
-						'icon' => $picklist['icon'] ?? '',
+				foreach ($picklistValues as $value) {
+					$color = "{$moduleName}_{$fieldNameForColor}_" . App\Colors::sanitizeValue($value['picklistValue']);
+					$this->columns[$value['picklistValue']] = [
+						'label' => \App\Language::translate($value['picklistValue'], $moduleName),
+						'icon' => $value['icon'] ?? '',
 						'class' => '',
 						'colorBg' => 'picklistLb_' . $color,
 						'colorBr' => 'picklistCBr_' . $color,
-						'description' => $picklist['description'] ?? '',
+						'description' => $value['description'] ?? '',
+						'isEditable' => isset($allowedValues[$value['picklistValue']]),
 					];
 				}
 				break;
 			case 'owner':
 				$owner = App\Fields\Owner::getInstance($moduleName);
 				$owner->showRoleName = false;
-				if ($users = $owner->getAccessibleUsers('private', 'owner')) {
+				if ($users = $owner->getAccessibleUsers('Public')) {
+					$allowedValues = $owner->getAccessibleUsers('private', 'owner');
 					foreach ($users as $key => $value) {
 						$this->columns[$key] = [
 							'label' => $value,
@@ -116,10 +117,12 @@ class Vtiger_Kanban_View extends Vtiger_Index_View
 							'class' => '',
 							'colorBg' => 'ownerCBg_' . $key,
 							'colorBr' => 'ownerCBr_' . $key,
+							'isEditable' => isset($allowedValues[$key]),
 						];
 					}
 				}
 				if ($group = $owner->getAccessibleGroups('private', 'owner', true)) {
+					$allowedValues = $owner->getAccessibleGroups('private', 'owner', true);
 					foreach ($group as $key => $value) {
 						$this->columns[$key] = [
 							'label' => $value,
@@ -127,6 +130,7 @@ class Vtiger_Kanban_View extends Vtiger_Index_View
 							'class' => '',
 							'colorBg' => 'ownerCBg_' . $key,
 							'colorBr' => 'ownerCBr_' . $key,
+							'isEditable' => isset($allowedValues[$key]),
 						];
 					}
 				}
@@ -183,7 +187,7 @@ class Vtiger_Kanban_View extends Vtiger_Index_View
 	/**
 	 * Convert the data.
 	 *
-	 * @param array $entries
+	 * @param Vtiger_Record_Model[] $entries
 	 *
 	 * @return array
 	 */
