@@ -26,7 +26,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (!\in_array($value, [0, 1, '1', '0', 'on'])) {
+		if (!\in_array($value, [0, 1, '1', '0', 'on', 'off'])) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;

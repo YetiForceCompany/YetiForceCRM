@@ -32,7 +32,7 @@
 					</h4>
 					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
-					{if $RECORD_STATE !== 'Active'}
+					{if $RECORD_STATE && $RECORD_STATE !== 'Active'}
 						{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 						<span class="badge badge-secondary"
 							  {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
