@@ -13,4 +13,25 @@ namespace App\Conditions\RecordFields;
  */
 class MultipicklistField extends BaseField
 {
+	/** {@inheritdoc} */
+	public function operatorE(): bool
+	{
+		$check = false;
+		foreach (explode(' |##| ', $this->value) as $value) {
+			if (\in_array($value, explode(' |##| ', $this->getValue()))) {
+				$check = true;
+			}
+		}
+		return $check;
+	}
+
+	/** {@inheritdoc} */
+	public function operatorN(): bool
+	{
+		$check = false;
+		if (!$this->operatorE()) {
+			return true;
+		}
+		return $check;
+	}
 }
