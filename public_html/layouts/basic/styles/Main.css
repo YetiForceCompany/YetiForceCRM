@@ -15575,6 +15575,17 @@ ul.tweets li {
 .c-menu--open .marketplace-product {
   max-width: 24.875rem; }
 
+.c-user-image {
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  vertical-align: sub;
+  margin-right: 5px; }
+
+.c-user-xl {
+  width: 2.5rem;
+  height: 2.5rem; }
+
 /* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table td.wide:not(.listButtons), .c-detail-widget__table td.wide:not(.listButtons),
 .listViewEntries td.wide:not(.listButtons),
@@ -16703,6 +16714,9 @@ table .listButtons.narrow .c-badge__icon {
 
 .u-cursor-auto {
   cursor: auto; }
+
+.u-cursor-move {
+  cursor: move; }
 
 .u-cursor-grab {
   cursor: -webkit-grab; }
@@ -20807,6 +20821,60 @@ td.fieldValue .input-group {
     .c-list-preview__content {
       margin-right: 0;
       margin-bottom: 10px; } }
+
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.c-kanban__container {
+  overflow: auto; }
+
+.c-kanban__columns {
+  display: inline-flex;
+  min-width: 100%; }
+
+.c-kanban__highlight {
+  margin-top: 0.5rem;
+  border: 2px dotted #fff700;
+  background: #fff99080;
+  height: 3rem;
+  line-height: 3rem; }
+
+.c-kanban__column {
+  min-width: 250px; }
+
+.c-kanban__header, .c-kanban__sum {
+  background: #f0f0f0;
+  cursor: auto;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0 !important; }
+
+.c-kanban__sum {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-top-width: 0; }
+
+.c-kanban__color-bar {
+  background: #dae0e5;
+  padding: 3px;
+  display: block;
+  border-radius: 0; }
+
+.c-kanban__records {
+  min-height: 3rem; }
+
+.c-kanban__record {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-left-width: 0; }
+  .c-kanban__record:hover .card .btns, .c-kanban__record:hover .c-panel .btns, .c-kanban__record:hover .c-detail-widget .btns {
+    display: block; }
+  .c-kanban__record .card, .c-kanban__record .c-panel, .c-kanban__record .c-detail-widget {
+    border-radius: 0;
+    border-width: 0;
+    border-left-width: 2px;
+    font-size: 14px; }
+    .c-kanban__record .card .picklistValue, .c-kanban__record .c-panel .picklistValue, .c-kanban__record .c-detail-widget .picklistValue {
+      line-height: 1.75rem; }
+    .c-kanban__record .card .btns, .c-kanban__record .c-panel .btns, .c-kanban__record .c-detail-widget .btns {
+      display: none; }
 
 /* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-menu-shortcut .close {
