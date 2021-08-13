@@ -1534,6 +1534,7 @@ window.App.Fields = {
 						});
 					});
 					cb(select);
+					select.trigger('sortable:change');
 				}
 			});
 		},
