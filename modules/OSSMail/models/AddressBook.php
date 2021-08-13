@@ -35,12 +35,12 @@ class OSSMail_AddressBook_Model
 		$mails = [];
 		$db = \App\Db::getInstance();
 		$usersIds = \App\Fields\Owner::getUsersIds();
-		foreach($usersIds as $userId){
-			$mails = (new \App\Db\Query())->select([new \yii\db\Expression('CONCAT(name,' . $db->quoteValue(' <') . ',email,'. $db->quoteValue('>') .')')])
-			->from(self::TABLE)->innerJoin('vtiger_crmentity', self::TABLE . '.id = vtiger_crmentity.crmid')
-			->where(['or', ['like', self::TABLE . '.users', ",{$userId},"],['like', self::TABLE . '.users', "%,{$userId}", false]])
-			->orderBy(new \yii\db\Expression("CASE WHEN setype = 'OSSEmployees' THEN 1 WHEN setype = 'Contacts' THEN 2 ELSE 3 END"))->distinct()->column();
-			if($mails || file_exists("cache/addressBook/mails_{$userId}.php")){
+		foreach ($usersIds as $userId) {
+			$mails = (new \App\Db\Query())->select([new \yii\db\Expression('CONCAT(name,' . $db->quoteValue(' <') . ',email,' . $db->quoteValue('>') . ')'), 'vtiger_crmentity.setype'])
+				->from(self::TABLE)->innerJoin('vtiger_crmentity', self::TABLE . '.id = vtiger_crmentity.crmid')
+				->where(['or', ['like', self::TABLE . '.users', ",{$userId},"], ['like', self::TABLE . '.users', "%,{$userId}", false]])
+				->orderBy(new \yii\db\Expression("CASE WHEN setype = 'OSSEmployees' THEN 1 WHEN setype = 'Contacts' THEN 2 ELSE 3 END"))->distinct()->column();
+			if ($mails || file_exists("cache/addressBook/mails_{$userId}.php")) {
 				\App\Utils::saveToFile("cache/addressBook/mails_{$userId}.php", '$bookMails =' . App\Utils::varExport($mails) . ';');
 			}
 		}
