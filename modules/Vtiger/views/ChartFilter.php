@@ -24,6 +24,9 @@ class Vtiger_ChartFilter_View extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	public $showFooter = false;
 
+	/** @var \Vtiger_Widget_Model Widget Model */
+	public $widgetModel;
+
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
@@ -31,6 +34,24 @@ class Vtiger_ChartFilter_View extends \App\Controller\Modal
 		if (!$privilegesModel->hasModulePermission($request->getModule()) || !$privilegesModel->hasModulePermission($request->getModule(), 'CreateDashboardChartFilter')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
+		if (!$request->isEmpty('templateId', true) && \App\User::getCurrentUserModel()->isAdmin()) {
+			$this->widgetModel = \Vtiger_Widget_Model::getInstanceWithTemplateId($request->getInteger('templateId'));
+		} else {
+			$linkData = \vtlib\Link::getLinkData($request->getInteger('linkId'));
+			$this->widgetModel = \Vtiger_Widget_Model::getInstanceFromValues($linkData);
+		}
+	}
+
+	/** {@inheritdoc} */
+	public function getPageTitle(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		if (isset($this->pageTitle) && !$this->widgetModel->getId()) {
+			$pageTitle = \App\Language::translate($this->pageTitle, $moduleName);
+		} elseif ($this->widgetModel->getId()) {
+			$pageTitle = \App\Language::translate('LBL_EDIT_CHART_FILTER', $moduleName);
+		}
+		return $pageTitle;
 	}
 
 	/** {@inheritdoc} */
@@ -50,6 +71,7 @@ class Vtiger_ChartFilter_View extends \App\Controller\Modal
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIZARD_STEP', $request->getByType('step', 'Alnum'));
 		$viewer->assign('REQUIRED_FIELD_TYPE', $requiredFieldType);
+		$viewer->assign('WIDGET_MODEL', $this->widgetModel);
 
 		switch ($request->getByType('step', 'Alnum')) {
 			case 'step1':
@@ -109,6 +131,7 @@ class Vtiger_ChartFilter_View extends \App\Controller\Modal
 				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
 				$viewer->assign('DIVIDING_FIELD', $request->getByType('dividingField'));
 				$viewer->assign('STACKED', $request->getBoolean('stacked', false));
+				$viewer->assign('FILTERS', $request->getArray('filtersId', 'Integer'));
 				break;
 			default:
 				break;

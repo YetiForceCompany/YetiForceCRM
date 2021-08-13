@@ -18,7 +18,7 @@
 		{/if}
 		{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
 			<button class="btn btn-outline-secondary c-btn-block-xs-down js-show-modal ml-1"
-					data-url="index.php?module={$MODULE_MODEL->getName()}&view=ChartFilter&step=step1"
+					data-url="index.php?module={$MODULE_MODEL->getName()}&view=ChartFilter&step=step1&linkId={$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}"
 					data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}"
 					data-block-id="0" data-width="4" data-module="{$MODULE_MODEL->getName()}"
 					data-modalId="{\App\Layout::getUniqueId('ChartFilter')}"

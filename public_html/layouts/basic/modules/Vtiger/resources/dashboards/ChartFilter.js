@@ -10,6 +10,8 @@ $.Class(
 		 */
 		widgetName: 'ChartFilter',
 		registerContainers() {
+			this.widgetId = $('.js-widget-id', this.container).val();
+			this.linkId = $('.js-link-id', this.container).val();
 			this.step1 = $('.step1', this.container);
 			this.step2 = $('.step2', this.container);
 			this.step3 = $('.step3', this.container);
@@ -45,16 +47,22 @@ $.Class(
 				this.step2.empty();
 				this.step3.empty();
 				this.step4.empty();
+				this.step5.empty();
 				AppConnector.request({
 					module: this.sourceModuleName,
 					view: this.widgetName,
 					step: 'step2',
 					chartType: this.chartTypeValue,
-					selectedModule: this.moduleName
+					selectedModule: this.moduleName,
+					templateId: this.widgetId,
+					linkId: this.linkId
 				}).done((data) => {
 					this.registerStep2(data);
 				});
 			});
+			if (this.widgetId) {
+				moduleElement.trigger('change');
+			}
 		},
 		/**
 		 * Register second step elements
@@ -70,6 +78,7 @@ $.Class(
 			this.step2.find('.filtersId, .valueType').on('change', (e) => {
 				this.step3.empty();
 				this.step4.empty();
+				this.step5.empty();
 				this.footer.hide();
 				let filterId = filtersIdElement.val(),
 					type = valueTypeElement.val();
@@ -83,11 +92,16 @@ $.Class(
 					selectedModule: this.moduleName,
 					chartType: this.chartTypeValue,
 					filtersId: filterId,
-					valueType: type
+					valueType: type,
+					templateId: this.widgetId,
+					linkId: this.linkId
 				}).done((data) => {
 					this.registerStep3(data);
 				});
 			});
+			if (this.widgetId) {
+				valueTypeElement.trigger('change');
+			}
 		},
 		/**
 		 * Register third step elements
@@ -97,9 +111,10 @@ $.Class(
 			this.stepNumber.val(3);
 			App.Fields.Picklist.showSelect2ElementView(this.step3.find('select'));
 			this.footer.hide();
-			this.step3.find('.groupField').on('change', (e) => {
+			let groupField = this.step3.find('.groupField');
+			groupField.on('change', (e) => {
 				this.step4.empty();
-				let groupField = $(e.currentTarget);
+				this.step5.empty();
 				if (!groupField.val()) return;
 				this.footer.show();
 				AppConnector.request({
@@ -109,11 +124,16 @@ $.Class(
 					selectedModule: this.moduleName,
 					filtersId: this.step2.find('.filtersId').val(),
 					groupField: groupField.val(),
-					chartType: this.chartTypeValue
+					chartType: this.chartTypeValue,
+					templateId: this.widgetId,
+					linkId: this.linkId
 				}).done((data) => {
 					this.registerStep4(data);
 				});
 			});
+			if (this.widgetId) {
+				groupField.trigger('change');
+			}
 		},
 		/**
 		 * Register fourth step elements
@@ -122,8 +142,10 @@ $.Class(
 			this.step4.append(stepContainer);
 			this.stepNumber.val(4);
 			App.Fields.Picklist.showSelect2ElementView(this.step4.find('select'));
-			this.step4.find('[name="dividingField"]').on('change', (e) => {
-				let type = e.currentTarget.selectedOptions[0].dataset.fieldType;
+			let dividingField = this.step4.find('[name="dividingField"]');
+			dividingField.on('change', (e) => {
+				let selectedOption = e.currentTarget.selectedOptions[0];
+				let type = selectedOption ? selectedOption.dataset.fieldType : '';
 				let selector = this.step4.find('.js-sector-container');
 				if (type === 'datetime' || type === 'date') {
 					selector.removeClass('d-none');
@@ -139,6 +161,9 @@ $.Class(
 				this.step5.empty();
 				this.registerRequestForStep5();
 			});
+			if (this.widgetId && dividingField.length && dividingField.val()) {
+				dividingField.trigger('change');
+			}
 			app.registerModalEvents(this.container);
 		},
 		registerRequestForStep5() {
@@ -151,7 +176,9 @@ $.Class(
 				groupField: this.step3.find('.groupField option:selected').val(),
 				chartType: this.chartTypeValue,
 				dividingField: this.step4.find('[name="dividingField"] option:selected').val(),
-				stacked: this.step4.find('[name="stacked"]').is(':checked')
+				stacked: this.step4.find('[name="stacked"]').is(':checked'),
+				templateId: this.widgetId,
+				linkId: this.linkId
 			}).done((data) => {
 				this.registerStep5(data);
 			});
@@ -174,7 +201,7 @@ $.Class(
 				e.preventDefault();
 				if (form.data('jqv').InvalidFields.length === 0) {
 					let progressIndicatorElement = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-					let params = this.getParams();
+					let params = this.widgetId ? this.getParamsForEdit() : this.getParams();
 					AppConnector.request(params)
 						.done((data) => {
 							if (data.success) {
@@ -218,6 +245,21 @@ $.Class(
 		 * Gets params for save
 		 * @returns {object}
 		 */
+		getParamsForEdit() {
+			let paramsForm = this.form.serializeFormData();
+			paramsForm.module = 'WidgetsManagement';
+			paramsForm.parent = 'Settings';
+			paramsForm.action = 'SaveAjax';
+			paramsForm.mode = 'save';
+			paramsForm.chartModule = this.moduleName;
+			paramsForm.linkId = this.source.data('linkid');
+			paramsForm.widgetId = this.widgetId;
+			return paramsForm;
+		},
+		/**
+		 * Gets params for save
+		 * @returns {object}
+		 */
 		getParams() {
 			let data = {};
 			let paramsForm = this.form.serializeFormData();
@@ -235,7 +277,7 @@ $.Class(
 				blockid: this.source.data('block-id'),
 				linkid: this.source.data('linkid'),
 				name: this.widgetName,
-				title: paramsForm['widgetTitle'],
+				title: paramsForm['title'],
 				filterid: filtersId,
 				isdefault: 0,
 				height: 4,

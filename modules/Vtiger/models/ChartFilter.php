@@ -13,7 +13,7 @@
 /**
  * Widget chart model with a filter.
  */
-class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
+class Vtiger_ChartFilter_Model extends \App\Base
 {
 	/**
 	 * Widget model.
@@ -782,7 +782,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		$this->addPicklistsToQuery($queryGenerator);
 		$query = $queryGenerator->createQuery();
-		if (isset($this->extraData['sortOrder']) && !empty($this->extraData['sortOrder'])) {
+		if (!empty($this->extraData['sortOrder'])) {
 			$order = 'ASC' === $this->extraData['sortOrder'] ? SORT_ASC : SORT_DESC;
 			$query->orderBy(['count' => $order]);
 		}
@@ -833,7 +833,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 		}
 		unset($group, $values);
-		if (isset($this->extraData['sortOrder']) && empty($this->extraData['sortOrder'])) {
+		if (empty($this->extraData['sortOrder'])) {
 			$groupCalculate = $this->groupFieldModel->isCalculateField();
 			ksort($this->data, SORT_LOCALE_STRING);
 			foreach ($this->data as &$dividing) {

@@ -521,7 +521,7 @@ class Vtiger_Widget_Model extends \App\Base
 	public function save(): bool
 	{
 		$db = App\Db::getInstance();
-		$params = array_intersect_key($this->getData(), array_flip(['title', 'data', 'size', 'limit', 'isdefault', 'owners', 'cache', 'date']));
+		$params = array_intersect_key($this->getData(), array_flip(['title', 'data', 'size', 'limit', 'isdefault', 'owners', 'cache', 'date', 'filterid']));
 		$tableName = 'vtiger_module_dashboard';
 		if ($this->getId()) {
 			$result = $db->createCommand()->update($tableName, $params, ['id' => $this->getId()])->execute();
@@ -548,5 +548,18 @@ class Vtiger_Widget_Model extends \App\Base
 		return (bool) \App\Db::getInstance()->createCommand()
 			->delete('vtiger_module_dashboard', ['vtiger_module_dashboard.id' => $this->getId()])
 			->execute();
+	}
+
+	/**
+	 * Gets value from data column.
+	 *
+	 * @param string $name
+	 *
+	 * @return mixed
+	 */
+	public function getDataValue(string $name)
+	{
+		$values = $this->get('data') ? \App\Json::decode($this->get('data')) : [];
+		return $values[$name] ?? null;
 	}
 }

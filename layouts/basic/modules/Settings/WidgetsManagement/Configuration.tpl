@@ -103,7 +103,7 @@
 												{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 												<div class="btn-group ml-1">
 													<button class="btn btn-success btn-sm js-show-modal" type="button"
-															data-url="index.php?module={$SELECTED_MODULE_NAME}&view=ChartFilter&step=step1"
+															data-url="index.php?module={$SELECTED_MODULE_NAME}&view=ChartFilter&step=step1&linkId={$CHART_FILTER_WIDGET->get('linkid')}"
 															data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}"
 															data-name="{$CHART_FILTER_WIDGET->getName()}"
 															data-width="{$CHART_FILTER_WIDGET->getWidth()}"
@@ -264,7 +264,7 @@
 										{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 										<div class="btn-group ml-1">
 											<button class="btn btn-success btn-sm js-show-modal" type="button"
-													data-url="index.php?module={$SELECTED_MODULE_NAME}&view=ChartFilter&step=step1"
+													data-url="index.php?module={$SELECTED_MODULE_NAME}&view=ChartFilter&step=step1&linkId={$CHART_FILTER_WIDGET->get('linkid')}"
 													data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}"
 													data-name="{$CHART_FILTER_WIDGET->getName()}"
 													data-width="{$CHART_FILTER_WIDGET->getWidth()}"
