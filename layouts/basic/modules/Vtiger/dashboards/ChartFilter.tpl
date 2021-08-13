@@ -231,7 +231,7 @@
 			</div>
 		{/if}
 	{elseif $WIZARD_STEP eq 'step5' }
-		{if in_array($CHART_TYPE,['Bar','Horizontal','Line','LinePlain']) && !$DIVIDING_FIELD && !$STACKED && count($FILTERS)<=1}
+		{if in_array($CHART_TYPE,['Bar','Horizontal','Line','LinePlain']) && !$DIVIDING_FIELD && !$STACKED && !$SECTOR_FIELD && count($FILTERS)<=1}
 			<div class="form-group row mb-2">
 				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_SORTING_SETTINGS')}</label></div>
 				<div class="{$COL_CTRL}">

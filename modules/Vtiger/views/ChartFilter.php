@@ -125,11 +125,14 @@ class Vtiger_ChartFilter_View extends \App\Controller\Modal
 				$filters = $request->getArray('filtersId', 'Integer');
 				$viewer->assign('DIVIDING_FIELD', false);
 				$viewer->assign('STACKED', false);
+				$viewer->assign('SECTOR_FIELD', false);
 				$viewer->assign('FILTERS', $filters);
 				break;
 			case 'step5':
 				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
 				$viewer->assign('DIVIDING_FIELD', $request->getByType('dividingField'));
+				$sectorField = $request->isEmpty('sectorField') ? '' : $request->getByType('sectorField');
+				$viewer->assign('SECTOR_FIELD', $sectorField);
 				$viewer->assign('STACKED', $request->getBoolean('stacked', false));
 				$viewer->assign('FILTERS', $request->getArray('filtersId', 'Integer'));
 				break;
