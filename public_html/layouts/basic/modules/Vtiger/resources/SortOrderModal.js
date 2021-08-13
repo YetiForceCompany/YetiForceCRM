@@ -87,7 +87,7 @@ $.Class(
 		 * Gets basic container
 		 */
 		getSourceContainer: function () {
-			return $('[data-modalid=' + this.source + ']').closest('.listViewContentDiv,.relatedContainer');
+			return $('[data-modalid=' + this.source + ']').closest('.listViewContentDiv,.relatedContainer,.js-kanban-header');
 		},
 		/**
 		 * Register modal events

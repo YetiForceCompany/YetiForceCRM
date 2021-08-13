@@ -1,0 +1,73 @@
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.c-kanban {
+	&__container {
+		overflow: auto;
+	}
+
+	&__columns {
+		display: inline-flex;
+		min-width: 100%;
+	}
+
+	&__highlight {
+		margin-top: 0.5rem;
+		border: 2px dotted #fff700;
+		background: #fff99080;
+		height: 3rem;
+		line-height: 3rem;
+	}
+
+	&__column {
+		min-width: 250px;
+	}
+	&__header,
+	&__sum {
+		background: #f0f0f0;
+		cursor: auto;
+		padding: 0.375rem 0.75rem;
+		border-radius: 0 !important;
+	}
+	&__sum {
+		background: #fff;
+		border: 1px solid rgba(0, 0, 0, 0.125);
+		border-top-width: 0;
+	}
+	&__color-bar {
+		background: #dae0e5;
+		padding: 3px;
+		display: block;
+		border-radius: 0;
+	}
+
+	&__records {
+		min-height: 3rem;
+	}
+
+	&__record {
+		box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+		border: 1px solid rgba(0, 0, 0, 0.125);
+		border-left-width: 0;
+
+		&:hover {
+			.card .btns {
+				display: block;
+			}
+		}
+
+		.card {
+			border-radius: 0;
+			border-width: 0;
+			border-left-width: 2px;
+			font-size: 14px;
+
+			.picklistValue {
+				line-height: 1.75rem;
+			}
+
+			.btns {
+				display: none;
+			}
+		}
+	}
+}
