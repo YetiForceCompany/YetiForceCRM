@@ -60,6 +60,127 @@ $.Class(
 				return instance;
 			}
 			return Vtiger_Edit_Js.editInstance;
+		},
+		/**
+		 * Record save ajax
+		 *
+		 * `Vtiger_Edit_Js.saveAjax({
+		 *		value: 'value',
+		 *		field: 'field'
+		 *	}).done(() => {})
+		 *	.fail((error, err) => {});`
+		 *
+		 * @param {object} params
+		 * @returns {Promise}
+		 */
+		saveAjax: function (params, progressIndicator = true) {
+			const aDeferred = $.Deferred();
+			if (typeof params === 'undefined' || $.isEmptyObject(params)) {
+				aDeferred.reject();
+				return aDeferred.promise();
+			}
+			if (!params['record'] && app.getRecordId()) {
+				params['record'] = app.getRecordId();
+			}
+			if (!params['module']) {
+				params['module'] = app.getModuleName();
+			}
+			params['action'] = 'SaveAjax';
+			params = {
+				data: params,
+				async: false,
+				dataType: 'json'
+			};
+			if (progressIndicator) {
+				document.progressLoader = $.progressIndicator({
+					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+			}
+			this.saveAjaxValidation(params).then((response) => {
+				if (response === true) {
+					delete params.data.mode;
+					AppConnector.request(params)
+						.done(function (responseData) {
+							aDeferred.resolve(responseData);
+							if (progressIndicator) {
+								document.progressLoader.progressIndicator({ mode: 'hide' });
+							}
+						})
+						.fail((jqXHR, textStatus, errorThrown) => {
+							aDeferred.reject(jqXHR, textStatus, errorThrown);
+							if (progressIndicator) {
+								document.progressLoader.progressIndicator({ mode: 'hide' });
+							}
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
+						});
+				} else {
+					aDeferred.resolve({ success: false });
+					if (progressIndicator) {
+						document.progressLoader.progressIndicator({ mode: 'hide' });
+					}
+				}
+			});
+			return aDeferred.promise();
+		},
+		/**
+		 * Record pre save validation
+		 * @param {object} params
+		 * @returns {Promise}
+		 */
+		saveAjaxValidation: function (params) {
+			const aDeferred = $.Deferred();
+			let validation = true;
+			if (
+				typeof app.pageController.getForm !== 'undefined' &&
+				app.pageController.getForm().find('#preSaveValidation').length !== 0
+			) {
+				validation = parseInt(app.pageController.getForm().find('#preSaveValidation').val());
+			}
+			if (validation) {
+				params.data.mode = 'preSaveValidation';
+				AppConnector.request(params)
+					.done((data) => {
+						const response = data.result;
+						for (let i = 0; i < response.length; i++) {
+							if (response[i].result !== true) {
+								if (typeof response[i].showModal !== 'undefined' && typeof response[i].showModal.url !== 'undefined') {
+									app.showModalWindow(null, response[i].showModal.url, function (modalContainer) {
+										app.registerModalController(undefined, modalContainer, function (_, instance) {
+											instance.formContainer = form;
+										});
+									});
+								} else {
+									app.showNotify({
+										text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
+										type: 'error'
+									});
+								}
+							}
+						}
+						if (data.result.length <= 0) {
+							aDeferred.resolve(true);
+						} else {
+							aDeferred.resolve(false);
+						}
+					})
+					.fail((textStatus, errorThrown) => {
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
+						aDeferred.resolve(false);
+					});
+			} else {
+				aDeferred.resolve(true);
+			}
+			return aDeferred.promise();
 		}
 	},
 	{

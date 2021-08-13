@@ -272,6 +272,8 @@ var App = (window.App = {
 											} else if (params && params.data) {
 												window.location.reload();
 											}
+										} else if ('Kanban' === app.getViewName()) {
+											app.pageController.loadKanban(false);
 										}
 									}
 								})
@@ -483,6 +485,8 @@ var App = (window.App = {
 									} else {
 										window.location.reload();
 									}
+								} else if ('Kanban' === viewName) {
+									app.pageController.loadKanban(false);
 								}
 							});
 						} else {
@@ -1037,7 +1041,10 @@ var app = (window.app = {
 			manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
 			placement: 'right',
 			callbackShown: () => {
-				if (!selectElement.attr('href')) {
+				if (
+					!selectElement.attr('href') ||
+					selectElement.closest('.ui-sortable-handle').hasClass('ui-sortable-helper')
+				) {
 					return false;
 				}
 				let link = new URL(selectElement.eq(0).attr('href'), window.location.origin);
@@ -2556,6 +2563,35 @@ var app = (window.app = {
 	 * Convert url string to object
 	 *
 	 * @param   {string}  url  example: index.php?module=LayoutEditor&parent=Settings
+	 */
+	changeUrl(params) {
+		let fullUrl = '';
+		if (params.data && typeof params.data.historyUrl !== 'undefined') {
+			fullUrl = params.data.historyUrl;
+		}
+		if (fullUrl === '' && params.data) {
+			if (typeof params.data == 'string') {
+				fullUrl = 'index.php?' + params.data;
+			} else {
+				fullUrl = 'index.php?' + $.param(params.data);
+			}
+		} else if (typeof params === 'object') {
+			fullUrl = 'index.php?' + $.param(params);
+		} else if (fullUrl.indexOf('index.php?') === -1) {
+			fullUrl = 'index.php?' + fullUrl;
+		}
+		if (app.isWindowTop() && history && history.pushState && fullUrl !== '') {
+			if (!history.state) {
+				let currentHref = window.location.href;
+				history.replaceState(currentHref, 'title 1', currentHref);
+			}
+			history.pushState(fullUrl, 'title 2', fullUrl);
+		}
+	},
+	/**
+	 * Convert url string to object
+	 *
+	 * @param   {string}  url  example: index.php?module=LayoutEditor&parent=Settings
 	 *
 	 * @return  {object}       urlObject
 	 */
@@ -2972,9 +3008,9 @@ $(function () {
 		$('textarea').resizable();
 	}
 	// Instantiate Page Controller
-	let pageController = app.getPageController();
-	if (pageController) {
-		pageController.registerEvents();
+	app.pageController = app.getPageController();
+	if (app.pageController) {
+		app.pageController.registerEvents();
 	}
 });
 (function ($) {

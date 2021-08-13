@@ -142,21 +142,7 @@ window.AppConnector = {
 		}
 		jQuery.ajax(params);
 		if (pjaxMode) {
-			if (typeof params.data.historyUrl !== 'undefined') {
-				fullUrl = params.data.historyUrl;
-			}
-			if (fullUrl === '') {
-				fullUrl = 'index.php?' + $.param(params.data);
-			} else if (fullUrl.indexOf('index.php?') === -1) {
-				fullUrl = 'index.php?' + fullUrl;
-			}
-			if (app.isWindowTop() && history.pushState && fullUrl !== '') {
-				const currentHref = window.location.href;
-				if (!history.state) {
-					history.replaceState(currentHref, 'title 1', currentHref);
-				}
-				history.pushState(fullUrl, 'title 2', fullUrl);
-			}
+			app.changeUrl(params);
 		}
 		return aDeferred.promise();
 	},

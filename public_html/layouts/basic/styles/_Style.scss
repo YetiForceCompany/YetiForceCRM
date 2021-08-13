@@ -3562,3 +3562,14 @@ ul.tweets li {
 		max-width: calculate-rem(398px);
 	}
 }
+.c-user-image {
+	width: 1.35rem;
+	height: 1.35rem;
+	border-radius: 50%;
+	vertical-align: sub;
+	margin-right: 5px;
+}
+.c-user-xl {
+	width: 2.5rem;
+	height: 2.5rem;
+}
