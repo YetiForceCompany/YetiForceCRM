@@ -157,7 +157,7 @@ $.Class(
 				}
 			});
 			this.registerRequestForStep5();
-			this.step4.find('[name="dividingField"], [name="stacked"]').on('change', (e) => {
+			this.step4.find('[name="dividingField"], [name="stacked"], [name="sectorField"]').on('change', (e) => {
 				this.step5.empty();
 				this.registerRequestForStep5();
 			});
@@ -176,6 +176,7 @@ $.Class(
 				groupField: this.step3.find('.groupField option:selected').val(),
 				chartType: this.chartTypeValue,
 				dividingField: this.step4.find('[name="dividingField"] option:selected').val(),
+				sectorField: this.step4.find('[name="sectorField"] option:selected').val(),
 				stacked: this.step4.find('[name="stacked"]').is(':checked'),
 				templateId: this.widgetId,
 				linkId: this.linkId
