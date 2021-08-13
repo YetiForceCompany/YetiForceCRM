@@ -270,6 +270,11 @@ class System extends Base
 	 */
 	public function deleteRegistration(): void
 	{
-		\App\Db::getInstance('admin')->createCommand()->delete('s_#__companies')->execute();
+		\App\Db::getInstance('admin')->createCommand()->update('s_#__companies', [
+			'status' => 0,
+			'name' => '', 'industry' => '', 'vat_id' => '', 'city' => '', 'address' => '',
+			'post_code' => '', 'country' => '', 'companysize' => '', 'website' => '', 'logo' => '',
+			'firstname' => '', 'lastname' => '', 'email' => '', 'facebook' => '', 'twitter' => '', 'linkedin' => '',
+		])->execute();
 	}
 }
