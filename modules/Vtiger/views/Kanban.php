@@ -90,7 +90,7 @@ class Vtiger_Kanban_View extends Vtiger_Index_View
 		switch ($this->fieldModel->getFieldDataType()) {
 			case 'picklist':
 				$picklistValues = App\Fields\Picklist::getValues($fieldName);
-				$column = array_column($picklistValues, $fieldName . 'id', $fieldName);
+				$column = array_column($picklistValues, 'picklistValueId', 'picklistValue');
 				foreach ($this->fieldModel->getPicklistValues() as $key => $value) {
 					$color = "{$moduleName}_{$fieldNameForColor}_" . App\Colors::sanitizeValue($key);
 					$picklist = $picklistValues[$column[$key]];
