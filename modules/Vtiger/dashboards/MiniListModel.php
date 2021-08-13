@@ -105,4 +105,52 @@ class Vtiger_MiniListModel_Dashboard extends Vtiger_Widget_Model
 			}
 		}
 	}
+
+	/** {@inheritdoc} */
+	public function getSettingsLinks()
+	{
+		$links = [];
+		if ($this->getId() && \App\User::getCurrentUserModel()->isAdmin()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
+				'linkclass' => 'btn btn-default btn-xs js-show-modal',
+				'linkicon' => 'fas fa-th-list',
+				'linkdata' => [
+					'url' => "index.php?module=Home&view=MiniListWizard&step=step1&linkId={$this->get('linkid')}&templateId={$this->getId()}",
+					'module' => \App\Module::getModuleName($this->get('tabid')),
+					'modalId' => \App\Layout::getUniqueId('MiniList')
+				]
+			]);
+		}
+		return array_merge($links, parent::getSettingsLinks());
+	}
+
+	/**
+	 * Get value by field for edit view.
+	 *
+	 * @param string $name
+	 */
+	public function getValueForEditView(string $name)
+	{
+		$value = '';
+		switch ($name) {
+			case 'title':
+				$value = $this->get('title') ?: '';
+				break;
+			case 'module':
+			case 'fieldHref':
+			case 'filterFields':
+				$value = $this->getDataValue($name) ?: '';
+				break;
+			case 'filterid':
+				$value = $this->get($name) ?: 0;
+				break;
+			case 'fields':
+				$value = $this->getDataValue($name) ?: [];
+				break;
+			default:
+				break;
+		}
+		return $value;
+	}
 }

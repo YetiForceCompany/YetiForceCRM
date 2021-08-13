@@ -277,7 +277,7 @@ jQuery.Class(
 			// 3. Add widget with URL to the page.
 			const thisInstance = this;
 			element = $(element);
-			app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function (wizardContainer) {
+			app.showModalWindow(null, url, function (wizardContainer) {
 				let form = $('form', wizardContainer),
 					moduleNameSelectDOM = $('select[name="module"]', wizardContainer),
 					filteridSelectDOM = $('select[name="filterid"]', wizardContainer),

@@ -88,7 +88,7 @@
 												{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 												<div class="btn-group ml-1">
 													<button class="btn btn-success btn-sm addMiniList" type="button"
-															data-url="{$MINILISTWIDGET->getUrl()}"
+															data-url="index.php?module=Home&view=MiniListWizard&step=step1&linkId={$MINILISTWIDGET->get('linkid')}"
 															data-linkid="{$MINILISTWIDGET->get('linkid')}"
 															data-name="{$MINILISTWIDGET->getName()}"
 															data-width="{$MINILISTWIDGET->getWidth()}"
@@ -250,7 +250,8 @@
 										{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 										<div class="btn-group">
 											<button class="btn btn-success btn-sm addMiniList specialWidget"
-													type="button" data-url="{$MINILISTWIDGET->getUrl()}"
+													type="button"
+													data-url="index.php?module=Home&view=MiniListWizard&step=step1&linkId={$MINILISTWIDGET->get('linkid')}"
 													data-linkid="{$MINILISTWIDGET->get('linkid')}"
 													data-name="{$MINILISTWIDGET->getName()}"
 													data-width="{$MINILISTWIDGET->getWidth()}"
