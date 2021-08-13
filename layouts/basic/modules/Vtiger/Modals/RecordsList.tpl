@@ -13,8 +13,7 @@
 		<input type='hidden' class="js-page-limit" data-js="value" value="{$PAGING_MODEL->getPageLimit()}"/>
 		<input type="hidden" class="js-no-entries" data-js="value" value="{$LISTVIEW_ENTRIES_COUNT}">
 		<input type="hidden" class="js-additional-informations" data-js="value" value="{$ADDITIONAL_INFORMATIONS}">
-		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
-			   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		<input type="hidden" id="autoRefreshListOnChange" data-js="value" value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<input type="hidden" class="js-filter-fields" data-js="value" value="{App\Purifier::encodeHtml(\App\Json::encode($FILTER_FIELDS))}">
 		<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
 		{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE)}
