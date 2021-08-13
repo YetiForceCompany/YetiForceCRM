@@ -147,6 +147,10 @@
 									<tr class="c-table__row--hover border-bottom">
 										<td class="u-w-40per {$WIDTHTYPE} px-0">
 											<label class="font-weight-bold mb-0">
+												{assign var=ICON value=$HEADER_FIELD->getIcon()}
+												{if $ICON}
+													<span class="{$ICON} mr-2"></span>
+												{/if}
 												{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 											</label>
 										</td>
@@ -154,8 +158,7 @@
 										<td class="fieldValue {$WIDTHTYPE} px-0">
 											<div class="value u-word-break pr-0">
 												{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
-													<a class="modCT_{$RELATED_MODULE_NAME}"
-														href="{$RELATED_RECORD->getDetailViewUrl()}">
+													<a class="modCT_{$RELATED_MODULE_NAME}" href="{$RELATED_RECORD->getDetailViewUrl()}">
 														{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 													</a>
 												{else}
@@ -268,6 +271,10 @@
 							<tr class="c-table__row--hover border-bottom">
 								<td class="u-w-40per {$WIDTHTYPE} px-0">
 									<label class="font-weight-bold mb-0">
+										{assign var=ICON value=$HEADER_FIELD->getIcon()}
+										{if $ICON}
+											<span class="{$ICON} mr-2"></span>
+										{/if}
 										{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 									</label>
 								</td>

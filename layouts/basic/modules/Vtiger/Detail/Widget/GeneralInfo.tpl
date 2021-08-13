@@ -40,7 +40,12 @@
 						{if $FIELD_MODEL->getName() neq 'modifiedtime' && $FIELD_MODEL->getName() neq 'createdtime'}
 							<tr class="c-table__row--hover">
 								<td class="{$WIDTHTYPE}">
-									<label class="font-weight-bold mb-0">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
+									<label class="font-weight-bold mb-0">
+										{assign var=ICON value=$FIELD_MODEL->getIcon()}
+										{if $ICON}
+											<span class="{$ICON} mr-2"></span>
+										{/if}
+										{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
 										{if $HELPINFO_LABEL}
 											<a href="#" class="js-help-info float-right u-cursor-pointer" title="" data-placement="top" data-content="{$HELPINFO_LABEL}"

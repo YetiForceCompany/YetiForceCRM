@@ -14,6 +14,10 @@
 				<div class="w-100">
 					<div class="form-row border-right">
 						<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label col-lg-3 {$WIDTHTYPE} text-right">
+							{assign var=ICON value=$FIELD_MODEL->getIcon()}
+							{if $ICON}
+								<span class="{$ICON} mr-1"></span>
+							{/if}
 							<label class="u-text-small-bold">{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</label></td>
 						</div>
 						<div class="fieldValue col-sm-12 col-lg-9 {$WIDTHTYPE} d-flex flex-wrap flex-row justify-content-start align-items-left">

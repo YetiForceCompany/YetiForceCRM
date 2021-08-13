@@ -51,6 +51,10 @@
 												<span class="fas fa-info-circle"></span>
 											</a>
 										{/if}
+										{assign var=ICON value=$FIELD_MODEL->getIcon()}
+										{if $ICON}
+											<span class="{$ICON} mr-1"></span>
+										{/if}
 										<label class="u-text-small-bold">
 											{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 										</label>
