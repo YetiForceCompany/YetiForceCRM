@@ -29,6 +29,14 @@ class Vtiger_Kanban_View extends Vtiger_Index_View
 	protected $columns = [];
 
 	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
+	{
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($request->getModule(), 'Kanban')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
+
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();

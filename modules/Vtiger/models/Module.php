@@ -996,7 +996,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linkicon' => 'fas fa-tree',
 			]);
 		}
-		if (\App\Utils\Kanban::getBoards($this->getName(), true)) {
+		if ($this->isPermitted('Kanban') && \App\Utils\Kanban::getBoards($this->getName(), true)) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_VIEW_KANBAN',
