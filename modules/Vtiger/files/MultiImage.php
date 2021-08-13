@@ -59,14 +59,14 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 					'name' => $item['name'],
 				]);
 				if (file_exists($file->getPath())) {
-					header('pragma: public');
-					header('cache-control: max-age=86400, public');
-					header('expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 86400));
-					header('content-type: ' . $file->getMimeType());
-					header('content-transfer-encoding: binary');
-					header('content-length: ' . $file->getSize());
+					header('Pragma: cache');
+					header('Cache-control: max-age=86400, public');
+					header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 86400));
+					header('Content-type: ' . $file->getMimeType());
+					header('Content-transfer-encoding: binary');
+					header('Content-length: ' . $file->getSize());
 					if ($request->getBoolean('download')) {
-						header('content-disposition: attachment; filename="' . $item['name'] . '"');
+						header('Content-disposition: attachment; filename="' . $item['name'] . '"');
 					}
 					readfile($file->getPath());
 					break;
