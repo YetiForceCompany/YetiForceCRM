@@ -38,7 +38,7 @@
 				{if !empty($SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS'])}
 					{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
 						{if $FIELD_MODEL->getName() neq 'modifiedtime' && $FIELD_MODEL->getName() neq 'createdtime'}
-							<tr class="c-table__row--hover">
+							<tr class="c-table__row--hover {if $FIELD_MODEL->get('hideField')} d-none{/if}">
 								<td class="{$WIDTHTYPE}">
 									<label class="font-weight-bold mb-0">
 										{assign var=ICON value=$FIELD_MODEL->getIcon()}
