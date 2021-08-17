@@ -70,7 +70,7 @@ class YetiForceKanban extends \App\YetiForce\Shop\AbstractBaseProduct
 			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_KANBAN',
 				'relatedModuleName' => 'Settings:Kanban',
-				'linkicon' => 'fas fa-table',
+				'linkicon' => 'yfi yfi-kanban',
 				'linkhref' => true,
 				'linkurl' => 'index.php?parent=Settings&module=Kanban&view=Index',
 				'linkclass' => 'btn-primary',

@@ -101,7 +101,7 @@ class Kanban
 	}
 
 	/**
-	 * Add boards.
+	 * Update boards.
 	 *
 	 * @param int    $id
 	 * @param string $type
@@ -167,7 +167,7 @@ class Kanban
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$fields = [];
 		foreach ($moduleModel->getFields() as $fieldModel) {
-			if (\in_array($fieldModel->getFieldDataType(), ['picklist', 'owner']) && !isset($boards[$fieldModel->getId()])) {
+			if (\in_array($fieldModel->getFieldDataType(), ['picklist', 'owner']) && !isset($fields[$fieldModel->getId()])) {
 				$fields[$fieldModel->getId()] = $fieldModel;
 			}
 		}

@@ -1001,7 +1001,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_VIEW_KANBAN',
 				'linkurl' => 'index.php?module=' . $this->getName() . '&view=Kanban' . $menuUrl,
-				'linkicon' => 'fas fa-table',
+				'linkicon' => 'yfi yfi-kanban',
 			]);
 		}
 		return $links;

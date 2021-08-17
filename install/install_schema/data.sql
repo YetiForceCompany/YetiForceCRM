@@ -18983,7 +18983,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (131,5,'LBL_MAIL_INTEGRATION','yfi yfi-mail-integrator-panel','LBL_MAIL_INTEGRATION_DESCRIPTION','index.php?parent=Settings&module=MailIntegration&view=Index',16,0,0,1,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (133,14,'LBL_LOGS_VIEWER','yfi yfi-view-logs','LBL_LOGS_VIEWER_DESCRIPTION','index.php?parent=Settings&module=Log&view=LogsViewer',6,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (134,7,'LBL_CONFIG_PROXY','yfi yfi-server-configuration','LBL_CONFIG_PROXY_DESCRIPTION','index.php?parent=Settings&module=Proxy&view=Index',8,0,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (135,2,'LBL_KANBAN','fas fa-table','LBL_KANBAN_DESCRIPTION','index.php?parent=Settings&module=Kanban&view=Index',17,0,0,1,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (135,2,'LBL_KANBAN','yfi yfi-kanban','LBL_KANBAN_DESCRIPTION','index.php?parent=Settings&module=Kanban&view=Index',17,0,0,1,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
