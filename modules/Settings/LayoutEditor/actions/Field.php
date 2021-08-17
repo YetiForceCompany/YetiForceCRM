@@ -15,7 +15,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	 * @var string[] List of fields in edit view modal
 	 */
 	const EDIT_FIELDS_FORM = [
-		'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory'
+		'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory', 'icon_name',
 	];
 
 	/**
@@ -144,6 +144,15 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 						}
 						$fieldInstance->set($field, $quickCreateValue);
 						break;
+					case 'icon_name':
+						$fieldVal = null;
+						if ($iconName = $request->getByType('icon_name', \App\Purifier::ALNUM_EXTENDED)) {
+							$iconArray = \App\Json::decode($fieldInstance->get('icon'));
+							$iconArray['name'] = $iconName;
+							$fieldVal = \App\Json::encode($iconArray);
+						}
+						$fieldInstance->set('icon', $fieldVal);
+						break;
 					default:
 						$fieldInstance->set($field, $request->getInteger($field));
 						break;
@@ -217,7 +226,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		[
 			'block' => 'Integer',
 			'fieldid' => 'Integer',
-			'sequence' => 'Integer'
+			'sequence' => 'Integer',
 		]));
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
@@ -305,7 +314,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response = new Vtiger_Response();
 		try {
 			$moduleModel->addSystemField($request->getByType('field', 'Alnum'), $request->getInteger('blockId'), [
-				'generatedtype' => 2
+				'generatedtype' => 2,
 			]);
 			$response->setResult(true);
 		} catch (Exception $e) {

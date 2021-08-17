@@ -229,6 +229,18 @@
 							</select>
 						</div>
 					</div>
+					<div class="form-group">
+						{assign var=ICON value=$FIELD_MODEL->getIcon()}
+						<label for="icon_name"><strong>{App\Language::translate('LBL_FIELD_ICON', $QUALIFIED_MODULE)}</strong></label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="icon_name" name="icon_name" value="{if isset($ICON['name'])}{$ICON['name']}{/if}"/>
+							<div class="input-group-append">
+								<div class="input-group-text js-select-icon u-cursor-pointer" data-js="click">
+									<span class="fas fa-info-circle"></span>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL' MODULE=$QUALIFIED_MODULE}

@@ -16,9 +16,9 @@
 	<div class="c-popover--link__body px-2 pb-1">
 		{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELDS}
 			<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
-				{assign var=ICON value=$FIELD_MODEL->getIcon()}
-				{if $ICON}
-					<span class="{$ICON} mr-1"></span>
+				{assign var=ICON value=$FIELD_MODEL->getIcon('RecordPopover')}
+				{if isset($ICON['name'])}
+					<span class="{$ICON['name']} mr-1"></span>
 				{else if $FIELD_MODEL->isReferenceField() || isset($FIELDS_ICON[$FIELD_NAME])}
 					<span class="mr-1 {if $FIELD_MODEL->isReferenceField()}yfm-{\App\Record::getType($RECORD->get($FIELD_NAME))}{else}{$FIELDS_ICON[$FIELD_NAME]}{/if}"></span>
 				{/if}

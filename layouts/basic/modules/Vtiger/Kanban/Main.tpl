@@ -21,12 +21,10 @@
 		<ul class="nav nav-tabs justify-content-center">
 			{foreach item=BOARD from=$BOARDS}
 				{assign var=BOARDS_FIELD_MODEL value=\Vtiger_Field_Model::getInstanceFromFieldId($BOARD['fieldid'])}
-				{assign var=ICON value=$BOARDS_FIELD_MODEL->getIcon()}
+				{assign var=ICON value=$BOARDS_FIELD_MODEL->getIcon('Kanban')}
 				<li class="nav-item">
 					<a role="button" class="flCT_{$MODULE_NAME}_{$BOARDS_FIELD_MODEL->getFieldName()} px-4 js-board-tab nav-link{if $BOARD['fieldid'] == $ACTIVE_BOARD['fieldid']} active{/if}" data-id="{$BOARD['fieldid']}">
-						{if $ICON}
-							<span class="{$ICON} mr-2"></span>
-						{/if}
+						{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
 						{$BOARDS_FIELD_MODEL->getFullLabelTranslation()}
 					</a>
 				</li>

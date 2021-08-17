@@ -1604,6 +1604,11 @@ $.Class(
 						thisInstance.registerVaribleToParsers(modalContainer);
 						app.registerEventForClockPicker(modalContainer.find('.clockPicker'));
 						modalContainer.find('[data-inputmask]').inputmask();
+						modalContainer.find('.js-select-icon').on('click', function (e) {
+							$.when(Settings_Vtiger_Index_Js.selectIcon({ skipImage: true })).done(function (data) {
+								modalContainer.find('[name="icon_name"]').val(data['name']);
+							});
+						});
 					},
 					sendByAjaxCb: (formData, response) => {
 						if (!response.success) {

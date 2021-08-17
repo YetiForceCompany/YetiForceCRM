@@ -22,13 +22,13 @@ $.Class(
 			}
 			app.showNotify(params);
 		},
-		selectIcon: function () {
+		selectIcon: function (params = {}) {
 			var aDeferred = $.Deferred();
 			app.showModalWindow({
 				id: 'iconsModal',
 				url: 'index.php?module=Vtiger&view=IconsModal&parent=Settings',
 				cb: (container) => {
-					this.registerIconsSelect(container);
+					this.registerIconsSelect(container, params);
 					container.find('[name="saveButton"]').on('click', function (e) {
 						aDeferred.resolve({
 							type: container.find('#iconType').val(),
@@ -40,13 +40,17 @@ $.Class(
 			});
 			return aDeferred.promise();
 		},
-		registerIconsSelect(container) {
-			const params = {
-				module: app.getModuleName(),
-				parent: app.getParentModuleName(),
-				action: 'Icons'
-			};
-			AppConnector.request(params).done(({ result }) => {
+		registerIconsSelect(container, params) {
+			AppConnector.request(
+				$.extend(
+					{
+						module: app.getModuleName(),
+						parent: app.getParentModuleName(),
+						action: 'Icons'
+					},
+					params
+				)
+			).done(({ result }) => {
 				let id = 0;
 				const data = Object.keys(result).map((key) => {
 					let resultData = result[id];

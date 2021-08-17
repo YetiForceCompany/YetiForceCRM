@@ -207,4 +207,22 @@ class Icon
 			self::getMaterialDesignIcons()
 		);
 	}
+
+	/**
+	 * Get only icons excluding images.
+	 *
+	 * @return array
+	 */
+	public static function getIcons(): array
+	{
+		static::init();
+		return array_merge(
+			self::getUserIcons(),
+			self::getAdminIcons(),
+			self::getAdditionalIcons(),
+			self::getYetiForceIcons(),
+			self::getFontAwesomeIcons(),
+			self::getMaterialDesignIcons()
+		);
+	}
 }

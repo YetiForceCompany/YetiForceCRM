@@ -1305,7 +1305,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'tabindex' => $this->get('tabindex'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
-			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence'),
+			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence'), 'icon' => $this->get('icon'),
 		], ['fieldid' => $this->get('id')])->execute();
 		if ($anonymizationTarget = $this->get('anonymizationTarget')) {
 			$anonymizationTarget = \App\Json::encode($anonymizationTarget);
@@ -1477,12 +1477,22 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Get field icon.
 	 *
-	 * @return string
+	 * @param string $place
+	 *
+	 * @return array
 	 */
-	public function getIcon(): string
+	public function getIcon(string $place = ''): array
 	{
-		$params = $this->getFieldParams();
-		return $params['icon'] ?? '';
+		$icon = [];
+		if (\is_array($this->get('icon'))) {
+			$icon = $this->get('icon');
+		} elseif (\App\Json::isJson($this->get('icon'))) {
+			$icon = \App\Json::decode($this->get('icon'));
+		}
+		if ($place && isset($icon['place']) && !\in_array($place, $icon['place'])) {
+			$icon = [];
+		}
+		return $icon;
 	}
 
 	/**

@@ -48,6 +48,7 @@ class FieldBasic
 	public $block;
 	public $fieldparams = '';
 	public $color = '';
+	public $icon = '';
 	/**
 	 * @var string[] Anonymization targets form field ex. logs.
 	 */
@@ -89,6 +90,7 @@ class FieldBasic
 		$this->fieldparams = $valuemap['fieldparams'];
 		$this->visible = (int) $valuemap['visible'];
 		$this->color = $valuemap['color'];
+		$this->icon = $valuemap['icon'];
 		$this->block = $blockInstance ?: Block::getInstance($valuemap['block'], $module);
 		if (!empty($valuemap['anonymization_target'])) {
 			$this->anonymizationTarget = \App\Json::decode($valuemap['anonymization_target']);
@@ -205,6 +207,7 @@ class FieldBasic
 			'fieldparams' => $this->fieldparams,
 			'masseditable' => $this->masseditable,
 			'visible' => $this->visible,
+			'icon' => $this->icon,
 		])->execute();
 		$this->id = (int) $db->getLastInsertID('vtiger_field_fieldid_seq');
 		Profile::initForField($this);
