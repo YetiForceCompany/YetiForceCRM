@@ -28,7 +28,7 @@ class Settings_Kanban_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModuleName);
 		$viewer->assign('FIELDS_MODELS', $moduleModel->getFieldsById());
-		$viewer->assign('SUM_FIELDS_MODELS', $moduleModel->getFieldsByType(['totalTime', 'double', 'integer']));
+		$viewer->assign('SUM_FIELDS_MODELS', $moduleModel->getFieldsByType(['totalTime', 'double', 'integer', 'currency']));
 		$viewer->assign('BOARDS', \App\Utils\Kanban::getBoards($sourceModuleName));
 		$viewer->view('Index.tpl', $request->getModule(false));
 	}

@@ -80,6 +80,7 @@ $.Class(
 			this.page = $('#centerPanel');
 			this.container = $('.js-kanban-container');
 			this.registerSortable();
+			app.showNewScrollbarTopBottom(this.container);
 			this.page.on('click', '.js-board-tab', (e) => {
 				this.page.find('.js-board-tab.active').removeClass('active');
 				$(e.currentTarget).addClass('active');
