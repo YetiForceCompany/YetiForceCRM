@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'yfi';
-	src: url('fonts/yfi.eot?1p4f1r');
-	src: url('fonts/yfi.eot?1p4f1r#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?1p4f1r') format('truetype'),
-		url('fonts/yfi.woff?1p4f1r') format('woff'), url('fonts/yfi.svg?1p4f1r#yfi') format('svg');
+	src: url('fonts/yfi.eot?kd9fg9');
+	src: url('fonts/yfi.eot?kd9fg9#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?kd9fg9') format('truetype'),
+		url('fonts/yfi.woff?kd9fg9') format('woff'), url('fonts/yfi.svg?kd9fg9#yfi') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -24,6 +24,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.yfi-kanban:before {
+	content: '\e9df';
+}
 .yfi-map:before {
 	content: '\e920';
 }
