@@ -48,7 +48,6 @@ class VTAddressBookTask extends VTTask
 				$dbCommand->insert($table, ['id' => $entityId, 'email' => $recordModel->get($fieldname), 'name' => trim($name), 'users' => $users])->execute();
 			}
 		}
-		OSSMail_AddressBook_Model::createABFile();
 	}
 
 	/**
