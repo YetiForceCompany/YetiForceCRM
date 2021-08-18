@@ -115,15 +115,15 @@ insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`f
 
 /*Data for the table `a_yf_record_list_filter` */
 
-insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (1,347,10,1);
-insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (2,354,126,1);
-insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (3,424,452,1);
-insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (4,635,579,1);
-insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (5,603,117,95);
-insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (6,604,218,95);
-insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (7,601,95,117);
-insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (8,602,95,218);
-insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`) values (9,661,452,452);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (1,347,10,1,NULL);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (2,354,126,1,NULL);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (3,424,452,1,NULL);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (4,635,579,1,NULL);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (5,603,117,95,NULL);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (6,604,218,95,NULL);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (7,601,95,117,NULL);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (8,602,95,218,NULL);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (9,661,452,452,NULL);
 
 /*Data for the table `a_yf_relatedlists_inv_fields` */
 

@@ -206,6 +206,7 @@ CREATE TABLE `a_yf_record_list_filter` (
   `relationid` smallint(5) unsigned NOT NULL,
   `rel_relationid` smallint(5) unsigned NOT NULL,
   `dest_relationid` smallint(5) unsigned NOT NULL,
+  `label` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `a_yf_record_list_filter_relationid_idx` (`relationid`),
   KEY `a_yf_record_list_filter_rel_relationid_idx` (`rel_relationid`),

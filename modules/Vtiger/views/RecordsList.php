@@ -311,6 +311,9 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 					$this->relatedParentId = $relatedParentIdTemp;
 					$this->relatedParentModule = $relatedParentModuleTemp;
 					$this->parentRelationId = $hierarchy['dest_relationid'];
+					if (!$this->switchLabel && $hierarchy['label']) {
+						$this->switchLabel = $hierarchy['label'];
+					}
 					break;
 				}
 			}
