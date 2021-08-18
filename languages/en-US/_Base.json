@@ -1492,7 +1492,9 @@
     "LBL_YEARLY": "Yearly",
     "LBL_USER_AGENT": "User agent",
     "LBL_LIMIT_INFO": "The history shows only the last %s entries, the full list is available in the admin panel.",
-    "LBL_VIEW_KANBAN": "Kanban"
+    "LBL_VIEW_KANBAN": "Kanban",
+    "LBL_MASS_EDIT_INCLUDE": "Include",
+    "LBL_MASS_EDIT_INCLUDE_INFO": "Checking the field will result in adding the values to the already existing ones"
   },
   "js": {
     "JS_APPROVE": "Approve",

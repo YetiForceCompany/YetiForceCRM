@@ -12,6 +12,9 @@
  */
 class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 {
+	/** @var bool Purify type */
+	protected $purifyType = \App\Purifier::TEXT;
+
 	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -252,5 +255,43 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			$values[] = \App\Fields\Owner::getLabel($owner);
 		}
 		return implode(',', $values);
+	}
+
+	/**
+	 * Include value from mass edit into exists one.
+	 *
+	 * @param App\Request         $request
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
+	public function setValueFromMassEdit(App\Request $request, Vtiger_Record_Model $recordModel): bool
+	{
+		$specialMassEditFieldName = 'shownerid';
+		if ($request->has("overwritten_{$specialMassEditFieldName}")) {
+			$newValue = $request->getByType($specialMassEditFieldName, $this->purifyType);
+			$newValue = $this->overwriteExistingValue(explode(',', $recordModel->get($specialMassEditFieldName)), $newValue);
+			$recordModel->set($specialMassEditFieldName, $this->getDBValue($newValue, $recordModel));
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Get value for overwritten based on old and new values for a field.
+	 *
+	 * @param array        $oldValue
+	 * @param string|array $newValue
+	 *
+	 * @return array
+	 */
+	public function overwriteExistingValue(array $oldValue, $newValue): array
+	{
+		if (!\is_array($newValue)) {
+			$newValue = explode(',', $newValue);
+		}
+		$value = array_unique(array_merge($oldValue, $newValue));
+		$this->validate($value, true);
+		return $value;
 	}
 }
