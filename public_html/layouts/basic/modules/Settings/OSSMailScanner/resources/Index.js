@@ -21,8 +21,10 @@ jQuery.Class(
 		},
 		registerEditFolders: function (container) {
 			const self = this;
-			container.find('.editFolders').on('click', function () {
-				const url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + $(this).data('user'),
+			container.find('.editFolders').on('click', (e) => {
+				let element = $(e.currentTarget);
+				let userContainer = element.closest('td');
+				const url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + element.data('user'),
 					progressIndicatorElement = jQuery.progressIndicator({
 						message: app.vtranslate('LBL_LOADING_LIST_OF_FOLDERS'),
 						position: 'html',
@@ -44,7 +46,7 @@ jQuery.Class(
 							folders: selectedFolders
 						}).done(function (data) {
 							let response = data['result'],
-								emptyFoldersAlert = $('.js-empty-folders-alert'),
+								emptyFoldersAlert = userContainer.find('.js-empty-folders-alert'),
 								messageType = 'info';
 							if (!response['success']) {
 								messageType = 'error';
