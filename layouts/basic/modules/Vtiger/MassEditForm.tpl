@@ -75,18 +75,6 @@
 													<div class="form-row mb-2 js-form-row-container" data-js="container">
 														<div class="col-sm-6 col-lg-4">
 															<div class="d-flex flex-row">
-																{if method_exists($FIELD_MODEL->getUITypeModel(), 'setValueFromMassEdit')}
-																	{assign var=MASS_EDIT_SPECIAL_FIELD_NAME value="overwritten_{{$FIELD_MODEL->getName()}}"}
-																	<div class="js-popover-tooltip m-2" data-js="popover"
-																		data-trigger="hover focus"
-																		data-content="{\App\Language::translate("LBL_MASS_EDIT_INCLUDE_INFO")}">
-																		<span class="fas fa-info-circle"></span>
-																	</div>
-																	<input type="checkbox" value="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}"
-																		name="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}" class="mr-1 mt-2"
-																		id="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}"
-																		title="{\App\Language::translate('LBL_MASS_EDIT_INCLUDE')}">
-																{/if}
 																<div class="btn-group-toggle mt-1 w-100" data-toggle="buttons">
 																	<label class="btn btn-sm btn-outline-secondary w-100 text-right" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
 																		<input aria-pressed="false"
@@ -102,6 +90,20 @@
 																		:
 																	</label>
 																</div>
+																{if method_exists($FIELD_MODEL->getUITypeModel(), 'setValueFromMassEdit')}
+																	{assign var=MASS_EDIT_SPECIAL_FIELD_NAME value="overwritten_{{$FIELD_MODEL->getName()}}"}
+																	<div class="checkbox">
+																		<input type="checkbox" value="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}"
+																			name="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}" class="ml-1 mt-2"
+																			id="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}"
+																			title="{\App\Language::translate('LBL_MASS_EDIT_INCLUDE')}">
+																	</div>
+																	<div class="js-popover-tooltip mt-1 ml-1" data-js="popover"
+																		data-trigger="hover focus"
+																		data-content="{\App\Language::translate("LBL_MASS_EDIT_INCLUDE_INFO")}">
+																		<span class="fas fa-info-circle"></span>
+																	</div>
+																{/if}
 															</div>	
 														</div>
 														<div class="col-sm-6 col-lg-8">
