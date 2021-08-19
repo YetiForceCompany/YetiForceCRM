@@ -66,7 +66,11 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
 				if ($fieldModel->isWritable() && $request->has($fieldName)) {
 					$fieldUiTypeModel = $fieldModel->getUITypeModel();
-					if (method_exists($fieldUiTypeModel, 'setValueFromMassEdit') && !$fieldUiTypeModel->setValueFromMassEdit($request, $recordModel)) {
+					$setValueFromMassEdit = false;
+					if (method_exists($fieldUiTypeModel, 'setValueFromMassEdit')) {
+						$setValueFromMassEdit = $fieldUiTypeModel->setValueFromMassEdit($request, $recordModel);
+					}
+					if (!$setValueFromMassEdit) {
 						$fieldUiTypeModel->setValueFromRequest($request, $recordModel);
 					}
 				}
