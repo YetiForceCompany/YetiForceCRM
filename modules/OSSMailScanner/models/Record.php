@@ -358,7 +358,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$break = false;
 		$lastScanUid = self::getUidFolder($account['user_id'], $folder);
 		\App\Log::beginProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
-		$msgno = imap_msgno($mbox, $lastScanUid);
+		$msgno = $lastScanUid ? imap_msgno($mbox, $lastScanUid) : 0;
 		\App\Log::endProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
 		\App\Log::beginProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');
 		$numMsg = imap_num_msg($mbox);
