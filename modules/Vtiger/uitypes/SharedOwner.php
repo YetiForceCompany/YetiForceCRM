@@ -288,7 +288,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		if (!\is_array($newValue)) {
 			$newValue = explode(',', $newValue);
 		}
-		$value = array_unique(array_merge($oldValue, $newValue));
+		$value = array_filter(array_unique(array_merge($oldValue, $newValue)));
 		$this->validate($value, true);
 		return $value;
 	}
