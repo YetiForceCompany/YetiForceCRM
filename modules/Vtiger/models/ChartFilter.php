@@ -784,7 +784,11 @@ class Vtiger_ChartFilter_Model extends \App\Base
 		$query = $queryGenerator->createQuery();
 		if (!empty($this->extraData['sortOrder'])) {
 			$order = 'ASC' === $this->extraData['sortOrder'] ? SORT_ASC : SORT_DESC;
-			$query->orderBy(['count' => $order]);
+			if (!empty($this->valueName)) {
+				$query->orderBy([$this->valueName => $order]);
+			} else {
+				$query->orderBy(['count' => $order]);
+			}
 		}
 		return $query;
 	}
@@ -881,6 +885,23 @@ class Vtiger_ChartFilter_Model extends \App\Base
 						$group['avg'] = empty($this->numRows[$dividingValue][$groupValue]) ? 0 : (float) $group['avg'] / $this->numRows[$dividingValue][$groupValue];
 					}
 				}
+			}
+			if (!empty($this->extraData['sortOrder']) && isset($this->data[0]) && count($this->data) === 1) {
+				$dataForSort = $this->data[0];
+				if ('ASC' === $this->extraData['sortOrder']) {
+					$firstReturnValueForSort = -1;
+					$secondReturnValueForSort = 1;
+				} else {
+					$firstReturnValueForSort = 1;
+					$secondReturnValueForSort = -1;
+				}
+				uksort($dataForSort, function ($a, $b) use ($dataForSort, $firstReturnValueForSort, $secondReturnValueForSort) {
+					if ($dataForSort[$a]['avg'] === $dataForSort[$b]['avg']) {
+						return 0;
+					}
+					return $dataForSort[$a]['avg'] < $dataForSort[$b]['avg'] ? $firstReturnValueForSort : $secondReturnValueForSort;
+				});
+				$this->data[0] = $dataForSort;
 			}
 		}
 	}
