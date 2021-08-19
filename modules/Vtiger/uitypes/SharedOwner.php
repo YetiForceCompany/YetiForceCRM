@@ -267,11 +267,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function setValueFromMassEdit(App\Request $request, Vtiger_Record_Model $recordModel): bool
 	{
-		$specialMassEditFieldName = 'shownerid';
-		if ($request->has("overwritten_{$specialMassEditFieldName}")) {
-			$newValue = $request->getByType($specialMassEditFieldName, $this->purifyType);
-			$newValue = $this->overwriteExistingValue(explode(',', $recordModel->get($specialMassEditFieldName)), $newValue);
-			$recordModel->set($specialMassEditFieldName, $this->getDBValue($newValue, $recordModel));
+		if ($request->has('overwritten_shownerid') && $request->getBoolean('overwritten_shownerid') && ($newValue = $request->getByType('shownerid', $this->purifyType))) {
+			$newValue = $this->overwriteExistingValue(explode(',', $recordModel->get('shownerid')), $newValue);
+			$recordModel->set('shownerid', $this->getDBValue($newValue, $recordModel));
 			return true;
 		}
 		return false;

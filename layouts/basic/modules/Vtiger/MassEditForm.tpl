@@ -91,11 +91,10 @@
 																	</label>
 																</div>
 																{if method_exists($FIELD_MODEL->getUITypeModel(), 'setValueFromMassEdit')}
-																	{assign var=MASS_EDIT_SPECIAL_FIELD_NAME value="overwritten_{{$FIELD_MODEL->getName()}}"}
 																	<div class="checkbox">
-																		<input type="checkbox" value="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}"
-																			name="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}" class="ml-1 mt-2"
-																			id="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}"
+																		<input type="hidden" name="overwritten_shownerid" value="0" />
+																		<input type="checkbox" value="1" name="overwritten_shownerid"
+																			class="ml-1 mt-2" id="overwritten_shownerid"
 																			title="{\App\Language::translate('LBL_MASS_EDIT_INCLUDE')}">
 																	</div>
 																	<div class="js-popover-tooltip mt-1 ml-1" data-js="popover"
