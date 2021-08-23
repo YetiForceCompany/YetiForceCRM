@@ -6,19 +6,45 @@
 		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 	</div>
 </div>
-<div class="row border-bottom js-kanban-header" js-data="container">
+<div class="border-bottom js-kanban-header" js-data="container">
 	<input type="hidden" id="orderBy" name="orderBy" class="js-params" value="{\App\Purifier::encodeHtml(\App\Json::encode([]))}" data-js="change|value">
-	<div class="col-auto">
-		{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
+	<div class="w-100 d-flex my-2">
+		<div class="col-auto pl-0 pr-1">
+			{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
+		</div>
+		<div class="col-auto pl-0 pr-1">
+			<button type="button" class="btn btn-light modCT_{$MODULE_NAME} js-quick-create-modal js-popover-tooltip" data-module="{$MODULE_NAME}">
+				<span class="fas fa-plus-square mr-2"></span>
+				{\App\Language::translate('LBL_ADD_RECORD')}
+			</button>
+		</div>
+		<div class="d-flex justify-content-center col-12 flex-nowrap mx-xl-auto px-0">
+			<div class="js-hide-filter col-3 pl-0 pr-1">
+				{if $CUSTOM_VIEWS|@count gt 0}
+					<select name="viewName" class="form-control select2 js-custom-filter js-params" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}" data-js="select2|change|value">
+						{foreach item="CUSTOM_VIEW" from=$CUSTOM_VIEWS}
+							<option value="{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected"{elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'}selected="selected"{/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">
+								{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE_NAME)}
+							</option>
+						{/foreach}
+					</select>
+					<span class="fas fa-filter filterImage mr-2" style="display:none;"></span>
+				{else}
+					<input type="hidden" value="0" id="customFilter"/>
+				{/if}
+			</div>
+			<div class="js-hide-filter col-auto px-0">
+				{if $MODULE_MODEL->isAdvSortEnabled()}
+					<button type="button" class="btn btn-info js-show-modal js-popover-tooltip" data-content="{\App\Language::translate('LBL_SORTING_SETTINGS')}" data-url="index.php?view=SortOrderModal&module={$MODULE_NAME}" data-modalid="sortOrderModal-{\App\Layout::getUniqueId()}">
+						<span class="fas fa-sort"></span>
+					</button>
+					<div class="js-list-reload" data-js="click"></div>
+				{/if}
+			</div>
+		</div>
 	</div>
-	<div class="col-auto">
-		<button type="button" class="btn btn-light modCT_{$MODULE_NAME} js-quick-create-modal js-popover-tooltip" data-module="{$MODULE_NAME}">
-			<span class="fas fa-plus-square mr-2"></span>
-			{\App\Language::translate('LBL_ADD_RECORD')}
-		</button>
-	</div>
-	<div class="js-hide-filter col-auto">
-		<ul class="nav nav-tabs justify-content-center">
+	<div class="js-hide-filter col-auto px-0">
+		<ul class="nav nav-tabs justify-content-start">
 			{foreach item=BOARD from=$BOARDS}
 				{assign var=BOARDS_FIELD_MODEL value=\Vtiger_Field_Model::getInstanceFromFieldId($BOARD['fieldid'])}
 				{assign var=ICON value=$BOARDS_FIELD_MODEL->getIcon('Kanban')}
@@ -30,28 +56,6 @@
 				</li>
 			{/foreach}
 		</ul>
-	</div>
-	<div class="js-hide-filter col-2 ml-auto">
-		{if $CUSTOM_VIEWS|@count gt 0}
-			<select name="viewName" class="form-control select2 js-custom-filter js-params" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}" data-js="select2|change|value">
-				{foreach item="CUSTOM_VIEW" from=$CUSTOM_VIEWS}
-					<option value="{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected"{elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'}selected="selected"{/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">
-						{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE_NAME)}
-					</option>
-				{/foreach}
-			</select>
-			<span class="fas fa-filter filterImage mr-2" style="display:none;"></span>
-		{else}
-			<input type="hidden" value="0" id="customFilter"/>
-		{/if}
-	</div>
-	<div class="js-hide-filter col-auto">
-		{if $MODULE_MODEL->isAdvSortEnabled()}
-			<button type="button" class="ml-2 btn btn-info js-show-modal js-popover-tooltip" data-content="{\App\Language::translate('LBL_SORTING_SETTINGS')}" data-url="index.php?view=SortOrderModal&module={$MODULE_NAME}" data-modalid="sortOrderModal-{\App\Layout::getUniqueId()}">
-				<span class="fas fa-sort"></span>
-			</button>
-			<div class="js-list-reload" data-js="click"></div>
-		{/if}
 	</div>
 </div>
 {if !\App\YetiForce\Register::isRegistered()}
