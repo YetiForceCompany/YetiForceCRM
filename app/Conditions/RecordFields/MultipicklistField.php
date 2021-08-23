@@ -17,7 +17,7 @@ class MultipicklistField extends BaseField
 	public function operatorE(): bool
 	{
 		$check = false;
-		foreach (explode(' |##| ', $this->value) as $value) {
+		foreach (explode('##', $this->value) as $value) {
 			if (\in_array($value, explode(' |##| ', $this->getValue()))) {
 				$check = true;
 			}

@@ -19,13 +19,13 @@ class PicklistField extends BaseField
 	/** {@inheritdoc} */
 	public function operatorE(): bool
 	{
-		return \in_array($this->getValue(), explode(' |##| ', $this->value));
+		return \in_array($this->getValue(), explode('##', $this->value));
 	}
 
 	/** {@inheritdoc} */
 	public function operatorN(): bool
 	{
-		return !\in_array($this->getValue(), explode(' |##| ', $this->value));
+		return !\in_array($this->getValue(), explode('##', $this->value));
 	}
 
 	/**
