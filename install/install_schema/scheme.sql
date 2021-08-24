@@ -3651,6 +3651,7 @@ CREATE TABLE `u_yf_notification` (
   KEY `process` (`process`),
   KEY `subprocess` (`subprocess`),
   KEY `linkextend` (`linkextend`),
+  KEY `notification_status` (`notification_status`),
   CONSTRAINT `fk_1_notification` FOREIGN KEY (`notificationid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
