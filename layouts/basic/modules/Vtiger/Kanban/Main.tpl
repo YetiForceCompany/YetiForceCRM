@@ -2,54 +2,52 @@
 {strip}
 <!-- tpl-Base-Kanban-Main -->
 <div class="o-breadcrumb widget_header row mb-1">
-	<div class="col-md-8">
+	<div class="w-100 px-2">
 		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 	</div>
 </div>
-<div class="border-bottom js-kanban-header" js-data="container">
-	<input type="hidden" id="orderBy" name="orderBy" class="js-params" value="{\App\Purifier::encodeHtml(\App\Json::encode([]))}" data-js="change|value">
-	<div class="w-100 d-flex my-2">
-		<div class="col-auto pl-0 pr-1">
-			{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
+<input type="hidden" id="orderBy" name="orderBy" class="js-params" value="{\App\Purifier::encodeHtml(\App\Json::encode([]))}" data-js="change|value">
+<div class="col-12 d-md-flex flex-sm-row my-1 px-0">
+	<div class="col-md-6 col-sm-12 px-0">
+		{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='buttonTextHolder c-btn-block-sm-down mb-md-0 mb-1'}
+		<button type="button" class="btn btn-light modCT_{$MODULE_NAME} js-quick-create-modal js-popover-tooltip ml-md-1 ml-sm-0 mb-md-0 mb-1 c-btn-block-sm-down" data-module="{$MODULE_NAME}">
+			<span class="fas fa-plus-square mr-2"></span>
+			{\App\Language::translate('LBL_ADD_RECORD')}
+		</button>
+	</div>
+	<div class="d-flex justify-content-md-end justify-content-sm-start col-md-6 col-12 px-0 mt-sm-0 mt-1">
+		<div class="js-hide-filter col-lg-6 col-11 px-0">
+			{if $CUSTOM_VIEWS|@count gt 0}
+				<select name="viewName" class="form-control select2 js-custom-filter js-params" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}" data-js="select2|change|value">
+					{foreach item="CUSTOM_VIEW" from=$CUSTOM_VIEWS}
+						<option value="{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected"{elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'}selected="selected"{/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">
+							{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE_NAME)}
+						</option>
+					{/foreach}
+				</select>
+				<span class="fas fa-filter filterImage mr-2" style="display:none;"></span>
+			{else}
+				<input type="hidden" value="0" id="customFilter"/>
+			{/if}
 		</div>
-		<div class="col-auto pl-0 pr-1">
-			<button type="button" class="btn btn-light modCT_{$MODULE_NAME} js-quick-create-modal js-popover-tooltip" data-module="{$MODULE_NAME}">
-				<span class="fas fa-plus-square mr-2"></span>
-				{\App\Language::translate('LBL_ADD_RECORD')}
-			</button>
-		</div>
-		<div class="d-flex justify-content-center col-12 flex-nowrap mx-xl-auto px-0">
-			<div class="js-hide-filter col-3 pl-0 pr-1">
-				{if $CUSTOM_VIEWS|@count gt 0}
-					<select name="viewName" class="form-control select2 js-custom-filter js-params" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}" data-js="select2|change|value">
-						{foreach item="CUSTOM_VIEW" from=$CUSTOM_VIEWS}
-							<option value="{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected"{elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'}selected="selected"{/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">
-								{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE_NAME)}
-							</option>
-						{/foreach}
-					</select>
-					<span class="fas fa-filter filterImage mr-2" style="display:none;"></span>
-				{else}
-					<input type="hidden" value="0" id="customFilter"/>
-				{/if}
-			</div>
-			<div class="js-hide-filter col-auto px-0">
-				{if $MODULE_MODEL->isAdvSortEnabled()}
-					<button type="button" class="btn btn-info js-show-modal js-popover-tooltip" data-content="{\App\Language::translate('LBL_SORTING_SETTINGS')}" data-url="index.php?view=SortOrderModal&module={$MODULE_NAME}" data-modalid="sortOrderModal-{\App\Layout::getUniqueId()}">
-						<span class="fas fa-sort"></span>
-					</button>
-					<div class="js-list-reload" data-js="click"></div>
-				{/if}
-			</div>
+		<div class="js-hide-filter col-auto ml-md-1 ml-auto px-0">
+			{if $MODULE_MODEL->isAdvSortEnabled()}
+				<button type="button" class="btn btn-info js-show-modal js-popover-tooltip" data-content="{\App\Language::translate('LBL_SORTING_SETTINGS')}" data-url="index.php?view=SortOrderModal&module={$MODULE_NAME}" data-modalid="sortOrderModal-{\App\Layout::getUniqueId()}">
+					<span class="fas fa-sort"></span>
+				</button>
+				<div class="js-list-reload" data-js="click"></div>
+			{/if}
 		</div>
 	</div>
-	<div class="js-hide-filter col-auto px-0">
-		<ul class="nav nav-tabs justify-content-start">
+</div>
+<div class="o-kanban-header js-kanban-header" js-data="container">
+	<div class="js-hide-filter col-auto px-0 related">
+		<ul class="nav nav-pills js-tabdrop justify-content-start" data-js="tabdrop">
 			{foreach item=BOARD from=$BOARDS}
 				{assign var=BOARDS_FIELD_MODEL value=\Vtiger_Field_Model::getInstanceFromFieldId($BOARD['fieldid'])}
 				{assign var=ICON value=$BOARDS_FIELD_MODEL->getIcon('Kanban')}
-				<li class="nav-item">
-					<a role="button" class="flCT_{$MODULE_NAME}_{$BOARDS_FIELD_MODEL->getFieldName()} px-4 js-board-tab nav-link{if $BOARD['fieldid'] == $ACTIVE_BOARD['fieldid']} active{/if}" data-id="{$BOARD['fieldid']}">
+				<li class="c-tab--small c-tab--hover c-tab--gray js-detail-tab nav-item d-none float-left {if $BOARD['fieldid'] == $ACTIVE_BOARD['fieldid']} active {/if} js-board-tab" data-id="{$BOARD['fieldid']}">
+					<a role="button" class="flCT_{$MODULE_NAME}_{$BOARDS_FIELD_MODEL->getFieldName()} px-4 nav-link u-text-ellipsis">
 						{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
 						{$BOARDS_FIELD_MODEL->getFullLabelTranslation()}
 					</a>

@@ -273,7 +273,13 @@
 		}
 	}
 }
-
+.o-kanban-header {
+	.tabdrop {
+		.dropdown-toggle {
+			padding: 0.3rem 1rem !important;
+		}
+	}
+}
 .related {
 	.nav-pills {
 		border-bottom: 3px solid $border-color-rtabs;

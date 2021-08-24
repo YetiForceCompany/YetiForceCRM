@@ -55,14 +55,14 @@
 								<div class="card-footer p-1 text-right">
 									<div class="float-left pr-1 btns">
 										<a role="button" class="btn btn-xs btn-link js-popover-tooltip js-show-modal mr-1" data-url="index.php?module={$MODULE_NAME}&view=QuickDetailModal&record={$RECORD_ID}" data-content="{\App\Language::translate('LBL_SHOW_QUICK_DETAILS')}" data-js="popover|click">
-											<span class="far fa-caret-square-right"></span>
+											<span class="far fa-caret-square-right u-fs-sm"></span>
 										</a>
 										<a class="btn btn-xs btn-link js-popover-tooltip mr-1" href="index.php?module={$MODULE_NAME}&view=Detail&record={$RECORD_ID}" data-content="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS')}" data-js="popover">
-											<span class="fas fa-th-list"></span>
+											<span class="fas fa-th-list u-fs-sm"></span>
 										</a>
 										{if $COLUMN['isEditable'] && $RECORD_IS_EDITABLE}
 											<a role="button" class="btn btn-xs btn-link js-popover-tooltip js-quick-edit-modal"  href="index.php?module={$MODULE_NAME}&view=Edit&record={$RECORD_ID}" data-content="{\App\Language::translate('BTN_RECORD_EDIT')}" data-module="{$MODULE_NAME}" data-record="{$RECORD_ID}" data-js="popover|click">
-												<span class="yfi yfi-full-editing-view"></span>
+												<span class="yfi yfi-full-editing-view u-fs-sm"></span>
 											</a>
 										{/if}
 									</div>
