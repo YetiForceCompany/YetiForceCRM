@@ -1100,6 +1100,7 @@ CREATE TABLE `roundcube_users_autologin` (
   `crmuser_id` int(10) NOT NULL,
   `active` tinyint(1) unsigned NOT NULL DEFAULT 0,
   KEY `rcuser_id` (`rcuser_id`),
+  KEY `crmuser_id` (`crmuser_id`),
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1736,7 +1737,9 @@ CREATE TABLE `u_yf_chat_messages_user` (
   `userid` smallint(5) unsigned NOT NULL,
   `created` datetime DEFAULT NULL,
   `messages` text NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `roomid` (`roomid`),
+  KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_chat_private` */
@@ -1819,7 +1822,9 @@ CREATE TABLE `u_yf_chat_rooms_private` (
 CREATE TABLE `u_yf_chat_rooms_user` (
   `roomid` int(10) unsigned NOT NULL,
   `userid` int(10) NOT NULL,
-  `last_message` int(10) unsigned DEFAULT 0
+  `last_message` int(10) unsigned DEFAULT 0,
+  KEY `userid` (`userid`),
+  KEY `roomid` (`roomid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_chat_user` */
@@ -1828,7 +1833,9 @@ CREATE TABLE `u_yf_chat_user` (
   `roomid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) NOT NULL,
   `reluserid` int(10) NOT NULL,
-  PRIMARY KEY (`roomid`)
+  PRIMARY KEY (`roomid`),
+  KEY `reluserid` (`reluserid`),
+  KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cinternaltickets` */
@@ -4322,6 +4329,7 @@ CREATE TABLE `u_yf_ssalesprocesses` (
   KEY `campaignid` (`campaignid`),
   KEY `parentid` (`parentid`),
   KEY `ssalesprocesses_no` (`ssalesprocesses_no`),
+  KEY `ssalesprocesses_status` (`ssalesprocesses_status`),
   CONSTRAINT `fk_1_u_yf_ssalesprocesses` FOREIGN KEY (`ssalesprocessesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7189,7 +7197,8 @@ CREATE TABLE `vtiger_modtracker_basic` (
   KEY `crmidx` (`crmid`),
   KEY `idx` (`id`),
   KEY `id` (`id`,`module`,`changedon`),
-  KEY `crmid` (`crmid`,`changedon`)
+  KEY `crmid` (`crmid`,`changedon`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_detail` */
@@ -7327,7 +7336,6 @@ CREATE TABLE `vtiger_notes` (
   `ossdc_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`notesid`),
   KEY `notes_title_idx` (`title`),
-  KEY `notes_notesid_idx` (`notesid`),
   CONSTRAINT `fk_1_vtiger_notes` FOREIGN KEY (`notesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
