@@ -40,7 +40,7 @@
 		</div>
 	</div>
 </div>
-<div class="o-kanban-header js-kanban-header" js-data="container">
+<div class="c-kanban__tabdrop js-kanban-header" js-data="container">
 	<div class="js-hide-filter col-auto px-0 related">
 		<ul class="nav nav-pills js-tabdrop justify-content-start" data-js="tabdrop">
 			{foreach item=BOARD from=$BOARDS}
