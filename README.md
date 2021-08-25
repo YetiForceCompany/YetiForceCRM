@@ -72,7 +72,7 @@ Follow us on [Twitter](https://twitter.com/YetiForceEN) or like on [FaceBook](ht
 - [Sourceforge](https://sourceforge.net/projects/yetiforce/)
 - [Softaculous](http://www.softaculous.com/apps/erp/YetiForce)
 - [Packagist](https://packagist.org/packages/yetiforce/yetiforce-crm)
-- [Development version](https://download.yetiforce.com/developer.zip) - full package (yarn + composer)
+- [Development version](https://download.yetiforce.com/crm-developer.zip) - full package (yarn + composer)
 - [Docker](tests/setup/docker.md) - docker container
 
 1. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-install-crm-system)
