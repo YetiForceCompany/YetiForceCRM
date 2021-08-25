@@ -32,7 +32,7 @@
 		<div class="contentsDiv{if !$BREADCRUMBS_ACTIVE || !$HEADER_LINKS['LIST_VIEW_HEADER']} pt-2{/if}">
 			<a class="btn btn-outline-dark d-md-none o-header-toggle__actions-btn js-header-toggle__actions-btn mb-1" href="#" data-js="click" role="button"
 			   aria-expanded="false" aria-controls="o-view-actions__container">
-				 span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
+				 <span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 			</a>
 			{include file=\App\Layout::getTemplatePath('ListViewHeader.tpl', $MODULE)}
 			<!-- /tpl-Base-ListViewPreProcess -->
