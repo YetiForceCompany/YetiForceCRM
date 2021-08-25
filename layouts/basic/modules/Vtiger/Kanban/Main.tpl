@@ -46,7 +46,7 @@
 			{foreach item=BOARD from=$BOARDS}
 				{assign var=BOARDS_FIELD_MODEL value=\Vtiger_Field_Model::getInstanceFromFieldId($BOARD['fieldid'])}
 				{assign var=ICON value=$BOARDS_FIELD_MODEL->getIcon('Kanban')}
-				<li class="c-tab--small c-tab--hover c-tab--gray js-detail-tab nav-item d-none float-left {if $BOARD['fieldid'] == $ACTIVE_BOARD['fieldid']} active {/if} js-board-tab" data-id="{$BOARD['fieldid']}">
+				<li class="c-tab--small c-tab--hover c-tab--gray nav-item d-none float-left {if $BOARD['fieldid'] == $ACTIVE_BOARD['fieldid']} active {/if} js-board-tab" data-id="{$BOARD['fieldid']}">
 					<a role="button" class="flCT_{$MODULE_NAME}_{$BOARDS_FIELD_MODEL->getFieldName()} px-4 nav-link u-text-ellipsis">
 						{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
 						{$BOARDS_FIELD_MODEL->getFullLabelTranslation()}
