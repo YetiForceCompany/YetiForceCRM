@@ -169,53 +169,44 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param array $users
 	 *
-	 * @return bool
-	 */
-	public static function updateMailBoxmsgInfo($users): bool
-	{
-		\App\Log::trace(__METHOD__ . ' - Start');
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		if (0 == \count($users)) {
-			return false;
-		}
-		$sUsers = implode(',', $users);
-		$query = (new \App\Db\Query())->from('yetiforce_mail_quantities')->where(['userid' => $sUsers, 'status' => 1]);
-		if ($query->count()) {
-			return false;
-		}
-		$dbCommand->update('yetiforce_mail_quantities', ['status' => 1], ['userid' => $sUsers])->execute();
-		foreach ($users as $user) {
-			$account = self::getMailAccountDetail($user);
-			if (false !== $account) {
-				$result = (new \App\Db\Query())->from('yetiforce_mail_quantities')->where(['userid' => $user])->count();
-				$mbox = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', false);
-				if ($mbox) {
-					\App\Log::beginProfile(__METHOD__ . '|imap_status', 'Mail|IMAP');
-					$info = imap_status($mbox, static::$imapConnectMailbox, SA_UNSEEN);
-					\App\Log::endProfile(__METHOD__ . '|imap_status', 'Mail|IMAP');
-					if ($result > 0) {
-						$dbCommand->update('yetiforce_mail_quantities', ['num' => $info->unseen, 'status' => 0], ['userid' => $user])->execute();
-					} else {
-						$dbCommand->insert('yetiforce_mail_quantities', ['num' => $info->unseen, 'userid' => $user])->execute();
-					}
-				}
-			}
-		}
-		\App\Log::trace(__METHOD__ . ' - End');
-		return true;
-	}
-
-	/**
-	 * Return users messages count.
-	 *
-	 * @param array $users
-	 *
 	 * @return array
 	 */
-	public static function getMailBoxmsgInfo($users): array
+	public static function updateMailBoxCounter(array $users): array
 	{
-		$query = (new \App\Db\Query())->select(['userid', 'num'])->from('yetiforce_mail_quantities')->where(['userid' => $users]);
-		return $query->createCommand()->queryAllByGroup(0);
+		if (empty($users)) {
+			return [];
+		}
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$config = Settings_Mail_Config_Model::getConfig('mailIcon');
+		$interval = $config['timeCheckingMail'] ?? 30;
+		$date = strtotime("-{$interval} seconds");
+		$counter = [];
+		$all = (new \App\Db\Query())->from('u_#__mail_quantities')->where(['userid' => $users])->indexBy('userid')->all();
+		foreach ($users as $user) {
+			if (empty($all[$user]['date']) || $date > strtotime($all[$user]['date'])) {
+				if ($account = self::getMailAccountDetail($user)) {
+					if (empty($all[$user])) {
+						$dbCommand->insert('u_#__mail_quantities', ['userid' => $user, 'num' => 0, 'date' => date('Y-m-d H:i:s')])->execute();
+					} else {
+						$dbCommand->update('u_#__mail_quantities', ['date' => date('Y-m-d H:i:s')], ['userid' => $user])->execute();
+					}
+					try {
+						$mbox = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', false);
+						if ($mbox) {
+							\App\Log::beginProfile(__METHOD__ . '|imap_status|' . $user, 'Mail|IMAP');
+							$info = imap_status($mbox, static::$imapConnectMailbox, SA_UNSEEN);
+							\App\Log::endProfile(__METHOD__ . '|imap_status|' . $user, 'Mail|IMAP');
+							$counter[$user] = $info->unseen ?? 0;
+							$dbCommand->update('u_#__mail_quantities', ['num' => $counter[$user], 'date' => date('Y-m-d H:i:s')], ['userid' => $user])->execute();
+						}
+					} catch (\Throwable $th) {
+					}
+				}
+			} else {
+				$counter[$user] = $all[$user]['num'] ?? 0;
+			}
+		}
+		return $counter;
 	}
 
 	/**
@@ -381,7 +372,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return [
 			'body' => $body,
 			'attachment' => $attachment,
-			'isHtml' => !empty($mail['textHtml'])
+			'isHtml' => !empty($mail['textHtml']),
 		];
 	}
 

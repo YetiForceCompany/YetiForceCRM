@@ -1261,6 +1261,8 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 /*Data for the table `u_yf_mail_compose_data` */
 
+/*Data for the table `u_yf_mail_quantities` */
+
 /*Data for the table `u_yf_modentity_sequences` */
 
 /*Data for the table `u_yf_modtracker_inv` */
@@ -20212,8 +20214,6 @@ insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('autologin','autologinActive','false');
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('signature','signature','');
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('signature','addSignature','false');
-
-/*Data for the table `yetiforce_mail_quantities` */
 
 /*Data for the table `yetiforce_menu` */
 

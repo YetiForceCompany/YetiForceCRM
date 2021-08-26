@@ -3574,6 +3574,16 @@ CREATE TABLE `u_yf_mail_compose_data` (
   UNIQUE KEY `userid` (`userid`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_mail_quantities` */
+
+CREATE TABLE `u_yf_mail_quantities` (
+  `userid` int(10) unsigned NOT NULL,
+  `num` smallint(6) unsigned DEFAULT 0,
+  `date` datetime DEFAULT NULL,
+  PRIMARY KEY (`userid`),
+  CONSTRAINT `u_yf_mail_quantities_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_modentity_sequences` */
 
 CREATE TABLE `u_yf_modentity_sequences` (
@@ -9865,16 +9875,6 @@ CREATE TABLE `yetiforce_mail_config` (
   `value` text DEFAULT NULL,
   UNIQUE KEY `type` (`type`,`name`),
   KEY `type_2` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `yetiforce_mail_quantities` */
-
-CREATE TABLE `yetiforce_mail_quantities` (
-  `userid` int(10) unsigned NOT NULL,
-  `num` int(10) unsigned DEFAULT 0,
-  `status` tinyint(1) DEFAULT 0,
-  PRIMARY KEY (`userid`),
-  CONSTRAINT `yetiforce_mail_quantities_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_menu` */

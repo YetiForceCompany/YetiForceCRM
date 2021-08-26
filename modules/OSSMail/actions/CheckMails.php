@@ -30,14 +30,8 @@ class OSSMail_CheckMails_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
-		$users = array_unique($request->getArray('users', 'Integer'));
-		$output = [];
-		if (\count($users) > 0) {
-			OSSMail_Record_Model::updateMailBoxmsgInfo($users);
-			$output = OSSMail_Record_Model::getMailBoxmsgInfo($users);
-		}
 		$response = new Vtiger_Response();
-		$response->setResult($output);
+		$response->setResult(OSSMail_Record_Model::updateMailBoxCounter(array_unique($request->getArray('users', 'Integer'))));
 		$response->emit();
 	}
 }
