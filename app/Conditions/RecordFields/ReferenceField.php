@@ -24,9 +24,9 @@ class ReferenceField extends BaseField
 	public function operatorS(): bool
 	{
 		$referenceLabel = \App\Record::getLabel($this->getValue(), true);
-		$ssl = \strlen($this->value);
-		if (\strlen($referenceLabel) >= $ssl) {
-			return 0 == substr_compare($referenceLabel, $this->value, 0, $ssl, true);
+		$lengthValueConditions = \strlen($this->value);
+		if (\strlen($referenceLabel) >= $lengthValueConditions) {
+			return 0 == substr_compare($referenceLabel, $this->value, 0, $lengthValueConditions, true);
 		}
 		return false;
 	}
@@ -35,10 +35,10 @@ class ReferenceField extends BaseField
 	public function operatorEw(): bool
 	{
 		$referenceLabel = \App\Record::getLabel($this->getValue(), true);
-		$sl = \strlen($referenceLabel);
-		$ssl = \strlen($this->value);
-		if ($sl >= $ssl) {
-			return 0 == substr_compare($referenceLabel, $this->value, $sl - $ssl, $ssl);
+		$lengthLabelRecord = \strlen($referenceLabel);
+		$lengthValueConditions = \strlen($this->value);
+		if ($lengthLabelRecord >= $lengthValueConditions) {
+			return 0 == substr_compare($referenceLabel, $this->value, $lengthLabelRecord - $lengthValueConditions, $lengthValueConditions);
 		}
 		return false;
 	}

@@ -98,7 +98,6 @@
 					</div>
 			{/foreach}
 		{elseif $LAYOUT === 'vertical'}
-		vcvcvcvcv
 			<div class="massEditTable border-0 px-1 mx-auto m-0">
 				<div class="col-12 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE}">
 					{if !empty($NO_FIELD_ACCESS)}
@@ -121,7 +120,7 @@
 					{/if}
 					{if !empty($CHANGED_FIELDS)}
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$CHANGED_FIELDS}
-							<div class="fieldLabel col-lg-12 col-xl-3 text-lg-left text-xl-right u-text-ellipsis mt-1 text-wrap">
+							<div class="fieldLabel col-lg-12 col-xl-3 text-lg-left text-xl-right u-text-ellipsis mt-1">
 								<span class="text-right muted small font-weight-bold">
 									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 								</span>
@@ -132,7 +131,7 @@
 						{/foreach}
 					{/if}
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
-						<div class="fieldLabel col-lg-12 col-xl-3 mt-1 text-lg-left text-xl-right u-text-ellipsis text-wrap">
+						<div class="fieldLabel col-lg-12 col-xl-3 mt-1 text-lg-left text-xl-right u-text-ellipsis">
 							{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 							<label class="text-right muted small font-weight-bold">
 								{if $FIELD_MODEL->isMandatory() eq true}
