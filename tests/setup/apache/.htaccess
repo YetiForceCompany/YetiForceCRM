@@ -21,8 +21,13 @@ Header always set X-Robots-Tag none
 
 Header setifempty Cache-Control "private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0"
 <FilesMatch "\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt|ttf|woff2)$">
-Header setifempty Cache-Control "max-age=86400, public"
+	Header setifempty Cache-Control "max-age=86400, public"
 </FilesMatch>
+<Files file.php>
+	Header unset Cache-Control
+	Header always set Cache-Control "max-age=86400, public"
+</Files>
+
 
 </ifModule>
 AddDefaultCharset UTF-8
