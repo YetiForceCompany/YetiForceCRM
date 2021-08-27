@@ -167,9 +167,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		static::$imapConnectMailbox = "{{$host}:{$port}/imap{$sslMode}{$validatecert}}{$folder}";
 		\App\Log::trace('imap_open(({' . static::$imapConnectMailbox . ", $user , $password. $options, $maxRetries, " . var_export($params, true) . ') method ...');
-		\App\Log::beginProfile(__METHOD__ . '|imap_open', 'Mail|IMAP');
+		\App\Log::beginProfile(__METHOD__ . '|imap_open|' . $user, 'Mail|IMAP');
 		$mbox = imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params);
-		\App\Log::endProfile(__METHOD__ . '|imap_open', 'Mail|IMAP');
+		\App\Log::endProfile(__METHOD__ . '|imap_open|' . $user, 'Mail|IMAP');
 		self::$imapConnectCache[$cacheName] = $mbox;
 		if ($mbox) {
 			if ($account) {
@@ -178,10 +178,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 					->execute();
 			}
 			\App\Log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
-			register_shutdown_function(function () use ($mbox) {
-				\App\Log::beginProfile(__METHOD__ . '|imap_close', 'Mail|IMAP');
+			register_shutdown_function(function () use ($mbox, $user) {
+				\App\Log::beginProfile('OSSMail_Record_Model|imap_close|' . $user, 'Mail|IMAP');
 				imap_close($mbox);
-				\App\Log::endProfile(__METHOD__ . '|imap_close', 'Mail|IMAP');
+				\App\Log::endProfile('OSSMail_Record_Model|imap_close|' . $user, 'Mail|IMAP');
 			});
 		} else {
 			if ($account) {
