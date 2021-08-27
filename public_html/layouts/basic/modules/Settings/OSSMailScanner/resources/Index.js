@@ -21,7 +21,7 @@ jQuery.Class(
 		},
 		registerEditFolders: function (container) {
 			const self = this;
-			container.find('.editFolders').on('click', (e) => {
+			container.find('.js-edit-folders').on('click', (e) => {
 				let element = $(e.currentTarget);
 				let userContainer = element.closest('td');
 				const url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + element.data('user'),
@@ -135,8 +135,7 @@ jQuery.Class(
 					function (data, err) {}
 				);
 			});
-
-			jQuery('.delate_accont').on('click', function () {
+			container.find('.js-delate-accont').on('click', function () {
 				if (window.confirm(app.vtranslate('whether_remove_an_identity'))) {
 					const userId = jQuery(this).data('user-id');
 					AppConnector.request({
@@ -151,7 +150,18 @@ jQuery.Class(
 					});
 				}
 			});
-			jQuery('.identities_del').on('click', function () {
+			container.find('.js-edit-status').on('click', function () {
+				AppConnector.request({
+					module: 'OSSMailScanner',
+					action: 'SaveCRMuser',
+					mode: 'status',
+					userid: $(this).data('user'),
+					status: $(this).data('status')
+				}).done(function () {
+					window.location.reload();
+				});
+			});
+			container.find('.identities_del').on('click', function () {
 				const button = this;
 				if (window.confirm(app.vtranslate('whether_remove_an_identity'))) {
 					AppConnector.request({
@@ -173,8 +183,7 @@ jQuery.Class(
 					);
 				}
 			});
-
-			jQuery('.expand-hide').on('click', function () {
+			container.find('.expand-hide').on('click', function () {
 				let userId = jQuery(this).data('user-id'),
 					tr = jQuery('tr[data-user-id="' + userId + '"]');
 
@@ -300,6 +309,7 @@ jQuery.Class(
 			AppConnector.request({
 				module: 'OSSMailScanner',
 				action: 'SaveCRMuser',
+				mode: 'user',
 				userid: userid,
 				value: value
 			}).done(function (data) {

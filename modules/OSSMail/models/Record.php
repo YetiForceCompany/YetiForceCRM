@@ -1,28 +1,50 @@
 <?php
-
 /**
+ * OSSMail record model file.
+ *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+/**
+ * OSSMail record model class.
+ */
 class OSSMail_Record_Model extends Vtiger_Record_Model
 {
+	/** Mailbox Status: Active  */
+	const MAIL_BOX_STATUS_ACTIVE = 0;
+
+	/** Mailbox Status: Invalid access data  */
+	const MAIL_BOX_STATUS_INVALID_ACCESS = 1;
+
+	/** Mailbox Status: Blocked  */
+	const MAIL_BOX_STATUS_BLOCKED = 2;
+
+	/** Mailbox Status: Disabled  */
+	const MAIL_BOX_STATUS_DISABLED = 3;
+
 	/**
 	 * Return accounts array.
 	 *
 	 * @param int|bool $user
 	 * @param bool     $onlyMy
 	 * @param bool     $password
+	 * @param bool     $onlyActive
 	 *
 	 * @return array
 	 */
-	public static function getAccountsList($user = false, $onlyMy = false, $password = false)
+	public static function getAccountsList($user = false, bool $onlyMy = false, bool $password = false, bool $onlyActive = true)
 	{
 		$users = [];
 		$query = (new \App\Db\Query())->from('roundcube_users');
+		if ($onlyActive) {
+			$query->where(['crm_status' => [self::MAIL_BOX_STATUS_INVALID_ACCESS, self::MAIL_BOX_STATUS_ACTIVE]]);
+		}
 		if ($user) {
-			$query->where(['user_id' => $user]);
+			$query->andWhere(['user_id' => $user]);
 		}
 		if ($onlyMy) {
 			$userModel = \App\User::getCurrentUserModel();
@@ -89,10 +111,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param string $folder     Character encoding UTF7-IMAP
 	 * @param bool   $dieOnError
 	 * @param array  $config
+	 * @param array  $account
 	 *
 	 * @return resource
 	 */
-	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true, $config = false)
+	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true, $config = [], array $account = [])
 	{
 		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
 		if (!$config) {
@@ -149,6 +172,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		\App\Log::endProfile(__METHOD__ . '|imap_open', 'Mail|IMAP');
 		self::$imapConnectCache[$cacheName] = $mbox;
 		if ($mbox) {
+			if ($account) {
+				\App\Db::getInstance()->createCommand()
+					->update('roundcube_users', ['crm_error' => null, 'crm_status' => self::MAIL_BOX_STATUS_ACTIVE], ['user_id' => $account['user_id']])
+					->execute();
+			}
 			\App\Log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
 			register_shutdown_function(function () use ($mbox) {
 				\App\Log::beginProfile(__METHOD__ . '|imap_close', 'Mail|IMAP');
@@ -156,6 +184,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				\App\Log::endProfile(__METHOD__ . '|imap_close', 'Mail|IMAP');
 			});
 		} else {
+			if ($account) {
+				$status = self::MAIL_BOX_STATUS_INVALID_ACCESS == $account['crm_status'] ? self::MAIL_BOX_STATUS_BLOCKED : self::MAIL_BOX_STATUS_INVALID_ACCESS;
+				\App\Db::getInstance()->createCommand()
+					->update('roundcube_users', ['crm_error' => \App\TextParser::textTruncate(imap_last_error(), 250), 'crm_status' => $status], ['user_id' => $account['user_id']])
+					->execute();
+			}
 			\App\Log::error('Error OSSMail_Record_Model::imapConnect(' . static::$imapConnectMailbox . '): ' . imap_last_error());
 			if ($dieOnError) {
 				throw new \App\Exceptions\AppException('IMAP_ERROR' . ': ' . imap_last_error());
@@ -191,7 +225,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 						$dbCommand->update('u_#__mail_quantities', ['date' => date('Y-m-d H:i:s')], ['userid' => $user])->execute();
 					}
 					try {
-						$mbox = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', false);
+						$mbox = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', false, [], $account);
 						if ($mbox) {
 							\App\Log::beginProfile(__METHOD__ . '|imap_status|' . $user, 'Mail|IMAP');
 							$info = imap_status($mbox, static::$imapConnectMailbox, SA_UNSEEN);
@@ -292,7 +326,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (isset(self::$usersCache[$userid])) {
 			return self::$usersCache[$userid];
 		}
-		$user = (new \App\Db\Query())->from('roundcube_users')->where(['user_id' => $userid])->one();
+		$user = (new \App\Db\Query())->from('roundcube_users')->where(['user_id' => $userid, 'crm_status' => [self::MAIL_BOX_STATUS_INVALID_ACCESS, self::MAIL_BOX_STATUS_ACTIVE]])->one();
 		self::$usersCache[$userid] = $user;
 		return $user;
 	}
@@ -628,7 +662,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$account = self::getAccountsList($user);
 		$account = reset($account);
 		$folders = false;
-		$mbox = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', false);
+		$mbox = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', false, [], $account);
 		if ($mbox) {
 			$folders = [];
 			$ref = '{' . $account['mail_host'] . '}';
@@ -669,7 +703,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mails = [];
 		$mailLimit = 5;
 		if ($account) {
-			$imap = self::imapConnect($account[0]['username'], \App\Encryption::getInstance()->decrypt($account[0]['password']), $account[0]['mail_host']);
+			$account = reset($account);
+			$imap = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', true, [], $account);
 			\App\Log::beginProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');
 			$numMessages = imap_num_msg($imap);
 			\App\Log::endProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');

@@ -1088,9 +1088,12 @@ CREATE TABLE `roundcube_users` (
   `actions` text DEFAULT NULL,
   `password` varchar(500) DEFAULT NULL,
   `crm_user_id` int(10) DEFAULT 0,
+  `crm_status` tinyint(1) DEFAULT 0,
+  `crm_error` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`,`mail_host`),
-  KEY `crm_user_id` (`crm_user_id`)
+  KEY `crm_user_id` (`crm_user_id`),
+  KEY `crm_status` (`crm_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_users_autologin` */

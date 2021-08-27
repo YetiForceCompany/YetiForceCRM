@@ -542,13 +542,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$scanId = $scannerModel->addScanHistory(['user' => $whoTrigger]);
 		foreach ($accounts as $account) {
 			\App\Log::trace('Start checking account: ' . $account['username']);
-			if (empty($account['actions']) || empty($folders = $scannerModel->getFolders($account['user_id'])) || !$this->isConnection($account)) {
+			if (empty($account['actions']) || !$this->isConnection($account) || empty($folders = $scannerModel->getFolders($account['user_id']))) {
 				continue;
 			}
 			foreach ($folders as $folderRow) {
 				$folder = \App\Utils::convertCharacterEncoding($folderRow['folder'], 'UTF-8', 'UTF7-IMAP');
 				\App\Log::trace('Start checking folder: ' . $folder);
-				$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder, false);
+				$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder, false, [], $account);
 				if (\is_resource($mbox)) {
 					$scanSummary = $scannerModel->mailScan($mbox, $account, $folderRow['folder'], $scanId, $countEmails);
 					$countEmails = $scanSummary['count'];
@@ -563,7 +563,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 		self::updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 		\App\Log::trace('End executeCron');
-
 		return 'ok';
 	}
 
@@ -577,13 +576,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public function isConnection(array $account)
 	{
 		$result = false;
-		try {
-			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], '');
-			if (\is_resource($mbox)) {
-				$result = true;
-			}
-		} catch (\Throwable $e) {
-			$result = false;
+		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], '', false, [], $account);
+		if (\is_resource($mbox)) {
+			$result = true;
 		}
 		return $result;
 	}
