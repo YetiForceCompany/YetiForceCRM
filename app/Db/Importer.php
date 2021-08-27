@@ -797,7 +797,7 @@ class Importer
 	 */
 	protected function compareColumns(\yii\db\QueryBuilder $queryBuilder, \yii\db\ColumnSchema $baseColumn, \yii\db\ColumnSchemaBuilder $targetColumn)
 	{
-		return rtrim($baseColumn->dbType, ' unsigned') !== strtok($queryBuilder->getColumnType($targetColumn), ' ')
+		return strtok($baseColumn->dbType, ' ') !== strtok($queryBuilder->getColumnType($targetColumn), ' ')
 		|| ($baseColumn->allowNull !== (null === $targetColumn->isNotNull))
 		|| ($baseColumn->defaultValue !== $targetColumn->default)
 		|| ($baseColumn->unsigned !== $targetColumn->isUnsigned)
