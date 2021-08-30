@@ -115,10 +115,11 @@ class OSSEmployees extends Vtiger_CRMEntity
 						} else {
 							$data = '<b>' . $data . '</b>';
 						}
-						$accountDepth = str_repeat(' .. ', $accountInfo['depth'] * 2);
+						$accountDepth = str_repeat(' .. ', $accountInfo['depth']);
 						$data = $accountDepth . $data;
 					} elseif ('parentid' == $colName) {
-						$data = '<a href="index.php?module=' . \App\Record::getType($data) . '&action=DetailView&record=' . $data . '">' . vtlib\Functions::getCRMRecordLabel($data) . '</a>';
+						$fieldModel = Vtiger_Module_Model::getInstance('OSSEmployees')->getFieldByName($fieldName);
+						$data = $fieldModel->getDisplayValue($data);
 					}
 					$accountInfoData[] = $data;
 				}

@@ -3744,7 +3744,9 @@ CREATE TABLE `u_yf_partners` (
   `email` varchar(100) DEFAULT '',
   `active` tinyint(1) DEFAULT 0,
   `category` varchar(255) DEFAULT '',
+  `parentid` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`partnersid`),
+  KEY `u_yf_partners_parentid_idx` (`parentid`),
   CONSTRAINT `fk_1_u_yf_partners` FOREIGN KEY (`partnersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6225,7 +6227,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3080 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3081 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
