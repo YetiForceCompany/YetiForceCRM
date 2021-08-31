@@ -140,7 +140,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'l', 'g', 'b', 'a', 'y', 'ny'];
+		return ['e', 'n', 'b', 'a', 'y', 'ny'];
 	}
 
 	/**
