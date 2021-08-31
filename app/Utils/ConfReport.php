@@ -80,6 +80,8 @@ class ConfReport
 		'httpMethods' => ['recommended' => 'GET, POST, PUT, OPTIONS, PATCH, PROPFIND, REPORT, LOCK, DELETE, COPY, MOVE', 'type' => 'HttpMethods', 'container' => 'request', 'testCli' => true, 'label' => 'HTTP_METHODS'],
 		'request_order' => ['recommended' => 'GP', 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'variables_order' => ['recommended' => 'GPCS', 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
+		'opcache.jit' => ['container' => 'php', 'testCli' => true],
+		'opcache.jit_buffer_size' => ['container' => 'php', 'testCli' => true],
 	];
 	/**
 	 * Security variables map.
