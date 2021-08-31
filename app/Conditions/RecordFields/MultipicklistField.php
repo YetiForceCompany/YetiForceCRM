@@ -16,7 +16,7 @@ class MultipicklistField extends BaseField
 	/** {@inheritdoc} */
 	public function operatorE(): bool
 	{
-		return \array_intersect(explode('##', $this->value), $this->getValue()) ? true : false;
+		return (bool) \array_intersect(explode('##', $this->value), $this->getValue());
 	}
 
 	/** {@inheritdoc} */

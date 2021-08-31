@@ -18,7 +18,7 @@ class CategoryMultipicklistField extends BaseField
 	/** {@inheritdoc} */
 	public function operatorE(): bool
 	{
-		return \array_intersect(explode($this->conditionSeparator, $this->value), $this->getValue()) ? true : false;
+		return (bool) \array_intersect(explode($this->conditionSeparator, $this->value), $this->getValue());
 	}
 
 	/** {@inheritdoc} */
@@ -32,15 +32,15 @@ class CategoryMultipicklistField extends BaseField
 	}
 
 	/** {@inheritdoc} */
-	public function operatorC()
+	public function operatorC(): bool
 	{
-		return \array_intersect(explode($this->conditionSeparator, $this->value), $this->getValue()) ? true : false;
+		return (bool) \array_intersect(explode($this->conditionSeparator, $this->value), $this->getValue());
 	}
 
 	/** {@inheritdoc} */
 	public function operatorK(): bool
 	{
-		return !\array_intersect(explode($this->conditionSeparator, $this->value), $this->getValue());
+		return (bool) !\array_intersect(explode($this->conditionSeparator, $this->value), $this->getValue());
 	}
 
 	/**
@@ -51,7 +51,7 @@ class CategoryMultipicklistField extends BaseField
 	public function operatorCh(): bool
 	{
 		$fieldValue = \Settings_TreesManager_Record_Model::getChildren(implode($this->conditionSeparator, $this->getValue()), $this->fieldModel->getColumnName(), \Vtiger_Module_Model::getInstance($this->recordModel->getModuleName()));
-		return \array_intersect(explode($this->conditionSeparator, $this->value), explode($this->conditionSeparator, $fieldValue)) ? true : false;
+		return (bool) \array_intersect(explode($this->conditionSeparator, $this->value), explode($this->conditionSeparator, $fieldValue));
 	}
 
 	/**
@@ -62,7 +62,7 @@ class CategoryMultipicklistField extends BaseField
 	public function operatorKh(): bool
 	{
 		$fieldValue = \Settings_TreesManager_Record_Model::getChildren(implode($this->conditionSeparator, $this->getValue()), $this->fieldModel->getColumnName(), \Vtiger_Module_Model::getInstance($this->recordModel->getModuleName()));
-		return !\array_intersect(explode($this->conditionSeparator, $this->value), explode($this->conditionSeparator, $fieldValue));
+		return (bool) !\array_intersect(explode($this->conditionSeparator, $this->value), explode($this->conditionSeparator, $fieldValue));
 	}
 
 	/** {@inheritdoc} */

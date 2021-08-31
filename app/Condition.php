@@ -22,6 +22,7 @@ class Condition
 	 * Data filter list.
 	 */
 	const DATE_OPERATORS = [
+		'custom' => ['label' => 'LBL_CUSTOM'],
 		'smallerthannow' => ['label' => 'LBL_SMALLER_THAN_NOW'],
 		'greaterthannow' => ['label' => 'LBL_GREATER_THAN_NOW'],
 		'prevfy' => ['label' => 'LBL_PREVIOUS_FY'],
