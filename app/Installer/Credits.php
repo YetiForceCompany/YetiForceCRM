@@ -39,6 +39,8 @@ class Credits
 		'nette/php-generator' => 'BSD-3-Clause',
 		'nette/utils' => 'BSD-3-Clause',
 		'@mdi/font' => 'MIT',
+		'domhandler' => 'BSD-2-Clause',
+		'domutils' => 'BSD-2-Clause',
 	];
 	/**
 	 * Information about forks CRM.
