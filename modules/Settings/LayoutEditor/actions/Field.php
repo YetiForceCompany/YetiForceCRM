@@ -146,7 +146,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 						break;
 					case 'icon_name':
 						$fieldVal = null;
-						if ($iconName = $request->getByType('icon_name', \App\Purifier::ALNUM_EXTENDED)) {
+						if (!$request->isEmpty('icon_name') && ($iconName = $request->getByType('icon_name', \App\Purifier::ALNUM_EXTENDED))) {
 							$iconArray = \App\Json::decode($fieldInstance->get('icon'));
 							$iconArray['name'] = $iconName;
 							$fieldVal = \App\Json::encode($iconArray);
