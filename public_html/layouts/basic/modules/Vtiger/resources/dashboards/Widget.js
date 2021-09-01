@@ -2502,6 +2502,10 @@ YetiForce_Widget_Js(
 			}
 			if (parent.find('.widgetFilterSwitch').length > 0) {
 				params.time = parent.find('.widgetFilterSwitch').val();
+				let defaultFilter = parent.find('.widgetFilterSwitch').data('default-filter');
+				if (defaultFilter !== undefined) {
+					params.customFilter = defaultFilter;
+				}
 			}
 			if (this.paramCache) {
 				var drefresh = this.getContainer().find('a[name="drefresh"]');
@@ -2604,8 +2608,8 @@ YetiForce_Widget_Js(
 			this.registerFilterChangeEvent();
 		},
 		refreshWidget: function () {
-			var thisInstance = this;
-			var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
+			let thisInstance = this;
+			let refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 			refreshContainer.progressIndicator();
 			thisInstance.loadCalendarData();
 			refreshContainer.progressIndicator({
