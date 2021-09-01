@@ -1,6 +1,14 @@
 /* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .c-kanban {
+	&__tabdrop {
+		.tabdrop {
+			.dropdown-toggle {
+				padding: 0.3rem 1rem !important;
+			}
+		}
+	}
+
 	&__container {
 		overflow: auto;
 	}
