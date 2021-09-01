@@ -2500,9 +2500,10 @@ YetiForce_Widget_Js(
 				var customFilter = parent.find('.customFilter').val();
 				params.customFilter = customFilter;
 			}
-			if (parent.find('.widgetFilterSwitch').length > 0) {
-				params.time = parent.find('.widgetFilterSwitch').val();
-				let defaultFilter = parent.find('.widgetFilterSwitch').data('default-filter');
+			let widgetFilterSwitch = parent.find('.widgetFilterSwitch');
+			if (widgetFilterSwitch.length > 0) {
+				params.time = widgetFilterSwitch.val();
+				let defaultFilter = widgetFilterSwitch.data('default-filter');
 				if (defaultFilter !== undefined) {
 					params.customFilter = defaultFilter;
 				}
