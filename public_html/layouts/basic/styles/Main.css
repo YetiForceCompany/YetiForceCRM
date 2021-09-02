@@ -20819,6 +20819,9 @@ td.fieldValue .input-group {
       margin-bottom: 10px; } }
 
 /* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.c-kanban__tabdrop .tabdrop .dropdown-toggle {
+  padding: 0.3rem 1rem !important; }
+
 .c-kanban__container {
   overflow: auto; }
 
