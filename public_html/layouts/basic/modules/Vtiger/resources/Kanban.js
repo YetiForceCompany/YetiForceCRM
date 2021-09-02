@@ -74,6 +74,27 @@ $.Class(
 			});
 		},
 		/**
+		 * Registers mobile devices.
+		 */
+		registerMobileDevices: function () {
+			if (app.isTouchDevice()) {
+				this.container.find('.js-kanban-record').each(function () {
+					let element = $(this);
+					element.find('.js-popover-tooltip--record').removeClass('js-popover-tooltip--record');
+					let btns = element.find('.btns');
+					let btnQuickEditModal = btns.find('.js-quick-edit-modal');
+					element.addClass('js-quick-edit-modal');
+					element.attr('href', btnQuickEditModal.attr('href'));
+					element.attr('data-record', btnQuickEditModal.data('record'));
+					element.attr('data-module', btnQuickEditModal.data('module'));
+					btns.remove();
+					element.find('a').on('click', function (e) {
+						e.stopPropagation();
+					});
+				});
+			}
+		},
+		/**
 		 * Registers Kanban view events.
 		 */
 		registerEvents: function () {
@@ -92,6 +113,7 @@ $.Class(
 			this.page.on('click', '.js-list-reload', (e, data) => {
 				this.page.find('#orderBy').val(JSON.stringify(data.orderby)).trigger('change');
 			});
+			this.registerMobileDevices();
 		}
 	}
 );
