@@ -17341,6 +17341,12 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
     position: static;
     display: block; } }
 
+.u-pre {
+  white-space: pre-wrap;
+  font-size: 1em;
+  margin: 0;
+  font-family: inherit; }
+
 /* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,
 .bodyContents,

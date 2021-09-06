@@ -832,3 +832,9 @@ body:not(.desktop) {
 		display: block;
 	}
 }
+.u-pre {
+	white-space: pre-wrap;
+	font-size: 1em;
+	margin: 0;
+	font-family: inherit;
+}
