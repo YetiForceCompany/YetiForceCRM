@@ -197,7 +197,7 @@ class Watchdog
 	public function getSpaceRoot()
 	{
 		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
-		return is_dir($dir) ? disk_total_space($dir) : 0;
+		return is_dir($dir) ? disk_free_space($dir) : 0;
 	}
 
 	/**
@@ -208,7 +208,7 @@ class Watchdog
 	public function getSpaceStorage()
 	{
 		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'storage';
-		return is_dir($dir) ? disk_total_space($dir) : 0;
+		return is_dir($dir) ? disk_free_space($dir) : 0;
 	}
 
 	/**
@@ -219,7 +219,7 @@ class Watchdog
 	public function getSpaceTemp()
 	{
 		$dir = \App\Fields\File::getTmpPath();
-		return is_dir($dir) ? disk_total_space($dir) : 0;
+		return is_dir($dir) ? disk_free_space($dir) : 0;
 	}
 
 	/**
@@ -230,7 +230,7 @@ class Watchdog
 	public function getSpaceBackup()
 	{
 		$dir = \App\Utils\Backup::getBackupCatalogPath();
-		return (empty($dir) || !is_dir($dir)) ? 0 : disk_total_space($dir);
+		return (empty($dir) || !is_dir($dir)) ? 0 : disk_free_space($dir);
 	}
 
 	/**
