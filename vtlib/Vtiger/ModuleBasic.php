@@ -131,7 +131,7 @@ class ModuleBasic
 
 		Profile::initForModule($this);
 
-		self::syncfile();
+		\App\Module::createModuleMetaFile();
 
 		if ($this->isentitytype) {
 			Access::initSharing($this);
@@ -207,7 +207,6 @@ class ModuleBasic
 		Access::deleteSharing($moduleInstance);
 		$this->deleteFromModentityNum();
 		Cron::deleteForModule($moduleInstance);
-		Profile::deleteForModule($moduleInstance);
 		\Settings_Workflows_Module_Model::deleteForModule($moduleInstance);
 		Menu::deleteForModule($moduleInstance);
 		$this->deleteGroup2Modules();
@@ -219,7 +218,7 @@ class ModuleBasic
 		\Settings_Vtiger_Module_Model::deleteSettingsFieldBymodule($this->name);
 		$this->__delete();
 		$this->deleteDir($moduleInstance);
-		self::syncfile();
+		\App\Module::createModuleMetaFile();
 		\App\Cache::clear();
 	}
 
@@ -429,16 +428,6 @@ class ModuleBasic
 	public function getLinksForExport()
 	{
 		return Link::getAllForExport($this->id);
-	}
-
-	/**
-	 * Synchronize the menu information to flat file.
-	 */
-	public static function syncfile()
-	{
-		\App\Log::trace('Updating tabdata file ... ', __METHOD__);
-		\App\Module::createModuleMetaFile();
-		\App\Log::trace('DONE', __METHOD__);
 	}
 
 	/**
