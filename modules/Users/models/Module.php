@@ -106,7 +106,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		\App\Db::getInstance()->createCommand()
 			->insert('vtiger_loginhistory', [
 				'user_name' => $userName,
-				'user_ip' => empty($userIPAddress) ? '-' : $userIPAddress,
+				'user_ip' => empty($userIPAddress) ? '-' : \App\TextParser::textTruncate($userIPAddress, 252, true),
 				'login_time' => date('Y-m-d H:i:s'),
 				'logout_time' => null,
 				'status' => $status,

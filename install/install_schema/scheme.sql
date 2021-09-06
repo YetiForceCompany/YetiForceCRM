@@ -7080,7 +7080,7 @@ CREATE TABLE `vtiger_login_method` (
 CREATE TABLE `vtiger_loginhistory` (
   `login_id` int(10) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(64) DEFAULT NULL,
-  `user_ip` varchar(100) DEFAULT NULL,
+  `user_ip` varchar(255) DEFAULT NULL,
   `logout_time` timestamp NULL DEFAULT NULL,
   `login_time` timestamp NULL DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
