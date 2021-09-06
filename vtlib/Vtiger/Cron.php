@@ -488,8 +488,8 @@ class Cron
 	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete(self::$baseTable, ['module' => $moduleInstance->name])->execute();
-		if (is_dir("cron/modules/{$moduleInstance->name}")) {
-			Functions::recurseDelete("cron/modules/{$moduleInstance->name}");
+		if (is_dir("modules/{$moduleInstance->name}/crons")) {
+			Functions::recurseDelete("modules/{$moduleInstance->name}/crons");
 		}
 	}
 
