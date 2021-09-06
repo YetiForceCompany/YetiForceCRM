@@ -163,13 +163,12 @@ class Layout
 			return $text;
 		}
 		$teaser = TextParser::textTruncate($text, $length);
-		$text = nl2br($text);
 		if ($showIcon) {
 			$btn = '<span class="mdi mdi-overscan"></span>';
 		} else {
 			$btn = \App\Language::translate('LBL_MORE_BTN');
 		}
-		return "<div class=\"js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm pt-0 js-more\">{$btn}</button></span></div>";
+		return "<div class=\"js-more-content\"><pre class=\"teaserContent u-pre\">$teaser</pre><span class=\"fullContent d-none\"><pre class=\"u-pre\">$text</pre></span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm pt-0 js-more\">{$btn}</button></span></div>";
 	}
 
 	/**
