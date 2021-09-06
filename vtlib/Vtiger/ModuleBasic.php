@@ -549,9 +549,10 @@ class ModuleBasic
 	{
 		\App\Log::trace('Start', __METHOD__);
 		$iconSize = ['', 48, 64, 128];
-		foreach ($iconSize as $value) {
-			foreach (\App\Layout::getAllLayouts() as $name => $label) {
-				$fileName = "layouts/$name/images/{$this->name}{$value}.png";
+		$layouts = array_keys(\App\Layout::getAllLayouts());
+		foreach ($layouts as $name) {
+			foreach ($iconSize as $value) {
+				$fileName = ROOT_DIRECTORY . "/public_html/layouts/$name/images/{$this->name}{$value}.png";
 				if (file_exists($fileName)) {
 					@unlink($fileName);
 				}
