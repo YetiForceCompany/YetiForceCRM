@@ -45,7 +45,7 @@ class Vtiger_FieldsDependency_Handler
 		if ($fieldsDependency['show']['mandatory']) {
 			$mandatoryFields = [];
 			foreach ($fieldsDependency['show']['mandatory'] as $fieldName) {
-				if ('' === $recordModel->get($fieldName)) {
+				if ('' === $recordModel->get($fieldName) && !$recordModel->getField($fieldName)) {
 					$mandatoryFields[] = $recordModel->getField($fieldName)->getFullLabelTranslation();
 				}
 			}
@@ -53,7 +53,7 @@ class Vtiger_FieldsDependency_Handler
 				$response = [
 					'result' => false,
 					'hoverField' => reset($fieldsDependency['show']['mandatory']),
-					'message' => \App\Language::translate('LBL_NOT_FILLED_MANDATORY_FIELDS') . ': <br /> - ' . implode('<br /> - ', $mandatoryFields)
+					'message' => \App\Language::translate('LBL_NOT_FILLED_MANDATORY_FIELDS') . ': <br /> - ' . implode('<br /> - ', $mandatoryFields),
 				];
 			}
 		}
