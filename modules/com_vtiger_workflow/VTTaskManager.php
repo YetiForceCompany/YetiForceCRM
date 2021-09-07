@@ -130,7 +130,7 @@ class VTTaskManager
 	}
 
 	/**
-	 * Userialize task string.
+	 * Unserialize task string.
 	 *
 	 * @param string $str
 	 *
