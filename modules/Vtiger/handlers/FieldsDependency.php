@@ -45,8 +45,8 @@ class Vtiger_FieldsDependency_Handler
 		if ($fieldsDependency['show']['mandatory']) {
 			$mandatoryFields = [];
 			foreach ($fieldsDependency['show']['mandatory'] as $fieldName) {
-				if ('' === $recordModel->get($fieldName) && !$recordModel->getField($fieldName)) {
-					$mandatoryFields[] = $recordModel->getField($fieldName)->getFullLabelTranslation();
+				if ('' === $recordModel->get($fieldName) && ($fieldModel = $recordModel->getField($fieldName)) && $fieldModel->isActiveField()) {
+					$mandatoryFields[] = $fieldModel->getFullLabelTranslation();
 				}
 			}
 			if ($mandatoryFields) {
