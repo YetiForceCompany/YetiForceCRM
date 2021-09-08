@@ -88,10 +88,9 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 				++$this->rowNo;
 				$this->colNo = 1;
 				foreach ($this->listViewHeaders as $fieldModel) {
-					$recordId = $record->getId();
-					$value = $record->getDisplayValue($fieldModel->getName(), $recordId, true, false);
+					$value = $this->listValueForExport($fieldModel, true, $record);
 					$value = strip_tags($value);
-					$this->putDataIntoSpreadsheet($fieldModel, $value, $recordId);
+					$this->putDataIntoSpreadsheetForQuickExport($fieldModel, $value);
 				}
 			}
 		} else {
@@ -120,6 +119,49 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 			$dataReader->close();
 		}
 		$this->output($headers, []);
+	}
+
+	/**
+	 * Put data into spread sheet for quick export.
+	 *
+	 * @param Vtiger_Field_Model $fieldModel
+	 * @param mixed              $value
+	 *
+	 * @return void
+	 */
+	public function putDataIntoSpreadsheetForQuickExport(Vtiger_Field_Model $fieldModel, $value): void
+	{
+		switch ($fieldModel->getFieldDataType()) {
+			case 'integer':
+			case 'double':
+			case 'currency':
+				$type = is_numeric($value) ? \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC : \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING;
+				$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, $value, $type);
+				break;
+			case 'date':
+				if ($value) {
+					$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+					$this->workSheet->getStyleByColumnAndRow($this->colNo, $this->rowNo)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
+				} else {
+					$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				}
+				break;
+			case 'datetime':
+				if ($value) {
+					$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+					$this->workSheet->getStyleByColumnAndRow($this->colNo, $this->rowNo)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS');
+				} else {
+					$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				}
+				break;
+			default:
+				if ($value) {
+					$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				} else {
+					$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				}
+		}
+		++$this->colNo;
 	}
 
 	/**

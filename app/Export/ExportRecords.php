@@ -28,8 +28,6 @@ abstract class ExportRecords extends \App\Base
 	protected $focus;
 	/** @var array Picklist values */
 	protected $picklistValues;
-	/** @var array Cached field data types */
-	protected $fieldDataTypeCache = [];
 	/** @var array Field from related modules */
 	protected $relatedModuleFields = [];
 	/** @var int Record from list */
@@ -248,8 +246,15 @@ abstract class ExportRecords extends \App\Base
 		$headers = [];
 		$exportBlockName = \App\Config::component('Export', 'BLOCK_NAME');
 		foreach ($this->accessibleFields as $fieldName) {
-			if ($fieldHeader = $this->getHeaderLabelForField($fieldName, $this->moduleName, null, $exportBlockName)) {
-				$headers[] = $fieldHeader;
+			if (!empty($this->moduleFieldInstances[$fieldName])) {
+				$fieldModel = $this->moduleFieldInstances[$fieldName];
+				if ($fieldModel) { // export headers for mandatory fields
+					$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->get('label')), $this->moduleName);
+					if ($exportBlockName) {
+						$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->getBlockName()), $this->moduleName) . '::' . $header;
+					}
+					$headers[] = $header;
+				}
 			}
 		}
 		if ($this->moduleInstance->isInventory()) {
@@ -528,13 +533,11 @@ abstract class ExportRecords extends \App\Base
 				unset($recordValues[$fieldName]);
 				continue;
 			}
-			$value = $fieldModel->getUITypeModel()->getValueToExport($value, $recordId);
+			// przenieść do tego getValueToExport, typ eksportu
+			/// potrzebuję record modelu - ale czy potem jestem w stanie wyciagnac dane do exportu
+			$value = $fieldModel->getUITypeModel()->getValueToExport($value, $recordId, $this->exportType, $fieldModel->getFieldParams());
 			$uitype = $fieldModel->get('uitype');
 			$fieldname = $fieldModel->get('name');
-			if (empty($this->fieldDataTypeCache[$fieldName])) {
-				$this->fieldDataTypeCache[$fieldName] = $fieldModel->getFieldDataType();
-			}
-			$type = $this->fieldDataTypeCache[$fieldName];
 			if (15 === $uitype || 16 === $uitype || 33 === $uitype) {
 				if (empty($this->picklistValues[$fieldname])) {
 					if (isset($this->moduleFieldInstances[$fieldname])) {
@@ -552,39 +555,6 @@ abstract class ExportRecords extends \App\Base
 				} else {
 					$value = '';
 				}
-			} elseif (99 === $uitype) {
-				$value = '';
-			} elseif (52 === $uitype || 'owner' === $type) {
-				$value = \App\Fields\Owner::getLabel($value);
-			} elseif ($fieldModel->isReferenceField()) {
-				$value = trim($value);
-				if (!empty($value)) {
-					$recordModule = \App\Record::getType($value);
-					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
-					if (!empty($displayValueArray)) {
-						foreach ($displayValueArray as $v) {
-							$displayValue = $v;
-						}
-					}
-					if (!empty($recordModule) && !empty($displayValue)) {
-						$value = $recordModule . '::::' . $displayValue;
-					} else {
-						$value = '';
-					}
-				} else {
-					$value = '';
-				}
-			} elseif (\in_array($uitype, [302, 309])) {
-				$parts = explode(',', trim($value, ', '));
-				$values = \App\Fields\Tree::getValuesById((int) $fieldModel->getFieldParams());
-				foreach ($parts as &$part) {
-					foreach ($values as $id => $treeRow) {
-						if ($part === $id) {
-							$part = $treeRow['name'];
-						}
-					}
-				}
-				$value = implode(' |##| ', $parts);
 			}
 		}
 		return $recordValues;
@@ -625,5 +595,24 @@ abstract class ExportRecords extends \App\Base
 	public function getFileName(): string
 	{
 		return str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName))) . ".{$this->fileExtension}";
+	}
+
+	/**
+	 * Get list value from related fields.
+	 *
+	 * @param \Vtiger_Field_Model  $field
+	 * @param bool                 $rawText
+	 * @param \Vtiger_Record_Model $record
+	 *
+	 * @return void
+	 */
+	public function listValueForExport(\Vtiger_Field_Model $field, bool $rawText, \Vtiger_Record_Model $record)
+	{
+		$textLengthLimit = 3000;
+		if (!empty($field->get('source_field_name')) && isset($record->ext[$field->get('source_field_name')][$field->getModuleName()])) {
+			$referenceRecordModel = $record->ext[$field->get('source_field_name')][$field->getModuleName()];
+			return $referenceRecordModel->getDisplayValue($field->getName(), $referenceRecordModel, $rawText, $textLengthLimit);
+		}
+		return $field->getUITypeModel()->getDisplayValue($record->get($field->getName()), $record->getId(), $record, $rawText, $textLengthLimit);
 	}
 }

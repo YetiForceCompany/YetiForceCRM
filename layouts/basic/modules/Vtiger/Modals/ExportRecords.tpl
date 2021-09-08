@@ -11,8 +11,8 @@
 			</label>
 			<div class="col-sm-12 p-0">
 				<select name="export_type" class="select2 form-control">
-					{foreach from=$EXPORT_TYPE item=EXPORT_TYPE key=NAME }
-						<option value="{$EXPORT_TYPE}">{\App\Language::translate($NAME,$MODULE_NAME)}</option>
+					{foreach from=$EXPORT_TYPE item=TYPE key=NAME }
+						<option value="{$TYPE}">{\App\Language::translate($NAME,$MODULE_NAME)}</option>
 					{/foreach}
 				</select>
 			</div>
