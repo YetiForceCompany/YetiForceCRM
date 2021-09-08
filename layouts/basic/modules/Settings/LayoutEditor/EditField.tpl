@@ -220,12 +220,11 @@
 						</label>
 						<div >
 							<select name="anonymizationTarget[]" multiple class="form-control select2" id="anonymizationTarget">
-								<option value="logs" {if in_array('logs',$FIELD_MODEL->get('anonymizationTarget'))}selected{/if}>
-									{App\Language::translate('LBL_LOGS', $QUALIFIED_MODULE)}
-								</option>
-								<option value="modTrackerDisplay" {if in_array('modTrackerDisplay',$FIELD_MODEL->get('anonymizationTarget'))}selected{/if}>
-									{App\Language::translate('LBL_UPDATES', $QUALIFIED_MODULE)}
-								</option>
+								{foreach from=\App\Anonymization::getTypes() item=LABEL key=KEY}
+									<option value="{$KEY}" {if in_array($KEY, $FIELD_MODEL->get('anonymizationTarget'))}selected{/if}>
+										{App\Language::translate($LABEL, $QUALIFIED_MODULE)}
+									</option>
+								{/foreach}
 							</select>
 						</div>
 					</div>

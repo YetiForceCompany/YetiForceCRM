@@ -76,6 +76,7 @@ class Vtiger_Base_UIType extends \App\Base
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
+
 		$value = $request->getByType($requestFieldName, 'Text');
 		$this->validate($value, true);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
@@ -258,7 +259,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
-		if (\in_array('modTrackerDisplay', $this->getFieldModel()->getAnonymizationTarget())) {
+		if (\in_array(\App\Anonymization::MODTRACKER_DISPLAY, $this->getFieldModel()->getAnonymizationTarget())) {
 			return '****';
 		}
 		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, $rawText, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));

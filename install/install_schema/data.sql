@@ -430,9 +430,9 @@ insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`vat_id`,`c
 
 /*Data for the table `s_yf_fields_anonymization` */
 
-insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (476,'[\"logs\"]');
-insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (477,'[\"logs\"]');
-insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (931,'[\"logs\",\"modTrackerDisplay\"]');
+insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (476,'[0]');
+insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (477,'[0]');
+insert  into `s_yf_fields_anonymization`(`field_id`,`anonymization_target`) values (931,'[0,1]');
 
 /*Data for the table `s_yf_fields_dependency` */
 

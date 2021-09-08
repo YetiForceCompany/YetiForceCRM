@@ -108,7 +108,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
-		if (\in_array('modTrackerDisplay', $this->getFieldModel()->getAnonymizationTarget())) {
+		if (\in_array(\App\Anonymization::MODTRACKER_DISPLAY, $this->getFieldModel()->getAnonymizationTarget())) {
 			return '****';
 		}
 		$value = \App\Utils\Completions::decode($value, \App\Utils\Completions::FORMAT_TEXT);

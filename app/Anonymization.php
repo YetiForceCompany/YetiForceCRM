@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -16,6 +17,27 @@ namespace App;
  */
 class Anonymization
 {
+	/** @var int Anonymization logs */
+	public const LOGS = 0;
+	/** @var int Anonymization of change history entries on the displayed data layer. */
+	public const MODTRACKER_DISPLAY = 1;
+	/** @var int Anonymization of change history entries on the database layer. */
+	public const MODTRACKER_DB = 2;
+
+	/**
+	 * Gets Anonymization types.
+	 *
+	 * @return array
+	 */
+	public static function getTypes(): array
+	{
+		return [
+			self::LOGS => 'LBL_ANONYMIZATION_LOGS',
+			self::MODTRACKER_DISPLAY => 'LBL_ANONYMIZATION_MODTRACKER_DISPLAY',
+			self::MODTRACKER_DB => 'LBL_ANONYMIZATION_MODTRACKER_DB',
+		];
+	}
+
 	/**
 	 * @var array Word map for anonymization.
 	 */

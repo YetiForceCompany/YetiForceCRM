@@ -167,7 +167,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			}
 			$fieldInstance->set('fieldparams', $params ? \App\Json::encode($params) : '');
 		}
-		$fieldInstance->set('anonymizationTarget', $request->getArray('anonymizationTarget', \App\Purifier::STANDARD));
+		$fieldInstance->set('anonymizationTarget', $request->getArray('anonymizationTarget', \App\Purifier::INTEGER));
 		$response = new Vtiger_Response();
 		try {
 			if ($request->getBoolean('defaultvalue')) {

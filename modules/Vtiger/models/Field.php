@@ -1498,7 +1498,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Get anonymization target.
 	 *
-	 * @return string[] Values: logs, modTrackerDisplay
+	 * @see \App\Anonymization::getTypes()
+	 *
+	 * @return string[]
 	 */
 	public function getAnonymizationTarget(): array
 	{

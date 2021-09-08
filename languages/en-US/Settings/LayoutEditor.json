@@ -207,7 +207,9 @@
     "LBL_FILTERS_FROM_MODULE": "Filters from the module",
     "LBL_ANONYMIZATION_TARGET": "Anonymization",
     "LBL_DUPLICATES_VALUES_FOUND": "Duplicate values found",
-    "LBL_FIELD_ICON": "Icon"
+    "LBL_ANONYMIZATION_LOGS": "Logs",
+    "LBL_ANONYMIZATION_MODTRACKER_DISPLAY": "Updates - display",
+    "LBL_ANONYMIZATION_MODTRACKER_DB": "Updates - database"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",
