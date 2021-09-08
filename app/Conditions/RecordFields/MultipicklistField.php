@@ -10,13 +10,18 @@ namespace App\Conditions\RecordFields;
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class MultipicklistField extends BaseField
 {
 	/** {@inheritdoc} */
 	public function operatorE(): bool
 	{
-		return (bool) \array_intersect(explode('##', $this->value), $this->getValue());
+		$recordValue = $this->getValue();
+		$conditionValue = explode('##', $this->value);
+		sort($recordValue);
+		sort($conditionValue);
+		return $recordValue === $conditionValue;
 	}
 
 	/** {@inheritdoc} */
@@ -28,28 +33,13 @@ class MultipicklistField extends BaseField
 	/** {@inheritdoc} */
 	public function operatorC(): bool
 	{
-		$check = false;
-		foreach ($this->getValue() as $valueRecord) {
-			if (strpos($valueRecord, $this->value) || $valueRecord === $this->value) {
-				$check = true;
-			}
-		}
-		return $check;
+		return !$this->operatorK();
 	}
 
 	/** {@inheritdoc} */
 	public function operatorK(): bool
 	{
-		$check = true;
-		foreach ($this->getValue() as $valueRecord) {
-			if ($valueRecord === $this->value) {
-				return false;
-			}
-			if (!(false == strpos($valueRecord, $this->value))) {
-				$check = false;
-			}
-		}
-		return $check;
+		return empty(array_intersect(explode('##', $this->value), $this->getValue()));
 	}
 
 	/** {@inheritdoc} */
