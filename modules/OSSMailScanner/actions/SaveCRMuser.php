@@ -66,6 +66,7 @@ class OSSMailScanner_SaveCRMuser_Action extends \App\Controller\Action
 		$userId = $request->getInteger('userid');
 		$status = $request->getInteger('status');
 		if (!\in_array($status, [OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE,  OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED])) {
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $status, 406);
 		}
 		if ($userId) {
 			\App\Db::getInstance()->createCommand()->update('roundcube_users', ['crm_status' => $status], ['user_id' => $userId])->execute();
