@@ -398,7 +398,7 @@ class Vtiger_Export_Model extends \App\Base
 			if ('Documents' === $module && 'description' === $fieldname) {
 				$value = strip_tags($value);
 				$value = str_replace('&nbsp;', '', $value);
-				array_push($new_arr, $value);
+				$new_arr[] = $value;
 			}
 		}
 		return $arr;
@@ -432,9 +432,8 @@ class Vtiger_Export_Model extends \App\Base
 				}
 			} elseif ('Currency' === $field->getType()) {
 				$value = $field->getDisplayValue($value);
-			} else {
-				$value;
 			}
+
 			$inventoryEntries['inv_' . $columnName] = $value;
 			foreach ($field->getCustomColumn() as $customColumnName => $dbType) {
 				$valueParam = $inventoryRow[$customColumnName];

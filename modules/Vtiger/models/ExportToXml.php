@@ -9,7 +9,7 @@
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
+class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 {
 	protected $attrList = ['crmfield', 'crmfieldtype', 'partvalue', 'constvalue', 'refmoule', 'spec', 'refkeyfld', 'delimiter', 'testcondition'];
 	protected $product = false;
@@ -17,11 +17,16 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	protected $tmpXmlPath = '';
 	protected $index;
 	protected $inventoryFields;
+	protected $fileExtension = 'xml';
 
 	/**
-	 * {@inheritdoc}
+	 * Initialize data fromrequest.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
 	 */
-	public function initializeFromRequest(App\Request $request)
+	public function initializeFromRequest(App\Request $request): void
 	{
 		parent::initializeFromRequest($request);
 		if ($request->has('xmlExportType')) {
@@ -61,13 +66,25 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	}
 
 	/**
+	 * Sanitize values.
+	 *
+	 * @param array $recordValues
+	 *
+	 * @return array
+	 */
+	public function sanitizeValues(array $recordValues): array
+	{
+		return $this->getRecordDataInExportFormat($recordValues);
+	}
+
+	/**
 	 * Function returns data from advanced block.
 	 *
 	 * @param array $recordData
 	 *
 	 * @return array
 	 */
-	public function getEntriesInventory($recordData)
+	public function getEntriesInventory($recordData): array
 	{
 		$entries = [];
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleName);
@@ -82,6 +99,15 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		return $entries;
 	}
 
+	/**
+	 * Sanitize inventory value.
+	 *
+	 * @param [type] $value
+	 * @param [type] $columnName
+	 * @param bool   $formated
+	 *
+	 * @return void
+	 */
 	public function sanitizeInventoryValue($value, $columnName, $formated = false)
 	{
 		if ($field = $this->inventoryFields[$columnName] ?? false) {
@@ -100,8 +126,6 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 				}
 			} elseif ('Currency' === $field->getType()) {
 				$value = $field->getDisplayValue($value);
-			} else {
-				$value;
 			}
 		} elseif (\in_array($columnName, ['taxparam', 'discountparam', 'currencyparam'])) {
 			if ('currencyparam' === $columnName) {

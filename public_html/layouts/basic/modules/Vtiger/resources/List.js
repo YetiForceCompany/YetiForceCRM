@@ -172,26 +172,23 @@ $.Class(
 				listInstance.noRecordSelectedAlert();
 			}
 		},
-		triggerQuickExportToExcel: function (module) {
-			const massActionUrl = 'index.php';
-			const listInstance = Vtiger_List_Js.getInstance();
-			if (listInstance.checkListRecordSelected() != true) {
-				const progressIndicatorElement = $.progressIndicator();
-				let postData = {
-					module: module,
-					action: 'QuickExport',
-					mode: 'exportToExcel'
-				};
-				$.extend(postData, listInstance.getSearchParams());
-				app.openUrlMethodPost(massActionUrl, postData);
-				Vtiger_Helper_Js.showMessage({
-					text: app.vtranslate('JS_STARTED_GENERATING_FILE'),
-					type: 'info'
+		triggerQuickExport: function (module) {
+			const progressIndicatorElement = $.progressIndicator();
+			let url = 'index.php?module=' + module + '&view=ExportRecords';
+			app.showModalWindow(null, url, function (container) {
+				container.find('.js-modal__save').on('click', (e) => {
+					let formData = container.find('.js-modal-form').serializeFormData();
+					const listInstance = Vtiger_List_Js.getInstance();
+					$.extend(formData, listInstance.getSearchParams());
+					app.openUrlMethodPost('index.php', formData);
+					Vtiger_Helper_Js.showMessage({
+						text: app.vtranslate('JS_STARTED_GENERATING_FILE'),
+						type: 'info'
+					});
+					app.hideModalWindow();
 				});
-				progressIndicatorElement.progressIndicator({ mode: 'hide' });
-			} else {
-				listInstance.noRecordSelectedAlert();
-			}
+			});
+			progressIndicatorElement.progressIndicator({ mode: 'hide' });
 		},
 		transferOwnershipSave: function (form) {
 			const listInstance = Vtiger_List_Js.getInstance();
