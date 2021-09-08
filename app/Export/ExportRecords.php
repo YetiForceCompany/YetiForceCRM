@@ -533,11 +533,13 @@ abstract class ExportRecords extends \App\Base
 				unset($recordValues[$fieldName]);
 				continue;
 			}
-			// przenieść do tego getValueToExport, typ eksportu
-			/// potrzebuję record modelu - ale czy potem jestem w stanie wyciagnac dane do exportu
-			$value = $fieldModel->getUITypeModel()->getValueToExport($value, $recordId, $this->exportType, $fieldModel->getFieldParams());
+			$value = $fieldModel->getUITypeModel()->getValueToExport($value, $recordId);
 			$uitype = $fieldModel->get('uitype');
 			$fieldname = $fieldModel->get('name');
+			if (empty($this->fieldDataTypeCache[$fieldName])) {
+				$this->fieldDataTypeCache[$fieldName] = $fieldModel->getFieldDataType();
+			}
+			$type = $this->fieldDataTypeCache[$fieldName];
 			if (15 === $uitype || 16 === $uitype || 33 === $uitype) {
 				if (empty($this->picklistValues[$fieldname])) {
 					if (isset($this->moduleFieldInstances[$fieldname])) {
@@ -555,6 +557,39 @@ abstract class ExportRecords extends \App\Base
 				} else {
 					$value = '';
 				}
+			} elseif (99 === $uitype) {
+				$value = '';
+			} elseif (52 === $uitype || 'owner' === $type) {
+				$value = \App\Fields\Owner::getLabel($value);
+			} elseif ($fieldModel->isReferenceField()) {
+				$value = trim($value);
+				if (!empty($value)) {
+					$recordModule = \App\Record::getType($value);
+					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
+					if (!empty($displayValueArray)) {
+						foreach ($displayValueArray as $v) {
+							$displayValue = $v;
+						}
+					}
+					if (!empty($recordModule) && !empty($displayValue)) {
+						$value = $recordModule . '::::' . $displayValue;
+					} else {
+						$value = '';
+					}
+				} else {
+					$value = '';
+				}
+			} elseif (\in_array($uitype, [302, 309])) {
+				$parts = explode(',', trim($value, ', '));
+				$values = \App\Fields\Tree::getValuesById((int) $fieldModel->getFieldParams());
+				foreach ($parts as &$part) {
+					foreach ($values as $id => $treeRow) {
+						if ($part === $id) {
+							$part = $treeRow['name'];
+						}
+					}
+				}
+				$value = implode(' |##| ', $parts);
 			}
 		}
 		return $recordValues;
