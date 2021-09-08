@@ -6,27 +6,158 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Vtiger_Password_UIType extends Vtiger_Base_UIType
 {
+	/** {@inheritdoc} */
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	{
+		$fieldName = $this->getFieldModel()->getName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+
+		$value = $request->getRaw($requestFieldName);
+		$this->validate($value, true);
+		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
+
 	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		$res = Settings_Password_Record_Model::checkPassword($value);
-		if (false !== $res) {
-			throw new \App\Exceptions\Security($res, 406);
+		$dbValue = $isUserFormat ? $this->getDBValue($value) : $value;
+		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		if ($maximumLength && App\TextParser::getTextLength($dbValue) > $maximumLength) {
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $dbValue, 406);
 		}
 		$this->validate[$value] = true;
 	}
 
 	/** {@inheritdoc} */
-	public function convertToSave($value, Vtiger_Record_Model $recordModel)
+	public function getDBValue($value, $recordModel = false)
 	{
-		return $recordModel->encryptPassword($value);
+		$encryptInstance = \App\Encryption::getInstance();
+		if ($encryptInstance->isActive()) {
+			$value = $encryptInstance->encrypt($value);
+		}
+		return base64_encode($value);
+	}
+
+	/** {@inheritdoc} */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$value = '******';
+		if (!$rawText && $recordModel && $recordModel->isViewable()) {
+			$moduleName = $recordModel->getModuleName();
+			$fieldName = $this->getFieldModel()->getName();
+			$id = $recordModel->getId();
+			$uniqueId = \App\Layout::getUniqueId("PWD-{$fieldName}");
+			$value = "<span class=\"text-muted u-cursor-pointer js-no-link js-copy-clipboard\" id=\"{$uniqueId}\" data-url=\"index.php?module={$moduleName}&action=Password&mode=getPwd&field={$fieldName}&record={$id}\" title=\"" . \App\Language::translate('LBL_PWD_CLIPBOARD_DBCLICK', $moduleName) . "\">{$value}</span>";
+		}
+		return $value;
+	}
+
+	/** {@inheritdoc} */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return $value ? $this->getDisplayValue($value, false, false, true) : '';
+	}
+
+	/** {@inheritdoc} */
+	public function getDuplicateValue(Vtiger_Record_Model $recordModel)
+	{
+		return '';
+	}
+
+	/** {@inheritdoc} */
+	public function isActiveSearchView()
+	{
+		return false;
+	}
+
+	/** {@inheritdoc} */
+	public function isListviewSortable()
+	{
+		return false;
+	}
+
+	/** {@inheritdoc} */
+	public function getValueToExport($value, int $recordId)
+	{
+		return $this->getPwd($value);
+	}
+
+	/** {@inheritdoc} */
+	public function getValueFromImport($value)
+	{
+		return $this->getDBValue($value);
+	}
+
+	/** {@inheritdoc} */
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
+	{
+		return $this->getDisplayValue($value, false, false, true);
+	}
+
+	/**
+	 * Check password.
+	 *
+	 * @param string $value
+	 *
+	 * @return bool|string[]
+	 */
+	public function checkPwd(string $value)
+	{
+		$conf = Settings_Password_Record_Model::getUserPassConfig();
+		$fieldConfig = $this->getFieldModel()->getFieldParams()['validate'] ?? [];
+		$notice = [];
+		if (\in_array('config', $fieldConfig)) {
+			$moduleName = 'Settings:Password';
+			if (\strlen($value) > $conf['max_length']) {
+				$notice[] = \App\Language::translate('Maximum password length', $moduleName) . ' ' . $conf['max_length'] . ' ' . \App\Language::translate('characters', $moduleName);
+			}
+			if (\strlen($value) < $conf['min_length']) {
+				$notice[] = \App\Language::translate('Minimum password length', $moduleName) . ' ' . $conf['min_length'] . ' ' . \App\Language::translate('characters', $moduleName);
+			}
+			if ('true' === $conf['numbers'] && !preg_match('#[0-9]+#', $value)) {
+				$notice[] = \App\Language::translate('Password should contain numbers', $moduleName);
+			}
+			if ('true' === $conf['big_letters'] && !preg_match('#[A-Z]+#', $value)) {
+				$notice[] = \App\Language::translate('Uppercase letters from A to Z', $moduleName);
+			}
+			if ('true' === $conf['small_letters'] && !preg_match('#[a-z]+#', $value)) {
+				$notice[] = \App\Language::translate('Lowercase letters a to z', $moduleName);
+			}
+			if ('true' === $conf['special'] && !preg_match('~[!"#$%&\'()*+,-./:;<=>?@[\]^_{|}]~', $value)) {
+				$notice[] = \App\Language::translate('Password should contain special characters', $moduleName);
+			}
+		}
+		if (\in_array('pwned', $fieldConfig) && ($passStatus = App\Extension\PwnedPassword::check($value)) && !$passStatus['status']) {
+			$notice[] = $passStatus['message'];
+		}
+		return $notice ?: true;
+	}
+
+	/**
+	 * Gets raw password.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function getPwd(string $value)
+	{
+		$value = base64_decode($value);
+		$encryptInstance = \App\Encryption::getInstance();
+		if ($encryptInstance->isActive()) {
+			$value = $encryptInstance->decrypt($value);
+		}
+		return $value;
 	}
 
 	/** {@inheritdoc} */

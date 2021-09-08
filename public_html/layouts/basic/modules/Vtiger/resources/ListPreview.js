@@ -33,6 +33,7 @@ Vtiger_List_Js(
 			var thisInstance = this;
 			var listViewContentDiv = this.getListViewContentContainer();
 			listViewContentDiv.on('click', '.listViewEntries', function (e) {
+				if ($(e.target).hasClass('js-no-link')) return;
 				if ($(e.target).closest('div').hasClass('actions')) return;
 				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
 				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;

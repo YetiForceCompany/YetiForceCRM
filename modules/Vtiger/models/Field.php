@@ -1500,7 +1500,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @see \App\Anonymization::getTypes()
 	 *
-	 * @return string[]
+	 * @return int[]
 	 */
 	public function getAnonymizationTarget(): array
 	{

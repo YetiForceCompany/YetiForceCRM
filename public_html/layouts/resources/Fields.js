@@ -2983,6 +2983,171 @@ window.App.Fields = {
 			};
 		}
 	},
+	/**
+	 * Password
+	 */
+	Password: class Password {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-pwd-container')) {
+				return new Password(container);
+			}
+			const instances = [];
+			container.find('.js-pwd-container').each((_, e) => {
+				instances.push(new Password($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Get strength meter
+		 * @returns {Object}
+		 */
+		static getStrengthLevels() {
+			if (!this.strengthLevels) {
+				this.strengthLevels = {
+					0: app.vtranslate('JS_PWD_RIDICULOUS'),
+					1: app.vtranslate('JS_PWD_VERY_WEAK'),
+					2: app.vtranslate('JS_PWD_WEAK'),
+					3: app.vtranslate('JS_PWD_MEDIUM'),
+					4: app.vtranslate('JS_PWD_STRONG'),
+					5: app.vtranslate('JS_PWD_VERY_STRONG')
+				};
+			}
+			return { ...this.strengthLevels };
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			let field = this.getField();
+			$('.js-pwd-auto-generate', this.container)
+				.off('click')
+				.on('click', () => {
+					this.getResponse({
+						module: field.data('module'),
+						field: field.attr('name'),
+						action: 'Password',
+						mode: 'generatePwd'
+					}).then((response) => {
+						if (response.success && response.result && response.result.pwd) {
+							this.clear();
+							field.val(response.result.pwd).trigger('keyup');
+						}
+					});
+				});
+			$('.js-pwd-validate', this.container)
+				.off('click')
+				.on('click', () => {
+					this.getResponse({
+						module: field.data('module'),
+						field: field.attr('name'),
+						password: field.val(),
+						action: 'Password',
+						mode: 'validatePwd'
+					}).then((response) => {
+						if (response.success && response.result) {
+							let message = response.result.message;
+							if (Array.isArray(message)) {
+								message = message.join('<br>');
+							}
+							field.validationEngine('showPrompt', message, response.result.type, 'topLeft', true);
+							field.validationEngine('updatePromptsPosition');
+						}
+					});
+				});
+			$('.js-pwd-clear', this.container)
+				.off('click')
+				.on('click', (e) => {
+					this.clear();
+				});
+			$('.js-pwd-get', this.container)
+				.off('click')
+				.on('click', (e) => {
+					let recordId = $('input[name="record"]', form).val() || app.getRecordId();
+					this.getResponse({
+						module: field.data('module'),
+						field: field.attr('name'),
+						record: recordId,
+						action: 'Password',
+						mode: 'getPwd'
+					}).then((response) => {
+						this.clear();
+						field.val(response.result.text);
+					});
+				});
+			if (field.data('strengthMeter')) {
+				field.off('keyup').on('keyup', (e) => {
+					let score = this.strengthMeter(e.target.value || '');
+					field
+						.attr('data-original-title', App.Fields.Password.getStrengthLevels()[score])
+						.tooltip('show')
+						.validationEngine('hide');
+				});
+			}
+		}
+		/**
+		 * Clear data
+		 */
+		clear() {
+			this.getField().val('').attr('disabled', false).tooltip('dispose').validationEngine('hide');
+			this.container.find('.js-pwd-validate, .js-pwd-show').attr('disabled', false);
+		}
+		/**
+		 * Get response
+		 * @param {Object} params
+		 * @returns
+		 */
+		getResponse(params) {
+			const aDeferred = $.Deferred();
+			let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+			AppConnector.request(params)
+				.done((response) => {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					if (response.success) {
+						aDeferred.resolve(response);
+					} else {
+						aDeferred.reject(response);
+					}
+				})
+				.fail((_) => {
+					app.showNotify({
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					});
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					aDeferred.reject(_);
+				});
+			return aDeferred.promise();
+		}
+		/**
+		 * Get strength meter score
+		 * @param {string} pwd
+		 * @returns {int}
+		 */
+		strengthMeter(pwd) {
+			let score = 0;
+			if (pwd.length > 6) score++;
+			if (pwd.match(/[a-z]/) && pwd.match(/[A-Z]/)) score++;
+			if (pwd.match(/\d+/)) score++;
+			if (pwd.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) score++;
+			if (pwd.length > 12) score++;
+
+			return score;
+		}
+		/**
+		 * Gets field
+		 */
+		getField() {
+			return this.container.find('.js-pwd-field');
+		}
+	},
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);

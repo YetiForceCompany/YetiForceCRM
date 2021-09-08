@@ -1650,6 +1650,7 @@ $.Class(
 			App.Fields.MeetingUrl.register(container);
 			App.Fields.ChangesJson.register(container);
 			App.Fields.MultiReference.register(container);
+			App.Fields.Password.register(container);
 		},
 		registerEvents: function () {
 			let editViewForm = this.getForm();

@@ -13,7 +13,7 @@
 /**
  * Class OSSPasswords_Password_UIType.
  */
-class OSSPasswords_Password_UIType extends Vtiger_Password_UIType
+class OSSPasswords_Password_UIType extends Vtiger_Base_UIType
 {
 	/** {@inheritdoc} */
 	public function isActiveSearchView()

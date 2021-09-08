@@ -331,6 +331,7 @@ abstract class Base extends \App\Controller\Base
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
+			'libraries.clipboard.dist.clipboard',
 		];
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";

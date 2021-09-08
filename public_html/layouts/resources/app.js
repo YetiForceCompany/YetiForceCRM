@@ -709,6 +709,98 @@ var App = (window.App = {
 			}
 			return PNotify[type](params);
 		}
+	},
+	Clipboard: class Clipboard {
+		constructor(container) {
+			this.text = null;
+			this.oClipboard = null;
+			this.container = container;
+		}
+		/**
+		 * Register
+		 * @param {jQuery} params
+		 */
+		static register(container) {
+			if (typeof container === 'undefined') {
+				container = $('body');
+			}
+			container.on('dblclick', '.js-copy-clipboard', (e) => {
+				e.preventDefault();
+				new Clipboard($(e.currentTarget)).load().then((instance) => {
+					instance.createClipboard();
+					instance.copy();
+					instance.destroy();
+				});
+			});
+		}
+		/**
+		 * Initiation
+		 */
+		load() {
+			const aDeferred = $.Deferred();
+			let url = this.container.data('url');
+			if (url) {
+				this.getTextFromUrl(url).then((response) => {
+					this.text = response.result.text;
+					aDeferred.resolve(this);
+				});
+			} else {
+				aDeferred.resolve(this);
+			}
+			return aDeferred.promise();
+		}
+		/**
+		 * Create ClipboardJS
+		 */
+		createClipboard() {
+			let id = this.container.attr('id');
+			this.oClipboard = new ClipboardJS(`#${id}`, {
+				text: (_) => {
+					return this.text;
+				}
+			});
+		}
+		/**
+		 * Get text to Clipboard from URL
+		 */
+		getTextFromUrl(url) {
+			const aDeferred = $.Deferred();
+			let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+			AppConnector.request(url)
+				.done((response) => {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					if (response.success) {
+						aDeferred.resolve(response);
+					} else {
+						aDeferred.reject(response);
+					}
+				})
+				.fail((_) => {
+					app.showNotify({
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					});
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					aDeferred.reject(_);
+				});
+			return aDeferred.promise();
+		}
+		/**
+		 * Set text to Clipboard
+		 */
+		copy() {
+			this.container.trigger('click');
+			app.showNotify({
+				text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+				type: 'success'
+			});
+		}
+		/**
+		 * Destroy ClipboardJS object
+		 */
+		destroy() {
+			this.oClipboard.destroy();
+		}
 	}
 });
 
@@ -2996,6 +3088,7 @@ $(function () {
 	app.registerFormsEvents(document);
 	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
+	App.Clipboard.register(document);
 	String.prototype.toCamelCase = function () {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();

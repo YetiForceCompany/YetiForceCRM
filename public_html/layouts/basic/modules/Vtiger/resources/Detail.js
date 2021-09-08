@@ -1062,7 +1062,7 @@ jQuery.Class(
 							? fieldName + '[]'
 							: fieldName;
 				let fieldElement = $('[name="' + elementName + '"]:not([type="hidden"])', editElement);
-				if (fieldElement.attr('disabled') == 'disabled') {
+				if (fieldElement.attr('disabled') == 'disabled' && fieldElement.attr('type') !== 'password') {
 					return;
 				}
 				if (editElement.length <= 0) {
@@ -2571,6 +2571,7 @@ jQuery.Class(
 			App.Fields.Date.register(detailContentsHolder);
 			App.Fields.DateTime.register(detailContentsHolder);
 			App.Fields.MultiImage.register(detailContentsHolder);
+			App.Fields.Password.register(detailContentsHolder);
 			//Attach time picker event to time fields
 			app.registerEventForClockPicker();
 			this.registerHelpInfo(detailContentsHolder);
