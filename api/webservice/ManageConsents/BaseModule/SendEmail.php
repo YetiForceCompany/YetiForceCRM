@@ -6,7 +6,7 @@
  * @package Api
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -26,46 +26,39 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	/**
 	 * Send e-mail.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return array
 	 *
-	 * @OA\POST(
+	 * @OA\Post(
 	 *		path="/webservice/ManageConsents/{moduleName}/SendEmail",
 	 *		summary="Send e-mail",
-	 *		tags={"Consents"},
+	 *		tags={"BaseModule"},
 	 *    security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
 	 *    },
 	 *		@OA\RequestBody(
 	 *				required=true,
 	 *				description="Required data for communication",
-	 *				@OA\JsonContent(ref="#/components/schemas/SendEmailRequestBody"),
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Post_SendEmail_Request"),
 	 *     		@OA\MediaType(
 	 *         		mediaType="multipart/form-data",
-	 *         		@OA\Schema(ref="#/components/schemas/SendEmailRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/BaseModule_Post_SendEmail_Request")
 	 *     		),
 	 *     		@OA\MediaType(
 	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/SendEmailRequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/BaseModule_Post_SendEmail_Request")
 	 *     		),
 	 *		),
-	 *		@OA\Parameter(
-	 *				name="moduleName",
-	 *  		 	description="Module name",
-	 *  		 	@OA\Schema(
-	 *  		  		type="string"
-	 *  		 ),
-	 *  		 in="path",
-	 * 			 example="Contacts",
-	 *  		 required=true
-	 * 		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Response(
 	 *				response=200,
-	 *				description="List of consents for specific entry",
-	 *				@OA\JsonContent(ref="#/components/schemas/SendEmailResponseBody"),
+	 *				description="Status of adding an email to the queue",
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Post_SendEmail_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
-	 *				description="No sent token OR Invalid token",
+	 *				description="`No sent token` OR `Invalid token`",
 	 *		),
 	 *		@OA\Response(
 	 *				response=403,
@@ -81,7 +74,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="SendEmailRequestBody",
+	 *		schema="BaseModule_Post_SendEmail_Request",
 	 *		title="Request body for SendEmail",
 	 *		type="object",
 	 *		@OA\Property(
@@ -96,16 +89,10 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *		),
 	 *	),
 	 * @OA\Schema(
-	 *		schema="SendEmailResponseBody",
+	 *		schema="BaseModule_Post_SendEmail_Response",
 	 *		title="Response body for SendEmail",
 	 *		type="object",
-	 *		@OA\Property(
-	 *				property="status",
-	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *				enum={0, 1},
-	 *				type="integer",
-	 *        example=1
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *				property="result",
 	 *				description="Added mail to quote for send: true - success , false - fail",
@@ -139,7 +126,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 			'moduleName' => $moduleName,
 			'template' => $templateId,
 			'to' => $email,
-			'recordId' => $recordId
+			'recordId' => $recordId,
 		]);
 	}
 }

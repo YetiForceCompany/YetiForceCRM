@@ -114,7 +114,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkclass' => $class,
 				'linkicon' => 'fas ' . $iconclass,
 				'linkdata' => ['off' => 'btn-outline-dark', 'on' => 'btn-dark', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
-				'active' => !$watchdog->isLock()
+				'active' => !$watchdog->isLock(),
 			];
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -123,7 +123,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SEND_NOTIFICATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
-				'linkicon' => 'fas fa-paper-plane'
+				'linkicon' => 'fas fa-paper-plane',
 			];
 		}
 		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
@@ -132,7 +132,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SHOW_MAP',
 				'linkurl' => 'javascript:Vtiger_List_Js.showMap()',
-				'linkicon' => 'fas fa-globe'
+				'linkicon' => 'fas fa-globe',
 			];
 		}
 		if ($userPrivilegesModel->hasModulePermission('PermissionInspector')) {
@@ -141,7 +141,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkhint' => 'BTN_PERMISSION_INSPECTOR',
 				'linkdata' => ['url' => 'index.php?module=PermissionInspector&view=UserListModal&srcModule=' . $moduleModel->getName()],
 				'linkicon' => 'fas fa-user-secret',
-				'modalView' => true
+				'modalView' => true,
 			];
 		}
 		foreach ($headerLinks as $headerLink) {
@@ -165,7 +165,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => $moduleModel->getImportUrl(),
-				'linkicon' => 'fas fa-download'
+				'linkicon' => 'fas fa-download',
 			];
 		}
 		if ($moduleModel->isPermitted('Export')) {
@@ -173,7 +173,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => 'fas fa-upload'
+				'linkicon' => 'fas fa-upload',
 			];
 		}
 		if ($moduleModel->isPermitted('Merge')) {
@@ -196,7 +196,7 @@ class Vtiger_ListView_Model extends \App\Base
 					'linkdata' => ['url' => 'index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List', 'type' => 'modal'],
 					'linkclass' => 'js-mass-action',
 					'linkicon' => 'fas fa-file-pdf',
-					'title' => \App\Language::translate('LBL_EXPORT_PDF')
+					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
 			}
 		}
@@ -242,7 +242,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'yfi yfi-full-editing-view'
+				'linkicon' => 'yfi yfi-full-editing-view',
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {
@@ -253,7 +253,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
 				'linkclass' => 'js-mass-record-event',
-				'linkicon' => 'fas fa-undo-alt'
+				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived')) {
@@ -264,7 +264,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
 				'linkclass' => 'js-mass-record-event',
-				'linkicon' => 'fas fa-archive'
+				'linkicon' => 'fas fa-archive',
 			];
 		}
 		if ($moduleModel->isPermitted('MassTrash')) {
@@ -275,7 +275,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
 				'linkclass' => 'js-mass-record-event',
-				'linkicon' => 'fas fa-trash-alt'
+				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
@@ -286,16 +286,16 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 				'linkclass' => 'js-mass-record-event',
-				'linkicon' => 'fas fa-eraser'
+				'linkicon' => 'fas fa-eraser',
 			];
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		if ($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView') && $moduleModel->isPermitted('MassAddComment')) {
+		if ($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('CreateView') && $moduleModel->isPermitted('MassAddComment')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD_COMMENT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassAction("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showAddCommentForm")',
-				'linkicon' => 'fas fa-comments'
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassComment("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showAddCommentForm")',
+				'linkicon' => 'fas fa-comments',
 			];
 		}
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
@@ -303,7 +303,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'yfi yfi-change-of-owner'
+				'linkicon' => 'yfi yfi-change-of-owner',
 			];
 		}
 		if ($moduleModel->isTrackingEnabled() && App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
@@ -311,7 +311,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_REVIEW_CHANGES',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerReviewChanges("index.php?module=ModTracker&sourceModule=' . $moduleModel->getName() . '&action=ChangesReviewedOn&mode=reviewChanges")',
-				'linkicon' => 'fas fa-check-circle'
+				'linkicon' => 'fas fa-check-circle',
 			];
 		}
 		if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::isActive($moduleModel->getName(), 'List')) {
@@ -320,7 +320,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_RECORD_CONVERTER',
 				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&sourceView=List", 'type' => 'modal'],
 				'linkicon' => 'fas fa-exchange-alt',
-				'linkclass' => 'u-cursor-pointer js-mass-action'
+				'linkclass' => 'u-cursor-pointer js-mass-action',
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
@@ -347,7 +347,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkclass' => 'btn-light addButton modCT_' . $moduleModel->getName(),
 				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
-				'linkhref' => true
+				'linkhref' => true,
 			];
 		}
 
@@ -361,7 +361,7 @@ class Vtiger_ListView_Model extends \App\Base
 					'linkdata' => ['url' => 'index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List', 'type' => 'modal'],
 					'linkclass' => 'btn-light js-mass-record-event',
 					'linkicon' => 'fas fa-file-pdf',
-					'linkhint' => \App\Language::translate('LBL_EXPORT_PDF')
+					'linkhint' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
 			}
 		}
@@ -476,7 +476,7 @@ class Vtiger_ListView_Model extends \App\Base
 						'sourceField' => $sourceFieldName,
 						'relatedModule' => $moduleName,
 						'relatedField' => $fieldName,
-						'relatedSortOrder' => $sortFlag
+						'relatedSortOrder' => $sortFlag,
 					]);
 				} elseif (isset($fields[$fieldName])) {
 					$this->getQueryGenerator()->setOrder($fieldName, $sortFlag);
@@ -549,7 +549,6 @@ class Vtiger_ListView_Model extends \App\Base
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-
 		$listViewRecordModels = $this->getRecordsFromArray($rows);
 		unset($rows);
 		return $listViewRecordModels;
@@ -586,7 +585,7 @@ class Vtiger_ListView_Model extends \App\Base
 			foreach ($relatedFields as $relatedModuleName => $fields) {
 				foreach ($fields as $sourceField => $field) {
 					$recordData = [
-						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0
+						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0,
 					];
 					foreach ($field as $relatedFieldName) {
 						$recordData[$relatedFieldName] = $row[$sourceField . $relatedModuleName . $relatedFieldName];

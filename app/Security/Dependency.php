@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -98,15 +98,13 @@ class Dependency
 			$options['headers']['APP-ID'] = \App\YetiForce\Register::getInstanceKey();
 			\App\Log::beginProfile("POST|Dependency::check|{$this->checkUrl}", __NAMESPACE__);
 			try {
-				$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, [
-					'json' => [
-						'php' => PHP_VERSION,
-						'os' => php_uname(),
-						'dependencies' => $lockFile,
-					]
-				]);
+				$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, ['json' => [
+					'php' => PHP_VERSION,
+					'env' => \App\Utils\ConfReport::getEnv(),
+					'dependencies' => $lockFile,
+				]]);
 				if (200 === $response->getStatusCode()) {
-					$result = (array) \App\Json::decode($response->getBody());
+					$result = (array) \App\Json::decode($response->getBody()->getContents());
 					$result = (\is_array($result) && !empty($result)) ? $result : [];
 				}
 			} catch (\Throwable $e) {

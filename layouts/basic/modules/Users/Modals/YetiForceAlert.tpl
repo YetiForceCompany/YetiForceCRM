@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Users-Modals-RegistrationAlert -->
 <div class="modal-body pb-3">
@@ -25,6 +25,14 @@
 			</a>
 		{/if}
 	{/if}
+	<div class="clearfix"></div>
+	<div class="mt-3">
+		<div class="progress">
+			<div class="progress-bar progress-bar-striped progress-bar-animated js-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 100%;" data-js="container">
+				<span class="sr-only"></span>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- /tpl-Users-Modals-RegistrationAlert -->
 {/strip}

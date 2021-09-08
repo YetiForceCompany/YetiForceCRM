@@ -6,7 +6,7 @@
  * @package Settings
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -21,7 +21,39 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 
 	/** {@inheritdoc} */
 	public $editFields = [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'istorage' => 'FL_STORAGE'
+		'server_id' => 'FL_SERVER',
+		'status' => 'FL_STATUS',
+		'password' => 'FL_PASSWORD',
+		'type' => 'FL_TYPE',
+		'crmid' => 'FL_RECORD_NAME',
+		'user_id' => 'FL_USER',
+		'login_method' => 'FL_LOGIN_METHOD',
+		'authy_methods' => 'FL_AUTHY_METHODS',
+		'istorage' => 'FL_STORAGE',
+		'language' => 'FL_LANGUAGE',
+	];
+
+	/** {@inheritdoc} */
+	public $listFields = [
+		'server_id' => 'FL_SERVER',
+		'user_name' => 'FL_LOGIN',
+		'crmid' => 'FL_RECORD_NAME',
+		'type' => 'FL_TYPE',
+		'user_id' => 'FL_USER',
+		'status' => 'FL_STATUS',
+		'istorage' => 'FL_STORAGE',
+		'login_method' => 'FL_LOGIN_METHOD',
+		'login_time' => 'FL_LOGIN_TIME',
+		'custom_params' => 'FL_CUSTOM_PARAMS',
+	];
+
+	/** @var array Columns to show on the list session. */
+	public $columnsToShow = [
+		'time' => 'FL_LOGIN_TIME',
+		'status' => 'FL_STATUS',
+		'agent' => 'LBL_USER_AGENT',
+		'ip' => 'LBL_IP_ADDRESS',
+		'device_id' => 'LBL_DEVICE_ID',
 	];
 
 	/** {@inheritdoc} */
@@ -34,6 +66,9 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			case 'crmid':
 				$params['uitype'] = 10;
 				$params['referenceList'] = ['Contacts'];
+				$params['fieldparams'] = [
+					'searchParams' => '[[["email","ny",""]]]'
+				];
 				break;
 			case 'istorage':
 				$params['uitype'] = 10;
@@ -47,6 +82,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Module_Model::getActiveServers($this->getModule()->typeApi);
 				$params['uitype'] = 16;
+				$params['picklistValues'] = [];
 				foreach ($servers as $key => $value) {
 					$params['picklistValues'][$key] = $value['name'];
 				}
@@ -67,13 +103,30 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				$params['uitype'] = 16;
 				$params['picklistValues'] = \App\Fields\Owner::getInstance($moduleName)->getAccessibleUsers('', 'owner');
 				break;
+			case 'login_method':
+				$params['uitype'] = 16;
+				$params['picklistValues'] = [
+					'PLL_PASSWORD' => \App\Language::translate('PLL_PASSWORD', 'Users'),
+					'PLL_PASSWORD_2FA' => \App\Language::translate('PLL_PASSWORD_2FA', 'Users'),
+				];
+				break;
+			case 'authy_methods':
+				$params['uitype'] = 16;
+				$params['typeofdata'] = 'V~O';
+				$params['picklistValues'] = [
+					'-' => \App\Language::translate('LBL_NONE'),
+					'PLL_AUTHY_TOTP' => \App\Language::translate('PLL_AUTHY_TOTP', 'Users'),
+				];
+				break;
 			case 'password':
 				$params['typeofdata'] = 'P~M';
+				if ($this->has('id')) {
+					$params = null;
+				}
 				break;
-			default:
-				break;
+			default: break;
 		}
-		return Settings_Vtiger_Field_Model::init($moduleName, $params);
+		return $params ? Settings_Vtiger_Field_Model::init($moduleName, $params) : null;
 	}
 
 	/** {@inheritdoc} */
@@ -94,10 +147,16 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 						break;
 					case 'user_name':
 					case 'language':
+					case 'login_method':
+					case 'authy_methods':
 						$value = $request->getByType($field, 'Text');
 						break;
 					case 'password':
+						if (!$this->isNew()) {
+							throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||{$field}", 406);
+						}
 						$value = $request->getRaw($field, null);
+						parent::set($field, $value);
 						break;
 					default:
 					throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||{$field}", 406);
@@ -121,10 +180,9 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				$value = (int) $value;
 				break;
 			case 'password':
-				$value = App\Encryption::getInstance()->encrypt($value);
+				$value = App\Encryption::createPasswordHash($value, 'Portal');
 				break;
-			default:
-				break;
+			default: break;
 		}
 		return $value;
 	}

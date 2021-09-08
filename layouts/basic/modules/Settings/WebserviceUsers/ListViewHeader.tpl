@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Settings-WebserviceUsers-ListViewHeader -->
 <div class="listViewPageDiv">
@@ -6,8 +6,8 @@
 		<div class="col-md-8">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
-		<div class="col-md-4 d-flex justify-content-lg-end pr-3">
-			<a href="index.php?module=WebserviceApps&view=Index&parent=Settings" class="btn btn-success float-right mr-3">
+		<div class="col-md-4 d-flex justify-content-lg-end">
+			<a href="index.php?module=WebserviceApps&view=Index&parent=Settings" class="btn btn-success float-right">
 				<span class="adminIcon-webservice-apps u-fs-lg mr-2"></span>
 				{\App\Language::translate('LBL_WEBSERVICE_APPS','Settings.WebserviceApps')}
 			</a>
@@ -16,7 +16,12 @@
 	<ul id="tabs" class="nav nav-tabs mt-2 mr-0" data-tabs="tabs">
 		{foreach item=VALUE from=\Api\Core\Containers::$listTab name=typeLoop}
 			<li class="tabApi nav-item" data-typeapi="{$VALUE}">
-				<a class="nav-link {if $smarty.foreach.typeLoop.first} active{/if} " data-toggle="tab"><strong>{\App\Language::translate($VALUE, 'Settings.WebserviceApps')}</strong></a>
+				<a class="nav-link {if $TYPE_API === $VALUE} active{/if} " data-toggle="tab">
+					<strong>{\App\Language::translate($VALUE, 'Settings.WebserviceApps')}</strong>
+					{if $VALUE === 'Portal'}
+						<span class="yfi-premium color-red-600 ml-2" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"></span>
+					{/if}
+				</a>
 			</li>
 		{/foreach}
 	</ul>

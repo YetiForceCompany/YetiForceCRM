@@ -673,24 +673,21 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getQuickCreateFields()
 	{
-		$fieldList = $this->getFields();
 		$quickCreateFieldList = [];
-
-		$quickSequenceTemp = [];
-		foreach ($fieldList as $fieldName => $fieldModel) {
-			if ($fieldModel->isQuickCreateEnabled() && $fieldModel->isEditable()) {
-				$quickCreateFieldList[$fieldName] = $fieldModel;
-				$quickSequenceTemp[$fieldName] = $fieldModel->get('quicksequence');
+		foreach ($this->getFieldsByBlocks() as $blockFields) {
+			uksort($blockFields, function ($a, $b) use ($blockFields) {
+				if ($blockFields[$a]->get('quicksequence') === $blockFields[$b]->get('quicksequence')) {
+					return 0;
+				}
+				return $blockFields[$a]->get('quicksequence') < $blockFields[$b]->get('quicksequence') ? -1 : 1;
+			});
+			foreach ($blockFields as $fieldName => $fieldModel) {
+				if ($fieldModel->isQuickCreateEnabled() && $fieldModel->isEditable()) {
+					$quickCreateFieldList[$fieldName] = $fieldModel;
+				}
 			}
 		}
-
-		// sort quick create fields by sequence
-		asort($quickSequenceTemp, SORT_NUMERIC);
-		$quickCreateSortedList = [];
-		foreach ($quickSequenceTemp as $key => $value) {
-			$quickCreateSortedList[$key] = $quickCreateFieldList[$key];
-		}
-		return $quickCreateSortedList;
+		return $quickCreateFieldList;
 	}
 
 	/**
@@ -939,7 +936,14 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $modulesModelsList;
 	}
 
-	public static function getCleanInstance($moduleName)
+	/**
+	 * Undocumented function.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return $this
+	 */
+	public static function getCleanInstance(string $moduleName)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $moduleName);
 		return new $modelClassName();
@@ -990,6 +994,14 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linklabel' => $treeViewModel->getName(),
 				'linkurl' => $treeViewModel->getTreeViewUrl() . $menuUrl,
 				'linkicon' => 'fas fa-tree',
+			]);
+		}
+		if ($this->isPermitted('Kanban') && \App\Utils\Kanban::getBoards($this->getName(), true)) {
+			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_VIEW_KANBAN',
+				'linkurl' => 'index.php?module=' . $this->getName() . '&view=Kanban' . $menuUrl,
+				'linkicon' => 'yfi yfi-kanban',
 			]);
 		}
 		return $links;

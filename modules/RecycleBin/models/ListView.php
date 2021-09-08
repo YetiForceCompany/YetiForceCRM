@@ -6,7 +6,7 @@
  * @package   View
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 
@@ -26,7 +26,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		$queryGenerator = new \App\QueryGenerator($sourceModuleModel->getName());
 		$cvidObj = CustomView_Record_Model::getAllFilterByModule($sourceModuleModel->getName());
 		$viewId = $cvidObj->getId('cvid');
-		$queryGenerator->initForCustomViewById($viewId);
+		$queryGenerator->initForCustomViewById($viewId, true);
 		return $instance->set('entityState', 'Trash')->set('module', $sourceModuleModel)->set('query_generator', $queryGenerator);
 	}
 

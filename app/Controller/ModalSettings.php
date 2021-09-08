@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -31,7 +31,7 @@ abstract class ModalSettings extends Modal
 		$viewName = $request->getByType('view', 2);
 		return $this->checkAndConvertJsScripts([
 			"modules.Settings.Vtiger.resources.$viewName",
-			"modules.Settings.{$request->getModule()}.resources.$viewName"
+			"modules.Settings.{$request->getModule()}.resources.$viewName",
 		]);
 	}
 
@@ -47,7 +47,7 @@ abstract class ModalSettings extends Modal
 		$viewName = $request->getByType('view', 2);
 		return $this->checkAndConvertCssStyles([
 			"modules.Settings.Vtiger.$viewName",
-			"modules.Settings.{$request->getModule()}.$viewName"
+			"modules.Settings.{$request->getModule()}.$viewName",
 		]);
 	}
 

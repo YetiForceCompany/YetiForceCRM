@@ -111,8 +111,9 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 						break;
 					case 'params':
 						$value = $request->getMultiDimensionArray($name, [
-							'showTasks' => 'Bool',
-							'enableTasks' => 'Bool'
+							'iterationOff' => \App\Purifier::BOOL,
+							'showTasks' => \App\Purifier::BOOL,
+							'enableTasks' => \App\Purifier::BOOL
 						]
 						);
 						$value = \App\Json::encode($value);
@@ -166,13 +167,12 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$selectedModuleName = $request->getByType('module_name', 2);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
-		$moduleModel = $workFlowModel->getModule();
-		$viewer->assign('TASK_TYPES', Settings_Workflows_TaskType_Model::getAllForModule($moduleModel));
+		$viewer->assign('TASK_RECORDS', $workFlowModel->getTaskTypes());
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
 		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('WORKFLOW_MODEL', $workFlowModel);
-		$viewer->assign('TASK_LIST', $workFlowModel->getTasks());
+		$viewer->assign('TASK_LIST', $workFlowModel->getTasks(false));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('Step3.tpl', $qualifiedModuleName);
 	}

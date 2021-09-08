@@ -6,7 +6,7 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -29,31 +29,12 @@ class Fields extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/RestApi/{moduleName}/Fields",
+	 *		description="Returns information about fields, blocks and inventory based on the selected module",
 	 *		summary="Get data about fields, blocks and inventory",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(
-	 *				type="string"
-	 *			),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="Request body does not occur",
-	 *		),
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Fields, blocks and inventory details",
@@ -66,21 +47,18 @@ class Fields extends \Api\Core\BaseAction
 	 *		title="Base module - Response action fields",
 	 *		description="Fields, blocks and inventory details",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 			enum={0, 1},
-	 *     	  	type="integer",
-	 * 			example=1
-	 * 		),
+	 *		required={"status", "result"},
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="Fields parameters",
+	 *			title="Fields parameters",
 	 *			type="object",
+	 *			required={"fields", "blocks"},
 	 *			@OA\Property(
 	 *				property="fields",
-	 *				description="List of all available fields in the module",
+	 *				title="List of all available fields in the module",
 	 *				type="object",
+	 *				required={"name", "label", "type", "mandatory", "defaultvalue", "presence", "quickcreate", "masseditable", "header_field", "maxlengthtext", "maximumlength", "maxwidthcolumn", "tabindex", "fieldtype", "id", "uitype", "isEditable", "isViewable", "isReadOnly", "isEditableReadOnly", "sequence", "fieldparams", "blockId", "helpInfo", "dbStructure", "queryOperators"},
 	 *				@OA\AdditionalProperties(
 	 *					@OA\Property(property="name", type="string", description="Field name", example="subject"),
 	 *					@OA\Property(property="label", type="string", description="Field label translated into the user's language", example="Subject"),
@@ -93,7 +71,7 @@ class Fields extends \Api\Core\BaseAction
 	 *					@OA\Property(
 	 *						property="header_field",
 	 *						type="object",
-	 *						description="Field configuration available in the header",
+	 *						title="Field configuration available in the header",
 	 *						@OA\Property(property="type", type="string", description="Type", example="value"),
 	 *						@OA\Property(property="class", type="string", description="Gui class", example="badge-info"),
 	 *					),
@@ -105,72 +83,66 @@ class Fields extends \Api\Core\BaseAction
 	 *					@OA\Property(
 	 *						property="picklistvalues",
 	 *						type="object",
-	 *						description="Picklist values, available only for type of field: picklist, multipicklist, multiowner, multiReferenceValue, inventoryLimit, languages, currencyList, fileLocationType, taxes, multiListFields, mailScannerFields, country, modules, sharedOwner, categoryMultipicklist, tree",
+	 *						title="Picklist values, available only for type of field: picklist, multipicklist, multiowner, multiReferenceValue, inventoryLimit, languages, currencyList, fileLocationType, taxes, multiListFields, mailScannerFields, country, modules, sharedOwner, categoryMultipicklist, tree",
 	 *					),
 	 *					@OA\Property(
 	 *						property="date-format",
 	 *						type="string",
-	 *						description="Date format, available only for type of field: date, datetime",
+	 *						title="Date format, available only for type of field: date, datetime",
 	 *					),
 	 *					@OA\Property(
 	 *	 					property="time-format",
 	 *						type="string",
-	 *						description="Time format, available only for type of field: time",
+	 *						title="Time format, available only for type of field: time",
 	 *					),
 	 *					@OA\Property(
 	 *	 					property="currency_symbol",
 	 *						type="string",
-	 *						description="Currency symbol, available only for type of field: currency",
+	 *						title="Currency symbol, available only for type of field: currency",
 	 *					),
 	 *					@OA\Property(
 	 *						property="decimal_separator",
 	 *						type="string",
-	 *						description="Currency decimal separator, available only for type of field: currency",
+	 *						title="Currency decimal separator, available only for type of field: currency",
 	 *					),
 	 *					@OA\Property(
 	 *						property="group_separator",
 	 *						type="string",
-	 *						description="Currency group separator, available only for type of field: currency",
+	 *						title="Currency group separator, available only for type of field: currency",
 	 *					),
 	 *					@OA\Property(
 	 *						property="restrictedDomains",
-	 *						description="Email restricted domains, available only for type of field: email",
+	 *						title="Email restricted domains, available only for type of field: email",
 	 *						type="object",
 	 *						@OA\Property(property="yeti.com", description="List of domains reserved by email", example="yeti.com"),
 	 *					),
 	 *					@OA\Property(
 	 *						property="limit",
 	 *						type="integer",
-	 *						description="Limit the amount of images, available only for type of field: multiImage, image",
+	 *						title="Limit the amount of images, available only for type of field: multiImage, image",
 	 *					),
 	 *					@OA\Property(
 	 *						property="formats",
-	 *						description="File Format, available only for type of field: multiImage, image",
+	 *						title="File Format, available only for type of field: multiImage, image",
 	 *						type="object",
 	 *						@OA\Property(property="jpg", description="List of file data formats", example="jpg"),
 	 *					),
 	 *					@OA\Property(property="id", type="integer", description="Field ID", example=24862),
+	 *					@OA\Property(property="uitype", type="integer", description="Field UiType", example=1),
 	 *					@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
 	 *					@OA\Property(property="isViewable", description="Check if record is viewable", type="boolean", example=true),
-	 *					@OA\Property(property="isEditableReadOnly", description="Check if record is editable or read only", type="boolean", example=false),
+	 *					@OA\Property(property="isReadOnly", description="Check if record is read only (based on profiles)", type="boolean", example=false),
+	 *					@OA\Property(property="isEditableReadOnly", description="Check if record is editable or read only (based on the field type)", type="boolean", example=false),
 	 *					@OA\Property(property="sequence", description="Sequence field", type="integer", example=24862),
 	 *					@OA\Property(property="fieldparams", description="Field params", type="object"),
 	 *					@OA\Property(property="blockId", type="integer", description="Field block id", example=280),
 	 *					@OA\Property(property="helpInfo", type="string", description="Additional field description", example="Edit,Detail"),
-	 *					@OA\Property(
-	 *	 					property="dbStructure",
-	 *						type="object",
-	 *						description="Info about field structure in database",
-	 *					),
-	 *					@OA\Property(
-	 *	 					property="queryOperators",
-	 *						type="object",
-	 *						description="Field query operators",
-	 *					),
+	 *					@OA\Property(property="dbStructure", type="object", description="Info about field structure in database"),
+	 *					@OA\Property(property="queryOperators", type="object", description="Field query operators"),
 	 *					@OA\Property(property="isEmptyPicklistOptionAllowed", description="Defines empty picklist element availability", type="boolean", example=false),
 	 *					@OA\Property(
 	 *						property="referenceList",
-	 *						description="List of related modules, available only for reference field",
+	 *						title="List of related modules, available only for reference field",
 	 *						type="object",
 	 *						@OA\AdditionalProperties(
 	 *							description="Tree item",
@@ -180,10 +152,10 @@ class Fields extends \Api\Core\BaseAction
 	 *					),
 	 *					@OA\Property(
 	 *						property="treeValues",
-	 *						description="Tree items, available only for tree field",
+	 *						title="Tree items, available only for tree field",
 	 *						type="object",
 	 *						@OA\AdditionalProperties(
-	 *							description="Tree item",
+	 *							title="Tree item",
 	 *							type="object",
 	 *							@OA\Property(property="id", description="Number tree without prefix", type="integer", example=1),
 	 *							@OA\Property(property="tree", description="Tree id", type="string", example="T10"),
@@ -195,11 +167,12 @@ class Fields extends \Api\Core\BaseAction
 	 *			),
 	 *			@OA\Property(
 	 *				property="blocks",
-	 *				description="List of all available blocks in the module",
+	 *				title="List of all available blocks in the module",
 	 *				type="object",
 	 *				@OA\AdditionalProperties(
-	 *					description="Block details",
+	 *					title="Block details",
 	 *					type="object",
+	 *					required={"id", "tabid", "label", "sequence", "showtitle", "visible", "increateview", "ineditview", "indetailview", "display_status", "iscustom", "icon", "name"},
 	 *					@OA\Property(property="id", description="Block id", type="integer", example=195),
 	 *					@OA\Property(property="tabid", description="Module id", type="integer", example=9),
 	 *					@OA\Property(property="label", description="Block label", type="string", example="Account details"),
@@ -217,15 +190,16 @@ class Fields extends \Api\Core\BaseAction
 	 *			),
 	 *			@OA\Property(
 	 *				property="inventory",
-	 *				description="Inventory field group, available depending on the type of module",
+	 *				title="Inventory field group, available depending on the type of module",
 	 *				type="object",
 	 *				@OA\Property(
 	 *					property="1",
-	 *					description="Inventory field list",
+	 *					title="Inventory field list",
 	 *					type="object",
 	 *					@OA\AdditionalProperties(
-	 *						description="Inventory field details",
+	 *						title="Inventory field details",
 	 *						type="object",
+	 *						required={"label", "type", "columnname", "isSummary", "isVisibleInDetail"},
 	 *						@OA\Property(property="label", description="Field label translated into the user's language", type="string", example="Unit price"),
 	 *						@OA\Property(property="type", description="Field type", type="string", example="UnitPrice"),
 	 *						@OA\Property(property="columnname", description="Field column name in db", type="string", example="price"),
@@ -244,6 +218,9 @@ class Fields extends \Api\Core\BaseAction
 		$module = \Vtiger_Module_Model::getInstance($moduleName);
 		$return = $inventoryFields = $fields = $blocks = [];
 		foreach ($module->getFields() as $fieldModel) {
+			if (!$fieldModel->isActiveField()) {
+				continue;
+			}
 			$block = $fieldModel->get('block');
 			if (!isset($blocks[$block->id])) {
 				$blockProperties = get_object_vars($block);
@@ -254,8 +231,10 @@ class Fields extends \Api\Core\BaseAction
 			}
 			$fieldInfo = $fieldModel->getFieldInfo();
 			$fieldInfo['id'] = $fieldModel->getId();
+			$fieldInfo['uitype'] = $fieldModel->getUIType();
 			$fieldInfo['isEditable'] = $fieldModel->isEditable();
 			$fieldInfo['isViewable'] = $fieldModel->isViewable();
+			$fieldInfo['isReadOnly'] = $fieldModel->isReadOnly();
 			$fieldInfo['isEditableReadOnly'] = $fieldModel->isEditableReadOnly();
 			$fieldInfo['sequence'] = $fieldModel->get('sequence');
 			$fieldInfo['fieldparams'] = $fieldModel->getFieldParams();
@@ -274,7 +253,7 @@ class Fields extends \Api\Core\BaseAction
 			if ($fieldModel->isTreeField()) {
 				$fieldInfo['treeValues'] = \App\Fields\Tree::getTreeValues((int) $fieldModel->getFieldParams(), $moduleName);
 			}
-			$fields[$fieldModel->getId()] = $fieldInfo;
+			$fields[$fieldModel->getName()] = $fieldInfo;
 		}
 		$return['fields'] = $fields;
 		$return['blocks'] = $blocks;

@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -36,7 +36,8 @@ class Token
 				->query();
 			while ($recordId = $dataReader->readColumn(0)) {
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->generateToken())->save();
+				$token = $fieldModel->getUITypeModel()->generateToken();
+				$recordModel->set($fieldModel->getName(), $token)->setDataForSave([$fieldModel->getTableName() => [$fieldModel->getColumnName() => $token]])->save();
 				if (!$limit) {
 					break;
 				}

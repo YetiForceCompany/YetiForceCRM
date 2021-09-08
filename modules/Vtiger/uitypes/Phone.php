@@ -147,4 +147,13 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		}
 		return $details;
 	}
+
+	/** {@inheritdoc} */
+	public function getValueFromImport($value)
+	{
+		if (\Config\Main::$phoneFieldAdvancedVerification ?? false) {
+			$value = preg_replace('/[^+\d]/', '', $value);
+		}
+		return $value;
+	}
 }

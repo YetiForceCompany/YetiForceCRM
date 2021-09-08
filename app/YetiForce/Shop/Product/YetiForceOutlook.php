@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -60,7 +60,7 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 		return [
 			'message' => \App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', 'Settings:MailIntegration', 'Outlook'),
 			'type' => 'LBL_REQUIRES_INTERVENTION',
-			'href' => 'index.php?parent=Settings&module=MailIntegration&view=Index'
+			'href' => 'index.php?parent=Settings&module=MailIntegration&view=Index',
 		];
 	}
 
@@ -71,7 +71,7 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'Website',
 				'relatedModuleName' => '_Base',
-				'linkicon' => 'fas fa-globe',
+				'linkicon' => 'fas fa-globe mr-2',
 				'linkhref' => true,
 				'linkExternal' => true,
 				'linktarget' => '_blank',

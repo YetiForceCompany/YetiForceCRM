@@ -550,6 +550,6 @@ var Vtiger_Index_Js = {
 	}
 };
 //On Page Load
-$(document).ready(function () {
+jQuery(function () {
 	Vtiger_Index_Js.registerEvents();
 });

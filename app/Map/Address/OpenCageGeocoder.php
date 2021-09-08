@@ -8,7 +8,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -30,7 +30,7 @@ class OpenCageGeocoder extends Base
 		],
 		'key' => [
 			'type' => 'text',
-			'validator' => 'required,custom[onlyLetterNumber]'
+			'validator' => 'required,custom[onlyLetterNumber]',
 		],
 	];
 	/**
@@ -84,7 +84,7 @@ class OpenCageGeocoder extends Base
 					}
 					$rows[] = [
 						'label' => $row['formatted'],
-						'address' => \call_user_func_array($mappingFunction, [$row])
+						'address' => \call_user_func_array($mappingFunction, [$row]),
 					];
 				}
 			}

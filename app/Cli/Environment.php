@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -78,10 +78,11 @@ class Environment extends Base
 				if (0 === strpos($value, 'LBL_')) {
 					$value = \App\Language::translate($value);
 				}
+				$value = \is_array($value) ? \App\Json::encode($value) : $value;
 				$table[] = [
 					'Parameter' => $item['status'] ? $name : "<light_red>{$name}</light_red>",
-					'Recommended' => $item['recommended'] ?? '-',
-					'Value' => $item['status'] ? $value : "<light_red>{$value}</light_red>",
+					'Recommended' => $item['recommended'] ? print_r($item['recommended'], true) : '-',
+					'Value' => $item['status'] ? $value : ("<light_red>{$value}</light_red>"),
 				];
 			}
 			if ($table) {

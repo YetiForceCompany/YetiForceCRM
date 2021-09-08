@@ -6,7 +6,7 @@ namespace Importers;
  * Class that imports base database.
  *
  * @copyright YetiForce Sp. z o.o.
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base4 extends \App\Db\Importers\Base
@@ -465,22 +465,6 @@ class Base4 extends \App\Db\Importers\Base
 				],
 				'primaryKeys' => [
 					['sharedcalendar_pk', ['userid', 'sharedid']]
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_shorturls' => [
-				'columns' => [
-					'id' => $this->primaryKey(10),
-					'uid' => $this->stringType(50),
-					'handler_path' => $this->stringType(400),
-					'handler_class' => $this->stringType(100),
-					'handler_function' => $this->stringType(100),
-					'handler_data' => $this->stringType(),
-					'onetime' => $this->integer(5),
-				],
-				'index' => [
-					['uid', 'uid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

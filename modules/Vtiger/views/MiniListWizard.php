@@ -6,10 +6,28 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 {
+	/** @var \Vtiger_Widget_Model Widget Model */
+	public $widgetModel;
+
+	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
+	{
+		parent::checkPermission($request);
+		if (!$request->isEmpty('templateId', true) && \App\User::getCurrentUserModel()->isAdmin()) {
+			$this->widgetModel = \Vtiger_Widget_Model::getInstanceWithTemplateId($request->getInteger('templateId'));
+		} elseif (!$request->isEmpty('linkId')) {
+			$linkData = \vtlib\Link::getLinkData($request->getInteger('linkId'));
+			$this->widgetModel = \Vtiger_Widget_Model::getInstanceFromValues($linkData);
+		} else {
+			$this->widgetModel = new Vtiger_MiniListModel_Dashboard();
+		}
+	}
+
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -17,6 +35,8 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIZARD_STEP', $request->getByType('step', 2));
+		$viewer->assign('WIDGET_MODEL', $this->widgetModel);
+		$viewer->assign('WIDGET_ID', $this->widgetModel->getId());
 
 		switch ($request->getByType('step', 2)) {
 			case 'step1':

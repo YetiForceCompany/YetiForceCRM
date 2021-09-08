@@ -3,7 +3,7 @@
  * Main config.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
 	'api' => [
@@ -777,11 +777,6 @@ return [
 			'description' => 'Charts multi filter limit',
 			'validation' => '\App\Validator::naturalNumber'
 		],
-		'CHART_MULTI_FILTER_STR_LEN' => [
-			'default' => 50,
-			'description' => 'Charts multi filter maximum db value length',
-			'validation' => '\App\Validator::naturalNumber'
-		],
 		'CHART_ADDITIONAL_FILTERS_LIMIT' => [
 			'default' => 6,
 			'description' => "Additional filters limit for ChartFilter's",
@@ -854,7 +849,7 @@ return [
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'LOGIN_HISTORY_VIEW_LIMIT' => [
-			'default' => 10,
+			'default' => 30,
 			'description' => 'Number of records that can be shown in history login modal',
 			'validation' => '\App\Validator::naturalNumber'
 		],
@@ -1233,6 +1228,12 @@ return [
 		'askAdminAboutVisitPurpose' => [
 			'default' => true,
 			'description' => '@var bool Ask admin about visit purpose',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'askAdminAboutVisitSwitchUsers' => [
+			'default' => true,
+			'description' => '@var bool Ask admin about switch users purpose',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],

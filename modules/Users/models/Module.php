@@ -94,17 +94,19 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to store the login history.
 	 *
-	 * @param type  $userName
-	 * @param mixed $status
+	 * @param string $userName
+	 * @param string $status
+	 *
+	 * @return void
 	 */
-	public function saveLoginHistory($userName, $status = 'Signed in')
+	public function saveLoginHistory(string $userName, string $status): void
 	{
 		$userIPAddress = \App\RequestUtil::getRemoteIP();
 		$browser = \App\RequestUtil::getBrowserInfo();
 		\App\Db::getInstance()->createCommand()
 			->insert('vtiger_loginhistory', [
 				'user_name' => $userName,
-				'user_ip' => empty($userIPAddress) ? '-' : $userIPAddress,
+				'user_ip' => empty($userIPAddress) ? '-' : \App\TextParser::textTruncate($userIPAddress, 252, true),
 				'login_time' => date('Y-m-d H:i:s'),
 				'logout_time' => null,
 				'status' => $status,
@@ -142,16 +144,16 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Get user login history.
 	 *
-	 * @param int|bool $limit
+	 * @param int|null $limit
 	 *
 	 * @return array
 	 */
-	public static function getLoginHistory($limit = false)
+	public static function getLoginHistory($limit = null): array
 	{
 		return (new \App\Db\Query())->from('vtiger_loginhistory')
 			->where(['or', ['user_name' => \App\Session::get('user_name')], ['userid' => \App\Session::get('authenticated_user_id')]])
 			->orderBy(['login_id' => SORT_DESC])
-			->limit($limit ?? App\Config::performance('LOGIN_HISTORY_VIEW_LIMIT'))
+			->limit($limit ?: App\Config::performance('LOGIN_HISTORY_VIEW_LIMIT'))
 			->all();
 	}
 
@@ -195,7 +197,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if ($query->exists()) {
 			return \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users');
 		}
-		if ($userId && App\Config::module('Users', 'CHECK_LAST_USERNAME') && (new \App\Db\Query())->from('l_#__username_history')->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->exists()) {
+		if ($userId && App\Config::module('Users', 'CHECK_LAST_USERNAME') && (new \App\Db\Query())->from('l_#__username_history')->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->exists(\App\Db::getInstance('log'))) {
 			return \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users');
 		}
 		$blacklist = require 'config/username_blacklist.php';

@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -66,12 +66,12 @@ class Vies extends Base
 				'SI' => 'Slovenia',
 				'SK' => 'Slovakia',
 			],
-			'typeofdata' => 'V~M'
+			'typeofdata' => 'V~M',
 		],
 		'vatNumber' => [
 			'labelModule' => '_Base',
 			'label' => 'Vat ID',
-			'typeofdata' => 'V~M'
+			'typeofdata' => 'V~M',
 		],
 	];
 
@@ -88,7 +88,7 @@ class Vies extends Base
 		],
 		'Competition' => [
 			'vatNumber' => 'vat_id',
-		]
+		],
 	];
 
 	/**

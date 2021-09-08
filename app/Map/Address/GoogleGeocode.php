@@ -8,7 +8,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -37,7 +37,7 @@ class GoogleGeocode extends Base
 	public $customFields = [
 		'key' => [
 			'type' => 'text',
-			'validator' => 'required,custom[onlyLetterNumber]'
+			'validator' => 'required,custom[onlyLetterNumber]',
 		],
 	];
 
@@ -87,7 +87,7 @@ class GoogleGeocode extends Base
 					foreach ($body['results'] as $row) {
 						$rows[] = [
 							'label' => $row['formatted_address'],
-							'address' => $this->parse($row['address_components'])
+							'address' => $this->parse($row['address_components']),
 						];
 					}
 				}

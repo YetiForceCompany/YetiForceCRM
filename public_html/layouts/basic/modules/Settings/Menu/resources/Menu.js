@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 jQuery.Class(
@@ -27,12 +27,14 @@ jQuery.Class(
 									var inst = $.jstree.reference(data.reference);
 									var id = inst.get_selected();
 									var progress = jQuery.progressIndicator();
-									app.showModalWindow(null, 'index.php?module=Menu&parent=Settings&view=EditMenu&id=' + id, function (
-										container
-									) {
-										thisInstance.registerEditMenu(container);
-										progress.progressIndicator({ mode: 'hide' });
-									});
+									app.showModalWindow(
+										null,
+										'index.php?module=Menu&parent=Settings&view=EditMenu&id=' + id,
+										function (container) {
+											thisInstance.registerEditMenu(container);
+											progress.progressIndicator({ mode: 'hide' });
+										}
+									);
 								}
 							},
 							remove: {
@@ -126,12 +128,14 @@ jQuery.Class(
 			var thisInstance = this;
 			$('.addMenu').on('click', function (e) {
 				var progress = jQuery.progressIndicator();
-				app.showModalWindow(null, 'index.php?module=Menu&parent=Settings&view=CreateMenu&mode=step1', function (
-					container
-				) {
-					thisInstance.registerStep1(container);
-					progress.progressIndicator({ mode: 'hide' });
-				});
+				app.showModalWindow(
+					null,
+					'index.php?module=Menu&parent=Settings&view=CreateMenu&mode=step1',
+					function (container) {
+						thisInstance.registerStep1(container);
+						progress.progressIndicator({ mode: 'hide' });
+					}
+				);
 			});
 		},
 		loadContent: function () {

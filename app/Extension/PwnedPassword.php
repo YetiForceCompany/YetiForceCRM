@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -105,7 +105,7 @@ class PwnedPassword
 					'name' => 'ShowUserPwnedPasswordChange',
 					'priority' => 4,
 					'type' => 'modal',
-					'url' => 'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' . $params['userModel']->getId()
+					'url' => 'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' . $params['userModel']->getId(),
 				]);
 			}
 			$pwnedPassword['dates'][$userName] = date('Y-m-d H:i:s');
@@ -115,7 +115,7 @@ class PwnedPassword
 				'name' => 'ShowUserPwnedPasswordChange',
 				'priority' => 4,
 				'type' => 'modal',
-				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' . $params['userModel']->getId()
+				'url' => 'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' . $params['userModel']->getId(),
 			]);
 		}
 	}

@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -31,7 +31,7 @@ class YetiForceHelp extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Small' => 80,
 		'Medium' => 200,
 		'Large' => 400,
-		'Corporation' => 800
+		'Corporation' => 800,
 	];
 	/** {@inheritdoc} */
 	public $featured = true;
@@ -43,7 +43,7 @@ class YetiForceHelp extends \App\YetiForce\Shop\AbstractBaseProduct
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'Website',
 				'relatedModuleName' => '_Base',
-				'linkicon' => 'fas fa-globe',
+				'linkicon' => 'fas fa-globe mr-2',
 				'linkhref' => true,
 				'linkExternal' => true,
 				'linktarget' => '_blank',

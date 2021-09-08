@@ -5,8 +5,9 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Core;
@@ -39,11 +40,11 @@ class Request extends \App\Request
 		'x-unit-price' => \App\Purifier::INTEGER,
 		'x-unit-gross' => \App\Purifier::INTEGER,
 		'x-product-bundles' => \App\Purifier::INTEGER,
-		'x-row-order-field' => \App\Purifier::ALNUM_EXTENDED,
-		'x-row-order' => \App\Purifier::ALNUM,
 		'x-start-with' => \App\Purifier::INTEGER,
 		'x-only-column' => \App\Purifier::INTEGER,
 		'x-row-count' => \App\Purifier::INTEGER,
+		'x-cv-id' => \App\Purifier::INTEGER,
+		'x-header-fields' => \App\Purifier::INTEGER,
 	];
 
 	/**
@@ -78,7 +79,7 @@ class Request extends \App\Request
 		if (empty($content)) {
 			return false;
 		}
-		$this->rawValues = array_merge($this->contentParse($content), $this->rawValues);
+		$this->rawValues = \App\Utils::merge($this->contentParse($content), $this->rawValues);
 		return $this;
 	}
 
@@ -111,7 +112,6 @@ class Request extends \App\Request
 		}
 		$privateKey = openssl_pkey_get_private($privateKey);
 		openssl_private_decrypt($data, $decrypted, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
-
 		return $decrypted;
 	}
 }

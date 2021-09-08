@@ -8,7 +8,7 @@ namespace App;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -357,7 +357,7 @@ class PrivilegeUtil
 			if ($depth < 5) {
 				$dataReader = (new \App\Db\Query())->select(['containsgroupid'])->from('vtiger_group2grouprel')->where(['groupid' => $groupId])->createCommand()->query();
 				while ($containsGroupId = $dataReader->readColumn(0)) {
-					$query->union((new \App\Db\Query())->select(['userid'])->from(["query_{$groupId}_{$depth}" => static::getQueryToUsersByGroup($containsGroupId, $recursive, $depth)]));
+					$query->union((new \App\Db\Query())->select(['userid'])->from(["query_{$groupId}_{$containsGroupId}_{$depth}" => static::getQueryToUsersByGroup($containsGroupId, $recursive, $depth)]));
 				}
 				$dataReader->close();
 			} else {

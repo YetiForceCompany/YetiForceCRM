@@ -144,7 +144,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			if ('Login' === $view && 'Users' === $moduleName) {
 				if (!\App\Session::has('CSP_TOKEN')) {
-					\App\Session::set('CSP_TOKEN', hash('sha256', \App\Encryption::generatePassword(10)));
+					\App\Controller\Headers::generateCspToken();
 				}
 				if ($hasLogin) {
 					header('location: index.php');
@@ -284,18 +284,5 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			return true;
 		}
 		$handler->postProcess($request);
-	}
-
-	/**
-	 * Content Security Policy token.
-	 *
-	 * @return void
-	 */
-	public function cspInitToken(): void
-	{
-		if (!App\Session::has('CSP_TOKEN') || App\Session::get('CSP_TOKEN_TIME') < time()) {
-			App\Session::set('CSP_TOKEN', \base64_encode(\random_bytes(16)));
-			App\Session::set('CSP_TOKEN_TIME', strtotime('+' . \Config\Security::$cspHeaderTokenTime));
-		}
 	}
 }

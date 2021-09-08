@@ -5,7 +5,7 @@
  * @package UIType
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -16,6 +16,18 @@ namespace App\Conditions\RecordFields;
  */
 class PicklistField extends BaseField
 {
+	/** {@inheritdoc} */
+	public function operatorE(): bool
+	{
+		return \in_array($this->getValue(), explode('##', $this->value));
+	}
+
+	/** {@inheritdoc} */
+	public function operatorN(): bool
+	{
+		return !\in_array($this->getValue(), explode('##', $this->value));
+	}
+
 	/**
 	 * Record open operator.
 	 *

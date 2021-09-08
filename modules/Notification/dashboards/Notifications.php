@@ -4,7 +4,7 @@
  * Notifications Dashboard Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Notification_Notifications_Dashboard extends Vtiger_IndexAjax_View
@@ -19,7 +19,7 @@ class Notification_Notifications_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($limit)) {
 			$limit = 10;
 		}
-		$condition = false;
+		$condition = [];
 		if (!$request->isEmpty('type', true)) {
 			$condition = ['u_#__notification.notification_type' => $request->getByType('type', 'Text')];
 		}

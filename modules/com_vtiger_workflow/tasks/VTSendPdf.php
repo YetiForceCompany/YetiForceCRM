@@ -4,7 +4,7 @@
  * Email PDF Template Task Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class VTSendPdf extends VTTask
@@ -58,6 +58,7 @@ class VTSendPdf extends VTTask
 			$filePath .= basename($tmpFileName);
 			Vtiger_PDF_Model::exportToPdf($recordModel->getId(), $this->pdfTemplate, $filePath, 'F');
 			$templateRecord = Vtiger_PDF_Model::getInstanceById($this->pdfTemplate);
+			$templateRecord->setVariable('recordId', (int) $recordModel->getId());
 			if (!file_exists($filePath)) {
 				App\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
 				return false;

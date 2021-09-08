@@ -4,7 +4,7 @@
  * Notification Action Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -46,7 +46,6 @@ class Notification_Notification_Action extends \App\Controller\Action
 		$this->exposeMethod('setMark');
 		$this->exposeMethod('saveWatchingModules');
 		$this->exposeMethod('tracking');
-		$this->exposeMethod('getReminders');
 	}
 
 	/**
@@ -105,27 +104,6 @@ class Notification_Notification_Action extends \App\Controller\Action
 	{
 		$response = new Vtiger_Response();
 		$response->setResult(Vtiger_Module_Model::getInstance($request->getModule())->getEntriesCount());
-		$response->emit();
-	}
-
-	public function getReminders(App\Request $request)
-	{
-		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
-		if ($request->has('limit')) {
-			$moduleModel->set('limit', $request->getInteger('limit'));
-		} else {
-			$moduleModel->set('limit', \App\Config::module($request->getModule(), 'MAX_NUMBER_NOTIFICATIONS'));
-		}
-		if ($request->has('page')) {
-			$moduleModel->set('page', $request->getInteger('page'));
-		}
-		if ($request->has('lastId')) {
-			$moduleModel->set('lastId', $request->getInteger('lastId'));
-		}
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'entries' => $moduleModel->getEntries()
-		]);
 		$response->emit();
 	}
 }

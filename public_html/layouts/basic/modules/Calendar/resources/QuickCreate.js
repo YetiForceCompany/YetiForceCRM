@@ -1,13 +1,11 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 /**
  *  Class representing a modal calendar.
  * @extends Calendar_CalendarExtended_Js
  */
-window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends (
-	Calendar_CalendarExtended_Js
-) {
+window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calendar_CalendarExtended_Js {
 	constructor(container, readonly) {
 		super(container, readonly);
 		this.isSwitchAllDays = false;

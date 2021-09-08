@@ -525,7 +525,7 @@ $.Class(
 		}
 	}
 );
-$(document).ready(function () {
+jQuery(function () {
 	window.addEventListener('popstate', (event) => {
 		if (event.state) {
 			window.location.href = event.state;

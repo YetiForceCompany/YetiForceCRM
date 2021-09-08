@@ -52,15 +52,21 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 	}
 
+	/**
+	 * Change status for all workflow tasks.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function changeStatusAllTasks(App\Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$status = $request->get('status');
 		if (!empty($record)) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($record);
-			$taskList = $workflowModel->getTasks();
-			foreach ($taskList as $task) {
-				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($task->getId());
+			$taskList = $workflowModel->getTasks(false);
+			foreach ($taskList as $taskRecordModel) {
 				$taskObject = $taskRecordModel->getTaskObject();
 				if ('true' == $status) {
 					$taskObject->active = true;
@@ -69,8 +75,14 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 				}
 				$taskRecordModel->save();
 			}
+			$activeCount = 0;
+			foreach ($taskList as $taskRecord) {
+				if ($taskRecord->isActive() && $taskRecord->isEditable()) {
+					++$activeCount;
+				}
+			}
 			$response = new Vtiger_Response();
-			$response->setResult(['success' => true, 'count' => \count($taskList)]);
+			$response->setResult(['success' => true, 'count' => $activeCount]);
 			$response->emit();
 		}
 	}

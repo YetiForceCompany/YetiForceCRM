@@ -8,7 +8,7 @@ namespace App\Conditions\QueryFields;
  * @package UIType
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
@@ -80,8 +80,8 @@ class CategoryMultipicklistField extends TaxesField
 				[
 					"%{$this->separator}{$value}{$this->separator}%",
 					"{$value}{$this->separator}%",
-					"%{$this->separator}{$value}"
-				], false
+					"%{$this->separator}{$value}",
+				], false,
 			]);
 		}
 		return $condition;
@@ -101,8 +101,8 @@ class CategoryMultipicklistField extends TaxesField
 				[
 					"%{$this->separator}{$value}{$this->separator}%",
 					"{$value}{$this->separator}%",
-					"%{$this->separator}{$value}"
-				], false
+					"%{$this->separator}{$value}",
+				], false,
 			]]);
 		}
 		return $condition;

@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @charset 'UTF-8';
 //-------- global variables --------//
 @import "_Functions";
@@ -37,6 +37,7 @@
 @import "pages/_Detail";
 @import "pages/_List";
 @import "pages/_ListPreview";
+@import "pages/_Kanban";
 
 //-------- settings --------//
 @import "pages/Settings/_Dashboard";

@@ -1,16 +1,20 @@
 <?php
 /**
- * TextParser test class.
+ * Purifier test file.
  *
  * @package   Tests
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Tests\App;
 
+/**
+ * Purifier test class.
+ */
 class Purifier extends \Tests\Base
 {
 	/**
@@ -137,8 +141,7 @@ class Purifier extends \Tests\Base
 	 */
 	public function testEmptyValues()
 	{
-		$logToFile = \App\Log::$logToFile;
-		\App\Log::$logToFile = false;
+		$this->disableLogs();
 		$this->assertSame('', \App\Purifier::purify(''), 'Empty text should be unchanged');
 		$this->assertSame('', \App\Purifier::purifyHtml(''), 'Empty text should be unchanged');
 		$this->assertNull(\App\Purifier::purifyHtmlEventAttributes(''), 'Empty text should not throw exception');
@@ -146,8 +149,12 @@ class Purifier extends \Tests\Base
 		$this->assertSame('', \App\Purifier::encodeHtml(''), 'Empty text should be unchanged');
 		$this->assertSame('', \App\Purifier::decodeHtml(''), 'Empty text should be unchanged');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
-		$this->assertSame('', \App\Purifier::purifySql('', false), 'Empty text should be unchanged');
-		\App\Log::$logToFile = $logToFile;
+		try {
+			$this->assertSame('', \App\Purifier::purifySql('', false), 'Empty text should be unchanged');
+		} catch (\Throwable $th) {
+			$this->enableLogs();
+			throw $th;
+		}
 	}
 
 	/**
@@ -155,14 +162,13 @@ class Purifier extends \Tests\Base
 	 */
 	public function testTextValues()
 	{
-		$logToFile = \App\Log::$logToFile;
-		\App\Log::$logToFile = false;
+		$this->disableLogs();
 		$this->assertSame('Test text string for purifier', \App\Purifier::purify('Test text string for purifier'), 'Sample text should be unchanged');
 		$this->assertSame('Test text string for purifier', \App\Purifier::purify('Test text string for purifier'), 'Sample text should be unchanged(cached)');
 		$this->assertSame(['Test text string for purifier', 'Test text string for purifier'], \App\Purifier::purify(['Test text string for purifier', 'Test text string for purifier']), 'Sample text should be unchanged(array)');
 		$this->assertSame('Test text string for purifier', \App\Purifier::purifyHtml('Test text string for purifier'), 'Sample text should be unchanged');
 		$this->assertNull(\App\Purifier::purifyHtmlEventAttributes('Test text string for purifier'), 'Sample text should be unchanged');
-		\App\Log::$logToFile = $logToFile;
+		$this->enableLogs();
 	}
 
 	/**
@@ -177,14 +183,13 @@ class Purifier extends \Tests\Base
 	 */
 	public function testPurifyByType($type, $assertion, $expected, $text, string $message, ?string $exception): void
 	{
-		$logToFile = \App\Log::$logToFile;
-		\App\Log::$logToFile = false;
+		$this->disableLogs();
 		$assertion = 'assert' . $assertion;
 		if ($exception) {
 			$this->expectException($exception);
 		}
 		$this->{$assertion}($expected, \App\Purifier::purifyByType($text, $type), $message);
-		\App\Log::$logToFile = $logToFile;
+		$this->enableLogs();
 	}
 
 	/**
@@ -216,19 +221,16 @@ class Purifier extends \Tests\Base
 	public function testPurifyHtmlFailure(string $text): void
 	{
 		$this->expectException(\App\Exceptions\IllegalValue::class);
-		$logToFile = \App\Log::$logToFile;
-		\App\Log::$logToFile = false;
+		$this->disableLogs();
 		try {
 			$purifyHtml = \App\Purifier::purifyHtml($text);
 			if ($purifyHtml !== $text) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
 			}
-			throw new \Exception('Illegal value !!! ' . $text);
 		} catch (\Throwable $th) {
-			// echo \get_class($th);
+			$this->enableLogs();
 			throw $th;
 		}
-		\App\Log::$logToFile = $logToFile;
 	}
 
 	/**
@@ -260,8 +262,6 @@ class Purifier extends \Tests\Base
 
 	/**
 	 * Restore current user preferences.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @throws \Exception
 	 */

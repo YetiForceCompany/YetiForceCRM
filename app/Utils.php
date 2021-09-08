@@ -8,7 +8,7 @@ namespace App;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Utils
@@ -90,6 +90,30 @@ class Utils
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Merge two arrays.
+	 *
+	 * @param array $array1
+	 * @param array $array2
+	 *
+	 * @return array
+	 */
+	public static function merge(array $array1, array $array2): array
+	{
+		foreach ($array2 as $key => $value) {
+			if (isset($array1[$key])) {
+				if (\is_array($array1[$key]) && \is_array($value)) {
+					$array1[$key] = self::merge($array1[$key], $value);
+				} else {
+					$array1[$key] = $value;
+				}
+			} else {
+				$array1[$key] = $value;
+			}
+		}
+		return $array1;
 	}
 
 	/**

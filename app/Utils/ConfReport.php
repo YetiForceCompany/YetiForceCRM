@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -17,17 +17,13 @@ namespace App\Utils;
  */
 class ConfReport
 {
-	/**
-	 * System URL.
-	 *
-	 * @var string
-	 */
+	/** @var string System URL. */
 	private static $crmUrl;
-	/**
-	 * Optional database configuration for offline use.
-	 *
-	 * @var array
-	 */
+
+	/** @var string System URL. */
+	public static $testCli = false;
+
+	/** @var array Optional database configuration for offline use. */
 	public static $dbConfig = [
 		'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=yetiforce;',
 		'user' => '',
@@ -35,12 +31,8 @@ class ConfReport
 		'options' => [],
 	];
 
-	/**
-	 * Urls to check in request.
-	 *
-	 * @var array
-	 */
-	public static $urlsToCheck = ['root' => 'shorturl.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
+	/** @var array Urls to check in request. */
+	public static $urlsToCheck = ['root' => 'token.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
 
 	/**
 	 * List all variables.
@@ -88,6 +80,8 @@ class ConfReport
 		'httpMethods' => ['recommended' => 'GET, POST, PUT, OPTIONS, PATCH, PROPFIND, REPORT, LOCK, DELETE, COPY, MOVE', 'type' => 'HttpMethods', 'container' => 'request', 'testCli' => true, 'label' => 'HTTP_METHODS'],
 		'request_order' => ['recommended' => 'GP', 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'variables_order' => ['recommended' => 'GPCS', 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
+		'opcache.jit' => ['container' => 'php', 'testCli' => true],
+		'opcache.jit_buffer_size' => ['container' => 'php', 'testCli' => true],
 	];
 	/**
 	 * Security variables map.
@@ -108,7 +102,7 @@ class ConfReport
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
 		'disable_functions' => ['recommended' => 'shell_exec, exec, system, passthru, popen', 'type' => 'In', 'container' => 'php', 'testCli' => false],
-		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true]
+		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 	];
 
 	/**
@@ -363,7 +357,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $pathVerification = [
-		'webservice/' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'webservice/RestApi/' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'.well-known/carddav' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'.well-known/caldav' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'robots.txt' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
@@ -619,8 +613,8 @@ class ConfReport
 				'lastCronStartDateTime' => $lastCronStart,
 				'protocolVersion' => isset($_SERVER['SERVER_PROTOCOL']) ? substr($_SERVER['SERVER_PROTOCOL'], strpos($_SERVER['SERVER_PROTOCOL'], '/') + 1) : '-',
 				'SSL_CERT_FILE' => getenv('SSL_CERT_FILE') ?? '',
-				'SSL_CERT_DIR' => getenv('SSL_CERT_DIR') ?? ''
-			]
+				'SSL_CERT_DIR' => getenv('SSL_CERT_DIR') ?? '',
+			],
 		];
 	}
 
@@ -692,7 +686,7 @@ class ConfReport
 				if (isset($main[$key])) {
 					$item[static::$sapi] = $main[$key];
 				}
-				if ($item['testCli'] && 'www' === static::$sapi) {
+				if (self::$testCli || ($item['testCli'] && 'www' === static::$sapi)) {
 					if (isset($cron[$key]['cron'])) {
 						$item['cron'] = $cron[$key]['cron'];
 					}
@@ -703,7 +697,7 @@ class ConfReport
 						if ('www' === static::$sapi) {
 							$item = static::$methodName($key, $item, 'www');
 						}
-						if ($item['testCli'] && !empty($cron)) {
+						if (self::$testCli || ($item['testCli'] && !empty($cron))) {
 							$item = static::$methodName($key, $item, 'cron');
 						}
 					}
@@ -1190,7 +1184,7 @@ class ConfReport
 	{
 		unset($sapi);
 		$header = strtolower(\str_replace('Header: ', '', $name));
-		$row['recommended'] = trim(\App\Headers::getInstance()->getCspHeader());
+		$row['recommended'] = trim(\App\Controller\Headers::getInstance()->getCspHeader());
 		if (isset(static::$request[$header])) {
 			$row['www'] = static::$request[$header]['root'] ?? '-';
 			$row['status'] = strtolower($row['www']) === strtolower($row['recommended']);
@@ -1258,9 +1252,9 @@ class ConfReport
 	private static function validateIn(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$value = $row[$sapi];
-		if (!\is_array($row[$sapi])) {
-			$value = \explode(',', $row[$sapi]);
+		$value = $row[$sapi] ?? '';
+		if (!\is_array($value)) {
+			$value = \explode(',', $value);
 		}
 		$value = \array_map('trim', $value);
 		$recommended = \array_map('trim', \explode(',', $row['recommended']));
@@ -1358,7 +1352,7 @@ class ConfReport
 	{
 		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
 		switch ($name) {
-			case 'spaceRoot':
+			case 'spaceStorage':
 				$dir .= 'storage';
 				break;
 			case 'spaceTemp':
@@ -1400,11 +1394,11 @@ class ConfReport
 	{
 		unset($name);
 		$supported = [];
-		$requestUrl = static::$crmUrl . 'shorturl.php';
+		$requestUrl = static::$crmUrl . 'token.php';
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
-				if (200 === $response->getStatusCode() && 'No uid' === (string) $response->getBody()) {
+				if (200 === $response->getStatusCode() && 'No token' === (string) $response->getBody()) {
 					$supported[] = $type;
 				}
 			} catch (\Throwable $e) {
@@ -1570,7 +1564,10 @@ class ConfReport
 	{
 		$row = self::validateNotEmpty($name, $row, $sapi);
 		if ($row['status']) {
-			$row['status'] = is_dir(\dirname($row[$sapi]));
+			$dir = \dirname($row[$sapi]);
+			if (!is_dir($dir) && !is_readable($dir)) {
+				$row['status'] = true;
+			}
 		}
 		return $row;
 	}
@@ -1585,7 +1582,7 @@ class ConfReport
 	public static function getAllErrors(bool $cache = false)
 	{
 		$fileCache = ROOT_DIRECTORY . '/app_data/ConfReport_AllErrors.php';
-		if ($cache && file_exists($fileCache) && filemtime($fileCache) > strtotime('-5 minute')) {
+		if ($cache && file_exists($fileCache) && filemtime($fileCache) > strtotime('-15 minute')) {
 			return require $fileCache;
 		}
 		$result = [];
@@ -1666,5 +1663,52 @@ class ConfReport
 			}
 		}
 		return $ver;
+	}
+
+	/**
+	 * Save environment variables.
+	 *
+	 * @return void
+	 */
+	public static function saveEnv(): void
+	{
+		$data = self::getEnv();
+		$key = \PHP_SAPI !== 'cli' ? 'www' : 'cli';
+		$data[$key]['sapi'] = \PHP_SAPI;
+		$data[$key]['operatingSystem'] = [
+			'machineType' => php_uname('m'),
+			'hostName' => php_uname('n'),
+			'release' => php_uname('r'),
+			'operatingSystem' => php_uname('s'),
+			'version' => php_uname('v'),
+		];
+		if (($db = \App\Db::getInstance()) && $db->getMasterPdo() && ($dbInfo = $db->getInfo())) {
+			$data[$key]['sql'] = [
+				'clientVersion' => $dbInfo['clientVersion'],
+				'serverVersion' => $dbInfo['serverVersion'],
+				'typeDb' => $dbInfo['typeDb'],
+				'version' => $dbInfo['version'] ?? '',
+				'versionComment' => $dbInfo['version_comment'] ?? '',
+				'versionSslLibrary' => $dbInfo['version_ssl_library'] ?? '',
+			];
+		}
+		if (isset($_SERVER['SERVER_SOFTWARE'])) {
+			$data[$key]['serverSoftware'] = $_SERVER['SERVER_SOFTWARE'];
+		}
+		if (isset($_SERVER['GATEWAY_INTERFACE'])) {
+			$data[$key]['gatewayInterface'] = $_SERVER['GATEWAY_INTERFACE'];
+		}
+		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/ConfReport_Env.php', $data, '', 0, true);
+	}
+
+	/**
+	 * Get environment variables.
+	 *
+	 * @return array
+	 */
+	public static function getEnv(): array
+	{
+		$path = ROOT_DIRECTORY . '/app_data/ConfReport_Env.php';
+		return file_exists($path) ? (require $path) : [];
 	}
 }

@@ -6,12 +6,14 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\RestApi\BaseModule;
+
+use OpenApi\Annotations as OA;
 
 /**
  * RestApi container - Get Privileges  class.
@@ -28,34 +30,13 @@ class Privileges extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/RestApi/{moduleName}/Privileges",
-	 *		summary="Get privileges for module",
+	 *		description="Gets the list of actions that the user has access to in the module",
+	 *		summary="Privileges for module actions",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(
-	 *				type="string"
-	 *			),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="Request body does not occur",
-	 *		),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="Privileges details",
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
+	 *		@OA\Response(response=200, description="Privileges details",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Privileges_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Privileges_ResponseBody"),
 	 *		),
@@ -64,29 +45,20 @@ class Privileges extends \Api\Core\BaseAction
 	 * 		schema="BaseModule_Privileges_ResponseBody",
 	 * 		title="Base module - Privileges response schema",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 			enum={0, 1},
-	 *     	  	type="integer",
-	 * 			example=1
-	 * 		),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			description="List of module privileges",
-	 *			type="object",
-	 *			example={"Import" : true, "Export" : true},
-	 *			@OA\AdditionalProperties(description="Action", type="boolean"),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="result", type="object", description="List of module privileges",
+	 *			example={"EditView" : true, "Delete" : true, "DetailView" : true, "CreateView" : true},
+	 *			@OA\AdditionalProperties(type="boolean", description="Action"),
 	 * 		),
 	 * ),
 	 */
 	public function get(): array
 	{
-		$userId = $this->session->get('user_id');
 		$privileges = [];
-		if (\App\User::isExists($userId)) {
-			$moduleId = \App\Module::getModuleId($this->controller->request->getModule('module'));
-			$actionPermissions = \App\User::getPrivilegesFile($userId);
+		if (\App\User::isExists($this->userData['user_id'])) {
+			$moduleName = $this->controller->request->getModule('module');
+			$moduleId = \App\Module::getModuleId($moduleName);
+			$actionPermissions = \App\User::getPrivilegesFile($this->userData['user_id']);
 			$isAdmin = $actionPermissions['is_admin'];
 			$permission = $actionPermissions['profile_action_permission'][$moduleId] ?? false;
 			if ($permission || $isAdmin) {

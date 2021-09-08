@@ -8,7 +8,7 @@ namespace App\Fields;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -263,15 +263,15 @@ class Owner
 					->select(['vtiger_user2role.userid'])
 					->from('vtiger_user2role')
 					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
-					->where(['like', 'parentrole', $userPrivileges['_privileges']['parent_role_seq'] . '::%', false])
-				]
+					->where(['like', 'parentrole', $userPrivileges['_privileges']['parent_role_seq'] . '::%', false]),
+				],
 			];
 			if ($this->moduleName) {
 				$whereSection[] = [
 					'id' => (new \App\Db\Query())
 						->select(['vtiger_tmp_write_user_sharing_per.shareduserid'])
 						->from('vtiger_tmp_write_user_sharing_per')
-						->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)])
+						->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]),
 				];
 			}
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->where($whereSection);

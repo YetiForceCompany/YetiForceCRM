@@ -6,7 +6,7 @@
  * @package Settings.View
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
@@ -48,7 +48,7 @@ class Settings_AdminAccess_Edit_View extends \App\Controller\ModalSettings
 	public function getStructure(Settings_AdminAccess_Record_Model $recordModel): array
 	{
 		$structures = [];
-		foreach ($recordModel->getModule()->getListFields() as $fieldModel) {
+		foreach ($recordModel->getModule()->getEditFields() as $fieldModel) {
 			if (16 === $fieldModel->getUiType()) {
 				$fieldModel->uitype = 33;
 			}

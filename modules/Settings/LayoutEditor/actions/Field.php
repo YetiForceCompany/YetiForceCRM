@@ -15,9 +15,12 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	 * @var string[] List of fields in edit view modal
 	 */
 	const EDIT_FIELDS_FORM = [
-		'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory'
+		'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory', 'icon_name',
 	];
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -28,10 +31,19 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('unHide');
 		$this->exposeMethod('getPicklist');
 		$this->exposeMethod('checkPicklistExist');
+		$this->exposeMethod('validate');
+		$this->exposeMethod('createSystemField');
 		Settings_Vtiger_Tracker_Model::addBasic('save');
 	}
 
-	public function add(App\Request $request)
+	/**
+	 * Create field.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	public function add(App\Request $request): void
 	{
 		$type = $request->getByType('fieldType', 'Alnum');
 		$moduleName = $request->getByType('sourceModule', 'Alnum');
@@ -54,14 +66,42 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	}
 
 	/**
+	 * Validate field.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	public function validate(App\Request $request): void
+	{
+		$data = [];
+		foreach (['fieldType', 'fieldLabel', 'fieldName', 'pickListValues'] as $name) {
+			if ($request->has($name)) {
+				if ('pickListValues' === $name) {
+					$value = $request->getArray($name, \App\Purifier::TEXT);
+				} else {
+					$value = $request->getByType($name, \App\Purifier::TEXT);
+				}
+				$data[$name] = $value;
+			}
+		}
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($request->getByType('sourceModule', 'Alnum'));
+		$response = new Vtiger_Response();
+		$response->setResult($moduleModel->validate($data, false));
+		$response->emit();
+	}
+
+	/**
 	 * Save field.
 	 *
 	 * @param \App\Request $request
 	 *
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return void
 	 */
-	public function save(App\Request $request)
+	public function save(App\Request $request): void
 	{
 		$fieldId = $request->getInteger('fieldid');
 		if (empty($fieldId)) {
@@ -104,6 +144,15 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 						}
 						$fieldInstance->set($field, $quickCreateValue);
 						break;
+					case 'icon_name':
+						$fieldVal = null;
+						if (!$request->isEmpty('icon_name') && ($iconName = $request->getByType('icon_name', \App\Purifier::ALNUM_EXTENDED))) {
+							$iconArray = \App\Json::decode($fieldInstance->get('icon'));
+							$iconArray['name'] = $iconName;
+							$fieldVal = \App\Json::encode($iconArray);
+						}
+						$fieldInstance->set('icon', $fieldVal);
+						break;
 					default:
 						$fieldInstance->set($field, $request->getInteger($field));
 						break;
@@ -118,7 +167,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			}
 			$fieldInstance->set('fieldparams', $params ? \App\Json::encode($params) : '');
 		}
-		$fieldInstance->set('anonymizationTarget', $request->getArray('anonymizationTarget', \App\Purifier::STANDARD));
+		$fieldInstance->set('anonymizationTarget', $request->getArray('anonymizationTarget', \App\Purifier::INTEGER));
 		$response = new Vtiger_Response();
 		try {
 			if ($request->getBoolean('defaultvalue')) {
@@ -140,7 +189,14 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function delete(App\Request $request)
+	/**
+	 * Delete field.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	public function delete(App\Request $request): void
 	{
 		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldid'));
 		$response = new Vtiger_Response();
@@ -157,22 +213,34 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function move(App\Request $request)
+	/**
+	 * Move field.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	public function move(App\Request $request): void
 	{
-		$updatedFieldsList = $request->getMultiDimensionArray('updatedFields',
-			[
-				'block' => 'Integer',
-				'fieldid' => 'Integer',
-				'sequence' => 'Integer'
-			]);
-		//This will update the fields sequence for the updated blocks
-		Settings_LayoutEditor_Block_Model::updateFieldSequenceNumber($updatedFieldsList);
+		Settings_LayoutEditor_Block_Model::updateFieldSequenceNumber($request->getMultiDimensionArray('updatedFields',
+		[
+			'block' => 'Integer',
+			'fieldid' => 'Integer',
+			'sequence' => 'Integer',
+		]));
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();
 	}
 
-	public function unHide(App\Request $request)
+	/**
+	 * Make field active.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	public function unHide(App\Request $request): void
 	{
 		$response = new Vtiger_Response();
 		try {
@@ -196,16 +264,25 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	/**
 	 * Check if picklist exist.
 	 *
-	 * @param App\Request $request
+	 * @param \App\Request $request
+	 *
+	 * @return void
 	 */
-	public function checkPicklistExist(App\Request $request)
+	public function checkPicklistExist(App\Request $request): void
 	{
 		$response = new Vtiger_Response();
 		$response->setResult(\App\Fields\Picklist::isPicklistExist($request->getByType('fieldName', 'Alnum')));
 		$response->emit();
 	}
 
-	public function getPicklist(App\Request $request)
+	/**
+	 * Get picklist values.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	public function getPicklist(App\Request $request): void
 	{
 		$response = new Vtiger_Response();
 		$fieldName = $request->getByType('rfield', 'Alnum');
@@ -220,6 +297,29 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			}
 		}
 		$response->setResult($picklistValues);
+		$response->emit();
+	}
+
+	/**
+	 * Create system field.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	public function createSystemField(App\Request $request): void
+	{
+		$moduleName = $request->getByType('sourceModule', 'Alnum');
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
+		$response = new Vtiger_Response();
+		try {
+			$moduleModel->addSystemField($request->getByType('field', 'Alnum'), $request->getInteger('blockId'), [
+				'generatedtype' => 2,
+			]);
+			$response->setResult(true);
+		} catch (Exception $e) {
+			$response->setError($e->getCode(), $e->getMessage());
+		}
 		$response->emit();
 	}
 }

@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 $.Class(
@@ -10,9 +10,17 @@ $.Class(
 		 * @param {jQuery} modal Modal container
 		 */
 		registerEvents: function (modal) {
-			setTimeout(function () {
-				modal.modal('hide');
-			}, 7000);
+			let counter = 7000,
+				time = counter;
+			let progress = modal.find('.js-progress-bar');
+			let counterBack = setInterval(() => {
+				counter = counter - 100;
+				progress.css('width', (counter / time) * 100 + '%');
+				if (counter <= 0) {
+					clearInterval(counterBack);
+					modal.modal('hide');
+				}
+			}, 100);
 		}
 	}
 );

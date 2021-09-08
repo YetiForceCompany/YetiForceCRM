@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-GeneralInfo -->
 {assign var=TRANSLATED_LABEL value=\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}
@@ -38,9 +38,12 @@
 				{if !empty($SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS'])}
 					{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
 						{if $FIELD_MODEL->getName() neq 'modifiedtime' && $FIELD_MODEL->getName() neq 'createdtime'}
-							<tr class="c-table__row--hover">
+							<tr class="c-table__row--hover {if $FIELD_MODEL->get('hideField')} d-none{/if}">
 								<td class="{$WIDTHTYPE}">
-									<label class="font-weight-bold mb-0">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
+									<label class="font-weight-bold mb-0">
+										{assign var=ICON value=$FIELD_MODEL->getIcon('GeneralInfo')}
+										{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
+										{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
 										{if $HELPINFO_LABEL}
 											<a href="#" class="js-help-info float-right u-cursor-pointer" title="" data-placement="top" data-content="{$HELPINFO_LABEL}"

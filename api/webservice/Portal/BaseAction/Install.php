@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -23,12 +23,12 @@ class Install extends \Api\Core\BaseAction
 	public $allowedMethod = ['PUT'];
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 	}
 
 	/** {@inheritdoc}  */
-	public function checkPermissionToModule(): void
+	protected function checkPermissionToModule(): void
 	{
 	}
 
@@ -40,6 +40,7 @@ class Install extends \Api\Core\BaseAction
 	 *	@OA\Put(
 	 *		path="/webservice/Portal/Install",
 	 *		summary="Install the system",
+	 *		description="Test method for the customer portal",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
@@ -47,49 +48,35 @@ class Install extends \Api\Core\BaseAction
 	 *		@OA\RequestBody(
 	 *			required=false,
 	 *			description="Base action install request body",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Install_RequestBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Install_RequestBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Put_Install_Request"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Put_Install_Request"),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *			),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Base action details",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Install_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Install_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Put_Install_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Put_Install_Response"),
 	 *		),
 	 *	),
 	 *	@OA\Schema(
-	 *		schema="BaseAction_Install_RequestBody",
+	 *		schema="BaseAction_Put_Install_Request",
 	 *		title="Base action - Install response",
 	 *		description="The representation of a base action install",
 	 *		type="object",
 	 *	),
 	 *	@OA\Schema(
-	 *		schema="BaseAction_Install_ResponseBody",
+	 *		schema="BaseAction_Put_Install_Response",
 	 *		title="Base action - Install response",
 	 *		description="The representation of a base action install",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={"0", "1"},
-	 *			type="integer",
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="Content of responses from a given method",
 	 *			type="object"
 	 *		),
 	 *	),
-	 *	@OA\Tag(
-	 *		name="BaseAction",
-	 *		description="Access to user methods"
-	 *	)
 	 */
 	public function put()
 	{

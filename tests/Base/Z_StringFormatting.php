@@ -6,7 +6,7 @@
  * @package   Tests
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
 
@@ -275,8 +275,6 @@ class Z_StringFormatting extends \Tests\Base
 
 	/**
 	 * Restore current user preferences.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @throws \Exception
 	 */

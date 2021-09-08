@@ -3,7 +3,7 @@
  * OSSEmployees CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -115,10 +115,11 @@ class OSSEmployees extends Vtiger_CRMEntity
 						} else {
 							$data = '<b>' . $data . '</b>';
 						}
-						$accountDepth = str_repeat(' .. ', $accountInfo['depth'] * 2);
+						$accountDepth = str_repeat(' .. ', $accountInfo['depth']);
 						$data = $accountDepth . $data;
 					} elseif ('parentid' == $colName) {
-						$data = '<a href="index.php?module=' . \App\Record::getType($data) . '&action=DetailView&record=' . $data . '">' . vtlib\Functions::getCRMRecordLabel($data) . '</a>';
+						$fieldModel = Vtiger_Module_Model::getInstance('OSSEmployees')->getFieldByName($fieldName);
+						$data = $fieldModel->getDisplayValue($data);
 					}
 					$accountInfoData[] = $data;
 				}
@@ -133,7 +134,6 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 	public function __getParentEmployees($id, &$parentAccounts, &$encounteredAccounts)
 	{
-		\App\Log::trace('Entering __getParentEmployees(' . $id . ',' . $parentAccounts . ') method ...');
 		$parentId = (new App\Db\Query())
 			->select(['parentid'])
 			->from('vtiger_ossemployees')
@@ -167,14 +167,12 @@ class OSSEmployees extends Vtiger_CRMEntity
 			}
 		}
 		$parentAccounts[$id] = $parentAccountInfo;
-		\App\Log::trace('Exiting __getParentEmployees method ...');
 
 		return $parentAccounts;
 	}
 
 	public function __getChildEmployees($id, &$childAccounts, $depth)
 	{
-		\App\Log::trace('Entering __getChildEmployees(' . $id . ',' . $childAccounts . ',' . $depth . ') method ...');
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())
 			->select(['vtiger_ossemployees.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
@@ -203,8 +201,6 @@ class OSSEmployees extends Vtiger_CRMEntity
 				$this->__getChildEmployees($childAccId, $childAccounts, $depth);
 			}
 		}
-		\App\Log::trace('Exiting __getChildEmployees method ...');
-
 		return $childAccounts;
 	}
 

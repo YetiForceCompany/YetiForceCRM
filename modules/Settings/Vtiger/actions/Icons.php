@@ -5,7 +5,7 @@
  * @package Action
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 class Settings_Vtiger_Icons_Action extends Settings_Vtiger_Basic_Action
@@ -19,8 +19,13 @@ class Settings_Vtiger_Icons_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function process(App\Request $request)
 	{
+		if ($request->getBoolean('skipImage')) {
+			$icons = \App\Layout\Icon::getIcons();
+		} else {
+			$icons = \App\Layout\Icon::getAll();
+		}
 		$response = new Vtiger_Response();
-		$response->setResult(\App\Layout\Icon::getAll());
+		$response->setResult($icons);
 		$response->emit();
 	}
 }

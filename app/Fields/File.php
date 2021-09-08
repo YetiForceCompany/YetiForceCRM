@@ -10,7 +10,7 @@ use App\Log;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -940,7 +940,7 @@ class File
 			'size' => $file->getSize(),
 			'type' => $file->getMimeType(),
 			'tmp_name' => $file->getPath(),
-			'error' => 0
+			'error' => 0,
 		];
 		$record->save();
 		$file->delete();
@@ -959,7 +959,9 @@ class File
 	 */
 	public static function initStorageFileDirectory($suffix = false)
 	{
-		$filepath = 'storage' . \DIRECTORY_SEPARATOR;
+		if (!$filepath = \App\Config::module($suffix, 'storagePath')) {
+			$filepath = 'storage' . \DIRECTORY_SEPARATOR;
+		}
 		if ($suffix) {
 			$filepath .= $suffix . \DIRECTORY_SEPARATOR;
 		}
@@ -1225,7 +1227,7 @@ class File
 						'size' => \vtlib\Functions::showBytes($file->getSize()),
 						'key' => $key,
 						'hash' => $request->getByType('hash', 'Alnum'),
-						'info' => $additionalNotes
+						'info' => $additionalNotes,
 					];
 				} else {
 					$db->createCommand()->delete(static::TABLE_NAME_TEMP, ['key' => $key])->execute();
@@ -1448,7 +1450,7 @@ class File
 				'size' => \vtlib\Functions::showBytes($file->getSize()),
 				'key' => $key,
 				'hash' => \md5_file($savePath . $key),
-				'path' => $savePath . $key
+				'path' => $savePath . $key,
 			];
 		}
 		$file->delete();
@@ -1476,7 +1478,7 @@ class File
 						'size' => \vtlib\Functions::showBytes($file->getSize()),
 						'key' => $key,
 						'hash' => \md5_file($savePath . $key),
-						'path' => $savePath . $key
+						'path' => $savePath . $key,
 					];
 				}
 			} else {

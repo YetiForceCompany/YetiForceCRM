@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 //additinal btn colors
 .btn-default {
@@ -53,10 +53,7 @@
 }
 
 .c-btn-light-green {
-	@include button-variant(
-		material-color("light-green", "500"),
-		material-color("light-green", "500")
-	);
+	@include button-variant(material-color("light-green", "500"), material-color("light-green", "500"));
 
 	color: $white;
 }

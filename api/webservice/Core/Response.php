@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -204,7 +204,8 @@ class Response
 		if (empty($requestContentType) || '*/*' === $requestContentType) {
 			$requestContentType = $this->request->contentType;
 		}
-		if (!headers_sent()) {
+		$headersSent = headers_sent();
+		if (!$headersSent) {
 			header('Access-Control-Allow-Origin: *');
 			header('Access-Control-Allow-Methods: ' . implode(', ', $this->acceptableMethods));
 			header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(', ', $this->acceptableHeaders));
@@ -223,12 +224,18 @@ class Response
 			switch ($this->responseType) {
 				case 'data':
 					if (!empty($this->body)) {
-						header("Content-type: $requestContentType");
+						if (!$headersSent) {
+							header("Content-type: $requestContentType");
+						}
 						if (false !== strpos($requestContentType, 'application/xml')) {
-							header('Content-disposition: attachment; filename="api.xml"');
+							if (!$headersSent) {
+								header('Content-disposition: attachment; filename="api.xml"');
+							}
 							echo $this->encodeXml($this->body);
 						} else {
-							header('Content-disposition: attachment; filename="api.json"');
+							if (!$headersSent) {
+								header('Content-disposition: attachment; filename="api.json"');
+							}
 							echo $this->encodeJson($this->body);
 						}
 					}
@@ -253,23 +260,24 @@ class Response
 		return $encrypted;
 	}
 
+	/**
+	 * Debug response function.
+	 *
+	 * @return void
+	 */
 	public function debugResponse()
 	{
 		if (\App\Config::debug('apiLogAllRequests')) {
-			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
-			$log .= "Status: {$this->status}\n";
+			$log = '============ Request ' . \App\RequestUtil::requestId() . ' (Response) ======  ' . date('Y-m-d H:i:s') . "  ======\n";
 			$log .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
 			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
-			if ($this->headers) {
-				$log .= "----------- Response Headers -----------\n";
-				foreach ($this->headers as $key => $header) {
-					$log .= "$key : $header\n";
-				}
+			$log .= 'IP: ' . $_SERVER['REMOTE_ADDR'] . PHP_EOL;
+			if ($this->body) {
+				$log .= "----------- Response data -----------\n";
+				$log .= print_r($this->body, true) . PHP_EOL;
 			}
-			$log .= "----------- Response data -----------\n";
-			$log .= print_r($this->body, true) . PHP_EOL;
 			file_put_contents('cache/logs/webserviceDebug.log', $log, FILE_APPEND);
 		}
 	}

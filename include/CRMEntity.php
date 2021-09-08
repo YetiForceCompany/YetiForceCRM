@@ -1,4 +1,5 @@
 <?php
+
  /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
  * ("License"); You may not use this file except in compliance with the
@@ -34,14 +35,22 @@ class CRMEntity
 {
 	public $ownedby;
 
-	/**    Constructor which will set the column_fields in this object
+	/**
+	 * Constructor which will set the column_fields in this object.
 	 */
 	public function __construct()
 	{
-		$this->column_fields = vtlib\Deprecated::getColumnFields(\get_class($this));
+		$this->column_fields = vtlib\Deprecated::getColumnFields(static::class);
 	}
 
-	public static function getInstance($module)
+	/**
+	 * Get CRMEntity instance.
+	 *
+	 * @param string $module
+	 *
+	 * @return self
+	 */
+	public static function getInstance(string $module)
 	{
 		if (is_numeric($module)) {
 			$module = App\Module::getModuleName($module);
@@ -49,7 +58,6 @@ class CRMEntity
 		if (\App\Cache::staticHas('CRMEntity', $module)) {
 			return clone \App\Cache::staticGet('CRMEntity', $module);
 		}
-
 		// File access security check
 		if (!class_exists($module)) {
 			if (App\Config::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$module.php")) {
@@ -63,19 +71,7 @@ class CRMEntity
 		$focus = new $module();
 		$focus->moduleName = $module;
 		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
-
 		return $focus;
-	}
-
-	/** Function to delete a record in the specifed table
-	 * @param string $tableName -- table name:: Type varchar
-	 *                          The function will delete a record. The id is obtained from the class variable $this->id and the columnname got from $this->tab_name_index[$table_name]
-	 */
-	public function deleteRelation($tableName)
-	{
-		if ((new App\Db\Query())->from($tableName)->where([$this->tab_name_index[$tableName] => $this->id])->exists()) {
-			\App\Db::getInstance()->createCommand()->delete($tableName, [$this->tab_name_index[$tableName] => $this->id])->execute();
-		}
 	}
 
 	/**
@@ -102,17 +98,6 @@ class CRMEntity
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 		}
 
-		// Tables which has multiple rows for the same record
-		// will be skipped in record retrieve - need to be taken care separately.
-		$multiRowTables = null;
-		if (isset($this->multirow_tables)) {
-			$multiRowTables = $this->multirow_tables;
-		} else {
-			$multiRowTables = [
-				'vtiger_attachments',
-			];
-		}
-
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		if ($cachedModuleFields) {
 			$query = new \App\Db\Query();
@@ -120,9 +105,6 @@ class CRMEntity
 			$requiredTables = $this->tab_name_index; // copies-on-write
 
 			foreach ($cachedModuleFields as $fieldInfo) {
-				if (\in_array($fieldInfo['tablename'], $multiRowTables)) {
-					continue;
-				}
 				// Alias prefixed with tablename+fieldname to avoid duplicate column name across tables
 				// fieldname are always assumed to be unique for a module
 				$columnClause[] = $fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] . ' AS ' . $this->createColumnAliasForField($fieldInfo);
@@ -133,10 +115,6 @@ class CRMEntity
 				$query->from('vtiger_crmentity');
 				unset($requiredTables['vtiger_crmentity']);
 				foreach ($requiredTables as $tableName => $tableIndex) {
-					if (\in_array($tableName, $multiRowTables)) {
-						// Avoid multirow table joins.
-						continue;
-					}
 					$query->leftJoin($tableName, "vtiger_crmentity.crmid = $tableName.$tableIndex");
 				}
 			}
@@ -182,92 +160,6 @@ class CRMEntity
 			return 'LEFT JOIN';
 		}
 		return 'INNER JOIN';
-	}
-
-	/**
-	 * @param <type> $module
-	 * @param <type> $user
-	 * @param <type> $parentRole
-	 * @param <type> $userGroups
-	 */
-	public function getNonAdminAccessQuery($module, $parentRole, $userGroups)
-	{
-		$query = $this->getNonAdminUserAccessQuery($parentRole, $userGroups);
-		if (!empty($module)) {
-			$moduleAccessQuery = $this->getNonAdminModuleAccessQuery($module);
-			if (!empty($moduleAccessQuery)) {
-				$query .= " UNION $moduleAccessQuery";
-			}
-		}
-		return $query;
-	}
-
-	/**
-	 * The function retrieves access to queries for users without administrator rights.
-	 *
-	 * @param Users  $user
-	 * @param string $parentRole
-	 * @param array  $userGroups
-	 *
-	 * @return string
-	 */
-	public function getNonAdminUserAccessQuery($parentRole, $userGroups)
-	{
-		$userId = \App\User::getCurrentUserId();
-		$query = "(SELECT $userId as id) UNION (SELECT vtiger_user2role.userid AS userid FROM " .
-			'vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid ' .
-			'INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE ' .
-			"vtiger_role.parentrole like '$parentRole::%')";
-		if (\count($userGroups) > 0) {
-			$query .= ' UNION (SELECT groupid FROM vtiger_groups where' .
-				' groupid in (' . implode(',', $userGroups) . '))';
-		}
-		return $query;
-	}
-
-	/**
-	 * This function takes access to the module for users without administrator privileges.
-	 *
-	 * @param string $module
-	 * @param Users  $user
-	 *
-	 * @return string
-	 */
-	public function getNonAdminModuleAccessQuery($module)
-	{
-		$userId = \App\User::getCurrentUserId();
-		require 'user_privileges/sharing_privileges_' . $userId . '.php';
-		$tabId = \App\Module::getModuleId($module);
-		$sharingRuleInfoVariable = $module . '_share_read_permission';
-		$sharingRuleInfo = ${$sharingRuleInfoVariable};
-		$query = '';
-		if (!empty($sharingRuleInfo) && (\count($sharingRuleInfo['ROLE']) > 0 ||
-			\count($sharingRuleInfo['GROUP']) > 0)) {
-			$query = ' (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per ' .
-				"WHERE userid=$userId && tabid=$tabId) UNION (SELECT " .
-				'vtiger_tmp_read_group_sharing_per.sharedgroupid FROM ' .
-				"vtiger_tmp_read_group_sharing_per WHERE userid=$userId && tabid=$tabId)";
-		}
-		return $query;
-	}
-
-	/**
-	 * Returns the terms of non-administrator changes.
-	 *
-	 * @param string $query
-	 *
-	 * @return string
-	 */
-	public function listQueryNonAdminChange($query)
-	{
-		//make the module base table as left hand side table for the joins,
-		//as mysql query optimizer puts crmentity on the left side and considerably slow down
-		$query = preg_replace('/\s+/', ' ', $query);
-		if (false !== strripos($query, ' WHERE ')) {
-			\VtlibUtils::vtlibSetupModulevars($this->moduleName, $this);
-			$query = str_ireplace(' WHERE ', " WHERE $this->table_name.$this->table_index > 0  AND ", $query);
-		}
-		return $query;
 	}
 
 	/**

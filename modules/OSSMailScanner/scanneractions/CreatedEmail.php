@@ -4,8 +4,9 @@
  * Mail scanner action creating mail.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSMailScanner_CreatedEmail_ScannerAction
 {
@@ -86,7 +87,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 	public function parseContent(OSSMail_Mail_Model $mail)
 	{
 		$html = $mail->get('body');
-		if (!\App\Utils::isHtml($html)) {
+		if (!\App\Utils::isHtml($html) || !$mail->get('isHtml')) {
 			$html = nl2br($html);
 		}
 		$attachments = $mail->get('attachments');
@@ -123,14 +124,13 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			'modifiedby' => $mail->getAccountOwner(),
 			'createdtime' => $mail->get('date'),
 			'modifiedtime' => $mail->get('date'),
-			'folderid' => 'T2',
+			'folderid' => \Config\Modules\OSSMailScanner::$mailBodyGraphicDocumentsFolder ?? 'T2',
 		];
-
 		$files = [];
 		foreach ($doc->getElementsByTagName('img') as $img) {
 			$src = trim($img->getAttribute('src'), '\'');
 			if ('data:' === substr($src, 0, 5)) {
-				if (($fileInstance = \App\Fields\File::saveFromString($src, ['validateAllowedFormat' => 'image'])) && ($ids = \App\Fields\File::saveFromContent($fileInstance, $params))) {
+				if ((\Config\Modules\OSSMailScanner::$attachMailBodyGraphicBase64 ?? true) && ($fileInstance = \App\Fields\File::saveFromString($src, ['validateAllowedFormat' => 'image'])) && ($ids = \App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 					$img->setAttribute('alt', '-');
 					$files[] = $ids;
@@ -138,7 +138,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				}
 			} elseif (filter_var($src, FILTER_VALIDATE_URL)) {
 				$params['param'] = ['validateAllowedFormat' => 'image'];
-				if ($ids = App\Fields\File::saveFromUrl($src, $params)) {
+				if ((\Config\Modules\OSSMailScanner::$attachMailBodyGraphicUrl ?? true) && ($ids = App\Fields\File::saveFromUrl($src, $params))) {
 					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 					$img->setAttribute('alt', '-');
 					$files[] = $ids;
@@ -147,6 +147,10 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			} elseif ('cid:' === substr($src, 0, 4)) {
 				$src = substr($src, 4);
 				if (isset($attachments[$src])) {
+					if (\Config\Modules\OSSMailScanner::$attachMailBodyGraphicCid ?? true) {
+						unset($attachments[$src]);
+						continue;
+					}
 					$fileInstance = App\Fields\File::loadFromContent($attachments[$src]['attachment'], $attachments[$src]['filename'], ['validateAllowedFormat' => 'image']);
 					if ($fileInstance && $fileInstance->validateAndSecure() && ($ids = App\Fields\File::saveFromContent($fileInstance, $params))) {
 						$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");

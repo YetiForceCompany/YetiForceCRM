@@ -52,6 +52,15 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		return $length ? \App\Layout::truncateHtml($value) : $value;
 	}
 
+	/** {@inheritdoc} */
+	public function isEditable()
+	{
+		if (!isset($this->privileges['isEditable'])) {
+			return $this->privileges['isEditable'] = \App\User::getCurrentUserRealId() === (int) $this->get('userid') && parent::isEditable() && $this->isPermitted('EditableComments');
+		}
+		return $this->privileges['isEditable'];
+	}
+
 	/**
 	 * Function returns url to get child comments.
 	 *

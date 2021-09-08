@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_RecordStructure_Model
@@ -59,7 +60,9 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 			}
 		}
 		//All the reference fields should also be sent
-		$fields = $moduleModel->getFieldsByType(['reference', 'owner', 'multireference']);
+		$referenceType = \Vtiger_Field_Model::$referenceTypes;
+		$referenceType[] = 'owner';
+		$fields = $moduleModel->getFieldsByType($referenceType);
 		foreach ($fields as $parentFieldName => $field) {
 			$type = $field->getFieldDataType();
 			$referenceModules = $field->getReferenceList();

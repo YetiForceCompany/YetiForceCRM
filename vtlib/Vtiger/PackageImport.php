@@ -1064,7 +1064,7 @@ class PackageImport extends PackageExport
 
 		foreach ($modulenode->customlinks->customlink as $customlinknode) {
 			$handlerInfo = null;
-			if (!empty($customlinknode->handler_path)) {
+			if (isset($customlinknode->handler_path)) {
 				$handlerInfo = [];
 				$handlerInfo = ['path' => "$customlinknode->handler_path",
 					'class' => "$customlinknode->handler_class",

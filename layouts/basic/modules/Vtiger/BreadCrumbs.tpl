@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-BreadCrumbs -->
 	{if \App\Config::layout('breadcrumbs')}
@@ -46,7 +46,7 @@
 							{/if}
 						</li>
 					{elseif $item@last}
-						<li class="breadcrumb-item active js-text-content u-text-ellipsis" aria-current="page">{$item['name']}</li>
+						<li class="breadcrumb-item active js-text-content u-text-ellipsis d-flex" aria-current="page">{$item['name']}</li>
 						<li class="js-popover-icon d-none mr-1" data-js="class: d-none"><span class="fas fa-info-circle fa-sm"></span></li>
 					{else}
 						<li class="breadcrumb-item u-text-ellipsis">

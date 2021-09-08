@@ -1,0 +1,40 @@
+php_version: 7.3
+
+php_ini: |
+  extension=imap.so
+  extension=openssl.so
+  extension=mbstring.so
+  extension=mcrypt.so
+  extension=iconv.so
+  extension=intl.so
+  extension=spl.so
+  extension=json.so
+  extension=dom.so
+  extension=zlib.so
+  extension=pdo.so
+  extension=pdo_mysql.so
+  extension=curl.so
+  extension=gd.so
+  extension=pcre.so
+  extension=session.so
+  extension=soap.so
+  extension=zip.so
+  extension=xml.so
+  extension=apcu.so
+
+commit_failure_conditions:
+  - 'project.severity.critical > 0'
+  - 'project.severity.major > 100'
+  - 'project.severity.minor > 100'
+  - 'project.severity.info > 100'
+
+exclude_patterns:
+  - '*/*.map'
+
+rules:
+  composer.warning:
+    enabled: false
+  web.apache_config:
+    enabled: false
+  php.duplicated_code:
+    enabled: false

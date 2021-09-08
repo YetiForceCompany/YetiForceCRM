@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Edit-Inventory -->
 	{assign var="INVENTORY_MODEL" value=Vtiger_Inventory_Model::getInstance($MODULE_NAME)}
@@ -11,6 +11,7 @@
 		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
 
 		{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
+		{assign var="DEFAULT_INVENTORY_ROW" value=\App\Config::module($MODULE_NAME, 'defaultInventoryData', [])}
 		{if $INVENTORY_ROWS}
 			{assign var="INVENTORY_ROW" value=current($INVENTORY_ROWS)}
 		{else}
@@ -102,6 +103,8 @@
 								{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
 								{if isset($INVENTORY_ROW[$COLUMN_NAME])}
 									{assign var="ITEM_VALUE" value=$INVENTORY_ROW[$COLUMN_NAME]}
+								{elseif isset($DEFAULT_INVENTORY_ROW[$COLUMN_NAME])}
+									{assign var="ITEM_VALUE" value=$DEFAULT_INVENTORY_ROW[$COLUMN_NAME]}
 								{else}
 									{assign var="ITEM_VALUE" value=NULL}
 								{/if}
@@ -138,6 +141,7 @@
 				{foreachelse}
 					{if $IS_REQUIRED_INVENTORY}
 						{assign var="ROW_NO" value=1}
+						{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 						{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
 					{/if}
 				{/foreach}
@@ -153,7 +157,9 @@
 							{if $FIELD->isSummary()}
 								{assign var="SUM" value=0}
 								{foreach key=KEY item=ITEM_VALUE from=$INVENTORY_ROWS}
-									{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnName')])}
+									{if isset($ITEM_VALUE[$FIELD->get('columnName')])}
+										{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnName')])}
+									{/if}
 								{/foreach}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
 							{/if}

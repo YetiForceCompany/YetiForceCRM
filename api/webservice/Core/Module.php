@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -67,7 +67,11 @@ class Module
 		if (\App\Cache::has('API-FieldPermission', $cacheName)) {
 			return \App\Cache::get('API-FieldPermission', $cacheName);
 		}
-		$fieldInfo = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId($moduleName), 'uitype' => 318, 'fieldparams' => $serverId])->one();
+		$fieldInfo = (new \App\Db\Query())->from('vtiger_field')->where([
+			'tabid' => \App\Module::getModuleId($moduleName),
+			'uitype' => 318,
+			'fieldparams' => $serverId
+		])->one();
 		\App\Cache::save('API-FieldPermission', $cacheName, $fieldInfo, \App\Cache::LONG);
 		return $fieldInfo;
 	}

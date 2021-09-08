@@ -21,6 +21,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
+		$isOtherUser = $recordId !== App\User::getCurrentUserRealId();
 		$fieldsDependency = \App\FieldsDependency::getByRecordModel($recordModel->isNew() ? 'Create' : 'Edit', $recordModel);
 		$blockModelList = $this->getModule()->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
@@ -32,7 +33,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 					if (empty($recordId) && (99 == $fieldModel->get('uitype') || 106 == $fieldModel->get('uitype'))) {
 						$fieldModel->set('editable', true);
 					}
-					if (156 == $fieldModel->get('uitype') && true === $currentUserModel->isAdminUser() && $currentUserModel->getId() !== $recordId) {
+					if (156 == $fieldModel->get('uitype') && true === $currentUserModel->isAdminUser() && $isOtherUser) {
 						$fieldModel->set('editable', true);
 						$fieldValue = false;
 						if ('on' === $recordModel->get($fieldName)) {
@@ -44,6 +45,8 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 						$fieldModel->set('editable', false);
 					} elseif ('reports_to_id' === $fieldName && !$currentUserModel->isAdminUser()) {
 						continue;
+					} elseif ('force_password_change' === $fieldName) {
+						$fieldModel->set('editable', false);
 					}
 					if ($fieldModel->isEditable() && 'is_owner' !== $fieldName && (!$fieldsDependency['hide']['backend'] || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
 						if ('' !== $recordModel->get($fieldName)) {

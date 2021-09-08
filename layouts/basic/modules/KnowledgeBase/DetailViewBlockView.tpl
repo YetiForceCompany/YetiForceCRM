@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 {foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 	{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
@@ -51,6 +51,8 @@
 												<span class="fas fa-info-circle"></span>
 											</a>
 										{/if}
+										{assign var=ICON value=$FIELD_MODEL->getIcon('Detail')}
+										{if isset($ICON['name'])}<span class="{$ICON['name']} mr-1"></span>{/if}
 										<label class="u-text-small-bold">
 											{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 										</label>

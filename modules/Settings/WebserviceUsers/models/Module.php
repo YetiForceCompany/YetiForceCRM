@@ -6,7 +6,7 @@
  * @package Model
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -95,5 +95,25 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 	public function getEditViewUrl()
 	{
 		return 'index.php?module=' . $this->getName() . '&parent=Settings&view=Edit&typeApi=' . $this->typeApi;
+	}
+
+	/**
+	 * Function to get the url for session view of the user.
+	 *
+	 * @return string URL
+	 */
+	public function getSessionViewUrl(): string
+	{
+		return 'index.php?module=' . $this->getName() . '&parent=Settings&view=ListViewSession&typeApi=' . $this->typeApi;
+	}
+
+	/**
+	 * Function to get the url for history activity view of the user.
+	 *
+	 * @return string URL
+	 */
+	public function getHistoryAccessActivityUrl(): string
+	{
+		return 'index.php?module=' . $this->getName() . '&parent=Settings&view=HistoryAccessActivity&typeApi=' . $this->typeApi;
 	}
 }

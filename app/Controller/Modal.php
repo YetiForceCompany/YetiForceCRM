@@ -6,7 +6,7 @@
  * @package   Controller
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -55,42 +55,49 @@ abstract class Modal extends View\Base
 	 * @var string
 	 */
 	public $modalId = '';
+
 	/**
 	 * The name of the success button.
 	 *
 	 * @var string
 	 */
 	public $successBtn = 'LBL_SAVE';
+
 	/**
 	 * The name of the success button icon.
 	 *
 	 * @var string
 	 */
 	public $successBtnIcon = 'fas fa-check';
+
 	/**
 	 * The name of the danger button.
 	 *
 	 * @var string
 	 */
 	public $dangerBtn = 'LBL_CANCEL';
+
 	/**
 	 * The name of the footerClass.
 	 *
 	 * @var string
 	 */
 	public $footerClass = '';
+
 	/**
 	 * Block the window closing.
 	 *
 	 * @var bool
 	 */
 	public $lockExit = false;
+
 	/**
 	 * Show modal header.
 	 *
 	 * @var bool
 	 */
 	public $showHeader = true;
+
 	/**
 	 * Show modal footer.
 	 *
@@ -186,7 +193,7 @@ abstract class Modal extends View\Base
 		$viewName = $request->getByType('view', 2);
 		return $this->checkAndConvertJsScripts([
 			"modules.Vtiger.resources.$viewName",
-			"modules.{$request->getModule()}.resources.$viewName"
+			"modules.{$request->getModule()}.resources.$viewName",
 		]);
 	}
 
@@ -202,7 +209,7 @@ abstract class Modal extends View\Base
 		$viewName = $request->getByType('view', 2);
 		return $this->checkAndConvertCssStyles([
 			"modules.Vtiger.$viewName",
-			"modules.{$request->getModule()}.$viewName"
+			"modules.{$request->getModule()}.$viewName",
 		]);
 	}
 

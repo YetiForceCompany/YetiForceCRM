@@ -6,7 +6,7 @@
  * @package   InventoryField
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -152,18 +152,19 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	public function getTaxValue(array $taxParam, float $netPrice, int $mode): float
 	{
 		$value = 0.0;
-		$types = $taxParam['aggregationType'];
-		if (!\is_array($types)) {
-			$types = [$types];
-		}
-		foreach ($types as $type) {
-			$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
-			$value += $taxValue;
-			if (2 === $mode) {
-				$netPrice += $taxValue;
+		if ($taxParam) {
+			$types = $taxParam['aggregationType'];
+			if (!\is_array($types)) {
+				$types = [$types];
+			}
+			foreach ($types as $type) {
+				$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
+				$value += $taxValue;
+				if (2 === $mode) {
+					$netPrice += $taxValue;
+				}
 			}
 		}
-
 		return $value;
 	}
 }

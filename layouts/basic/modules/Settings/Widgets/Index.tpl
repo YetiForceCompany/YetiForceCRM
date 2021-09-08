@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <input type="hidden" id="filterAll" value='{\App\Purifier::encodeHtml($FILTERS)}'>
 <input type="hidden" id="checkboxAll" value='{\App\Purifier::encodeHtml($CHECKBOXS)}'>

@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -255,7 +255,7 @@ abstract class AbstractBaseProduct
 			'p3' => 1,
 			'item_name' => $this->name,
 			'currency_code' => $this->currencyCode,
-			'on0' => 'Package'
+			'on0' => 'Package',
 		];
 		if (!$productSelection) {
 			$data['os0'] = \App\Company::getSize();

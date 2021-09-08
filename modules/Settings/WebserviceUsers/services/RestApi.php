@@ -6,7 +6,7 @@
  * @package Settings
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -32,13 +32,39 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 
 	/** {@inheritdoc} */
 	public $editFields = [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
+		'server_id' => 'FL_SERVER',
+		'status' => 'FL_STATUS',
+		'password' => 'FL_PASSWORD',
+		'type' => 'FL_TYPE',
+		'crmid' => 'FL_RECORD_NAME',
+		'user_id' => 'FL_USER',
+		'login_method' => 'FL_LOGIN_METHOD',
+		'authy_methods' => 'FL_AUTHY_METHODS',
+		'language' => 'FL_LANGUAGE',
 	];
 
 	/** {@inheritdoc} */
 	public $listFields = [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'type' => 'FL_TYPE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
+		'server_id' => 'FL_SERVER',
+		'user_name' => 'FL_LOGIN',
+		'type' => 'FL_TYPE',
+		'user_id' => 'FL_USER',
+		'status' => 'FL_STATUS',
+		'login_method' => 'FL_LOGIN_METHOD',
+		'login_time' => 'FL_LOGIN_TIME',
+		'custom_params' => 'FL_CUSTOM_PARAMS',
 	];
+
+	/** @var array Columns to show on the list session. */
+	public $columnsToShow = [
+		'time' => 'FL_LOGIN_TIME',
+		'status' => 'FL_STATUS',
+		'agent' => 'LBL_USER_AGENT',
+		'ip' => 'LBL_IP_ADDRESS',
+	];
+
+	/** {@inheritdoc} */
+	public $paramsFields = ['language', 'logout_time'];
 
 	/** {@inheritdoc} */
 	public function init(array $data)
@@ -64,6 +90,9 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 			case 'crmid':
 				$params['uitype'] = 10;
 				$params['referenceList'] = ['Contacts'];
+				$params['fieldparams'] = [
+					'searchParams' => '[[["email","ny",""]]]',
+				];
 				break;
 			case 'status':
 				$params['uitype'] = 16;
@@ -93,13 +122,30 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				$params['uitype'] = 16;
 				$params['picklistValues'] = \App\Fields\Owner::getInstance($moduleName)->getAccessibleUsers('', 'owner');
 				break;
+			case 'login_method':
+				$params['uitype'] = 16;
+				$params['picklistValues'] = [
+					'PLL_PASSWORD' => \App\Language::translate('PLL_PASSWORD', 'Users'),
+					'PLL_PASSWORD_2FA' => \App\Language::translate('PLL_PASSWORD_2FA', 'Users'),
+				];
+				break;
+			case 'authy_methods':
+				$params['uitype'] = 16;
+				$params['typeofdata'] = 'V~O';
+				$params['picklistValues'] = [
+					'-' => \App\Language::translate('LBL_NONE'),
+					'PLL_AUTHY_TOTP' => \App\Language::translate('PLL_AUTHY_TOTP', 'Users'),
+				];
+				break;
 			case 'password':
 				$params['typeofdata'] = 'P~M';
+				if ($this->has('id')) {
+					$params = null;
+				}
 				break;
-			default:
-				break;
+			default: break;
 		}
-		return Settings_Vtiger_Field_Model::init($moduleName, $params);
+		return $params ? Settings_Vtiger_Field_Model::init($moduleName, $params) : null;
 	}
 
 	/**
@@ -123,10 +169,16 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 						break;
 					case 'user_name':
 					case 'language':
+					case 'login_method':
+					case 'authy_methods':
 						$value = $request->getByType($field, 'Text');
 						break;
 					case 'password':
+						if (!$this->isNew()) {
+							throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||{$field}", 406);
+						}
 						$value = $request->getRaw($field, null);
+						parent::set($field, $value);
 						break;
 					default:
 					throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||{$field}", 406);
@@ -171,9 +223,7 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 				$value = (int) $value;
 				break;
 			case 'password':
-				$value = App\Encryption::getInstance()->encrypt($value);
-				break;
-			default:
+				$value = App\Encryption::createPasswordHash($value, 'RestApi');
 				break;
 		}
 		return $value;
@@ -188,25 +238,68 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 	 */
 	public function getDisplayValue($name)
 	{
+		$value = $this->get($name);
 		switch ($name) {
 			case 'server_id':
-				$servers = Settings_WebserviceApps_Record_Model::getInstanceById($this->get($name));
-				return $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
-			case 'crmid':
-				return $this->get($name) ? \App\Record::getLabel($this->get($name)) : '';
-			case 'status':
-				return \App\Language::translate((empty($this->get($name)) ? 'FL_INACTIVE' : 'FL_ACTIVE'));
-			case 'user_id':
-				return \App\Fields\Owner::getLabel($this->get($name));
-			case 'language':
-				return $this->get($name) ? \App\Language::getLanguageLabel($this->get($name)) : '';
-			case 'type':
-				$label = \App\Language::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
-				return \App\TextParser::textTruncate($label);
-			default:
+				$servers = Settings_WebserviceApps_Record_Model::getInstanceById($value);
+				$value = $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
 				break;
+			case 'crmid':
+			case 'istorage':
+				if ($value) {
+					$moduleName = \App\Record::getType($value);
+					$label = \App\Record::getLabel($value) ?: '';
+					$url = "index.php?module={$moduleName}&view=Detail&record={$value}";
+					$value = "<a class='modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record' href='$url'>$label</a>";
+				} else {
+					$value = '';
+				}
+				break;
+			case 'status':
+				$value = \App\Language::translate((empty($value) ? 'FL_INACTIVE' : 'FL_ACTIVE'));
+				break;
+			case 'login_method':
+				$value = \App\Language::translate($value, 'Users');
+				break;
+			case 'user_id':
+				$value = \App\Fields\Owner::getLabel($value);
+				break;
+			case 'login_time':
+			case 'logout_time':
+				$value = \App\Fields\DateTime::formatToDisplay($value);
+				break;
+			case 'type':
+				$label = \App\Language::translate($this->getTypeValues($value), $this->getModule()->getName(true));
+				$value = \App\TextParser::textTruncate($label);
+				break;
+			case 'custom_params':
+				if ($value) {
+					$params = \App\Json::decode($value);
+					$value = '';
+					foreach ($params as $key => $row) {
+						switch ($key) {
+							case 'language':
+								$row = $row ? \App\Language::getLanguageLabel($row) : '';
+								break;
+							case 'logout_time':
+							case 'invalid_login_time':
+							case 'error_time':
+								$row = \App\Fields\DateTime::formatToDisplay($row);
+								break;
+							default:
+								$row = \App\Purifier::encodeHtml($row);
+								break;
+						}
+						if (isset(Settings_WebserviceUsers_Record_Model::$customParamsLabels[$key])) {
+							$value .= \App\Language::translate(Settings_WebserviceUsers_Record_Model::$customParamsLabels[$key], 'Settings.WebserviceUsers') . ": $row \n";
+						}
+					}
+					$value = \App\Layout::truncateText($value, 50, true);
+				}
+				break;
+			default: break;
 		}
-		return $this->get($name);
+		return $value;
 	}
 
 	/**
@@ -220,10 +313,19 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 		$recordLinks = [
 			[
 				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'FL_PASSWORD',
-				'linkicon' => 'fas fa-copy',
-				'linkclass' => 'btn btn-sm btn-primary clipboard',
-				'linkdata' => ['copy-attribute' => 'clipboard-text', 'clipboard-text' => \App\Purifier::encodeHtml(App\Encryption::getInstance()->decrypt($this->get('password')))]
+				'linklabel' => 'LBL_HISTORY_ACTIVITY',
+				'linkicon' => 'yfi yfi-login-history',
+				'linkclass' => 'btn btn-sm btn-primary',
+				'linkurl' => $this->getModule()->getHistoryAccessActivityUrl() . '&record=' . $this->getId(),
+				'modalView' => true,
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_SESSION_RECORD',
+				'linkicon' => 'fas fa-users-cog',
+				'linkclass' => 'btn btn-sm btn-primary',
+				'linkurl' => $this->getModule()->getSessionViewUrl() . '&record=' . $this->getId(),
+				'modalView' => true,
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
@@ -290,25 +392,15 @@ class Settings_WebserviceUsers_RestApi_Service extends Settings_WebserviceUsers_
 		$moduleName = 'Contacts';
 		$recordModel = Vtiger_Record_Model::getInstanceById($this->get('crmid'), $moduleName);
 		if ($recordModel->get('emailoptout')) {
-			$emailsFields = $recordModel->getModule()->getFieldsByType('email');
-			$addressEmail = '';
-			foreach ($emailsFields as $fieldModel) {
-				if (!$recordModel->isEmpty($fieldModel->getFieldName())) {
-					$addressEmail = $recordModel->get($fieldModel->getFieldName());
-					break;
-				}
-			}
-			if (!empty($addressEmail)) {
-				\App\Mailer::sendFromTemplate([
-					'template' => 'YetiPortalRegister',
-					'moduleName' => $moduleName,
-					'recordId' => $this->get('crmid'),
-					'to' => $addressEmail,
-					'password' => $this->get('password'),
-					'login' => $this->get('user_name'),
-					'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('acceptable_url')
-				]);
-			}
+			\App\Mailer::sendFromTemplate([
+				'template' => 'YetiPortalRegister',
+				'moduleName' => $moduleName,
+				'recordId' => $this->get('crmid'),
+				'to' => $this->get('user_name'),
+				'password' => $this->changes['password'],
+				'login' => $this->get('user_name'),
+				'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('url'),
+			]);
 		}
 	}
 }

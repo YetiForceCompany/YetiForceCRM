@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 $.Class(
@@ -1256,18 +1256,15 @@ $.Class(
 			let conversionRate = selected.data('conversionRate');
 			let prevConversionRate = previous.data('conversionRate');
 			conversionRate = parseFloat(conversionRate) / parseFloat(prevConversionRate);
-
 			this.getInventoryItemsContainer()
 				.find(thisInstance.rowClass)
-				.each(function (index) {
+				.each(function (_) {
 					let row = $(this);
 					thisInstance.syncHeaderData(row);
-					thisInstance.setUnitPrice(
-						row,
-						App.Fields.Double.formatToDb(thisInstance.getUnitPriceValue(row) * conversionRate)
-					);
-					thisInstance.setDiscount(row, App.Fields.Double.formatToDb(thisInstance.getDiscount(row) * conversionRate));
-					thisInstance.setTax(row, App.Fields.Double.formatToDb(thisInstance.getTax(row) * conversionRate));
+					thisInstance.setUnitPrice(row, thisInstance.getUnitPriceValue(row) * conversionRate);
+					thisInstance.setDiscount(row, thisInstance.getDiscount(row) * conversionRate);
+					thisInstance.setTax(row, thisInstance.getTax(row) * conversionRate);
+					thisInstance.setPurchase(row, thisInstance.getPurchase(row) * conversionRate);
 					thisInstance.quantityChangeActions(row);
 				});
 		},
@@ -1363,23 +1360,17 @@ $.Class(
 						let row = $(element);
 						thisInstance.hideExpandedRow(row);
 					});
+					let num = $(ui.item).attr('numrow');
+					items.find('[numrowex="' + num + '"] .js-inventory-item-comment').each(function () {
+						App.Fields.Text.destroyEditor($(this));
+					});
 					ui.item.startPos = ui.item.index();
 				},
 				stop: function (event, ui) {
 					let numrow = $(ui.item).attr('numrow');
-					let child = items
-						.find('.numRow' + numrow)
-						.remove()
-						.clone();
+					let child = items.find('.numRow' + numrow);
 					items.find('[numrow="' + numrow + '"]').after(child);
-					if (ui.item.startPos < ui.item.index()) {
-						child = items
-							.find('.numRow' + numrow)
-							.next()
-							.remove()
-							.clone();
-						items.find('[numrow="' + numrow + '"]').before(child);
-					}
+					App.Fields.Text.Editor.register(child);
 					thisInstance.updateRowSequence();
 				}
 			});
@@ -1585,7 +1576,7 @@ $.Class(
 					view: 'Inventory',
 					mode: 'showTaxes',
 					currency: thisInstance.getCurrency(),
-					sourceRecord: app.getRecordId()
+					relatedRecord: thisInstance.getAccountId()
 				};
 				if (element.hasClass('groupTax')) {
 					parentRow = thisInstance.getInventoryItemsContainer();

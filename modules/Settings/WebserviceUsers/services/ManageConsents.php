@@ -6,7 +6,7 @@
  * @package Settings
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -34,7 +34,6 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 		'user_id' => 'FL_USER',
 		'type' => 'FL_TYPE',
 		'login_time' => 'FL_LOGIN_TIME',
-		'logout_time' => 'FL_LOGOUT_TIME',
 		'language' => 'FL_LANGUAGE'
 	];
 
@@ -58,6 +57,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Module_Model::getActiveServers($this->getModule()->typeApi);
 				$params['uitype'] = 16;
+				$params['picklistValues'] = [];
 				foreach ($servers as $key => $value) {
 					$params['picklistValues'][$key] = $value['name'];
 				}
@@ -85,6 +85,24 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 				break;
 		}
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
+	}
+
+	/** {@inheritdoc} */
+	public function save()
+	{
+		$db = App\Db::getInstance('webservice');
+		$table = $this->baseTable;
+		$index = $this->baseIndex;
+		$data = $this->getDataForSave();
+		if (empty($this->getId())) {
+			$success = $db->createCommand()->insert($table, $data)->execute();
+			if ($success) {
+				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
+			}
+		} else {
+			$success = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
+		}
+		return $success;
 	}
 
 	/**
@@ -232,7 +250,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 	 *
 	 * @param type $value
 	 *
-	 * @return string
+	 * @return string|string[]
 	 */
 	public function getTypeValues($value = false)
 	{
@@ -240,7 +258,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 			\Api\Portal\Privilege::USER_PERMISSIONS => 'PLL_USER_PERMISSIONS',
 		];
 		if ($value) {
-			return $data[$value];
+			return $data[$value] ?: '';
 		}
 		return $data;
 	}

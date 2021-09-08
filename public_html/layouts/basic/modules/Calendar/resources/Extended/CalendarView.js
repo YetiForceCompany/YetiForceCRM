@@ -1,13 +1,11 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 /**
  *  Class representing an extended calendar.
  * @extends Calendar_Calendar_Js
  */
 window.calendarLoaded = false; //Global calendar flag needed for correct loading data from history browser in year view
-window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends (
-	Calendar_Calendar_Js
-) {
+window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends Calendar_Calendar_Js {
 	constructor(container, readonly) {
 		super(container, readonly);
 		this.sidebarView = {
@@ -162,7 +160,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			switchingDaysState = switchSwitchingDays.find('input:checked').data('val');
 		let historyParams = app.getMainParams('historyParams', true);
 		if (historyParams === '') {
-			changeDaysState = app.getMainParams('switchingDays'); // TODO defaultDays && switchingDaysState !== defaultDays ? defaultDays : switchingDaysState;
+			changeDaysState = app.getMainParams('switchingDays');
 			changeType = app.getMainParams('showType');
 		} else {
 			changeType = historyParams.time !== undefined ? historyParams.time : app.getMainParams('showType');

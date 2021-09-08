@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=IS_INVENTORY value=($RELATED_MODULE->isInventory() && !empty($INVENTORY_FIELDS))}
 	{if !$TYPE_VIEW || $TYPE_VIEW eq 'List'}
@@ -147,6 +147,8 @@
 									<tr class="c-table__row--hover border-bottom">
 										<td class="u-w-40per {$WIDTHTYPE} px-0">
 											<label class="font-weight-bold mb-0">
+												{assign var=ICON value=$HEADER_FIELD->getIcon('Summary')}
+												{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
 												{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 											</label>
 										</td>
@@ -154,8 +156,7 @@
 										<td class="fieldValue {$WIDTHTYPE} px-0">
 											<div class="value u-word-break pr-0">
 												{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
-													<a class="modCT_{$RELATED_MODULE_NAME}"
-														href="{$RELATED_RECORD->getDetailViewUrl()}">
+													<a class="modCT_{$RELATED_MODULE_NAME}" href="{$RELATED_RECORD->getDetailViewUrl()}">
 														{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 													</a>
 												{else}
@@ -268,6 +269,8 @@
 							<tr class="c-table__row--hover border-bottom">
 								<td class="u-w-40per {$WIDTHTYPE} px-0">
 									<label class="font-weight-bold mb-0">
+										{assign var=ICON value=$HEADER_FIELD->getIcon('Summary')}
+										{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
 										{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 									</label>
 								</td>

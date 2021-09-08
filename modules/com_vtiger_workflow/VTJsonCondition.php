@@ -44,8 +44,10 @@ class VTJsonCondition
 					if (!empty($referenceFieldId)) {
 						$cond['fieldname'] = $fieldname;
 						if ('Users' !== $referenceModule) {
-							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId);
-							$result = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
+							if (\App\Record::isExists($referenceFieldId)) {
+								$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId);
+								$result = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
+							}
 						} elseif ('Users' === \App\Fields\Owner::getType($referenceFieldId) && \App\User::getUserModel($referenceFieldId)->isActive()) {
 							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId, $referenceModule);
 							$result = $this->checkCondition($referenceRecordModel, $cond, $recordModel);

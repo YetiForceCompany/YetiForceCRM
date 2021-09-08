@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div id="VTEmailReportContainer tpl-Settings-Workflows-Tasks-VTEmailReport">
 		<div class="">
 			<div class="row pb-3">
@@ -18,6 +18,15 @@
 					</select>
 				</div>
 			</div>
+			<div class="row pb-2">
+				<span class="col-md-4"></span>
+				<span class="col-md-4">
+					<label>
+						<input type="checkbox" class="align-text-bottom" value="true" name="emailoptout" {if !isset($TASK_OBJECT->emailoptout) || $TASK_OBJECT->emailoptout}checked{/if}>
+						&nbsp;{\App\Language::translate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}
+					</label>
+				</span>
+			</div>
 			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">
 					{\App\Language::translate('LBL_SELECT_USERS', $QUALIFIED_MODULE)}
@@ -27,8 +36,7 @@
 					</span>
 				</span>
 				<div class="col-md-4">
-					<select class="select2 form-control" name="members[]" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" multiple="multiple">
-						<option value="-">{\App\Language::translate('LBL_NONE')}</option>
+					<select class="select2 form-control" name="members[]" multiple="multiple">
 						{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 							<optgroup label="{\App\Language::translate($GROUP_LABEL)}">
 								{foreach from=$ALL_GROUP_MEMBERS key=MEMBER_ID item=MEMBER}

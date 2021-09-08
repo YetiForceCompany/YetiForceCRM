@@ -220,7 +220,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkdata' => ['url' => 'index.php?module=' . $recordModel->getModuleName() . '&view=RecordUnlock&record=' . $recordModel->getId()],
 					'linkicon' => 'fas fa-lock-open',
 					'linkclass' => 'js-show-modal btn-outline-dark btn-sm',
-					'linkhint' => 'BTN_RECORD_OPEN'
+					'linkhint' => 'BTN_RECORD_OPEN',
 				]);
 			}
 			$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
@@ -390,9 +390,9 @@ class Vtiger_DetailView_Model extends \App\Base
 			];
 		}
 		if (
-			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
-			\App\Module::isModuleActive('Chat') && !\App\RequestUtil::getBrowserInfo()->ie &&
-			false !== \App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName())
+			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId()
+			&& \App\Module::isModuleActive('Chat') && !\App\RequestUtil::getBrowserInfo()->ie
+			&& false !== \App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName())
 		) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

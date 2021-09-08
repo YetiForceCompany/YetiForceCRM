@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
@@ -113,9 +113,9 @@ class Colors
 								}
 								$contrastColor = static::getContrast($item['color']);
 								$css .= '.picklistCBr_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
-								$css .= '.picklistCBg_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . $contrastColor . ' !important;}' . PHP_EOL;
 								$css .= '.picklistCT_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
-								$css .= '.picklistLb_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . '; color: ' . $contrastColor . ' !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}' . PHP_EOL;
+								$css .= '.picklistCBg_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . $contrastColor . ' !important;}' . PHP_EOL;
+								$css .= '.picklistLb_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . $contrastColor . ' !important;  padding: 2px 7px 3px 7px;}' . PHP_EOL;
 							}
 						}
 					}
@@ -379,7 +379,7 @@ class Colors
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if (ltrim($row['color'], '#')) {
-				$css .= '.flCT_' . Module::getModuleName($row['tabid']) . '_' . $row['fieldname'] . '{ color: ' . $row['color'] . '; }' . PHP_EOL;
+				$css .= '.flCT_' . Module::getModuleName($row['tabid']) . '_' . $row['fieldname'] . '{ color: ' . $row['color'] . ' !important; }' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/fields.css', $css, LOCK_EX);

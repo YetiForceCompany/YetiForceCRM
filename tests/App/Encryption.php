@@ -1,18 +1,19 @@
 <?php
 /**
- * Encryption test class.
+ * Encryption test file.
  *
  * @package   Tests
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Tests\App;
 
 /**
- * Class Encryption tests.
+ * Encryption test class.
  */
 class Encryption extends \Tests\Base
 {
@@ -56,7 +57,7 @@ class Encryption extends \Tests\Base
 			['aes-192-cbc', '1234567890123456'],
 			['aes-192-ctr', '1234567890123456'],
 			['des-ede3-cbc', '12354678'],
-			['des-ede3-cfb', '12354678']
+			['des-ede3-cfb', '12354678'],
 		];
 	}
 
@@ -76,20 +77,19 @@ class Encryption extends \Tests\Base
 		$instance->set('method', $method);
 		$instance->set('vector', $password);
 		$instance->set('pass', \App\Config::securityKeys('encryptionPass'));
-		if (!$instance->isActive()) {
-			echo 'function_exists(\'openssl_encrypt\'): ' . var_export(\function_exists('openssl_encrypt'), true) . PHP_EOL;
-			echo 'isEmpty(\'method\'): ' . var_export($instance->isEmpty('method'), true) . PHP_EOL;
-			echo 'method !== : securityKeys(\'encryptionMethod\'): ' . var_export($instance->get('method') !== \App\Config::securityKeys('encryptionMethod'), true) . PHP_EOL;
-			echo 'method in getMethods: ' . var_export(\in_array($instance->get('method'), \App\Encryption::getMethods()), true) . PHP_EOL;
-			if (!\in_array($instance->get('method'), \App\Encryption::getMethods())) {
-				echo 'Methods:  ' . \App\Utils::varExport(\App\Encryption::getMethods()) . PHP_EOL;
-			}
+		$this->logs = [
+			'function_exists(\'openssl_encrypt\')' => \function_exists('openssl_encrypt'),
+			'isEmpty(\'method\')' => $instance->isEmpty('method'),
+			'method !== securityKeys(\'encryptionMethod\')' => $instance->get('method') !== \App\Config::securityKeys('encryptionMethod'),
+			'method in getMethods' => \in_array($instance->get('method'), \App\Encryption::getMethods()),
+		];
+		if ($instance->isActive()) {
+			$this->assertTrue($instance->isActive(), 'The encryption mechanism is not active');
+			$testText = 'TEST TEXT';
+			$encryptText = $instance->encrypt($testText);
+			$this->assertTrue(!empty($encryptText), 'Encryption is not available');
+			$this->assertFalse($testText === $encryptText, 'Encryption is not working');
+			$this->assertSame($testText, $instance->decrypt($encryptText), 'The decrypted text does not match the encrypted text');
 		}
-		$this->assertTrue($instance->isActive(), 'The encryption mechanism is not active');
-		$testText = 'TEST TEXT';
-		$encryptText = $instance->encrypt($testText);
-		$this->assertTrue(!empty($encryptText), 'Encryption is not available');
-		$this->assertFalse($testText === $encryptText, 'Encryption is not working');
-		$this->assertSame($testText, $instance->decrypt($encryptText), 'The decrypted text does not match the encrypted text');
 	}
 }

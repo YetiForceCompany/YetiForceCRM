@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
 		<h5 id="myModalLabel" class="modal-title">{\App\Language::translate('LBL_UNTRANSLATED_LABELS',$QUALIFIED_MODULE)}</h5>
@@ -30,10 +30,10 @@
 										<td class="col-4">
 											<input 	data-lang="{$LANG}"
 													data-type="{$TYPE}"
-													name="{$LABEL}" 
-													class="form-control {if $VALUE == NULL}empty_value{/if}" 
-													type="text" 
-													data-mod="{$SOURCE_MODULE}" 
+													name="{$LABEL}"
+													class="form-control {if $VALUE == NULL}empty_value{/if}"
+													type="text"
+													data-mod="{$SOURCE_MODULE}"
 													value ="{$VALUE}">
 										</td>
 										<td>
@@ -44,7 +44,7 @@
 									{else}
 										<td>{$VALUE}</td>
 									{/if}
-								{/foreach}	
+								{/foreach}
 							</tr>
 						{/foreach}
 					{/foreach}

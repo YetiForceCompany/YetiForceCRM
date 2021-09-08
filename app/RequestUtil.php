@@ -1,38 +1,32 @@
 <?php
+/**
+ * Request Utils basic file.
+ *
+ * @package App
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 namespace App;
 
 /**
  * Request Utils basic class.
- *
- * @package App
- *
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RequestUtil
 {
-	/**
-	 * Browser cache variable.
-	 *
-	 * @var stdClass
-	 */
+	/** @var stdClass Browser cache variable. */
 	protected static $browserCache;
 
-	/**
-	 * Cache https check variable.
-	 *
-	 * @var bool
-	 */
+	/** @var bool Cache https check variable. */
 	protected static $httpsCache;
 
-	/**
-	 * Net connection cache.
-	 *
-	 * @var bool
-	 */
+	/** @var bool Net connection cache. */
 	protected static $connectionCache;
+
+	/** @var string Cache request id variable. */
+	protected static $requestId;
 
 	/**
 	 * IP fields names variable.
@@ -70,7 +64,12 @@ class RequestUtil
 		return empty($address) ? '' : $address;
 	}
 
-	public static function getBrowserInfo()
+	/**
+	 * Get browser details.
+	 *
+	 * @return object
+	 */
+	public static function getBrowserInfo(): object
 	{
 		if (empty(self::$browserCache)) {
 			$browserAgent = strtolower(\App\Request::_getServer('HTTP_USER_AGENT', ''));
@@ -190,5 +189,18 @@ class RequestUtil
 			$ip = '';
 		}
 		return \App\Cache::save(__METHOD__, $name, $ip);
+	}
+
+	/**
+	 * Get request id.
+	 *
+	 * @return string
+	 */
+	public static function requestId(): string
+	{
+		if (empty(self::$requestId)) {
+			self::$requestId = sprintf('%08x', abs(crc32($_SERVER['REMOTE_ADDR'] . $_SERVER['REQUEST_TIME_FLOAT'] . $_SERVER['REMOTE_PORT'])));
+		}
+		return self::$requestId;
 	}
 }

@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 $.Class(
@@ -97,20 +97,15 @@ $.Class(
 					form.validationEngine(app.validationEngineOptions);
 					container.find('[name="saveButton"]').on('click', function () {
 						if (form.validationEngine('validate')) {
-							var params = {
-								module: app.getModuleName(),
-								parent: app.getParentModuleName(),
-								action: 'SaveAjax',
-								name: container.find('[name="name"]').val(),
-								url: container.find('[name="addressUrl"]').val(),
-								status: container.find('[name="status"]').is(':checked'),
-								type: container.find('.typeServer').val(),
-								pass: password.val()
-							};
+							let formData = form.serializeFormData();
+							formData['module'] = app.getModuleName();
+							formData['parent'] = app.getParentModuleName();
+							formData['action'] = 'SaveAjax';
+							formData['status'] = container.find('[name="status"]').is(':checked');
 							if (id != '') {
-								params['id'] = id;
+								formData['id'] = id;
 							}
-							AppConnector.request(params).done(function (data) {
+							AppConnector.request(formData).done(function (data) {
 								if (data.result === true) {
 									thisInstance.loadTable();
 									app.hideModalWindow();

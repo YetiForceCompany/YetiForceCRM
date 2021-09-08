@@ -99,6 +99,9 @@ class ModTracker_ModTrackerHandler_Handler
 				$preValue = empty($preValue) ? $preValue : \App\TextParser::textTruncate($preValue, 65532);
 				$newValue = empty($newValue) ? $newValue : \App\TextParser::textTruncate($newValue, 65532);
 			}
+			if ($fieldModel && \in_array(\App\Anonymization::MODTRACKER_DB, $fieldModel->getAnonymizationTarget())) {
+				$preValue = $newValue = '****';
+			}
 			$insertedData[] = [$id, $fieldName, $preValue, $newValue];
 		}
 		if ($insertedData) {

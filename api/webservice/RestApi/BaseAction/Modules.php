@@ -6,7 +6,7 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -29,21 +29,11 @@ class Modules extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/RestApi/Modules",
-	 *		summary="Get the permitted module list action, along with their translated action",
+	 *		description="Get the permitted module list action, along with their translated action",
+	 *		summary="The allowed actions of the module list",
 	 *		tags={"BaseAction"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty",
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of permitted modules",
@@ -52,7 +42,7 @@ class Modules extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
-	 *			description="No sent token OR Invalid token",
+	 *			description="`No sent token` OR `Invalid token`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
 	 *		),
@@ -68,13 +58,7 @@ class Modules extends \Api\Core\BaseAction
 	 *		title="Base action - List of permitted modules",
 	 *		description="List of available modules",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 			enum={0, 1},
-	 *     	  	type="integer",
-	 * 			example=1
-	 * 		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="List of permitted modules",

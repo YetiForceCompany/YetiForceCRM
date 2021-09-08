@@ -4,8 +4,9 @@
  * OSSMailScanner Record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 {
@@ -28,9 +29,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$iterator = new DirectoryIterator($moduleModel->actionsDir);
 		$actions = [];
 		foreach ($iterator as $i => $fileInfo) {
-			if (!$fileInfo->isDot()) {
-				$action = $fileInfo->getFilename();
-				$action = rtrim($action, '.php');
+			if (!$fileInfo->isDot() && 'php' === $fileInfo->getExtension()) {
+				$action = trim($fileInfo->getBasename('.php'));
 				$key = array_search($action, $accountsPriority);
 				if (false === $key) {
 					$key = $i + 100;
@@ -358,7 +358,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$break = false;
 		$lastScanUid = self::getUidFolder($account['user_id'], $folder);
 		\App\Log::beginProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
-		$msgno = imap_msgno($mbox, $lastScanUid);
+		$msgno = $lastScanUid ? imap_msgno($mbox, $lastScanUid) : 0;
 		\App\Log::endProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
 		\App\Log::beginProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');
 		$numMsg = imap_num_msg($mbox);
@@ -542,13 +542,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$scanId = $scannerModel->addScanHistory(['user' => $whoTrigger]);
 		foreach ($accounts as $account) {
 			\App\Log::trace('Start checking account: ' . $account['username']);
-			if (!$this->isConnection($account)) {
+			if (empty($account['actions']) || !$this->isConnection($account) || empty($folders = $scannerModel->getFolders($account['user_id']))) {
 				continue;
 			}
-			foreach ($scannerModel->getFolders($account['user_id']) as $folderRow) {
+			foreach ($folders as $folderRow) {
 				$folder = \App\Utils::convertCharacterEncoding($folderRow['folder'], 'UTF-8', 'UTF7-IMAP');
 				\App\Log::trace('Start checking folder: ' . $folder);
-				$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder, false);
+				$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder, false, [], $account);
 				if (\is_resource($mbox)) {
 					$scanSummary = $scannerModel->mailScan($mbox, $account, $folderRow['folder'], $scanId, $countEmails);
 					$countEmails = $scanSummary['count'];
@@ -563,7 +563,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 		self::updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 		\App\Log::trace('End executeCron');
-
 		return 'ok';
 	}
 
@@ -577,13 +576,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public function isConnection(array $account)
 	{
 		$result = false;
-		try {
-			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], '');
-			if (\is_resource($mbox)) {
-				$result = true;
-			}
-		} catch (\Throwable $e) {
-			$result = false;
+		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], '', false, [], $account);
+		if (\is_resource($mbox)) {
+			$result = true;
 		}
 		return $result;
 	}

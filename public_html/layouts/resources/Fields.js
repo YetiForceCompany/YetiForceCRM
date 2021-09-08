@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 window.App.Fields = {
@@ -204,23 +204,15 @@ window.App.Fields = {
 				moment().subtract(1, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [moment().startOf('month'), moment().add(6, 'month').endOf('month')];
+
+			let locale = App.Fields.DateTime.getDefaultLocale();
+			locale.format = format;
 			let params = {
+				language: CONFIG.langKey,
 				autoUpdateInput: false,
 				autoApply: true,
 				ranges: ranges,
-				locale: {
-					format: format,
-					separator: ',',
-					applyLabel: app.vtranslate('JS_APPLY'),
-					cancelLabel: app.vtranslate('JS_CANCEL'),
-					fromLabel: app.vtranslate('JS_FROM'),
-					toLabel: app.vtranslate('JS_TO'),
-					customRangeLabel: app.vtranslate('JS_CUSTOM'),
-					weekLabel: app.vtranslate('JS_WEEK').substr(0, 1),
-					firstDay: CONFIG.firstDayOfWeekNo,
-					daysOfWeek: App.Fields.Date.daysTranslated,
-					monthNames: App.Fields.Date.fullMonthsTranslated
-				}
+				locale: locale
 			};
 
 			if (typeof customParams !== 'undefined') {
@@ -258,58 +250,37 @@ window.App.Fields = {
 			});
 		}
 	},
-	DateTime: {
-		/*
-		 * Initialization datetime fields
-		 * @param {jQuery} parentElement
-		 * @param {object} customParams
+	DateTime: class DateTime {
+		constructor(container, params) {
+			this.container = container;
+			this.init(params);
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 * @param {Object} params
 		 */
-		register: function (parentElement, customParams) {
-			if (typeof parentElement === 'undefined') {
-				parentElement = $('body');
-			} else {
-				parentElement = $(parentElement);
+		static register(container, params) {
+			if (typeof container === 'undefined') {
+				container = $('body');
 			}
-			let elements = $('.dateTimePickerField', parentElement);
-			if (parentElement.hasClass('dateTimePickerField')) {
-				elements = parentElement;
+			if (container.hasClass('dateTimePickerField') && !container.prop('disabled')) {
+				return new DateTime(container, params);
 			}
-			if (elements.length === 0) {
-				return;
-			}
-			$('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
-				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField').get(0).focus();
+			const instances = [];
+			container.find('.dateTimePickerField:not([disabled])').each((_, e) => {
+				let element = $(e);
+				instances.push(new DateTime(element, params));
 			});
-			let dateFormat = CONFIG.dateFormat.toUpperCase();
-			const elementDateFormat = elements.data('dateFormat');
-			if (typeof elementDateFormat !== 'undefined') {
-				dateFormat = elementDateFormat.toUpperCase();
-			}
-			let hourFormat = CONFIG.hourFormat;
-			const elementHourFormat = elements.data('hourFormat');
-			if (typeof elementHourFormat !== 'undefined') {
-				hourFormat = elementHourFormat;
-			}
-			let timePicker24Hour = true;
-			let timeFormat = 'HH:mm';
-			if (hourFormat != '24') {
-				timePicker24Hour = false;
-				timeFormat = 'hh:mm A';
-			}
-			const format = dateFormat + ' ' + timeFormat;
-			let isDateRangePicker = elements.data('calendarType') !== 'range';
-			let params = {
-				parentEl: parentElement,
-				singleDatePicker: isDateRangePicker,
-				showDropdowns: true,
-				timePicker: true,
-				autoUpdateInput: false,
-				timePicker24Hour: timePicker24Hour,
-				timePickerIncrement: 1,
-				autoApply: true,
-				opens: 'left',
-				locale: {
-					format: format,
+			return instances;
+		}
+		/**
+		 * Gets default locale data
+		 * @returns {Object}
+		 */
+		static getDefaultLocale() {
+			if (!this.locale) {
+				this.locale = {
 					separator: ',',
 					applyLabel: app.vtranslate('JS_APPLY'),
 					cancelLabel: app.vtranslate('JS_CANCEL'),
@@ -320,12 +291,55 @@ window.App.Fields = {
 					firstDay: CONFIG.firstDayOfWeekNo,
 					daysOfWeek: App.Fields.Date.daysTranslated,
 					monthNames: App.Fields.Date.fullMonthsTranslated
-				}
+				};
+			}
+			return { ...this.locale };
+		}
+
+		/**
+		 * Initialization datetime
+		 */
+		init(customParams) {
+			$('.input-group-text', this.container.closest('.dateTime')).on('click', function (e) {
+				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField').get(0).focus();
+			});
+			let dateFormat = CONFIG.dateFormat.toUpperCase();
+			const elementDateFormat = this.container.data('dateFormat');
+			if (typeof elementDateFormat !== 'undefined') {
+				dateFormat = elementDateFormat.toUpperCase();
+			}
+			let hourFormat = CONFIG.hourFormat;
+			const elementHourFormat = this.container.data('hourFormat');
+			if (typeof elementHourFormat !== 'undefined') {
+				hourFormat = elementHourFormat;
+			}
+			let timePicker24Hour = true;
+			let timeFormat = 'HH:mm';
+			if (hourFormat != '24') {
+				timePicker24Hour = false;
+				timeFormat = 'hh:mm A';
+			}
+			const format = dateFormat + ' ' + timeFormat;
+			let isDateRangePicker = this.container.data('calendarType') !== 'range';
+			let locale = App.Fields.DateTime.getDefaultLocale();
+			locale.format = format;
+			let params = {
+				language: CONFIG.langKey,
+				parentEl: this.container.closest('.dateTime'),
+				singleDatePicker: isDateRangePicker,
+				showDropdowns: true,
+				timePicker: true,
+				autoUpdateInput: false,
+				timePicker24Hour: timePicker24Hour,
+				timePickerIncrement: 1,
+				autoApply: true,
+				opens: 'left',
+				locale: locale
 			};
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
 			}
-			elements
+			this.container
 				.daterangepicker(params)
 				.on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
 					if (isDateRangePicker) {
@@ -338,9 +352,7 @@ window.App.Fields = {
 					App.Fields.Utils.positionPicker(ev, picker);
 					picker.container.addClass('js-visible');
 				});
-			elements.each((index, element) => {
-				App.Fields.Utils.registerMobileDateRangePicker($(element));
-			});
+			App.Fields.Utils.registerMobileDateRangePicker(this.container);
 		}
 	},
 	Colors: {
@@ -1247,6 +1259,13 @@ window.App.Fields = {
 						}
 						let instance = $(e.currentTarget).data('select2');
 						instance.$dropdown.css('z-index', 1000002);
+						/**
+						 * Fix auto focusing in select2 with jQuery 3.6.0
+						 * see: https://github.com/select2/select2/issues/5993
+						 */
+						if (instance.dropdown.$search) {
+							instance.dropdown.$search.get(0).focus();
+						}
 					})
 					.on('select2:unselect', () => {
 						select.data('unselecting', true);
@@ -1515,6 +1534,7 @@ window.App.Fields = {
 						});
 					});
 					cb(select);
+					select.trigger('sortable:change');
 				}
 			});
 		},
@@ -2961,6 +2981,172 @@ window.App.Fields = {
 				filterFields: filterFields,
 				multi_select: sourceField.data('multiple')
 			};
+		}
+	},
+	/**
+	 * Password
+	 */
+	Password: class Password {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-pwd-container')) {
+				return new Password(container);
+			}
+			const instances = [];
+			container.find('.js-pwd-container').each((_, e) => {
+				instances.push(new Password($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Get strength meter
+		 * @returns {Object}
+		 */
+		static getStrengthLevels() {
+			if (!this.strengthLevels) {
+				this.strengthLevels = {
+					0: app.vtranslate('JS_PWD_RIDICULOUS'),
+					1: app.vtranslate('JS_PWD_VERY_WEAK'),
+					2: app.vtranslate('JS_PWD_WEAK'),
+					3: app.vtranslate('JS_PWD_MEDIUM'),
+					4: app.vtranslate('JS_PWD_STRONG'),
+					5: app.vtranslate('JS_PWD_VERY_STRONG')
+				};
+			}
+			return { ...this.strengthLevels };
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			let field = this.getField();
+			$('.js-pwd-auto-generate', this.container)
+				.off('click')
+				.on('click', () => {
+					this.getResponse({
+						module: field.data('module'),
+						field: field.attr('name'),
+						action: 'Password',
+						mode: 'generatePwd'
+					}).then((response) => {
+						if (response.success && response.result && response.result.pwd) {
+							this.clear();
+							field.val(response.result.pwd).trigger('keyup');
+						}
+					});
+				});
+			$('.js-pwd-validate', this.container)
+				.off('click')
+				.on('click', () => {
+					this.getResponse({
+						module: field.data('module'),
+						field: field.attr('name'),
+						password: field.val(),
+						action: 'Password',
+						mode: 'validatePwd'
+					}).then((response) => {
+						if (response.success && response.result) {
+							let message = response.result.message;
+							if (Array.isArray(message)) {
+								message = message.join('<br>');
+							}
+							field.validationEngine('showPrompt', message, response.result.type, 'topLeft', true);
+							field.validationEngine('updatePromptsPosition');
+						}
+					});
+				});
+			$('.js-pwd-clear', this.container)
+				.off('click')
+				.on('click', (e) => {
+					this.clear();
+				});
+			$('.js-pwd-get', this.container)
+				.off('click')
+				.on('click', (e) => {
+					let form = this.container.closest('form');
+					let recordId = $('input[name="record"]', form).val() || app.getRecordId();
+					this.getResponse({
+						module: field.data('module'),
+						field: field.attr('name'),
+						record: recordId,
+						action: 'Password',
+						mode: 'getPwd'
+					}).then((response) => {
+						this.clear();
+						field.val(response.result.text);
+					});
+				});
+			if (field.data('strengthMeter')) {
+				field.off('keyup').on('keyup', (e) => {
+					let score = this.strengthMeter(e.target.value || '');
+					field
+						.attr('data-original-title', App.Fields.Password.getStrengthLevels()[score])
+						.tooltip('show')
+						.validationEngine('hide');
+				});
+			}
+		}
+		/**
+		 * Clear data
+		 */
+		clear() {
+			this.getField().val('').attr('disabled', false).tooltip('dispose').validationEngine('hide');
+			this.container.find('.js-pwd-validate, .js-pwd-show').attr('disabled', false);
+		}
+		/**
+		 * Get response
+		 * @param {Object} params
+		 * @returns
+		 */
+		getResponse(params) {
+			const aDeferred = $.Deferred();
+			let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+			AppConnector.request(params)
+				.done((response) => {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					if (response.success) {
+						aDeferred.resolve(response);
+					} else {
+						aDeferred.reject(response);
+					}
+				})
+				.fail((_) => {
+					app.showNotify({
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					});
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					aDeferred.reject(_);
+				});
+			return aDeferred.promise();
+		}
+		/**
+		 * Get strength meter score
+		 * @param {string} pwd
+		 * @returns {int}
+		 */
+		strengthMeter(pwd) {
+			let score = 0;
+			if (pwd.length > 6) score++;
+			if (pwd.match(/[a-z]/) && pwd.match(/[A-Z]/)) score++;
+			if (pwd.match(/\d+/)) score++;
+			if (pwd.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) score++;
+			if (pwd.length > 12) score++;
+
+			return score;
+		}
+		/**
+		 * Gets field
+		 */
+		getField() {
+			return this.container.find('.js-pwd-field');
 		}
 	},
 	Utils: {

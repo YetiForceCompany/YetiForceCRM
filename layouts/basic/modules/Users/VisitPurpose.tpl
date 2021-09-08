@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Users-VisitPurpose -->
 	<form name="VisitPurpose" class="form-horizontal validateForm">
@@ -15,12 +15,6 @@
 					<span class="mdi mdi-information-outline u-fs-4x mr-2 float-left"></span>
 					{\App\Language::translate("LBL_VISIT_PURPOSE_ALERT")}
 				</div>
-			{/if}
-			{if \App\Security\AdminAccess::isPermitted('AdminAccess')}
-				<a href="index.php?parent=Settings&module=AdminAccess&view=Index&tab=visitPurpose" class="btn btn-primary mr-2">
-					<span class="ayfi yfi-admin-access mr-2"></span>
-					{App\Language::translate('LBL_ADMIN_ACCESS','Settings::AdminAccess')} > {App\Language::translate('LBL_HISTORY_ADMINS_VISIT_PURPOSE','Settings::AdminAccess')}
-				</a>
 			{/if}
 		</div>
 	</form>

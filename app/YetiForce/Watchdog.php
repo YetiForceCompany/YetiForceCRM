@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -68,11 +68,13 @@ class Watchdog
 		$info = [
 			'insKey' => \App\YetiForce\Register::getInstanceKey(),
 		];
+		\App\Utils\ConfReport::$testCli = true;
 		foreach ($config as $name => $state) {
 			if ($state) {
 				$info[$name] = \call_user_func([$status, 'get' . ucfirst($name)]);
 			}
 		}
+		\App\Utils\ConfReport::$testCli = false;
 		try {
 			\App\Log::beginProfile("POST|Watchdog::send|{$url}", __NAMESPACE__);
 			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
@@ -81,7 +83,7 @@ class Watchdog
 				],
 				'allow_redirects' => false,
 				'timeout' => 5,
-				'json' => $info
+				'json' => $info,
 			]);
 			\App\Log::endProfile("POST|Watchdog::send|{$url}", __NAMESPACE__);
 		} catch (\Throwable $e) {
@@ -131,10 +133,7 @@ class Watchdog
 	 */
 	public function getCrmVersion()
 	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['crmVersion']['www'] ?? '';
+		return \App\Version::get();
 	}
 
 	/**
@@ -144,13 +143,18 @@ class Watchdog
 	 */
 	public function getDbVersion()
 	{
-		if (empty($this->cache['database'])) {
-			$this->cache['database'] = \App\Utils\ConfReport::get('database');
+		$value = [];
+		if (($db = \App\Db::getInstance()) && $db->getMasterPdo() && ($dbInfo = $db->getInfo())) {
+			$value = [
+				'version' => $dbInfo['serverVersion'],
+				'comment' => $dbInfo['version_comment'] ?? '',
+				'clientVersion' => $dbInfo['clientVersion'],
+				'typeDb' => $dbInfo['typeDb'],
+				'version' => $dbInfo['version'] ?? '',
+				'versionSslLibrary' => $dbInfo['version_ssl_library'] ?? '',
+			];
 		}
-		return [
-			'version' => $this->cache['database']['serverVersion']['www'] ?? '',
-			'comment' => $this->cache['database']['version_comment']['www'] ?? '',
-		];
+		return $value;
 	}
 
 	/**
@@ -160,10 +164,14 @@ class Watchdog
 	 */
 	public function getOsVersion()
 	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['operatingSystem']['www'] ?? '';
+		return [
+			'full' => php_uname(),
+			'machineType' => php_uname('m'),
+			'hostName' => php_uname('n'),
+			'release' => php_uname('r'),
+			'operatingSystem' => php_uname('s'),
+			'version' => php_uname('v'),
+		];
 	}
 
 	/**
@@ -179,6 +187,74 @@ class Watchdog
 			$value = $cron;
 		}
 		return $value;
+	}
+
+	/**
+	 * Get CRM root directory space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceRoot()
+	{
+		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
+		return is_dir($dir) ? disk_free_space($dir) : 0;
+	}
+
+	/**
+	 * Get storage directory space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceStorage()
+	{
+		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'storage';
+		return is_dir($dir) ? disk_free_space($dir) : 0;
+	}
+
+	/**
+	 * Get temporary directory space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceTemp()
+	{
+		$dir = \App\Fields\File::getTmpPath();
+		return is_dir($dir) ? disk_free_space($dir) : 0;
+	}
+
+	/**
+	 * Get backup directory space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceBackup()
+	{
+		$dir = \App\Utils\Backup::getBackupCatalogPath();
+		return (empty($dir) || !is_dir($dir)) ? 0 : disk_free_space($dir);
+	}
+
+	/**
+	 * Get domain.
+	 *
+	 * @return array
+	 */
+	public function getDomain()
+	{
+		return \App\Config::main('site_URL');
+	}
+
+	/**
+	 * Get updates.
+	 *
+	 * @return array
+	 */
+	public function getUpdates()
+	{
+		$rows = [];
+		foreach (\Settings_Updates_Module_Model::getUpdates() as $row) {
+			$rows[] = [$row['name'], $row['from_version'], $row['to_version'], $row['result']];
+		}
+		return $rows;
 	}
 
 	/**
@@ -400,81 +476,5 @@ class Watchdog
 	public function getSapiVersion()
 	{
 		return [];
-	}
-
-	/**
-	 * Get CRM root directory space.
-	 *
-	 * @return array
-	 */
-	public function getSpaceRoot()
-	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['spaceRoot']['spaceFree'] ?? 0;
-	}
-
-	/**
-	 * Get storage directory space.
-	 *
-	 * @return array
-	 */
-	public function getSpaceStorage()
-	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['spaceStorage']['spaceFree'] ?? 0;
-	}
-
-	/**
-	 * Get temporary directory space.
-	 *
-	 * @return array
-	 */
-	public function getSpaceTemp()
-	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['spaceTemp']['spaceFree'] ?? 0;
-	}
-
-	/**
-	 * Get backup directory space.
-	 *
-	 * @return array
-	 */
-	public function getSpaceBackup()
-	{
-		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
-		}
-		return $this->cache['environment']['spaceBackup']['spaceFree'] ?? 0;
-	}
-
-	/**
-	 * Get domain.
-	 *
-	 * @return array
-	 */
-	public function getDomain()
-	{
-		return \App\Config::main('site_URL');
-	}
-
-	/**
-	 * Get updates.
-	 *
-	 * @return array
-	 */
-	public function getUpdates()
-	{
-		$rows = [];
-		foreach (\Settings_Updates_Module_Model::getUpdates() as $row) {
-			$rows[] = [$row['name'], $row['from_version'], $row['to_version'], $row['result']];
-		}
-		return $rows;
 	}
 }

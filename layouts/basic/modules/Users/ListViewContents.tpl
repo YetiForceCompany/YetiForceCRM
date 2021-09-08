@@ -26,6 +26,8 @@
 	<input type="hidden" id="autoRefreshListOnChange"
 		   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
+	<input type="hidden" id="selectedIds" name="selectedIds" />
+	<input type="hidden" id="excludedIds" name="excludedIds" />
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE)}
@@ -138,17 +140,17 @@
 							{LINKS_BUTTONS LINKS=[$LINK]}
 						{/foreach}
 					</td>
-					<td width="5%" class="{$WIDTHTYPE}">
-						<div class="row">
+					<td class="{$WIDTHTYPE}">
+						<div class="d-flex justify-content-center">
 							{assign var=IMAGE value=$LISTVIEW_ENTRY->getImage()}
 							{if $IMAGE}
-								<div class="text-center">
+								<div class="px-0">
 									<img src="{$IMAGE.url}"
 										 class="c-img__user rounded-circle" alt="{$LISTVIEW_ENTRY->getName()}"
 										 title="{$LISTVIEW_ENTRY->getName()}">
 								</div>
 							{else}
-								<div class="col-md-12 px-0 text-center">
+								<div class="px-0">
 									<img class="c-img__user" alt=""
 										 src="{\App\Layout::getImagePath('DefaultUserIcon.png')}">
 								</div>

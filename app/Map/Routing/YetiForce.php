@@ -7,7 +7,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -42,8 +42,8 @@ class YetiForce extends Base
 			'http_errors' => false,
 			'headers' => [
 				'Accept' => 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
-				'InsKey' => \App\YetiForce\Register::getInstanceKey()
-			]
+				'InsKey' => \App\YetiForce\Register::getInstanceKey(),
+			],
 		];
 		if (isset($product['params']['token'])) {
 			$params['yf_token'] = $product['params']['token'];
@@ -88,7 +88,7 @@ class YetiForce extends Base
 	public function parsePoints(): array
 	{
 		$tracks = [
-			$this->start['lon'] . ',' . $this->start['lat']
+			$this->start['lon'] . ',' . $this->start['lat'],
 		];
 		if (!empty($this->indirectPoints)) {
 			foreach ($this->indirectPoints as $tempLon) {

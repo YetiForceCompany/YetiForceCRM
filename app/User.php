@@ -8,7 +8,7 @@ namespace App;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -489,6 +489,24 @@ class User
 	}
 
 	/**
+	 * Gets member structure.
+	 *
+	 * @return array
+	 */
+	public function getMemberStructure(): array
+	{
+		$member[] = \App\PrivilegeUtil::MEMBER_TYPE_USERS . ":{$this->getId()}";
+		$member[] = \App\PrivilegeUtil::MEMBER_TYPE_ROLES . ":{$this->getRole()}";
+		foreach ($this->getGroups() as $groupId) {
+			$member[] = \App\PrivilegeUtil::MEMBER_TYPE_GROUPS . ":{$groupId}";
+		}
+		foreach (explode('::', $this->getParentRolesSeq()) as $role) {
+			$member[] = \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES . ":{$role}";
+		}
+		return $member;
+	}
+
+	/**
 	 * Get user image details by id.
 	 *
 	 * @param int $userId
@@ -569,6 +587,6 @@ class User
 	 */
 	public static function checkPreviousPassword(int $userId, string $password): bool
 	{
-		return (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $userId, 'pass' => Encryption::createHash($password)])->exists();
+		return (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $userId, 'pass' => Encryption::createHash($password)])->exists(\App\Db::getInstance('log'));
 	}
 }

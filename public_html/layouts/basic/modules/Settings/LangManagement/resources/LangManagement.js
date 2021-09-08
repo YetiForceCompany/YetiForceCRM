@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 var Settings_Index_Js = {
@@ -478,7 +478,7 @@ var Settings_Index_Js = {
 		this.registerStats();
 	}
 };
-$(document).ready(function () {
+jQuery(function () {
 	document.showDiff = false;
 	Settings_Index_Js.registerEvents();
 });

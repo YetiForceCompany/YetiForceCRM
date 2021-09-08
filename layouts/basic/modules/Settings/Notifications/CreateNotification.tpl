@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="validationEngineContainer">
 		<div class="modal-header">
@@ -14,7 +14,7 @@
 						<label>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</label>
 					</div>
 					<div class="col-sm-8">
-						<input name="name" value="{$RECORD->getName()}" data-validation-engine="validate[required]" class="form-control"> 
+						<input name="name" value="{$RECORD->getName()}" data-validation-engine="validate[required]" class="form-control">
 					</div>
 				</div>
 			</div>

@@ -6,11 +6,14 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Portal\BaseModule;
+
+use OpenApi\Annotations as OA;
 
 /**
  * Portal container - Records hierarchy action class.
@@ -35,7 +38,7 @@ class Hierarchy extends \Api\Core\BaseAction
 	public $recursion = [];
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		if (1 === $this->getPermissionType()) {
@@ -47,59 +50,31 @@ class Hierarchy extends \Api\Core\BaseAction
 	/**
 	 * Get records hierarchy.
 	 *
-	 * @return array
+	 * @throws \Api\Core\Exception
 	 *
+	 * @return array
 	 * @OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/Hierarchy",
-	 *		summary="Get records hierarchy",
+	 *		summary="Hierarchy of records",
+	 *		description="Get records hierarchy",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(
-	 *				type="string"
-	 *			),
-	 *			in="path",
-	 *			example="Accounts",
-	 *			required=true
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
+	 *		@OA\Response(response=200, description="Records hierarchy details",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_Hierarchy_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_Hierarchy_Response"),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="Request body does not occur",
-	 *		),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="Records hierarchy details",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Hierarchy_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Hierarchy_ResponseBody"),
-	 *		),
-	 *		@OA\Response(
-	 *			response=405,
-	 *			description="No hierarchy OR Not available for this type of user",
+	 *		@OA\Response(response=405, description="`No hierarchy` OR `Not available for this type of user`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseAction_Hierarchy_ResponseBody",
+	 *		schema="BaseModule_Get_Hierarchy_Response",
 	 *		title="Base module - Hierarchy response schema",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 			enum={0, 1},
-	 *     	  	type="integer",
-	 * 			example=1
-	 * 		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="Records",

@@ -2,7 +2,7 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Model
@@ -10,14 +10,12 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 	/**
 	 * Funtion to get the Login history basic query.
 	 *
-	 * @return type
+	 * @return App\Db\Query
 	 */
-	public function getBasicListQuery()
+	public function getBasicListQuery(): App\Db\Query
 	{
 		$module = $this->getModule();
-		$query = (new App\Db\Query())->select(['login_id', 'user_name', 'user_ip', 'logout_time',
-			'login_time', 'vtiger_loginhistory.status', ])
-			->from($module->baseTable);
+		$query = (new App\Db\Query())->select(['login_id', 'user_name', 'user_ip', 'agent', 'browser', 'logout_time', 'login_time', 'vtiger_loginhistory.status'])->from($module->baseTable);
 		$search_key = $this->get('search_key');
 		$value = $this->get('search_value');
 		if (!empty($search_key) && !empty($value) && \in_array($search_key, array_keys($module->listFields))) {
@@ -29,7 +27,6 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 			}
 		}
 		$query->orderBy(['login_time' => SORT_DESC]);
-
 		return $query;
 	}
 
@@ -41,13 +38,12 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 	/**
 	 * Function which will get the list view count.
 	 *
-	 * @return - number of records
+	 * @return int - number of records
 	 */
-	public function getListViewCount()
+	public function getListViewCount(): int
 	{
 		$query = $this->getBasicListQuery();
 		$query->orderBy([]);
-
 		return $query->count();
 	}
 }

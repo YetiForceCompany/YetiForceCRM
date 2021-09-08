@@ -24,7 +24,7 @@
 					{assign var="LABEL" value=\App\Language::translate($LINK->getLabel(), $QUALIFIED_MODULE)}
 				{/if}
 				<button type="button" title="{if $LINK->getLabel()}{$LABEL}{/if}"
-						class="btn{if $LINK->getClassName()} {$LINK->getClassName()}{else} btn-light{/if} {if $LINK->get('modalView')}showModal{/if}"
+						class="btn{if $LINK->getClassName()} {$LINK->getClassName()}{else} btn-light{/if} {if $LINK->get('modalView')}js-show-modal{/if}"
 						{if $LINK->getUrl()}
 							{if stripos($LINK->getUrl(), 'javascript:')===0} onclick='{$LINK->getUrl()|substr:strlen("javascript:")};'
 							{else} onclick='window.location.href = "{$LINK->getUrl()}"' {/if}

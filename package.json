@@ -22,7 +22,7 @@
     "IE 11"
   ],
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
-  "license": "YetiForce Public License v3",
+  "license": "YetiForce Public License 4.0",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
     "@mdi/font": "^5.0.0",

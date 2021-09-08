@@ -5,7 +5,7 @@
  * @package   UIType
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -17,7 +17,11 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
-		$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		if (\is_string($value)) {
+			$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		} else {
+			$data = $value;
+		}
 		foreach ($data['currencies'] ?? [] as $key => $currency) {
 			$data['currencies'][$key]['price'] = App\Fields\Double::formatToDb($currency['price']);
 		}
@@ -72,17 +76,27 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getBaseCurrency($value): ?int
 	{
-		return \App\Json::isEmpty($value) ? null : \App\Json::decode($value)['currencyId'];
+		if (\is_string($value)) {
+			$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		} else {
+			$data = $value;
+		}
+		return $data['currencyId'] ?? null;
 	}
 
 	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		if ($value = (\App\Json::isEmpty($value) ? 0 : \App\Json::decode($value))) {
-			$currencyId = $value['currencyId'];
-			$value = App\Fields\Double::formatToDisplay($value['currencies'][$currencyId]['price'], false);
+		if (\is_string($value)) {
+			$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		} else {
+			$data = $value;
 		}
-		return \App\Purifier::encodeHtml($value);
+		if ($data) {
+			$currencyId = $data['currencyId'];
+			$data = App\Fields\Double::formatToDisplay($data['currencies'][$currencyId]['price'], false);
+		}
+		return \App\Purifier::encodeHtml($data);
 	}
 
 	/**
@@ -94,7 +108,12 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewFormatData($value)
 	{
-		if ($data = ($value ? \App\Json::decode($value) : [])) {
+		if (\is_string($value)) {
+			$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		} else {
+			$data = $value;
+		}
+		if ($data) {
 			foreach ($data['currencies'] ?? [] as $key => $currency) {
 				$data['currencies'][$key]['price'] = App\Fields\Double::formatToDisplay($currency['price'], false);
 			}
@@ -122,7 +141,7 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 				'conversionRate' => $currency['conversion_rate'],
 				'symbol' => $currency['currency_symbol'],
 				'currencyName' => $currency['currency_name'],
-				'fieldInfo' => $fieldInfo
+				'fieldInfo' => $fieldInfo,
 			];
 		}
 		return $priceDetails;
@@ -139,15 +158,20 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	public function getValueForCurrency(string $value, int $currencyId): float
 	{
 		$result = 0;
-		if ($value = (\App\Json::isEmpty($value) ? 0 : \App\Json::decode($value))) {
+		if (\is_string($value)) {
+			$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		} else {
+			$data = $value;
+		}
+		if ($data) {
 			$rate = 1;
-			if (!isset($value['currencies'][$currencyId])) {
+			if (!isset($data['currencies'][$currencyId])) {
 				$currencyInfo = \App\Fields\Currency::getById($currencyId);
-				$currencyId = $value['currencyId'];
+				$currencyId = $data['currencyId'];
 				$baseRate = 1 / \App\Fields\Currency::getById($currencyId)['conversion_rate'];
 				$rate = $baseRate * $currencyInfo['conversion_rate'];
 			}
-			$result = $value['currencies'][$currencyId]['price'] * $rate;
+			$result = $data['currencies'][$currencyId]['price'] * $rate;
 		}
 		return $result;
 	}
@@ -162,12 +186,16 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	public function getValueToExport($value, int $recordId)
 	{
 		$result = [];
-		$value = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
-		foreach ($value['currencies'] ?? [] as $key => $currency) {
+		if (\is_string($value)) {
+			$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		} else {
+			$data = $value;
+		}
+		foreach ($data['currencies'] ?? [] as $key => $currency) {
 			$currencyName = \App\Fields\Currency::getById($key)['currency_name'];
 			$result['currencies'][$currencyName]['price'] = $currency['price'];
 		}
-		if ($currencyId = $value['currencyId'] ?? 0) {
+		if ($currencyId = $data['currencyId'] ?? 0) {
 			$currencyName = \App\Fields\Currency::getById($currencyId)['currency_name'];
 			$result['currencyId'] = $currencyName;
 		}
@@ -178,12 +206,16 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	public function getValueFromImport($value)
 	{
 		$result = [];
-		$value = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
-		foreach ($value['currencies'] ?? [] as $key => $currency) {
+		if (\is_string($value)) {
+			$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		} else {
+			$data = $value;
+		}
+		foreach ($data['currencies'] ?? [] as $key => $currency) {
 			$currencyId = \App\Fields\Currency::getCurrencyIdByName($key);
 			$result['currencies'][$currencyId]['price'] = $currency['price'];
 		}
-		if ($currencyName = $value['currencyId'] ?? 0) {
+		if ($currencyName = $data['currencyId'] ?? 0) {
 			$currencyId = \App\Fields\Currency::getCurrencyIdByName($currencyName);
 			$result['currencyId'] = $currencyId;
 		}

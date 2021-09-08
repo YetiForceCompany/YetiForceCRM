@@ -147,6 +147,10 @@
     "ERR_NO_CONFIGURATION_FOLDERS": "No folder configuration",
     "LBL_SHOW_ACCOUNT_DETAILS": "Show account details",
     "LBL_EDIT_FOLDER_ACCOUNT": "Edit folders",
+    "LBL_SET_STATUS_DISABLE": "Disable the email account",
+    "LBL_SET_STATUS_ACTIVE": "Enable the email account",
+    "LBL_ACCOUNT_IS_BLOCKED": "The account is blocked",
+    "LBL_ACCOUNT_IS_DISABLED": "The account is disabled",
     "LBL_ALERT_EDIT_FOLDER": "Deleting the folder and adding it again will restart the mail scanner for selected folders.",
     "LBL_DELETE_ACCOUNT": "Delete account"
   }

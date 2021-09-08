@@ -3,12 +3,12 @@
 /**
  * Configuration POS.
  *
- * @package Settings._View
+ * @package Settings.View
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_WebserviceApps_Index_View extends Settings_Vtiger_Index_View
 {
@@ -31,9 +31,17 @@ class Settings_WebserviceApps_Index_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 
 		$listServers = Settings_WebserviceApps_Module_Model::getServers();
+		$isPortal = false;
+		foreach ($listServers as $value) {
+			if ('Portal' === $value['type']) {
+				$isPortal = true;
+				continue;
+			}
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('LIST_SERVERS', $listServers);
+		$viewer->assign('IS_PORTAL', $isPortal);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
@@ -42,7 +50,7 @@ class Settings_WebserviceApps_Index_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'libraries.clipboard.dist.clipboard'
+			'libraries.clipboard.dist.clipboard',
 		]));
 	}
 }

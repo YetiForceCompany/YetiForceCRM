@@ -4,7 +4,7 @@
  * Basis of environmental initiation.
  *
  * @copyright  YetiForce Sp. z o.o
- * @license    YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license    YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 if (!\defined('ROOT_DIRECTORY')) {
 	\define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', __DIR__));

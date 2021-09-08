@@ -7,14 +7,15 @@
     "FL_MODULE_NAME": "Module name",
     "LBL_ACTIVE": "Active",
     "LBL_EDIT_ADMIN_ACCESS": "Editing of admin accesses",
-    "LBL_EDIT_ADMIN_ACCESS_ALERT": " ",
     "LBL_HISTORY_ADMINS_VISIT_PURPOSE": "Visits Purpose",
     "FL_DATE_TIME": "Date",
     "FL_PURPOSE": "Purpose",
     "FL_USER": "User",
     "FL_BASE_USER": "Base user",
-    "LBL_LOGIN_ADMIN_VISIT_PURPOSE": "Login visit purpose",
-    "LBL_LOGIN_ADMIN_VISIT_PURPOSE_DESC": "Do you want to activate the visit purpose window for administrators when they log into the system?"
+    "LBL_LOGIN_ADMIN_VISIT_PURPOSE": "Ask for the logging in purpose",
+    "LBL_LOGIN_ADMIN_VISIT_PURPOSE_DESC": "Do you want to activate the visit purpose window for administrators when they log into the system?",
+    "LBL_LOGIN_ADMIN_VISIT_SWITCH_USERS": "Ask for the switching users purpose",
+    "LBL_LOGIN_ADMIN_VISIT_SWITCH_USERS_DESC": "Do you want to activate the visit purpose window for administrators when switch users in the system?"
   },
   "js": {
     "JS_SAVE_SUCCESS": "Changes saved"

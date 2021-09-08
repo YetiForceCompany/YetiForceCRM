@@ -5,13 +5,15 @@
  * @package Api
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\Portal\BaseModule;
+
+use OpenApi\Annotations as OA;
 
 /**
  * Saving data to the inventory module.
@@ -34,7 +36,7 @@ class SaveInventory extends \Api\Core\BaseAction
 	private $inventory;
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
@@ -51,31 +53,12 @@ class SaveInventory extends \Api\Core\BaseAction
 	 *
 	 *	@OA\Post(
 	 *		path="/webservice/Portal/{moduleName}/SaveInventory",
-	 *		summary="Create inventory record from cart",
+	 *		summary="Add inventory record from cart",
+	 *		description="Creating inventory records for the functionality of the store",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(
-	 *				type="string"
-	 *			),
-	 *			in="path",
-	 *			example="Accounts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="Request body does not occur",
-	 *		),
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Contents of the response contains only id nd module name",
@@ -93,13 +76,7 @@ class SaveInventory extends \Api\Core\BaseAction
 	 *		schema="BaseAction_SaveInventory_ResponseBody",
 	 *		title="Base module - Create inventory record response schema",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 			enum={0, 1},
-	 *     	  	type="integer",
-	 * 			example=1
-	 * 		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="Create result",
@@ -175,7 +152,7 @@ class SaveInventory extends \Api\Core\BaseAction
 				if ($grossFieldModel && $grossFieldModel->getSummaryValuesFromData($inventoryData) > (($limits[$creditLimitId]['value'] ?? 0) - $parentRecordModel->get('sum_open_orders'))) {
 					return [
 						'errors' => [
-							'limit' => 'Merchant limit was exceeded'
+							'limit' => 'Merchant limit was exceeded',
 						],
 					];
 				}
@@ -199,7 +176,7 @@ class SaveInventory extends \Api\Core\BaseAction
 		if (!$this->controller->request->has('inventory')) {
 			return [
 				'errors' => [
-					'record' => 'There are no inventory records'
+					'record' => 'There are no inventory records',
 				],
 			];
 		}
@@ -207,14 +184,14 @@ class SaveInventory extends \Api\Core\BaseAction
 		if (!$this->moduleModel->isInventory()) {
 			return [
 				'errors' => [
-					'record' => 'This is not an inventory module'
+					'record' => 'This is not an inventory module',
 				],
 			];
 		}
 		$this->inventory = new \Api\Portal\Inventory($this->moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId(), $this->getParentCrmId());
 		if ($this->getCheckStockLevels() && !$this->inventory->validate()) {
 			return [
-				'errors' => $this->inventory->getErrors()
+				'errors' => $this->inventory->getErrors(),
 			];
 		}
 		return [];

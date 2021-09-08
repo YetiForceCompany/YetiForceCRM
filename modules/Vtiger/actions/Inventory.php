@@ -6,7 +6,7 @@
  * @package Action
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -161,7 +161,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			foreach ($autoCompleteField as $field) {
 				$fieldModel = $recordModel->getField($field['field']);
 				if ($fieldModel && ($fieldValue = $recordModel->get($field['field']))) {
-					$autoFields[$field['tofield']] = $fieldModel->getEditViewDisplayValue($fieldValue, $recordModel);
+					$autoFields[$field['tofield']] = $fieldModel->isReferenceField() ? $fieldValue : $fieldModel->getEditViewDisplayValue($fieldValue, $recordModel);
 					$autoFields[$field['tofield'] . 'Text'] = $fieldModel->getDisplayValue($fieldValue, $recordId, $recordModel, true);
 				}
 			}

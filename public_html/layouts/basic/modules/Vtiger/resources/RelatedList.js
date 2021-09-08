@@ -99,7 +99,7 @@ jQuery.Class(
 								if (responseData.result.reloadList) {
 									Vtiger_Detail_Js.reloadRelatedList();
 								}
-								if (responseData.result.procesStop) {
+								if (responseData.result.processStop) {
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
 									return false;
 								}
@@ -808,6 +808,7 @@ jQuery.Class(
 			const self = this;
 			if (this.relatedView === 'List' || this.relatedView === 'Detail') {
 				this.content.find('.listViewEntries').on('click', function (e) {
+					if ($(e.target).hasClass('js-no-link')) return;
 					if ($(e.target).closest('div').hasClass('actions')) return;
 					if ($(e.target).is('button') || $(e.target).parent().is('button') || $(e.target).is('a')) return;
 					if ($(e.target).closest('a').hasClass('noLinkBtn')) return;

@@ -5,12 +5,14 @@
  * @package Api
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\Portal\BaseModule;
+
+use OpenApi\Annotations as OA;
 
 /**
  * Portal container - Get PDF templates list class.
@@ -21,7 +23,7 @@ class PdfTemplates extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
@@ -44,44 +46,18 @@ class PdfTemplates extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/Portal/{moduleName}/PdfTemplates/{recordId}",
-	 *		summary="Get PDF templates list",
+	 *		summary="PDF templates",
+	 *		description="Get PDF templates list",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(
-	 *				type="string"
-	 *			),
-	 *			in="path",
-	 *			example="Accounts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="recordId",
-	 *			description="Record id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="path",
-	 *			example=116,
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="Request body does not occur",
-	 *		),
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),
+	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Get PDF templates list",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_PdfTemplates_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_PdfTemplates_ResponseBody"),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_PdfTemplates_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_PdfTemplates_Response"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
@@ -103,27 +79,21 @@ class PdfTemplates extends \Api\Core\BaseAction
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseAction_PdfTemplates_ResponseBody",
+	 *		schema="BaseModule_Get_PdfTemplates_Response",
 	 *		title="Base module - Get PDF templates list response schema",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 * 			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 			enum={0, 1},
-	 *     	  	type="integer",
-	 * 			example=1
-	 * 		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="Pdf templates",
+	 *			title="Pdf templates",
 	 *			type="object",
 	 *			@OA\AdditionalProperties(
-	 *				description="Pdf template detail",
+	 *				title="Pdf template detail",
 	 *				type="object",
-	 *				@OA\Property(property="id", description="Record Id", type="integer", example=38),
+	 *				@OA\Property(property="id", title="Record Id", type="integer", example=38),
 	 * 				@OA\Property(property="name", type="string", example="order"),
 	 * 				@OA\Property(property="second_name", type="string", example="order"),
-	 * 				@OA\Property(property="default", type="integer", example=null),
+	 * 				@OA\Property(property="default", type="integer", example=1),
 	 * 			),
 	 *		),
 	 *	),
@@ -141,7 +111,7 @@ class PdfTemplates extends \Api\Core\BaseAction
 				'id' => $template->getId(),
 				'name' => \App\Language::translate($template->getName(), $template->get('module_name')),
 				'second_name' => \App\Language::translate($template->get('secondary_name'), $template->get('module_name')),
-				'default' => $template->get('default')
+				'default' => $template->get('default'),
 			];
 		}
 		return $templatesData;

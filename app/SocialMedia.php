@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
@@ -318,7 +318,7 @@ class SocialMedia extends Base
 		$dataReader = (new \App\Db\Query())->from('l_#__social_media_logs')
 			->orderBy(['date' => SORT_DESC])
 			->limit(1000)
-			->createCommand()->query();
+			->createCommand(\App\Db::getInstance('log'))->query();
 		while (($row = $dataReader->read())) {
 			yield $row;
 		}

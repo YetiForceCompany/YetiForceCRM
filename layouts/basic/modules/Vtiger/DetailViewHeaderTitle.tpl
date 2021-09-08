@@ -14,8 +14,8 @@
 	<div class="d-flex flex-wrap flex-md-nowrap px-md-3 px-1 w-100">
 		<div class="u-min-w-md-70 w-100">
 			{assign var=COUNT_IN_HIERARCHY value=App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
-			<div class="moduleIcon{if $COUNT_IN_HIERARCHY} mt-3{/if}">
-				<span class="o-detail__icon js-detail__icon yfm-{$MODULE_NAME}{if $COUNT_IN_HIERARCHY} u-cursor-pointer js-detail-hierarchy{/if}"></span>
+			<div class="moduleIcon">
+				<span class="o-detail__icon js-detail__icon yfm-{$MODULE_NAME}{if $COUNT_IN_HIERARCHY} u-cursor-pointer js-detail-hierarchy position-relative{/if}"></span>
 				{if $COUNT_IN_HIERARCHY}
 					<span class="hierarchy">
 						<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>

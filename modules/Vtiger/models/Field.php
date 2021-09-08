@@ -103,11 +103,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @param string $propertyName
 	 *
-	 * @throws Exception
-	 *
-	 * @return <Object>
+	 * @return mixed|null
 	 */
-	public function get($propertyName)
+	public function get(string $propertyName)
 	{
 		if (property_exists($this, $propertyName)) {
 			return $this->{$propertyName};
@@ -119,14 +117,13 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Function which sets value for given name.
 	 *
 	 * @param string $name  - name for which value need to be assinged
-	 * @param <type> $value - values that need to be assigned
+	 * @param mixed  $value - values that need to be assigned
 	 *
 	 * @return Vtiger_Field_Model
 	 */
-	public function set($name, $value)
+	public function set(string $name, $value)
 	{
 		$this->{$name} = $value;
-
 		return $this;
 	}
 
@@ -457,6 +454,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 328:
 						$fieldDataType = 'changesJson';
 						break;
+					case 329:
+						$fieldDataType = 'iban';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
@@ -540,7 +540,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			}
 		}
 		\App\Cache::save('getReferenceList', $this->getId(), $list);
-
 		return $list;
 	}
 
@@ -549,23 +548,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @return bool
 	 */
-	public function isNameField()
+	public function isNameField(): bool
 	{
 		$moduleModel = $this->getModule();
 		return $moduleModel && !$this->isReferenceField() && !\in_array($this->getFieldDataType(), ['email', 'url', 'phone']) && \in_array($this->getFieldName(), $moduleModel->getNameFields());
-	}
-
-	/**
-	 * Function to check whether the current field is read-only.
-	 *
-	 * @return bool
-	 */
-	public function isReadOnly()
-	{
-		if (isset($this->isReadOnly)) {
-			return $this->isReadOnly;
-		}
-		return $this->isReadOnly = !$this->getProfileReadWritePermission();
 	}
 
 	/**
@@ -790,6 +776,19 @@ class Vtiger_Field_Model extends vtlib\Field
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Function to check whether the current field is read-only.
+	 *
+	 * @return bool
+	 */
+	public function isReadOnly(): bool
+	{
+		if (isset($this->isReadOnly)) {
+			return $this->isReadOnly;
+		}
+		return $this->isReadOnly = !$this->getProfileReadWritePermission();
 	}
 
 	public function isQuickCreateEnabled()
@@ -1153,16 +1152,6 @@ class Vtiger_Field_Model extends vtlib\Field
 				$funcName = ['name' => 'lessThanToday'];
 				$validator[] = $funcName;
 				break;
-			case 'support_end_date':
-				$funcName = ['name' => 'greaterThanDependentField',
-					'params' => ['support_start_date'], ];
-				$validator[] = $funcName;
-				break;
-			case 'support_start_date':
-				$funcName = ['name' => 'lessThanDependentField',
-					'params' => ['support_end_date'], ];
-				$validator[] = $funcName;
-				break;
 			case 'targetenddate':
 			case 'actualenddate':
 			case 'enddate':
@@ -1316,7 +1305,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'tabindex' => $this->get('tabindex'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
-			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence')
+			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence'), 'icon' => $this->get('icon'),
 		], ['fieldid' => $this->get('id')])->execute();
 		if ($anonymizationTarget = $this->get('anonymizationTarget')) {
 			$anonymizationTarget = \App\Json::encode($anonymizationTarget);
@@ -1479,16 +1468,39 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getFieldParams()
 	{
-		if (\App\Json::isJson($this->get('fieldparams'))) {
+		if (!\is_array($this->get('fieldparams')) && \App\Json::isJson($this->get('fieldparams'))) {
 			return \App\Json::decode($this->get('fieldparams'));
 		}
 		return $this->get('fieldparams') ?: [];
 	}
 
 	/**
+	 * Get field icon.
+	 *
+	 * @param string $place
+	 *
+	 * @return array
+	 */
+	public function getIcon(string $place = ''): array
+	{
+		$icon = [];
+		if (\is_array($this->get('icon'))) {
+			$icon = $this->get('icon');
+		} elseif (\App\Json::isJson($this->get('icon'))) {
+			$icon = \App\Json::decode($this->get('icon'));
+		}
+		if ($place && isset($icon['place']) && !\in_array($place, $icon['place'])) {
+			$icon = [];
+		}
+		return $icon;
+	}
+
+	/**
 	 * Get anonymization target.
 	 *
-	 * @return string[] Values: logs, modTrackerDisplay
+	 * @see \App\Anonymization::getTypes()
+	 *
+	 * @return int[]
 	 */
 	public function getAnonymizationTarget(): array
 	{

@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -45,7 +45,6 @@ class Layout
 			if (!IS_PUBLIC_DIR) {
 				$basePath = 'public_html/' . $basePath;
 			}
-
 			return $basePath . $name;
 		}
 		$basePath = 'layouts' . '/' . \Vtiger_Viewer::getDefaultLayoutName() . '/';
@@ -164,13 +163,12 @@ class Layout
 			return $text;
 		}
 		$teaser = TextParser::textTruncate($text, $length);
-		$text = nl2br($text);
 		if ($showIcon) {
 			$btn = '<span class="mdi mdi-overscan"></span>';
 		} else {
 			$btn = \App\Language::translate('LBL_MORE_BTN');
 		}
-		return "<div class=\"js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm pt-0 js-more\">{$btn}</button></span></div>";
+		return "<div class=\"js-more-content\"><pre class=\"teaserContent u-pre\">$teaser</pre><span class=\"fullContent d-none\"><pre class=\"u-pre\">$text</pre></span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm pt-0 js-more\">{$btn}</button></span></div>";
 	}
 
 	/**

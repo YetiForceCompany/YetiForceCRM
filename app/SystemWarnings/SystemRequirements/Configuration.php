@@ -8,7 +8,7 @@ namespace App\SystemWarnings\SystemRequirements;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
 class Configuration extends \App\SystemWarnings\Template
@@ -31,6 +31,7 @@ class Configuration extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
+		\App\Utils\ConfReport::saveEnv();
 		$this->status = 1;
 		$errorsText = '<br><pre>';
 		$errorsStability = \App\Utils\ConfReport::getErrors('stability', true);

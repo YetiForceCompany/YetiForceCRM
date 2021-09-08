@@ -6,7 +6,7 @@
  * @package   UIType
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author YetiForce.com
  */
 class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
@@ -82,12 +82,20 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 		return $display;
 	}
 
+	/** {@inheritdoc} */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		return [
+			'value' => \App\Purifier::decodeHtml($this->getDisplayValue($value, $recordModel->getId(), $recordModel, true, false)),
+			'taxes' => self::getValues($value),
+		];
+	}
+
 	public static function getValues($value)
 	{
 		$values = explode(',', $value);
 		$taxs = Vtiger_Inventory_Model::getGlobalTaxes();
 		$display = [];
-
 		foreach ($values as $tax) {
 			if (isset($taxs[$tax])) {
 				$display[$tax] = $taxs[$tax];

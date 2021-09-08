@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -760,7 +760,7 @@ class Importer
 						}
 					}
 					if ($status) {
-						$this->logs .= "  > update primary key: {$primaryKey[0]} , table: $tableName , column: {$primaryKey[1]} ... ";
+						$this->logs .= "  > update primary key: {$primaryKey[0]} , table: $tableName , column: " . (\is_array($primaryKey[1]) ? implode(',', $primaryKey[1]) : $primaryKey[1]) . ' ... ';
 						$start = microtime(true);
 						try {
 							if (isset($dbPrimaryKeys[$primaryKey[0]])) {
@@ -797,7 +797,7 @@ class Importer
 	 */
 	protected function compareColumns(\yii\db\QueryBuilder $queryBuilder, \yii\db\ColumnSchema $baseColumn, \yii\db\ColumnSchemaBuilder $targetColumn)
 	{
-		return rtrim($baseColumn->dbType, ' unsigned') !== strtok($queryBuilder->getColumnType($targetColumn), ' ')
+		return strtok($baseColumn->dbType, ' ') !== strtok($queryBuilder->getColumnType($targetColumn), ' ')
 		|| ($baseColumn->allowNull !== (null === $targetColumn->isNotNull))
 		|| ($baseColumn->defaultValue !== $targetColumn->default)
 		|| ($baseColumn->unsigned !== $targetColumn->isUnsigned)

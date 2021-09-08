@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -25,7 +25,7 @@ class RangeTime
 		'a' => ['short' => 'LBL_D', 'plural' => 'LBL_DAYS', 'singular' => 'LBL_DAY'],
 		'h' => ['short' => 'LBL_H', 'plural' => 'LBL_HOURS', 'singular' => 'LBL_HOUR'],
 		'i' => ['short' => 'LBL_M', 'plural' => 'LBL_MINUTES', 'singular' => 'LBL_MINUTE'],
-		's' => ['short' => 'LBL_S', 'plural' => 'LBL_SECONDS', 'singular' => 'LBL_SECOND']
+		's' => ['short' => 'LBL_S', 'plural' => 'LBL_SECONDS', 'singular' => 'LBL_SECOND'],
 	];
 
 	/**

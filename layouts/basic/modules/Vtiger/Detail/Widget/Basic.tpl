@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-Basic -->
 {assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId($WIDGET['id']|cat:_)}"}
@@ -107,7 +107,7 @@
 				{/if}
 				{if !empty($WIDGET['data']['customView'])}
 					{if count($WIDGET['data']['customView']) > 1}
-					{assign var=CUSTOM_VIEWS_DETAILS value=\App\CustomView::getCustomViewsDetails($WIDGET['data']['customView'])}
+					{assign var=CUSTOM_VIEWS_DETAILS value=\App\CustomView::getInstance($RELATED_MODULE_NAME)->getFilters()}
 					<div class="form-group-sm w-100 mb-1">
 						<select class="select2 form-control form-control-sm js-filter_field" data-urlparams="cvId" data-return="value" data-js="change|value">
 							{foreach item=CV_ID from=$WIDGET['data']['customView']}

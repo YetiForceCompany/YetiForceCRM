@@ -6,7 +6,7 @@
  * @package UIType
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -76,6 +76,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 		$values = explode(self::COMMA, $value);
 		$maxLength = \is_int($length) ? $length : \App\Config::main('href_max_length');
 		foreach ($values as $recordId) {
+			$recordId = (int) $recordId;
 			if ($name = App\Record::getLabel($recordId)) {
 				$name = $rawText ? $name : \App\TextParser::textTruncate($name, $maxLength);
 				if (!$rawText && \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $recordId)) {
@@ -119,6 +120,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 		$maxLength = empty($length) ? \App\Config::main('href_max_length') : $length;
 		$break = false;
 		foreach ($values as $recordId) {
+			$recordId = (int) $recordId;
 			if ($name = App\Record::getLabel($recordId)) {
 				$displayValueRaw[$recordId] = $name;
 				if (!$rawText) {
@@ -142,6 +144,41 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 			}
 		}
 		return implode(', ', $displayValueRaw);
+	}
+
+	/** {@inheritdoc} */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		$referenceModuleName = current($this->getReferenceList());
+		if (empty($value) || !$referenceModuleName || !($referenceModule = \Vtiger_Module_Model::getInstance($referenceModuleName)) || !$referenceModule->isActive()) {
+			return '';
+		}
+
+		$result = [];
+		foreach (explode(self::COMMA, $value) as $recordId) {
+			if (\App\Record::isExists($recordId)) {
+				$result[$recordId] = [
+					'value' => \App\Record::getLabel($recordId, true),
+					'record' => $recordId,
+					'referenceModule' => $referenceModuleName,
+					'state' => \App\Record::getState($recordId),
+					'isPermitted' => \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $recordId),
+				];
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Gets an array values.
+	 *
+	 * @param string|null $value
+	 *
+	 * @return int[]
+	 */
+	public function getArrayValues(?string $value): array
+	{
+		return $value ? explode(self::COMMA, $value) : [];
 	}
 
 	/** {@inheritdoc} */

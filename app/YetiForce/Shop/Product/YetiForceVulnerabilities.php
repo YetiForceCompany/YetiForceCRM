@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -54,7 +54,7 @@ class YetiForceVulnerabilities extends \App\YetiForce\Shop\AbstractBaseProduct
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'Website',
 				'relatedModuleName' => '_Base',
-				'linkicon' => 'fas fa-globe',
+				'linkicon' => 'fas fa-globe mr-2',
 				'linkhref' => true,
 				'linkExternal' => true,
 				'linktarget' => '_blank',
@@ -63,11 +63,11 @@ class YetiForceVulnerabilities extends \App\YetiForce\Shop\AbstractBaseProduct
 				'showLabel' => 1,
 			]),
 		];
-		if (\App\Security\AdminAccess::isPermitted('Dav')) {
+		if (\App\Security\AdminAccess::isPermitted('Dependencies')) {
 			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_DAV_KEYS',
-				'relatedModuleName' => 'Settings:Dav',
-				'linkicon' => 'yfi yfi-dav',
+				'linklabel' => 'LBL_VULNERABILITIES',
+				'relatedModuleName' => 'Settings:Dependencies',
+				'linkicon' => 'yfi yfi-security-errors-2 mr-2',
 				'linkhref' => true,
 				'linkurl' => 'index.php?parent=Settings&module=Dependencies&view=Vulnerabilities',
 				'linkclass' => 'btn-primary',

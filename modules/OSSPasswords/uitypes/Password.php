@@ -6,14 +6,14 @@
  * @package UIType
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
  */
 
 /**
  * Class OSSPasswords_Password_UIType.
  */
-class OSSPasswords_Password_UIType extends Vtiger_Password_UIType
+class OSSPasswords_Password_UIType extends Vtiger_Base_UIType
 {
 	/** {@inheritdoc} */
 	public function isActiveSearchView()

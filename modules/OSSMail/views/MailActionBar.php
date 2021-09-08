@@ -4,7 +4,7 @@
  * Mail cction bar class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -24,6 +24,9 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		if (!$account) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
+		if (OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED == $account['crm_status'] || OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED == $account['crm_status']) {
+			return;
+		}
 		$rcId = $account['user_id'];
 		$mailViewModel = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 		$folderDecode = \App\Utils::convertCharacterEncoding($request->getRaw('folder'), 'UTF7-IMAP', 'UTF-8');
@@ -31,10 +34,10 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		$folderDecode = \App\Purifier::decodeHtml($folderDecode);
 		$modelMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$folder = \App\Utils::convertCharacterEncoding($folderDecode, 'UTF-8', 'UTF7-IMAP');
-		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder);
+		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder, true, [], $account);
 		$record = $mailViewModel->checkMailExist($uid, $folderDecode, $rcId, $mbox);
-		if (!($record) && !empty($account['actions']) && false !== strpos($account['actions'], 'CreatedEmail') &&
-			isset(array_column($modelMailScanner->getFolders($rcId), 'folder', 'folder')[$folderDecode])
+		if (!($record) && !empty($account['actions']) && false !== strpos($account['actions'], 'CreatedEmail')
+			&& isset(array_column($modelMailScanner->getFolders($rcId), 'folder', 'folder')[$folderDecode])
 		) {
 			if ($mail = OSSMail_Record_Model::getMail($mbox, $uid)) {
 				$return = OSSMailScanner_Record_Model::executeActions($account, $mail, $folderDecode, $params);

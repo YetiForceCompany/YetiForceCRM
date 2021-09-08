@@ -5,8 +5,9 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\RestApi\Users;
@@ -22,7 +23,7 @@ class RecordsList extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** {@inheritdoc}  */
-	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-parent-id'];
+	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-order-by', 'x-parent-id'];
 
 	/** @var \App\QueryGenerator Query generator instance. */
 	protected $queryGenerator;
@@ -38,132 +39,55 @@ class RecordsList extends \Api\Core\BaseAction
 	 *
 	 * @return array
 	 *
-	 * @OA\GET(
+	 * @OA\Get(
 	 *		path="/webservice/RestApi/Users/RecordsList",
-	 *		summary="Get the list of users",
+	 *		description="Gets a list of all users",
+	 *		summary="List of users",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty",
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
+	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 1000", required=false, example=1000),
+	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
+	 *		@OA\Parameter(name="x-order-by", in="header", description="Set the sorted results by columns [Json format]", required=false,
+	 * 			@OA\JsonContent(type="object", title="Sort conditions", description="Multiple or one condition for a query generator",
+	 * 				example={"field_name_1" : "ASC", "field_name_2" : "DESC"},
+	 * 				@OA\AdditionalProperties(type="string", title="Sort Direction", enum={"ASC", "DESC"}),
+	 * 			),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-raw-data",
-	 *			description="Get rows limit, default: 0",
-	 *			@OA\Schema(type="integer", enum={0, 1}),
-	 *			in="header",
-	 *			example=1,
-	 *			required=false
+	 *		@OA\Parameter(name="x-fields", in="header", description="JSON array in the list of fields to be returned in response", required=false,
+	 *			@OA\JsonContent(type="array", example={"field_name_1", "field_name_2"}, @OA\Items(type="string")),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-limit",
-	 *			description="Get rows limit, default: 1000",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=1000,
-	 *			required=false
+	 *		@OA\Parameter(name="x-condition", in="header", description="Conditions [Json format]", required=false,
+	 *			@OA\JsonContent(ref="#/components/schemas/Conditions-Mix-For-Query-Generator"),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-offset",
-	 *			description="Offset, default: 0",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=0,
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-order-field",
-	 *			description="Sets the ORDER BY part of the query record list",
-	 *			@OA\Schema(type="string"),
-	 *			in="header",
-	 *			example="lastname",
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-order",
-	 *			description="Sorting direction",
-	 *			@OA\Schema(type="string", enum={"ASC", "DESC"}),
-	 *			in="header",
-	 *			example="DESC",
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-fields",
-	 *			description="JSON array in the list of fields to be returned in response",
-	 *			in="header",
-	 *			example={},
-	 *			required=false,
-	 *			@OA\JsonContent(
-	 *				type="array",
-	 * 				@OA\Items(type="string"),
-	 * 			)
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-condition",
-	 * 			description="Conditions [Json format]",
-	 *			in="header",
-	 *			required=false,
-	 *			@OA\JsonContent(
-	 *				description="Conditions details",
-	 *				type="object",
-	 *				@OA\Property(property="fieldName", description="Field name", type="string", example="lastname"),
-	 *				@OA\Property(property="value", description="Search value", type="string", example="Kowalski"),
-	 *				@OA\Property(property="operator", description="Field operator", type="string", example="e"),
-	 *				@OA\Property(property="group", description="Condition group if true is AND", type="boolean", example=true),
-	 *			),
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-parent-id",
-	 *			description="Parent record id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			example=5,
-	 *			required=false
-	 *		),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="List of consents",
+	 *		@OA\Parameter(name="x-parent-id", in="header", @OA\Schema(type="integer"), description="Parent record id", required=false, example=5),
+	 *		@OA\Response(response=200, description="List of entries",
 	 *			@OA\JsonContent(ref="#/components/schemas/Users_RecordsList_ResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Users_RecordsList_ResponseBody"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=400,
-	 *			description="Incorrect json syntax: x-fields",
+	 *		@OA\Response(response=400, description="Incorrect json syntax: x-fields",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=401,
-	 *			description="No sent token, Invalid token, Token has expired",
+	 *		@OA\Response(response=401, description="No sent token, Invalid token, Token has expired",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=403,
-	 *			description="No permissions for module",
+	 *		@OA\Response(response=403, description="No permissions for module",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=405,
-	 *			description="Invalid method",
+	 *		@OA\Response(response=405, description="Invalid method",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *),
 	 * @OA\Schema(
 	 *		schema="Users_RecordsList_ResponseBody",
-	 *		title="Users - Response action users list",
+	 *		title="Users module - Response action users list",
 	 *		description="Module action record list response body",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={"0", "1"},
-	 *			type="integer",
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="List of records",
@@ -186,7 +110,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *				type="object",
 	 *				@OA\AdditionalProperties(type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			),
-	 * 			@OA\Property(property="count", type="string", example=54),
+	 * 			@OA\Property(property="count", type="integer", example=54),
 	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
 	 * 		),
 	 *	),
@@ -226,9 +150,6 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
 		}
-		if ($orderField = $this->controller->request->getHeader('x-row-order-field')) {
-			$this->queryGenerator->setOrder($orderField, $this->controller->request->getHeader('x-row-order'));
-		}
 		$offset = 0;
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$offset = (int) $requestOffset;
@@ -246,6 +167,17 @@ class RecordsList extends \Api\Core\BaseAction
 				}
 			} else {
 				$this->queryGenerator->setFields(['first_name', 'last_name', 'roleid', 'email1', 'primary_phone']);
+			}
+		}
+		if ($orderBy = $this->controller->request->getHeader('x-order-by')) {
+			$orderBy = \App\Json::decode($orderBy);
+			if (!empty($orderBy) && \is_array($orderBy)) {
+				foreach ($orderBy as $fieldName => $sortFlag) {
+					$field = $this->queryGenerator->getModuleField($fieldName);
+					if (($field && $field->isActiveField()) || 'id' === $fieldName) {
+						$this->queryGenerator->setOrder($fieldName, $sortFlag);
+					}
+				}
 			}
 		}
 		$this->fields = $this->queryGenerator->getListViewFields();

@@ -5,8 +5,9 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api;
@@ -20,7 +21,7 @@ class Controller
 	private static $instance;
 
 	/** @var Core\BaseAction */
-	private static $action;
+	private $actionHandler;
 
 	/** @var \Api\Core\Request Request instance. */
 	public $request;
@@ -64,10 +65,17 @@ class Controller
 	/**
 	 * Pre process function.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return bool
 	 */
 	public function preProcess(): bool
 	{
+		register_shutdown_function(function () {
+			if ($error = error_get_last()) {
+				$this->errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+			}
+		});
 		set_error_handler([$this, 'errorHandler']);
 		if ('OPTIONS' === $this->method) {
 			$handlerClass = $this->getActionClassName();
@@ -77,14 +85,13 @@ class Controller
 			return false;
 		}
 		$this->app = Core\Auth::init($this);
+		$this->app['tables'] = Core\Containers::$listTables[$this->app['type']] ?? [];
 		if ($this->app['type'] !== $this->request->getByType('_container', 'Alnum')) {
 			throw new Core\Exception('Invalid api type', 404);
 		}
 		$this->headers = $this->request->getHeaders();
-		if (!empty($this->app['acceptable_url'])) {
-			if (!\in_array(\App\RequestUtil::getRemoteIP(true), array_map('trim', explode(',', $this->app['acceptable_url'])))) {
-				throw new Core\Exception('Illegal IP address', 401);
-			}
+		if (!empty($this->app['ips']) && !\in_array(\App\RequestUtil::getRemoteIP(true), array_map('trim', explode(',', $this->app['ips'])))) {
+			throw new Core\Exception('Illegal IP address', 401);
 		}
 		if ($this->headers['x-api-key'] !== \App\Encryption::getInstance()->decrypt($this->app['api_key'])) {
 			throw new Core\Exception('Invalid api key', 401);
@@ -92,11 +99,15 @@ class Controller
 		if (empty($this->request->getByType('action', 'Alnum'))) {
 			throw new Core\Exception('No action', 404);
 		}
+		\App\Process::$processName = $this->request->getByType('action', 'Alnum');
+		\App\Process::$processType = $this->app['type'];
 		return true;
 	}
 
 	/**
 	 * Process function.
+	 *
+	 * @throws \Api\Core\Exception
 	 *
 	 * @return void
 	 */
@@ -105,15 +116,15 @@ class Controller
 		$handlerClass = $this->getActionClassName();
 		$this->request->getData();
 		$this->debugRequest();
-		self::$action = $handler = new $handlerClass();
-		$handler->controller = $this;
-		$handler->checkAction();
-		$this->response->setAcceptableHeaders($handler->allowedHeaders);
-		$this->response->setAcceptableMethods($handler->allowedMethod);
-		$handler->preProcess();
-		$return = \call_user_func([$handler, strtolower($this->method)]);
+		$this->actionHandler = new $handlerClass();
+		$this->actionHandler->controller = $this;
+		$this->actionHandler->checkAction();
+		$this->response->setAcceptableHeaders($this->actionHandler->allowedHeaders);
+		$this->response->setAcceptableMethods($this->actionHandler->allowedMethod);
+		$this->actionHandler->preProcess();
+		$return = \call_user_func([$this->actionHandler, strtolower($this->method)]);
 		if (null !== $return) {
-			switch ($handler->responseType) {
+			switch ($this->actionHandler->responseType) {
 				case 'data':
 					$this->response->setBody([
 						'status' => 1,
@@ -124,7 +135,7 @@ class Controller
 					$this->response->setFile($return);
 					break;
 				default:
-					throw new Core\Exception('Unsupported response type: ' . $handler->responseType, 400);
+					throw new Core\Exception('Unsupported response type: ' . $this->actionHandler->responseType, 400);
 					break;
 			}
 		}
@@ -143,11 +154,14 @@ class Controller
 	/**
 	 * Get action class name.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return string
 	 */
 	private function getActionClassName(): string
 	{
 		$type = $this->request->getByType('_container', 'Standard');
+		$this->request->delete('_container');
 		$actionName = $this->request->getByType('action', 'Alnum');
 		$module = $this->request->getModule('module');
 		if ($module) {
@@ -175,24 +189,52 @@ class Controller
 	public function debugRequest(): void
 	{
 		if (\App\Config::debug('apiLogAllRequests')) {
-			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
+			$log = '============ Request ' . \App\RequestUtil::requestId() . ' (Controller) ======  ' . date('Y-m-d H:i:s') . "  ======\n";
 			$log .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
 			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
+			$log .= 'IP: ' . $_SERVER['REMOTE_ADDR'] . PHP_EOL;
 			$log .= '----------- Headers -----------' . PHP_EOL;
 			foreach ($this->request->getHeaders() as $key => $header) {
 				$log .= "$key : $header\n";
 			}
 			$log .= '----------- Request data -----------' . PHP_EOL;
 			$log .= print_r($this->request->getAllRaw(), true) . PHP_EOL;
-			$log .= "----------- _GET -----------\n";
-			$log .= print_r($_GET, true) . PHP_EOL;
-			$log .= "----------- _POST -----------\n";
-			$log .= print_r($_POST, true) . PHP_EOL;
-			$log .= "----------- Request payload -----------\n";
-			$log .= print_r(file_get_contents('php://input'), true) . PHP_EOL;
-			file_put_contents('cache/logs/webserviceDebug.log', $log, FILE_APPEND);
+			if ($_GET) {
+				$log .= "----------- _GET -----------\n";
+				$log .= print_r($_GET, true) . PHP_EOL;
+			}
+			if ($_POST) {
+				$log .= "----------- _POST -----------\n";
+				$log .= print_r($_POST, true) . PHP_EOL;
+			}
+			if ($payload = file_get_contents('php://input')) {
+				$log .= "----------- Request payload -----------\n";
+				$log .= print_r($payload, true) . PHP_EOL;
+			}
+			file_put_contents(ROOT_DIRECTORY . '/cache/logs/webserviceDebug.log', $log, FILE_APPEND);
+		}
+	}
+
+	/**
+	 * Handle error function.
+	 *
+	 * @param \Throwable $e
+	 *
+	 * @return void
+	 */
+	public function handleError(\Throwable $e): void
+	{
+		if (isset($this->actionHandler)) {
+			$this->actionHandler->updateSession();
+			$this->actionHandler->updateUser([
+				'custom_params' => [
+					'last_error' => $e->getMessage(),
+					'error_time' => date('Y-m-d H:i:s'),
+					'error_method' => $this->request->getServer('REQUEST_URI'),
+				],
+			]);
 		}
 	}
 
@@ -205,6 +247,8 @@ class Controller
 	 * @param string $str
 	 * @param string $file
 	 * @param int    $line
+	 *
+	 * @throws \Api\Core\Exception
 	 *
 	 * @return void
 	 */

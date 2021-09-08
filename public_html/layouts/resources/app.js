@@ -269,9 +269,11 @@ var App = (window.App = {
 										} else if ('Detail' === app.getViewName()) {
 											if (app.getUrlVar('mode') === 'showRelatedList') {
 												Vtiger_Detail_Js.getInstance().loadRelatedList();
-											} else {
+											} else if (params && params.data) {
 												window.location.reload();
 											}
+										} else if ('Kanban' === app.getViewName()) {
+											app.pageController.loadKanban(false);
 										}
 									}
 								})
@@ -483,6 +485,8 @@ var App = (window.App = {
 									} else {
 										window.location.reload();
 									}
+								} else if ('Kanban' === viewName) {
+									app.pageController.loadKanban(false);
 								}
 							});
 						} else {
@@ -705,6 +709,98 @@ var App = (window.App = {
 			}
 			return PNotify[type](params);
 		}
+	},
+	Clipboard: class Clipboard {
+		constructor(container) {
+			this.text = null;
+			this.oClipboard = null;
+			this.container = container;
+		}
+		/**
+		 * Register
+		 * @param {jQuery} params
+		 */
+		static register(container) {
+			if (typeof container === 'undefined') {
+				container = $('body');
+			}
+			container.on('dblclick', '.js-copy-clipboard', (e) => {
+				e.preventDefault();
+				new Clipboard($(e.currentTarget)).load().then((instance) => {
+					instance.createClipboard();
+					instance.copy();
+					instance.destroy();
+				});
+			});
+		}
+		/**
+		 * Initiation
+		 */
+		load() {
+			const aDeferred = $.Deferred();
+			let url = this.container.data('url');
+			if (url) {
+				this.getTextFromUrl(url).then((response) => {
+					this.text = response.result.text;
+					aDeferred.resolve(this);
+				});
+			} else {
+				aDeferred.resolve(this);
+			}
+			return aDeferred.promise();
+		}
+		/**
+		 * Create ClipboardJS
+		 */
+		createClipboard() {
+			let id = this.container.attr('id');
+			this.oClipboard = new ClipboardJS(`#${id}`, {
+				text: (_) => {
+					return this.text;
+				}
+			});
+		}
+		/**
+		 * Get text to Clipboard from URL
+		 */
+		getTextFromUrl(url) {
+			const aDeferred = $.Deferred();
+			let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+			AppConnector.request(url)
+				.done((response) => {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					if (response.success) {
+						aDeferred.resolve(response);
+					} else {
+						aDeferred.reject(response);
+					}
+				})
+				.fail((_) => {
+					app.showNotify({
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					});
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					aDeferred.reject(_);
+				});
+			return aDeferred.promise();
+		}
+		/**
+		 * Set text to Clipboard
+		 */
+		copy() {
+			this.container.trigger('click');
+			app.showNotify({
+				text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+				type: 'success'
+			});
+		}
+		/**
+		 * Destroy ClipboardJS object
+		 */
+		destroy() {
+			this.oClipboard.destroy();
+		}
 	}
 });
 
@@ -766,9 +862,10 @@ var app = (window.app = {
 	 * Function returns the record id
 	 */
 	getRecordId: function () {
-		var view = this.getViewName();
-		var recordId;
-		if ($.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1) {
+		let recordId;
+		if (
+			$.inArray(this.getViewName(), ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1
+		) {
 			recordId = this.getMainParams('recordId');
 		}
 		return recordId;
@@ -1024,7 +1121,7 @@ var app = (window.app = {
 	 * @param {object} customParams
 	 */
 	registerPopoverRecord: function (
-		selectElement = $('a.js-popover-tooltip--record'),
+		selectElement = $('.js-popover-tooltip--record'),
 		customParams = {},
 		container = $(document)
 	) {
@@ -1036,7 +1133,10 @@ var app = (window.app = {
 			manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
 			placement: 'right',
 			callbackShown: () => {
-				if (!selectElement.attr('href')) {
+				if (
+					!selectElement.attr('href') ||
+					selectElement.closest('.ui-sortable-handle').hasClass('ui-sortable-helper')
+				) {
 					return false;
 				}
 				let link = new URL(selectElement.eq(0).attr('href'), window.location.origin);
@@ -1406,7 +1506,7 @@ var app = (window.app = {
 								if (responseData.result.notify) {
 									Vtiger_Helper_Js.showMessage(responseData.result.notify);
 								}
-								if (responseData.result.procesStop) {
+								if (responseData.result.processStop) {
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
 									return false;
 								}
@@ -2555,6 +2655,35 @@ var app = (window.app = {
 	 * Convert url string to object
 	 *
 	 * @param   {string}  url  example: index.php?module=LayoutEditor&parent=Settings
+	 */
+	changeUrl(params) {
+		let fullUrl = '';
+		if (params.data && typeof params.data.historyUrl !== 'undefined') {
+			fullUrl = params.data.historyUrl;
+		}
+		if (fullUrl === '' && params.data) {
+			if (typeof params.data == 'string') {
+				fullUrl = 'index.php?' + params.data;
+			} else {
+				fullUrl = 'index.php?' + $.param(params.data);
+			}
+		} else if (typeof params === 'object') {
+			fullUrl = 'index.php?' + $.param(params);
+		} else if (fullUrl.indexOf('index.php?') === -1) {
+			fullUrl = 'index.php?' + fullUrl;
+		}
+		if (app.isWindowTop() && history && history.pushState && fullUrl !== '') {
+			if (!history.state) {
+				let currentHref = window.location.href;
+				history.replaceState(currentHref, 'title 1', currentHref);
+			}
+			history.pushState(fullUrl, 'title 2', fullUrl);
+		}
+	},
+	/**
+	 * Convert url string to object
+	 *
+	 * @param   {string}  url  example: index.php?module=LayoutEditor&parent=Settings
 	 *
 	 * @return  {object}       urlObject
 	 */
@@ -2839,9 +2968,6 @@ var app = (window.app = {
 			'.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]',
 			(e) => {
 				let currentTarget = $(e.currentTarget);
-				if (currentTarget.find('.js-popover-tooltip--record').length) {
-					return;
-				}
 				if (!currentTarget.hasClass('popover-triggered')) {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
 						app.registerPopoverRecord(currentTarget, {}, container);
@@ -2962,6 +3088,7 @@ $(function () {
 	app.registerFormsEvents(document);
 	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
+	App.Clipboard.register(document);
 	String.prototype.toCamelCase = function () {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
@@ -2971,9 +3098,9 @@ $(function () {
 		$('textarea').resizable();
 	}
 	// Instantiate Page Controller
-	let pageController = app.getPageController();
-	if (pageController) {
-		pageController.registerEvents();
+	app.pageController = app.getPageController();
+	if (app.pageController) {
+		app.pageController.registerEvents();
 	}
 });
 (function ($) {

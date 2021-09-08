@@ -8,7 +8,7 @@ namespace App;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -423,16 +423,21 @@ class QueryGenerator
 	 * Set source record.
 	 *
 	 * @param int $sourceRecord
+	 *
+	 * @return $this
 	 */
 	public function setSourceRecord($sourceRecord)
 	{
 		$this->sourceRecord = $sourceRecord;
+		return $this;
 	}
 
 	/**
 	 * Appends a JOIN part to the query.
 	 *
 	 * @param array $join
+	 *
+	 * @return $this
 	 */
 	public function addJoin($join)
 	{
@@ -676,7 +681,7 @@ class QueryGenerator
 			$this->addRelatedField([
 				'sourceField' => $sourceFieldName,
 				'relatedModule' => $cvColumn['module_name'],
-				'relatedField' => $fieldName
+				'relatedField' => $fieldName,
 			]);
 		}
 	}
@@ -743,7 +748,7 @@ class QueryGenerator
 						'relatedField' => $fieldName,
 						'sourceField' => $sourceFieldName,
 						'value' => $rule['value'],
-						'operator' => $rule['operator']
+						'operator' => $rule['operator'],
 					]);
 				} else {
 					$condition = $this->getCondition($fieldName, $rule['value'], $rule['operator']);
@@ -791,7 +796,7 @@ class QueryGenerator
 							'relatedField' => $filter['field_name'],
 							'value' => $filter['value'],
 							'operator' => $filter['comparator'],
-							'conditionGroup' => $and
+							'conditionGroup' => $and,
 						]);
 					} else {
 						$this->addCondition($filter['field_name'], $filter['value'], $filter['comparator'], $and);
@@ -962,7 +967,7 @@ class QueryGenerator
 			$this->joins['duplicates'] = ['INNER JOIN', ['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause)];
 		}
 		uksort($this->joins, function ($a, $b) use ($moduleTableIndexList) {
-			return !isset($moduleTableIndexList[$a]) && isset($moduleTableIndexList[$b]);
+			return (int) (!isset($moduleTableIndexList[$a]) && isset($moduleTableIndexList[$b]));
 		});
 		foreach ($this->joins as $join) {
 			$on = $join[2] ?? '';
@@ -1223,7 +1228,7 @@ class QueryGenerator
 			$relatedInfo = [
 				'sourceField' => $sourceFieldName,
 				'relatedModule' => $relatedModule,
-				'relatedField' => $fieldName
+				'relatedField' => $fieldName,
 			];
 		}
 		$relatedModule = $relatedInfo['relatedModule'];

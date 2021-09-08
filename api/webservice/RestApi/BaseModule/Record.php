@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license	YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license	YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author	Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author	Arkadiusz Adach <a.adach@yetiforce.com>
@@ -30,7 +30,7 @@ class Record extends \Api\Core\BaseAction
 	public $recordModel;
 
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
@@ -77,53 +77,16 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/RestApi/{moduleName}/Record/{recordId}",
-	 *		summary="Get data for the record",
+	 *		description="Gets the details of a record",
+	 *		summary="Data for the record",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		operationId="getRecord",
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty.",
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="recordId",
-	 *			description="Record id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="path",
-	 *			example=116,
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-raw-data",
-	 *			description="Gets raw data",
-	 *			@OA\Schema(type="integer", enum={0, 1}),
-	 *			in="header",
-	 *			example=1,
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-parent-id",
-	 *			description="Gets parent id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="header",
-	 *			required=false
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
+	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
+	 *		@OA\Parameter(name="x-parent-id", in="header", @OA\Schema(type="integer"), description="Parent record id", required=false, example=5),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Gets data for the record",
@@ -132,13 +95,13 @@ class Record extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
-	 *			description="No permissions to remove record OR No permissions to view record OR No permissions to edit record",
+	 *			description="`No permissions to remove record` OR `No permissions to view record` OR `No permissions to edit record`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *		@OA\Response(
 	 *			response=404,
-	 *			description="No record id OR Record doesn't exist",
+	 *			description="`No record id` OR `Record doesn't exist`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
@@ -147,56 +110,33 @@ class Record extends \Api\Core\BaseAction
 	 *		schema="BaseModule_Get_Record_Response",
 	 *		title="Base module - Response body for Record",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *        	example=1
-	 *		),
+	 *		required={"status", "result"},
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="Record data",
+	 *			title="Record data",
 	 *			type="object",
+	 *			required={"name", "id", "fields", "data"},
 	 *			@OA\Property(property="name", description="Record name", type="string", example="Driving school"),
 	 *			@OA\Property(property="id", description="Record Id", type="integer", example=152),
-	 *			@OA\Property(
-	 * 				property="fields",
-	 *				description="System field names and field labels",
-	 *				type="object",
-	 *				@OA\AdditionalProperties(description="Field label", type="boolean", example="Account name"),
+	 *			@OA\Property(property="fields", type="object", title="System field names and field labels", example={"field_name_1" : "Field label 1", "field_name_2" : "Field label 2", "assigned_user_id" : "Assigned user", "createdtime" : "Created time"},
+	 * 				@OA\AdditionalProperties(type="string", description="Field label"),
 	 *			),
-	 *			@OA\Property(
-	 *				property="data",
-	 *				description="Record data",
-	 *				type="object",
-	 *				ref="#/components/schemas/Record_Display_Details",
-	 *			),
+	 *			@OA\Property(property="data", title="Record data", type="object", ref="#/components/schemas/Record_Display_Details"),
 	 *			@OA\Property(
 	 *				property="privileges",
-	 *				description="Parameters determining checking of editing rights and moving to the trash",
+	 *				title="Parameters determining checking of editing rights and moving to the trash",
 	 * 				type="object",
+	 * 				required={"isEditable", "moveToTrash"},
 	 *				@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
 	 *				@OA\Property(property="moveToTrash", description="Permission to delete", type="boolean", example=false),
 	 *			),
-	 *			@OA\Property(
-	 *				property="inventory",
-	 *				description="Value inventory data",
-	 * 				type="object",
-	 *			),
-	 *			@OA\Property(
-	 *				property="summaryInventory",
-	 *				description="Value summary inventory data",
-	 * 				type="object",
-	 *			),
+	 *			@OA\Property(property="inventory", description="Value inventory data", type="object"),
+	 *			@OA\Property(property="summaryInventory", description="Value summary inventory data", type="object"),
 	 *			@OA\Property(property="rawData", description="Raw record data", type="object", ref="#/components/schemas/Record_Raw_Details"),
 	 *			@OA\Property(property="rawInventory", description="Inventory data", type="object"),
 	 *		),
 	 * ),
-	 * @OA\Tag(
-	 *		name="BaseModule",
-	 *		description="Access to record methods"
-	 * )
 	 */
 	public function get(): array
 	{
@@ -213,23 +153,16 @@ class Record extends \Api\Core\BaseAction
 			$value = $this->recordModel->get($fieldModel->getName());
 			$displayData[$fieldModel->getName()] = $uiTypeModel->getApiDisplayValue($value, $this->recordModel);
 			$fieldsLabel[$fieldModel->getName()] = \App\Language::translate($fieldModel->get('label'), $moduleName);
-			if ($fieldModel->isReferenceField()) {
-				$referenceModule = $uiTypeModel->getReferenceModule($value);
-				$rawData[$fieldModel->getName() . '_module'] = $referenceModule ? $referenceModule->getName() : null;
-			}
-			if ('taxes' === $fieldModel->getFieldDataType()) {
-				$rawData[$fieldModel->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$fieldModel->getName()]);
-			}
 		}
 		$response = [
-			'name' => $this->recordModel->getName(),
+			'name' => \App\Purifier::decodeHtml($this->recordModel->getName()),
 			'id' => $this->recordModel->getId(),
 			'fields' => $fieldsLabel,
 			'data' => $displayData,
 			'privileges' => [
 				'isEditable' => $this->recordModel->isEditable(),
-				'moveToTrash' => $this->recordModel->privilegeToDelete()
-			]
+				'moveToTrash' => $this->recordModel->privilegeToDelete(),
+			],
 		];
 		if ($this->recordModel->getModule()->isInventory()) {
 			$rawInventory = $this->recordModel->getInventoryData();
@@ -267,37 +200,13 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Delete(
 	 *		path="/webservice/RestApi/{moduleName}/Record/{recordId}",
-	 *		summary="Delete record (move to the trash)",
+	 *		description="Changes the state of a record, moving it to the trash",
+	 *		summary="Delete record",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty.",
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="recordId",
-	 *			description="Record id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="path",
-	 *			example=116,
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="List of records moved to the trash",
@@ -310,17 +219,9 @@ class Record extends \Api\Core\BaseAction
 	 *		title="Base module - Transfer to the trash",
 	 *		description="List of records moved to the trash",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={"0", "1"},
-	 * 			type="integer",
-	 *		),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			description="Status of successful transfer of the record to the recycle bin",
-	 *			type="boolean",
-	 *		),
+	 *		required={"status", "result"},
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="result", type="boolean", description="Status of successful transfer of the record to the recycle bin"),
 	 * ),
 	 */
 	public function delete(): bool
@@ -336,39 +237,19 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Put(
 	 *		path="/webservice/RestApi/{moduleName}/Record/{recordId}",
+	 *		description="Retrieves data for editing a record",
 	 *		summary="Edit record",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *			required=true,
 	 *			description="Contents of the request contains an associative array with the data record.",
 	 *			@OA\JsonContent(ref="#/components/schemas/Record_Edit_Details"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Record_Edit_Details"),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="recordId",
-	 *			description="Record id",
-	 *			@OA\Schema(type="integer"),
-	 *			in="path",
-	 *			example=116,
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 * 			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Contents of the response contains only id",
@@ -382,38 +263,32 @@ class Record extends \Api\Core\BaseAction
 	 *		title="Base module - Response body for Record",
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={"0", "1"},
-	 *			type="integer",
-	 *		),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			title="Gets data for the record",
-	 *			description="Updated record id.",
-	 *			type="object",
-	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
-	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
+	 *		required={"status", "result"},
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="result", type="object", title="Record data", description="Created record id and name.",
+	 *			required={"id", "name"},
+	 *			@OA\Property(property="id", type="integer", description="Id of the newly created record", example=22),
+	 *			@OA\Property(property="name", type="string", description="Id of the newly created record", example="YetiForce Name"),
+	 *			@OA\Property(property="skippedData", type="object", description="List of parameters passed in the request that were skipped in the write process"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
 	 *		schema="Record_Edit_Details",
-	 *		title="Record edit details",
+	 *		title="General - Record edit details",
 	 *		description="Record data in user format for edit view",
 	 *		type="object",
 	 *		example={"field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : 1, "createdtime" : "2014-09-24 20:51:12"},
 	 * ),
 	 * @OA\Schema(
 	 *		schema="Record_Raw_Details",
-	 *		title="Record raw details",
+	 *		title="General - Record raw details",
 	 *		description="Record data in the system format as stored in a database",
 	 *		type="object",
 	 *		example={"id" : 11, "field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : 1, "createdtime" : "2014-09-24 20:51:12"},
 	 * ),
 	 * @OA\Schema(
 	 *		schema="Record_Display_Details",
-	 *		title="Record display details",
+	 *		title="General - Record display details",
 	 *		description="Record data in user format for preview",
 	 *		type="object",
 	 *		example={"id" : 11, "field_name_1" : "Tom", "field_name_2" : "Kowalski", "assigned_user_id" : "YetiForce Administrator", "createdtime" : "2014-09-24 20:51"},
@@ -431,31 +306,18 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Post(
 	 *		path="/webservice/RestApi/{moduleName}/Record",
+	 *		description="Gets data to save record",
 	 *		summary="Create record",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *			required=true,
 	 *			description="Contents of the request contains an associative array with the data record.",
 	 *			@OA\JsonContent(ref="#/components/schemas/Record_Edit_Details"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Record_Edit_Details"),
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="moduleName",
-	 *			description="Module name",
-	 *			@OA\Schema(type="string"),
-	 *			in="path",
-	 *			example="Contacts",
-	 *			required=true
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Contents of the response contains only id",
@@ -469,22 +331,17 @@ class Record extends \Api\Core\BaseAction
 	 *		title="Base module - Created records",
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={"0", "1"},
-	 *			type="integer",
-	 *		),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			title="Gets data for the record",
-	 *			description="Created record id.",
-	 *			type="object",
-	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
-	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
+	 *		required={"status", "result"},
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="result", type="object", title="Record data", description="Created record id and name.",
+	 *			required={"id", "name"},
+	 *			@OA\Property(property="id", type="integer", description="Id of the newly created record", example=22),
+	 *			@OA\Property(property="name", type="string", description="Id of the newly created record", example="YetiForce Name"),
+	 *			@OA\Property(property="skippedData", type="object", description="List of parameters passed in the request that were skipped in the write process"),
 	 *		),
 	 * ),
-	 *	@OA\Link(link="GetRecordById",
+	 *	@OA\Link(
+	 *		link="GetRecordById",
 	 *		description="The `id` value returned in the response can be used as the `recordId` parameter in `GET /webservice/{moduleName}/Record/{recordId}`.",
 	 *		operationId="getRecord",
 	 *		parameters={
@@ -497,7 +354,10 @@ class Record extends \Api\Core\BaseAction
 		$saveModel = new \Api\RestApi\Save();
 		$saveModel->init($this);
 		$saveModel->saveRecord($this->controller->request);
-		$return = ['id' => $this->recordModel->getId()];
+		$return = [
+			'id' => $this->recordModel->getId(),
+			'name' => $this->recordModel->getName(),
+		];
 		if ($saveModel->skippedData) {
 			$return['skippedData'] = $saveModel->skippedData;
 		}

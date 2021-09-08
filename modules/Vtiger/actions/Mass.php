@@ -26,7 +26,7 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 			$sourceModule = $request->getByType('sourceModule', 2);
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
-		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
+		$customViewModel = CustomView_Record_Model::getInstanceById((int) $cvId);
 		if (!$customViewModel) {
 			return false;
 		}

@@ -496,14 +496,15 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!$fieldModel->isCalculateField()) {
 			throw new \App\Exceptions\Security('ERR_NOT_SUPPORTED_FIELD', 406);
 		}
-		$columnName = $fieldQueryModel->getColumnName();
-		if ('sum' === $request->getByType('calculateType')) {
-			$fieldName = $fieldModel->getName();
-			$query = $queryGenerator->setFields(['id'])->setDistinct(null)->setGroup('id')->createQuery()->select([$fieldName => $columnName]);
-			$value = (new \App\Db\Query())->from(['c' => $query])->sum("c.{$fieldName}");
-		} else {
+		if ('sum' !== $request->getByType('calculateType')) {
 			throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
 		}
+
+		$columnName = $fieldQueryModel->getColumnName();
+		$fieldName = $fieldModel->getName();
+		$query = $queryGenerator->setFields(['id'])->setDistinct(null)->setGroup('id')->createQuery()->select([$fieldName => new \yii\db\Expression("MAX({$columnName})")]);
+		$value = (new \App\Db\Query())->from(['c' => $query])->sum("c.{$fieldName}");
+
 		$response = new Vtiger_Response();
 		$response->setResult($fieldModel->getDisplayValue($value));
 		$response->emit();

@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -176,11 +176,11 @@ class Request
 	 * Function to get the boolean value for a given key.
 	 *
 	 * @param string $key
-	 * @param mixed  $defaultValue Default value
+	 * @param bool   $defaultValue Default value
 	 *
 	 * @return bool
 	 */
-	public function getBoolean($key, $defaultValue = '')
+	public function getBoolean(string $key, bool $defaultValue = null)
 	{
 		$value = $this->get($key, $defaultValue);
 		if (\is_bool($value)) {
@@ -328,14 +328,13 @@ class Request
 					} elseif (isset($template[$firstKey])) {
 						$values[$firstKey] = $this->purifyMultiDimensionArray($value, $template[$firstKey]);
 					} else {
-						throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$firstKey}", 406);
+						throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$firstKey}||" . print_r($template, true), 406);
 					}
 				}
 			}
 		} else {
-			$values = $template ? Purifier::purifyByType($values, $template) : Purifier::purify($values);
+			$values = empty($values) ? $values : ($template ? Purifier::purifyByType($values, $template) : Purifier::purify($values));
 		}
-
 		return $values;
 	}
 
@@ -477,21 +476,9 @@ class Request
 		if (isset($this->headers)) {
 			return $this->headers;
 		}
-		$data = [];
-		if (!\function_exists('apache_request_headers')) {
-			foreach ($_SERVER as $key => $value) {
-				if ('HTTP_' === substr($key, 0, 5)) {
-					$key = str_replace(' ', '-', \strtolower(str_replace('_', ' ', substr($key, 5))));
-					if ('' !== $value) {
-						$data[$key] = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
-					} else {
-						$data[$key] = '';
-					}
-				}
-			}
-		} else {
-			$data = array_change_key_case(apache_request_headers(), CASE_LOWER);
-			foreach ($data as $key => &$value) {
+		$data = array_change_key_case(getallheaders(), CASE_LOWER);
+		foreach ($data as $key => &$value) {
+			if ('' !== $value) {
 				$value = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
 			}
 		}
@@ -548,7 +535,6 @@ class Request
 		if (!isset($_SERVER[$key])) {
 			return $default;
 		}
-
 		return Purifier::purifyByType($_SERVER[$key], 'Text');
 	}
 
@@ -565,7 +551,6 @@ class Request
 		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', 'Alnum'))) {
 			$moduleName = "$parentModule:$moduleName";
 		}
-
 		return $moduleName;
 	}
 
@@ -594,7 +579,6 @@ class Request
 		if ($emptyFunction) {
 			return empty($this->rawValues[$key]);
 		}
-
 		return !isset($this->rawValues[$key]) || '' === $this->rawValues[$key];
 	}
 
@@ -677,7 +661,6 @@ class Request
 		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
 			return true;
 		}
-
 		return false;
 	}
 

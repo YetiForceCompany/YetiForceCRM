@@ -8,7 +8,7 @@ namespace App\Layout;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -199,6 +199,24 @@ class Icon
 		static::init();
 		return array_merge(
 			self::getImageIcons(),
+			self::getUserIcons(),
+			self::getAdminIcons(),
+			self::getAdditionalIcons(),
+			self::getYetiForceIcons(),
+			self::getFontAwesomeIcons(),
+			self::getMaterialDesignIcons()
+		);
+	}
+
+	/**
+	 * Get only icons excluding images.
+	 *
+	 * @return array
+	 */
+	public static function getIcons(): array
+	{
+		static::init();
+		return array_merge(
 			self::getUserIcons(),
 			self::getAdminIcons(),
 			self::getAdditionalIcons(),

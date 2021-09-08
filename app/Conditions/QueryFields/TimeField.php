@@ -8,31 +8,11 @@ namespace App\Conditions\QueryFields;
  * @package UIType
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class TimeField extends BaseField
 {
-	/**
-	 * Greater operator.
-	 *
-	 * @return array
-	 */
-	public function operatorG()
-	{
-		return ['>', $this->getColumnName(), $this->getValue()];
-	}
-
-	/**
-	 * Lower operator.
-	 *
-	 * @return array
-	 */
-	public function operatorL()
-	{
-		return ['<', $this->getColumnName(), $this->getValue()];
-	}
-
 	/**
 	 * Before operator.
 	 *
@@ -40,7 +20,7 @@ class TimeField extends BaseField
 	 */
 	public function operatorB()
 	{
-		return ['<=', $this->getColumnName(), $this->getValue()];
+		return ['<', $this->getColumnName(), $this->getValue()];
 	}
 
 	/**
@@ -50,6 +30,6 @@ class TimeField extends BaseField
 	 */
 	public function operatorA()
 	{
-		return ['>=', $this->getColumnName(), $this->getValue()];
+		return ['>', $this->getColumnName(), $this->getValue()];
 	}
 }

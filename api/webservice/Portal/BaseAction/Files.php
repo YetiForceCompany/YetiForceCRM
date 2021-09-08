@@ -5,8 +5,9 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Portal\BaseAction;
@@ -16,7 +17,7 @@ use OpenApi\Annotations as OA;
 /**
  * Portal container - Get elements of menu class.
  *
- * @OA\Info(
+ *	@OA\Info(
  * 		title="YetiForce API for Webservice App. Type: Portal",
  * 		description="Skip the `/webservice` fragment for connections via ApiProxy. There are two ways to connect to API, with or without rewrite, below are examples of both:
  * rewrite
@@ -33,37 +34,63 @@ use OpenApi\Annotations as OA;
  *     		url="https://yetiforce.com/"
  *   	),
  *   	@OA\License(
- *    		name="YetiForce Public License v3",
+ *    		name="YetiForce Public License",
  *     		url="https://yetiforce.com/en/yetiforce/license"
  *   	),
+ *	)
+ *	@OA\Server(
+ *		url="https://gitdeveloper.yetiforce.com",
+ *		description="Demo server of the development version",
+ *	)
+ *	@OA\Server(
+ *		url="https://gitstable.yetiforce.com",
+ *		description="Demo server of the latest stable version",
+ *	)
+ *	@OA\Tag(
+ *		name="BaseModule",
+ *		description="Access to record methods"
+ *	)
+ *	@OA\Tag(
+ *		name="BaseAction",
+ *		description="Access to user methods"
+ *	)
+ *	@OA\Tag(
+ *		name="Products",
+ *		description="Products methods"
  * )
+ *	@OA\Tag(
+ *		name="Users",
+ *		description="Access to user methods"
+ *	)
  */
 class Files extends \Api\RestApi\BaseAction\Files
 {
 	/**
 	 * Put method.
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return \App\Fields\File
 	 *
 	 * @OA\Put(
 	 *		path="/webservice/Portal/Files",
-	 *		summary="Download files from the system",
+	 *		description="Download files from the system",
+	 *		summary="Download files",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *    	},
+	 *		},
 	 *		@OA\RequestBody(
-	 *  		required=true,
-	 *			description="Action parameters to download the file",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Files_Request"),
-	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Files_Request"),
-	 *	  	),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
 	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			description="Action parameters to download the file",
+	 *			@OA\MediaType(
+	 *				mediaType="application/x-www-form-urlencoded",
+	 *				@OA\Schema(ref="#/components/schemas/BaseAction_Put_Files_Request")
+	 *			),
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseAction_Put_Files_Request"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseAction_Put_Files_Request"),
 	 *		),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="File content, mediaType is dynamic depending on the type of file being downloaded",
@@ -101,14 +128,16 @@ class Files extends \Api\RestApi\BaseAction\Files
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 * 		schema="BaseAction_Files_Request",
+	 * 		schema="BaseAction_Put_Files_Request",
 	 * 		title="Base action - Files request schema",
 	 * 		description="Action parameters to download the file",
 	 *		type="object",
-	 *		@OA\Property(property="module", type="string", example="Documents"),
-	 *		@OA\Property(property="actionName", type="string", example="DownloadFile"),
-	 *		@OA\Property(property="record", type="integer", example=1111),
-	 *		@OA\Property(property="fileid", type="integer", example=333),
+	 *		required={"module", "actionName", "record"},
+	 *		@OA\Property(property="module", type="string", description="Module name", example="Contacts"),
+	 *		@OA\Property(property="actionName", type="string", enum={"MultiImage", "DownloadFile"}, description="Action name",  example="MultiImage"),
+	 *		@OA\Property(property="record", type="integer", description="Record ID",  example=123),
+	 *		@OA\Property(property="field", type="string", description="Field name. Required for MultiImage action", example="imagename"),
+	 *		@OA\Property(property="key", type="string", description="Unique key for attachment. Required for MultiImage action", example="14f01c4ea4da107c4145f0519ea1b9027fb24aa7MS2AqcUFuC")
 	 * ),
 	 */
 	public function put()

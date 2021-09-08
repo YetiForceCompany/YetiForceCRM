@@ -94,13 +94,6 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			if (('birthday' === $fieldName && 'Contacts' === $moduleName) || 'Products' === $moduleName) {
 				return \App\Purifier::encodeHtml($value);
 			}
-
-			//Special Condition for field 'support_end_date' in Contacts Module
-			if ('support_end_date' === $fieldName && 'Contacts' === $moduleName) {
-				$value = DateTimeField::convertToUserFormat(date('Y-m-d', strtotime('+1 year')));
-			} elseif ('support_start_date' === $fieldName && 'Contacts' === $moduleName) {
-				$value = DateTimeField::convertToUserFormat(date('Y-m-d'));
-			}
 		} else {
 			$value = DateTimeField::convertToUserFormat($value);
 		}

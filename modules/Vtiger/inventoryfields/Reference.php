@@ -6,7 +6,7 @@
  * @package   InventoryField
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -16,7 +16,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_REFERENCE';
 	protected $columnName = 'ref';
 	protected $dbType = 'int';
-	protected $params = ['modules'];
+	protected $params = ['modules', 'mandatory'];
 	protected $maximumLength = '-2147483648,2147483647';
 	protected $purifyType = \App\Purifier::INTEGER;
 
@@ -119,5 +119,18 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if ($rangeValues[1] < $value || $rangeValues[0] > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
+	}
+
+	/**
+	 * Getting value to display.
+	 *
+	 * @return array
+	 */
+	public function mandatoryValues()
+	{
+		return [
+			['id' => 'true', 'name' => 'LBL_YES'],
+			['id' => 'false', 'name' => 'LBL_NO']
+		];
 	}
 }

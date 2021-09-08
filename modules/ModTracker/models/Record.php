@@ -245,9 +245,18 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return "index.php?module=$moduleName&$action&record=" . $this->get('crmid');
 	}
 
+	/**
+	 * Undocumented function.
+	 *
+	 * @param int    $id
+	 * @param string $moduleName
+	 *
+	 * @return $this
+	 */
 	public function setParent($id, $moduleName)
 	{
 		$this->parent = Vtiger_Record_Model::getInstanceById($id, $moduleName);
+		return $this;
 	}
 
 	public function getParent()
@@ -601,7 +610,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			->select(['vtiger_modtracker_basic.changedon', 'vtiger_modtracker_detail.prevalue', 'vtiger_modtracker_detail.postvalue'])
 			->from('vtiger_modtracker_detail')
 			->leftJoin('vtiger_modtracker_basic', 'vtiger_modtracker_detail.id = vtiger_modtracker_basic.id')
-			->where(['vtiger_modtracker_basic.crmid' => $record, 'vtiger_modtracker_detail.fieldname' => $fieldName]);
+			->where(['vtiger_modtracker_basic.crmid' => $record, 'vtiger_modtracker_detail.fieldname' => $fieldName])->orderBy(['vtiger_modtracker_basic.id' => SORT_ASC]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$rows[] = $row;

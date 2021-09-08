@@ -4,7 +4,7 @@
  *
  * @package   App
  *
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @copyright YetiForce Sp. z o.o
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */

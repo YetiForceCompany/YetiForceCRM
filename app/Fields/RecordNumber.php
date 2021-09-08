@@ -8,7 +8,7 @@ namespace App\Fields;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -363,7 +363,7 @@ class RecordNumber extends \App\Base
 				'start_id' => $this->get('cur_id'),
 				'cur_id' => $this->get('cur_id'),
 				'reset_sequence' => $this->get('reset_sequence'),
-				'cur_sequence' => $this->get('cur_sequence')
+				'cur_sequence' => $this->get('cur_sequence'),
 			])->execute();
 		}
 		return $dbCommand->update('vtiger_modentity_num', [
@@ -372,7 +372,7 @@ class RecordNumber extends \App\Base
 			'leading_zeros' => $this->get('leading_zeros'),
 			'postfix' => $this->get('postfix'),
 			'reset_sequence' => $this->get('reset_sequence'),
-			'cur_sequence' => $this->get('cur_sequence')],
+			'cur_sequence' => $this->get('cur_sequence'), ],
 				['tabid' => $this->get('tabid')])
 			->execute();
 	}

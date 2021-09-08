@@ -8,7 +8,7 @@ namespace App\Installer;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Composer
@@ -106,44 +106,44 @@ class Composer
 	public static $clearVendorFiles = [
 		'dg/rss-php' => [
 			'example-atom.php',
-			'example-rss.php'
+			'example-rss.php',
 		],
 		'ezyang/htmlpurifier' => [
-			'plugins'
+			'plugins',
 		],
 		'illuminate/support' => [
-			'debug'
+			'debug',
 		],
 		'phpoffice/phpspreadsheet' => [
-			'bin'
+			'bin',
 		],
 		'sabre/dav' => [
-			'bin'
+			'bin',
 		],
 		'sabre/event' => [
-			'bin'
+			'bin',
 		],
 		'sabre/http' => [
-			'bin'
+			'bin',
 		],
 		'sabre/vobject' => [
-			'bin'
+			'bin',
 		],
 		'sabre/xml' => [
-			'bin'
+			'bin',
 		],
 		'sonata-project/google-authenticator' => [
-			'makefile'
+			'makefile',
 		],
 		'symfony/console' => [
-			'resources'
+			'resources',
 		],
 		'yetiforce/yii2' => [
-			'yii'
+			'yii',
 		],
 		'twig/twig' => [
 			'doc',
-			'drupal_test.sh'
+			'drupal_test.sh',
 		],
 	];
 	/**
@@ -152,7 +152,7 @@ class Composer
 	 * @var array
 	 */
 	public static $copyDirectories = [
-		'public_html/libraries/ckeditor-image-to-base' => 'public_html/vendor/ckeditor/ckeditor/plugins/ckeditor-image-to-base'
+		'public_html/libraries/ckeditor-image-to-base' => 'public_html/vendor/ckeditor/ckeditor/plugins/ckeditor-image-to-base',
 	];
 
 	/**

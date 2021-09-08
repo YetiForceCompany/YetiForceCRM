@@ -4,7 +4,7 @@
  * Calendar right panel view model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 {
@@ -56,7 +56,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		if (!empty($users) && $favouriteUsers = $currentUser->getFavouritesUsers()) {
 			uksort($users,
 				function ($a, $b) use ($favouriteUsers) {
-					return !isset($favouriteUsers[$a]) && isset($favouriteUsers[$b]);
+					return (int) (!isset($favouriteUsers[$a]) && isset($favouriteUsers[$b]));
 				});
 			$viewer->assign('FAVOURITES_USERS', $favouriteUsers);
 		}

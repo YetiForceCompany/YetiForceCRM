@@ -8,7 +8,7 @@ namespace App;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -85,20 +85,25 @@ class Module
 
 	protected static $isModuleActiveCache = [];
 
-	public static function isModuleActive($moduleName)
+	/**
+	 * Function to check whether the module is active.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return bool
+	 */
+	public static function isModuleActive(string $moduleName): bool
 	{
 		if (isset(static::$isModuleActiveCache[$moduleName])) {
 			return static::$isModuleActiveCache[$moduleName];
 		}
 		if (\in_array($moduleName, ['CustomView', 'Users', 'Import', 'com_vtiger_workflow', 'PickList'])) {
 			static::$isModuleActiveCache[$moduleName] = true;
-
 			return true;
 		}
 		$moduleId = static::getModuleId($moduleName);
 		$isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && 0 == static::$tabdataCache['tabPresence'][$moduleId]);
 		static::$isModuleActiveCache[$moduleName] = $isActive;
-
 		return $isActive;
 	}
 

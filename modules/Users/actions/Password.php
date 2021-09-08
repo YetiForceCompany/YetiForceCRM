@@ -6,8 +6,9 @@
  * @package   Action
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Users_Password_Action extends \App\Controller\Action
 {
@@ -63,6 +64,8 @@ class Users_Password_Action extends \App\Controller\Action
 	 * Reset user password.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @return void
 	 */
 	public function reset(App\Request $request): void
 	{
@@ -72,7 +75,6 @@ class Users_Password_Action extends \App\Controller\Action
 		$userRecordModel->set('changeUserPassword', true);
 		$userRecordModel->set('user_password', $password);
 		$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
-		$userRecordModel->set('force_password_change', 0);
 
 		$eventHandler = new \App\EventHandler();
 		$eventHandler->setRecordModel($userRecordModel);
@@ -84,12 +86,16 @@ class Users_Password_Action extends \App\Controller\Action
 
 		$eventHandler->trigger('UsersAfterPasswordChange');
 
+		$expirationDate = date('Y-m-d H:i:s', strtotime('+24 hour'));
+		$token = \App\Utils\Tokens::generate('Users_LoginForgotPassword_Action', [$userRecordModel->getId()], $expirationDate);
 		\App\Mailer::sendFromTemplate([
 			'template' => 'UsersResetPassword',
-			'moduleName' => $moduleName,
+			'moduleName' => 'Users',
 			'recordId' => $userRecordModel->getId(),
 			'to' => $userRecordModel->get('email1'),
-			'password' => $password,
+			'url' => \Config\Main::$site_URL . 'index.php?module=Users&view=LoginPassChange&token=' . $token,
+			'expirationDate' => \App\Fields\DateTime::formatToDisplay($expirationDate),
+			'token' => $token,
 		]);
 		$response = new Vtiger_Response();
 		$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USER', 'Users')]]);
@@ -100,6 +106,8 @@ class Users_Password_Action extends \App\Controller\Action
 	 * Change user password.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @return void
 	 */
 	public function change(App\Request $request): void
 	{
@@ -109,36 +117,36 @@ class Users_Password_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$isOtherUser = App\User::getCurrentUserId() !== $request->getInteger('record');
 		if (!$isOtherUser && 'PASSWORD' !== \App\Session::get('UserAuthMethod')) {
-			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', 'Users'), 'type' => 'error']]);
+			$response->setResult(['processStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', $moduleName), 'type' => 'error']]);
 		} elseif ($password !== $request->getRaw('confirm_password')) {
-			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', 'Users'), 'type' => 'error']]);
+			$response->setResult(['processStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', $moduleName), 'type' => 'error']]);
 		} elseif (!$isOtherUser && !$userRecordModel->verifyPassword($request->getRaw('oldPassword'))) {
-			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', 'Users'), 'type' => 'error']]);
+			$response->setResult(['processStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', $moduleName), 'type' => 'error']]);
 		} else {
 			$userRecordModel->set('changeUserPassword', true);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
-			$userRecordModel->set('force_password_change', $isOtherUser ? 1 : 0);
+			if ($userRecordModel->getId() === \App\User::getCurrentUserRealId()) {
+				$userRecordModel->set('force_password_change', 0);
+			}
 			try {
 				$eventHandler = new \App\EventHandler();
 				$eventHandler->setRecordModel($userRecordModel);
-				$eventHandler->setModuleName('Users');
+				$eventHandler->setModuleName($moduleName);
 				$eventHandler->setParams(['action' => 'change']);
 				$eventHandler->trigger('UsersBeforePasswordChange');
-
 				$userRecordModel->save();
-
 				$eventHandler->trigger('UsersAfterPasswordChange');
 
-				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users')]]);
+				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', $moduleName)]]);
 				if (\App\Session::has('ShowUserPasswordChange')) {
 					\App\Session::delete('ShowUserPasswordChange');
 					\App\Process::removeEvent('ShowUserPasswordChange');
 				}
 			} catch (\App\Exceptions\SaveRecord $exc) {
-				$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translateSingleMod($exc->getMessage(), 'Other.Exceptions'), 'type' => 'error']]);
+				$response->setResult(['processStop' => true, 'notify' => ['text' => \App\Language::translateSingleMod($exc->getMessage(), 'Other.Exceptions'), 'type' => 'error']]);
 			} catch (\App\Exceptions\Security $exc) {
-				$response->setResult(['procesStop' => true, 'notify' => ['text' => $exc->getMessage(), 'type' => 'error']]);
+				$response->setResult(['processStop' => true, 'notify' => ['text' => $exc->getMessage(), 'type' => 'error']]);
 			}
 		}
 		$response->emit();
@@ -159,7 +167,6 @@ class Users_Password_Action extends \App\Controller\Action
 			$userRecordModel->set('changeUserPassword', true);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
-			$userRecordModel->set('force_password_change', 0);
 
 			$eventHandler = new \App\EventHandler();
 			$eventHandler->setRecordModel($userRecordModel);
@@ -171,24 +178,20 @@ class Users_Password_Action extends \App\Controller\Action
 
 			$eventHandler->trigger('UsersAfterPasswordChange');
 
+			$expirationDate = date('Y-m-d H:i:s', strtotime('+24 hour'));
+			$token = \App\Utils\Tokens::generate('Users_LoginForgotPassword_Action', [$userRecordModel->getId()], $expirationDate);
 			\App\Mailer::sendFromTemplate([
 				'template' => 'UsersResetPassword',
-				'moduleName' => $moduleName,
+				'moduleName' => 'Users',
 				'recordId' => $userRecordModel->getId(),
 				'to' => $userRecordModel->get('email1'),
-				'password' => $password,
+				'url' => \Config\Main::$site_URL . 'index.php?module=Users&view=LoginPassChange&token=' . $token,
+				'expirationDate' => \App\Fields\DateTime::formatToDisplay($expirationDate),
+				'token' => $token,
 			]);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USERS', 'Users')]]);
 		$response->emit();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateRequest(App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

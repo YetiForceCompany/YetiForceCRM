@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -24,7 +24,31 @@ class Cli
 	 */
 	public function __construct()
 	{
+		$exec = \function_exists('exec');
 		$this->climate = new \League\CLImate\CLImate();
+		if (!$exec) {
+			$this->climate->setUtil(new \League\CLImate\Util\UtilFactory(new class() extends \League\CLImate\Util\System\System {
+				public function width()
+				{
+					return 120;
+				}
+
+				public function height()
+				{
+					return 40;
+				}
+
+				protected function systemHasAnsiSupport()
+				{
+					return true;
+				}
+
+				public function exec($command, $full = false)
+				{
+					return '';
+				}
+			}));
+		}
 		$this->climate->clear();
 		if (\function_exists('getmyuid') && getmyuid() !== fileowner(__FILE__)) {
 			$this->climate->to('error')->lightRed('Error:  YetiForce CLI works only on the OS user who owns the CRM files');

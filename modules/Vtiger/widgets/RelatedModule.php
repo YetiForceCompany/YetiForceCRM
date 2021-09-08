@@ -6,7 +6,7 @@
  * @package Widget
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 {
@@ -126,5 +126,22 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 	public function getConfigTplName()
 	{
 		return 'RelatedModuleConfig';
+	}
+
+	/** {@inheritdoc} */
+	public function getApiData(array $row): array
+	{
+		$data = $this->Data;
+		$relModuleName = is_numeric($this->Data['relatedmodule']) ? App\Module::getModuleName($this->Data['relatedmodule']) : $this->Data['relatedmodule'];
+		$data['relatedModuleName'] = $relModuleName;
+		foreach ($data['relatedfields'] as &$fieldName) {
+			$fieldName = explode('::', $fieldName)[1];
+		}
+		$row['name'] = \App\Language::translate($row['label'] ?: $relModuleName, $relModuleName, false, false);
+		$row['data'] = $data;
+		if (!\App\Privilege::isPermitted($row['data']['relatedModuleName'])) {
+			$row = [];
+		}
+		return $row;
 	}
 }

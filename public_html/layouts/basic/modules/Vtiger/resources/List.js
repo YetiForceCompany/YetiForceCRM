@@ -444,6 +444,36 @@ $.Class(
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}
+		},
+		/*
+		 * Function to register the submit event for mass comment
+		 */
+		triggerMassComment: function (massActionUrl) {
+			let listInstance = Vtiger_List_Js.getInstance();
+			if (!listInstance.checkListRecordSelected()) {
+				Vtiger_List_Js.triggerMassAction(massActionUrl, (data) => {
+					new App.Fields.Text.Completions($(data).find('.js-completions').eq(0), { emojiPanel: false });
+					$(data).on('submit', '#massSave', (e) => {
+						e.preventDefault();
+						let form = $(e.currentTarget),
+							commentContent = form.find('.js-comment-content'),
+							commentContentValue = commentContent.html();
+						if (commentContentValue === '') {
+							let errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY');
+							commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
+							return;
+						}
+						form.find('.js-comment-value').val(commentContentValue);
+						commentContent.validationEngine('hide');
+						form.find('[name=saveButton]').attr('disabled', 'disabled');
+						listInstance.massActionSave(form).done(function () {
+							Vtiger_List_Js.clearList();
+						});
+					});
+				});
+			} else {
+				listInstance.noRecordSelectedAlert();
+			}
 		}
 	},
 	{
@@ -773,6 +803,9 @@ $.Class(
 		readSelectedIds: function (decode) {
 			let cvId = this.getCurrentCvId();
 			let selectedIdsElement = $('#selectedIds');
+			if (selectedIdsElement.length <= 0) {
+				return '';
+			}
 			let selectedIdsDataAttr = cvId + 'selectedIds';
 			let selectedIdsElementDataAttributes = selectedIdsElement.data();
 			let selectedIds = [];
@@ -1482,9 +1515,8 @@ $.Class(
 							? 'title="' + app.vtranslate('JS_REMOVE_TO_FAVORITES') + '"'
 							: 'title="' + app.vtranslate('JS_ADD_TO_FAVORITES') + '"'
 					} data-value="favorites" data-js="click"
-						  class=" mr-1 js-filter-favorites ${
-								currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'
-							}"></span>
+						  class=" mr-1 js-filter-favorites ${currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'}
+						  		 ${currentOptionElement.data('featured') === undefined ? 'd-none' : ''}""></span>
 					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate" data-js="click"
 						  class="fas fa-retweet mr-1 js-filter-duplicate ${$('#createFilter').length !== 0 ? '' : 'd-none'}"></span>
 					<span title="${app.vtranslate('JS_EDIT')}" data-value="edit" data-js="click"
@@ -1524,6 +1556,7 @@ $.Class(
 		registerRowClickEvent: function () {
 			let listViewContentDiv = this.getListViewContentContainer();
 			listViewContentDiv.on('click', '.listViewEntries', function (e) {
+				if ($(e.target).hasClass('js-no-link')) return;
 				if ($(e.target).closest('div').hasClass('actions')) return;
 				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
 				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
@@ -1762,28 +1795,6 @@ $.Class(
 		registerSlimScrollMassEdit: function () {
 			app.showScrollBar($('div[name="massEditContent"]'), {
 				height: app.getScreenHeight(70) + 'px'
-			});
-		},
-		/*
-		 * Function to register the submit event for mass Actions save
-		 */
-		registerMassActionSubmitEvent: function () {
-			$('body').on('submit', '#massSave', (e) => {
-				let form = $(e.currentTarget),
-					commentContent = form.find('#commentcontent'),
-					commentContentValue = commentContent.html();
-				if (commentContentValue === '') {
-					let errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY');
-					commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
-					e.preventDefault();
-					return;
-				}
-				commentContent.validationEngine('hide');
-				$(form).find('[name=saveButton]').attr('disabled', 'disabled');
-				this.massActionSave(form).done(function (data) {
-					Vtiger_List_Js.clearList();
-				});
-				e.preventDefault();
 			});
 		},
 		changeCustomFilterElementView: function () {
@@ -2132,7 +2143,6 @@ $.Class(
 			this.registerMassRecordsEvents();
 			this.registerMassActionsBtnMergeEvents();
 			this.registerHeadersClickEvent();
-			this.registerMassActionSubmitEvent();
 			this.changeCustomFilterElementView();
 			this.registerFeaturedFilterClickEvent();
 			this.registerChangeCustomFilterEventListeners();

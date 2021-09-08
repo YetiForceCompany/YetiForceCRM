@@ -6,7 +6,7 @@
  * @package Log
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
 
@@ -28,6 +28,6 @@ class ErrorCodes
 	public static $errorCodesMail = [
 		1 => 'No SMTP configuration id provided',
 		2 => 'SMTP configuration with provided id not exists',
-		3 => 'No target email address provided'
+		3 => 'No target email address provided',
 	];
 }

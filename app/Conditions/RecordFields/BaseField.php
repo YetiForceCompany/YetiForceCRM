@@ -5,7 +5,7 @@
  * @package UIType
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -180,7 +180,7 @@ class BaseField
 	 */
 	public function operatorL()
 	{
-		return $this->getValue() > $this->value;
+		return $this->getValue() < $this->value;
 	}
 
 	/**
@@ -190,7 +190,7 @@ class BaseField
 	 */
 	public function operatorG()
 	{
-		return $this->getValue() < $this->value;
+		return $this->getValue() > $this->value;
 	}
 
 	/**
@@ -200,7 +200,7 @@ class BaseField
 	 */
 	public function operatorM()
 	{
-		return $this->getValue() >= $this->value;
+		return $this->getValue() <= $this->value;
 	}
 
 	/**
@@ -210,7 +210,7 @@ class BaseField
 	 */
 	public function operatorH()
 	{
-		return $this->getValue() <= $this->value;
+		return $this->getValue() >= $this->value;
 	}
 
 	/**
@@ -272,7 +272,7 @@ class BaseField
 	 */
 	public function operatorHs()
 	{
-		$hasChanged = $this->recordModel->getPreviousValue($this->fieldModel->getFieldName());
+		$hasChanged = $this->recordModel->getPreviousValue($this->fieldModel->getName());
 		if (false === $hasChanged) {
 			return false;
 		}
@@ -286,7 +286,7 @@ class BaseField
 	 */
 	public function operatorHst()
 	{
-		return false !== $this->recordModel->getPreviousValue($this->fieldModel->getFieldName()) && $this->getValue() == $this->value;
+		return false !== $this->recordModel->getPreviousValue($this->fieldModel->getName()) && $this->getValue() == $this->value;
 	}
 
 	/**

@@ -7,6 +7,7 @@ echo 4 - Settings.
 echo 5 - Gui.
 echo 6 - Finish.
 echo 7 - App.
+echo 8 - Integrations.
 set /p testMode=Enter a number:
 
 echo.
@@ -17,6 +18,7 @@ IF %testMode%==4 goto Settings
 IF %testMode%==5 goto Gui
 IF %testMode%==6 goto Finish
 IF %testMode%==7 goto App
+IF %testMode%==8 goto Integrations
 
 EXIT /B
 
@@ -53,6 +55,12 @@ exit
 
 :Gui
 php.exe ..\vendor\phpunit\phpunit\phpunit --debug --stderr --verbose --testsuite Gui
+echo.
+pause
+exit
+
+:Integrations
+php.exe ..\vendor\phpunit\phpunit\phpunit --debug --stderr --verbose --testsuite Integrations
 echo.
 pause
 exit

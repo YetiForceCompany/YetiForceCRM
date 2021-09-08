@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Settings-LayoutEditor-EditField -->
 <div>
@@ -220,13 +220,24 @@
 						</label>
 						<div >
 							<select name="anonymizationTarget[]" multiple class="form-control select2" id="anonymizationTarget">
-								<option value="logs" {if in_array('logs',$FIELD_MODEL->get('anonymizationTarget'))}selected{/if}>
-									{App\Language::translate('LBL_LOGS', $QUALIFIED_MODULE)}
-								</option>
-								<option value="modTrackerDisplay" {if in_array('modTrackerDisplay',$FIELD_MODEL->get('anonymizationTarget'))}selected{/if}>
-									{App\Language::translate('LBL_UPDATES', $QUALIFIED_MODULE)}
-								</option>
+								{foreach from=\App\Anonymization::getTypes() item=LABEL key=KEY}
+									<option value="{$KEY}" {if in_array($KEY, $FIELD_MODEL->get('anonymizationTarget'))}selected{/if}>
+										{App\Language::translate($LABEL, $QUALIFIED_MODULE)}
+									</option>
+								{/foreach}
 							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						{assign var=ICON value=$FIELD_MODEL->getIcon()}
+						<label for="icon_name"><strong>{App\Language::translate('LBL_FIELD_ICON', $QUALIFIED_MODULE)}</strong></label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="icon_name" name="icon_name" value="{if isset($ICON['name'])}{$ICON['name']}{/if}"/>
+							<div class="input-group-append">
+								<div class="input-group-text js-select-icon u-cursor-pointer" data-js="click">
+									<span class="fas fa-info-circle"></span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

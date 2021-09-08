@@ -135,6 +135,7 @@ $config = \PhpCsFixer\Config::create()
 		'single_class_element_per_statement' => true,
 		'single_import_per_statement' => true,
 		'single_line_comment_style' => true,
+		'single_line_throw' => true,
 		'single_quote' => true,
 		'space_after_semicolon' => true,
 		'standardize_not_equals' => true,
@@ -152,20 +153,10 @@ $config = \PhpCsFixer\Config::create()
 			'method',
 		],
 		'whitespace_after_comma_in_array' => true,
-	])->setFinder(PhpCsFixer\Finder::create()->in(__DIR__));
-
-// special handling of fabbot.io service if it's using too old PHP CS Fixer version
-try {
-	\PhpCsFixer\FixerFactory::create()
-		->registerBuiltInFixers()
-		->registerCustomFixers($config->getCustomFixers())
-		->useRuleSet(new \PhpCsFixer\RuleSet($config->getRules()));
-} catch (\PhpCsFixer\ConfigurationException\InvalidConfigurationException $e) {
-	$config->setRules([]);
-} catch (UnexpectedValueException $e) {
-	$config->setRules([]);
-} catch (InvalidArgumentException $e) {
-	$config->setRules([]);
-}
+	])
+	->setFinder(PhpCsFixer\Finder::create()
+	->exclude('vendor')
+	->in(__DIR__)
+);
 
 return $config;

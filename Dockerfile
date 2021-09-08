@@ -24,7 +24,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends mariadb-server mariadb-client
-RUN apt-get install -y --no-install-recommends nginx nginx-extras "php${PHP_VER}"-fpm "php${PHP_VER}"-mysql "php${PHP_VER}"-curl "php${PHP_VER}"-intl "php${PHP_VER}"-gd "php${PHP_VER}"-fpm "php${PHP_VER}"-bcmath "php${PHP_VER}"-soap "php${PHP_VER}"-ldap "php${PHP_VER}"-imap "php${PHP_VER}"-xml "php${PHP_VER}"-cli "php${PHP_VER}"-zip "php${PHP_VER}"-json "php${PHP_VER}"-opcache "php${PHP_VER}"-mbstring php-apcu php-imagick php-sodium zip unzip cron nodejs npm yarn
+RUN apt-get install -y --no-install-recommends nginx nginx-extras "php${PHP_VER}"-fpm "php${PHP_VER}"-mysql "php${PHP_VER}"-curl "php${PHP_VER}"-intl "php${PHP_VER}"-gd "php${PHP_VER}"-fpm "php${PHP_VER}"-bcmath "php${PHP_VER}"-soap "php${PHP_VER}"-ldap "php${PHP_VER}"-imap "php${PHP_VER}"-xml "php${PHP_VER}"-cli "php${PHP_VER}"-zip "php${PHP_VER}"-json "php${PHP_VER}"-opcache "php${PHP_VER}"-mbstring "php${PHP_VER}"-imagick "php${PHP_VER}"-apcu zip unzip cron nodejs npm yarn
 RUN apt-get install -y --no-install-recommends mc htop openssh-server git
 RUN apt-get -y autoclean
 
@@ -33,9 +33,9 @@ RUN dpkg --get-selections | grep php
 
 RUN rm /var/www/html/index.nginx-debian.html
 COPY ./tests/setup/db/mysql.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY ./tests/setup/nginx/www.conf /etc/nginx/sites-available/default
+COPY ./tests/setup/nginx/docker.conf /etc/nginx/sites-available/default
 COPY ./tests/setup/nginx/yetiforce.conf /etc/nginx/yetiforce.conf
-COPY ./tests/setup/fpm/www.conf /etc/php/$PHP_VER/fpm/pool.d/www.conf
+COPY ./tests/setup/fpm/docker.conf /etc/php/$PHP_VER/fpm/pool.d/www.conf
 COPY ./ /var/www/html
 COPY ./tests/setup/crons.conf /etc/cron.d/yetiforcecrm
 COPY ./tests/setup/php/prod.ini /etc/php/$PHP_VER/mods-available/yetiforce.ini

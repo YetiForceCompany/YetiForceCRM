@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce Sp. z o.o
- * @license	YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license	YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -31,7 +31,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @return bool
 	 */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		if ($this->controller->request->isEmpty('record', true) || !\App\User::isExists($this->controller->request->getInteger('record'), false)) {
@@ -50,15 +50,10 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/RestApi/Users/Record/{userId}",
-	 *		summary="Get data for the user",
+	 *		description="Gets details about the user",
+	 *		summary="Data for the user",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
-	 *		@OA\RequestBody(
-	 *			required=false,
-	 *			description="The content of the request is empty.",
-	 *		),
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(
 	 *			name="userId",
 	 *			description="User id",
@@ -67,20 +62,8 @@ class Record extends \Api\Core\BaseAction
 	 *			example=116,
 	 *			required=true
 	 *		),
-	 *		@OA\Parameter(
-	 *			name="X-ENCRYPTED",
-	 *			in="header",
-	 *			required=true,
-	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-raw-data",
-	 *			description="Gets raw data",
-	 *			@OA\Schema(type="integer", enum={0, 1}),
-	 *			in="header",
-	 *			example=1,
-	 *			required=false
-	 *		),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
+	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="Gets data for the user",
@@ -102,25 +85,17 @@ class Record extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 *		schema="Users_Get_Record_Response",
-	 *		title="Users - Response body for user",
+	 *		title="Users module - Response body for user",
 	 *		type="object",
-	 *		@OA\Property(
-	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={0, 1},
-	 *			type="integer",
-	 *        	example=1
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *			property="result",
 	 *			description="User data",
 	 *			type="object",
 	 *			@OA\Property(property="name", description="User label", type="string", example="System Admin"),
 	 *			@OA\Property(property="id", description="User Id", type="integer", example=1),
-	 *			@OA\Property(
-	 * 				property="fields",
-	 *				description="Field name items",
-	 *				type="object",
+	 *			@OA\Property(property="fields", type="object", title="System field names and field labels", example={"field_name_1" : "Field label 1", "field_name_2" : "Field label 2"},
+	 * 				@OA\AdditionalProperties(type="string", description="Field label"),
 	 *			),
 	 *			@OA\Property(
 	 *				property="data",
@@ -157,14 +132,14 @@ class Record extends \Api\Core\BaseAction
 		}
 		unset($fieldsLabel['user_password'],$fieldsLabel['confirm_password'],$fieldsLabel['accesskey'],$displayData['user_password'],$displayData['confirm_password'],$displayData['accesskey'],$rawData['user_password'],$rawData['confirm_password'],$rawData['accesskey']);
 		$response = [
-			'name' => $this->recordModel->getName(),
+			'name' => \App\Purifier::decodeHtml($this->recordModel->getName()),
 			'id' => $this->recordModel->getId(),
 			'fields' => $fieldsLabel,
 			'data' => $displayData,
 			'privileges' => [
 				'isEditable' => false,
-				'moveToTrash' => false
-			]
+				'moveToTrash' => false,
+			],
 		];
 		if (1 === (int) $this->controller->headers['x-raw-data'] ?? 0) {
 			$response['rawData'] = $rawData;

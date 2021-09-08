@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .logo {
 	text-align: center;
 	padding: 0.5rem 0;
@@ -97,11 +97,6 @@ body {
 	padding-bottom: 10px;
 }
 
-#forgotpass,
-.login-text a {
-	color: #adb0b5;
-}
-
 .fieldContainer span:not(.fas) {
 	color: #4a5364;
 	font-size: 24px;
@@ -115,7 +110,7 @@ body {
 .fieldContainer button {
 	font-size: 35px;
 	color: #fff !important;
-	padding: 0 !important;
+	padding: 0;
 }
 
 @media (min-width: 768px) {

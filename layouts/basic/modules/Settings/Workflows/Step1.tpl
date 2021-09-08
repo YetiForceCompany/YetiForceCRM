@@ -68,11 +68,11 @@
 										name="execution_condition" {if $EXECUTION_CONDITION eq $LABEL_ID} checked="checked" {/if}	value="{$LABEL_ID}"/>
 									&nbsp;&nbsp;{\App\Language::translate($LABEL,$QUALIFIED_MODULE)}
 								</label><br/>
+								{assign var=PARAMS value=[]}
+								{if !empty($WORKFLOW_MODEL_OBJ->params)}
+									{assign var=PARAMS value=\App\Json::decode($WORKFLOW_MODEL_OBJ->params)}
+								{/if}
 								{if $LABEL_ID eq 8}
-									{assign var=PARAMS value=[]}
-									{if $WORKFLOW_MODEL_OBJ->params}
-										{assign var=PARAMS value=\App\Json::decode($WORKFLOW_MODEL_OBJ->params)}
-									{/if}
 									<div class="col-12 mb-2 js-wf-execution-item{if $EXECUTION_CONDITION neq $LABEL_ID} d-none {/if}" data-js="container">
 										<div class="form-check">
 											<input type="hidden" name="params[showTasks]" value="0">

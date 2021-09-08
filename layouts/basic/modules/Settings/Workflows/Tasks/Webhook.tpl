@@ -1,6 +1,6 @@
 {strip}
 {*
-<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <!-- tpl-Settings-Workflows-Tasks-Webhook -->
 <div class="row pb-3">
 	<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_WEBHOOK_URL', $QUALIFIED_MODULE)}<span class="redColor">*</span></span>

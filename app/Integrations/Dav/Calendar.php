@@ -9,7 +9,7 @@
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -56,7 +56,7 @@ class Calendar
 	 * @var string[]
 	 */
 	protected static $customValues = [
-		'X-MICROSOFT-SKYPETEAMSMEETINGURL' => 'meeting_url'
+		'X-MICROSOFT-SKYPETEAMSMEETINGURL' => 'meeting_url',
 	];
 	/**
 	 * Max date.
@@ -113,10 +113,10 @@ class Calendar
 			'uri' => $uri,
 			'synctoken' => (int) $calendar['synctoken'],
 			'calendarid' => $calendarId,
-			'operation' => $operation
+			'operation' => $operation,
 		])->execute();
 		$dbCommand->update('dav_calendars', [
-			'synctoken' => ((int) $calendar['synctoken']) + 1
+			'synctoken' => ((int) $calendar['synctoken']) + 1,
 		], ['id' => $calendarId])
 			->execute();
 	}
@@ -282,9 +282,9 @@ class Calendar
 	 */
 	private function parseText(string $fieldName, string $davName): void
 	{
-		$value = \str_replace([
-			'-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-'
-		], '', \App\Purifier::purify((string) $this->vcomponent->{$davName}));
+		$value = \App\Purifier::decodeHtml(\str_replace([
+			'-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-',
+		], '', \App\Purifier::purify((string) $this->vcomponent->{$davName})));
 		if ($length = $this->record->getField($fieldName)->get('maximumlength')) {
 			$value = \App\TextParser::textTruncate($value, $length, false);
 		}
@@ -336,7 +336,7 @@ class Calendar
 			$davValue = strtoupper($this->vcomponent->CLASS->getValue());
 			$values = [
 				'PUBLIC' => 'Public',
-				'PRIVATE' => 'Private'
+				'PRIVATE' => 'Private',
 			];
 			if ($davValue && isset($values[$davValue])) {
 				$value = $values[$davValue];
@@ -358,7 +358,7 @@ class Calendar
 			$davValue = strtoupper($this->vcomponent->TRANSP->getValue());
 			$values = [
 				'OPAQUE' => 'PLL_OPAQUE',
-				'TRANSPARENT' => 'PLL_TRANSPARENT'
+				'TRANSPARENT' => 'PLL_TRANSPARENT',
 			];
 			if ($davValue && isset($values[$davValue])) {
 				$value = $values[$davValue];
@@ -583,7 +583,7 @@ class Calendar
 		$visibility = $this->record->get('visibility');
 		$values = [
 			'Public' => 'PUBLIC',
-			'Private' => 'PRIVATE'
+			'Private' => 'PRIVATE',
 		];
 		$value = 'Private';
 		if ($visibility && isset($values[$visibility])) {
@@ -607,7 +607,7 @@ class Calendar
 		$state = $this->record->get('state');
 		$values = [
 			'PLL_OPAQUE' => 'OPAQUE',
-			'PLL_TRANSPARENT' => 'TRANSPARENT'
+			'PLL_TRANSPARENT' => 'TRANSPARENT',
 		];
 		if ($state && isset($values[$state])) {
 			$value = $values[$state];
@@ -630,7 +630,7 @@ class Calendar
 		$values = [
 			'High' => 1,
 			'Medium' => 5,
-			'Low' => 9
+			'Low' => 9,
 		];
 		$value = 5;
 		if ($priority && isset($values[$priority])) {

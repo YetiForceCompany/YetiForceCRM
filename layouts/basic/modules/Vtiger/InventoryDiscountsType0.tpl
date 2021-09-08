@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if count($GLOBAL_DISCOUNTS) > 0}
 		<div class="card js-panel" data-js="class: js-active">
 			<div class="card-header">
-				<strong>{\App\Language::translate('LBL_GLOBAL_DISCOUNTS', $MODULE)}</strong>
+				<strong>{\App\Language::translate('LBL_AVAILABLE_DICOUNTS', $MODULE)}</strong>
 				<div class="float-right">
 					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="global" class="activeCheckbox">
 				</div>

@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
@@ -120,7 +120,7 @@ abstract class Base
 		if (!\in_array($typeOfLog, static::ALLOWED_TYPE_OF_LOG)) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 		}
-		\App\Db::getInstance()
+		\App\Db::getInstance('log')
 			->createCommand()
 			->insert('l_#__social_media_logs', [
 				'date' => date('Y-m-d H:i:s'),

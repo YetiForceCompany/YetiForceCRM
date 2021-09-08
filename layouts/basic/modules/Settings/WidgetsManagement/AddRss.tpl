@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div id="addRssWidgetContainer" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
@@ -15,10 +15,11 @@
 				</div>
 				<form class="form-horizontal validateForm" >
 					<input type="hidden" name="module" value="{$MODULE_NAME}" />
-					<input type="hidden" name="action" value="addWidget" />
+					<input type="hidden" name="action" value="SaveAjax" />
 					<input type="hidden" name="parent" value="Settings" />
-					<input type="hidden" name="blockid" />
-					<input type="hidden" name="linkid" />
+					<input type="hidden" name="mode" value="save" />
+					<input type="hidden" name="blockId" />
+					<input type="hidden" name="linkId" />
 					<input type="hidden" name="width" value="4" />
 					<input type="hidden" name="height" value="4" />
 					<div class="formContainer">

@@ -7,7 +7,7 @@
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -188,7 +188,7 @@ abstract class Base
 				'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $data['shipping']['total']['shipping_discount_amount'] . '}',
 				'purchase' => 0,
 				'taxparam' => '{"aggregationType":"individual","individualTax":' . round($tax) . '}',
-				'comment1' => ''
+				'comment1' => '',
 			];
 		}
 		return [];
@@ -239,7 +239,7 @@ abstract class Base
 	 */
 	public function log(string $category, ?\Throwable $ex = null): void
 	{
-		\App\DB::getInstance('admin')->createCommand()
+		\App\DB::getInstance('log')->createCommand()
 			->insert('l_#__magento', [
 				'time' => date('Y-m-d H:i:s'),
 				'category' => null === $ex ? '' : $category,

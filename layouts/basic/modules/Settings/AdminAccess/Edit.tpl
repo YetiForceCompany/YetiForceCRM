@@ -1,16 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-AdminAccess-Edit -->
 	<div class="modal-body js-modal-body" data-js="container">
 		<form class="validateForm">
 			<div class="row">
-				{if !$RECORD_MODEL->getId()}
-					<div class="col-md-12">
-						<div class="alert alert-danger">
-							{\App\Language::translate('LBL_EDIT_ADMIN_ACCESS_ALERT', $QUALIFIED_MODULE)}
-						</div>
-					</div>
-				{/if}
 				{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURES}
 					<div class="form-group col-12">
 						<div class="row">

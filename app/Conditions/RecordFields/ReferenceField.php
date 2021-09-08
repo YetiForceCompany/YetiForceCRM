@@ -8,9 +8,50 @@ namespace App\Conditions\RecordFields;
  * @package UIType
  *
  * @copyright YetiForce Sp. z o.o
- * @license		YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license		YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author		Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author		Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class ReferenceField extends BaseField
 {
+	/** {@inheritdoc} */
+	public function operatorE()
+	{
+		return \App\Record::getLabel($this->getValue(), true) === $this->value;
+	}
+
+	/** {@inheritdoc} */
+	public function operatorS(): bool
+	{
+		$referenceLabel = \App\Record::getLabel($this->getValue(), true);
+		$lengthValueConditions = \strlen($this->value);
+		if (\strlen($referenceLabel) >= $lengthValueConditions) {
+			return 0 == substr_compare($referenceLabel, $this->value, 0, $lengthValueConditions, true);
+		}
+		return false;
+	}
+
+	/** {@inheritdoc} */
+	public function operatorEw(): bool
+	{
+		$referenceLabel = \App\Record::getLabel($this->getValue(), true);
+		$lengthLabelRecord = \strlen($referenceLabel);
+		$lengthValueConditions = \strlen($this->value);
+		if ($lengthLabelRecord >= $lengthValueConditions) {
+			return 0 == substr_compare($referenceLabel, $this->value, $lengthLabelRecord - $lengthValueConditions, $lengthValueConditions);
+		}
+		return false;
+	}
+
+	/** {@inheritdoc} */
+	public function operatorC()
+	{
+		return false !== strpos(\App\Record::getLabel($this->getValue(), true), $this->value);
+	}
+
+	/** {@inheritdoc} */
+	public function operatorK()
+	{
+		return false === strpos(\App\Record::getLabel($this->getValue(), true), $this->value);
+	}
 }

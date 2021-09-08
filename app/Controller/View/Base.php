@@ -5,7 +5,7 @@
  * @package   Controller
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -266,7 +266,7 @@ abstract class Base extends \App\Controller\Base
 				'~libraries/quasar/dist/quasar.ie.polyfills.umd.min.js',
 				'~libraries/whatwg-fetch/dist/fetch.umd.js',
 				'~libraries/url-polyfill/url-polyfill.js',
-				'~libraries/gridstack/dist/gridstack-poly.min.js'
+				'~libraries/gridstack/dist/gridstack-poly.min.js',
 			];
 			$jsFileNames = array_merge($polyfills, $jsFileNames);
 		}
@@ -330,7 +330,8 @@ abstract class Base extends \App\Controller\Base
 			'~layouts/resources/Tools.js',
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
-			'~layouts/resources/ProgressIndicator.js'
+			'~layouts/resources/ProgressIndicator.js',
+			'libraries.clipboard.dist.clipboard',
 		];
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
@@ -463,7 +464,7 @@ abstract class Base extends \App\Controller\Base
 			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
 			'debug' => (bool) \App\Config::debug('JS_DEBUG'),
 			'modalTarget' => 'base',
-			'openUrlTarget' => 'base'
+			'openUrlTarget' => 'base',
 		];
 		if (\App\Session::has('authenticated_user_id')) {
 			$userModel = \App\User::getCurrentUserModel();
@@ -493,7 +494,7 @@ abstract class Base extends \App\Controller\Base
 				'purifierAllowedDomains' => \App\Config::security('purifierAllowedDomains', []),
 				// Modifying this file or functions that affect the footer appearance will violate the license terms!!!
 				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding'),
-				'globalSearchDefaultOperator' => \App\RecordSearch::OPERATORS[$userModel->getDetail('default_search_operator')]
+				'globalSearchDefaultOperator' => \App\RecordSearch::OPERATORS[$userModel->getDetail('default_search_operator')],
 			];
 		}
 		foreach ($jsEnv as $key => $value) {

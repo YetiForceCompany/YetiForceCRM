@@ -3,7 +3,7 @@
  * OSSMailScanner SaveCRMuser action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
@@ -11,13 +11,17 @@
  */
 class OSSMailScanner_SaveCRMuser_Action extends \App\Controller\Action
 {
-	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
-	 */
+	use \App\Controller\ExposeMethod;
+
+	/** {@inheritdoc} */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('user');
+		$this->exposeMethod('status');
+	}
+
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -27,17 +31,45 @@ class OSSMailScanner_SaveCRMuser_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Process.
+	 * Update mail user.
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(App\Request $request)
+	public function user(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userId = $request->getInteger('userid');
-		$value = $request->getInteger('value');
 		if ($userId) {
-			\App\Db::getInstance()->createCommand()->update('roundcube_users', ['crm_user_id' => $value], ['user_id' => $userId])->execute();
+			\App\Db::getInstance()->createCommand()
+				->update('roundcube_users', ['crm_user_id' => $request->getInteger('value')], ['user_id' => $userId])
+				->execute();
+			$success = true;
+			$data = \App\Language::translate('JS_saveuser_info', $moduleName);
+		} else {
+			$success = false;
+			$data = \App\Language::translate('LBL_NO_DATA', $moduleName);
+		}
+		$result = ['success' => $success, 'data' => $data];
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Update mail status.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function status(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$userId = $request->getInteger('userid');
+		$status = $request->getInteger('status');
+		if (!\in_array($status, [OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE,  OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED])) {
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $status, 406);
+		}
+		if ($userId) {
+			\App\Db::getInstance()->createCommand()->update('roundcube_users', ['crm_status' => $status], ['user_id' => $userId])->execute();
 			$success = true;
 			$data = \App\Language::translate('JS_saveuser_info', $moduleName);
 		} else {

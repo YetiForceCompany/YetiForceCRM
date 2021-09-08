@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 jQuery.Class(
@@ -21,8 +21,10 @@ jQuery.Class(
 		},
 		registerEditFolders: function (container) {
 			const self = this;
-			container.find('.editFolders').on('click', function () {
-				const url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + $(this).data('user'),
+			container.find('.js-edit-folders').on('click', (e) => {
+				let element = $(e.currentTarget);
+				let userContainer = element.closest('td');
+				const url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + element.data('user'),
 					progressIndicatorElement = jQuery.progressIndicator({
 						message: app.vtranslate('LBL_LOADING_LIST_OF_FOLDERS'),
 						position: 'html',
@@ -44,7 +46,7 @@ jQuery.Class(
 							folders: selectedFolders
 						}).done(function (data) {
 							let response = data['result'],
-								emptyFoldersAlert = $('.js-empty-folders-alert'),
+								emptyFoldersAlert = userContainer.find('.js-empty-folders-alert'),
 								messageType = 'info';
 							if (!response['success']) {
 								messageType = 'error';
@@ -133,8 +135,7 @@ jQuery.Class(
 					function (data, err) {}
 				);
 			});
-
-			jQuery('.delate_accont').on('click', function () {
+			container.find('.js-delate-accont').on('click', function () {
 				if (window.confirm(app.vtranslate('whether_remove_an_identity'))) {
 					const userId = jQuery(this).data('user-id');
 					AppConnector.request({
@@ -149,7 +150,18 @@ jQuery.Class(
 					});
 				}
 			});
-			jQuery('.identities_del').on('click', function () {
+			container.find('.js-edit-status').on('click', function () {
+				AppConnector.request({
+					module: 'OSSMailScanner',
+					action: 'SaveCRMuser',
+					mode: 'status',
+					userid: $(this).data('user'),
+					status: $(this).data('status')
+				}).done(function () {
+					window.location.reload();
+				});
+			});
+			container.find('.identities_del').on('click', function () {
 				const button = this;
 				if (window.confirm(app.vtranslate('whether_remove_an_identity'))) {
 					AppConnector.request({
@@ -171,8 +183,7 @@ jQuery.Class(
 					);
 				}
 			});
-
-			jQuery('.expand-hide').on('click', function () {
+			container.find('.expand-hide').on('click', function () {
 				let userId = jQuery(this).data('user-id'),
 					tr = jQuery('tr[data-user-id="' + userId + '"]');
 
@@ -298,6 +309,7 @@ jQuery.Class(
 			AppConnector.request({
 				module: 'OSSMailScanner',
 				action: 'SaveCRMuser',
+				mode: 'user',
 				userid: userid,
 				value: value
 			}).done(function (data) {

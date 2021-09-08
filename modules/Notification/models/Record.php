@@ -4,7 +4,7 @@
  * Notification Record Model.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Notification_Record_Model extends Vtiger_Record_Model
@@ -182,11 +182,11 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	{
 		$icon = false;
 		if ('PLL_USERS' === $this->get('notification_type')) {
-			$userModel = Users_Privileges_Model::getInstanceById($this->get('smcreatorid'));
+			$id = $this->get('smcreatorid');
 			$icon = [
 				'type' => 'image',
-				'title' => $userModel->getName(),
-				'src' => $userModel->getImage()['path'],
+				'title' => \App\Fields\Owner::getUserLabel($id),
+				'src' => \App\User::getImageById($id)['path'] ?? '',
 				'class' => 'userImage',
 			];
 		} else {

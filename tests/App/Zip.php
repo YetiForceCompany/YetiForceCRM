@@ -1,16 +1,20 @@
 <?php
 /**
- * Zip test class.
+ * Zip test file.
  *
  * @package   Tests
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Tests\App;
 
+/**
+ * Zip test class.
+ */
 class Zip extends \Tests\Base
 {
 	/**
@@ -81,10 +85,9 @@ class Zip extends \Tests\Base
 	 */
 	public function testCreateFileBadDir(): void
 	{
-		$zip = \App\Zip::createFile('tests/data/NxDir/NxFile.zip');
+		$zip = \App\Zip::createFile(ROOT_DIRECTORY . '/tests/data/NxDir/NxFile.zip');
 		$zip->addFromString('filename.txt', '<minimal content>');
 		$this->expectWarning();
 		$this->assertFalse($zip->close());
-		$this->assertFileDoesNotExist('tests/data/NxDir/NxFile.zip');
 	}
 }

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Vtiger_Notebook_Model extends Vtiger_Widget_Model
@@ -26,19 +27,10 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 
 	/**
 	 * Function to update the widget.
-	 *
-	 * @param \App\Request $request
 	 */
-	public function save(App\Request $request)
+	public function save(): bool
 	{
-		$content = $request->getByType('contents', 'Text');
-		$noteBookId = $request->getInteger('widgetid');
-		$dataValue = [];
-		$dataValue['contents'] = strip_tags($content);
-		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
-		$data = \App\Json::encode((object) $dataValue);
-		$this->set('data', $data);
-		App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['data' => $data], ['id' => $noteBookId])->execute();
+		return App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['data' => $this->get('data')], ['id' => $this->get('id')])->execute();
 	}
 
 	/**

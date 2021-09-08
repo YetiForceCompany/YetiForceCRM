@@ -7,7 +7,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -24,7 +24,7 @@ class Shop
 	const PREMIUM_ICONS = [
 		1 => 'yfi-premium color-red-600',
 		2 => 'yfi-enterprise color-yellow-600',
-		3 => 'yfi-partners color-grey-600'
+		3 => 'yfi-partners color-grey-600',
 	];
 	/** @var array Product categories. */
 	const PRODUCT_CATEGORIES = [
@@ -107,7 +107,7 @@ class Shop
 			$crmData = [
 				'return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=success',
 				'cancel_return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=fail',
-				'custom' => \App\YetiForce\Register::getInstanceKey() . '|' . \App\YetiForce\Register::getCrmKey()
+				'custom' => \App\YetiForce\Register::getInstanceKey() . '|' . \App\YetiForce\Register::getCrmKey(),
 			];
 		}
 		return array_merge([
@@ -161,7 +161,7 @@ class Shop
 		if ($productDetails = self::getConfig($productName)) {
 			$status = self::verifyProductKey($productDetails['key']);
 			if ($status) {
-				$status = strtotime(date('Y-m-d')) <= strtotime($productDetails['date']);
+				$status = strtotime(date('Y-m-d') . ' -1 day') <= strtotime($productDetails['date']);
 				if (!$status) {
 					$message = 'LBL_SUBSCRIPTION_HAS_EXPIRED';
 				}

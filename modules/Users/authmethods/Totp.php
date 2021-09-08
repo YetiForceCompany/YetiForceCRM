@@ -7,7 +7,7 @@
  * @package AuthMethod
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -143,7 +143,7 @@ class Users_Totp_Authmethod
 			$userId = \App\User::getCurrentUserRealId();
 		}
 		$userModel = \App\User::getUserModel($userId);
-		if ('PLL_PASSWORD_2FA' === $userModel->getDetail('login_method')) {
+		if ('PLL_PASSWORD_2FA' === $userModel->getDetail('login_method') || 'PLL_LDAP_2FA' === $userModel->getDetail('login_method')) {
 			switch (App\Config::security('USER_AUTHY_MODE')) {
 				case 'TOTP_OPTIONAL':
 					$isActive = 'PLL_AUTHY_TOTP' === $userModel->getDetail('authy_methods');

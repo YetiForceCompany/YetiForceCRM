@@ -1,4 +1,4 @@
-﻿{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+﻿{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-WidgetsManagement-Configuration" id="widgetsManagementEditorContainer">
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}"/>
@@ -17,15 +17,15 @@
 			</div>
 		</div>
 		<ul class="nav nav-tabs massEditTabs selectDashboard mb-2">
-			{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
+			{foreach from=$DASHBOARD_TYPES key=DASHBOARD_ID item=DASHBOARD}
 				<li class="nav-item" data-id="{$DASHBOARD['dashboard_id']}">
 					<a class="nav-link{if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}"
 					   data-toggle="tab">
 						<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>
-						<button class="btn btn-primary btn-sm ml-2 editDashboard"><span class="yfi yfi-full-editing-view"></span>
+						<button class="btn btn-primary btn-xs ml-2 editDashboard"><span class="yfi yfi-full-editing-view"></span>
 						</button>
 						{if $DASHBOARD['system'] neq 1}
-							<button class="btn btn-danger btn-sm ml-2 deleteDashboard"><span
+							<button class="btn btn-danger btn-xs ml-2 deleteDashboard"><span
 										class="fas fa-trash-alt"></span></button>
 						{/if}
 					</a>
@@ -44,12 +44,6 @@
 						</button>
 					</div>
 					<div id="moduleBlocks">
-						<input type="hidden" name="filter_title" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_TITLE))}'>
-						<input type="hidden" name="filter_date" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_DATE))}'>
-						<input type="hidden" name="record_limit" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_RECORD_LIMIT))}'>
-						<input type="hidden" name="filter_users" value='{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETS_WITH_FILTER_USERS))}'>
-						<input type="hidden" name="filter_users_item" value='{\App\Purifier::encodeHtml(\App\Json::encode($FILTER_USER_ITEM))}'>
-						<input type="hidden" name="filter_restrict" value='{\App\Purifier::encodeHtml(\App\Json::encode($RESTRICT_FILTER))}'>
 						{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 							{if isset($AUTHORIZATION_INFO['name'])}
 								{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO['name']}
@@ -70,8 +64,8 @@
 									<div class="col-sm-7 ml-0 float-right">
 										<div class="float-right btn-toolbar blockActions m-1">
 											<div class="btn-group">
-												<button class="btn btn-success btn-sm addCustomField" type="button">
-													<span class="fas fa-plus"></span>&nbsp;
+												<button class="btn btn-success btn-sm js-add-widget" data-url="index.php?parent=Settings&module=WidgetsManagement&view=WidgetListModal&blockId={$AUTHORIZATION_KEY}&dashboardId={$DASHBOARD_ID}" type="button">
+													<span class="fas fa-plus mr-2"></span>
 													<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
@@ -85,7 +79,7 @@
 															data-width="{$RSS_WIDGET->getWidth()}"
 															data-height="{$RSS_WIDGET->getHeight()}"
 															data-block-id="{$AUTHORIZATION_KEY}"><span
-																class="fas fa-plus"></span>
+																class="fas fa-plus mr-2"></span>
 														<strong>{\App\Language::translate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
 													</button>
 												</div>
@@ -94,13 +88,13 @@
 												{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 												<div class="btn-group ml-1">
 													<button class="btn btn-success btn-sm addMiniList" type="button"
-															data-url="{$MINILISTWIDGET->getUrl()}"
+															data-url="index.php?module=Home&view=MiniListWizard&step=step1&linkId={$MINILISTWIDGET->get('linkid')}"
 															data-linkid="{$MINILISTWIDGET->get('linkid')}"
 															data-name="{$MINILISTWIDGET->getName()}"
 															data-width="{$MINILISTWIDGET->getWidth()}"
 															data-height="{$MINILISTWIDGET->getHeight()}"
 															data-block-id="{$AUTHORIZATION_KEY}"><span
-																class="fas fa-plus"></span>
+																class="fas fa-plus mr-2"></span>
 														<strong>{\App\Language::translate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 													</button>
 												</div>
@@ -108,14 +102,16 @@
 											{if $SPECIAL_WIDGETS['ChartFilter']}
 												{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 												<div class="btn-group ml-1">
-													<button class="btn btn-success btn-sm addChartFilter" type="button"
-															data-url="{$CHART_FILTER_WIDGET->getUrl()}"
+													<button class="btn btn-success btn-sm js-show-modal" type="button"
+															data-url="index.php?module={$SELECTED_MODULE_NAME}&view=ChartFilter&step=step1&linkId={$CHART_FILTER_WIDGET->get('linkid')}"
 															data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}"
 															data-name="{$CHART_FILTER_WIDGET->getName()}"
 															data-width="{$CHART_FILTER_WIDGET->getWidth()}"
 															data-height="{$CHART_FILTER_WIDGET->getHeight()}"
-															data-block-id="{$AUTHORIZATION_KEY}"><span
-																class="fas fa-plus"></span>&nbsp;
+															data-block-id="{$AUTHORIZATION_KEY}"
+															data-module="{$SELECTED_MODULE_NAME}"
+															data-modalId="{\App\Layout::getUniqueId('ChartFilter')}"><span
+																class="fas fa-plus mr-2"></span>&nbsp;
 														<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 													</button>
 												</div>
@@ -130,7 +126,7 @@
 															data-width="{$NOTEBOOKWIDGET->getWidth()}"
 															data-height="{$NOTEBOOKWIDGET->getHeight()}"
 															data-block-id="{$AUTHORIZATION_KEY}"><span
-																class="fas fa-plus"></span>
+																class="fas fa-plus mr-2"></span>
 														<strong>{\App\Language::translate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 													</button>
 												</div>
@@ -203,7 +199,7 @@
 														{/foreach}
 													</optgroup>
 													{if count($ALL_SERVERS)}
-														<optgroup label="{\App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}">
+														<optgroup label="{\App\Language::translate('WebserviceApps', 'Settings.WebserviceApps')}">
 															{foreach from=$ALL_SERVERS item=SERVER key=ID}
 																<option value="{$ID}">{\App\Purifier::encodeHTML($SERVER['name'])}</option>
 															{/foreach}
@@ -254,7 +250,8 @@
 										{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 										<div class="btn-group">
 											<button class="btn btn-success btn-sm addMiniList specialWidget"
-													type="button" data-url="{$MINILISTWIDGET->getUrl()}"
+													type="button"
+													data-url="index.php?module=Home&view=MiniListWizard&step=step1&linkId={$MINILISTWIDGET->get('linkid')}"
 													data-linkid="{$MINILISTWIDGET->get('linkid')}"
 													data-name="{$MINILISTWIDGET->getName()}"
 													data-width="{$MINILISTWIDGET->getWidth()}"
@@ -266,14 +263,17 @@
 									{/if}
 									{if $SPECIAL_WIDGETS['ChartFilter']}
 										{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
-										<div class="btn-group">
-											<button class="btn btn-success btn-sm addChartFilter specialWidget"
-													type="button" data-url="{$CHART_FILTER_WIDGET->getUrl()}"
+										<div class="btn-group ml-1">
+											<button class="btn btn-success btn-sm js-show-modal" type="button"
+													data-url="index.php?module={$SELECTED_MODULE_NAME}&view=ChartFilter&step=step1&linkId={$CHART_FILTER_WIDGET->get('linkid')}"
 													data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}"
 													data-name="{$CHART_FILTER_WIDGET->getName()}"
 													data-width="{$CHART_FILTER_WIDGET->getWidth()}"
-													data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="">
-												<span class="fas fa-plus"></span>&nbsp;
+													data-height="{$CHART_FILTER_WIDGET->getHeight()}"
+													data-block-id="{$AUTHORIZATION_KEY}"
+													data-module="{$SELECTED_MODULE_NAME}"
+													data-modalId="{\App\Layout::getUniqueId('ChartFilter')}"><span
+														class="fas fa-plus"></span>&nbsp;
 												<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 											</button>
 										</div>
@@ -309,290 +309,6 @@
 								style="list-style-type: none; min-height:1px;" name="sortable2"></ul>
 						</div>
 					</div>
-					<div class="modal createFieldModal fade" tabindex="-1">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title">{\App\Language::translate('LBL_CREATE_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h5>
-									<button type="button" class="close" data-dismiss="modal"
-											aria-label="{\App\Language::translate('LBL_CLOSE')}">
-										<span aria-hidden="true"
-											  title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
-									</button>
-								</div>
-								<form class="form-horizontal createCustomFieldForm" method="POST">
-									<div class="modal-body">
-										<div class="row mb-2">
-											<div class="col-md-4 col-form-label">
-												{\App\Language::translate('LBL_SELECT_WIDGET', $QUALIFIED_MODULE)}
-											</div>
-											<div class="col-md-8 controls">
-												<select class="widgets form-control" name="widgets" data-validation-engine="validate[required]">
-													{foreach from=$WIDGETS item=WIDGET}
-														{if array_key_exists($WIDGET->getTitle(), $SPECIAL_WIDGETS)}
-															{continue}
-														{/if}
-														<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">
-															{\App\Language::translate($WIDGET->getTitle(), $QUALIFIED_MODULE)}
-														</option>
-													{/foreach}
-												</select>
-											</div>
-										</div>
-										<div class="row mb-2 widgetFilterTitle d-none">
-											<div class="col-sm-4 col-form-label">
-												{App\Language::translate('LBL_WIDGET_NAME','Home')}
-												<span class="redColor">*</span>
-											</div>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" name="title" value=""
-											   data-validation-engine="validate[required]" disabled>
-											</div>
-										</div>
-										<div class="row mb-2">
-											<div class="col-sm-4 col-form-label">
-												{\App\Language::translate('LBL_WIDTH', $QUALIFIED_MODULE)}
-											</div>
-											<div class="col-sm-2">
-												<select class="width form-control float-left" name="width">
-													{foreach from=$SIZE.width item=item}
-														<option value="{$item}" {if $DEFAULTVALUES.width eq $item} selected {/if}>{$item}</option>
-													{/foreach}
-												</select>
-											</div>
-											<div class="col-sm-4 col-form-label">
-												{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}
-											</div>
-											<div class="col-sm-2">
-												<select class="height form-control float-left" name="height">
-													{foreach from=$SIZE.height item=item}
-														<option value="{$item}" {if $DEFAULTVALUES.height eq $item} selected {/if}>{$item}</option>
-													{/foreach}
-												</select>
-											</div>
-										</div>
-										<div class="row mb-2">
-											<div class="col-sm-4 col-form-label">
-												{\App\Language::translate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
-											</div>
-											<div class="col-sm-2 controls">
-												<input type="checkbox" class="middle" name="isdefault">
-											</div>
-										</div>
-										<div class="row mb-2 d-none" data-widgets="Upcoming events">
-											<div class="col-sm-4 col-form-label">
-												{\App\Language::translate('LBL_SKIP_YEAR', $QUALIFIED_MODULE)}
-												<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer popover-triggered" data-placement="top" data-content="{\App\Language::translate('LBL_SKIP_YEAR_DESC', $QUALIFIED_MODULE)}" data-original-title="{{\App\Language::translate('LBL_SKIP_YEAR', $QUALIFIED_MODULE)}}">
-													<span class="fas fa-info-circle"></span>
-												</div>
-											</div>
-											<div class="col-sm-2 controls">
-												<input value="1" type="checkbox" class="middle" name="skip_year">
-											</div>
-										</div>
-										<div class="row mb-2 d-none" data-widgets="Upcoming events">
-											<div class="col-sm-4 col-form-label">
-												{\App\Language::translate('LBL_FIELD_DATE', $QUALIFIED_MODULE)}
-												<span class="redColor">*</span>
-											</div>
-											<div class="col-sm-8 controls">
-												<select class="form-control" name="date_fields" data-validation-engine="validate[required]">
-													{foreach key=FIELD_MODULE item=FIELDS from=$SELECT_FIELD_TYPE_DATE}
-														<optgroup label="{\App\Language::translate($FIELD_MODULE,$FIELD_MODULE)}">
-															{foreach key=FIELD_ID item=FIELD_LABEL  from=$FIELDS}
-																<option value="{$FIELD_ID}" data-module="{$FIELD_MODULE}">
-																	{\App\Language::translate($FIELD_LABEL, $FIELD_MODULE)}
-																</option>
-															{/foreach}
-														</optgroup>
-													{/foreach}
-												</select>
-											</div>
-										</div>
-										<div class="row mb-2 widgetLimit d-none">
-												<div class="col-sm-8 col-form-label">
-													{\App\Language::translate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}
-												</div>
-												<div class="col-sm-4 controls">
-													<input type="text" name="limit" class="form-control" value="10">
-												</div>
-											</div>
-										<div class="row mb-2 widgetFilter d-none">
-											<div class="col-sm-4 col-form-label">
-												{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
-											</div>
-											<div class="col-sm-8 controls">
-												<select class="form-control" id="owner" disabled name="default_owner">
-													{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
-														<option value="{$OWNER_ID}">{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
-													{/foreach}
-												</select>
-											</div>
-										</div>
-										<div class="row mb-2 widgetFilter d-none">
-											<div class="col-sm-4 col-form-label">
-												{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
-											</div>
-											<div class="col-sm-8 controls">
-												<select class="form-control owners_all" multiple="true"
-														disabled="disabled"
-														name="owners_all"
-														placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
-													{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-														<option value="{$OWNER_ID}" {if in_array($OWNER_ID,['mine','all','users','groups'])} selected{/if}>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
-													{/foreach}
-												</select>
-											</div>
-										</div>
-										<div class="row mb-2 widgetFilterDate d-none">
-											<div class="col-sm-4 col-form-label">
-												{\App\Language::translate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
-											</div>
-											<div class="col-sm-8 controls">
-												<select class="form-control" id="date" disabled name="default_date">
-													{foreach key=DATE_VALUE item=DATE_TEXT from=$DATE_SELECT_DEFAULT}
-														<option value="{$DATE_VALUE}">{\App\Language::translate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
-													{/foreach}
-												</select>
-											</div>
-										</div>
-									</div>
-									{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
-								</form>
-							</div>
-						</div>
-					</div>
-					<li class="newCustomFieldCopy d-none col-md-12">
-						<div class="ml-0 border1px" data-field-id="" data-linkid="" data-sequence=""
-							 data-js="container">
-							<div class="row p-2 d-flex justify-content-between js-custom-field" data-js="container">
-								<div class="u-word-break">
-									<span class="fieldLabel ml-3"></span>
-								</div>
-								<span class="btn-group mr-3 actions">
-								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails"
-								   data-toggle="dropdown">
-									<span class="yfi yfi-full-editing-view"
-										  title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
-								</a>
-								<div class="basicFieldOperations d-none" style="width: 375px;">
-									<form class="form-horizontal fieldDetailsForm" method="POST">
-										<div class="modal-header">
-										</div>
-										<div class="clearfix">
-											<div class="row">
-												<div class="col-md-3 text-center checkboxForm">
-													<input type="checkbox" name="isdefault">
-												</div>
-												<label class="col-md-9 form-control-plaintext float-left">
-													&nbsp;&nbsp;{\App\Language::translate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
-												</label>
-											</div>
-											<div class="row">
-												<div class="col-md-3 text-center checkboxForm">
-													<input type="checkbox" name="cache">
-												</div>
-												<label class="col-md-9 form-control-plaintext float-left">
-													&nbsp;&nbsp;{\App\Language::translate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}
-												</label>
-											</div>
-											<div class="row p-2">
-												<div class="col-md-3 text-center">
-													<select class="form-control" name="width">
-														{foreach from=$SIZE.width item=item}
-															<option value="{$item}">{$item}</option>
-														{/foreach}
-													</select>
-												</div>
-												<label class="col-md-9 form-control-plaintext float-left">
-													&nbsp;{\App\Language::translate('LBL_WIDTH', $QUALIFIED_MODULE)}
-													&nbsp;
-												</label>
-											</div>
-											<div class="row p-2">
-												<div class="col-md-3 text-center">
-													<select class="form-control" name="height">
-														{foreach from=$SIZE.height item=item}
-															<option value="{$item}">{$item}</option>
-														{/foreach}
-													</select>
-												</div>
-												<label class="col-md-9 form-control-plaintext float-left">
-													&nbsp;{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}
-													&nbsp;
-												</label>
-											</div>
-											<div class="row limit p-2">
-												<div class="col-md-3 text-center">
-													<input type="text" name="limit" class="form-control" value="10">
-												</div>
-												<label class="col-md-9 form-control-plaintext float-left">
-													&nbsp;{\App\Language::translate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}
-													&nbsp;
-												</label>
-											</div>
-										</div>
-										<div class="widgetFilterAll d-none">
-											<div class="row p-2">
-												<div class="col-md-5">
-													<select class="widgetFilter form-control" id="owner"
-															name="default_owner">
-														{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
-															<option value="{$OWNER_ID}">{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
-														{/foreach}
-													</select>
-												</div>
-												<label class="col-md-6 form-control-plaintext float-left">
-													{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
-												</label>
-											</div>
-											<div class="row p-2">
-												<div class="col-md-8">
-													<select class="widgetFilter form-control" multiple="true"
-															name="owners_all"
-															placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
-														{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
-															<option value="{$OWNER_ID}" {if in_array($OWNER_ID,['mine','all','users','groups'])} selected{/if}>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
-														{/foreach}
-													</select>
-												</div>
-												<label class="col-md-3 form-control-plaintext float-left">
-													{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
-												</label>
-											</div>
-											<div class="form-group d-none">
-												<div class="col-sm-3 col-form-label">
-													{\App\Language::translate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
-												</div>
-												<div class="col-sm-8 controls">
-													<select class="widgetFilterDate form-control" id="date" disabled
-															name="default_date">
-														{foreach key=DATE_VALUE item=DATE_TEXT from=$DATE_SELECT_DEFAULT}
-															<option value="{$DATE_VALUE}">{\App\Language::translate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
-														{/foreach}
-													</select>
-												</div>
-											</div>
-										</div>
-										<div class="modal-footer">
-											<span class="float-right">
-												<div class="float-right"><button class='cancel btn btn-danger'
-																				 type="reset"><strong><span
-																	class="fas fa-times mr-1"></span> {\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong></button></div>
-												<button class="btn btn-success saveFieldDetails" data-field-id=""
-														type="submit"><strong><span
-																class="fas fa-check mr-1"></span> {\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-											</span>
-										</div>
-									</form>
-								</div>&nbsp;
-								<a href="javascript:void(0)" class="deleteCustomField" data-field-id="">
-									<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
-								</a>
-							</span>
-							</div>
-						</div>
-					</li>
 				</div>
 			</div>
 		</div>

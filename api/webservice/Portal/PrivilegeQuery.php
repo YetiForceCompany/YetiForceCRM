@@ -5,7 +5,7 @@
  * @package Api
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -26,6 +26,8 @@ class PrivilegeQuery
 	 * @param string        $moduleName
 	 * @param mixed         $user
 	 * @param int           $relatedRecord
+	 *
+	 * @throws \Api\Core\Exception
 	 */
 	public static function getConditions(\App\Db\Query $query, string $moduleName, $user = false, $relatedRecord = null)
 	{
@@ -51,42 +53,74 @@ class PrivilegeQuery
 			default:
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
 		}
+		$where = ['and'];
 		$fieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app'));
-		if (!$fieldInfo) {
+		if ($fieldInfo) {
+			$where[] = [$fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] => 1];
+		} elseif ('ModComments' !== $moduleName) {
 			$query->andWhere(new Expression('0=1'));
 			return;
 		}
-		$where = ['and'];
-		$where[] = [$fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] => 1];
-		$parentModule = \App\Record::getType($parentId);
-		$fields = \App\Field::getRelatedFieldForModule($moduleName);
-		$foundField = true;
+		$parentModule = \App\Record::getType($parentId) ?? '';
+
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
-			$entityInstance = \Vtiger_CRMEntity::getInstance($moduleName);
-			$where[] = [$entityInstance->table_name . '.' . $entityInstance->table_index => $parentId];
-		} elseif (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
-			$field = $fields[$parentModule];
-			$where[] = ["{$field['tablename']}.{$field['columnname']}" => $parentId];
-		} elseif (\in_array($moduleName, ['Products', 'Services'])) {
-			$fieldModel = \Vtiger_Field_Model::getInstance('discontinued', \Vtiger_Module_Model::getInstance($moduleName));
-			$where[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => 1];
-		} elseif ($fields) {
+			$where[] = ["{$moduleModel->basetable}.{$moduleModel->basetableid}" => $parentId];
+		} elseif ('ModComments' === $moduleName && $relatedRecord && \App\Privilege::isPermitted(\App\Record::getType($relatedRecord), 'DetailView', $relatedRecord, $user->getId())) {
+			return;
+		} elseif ($parentModule !== $moduleName && ($referenceField = current($moduleModel->getReferenceFieldsForModule($parentModule)))) {
+			$where[] = ["{$referenceField->getTableName()}.{$referenceField->getColumnName()}" => $parentId];
+		} elseif ($relationId = key(\App\Relation::getByModule($parentModule, true, $moduleName))) {
+			$relationModel = \Vtiger_Relation_Model::getInstanceById($relationId);
+			$relationModel->set('parentRecord', \Vtiger_Record_Model::getInstanceById($parentId, $parentModule));
+			$queryGenerator = $relationModel->getQuery();
+			$queryGenerator->permissions = false;
+			$queryGenerator->clearFields()->setFields(['id']);
+			$subQuery = $queryGenerator->createQuery()->select($queryGenerator->getColumnName('id'));
+			$where[] = ["{$moduleModel->basetable}.{$moduleModel->basetableid}" => $subQuery];
+		} elseif ($fields = $moduleModel->getFieldsByReference()) {
 			$foundField = false;
-			foreach ($fields as $relatedModuleName => $field) {
-				if ($relatedModuleName === $parentModule) {
+			foreach ($fields as $fieldModel) {
+				if (!$fieldModel->isActiveField()) {
 					continue;
 				}
-				if ($relatedField = \App\Field::getRelatedFieldForModule($relatedModuleName, $parentModule)) {
-					$entityInstance = \Vtiger_CRMEntity::getInstance($relatedField['name']);
-					$query->innerJoin($entityInstance->table_name, "{$entityInstance->table_name}.$entityInstance->table_index = {$field['tablename']}.{$field['columnname']}");
-					$where[] = ["{$relatedField['tablename']}.{$relatedField['columnname']}" => $parentId];
-					$foundField = true;
+				foreach ($fieldModel->getReferenceList() as $relModuleName) {
+					if ('Users' === $relModuleName || $relModuleName === $parentModule || $relModuleName === $moduleName) {
+						continue;
+					}
+					$relModuleModel = \Vtiger_Module_Model::getInstance($relModuleName);
+					if ($referenceField = current($relModuleModel->getReferenceFieldsForModule($parentModule))) {
+						$queryGenerator = new \App\QueryGenerator($relModuleName);
+						$queryGenerator->permissions = false;
+						$queryGenerator->setFields(['id'])->addCondition($referenceField->getName(), $parentId, 'eid');
+						$subQuery = $queryGenerator->createQuery()->select($queryGenerator->getColumnName('id'));
+						$where[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => $subQuery];
+						$foundField = true;
+						break 2;
+					}
 				}
 			}
+			if (!$foundField) {
+				$query->andWhere(new Expression('0=1'));
+			}
+		} else {
+			$query->andWhere(new Expression('0=1'));
 		}
-		if (!$foundField) {
-			throw new \Api\Core\Exception('Invalid module, no relationship', 400);
+		if (\in_array($moduleName, ['Products', 'Services']) && ($fieldModel = $moduleModel->getFieldByName('discontinued')) && $fieldModel->isActiveField()) {
+			$where[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => 1];
 		}
 		$query->andWhere($where);
+		if (\App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && ($fieldInfo = \App\Field::getFieldInfo('private', $moduleName)) && \in_array($fieldInfo['presence'], [0, 2])) {
+			$owners = array_merge([$user->getId()], $user->getGroups());
+			$conditions = ['or'];
+			$conditions[] = ['vtiger_crmentity.private' => 0];
+			$subConditions = ['or', ['vtiger_crmentity.smownerid' => $owners]];
+			if (\App\Config::security('PERMITTED_BY_SHARED_OWNERS')) {
+				$subQuery = (new \App\Db\Query())->select(['crmid'])->distinct()->from('u_yf_crmentity_showners')->where(['userid' => $owners]);
+				$subConditions[] = ['vtiger_crmentity.crmid' => $subQuery];
+			}
+			$conditions[] = ['and', ['vtiger_crmentity.private' => 1], $subConditions];
+			$query->andWhere($conditions);
+		}
 	}
 }

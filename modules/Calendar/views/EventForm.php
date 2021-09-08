@@ -6,7 +6,7 @@
  * @package   View
  *
  * @copyright YetiForce Sp. z o.o.
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -20,9 +20,9 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('record')) {
-			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			if (!$this->record->isEditable()
-				|| (true === $request->getBoolean('isDuplicate') && (!$this->record->isCreateable() || !$this->record->isPermitted('ActivityPostponed')))
+			$this->recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+			if (!$this->recordModel->isEditable()
+				|| (true === $request->getBoolean('isDuplicate') && (!$this->recordModel->isCreateable() || !$this->recordModel->isPermitted('ActivityPostponed')))
 			) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
@@ -39,16 +39,18 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		if ($request->has('record')) {
-			$recordModel = $this->record ?: Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
-			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
-			$recordStructure = $recordStructureInstance->getStructure();
+			$recordModel = $this->recordModel ?: Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+			$this->fields = $recordModel->getModule()->getFields();
+			$this->loadFieldValuesFromRequest($request);
+			$recordStructureInstance = $this->getRecordStructure();
+			$this->recordStructure = $recordStructureInstance->getStructure();
 			$fieldValues = $this->loadFieldValuesFromSource($request);
 			$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
 			$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 			$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 			$viewer->assign('LIST_FILTER_FIELDS', \App\Json::encode(\App\ModuleHierarchy::getFieldsForListFilter($moduleName)));
 			$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-			$viewer->assign('RECORD_STRUCTURE', $recordStructure);
+			$viewer->assign('RECORD_STRUCTURE', $this->recordStructure);
 			$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 			$viewer->assign('IS_POSTPONED', $request->getBoolean('isDuplicate'));
 			$viewer->assign('RECORD', $recordModel);

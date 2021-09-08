@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -51,5 +51,23 @@ class MultiCompany
 			->where(['vtiger_crmentity.deleted' => 0])->all() ?: [];
 		Cache::save('getUsersByCompany', '', $rows);
 		return $rows;
+	}
+
+	/**
+	 * Gets roles by company ID.
+	 *
+	 * @param int $companyId
+	 *
+	 * @return int[]
+	 */
+	public static function getRolesByCompany(int $companyId): array
+	{
+		if (Cache::has('getCompanyRoles', '')) {
+			$rolesByCompany = Cache::get('getCompanyRoles', '');
+		} else {
+			$rolesByCompany = (new \App\Db\Query())->select(['company', 'roleid'])->from('vtiger_role')->createCommand()->queryAllByGroup(2);
+			Cache::save('getCompanyRoles', '', $rolesByCompany);
+		}
+		return $rolesByCompany[$companyId] ?? [];
 	}
 }

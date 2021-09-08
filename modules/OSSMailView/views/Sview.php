@@ -4,7 +4,7 @@
  * OSSMailView sview view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_Sview_View extends Vtiger_Index_View
 {

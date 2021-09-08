@@ -10,8 +10,9 @@
 serverUrl='http://127.0.0.1:4444'
 
 # Versions
-CHROME_DRIVER_VERSION=`curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE`
-SELENIUM_STANDALONE_VERSION=3.6.0
+CHROME_DRIVER_VERSION=`curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_93`
+#CHROME_DRIVER_VERSION="93.0.4577.15"
+SELENIUM_STANDALONE_VERSION=3.9.0
 SELENIUM_SUBDIR=$(echo "$SELENIUM_STANDALONE_VERSION" | cut -d"." -f-2)
 
 # Install sources.list.d.
@@ -52,6 +53,14 @@ xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/lo
 #xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/local/bin/selenium-server-standalone.jar -debug
 #echo '-- # chromedriver --url-base=/wd/hub --'
 #chromedriver --url-base=/wd/hub
+
+#echo '--  # npm install selenium-standalone -g  --'
+#npm install selenium-standalone -g > /var/www/html/cache/logs/selenium1_npm_install.log 2>&1 &
+#echo '--  # selenium-standalone install  --'
+#selenium-standalone install --singleDriverInstall=chrome --version=$SELENIUM_STANDALONE_VERSION > /var/www/html/cache/logs/selenium2_install_install.log 2>&1 &
+#echo '--  # selenium-standalone start  --'
+#selenium-standalone start --singleDriverInstall=chrome --version=$SELENIUM_STANDALONE_VERSION > /var/www/html/cache/logs/selenium3_start.log 2>&1 &
+#selenium-standalone start  --version=$SELENIUM_STANDALONE_VERSION
 
 
 #xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar $HOME/selenium-server-standalone.jar -debug > /tmp/selenium.log &

@@ -5,7 +5,7 @@
  * @package Api
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -42,6 +42,8 @@ class Privilege
 	 * @param bool|int $record
 	 * @param mixed    $userId
 	 *
+	 * @throws \Api\Core\Exception
+	 *
 	 * @return bool
 	 */
 	public static function isPermitted(string $moduleName, $actionName = null, $record = false, $userId = false)
@@ -51,6 +53,7 @@ class Privilege
 		} else {
 			$user = \App\User::getUserModel($userId);
 		}
+		$userId = $user->getId();
 		if (empty($record) || !$user->has('permission_type')) {
 			return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
 		}
@@ -70,36 +73,87 @@ class Privilege
 			default:
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
 		}
-		if (!($permissionFieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app')))) {
+		if ('ModComments' !== $moduleName && !($permissionFieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app')))) {
+			\App\Privilege::$isPermittedLevel = 'FIELD_PERMISSION_NOT_EXISTS';
 			return false;
 		}
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
-			return $parentRecordId === $record;
+			$permission = $parentRecordId === $record;
+			\App\Privilege::$isPermittedLevel = 'RECORD_HIERARCHY_LEVEL_' . ($permission ? 'YES' : 'NO');
+			return $permission;
 		}
-		$parentModule = \App\Record::getType($parentRecordId);
-		$fields = \App\Field::getRelatedFieldForModule($moduleName);
+
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		if (!$recordModel->get($permissionFieldInfo['fieldname'])) {
+		if ('ModComments' !== $moduleName && !$recordModel->get($permissionFieldInfo['fieldname'])) {
+			\App\Privilege::$isPermittedLevel = 'FIELD_PERMISSION_NO';
 			return false;
 		}
-		if (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
-			$field = $fields[$parentModule];
-			return ((int) $recordModel->get($field['fieldname'])) === $parentRecordId;
+
+		$parentModule = \App\Record::getType($parentRecordId) ?? '';
+
+		$moduleModel = $recordModel->getModule();
+		if (\App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && ($privateField = $recordModel->getField('private')) && $privateField->isActiveField() && $recordModel->get($privateField->getName())) {
+			$isPermittedPrivateRecord = false;
+			$recOwnId = $recordModel->get('assigned_user_id');
+			$recOwnType = \App\Fields\Owner::getType($recOwnId);
+			if ('Users' === $recOwnType) {
+				if ($userId === $recOwnId) {
+					$isPermittedPrivateRecord = true;
+				}
+			} elseif ('Groups' === $recOwnType) {
+				if (\in_array($recOwnId, $user->getGroups())) {
+					$isPermittedPrivateRecord = true;
+				}
+			}
+			if (!$isPermittedPrivateRecord && \App\Config::security('PERMITTED_BY_SHARED_OWNERS')) {
+				$shownerIds = \App\Fields\SharedOwner::getById($record);
+				if (\in_array($userId, $shownerIds) || \count(array_intersect($shownerIds, $user->getGroups())) > 0) {
+					$isPermittedPrivateRecord = true;
+				}
+			}
+			if (!$isPermittedPrivateRecord) {
+				\App\Privilege::$isPermittedLevel = 'SEC_PRIVATE_RECORD_NO';
+				return $isPermittedPrivateRecord;
+			}
 		}
-		if (\in_array($moduleName, ['Products', 'Services'])) {
-			return (bool) $recordModel->get('discontinued');
+		if (\in_array($moduleName, ['Products', 'Services']) && !$recordModel->get('discontinued')) {
+			\App\Privilege::$isPermittedLevel = $moduleName . '_DISCONTINUED_NO';
+			return false;
 		}
-		if ($fields) {
-			foreach ($fields as $relatedModuleName => $field) {
-				if ($relatedModuleName === $parentModule) {
+		if ($parentModule !== $moduleName && ($referenceField = current($moduleModel->getReferenceFieldsForModule($parentModule))) && $recordModel->get($referenceField->getName()) === $parentRecordId) {
+			\App\Privilege::$isPermittedLevel = 'RECORD_RELATED_YES';
+			return true;
+		}
+		if ($relationId = key(\App\Relation::getByModule($parentModule, true, $moduleName))) {
+			$relationModel = \Vtiger_Relation_Model::getInstanceById($relationId);
+			$relationModel->set('parentRecord', \Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModule));
+			$queryGenerator = $relationModel->getQuery();
+			$queryGenerator->permissions = false;
+			$queryGenerator->clearFields()->setFields(['id'])->addCondition('id', $record, 'e');
+			if ($queryGenerator->createQuery()->exists()) {
+				\App\Privilege::$isPermittedLevel = $moduleName . '_RELATED_YES';
+				return true;
+			}
+		} elseif ($fields = $moduleModel->getFieldsByReference()) {
+			foreach ($fields as $fieldModel) {
+				if (!$fieldModel->isActiveField() || $recordModel->isEmpty($fieldModel->getName())) {
 					continue;
 				}
-				if ($relatedField = \App\Field::getRelatedFieldForModule($relatedModuleName, $parentModule)) {
-					$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($recordModel->get($field['fieldname'], $relatedModuleName));
-					return ((int) $relatedRecordModel->get($relatedField['fieldname'])) === $parentRecordId;
+				$relRecordId = $recordModel->get($fieldModel->getName());
+				foreach ($fieldModel->getReferenceList() as $relModuleName) {
+					if ('Users' === $relModuleName || $relModuleName === $parentModule || $relModuleName === $moduleName) {
+						continue;
+					}
+					$relModuleModel = \Vtiger_Module_Model::getInstance($relModuleName);
+					if (($referenceField = current($relModuleModel->getReferenceFieldsForModule($parentModule))) && \App\Record::isExists($relRecordId, $relModuleName) && \App\Record::getType($relRecordId) === $relModuleName && \Vtiger_Record_Model::getInstanceById($relRecordId, $relModuleName)->get($referenceField->getName()) === $parentRecordId) {
+						\App\Privilege::$isPermittedLevel = $moduleName . '_RELATED_SL_YES';
+						return true;
+					}
 				}
 			}
 		}
+
+		\App\Privilege::$isPermittedLevel = 'ALL_PERMISSION_NO';
 		return false;
 	}
 }

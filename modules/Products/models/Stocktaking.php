@@ -5,7 +5,7 @@
  * @package   Model
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -195,7 +195,8 @@ class Products_Stocktaking_Model
 				'qtyinstock' => $referenceInfo['table'] . '.qtyinstock',
 			])->from($referenceInfo['table'])
 				->innerJoin('vtiger_products', "{$referenceInfo['table']}.{$referenceInfo['rel']} = vtiger_products.productid")
-				->where([$referenceInfo['base'] => $this->storage])
+				->innerJoin('vtiger_crmentity', 'vtiger_products.productid = vtiger_crmentity.crmid')
+				->where(['vtiger_crmentity.deleted' => 0, "{$referenceInfo['table']}.{$referenceInfo['base']}" => $this->storage])
 				->createCommand()->queryAllByGroup(1);
 		}
 		return $products;

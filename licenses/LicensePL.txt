@@ -1,49 +1,14 @@
-Licencja YetiForce Public License v3
-Licencja otwarta na zasadach licencji MIT
-Copyright (c) 2017 YetiForce Sp. z o.o.
+YetiForce Public License v4
+Producent: YetiForce Sp. z o.o., PL1180002425
+Email: registration@yetiforce.com ([rejestracja Oprogramowania)]
 
-Gwarantuje się, bez opłat, że każda osoba, która wejdzie w posiadanie kopii tego Oprogramowania i związanych z nim plików dokumentacji (dalej „Oprogramowanie”) może wprowadzać do obrotu Oprogramowanie bez żadnych ograniczeń, w tym bez ograniczeń prawa do użytkowania, kopiowania, modyfikowania, łączenia, publikowania, dystrybuowania, sublicencjonowania i/lub sprzedaży kopii Oprogramowania a także zezwalania osobie, której Oprogramowanie zostało dostarczone czynienia tego samego, z zastrzeżeniem następujących warunków:
+Gwarantuje się, bez opłat, że każda osoba, która wejdzie w posiadanie kopii tego Oprogramowania i związanych z nim plików dokumentacji (dalej „Oprogramowanie”) może wprowadzać do obrotu Oprogramowanie bez żadnych ograniczeń, w tym bez ograniczeń prawa do użytkowania, kopiowania, modyfikowania, łączenia, publikowania, dystrybuowania, sublicencjonowania i/lub sprzedaży kopii Oprogramowania, a także zezwalania osobie, której Oprogramowanie zostało dostarczone czynienia tego samego, z zastrzeżeniem następujących warunków:
 
-Powyższa nota zastrzegająca prawa autorskie oraz niniejsza nota zezwalająca muszą zostać włączone do wszystkich kopii lub istotnych części Oprogramowania. Włączenie może mieć postać linku do treści licencji zgodnie z Załącznikiem A.
-
-Oprogramowanie używane przez ponad 14 dni musi zostać zarejestrowane za pomocą wbudowanego formularza. 
-Jeżeli rejestracja nie jest możliwa, dalsze korzystanie z Oprogramowania wymaga rejestracji za pośrednictwem wiadomości email (registration@yetiforce.com), zgodnie z Załącznikiem B. 
-Potwierdzeniem rejestracji Oprogramowania jest poprawnie przesłany formularz rejestracji (wprowadzenie go do systemu komunikacji elektronicznej), który zawiera pełne i prawdziwe dane rejestrowe. 
-Obowiązkowi rejestracji podlega każda firma (rejestracja nie dotyczy pracowników tych firm ani osób prywatnych), która korzysta, konfiguruje lub modyfikuje Oprogramowanie, niezależnie czy czyni to dla siebie czy na zlecenie innych podmiotów.
-
-Dane wykorzystane przy rejestracji muszą być prawdziwe. Wszystkie przekazane informacje rejestrowe, w tym nazwa firmy, mogą być wykorzystane przez YetiForce Sp. z o.o. do celów marketingowych (tj. przygotowanie statystyk, publikacja na stronie www). 
-YetiForce Sp. z o.o. nie sprzedaje i nie przekazuje tych danych innym podmiotom oraz gwarantuje ich poufność.  
-
-Korzystając z Oprogramowania nie można usuwać ani zmieniać treści stopki systemu, w tym odesłań do strony www i social media YetiForce Sp. z o.o. 
-Stopkę można dostosować kolorystycznie o ile zmienił się szablon systemu, pod warunkiem utrzymania czytelności. 
-Stopka systemu może zostać usunięta za uprzednią pisemną zgodą YetiForce Sp. z o.o.
+a) Każdy plik będący na niniejszej licencji, musi zawierać treść tej licencji lub link do treści licencji;
+b) Oprogramowanie musi, o ile jest to technicznie możliwe, zostać zarejestrowane u Producenta Oprogramowania za pomocą wbudowanego formularza albo za pośrednictwem wiadomości Email zgodnie z opisem na stronie WWW Producenta. Obowiązkowi rejestracji podlega każdy Podmiot, który korzysta, konfiguruje lub modyfikuje Oprogramowanie, niezależnie czy czyni to dla siebie czy na zlecenie innych podmiotów. W przypadku zespołów osób, tj. organizacja, firma, rodzina lub dowolna grupa osób, wystarczy zarejestrować tylko zespół osób podając dane organizacji/firmy lub dane jednej osoby z rodziny/grupy.; Jeżeli pomimo wielu prawidłowych prób rejestracji Oprogramowania nie ma kontaktu z Producentem, Podmiot może samodzielnie wygenerować klucze rejestracji;
+c) Dane przekazane do rejestracji muszą być prawdziwe, a wszystkie przekazane informacje rejestrowe mogą być wykorzystane przez Producenta do celów marketingowych (tj. przygotowanie statystyk, publikacja na stronie www). Producent nie sprzedaje i nie przekazuje tych danych innym podmiotom oraz gwarantuje poufność danych osobowych;
+d) W systemie nie można zmieniać zawartości stopki systemu, wydruków i maili ([w tym linków i mechanizmów kontrolujących rejestrację produktu oraz zakup produktów płatnych)] chyba, że uzyska się pisemną zgodę Producenta lub kupi się oficjalny dodatek Producenta, który modyfikuje stopkę. Stopkę można dostosować kolorystycznie, pod warunkiem utrzymania czytelności zawartości stopki.
+e) W przypadku produktów oznaczonych jako płatne, należy zakupić u Producenta lub u oficjalnego Partnera Producenta odpowiednią licencję/subskrypcję;
+f) Podmiot korzystający z Oprogramowania, jest zobowiązany do przechowywania historii zmian wprowadzanych w Oprogramowaniu oraz na żądanie Producenta umożliwić kontrolę, która zweryfikuje czy Podmiot przestrzega zapisów niniejszej licencji. Kontrola nie może odbywać się częściej niż raz na 3 lata;
 
 OPROGRAMOWANIE JEST DOSTARCZONE TAKIM, JAKIE JEST, BEZ JAKIEJKOLWIEK GWARANCJI, WYRAŹNEJ LUB DOROZUMIANEJ, NIE WYŁĄCZAJĄC GWARANCJI PRZYDATNOŚCI HANDLOWEJ LUB PRZYDATNOŚCI DO OKREŚLONYCH CELÓW A TAKŻE BRAKU WAD PRAWNYCH. W ŻADNYM PRZYPADKU TWÓRCA LUB POSIADACZ PRAW AUTORSKICH NIE MOŻE PONOSIĆ ODPOWIEDZIALNOŚCI Z TYTUŁU ROSZCZEŃ LUB WYRZĄDZONEJ SZKODY A TAKŻE ŻADNEJ INNEJ ODPOWIEDZIALNOŚCI CZY TO WYNIKAJĄCEJ Z UMOWY, DELIKTU, CZY JAKIEJKOLWIEK INNEJ PODSTAWY POWSTAŁEJ W ZWIĄZKU Z OPROGRAMOWANIEM LUB UŻYTKOWANIEM GO LUB WPROWADZANIEM GO DO OBROTU.
-
-
-Załącznik A
-
-
-Minimalny opis licencji i praw autorskich wymagany dla plików PHP; może on zostać rozbudowany o elementy phpDocumentator o ile nie modyfikują one zapisów licencji i nie zmieniają istniejących praw autorskich do pliku.
-/**
-* @copyright YetiForce Sp. z o.o.
-* @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
-*/
-
-Minimalny opis licencji i praw autorskich wymagany dla plików TPL; może on zostać rozbudowany o dodatkowe elementy o ile zmiany nie modyfikują zapisów licencji i nie zmieniają istniejących praw autorskich do pliku.
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-
-Minimalny opis licencji i praw autorskich wymagany dla plików JS; może on zostać rozbudowany o dodatkowe elementy o ile zmiany nie modyfikują zapisów licencji i nie zmieniają istniejących praw autorskich do pliku.
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
-
-Załącznik B
-
-
-Wszystkie dane poniżej muszą być prawdziwe, jest to warunek konieczny rejestracji produktu i wynika z zapisów licencji.
-1. Informacje rejestrowe (dane poniżej służą do celów statystycznych i mogą być publikowane na stronie WWW producenta):
-	Nazwa firmy:
-	Kraj:
-	Miasto:
-	Rozmiar firmy
-2. Klucz produktu - podaj klucz produktu, który jest widoczny na stronie głównej panelu administracyjnego.

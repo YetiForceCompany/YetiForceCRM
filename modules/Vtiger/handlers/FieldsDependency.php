@@ -5,7 +5,7 @@
  * @package		Handler
  *
  * @copyright	YetiForce Sp. z o.o
- * @license		YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license		YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author		Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
@@ -45,15 +45,15 @@ class Vtiger_FieldsDependency_Handler
 		if ($fieldsDependency['show']['mandatory']) {
 			$mandatoryFields = [];
 			foreach ($fieldsDependency['show']['mandatory'] as $fieldName) {
-				if ('' === $recordModel->get($fieldName)) {
-					$mandatoryFields[] = $recordModel->getField($fieldName)->getFullLabelTranslation();
+				if ('' === $recordModel->get($fieldName) && ($fieldModel = $recordModel->getField($fieldName)) && $fieldModel->isActiveField()) {
+					$mandatoryFields[] = $fieldModel->getFullLabelTranslation();
 				}
 			}
 			if ($mandatoryFields) {
 				$response = [
 					'result' => false,
 					'hoverField' => reset($fieldsDependency['show']['mandatory']),
-					'message' => \App\Language::translate('LBL_NOT_FILLED_MANDATORY_FIELDS') . ': <br /> - ' . implode('<br /> - ', $mandatoryFields)
+					'message' => \App\Language::translate('LBL_NOT_FILLED_MANDATORY_FIELDS') . ': <br /> - ' . implode('<br /> - ', $mandatoryFields),
 				];
 			}
 		}

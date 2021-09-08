@@ -5,7 +5,7 @@
  * @package   Controller
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -16,11 +16,7 @@ namespace App\Controller;
  */
 abstract class Base
 {
-	/**
-	 * Headers instance.
-	 *
-	 * @var \App\Headers
-	 */
+	/** @var \App\Headers Headers instance. */
 	public $headers;
 	/**
 	 * CSRF is active?.
@@ -47,7 +43,7 @@ abstract class Base
 	 */
 	public function __construct()
 	{
-		$this->headers = \App\Headers::getInstance();
+		$this->headers = \App\Controller\Headers::getInstance();
 		if (!self::$activatedLocale && \App\Config::performance('CHANGE_LOCALE')) {
 			\App\Language::initLocale();
 			self::$activatedLocale = true;
@@ -149,7 +145,7 @@ abstract class Base
 	}
 
 	/**
-	 * Function to check if session is extend.
+	 * Function to check if session is extended.
 	 *
 	 * @param \App\Request $request
 	 *

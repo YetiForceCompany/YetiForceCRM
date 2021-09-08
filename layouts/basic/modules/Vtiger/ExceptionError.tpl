@@ -10,25 +10,27 @@
 ********************************************************************************/
 -->*}
 {if 'test' === \App\Config::main('systemMode')}
-	{$HEADER_MESSAGE}
-	{if $MESSAGE_EXPANDED}
-		{if !empty($MESSAGE['message'])}{$MESSAGE['message']}{/if}
-		{if !empty($MESSAGE['query'])}{$MESSAGE['query']}{/if}
-		{if !empty($MESSAGE['params'])}
-			{implode(',', $MESSAGE['params'])}
+	<span class="YetiForceError!!!">
+		{$HEADER_MESSAGE}
+		{if $MESSAGE_EXPANDED}
+			{if !empty($MESSAGE['message'])}{$MESSAGE['message']}{/if}
+			{if !empty($MESSAGE['query'])}{$MESSAGE['query']}{/if}
+			{if !empty($MESSAGE['params'])}
+				{implode(',', $MESSAGE['params'])}
+			{/if}
+			{if !empty($MESSAGE['trace'])}
+				{\App\Language::translate($MESSAGE['trace'])}
+			{/if}
+		{else}
+			{$MESSAGE}
 		{/if}
-		{if !empty($MESSAGE['trace'])}
-			{\App\Language::translate($MESSAGE['trace'])}
-		{/if}
-	{else}
-		{$MESSAGE}
-	{/if}
+	</span>
 {else}
 	<!DOCTYPE html>
 	{strip}
 	<html>
 	<head>
-		<title>Yetiforce: {\App\Purifier::encodeHtml($HEADER_MESSAGE)}</title>
+		<title>YetiForceError!!!: {\App\Purifier::encodeHtml($HEADER_MESSAGE)}</title>
 		{if !empty($IS_IE)}
 			<meta http-equiv="x-ua-compatible" content="IE=11,edge" >
 		{/if}

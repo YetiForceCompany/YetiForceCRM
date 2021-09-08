@@ -4,7 +4,7 @@
  * Ldap authorization method class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Users_Ldap_Authmethod
@@ -37,7 +37,7 @@ class Users_Ldap_Authmethod
 	public function process($auth, $password)
 	{
 		\App\Log::trace('Start LDAP authentication', 'UserAuthentication');
-		if (!empty($password) && 'PLL_LDAP' === $this->userRecordModel->get('login_method')) {
+		if (!empty($password) && ('PLL_LDAP' === $this->userRecordModel->get('login_method') || 'PLL_LDAP_2FA' === $this->userRecordModel->get('login_method'))) {
 			$port = '' == $auth['port'] ? 389 : $auth['port'];
 			$ds = ldap_connect($auth['server'], $port);
 			if (!$ds) {

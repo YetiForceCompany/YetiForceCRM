@@ -5,8 +5,9 @@
  * @package   Controller
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Controller\Components\Action;
@@ -44,7 +45,7 @@ class InterestsConflict extends \App\Controller\Action
 				break;
 			case 'getConfirm':
 			case 'updateConfirmStatus':
-				if (!\in_array(\App\User::getCurrentUserId(), \Config\Components\InterestsConflict::$unlockUsersAccess) && !\App\User::getCurrentUserModel()->isAdmin()) {
+				if (!\in_array(\App\User::getCurrentUserId(), \Config\Components\InterestsConflict::$confirmUsersAccess) && !\App\User::getCurrentUserModel()->isAdmin()) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 				}
 				break;
@@ -156,7 +157,7 @@ class InterestsConflict extends \App\Controller\Action
 			'draw' => $request->getInteger('draw'),
 			'iTotalRecords' => (new \App\Db\Query())->from('u_#__interests_conflict_unlock')->count(),
 			'iTotalDisplayRecords' => $query->count(),
-			'aaData' => $rows
+			'aaData' => $rows,
 		];
 	}
 
@@ -206,7 +207,7 @@ class InterestsConflict extends \App\Controller\Action
 	public function getConfirmResponse(\App\Request $request): array
 	{
 		$queries = [
-			'base' => $this->getConfirmQuery($request, 'u')
+			'base' => $this->getConfirmQuery($request, 'u'),
 		];
 		if ($request->getBoolean('showHistory')) {
 			$queries['log'] = $this->getConfirmQuery($request, 'b');
@@ -259,7 +260,7 @@ class InterestsConflict extends \App\Controller\Action
 			'draw' => $request->getInteger('draw'),
 			'iTotalRecords' => $all,
 			'iTotalDisplayRecords' => $filter,
-			'aaData' => $rows
+			'aaData' => $rows,
 		];
 	}
 

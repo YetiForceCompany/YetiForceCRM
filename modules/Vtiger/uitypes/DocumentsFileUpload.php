@@ -59,7 +59,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 							'module' => 'Documents',
 							'actionName' => 'DownloadFile',
 							'record' => $recordModel->getId(),
-							'fileid' => $row['attachmentsid'],
+							'key' => $row['attachmentsid'],
 						]
 					];
 				}

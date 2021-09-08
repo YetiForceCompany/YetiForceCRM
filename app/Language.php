@@ -8,7 +8,7 @@ namespace App;
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Adrian Koń <a.kon@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -35,19 +35,12 @@ class Language
 	 * @var string
 	 */
 	public static $customDirectory = 'custom';
-	/**
-	 * Current language.
-	 *
-	 * @var bool|string
-	 */
-	private static $language = false;
 
-	/**
-	 * Temporary language.
-	 *
-	 * @var bool|string
-	 */
-	private static $temporaryLanguage = false;
+	/** @var string Current language. */
+	private static $language = '';
+
+	/** @var string Temporary language. */
+	private static $temporaryLanguage = '';
 
 	/**
 	 * Short current language.
@@ -110,7 +103,7 @@ class Language
 	 *
 	 * @param string $language
 	 */
-	public static function setTemporaryLanguage($language)
+	public static function setTemporaryLanguage(string $language)
 	{
 		static::$temporaryLanguage = $language;
 	}
@@ -308,6 +301,9 @@ class Language
 		static::loadLanguageFile($language, $moduleName);
 		if (isset(static::$languageContainer[$language][$moduleName]['php'][$key])) {
 			return Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]);
+		}
+		if (\App\Config::performance('recursiveTranslate') && static::DEFAULT_LANG !== $language) {
+			return static::translateSingleMod($key, $moduleName, static::DEFAULT_LANG);
 		}
 		return $key;
 	}

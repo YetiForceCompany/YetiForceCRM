@@ -4,7 +4,7 @@
  * Companies module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
@@ -30,7 +30,6 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		'vat_id' => [
 			'paymentData' => true,
 			'registerView' => true,
-			'infoText' => 'LBL_VAT_ID_INFO',
 		],
 		'country' => [
 			'registerView' => true,
@@ -38,51 +37,51 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'post_code' => [
 			'paymentData' => true,
-			'registerView' => true
+			'registerView' => true,
 		],
 		'city' => [
-			'registerView' => true
+			'registerView' => true,
 		],
 		'address' => [
 			'paymentData' => true,
-			'registerView' => true
+			'registerView' => true,
 		],
 		'industry' => [
-			'registerView' => true
+			'registerView' => true,
 		],
 		'companysize' => [
-			'registerView' => true
+			'registerView' => true,
 		],
 		'website' => [
 			'registerView' => true,
 			'infoText' => 'LBL_WEBSITE_INFO',
 		],
 		'spacer' => [
-			'registerView' => true
+			'registerView' => true,
 		],
 		'newsletter' => [
-			'registerView' => true
+			'registerView' => true,
 		],
 		'firstname' => [
-			'registerView' => true
+			'registerView' => true,
 		],
 		'lastname' => [
-			'registerView' => true
+			'registerView' => true,
 		],
 		'email' => [
-			'registerView' => true
+			'registerView' => true,
 		],
 		'logo' => [
-			'registerView' => false
+			'registerView' => false,
 		],
 		'facebook' => [
-			'brandBlock' => true
+			'brandBlock' => true,
 		],
 		'twitter' => [
-			'brandBlock' => true
+			'brandBlock' => true,
 		],
 		'linkedin' => [
-			'brandBlock' => true
+			'brandBlock' => true,
 		],
 	];
 

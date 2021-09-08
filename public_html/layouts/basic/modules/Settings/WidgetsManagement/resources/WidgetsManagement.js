@@ -1,50 +1,10 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 jQuery.Class(
 	'Settings_WidgetsManagement_Js',
 	{},
 	{
-		widgetWithFilterUsers: [],
-		setWidgetWithFilterUsers: function () {
-			var thisInstance = this;
-			var element = jQuery('[name="filter_users"]').val();
-			if (element) thisInstance.widgetWithFilterUsers = JSON.parse(element);
-			else thisInstance.widgetWithFilterUsers = [];
-		},
-		widgetWithFilterDate: [],
-		widgetWithRecordLimit: [],
-		setWidgetData: function () {
-			let thisInstance = this;
-			let element = $('[name="filter_date"]').val();
-			if (element) {
-				thisInstance.widgetWithFilterDate = JSON.parse(element);
-			} else {
-				thisInstance.widgetWithFilterDate = [];
-			}
-			let recordLimit = $('[name="record_limit"]').val();
-			if (recordLimit) {
-				thisInstance.widgetWithRecordLimit = JSON.parse(recordLimit);
-			} else {
-				thisInstance.widgetWithRecordLimit = [];
-			}
-		},
-		setWidgetWithFilterTitle: function () {
-			let thisInstance = this;
-			let element = $('[name="filter_title"]').val();
-			if (element) {
-				thisInstance.widgetWithFilterTitle = JSON.parse(element);
-			} else {
-				thisInstance.widgetWithFilterTitle = [];
-			}
-		},
-		restrictFilter: [],
-		setRestrictFilter: function () {
-			var thisInstance = this;
-			var element = jQuery('[name="filter_restrict"]').val();
-			if (element) thisInstance.restrictFilter = JSON.parse(element);
-			else thisInstance.restrictFilter = [];
-		},
 		/**
 		 * Function to create the array of block roles list
 		 */
@@ -56,16 +16,7 @@ jQuery.Class(
 			});
 			return authorization;
 		},
-		getAllFieldsInBlock: function (continer) {
-			var fields = [];
-			continer.find('.blockFieldsList .editFieldsWidget').each(function () {
-				fields.push(jQuery(this).data('linkid').toString());
-			});
-			return fields;
-		},
-		multipleWidgets: function () {
-			return ['Multifilter', 'Upcoming events'];
-		},
+
 		getCurrentDashboardId() {
 			return $('.selectDashboard li a.active').parent().data('id');
 		},
@@ -144,33 +95,25 @@ jQuery.Class(
 				});
 
 				var callBackFunction = function (data) {
-					//register all select2 Elements
 					App.Fields.Picklist.changeSelectElementView(data.find('select'));
 					var form = data.find('.addBlockDashBoardForm');
-					var block = form.find('[name="authorized"]');
 					form.validationEngine(app.validationEngineOptions);
 					form.on('submit', function (e) {
 						if (form.validationEngine('validate')) {
 							var paramsForm = form.serializeFormData();
-							paramsForm['action'] = 'addBlock';
-							var paramsBlock = {
-								authorized: block.val(),
-								label: block.find(':selected').text()
-							};
-							thisInstance.save(paramsForm, 'save').done(function (data) {
+							delete paramsForm._csrf;
+							thisInstance.save(paramsForm, 'addBlock').done(function (data) {
 								var params = {};
 								var response = data.result;
 								if (response['success']) {
-									paramsBlock['id'] = response['id'];
-									thisInstance.displayNewCustomBlock(paramsBlock);
 									app.hideModalWindow();
 									params['text'] = app.vtranslate('JS_BLOCK_ADDED');
+									thisInstance.reloadContent();
 								} else {
 									params['text'] = response['message'];
 									params['type'] = 'error';
 								}
 								Settings_Vtiger_Index_Js.showMessage(params);
-								window.location.reload();
 							});
 						}
 						e.preventDefault();
@@ -187,7 +130,7 @@ jQuery.Class(
 				);
 			});
 		},
-		save: function (form, mode) {
+		save: function (form, mode, params = null) {
 			var aDeferred = jQuery.Deferred();
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
@@ -195,16 +138,15 @@ jQuery.Class(
 					enabled: true
 				}
 			});
-			var params = {};
-			if (typeof form.owners_all === 'string') {
-				form.owners_all = [form.owners_all];
+			if (!params) {
+				params = {};
+				params['form'] = form;
+				params['module'] = app.getModuleName();
+				params['parent'] = app.getParentModuleName();
+				params['sourceModule'] = jQuery('#selectedModuleName').val();
+				params['action'] = 'SaveAjax';
+				params['mode'] = mode;
 			}
-			params['form'] = form;
-			params['module'] = app.getModuleName();
-			params['parent'] = app.getParentModuleName();
-			params['sourceModule'] = jQuery('#selectedModuleName').val();
-			params['action'] = 'SaveAjax';
-			params['mode'] = mode;
 			AppConnector.request(params)
 				.done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -216,469 +158,7 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
-		displayNewCustomBlock: function (result) {
-			var contents = jQuery('#layoutDashBoards');
-			var newBlockCloneCopy = contents.find('.newCustomBlockCopy').clone(true, true);
-			newBlockCloneCopy
-				.data('block-id', result['id'])
-				.find('.blockLabel span')
-				.append(jQuery('<strong>' + result['label'] + '</strong>'));
-			newBlockCloneCopy.find('.addCustomField').removeClass('d-none').show();
-			newBlockCloneCopy.find('.specialWidget').data('block-id', result['id']);
-			contents.find('#moduleBlocks').append(
-				newBlockCloneCopy
-					.removeClass('newCustomBlockCopy d-none')
-					.addClass('editFieldsTable block_' + result['id'])
-					.data('code', result['authorized'])
-			);
-		},
-		/*
-		 * Function to add clickoutside event on the element - By using outside events plugin
-		 * @params element---On which element you want to apply the click outside event
-		 * @params callbackFunction---This function will contain the actions triggered after clickoutside event
-		 */
-		addClickOutSideEvent: function (element, callbackFunction) {
-			element.one('clickoutside', callbackFunction);
-		},
-		registerAddCustomFieldEvent: function () {
-			var thisInstance = this;
-			var contents = $('#layoutDashBoards');
-			contents.find('.addCustomField').on('click', function (e) {
-				var continer = $(e.currentTarget).closest('.editFieldsTable');
-				var blockId = continer.data('block-id');
-				var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
-				var allFieldsInBlock = thisInstance.getAllFieldsInBlock(continer);
-				var selectWidgets = addFieldContainer.find('select.widgets');
-				selectWidgets.find('option').each(function () {
-					if (
-						$.inArray($(this).val(), allFieldsInBlock) != -1 &&
-						$.inArray($(this).data('name'), thisInstance.multipleWidgets()) == -1
-					) {
-						$(this).remove();
-					}
-				});
-				var name = selectWidgets.find(':first-child').data('name');
-				if ($.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
-					addFieldContainer.find('.widgetFilter').removeClass('d-none').find('select').removeAttr('disabled').show();
-					var restrictFilter = thisInstance.restrictFilter[name];
-					if (restrictFilter) {
-						for (var i in restrictFilter) {
-							addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
-						}
-					}
-					let filterItem = JSON.parse($('[name="filter_users_item"]').val());
-					filterItem = filterItem[name] || filterItem['default'];
-					addFieldContainer.find('.widgetFilter select option').each(function () {
-						let element = $(this);
-						if ($.inArray(element.val(), filterItem) == -1) {
-							element.remove();
-						}
-					});
-				}
-				if ($.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
-					addFieldContainer
-						.find('.widgetFilterDate')
-						.removeClass('d-none')
-						.find('select')
-						.removeAttr('disabled')
-						.show();
-				}
-				if ($.inArray(name, thisInstance.widgetWithFilterTitle) != -1) {
-					addFieldContainer.find('.widgetFilterTitle').removeClass('d-none').removeAttr('disabled').show();
-				}
-				var callBackFunction = function (data) {
-					App.Fields.Picklist.showSelect2ElementView(data.find('select'));
-					data.find('select.widgets').on('change', function () {
-						data.find('.widgetFilter').remove();
-						data.find('.widgetFilterDate').remove();
-						data.find('[data-widgets]').remove();
-						data.find('.widgetLimit').remove();
-						data.find('.widgetFilterTitle').remove();
-						let elementsToFilterTitle = contents.find('.createFieldModal .widgetFilterTitle').clone(true, true);
-						let elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
-						let elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
-						let elementsToDataWidgets = contents.find('.createFieldModal [data-widgets]').clone(true, true);
-						let elementsToLimit = contents.find('.createFieldModal .widgetLimit').clone(true, true);
-						data.find('.modal-body').append(elementsToFilterTitle);
-						data.find('.modal-body').append(elementsToFilter);
-						data.find('.modal-body').append(elementsToDataWidgets);
-						data.find('.modal-body').append(elementsToLimit);
-						app.showPopoverElementView();
-						let name = $(this).find(':selected').data('name');
-						if ($.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
-							elementsToFilter.removeClass('d-none').find('select').prop('disabled', false);
-							let restrictFilter = thisInstance.restrictFilter[name];
-							if (restrictFilter) {
-								for (var i in restrictFilter) {
-									addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
-								}
-							}
-							let filterItem = JSON.parse($('[name="filter_users_item"]').val());
-							filterItem = filterItem[name] || filterItem['default'];
-							addFieldContainer.find('.widgetFilter select option').each(function () {
-								let element = $(this);
-								if ($.inArray(element.val(), filterItem) == -1) {
-									element.remove();
-								}
-							});
-							App.Fields.Picklist.showSelect2ElementView(elementsToFilter.find('select'));
-						} else {
-							elementsToFilter.addClass('d-none').find('select').prop('disabled', true);
-						}
-						data.find('[data-widgets]').each(function () {
-							let element = $(this);
-							let widgets = element.data('widgets');
-							if (name === widgets || $.inArray(name, widgets) != -1) {
-								element.removeClass('d-none');
-								let select = element.find('select');
-								if (select.length) {
-									select.prop('disabled', false);
-									App.Fields.Picklist.showSelect2ElementView(select);
-								}
-							} else {
-								element.addClass('d-none').find('select').prop('disabled', true);
-							}
-						});
-						if ($.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
-							elementsToFilterDate.removeClass('d-none').find('select').prop('disabled', false);
-							App.Fields.Picklist.showSelect2ElementView(elementsToFilterDate.find('select'));
-						} else {
-							elementsToFilterDate.addClass('d-none').find('select').prop('disabled', true);
-						}
-						if ($.inArray(name, thisInstance.widgetWithRecordLimit) != -1) {
-							data.find('.widgetLimit').removeClass('d-none');
-						} else {
-							data.find('.widgetLimit').addClass('d-none');
-						}
-						if ($.inArray(name, thisInstance.widgetWithFilterTitle) != -1) {
-							elementsToFilterTitle.removeClass('d-none').find('input').prop('disabled', false);
-						} else {
-							elementsToFilterTitle.addClass('d-none').find('input').prop('disabled', true);
-						}
-					});
 
-					let form = data.find('.createCustomFieldForm');
-					form.attr('id', 'createFieldForm');
-					let widgets = form.find('[name="widgets"]');
-					form.validationEngine(
-						$.extend(
-							true,
-							{
-								onValidationComplete: function (form, valid) {
-									if (valid) {
-										if (widgets.val()) {
-											let saveButton = form.find(':submit'),
-												field = form.find('[name="widgets"]');
-											saveButton.attr('disabled', 'disabled');
-											let paramsForm = form.serializeFormData();
-											paramsForm['action'] = 'addWidget';
-											paramsForm['blockid'] = blockId;
-											paramsForm['linkid'] = field.val();
-											paramsForm['label'] = field.find(':selected').text();
-											paramsForm['name'] = field.find(':selected').data('name');
-											paramsForm['height'] = form.find('[name="height"]').val();
-											paramsForm['width'] = form.find('[name="width"]').val();
-											if (form.find('[name="showFullName"]').prop('checked')) paramsForm['showFullName'] = 1;
-											if (form.find('[name="isdefault"]').prop('checked')) paramsForm['isdefault'] = 1;
-											if (form.find('[name="cache"]').prop('checked')) paramsForm['cache'] = 1;
-											if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === 'undefined') {
-												form
-													.find('select[name="owners_all"]')
-													.prev('div')
-													.validationEngine(
-														'showPrompt',
-														app.vtranslate('JS_FIELD_EMPTY'),
-														'error',
-														'bottomLeft',
-														true
-													);
-												saveButton.removeAttr('disabled');
-												e.preventDefault();
-												return false;
-											}
-											thisInstance.save(paramsForm, 'save').done(function (data) {
-												let result = data['result'],
-													params = {};
-												if (data['success']) {
-													app.hideModalWindow();
-													paramsForm['id'] = result['id'];
-													paramsForm['status'] = result['status'];
-													params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-													Settings_Vtiger_Index_Js.showMessage(params);
-													thisInstance.showCustomField(paramsForm);
-												} else {
-													let message = data['error']['message'],
-														errorField;
-													if (data['error']['code'] != 513) {
-														errorField = form.find('[name="fieldName"]');
-													} else {
-														errorField = form.find('[name="fieldLabel"]');
-													}
-													errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-													saveButton.removeAttr('disabled');
-												}
-											});
-										} else {
-											widgets
-												.prev('div')
-												.validationEngine('showPrompt', app.vtranslate('JS_FIELD_EMPTY'), 'error', 'topLeft', true);
-											e.preventDefault();
-											return;
-										}
-									}
-									//To prevent form submit
-									return false;
-								}
-							},
-							app.validationEngineOptions
-						)
-					);
-				};
-				app.showModalWindow(
-					addFieldContainer,
-					function (data) {
-						if (typeof callBackFunction == 'function') {
-							callBackFunction(data);
-						}
-					},
-					{ width: '1000px' }
-				);
-			});
-		},
-		/**
-		 * Function to add new custom field ui to the list
-		 */
-		showCustomField: function (result) {
-			var thisInstance = this;
-			var contents = jQuery('#layoutDashBoards');
-			var relatedBlock = contents.find('.block_' + result['blockid']);
-			var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
-			var fieldContainer = fieldCopy.find('.js-custom-field');
-			fieldContainer
-				.addClass('opacity editFieldsWidget')
-				.attr('data-field-id', result['id'])
-				.attr('data-block-id', result['blockid'])
-				.attr('data-linkid', result['linkid']);
-			fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
-			if (result['title']) {
-				fieldContainer.find('.fieldLabel').html(result['title']);
-			} else {
-				fieldContainer.find('.fieldLabel').html(result['label']);
-			}
-			if (!result['status']) fieldContainer.find('input[name="limit"]').closest('div.limit').remove();
-			if (typeof result['default_owner'] !== 'undefined')
-				fieldContainer.find('.widgetFilterAll').removeClass('d-none').show();
-
-			var block = relatedBlock.find('.blockFieldsList');
-			var sortable1 = block.find('ul[name=sortable1]');
-			var length1 = sortable1.children().length;
-			var sortable2 = block.find('ul[name=sortable2]');
-			var length2 = sortable2.children().length;
-
-			// Deciding where to add the new field
-			if (length1 > length2) {
-				sortable2.append(fieldCopy.removeClass('d-none newCustomFieldCopy'));
-			} else {
-				sortable1.append(fieldCopy.removeClass('d-none newCustomFieldCopy'));
-			}
-			var form = fieldCopy.find('form.fieldDetailsForm');
-			thisInstance.setFieldDetails(result, form);
-		},
-		/**
-		 * Function to set the field info for edit field actions
-		 */
-		setFieldDetails: function (result, form) {
-			form
-				.find('.modal-header')
-				.html(
-					$(
-						'<h5 class="modal-title">' +
-							result['label'] +
-							'</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
-					)
-				);
-			if (result['showFullName']) {
-				form.find('[name="showFullName"]').filter(':checkbox').attr('checked', true);
-			}
-			if (result['isdefault']) {
-				form.find('[name="isdefault"]').filter(':checkbox').attr('checked', true);
-			}
-			if (result['cache']) {
-				form.find('[name="cache"]').filter(':checkbox').attr('checked', true);
-			}
-			if (result['width']) {
-				form.find('select[name="width"]').find('option').removeAttr('selected');
-				form
-					.find('select[name="width"]')
-					.find('option[value="' + result['width'] + '"]')
-					.attr('selected', 'selected');
-			}
-			if (result['height']) {
-				form.find('select[name="height"]').find('option').removeAttr('selected');
-				form
-					.find('select[name="height"]')
-					.find('option[value="' + result['height'] + '"]')
-					.attr('selected', 'selected');
-			}
-			if (result['default_owner']) {
-				form.find('select[name="default_owner"]').find('option').removeAttr('selected');
-				form
-					.find('select[name="default_owner"]')
-					.find('option[value="' + result['default_owner'] + '"]')
-					.attr('selected', 'selected');
-			}
-			if (result['owners_all']) {
-				form.find('select[name="owners_all"]').find('option').removeAttr('selected');
-				var selectedvalue = result['owners_all'];
-				if (typeof selectedvalue != 'string') {
-					for (var i = 0; i < selectedvalue.length; i++) {
-						var encodedSelectedValue = selectedvalue[i].replace(/"/g, '\\"');
-						form
-							.find('select[name="owners_all"]')
-							.find('option[value="' + encodedSelectedValue + '"]')
-							.attr('selected', 'selected');
-					}
-				} else {
-					form
-						.find('select[name="owners_all"]')
-						.find('option[value="' + selectedvalue + '"]')
-						.attr('selected', 'selected');
-				}
-			}
-		},
-		registerEditFieldDetailsClick: function (contents = null) {
-			const thisInstance = this;
-			if (!contents) {
-				contents = jQuery('#layoutDashBoards');
-			}
-			contents.find('.editFieldDetails').on('click', function (e) {
-				const currentTarget = $(e.currentTarget);
-				const fieldRow = currentTarget.closest('div.editFieldsWidget');
-				fieldRow.removeClass('opacity');
-				const basicDropDown = fieldRow.find('.basicFieldOperations');
-				const dropDownContainer = currentTarget.closest('.btn-group');
-				dropDownContainer.find('.dropdown-menu').remove();
-				const dropDown = basicDropDown.clone().removeClass('basicFieldOperations d-none').addClass('dropdown-menu p-0');
-				dropDownContainer.append(dropDown);
-				const dropDownMenu = dropDownContainer.find('.dropdown-menu');
-				dropDownContainer.dropdown('dispose').dropdown('toggle');
-				dropDownMenu.find('form').validationEngine(
-					$.extend(
-						true,
-						{
-							binded: false,
-							onValidationComplete: function (form, valid) {
-								if (valid) {
-									if (form === undefined) {
-										return true;
-									}
-									let paramsForm = form.serializeFormData();
-									if (form.find('[name="showFullName"]').prop('checked')) paramsForm['showFullName'] = 1;
-									if (form.find('[name="isdefault"]').prop('checked')) paramsForm['isdefault'] = 1;
-									if (form.find('[name="cache"]').prop('checked')) paramsForm['cache'] = 1;
-									let id = form.find('.saveFieldDetails').data('field-id');
-									paramsForm['action'] = 'saveDetails';
-									paramsForm['id'] = id;
-									if (
-										typeof paramsForm['customMultiFilter'] !== 'undefined' &&
-										!$.isArray(paramsForm['customMultiFilter'])
-									) {
-										paramsForm['customMultiFilter'] = [paramsForm['customMultiFilter']];
-									}
-									if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === 'undefined') {
-										let params = {};
-										params['type'] = 'error';
-										params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
-										Settings_Vtiger_Index_Js.showMessage(params);
-										e.preventDefault();
-										return false;
-									}
-									thisInstance.save(paramsForm, 'save');
-									thisInstance.registerSaveFieldDetailsEvent(form);
-								}
-								return false;
-							}
-						},
-						app.getvalidationEngineOptions(true)
-					)
-				);
-				let selectElements = basicDropDown.find('select[name="owners_all"]');
-				if (selectElements.length > 0 && !selectElements.hasClass('select2-hidden-accessible')) {
-					App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="owners_all"]'));
-				}
-				selectElements = basicDropDown.find('select[name="default_date"]');
-				if (selectElements.length > 0) {
-					App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="default_date"]'));
-				}
-				selectElements = basicDropDown.find('select[name="customMultiFilter"]');
-				if (selectElements.length > 0) {
-					App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="customMultiFilter"]'));
-				}
-				selectElements = basicDropDown.find('select[name="defaultFilter"]');
-				if (selectElements.length > 0) {
-					App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="defaultFilter"]'));
-				}
-				thisInstance.avoidDropDownClick(dropDownContainer);
-				dropDownMenu.on('change', ':checkbox', function (e) {
-					let currentTarget = jQuery(e.currentTarget);
-					if (currentTarget.attr('readonly') === 'readonly') {
-						let status = jQuery(e.currentTarget).is(':checked');
-						if (!status) {
-							$(e.currentTarget).attr('checked', 'checked');
-						} else {
-							$(e.currentTarget).removeAttr('checked');
-						}
-						e.preventDefault();
-					}
-				});
-				const callbackFunction = function () {
-					fieldRow.addClass('opacity');
-					dropDown.remove();
-				};
-				thisInstance.addClickOutSideEvent(dropDown, callbackFunction);
-				$('.cancel,.close').on('click', callbackFunction);
-			});
-		},
-		/**
-		 * Function to register the click event for save button after edit field details
-		 */
-		registerSaveFieldDetailsEvent: function (form) {
-			let submitButtton = form.find('.saveFieldDetails'),
-				fieldRow = submitButtton.closest('.editFieldsWidget'),
-				dropDownMenu = form.closest('.dropdown-menu');
-			//close the drop down
-			submitButtton.closest('.btn-group').removeClass('open');
-			//adding class opacity to fieldRow - to give opacity to the actions of the fields
-			fieldRow.addClass('opacity');
-			form.find('select').each(function () {
-				let selectedValue = $(this).val(),
-					encodedSelectedValue;
-				$(this).find('option').removeAttr('selected');
-				if (typeof $(this).attr('multiple') === 'undefined') {
-					encodedSelectedValue = selectedValue.replace(/"/g, '\\"');
-					$(this)
-						.find('[value="' + encodedSelectedValue + '"]')
-						.attr('selected', 'selected');
-				} else {
-					for (let i = 0; i < selectedValue.length; i++) {
-						encodedSelectedValue = selectedValue[i].replace(/"/g, '\\"');
-						$(this)
-							.find('[value="' + encodedSelectedValue + '"]')
-							.attr('selected', 'selected');
-					}
-				}
-			});
-			form.closest('.editFieldsWidget').find('.basicFieldOperations').html(form);
-			dropDownMenu.remove();
-		},
-		/**
-		 * Function to register click event for drop-downs in fields list
-		 */
-		avoidDropDownClick: function (dropDownContainer) {
-			dropDownContainer.find('.dropdown-menu').on('click', function (e) {
-				e.stopPropagation();
-			});
-		},
 		registerSpecialWidget: function () {
 			var thisInstance = this;
 			var container = jQuery('#layoutDashBoards');
@@ -687,9 +167,6 @@ jQuery.Class(
 			});
 			container.find('.addMiniList').on('click', function (e) {
 				thisInstance.addMiniListWidget(this, jQuery(this).data('url'));
-			});
-			container.find('.addChartFilter').on('click', function (e) {
-				thisInstance.addChartFilterWidget(this, jQuery(this).data('url'));
 			});
 			container.find('.addRss').on('click', function (e) {
 				thisInstance.addRssWidget($(e.currentTarget), jQuery(this).data('url'));
@@ -718,201 +195,30 @@ jQuery.Class(
 							row.remove();
 						});
 					});
-					container.find('[name="blockid"]').val(element.data('blockId'));
-					container.find('[name="linkid"]').val(element.data('linkid'));
+					container.find('[name="blockId"]').val(element.data('blockId'));
+					container.find('[name="linkId"]').val(element.data('linkid'));
 					var form = container.find('form');
-					var submit = form.find('[type="submit"]');
-					submit.on('click', function (e) {
+					form.on('submit', function (e) {
+						e.preventDefault();
 						var channels = [];
 						if (form.validationEngine('validate')) {
 							form.find('.channelRss:not(:disabled)').each(function () {
 								channels.push(jQuery(this).val());
 							});
-							var paramsForm = form.serializeFormData();
-							paramsForm.data = JSON.stringify({ channels: channels });
-							thisInstance.save(paramsForm, 'save').done(function (data) {
-								paramsForm.label = paramsForm.title;
-								thisInstance.saveAfterInfo(data, paramsForm);
+							let paramsForm = form.serializeFormData();
+							paramsForm.channels = channels;
+							AppConnector.request(paramsForm).done(function (data) {
+								if (data.result === true) {
+									Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_WIDGET_ADDED') });
+									thisInstance.reloadContent();
+								}
+								app.hideModalWindow();
 							});
 						}
-						e.preventDefault();
 					});
 				}
 			};
 			app.showModalWindow(objectToShowModal);
-		},
-		saveAfterInfo: function (data, paramsForm) {
-			var thisInstance = this;
-			var result = data['result'];
-			var params = {};
-			if (data['success']) {
-				app.hideModalWindow();
-				paramsForm['id'] = result['id'];
-				paramsForm['status'] = result['status'];
-				params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-				thisInstance.showCustomField(paramsForm);
-			}
-		},
-		addChartFilterWidget: function (element) {
-			var thisInstance = this;
-			element = jQuery(element);
-			app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function (wizardContainer) {
-				var form = jQuery('form', wizardContainer);
-				var chartType = jQuery('select[name="chartType"]', wizardContainer);
-				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
-				var moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
-					placeholder: app.vtranslate('JS_SELECT_MODULE')
-				});
-				var step1 = jQuery('.step1', wizardContainer);
-				var step2 = jQuery('.step2', wizardContainer);
-				var step3 = jQuery('.step3', wizardContainer);
-				var footer = jQuery('.modal-footer', wizardContainer);
-				step2.remove();
-				step3.remove();
-				footer.hide();
-				chartType.on('change', function (e) {
-					var currentTarget = $(e.currentTarget);
-					var value = currentTarget.val();
-					if (value == 'Barchat' || value == 'Horizontal') {
-						form.find('.isColorContainer').removeClass('d-none');
-					} else {
-						form.find('.isColorContainer').addClass('d-none');
-					}
-					if (wizardContainer.find('#widgetStep').val() == 4) {
-						wizardContainer.find('.step3 .groupField').trigger('change');
-					}
-				});
-				moduleNameSelect2.on('change', function () {
-					if (!moduleNameSelect2.val()) return;
-					footer.hide();
-					wizardContainer.find('.step2').remove();
-					wizardContainer.find('.step3').remove();
-					AppConnector.request({
-						module: 'Home',
-						view: 'ChartFilter',
-						step: 'step2',
-						chartType: chartType.val(),
-						selectedModule: moduleNameSelect2.val()
-					}).done(function (step2Response) {
-						step1.after(step2Response);
-						wizardContainer.find('#widgetStep').val(2);
-						const step2 = wizardContainer.find('.step2');
-						footer.hide();
-						const filtersIdElement = step2.find('.filtersId');
-						const valueTypeElement = step2.find('.valueType');
-						App.Fields.Picklist.showSelect2ElementView(filtersIdElement);
-						App.Fields.Picklist.showSelect2ElementView(valueTypeElement);
-						step2.find('.filtersId, .valueType').on('change', function () {
-							wizardContainer.find('.step3').remove();
-							wizardContainer.find('.step4').remove();
-							AppConnector.request({
-								module: 'Home',
-								view: 'ChartFilter',
-								step: 'step3',
-								selectedModule: moduleNameSelect2.val(),
-								chartType: chartType.val(),
-								filtersId: filtersIdElement.val(),
-								valueType: valueTypeElement.val()
-							}).done(function (step3Response) {
-								step2.last().after(step3Response);
-								wizardContainer.find('#widgetStep').val(3);
-								var step3 = wizardContainer.find('.step3');
-								App.Fields.Picklist.showSelect2ElementView(step3.find('select'));
-								footer.hide();
-								step3.find('.groupField').on('change', function () {
-									wizardContainer.find('.step4').remove();
-									var groupField = $(this);
-									if (!groupField.val()) return;
-									footer.show();
-									AppConnector.request({
-										module: 'Home',
-										view: 'ChartFilter',
-										step: 'step4',
-										selectedModule: moduleNameSelect2.val(),
-										filtersId: filtersIdElement.val(),
-										groupField: groupField.val(),
-										chartType: chartType.val()
-									}).done(function (step4Response) {
-										step3.last().after(step4Response);
-										wizardContainer.find('#widgetStep').val(4);
-										var step4 = wizardContainer.find('.step4');
-										App.Fields.Picklist.showSelect2ElementView(step4.find('select'));
-									});
-								});
-							});
-						});
-					});
-				});
-				form.on('submit', function (e) {
-					e.preventDefault();
-					const selectedModule = moduleNameSelect2.val();
-					const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-					const selectedFilterId = form.find('.filtersId').val();
-					const selectedFieldLabel = form.find('.groupField').find(':selected').text();
-					const data = {
-						module: selectedModule,
-						groupField: form.find('.groupField').val(),
-						chartType: chartType.val()
-					};
-					form.find('.saveParam').each(function (index, element) {
-						element = $(element);
-						if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
-							data[element.attr('name')] = element.val();
-						}
-					});
-					finializeAddChart(selectedModuleLabel, selectedFilterId, null, selectedFieldLabel, data, form);
-				});
-			});
-
-			function finializeAddChart(moduleNameLabel, filterid, filterLabel, fieldLabel, data, form) {
-				let paramsForm = {};
-				paramsForm['data'] = JSON.stringify(data);
-				paramsForm['action'] = 'addWidget';
-				paramsForm['blockid'] = element.data('block-id');
-				paramsForm['linkid'] = element.data('linkid');
-				paramsForm['label'] = moduleNameLabel;
-				if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
-					paramsForm['label'] += ' - ' + filterLabel;
-				}
-				if (typeof fieldLabel !== 'undefined' && fieldLabel !== null && fieldLabel !== '') {
-					paramsForm['label'] += ' - ' + fieldLabel;
-				}
-				paramsForm['name'] = 'ChartFilter';
-				if (Array.isArray(filterid)) {
-					filterid = filterid.join(',');
-				}
-				paramsForm['filterid'] = filterid;
-				paramsForm['title'] = form.find('[name="widgetTitle"]').val();
-				paramsForm['isdefault'] = 0;
-				paramsForm['cache'] = 0;
-				paramsForm['height'] = 4;
-				paramsForm['width'] = 4;
-				paramsForm['owners_all'] = ['mine', 'all', 'users', 'groups'];
-				paramsForm['default_owner'] = 'mine';
-
-				thisInstance.save(paramsForm, 'save').done(function (data) {
-					let result = data['result'],
-						params = {};
-					if (data['success']) {
-						app.hideModalWindow();
-						paramsForm['id'] = result['id'];
-						paramsForm['status'] = result['status'];
-						params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-						Settings_Vtiger_Index_Js.showMessage(params);
-						thisInstance.showCustomField(paramsForm);
-					} else {
-						let message = data['error']['message'],
-							errorField;
-						if (data['error']['code'] != 513) {
-							errorField = form.find('[name="fieldName"]');
-						} else {
-							errorField = form.find('[name="fieldLabel"]');
-						}
-						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-					}
-				});
-			}
 		},
 		addNoteBookWidget: function (element, url) {
 			var thisInstance = this;
@@ -953,7 +259,7 @@ jQuery.Class(
 											Settings_Vtiger_Index_Js.showMessage({
 												text: app.vtranslate('JS_WIDGET_ADDED')
 											});
-											thisInstance.showCustomField(noteBookParams);
+											thisInstance.reloadContent();
 										}
 									});
 								}
@@ -971,7 +277,7 @@ jQuery.Class(
 			// 3. Add widget with URL to the page.
 			const thisInstance = this;
 			element = $(element);
-			app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function (wizardContainer) {
+			app.showModalWindow(null, url, function (wizardContainer) {
 				let form = $('form', wizardContainer),
 					moduleNameSelectDOM = $('select[name="module"]', wizardContainer),
 					filteridSelectDOM = $('select[name="filterid"]', wizardContainer),
@@ -1071,7 +377,6 @@ jQuery.Class(
 					data['fieldHref'] = fieldHrefSelect2.val();
 					let paramsForm = {
 						data: JSON.stringify(data),
-						action: 'addWidget',
 						blockid: element.data('block-id'),
 						title: form.find('[name="widgetTitle"]').val(),
 						linkid: element.data('linkid'),
@@ -1085,7 +390,18 @@ jQuery.Class(
 						owners_all: ['mine', 'all', 'users', 'groups'],
 						default_owner: 'mine'
 					};
-					thisInstance.save(paramsForm, 'save').done(function (data) {
+					let sourceModule = $('[name="widgetsManagementEditorModules"]').val();
+					let baseParams = {
+						form: paramsForm,
+						module: sourceModule,
+						sourceModule: sourceModule,
+						action: 'Widget',
+						mode: 'add',
+						addToUser: false,
+						linkid: paramsForm.linkid,
+						name: paramsForm.name
+					};
+					thisInstance.save(paramsForm, 'save', baseParams).done(function (data) {
 						let result = data['result'],
 							params = {};
 						if (data['success']) {
@@ -1094,7 +410,7 @@ jQuery.Class(
 							paramsForm['status'] = result['status'];
 							params['text'] = app.vtranslate('JS_WIDGET_ADDED');
 							Settings_Vtiger_Index_Js.showMessage(params);
-							thisInstance.showCustomField(paramsForm);
+							thisInstance.reloadContent();
 						} else {
 							let message = data['error']['message'],
 								errorField;
@@ -1110,50 +426,10 @@ jQuery.Class(
 			});
 		},
 		/**
-		 * Function to register the click event for delete custom field
+		 * Reload content
 		 */
-		registerDeleteCustomFieldEvent: function (contents) {
-			var thisInstance = this;
-			if (typeof contents === 'undefined') {
-				contents = jQuery('#layoutDashBoards');
-			}
-			contents.find('a.deleteCustomField').on('click', function (e) {
-				var currentTarget = jQuery(e.currentTarget);
-				var fieldId = currentTarget.data('field-id');
-				var paramsForm = {};
-				paramsForm['action'] = 'removeWidget';
-				paramsForm['id'] = fieldId;
-				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-				Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (e) {
-					thisInstance.save(paramsForm, 'delete').done(function (data) {
-						var field = currentTarget.closest('div.editFieldsWidget');
-						var blockId = field.data('block-id');
-						field.parent().fadeOut('slow').remove();
-						var block = jQuery('#block_' + blockId);
-						thisInstance.reArrangeBlockFields(block);
-						var params = {};
-						params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
-						Settings_Vtiger_Index_Js.showMessage(params);
-					});
-				});
-			});
-		},
-		/**
-		 * Function that rearranges fields in the block when the fields are moved
-		 * @param <jQuery object> block
-		 */
-		reArrangeBlockFields: function (block) {
-			// 1.get the containers, 2.compare the length, 3.if uneven then move the last element
-			var leftSideContainer = block.find('ul[name=sortable1]');
-			var rightSideContainer = block.find('ul[name=sortable2]');
-			if (leftSideContainer.children().length < rightSideContainer.children().length) {
-				var lastElementInRightContainer = rightSideContainer.children(':last');
-				leftSideContainer.append(lastElementInRightContainer);
-			} else if (leftSideContainer.children().length > rightSideContainer.children().length + 1) {
-				//greater than 1
-				var lastElementInLeftContainer = leftSideContainer.children(':last');
-				rightSideContainer.append(lastElementInLeftContainer);
-			}
+		reloadContent: function () {
+			$('.selectDashboard .nav-link.active').trigger('click');
 		},
 		/**
 		 * Function to register the click event for delete custom block
@@ -1167,25 +443,14 @@ jQuery.Class(
 				var blockId = table.data('block-id');
 				var paramsFrom = {};
 				paramsFrom['blockid'] = blockId;
-				paramsFrom['action'] = 'removeBlock';
 				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-				Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (e) {
-					thisInstance.save(paramsFrom, 'delete').done(function (data) {
-						thisInstance.removeDeletedBlock(blockId, 'delete');
-						var params = {};
-						params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_DELETED');
-						Settings_Vtiger_Index_Js.showMessage(params);
+				Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (__DEFAULT__) {
+					thisInstance.save(paramsFrom, 'removeBlock').done(function (_) {
+						thisInstance.reloadContent();
+						Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_CUSTOM_BLOCK_DELETED') });
 					});
 				});
 			});
-		},
-		/**
-		 * Function to remove the deleted custom block from the ui
-		 */
-		removeDeletedBlock: function (blockId) {
-			var contents = jQuery('#layoutDashBoards');
-			var deletedTable = contents.find('.block_' + blockId);
-			deletedTable.fadeOut('slow').remove();
 		},
 		/**
 		 * Function to register the change event for layout editor modules list
@@ -1242,31 +507,102 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
+
+		/**
+		 * Function to register the click event for delete widget
+		 */
+		registerDeleteWidgetEvent: function (contents) {
+			if (typeof contents === 'undefined') {
+				contents = jQuery('#layoutDashBoards');
+			}
+			contents.find('.js-delete-widget').on('click', (e) => {
+				let widgetId = e.currentTarget.dataset.id;
+				Vtiger_Helper_Js.showConfirmationBox({
+					message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')
+				}).done((_) => {
+					let progress = $.progressIndicator({
+						message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+						position: 'html',
+						blockInfo: {
+							enabled: true
+						}
+					});
+					app.saveAjax('delete', null, { widgetId: widgetId }).done((data) => {
+						if (data.result === true) {
+							Settings_Vtiger_Index_Js.showMessage({
+								type: 'success',
+								text: app.vtranslate('JS_CUSTOM_FIELD_DELETED')
+							});
+						}
+						progress.progressIndicator({ mode: 'hide' });
+						this.reloadContent();
+					});
+				});
+			});
+		},
+
+		registerWidgetEvent: function () {
+			let contents = $('#layoutDashBoards');
+			contents.find('.js-edit-widget').on('click', (e) => {
+				let url = e.currentTarget.dataset.url;
+				this.addWidget(url);
+			});
+
+			contents.find('.js-add-widget').on('click', (e) => {
+				let url = e.currentTarget.dataset.url;
+				if (!url) {
+					return false;
+				}
+				app.showModalWindow({
+					url: url,
+					cb: (modalContainer) => {
+						modalContainer.on('click', '.js-modal__save', (_) => {
+							let selectedOption = modalContainer.find('.js-widget').val();
+							if (selectedOption) {
+								this.addWidget(selectedOption);
+							}
+						});
+					}
+				});
+			});
+
+			this.registerDeleteWidgetEvent(contents);
+		},
+
+		addWidget: function (url) {
+			app.showModalWindow({
+				url: url,
+				cb: (container) => {
+					app.showPopoverElementView(container.find('.js-popover-tooltip'));
+				},
+				sendByAjaxCb: (_, response) => {
+					if (response.result === true) {
+						Settings_Vtiger_Index_Js.showMessage({
+							type: 'success',
+							text: app.vtranslate('JS_WIDGET_ADDED')
+						});
+						this.reloadContent();
+					}
+				}
+			});
+		},
 		/**
 		 * register events for layout editor
 		 */
 		registerEvents: function () {
-			var thisInstance = this;
-
-			thisInstance.registerAddBlockDashBoard();
-			thisInstance.registerAddCustomFieldEvent();
-			thisInstance.registerEditFieldDetailsClick();
-			thisInstance.registerSpecialWidget();
-			thisInstance.registerDeleteCustomFieldEvent();
-			thisInstance.registerDeleteCustomBlockEvent();
-			thisInstance.registerModulesChangeEvent();
-			thisInstance.setWidgetWithFilterUsers();
-			thisInstance.setRestrictFilter();
-			thisInstance.setWidgetData();
-			thisInstance.setWidgetWithFilterTitle();
-			thisInstance.registerAddedDashboard();
-			thisInstance.registerSelectDashboard();
-			thisInstance.registerDashboardAction();
+			this.registerAddBlockDashBoard();
+			this.registerWidgetEvent();
+			this.registerSpecialWidget();
+			this.registerDeleteCustomBlockEvent();
+			this.registerModulesChangeEvent();
+			this.registerAddedDashboard();
+			this.registerSelectDashboard();
+			this.registerDashboardAction();
 		}
 	}
 );
 
-jQuery(document).ready(function () {
+$(function () {
 	var instance = new Settings_WidgetsManagement_Js();
 	instance.registerEvents();
 });

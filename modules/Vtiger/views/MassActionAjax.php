@@ -79,8 +79,8 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$sourceModule = $request->getModule();
 		$moduleName = 'ModComments';
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($sourceModule) || !($moduleModel->isCommentEnabled() && $currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'EditView') && $moduleModel->isPermitted('MassAddComment'))) {
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModulePermission($sourceModule) || !($moduleModel->isCommentEnabled() && $userPrivilegesModel->hasModuleActionPermission($moduleName, 'CreateView') && $moduleModel->isPermitted('MassAddComment'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$viewer = $this->getViewer($request);

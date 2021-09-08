@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Settings-Workflows-ScheduleBox -->
 <div id="scheduleBox"
@@ -137,6 +137,15 @@
 					</span>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="mb-2 mt-2 js-wf-execution-item" data-js="container">
+		<div class="form-check">
+			<input type="hidden" name="params[iterationOff]" value="0">
+			<input class="form-check-input" type="checkbox" value="1" id="iterationOff" name="params[iterationOff]" {if !empty($PARAMS['iterationOff'])} checked="checked" {/if}>
+			<label class="form-check-label ml-1" for="iterationOff">
+				{\App\Language::translate('LBL_WORKFLOW_TRIGGER_RECORD_RESTRICTION_OFF', $QUALIFIED_MODULE)}
+			</label>
 		</div>
 	</div>
 	{if !empty($WORKFLOW_MODEL_OBJ->nexttrigger_time)}

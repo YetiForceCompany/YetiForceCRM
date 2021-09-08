@@ -6,7 +6,7 @@
  * @package Api
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -30,87 +30,39 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *
 	 * @return array
 	 *
-	 * @OA\GET(
+	 * @OA\Get(
 	 *		path="/webservice/ManageConsents/Approvals/RecordsList",
 	 *		summary="Gets the list of consents",
-	 *		tags={"Consents"},
-	 *    security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *    },
-	 *		@OA\RequestBody(
-	 *				required=false,
-	 *				description="The content of the request is empty",
+	 *		tags={"Approvals"},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		@OA\Parameter(name="x-row-limit", in="header", @OA\Schema(type="integer"), description="Get rows limit, default: 1000", required=false, example=1000),
+	 *		@OA\Parameter(name="x-row-offset", in="header", @OA\Schema(type="integer"), description="Offset, default: 0", required=false, example=0),
+	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
+	 *		@OA\Parameter(name="x-condition", in="header", description="Conditions [Json format]", required=false,
+	 *			@OA\JsonContent(ref="#/components/schemas/Approvals_Get_RecordsList_Request"),
 	 *		),
-	 *		@OA\Parameter(
-	 *				name="x-row-limit",
-	 *  		 	description="Limit",
-	 *  		 	@OA\Schema(
-	 *  		  		type="integer",
-	 *  		 			format="int64",
-	 *  		 ),
-	 *  		 in="header",
-	 * 			 example="0",
-	 *  		 required=false
-	 * 		),
-	 *		@OA\Parameter(
-	 *		  	name="x-row-offset",
-	 * 		  	description="Offset",
-	 * 		  	@OA\Schema(
-	 * 		    		type="integer",
-	 * 		    		format="int64",
-	 * 		  	),
-	 *  		 	in="header",
-	 * 			 	example="0",
-	 *  		 	required=false
-	 * 		),
-	 *		@OA\Parameter(
-	 *		   	name="x-raw-data",
-	 * 		  	description="Gets raw data",
-	 * 		  	@OA\Schema(
-	 * 		    	type="integer",
-	 * 		    	format="int64",
-	 * 		  	),
-	 *  		 	in="header",
-	 * 			 	example="1",
-	 *  		 	required=false
-	 * 		),
-	 *		@OA\Parameter(
-	 *		   	name="x-condition",
-	 * 		  	description="Add conditions [Json format]",
-	 * 		 	@OA\JsonContent(ref="#/components/schemas/ApprovalsConditionsRequest"),
-	 *  		in="header",
-	 *  		required=false
-	 * 		),
-	 *		@OA\Response(
-	 *			response=200,
-	 *			description="List of consents",
-	 *			@OA\JsonContent(ref="#/components/schemas/ConsentsResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/ConsentsResponseBody"),
+	 *		@OA\Response(response=200, description="List of consents",
+	 *			@OA\JsonContent(ref="#/components/schemas/Approvals_Get_RecordsList_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Approvals_Get_RecordsList_Response"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=401,
-	 *			description="No sent token OR Invalid token",
+	 *		@OA\Response(response=401, description="`No sent token` OR `Invalid token`",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=403,
-	 *			description="No permissions for module",
+	 *		@OA\Response(response=403, description="No permissions for module",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
-	 *		@OA\Response(
-	 *			response=405,
-	 *			description="Method Not Allowed",
+	 *		@OA\Response(response=405, description="Method Not Allowed",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="ApprovalsConditionsRequest",
+	 *		schema="Approvals_Get_RecordsList_Request",
 	 *		title="Conditions",
 	 *		description="The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. ",
-	 *		type="text",
+	 *		type="object",
 	 * 		example={"fieldName" : "approvals_status", "value" : "PLL_ACTIVE", "operator" : "e"}
 	 *	),
 	 *	@OA\SecurityScheme(
@@ -134,17 +86,11 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *   	description="Webservice api token by user header"
 	 *	),
 	 * @OA\Schema(
-	 *		schema="ConsentsResponseBody",
+	 *		schema="Approvals_Get_RecordsList_Response",
 	 *		title="List of consents",
 	 *		description="List of obtained consents",
 	 *		type="object",
-	 *		@OA\Property(
-	 *				property="status",
-	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *				enum={0, 1},
-	 *				type="integer",
-	 *        example=1
-	 *		),
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
 	 *		@OA\Property(
 	 *				property="result",
 	 *				description="Specific response",
@@ -160,8 +106,8 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 								@OA\Property(property="approvals_status", description="Status", type="string", example="Active"),
 	 * 								@OA\Property(property="number", description="Text", type="string", example="N12"),
 	 * 								@OA\Property(property="assigned_user_id", description="Assigned user name", type="string", example="Kowalski Adam"),
-	 *								@OA\Property(property="createdtime", type="string", format="date-time", example="2019-10-07 08:32:38"),
-	 *								@OA\Property(property="modifiedtime", type="string", format="date-time", example="2019-10-07 08:32:38"),
+	 *								@OA\Property(property="createdtime", type="string", example="2019-10-07 08:32:38"),
+	 *								@OA\Property(property="modifiedtime", type="string", example="2019-10-07 08:32:38"),
 	 * 								@OA\Property(property="created_user_id", description="Assigned user name", type="string", example="Kowalski Adam"),
 	 * 								@OA\Property(property="shownerid", description="Assigned user name", type="string", example="Kowalski Adam"),
 	 * 								@OA\Property(property="description", description="Description", type="string", example="I confirm to have read.."),
@@ -178,19 +124,19 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 								@OA\Property(property="approvals_status", description="Status", type="string", example="PLL_ACTIVE"),
 	 * 								@OA\Property(property="number", description="Text", type="string", example="N12"),
 	 * 								@OA\Property(property="assigned_user_id", description="Assigned user ID", type="integer", example=245),
-	 *								@OA\Property(property="createdtime", type="string", format="date-time", example="2019-10-07 08:32:38"),
-	 *								@OA\Property(property="modifiedtime", type="string", format="date-time", example="2019-10-07 08:32:38"),
+	 *								@OA\Property(property="createdtime", type="string", example="2019-10-07 08:32:38"),
+	 *								@OA\Property(property="modifiedtime", type="string", example="2019-10-07 08:32:38"),
 	 * 								@OA\Property(property="created_user_id", description="Assigned user ID", type="integer", example=245),
 	 * 								@OA\Property(property="shownerid", description="Assigned user name", type="string", example="Kowalski Adam"),
 	 * 								@OA\Property(property="description", description="Description", type="string", example="I confirm to have read.."),
 	 * 						),
 	 * 				),
-	 * 				@OA\Property(property="isMorePages", description="There are more entries", type="boolean", example="true"),
+	 * 				@OA\Property(property="isMorePages", description="There are more entries", type="boolean", example=true),
 	 * 		),
 	 *	),
 	 *	@OA\Schema(
 	 *		schema="Exception",
-	 *		title="Error exception",
+	 *		title="General - Error exception",
 	 *		type="object",
 	 *  	@OA\Property(
 	 * 			property="status",

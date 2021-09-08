@@ -3,7 +3,7 @@
  * ChatButtonDialog component
  *
  * @description Chat button for toggling chat window.
- * @license YetiForce Public License 3.0
+ * @license YetiForce Public License 4.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */

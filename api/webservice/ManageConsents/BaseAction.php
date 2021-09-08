@@ -5,7 +5,7 @@
  * @package Api
  *
  * @copyright YetiForce Sp. z o.o.
- * @license 	YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license 	YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -34,19 +34,27 @@ use OpenApi\Annotations as OA;
  *     		url="https://yetiforce.com/"
  *   	),
  *   	@OA\License(
- *    		name="YetiForce Public License v3",
+ *    		name="YetiForce Public License",
  *     		url="https://yetiforce.com/en/yetiforce/license"
- *   	),
+ *		),
+ * )
+ * @OA\Server(
+ *		url="https://gitdeveloper.yetiforce.com",
+ *		description="Demo server of the development version",
+ * )
+ * @OA\Server(
+ *		url="https://gitstable.yetiforce.com",
+ *		description="Demo server of the latest stable version",
  * )
  */
 class BaseAction extends \Api\Core\BaseAction
 {
 	/** {@inheritdoc}  */
-	public function checkPermission(): void
+	protected function checkPermission(): void
 	{
 		$db = \App\Db::getInstance('webservice');
 		$userTable = 'w_#__manage_consents_user';
-		$row = (new \App\Db\Query())
+		$this->userData = (new \App\Db\Query())
 			->from($userTable)
 			->where([
 				'token' => $this->controller->request->getHeader('x-token'),
@@ -54,12 +62,16 @@ class BaseAction extends \Api\Core\BaseAction
 				'server_id' => $this->controller->app['id']
 			])
 			->limit(1)->one($db);
-		if (!$row) {
+		if (!$this->userData) {
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
-		$db->createCommand()->update($userTable, ['login_time' => date('Y-m-d H:i:s')], ['id' => $row['id']])->execute();
-		$this->session = new \App\Base();
-		$this->session->setData($row);
-		\App\User::setCurrentUserId($this->session->get('user_id'));
+		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
+		$db->createCommand()->update($userTable, ['login_time' => date('Y-m-d H:i:s')], ['id' => $this->userData['id']])->execute();
+		\App\User::setCurrentUserId($this->userData['user_id']);
+	}
+
+	/** {@inheritdoc} */
+	public function updateSession(array $data = []): void
+	{
 	}
 }

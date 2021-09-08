@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 $.Class(
 	'Base_RecordAddsTemplates_JS',
 	{},
@@ -44,7 +44,11 @@ $.Class(
 										text: response.message ? response.message : app.vtranslate('JS_SAVE_NOTIFY_OK'),
 										type: 'success'
 									});
-									window.location.reload();
+									if (response.url) {
+										window.location.href = response.url;
+									} else {
+										window.location.reload();
+									}
 								} else {
 									app.showNotify({
 										text: response.message ? response.message : app.vtranslate('JS_ERROR'),

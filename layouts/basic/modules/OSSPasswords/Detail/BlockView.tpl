@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-OSSPasswrds-Detail-BlockView -->
 <div class="detailViewTable">
@@ -36,6 +36,8 @@
 						<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label {if $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'}  col-lg-3  {else} col-lg-6 {/if} {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 							{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 							<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold">
+								{assign var=ICON value=$FIELD_MODEL->getIcon('Detail')}
+								{if isset($ICON['name'])}<span class="{$ICON['name']} mr-1"></span>{/if}
 								{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 								{if $HELPINFO_LABEL}
 									<a href="#" class="js-help-info float-right u-cursor-pointer"

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 require_once 'modules/com_vtiger_workflow/include.php';
@@ -50,6 +51,19 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	public function isActive()
 	{
 		return self::TASK_STATUS_ACTIVE == $this->get('status');
+	}
+
+	/**
+	 * Check if record is editable.
+	 *
+	 * @return bool
+	 */
+	public function isEditable(): bool
+	{
+		$recordEventMode = $this->getTaskObject()->recordEventState ?? VTTask::RECORD_EVENT_ACTIVE;
+		$workflowModeIterationOff = $this->getWorkflow()->getParams('iterationOff');
+		return $workflowModeIterationOff && (VTTask::RECORD_EVENT_DOUBLE_MODE === $recordEventMode || VTTask::RECORD_EVENT_INACTIVE === $recordEventMode)
+		|| (!$workflowModeIterationOff && (VTTask::RECORD_EVENT_DOUBLE_MODE === $recordEventMode || VTTask::RECORD_EVENT_ACTIVE === $recordEventMode));
 	}
 
 	/**
@@ -103,7 +117,11 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEditViewUrl()
 	{
-		return 'index.php?module=Workflows&parent=Settings&view=EditTask&type=' . $this->task_type->getName() . '&task_id=' . $this->getId() . '&for_workflow=' . $this->getWorkflow()->getId();
+		$url = 'index.php?module=Workflows&parent=Settings&view=EditTask&type=' . $this->task_type->getName() . '&for_workflow=' . $this->getWorkflow()->getId();
+		if ($this->getId()) {
+			$url .= '&task_id=' . $this->getId();
+		}
+		return $url;
 	}
 
 	/**
@@ -168,21 +186,37 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * Set task type model.
+	 *
+	 * @param Settings_Workflows_TaskType_Model $taskType
+	 *
+	 * @return self
+	 */
+	public function setTaskType(Settings_Workflows_TaskType_Model $taskType): self
+	{
+		$this->task_type = $taskType;
+		return $this;
+	}
+
+	/**
 	 * Return all tasks for workflow.
 	 *
-	 * @param Workflow $workflowModel
-	 * @param bool     $active
+	 * @param Settings_Workflows_Record_Model $workflowModel
+	 * @param bool                            $active
 	 *
 	 * @return VTTask[]
 	 */
-	public static function getAllForWorkflow($workflowModel, $active = false)
+	public static function getAllForWorkflow(Settings_Workflows_Record_Model $workflowModel, $active = false)
 	{
 		$tm = new VTTaskManager();
 		$tasks = $tm->getTasksForWorkflow($workflowModel->getId(), $active);
 		$taskModels = [];
 		foreach ($tasks as $task) {
 			if (!$active || self::TASK_STATUS_ACTIVE == $task->active) {
-				$taskModels[$task->id] = self::getInstanceFromTaskObject($task, $workflowModel, $tm);
+				$taskRecord = self::getInstanceFromTaskObject($task, $workflowModel, $tm);
+				if (!$active || $taskRecord->isEditable()) {
+					$taskModels[$task->id] = $taskRecord;
+				}
 			}
 		}
 		return $taskModels;
@@ -262,5 +296,6 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	{
 		$taskObject = $this->getTaskObject();
 		$this->task_manager->saveTask($taskObject);
+		$this->set('summary', $taskObject->summary)->set('status', $taskObject->active);
 	}
 }

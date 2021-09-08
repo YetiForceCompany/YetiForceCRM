@@ -131,7 +131,7 @@ class ModuleBasic
 
 		Profile::initForModule($this);
 
-		self::syncfile();
+		\App\Module::createModuleMetaFile();
 
 		if ($this->isentitytype) {
 			Access::initSharing($this);
@@ -207,7 +207,6 @@ class ModuleBasic
 		Access::deleteSharing($moduleInstance);
 		$this->deleteFromModentityNum();
 		Cron::deleteForModule($moduleInstance);
-		Profile::deleteForModule($moduleInstance);
 		\Settings_Workflows_Module_Model::deleteForModule($moduleInstance);
 		Menu::deleteForModule($moduleInstance);
 		$this->deleteGroup2Modules();
@@ -219,7 +218,7 @@ class ModuleBasic
 		\Settings_Vtiger_Module_Model::deleteSettingsFieldBymodule($this->name);
 		$this->__delete();
 		$this->deleteDir($moduleInstance);
-		self::syncfile();
+		\App\Module::createModuleMetaFile();
 		\App\Cache::clear();
 	}
 
@@ -432,16 +431,6 @@ class ModuleBasic
 	}
 
 	/**
-	 * Synchronize the menu information to flat file.
-	 */
-	public static function syncfile()
-	{
-		\App\Log::trace('Updating tabdata file ... ', __METHOD__);
-		\App\Module::createModuleMetaFile();
-		\App\Log::trace('DONE', __METHOD__);
-	}
-
-	/**
 	 * Unset related list information that exists with other module.
 	 */
 	public function unsetAllRelatedList()
@@ -560,9 +549,10 @@ class ModuleBasic
 	{
 		\App\Log::trace('Start', __METHOD__);
 		$iconSize = ['', 48, 64, 128];
-		foreach ($iconSize as $value) {
-			foreach (\App\Layout::getAllLayouts() as $name => $label) {
-				$fileName = "layouts/$name/images/{$this->name}{$value}.png";
+		$layouts = array_keys(\App\Layout::getAllLayouts());
+		foreach ($layouts as $name) {
+			foreach ($iconSize as $value) {
+				$fileName = ROOT_DIRECTORY . "/public_html/layouts/$name/images/{$this->name}{$value}.png";
 				if (file_exists($fileName)) {
 					@unlink($fileName);
 				}
