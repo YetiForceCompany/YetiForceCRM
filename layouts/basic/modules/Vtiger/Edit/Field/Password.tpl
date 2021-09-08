@@ -15,7 +15,7 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getFieldName()}
 	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
-	{assign var="DISABLE_FIELD" value=false}
+	{assign var="DISABLE_FIELD" value=$FIELD_MODEL->isEditableReadOnly()}
 	{assign var="EDIT_MODE" value=!empty($FIELD_MODEL->get('fieldvalue'))}
 	<div class="input-group {$WIDTHTYPE_GROUP} js-pwd-container">
 		<input id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}" type="password" tabindex="{$FIELD_MODEL->getTabIndex()}" class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if} js-pwd-field"
@@ -33,12 +33,12 @@
 					</button>
 				{/if}
 				{if !empty($PARAMS['auto-generate'])}
-					<button class="btn btn-light js-popover-tooltip js-pwd-auto-generate" data-content="{\App\Language::translate('LBL_PWD_AUTO_GENERATE',$MODULE_NAME)}" type="button" data-field="{$FIELD_NAME}" data-placement="bottom" data-js="popover|click" {if $DISABLE_FIELD} disabled="disabled"{/if}>
+					<button class="btn btn-light js-popover-tooltip js-pwd-auto-generate" data-content="{\App\Language::translate('LBL_PWD_AUTO_GENERATE',$MODULE_NAME)}" type="button" data-field="{$FIELD_NAME}" data-placement="bottom" data-js="popover|click">
 						<span class="mdi mdi-form-textbox-password"></span>
 					</button>
 				{/if}
 				{if !empty($PARAMS['validate']) && (in_array('config', $PARAMS['validate']) || (in_array('pwned', $PARAMS['validate']) && \App\Extension\PwnedPassword::getDefaultProvider()->isActive()))}
-					<button class="btn btn-light js-popover-tooltip js-pwd-validate" data-content="{\App\Language::translate('LBL_PWD_VALIDATE',$MODULE_NAME)}" type="button" data-field="{$FIELD_NAME}" data-placement="bottom" data-js="popover|click"{if $EDIT_MODE || $DISABLE_FIELD} disabled="disabled"{/if}>
+					<button class="btn btn-light js-popover-tooltip js-pwd-validate" data-content="{\App\Language::translate('LBL_PWD_VALIDATE',$MODULE_NAME)}" type="button" data-field="{$FIELD_NAME}" data-placement="bottom" data-js="popover|click"{if $EDIT_MODE} disabled="disabled"{/if}>
 						<span class="mdi mdi-lock-question"></span>
 					</button>
 				{/if}
@@ -49,7 +49,7 @@
 				</button>
 				{/if}
 				<button class="btn btn-light js-popover-tooltip js-pwd-show" data-content="{\App\Language::translate('LBL_SHOW_PASSWORD',$MODULE_NAME)}" type="button"
-					onmousedown="{$FIELD_NAME}.type = 'text';" onmouseup="{$FIELD_NAME}.type = 'password';" onmouseout="{$FIELD_NAME}.type = 'password';" data-placement="bottom" data-js="popover"{if $EDIT_MODE || $DISABLE_FIELD} disabled="disabled"{/if}>
+					onmousedown="{$FIELD_NAME}.type = 'text';" onmouseup="{$FIELD_NAME}.type = 'password';" onmouseout="{$FIELD_NAME}.type = 'password';" data-placement="bottom" data-js="popover"{if $EDIT_MODE} disabled="disabled"{/if}>
 					<span class="fas fa-eye"></span>
 				</button>
 			{/if}

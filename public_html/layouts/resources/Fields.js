@@ -3070,6 +3070,7 @@ window.App.Fields = {
 			$('.js-pwd-get', this.container)
 				.off('click')
 				.on('click', (e) => {
+					let form = this.container.closest('form');
 					let recordId = $('input[name="record"]', form).val() || app.getRecordId();
 					this.getResponse({
 						module: field.data('module'),
