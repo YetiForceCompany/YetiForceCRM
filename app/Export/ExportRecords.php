@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Export;
@@ -557,8 +558,6 @@ abstract class ExportRecords extends \App\Base
 				} else {
 					$value = '';
 				}
-			} elseif (99 === $uitype) {
-				$value = '';
 			} elseif (52 === $uitype || 'owner' === $type) {
 				$value = \App\Fields\Owner::getLabel($value);
 			} elseif ($fieldModel->isReferenceField()) {
@@ -639,7 +638,7 @@ abstract class ExportRecords extends \App\Base
 	 * @param bool                 $rawText
 	 * @param \Vtiger_Record_Model $record
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function listValueForExport(\Vtiger_Field_Model $field, bool $rawText, \Vtiger_Record_Model $record)
 	{
