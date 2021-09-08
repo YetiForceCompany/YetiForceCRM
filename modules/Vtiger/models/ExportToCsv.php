@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Export to csv class.
+ * Export to csv - file.
  *
  * @package Model
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
- * Class ExportRecords.
+ * Export to csv - class.
  */
 class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 {
@@ -51,7 +52,7 @@ class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 			$entries[] = $recordValues;
 		}
 
-		return [$entries, $headers];
+		return [$headers, $entries];
 	}
 
 	public function getEntriesExport(): array
@@ -70,10 +71,6 @@ class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 			$sanitizedRow = $this->sanitizeValues($row);
 			$recordModel = Vtiger_Record_Model::getCleanInstance($this->moduleName);
 			$recordModel->setData($row);
-
-			var_dump($recordModel);
-			exit;
-
 			if ($isInventory) {
 				$sanitizedRow[] = $rowsCounter++;
 				$rows = (new \App\Db\Query())->from($inventoryTable)->where(['crmid' => $row['id']])->orderBy('seq')->all();
@@ -90,14 +87,14 @@ class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 			}
 		}
 		$dataReader->close();
-		return [$entries, $headers];
+		return [$headers, $entries];
 	}
 
 	/**
 	 * Function that create the exported file.
 	 *
 	 * @param array $headers - output file header
-	 * @param array $entries - outfput file data
+	 * @param array $entries - output file data
 	 */
 	public function output(array $headers, array $entries)
 	{
