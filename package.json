@@ -43,7 +43,7 @@
     "clockpicker": "https://github.com/djibe/clockpicker#gh-pages",
     "css-element-queries": "^1.2.3",
     "datatables.net": "^1.10.23",
-    "datatables.net-bs4": "^1.10.23",
+    "datatables.net-bs4": "^1.11.2",
     "datatables.net-responsive-bs4": "^2.2.3",
     "device-uuid": "^1.0.4",
     "emoji-mart-vue-fast": "^8.0.0",
