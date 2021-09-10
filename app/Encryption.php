@@ -176,6 +176,7 @@ class Encryption extends Base
 		} else {
 			$db->createCommand()->update(self::TABLE_NAME, ['status' => self::STATUS_WORKING], ['target' => $this->getTarget()])->execute();
 		}
+		\App\Cache::delete('Encryption', $this->getTarget());
 	}
 
 	/**

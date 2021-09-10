@@ -108,6 +108,7 @@ class Module extends \App\Encryption
 
 			$transactionBase->commit();
 			$transactionAdmin->commit();
+			\App\Cache::clear();
 		} catch (\Throwable $e) {
 			$transactionBase->rollBack();
 			$transactionAdmin->rollBack();
