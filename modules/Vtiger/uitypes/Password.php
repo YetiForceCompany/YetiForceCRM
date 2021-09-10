@@ -166,6 +166,12 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getQueryOperators()
+	{
+		return [];
+	}
+
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Password.tpl';
