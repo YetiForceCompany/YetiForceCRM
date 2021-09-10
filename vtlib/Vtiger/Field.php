@@ -278,6 +278,7 @@ class Field extends FieldBasic
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_field', ['tabid' => $moduleInstance->id])->execute();
 		$db->createCommand()->delete('vtiger_fieldmodulerel', ['or', "module = '$moduleInstance->name'", "relmodule = '$moduleInstance->name'"])->execute();
+		$db->createCommand()->delete('a_#__encryption', ['target' => $moduleInstance->id])->execute();
 		\App\Log::trace('Deleting fields of the module ... DONE', __METHOD__);
 	}
 
