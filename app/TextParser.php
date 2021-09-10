@@ -968,7 +968,7 @@ class TextParser
 			}
 			$rows .= '</tr>';
 		}
-		return empty($rows) ? '' : "<table class=\"related-records-list\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+		return empty($rows) ? '' : "<table style=\"border-collapse:collapse;width:100%\" class=\"related-records-list\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
@@ -1039,7 +1039,7 @@ class TextParser
 			}
 			$rows .= '</tr>';
 		}
-		return empty($rows) ? '' : "<table class=\"records-list\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+		return empty($rows) ? '' : "<table style=\"border-collapse:collapse;width:100%\" class=\"records-list\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
