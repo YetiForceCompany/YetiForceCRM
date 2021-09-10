@@ -1156,8 +1156,8 @@ class QueryGenerator
 		}
 		$field = $this->getModuleField($fieldName);
 		if (empty($field)) {
-			Log::error('Not found field model | Field name: ' . $fieldName);
-			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_FIELD_MODEL|' . $fieldName);
+			Log::error("Not found field model | Field name: '$fieldName' in module" . $this->getModule());
+			throw new \App\Exceptions\AppException("ERR_NOT_FOUND_FIELD_MODEL|$fieldName|" . $this->getModule());
 		}
 		$className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
