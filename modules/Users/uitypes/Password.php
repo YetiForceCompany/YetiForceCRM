@@ -31,4 +31,10 @@ class Users_Password_UIType extends Vtiger_Password_UIType
 	{
 		return $recordModel->encryptPassword($value);
 	}
+
+	/** {@inheritdoc} */
+	public function getValueToExport($value, int $recordId)
+	{
+		return '';
+	}
 }

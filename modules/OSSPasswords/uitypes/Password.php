@@ -57,4 +57,23 @@ class OSSPasswords_Password_UIType extends Vtiger_Base_UIType
 		$this->validate($value, true);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
+
+	/** {@inheritdoc} */
+	public function getValueToExport($value, int $recordId)
+	{
+		return Vtiger_Record_Model::getCleanInstance('OSSPasswords')->getPassword($recordId);
+	}
+
+	/** {@inheritdoc} */
+	public function getValueFromImport($value)
+	{
+		$config = false;
+		if (file_exists('modules/OSSPasswords/config.ini.php')) {
+			$config = parse_ini_file('modules/OSSPasswords/config.ini.php');
+		}
+		if ($config) {
+			$value = $value = (new \App\Db\Query())->select(['pwd' => new \yii\db\Expression('AES_ENCRYPT(:value, :configKey)', [':value' => $value, ':configKey' => $config['key']])])->scalar();
+		}
+		return $value;
+	}
 }
