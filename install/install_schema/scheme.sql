@@ -72,8 +72,11 @@ CREATE TABLE `a_yf_discounts_global` (
 /*Table structure for table `a_yf_encryption` */
 
 CREATE TABLE `a_yf_encryption` (
+  `target` smallint(5) NOT NULL,
   `method` varchar(40) NOT NULL,
-  `pass` varchar(32) NOT NULL
+  `pass` varchar(32) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  UNIQUE KEY `a_yf_encryption_target_uidx` (`target`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_inventory_limits` */
