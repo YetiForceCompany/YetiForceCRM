@@ -6,34 +6,98 @@ jQuery.Class(
 	{},
 	{
 		/**
-		 * Container (Form)
+		 * Container
 		 */
 		container: null,
 		/**
-		 * Set container (Form)
+		 * Set container
 		 * @param {Object} element
 		 */
 		setContainer: function (element) {
 			this.container = element;
 		},
 		/**
-		 * Get Container (Form)
+		 * Get Container
 		 * @returns {Object}
 		 */
 		getContainer: function () {
 			return this.container;
 		},
 		/**
+		 * Get nav tab
+		 * @returns {Object}
+		 */
+		getActiveTabNav: function () {
+			return this.getContainer().find('.js-nav-container a.active');
+		},
+		/**
+		 * Get tab (Form)
+		 * @returns {Object}
+		 */
+		getTabForm: function () {
+			return this.getContainer().find('.tab-pane.active form');
+		},
+		/**
+		 * Register change tab
+		 */
+		registerChangeTab: function () {
+			let container = this.getContainer();
+			this.passwordAlert(container);
+			container.find('.js-nav-container a').on('click', (e) => {
+				this.loadTab(e.currentTarget.dataset.url);
+			});
+		},
+		/**
+		 * Load content from URL
+		 * @param {string} url
+		 */
+		loadTab: function (url) {
+			let tabContainer = this.getContainer().find('.js-tab-container');
+			let progressIndicatorElement = $.progressIndicator({
+				blockInfo: {
+					elementToBlock: tabContainer,
+					enabled: true
+				}
+			});
+			AppConnector.request(url)
+				.done((data) => {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					tabContainer.html(data);
+					this.registerBasicEvents(tabContainer);
+					App.Fields.Picklist.showSelect2ElementView(tabContainer.find('select'));
+				})
+				.fail(function (textStatus, errorThrown) {
+					app.errorLog(textStatus, errorThrown);
+				});
+		},
+
+		/**
 		 * Register events for change method encryption
 		 */
 		registerChangeMethodName: function () {
-			const self = this;
-			let container = this.getContainer();
-			this.passwordAlert(container);
-			container.find('[name="methods"]').on('change', function () {
-				self.passwordAlert(container);
+			let container = this.getTabForm();
+			if (container.length) {
+				this.passwordAlert(container);
+			}
+			container.find('[name="methods"]').on('change', (e) => {
+				this.passwordAlert($(e.currentTarget).closest('form'));
 			});
 		},
+		/**
+		 * Register events for change method encryption
+		 */
+		registerChangeModule: function () {
+			this.getTabForm()
+				.find('[name="target"]')
+				.on('change', (e) => {
+					let url = this.getActiveTabNav().data('url') + '&target=' + e.currentTarget.value;
+					this.loadTab(url);
+				});
+		},
+		/**
+		 * Password alerts
+		 * @param {jQuery} container
+		 */
 		passwordAlert: function (container) {
 			let methodElement = container.find('[name="methods"]');
 			let mapLengthVector = JSON.parse($('[name="lengthVectors"]').val());
@@ -63,25 +127,40 @@ jQuery.Class(
 		 * Register events for form
 		 */
 		registerForm: function () {
-			var thisInstance = this;
-			var container = thisInstance.getContainer();
-			container.on('submit', function (event) {
+			let form = this.getTabForm();
+			form.on('submit', (event) => {
 				event.preventDefault();
-				container.validationEngine(app.validationEngineOptions);
-				if (container.validationEngine('validate')) {
-					var progressIndicatorElement = jQuery.progressIndicator({
-						position: 'html',
-						blockInfo: {
-							enabled: true
-						}
-					});
-					AppConnector.request(container.serializeFormData()).done(function (response) {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						app.showNotify({
-							text: response.result,
-							type: 'info',
-							hide: false
+				form.validationEngine(app.validationEngineOptions);
+				if (form.validationEngine('validate')) {
+					let save = () => {
+						let progressElement = $.progressIndicator({ blockInfo: { enabled: true } });
+						AppConnector.request(form.serializeFormData()).done((response) => {
+							progressElement.progressIndicator({ mode: 'hide' });
+							app.showNotify({
+								text: response.result,
+								type: 'info',
+								hide: false
+							});
+							this.getActiveTabNav().trigger('click');
 						});
+					};
+					let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+					let formData = form.serializeFormData();
+					formData.mode = 'checkEncryptionStatus';
+					AppConnector.request(formData).done((response) => {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						if (response.result.message) {
+							app.showConfirmModal(
+								response.result.message + `<div>${app.vtranslate('JS_CHANGE_CONFIRMATION')}</div>`,
+								(confirm) => {
+									if (confirm) {
+										save();
+									}
+								}
+							);
+						} else if (response.result.result) {
+							save();
+						}
 					});
 				}
 			});
@@ -90,7 +169,7 @@ jQuery.Class(
 		 * Register events to preview password
 		 */
 		registerPreviewPassword: function () {
-			var container = this.getContainer();
+			var container = this.getTabForm();
 			var button = container.find('.previewPassword');
 			button.on('mousedown', function () {
 				$('#' + $(this).data('id')).attr('type', 'text');
@@ -103,13 +182,21 @@ jQuery.Class(
 			});
 		},
 		/**
+		 * Register basic events in view
+		 */
+		registerBasicEvents: function () {
+			this.registerForm();
+			this.registerChangeMethodName();
+			this.registerChangeModule();
+			this.registerPreviewPassword();
+		},
+		/**
 		 * Register all events in view
 		 */
 		registerEvents: function () {
-			this.setContainer($('.formEncryption'));
-			this.registerForm();
-			this.registerChangeMethodName();
-			this.registerPreviewPassword();
+			this.setContainer($('.contentsDiv'));
+			this.registerChangeTab();
+			this.registerBasicEvents();
 		}
 	}
 );

@@ -41,11 +41,11 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
-		$encryptInstance = \App\Encryption::getInstance();
+		$encryptInstance = \App\Encryption::getInstance($this->getFieldModel()->getModuleId());
 		if ($encryptInstance->isActive()) {
 			$value = $encryptInstance->encrypt($value);
 		}
-		return base64_encode($value);
+		return $value;
 	}
 
 	/** {@inheritdoc} */
@@ -152,8 +152,7 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPwd(string $value)
 	{
-		$value = base64_decode($value);
-		$encryptInstance = \App\Encryption::getInstance();
+		$encryptInstance = \App\Encryption::getInstance($this->getFieldModel()->getModuleId());
 		if ($encryptInstance->isActive()) {
 			$value = $encryptInstance->decrypt($value);
 		}

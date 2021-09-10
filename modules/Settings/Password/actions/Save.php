@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 {
@@ -20,6 +21,7 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('encryption');
+		$this->exposeMethod('checkEncryptionStatus');
 		$this->exposeMethod('pass');
 		$this->exposeMethod('pwned');
 	}
@@ -65,6 +67,30 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 	}
 
 	/**
+	 * Validation before saving.
+	 *
+	 * @param App\Request $request
+	 */
+	public function checkEncryptionStatus(App\Request $request)
+	{
+		$target = $request->getInteger('target', null);
+		if (null === $target) {
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||target', 406);
+		}
+		$instance = \App\Encryption::getInstance($target);
+		$message = '';
+		if ($instance->isReady()) {
+			$message = App\Language::translate('LBL_ENCRYPTION_WAITING', $request->getModule(false));
+		} elseif ($instance->isRunning()) {
+			$message = App\Language::translate('LBL_ENCRYPTION_RUN', $request->getModule(false));
+		}
+
+		$response = new \Vtiger_Response();
+		$response->setResult(['result' => empty($message), 'message' => $message]);
+		$response->emit();
+	}
+
+	/**
 	 * Action to set password and method for encryption.
 	 *
 	 * @param \App\Request $request
@@ -76,6 +102,7 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 		$method = $request->isEmpty('methods') ? '' : $request->getByType('methods', 'Text');
 		$vector = $request->getRaw('vector');
 		$password = $request->getRaw('password');
+		$target = $request->getInteger('target', null);
 		if (!$method) {
 			$vector = $password = '';
 		}
@@ -85,22 +112,23 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 		if ($method && \strlen($vector) !== App\Encryption::getLengthVector($method)) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||password', 406);
 		}
-		\App\Config::set('securityKeys', 'encryptionMethod', $method);
-		$instance = new App\Encryption();
-		$instance->set('method', $method);
-		$instance->set('vector', $vector);
-		$instance->set('pass', $password);
-		$response = new Vtiger_Response();
-		$encryption = $instance->encrypt('test');
+		if (null === $target) {
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||target', 406);
+		}
+		$instance = clone \App\Encryption::getInstance($target);
+		$instance->set('method', $method)
+			->set('vector', $vector)
+			->set('pass', $password)
+			->set('target', $target);
+		$response = new \Vtiger_Response();
+		$encryption = $instance->encrypt('test', true);
 		if (!$method) {
 			$response->setResult(App\Language::translate('LBL_DISABLE_ENCRYPTION', $request->getModule(false)));
-			\App\BatchMethod::deleteByMethod('\App\Encryption::recalculatePasswords');
-			(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => [$method, $password, $vector]]))->save();
+			$instance->reload($method);
 		} elseif (empty($encryption) || 'test' === $encryption) {
 			$response->setResult(App\Language::translate('LBL_NO_REGISTER_ENCRYPTION', $request->getModule(false)));
 		} else {
-			\App\BatchMethod::deleteByMethod('\App\Encryption::recalculatePasswords');
-			(new App\BatchMethod(['method' => '\App\Encryption::recalculatePasswords', 'params' => [$method, $password, $vector]]))->save();
+			$instance->reload($method);
 			$response->setResult(App\Language::translate('LBL_REGISTER_ENCRYPTION', $request->getModule(false)));
 		}
 		$response->emit();

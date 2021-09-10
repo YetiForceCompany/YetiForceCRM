@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -12,30 +13,33 @@
  */
 class Settings_Password_Encryption_View extends Settings_Vtiger_Index_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$encryptionInstance = App\Encryption::getInstance();
+		$mode = $request->getMode();
 		$methods = App\Encryption::getMethods();
 		$lengthVectors = [];
 		foreach ($methods as $methodName) {
 			$lengthVectors[$methodName] = \App\Encryption::getLengthVector($methodName);
 		}
-		$viewer->assign('ENCRYPT', $encryptionInstance);
 		$viewer->assign('CRON_TASK', \vtlib\Cron::getInstance('LBL_BATCH_METHODS'));
 		$viewer->assign('AVAILABLE_METHODS', array_diff($methods, App\Encryption::$recommendedMethods));
 		$viewer->assign('MAP_LENGTH_VECTORS_METHODS', $lengthVectors);
 		$viewer->assign('RECOMENDED_METHODS', array_intersect(App\Encryption::$recommendedMethods, $methods));
-		$viewer->assign('IS_RUN_ENCRYPT', Settings_Password_Record_Model::isRunEncrypt());
-		$viewer->view('Encryption.tpl', $request->getModule(false));
+		if ('moduleEncryption' === $mode) {
+			$modules = Settings_Password_Record_Model::getEncryptionModules();
+			$viewer->assign('MODULES', $modules);
+			$viewer->assign('SELECTED_MODULE', $request->has('target') ? $request->getInteger('target') : key($modules));
+			$viewer->view('EncryptionModuleTab.tpl', $request->getModule(false));
+		} elseif ('settingsEncryption' === $mode) {
+			$viewer->view('EncryptionSettingsTab.tpl', $request->getModule(false));
+		} else {
+			$viewer->view('Encryption.tpl', $request->getModule(false));
+		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
