@@ -52,7 +52,7 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = '******';
-		if (!$rawText && $recordModel && $recordModel->isViewable()) {
+		if (!$rawText && $recordModel && $recordModel->isViewable() && !\App\Encryption::getInstance($this->getFieldModel()->getModuleId())->isRunning()) {
 			$moduleName = $recordModel->getModuleName();
 			$fieldName = $this->getFieldModel()->getName();
 			$id = $recordModel->getId();
@@ -84,6 +84,12 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	public function isListviewSortable()
 	{
 		return false;
+	}
+
+	/** {@inheritdoc} */
+	public function isWritable(): bool
+	{
+		return !\App\Encryption::getInstance($this->getFieldModel()->getModuleId())->isRunning();
 	}
 
 	/** {@inheritdoc} */

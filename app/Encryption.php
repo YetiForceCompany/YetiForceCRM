@@ -157,7 +157,7 @@ class Encryption extends Base
 	 *
 	 * @return bool
 	 */
-	public function isRunning()
+	public function isRunning(): bool
 	{
 		$result = (new \App\Db\Query())->from('s_#__batchmethod')->where(['method' => static::class . '::recalculatePasswords', 'status' => [\App\BatchMethod::STATUS_ENABLED, \App\BatchMethod::STATUS_RUNNING, \App\BatchMethod::STATUS_HALTED, \App\BatchMethod::STATUS_COMPLETED]])->exists();
 		return $result || (new \App\Db\Query())->from(self::TABLE_NAME)->where(['target' => $this->getTarget(), 'status' => self::STATUS_WORKING])->exists();

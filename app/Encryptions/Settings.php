@@ -52,9 +52,6 @@ class Settings extends \App\Encryption
 	 * @param string $method
 	 * @param string $password
 	 * @param string $vector
-	 *
-	 * @throws \Exception
-	 * @throws Exceptions\AppException
 	 */
 	public static function recalculatePasswords(string $method, string $password, string $vector)
 	{

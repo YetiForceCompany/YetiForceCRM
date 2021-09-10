@@ -395,6 +395,16 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function to check whether the current field is writable.
+	 *
+	 * @return bool
+	 */
+	public function isWritable(): bool
+	{
+		return true;
+	}
+
+	/**
 	 * Returns allowed types of columns in database.
 	 *
 	 * @return string[]|null
