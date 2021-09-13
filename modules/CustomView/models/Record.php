@@ -234,7 +234,7 @@ class CustomView_Record_Model extends \App\Base
 	/** {@inheritdoc} */
 	public function set($key, $value)
 	{
-		if ($this->getId() && !\in_array($key, ['cvid', 'entitytype', 'presence']) && (isset($this->value[$key]) && $this->value[$key] != $value)) {
+		if ($this->getId() && !\in_array($key, ['cvid', 'entitytype', 'presence']) && (\array_key_exists($key, $this->value) && $this->value[$key] != $value)) {
 			$this->changes[$key] = $this->get($key);
 		}
 		return parent::set($key, $value);
