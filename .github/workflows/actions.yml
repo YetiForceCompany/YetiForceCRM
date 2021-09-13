@@ -52,6 +52,14 @@ jobs:
       - name: codecov.io/validate
         run: curl --data-binary @codecov.yml https://codecov.io/validate
 
+      - name: Psalm Security Scan
+        uses: docker://ghcr.io/psalm/psalm-security-scan
+
+      - name: Upload Security Analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results.sarif
+
   security:
     name: Security
     runs-on: ubuntu-latest
