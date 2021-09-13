@@ -92,7 +92,12 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 				}
 				\App\Cache::delete('HierarchyByRelation', '');
 			}
-
+			if (!empty($fieldsDependencyId = (new \App\Db\Query())->select(['id'])->from('s_#__fields_dependency')->where(['like', 'conditionsFields', $fieldname])->all())) {
+				foreach ($fieldsDependencyId as $dependencyId) {
+					$fieldsDependencyRecordModel = Settings_FieldsDependency_Record_Model::getInstanceById($dependencyId['id']);
+					$fieldsDependencyRecordModel->deleteFieldDependency($fldModule, $fieldname);
+				}
+			}
 			$entityInfo = \App\Module::getEntityInfo($fldModule);
 			foreach (['fieldnameArr' => 'fieldname', 'searchcolumnArr' => 'searchcolumn'] as $key => $name) {
 				if (false !== ($fieldNameKey = array_search($fieldname, $entityInfo[$key]))) {
@@ -108,48 +113,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			if (11 === $uiType && ($extraFieldId = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['fieldname' => "{$fieldname}_extra", 'tabid' => $tabId])->scalar())) {
 				self::getInstance($extraFieldId)->delete();
 			}
-			$this->deleteFieldDependency($fieldname);
 		} catch (\Throwable $ex) {
 			\App\Log::error($ex->__toString());
 			throw $ex;
-		}
-	}
-
-	/**
-	 * Delete field dependency.
-	 *
-	 * @param string $fieldname
-	 * @param string $fieldNameDelete
-	 */
-	public function deleteFieldDependency(string $fieldNameDelete)
-	{
-		$newConditions = [];
-		$db = \App\Db::getInstance();
-		if (!empty($fieldsDependencyId = (new \App\Db\Query())->from('s_#__fields_dependency')->where(['like', 'conditionsFields', $fieldNameDelete])->all())) {
-			foreach ($fieldsDependencyId as $dependency) {
-				$conditions = \App\Json::decode($dependency['conditions']);
-				$count = \count($conditions['rules']);
-				foreach ($conditions['rules'] as $value) {
-					[$fieldName, $moduleName] = explode(':', $value['fieldname']);
-					unset($moduleName);
-					$conditionsFields = \App\Json::decode($dependency['conditionsFields']);
-					if ($fieldName === $fieldNameDelete) {
-						if ($count > 1) {
-							$key = array_search($fieldName, $conditionsFields);
-							unset($conditionsFields[$key], $value);
-						} else {
-							$db->createCommand()->delete('s_#__fields_dependency', ['id' => $dependency['id']])->execute();
-						}
-					}
-					if (isset($value)) {
-						$newConditions[] = $value;
-					}
-				}
-				if (!empty($newConditions)) {
-					$conditions['rules'] = $newConditions;
-				}
-				$db->createCommand()->update('s_#__fields_dependency', ['conditions' => \App\Json::encode($conditions), 'conditionsFields' => \App\Json::encode($conditionsFields)], ['id' => $dependency['id']])->execute();
-			}
 		}
 	}
 
