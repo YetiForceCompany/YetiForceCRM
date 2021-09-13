@@ -28,7 +28,7 @@ class Vtiger_Password_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$this->fieldModel = Vtiger_Module_Model::getInstance($moduleName)->getFieldByName($request->getByType('field', 2));
-		if (!$this->fieldModel || !$this->fieldModel->isViewEnabled()) {
+		if (!$this->fieldModel || !$this->fieldModel->isViewEnabled() || \App\Encryption::getInstance(\App\Module::getModuleId($moduleName))->isRunning()) {
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
 		}
 	}

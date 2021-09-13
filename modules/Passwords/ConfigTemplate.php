@@ -10,7 +10,9 @@ return [
 	'encryptionPass' => [
 		'default' => 'yeti',
 		'description' => 'Key to encrypt passwords, changing the key results in the loss of all encrypted data.',
-		'validation' => '\App\Validator::text'
+		'validation' => function () {
+			return true;
+		}
 	],
 	'encryptionMethod' => [
 		'default' => 'aes-256-cbc',

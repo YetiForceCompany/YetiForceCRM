@@ -945,10 +945,12 @@ return [
 		'encryptionPass' => [
 			'default' => 'yeti',
 			'description' => 'Key to encrypt passwords, changing the key results in the loss of all encrypted data.',
-			'validation' => '\App\Validator::text'
+			'validation' => function () {
+				return true;
+			}
 		],
 		'encryptionMethod' => [
-			'default' => 'AES-256-CBC',
+			'default' => 'aes-256-cbc',
 			'description' => 'Encryption method.',
 			'validation' => function () {
 				$arg = func_get_arg(0);
