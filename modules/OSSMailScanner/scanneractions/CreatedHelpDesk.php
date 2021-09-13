@@ -83,7 +83,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 		$subject = \App\Purifier::purify($this->mail->get('subject'));
 		$record->setFromUserValue('ticket_title', $maxLengthSubject ? \App\TextParser::textTruncate($subject, $maxLengthSubject, false) : $subject);
 		$maxLengthDescription = $record->getField('description')->get('maximumlength');
-		$description = \App\Purifier::purifyHtml($this->mail->get('body'));
+		$description = $this->mail->getContent();
 		$record->set('description', $maxLengthDescription ? \App\TextParser::htmlTruncate($description, $maxLengthDescription, false) : $description);
 		if (!empty(\Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus)) {
 			$record->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
@@ -99,7 +99,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 				'reverse' => true,
 				'relatedModule' => 'OSSMailView',
 				'relatedRecords' => [$mailId],
-				'params' => $this->mail->get('date')
+				'params' => $this->mail->get('date'),
 			];
 		}
 		$record->save();

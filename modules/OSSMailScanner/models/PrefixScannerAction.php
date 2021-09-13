@@ -13,7 +13,13 @@
 abstract class OSSMailScanner_PrefixScannerAction_Model
 {
 	public $prefix;
+	/**
+	 * @var string Module name
+	 */
 	public $moduleName;
+	/**
+	 * @var OSSMail_Mail_Model Mail instance
+	 */
 	public $mail;
 	public $tableName;
 	public $tableColumn;

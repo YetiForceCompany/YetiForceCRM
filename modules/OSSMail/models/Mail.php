@@ -399,7 +399,7 @@ class OSSMail_Mail_Model extends \App\Base
 			'modifiedby' => $userId,
 			'createdtime' => $useTime,
 			'modifiedtime' => $useTime,
-			'folderid' => 'T2'
+			'folderid' => 'T2',
 		];
 		if ($attachments = $this->get('attachments')) {
 			$maxSize = \App\Config::main('upload_maxsize');
@@ -425,6 +425,106 @@ class OSSMail_Mail_Model extends \App\Base
 			])->execute();
 		}
 		return $files;
+	}
+
+	/**
+	 * Treatment mail content with all images and unnecessary trash.
+	 *
+	 * @return string
+	 */
+	public function getContent(): string
+	{
+		if ($this->has('parsedContent')) {
+			return $this->get('parsedContent');
+		}
+		$html = $this->get('body');
+		if (!\App\Utils::isHtml($html) || !$this->get('isHtml')) {
+			$html = nl2br($html);
+		}
+		$attachments = $this->get('attachments');
+		if (\Config\Modules\OSSMailScanner::$attachHtmlAndTxtToMessageBody && \count($attachments) < 2) {
+			foreach ($attachments as $key => $attachment) {
+				if (('.html' === substr($attachment['filename'], -5)) || ('.txt' === substr($attachment['filename'], -4))) {
+					$html .= $attachment['attachment'] . '<hr />';
+					unset($attachments[$key]);
+				}
+			}
+		}
+		$encoding = mb_detect_encoding($html, mb_list_encodings(), true);
+		if ($encoding && 'UTF-8' !== $encoding) {
+			$html = mb_convert_encoding($html, 'UTF-8', $encoding);
+		}
+		$html = preg_replace(
+			[':<(head|style|script).+?</\1>:is', // remove <head>, <styleand <scriptsections
+				':<!\[[^]<]+\]>:', // remove <![if !mso]and friends
+				':<!DOCTYPE[^>]+>:', // remove <!DOCTYPE ... >
+				':<\?[^>]+>:', // remove <?xml version="1.0" ... >
+				'~</?html[^>]*>~', // remove html tags
+				'~</?body[^>]*>~', // remove body tags
+				'~</?o:[^>]*>~', // remove mso tags
+				'~\sclass=[\'|\"][^\'\"]+[\'|\"]~i', // remove class attributes
+			], ['', '', '', '', '', '', '', ''], $html);
+		$doc = new \DOMDocument('1.0', 'UTF-8');
+		$previousValue = libxml_use_internal_errors(true);
+		$doc->loadHTML('<?xml encoding="utf-8"?>' . $html);
+		libxml_clear_errors();
+		libxml_use_internal_errors($previousValue);
+		$params = [
+			'created_user_id' => $this->getAccountOwner(),
+			'assigned_user_id' => $this->getAccountOwner(),
+			'modifiedby' => $this->getAccountOwner(),
+			'createdtime' => $this->get('date'),
+			'modifiedtime' => $this->get('date'),
+			'folderid' => \Config\Modules\OSSMailScanner::$mailBodyGraphicDocumentsFolder ?? 'T2',
+		];
+		$files = [];
+		foreach ($doc->getElementsByTagName('img') as $img) {
+			$src = trim($img->getAttribute('src'), '\'');
+			if ('data:' === substr($src, 0, 5)) {
+				if ((\Config\Modules\OSSMailScanner::$attachMailBodyGraphicBase64 ?? true) && ($fileInstance = \App\Fields\File::saveFromString($src, ['validateAllowedFormat' => 'image'])) && ($ids = \App\Fields\File::saveFromContent($fileInstance, $params))) {
+					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
+					$img->setAttribute('alt', '-');
+					$files[] = $ids;
+					continue;
+				}
+			} elseif (filter_var($src, FILTER_VALIDATE_URL)) {
+				$params['param'] = ['validateAllowedFormat' => 'image'];
+				if ((\Config\Modules\OSSMailScanner::$attachMailBodyGraphicUrl ?? true) && ($ids = App\Fields\File::saveFromUrl($src, $params))) {
+					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
+					$img->setAttribute('alt', '-');
+					$files[] = $ids;
+					continue;
+				}
+			} elseif ('cid:' === substr($src, 0, 4)) {
+				$src = substr($src, 4);
+				if (isset($attachments[$src])) {
+					if (\Config\Modules\OSSMailScanner::$attachMailBodyGraphicCid ?? true) {
+						unset($attachments[$src]);
+						continue;
+					}
+					$fileInstance = App\Fields\File::loadFromContent($attachments[$src]['attachment'], $attachments[$src]['filename'], ['validateAllowedFormat' => 'image']);
+					if ($fileInstance && $fileInstance->validateAndSecure() && ($ids = App\Fields\File::saveFromContent($fileInstance, $params))) {
+						$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
+						if (!$img->hasAttribute('alt')) {
+							$img->setAttribute('alt', $attachments[$src]['filename']);
+						}
+						$files[] = $ids;
+						unset($attachments[$src]);
+						continue;
+					}
+				}
+			}
+			$img->removeAttribute('src');
+		}
+		$this->set('files', $files);
+		$this->set('attachments', $attachments);
+		$previousValue = libxml_use_internal_errors(true);
+		$html = $doc->saveHTML();
+		libxml_clear_errors();
+		libxml_use_internal_errors($previousValue);
+		$html = \App\Purifier::purifyHtml(str_replace('<?xml encoding="utf-8"?>', '', $html));
+		$this->set('parsedContent', $html);
+		return $html;
 	}
 
 	/**
