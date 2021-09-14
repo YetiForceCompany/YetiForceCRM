@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -54,5 +55,38 @@ class Settings_FieldsDependency_Module_Model extends Settings_Vtiger_Module_Mode
 	public static function getSupportedModules(): array
 	{
 		return Vtiger_Module_Model::getAll([0, 2], [], true);
+	}
+
+	/**
+	 * Remove fields from dependent field entries.
+	 *
+	 * @param string $moduleName
+	 * @param string $fieldName
+	 */
+	public static function removeField(string $moduleName, string $fieldName)
+	{
+		$tabId = \App\Module::getModuleId($moduleName);
+		$dataReader = (new \App\Db\Query())->select(['id'])->from('s_#__fields_dependency')
+			->orWhere(['and', ['tabid' => $tabId], ['or', ['like', 'fields', "\"{$fieldName}\""], ['like', 'conditionsFields', "\"{$fieldName}\""]]])
+			->orWhere(['like', 'conditions', $fieldName])->createCommand()->query();
+		while ($fieldDependId = $dataReader->readColumn(0)) {
+			$fieldDepend = \Settings_FieldsDependency_Record_Model::getInstanceById($fieldDependId);
+			$conditions = \App\Json::decode($fieldDepend->get('conditions'));
+			$baseModuleName = \App\Module::getModuleName($fieldDepend->get('tabid'));
+			$conditions = \App\Condition::removeFieldFromCondition($baseModuleName, $conditions, $moduleName, $fieldName);
+			$fieldDepend->set('conditions', $conditions);
+			if ($baseModuleName === $moduleName) {
+				$fields = \App\Json::decode($fieldDepend->get('fields'));
+				if (false !== ($key = array_search($fieldName, $fields))) {
+					unset($fields[$key]);
+				}
+				if (empty($fields)) {
+					$fieldDepend->delete();
+					continue;
+				}
+				$fieldDepend->set('fields', $fields);
+			}
+			$fieldDepend->save();
+		}
 	}
 }

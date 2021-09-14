@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -342,5 +343,38 @@ class Condition
 			}
 		}
 		return $fields;
+	}
+
+	/**
+	 * Remove field from conditions.
+	 *
+	 * @param string $baseModuleName The base name of the module for which conditions have been set
+	 * @param array  $conditions
+	 * @param string $moduleName     The module name of the field to be deleted.
+	 * @param string $fieldName      The name of the field to be deleted
+	 *
+	 * @return array
+	 */
+	public static function removeFieldFromCondition(string $baseModuleName, array $conditions, string $moduleName, string $fieldName): array
+	{
+		if (isset($conditions['rules'])) {
+			foreach ($conditions['rules'] as $key => &$condition) {
+				if (isset($condition['condition'])) {
+					$condition = static::removeFieldFromCondition($baseModuleName, $condition, $moduleName, $fieldName);
+				} else {
+					[$cFieldName, $cModuleName, $sourceFieldName] = array_pad(explode(':', $condition['fieldname']), 3, false);
+					if (($fieldName === $cFieldName && $moduleName === $cModuleName) || ($sourceFieldName && $sourceFieldName === $fieldName && $moduleName === $baseModuleName)) {
+						$condition = [];
+					}
+				}
+				if (empty($condition)) {
+					unset($conditions['rules'][$key]);
+				}
+			}
+			if (empty($conditions['rules'] = array_filter($conditions['rules']))) {
+				$conditions = [];
+			}
+		}
+		return $conditions;
 	}
 }

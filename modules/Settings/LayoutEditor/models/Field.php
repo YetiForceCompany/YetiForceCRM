@@ -92,12 +92,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 				}
 				\App\Cache::delete('HierarchyByRelation', '');
 			}
-			if (!empty($fieldsDependencyId = (new \App\Db\Query())->select(['id'])->from('s_#__fields_dependency')->where(['like', 'conditionsFields', $fieldname])->all())) {
-				foreach ($fieldsDependencyId as $dependencyId) {
-					$fieldsDependencyRecordModel = Settings_FieldsDependency_Record_Model::getInstanceById($dependencyId['id']);
-					$fieldsDependencyRecordModel->deleteFieldDependency($fldModule, $fieldname);
-				}
-			}
+
+			Settings_FieldsDependency_Module_Model::removeField($fldModule, $fieldname);
 			$entityInfo = \App\Module::getEntityInfo($fldModule);
 			foreach (['fieldnameArr' => 'fieldname', 'searchcolumnArr' => 'searchcolumn'] as $key => $name) {
 				if (false !== ($fieldNameKey = array_search($fieldname, $entityInfo[$key]))) {

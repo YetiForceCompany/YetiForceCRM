@@ -103,51 +103,21 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 		if (isset($data['id'])) {
 			$data['id'] = \App\Purifier::purifyByType($data['id'], 'Integer');
 		}
-		$data['name'] = \App\Purifier::purifyByType($data['name'], 'Text');
 		$data['status'] = $data['status'] ? 0 : 1;
 		$data['mandatory'] = (int) $data['mandatory'];
 		$data['gui'] = (int) $data['gui'];
 		$data['tabid'] = (int) $data['tabid'];
-		$data['conditionsFields'] = \App\Json::encode(\App\Condition::getFieldsFromConditions($data['conditions'])['baseModule'] ?? []);
-		$data['conditions'] = \App\Json::encode($data['conditions']);
-		$data['views'] = \App\Json::encode($data['views']);
-		$data['fields'] = \App\Json::encode($data['fields']);
-		return $data;
-	}
+		$conditions = \App\Json::isJson($data['conditions']) ? \App\Json::decode($data['conditions']) : $data['conditions'];
+		$data['conditionsFields'] = \App\Json::encode(\App\Condition::getFieldsFromConditions($conditions)['baseModule'] ?? []);
+		$data['conditions'] = \App\Json::encode($conditions);
+		if (!\App\Json::isJson($data['views'])) {
+			$data['views'] = \App\Json::encode($data['views']);
+		}
+		if (!\App\Json::isJson($data['fields'])) {
+			$data['fields'] = \App\Json::encode($data['fields']);
+		}
 
-	/**
-	 * Delete field dependency.
-	 *
-	 * @param string $moduleNameDeleted
-	 * @param string $fieldNameDeleted
-	 *
-	 * @return void
-	 */
-	public function deleteFieldDependency(string $moduleNameDeleted, string $fieldNameDeleted): void
-	{
-		$newConditions = [];
-		$db = \App\Db::getInstance();
-		$data = $this->getData();
-		$conditions = \App\Json::decode($data['conditions']);
-		$conditionsRules = $conditions['rules'];
-		$count = \count($conditionsRules);
-		foreach ($conditionsRules as $value) {
-			$valueDataFieldname = explode(':', $value['fieldname']);
-			$conditionsFields = \App\Json::decode($data['conditionsFields']);
-			if ($valueDataFieldname[1] === $moduleNameDeleted && $valueDataFieldname[0] === $fieldNameDeleted) {
-				$key = array_search($fieldNameDeleted, $conditionsFields);
-				unset($conditionsFields[$key], $value);
-			}
-			if (isset($value)) {
-				$newConditions[] = $value;
-			}
-		}
-		if ($count > 1 && !empty($newConditions)) {
-			$conditions['rules'] = $newConditions;
-			$db->createCommand()->update('s_#__fields_dependency', ['conditions' => \App\Json::encode($conditions), 'conditionsFields' => \App\Json::encode($conditionsFields)], ['id' => $data['id']])->execute();
-		} else {
-			$db->createCommand()->delete('s_#__fields_dependency', ['id' => $data['id']])->execute();
-		}
+		return $data;
 	}
 
 	/**
@@ -165,7 +135,8 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 		} else {
 			$db->createCommand()->insert('s_#__fields_dependency', $data)->execute();
 		}
-		\App\Cache::delete('FieldsDependency', $data['tabid']);
+		\App\Cache::delete('FieldsDependency', $this->get('tabid'));
+		\App\FieldsDependency::$recordModelCache = [];
 		$this->checkHandler();
 	}
 
@@ -178,6 +149,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 			->delete('s_#__fields_dependency', ['id' => $this->getId()])
 			->execute();
 		\App\Cache::delete('FieldsDependency', $this->get('tabid'));
+		\App\FieldsDependency::$recordModelCache = [];
 		$this->checkHandler();
 		return $return;
 	}
