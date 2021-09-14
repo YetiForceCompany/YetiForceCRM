@@ -21,7 +21,7 @@
 						<span class="fas fa-sort-amount-down"></span>
 					</span>
 				</div>
-				<select class="widgetFilter form-control orderby" aria-label="Small"
+				<select class="widgetFilter select2 form-control orderby" aria-label="Small"
 						aria-describedby="inputGroup-sizing-sm" name="orderby"
 						title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 					{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}

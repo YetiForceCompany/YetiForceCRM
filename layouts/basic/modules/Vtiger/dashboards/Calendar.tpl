@@ -20,6 +20,7 @@
 			<hr class="widgetHr"/>
 			<div class="row no-gutters">
 				<div class="col-ceq-xsm-6">
+					{assign var=WIDGET_DATA value=\App\Json::decode(html_entity_decode($WIDGET->get('data')))}
 					{if App\Config::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
 						<div class="input-group input-group-sm">
 						<span class="input-group-prepend">
@@ -27,8 +28,7 @@
 								<span class="fas fa-filter iconMiddle margintop3"></span>
 							</span>
 						</span>
-							{assign var=WIDGET_DATA value=\App\Json::decode(html_entity_decode($WIDGET->get('data')))}
-							<select class="widgetFilter form-control customFilter" name="customFilter"
+							<select class="widgetFilter select2 form-control customFilter" name="customFilter"
 									title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 								{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
@@ -62,7 +62,7 @@
 							</label>
 						</div>
 						<input type="hidden" value="current" data-current="{implode(',',$CURRENT_STATUS)}"
-							   data-history="{implode(',',$HISTORY_STATUS)}" class="widgetFilterSwitch">
+								data-history="{implode(',',$HISTORY_STATUS)}" class="widgetFilterSwitch" {if !empty($WIDGET_DATA['defaultFilter'])} data-default-filter="{$WIDGET_DATA['defaultFilter']}" {/if}>
 					{/if}
 				</div>
 				<div class="col-ceq-xsm-6">
