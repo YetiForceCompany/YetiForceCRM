@@ -1328,6 +1328,7 @@ var app = (window.app = {
 		});
 		$('body').append(container);
 		modalContainer.modal(params);
+		app.registerFormsEvents(modalContainer);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 	},
 	showModalWindow: function (data, url, cb, paramsObject = {}) {

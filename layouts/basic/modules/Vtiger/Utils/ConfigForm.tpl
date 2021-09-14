@@ -16,7 +16,7 @@
 		{foreach from=$CONFIG_FIELDS item=FIELD_MODEL}
 		<tr class="row m-0">
 			<td class="col-5 px-2">
-				<label class="muted float-right col-form-label u-text-small-bold">
+				<label class="muted float-right text-right col-form-label u-text-small-bold">
 					{\App\Language::translate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}
 					{if $FIELD_MODEL->get('labelDesc')}
 						<span class="fas fa-info-circle float-right u-cursor-pointer text-primary ml-2 js-popover-tooltip" data-js="popover" data-content="

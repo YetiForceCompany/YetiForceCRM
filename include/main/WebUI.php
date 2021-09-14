@@ -218,7 +218,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				throw $e;
 			}
 		}
-		if (\is_object($response)) {
+		if (isset($response) && \is_object($response)) {
 			$response->emit();
 		}
 	}
