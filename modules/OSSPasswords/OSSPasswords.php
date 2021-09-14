@@ -83,11 +83,13 @@ class OSSPasswords extends CRMEntity
 			$registerLink = true;
 			App\EventHandler::setActive('OSSPasswords_Secure_Handler');
 		} elseif ('module.preuninstall' === $eventType) {
-			\App\Log::trace('Before starting uninstall script...');
-			require_once 'modules/Settings/' . $moduleName . '/views/uninstall.php';
-			\App\Log::trace('After uninstall script.');
-
-			header('location: index.php?module=Vtiger&parent=Settings&view=Index');
+			\App\EventHandler::deleteHandler('OSSPasswords_Secure_Handler');
+			$tablesName = ['vtiger_passwords_config'];
+			foreach ($tablesName as $tableName) {
+				if ($db->isTableExists($tableName)) {
+					$db->createCommand()->dropTable($tableName)->execute();
+				}
+			}
 		}
 
 		$displayLabel = 'OSSPassword Configuration';

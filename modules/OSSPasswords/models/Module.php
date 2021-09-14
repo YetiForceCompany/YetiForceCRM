@@ -25,7 +25,14 @@ class OSSPasswords_Module_Model extends Vtiger_Module_Model
 		return $settingLinks;
 	}
 
+	/** {@inheritdoc} */
 	public function isSummaryViewSupported()
+	{
+		return false;
+	}
+
+	/** {@inheritdoc} */
+	public function isExportable(): bool
 	{
 		return false;
 	}
