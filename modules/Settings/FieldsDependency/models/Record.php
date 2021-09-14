@@ -116,6 +116,41 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	}
 
 	/**
+	 * Delete field dependency.
+	 *
+	 * @param string $moduleNameDeleted
+	 * @param string $fieldNameDeleted
+	 *
+	 * @return void
+	 */
+	public function deleteFieldDependency(string $moduleNameDeleted, string $fieldNameDeleted): void
+	{
+		$newConditions = [];
+		$db = \App\Db::getInstance();
+		$data = $this->getData();
+		$conditions = \App\Json::decode($data['conditions']);
+		$conditionsRules = $conditions['rules'];
+		$count = \count($conditionsRules);
+		foreach ($conditionsRules as $value) {
+			$valueDataFieldname = explode(':', $value['fieldname']);
+			$conditionsFields = \App\Json::decode($data['conditionsFields']);
+			if ($valueDataFieldname[1] === $moduleNameDeleted && $valueDataFieldname[0] === $fieldNameDeleted) {
+				$key = array_search($fieldNameDeleted, $conditionsFields);
+				unset($conditionsFields[$key], $value);
+			}
+			if (isset($value)) {
+				$newConditions[] = $value;
+			}
+		}
+		if ($count > 1 && !empty($newConditions)) {
+			$conditions['rules'] = $newConditions;
+			$db->createCommand()->update('s_#__fields_dependency', ['conditions' => \App\Json::encode($conditions), 'conditionsFields' => \App\Json::encode($conditionsFields)], ['id' => $data['id']])->execute();
+		} else {
+			$db->createCommand()->delete('s_#__fields_dependency', ['id' => $data['id']])->execute();
+		}
+	}
+
+	/**
 	 * Function to save.
 	 *
 	 * @return void
