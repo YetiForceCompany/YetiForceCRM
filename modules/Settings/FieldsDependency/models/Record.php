@@ -107,13 +107,13 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 		$data['mandatory'] = (int) $data['mandatory'];
 		$data['gui'] = (int) $data['gui'];
 		$data['tabid'] = (int) $data['tabid'];
-		$conditions = \App\Json::isJson($data['conditions']) ? \App\Json::decode($data['conditions']) : $data['conditions'];
+		$conditions = \is_array($data['conditions']) ? $data['conditions'] : \App\Json::decode($data['conditions']);
 		$data['conditionsFields'] = \App\Json::encode(\App\Condition::getFieldsFromConditions($conditions)['baseModule'] ?? []);
 		$data['conditions'] = \App\Json::encode($conditions);
-		if (!\App\Json::isJson($data['views'])) {
+		if (\is_array($data['views'])) {
 			$data['views'] = \App\Json::encode($data['views']);
 		}
-		if (!\App\Json::isJson($data['fields'])) {
+		if (\is_array($data['fields'])) {
 			$data['fields'] = \App\Json::encode($data['fields']);
 		}
 
