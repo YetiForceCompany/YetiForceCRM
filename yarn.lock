@@ -291,10 +291,10 @@ css-line-break@2.0.1:
   dependencies:
     base64-arraybuffer "^0.2.0"
 
-datatables.net-bs4@^1.10.15, datatables.net-bs4@^1.10.23:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.11.1.tgz#1429eae7eea7078ced495cf93e6d7d36acc2463d"
-  integrity sha512-rjbB/TEcEQeYwNCcsogVY93zoWGNChDSD18gux2XLS5qq/MOOiNPQNEcNoe3P2ms2cMN7eomddk33KCkY6GQ1g==
+datatables.net-bs4@^1.10.15, datatables.net-bs4@^1.11.2:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.11.2.tgz#ad5fbe635733f9e50710a934edf7a7d4234e90ae"
+  integrity sha512-5a61G9xhx9R1HQO87DFQ9d1pvLcWRsHc8CUobbPwiYJrPQZ5f2tbPRvgWeJMR3Ti8dmBXmCC3jm5vmnrJcoINg==
   dependencies:
     datatables.net ">=1.10.25"
     jquery ">=1.7"
