@@ -7,31 +7,10 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 			<div class="col-md-6 mt-1">
-				<div class="btn-group btn-group-toggle" data-toggle="buttons">
-					<label class="btn btn-outline-secondary btn-sm {if !$ACCEPT_MODE}active{/if}">
-						<input class="js-switch" type="radio" name="accept_mode" data-js="change" id="accept_mode1" autocomplete="off" value="0" {if !$ACCEPT_MODE}checked{/if}>
-						<span class="fas fa-hand-pointer mr-2"></span>
-						{\App\Language::translate('LBL_BTN_ACCEPT_MANUALLY', $QUALIFIED_MODULE)}
-					</label>
-					<label class="btn btn-outline-success btn-sm {if $ACCEPT_MODE}active{/if}">
-						<input class="js-switch" type="radio" name="accept_mode" data-js="change" id="accept_mode2" autocomplete="off" value="1" {if $ACCEPT_MODE}checked{/if}>
-						<span class="fas fa-check-double mr-2"></span>
-						{\App\Language::translate('LBL_BTN_ACCEPT_AUTOMATICALLY', $QUALIFIED_MODULE)}
-					</label>
-				</div>
-				<div class="btn-group btn-group-toggle ml-4" data-toggle="buttons">
-					<label class="btn btn-outline-secondary btn-sm {if !$SEND_MODE}active{/if}">
-						<input class="js-switch" type="radio" name="send_mode" data-js="change" id="send_mode1" autocomplete="off" value="0" {if !$SEND_MODE}checked{/if}>
-						<span class="fas fa-hand-pointer mr-2"></span>
-						{\App\Language::translate('LBL_BTN_SEND_MANUALLY', $QUALIFIED_MODULE)}
-					</label>
-					<label class="btn btn-outline-success btn-sm {if $SEND_MODE}active{/if}">
-						<input class="js-switch" type="radio" name="send_mode" data-js="change" id="send_mode2" autocomplete="off" value="1" {if $SEND_MODE}checked{/if}>
-						<span class="fas fa-paper-plane mr-2"></span>
-						{\App\Language::translate('LBL_BTN_SEND_AUTOMATICALLY', $QUALIFIED_MODULE)}
-					</label>
-				</div>
-				<button class="btn btn-primary btn-sm mr-2 showModal float-right" data-js="click" data-url="index.php?module=MailRbl&parent=Settings&view=UploadListModal">
+				<button class="btn btn-primary btn-sm mr-2 js-show-modal float-right" data-url="index.php?module=MailRbl&parent=Settings&view=ConfigModal" title="{\App\Language::translate('BTN_RBL_CONFIG', $QUALIFIED_MODULE)}" data-js="click">
+					<span class="fas fa-cogs"></span>
+				</button>
+				<button class="btn btn-success btn-sm mr-2 js-show-modal float-right" data-js="click" data-url="index.php?module=MailRbl&parent=Settings&view=UploadListModal">
 					<span class="fas fa-download mr-2"></span>{\App\Language::translate('BTN_IMPORT_LIST', $QUALIFIED_MODULE)}
 				</button>
 				<a href="https://soc.yetiforce.com/" target="_blank" class="btn btn-outline-info btn-sm float-right mr-3 js-popover-tooltip" data-content="YetiForce Security Operations Center (SOC)" rel="noreferrer noopener" data-js="popover">

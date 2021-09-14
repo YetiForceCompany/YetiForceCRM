@@ -409,36 +409,11 @@ jQuery.Class(
 				});
 			});
 		},
-		registerSwitchEvents: function () {
-			$('.js-base-container .js-switch').on('change', function () {
-				AppConnector.request({
-					module: app.getModuleName(),
-					parent: app.getParentModuleName(),
-					action: 'SaveAjax',
-					mode: 'config',
-					name: this.name,
-					value: this.value
-				}).done(function (response) {
-					app.showNotify(
-						$.extend(response.result.notify, {
-							stack: new PNotify.Stack({
-								firstpos1: 25,
-								spacing1: 5,
-								spacing2: 5,
-								maxOpen: 10,
-								modal: false
-							})
-						})
-					);
-				});
-			});
-		},
 		/**
 		 * Register events
 		 */
 		registerEvents: function () {
 			this.registerTabEvents();
-			this.registerSwitchEvents();
 			this.refreshCounters();
 			$('#tabs a[data-toggle="tab"]').on('shown.bs.tab', (_) => {
 				this.registerTabEvents();
