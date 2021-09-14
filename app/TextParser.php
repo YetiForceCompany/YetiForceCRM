@@ -919,6 +919,9 @@ class TextParser
 			if ($viewIdOrName) {
 				$relationListView->getQueryGenerator()->initForCustomViewById($viewIdOrName);
 			}
+			if ($cvId && ($customViewModel = \CustomView_Record_Model::getInstanceById($cvId)) && ($orderBy = $customViewModel->getSortOrderBy())) {
+				$relationListView->set('orderby', $orderBy);
+			}
 		}
 		if ($columns) {
 			$relationListView->setFields($columns);
@@ -980,7 +983,8 @@ class TextParser
 	 */
 	protected function recordsList($params)
 	{
-		[$moduleName, $columns, $conditions, $viewIdOrName, $limit, $maxLength] = array_pad(explode('|', $params), 6, '');
+		[$moduleName, $columns, $conditions, $viewIdOrName, $limit, $maxLength, $params] = array_pad(explode('|', $params, 7), 7, '');
+		$paramsArray = $params ? self::parseFieldParam($params) : [];
 		$cvId = 0;
 		if ($viewIdOrName) {
 			if (!is_numeric($viewIdOrName)) {
@@ -997,6 +1001,9 @@ class TextParser
 			}
 		}
 		$listView = \Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		if ($cvId && ($customViewModel = \CustomView_Record_Model::getInstanceById($cvId)) && ($orderBy = $customViewModel->getSortOrderBy())) {
+			$listView->set('orderby', $orderBy);
+		}
 		$limit = (int) $limit;
 		$listView->getQueryGenerator()->setLimit((int) ($limit ?: \App\Config::main('list_max_entries_per_page', 20)));
 		if ($columns) {
@@ -1029,7 +1036,7 @@ class TextParser
 			++$counter;
 			$rows .= '<tr class="row-' . $counter . '">';
 			foreach ($fields as $fieldModel) {
-				$value = $this->getDisplayValueByField($fieldModel, $relatedRecordModel);
+				$value = $this->getDisplayValueByField($fieldModel, $relatedRecordModel, $params);
 				if (false !== $value) {
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
@@ -1039,7 +1046,11 @@ class TextParser
 			}
 			$rows .= '</tr>';
 		}
-		return empty($rows) ? '' : "<table style=\"border-collapse:collapse;width:100%\" class=\"records-list\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+		$table = 'class="records-list" style="border-collapse:collapse;width:100%"';
+		if (isset($paramsArray['table']) && 'border' === $paramsArray['table']) {
+			$table .= 'border="1"';
+		}
+		return empty($rows) ? '' : "<table {$table}><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
