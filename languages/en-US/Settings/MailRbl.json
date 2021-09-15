@@ -108,7 +108,8 @@
     "LBL_ACTIVATE_RBL_LIST_DESC": "Enabling this option will slow down loading emails depending on the connection speed and the email server. Once the sender is verified the system will display (by changing the background color) whether the sender is trusted or not.",
     "LBL_ACTIVATE_RBL_DETAIL": "Check the sender in the message preview in the mail client",
     "LBL_ACTIVATE_RBL_DETAIL_DESC": "Enabling this option will cause the mail preview to display a bar that informs whether the sender is trusted or has been blacklisted locally/publicly.",
-    "LBL_SYNCH_PAID_FEATURE": "Synchronization with the public RBL server (rbl-block.yetiforce.com, rbl-allow.yetiforce.com) is a paid feature. In order to activate the synchronization and to be constantly updated with new hazardous mail servers please go to %s"
+    "LBL_SYNCH_PAID_FEATURE": "Synchronization with the public RBL server (rbl-block.yetiforce.com, rbl-allow.yetiforce.com) is a paid feature. In order to activate the synchronization and to be constantly updated with new hazardous mail servers please go to %s",
+    "LBL_IP_ALREADY_EXISTS_LIST": "IP address already exists on the following list:"
   },
   "js": {
     "BTN_SHOW_DETAILS": "Show details",

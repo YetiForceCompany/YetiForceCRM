@@ -682,18 +682,19 @@ class Rbl extends \App\Base
 	 *
 	 * @param int $record
 	 *
-	 * @return void
+	 * @return int
 	 */
-	public function updateList(int $record): void
+	public function updateList(int $record): int
 	{
 		$sender = $this->getSender();
+		$return = 0;
 		if (!empty($sender['ip'])) {
 			$dbCommand = \App\Db::getInstance('admin')->createCommand();
 			$id = false;
-			if ($ipsList = self::findIp($sender['ip'])) {
-				foreach ($ipsList as $ipList) {
-					if (2 !== (int) $ipList['type']) {
-						$id = $ipList['id'];
+			if ($rows = self::findIp($sender['ip'])) {
+				foreach ($rows as $row) {
+					if ((self::LIST_TYPE_BLACK_LIST !== (int) $row['type']) && (self::LIST_TYPE_PUBLIC_BLACK_LIST !== (int) $row['type'])) {
+						$id = $row['id'];
 						break;
 					}
 				}
@@ -715,10 +716,13 @@ class Rbl extends \App\Base
 			}
 			\App\Cache::delete('MailRblIpColor', $sender['ip']);
 			\App\Cache::delete('MailRblList', $sender['ip']);
+			$return = 2;
 			if (\Config\Components\Mail::$rcListSendReportAutomatically ?? false) {
 				self::sendReport(['id' => $record]);
+				$return = 3;
 			}
 		}
+		return $return;
 	}
 
 	/**
@@ -759,17 +763,22 @@ class Rbl extends \App\Base
 	 * Find ip in list.
 	 *
 	 * @param string $ip
+	 * @param bool   $onlyActive
 	 *
 	 * @return array
 	 */
-	public static function findIp(string $ip): array
+	public static function findIp(string $ip, $onlyActive = false): array
 	{
-		if (\App\Cache::has('MailRblList', $ip)) {
-			return \App\Cache::get('MailRblList', $ip);
+		$cacheName = "$ip|$onlyActive";
+		if (\App\Cache::has('MailRblList', $cacheName)) {
+			return \App\Cache::get('MailRblList', $cacheName);
 		}
-		$rows = (new \App\Db\Query())->from('s_#__mail_rbl_list')->where(['ip' => $ip])->orderBy(['type' => SORT_ASC])
-			->all(\App\Db::getInstance('admin'));
-		\App\Cache::save('MailRblList', $ip, $rows, \App\Cache::LONG);
+		$query = (new \App\Db\Query())->from('s_#__mail_rbl_list')->where(['ip' => $ip])->orderBy(['type' => SORT_ASC]);
+		if ($onlyActive) {
+			$query->andWhere(['status' => 0]);
+		}
+		$rows = $query->all(\App\Db::getInstance('admin'));
+		\App\Cache::save('MailRblList', $cacheName, $rows, \App\Cache::LONG);
 		return $rows;
 	}
 
@@ -821,16 +830,17 @@ class Rbl extends \App\Base
 	 *
 	 * @param array $data
 	 *
-	 * @return void
+	 * @return string
 	 */
-	public static function addReport(array $data): void
+	public static function addReport(array $data): string
 	{
 		$status = 0;
 		if (\Config\Components\Mail::$rcListAcceptAutomatically ?? false) {
 			$status = 1;
 		}
 		$db = \App\Db::getInstance('admin');
-		$db->createCommand()->insert('s_#__mail_rbl_request', [
+		$dbCommand = $db->createCommand();
+		$dbCommand->insert('s_#__mail_rbl_request', [
 			'status' => $status,
 			'datetime' => date('Y-m-d H:i:s'),
 			'user' => \App\User::getCurrentUserId(),
@@ -839,11 +849,44 @@ class Rbl extends \App\Base
 			'body' => $data['body'] ?? null,
 		])->execute();
 		$record = $db->getLastInsertID();
-		if ($status && $record) {
-			$rblRecord = self::getRequestById($record);
-			$rblRecord->parse();
-			$rblRecord->updateList($record);
+		$return = 'LBL_RC_ERROR_RBL_REPORT';
+		if ($record) {
+			$return = 'LBL_RC_ADDED_RBL_REPORT_LOCAL';
+			if ($status) {
+				$rblRecord = self::getRequestById($record);
+				$rblRecord->parse();
+				$sender = $rblRecord->getSender();
+				if (empty($sender['ip'])) {
+					$dbCommand->update('s_#__mail_rbl_request', ['status' => 0], ['id' => $record])->execute();
+					$return = 'LBL_NO_IP_ADDRESS';
+				} else {
+					$blacklist = 0 == $rblRecord->get('type');
+					$skipUpdate = false;
+					if ($rows = self::findIp($sender['ip'])) {
+						foreach ($rows as $row) {
+							if (0 == $row['status']) {
+								if ($blacklist && (self::LIST_TYPE_WHITE_LIST == $row['type'] || self::LIST_TYPE_PUBLIC_WHITE_LIST == $row['type'])) {
+									$return = 'LBL_RC_ADDED_RBL_REPORT_IP_WHITE';
+									$skipUpdate = true;
+									break;
+								}
+								if (!$blacklist && (self::LIST_TYPE_WHITE_LIST == $row['type'] || self::LIST_TYPE_PUBLIC_WHITE_LIST == $row['type'])) {
+									$return = 'LBL_RC_ADDED_RBL_REPORT_IP_BLACK';
+									$skipUpdate = true;
+									break;
+								}
+							}
+						}
+					}
+					if ($skipUpdate) {
+						$dbCommand->update('s_#__mail_rbl_request', ['status' => 0], ['id' => $record])->execute();
+					} elseif (3 === $rblRecord->updateList($record)) {
+						$return = 'LBL_RC_ADDED_RBL_REPORT_PUBLIC';
+					}
+				}
+			}
 		}
+		return $return;
 	}
 
 	/**

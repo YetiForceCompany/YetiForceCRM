@@ -94,7 +94,13 @@
     "LBL_ALERT_FAKE_MAIL": "Watch out for this message, it is not possible to verify if the message was in fact sent from the sender's address.\nDo not click any links, download attachments, or provide personal information in response.",
     "LBL_ALERT_FAKE_SENDER": "Watch out for this message, the email address in the From field has been forged.\nDo not click any links, download attachments, or provide personal information in response.",
     "BTN_ANALYSIS_DETAILS": "Analysis details",
-    "LBL_MESSAGE_HAS_BEEN_ADDED": "The message has been added"
+    "LBL_NO_IP_ADDRESS": "The sender's IP address was not found",
+    "LBL_RC_ADDED_RBL_REPORT_LOCAL": "Report sent to a local RBL base",
+    "LBL_RC_ADDED_RBL_REPORT_PUBLIC": "Report sent to a public RBL base",
+    "LBL_RC_ADDED_RBL_REPORT_IP_WHITE": "Sender's server is whitelisted, created a verification request for the administrator",
+    "LBL_RC_ADDED_RBL_REPORT_IP_BLACK": "Sender's server is blacklisted, created a verification request for the administrator",
+    "LBL_RC_ERROR_RBL_REPORT": "There was an error while sending a report to RBL",
+    "LBL_RC_MESSAGE_HAS_BEEN_ADDED": "The message has been added"
   },
   "js": {
     "NoFindEmailInRecord": "Record does not have email address",
