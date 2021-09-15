@@ -1046,11 +1046,18 @@ class TextParser
 			}
 			$rows .= '</tr>';
 		}
+		if (empty($rows)) {
+			return '';
+		}
+		$headers = "<tr>{$headers}</tr>";
 		$table = 'class="records-list" style="border-collapse:collapse;width:100%"';
 		if (isset($paramsArray['table']) && 'border' === $paramsArray['table']) {
 			$table .= 'border="1"';
 		}
-		return empty($rows) ? '' : "<table {$table}><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+		if (isset($paramsArray['addCounter']) && '1' === $paramsArray['addCounter']) {
+			$headers = '<tr><th colspan="' . \count($fields) . '">' . Language::translate('LBL_NUMBER_OF_ALL_ENTRIES') . ": $counter</th></th></tr>$headers";
+		}
+		return "<table {$table}><thead>{$headers}</thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
