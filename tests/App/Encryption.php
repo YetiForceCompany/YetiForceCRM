@@ -8,6 +8,7 @@
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\App;
@@ -73,7 +74,7 @@ class Encryption extends \Tests\Base
 	{
 		\App\Config::set('securityKeys', 'encryptionMethod', $method);
 		\App\Config::set('securityKeys', 'encryptionPass', $password);
-		$instance = new \App\Encryption();
+		$instance = clone \App\Encryption::getInstance();
 		$instance->set('method', $method);
 		$instance->set('vector', $password);
 		$instance->set('pass', \App\Config::securityKeys('encryptionPass'));
@@ -83,13 +84,11 @@ class Encryption extends \Tests\Base
 			'method !== securityKeys(\'encryptionMethod\')' => $instance->get('method') !== \App\Config::securityKeys('encryptionMethod'),
 			'method in getMethods' => \in_array($instance->get('method'), \App\Encryption::getMethods()),
 		];
-		if ($instance->isActive()) {
-			$this->assertTrue($instance->isActive(), 'The encryption mechanism is not active');
-			$testText = 'TEST TEXT';
-			$encryptText = $instance->encrypt($testText);
-			$this->assertTrue(!empty($encryptText), 'Encryption is not available');
-			$this->assertFalse($testText === $encryptText, 'Encryption is not working');
-			$this->assertSame($testText, $instance->decrypt($encryptText), 'The decrypted text does not match the encrypted text');
-		}
+		$this->assertTrue($instance->isActive(), 'The encryption mechanism is not active');
+		$testText = 'TEST TEXT';
+		$encryptText = $instance->encrypt($testText);
+		$this->assertTrue(!empty($encryptText), 'Encryption is not available');
+		$this->assertFalse($testText === $encryptText, 'Encryption is not working');
+		$this->assertSame($testText, $instance->decrypt($encryptText), 'The decrypted text does not match the encrypted text');
 	}
 }
