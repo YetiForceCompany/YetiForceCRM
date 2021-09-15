@@ -57,7 +57,7 @@
 									<div class="input-group">
 										<input type="text" name="primary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('primary_name')}" id="primary_name"/>
 										<div class="input-group-append">
-											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
 									</div>
 								</div>
@@ -71,7 +71,7 @@
 									<div class="input-group">
 										<input type="text" name="secondary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}" id="secondary_name"/>
 										<div class="input-group-append">
-											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
 									</div>
 								</div>
@@ -107,7 +107,7 @@
 									<div class="input-group">
 										<input type="text" name="meta_title" class="form-control" value="{$PDF_MODEL->get('meta_title')}" id="meta_title"/>
 										<div class="input-group-append">
-											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
 									</div>
 								</div>
@@ -120,7 +120,7 @@
 									<div class="input-group">
 										<input type="text" name="meta_author" class="form-control" value="{$PDF_MODEL->get('meta_author')}" id="meta_author"/>
 										<div class="input-group-append">
-											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
 									</div>
 								</div>
@@ -133,7 +133,7 @@
 									<div class="input-group">
 										<input type="text" name="meta_subject" class="form-control" value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject"/>
 										<div class="input-group-append">
-											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
 									</div>
 								</div>
@@ -278,7 +278,7 @@
 									<div class="input-group">
 										<input type="text" name="filename" class="form-control" value="{$PDF_MODEL->get('filename')}" id="filename"/>
 										<div class="input-group-append">
-											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
 									</div>
 								</div>
@@ -387,7 +387,7 @@
 									<div class="row">
 										<div class="col-12">
 											<label class="col-form-label">{\App\Language::translate('LBL_WATERMARK_TEXT', $QUALIFIED_MODULE)}
-												<span class="ml-2 js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span></label>
+												<span class="ml-2 js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span></label>
 										</div>
 										<div class="col-12 controls">
 											<textarea name="watermark_text" class="form-control js-editor" id="watermark_text">{$PDF_MODEL->get('watermark_text')}</textarea>
