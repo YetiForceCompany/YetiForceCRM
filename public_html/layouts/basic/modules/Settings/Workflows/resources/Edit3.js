@@ -448,12 +448,18 @@ Settings_Workflows_Edit_Js(
 				if (selectedElement.val() !== 'none' && selectedElement.val()) {
 					var moduleNameElement = conditionRow.find('[name="modulename"]');
 					if (moduleNameElement.length > 0) {
-						var selectedOptionFieldInfo = selectedElement.find('option:selected').data('fieldinfo');
+						let workflowModuleName = selectedElement.closest('form').find('#workflowModuleName').val();
+						let selectedOption = selectedElement.find('option:selected');
+						var selectedOptionFieldInfo = selectedOption.data('fieldinfo');
 						var type = selectedOptionFieldInfo.type;
 						if (type == 'picklist' || type == 'multipicklist') {
 							var selectElement = $('select.createEntityModule:not(:disabled)');
 							var moduleName = selectElement.val();
 							moduleNameElement.val(moduleName).change().prop('disabled', true);
+						} else if (selectedOption.data('reference') && moduleNameElement.find(`option[value="${workflowModuleName}"]`).length){
+							moduleNameElement.val(workflowModuleName).change().prop('disabled', true);
+						} else {
+							moduleNameElement.prop('disabled', false);
 						}
 					}
 					this.loadFieldSpecificUi(selectedElement);

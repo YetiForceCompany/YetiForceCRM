@@ -44,7 +44,7 @@
 									<option></option>
 									<optgroup>
 										{foreach from=$MODULE_FIELDS item=MODULE_FIELD}
-											<option value="{$MODULE_FIELD->getName()}">{\App\Language::translate($MODULE_FIELD->get('label'),$MODULE_MODEL->get('name'))}</option>
+											<option value="{$MODULE_FIELD->getName()}">{\App\Language::translate($MODULE_FIELD->get('label'),$MODULE_MODEL->getName())}</option>
 										{/foreach}
 									</optgroup>
 								</select>
@@ -57,7 +57,7 @@
 										<option></option>
 										<optgroup>
 											{foreach from=$MODULE_FIELDS item=MODULE_FIELD}
-												<option value="{$MODULE_FIELD->getName()}">{\App\Language::translate($MODULE_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
+												<option value="{$MODULE_FIELD->getName()}">{\App\Language::translate($MODULE_FIELD->get('label'), $MODULE_FIELD->getModuleName())}</option>
 											{/foreach}
 										</optgroup>
 									</select>

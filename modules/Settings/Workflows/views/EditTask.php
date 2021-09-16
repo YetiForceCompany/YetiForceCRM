@@ -49,6 +49,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
 			$mfModel = new $handlerClass();
 			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($sourceModule));
+			$viewer->assign('REFERENCE_FIELD_NAME', $taskObject->reference_field ?? '');
 			if (!empty($taskObject->entity_type) && $taskObject->field_value_mapping) {
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');

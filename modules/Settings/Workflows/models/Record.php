@@ -448,28 +448,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return $dependentFields;
 	}
 
-	/**
-	 * Function to get reference field name.
-	 *
-	 * @param string $relatedModule
-	 *
-	 * @return string fieldname
-	 */
-	public function getReferenceFieldName($relatedModule)
-	{
-		if ($relatedModule) {
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-			$referenceFieldsList = $relatedModuleModel->getFieldsByType('reference');
-
-			foreach ($referenceFieldsList as $fieldName => $fieldModel) {
-				if (\in_array($this->getModule()->getName(), $fieldModel->getReferenceList())) {
-					return $fieldName;
-				}
-			}
-		}
-		return false;
-	}
-
 	public function updateNextTriggerTime()
 	{
 		$wm = new VTWorkflowManager();
