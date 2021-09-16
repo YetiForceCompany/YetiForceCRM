@@ -1250,6 +1250,27 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Makes fields read-only based on search params.
+	 *
+	 * @param string $constantReadOnly
+	 * @param string $temporarilyReadOnly
+	 *
+	 * @return array
+	 */
+	public function getReadOnlyFieldInSearchParams(string $constantReadOnly, string $temporarilyReadOnly): array
+	{
+		$readOnly = [];
+		if (!empty($constantReadOnly) && \in_array($this->getName(), \App\Json::decode($constantReadOnly))) {
+			$readOnly['disabled'] = true;
+			$readOnly['readonly'] = true;
+		} elseif (!empty($temporarilyReadOnly) && \in_array($this->getName(), \App\Json::decode($temporarilyReadOnly))) {
+			$readOnly['disabled'] = false;
+			$readOnly['readonly'] = true;
+		}
+		return $readOnly;
+	}
+
+	/**
 	 * Function to get Display value for RelatedList.
 	 *
 	 * @param string $value

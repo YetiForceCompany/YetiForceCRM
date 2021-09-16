@@ -40,6 +40,7 @@ jQuery.Class(
 		container: false,
 		reletedInstance: false,
 		viewName: false,
+		temporarily: [],
 		init: function (container, noEvents, reletedInstance) {
 			if (typeof container === 'undefined') {
 				container = jQuery('.bodyContents');
@@ -75,7 +76,11 @@ jQuery.Class(
 			let thisInstance = this;
 			let listViewContainer = this.getContainer();
 			listViewContainer.find('[data-trigger="listSearch"]').on('click', function (e) {
-				thisInstance.reloadList();
+				let params = thisInstance.parseConditions(thisInstance.getListSearchParams(true)[0]);
+				thisInstance.reloadList({
+					search_params: [params],
+					temporarily_readonly: thisInstance.temporarily
+				});
 			});
 			listViewContainer.find('input.listSearchContributor').on('keypress', function (e) {
 				if (e.keyCode == 13) {
@@ -88,6 +93,92 @@ jQuery.Class(
 					search_key: '',
 					search_value: '',
 					operator: ''
+				});
+			});
+			thisInstance.registerListSearchIfEmptyValue();
+		},
+		/**
+		 * Register list search if value empty.
+		 * @param {array} params
+		 * @returns {array}
+		 */
+		parseConditions: function (params) {
+			let listViewContainer = this.getContainer();
+			let newParams = [];
+			for (let i = 0; i < params.length; i++) {
+				if ($.inArray(params[i], newParams) == -1) {
+					newParams.push(params[i]);
+				}
+			}
+			this.temporarily = [];
+			let paramsSearch = JSON.parse(listViewContainer.find('#search_params').val())[0];
+			if (paramsSearch !== undefined) {
+				for (let i = 0; i < paramsSearch.length; i++) {
+					if (paramsSearch[i][2] === '') {
+						if ($.inArray(paramsSearch[i], newParams) == -1) {
+							newParams.push(paramsSearch[i]);
+						}
+						if ($.inArray(paramsSearch[i][0], this.temporarily) == -1) {
+							this.temporarily.push(paramsSearch[i][0]);
+						}
+					}
+				}
+			}
+			return newParams;
+		},
+
+		/**
+		 * Register list search if value empty.
+		 */
+		registerListSearchIfEmptyValue: function () {
+			let listViewContainer = this.getContainer();
+			let thisInstance = this;
+			let constant,
+				temporarily = [];
+			let paramsSearch = JSON.parse(listViewContainer.find('#search_params').val());
+			let params = thisInstance.getListSearchParams(true)[0];
+			let constantFieldsReadonly = listViewContainer.find('.js-constant-readonly').val();
+			let temporarilyFieldsReadonly = listViewContainer.find('.js-temporarily-readonly').val();
+			if (paramsSearch !== undefined && paramsSearch.length > 0) {
+				params = paramsSearch[0];
+			}
+			if (constantFieldsReadonly !== undefined && constantFieldsReadonly !== '') {
+				constant = JSON.parse(constantFieldsReadonly);
+			}
+			if (temporarilyFieldsReadonly !== undefined && temporarilyFieldsReadonly !== '') {
+				temporarily = JSON.parse(temporarilyFieldsReadonly);
+			}
+			listViewContainer.find('.js-empty-value').each(function () {
+				let element = $(this);
+				element.on('click', function (e) {
+					let elem = $(e.currentTarget);
+					let parentField = elem.parents('.searchField').find('.listSearchContributor');
+					let fieldName = parentField.attr('name');
+					if (!elem.is(':checked')) {
+						for (let i = 0; i < params.length; i++) {
+							if (params[i][0] === fieldName) {
+								params.splice(i, 1);
+							}
+						}
+						for (let i = 0; i < temporarily.length; i++) {
+							if (temporarily[i] === fieldName) {
+								temporarily.splice(i, 1);
+							}
+						}
+						fieldName = '';
+					}
+					if (fieldName !== '') {
+						params.push([fieldName, 'y', '']);
+						if ($.inArray(fieldName, temporarily) == -1) {
+							temporarily.push(fieldName);
+						}
+					}
+
+					thisInstance.reloadList({
+						search_params: [params],
+						constant_readonly: constant,
+						temporarily_readonly: temporarily
+					});
 				});
 			});
 		},

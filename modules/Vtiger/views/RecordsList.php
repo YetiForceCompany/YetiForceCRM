@@ -259,6 +259,8 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('RECORD_SELECTED', $request->getBoolean('record_selected', false));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($request->getModule()));
+		$viewer->assign('CONSTANT_READONLY', $request->isEmpty('constant_readonly', true) ? false : \App\Json::encode($request->getArray('constant_readonly')));
+		$viewer->assign('TEMPORARILY_READONLY', $request->isEmpty('temporarily_readonly', true) ? false : \App\Json::encode($request->getArray('temporarily_readonly')));
 		$viewer->assign('CV_ID', $cvId);
 	}
 

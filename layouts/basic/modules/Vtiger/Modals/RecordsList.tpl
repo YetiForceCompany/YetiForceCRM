@@ -17,6 +17,8 @@
 		<input type="hidden" class="js-filter-fields" data-js="value" value="{App\Purifier::encodeHtml(\App\Json::encode($FILTER_FIELDS))}">
 		<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
 		{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE)}
+		<input type="hidden" class="js-constant-readonly" data-js="value" value='{$CONSTANT_READONLY}'/>
+		<input type="hidden" class="js-temporarily-readonly" data-js="value" value='{$TEMPORARILY_READONLY}'/>
 		<div class="table-responsive">
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>

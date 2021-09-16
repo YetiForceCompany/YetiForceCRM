@@ -1,4 +1,5 @@
-﻿{*<!--
+﻿
+{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -24,6 +25,7 @@
 	<input type="hidden" id="excludedIds" name="excludedIds"/>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
+	<input type="hidden" class="js-temporarily-readonly" data-js="value" value='{$TEMPORARILY_READONLY}'/>
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE_NAME)}
 	<div class="clearfix"></div>
 	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">

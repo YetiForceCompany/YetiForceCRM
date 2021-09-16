@@ -29,6 +29,7 @@
 	<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($RELATION_MODEL->get('label'))}"/>
 	<input type="hidden" id="relationId" value="{$RELATION_MODEL->getId()}"/>
 	<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
+	<input type="hidden" class="js-temporarily-readonly" data-js="value" value='{$TEMPORARILY_READONLY}'/>
 	{if $SHOW_HEADER}
 		{assign var=CUSTOM_VIEW_LIST value=$RELATION_MODEL->getCustomViewList()}
 		<div class="relatedHeader mt-1">

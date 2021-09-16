@@ -174,6 +174,8 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('VIEW', $request->getByType('view'));
 		$viewer->assign('SHOW_RELATED_WIDGETS', \in_array($relationModel->getId(), App\Config::module($moduleName, 'showRelatedWidgetsByDefault', [])));
+		$viewer->assign('CONSTANT_READONLY', $request->isEmpty('constant_readonly', true) ? false : \App\Json::encode($request->getArray('constant_readonly')));
+		$viewer->assign('TEMPORARILY_READONLY', $request->isEmpty('temporarily_readonly', true) ? false : \App\Json::encode($request->getArray('temporarily_readonly')));
 		if ($relationListView->isWidgetsList()) {
 			$viewer->assign('IS_WIDGETS', true);
 			$viewer->assign('HIERARCHY_VALUE', App\Config::module('ModComments', 'DEFAULT_SOURCE'));

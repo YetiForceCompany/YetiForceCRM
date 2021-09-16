@@ -279,11 +279,32 @@ $.Class(
 				parentElem = $(e.target).closest('td');
 			}
 			let params = this.getRecordsListParams(parentElem);
+			let readonlyFields = this.getReadonlyFields(params);
+			if (readonlyFields !== undefined) {
+				params.constant_readonly = readonlyFields;
+			}
 			app.showRecordsList(params, (modal, instance) => {
 				instance.setSelectEvent((data) => {
 					this.setReferenceFieldValue(parentElem, data);
 				});
 			});
+		},
+		/**
+		 * Get readonly fields.
+		 *
+		 * @param {array} params
+		 * @returns {array}
+		 */
+		getReadonlyFields: function (params) {
+			let paramsData = params['search_params'];
+			if (paramsData !== undefined) {
+				params = JSON.parse(paramsData)[0];
+				let readonly = [];
+				for (let i = 0; i < params.length; i++) {
+					readonly.push(params[i][0]);
+				}
+				return readonly;
+			}
 		},
 		setReferenceFieldValue: function (container, params) {
 			const thisInstance = this;
