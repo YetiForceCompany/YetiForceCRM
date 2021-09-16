@@ -18,9 +18,6 @@
 {else}
 	{assign var=SEARCH_VALUE value=''}
 {/if}
-{* {if empty($CONSTANT_READONLY)}
-	{assign var=CONSTANT_READONLY value=''}
-{/if} *}
 {assign var=READONLY value=$FIELD_MODEL->getReadOnlyFieldInSearchParams($CONSTANT_READONLY, $TEMPORARILY_READONLY)}
 <div class="searchField {if isset($CLASS_SIZE)}{$CLASS_SIZE}{/if} u-min-w-150pxr">
 	{if !empty($MODULE_MODEL) && $MODULE_MODEL->getAlphabetSearchField() eq $FIELD_MODEL->getName()}
