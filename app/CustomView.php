@@ -655,7 +655,7 @@ class CustomView
 		}
 		$members = (new Db\Query())->select(['u_#__cv_privileges.cvid', 'member'])->from('u_#__cv_privileges')
 			->innerJoin('vtiger_customview', 'u_#__cv_privileges.cvid=vtiger_customview.cvid')
-			->where(['entitytype' => 'Accounts'])->createCommand()->queryAllByGroup(2);
+			->where(['entitytype' => $moduleName])->createCommand()->queryAllByGroup(2);
 		$info = (new Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleName])->indexBy('cvid')->orderBy(['sequence' => SORT_ASC])->all();
 		foreach ($info as &$item) {
 			$item['cvid'] = (int) $item['cvid'];

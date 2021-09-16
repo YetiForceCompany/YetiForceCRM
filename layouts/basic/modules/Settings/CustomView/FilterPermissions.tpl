@@ -19,7 +19,7 @@
 						{foreach from=$MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 							<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 								{foreach from=$ALL_GROUP_MEMBERS item=MEMBER key=QUALIFIEDID}
-									{if is_array($MEMBERS_DEFAULT[$GROUP_LABEL]) && in_array($QUALIFIEDID,$MEMBERS_DEFAULT[$GROUP_LABEL])}
+									{if isset($MEMBERS_DEFAULT[$GROUP_LABEL]) && is_array($MEMBERS_DEFAULT[$GROUP_LABEL]) && in_array($QUALIFIEDID,$MEMBERS_DEFAULT[$GROUP_LABEL])}
 										{continue}
 									{/if}
 									<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}">{\App\Language::translate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
