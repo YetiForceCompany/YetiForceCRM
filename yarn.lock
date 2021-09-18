@@ -751,9 +751,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.15.23"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.15.23.tgz#51e6cd343b82734ee9669987a12e6c5b91bd913d"
-  integrity sha512-dAC39JQh1H441DL5f8cFa5Po4WB+Haz2E30RKMrh5bXmeiZoCGpll+RwtTW567J2tRIUzls2l9WzCDzLwx7s2Q==
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.16.0.tgz#b3eeba6c03860279fa6d423aeb0b83c884517481"
+  integrity sha512-w+XajlXYi1dRYHHD/oRydTv1G3G2edtZ+tWJjnPk4vYUlllUiVsredqrBwqoOogn8qRhpLVS6Og6pona+zIg5A==
 
 readable-stream@1.1:
   version "1.1.13"
