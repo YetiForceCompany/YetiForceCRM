@@ -613,4 +613,41 @@ class Vtiger_ListView_Model extends \App\Base
 		$this->loadListViewCondition();
 		return $this->getQueryGenerator()->createQuery()->count();
 	}
+
+	/**
+	 * Fields permanently blocked if found in search value.
+	 *
+	 * @return void
+	 */
+	public function fieldsPermanentlyBlocked(): void
+	{
+		$moduleModel = $this->getModule()->getFields();
+		foreach ($this->getArray('search_params') as $values) {
+			if (\is_array($values)) {
+				foreach ($values as $value) {
+					$fieldModel = $moduleModel[$value['field_name']];
+					$fieldModel->set('fromOutsideList', true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Fields temporarily blocked.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function lockedFields(App\Request $request): void
+	{
+		$moduleModel = $this->getModule()->getFields();
+		if (!$request->isEmpty('fieldsLocked')) {
+			foreach ($request->getArray('fieldsLocked', 'AlnumExtended') as $value) {
+				$fieldModel = $moduleModel[$value];
+				$fieldModel->set('disabledField', true);
+				$fieldModel->set('fromOutsideList', false);
+			}
+		}
+	}
 }

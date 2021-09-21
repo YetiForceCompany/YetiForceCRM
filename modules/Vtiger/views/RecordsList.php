@@ -197,6 +197,8 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		}
 		$transformedSearchParams = $this->recordListModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 		$this->recordListModel->set('search_params', $transformedSearchParams);
+		$this->recordListModel->fieldsPermanentlyBlocked();
+		$this->recordListModel->lockedFields($request);
 		//To make smarty to get the details easily accesible
 		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			$searchParamsRaw[] = $fieldListGroup;
@@ -259,8 +261,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('RECORD_SELECTED', $request->getBoolean('record_selected', false));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($request->getModule()));
-		$viewer->assign('CONSTANT_READONLY', $request->isEmpty('constant_readonly', true) ? false : \App\Json::encode($request->getArray('constant_readonly')));
-		$viewer->assign('TEMPORARILY_READONLY', $request->isEmpty('temporarily_readonly', true) ? false : \App\Json::encode($request->getArray('temporarily_readonly')));
+		$viewer->assign('SEARCH_COLUMN_EMPTI_CONDITION', $request->isEmpty('fieldsLocked', true) ? false : \App\Json::encode($request->getArray('fieldsLocked')));
 		$viewer->assign('CV_ID', $cvId);
 	}
 

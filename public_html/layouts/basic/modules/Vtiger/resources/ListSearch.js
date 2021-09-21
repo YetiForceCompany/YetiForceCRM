@@ -40,7 +40,7 @@ jQuery.Class(
 		container: false,
 		reletedInstance: false,
 		viewName: false,
-		temporarily: [],
+		currentTarget: false,
 		init: function (container, noEvents, reletedInstance) {
 			if (typeof container === 'undefined') {
 				container = jQuery('.bodyContents');
@@ -75,12 +75,8 @@ jQuery.Class(
 		registerListSearch: function () {
 			let thisInstance = this;
 			let listViewContainer = this.getContainer();
-			listViewContainer.find('[data-trigger="listSearch"]').on('click', function (e) {
-				let params = thisInstance.parseConditions(thisInstance.getListSearchParams(true)[0]);
-				thisInstance.reloadList({
-					search_params: [params],
-					temporarily_readonly: thisInstance.temporarily
-				});
+			listViewContainer.find('[data-trigger="listSearch"]').on('click', function () {
+				thisInstance.reloadList(thisInstance.parseConditions(thisInstance.getListSearchParams(true)[0]));
 			});
 			listViewContainer.find('input.listSearchContributor').on('keypress', function (e) {
 				if (e.keyCode == 13) {
@@ -103,14 +99,15 @@ jQuery.Class(
 		 * @returns {array}
 		 */
 		parseConditions: function (params) {
+			let thisInstance = this;
 			let listViewContainer = this.getContainer();
 			let newParams = [];
+			let temporarily = [];
 			for (let i = 0; i < params.length; i++) {
 				if ($.inArray(params[i], newParams) == -1) {
 					newParams.push(params[i]);
 				}
 			}
-			this.temporarily = [];
 			let paramsSearch = JSON.parse(listViewContainer.find('#search_params').val())[0];
 			if (paramsSearch !== undefined) {
 				for (let i = 0; i < paramsSearch.length; i++) {
@@ -118,13 +115,22 @@ jQuery.Class(
 						if ($.inArray(paramsSearch[i], newParams) == -1) {
 							newParams.push(paramsSearch[i]);
 						}
-						if ($.inArray(paramsSearch[i][0], this.temporarily) == -1) {
-							this.temporarily.push(paramsSearch[i][0]);
-						}
 					}
 				}
 			}
-			return newParams;
+			let lockedFields = listViewContainer.find('.js-locked-fields').val();
+			if (lockedFields !== '') {
+				temporarily = JSON.parse(lockedFields);
+				if ($.inArray(thisInstance.currentTarget.attr('name'), temporarily) == -1) {
+					temporarily.push(thisInstance.currentTarget.attr('name'));
+				}
+			} else {
+				temporarily.push(thisInstance.currentTarget.attr('name'));
+			}
+			return {
+				search_params: [newParams],
+				fieldsLocked: temporarily
+			};
 		},
 
 		/**
@@ -133,20 +139,15 @@ jQuery.Class(
 		registerListSearchIfEmptyValue: function () {
 			let listViewContainer = this.getContainer();
 			let thisInstance = this;
-			let constant,
-				temporarily = [];
+			let lockedField = [];
 			let paramsSearch = JSON.parse(listViewContainer.find('#search_params').val());
 			let params = thisInstance.getListSearchParams(true)[0];
-			let constantFieldsReadonly = listViewContainer.find('.js-constant-readonly').val();
-			let temporarilyFieldsReadonly = listViewContainer.find('.js-temporarily-readonly').val();
+			let listLockedFields = listViewContainer.find('.js-locked-fields').val();
 			if (paramsSearch !== undefined && paramsSearch.length > 0) {
 				params = paramsSearch[0];
 			}
-			if (constantFieldsReadonly !== undefined && constantFieldsReadonly !== '') {
-				constant = JSON.parse(constantFieldsReadonly);
-			}
-			if (temporarilyFieldsReadonly !== undefined && temporarilyFieldsReadonly !== '') {
-				temporarily = JSON.parse(temporarilyFieldsReadonly);
+			if (listLockedFields !== undefined && listLockedFields !== '') {
+				lockedField = JSON.parse(listLockedFields);
 			}
 			listViewContainer.find('.js-empty-value').each(function () {
 				let element = $(this);
@@ -161,23 +162,21 @@ jQuery.Class(
 							}
 						}
 						for (let i = 0; i < temporarily.length; i++) {
-							if (temporarily[i] === fieldName) {
-								temporarily.splice(i, 1);
+							if (lockedField[i] === fieldName) {
+								lockedField.splice(i, 1);
 							}
 						}
 						fieldName = '';
 					}
 					if (fieldName !== '') {
 						params.push([fieldName, 'y', '']);
-						if ($.inArray(fieldName, temporarily) == -1) {
-							temporarily.push(fieldName);
+						if ($.inArray(fieldName, lockedField) == -1) {
+							lockedField.push(fieldName);
 						}
 					}
-
 					thisInstance.reloadList({
 						search_params: [params],
-						constant_readonly: constant,
-						temporarily_readonly: temporarily
+						fieldsLocked: lockedField
 					});
 				});
 			});
@@ -194,7 +193,8 @@ jQuery.Class(
 				}
 			});
 			if (app.getMainParams('autoRefreshListOnChange') == '1') {
-				listViewContainer.find('.listViewEntriesTable select, .searchInSubcategories').on('change', () => {
+				listViewContainer.find('.listViewEntriesTable select, .searchInSubcategories').on('change', (e) => {
+					this.currentTarget = $(e.currentTarget);
 					this.triggerListSearch();
 				});
 				listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', () => {

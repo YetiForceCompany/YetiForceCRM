@@ -695,4 +695,41 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$widgets = $this->getWidgetsList();
 		return !empty($widgets[1]) || !empty($widgets[2]) || !empty($widgets[3]);
 	}
+
+	/**
+	 * Fields permanently blocked if found in search value.
+	 *
+	 * @return void
+	 */
+	public function fieldsPermanentlyBlocked(): void
+	{
+		$moduleModel = $this->getRelationModel()->getRelationModuleModel()->getFields();
+		foreach ($this->getArray('search_params') as $values) {
+			if (\is_array($values)) {
+				foreach ($values as $value) {
+					$fieldModel = $moduleModel[$value['field_name']];
+					$fieldModel->set('fromOutsideList', true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Fields temporarily blocked.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function lockedFields(App\Request $request): void
+	{
+		$moduleModel = $this->getRelationModel()->getRelationModuleModel()->getFields();
+		if (!$request->isEmpty('fieldsLocked')) {
+			foreach ($request->getArray('fieldsLocked', 'AlnumExtended') as $value) {
+				$fieldModel = $moduleModel[$value];
+				$fieldModel->set('disabledField', true);
+				$fieldModel->set('fromOutsideList', false);
+			}
+		}
+	}
 }

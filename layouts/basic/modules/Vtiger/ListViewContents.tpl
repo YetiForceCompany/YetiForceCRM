@@ -24,7 +24,7 @@
 	<input type="hidden" id="excludedIds" name="excludedIds"/>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
-	<input type="hidden" class="js-temporarily-readonly" data-js="value" value='{$TEMPORARILY_READONLY}'/>
+	<input type="hidden" class="js-locked-fields" data-js="value" value='{$SEARCH_COLUMN_EMPTI_CONDITION}'/>
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE_NAME)}
 	<div class="clearfix"></div>
 	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">

@@ -18,7 +18,6 @@
 {else}
 	{assign var=SEARCH_VALUE value=''}
 {/if}
-{assign var=READONLY value=$FIELD_MODEL->getReadOnlyFieldInSearchParams($CONSTANT_READONLY, $TEMPORARILY_READONLY)}
 <div class="searchField {if isset($CLASS_SIZE)}{$CLASS_SIZE}{/if} u-min-w-150pxr">
 	{if !empty($MODULE_MODEL) && $MODULE_MODEL->getAlphabetSearchField() eq $FIELD_MODEL->getName()}
 		<div class="input-group col-12 px-0">
@@ -36,11 +35,11 @@
 		</div>
 	{else}
 		<div class="input-group">
-			<input type="text" name="{$FIELD_MODEL->getName()}" {if !empty($READONLY['readonly'])} readonly="readonly" {/if} {if !empty($FIELD_MODEL->get('source_field_name'))} data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
-			{/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
+			<input type="text" name="{$FIELD_MODEL->getName()}"  {if !empty($FIELD_MODEL->get('source_field_name'))} data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
+			{/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->emptyValueSearchInView() || !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
 			<div class="input-group-append">
 				<div class="input-group-text">
-					<input type="checkbox" class="js-empty-value" {if !empty($READONLY['readonly'])} checked {if !empty($READONLY['disabled'])} disabled  {/if}  {/if} >
+					<input type="checkbox" class="js-empty-value" {if !$FIELD_MODEL->emptyValueSearchInView() || !$FIELD_MODEL->isActiveSearchView()} checked {/if} {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if} >
 				</div>
 			</div>
 		</div>
