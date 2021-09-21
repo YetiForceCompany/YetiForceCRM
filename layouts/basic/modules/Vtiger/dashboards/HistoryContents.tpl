@@ -15,7 +15,7 @@
 			{foreach key=$index item=HISTORY from=$HISTORIES}
 				{assign var=MODELNAME value=get_class($HISTORY)}
 				{if $MODELNAME == 'ModTracker_Record_Model'}
-					{assign var=USER value=$HISTORY->getModifiedBy()}
+					{assign var=MODIFIER_NAME value=\App\Purifier::encodeHtml($HISTORY->getModifierName())}
 					{assign var=TIME value=$HISTORY->getActivityTime()}
 					{assign var=PARENT value=$HISTORY->getParent()}
 					{assign var=MOD_NAME value=$HISTORY->getParent()->getModule()->getName()}
@@ -42,7 +42,7 @@
 									{assign var=FIELDS value=$HISTORY->getFieldInstances()}
 									<div>
 										<div>
-											<strong>{$USER->getName()}&nbsp;</strong>
+											<strong>{$MODIFIER_NAME}&nbsp;</strong>
 											{\App\Language::translate('LBL_UPDATED','ModTracker')}&nbsp;
 											<a class="u-cursor-pointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
 												{$PARENT->getName()}
@@ -82,7 +82,7 @@
 									{assign var=LINKED_RECORD_DETAIL_URL value=$RELATION->getDetailViewUrl()}
 									{assign var=PARENT_DETAIL_URL value=$RELATION->getParent()->getParent()->getDetailViewUrl()}
 									<div>
-										<strong>{$USER->getName()}&nbsp;</strong>
+										<strong>{$MODIFIER_NAME}&nbsp;</strong>
 										{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}&nbsp;
 										{if $RELATION->get('targetmodule') eq 'Calendar'}
 											{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->get('targetid'))}
@@ -105,7 +105,7 @@
 								</div>
 							{else}
 								<div>
-									<strong>{$USER->getName()}&nbsp;</strong>{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}
+									<strong>{$MODIFIER_NAME}&nbsp;</strong>{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}
 									<a class="u-cursor-pointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
 										&nbsp;{$PARENT->getName()}
 									</a>

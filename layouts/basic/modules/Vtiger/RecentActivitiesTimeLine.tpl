@@ -17,6 +17,8 @@
 							{/if}
 						{/if}
 						{if $PROCEED}
+							{assign var=MODIFIER_IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
+							{assign var=MODIFIER_NAME value=\App\Purifier::encodeHtml($RECENT_ACTIVITY->getModifierName())}
 							<li>
 								{if $RECENT_ACTIVITY->isReviewed() && !($COUNT eq 0 && $PAGING_MODEL->get('page') eq 1)}
 									{$NEW_CHANGE = false}
@@ -33,15 +35,14 @@
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item {if $NEW_CHANGE} bgWarning{/if} isCreate">
 											<div class="float-sm-left imageContainer d-sm-block d-none text-center">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
-												{if $IMAGE}
-													<img class="userImage" src="{$IMAGE['url']}">
+												{if $MODIFIER_IMAGE}
+													<img class="userImage" src="{$MODIFIER_IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
+												<strong>{$MODIFIER_NAME}</strong>
 												&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 												<div class="float-right time text-muted ml-1">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</div>
 												<div>
@@ -68,15 +69,14 @@
 										</div>
 										<div class="flex-grow-1 ml-sm-1 ml-0 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 											<div class="float-sm-left imageContainer d-sm-block d-none text-center">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
-												{if $IMAGE}
-													<img class="userImage" src="{$IMAGE['url']}">
+												{if $MODIFIER_IMAGE}
+													<img class="userImage" src="{$MODIFIER_IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}
+												<strong>{$RECENT_ACTIVITY->getModifierName()}
 													&nbsp;</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}
 												<div class="float-right time text-muted ml-1">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
 												<div>
@@ -123,9 +123,8 @@
 										</div>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
 											<div class="float-sm-left imageContainer d-sm-block d-none text-center">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
-												{if $IMAGE}
-													<img class="userImage" src="{$IMAGE['url']}">
+												{if $MODIFIER_IMAGE}
+													<img class="userImage" src="{$MODIFIER_IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
@@ -133,7 +132,7 @@
 											<div class="timeline-body small">
 												<div class="float-right time text-muted ml-1">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
 												<span>
-													<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}&nbsp;</strong>
+													<strong>{$MODIFIER_NAME}&nbsp;</strong>
 												</span>
 												{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
 												<span>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}
@@ -163,16 +162,15 @@
 										</div>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
 											<div class="imageContainer float-left d-sm-block d-none text-center">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
-												{if $IMAGE}
-													<img class="userImage" src="{$IMAGE['url']}">
+												{if $MODIFIER_IMAGE}
+													<img class="userImage" src="{$MODIFIER_IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
 											</div>
 											<div class="timeline-body small">
 												<div class="float-right time text-muted ml-1">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
-												<div><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
+												<div><strong>{$MODIFIER_NAME}</strong>&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 												</div>
 											</div>
 										</div>
@@ -185,15 +183,14 @@
 										</div>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
 											<div class="float-left imageContainer d-sm-block d-none text-center">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
-												{if $IMAGE}
-													<img class="userImage" src="{$IMAGE['url']}">
+												{if $MODIFIER_IMAGE}
+													<img class="userImage" src="{$MODIFIER_IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<div><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
+												<div><strong>{$MODIFIER_NAME}</strong>&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 												</div>
 												<span class="time float-right"><span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span></span>
 											</div>
@@ -207,16 +204,15 @@
 										</div>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
 											<div class="float-left imageContainer d-sm-block d-none text-center">
-												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
-												{if $IMAGE}
-													<img class="userImage" src="{$IMAGE['url']}">
+												{if $MODIFIER_IMAGE}
+													<img class="userImage" src="{$MODIFIER_IMAGE['url']}">
 												{else}
 													<span class="fas fa-user userImage"></span>
 												{/if}
 											</div>
 											<div class="timeline-body small">
 												<div class="float-left">
-													<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
+													<strong>{$MODIFIER_NAME}</strong>
 													&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 												</div>
 												<span class="time float-right"><span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span></span>

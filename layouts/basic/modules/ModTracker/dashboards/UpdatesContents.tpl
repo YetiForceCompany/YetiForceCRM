@@ -34,7 +34,8 @@
 				{/if}
 			{/function}
 			{foreach item=UPDATE_ROW from=$UPDATES}
-					{assign var=USER value=$UPDATE_ROW->getModifiedBy()}
+					{assign var=MODIFIER_IMAGE value=$UPDATE_ROW->getModifiedBy()->getImage()}
+					{assign var=MODIFIER_NAME value=\App\Purifier::encodeHtml($UPDATE_ROW->getModifierName())}
 					{assign var=TIME value=$UPDATE_ROW->getActivityTime()}
 					{assign var=PARENT value=$UPDATE_ROW->getParent()}
 					{assign var=PROCEED value= TRUE}
@@ -48,9 +49,8 @@
 						<div class="d-flex">
 							<div class="w-100">
 								<div class="mr-1 float-sm-left imageContainer q-avatar u-fs-38px">
-									{assign var=IMAGE value=$USER->getImage()}
-									{if $IMAGE}
-										<img class="userImage align-text-top" src="{$IMAGE['url']}">
+									{if $MODIFIER_IMAGE}
+										<img class="userImage align-text-top" src="{$MODIFIER_IMAGE['url']}">
 									{else}
 										<span class="fas fa-user userImage align-text-top"></span>
 									{/if}
@@ -65,7 +65,7 @@
 										<div class="d-flex">
 											<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
 												<strong>
-													{$USER->getName()}&nbsp;
+													{$MODIFIER_NAME}&nbsp;
 													{DISPLAY_RECORD_NAME RECORD_MODEL=$PARENT CHECK_PERMISSIONS=false SHOW_MODULE=false}
 												</strong>
 											</div>
@@ -115,7 +115,7 @@
 										<div class="d-flex">
 											<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
 												<strong>
-													{$USER->getName()}&nbsp;
+													{$MODIFIER_NAME}&nbsp;
 													{DISPLAY_RECORD_NAME RECORD_MODEL=$RELATION->getParent()->getParent() CHECK_PERMISSIONS=false SHOW_MODULE=false}
 												</strong>
 											</div>
@@ -158,7 +158,7 @@
 										<div class="d-flex">
 											<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
 												<strong>
-													{$USER->getName()}&nbsp;
+													{$MODIFIER_NAME}&nbsp;
 													{DISPLAY_RECORD_NAME RECORD_MODEL=$PARENT CHECK_PERMISSIONS=false SHOW_MODULE=false}
 												</strong>
 											</div>

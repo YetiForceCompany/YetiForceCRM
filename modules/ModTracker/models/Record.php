@@ -386,11 +386,24 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return static::$statusLabel[$this->get('status')];
 	}
 
+	/**
+	 * Get the modifier object.
+	 *
+	 * @return \App\User
+	 */
 	public function getModifiedBy()
 	{
-		$changeUserId = $this->get('whodid');
+		return \App\User::getUserModel($this->get('whodid'));
+	}
 
-		return Users_Record_Model::getInstanceById($changeUserId, 'Users');
+	/**
+	 * Get name for modifier by.
+	 *
+	 * @return string|bool
+	 */
+	public function getModifierName()
+	{
+		return \App\Fields\Owner::getUserLabel($this->get('whodid'));
 	}
 
 	public function getDisplayActivityTime()

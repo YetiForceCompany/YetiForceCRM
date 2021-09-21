@@ -27,6 +27,8 @@
 								{/if}
 							{/if}
 							{if $PROCEED}
+								{assign var=MODIFIER_IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
+								{assign var=MODIFIER_NAME value=\App\Purifier::encodeHtml($RECENT_ACTIVITY->getModifierName())}
 								{if $RECENT_ACTIVITY->isReviewed() && $COUNT neq 0}
 									<div class="lineOfText">
 										<div>{\App\Language::translate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div>
@@ -38,7 +40,7 @@
 										<div>
 											<span>
 												<strong>
-													{$RECENT_ACTIVITY->getModifiedBy()->getName()}
+													{$MODIFIER_NAME}&nbsp;
 												</strong>
 												{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 												{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
@@ -71,7 +73,7 @@
 								{else if $RECENT_ACTIVITY->isUpdate()}
 									<li>
 										<div>
-											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</span>
+											<span><strong>{$MODIFIER_NAME}</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</span>
 											<span class="float-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
 										</div>
 										{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
@@ -102,7 +104,7 @@
 									<li>
 										<div>
 											{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
-											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()} </strong></span>
+											<span><strong>{$MODIFIER_NAME} </strong>&nbsp;</span>
 											<span>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</span>
 											<span>
 												{if $RELATION->get('targetmodule') eq 'Calendar'}
@@ -123,7 +125,7 @@
 									<li>
 										<div>
 											<span>
-												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
+												<strong>{$MODIFIER_NAME}</strong>&nbsp;
 												{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 											</span>
 											<span class="float-right">
