@@ -40,7 +40,10 @@ jQuery.Class(
 		container: false,
 		reletedInstance: false,
 		viewName: false,
-		currentTarget: false,
+		/**
+		 * Column name from last search.
+		 */
+		lastSearchColumn: false,
 		init: function (container, noEvents, reletedInstance) {
 			if (typeof container === 'undefined') {
 				container = jQuery('.bodyContents');
@@ -121,11 +124,11 @@ jQuery.Class(
 			let lockedFields = listViewContainer.find('.js-locked-fields').val();
 			if (lockedFields !== '') {
 				temporarily = JSON.parse(lockedFields);
-				if ($.inArray(self.currentTarget.attr('name'), temporarily) == -1) {
-					temporarily.push(self.currentTarget.attr('name'));
+				if ($.inArray(self.lastSearchColumn, temporarily) == -1) {
+					temporarily.push(self.lastSearchColumn);
 				}
 			} else {
-				temporarily.push(self.currentTarget.attr('name'));
+				temporarily.push(self.lastSearchColumn);
 			}
 			return {
 				search_params: [newParams],
@@ -138,10 +141,10 @@ jQuery.Class(
 		 */
 		registerListSearchEmptyValue: function () {
 			let listViewContainer = this.getContainer();
-			let thisInstance = this;
+			const self = this;
 			let lockedField = [];
 			let paramsSearch = JSON.parse(listViewContainer.find('#search_params').val());
-			let params = thisInstance.getListSearchParams(true)[0];
+			let params = self.getListSearchParams(true)[0];
 			let listLockedFields = listViewContainer.find('.js-locked-fields').val();
 			if (paramsSearch !== undefined && paramsSearch.length > 0) {
 				params = paramsSearch[0];
@@ -174,7 +177,7 @@ jQuery.Class(
 							lockedField.push(fieldName);
 						}
 					}
-					thisInstance.reloadList({
+					self.reloadList({
 						search_params: [params],
 						lockedFields: lockedField
 					});
@@ -194,7 +197,7 @@ jQuery.Class(
 			});
 			if (app.getMainParams('autoRefreshListOnChange') == '1') {
 				listViewContainer.find('.listViewEntriesTable select, .searchInSubcategories').on('change', (e) => {
-					this.currentTarget = $(e.currentTarget);
+					this.lastSearchColumn = $(e.currentTarget).attr('name');
 					this.triggerListSearch();
 				});
 				listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', () => {

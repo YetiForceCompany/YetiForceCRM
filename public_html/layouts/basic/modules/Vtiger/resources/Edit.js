@@ -1273,7 +1273,7 @@ $.Class(
 			fieldDisplay.attr('placeholder', placeholder);
 			fieldValue.find('.referenceModulesList').attr('required', 'required');
 		},
-		setsearchlockedFieldss: function (element) {
+		setDisabledFields: function (element) {
 			let fieldValue = element.closest('.fieldValue');
 			let fieldName = fieldValue.find('input.sourceField').attr('name');
 			let fieldDisplay = fieldValue.find('#' + fieldName + '_display');
