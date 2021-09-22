@@ -96,7 +96,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$queryGenerator = $relationListView->getQueryGenerator();
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 		$relationListView->set('search_params', $transformedSearchParams);
-		$relationListView->fieldsPermanentlyBlocked();
+		$relationListView->loadSearchLockedFields();
 		$relationListView->lockedFields($request);
 		//To make smarty to get the details easily accesible
 		foreach ($request->getArray('search_params') as $fieldListGroup) {
@@ -176,7 +176,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('VIEW', $request->getByType('view'));
 		$viewer->assign('SHOW_RELATED_WIDGETS', \in_array($relationModel->getId(), App\Config::module($moduleName, 'showRelatedWidgetsByDefault', [])));
-		$viewer->assign('SEARCH_COLUMN_EMPTY_CONDITION', $request->isEmpty('fieldsLocked', true) ? false : \App\Json::encode($request->getArray('fieldsLocked')));
+		$viewer->assign('LOCKED_FIELDS', $request->isEmpty('lockedFields', true) ? false : \App\Json::encode($request->getArray('lockedFields')));
 		if ($relationListView->isWidgetsList()) {
 			$viewer->assign('IS_WIDGETS', true);
 			$viewer->assign('HIERARCHY_VALUE', App\Config::module('ModComments', 'DEFAULT_SOURCE'));

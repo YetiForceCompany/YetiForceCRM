@@ -91,7 +91,7 @@ jQuery.Class(
 					operator: ''
 				});
 			});
-			thisInstance.registerListSearchIfEmptyValue();
+			thisInstance.registerListSearchEmptyValue();
 		},
 		/**
 		 * Register list search if value empty.
@@ -99,7 +99,7 @@ jQuery.Class(
 		 * @returns {array}
 		 */
 		parseConditions: function (params) {
-			let thisInstance = this;
+			const self = this;
 			let listViewContainer = this.getContainer();
 			let newParams = [];
 			let temporarily = [];
@@ -121,22 +121,22 @@ jQuery.Class(
 			let lockedFields = listViewContainer.find('.js-locked-fields').val();
 			if (lockedFields !== '') {
 				temporarily = JSON.parse(lockedFields);
-				if ($.inArray(thisInstance.currentTarget.attr('name'), temporarily) == -1) {
-					temporarily.push(thisInstance.currentTarget.attr('name'));
+				if ($.inArray(self.currentTarget.attr('name'), temporarily) == -1) {
+					temporarily.push(self.currentTarget.attr('name'));
 				}
 			} else {
-				temporarily.push(thisInstance.currentTarget.attr('name'));
+				temporarily.push(self.currentTarget.attr('name'));
 			}
 			return {
 				search_params: [newParams],
-				fieldsLocked: temporarily
+				lockedFields: temporarily
 			};
 		},
 
 		/**
 		 * Register list search if value empty.
 		 */
-		registerListSearchIfEmptyValue: function () {
+		registerListSearchEmptyValue: function () {
 			let listViewContainer = this.getContainer();
 			let thisInstance = this;
 			let lockedField = [];
@@ -176,7 +176,7 @@ jQuery.Class(
 					}
 					thisInstance.reloadList({
 						search_params: [params],
-						fieldsLocked: lockedField
+						lockedFields: lockedField
 					});
 				});
 			});

@@ -1526,7 +1526,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isActiveSearchView()
 	{
-		if ($this->get('fromOutsideList')) {
+		if ($this->get('fromOutsideList') || $this->get('fieldsPermanentlyBlocked')) {
 			return false;
 		}
 		return $this->getUITypeModel()->isActiveSearchView();
@@ -1537,9 +1537,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @return bool
 	 */
-	public function emptyValueSearchInView(): bool
+	public function searchlockedFields(): bool
 	{
-		return empty($this->get('disabledField'));
+		return empty($this->get('searchlockedFields'));
 	}
 
 	/**

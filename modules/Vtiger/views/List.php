@@ -233,7 +233,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if (!empty($searchParams) && \is_array($searchParams)) {
 			$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);
-			$this->listViewModel->fieldsPermanentlyBlocked();
+			$this->listViewModel->loadSearchLockedFields();
 			$this->listViewModel->lockedFields($request);
 			//To make smarty to get the details easily accesible
 			foreach ($request->getArray('search_params') as $fieldListGroup) {
@@ -264,7 +264,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('SEARCH_COLUMN_EMPTY_CONDITION', $request->isEmpty('fieldsLocked', true) ? false : \App\Json::encode($request->getArray('fieldsLocked')));
+		$viewer->assign('LOCKED_FIELDS', $request->isEmpty('lockedFields', true) ? false : \App\Json::encode($request->getArray('lockedFields')));
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);

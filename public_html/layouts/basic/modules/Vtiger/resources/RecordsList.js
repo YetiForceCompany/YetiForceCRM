@@ -48,7 +48,7 @@ $.Class(
 				totalCount: this.container.find('.js-total-count').val(),
 				noOfEntries: this.container.find('.js-no-entries').val(),
 				filterFields: JSON.parse(this.container.find('.js-filter-fields').val()),
-				fieldsLocked: this.container.find('.js-locked-fields').val(),
+				lockedFields: this.container.find('.js-locked-fields').val(),
 				onlyBody: true,
 				cvId: this.getFilterSelectElement().val()
 			};

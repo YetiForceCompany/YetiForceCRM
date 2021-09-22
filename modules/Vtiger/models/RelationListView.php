@@ -701,14 +701,14 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 *
 	 * @return void
 	 */
-	public function fieldsPermanentlyBlocked(): void
+	public function loadSearchLockedFields(): void
 	{
 		$moduleModel = $this->getRelationModel()->getRelationModuleModel();
 		foreach ($this->getArray('search_params') as $values) {
 			if (\is_array($values)) {
 				foreach ($values as $value) {
 					$fieldModel = $moduleModel->getFieldByName($value['field_name']);
-					$fieldModel->set('fromOutsideList', true);
+					$fieldModel->set('fieldsPermanentlyBlocked', true);
 				}
 			}
 		}
@@ -724,11 +724,11 @@ class Vtiger_RelationListView_Model extends \App\Base
 	public function lockedFields(App\Request $request): void
 	{
 		$moduleModel = $this->getRelationModel()->getRelationModuleModel();
-		if (!$request->isEmpty('fieldsLocked')) {
-			foreach ($request->getArray('fieldsLocked') as $value) {
+		if (!$request->isEmpty('lockedFields')) {
+			foreach ($request->getArray('lockedFields') as $value) {
 				$fieldModel = $moduleModel->getFieldByName($value);
-				$fieldModel->set('disabledField', true);
-				$fieldModel->set('fromOutsideList', false);
+				$fieldModel->set('searchlockedFields', true);
+				$fieldModel->set('fieldsPermanentlyBlocked', false);
 			}
 		}
 	}
