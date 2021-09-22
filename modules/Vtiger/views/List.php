@@ -264,7 +264,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('SEARCH_COLUMN_EMPTI_CONDITION', $request->isEmpty('fieldsLocked', true) ? false : \App\Json::encode($request->getArray('fieldsLocked')));
+		$viewer->assign('SEARCH_COLUMN_EMPTY_CONDITION', $request->isEmpty('fieldsLocked', true) ? false : \App\Json::encode($request->getArray('fieldsLocked')));
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);

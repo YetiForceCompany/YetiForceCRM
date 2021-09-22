@@ -1539,10 +1539,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function emptyValueSearchInView(): bool
 	{
-		if ($this->get('disabledField')) {
-			return false;
-		}
-		return true;
+		return empty($this->get('disabledField'));
 	}
 
 	/**

@@ -161,7 +161,7 @@ jQuery.Class(
 								params.splice(i, 1);
 							}
 						}
-						for (let i = 0; i < temporarily.length; i++) {
+						for (let i = 0; i < lockedField.length; i++) {
 							if (lockedField[i] === fieldName) {
 								lockedField.splice(i, 1);
 							}

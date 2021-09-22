@@ -621,11 +621,11 @@ class Vtiger_ListView_Model extends \App\Base
 	 */
 	public function fieldsPermanentlyBlocked(): void
 	{
-		$moduleModel = $this->getModule()->getFields();
+		$moduleModel = $this->getModule();
 		foreach ($this->getArray('search_params') as $values) {
 			if (\is_array($values)) {
 				foreach ($values as $value) {
-					$fieldModel = $moduleModel[$value['field_name']];
+					$fieldModel = $moduleModel->getFieldByName($value['field_name']);
 					$fieldModel->set('fromOutsideList', true);
 				}
 			}
@@ -641,10 +641,10 @@ class Vtiger_ListView_Model extends \App\Base
 	 */
 	public function lockedFields(App\Request $request): void
 	{
-		$moduleModel = $this->getModule()->getFields();
+		$moduleModel = $this->getModule();
 		if (!$request->isEmpty('fieldsLocked')) {
-			foreach ($request->getArray('fieldsLocked', 'AlnumExtended') as $value) {
-				$fieldModel = $moduleModel[$value];
+			foreach ($request->getArray('fieldsLocked') as $value) {
+				$fieldModel = $moduleModel->getFieldByName($value);
 				$fieldModel->set('disabledField', true);
 				$fieldModel->set('fromOutsideList', false);
 			}
