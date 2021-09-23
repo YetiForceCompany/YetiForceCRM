@@ -637,8 +637,9 @@ class CustomView
 		return ($data = self::getCVDetails($cvId, $moduleName))
 		&& ($userModel->isAdmin()
 		|| $data['userid'] === $userModel->getId()
+		|| 0 === $data['presence']
 		|| \in_array($data['status'], [self::CV_STATUS_DEFAULT, self::CV_STATUS_PUBLIC])
-		|| (self::CV_STATUS_PRIVATE && array_intersect($userModel->getMemberStructure(), $data['members'])));
+		|| (self::CV_STATUS_PRIVATE === $data['status'] && array_intersect($userModel->getMemberStructure(), $data['members'])));
 	}
 
 	/**

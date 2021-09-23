@@ -71,7 +71,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 			'viewname' => $request->getByType('viewname', 'Text'),
 			'setdefault' => $request->getInteger('setdefault'),
 			'setmetrics' => $request->isEmpty('setmetrics') ? 0 : $request->getInteger('setmetrics'),
-			'status' => $request->getInteger('status', 0),
+			'status' => $request->getInteger('status', \App\CustomView::CV_STATUS_PRIVATE),
 			'featured' => $request->getInteger('featured', 0),
 			'color' => !$request->isEmpty('color') ? $request->getByType('color', 'Color') : '',
 			'description' => $request->getForHtml('description'),

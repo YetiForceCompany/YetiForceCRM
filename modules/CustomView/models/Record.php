@@ -45,6 +45,7 @@ class CustomView_Record_Model extends \App\Base
 			$query->andWhere([
 				'or',
 				['userid' => $currentUser->getId()],
+				['presence' => 0],
 				['status' => [\App\CustomView::CV_STATUS_DEFAULT, \App\CustomView::CV_STATUS_PUBLIC]],
 				['and', ['status' => \App\CustomView::CV_STATUS_PRIVATE], ['cvid' => (new \App\Db\Query())->select(['cvid'])->from('u_#__cv_privileges')->where(['member' => $currentUser->getMemberStructure()])]]
 			]);
@@ -277,9 +278,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function isMine()
 	{
-		$userPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		return App\CustomView::CV_STATUS_DEFAULT == $this->get('status') || $this->get('userid') == $userPrivilegeModel->getId();
+		return App\CustomView::CV_STATUS_DEFAULT == $this->get('status') || $this->get('userid') == \App\User::getCurrentUserId();
 	}
 
 	/**
