@@ -64,7 +64,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		} else {
 			$customViewModel = CustomView_Record_Model::getCleanInstance();
-			$customViewModel->setModule($request->getByType('source_module', 2));
+			$customViewModel->setModule($request->getByType('source_module', \App\Purifier::ALNUM));
 		}
 		$customViewData = [
 			'cvid' => $cvId,
@@ -78,11 +78,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 		];
 		$selectedColumnsList = $request->getArray('columnslist', 'Text');
 		if (empty($selectedColumnsList)) {
-			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
-			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
-			if (false === $cvIdDefault) {
-				$cvIdDefault = App\CustomView::getInstance($request->getByType('source_module', 2))->getDefaultCvId();
-			}
+			$cvIdDefault = App\CustomView::getInstance($request->getByType('source_module', \App\Purifier::ALNUM))->getDefaultCvId();
 			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();
 		}

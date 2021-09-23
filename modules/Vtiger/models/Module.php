@@ -234,28 +234,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get listview url with all filter.
-	 *
-	 * @return string URL
-	 */
-	public function getListViewUrlWithAllFilter()
-	{
-		return $this->getListViewUrl() . '&viewname=' . $this->getAllFilterCvidForModule();
-	}
-
-	/**
-	 * Function returns the All filter for the module.
-	 *
-	 * @return int custom filter id
-	 */
-	public function getAllFilterCvidForModule()
-	{
-		return (new \App\Db\Query())->select(['cvid'])->from(['vtiger_customview'])
-			->where(['viewname' => 'All', 'entitytype' => $this->getName()])
-			->scalar();
-	}
-
-	/**
 	 * Function to get the DetailView Component Name.
 	 *
 	 * @return string
