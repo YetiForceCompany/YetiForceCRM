@@ -42,6 +42,7 @@ jQuery.Class(
 		viewName: false,
 		/**
 		 * Column name from last search.
+		 * @type {string|boolean}
 		 */
 		lastSearchColumn: false,
 		init: function (container, noEvents, reletedInstance) {
