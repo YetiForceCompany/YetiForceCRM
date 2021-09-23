@@ -83,6 +83,7 @@ jQuery.Class(
 			});
 			listViewContainer.find('input.listSearchContributor').on('keypress', function (e) {
 				if (e.keyCode == 13) {
+					thisInstance.lastSearchColumn = $(e.currentTarget).attr('name');
 					thisInstance.triggerListSearch();
 				}
 			});
@@ -128,7 +129,9 @@ jQuery.Class(
 					temporarily.push(self.lastSearchColumn);
 				}
 			} else {
-				temporarily.push(self.lastSearchColumn);
+				if (self.lastSearchColumn) {
+					temporarily.push(self.lastSearchColumn);
+				}
 			}
 			return {
 				search_params: [newParams],

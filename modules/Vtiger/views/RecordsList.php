@@ -197,8 +197,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		}
 		$transformedSearchParams = $this->recordListModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 		$this->recordListModel->set('search_params', $transformedSearchParams);
-		$this->recordListModel->loadSearchLockedFields();
-		$this->recordListModel->lockedFields($request);
+		$this->recordListModel->loadSearchLockedFields($request);
 		//To make smarty to get the details easily accesible
 		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			$searchParamsRaw[] = $fieldListGroup;

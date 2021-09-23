@@ -96,8 +96,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$queryGenerator = $relationListView->getQueryGenerator();
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 		$relationListView->set('search_params', $transformedSearchParams);
-		$relationListView->loadSearchLockedFields();
-		$relationListView->lockedFields($request);
+		$relationListView->loadSearchLockedFields($request);
 		//To make smarty to get the details easily accesible
 		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			$searchParamsRaw[] = $fieldListGroup;
