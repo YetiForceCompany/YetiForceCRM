@@ -503,44 +503,32 @@ class CustomView
 	 */
 	public function getDefaultCvId()
 	{
-		Log::trace(__METHOD__);
 		$cacheName = $this->moduleName . $this->user->getId();
 		if (Cache::has('GetDefaultCvId', $cacheName)) {
 			return Cache::get('GetDefaultCvId', $cacheName);
 		}
 		$query = (new Db\Query())->select(['userid', 'default_cvid'])->from('vtiger_user_module_preferences')->where(['tabid' => Module::getModuleId($this->moduleName)]);
 		$data = $query->createCommand()->queryAllByGroup();
-		$userId = 'Users:' . $this->user->getId();
-		if (isset($data[$userId])) {
-			Cache::save('GetDefaultCvId', $cacheName, $data[$userId]);
-
-			return $data[$userId];
-		}
-		foreach ($this->user->getGroups() as $groupId) {
-			$group = 'Groups:' . $groupId;
-			if (isset($data[$group])) {
-				Cache::save('GetDefaultCvId', $cacheName, $data[$group]);
-				return $data[$group];
+		$defaultCvId = null;
+		foreach ($this->user->getMemberStructure() as $member) {
+			if (isset($data[$member]) && $this->isPermittedCustomView($data[$member])) {
+				$defaultCvId = $data[$member];
+				break;
 			}
 		}
-		$role = 'Roles:' . $this->user->getRole();
-		if (isset($data[$role])) {
-			Cache::save('GetDefaultCvId', $cacheName, $data[$role]);
-			return $data[$role];
-		}
-		foreach ($this->user->getParentRoles() as $roleId) {
-			$role = 'RoleAndSubordinates:' . $roleId;
-			if (isset($data[$role])) {
-				Cache::save('GetDefaultCvId', $cacheName, $data[$role]);
-				return $data[$role];
+		if (!$defaultCvId) {
+			foreach ($this->getFilters() as $cvId => $values) {
+				if (1 === $values['setdefault'] && $this->isPermittedCustomView($cvId)) {
+					$defaultCvId = $cvId;
+					break;
+				}
+			}
+			if (!$defaultCvId) {
+				$defaultCvId = $this->getMandatoryFilter();
 			}
 		}
-		foreach ($this->getFilters() as $cvId => $values) {
-			if (1 === $values['setdefault']) {
-				Cache::save('GetDefaultCvId', $cacheName, $cvId);
-				return $cvId;
-			}
-		}
+		Cache::save('GetDefaultCvId', $cacheName, $defaultCvId);
+		return $defaultCvId;
 	}
 
 	/**

@@ -496,10 +496,10 @@ class User
 	public function getMemberStructure(): array
 	{
 		$member[] = \App\PrivilegeUtil::MEMBER_TYPE_USERS . ":{$this->getId()}";
-		$member[] = \App\PrivilegeUtil::MEMBER_TYPE_ROLES . ":{$this->getRole()}";
 		foreach ($this->getGroups() as $groupId) {
 			$member[] = \App\PrivilegeUtil::MEMBER_TYPE_GROUPS . ":{$groupId}";
 		}
+		$member[] = \App\PrivilegeUtil::MEMBER_TYPE_ROLES . ":{$this->getRole()}";
 		foreach (explode('::', $this->getParentRolesSeq()) as $role) {
 			$member[] = \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES . ":{$role}";
 		}
