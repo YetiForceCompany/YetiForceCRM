@@ -695,4 +695,31 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$widgets = $this->getWidgetsList();
 		return !empty($widgets[1]) || !empty($widgets[2]) || !empty($widgets[3]);
 	}
+
+	/**
+	 * Fields permanently blocked if found in search value.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function loadSearchLockedFields(App\Request $request): void
+	{
+		$moduleModel = $this->getRelationModel()->getRelationModuleModel();
+		foreach ($this->getArray('search_params') as $values) {
+			if (\is_array($values)) {
+				foreach ($values as $value) {
+					$fieldModel = $moduleModel->getFieldByName($value['field_name']);
+					$fieldModel->set('searchDisabledFields', true);
+				}
+			}
+		}
+		if (!$request->isEmpty('lockedFields')) {
+			foreach ($request->getArray('lockedFields') as $value) {
+				$fieldModel = $moduleModel->getFieldByName($value);
+				$fieldModel->set('searchLockedFields', true);
+				$fieldModel->set('searchDisabledFields', false);
+			}
+		}
+	}
 }

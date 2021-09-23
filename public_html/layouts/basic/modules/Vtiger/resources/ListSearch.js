@@ -40,6 +40,11 @@ jQuery.Class(
 		container: false,
 		reletedInstance: false,
 		viewName: false,
+		/**
+		 * Column name from last search.
+		 * @type {string|boolean}
+		 */
+		lastSearchColumn: false,
 		init: function (container, noEvents, reletedInstance) {
 			if (typeof container === 'undefined') {
 				container = jQuery('.bodyContents');
@@ -74,11 +79,12 @@ jQuery.Class(
 		registerListSearch: function () {
 			let thisInstance = this;
 			let listViewContainer = this.getContainer();
-			listViewContainer.find('[data-trigger="listSearch"]').on('click', function (e) {
-				thisInstance.reloadList();
+			listViewContainer.find('[data-trigger="listSearch"]').on('click', function () {
+				thisInstance.reloadList(thisInstance.parseConditions(thisInstance.getListSearchParams(true)[0]));
 			});
 			listViewContainer.find('input.listSearchContributor').on('keypress', function (e) {
 				if (e.keyCode == 13) {
+					thisInstance.lastSearchColumn = $(e.currentTarget).attr('name');
 					thisInstance.triggerListSearch();
 				}
 			});
@@ -88,6 +94,97 @@ jQuery.Class(
 					search_key: '',
 					search_value: '',
 					operator: ''
+				});
+			});
+			thisInstance.registerListSearchEmptyValue();
+		},
+		/**
+		 * Register list search if value empty.
+		 * @param {array} params
+		 * @returns {array}
+		 */
+		parseConditions: function (params) {
+			const self = this;
+			let listViewContainer = this.getContainer();
+			let newParams = [];
+			let temporarily = [];
+			for (let i = 0; i < params.length; i++) {
+				if ($.inArray(params[i], newParams) == -1) {
+					newParams.push(params[i]);
+				}
+			}
+			let paramsSearch = JSON.parse(listViewContainer.find('#search_params').val())[0];
+			if (paramsSearch !== undefined) {
+				for (let i = 0; i < paramsSearch.length; i++) {
+					if (paramsSearch[i][2] === '') {
+						if ($.inArray(paramsSearch[i], newParams) == -1) {
+							newParams.push(paramsSearch[i]);
+						}
+					}
+				}
+			}
+			let lockedFields = listViewContainer.find('.js-locked-fields').val();
+			if (lockedFields !== '') {
+				temporarily = JSON.parse(lockedFields);
+				if ($.inArray(self.lastSearchColumn, temporarily) == -1) {
+					temporarily.push(self.lastSearchColumn);
+				}
+			} else {
+				if (self.lastSearchColumn) {
+					temporarily.push(self.lastSearchColumn);
+				}
+			}
+			return {
+				search_params: [newParams],
+				lockedFields: temporarily
+			};
+		},
+
+		/**
+		 * Register list search if value empty.
+		 */
+		registerListSearchEmptyValue: function () {
+			let listViewContainer = this.getContainer();
+			const self = this;
+			let lockedField = [];
+			let paramsSearch = JSON.parse(listViewContainer.find('#search_params').val());
+			let params = self.getListSearchParams(true)[0];
+			let listLockedFields = listViewContainer.find('.js-locked-fields').val();
+			if (paramsSearch !== undefined && paramsSearch.length > 0) {
+				params = paramsSearch[0];
+			}
+			if (listLockedFields !== undefined && listLockedFields !== '') {
+				lockedField = JSON.parse(listLockedFields);
+			}
+			listViewContainer.find('.js-empty-value').each(function () {
+				let element = $(this);
+				element.on('click', function (e) {
+					let elem = $(e.currentTarget);
+					let parentField = elem.parents('.searchField').find('.listSearchContributor');
+					let fieldName = parentField.attr('name');
+					if (!elem.is(':checked')) {
+						for (let i = 0; i < params.length; i++) {
+							if (params[i][0] === fieldName) {
+								params.splice(i, 1);
+							}
+						}
+						for (let i = 0; i < lockedField.length; i++) {
+							if (lockedField[i] === fieldName) {
+								lockedField.splice(i, 1);
+							}
+						}
+						fieldName = '';
+					}
+					if (fieldName !== '') {
+						params.push([fieldName, 'y', '']);
+						if ($.inArray(fieldName, lockedField) == -1) {
+							lockedField.push(fieldName);
+						}
+					}
+					self.reloadList({
+						search_params: [params],
+						lockedFields: lockedField
+					});
 				});
 			});
 		},
@@ -103,7 +200,8 @@ jQuery.Class(
 				}
 			});
 			if (app.getMainParams('autoRefreshListOnChange') == '1') {
-				listViewContainer.find('.listViewEntriesTable select, .searchInSubcategories').on('change', () => {
+				listViewContainer.find('.listViewEntriesTable select, .searchInSubcategories').on('change', (e) => {
+					this.lastSearchColumn = $(e.currentTarget).attr('name');
 					this.triggerListSearch();
 				});
 				listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', () => {

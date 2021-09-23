@@ -48,11 +48,18 @@ $.Class(
 				totalCount: this.container.find('.js-total-count').val(),
 				noOfEntries: this.container.find('.js-no-entries').val(),
 				filterFields: JSON.parse(this.container.find('.js-filter-fields').val()),
+				lockedFields: this.container.find('.js-locked-fields').val(),
 				onlyBody: true,
 				cvId: this.getFilterSelectElement().val()
 			};
 			let searchValue = this.listSearchInstance.getAlphabetSearchValue();
-			params['search_params'] = JSON.stringify(this.listSearchInstance.getListSearchParams(true));
+			let searchParams = JSON.parse(this.container.find('#search_params').val())[0];
+			if (searchParams !== undefined && searchParams.length > 0) {
+				params['search_params'] = this.container.find('#search_params').val();
+			} else {
+				params['search_params'] = JSON.stringify(this.listSearchInstance.getListSearchParams(true));
+			}
+
 			if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
 				params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
 				params['search_value'] = searchValue;

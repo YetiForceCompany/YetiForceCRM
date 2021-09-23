@@ -613,4 +613,31 @@ class Vtiger_ListView_Model extends \App\Base
 		$this->loadListViewCondition();
 		return $this->getQueryGenerator()->createQuery()->count();
 	}
+
+	/**
+	 * Fields permanently blocked if found in search value.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function loadSearchLockedFields(App\Request $request): void
+	{
+		$moduleModel = $this->getModule();
+		foreach ($this->getArray('search_params') as $values) {
+			if (\is_array($values)) {
+				foreach ($values as $value) {
+					$fieldModel = $moduleModel->getFieldByName($value['field_name']);
+					$fieldModel->set('searchDisabledFields', true);
+				}
+			}
+		}
+		if (!$request->isEmpty('lockedFields')) {
+			foreach ($request->getArray('lockedFields') as $value) {
+				$fieldModel = $moduleModel->getFieldByName($value);
+				$fieldModel->set('searchLockedFields', true);
+				$fieldModel->set('searchDisabledFields', false);
+			}
+		}
+	}
 }

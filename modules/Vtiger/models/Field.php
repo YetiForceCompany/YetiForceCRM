@@ -1526,10 +1526,20 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isActiveSearchView()
 	{
-		if ($this->get('fromOutsideList')) {
+		if ($this->get('fromOutsideList') || $this->get('searchDisabledFields')) {
 			return false;
 		}
 		return $this->getUITypeModel()->isActiveSearchView();
+	}
+
+	/**
+	 * Empty value search in view.
+	 *
+	 * @return bool
+	 */
+	public function searchLockedFields(): bool
+	{
+		return empty($this->get('searchLockedFields'));
 	}
 
 	/**
