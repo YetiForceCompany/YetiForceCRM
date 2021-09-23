@@ -37,6 +37,8 @@ class CheckSuspendedAccounts extends \App\SystemWarnings\Template
 				$userSuspendedList .= "<li> $value </li>";
 			}
 			$userSuspendedList .= '<ul>';
+			$this->link = 'index.php?module=OSSMailScanner&parent=Settings&view=Index';
+			$this->linkTitle = \App\Language::translate('OSSMailScanner', 'Settings:OSSMailScanner');
 			$this->description = \App\Language::translateArgs('LBL_CHECK_SUSPENDED_ACCOUNTS_DESC', 'Settings:SystemWarnings', $userSuspendedList);
 		}
 	}
