@@ -259,7 +259,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	{
 		$rows = [];
 		$query = $this->getQuery($request);
-		$query->from('s_#__mail_rbl_list')->select(['ip', 'status', 'type'])->andWhere(['type' => [\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST, \App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST]]);
+		$query->from('s_#__mail_rbl_list')->select(['ip', 'status', 'type', 'comment'])->andWhere(['type' => [\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST, \App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST]]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$status = \App\Mail\Rbl::LIST_STATUS[$row['status']];
@@ -268,6 +268,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 				'type' => \App\Language::translate((\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST == $row['type'] ? 'LBL_BLACK_LIST' : 'LBL_WHITE_LIST'), 'Settings:MailRbl'),
 				'statusId' => $row['status'],
 				'status' => "<span class=\"{$status['icon']} mr-2\"></span>" . \App\Language::translate($status['label'], 'Settings:MailRbl'),
+				'comment' => \App\Layout::truncateText($row['comment'], 30),
 			];
 		}
 		$query->limit(null)->offset(null)->orderBy(null);

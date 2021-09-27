@@ -238,15 +238,7 @@ jQuery.Class(
 				]
 			},
 			publicRbl: {
-				columns: [
-					{ data: 'ip' },
-					{ data: 'type' },
-					{ data: 'status' },
-					{
-						orderable: false,
-						defaultContent: ''
-					}
-				]
+				columns: [{ data: 'ip' }, { data: 'type' }, { data: 'status' }, { data: 'comment' }]
 			}
 		},
 		/**

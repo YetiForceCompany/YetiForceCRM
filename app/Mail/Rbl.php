@@ -239,7 +239,7 @@ class Rbl extends \App\Base
 	{
 		$instance = new self();
 		$instance->setData($data);
-		$instance->mailMimeParser = \ZBateson\MailMimeParser\Message::from($instance->get('header'));
+		$instance->mailMimeParser = \ZBateson\MailMimeParser\Message::from($instance->get('header'), false);
 		return $instance;
 	}
 
@@ -250,7 +250,7 @@ class Rbl extends \App\Base
 	 */
 	public function parse(): void
 	{
-		$this->mailMimeParser = \ZBateson\MailMimeParser\Message::from($this->has('rawBody') ? $this->get('rawBody') : $this->get('header') . "\r\n\r\n");
+		$this->mailMimeParser = \ZBateson\MailMimeParser\Message::from($this->has('rawBody') ? $this->get('rawBody') : $this->get('header') . "\r\n\r\n", false);
 	}
 
 	/**
@@ -990,9 +990,9 @@ class Rbl extends \App\Base
 		foreach (array_chunk(array_diff($publicKeys, $keys), 50, true) as $chunk) {
 			$insertData = [];
 			foreach ($chunk as $ip) {
-				$insertData[] = [$ip, 0, $type, $public[$ip]['source']];
+				$insertData[] = [$ip, 0, $type, $public[$ip]['source'], $public[$ip]['comment']];
 			}
-			$dbCommand->batchInsert('s_#__mail_rbl_list', ['ip', 'status', 'type', 'source'], $insertData)->execute();
+			$dbCommand->batchInsert('s_#__mail_rbl_list', ['ip', 'status', 'type', 'source', 'comment'], $insertData)->execute();
 		}
 		foreach (array_diff($keys, $publicKeys) as $ip) {
 			$dbCommand->delete('s_#__mail_rbl_list', ['id' => $rows[$ip]['id']])->execute();

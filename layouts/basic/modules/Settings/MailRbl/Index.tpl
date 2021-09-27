@@ -284,7 +284,7 @@
 						<th>{\App\Language::translate('LBL_IP', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('LBL_LIST_TYPE', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('Status', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_SERVER_COMMENTS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
 				</table>
