@@ -11,7 +11,16 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public $baseTable = 'vtiger_cron_task';
 	public $baseIndex = 'id';
-	public $listFields = ['sequence' => 'Sequence', 'name' => 'Cron Job', 'frequency' => 'Frequency(H:M)', 'status' => 'Status', 'laststart' => 'Last Start', 'lastend' => 'Last End', 'duration' => 'LBL_DURATION'];
+	public $listFields = [
+		'sequence' => 'Sequence',
+		'name' => 'Cron Job',
+		'frequency' => 'Frequency(H:M)',
+		'status' => 'Status',
+		'laststart' => 'Last Start',
+		'last_update' => 'Last update',
+		'lastend' => 'Last End',
+		'duration' => 'LBL_DURATION',
+	];
 	public $nameFields = [''];
 	public $name = 'CronTasks';
 
@@ -95,7 +104,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 				Settings_CronTasks_Record_Model::$STATUS_ENABLED,
 				Settings_CronTasks_Record_Model::$STATUS_RUNNING,
 				Settings_CronTasks_Record_Model::$STATUS_COMPLETED,
-			]
+			],
 			])
 			->where(['>=', 'laststart', $lastStart])
 			->createCommand()
