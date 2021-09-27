@@ -17,7 +17,7 @@ namespace App\YetiForce\Shop\Product;
 class YetiForceKanban extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce Kanban';
+	public $label = 'YetiForce Kanban Board';
 
 	/** {@inheritdoc} */
 	public $category = 'Addons';
