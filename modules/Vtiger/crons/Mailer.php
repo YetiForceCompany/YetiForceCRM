@@ -20,7 +20,8 @@ class Vtiger_Mailer_Cron extends \App\CronHandler
 		$limit = (int) App\Config::performance('CRON_MAX_NUMBERS_SENDING_MAILS', 1000);
 		$query = (new \App\Db\Query())->from('s_#__mail_queue')->where(['status' => 1])->orderBy(['priority' => SORT_DESC, 'id' => SORT_ASC])->limit(20);
 		$db = \App\Db::getInstance('admin');
-		while ($rows = $query->all($db)) {
+		foreach ($query->batch(20, $db) as $rows) {
+			$this->updateLastActionTime();
 			foreach ($rows as $row) {
 				\App\Mailer::sendByRowQueue($row);
 				--$limit;

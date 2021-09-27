@@ -14,6 +14,7 @@
     "LBL_DURATION": "Duration",
     "Id": "Id",
     "Last End": "Last scan ended",
+    "Last update": "Last update",
     "Last Start": "Last scan started",
     "LBL_ACTIVE": "Active",
     "LBL_COMPLETED": "Completed",

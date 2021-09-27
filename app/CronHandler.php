@@ -49,4 +49,14 @@ abstract class CronHandler
 	{
 		return $this->cronTask->checkTimeout();
 	}
+
+	/**
+	 * Update cron task last action time.
+	 *
+	 * @return void
+	 */
+	public function updateLastActionTime(): void
+	{
+		$this->cronTask->updateLastActionTime();
+	}
 }

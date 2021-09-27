@@ -5540,17 +5540,18 @@ CREATE TABLE `vtiger_crmentityrel` (
 /*Table structure for table `vtiger_cron_task` */
 
 CREATE TABLE `vtiger_cron_task` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `status` tinyint(1) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `handler_class` varchar(100) DEFAULT NULL,
   `frequency` int(10) unsigned DEFAULT NULL,
-  `max_exe_time` smallint(5) DEFAULT NULL,
   `laststart` int(10) unsigned DEFAULT NULL,
+  `last_update` int(10) DEFAULT NULL,
   `lastend` int(10) unsigned DEFAULT NULL,
   `sequence` int(10) DEFAULT NULL,
+  `max_exe_time` smallint(5) DEFAULT NULL,
   `module` varchar(25) DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
   `lase_error` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),

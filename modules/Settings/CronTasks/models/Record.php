@@ -195,6 +195,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				$fieldValue = \App\Language::translate($fieldLabel, $moduleModel->getName(true));
 				break;
 			case 'laststart':
+			case 'last_update':
 			case 'lastend':
 				$fieldValue = (int) $fieldValue;
 				if ($fieldValue) {

@@ -23,6 +23,7 @@ class Vtiger_BatchProcesses_Cron extends \App\CronHandler
 		$iterator = new \DirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cron' . DIRECTORY_SEPARATOR . 'Batch');
 		foreach ($iterator as $item) {
 			if ($item->isFile() && 'php' === $item->getExtension()) {
+				$this->updateLastActionTime();
 				$class = 'Cron\Batch\\' . $item->getBasename('.php');
 				$handler = new $class($this);
 				if ($handler->preProcess()) {

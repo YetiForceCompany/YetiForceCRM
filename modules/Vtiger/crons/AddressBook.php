@@ -51,6 +51,7 @@ class Vtiger_AddressBook_Cron extends \App\CronHandler
 			if (empty($fields)) {
 				continue;
 			}
+			$this->updateLastActionTime();
 			$emailFields = array_keys($fields);
 			$metainfo = \App\Module::getEntityInfo($moduleName);
 			$queryFields = array_merge(['id'], $metainfo['fieldnameArr'], $emailFields);

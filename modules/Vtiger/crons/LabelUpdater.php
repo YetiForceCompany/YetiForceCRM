@@ -51,13 +51,16 @@ class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 				['vtiger_crmentity.deleted' => 0],
 				['vtiger_tab.presence' => 0],
 				['not', ['vtiger_entityname.fieldname' => '']],
-				['u_#__crmentity_label.label' => null]
+				['u_#__crmentity_label.label' => null],
 			])->limit($this->limit);
-		foreach ($query->each(100) as $row) {
-			\App\Record::updateLabel($row['setype'], $row['crmid']);
-			--$this->limit;
-			if ($this->checkTimeout()) {
-				break;
+		foreach ($query->batch(100) as $rows) {
+			$this->updateLastActionTime();
+			foreach ($rows as $row) {
+				\App\Record::updateLabel($row['setype'], $row['crmid']);
+				--$this->limit;
+				if ($this->checkTimeout()) {
+					break;
+				}
 			}
 		}
 	}
@@ -79,13 +82,16 @@ class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 				['vtiger_tab.presence' => 0],
 				['vtiger_entityname.turn_off' => 1],
 				['not', ['vtiger_entityname.searchcolumn' => '']],
-				['u_#__crmentity_search_label.searchlabel' => null]
+				['u_#__crmentity_search_label.searchlabel' => null],
 			])
 			->limit($this->limit);
-		foreach ($query->each(100) as $row) {
-			\App\Record::updateLabel($row['setype'], $row['crmid']);
-			if ($this->checkTimeout()) {
-				break;
+		foreach ($query->batch(100) as $rows) {
+			$this->updateLastActionTime();
+			foreach ($rows as $row) {
+				\App\Record::updateLabel($row['setype'], $row['crmid']);
+				if ($this->checkTimeout()) {
+					break;
+				}
 			}
 		}
 	}
@@ -103,7 +109,7 @@ class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 				['vtiger_tab.presence' => 1],
 				['vtiger_tab.name' => null],
 				['vtiger_entityname.searchcolumn' => ''],
-				['vtiger_entityname.turn_off' => 0]
+				['vtiger_entityname.turn_off' => 0],
 			]);
 		App\Db::getInstance()->createCommand()->delete('u_#__crmentity_search_label', ['crmid' => $query])->execute();
 	}

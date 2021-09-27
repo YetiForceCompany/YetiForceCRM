@@ -10,10 +10,10 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="tpl-Settings-CronTasks-ListViewContents listViewEntriesDiv u-overflow-scroll-non-desktop mt-2">
+<!-- tpl-Settings-CronTasks-ListViewContents -->
+<div class="listViewEntriesDiv u-overflow-scroll-non-desktop mt-2">
 	<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
-		<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image"
-				title="{\App\Language::translate('LBL_LOADING')}"/>
+		<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
 		<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 	</span>
 	{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
@@ -100,4 +100,5 @@
 	{/if}
 </div>
 </div>
+<!-- /tpl-Settings-CronTasks-ListViewContents -->
 {/strip}
