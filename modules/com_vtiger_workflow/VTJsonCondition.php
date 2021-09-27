@@ -183,6 +183,14 @@ class VTJsonCondition
 			}
 		}
 		switch ($dataType) {
+				case 'accountName':
+					$fieldValue = $recordModel->get($fieldInstance->getName());
+					$recordData = explode('|##|', $fieldValue);
+					if (\count($recordData) > 1) {
+						$fieldValue = trim("$recordData[0] $recordData[1]");
+					}
+					return $value === $fieldValue;
+					break;
 				case 'datetime':
 					$fieldValue = $recordModel->get($fieldInstance->getName());
 					break;
