@@ -191,7 +191,7 @@ class Response
 			405 => 'Method Not Allowed',
 			500 => 'Internal Server Error',
 		];
-		return ($statusCodes[$this->status]) ? $statusCodes[$this->status] : $statusCodes[500];
+		return $statusCodes[$this->status] ?? $statusCodes[500];
 	}
 
 	public function send()
