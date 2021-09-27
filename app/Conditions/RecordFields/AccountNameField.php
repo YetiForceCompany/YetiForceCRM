@@ -16,4 +16,16 @@ namespace App\Conditions\RecordFields;
  */
 class AccountNameField extends BaseField
 {
+	/** {@inheritdoc} */
+	public function getValue()
+	{
+		$recordValue = explode('|##|', parent::getValue());
+		// var_dump($recordValue);
+		if (\count($recordValue) > 1) {
+			$recordValue = trim("$recordValue[0] $recordValue[1]");
+		} else {
+			$recordValue = parent::getValue();
+		}
+		return $recordValue;
+	}
 }

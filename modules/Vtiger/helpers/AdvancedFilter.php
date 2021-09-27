@@ -83,6 +83,7 @@ class Vtiger_AdvancedFilter_Helper
 	public static function getAdvancedFilterOpsByFieldType()
 	{
 		return [
+			'accountName' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
 			'string' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'not has changed', 'is empty', 'is not empty'],
 			'text' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'not has changed', 'is empty', 'is not empty'],
 			'url' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'not has changed', 'is empty', 'is not empty'],
