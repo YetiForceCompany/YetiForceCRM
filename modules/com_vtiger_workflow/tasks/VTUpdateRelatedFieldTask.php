@@ -72,6 +72,8 @@ class VTUpdateRelatedFieldTask extends VTTask
 						} else {
 							\App\Log::warning('No permissions to edit field: ' . $fieldModel->getName());
 						}
+					} else {
+						\App\Log::warning('Record not found: ' . $recordId);
 					}
 				}
 			}
