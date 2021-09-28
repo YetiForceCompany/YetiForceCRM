@@ -9,8 +9,8 @@
 					data-js="container">
 					{assign var=ARROW_CLASS value="before"}
 					{assign var=ICON_CLASS value="fas fa-check"}
-					{foreach from=$FIELD_MODEL->getUITypeModel()->getProgressHeader($RECORD) key=$PROGRESS_HEADER_KEY item=$PROGRESS_HEADER_VALUE name=progressHeaderValue}
-						<li class="c-progress__item list-inline-item mx-0 {if $smarty.foreach.progressHeaderValue.first}first{/if} {if $PROGRESS_HEADER_VALUE['isActive']}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $PROGRESS_HEADER_VALUE['isEditable'] && $PROGRESS_HEADER_KEY !== $RECORD->get($NAME)} u-cursor-pointer js-access{/if}" data-picklist-value="{$PROGRESS_HEADER_KEY}" data-picklist-label="{\App\Purifier::encodeHtml($PROGRESS_HEADER_KEY)}" data-js="confirm|click|data">
+					{foreach from=$FIELD_MODEL->getUITypeModel()->getProgressHeader($RECORD) key=PROGRESS_HEADER_KEY item=PROGRESS_HEADER_VALUE name=progressHeaderValue}
+						<li class="c-progress__item list-inline-item mx-0 {if $smarty.foreach.progressHeaderValue.first}first{/if} {if $PROGRESS_HEADER_VALUE['isActive']}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $PROGRESS_HEADER_VALUE['isEditable'] && $PROGRESS_HEADER_KEY !== $RECORD->get($NAME)} u-cursor-pointer js-access{/if}" data-picklist-value="{$PROGRESS_HEADER_KEY}" data-picklist-label="{\App\Purifier::encodeHtml($PROGRESS_HEADER_VALUE['label'])}" data-js="confirm|click|data">
 							<div class="c-progress__icon__container">
 								<span class="
 							{if $PROGRESS_HEADER_VALUE['isLocked']}
