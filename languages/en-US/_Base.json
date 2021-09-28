@@ -1499,7 +1499,8 @@
     "LBL_PWD_AUTO_GENERATE": "Generate a password",
     "LBL_PWD_GET": "Load password",
     "LBL_PWD_CLIPBOARD_DBCLICK": "Double click to get the password",
-    "LBL_PWD_USER_PASSWORD_OK": "Password complies with the system requirements."
+    "LBL_PWD_USER_PASSWORD_OK": "Password complies with the system requirements.",
+    "LBL_QUICK_EXPORT_INFO": "The fields from the current list view will be exported if no fields are selected"
   },
   "js": {
     "JS_APPROVE": "Approve",
