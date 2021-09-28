@@ -74,21 +74,35 @@
 												{if $FIELD_MODEL->getUIType() neq 104 && $FIELD_MODEL->isEditable()}
 													<div class="form-row mb-2 js-form-row-container" data-js="container">
 														<div class="col-sm-6 col-lg-4">
-															<div class="btn-group-toggle mt-1 w-100" data-toggle="buttons">
-																<label class="btn btn-sm btn-outline-secondary w-100 text-right" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
-																	<input aria-pressed="false"
-																		   autocomplete="off" type="checkbox"
-																		   id="selectRow{$FIELD_MODEL->getName()}"
-																		   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
-																		   data-field-name="{$FIELD_MODEL->getName()}"
-																		   class="selectRow" {if $FIELD_MODEL->isEditableReadOnly()} disabled{/if}>&nbsp;
-																	{if $FIELD_MODEL->isMandatory() eq true}
-																		<span class="redColor">*</span>
-																	{/if}
-																	{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
-																	:
-																</label>
-															</div>
+															<div class="d-flex flex-row">
+																{if method_exists($FIELD_MODEL->getUITypeModel(), 'setValueFromMassEdit')}
+																	{assign var=MASS_EDIT_SPECIAL_FIELD_NAME value="overwritten_{{$FIELD_MODEL->getName()}}"}
+																	<div class="js-popover-tooltip m-2" data-js="popover"
+																		data-trigger="hover focus"
+																		data-content="{\App\Language::translate("LBL_MASS_EDIT_INCLUDE_INFO")}">
+																		<span class="fas fa-info-circle"></span>
+																	</div>
+																	<input type="checkbox" value="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}"
+																		name="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}" class="mr-1 mt-2"
+																		id="{{$MASS_EDIT_SPECIAL_FIELD_NAME}}"
+																		title="{\App\Language::translate('LBL_MASS_EDIT_INCLUDE')}">
+																{/if}
+																<div class="btn-group-toggle mt-1 w-100" data-toggle="buttons">
+																	<label class="btn btn-sm btn-outline-secondary w-100 text-right" id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-label">
+																		<input aria-pressed="false"
+																			   autocomplete="off" type="checkbox"
+																			   id="selectRow{$FIELD_MODEL->getName()}"
+																			   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
+																			   data-field-name="{$FIELD_MODEL->getName()}"
+																			   class="selectRow" {if $FIELD_MODEL->isEditableReadOnly()} disabled{/if}>&nbsp;
+																		{if $FIELD_MODEL->isMandatory() eq true}
+																			<span class="redColor">*</span>
+																		{/if}
+																		{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
+																		:
+																	</label>
+																</div>
+															</div>	
 														</div>
 														<div class="col-sm-6 col-lg-8">
 															<div class="fieldValue"
