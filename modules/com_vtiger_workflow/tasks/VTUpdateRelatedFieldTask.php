@@ -61,7 +61,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 					}
 				} else {
 					$recordId = $recordModel->get($relatedData[0]);
-					if ($recordId) {
+					if ($recordId && \App\Record::isExists($recordId)) {
 						$relRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedData[1]);
 						$fieldModel = $relRecordModel->getField($relatedData[2]);
 						if ($fieldModel->isEditable()) {
@@ -72,6 +72,8 @@ class VTUpdateRelatedFieldTask extends VTTask
 						} else {
 							\App\Log::warning('No permissions to edit field: ' . $fieldModel->getName());
 						}
+					} else {
+						\App\Log::warning('Record not found: ' . $recordId);
 					}
 				}
 			}
