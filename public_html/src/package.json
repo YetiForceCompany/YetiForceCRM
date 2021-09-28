@@ -17,7 +17,7 @@
     "url": "git+https://github.com/YetiForceCompany/YetiForceCRM.git"
   },
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
-  "license": "YetiForce Public License v3",
+  "license": "YetiForce Public License v4",
   "scripts": {
     "vue-prod": "cross-env NODE_ENV=production node buildVue.js",
     "vue-watch": "cross-env NODE_ENV=development node buildVue.js",
