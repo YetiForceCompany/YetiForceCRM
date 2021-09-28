@@ -27,7 +27,7 @@
 					{/if}
 				</div>
 				<div class="col-4 u-text-ellipsis">
-					{$ACCOUNTS_MODEL['userModel']->getName()}
+					{$ACCOUNTS_MODEL['owner']}
 				</div>
 				<div class="col-4 u-text-ellipsis">
 					{if is_null($ACCOUNTS_MODEL['crmactivity'])}
