@@ -193,7 +193,6 @@ class Purifier
 		if (static::$purifyHtmlInstanceCache) {
 			$value = static::$purifyHtmlInstanceCache->purify($input);
 			$value = static::removeUnnecessaryCode($value);
-			static::purifyHtmlEventAttributes(static::decodeHtml($input));
 			if ($loop) {
 				$last = '';
 				while ($last !== $value) {
@@ -201,6 +200,7 @@ class Purifier
 					$value = static::purifyHtml($value, false);
 				}
 			}
+			static::purifyHtmlEventAttributes(static::decodeHtml($value));
 			$value = preg_replace("/(^[\r\n]*|[\r\n]+)[\\s\t]*[\r\n]+/", "\n", $value);
 			Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
 		}
