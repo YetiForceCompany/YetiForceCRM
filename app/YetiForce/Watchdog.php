@@ -59,7 +59,7 @@ class Watchdog
 	public static function send()
 	{
 		$config = \App\Config::component('YetiForce');
-		if (empty($config['watchdogUrl'])) {
+		if (empty($config['watchdogUrl']) || !\App\RequestUtil::isNetConnection()) {
 			return;
 		}
 		$url = $config['watchdogUrl'];

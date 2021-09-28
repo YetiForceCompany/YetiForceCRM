@@ -105,7 +105,7 @@ class Register
 	 */
 	public function register(): bool
 	{
-		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
+		if (!\App\RequestUtil::isNetConnection() || 'api.yetiforce.com' === gethostbyname('api.yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			$this->error = 'ERR_NO_INTERNET_CONNECTION';
 			return false;
@@ -147,7 +147,7 @@ class Register
 	 */
 	public static function check($force = false)
 	{
-		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
+		if (!\App\RequestUtil::isNetConnection() || 'api.yetiforce.com' === gethostbyname('api.yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			static::updateMetaData(['last_error' => 'ERR_NO_INTERNET_CONNECTION', 'last_error_date' => date('Y-m-d H:i:s')]);
 			return 0;
@@ -241,14 +241,14 @@ class Register
 	{
 		$conf = static::getConf();
 		static::$config = [
-			'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
 			'last_check_time' => $data['last_check_time'] ?? '',
+			'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
 			'status' => $data['status'] ?? $conf['status'] ?? 0,
 			'text' => $data['text'] ?? $conf['text'] ?? '',
 			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
+			'products' => $data['products'] ?? $conf['products'] ?? [],
 			'last_error' => $data['last_error'] ?? '',
 			'last_error_date' => $data['last_error_date'] ?? '',
-			'products' => $data['products'] ?? [],
 		];
 		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file or functions that affect the footer appearance will violate the license terms!!!', 0, true);
 		\App\YetiForce\Shop::generateCache();
