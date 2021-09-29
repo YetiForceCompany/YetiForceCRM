@@ -254,6 +254,21 @@ class Rbl extends \App\Base
 	}
 
 	/**
+	 * Get email from header by name.
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	protected function getHeaderEmail(string $name): string
+	{
+		if ($header = $this->mailMimeParser->getHeader($name)) {
+			return $header->getEmail();
+		}
+		return '';
+	}
+
+	/**
 	 * Get received header.
 	 *
 	 * @return array
@@ -459,14 +474,13 @@ class Rbl extends \App\Base
 	 */
 	public function verifySender(): array
 	{
-		$from = $this->mailMimeParser->getHeader('from');
+		$from = $this->getHeaderEmail('from');
 		if (!$from) {
 			return ['status' => true, 'info' => ''];
 		}
-		$from = $from->getEmail();
 		$status = true;
 		$info = '';
-		if (($returnPathHeader = $this->mailMimeParser->getHeader('Return-Path')) && ($returnPath = $returnPathHeader->getEmail())) {
+		if ($returnPath = $this->getHeaderEmail('Return-Path')) {
 			if (0 === stripos($returnPath, 'SRS')) {
 				$separator = substr($returnPath, 4, 1);
 				$parts = explode($separator, $returnPath);
@@ -483,7 +497,7 @@ class Rbl extends \App\Base
 				$info .= "From: $from <> Return-Path: $returnPath" . PHP_EOL;
 			}
 		}
-		if ($status && ($senderHeader = $this->mailMimeParser->getHeader('Sender')) && ($sender = $senderHeader->getEmail())) {
+		if ($status && ($sender = $this->getHeaderEmail('Sender'))) {
 			$status = $from === $sender;
 			if (!$status) {
 				$info .= "From: $from <> Sender: $sender" . PHP_EOL;
@@ -504,25 +518,36 @@ class Rbl extends \App\Base
 		if (isset($this->spfCache)) {
 			return $this->spfCache;
 		}
+		$returnPath = $this->getHeaderEmail('Return-Path');
 		$sender = $this->getSender();
 		$return = ['status' => self::SPF_NONE];
+		if ($email = $this->getHeaderEmail('from')) {
+			$return['domain'] = explode('@', $email)[1];
+		}
 		if (isset($sender['ip'])) {
-			try {
-				$environment = new \SPFLib\Check\Environment($sender['ip'], '', $this->mailMimeParser->getHeader('Return-Path')->getEmail());
-				switch ((new \SPFLib\Checker())->check($environment, \SPFLib\Checker::FLAG_CHECK_MAILFROADDRESS)->getCode()) {
-					case \SPFLib\Check\Result::CODE_PASS:
-						$return['status'] = self::SPF_PASS;
-						break;
-					case \SPFLib\Check\Result::CODE_FAIL:
-					case \SPFLib\Check\Result::CODE_SOFTFAIL:
-						$return['status'] = self::SPF_FAIL;
-						break;
+			$cacheKey = "{$sender['ip']}-{$returnPath}";
+			if (\App\Cache::has('RBL:verifySpf', $cacheKey)) {
+				$status = \App\Cache::get('RBL:verifySpf', $cacheKey);
+			} else {
+				$status = null;
+				try {
+					$environment = new \SPFLib\Check\Environment($sender['ip'], '', $returnPath);
+					switch ((new \SPFLib\Checker())->check($environment, \SPFLib\Checker::FLAG_CHECK_MAILFROADDRESS)->getCode()) {
+						case \SPFLib\Check\Result::CODE_PASS:
+							$status = self::SPF_PASS;
+							break;
+						case \SPFLib\Check\Result::CODE_FAIL:
+						case \SPFLib\Check\Result::CODE_SOFTFAIL:
+							$status = self::SPF_FAIL;
+							break;
+					}
+				} catch (\Throwable $e) {
+					\App\Log::warning($e->getMessage(), __NAMESPACE__);
 				}
-				if ($email = $this->mailMimeParser->getHeader('from')->getEmail()) {
-					$return['domain'] = explode('@', $email)[1];
-				}
-			} catch (\Throwable $e) {
-				\App\Log::warning($e->getMessage(), __NAMESPACE__);
+				\App\Cache::save('RBL:verifySpf', $cacheKey, $status, \App\Cache::LONG);
+			}
+			if (isset($status)) {
+				$return['status'] = $status;
 			}
 		}
 		return $this->spfCache = $return + self::SPF[$return['status']];
@@ -566,7 +591,7 @@ class Rbl extends \App\Base
 	 */
 	public function verifyDmarc(): array
 	{
-		$fromDomain = explode('@', $this->mailMimeParser->getHeader('from')->getEmail())[1];
+		$fromDomain = explode('@', $this->getHeaderEmail('from'))[1] ?? '';
 		$status = self::DMARC_NONE;
 		if (empty($fromDomain) || !($dmarcRecord = $this->getDmarcRecord($fromDomain))) {
 			return ['status' => $status, 'logs' => \App\Language::translateArgs('LBL_NO_DMARC_DNS', 'Settings:MailRbl', $fromDomain)] + self::DMARC[$status];
@@ -602,6 +627,9 @@ class Rbl extends \App\Base
 	 */
 	public function getDmarcRecord(string $domain): array
 	{
+		if (\App\Cache::has('RBL:getDmarcRecord', $domain)) {
+			return \App\Cache::get('RBL:getDmarcRecord', $domain);
+		}
 		$dns = dns_get_record('_dmarc.' . $domain, DNS_TXT);
 		if (!$dns) {
 			return [];
@@ -619,6 +647,7 @@ class Rbl extends \App\Base
 		if (empty($dkimParams['aspf'])) {
 			$dkimParams['aspf'] = 'r';
 		}
+		\App\Cache::save('RBL:getDmarcRecord', $domain, $dkimParams, \App\Cache::LONG);
 		return $dkimParams;
 	}
 
@@ -652,8 +681,8 @@ class Rbl extends \App\Base
 	private function verifyDmarcSpf(string $fromDomain, string $aspf): array
 	{
 		$mailFrom = '';
-		if ($returnPathHeader = $this->mailMimeParser->getHeader('Return-Path')) {
-			$mailFrom = explode('@', $returnPathHeader->getEmail())[1];
+		if ($returnPath = $this->getHeaderEmail('Return-Path')) {
+			$mailFrom = explode('@', $returnPath)[1];
 		}
 		if (!$mailFrom && !($mailFrom = $this->getSender()['from'] ?? '')) {
 			return ['status' => null];
