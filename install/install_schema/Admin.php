@@ -400,29 +400,6 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'a_#__testdata_ids' => [
-				'columns' => [
-					'id' => $this->integer(19)->notNull(),
-				],
-				'primaryKeys' => [
-					['testdata_ids_pk', 'id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'a_#__testdata_tasks' => [
-				'columns' => [
-					'module' => $this->stringType(30)->notNull(),
-					'limit' => $this->integer()->notNull()->defaultValue(0),
-					'language' => $this->stringType(5)->notNull(),
-					'done' => $this->integer()->notNull()->defaultValue(0),
-				],
-				'primaryKeys' => [
-					['testdata_tasks_pk', 'module']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'b_#__interests_conflict_conf' => [
 				'columns' => [
 					'id' => $this->primaryKey(10)->unsigned(),
@@ -690,17 +667,17 @@ class Admin extends \App\Db\Importers\Base
 					'status' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'type' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'source' => $this->stringType(20)->notNull(),
-					'request' => $this->integer(10)->unsigned()->notNull()->defaultValue(0),
 					'comment' => $this->stringType(500),
+					'request' => $this->integer(10)->unsigned()->notNull()->defaultValue(0),
 				],
 				'columns_mysql' => [
 					'status' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'type' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['ip', 'ip'],
-					['status', 'status'],
 					['type', 'type'],
+					['status', 'status'],
+					['ip', 'ip'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -720,9 +697,9 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['datetime', 'datetime'],
-					['status', 'status'],
 					['type', 'type'],
+					['status', 'status'],
+					['datetime', 'datetime'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

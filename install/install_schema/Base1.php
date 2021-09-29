@@ -1747,10 +1747,6 @@ class Base1 extends \App\Db\Importers\Base
 					'projectid' => $this->integer(10),
 					'payment_status' => $this->stringType(),
 					'payment_sum' => $this->decimal('28,8'),
-					'share_externally' => $this->smallInteger(1),
-				],
-				'columns_mysql' => [
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['accountid', 'accountid'],
@@ -3850,12 +3846,6 @@ class Base1 extends \App\Db\Importers\Base
 					'sum_discount' => $this->decimal('28,8'),
 					'valid_until' => $this->date(),
 					'parent_id' => $this->integer(10)->unsigned()->defaultValue(0),
-					'share_externally' => $this->smallInteger(1),
-					'qr1' => $this->stringType(),
-					'qr2' => $this->stringType(),
-				],
-				'columns_mysql' => [
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['salesprocessid', 'salesprocessid'],
@@ -4251,10 +4241,6 @@ class Base1 extends \App\Db\Importers\Base
 					'payment_status' => $this->stringType(),
 					'contactid' => $this->integer(10)->unsigned()->defaultValue(0),
 					'parent_id' => $this->integer(10)->unsigned()->defaultValue(0),
-					'share_externally' => $this->smallInteger(1),
-				],
-				'columns_mysql' => [
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['salesprocessid', 'salesprocessid'],

@@ -438,10 +438,6 @@ class Base4 extends \App\Db\Importers\Base
 					'progress' => $this->decimal('5,2'),
 					'contract_no' => $this->stringType(100),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
-					'share_externally' => $this->smallInteger(1),
-				],
-				'columns_mysql' => [
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['sc_related_to', 'sc_related_to'],
@@ -1274,10 +1270,6 @@ class Base4 extends \App\Db\Importers\Base
 					'solution_expected' => $this->dateTime(),
 					'idle_expected' => $this->dateTime(),
 					'sum_time_subordinate' => $this->decimal('10,2'),
-					'share_externally' => $this->smallInteger(1),
-				],
-				'columns_mysql' => [
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['troubletickets_ticketid_idx', 'ticketid'],

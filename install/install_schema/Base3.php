@@ -2368,10 +2368,6 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(10),
 					'parentid' => $this->integer(10),
 					'estimated_work_time' => $this->decimal('15,2'),
-					'share_externally' => $this->smallInteger(1),
-				],
-				'columns_mysql' => [
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['servicecontractsid', 'servicecontractsid'],
@@ -2411,10 +2407,6 @@ class Base3 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 					'parentid' => $this->integer(10),
 					'estimated_work_time' => $this->decimal('15,2'),
-					'share_externally' => $this->smallInteger(1),
-				],
-				'columns_mysql' => [
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['projectid', 'projectid'],
@@ -2515,8 +2507,6 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(10)->defaultValue(0),
 					'color' => $this->stringType(25)->defaultValue('#E6FAD8'),
 					'automation' => $this->smallInteger(1)->defaultValue(0),
-					'description' => $this->text(),
-					'icon' => $this->text(),
 				],
 				'columns_mysql' => [
 					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
@@ -2546,10 +2536,6 @@ class Base3 extends \App\Db\Importers\Base
 					'projectmilestoneid' => $this->integer(10),
 					'targetenddate' => $this->date(),
 					'estimated_work_time' => $this->decimal('8,2'),
-					'share_externally' => $this->smallInteger(1),
-				],
-				'columns_mysql' => [
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['parentid', 'parentid'],

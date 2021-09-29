@@ -59,11 +59,9 @@ class Base2 extends \App\Db\Importers\Base
 					'sum_open_orders' => $this->decimal('28,8'),
 					'taxes' => $this->text(),
 					'accounts_available_taxes' => $this->text(),
-					'share_externally' => $this->smallInteger(1),
 				],
 				'columns_mysql' => [
 					'check_stock_levels' => $this->tinyInteger(1),
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['account_account_type_idx', 'account_type'],
@@ -464,10 +462,6 @@ class Base2 extends \App\Db\Importers\Base
 					'assets_renew' => $this->stringType(),
 					'renewalinvoice' => $this->integer(10),
 					'contactid' => $this->integer(19),
-					'share_externally' => $this->smallInteger(1),
-				],
-				'columns_mysql' => [
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['parent_id', 'parent_id'],
@@ -933,13 +927,10 @@ class Base2 extends \App\Db\Importers\Base
 					'mobile_extra' => $this->stringType(100),
 					'approvals' => $this->text(),
 					'gender' => $this->stringType()->defaultValue(''),
-					'token' => $this->stringType(64),
-					'share_externally' => $this->smallInteger(1),
 				],
 				'columns_mysql' => [
 					'dav_status' => $this->tinyInteger(1)->defaultValue(1),
 					'decision_maker' => $this->tinyInteger(1)->defaultValue(0),
-					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['contactdetails_accountid_idx', 'parentid'],
@@ -1114,7 +1105,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_cron_task' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'status' => $this->smallInteger(1),
 					'name' => $this->stringType(100),
 					'handler_class' => $this->stringType(100),
@@ -1125,7 +1116,7 @@ class Base2 extends \App\Db\Importers\Base
 					'sequence' => $this->integer(10),
 					'max_exe_time' => $this->smallInteger(5),
 					'module' => $this->stringType(25),
-					'description' => $this->text(),
+					'description' => $this->stringType(),
 					'lase_error' => $this->text(),
 				],
 				'columns_mysql' => [
