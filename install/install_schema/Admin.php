@@ -108,8 +108,16 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__encryption' => [
 				'columns' => [
+					'target' => $this->smallInteger(5)->notNull(),
 					'method' => $this->stringType(40)->notNull(),
-					'pass' => $this->stringType(16)->notNull(),
+					'pass' => $this->stringType(32)->notNull(),
+					'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['a_yf_encryption_target_uidx', 'target'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -170,9 +178,9 @@ class Admin extends \App\Db\Importers\Base
 				'columns' => [
 					'pdfid' => $this->primaryKey(10)->unsigned(),
 					'module_name' => $this->stringType(25)->notNull(),
-					'header_content' => $this->text(),
-					'body_content' => $this->text(),
-					'footer_content' => $this->text(),
+					'header_content' => $this->mediumText(),
+					'body_content' => $this->mediumText(),
+					'footer_content' => $this->mediumText(),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'primary_name' => $this->stringType()->notNull(),
 					'secondary_name' => $this->stringType()->notNull(),
@@ -221,7 +229,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__record_converter' => [
 				'columns' => [
-					'id' => $this->smallInteger(10)->notNull(),
+					'id' => $this->smallInteger(10)->unsigned()->notNull(),
 					'name' => $this->stringType(),
 					'status' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'source_module' => $this->smallInteger(5)->notNull(),
@@ -233,6 +241,7 @@ class Admin extends \App\Db\Importers\Base
 					'check_duplicate' => $this->smallInteger(1),
 					'show_in_list' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'show_in_detail' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'conditions' => $this->text(),
 				],
 				'columns_mysql' => [
 					'status' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
@@ -253,9 +262,44 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'a_#__record_converter_mapping' => [
+				'columns' => [
+					'id' => $this->smallInteger(10)->unsigned()->notNull(),
+					'dest_module' => $this->smallInteger(5)->notNull(),
+					'source_field' => $this->integer(10)->notNull(),
+					'dest_field' => $this->integer(10)->notNull(),
+					'state' => $this->smallInteger(1)->unsigned()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'state' => $this->tinyInteger(1)->unsigned()->defaultValue(1),
+				],
+				'index' => [
+					['a_yf_record_converter_mapping_id', 'id'],
+					['a_yf_record_converter_mapping_source_field', 'source_field'],
+					['a_yf_record_converter_mapping_dest_field', 'dest_field'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'a_#__record_list_filter' => [
+				'columns' => [
+					'id' => $this->primaryKey(5)->unsigned(),
+					'relationid' => $this->smallInteger(5)->unsigned()->notNull(),
+					'rel_relationid' => $this->smallInteger(5)->unsigned()->notNull(),
+					'dest_relationid' => $this->smallInteger(5)->unsigned()->notNull(),
+					'label' => $this->stringType(50),
+				],
+				'index' => [
+					['a_yf_record_list_filter_relationid_idx', 'relationid'],
+					['a_yf_record_list_filter_rel_relationid_idx', 'rel_relationid'],
+					['a_yf_record_list_filter_dest_relationid_idx', 'dest_relationid'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'a_#__relatedlists_inv_fields' => [
 				'columns' => [
-					'relation_id' => $this->integer(10),
+					'relation_id' => $this->smallInteger(5)->unsigned()->notNull(),
 					'fieldname' => $this->stringType(30),
 					'sequence' => $this->smallInteger(1),
 				],
@@ -268,12 +312,60 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'a_#__relatedlists_widgets' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'relation_id' => $this->smallInteger(5)->unsigned()->notNull(),
+					'type' => $this->stringType(30),
+					'label' => $this->stringType(100),
+					'wcol' => $this->smallInteger(1)->defaultValue(1),
+					'sequence' => $this->smallInteger(2),
+					'data' => $this->text(),
+				],
+				'columns_mysql' => [
+					'wcol' => $this->tinyInteger(1)->defaultValue(1),
+					'sequence' => $this->tinyInteger(2),
+				],
+				'index' => [
+					['relation_id', 'relation_id'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'a_#__settings_access' => [
+				'columns' => [
+					'module_id' => $this->smallInteger(5)->unsigned()->notNull(),
+					'user' => $this->integer(10)->notNull(),
+				],
+				'index' => [
+					['a_yf_settings_access_module_id_user_idx', ['module_id', 'user']],
+					['a_yf_settings_access_user_fk', 'user'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'a_#__settings_modules' => [
+				'columns' => [
+					'id' => $this->primaryKey(5)->unsigned(),
+					'name' => $this->stringType()->notNull(),
+					'status' => $this->smallInteger(1)->notNull(),
+					'created_time' => $this->dateTime()->notNull(),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->notNull(),
+				],
+				'index' => [
+					['a_yf_settings_modules_name_status_idx', ['name', 'status']],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'a_#__smsnotifier_servers' => [
 				'columns' => [
 					'id' => $this->primaryKey(10),
 					'providertype' => $this->stringType(50)->notNull(),
 					'isactive' => $this->smallInteger(1)->defaultValue(0),
-					'api_key' => $this->stringType()->notNull(),
+					'api_key' => $this->stringType(500)->notNull(),
 					'parameters' => $this->text(),
 				],
 				'columns_mysql' => [
@@ -304,6 +396,51 @@ class Admin extends \App\Db\Importers\Base
 				'columns_mysql' => [
 					'status' => $this->tinyInteger(1)->notNull()->defaultValue(1),
 					'default' => $this->tinyInteger(1)->notNull()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'a_#__testdata_ids' => [
+				'columns' => [
+					'id' => $this->integer(19)->notNull(),
+				],
+				'primaryKeys' => [
+					['testdata_ids_pk', 'id']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'a_#__testdata_tasks' => [
+				'columns' => [
+					'module' => $this->stringType(30)->notNull(),
+					'limit' => $this->integer()->notNull()->defaultValue(0),
+					'language' => $this->stringType(5)->notNull(),
+					'done' => $this->integer()->notNull()->defaultValue(0),
+				],
+				'primaryKeys' => [
+					['testdata_tasks_pk', 'module']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'b_#__interests_conflict_conf' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'date_time' => $this->dateTime()->notNull(),
+					'status' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'user_id' => $this->smallInteger(5)->unsigned()->notNull(),
+					'related_id' => $this->integer(10)->unsigned()->notNull(),
+					'related_label' => $this->stringType()->notNull(),
+					'source_id' => $this->integer(10)->notNull()->defaultValue(0),
+					'modify_user_id' => $this->smallInteger(5)->unsigned()->notNull()->defaultValue(0),
+					'modify_date_time' => $this->dateTime(),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+				],
+				'index' => [
+					['user_id', 'user_id'],
+					['related_id', 'related_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -344,7 +481,7 @@ class Admin extends \App\Db\Importers\Base
 					['source', 'source'],
 					['name', 'name'],
 				],
-				'engine' => 'MyISAM',
+				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			's_#__address_finder_config' => [
@@ -406,7 +543,7 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'method' => $this->stringType()->notNull(),
 					'params' => $this->text()->notNull(),
-					'created_time' => $this->date()->notNull(),
+					'created_time' => $this->dateTime()->notNull(),
 					'status' => $this->smallInteger(1)->unsigned()->notNull(),
 					'userid' => $this->integer(),
 				],
@@ -452,7 +589,7 @@ class Admin extends \App\Db\Importers\Base
 					'address' => $this->stringType(),
 					'post_code' => $this->stringType(20),
 					'country' => $this->stringType(100),
-					'companysize' => $this->integer(6)->unsigned()->defaultValue(0),
+					'companysize' => $this->integer(10)->unsigned()->defaultValue(0),
 					'website' => $this->stringType(),
 					'logo' => $this->text(),
 					'firstname' => $this->stringType(),
@@ -465,6 +602,54 @@ class Admin extends \App\Db\Importers\Base
 				'columns_mysql' => [
 					'status' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'type' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__fields_anonymization' => [
+				'columns' => [
+					'field_id' => $this->integer(10)->notNull(),
+					'anonymization_target' => $this->stringType(50)->notNull(),
+				],
+				'primaryKeys' => [
+					['fields_anonymization_pk', 'field_id']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__fields_dependency' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'tabid' => $this->smallInteger(5)->notNull(),
+					'status' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'name' => $this->stringType(100),
+					'views' => $this->stringType(),
+					'gui' => $this->smallInteger(1)->unsigned()->notNull(),
+					'mandatory' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'fields' => $this->text()->notNull(),
+					'conditions' => $this->text(),
+					'conditionsFields' => $this->text(),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'gui' => $this->tinyInteger(1)->unsigned()->notNull(),
+					'mandatory' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+				],
+				'index' => [
+					['tabid', 'tabid'],
+					['status', 'status'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__kanban_boards' => [
+				'columns' => [
+					'id' => $this->primaryKey()->unsigned(),
+					'tabid' => $this->smallInteger(5)->notNull(),
+					'fieldid' => $this->integer(10)->notNull(),
+					'detail_fields' => $this->text(),
+					'sum_fields' => $this->text(),
+					'sequence' => $this->integer()->unsigned()->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -484,6 +669,7 @@ class Admin extends \App\Db\Importers\Base
 					'bcc' => $this->text(),
 					'attachments' => $this->text(),
 					'priority' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+					'params' => $this->text(),
 					'error' => $this->text(),
 				],
 				'columns_mysql' => [
@@ -493,6 +679,50 @@ class Admin extends \App\Db\Importers\Base
 				'index' => [
 					['smtp_id', 'smtp_id'],
 					['status', 'status'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__mail_rbl_list' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'ip' => $this->stringType(40)->notNull(),
+					'status' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'type' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'source' => $this->stringType(20)->notNull(),
+					'request' => $this->integer(10)->unsigned()->notNull()->defaultValue(0),
+					'comment' => $this->stringType(500),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'type' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+				],
+				'index' => [
+					['ip', 'ip'],
+					['status', 'status'],
+					['type', 'type'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__mail_rbl_request' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'status' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'datetime' => $this->dateTime()->notNull(),
+					'type' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'user' => $this->integer(10)->unsigned()->notNull(),
+					'header' => $this->text()->notNull(),
+					'body' => $this->mediumText(),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'type' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+				],
+				'index' => [
+					['datetime', 'datetime'],
+					['status', 'status'],
+					['type', 'type'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -517,7 +747,7 @@ class Admin extends \App\Db\Importers\Base
 					'host' => $this->stringType()->notNull(),
 					'port' => $this->smallInteger(5)->unsigned(),
 					'username' => $this->stringType(),
-					'password' => $this->stringType(),
+					'password' => $this->stringType(500),
 					'authentication' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'secure' => $this->stringType(10),
 					'options' => $this->text(),
@@ -534,7 +764,7 @@ class Admin extends \App\Db\Importers\Base
 					'smtp_host' => $this->stringType(),
 					'smtp_port' => $this->smallInteger(5),
 					'smtp_username' => $this->stringType(),
-					'smtp_password' => $this->stringType(),
+					'smtp_password' => $this->stringType(500),
 					'smtp_folder' => $this->stringType(50),
 					'smtp_validate_cert' => $this->smallInteger(1)->defaultValue(0),
 				],
@@ -544,6 +774,21 @@ class Admin extends \App\Db\Importers\Base
 					'individual_delivery' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'save_send_mail' => $this->tinyInteger(1)->defaultValue(0),
 					'smtp_validate_cert' => $this->tinyInteger(1)->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__meeting_services' => [
+				'columns' => [
+					'id' => $this->primaryKey(10),
+					'url' => $this->stringType(),
+					'key' => $this->stringType(64),
+					'secret' => $this->stringType(500),
+					'duration' => $this->smallInteger()->unsigned()->defaultValue(1),
+					'status' => $this->smallInteger(1)->notNull()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -560,6 +805,17 @@ class Admin extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['source_module', ['source_module', 'dest_module']],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__pauser' => [
+				'columns' => [
+					'key' => $this->stringType(50)->notNull(),
+					'value' => $this->stringType(100)->notNull(),
+				],
+				'index' => [
+					['key', 'key'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -596,6 +852,22 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			's_#__record_quick_changer' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'tabid' => $this->smallInteger(5)->notNull(),
+					'conditions' => $this->text()->notNull(),
+					'values' => $this->text()->notNull(),
+					'btn_name' => $this->stringType(),
+					'class' => $this->stringType(50),
+					'icon' => $this->stringType(50),
+				],
+				'index' => [
+					['tabid', 'tabid'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			's_#__sla_policy' => [
 				'columns' => [
 					'id' => $this->primaryKey(),
@@ -628,15 +900,43 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			's_#__tokens' => [
+				'columns' => [
+					'uid' => $this->char(64)->notNull(),
+					'method' => $this->stringType()->notNull(),
+					'params' => $this->text()->notNull(),
+					'created_by_user' => $this->integer(10)->notNull(),
+					'created_date' => $this->dateTime()->notNull(),
+					'expiration_date' => $this->dateTime(),
+				],
+				'primaryKeys' => [
+					['tokens_pk', 'uid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 		];
 		$this->foreignKey = [
-			['fk_1_vtiger_bruteforce_users', 'a_#__bruteforce_users', 'id', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
-			['fk_1_a_#__record_converter', 'a_#__record_converter', 'source_module', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['s_#__auto_record_flow_updater_ibfk_1', 's_#__auto_record_flow_updater', 'source_module', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['s_#__auto_record_flow_updater_ibfk_2', 's_#__auto_record_flow_updater', 'target_module', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['s_#__mail_queue_ibfk_1', 's_#__mail_queue', 'smtp_id', 's_#__mail_smtp', 'id', 'CASCADE', 'RESTRICT'],
-			['fk_s_#__sla_policy', 's_#__sla_policy', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_bruteforce_users', 'a_#__bruteforce_users', 'id', 'vtiger_users', 'id', 'CASCADE', NULL],
+			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', NULL],
+			['fk_1_a_#__record_converter', 'a_#__record_converter', 'source_module', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['a_#__record_converter_mapping_fk1', 'a_#__record_converter_mapping', 'id', 'a_#__record_converter', 'id', 'CASCADE', NULL],
+			['a_#__record_converter_mapping_fk2', 'a_#__record_converter_mapping', 'source_field', 'vtiger_field', 'fieldid', 'CASCADE', NULL],
+			['a_#__record_converter_mapping_fk3', 'a_#__record_converter_mapping', 'dest_field', 'vtiger_field', 'fieldid', 'CASCADE', NULL],
+			['a_#__record_list_filter_dest_relationid_idx', 'a_#__record_list_filter', 'dest_relationid', 'vtiger_relatedlists', 'relation_id', 'CASCADE', NULL],
+			['a_#__record_list_filter_rel_relationid_idx', 'a_#__record_list_filter', 'rel_relationid', 'vtiger_relatedlists', 'relation_id', 'CASCADE', NULL],
+			['a_#__record_list_filter_relationid_idx', 'a_#__record_list_filter', 'relationid', 'vtiger_relatedlists', 'relation_id', 'CASCADE', NULL],
+			['a_#__relatedlists_inv_fields_ibfk_1', 'a_#__relatedlists_inv_fields', 'relation_id', 'vtiger_relatedlists', 'relation_id', 'CASCADE', NULL],
+			['a_#__relatedlists_widgets_ibfk_1', 'a_#__relatedlists_widgets', 'relation_id', 'vtiger_relatedlists', 'relation_id', 'CASCADE', NULL],
+			['a_#__settings_access_module_id_fk', 'a_#__settings_access', 'module_id', 'a_#__settings_modules', 'id', 'CASCADE', NULL],
+			['a_#__settings_access_user_fk', 'a_#__settings_access', 'user', 'vtiger_users', 'id', 'CASCADE', NULL],
+			['s_#__auto_record_flow_updater_ibfk_1', 's_#__auto_record_flow_updater', 'source_module', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['s_#__auto_record_flow_updater_ibfk_2', 's_#__auto_record_flow_updater', 'target_module', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['s_#__fields_anonymization_fieldid_fk', 's_#__fields_anonymization', 'field_id', 'vtiger_field', 'fieldid', 'CASCADE', NULL],
+			['s_#__fields_dependency_ibfk_1', 's_#__fields_dependency', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['s_#__mail_queue_ibfk_1', 's_#__mail_queue', 'smtp_id', 's_#__mail_smtp', 'id', 'CASCADE', NULL],
+			['s_#__record_quick_changer_ibfk_1', 's_#__record_quick_changer', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['fk_s_#__sla_policy', 's_#__sla_policy', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
 		];
 	}
 

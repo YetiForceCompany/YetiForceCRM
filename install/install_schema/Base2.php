@@ -25,7 +25,6 @@ class Base2 extends \App\Db\Importers\Base
 					'account_type' => $this->stringType(200),
 					'industry' => $this->stringType(200),
 					'annualrevenue' => $this->decimal('28,8'),
-					'ownership' => $this->stringType(50),
 					'siccode' => $this->stringType(),
 					'phone' => $this->stringType(30),
 					'otherphone' => $this->stringType(30),
@@ -36,7 +35,7 @@ class Base2 extends \App\Db\Importers\Base
 					'employees' => $this->integer(10)->defaultValue(0),
 					'emailoptout' => $this->smallInteger(1)->defaultValue(0),
 					'isconvertedfromlead' => $this->smallInteger(3)->defaultValue(0),
-					'vat_id' => $this->stringType(30),
+					'vat_id' => $this->stringType(50),
 					'registration_number_1' => $this->stringType(30),
 					'registration_number_2' => $this->stringType(30),
 					'verification' => $this->text(),
@@ -60,9 +59,11 @@ class Base2 extends \App\Db\Importers\Base
 					'sum_open_orders' => $this->decimal('28,8'),
 					'taxes' => $this->text(),
 					'accounts_available_taxes' => $this->text(),
+					'share_externally' => $this->smallInteger(1),
 				],
 				'columns_mysql' => [
 					'check_stock_levels' => $this->tinyInteger(1),
+					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['account_account_type_idx', 'account_type'],
@@ -104,12 +105,12 @@ class Base2 extends \App\Db\Importers\Base
 					'addresslevel8a' => $this->stringType(),
 					'addresslevel8b' => $this->stringType(),
 					'addresslevel8c' => $this->stringType(),
-					'buildingnumbera' => $this->stringType(100),
-					'localnumbera' => $this->stringType(100),
-					'buildingnumberb' => $this->stringType(100),
-					'localnumberb' => $this->stringType(100),
-					'buildingnumberc' => $this->stringType(100),
-					'localnumberc' => $this->stringType(100),
+					'buildingnumbera' => $this->stringType(),
+					'localnumbera' => $this->stringType(50),
+					'buildingnumberb' => $this->stringType(),
+					'localnumberb' => $this->stringType(50),
+					'buildingnumberc' => $this->stringType(),
+					'localnumberc' => $this->stringType(50),
 					'poboxa' => $this->stringType(50),
 					'poboxb' => $this->stringType(50),
 					'poboxc' => $this->stringType(50),
@@ -124,12 +125,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'accounts_available_taxesid' => $this->primaryKey(),
 					'accounts_available_taxes' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->defaultValue(0),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['accounts_available_taxes_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -138,9 +142,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'accounts_statusid' => $this->primaryKey(10),
 					'accounts_status' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['accounts_status_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -159,12 +169,16 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'accounttypeid' => $this->primaryKey(10),
 					'accounttype' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10),
 				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
 				'index' => [
 					['accounttype_accounttype_idx', 'accounttype'],
+					['accounttype_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -217,6 +231,7 @@ class Base2 extends \App\Db\Importers\Base
 					'recurrence' => $this->text(),
 					'linkextend' => $this->integer(10),
 					'subprocess_sl' => $this->integer(10)->unsigned(),
+					'meeting_url' => $this->stringType(2048),
 				],
 				'columns_mysql' => [
 					'deleted' => $this->tinyInteger(1)->defaultValue(0),
@@ -290,7 +305,10 @@ class Base2 extends \App\Db\Importers\Base
 					'activity_viewid' => $this->primaryKey(10),
 					'activity_view' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -324,11 +342,11 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'activityregister_statusid' => $this->primaryKey(),
 					'activityregister_status' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -337,9 +355,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'activitystatusid' => $this->primaryKey(10),
 					'activitystatus' => $this->stringType(200),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['activitystatus_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -348,10 +372,13 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'activitytypeid' => $this->primaryKey(10),
 					'activitytype' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->integer(10),
 					'color' => $this->stringType(25),
 					'icon' => $this->stringType(),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'index' => [
 					['activitytype_activitytype_idx', 'activitytype'],
@@ -363,9 +390,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'announcementstatusid' => $this->primaryKey(10),
 					'announcementstatus' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['announcementstatus_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -374,12 +407,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'approvals_register_statusid' => $this->primaryKey(),
 					'approvals_register_status' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->defaultValue(0),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['approvals_register_status_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -388,11 +424,11 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'approvals_register_typeid' => $this->primaryKey(),
 					'approvals_register_type' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -401,11 +437,11 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'approvals_statusid' => $this->primaryKey(),
 					'approvals_status' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -428,6 +464,10 @@ class Base2 extends \App\Db\Importers\Base
 					'assets_renew' => $this->stringType(),
 					'renewalinvoice' => $this->integer(10),
 					'contactid' => $this->integer(19),
+					'share_externally' => $this->smallInteger(1),
+				],
+				'columns_mysql' => [
+					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['parent_id', 'parent_id'],
@@ -446,9 +486,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'assets_renewid' => $this->primaryKey(10),
 					'assets_renew' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['assets_renew_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -467,9 +513,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'assetstatusid' => $this->primaryKey(10),
 					'assetstatus' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['assetstatus_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -531,15 +583,12 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_attachments' => [
 				'columns' => [
-					'attachmentsid' => $this->integer(10)->notNull(),
+					'attachmentsid' => $this->primaryKey(10)->unsigned(),
 					'name' => $this->stringType()->notNull(),
 					'description' => $this->text(),
 					'type' => $this->stringType(100),
 					'path' => $this->text(),
 					'subject' => $this->stringType(),
-				],
-				'primaryKeys' => [
-					['attachments_pk', 'attachmentsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -563,11 +612,11 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'auditregister_statusid' => $this->primaryKey(),
 					'auditregister_status' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -576,11 +625,11 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'auditregister_typeid' => $this->primaryKey(),
 					'auditregister_type' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -589,6 +638,19 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'authy_methodsid' => $this->primaryKey(),
 					'authy_methods' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_bankaccount_status' => [
+				'columns' => [
+					'bankaccount_statusid' => $this->primaryKey(),
+					'bankaccount_status' => $this->stringType(),
 					'presence' => $this->smallInteger(1)->defaultValue(1),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
 				],
@@ -626,25 +688,6 @@ class Base2 extends \App\Db\Importers\Base
 				'index' => [
 					['block_tabid_idx', 'tabid'],
 					['block_sequence_idx', 'sequence'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_blocks_hide' => [
-				'columns' => [
-					'id' => $this->primaryKey(10)->unsigned(),
-					'blockid' => $this->integer(10)->unsigned(),
-					'conditions' => $this->text(),
-					'enabled' => $this->smallInteger(1)->unsigned(),
-					'view' => $this->stringType(100),
-				],
-				'columns_mysql' => [
-					'enabled' => $this->tinyInteger(1)->unsigned(),
-				],
-				'index' => [
-					['blockid', ['blockid', 'enabled']],
-					['view', 'view'],
-					['blockid_2', ['blockid', 'enabled', 'view']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -705,13 +748,17 @@ class Base2 extends \App\Db\Importers\Base
 					'callhistorytypeid' => $this->primaryKey(10),
 					'callhistorytype' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
-					'presence' => $this->integer(10)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_campaign' => [
 				'columns' => [
+					'campaignid' => $this->integer(10)->notNull(),
 					'campaign_no' => $this->stringType(100)->notNull(),
 					'campaignname' => $this->stringType(),
 					'campaigntype' => $this->stringType(200),
@@ -731,14 +778,12 @@ class Base2 extends \App\Db\Importers\Base
 					'actualresponsecount' => $this->integer(10),
 					'actualsalescount' => $this->integer(10),
 					'actualroi' => $this->decimal('28,8'),
-					'campaignid' => $this->integer(10)->notNull(),
 					'closingdate' => $this->date(),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 				],
 				'index' => [
 					['campaign_campaignstatus_idx', 'campaignstatus'],
 					['campaign_campaignname_idx', 'campaignname'],
-					['campaign_campaignid_idx', 'campaignid'],
 				],
 				'primaryKeys' => [
 					['campaign_pk', 'campaignid']
@@ -775,11 +820,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'campaignstatusid' => $this->primaryKey(10),
 					'campaignstatus' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10),
 				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
 				'index' => [
+					['campaignstatus_valueid_idx', 'picklist_valueid'],
 					['campaignstatus_campaignstatus_idx', 'campaignstatus'],
 				],
 				'engine' => 'InnoDB',
@@ -789,12 +838,16 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'campaigntypeid' => $this->primaryKey(10),
 					'campaigntype' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10),
 				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
 				'index' => [
 					['campaigntype_campaigntype_idx', 'campaigntype'],
+					['campaigntype_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -803,12 +856,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'cmileage_logbook_statusid' => $this->primaryKey(10),
 					'cmileage_logbook_status' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->smallInteger(5)->defaultValue(0),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['cmileage_logbook_status_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -832,10 +888,10 @@ class Base2 extends \App\Db\Importers\Base
 					'addresslevel7b' => $this->stringType(),
 					'addresslevel8a' => $this->stringType(),
 					'addresslevel8b' => $this->stringType(),
-					'buildingnumbera' => $this->stringType(100),
-					'localnumbera' => $this->stringType(100),
-					'buildingnumberb' => $this->stringType(100),
-					'localnumberb' => $this->stringType(100),
+					'buildingnumbera' => $this->stringType(),
+					'localnumbera' => $this->stringType(50),
+					'buildingnumberb' => $this->stringType(),
+					'localnumberb' => $this->stringType(50),
 					'poboxa' => $this->stringType(50),
 					'poboxb' => $this->stringType(50),
 				],
@@ -876,10 +932,14 @@ class Base2 extends \App\Db\Importers\Base
 					'phone_extra' => $this->stringType(100),
 					'mobile_extra' => $this->stringType(100),
 					'approvals' => $this->text(),
+					'gender' => $this->stringType()->defaultValue(''),
+					'token' => $this->stringType(64),
+					'share_externally' => $this->smallInteger(1),
 				],
 				'columns_mysql' => [
 					'dav_status' => $this->tinyInteger(1)->defaultValue(1),
 					'decision_maker' => $this->tinyInteger(1)->defaultValue(0),
+					'share_externally' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['contactdetails_accountid_idx', 'parentid'],
@@ -906,9 +966,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'contactstatusid' => $this->primaryKey(10),
 					'contactstatus' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['contactstatus_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -931,9 +997,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'contract_priorityid' => $this->primaryKey(10),
 					'contract_priority' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['contract_priority_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -942,9 +1014,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'contract_statusid' => $this->primaryKey(10),
 					'contract_status' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['contract_status_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -953,9 +1031,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'contract_typeid' => $this->primaryKey(10),
 					'contract_type' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['contract_type_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1031,15 +1115,21 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_cron_task' => [
 				'columns' => [
 					'id' => $this->primaryKey(10),
+					'status' => $this->smallInteger(1),
 					'name' => $this->stringType(100),
 					'handler_class' => $this->stringType(100),
-					'frequency' => $this->integer(10),
+					'frequency' => $this->integer(10)->unsigned(),
 					'laststart' => $this->integer(10)->unsigned(),
+					'last_update' => $this->integer(10),
 					'lastend' => $this->integer(10)->unsigned(),
-					'status' => $this->integer(10),
-					'module' => $this->stringType(100),
 					'sequence' => $this->integer(10),
+					'max_exe_time' => $this->smallInteger(5),
+					'module' => $this->stringType(25),
 					'description' => $this->text(),
+					'lase_error' => $this->text(),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1),
 				],
 				'index' => [
 					['name', 'name'],
@@ -1065,7 +1155,10 @@ class Base2 extends \App\Db\Importers\Base
 					'currencyid' => $this->primaryKey(10),
 					'currency' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'index' => [
 					['currency_currency_idx', 'currency'],
@@ -1078,7 +1171,10 @@ class Base2 extends \App\Db\Importers\Base
 					'currency_decimal_separatorid' => $this->primaryKey(10),
 					'currency_decimal_separator' => $this->stringType(2)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1088,7 +1184,10 @@ class Base2 extends \App\Db\Importers\Base
 					'currency_grouping_patternid' => $this->primaryKey(10),
 					'currency_grouping_pattern' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1098,7 +1197,10 @@ class Base2 extends \App\Db\Importers\Base
 					'currency_grouping_separatorid' => $this->primaryKey(10),
 					'currency_grouping_separator' => $this->stringType(2)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1112,10 +1214,11 @@ class Base2 extends \App\Db\Importers\Base
 					'conversion_rate' => $this->decimal('12,5'),
 					'currency_status' => $this->stringType(25),
 					'defaultid' => $this->smallInteger(3)->notNull()->defaultValue(0),
-					'deleted' => $this->integer(1)->notNull()->defaultValue(0),
+					'deleted' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'columns_mysql' => [
 					'defaultid' => $this->tinyInteger(3)->notNull()->defaultValue(0),
+					'deleted' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
 					['deleted', 'deleted'],
@@ -1128,7 +1231,10 @@ class Base2 extends \App\Db\Importers\Base
 					'currency_symbol_placementid' => $this->primaryKey(10),
 					'currency_symbol_placement' => $this->stringType(30)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1150,8 +1256,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'customerid' => $this->integer(10)->notNull(),
 					'portal' => $this->smallInteger(1),
-					'support_start_date' => $this->date(),
-					'support_end_date' => $this->date(),
 				],
 				'primaryKeys' => [
 					['customerdetails_pk', 'customerid']
@@ -1171,9 +1275,9 @@ class Base2 extends \App\Db\Importers\Base
 					'privileges' => $this->smallInteger(2)->defaultValue(1),
 					'featured' => $this->smallInteger(1)->defaultValue(0),
 					'sequence' => $this->integer(10),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'description' => $this->text(),
-					'sort' => $this->stringType(30)->defaultValue(''),
+					'sort' => $this->text(),
 					'color' => $this->stringType(10)->defaultValue(''),
 				],
 				'columns_mysql' => [
@@ -1182,7 +1286,7 @@ class Base2 extends \App\Db\Importers\Base
 					'status' => $this->tinyInteger(1)->notNull()->defaultValue(1),
 					'privileges' => $this->tinyInteger(2)->defaultValue(1),
 					'featured' => $this->tinyInteger(1)->defaultValue(0),
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'index' => [
 					['customview_entitytype_idx', 'entitytype'],
@@ -1214,11 +1318,11 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'datasetregister_statusid' => $this->primaryKey(),
 					'datasetregister_status' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1540,7 +1644,10 @@ class Base2 extends \App\Db\Importers\Base
 					'date_formatid' => $this->primaryKey(10),
 					'date_format' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1550,7 +1657,10 @@ class Base2 extends \App\Db\Importers\Base
 					'dayoftheweekid' => $this->primaryKey(10),
 					'dayoftheweek' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
-					'presence' => $this->integer(10)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1559,11 +1669,16 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'ruleid' => $this->primaryKey(10),
 					'tabid' => $this->smallInteger(5)->notNull(),
-					'permission' => $this->integer(10),
-					'editstatus' => $this->integer(10),
+					'permission' => $this->smallInteger(5)->unsigned()->notNull(),
+					'editstatus' => $this->smallInteger(5)->unsigned()->notNull(),
+				],
+				'columns_mysql' => [
+					'permission' => $this->tinyInteger(5)->unsigned()->notNull(),
+					'editstatus' => $this->tinyInteger(5)->unsigned()->notNull(),
 				],
 				'index' => [
 					['fk_1_vtiger_def_org_share', 'permission'],
+					['fk_1_def_org_share_tabid', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1573,7 +1688,23 @@ class Base2 extends \App\Db\Importers\Base
 					'default_record_viewid' => $this->primaryKey(10),
 					'default_record_view' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
-					'presence' => $this->integer(10)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_default_search_operator' => [
+				'columns' => [
+					'default_search_operatorid' => $this->primaryKey(),
+					'default_search_operator' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1582,8 +1713,11 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'defaultactivitytypeid' => $this->primaryKey(10),
 					'defaultactivitytype' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1604,9 +1738,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'defaulteventstatusid' => $this->primaryKey(10),
 					'defaulteventstatus' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['defaulteventstatus_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1616,27 +1756,10 @@ class Base2 extends \App\Db\Importers\Base
 					'minutesid' => $this->primaryKey(10),
 					'duration_minutes' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_durationhrs' => [
-				'columns' => [
-					'hrsid' => $this->primaryKey(10),
-					'hrs' => $this->stringType(50),
-					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_durationmins' => [
-				'columns' => [
-					'minsid' => $this->primaryKey(10),
-					'mins' => $this->stringType(50),
-					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1645,12 +1768,12 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'email_template_priorityid' => $this->primaryKey(10),
 					'email_template_priority' => $this->smallInteger(1),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
 					'email_template_priority' => $this->tinyInteger(1),
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1659,11 +1782,11 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'email_template_typeid' => $this->primaryKey(10),
 					'email_template_type' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1672,9 +1795,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'employee_educationid' => $this->primaryKey(10),
 					'employee_education' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['employee_education_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1683,9 +1812,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'employee_statusid' => $this->primaryKey(10),
 					'employee_status' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['employee_status_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1695,7 +1830,10 @@ class Base2 extends \App\Db\Importers\Base
 					'end_hourid' => $this->primaryKey(10),
 					'end_hour' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
-					'presence' => $this->integer(10)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1703,7 +1841,7 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_entity_stats' => [
 				'columns' => [
 					'crmid' => $this->integer(10)->notNull(),
-					'crmactivity' => $this->integer(8),
+					'crmactivity' => $this->integer(10),
 				],
 				'primaryKeys' => [
 					['entity_stats_pk', 'crmid']
@@ -1720,11 +1858,12 @@ class Base2 extends \App\Db\Importers\Base
 					'entityidfield' => $this->stringType(30)->notNull(),
 					'entityidcolumn' => $this->stringType(30)->notNull(),
 					'searchcolumn' => $this->stringType(150)->notNull(),
-					'turn_off' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+					'turn_off' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'sequence' => $this->smallInteger(3)->unsigned()->notNull()->defaultValue(0),
+					'separator' => $this->stringType(5),
 				],
 				'columns_mysql' => [
-					'turn_off' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+					'turn_off' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
 					['turn_off', 'turn_off'],
@@ -1745,10 +1884,12 @@ class Base2 extends \App\Db\Importers\Base
 					'exclude_modules' => $this->stringType()->notNull()->defaultValue(''),
 					'priority' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(5),
 					'owner_id' => $this->smallInteger(5)->unsigned()->notNull()->defaultValue(0),
+					'privileges' => $this->smallInteger(1)->defaultValue(1),
 				],
 				'columns_mysql' => [
 					'is_active' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'priority' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(5),
+					'privileges' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'index' => [
 					['event_name_class', ['event_name', 'handler_class']],
@@ -1760,12 +1901,16 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'expectedresponseid' => $this->primaryKey(10),
 					'expectedresponse' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10),
 				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
 				'index' => [
 					['CampaignExpRes_UK01', 'expectedresponse'],
+					['expectedresponse_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1808,20 +1953,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'faqstatus_id' => $this->primaryKey(10),
 					'faqstatus' => $this->stringType(200),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10),
 				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_fcorectinginvoice_formpayment' => [
-				'columns' => [
-					'fcorectinginvoice_formpaymentid' => $this->primaryKey(10),
-					'fcorectinginvoice_formpayment' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
-					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
-					'sortorderid' => $this->integer(10)->defaultValue(0),
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['faqstatus_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1830,9 +1970,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'fcorectinginvoice_statusid' => $this->primaryKey(10),
 					'fcorectinginvoice_status' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['fcorectinginvoice_status_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1875,6 +2021,8 @@ class Base2 extends \App\Db\Importers\Base
 					'maxwidthcolumn' => $this->smallInteger(3)->unsigned()->defaultValue(0),
 					'visible' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'tabindex' => $this->smallInteger(5)->notNull()->defaultValue(0),
+					'color' => $this->stringType(10)->defaultValue(''),
+					'icon' => $this->stringType(),
 				],
 				'columns_mysql' => [
 					'generatedtype' => $this->tinyInteger(3)->unsigned()->notNull()->defaultValue(0),
@@ -1905,7 +2053,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_fieldmodulerel' => [
 				'columns' => [
-					'fieldid' => $this->smallInteger(5)->unsigned()->notNull(),
+					'fieldid' => $this->integer(10)->notNull(),
 					'module' => $this->stringType(25)->notNull(),
 					'relmodule' => $this->stringType(25)->notNull(),
 					'status' => $this->stringType(10),
@@ -1920,30 +2068,19 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_finvoice_formpayment' => [
-				'columns' => [
-					'finvoice_formpaymentid' => $this->primaryKey(10),
-					'finvoice_formpayment' => $this->stringType(200)->notNull(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
-					'picklist_valueid' => $this->smallInteger(5)->defaultValue(0),
-					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
-				],
-				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_finvoice_status' => [
 				'columns' => [
 					'finvoice_statusid' => $this->primaryKey(10),
 					'finvoice_status' => $this->stringType(200)->notNull(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->smallInteger(5)->defaultValue(0),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['finvoice_status_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1952,26 +2089,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'finvoice_typeid' => $this->primaryKey(10),
 					'finvoice_type' => $this->stringType(200)->notNull(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->smallInteger(5)->defaultValue(0),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_finvoicecost_formpayment' => [
-				'columns' => [
-					'finvoicecost_formpaymentid' => $this->primaryKey(10),
-					'finvoicecost_formpayment' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
-					'picklist_valueid' => $this->smallInteger(5)->defaultValue(0),
-					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
-				],
-				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+				'index' => [
+					['finvoice_type_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1980,12 +2106,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'finvoicecost_paymentstatusid' => $this->primaryKey(10),
 					'finvoicecost_paymentstatus' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->smallInteger(5)->defaultValue(0),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['finvoicecost_paymentstatus_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1994,23 +2123,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'finvoicecost_statusid' => $this->primaryKey(10),
 					'finvoicecost_status' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->smallInteger(5)->defaultValue(0),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_finvoiceproforma_formpayment' => [
-				'columns' => [
-					'finvoiceproforma_formpaymentid' => $this->primaryKey(10),
-					'finvoiceproforma_formpayment' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
-					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
-					'sortorderid' => $this->integer(10)->defaultValue(0),
+				'index' => [
+					['finvoicecost_status_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2019,9 +2140,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'finvoiceproforma_statusid' => $this->primaryKey(10),
 					'finvoiceproforma_status' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(10)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['finvoiceproforma_status_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2030,11 +2157,11 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'fixed_assets_fuel_typeid' => $this->primaryKey(10),
 					'fixed_assets_fuel_type' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2043,12 +2170,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'fixed_assets_statusid' => $this->primaryKey(10),
 					'fixed_assets_status' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->smallInteger(5)->defaultValue(0),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'index' => [
+					['fixed_assets_status_valueid_idx', 'picklist_valueid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2057,63 +2187,67 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'fixed_assets_typeid' => $this->primaryKey(10),
 					'fixed_assets_type' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->smallInteger(5)->defaultValue(0),
 					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
+					'presence' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 		];
 		$this->foreignKey = [
-			['fk_1_vtiger_account', 'vtiger_account', 'accountid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['vtiger_accountaddress_ibfk_1', 'vtiger_accountaddress', 'accountaddressid', 'vtiger_account', 'accountid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_accountscf', 'vtiger_accountscf', 'accountid', 'vtiger_account', 'accountid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_activity', 'vtiger_activity', 'activityid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['vtiger_activity_reminder_ibfk_1', 'vtiger_activity_reminder', 'activity_id', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
-			['vtiger_activity_reminder_popup_ibfk_1', 'vtiger_activity_reminder_popup', 'recordid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
-			['vtiger_activity_update_dates_ibfk_1', 'vtiger_activity_update_dates', 'task_id', 'com_vtiger_workflowtasks', 'task_id', 'CASCADE', 'RESTRICT'],
-			['vtiger_activity_update_dates_ibfk_2', 'vtiger_activity_update_dates', 'parent', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['vtiger_activity_update_dates_ibfk_3', 'vtiger_activity_update_dates', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
-			['vtiger_activitycf_ibfk_1', 'vtiger_activitycf', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
-			['fk_2_vtiger_activityproductrel', 'vtiger_activityproductrel', 'productid', 'vtiger_products', 'productid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_assets', 'vtiger_assets', 'assetsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['vtiger_assetscf_ibfk_1', 'vtiger_assetscf', 'assetsid', 'vtiger_assets', 'assetsid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_attachments', 'vtiger_attachments', 'attachmentsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_blocks', 'vtiger_blocks', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['vtiger_callhistory_ibfk_1', 'vtiger_callhistory', 'callhistoryid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['vtiger_callhistorycf_ibfk_1', 'vtiger_callhistorycf', 'callhistoryid', 'vtiger_callhistory', 'callhistoryid', 'CASCADE', 'RESTRICT'],
-			['fk_vtiger_crmentity', 'vtiger_campaign_records', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_campaignscf', 'vtiger_campaignscf', 'campaignid', 'vtiger_campaign', 'campaignid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_contactaddress', 'vtiger_contactaddress', 'contactaddressid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_contactdetails', 'vtiger_contactdetails', 'contactid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_contactscf', 'vtiger_contactscf', 'contactid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_contactsubdetails', 'vtiger_contactsubdetails', 'contactsubscriptionid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_customaction', 'vtiger_customaction', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_customerdetails', 'vtiger_customerdetails', 'customerid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_customview', 'vtiger_customview', 'entitytype', 'vtiger_tab', 'name', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_cvcolumnlist', 'vtiger_cvcolumnlist', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
-			['fk_3_vtiger_datashare_grp2grp', 'vtiger_datashare_grp2grp', 'to_groupid', 'vtiger_groups', 'groupid', 'CASCADE', 'RESTRICT'],
-			['fk_3_vtiger_datashare_grp2role', 'vtiger_datashare_grp2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-			['fk_3_vtiger_datashare_grp2rs', 'vtiger_datashare_grp2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_datashare_module_rel', 'vtiger_datashare_module_rel', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['fk_2_vtiger_datashare_relatedmodules', 'vtiger_datashare_relatedmodules', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['fk_3_vtiger_datashare_role2group', 'vtiger_datashare_role2group', 'share_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-			['fk_3_vtiger_datashare_role2role', 'vtiger_datashare_role2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-			['fk_3_vtiger_datashare_role2rs', 'vtiger_datashare_role2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-			['fk_3_vtiger_datashare_rs2grp', 'vtiger_datashare_rs2grp', 'share_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-			['fk_3_vtiger_datashare_rs2role', 'vtiger_datashare_rs2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-			['fk_3_vtiger_datashare_rs2rs', 'vtiger_datashare_rs2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_def_org_share', 'vtiger_def_org_share', 'permission', 'vtiger_org_share_action_mapping', 'share_action_id', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_defaultcv', 'vtiger_defaultcv', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_entity_stats', 'vtiger_entity_stats', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_entityname', 'vtiger_entityname', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_faq', 'vtiger_faq', 'id', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_faqcf', 'vtiger_faqcf', 'faqid', 'vtiger_faq', 'id', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_field', 'vtiger_field', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_account', 'vtiger_account', 'accountid', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['vtiger_accountaddress_ibfk_1', 'vtiger_accountaddress', 'accountaddressid', 'vtiger_account', 'accountid', 'CASCADE', NULL],
+			['fk_1_vtiger_accountscf', 'vtiger_accountscf', 'accountid', 'vtiger_account', 'accountid', 'CASCADE', NULL],
+			['fk_1_vtiger_activity', 'vtiger_activity', 'activityid', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['vtiger_activity_reminder_ibfk_1', 'vtiger_activity_reminder', 'activity_id', 'vtiger_activity', 'activityid', 'CASCADE', NULL],
+			['vtiger_activity_reminder_popup_ibfk_1', 'vtiger_activity_reminder_popup', 'recordid', 'vtiger_activity', 'activityid', 'CASCADE', NULL],
+			['vtiger_activity_update_dates_ibfk_1', 'vtiger_activity_update_dates', 'task_id', 'com_vtiger_workflowtasks', 'task_id', 'CASCADE', NULL],
+			['vtiger_activity_update_dates_ibfk_2', 'vtiger_activity_update_dates', 'parent', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['vtiger_activity_update_dates_ibfk_3', 'vtiger_activity_update_dates', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', NULL],
+			['vtiger_activitycf_ibfk_1', 'vtiger_activitycf', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', NULL],
+			['fk_2_vtiger_activityproductrel', 'vtiger_activityproductrel', 'productid', 'vtiger_products', 'productid', 'CASCADE', NULL],
+			['fk_1_vtiger_assets', 'vtiger_assets', 'assetsid', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['vtiger_assetscf_ibfk_1', 'vtiger_assetscf', 'assetsid', 'vtiger_assets', 'assetsid', 'CASCADE', NULL],
+			['fk_1_vtiger_blocks', 'vtiger_blocks', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['vtiger_callhistory_ibfk_1', 'vtiger_callhistory', 'callhistoryid', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['vtiger_callhistorycf_ibfk_1', 'vtiger_callhistorycf', 'callhistoryid', 'vtiger_callhistory', 'callhistoryid', 'CASCADE', NULL],
+			['fk_vtiger_campaigncampaignid', 'vtiger_campaign', 'campaignid', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['fk_vtiger_crmentity', 'vtiger_campaign_records', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['fk_1_vtiger_campaignscf', 'vtiger_campaignscf', 'campaignid', 'vtiger_campaign', 'campaignid', 'CASCADE', NULL],
+			['fk_1_vtiger_contactaddress', 'vtiger_contactaddress', 'contactaddressid', 'vtiger_contactdetails', 'contactid', 'CASCADE', NULL],
+			['fk_1_vtiger_contactdetails', 'vtiger_contactdetails', 'contactid', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['fk_1_vtiger_contactscf', 'vtiger_contactscf', 'contactid', 'vtiger_contactdetails', 'contactid', 'CASCADE', NULL],
+			['fk_1_vtiger_contactsubdetails', 'vtiger_contactsubdetails', 'contactsubscriptionid', 'vtiger_contactdetails', 'contactid', 'CASCADE', NULL],
+			['vtiger_crmentityrel_crmid_fk', 'vtiger_crmentityrel', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['vtiger_crmentityrel_relcrmid_fk', 'vtiger_crmentityrel', 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['fk_1_vtiger_customaction', 'vtiger_customaction', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', NULL],
+			['fk_1_vtiger_customerdetails', 'vtiger_customerdetails', 'customerid', 'vtiger_contactdetails', 'contactid', 'CASCADE', NULL],
+			['fk_1_vtiger_customview', 'vtiger_customview', 'entitytype', 'vtiger_tab', 'name', 'CASCADE', NULL],
+			['fk_1_vtiger_cvcolumnlist', 'vtiger_cvcolumnlist', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', NULL],
+			['fk_3_vtiger_datashare_grp2grp', 'vtiger_datashare_grp2grp', 'to_groupid', 'vtiger_groups', 'groupid', 'CASCADE', NULL],
+			['fk_3_vtiger_datashare_grp2role', 'vtiger_datashare_grp2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', NULL],
+			['fk_3_vtiger_datashare_grp2rs', 'vtiger_datashare_grp2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', NULL],
+			['fk_1_vtiger_datashare_module_rel', 'vtiger_datashare_module_rel', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['fk_2_vtiger_datashare_relatedmodules', 'vtiger_datashare_relatedmodules', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['fk_3_vtiger_datashare_role2group', 'vtiger_datashare_role2group', 'share_roleid', 'vtiger_role', 'roleid', 'CASCADE', NULL],
+			['fk_3_vtiger_datashare_role2role', 'vtiger_datashare_role2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', NULL],
+			['fk_3_vtiger_datashare_role2rs', 'vtiger_datashare_role2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', NULL],
+			['fk_3_vtiger_datashare_rs2grp', 'vtiger_datashare_rs2grp', 'share_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', NULL],
+			['fk_3_vtiger_datashare_rs2role', 'vtiger_datashare_rs2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', NULL],
+			['fk_3_vtiger_datashare_rs2rs', 'vtiger_datashare_rs2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', NULL],
+			['fk_1_def_org_share_permission', 'vtiger_def_org_share', 'permission', 'vtiger_org_share_action_mapping', 'share_action_id', 'CASCADE', NULL],
+			['fk_1_def_org_share_tabid', 'vtiger_def_org_share', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['fk_1_vtiger_defaultcv', 'vtiger_defaultcv', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['fk_1_vtiger_entity_stats', 'vtiger_entity_stats', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['fk_1_vtiger_entityname', 'vtiger_entityname', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['fk_1_vtiger_faq', 'vtiger_faq', 'id', 'vtiger_crmentity', 'crmid', 'CASCADE', NULL],
+			['fk_1_vtiger_faqcf', 'vtiger_faqcf', 'faqid', 'vtiger_faq', 'id', 'CASCADE', NULL],
+			['fk_1_vtiger_field', 'vtiger_field', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', NULL],
+			['vtiger_fieldmodulerel_ibfk_1', 'vtiger_fieldmodulerel', 'fieldid', 'vtiger_field', 'fieldid', 'CASCADE', NULL],
 		];
 	}
 
