@@ -597,6 +597,9 @@ class Importer
 		if (isset($importer->dropColumns)) {
 			$this->dropColumns($importer->dropColumns);
 		}
+		if (isset($importer->dropIndexes)) {
+			$this->dropIndexes($importer->dropIndexes);
+		}
 	}
 
 	/**

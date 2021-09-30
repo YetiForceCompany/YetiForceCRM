@@ -18,60 +18,31 @@ use yii\db\Schema;
  */
 class Base
 {
-	/**
-	 * Database section.
-	 *
-	 * @var string
-	 */
+	/** @var string Database section. */
 	public $dbType = 'base';
 
-	/**
-	 * Table structure.
-	 *
-	 * @var array
-	 */
+	/** @var array Table structure. */
 	public $tables = [];
 
-	/**
-	 * Drop tables.
-	 *
-	 * @var array
-	 */
+	/** @var array Drop tables. */
 	public $dropTables = [];
 
-	/**
-	 * Drop columns.
-	 *
-	 * @var array
-	 */
+	/** @var array Drop columns. */
 	public $dropColumns = [];
 
-	/**
-	 * Foreign keys.
-	 *
-	 * @var array
-	 */
+	/** @var array Drop indexes. */
+	public $dropIndexes = [];
+
+	/** @var array Foreign keys. */
 	public $foreignKey = [];
 
-	/**
-	 * Data to import.
-	 *
-	 * @var array
-	 */
+	/** @var array Data to import. */
 	public $data = [];
 
-	/**
-	 * Db.
-	 *
-	 * @var \App\Db
-	 */
+	/** @var \App\Db Database connection instance */
 	public $db;
 
-	/**
-	 * Db schema.
-	 *
-	 * @var \yii\db\Schema
-	 */
+	/** @var \yii\db\Schema Database schema information. */
 	protected $schema;
 
 	/**
