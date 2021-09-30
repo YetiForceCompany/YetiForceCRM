@@ -76,7 +76,7 @@ class Exception extends \Exception
 			$error .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$error .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$error .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
-			$error .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
+			$error .= 'PATH_INFO: ' . ($_SERVER['PATH_INFO'] ?? '') . PHP_EOL;
 			$error .= 'IP: ' . $_SERVER['REMOTE_ADDR'] . PHP_EOL;
 			$error .= '----------- Headers -----------' . PHP_EOL;
 			foreach ($request->getHeaders() as $key => $header) {

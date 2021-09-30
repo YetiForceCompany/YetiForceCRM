@@ -107,7 +107,7 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$key = $request->getByType('key', 2);
-		$value = \App\Json::decode($recordModel->get($request->getByType('field', 2)));
+		$value = \App\Json::decode($recordModel->get($request->getByType('field', 2))) ?: [];
 		foreach ($value as $item) {
 			if ($item['key'] === $key) {
 				return \App\Fields\File::loadFromInfo([

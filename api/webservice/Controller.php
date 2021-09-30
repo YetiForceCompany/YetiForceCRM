@@ -193,7 +193,7 @@ class Controller
 			$log .= 'REQUEST_METHOD: ' . \App\Request::getRequestMethod() . PHP_EOL;
 			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
-			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
+			$log .= 'PATH_INFO: ' . ($_SERVER['PATH_INFO'] ?? '') . PHP_EOL;
 			$log .= 'IP: ' . $_SERVER['REMOTE_ADDR'] . PHP_EOL;
 			$log .= '----------- Headers -----------' . PHP_EOL;
 			foreach ($this->request->getHeaders() as $key => $header) {
