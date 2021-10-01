@@ -94,4 +94,14 @@ class OwnerField extends BaseField
 		}
 		return $value;
 	}
+
+	/**
+	 * Owner is not creator.
+	 *
+	 * @return bool
+	 */
+	public function operatorNoc(): bool
+	{
+		return $this->getValue() != $this->recordModel->get('share_externally');
+	}
 }

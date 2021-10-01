@@ -88,12 +88,13 @@ class Condition
 		'ro' => 'LBL_IS_RECORD_OPEN',
 		'rc' => 'LBL_IS_RECORD_CLOSED',
 		'nco' => 'LBL_NOT_CREATED_BY_OWNER',
+		'noc' => 'LBL_NOT_OWNED_BY_CREATOR'
 	];
 	/**
 	 * Operators without values.
 	 */
 	const OPERATORS_WITHOUT_VALUES = [
-		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc', 'nco',
+		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc', 'nco', 'noc',
 		'smallerthannow',
 		'greaterthannow',
 		'prevfy',

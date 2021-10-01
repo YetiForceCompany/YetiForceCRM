@@ -191,4 +191,14 @@ class OwnerField extends BaseField
 	{
 		return ['<>', $this->getColumnName(), \App\User::getCurrentUserId()];
 	}
+
+	/**
+	 * Owner is not creator.
+	 *
+	 * @return array
+	 */
+	public function operatorNoc(): array
+	{
+		return ['<>', $this->getColumnName(), new \yii\db\Expression($this->getTableName() . '.smcreatorid')];
+	}
 }
