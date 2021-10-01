@@ -47,10 +47,20 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 		$this->driver->findElement(WebDriverBy::name('accountname'))->sendKeys('YetiForce');
 		$this->driver->executeScript('Vtiger_List_Js.triggerListSearch()');
 
+		$this->logs = [
+			'test' => __METHOD__,
+			'url' => $this->driver->getCurrentURL(),
+			'search_params' => \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['search_params'],
+		];
 		static::assertSame('[[["accountname","a","YetiForce"]]]', \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['search_params'] ?? '');
 		$this->findError();
 
 		$this->driver->executeScript("$('.js-change-order[data-columnname=\"accountname\"]').click()");
+		$this->logs = [
+			'test' => __METHOD__,
+			'url' => $this->driver->getCurrentURL(),
+			'orderby' => \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['orderby'],
+		];
 		static::assertSame('ASC', \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['orderby']['accountname'] ?? '');
 		$this->findError();
 

@@ -47,8 +47,9 @@ class RecordConverter extends \Tests\Base
 	 */
 	public function testProcess()
 	{
-		$id = (new \App\Db\Query())->select(['squotesid'])->from('u_#__squotes')->scalar();
-		if ($id) {
+		$this->markTestSkipped('unfinished');
+		// $id = (new \App\Db\Query())->select(['squotesid'])->from('u_#__squotes')->scalar();
+		// if ($id) {
 			// $recordModel = \Vtiger_Record_Model::getInstanceById($id, 'SQuotes');
 			// $this->logs = [
 			// 	'data' => $recordModel->getData(),
@@ -61,6 +62,6 @@ class RecordConverter extends \Tests\Base
 			// foreach ($convertInstance->createdRecords as $id) {
 			// 	$this->assertTrue((new \App\Db\Query())->from('u_yf_ssingleorders')->where(['ssingleordersid' => $id])->exists());
 			// }
-		}
+		// }
 	}
 }
