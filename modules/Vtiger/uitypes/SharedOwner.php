@@ -54,10 +54,10 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		}
 		foreach ($value as $shownerid) {
 			if (!is_numeric($shownerid)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $shownerid, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $shownerid, 406);
 			}
 			if ($rangeValues && (($rangeValues[1] ?? $rangeValues[0]) < $shownerid || (isset($rangeValues[1]) ? $rangeValues[0] : 0) > $shownerid)) {
-				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $shownerid, 406);
+				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $shownerid, 406);
 			}
 		}
 		$this->validate[$hashValue] = true;
@@ -295,7 +295,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		$specialMassEditFieldName = 'shownerid';
 		if ($request->has("overwritten_{$specialMassEditFieldName}")) {
 			$newValue = $request->getByType($specialMassEditFieldName, $this->purifyType);
-			$newValue = $this->overwriteExistingValue(explode(',', $recordModel->get($specialMassEditFieldName)), $newValue);
+			$oldValue = $recordModel->get($specialMassEditFieldName) ? explode(',', $recordModel->get($specialMassEditFieldName)) : [];
+			$newValue = $this->overwriteExistingValue($oldValue, $newValue);
 			$recordModel->set($specialMassEditFieldName, $this->getDBValue($newValue, $recordModel));
 			return true;
 		}
