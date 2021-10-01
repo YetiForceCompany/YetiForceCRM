@@ -19,7 +19,7 @@ window.Calendar_Js = class {
 		this.sidebarView = {
 			length: 0
 		};
-		this.browserHistoryConfig = this.browserHistory ? {} : this.setBrowserHistoryOptions();
+		this.browserHistoryConfig = this.browserHistory ? this.setBrowserHistoryOptions() : {};
 		this.calendarOptions = this.setCalendarOptions();
 		this.eventTypeKeyName = false;
 		this.module = app.getModuleName();
@@ -99,6 +99,7 @@ window.Calendar_Js = class {
 			let s = moment(app.moduleCacheGet('start')).valueOf();
 			let e = moment(app.moduleCacheGet('end')).valueOf();
 			options.defaultDate = moment(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
+			console.log(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
 		}
 		return Object.assign(this.setCalendarMinimalOptions(), options);
 	}

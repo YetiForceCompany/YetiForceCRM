@@ -2662,14 +2662,16 @@ var app = (window.app = {
 		if (params.data && typeof params.data.historyUrl !== 'undefined') {
 			fullUrl = params.data.historyUrl;
 		}
-		if (fullUrl === '' && params.data) {
-			if (typeof params.data == 'string') {
-				fullUrl = 'index.php?' + params.data;
-			} else {
-				fullUrl = 'index.php?' + $.param(params.data);
+		if (fullUrl === '') {
+			if (params.data) {
+				if (typeof params.data == 'string') {
+					fullUrl = 'index.php?' + params.data;
+				} else {
+					fullUrl = 'index.php?' + $.param(params.data);
+				}
+			} else if (typeof params === 'object') {
+				fullUrl = 'index.php?' + $.param(params);
 			}
-		} else if (typeof params === 'object') {
-			fullUrl = 'index.php?' + $.param(params);
 		} else if (fullUrl.indexOf('index.php?') === -1) {
 			fullUrl = 'index.php?' + fullUrl;
 		}
