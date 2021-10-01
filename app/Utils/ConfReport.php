@@ -82,6 +82,8 @@ class ConfReport
 		'variables_order' => ['recommended' => 'GPCS', 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'opcache.jit' => ['container' => 'php', 'testCli' => true],
 		'opcache.jit_buffer_size' => ['container' => 'php', 'testCli' => true],
+		'mysqli.allow_persistent' => ['container' => 'php', 'testCli' => true],
+		'mysqli.max_persistent' => ['container' => 'php', 'testCli' => true],
 	];
 	/**
 	 * Security variables map.
