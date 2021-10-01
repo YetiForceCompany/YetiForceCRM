@@ -19,7 +19,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
-		$fieldName = $this->getFieldModel()->getFieldName();
+		$fieldName = $this->getFieldModel()->getName();
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
@@ -46,10 +46,10 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$fieldInfo = $this->getFieldModel()->getFieldInfo();
 		foreach ($value as $index => $item) {
 			if ((empty($item['name']) && empty($item['baseContent'])) && (empty($item['key']) || empty($item['name']) || empty($item['size']) || 50 !== App\TextParser::getTextLength($item['key']))) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Json::encode($value), 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Json::encode($value), 406);
 			}
 			if ($index > (int) $fieldInfo['limit']) {
-				throw new \App\Exceptions\Security('ERR_TO_MANY_FILES||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Json::encode($value), 406);
+				throw new \App\Exceptions\Security('ERR_TO_MANY_FILES||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Json::encode($value), 406);
 			}
 			$path = \App\Fields\File::getLocalPath($item['path']);
 			if (!file_exists($path)) {
@@ -68,7 +68,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				}
 			}
 			if (!$validExtension || !$validFormat) {
-				throw new \App\Exceptions\Security('ERR_FILE_WRONG_IMAGE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
+				throw new \App\Exceptions\Security('ERR_FILE_WRONG_IMAGE||' . $this->getFieldModel()->getName() . '||' . \App\Json::encode($value), 406);
 			}
 		}
 		$this->validate[$hashValue] = true;
@@ -90,7 +90,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getImageUrl($key, $record)
 	{
-		return "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getFieldName()}&record={$record}&key={$key}";
+		return "file.php?module={$this->getFieldModel()->getModuleName()}&action=MultiImage&field={$this->getFieldModel()->getName()}&record={$record}&key={$key}";
 	}
 
 	/**
@@ -296,7 +296,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 					'field' => $this->getFieldModel()->getFieldName(),
 					'record' => $id,
 					'key' => $item['key'],
-				]
+				],
 			];
 			if ($multiMode) {
 				$return[] = $file;
@@ -306,6 +306,39 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			}
 		}
 		return $return;
+	}
+
+	/** {@inheritdoc} */
+	public function getValueToExport($value, int $recordId)
+	{
+		$multiMode = 'multiImage' === $this->getFieldModel()->getFieldDataType();
+		if (\is_string($value)) {
+			$value = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		} else {
+			$value = $value;
+		}
+		$return = [];
+		foreach ($value as $item) {
+			$path = \App\Fields\File::getLocalPath($item['path']);
+			if (!file_exists($path)) {
+				throw new \App\Exceptions\AppException('File does not exist: ' . $path, 404);
+			}
+			$fileInstance = \App\Fields\File::loadFromInfo([
+				'path' => $path,
+				'name' => $item['name'],
+			]);
+			$file = [
+				'name' => $item['name'],
+				'mimeType' => $fileInstance->getMimeType(),
+				'size' => $fileInstance->getSize(),
+				'baseContent' => base64_encode($fileInstance->getContents()),
+			];
+			$return[] = $file;
+			if (!$multiMode) {
+				break;
+			}
+		}
+		return $return ? \App\Json::encode($return) : '';
 	}
 
 	/** {@inheritdoc} */

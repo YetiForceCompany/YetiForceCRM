@@ -1,13 +1,18 @@
 <?php
 
 /**
- * ExportToXml Model Class.
+ * Export to XML model file.
  *
  * @package Model
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+/**
+ * Export to XML model class.
  */
 class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 {
@@ -34,9 +39,7 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function exportData()
 	{
 		$query = $this->getExportQuery();
@@ -183,18 +186,23 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 
 	public function createXml($entries, $entriesInventory)
 	{
-		$xml = new XMLWriter();
+		$exportBlockName = \App\Config::component('Export', 'BLOCK_NAME');
+		$xml = new \XMLWriter();
 		$xml->openMemory();
 		$xml->setIndent(true);
 		$xml->startDocument('1.0', 'UTF-8');
-
 		$xml->startElement('MODULE_FIELDS');
 		foreach ($this->moduleFieldInstances as $fieldName => $fieldModel) {
 			if (!\in_array($fieldModel->get('presence'), [0, 2])) {
 				continue;
 			}
 			$xml->startElement($fieldName);
-			$xml->writeAttribute('label', \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
+			$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->get('label')), $this->moduleName);
+			if ($exportBlockName) {
+				$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->getBlockName()), $this->moduleName) . '::' . $header;
+			}
+			$xml->writeAttribute('type', $fieldModel->getFieldDataType());
+			$xml->writeAttribute('label', $header);
 			if ($this->isCData($fieldName)) {
 				$xml->writeCData($entries[$fieldName]);
 			} else {

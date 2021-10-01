@@ -75,18 +75,18 @@
 									</select>
 								</div>
 							</div>
-						{/if}				
+						{/if}
 					</div>
 				</div>
 				<div class="float-left">
-					<button class="btn btn-success saveButton" type="submit">
+					<button class="btn btn-success saveButton mr-3" type="submit">
 						<strong>
-							<span class="fas fa-upload mr-1"></span>
+							<span class="fas fa-upload mr-2"></span>
 							{\App\Language::translate($MODULE, $MODULE)}
 						</strong>
 					</button>
 					<button class="btn btn-danger" type="reset" onclick='window.history.back()'>
-						<span class="fas fa-times mr-1"></span>
+						<span class="fas fa-times mr-2"></span>
 						{\App\Language::translate('LBL_CANCEL', $MODULE)}
 					</button>
 				</div>

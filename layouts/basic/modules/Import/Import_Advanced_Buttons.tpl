@@ -10,7 +10,11 @@
 ********************************************************************************/
 -->*}
 
-<button type="submit" name="import" id="importButton" class="crmButton big edit btn btn-success" disabled>{\App\Language::translate('LBL_IMPORT_BUTTON_LABEL', $MODULE)}</button>
-<button type="button" name="cancel" value="{\App\Language::translate('LBL_CANCEL', $MODULE)}" class="cursorPointer cancelLink btn btn-warning" onclick="window.history.back()">
+<button type="submit" name="import" id="importButton" class="crmButton big edit btn btn-success" disabled>
+	<span class="fas fa-file-import mr-2"></span>
+	{\App\Language::translate('LBL_IMPORT_BUTTON_LABEL', $MODULE)}
+</button>
+<button type="button" name="cancel" value="{\App\Language::translate('LBL_CANCEL', $MODULE)}" class="cursorPointer cancelLink btn btn-danger" onclick="window.history.back()">
+	<span class="fas fa-times mr-2"></span>
 	{\App\Language::translate('LBL_CANCEL', $MODULE)}
 </button>

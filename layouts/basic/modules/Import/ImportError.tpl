@@ -35,7 +35,7 @@
 				<td class="d-flex justify-content-center">
 					<table class="text-center w-100 dvtSelectedCell thickBorder importContents redColor">
 						<tr>
-							<td class="text-center">
+							<td class="text-center p-3">
 								{$ERROR_MESSAGE}
 							</td>
 						</tr>

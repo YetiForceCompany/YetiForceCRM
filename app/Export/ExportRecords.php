@@ -19,24 +19,34 @@ abstract class ExportRecords extends \App\Base
 {
 	/** @var string Module name */
 	protected $moduleName;
+
 	/** @var array Columns selected by user */
 	protected $exportColumns = [];
-	/** @var Vtiger_Module_Model Module model. */
+
+	/** @var \Vtiger_Module_Model Module model. */
 	protected $moduleInstance;
-	/** @var Vtiger_Field_Model[] Field model instance. */
+
+	/** @var \Vtiger_Field_Model[] Field model instance. */
 	protected $moduleFieldInstances;
-	/** @var CRMEntity Module class */
+
+	/** @var \CRMEntity Module class */
 	protected $focus;
+
 	/** @var array Picklist values */
 	protected $picklistValues;
-	/** @var array Field from related modules */
+
+	/** @var \Vtiger_Field_Model[] Field from related modules */
 	protected $relatedModuleFields = [];
+
 	/** @var int Record from list */
 	protected $recordsListFromRequest = [];
+
 	/** @var string File extension */
 	protected $fileExtension = '';
+
 	/** @var array Query options */
 	protected $queryOptions;
+
 	/** @var bool If is quick export */
 	protected $quickExport = false;
 
@@ -64,7 +74,7 @@ abstract class ExportRecords extends \App\Base
 	/**
 	 * Get instance from request.
 	 *
-	 * @param App\Request $request
+	 * @param \App\Request $request
 	 *
 	 * @return \self
 	 */
@@ -328,7 +338,7 @@ abstract class ExportRecords extends \App\Base
 					$queryGenerator->addRelatedField([
 						'sourceField' => $referenceField,
 						'relatedModule' => $relatedModule,
-						'relatedField' => $relatedFieldName
+						'relatedField' => $relatedFieldName,
 					]);
 				}
 			}

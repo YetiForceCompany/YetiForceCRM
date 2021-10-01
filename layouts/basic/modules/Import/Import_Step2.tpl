@@ -59,7 +59,7 @@
 			<div class="col-md-4 px-4"><span>{\App\Language::translate('LBL_XML_EXPORT_TPL', $MODULE)}</span></div>
 			<div class="col-md-6">
 				<select name="xml_import_tpl" class="select2" title="{\App\Language::translate('LBL_XML_EXPORT_TPL', $MODULE)}">
-					<option value="">{\App\Language::translate('LBL_NONE', 'Import')}</option>
+					<option value="0">{\App\Language::translate('LBL_DEFAULT')}</option>
 					{foreach key=key item=item from=$XML_IMPORT_TPL}
 						<option value="{$item}">{\App\Language::translate($item, 'Import')}</option>
 					{/foreach}

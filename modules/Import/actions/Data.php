@@ -258,7 +258,7 @@ class Import_Data_Action extends \App\Controller\Action
 						if (empty($ownerId)) {
 							$ownerId = \App\Fields\Owner::getGroupId($comparisonValue);
 						}
-						$comparisonValue = $ownerId ? $ownerId : 0;
+						$comparisonValue = $ownerId ?: 0;
 					}
 					if ('reference' == $fieldInstance->getFieldDataType()) {
 						if (strpos($comparisonValue, '::::') > 0) {
@@ -780,26 +780,36 @@ class Import_Data_Action extends \App\Controller\Action
 		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
 		foreach ($fieldData as $fieldName => $fieldValue) {
 			$fieldInstance = $moduleModel->getFieldByName($fieldName);
-			if ('owner' === $fieldInstance->getFieldDataType()) {
+			$fieldType = $fieldInstance->getFieldDataType();
+			if ('owner' === $fieldType) {
 				$fieldData[$fieldName] = $this->transformOwner($fieldInstance, $fieldValue);
-			} elseif ('sharedOwner' === $fieldInstance->getFieldDataType()) {
+			} elseif ('sharedOwner' === $fieldType) {
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldInstance, $fieldValue);
-			} elseif ('multipicklist' === $fieldInstance->getFieldDataType()) {
+			} elseif ('multipicklist' === $fieldType) {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue);
-			} elseif (\in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$referenceTypes)) {
+			} elseif (\in_array($fieldType, Vtiger_Field_Model::$referenceTypes)) {
 				$fieldData[$fieldName] = $this->transformReference($fieldInstance, $fieldValue);
-			} elseif ('picklist' === $fieldInstance->getFieldDataType()) {
+			} elseif ('picklist' === $fieldType) {
 				$fieldData[$fieldName] = $this->transformPicklist($fieldInstance, $fieldValue);
-			} elseif ('tree' === $fieldInstance->getFieldDataType() || 'categoryMultipicklist' === $fieldInstance->getFieldDataType()) {
+			} elseif ('tree' === $fieldType || 'categoryMultipicklist' === $fieldType) {
 				$fieldData[$fieldName] = $this->transformTree($fieldInstance, $fieldValue);
-			} elseif ('Calendar' === $fieldInstance->getModuleName() && \in_array($fieldInstance->getFieldName(), ['date_start', 'due_date'])) {
+			} elseif ('Calendar' === $fieldInstance->getModuleName() && \in_array($fieldInstance->getName(), ['date_start', 'due_date'])) {
 				$fieldData[$fieldName] = $this->transformDate($fieldValue);
-			} elseif ('datetime' === $fieldInstance->getFieldDataType() && '' !== $fieldValue) {
+			} elseif ('datetime' === $fieldType && '' !== $fieldValue) {
 				$fieldData[$fieldName] = $this->transformDatetime($fieldValue);
-			} elseif ('date' === $fieldInstance->getFieldDataType() && '' !== $fieldValue) {
+			} elseif ('date' === $fieldType && '' !== $fieldValue) {
 				$fieldData[$fieldName] = $this->transformDate($fieldValue);
-			} elseif ('country' === $fieldInstance->getFieldDataType() && '' !== $fieldValue) {
+			} elseif ('country' === $fieldType && '' !== $fieldValue) {
 				$fieldData[$fieldName] = \App\Fields\Country::findCountryName($fieldValue);
+			} elseif ('image' === $fieldType || 'multiImage' === $fieldType) {
+				$value = \App\Json::decode($fieldValue);
+				$new = [];
+				foreach ($value as $item) {
+					if (isset($item['baseContent'])) {
+						$new[] = \App\Fields\File::saveFromBase($item, $this->module);
+					}
+				}
+				$fieldData[$fieldName] = \App\Json::encode($new);
 			} elseif ('' === $fieldValue && isset($this->defaultValues[$fieldName])) {
 				$fieldData[$fieldName] = $this->defaultValues[$fieldName];
 			} else {
@@ -913,7 +923,7 @@ class Import_Data_Action extends \App\Controller\Action
 				'merged' => $importStatusCount['MERGED'],
 				'skipped' => $importStatusCount['SKIPPED'],
 				'failed' => $importStatusCount['FAILED'],
-				'module' => App\Language::translate($importDataController->module, $importDataController->module)
+				'module' => App\Language::translate($importDataController->module, $importDataController->module),
 			]);
 			$importDataController->finishImport();
 		}
@@ -1051,10 +1061,10 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		$relationModel = Vtiger_Relation_Model::getInstanceById($relationId);
 		$sourceRecord = \App\Record::isExists($sourceId) ? Vtiger_Record_Model::getInstanceById($sourceId) : null;
-		if ($relationModel &&
-			$sourceRecord && $sourceRecord->isViewable() &&
-			$relationModel->getRelationModuleName() === $this->module &&
-			$relationModel->getParentModuleModel()->getName() === $sourceRecord->getModuleName()
+		if ($relationModel
+			&& $sourceRecord && $sourceRecord->isViewable()
+			&& $relationModel->getRelationModuleName() === $this->module
+			&& $relationModel->getParentModuleModel()->getName() === $sourceRecord->getModuleName()
 		) {
 			$relationModel->addRelation($sourceRecord->getId(), $recordModel->getId());
 		}

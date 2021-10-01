@@ -1362,7 +1362,9 @@ class File
 	public static function parse(array $value)
 	{
 		return array_reduce($value, function ($result, $item) {
-			$result[$item['key']] = $item;
+			if (isset($item['key'])) {
+				$result[$item['key']] = $item;
+			}
 			return $result;
 		}, []);
 	}
@@ -1439,7 +1441,7 @@ class File
 	 *
 	 * @return array
 	 */
-	public static function saveFromBase($raw, $moduleName)
+	public static function saveFromBase($raw, $moduleName): array
 	{
 		$file = static::loadFromContent(\base64_decode($raw['baseContent']), $raw['name']);
 		$savePath = static::initStorageFileDirectory($moduleName);
@@ -1454,6 +1456,7 @@ class File
 			];
 		}
 		$file->delete();
+		return [];
 	}
 
 	/**

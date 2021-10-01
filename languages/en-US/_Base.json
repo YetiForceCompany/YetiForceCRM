@@ -1501,7 +1501,9 @@
     "LBL_PWD_CLIPBOARD_DBCLICK": "Double click to get the password",
     "LBL_PWD_USER_PASSWORD_OK": "Password complies with the system requirements.",
     "LBL_QUICK_EXPORT_INFO": "The fields from the current list view will be exported if no fields are selected",
-	"LBL_MASS_EDIT_INCLUDE": "Include",
+    "LBL_EXPORT_USER_FORMAT_ALERT": "All exported data are in the user's format, that means converted according to the settings of the currently logged in user, such as date, time, number formatting",
+    "LBL_USER_FORMAT_DATA_CANNOT_BE_IMPORTED": "User format data cannot be imported into the system",
+    "LBL_MASS_EDIT_INCLUDE": "Include",
     "LBL_MASS_EDIT_INCLUDE_INFO": "Checking the field will result in adding the values to the already existing ones"
   },
   "js": {

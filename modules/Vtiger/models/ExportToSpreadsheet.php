@@ -211,6 +211,10 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 					$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 				}
 				break;
+			case 'text':
+				$displayValue = \App\Purifier::decodeHtml($fieldModel->getDisplayValue($value, $id, false, true, null));
+				$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, $displayValue, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				break;
 			default:
 				$displayValue = $fieldModel->getDisplayValue($value, $id, false, true, null);
 				$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, $displayValue, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
@@ -218,9 +222,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 		++$this->colNo;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function sanitizeInventoryValues(array $inventoryRow, array $inventoryFields): array
 	{
 		++$this->invNo;

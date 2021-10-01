@@ -9,10 +9,16 @@
 *
 ********************************************************************************/
 -->*}
-
-<button type="submit" name="next"  class="btn btn-success"
-		onclick="return ImportJs.uploadAndParse();"><strong>{\App\Language::translate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</strong></button>
-&nbsp;&nbsp;
-<button class="btn btn-warning" type="reset"
-		onclick="location.href = '{$MODULE_MODEL->getUrl()}'"
-		>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+{strip}
+	<!-- tpl-Import-Import_Basic_Buttons -->
+	<button type="submit" name="next"  class="btn btn-success" onclick="return ImportJs.uploadAndParse();">
+		<span class="fas fa-angle-double-right mr-2"></span>
+		<strong>{\App\Language::translate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</strong>
+	</button>
+	&nbsp;&nbsp;
+	<button class="btn btn-danger" type="reset" onclick="location.href = '{$MODULE_MODEL->getUrl()}'" >
+		<span class="fas fa-times mr-2"></span>
+		{\App\Language::translate('LBL_CANCEL', $MODULE)}
+	</button>
+	<!-- /tpl-Import-Import_Basic_Buttons -->
+{/strip}
