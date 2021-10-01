@@ -10,6 +10,7 @@ let filesToMin = []
 async function build(fileName) {
 	const inputOptions = {
 			input: fileName,
+			treeshake: false,
 			plugins: [
 				babel({
 					babelrc: false,
@@ -62,7 +63,6 @@ finder.on('file', (file, stat) => {
 
 finder.on('end', () => {
 	filesToMin.forEach(file => {
-		//log files to minify
 		console.log('Building... ' + file)
 		build(file)
 			.then(_ => {
