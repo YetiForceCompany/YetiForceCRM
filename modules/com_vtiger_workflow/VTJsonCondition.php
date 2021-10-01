@@ -537,6 +537,8 @@ class VTJsonCondition
 					return false;
 				}
 				return true;
+			case 'not created by owner':
+				return $recordModel->get($fieldInstance->getName()) !== $recordModel->get('created_user_id');
 			default:
 				//Unexpected condition
 				throw new \App\Exceptions\AppException('Found an unexpected condition: ' . $condition);

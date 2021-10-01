@@ -647,6 +647,7 @@ class Vtiger_Record_Model extends \App\Base
 			$row['smcreatorid'] = $this->isEmpty('created_user_id') ? \App\User::getCurrentUserRealId() : $this->get('created_user_id');
 			$row['createdtime'] = $this->isEmpty('createdtime') ? $time : $this->get('createdtime');
 			$this->set('createdtime', $row['createdtime']);
+			$this->set('created_user_id', $row['smcreatorid']);
 		}
 		$row['modifiedtime'] = $this->getPreviousValue('modifiedtime') ? $this->get('modifiedtime') : $time;
 		$row['modifiedby'] = $this->getPreviousValue('modifiedby') ? $this->get('modifiedby') : \App\User::getCurrentUserRealId();

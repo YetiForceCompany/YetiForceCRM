@@ -72,6 +72,7 @@ class Vtiger_AdvancedFilter_Helper
 			'is Not Watching Record' => 'is Not Watching Record',
 			'is record open' => 'Record is open',
 			'is record closed' => 'Record is closed',
+			'not created by owner' => 'LBL_NOT_CREATED_BY_OWNER',
 		];
 	}
 
@@ -101,7 +102,7 @@ class Vtiger_AdvancedFilter_Helper
 				'days ago', 'days later', 'is not empty', ],
 			'boolean' => ['is', 'is not', 'has changed', 'not has changed', 'has changed to'],
 			'reference' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'not has changed', 'is empty', 'is not empty'],
-			'owner' => ['has changed', 'not has changed', 'is', 'is not', 'is Watching Record', 'is Not Watching Record'],
+			'owner' => ['has changed', 'not has changed', 'is', 'is not', 'is Watching Record', 'is Not Watching Record', 'not created by owner'],
 			'sharedOwner' => ['has changed', 'not has changed', 'is', 'is not', 'is not empty', 'is empty'],
 			'userCreator' => ['is', 'is not', 'is not empty', 'is empty', 'om', 'nom'],
 			'recurrence' => ['is', 'is not', 'has changed', 'not has changed'],
