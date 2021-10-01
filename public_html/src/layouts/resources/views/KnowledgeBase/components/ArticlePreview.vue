@@ -54,7 +54,7 @@ export default {
         left:
           Quasar.plugins.Screen.width - (Quasar.plugins.Screen.width - 100 / 2)
       },
-      previewMaximized: true
+      previewMaximized: !Quasar.Platform.is.desktop
     }
   },
   computed: {

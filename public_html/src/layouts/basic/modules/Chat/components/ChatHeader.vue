@@ -138,6 +138,8 @@ export default {
       this.$emit('showTabHistory', value)
     },
     toggleSize() {
+	  let classList = this.$parent.$el.parentElement.parentElement.classList
+	  this.miniMode ? classList.add('fit') : classList.remove('fit')
       this.miniMode = !this.miniMode
     },
     toggleSoundNotification() {

@@ -293,6 +293,8 @@ export default {
       }
     },
     toggleMaximized() {
+	  let classList = this.$el.parentElement.parentElement.classList
+	  this.previewMaximized ? classList.remove('fit') : classList.add('fit')
       this.$emit('update:previewMaximized', !this.previewMaximized)
     }
   }

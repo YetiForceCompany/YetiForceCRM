@@ -119,6 +119,9 @@ export default {
       this.$emit('dragstop', true)
     },
     onActivated() {
+	  if(this.$options.propsData.maximized && this.$refs.resize.$el.querySelectorAll('.content-container').length === 1){
+		this.$refs.resize.$el.querySelectorAll('.content-container')[0].classList.add('fit');
+	  }
       const sticks = this.$refs.resize.$el.querySelectorAll('.vdr-stick')
       Array.prototype.map.call(sticks, element => {
         for (let prop in this.stickStyle) {
