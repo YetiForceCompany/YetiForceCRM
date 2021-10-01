@@ -71,6 +71,22 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getValueFromImport($value, $defaultValue = null)
+	{
+		if (null === $value || '0000-00-00 00:00:00' === $value) {
+			$value = '';
+		}
+		$valuesList = explode(' ', $value);
+		if (1 === \count($valuesList)) {
+			$value = '';
+		}
+		if (0 == preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2} ([0-1][0-9]|[2][0-3])([:][0-5][0-9]){1,2}$/', $value)) {
+			$value = '';
+		}
+		return $value;
+	}
+
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/DateTime.tpl';

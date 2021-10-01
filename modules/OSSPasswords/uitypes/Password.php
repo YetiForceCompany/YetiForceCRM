@@ -65,7 +65,7 @@ class OSSPasswords_Password_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function getValueFromImport($value)
+	public function getValueFromImport($value, $defaultValue = null)
 	{
 		$config = false;
 		if (file_exists('modules/OSSPasswords/config.ini.php')) {

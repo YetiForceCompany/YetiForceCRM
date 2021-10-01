@@ -545,61 +545,6 @@ abstract class ExportRecords extends \App\Base
 				continue;
 			}
 			$value = $fieldModel->getUITypeModel()->getValueToExport($value, $recordId);
-			$uitype = $fieldModel->get('uitype');
-			$fieldname = $fieldModel->get('name');
-			if (empty($this->fieldDataTypeCache[$fieldName])) {
-				$this->fieldDataTypeCache[$fieldName] = $fieldModel->getFieldDataType();
-			}
-			$type = $this->fieldDataTypeCache[$fieldName];
-			if (15 === $uitype || 16 === $uitype || 33 === $uitype) {
-				if (empty($this->picklistValues[$fieldname])) {
-					if (isset($this->moduleFieldInstances[$fieldname])) {
-						$this->picklistValues[$fieldname] = $this->moduleFieldInstances[$fieldname]->getPicklistValues();
-					}
-					if (isset($this->relatedModuleFields[$fieldname])) {
-						$this->picklistValues[$fieldname] = $this->relatedModuleFields[$fieldname]->getPicklistValues();
-					}
-				}
-				// If the value being exported is accessible to current user
-				// or the picklist is multiselect type.
-				if (33 === $uitype || 16 === $uitype || \array_key_exists($value, $this->picklistValues[$fieldname])) {
-					// NOTE: multipicklist (uitype=33) values will be concatenated with |# delim
-					$value = trim($value);
-				} else {
-					$value = '';
-				}
-			} elseif (52 === $uitype || 'owner' === $type) {
-				$value = \App\Fields\Owner::getLabel($value);
-			} elseif ($fieldModel->isReferenceField()) {
-				$value = trim($value);
-				if (!empty($value)) {
-					$recordModule = \App\Record::getType($value);
-					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
-					if (!empty($displayValueArray)) {
-						foreach ($displayValueArray as $v) {
-							$displayValue = $v;
-						}
-					}
-					if (!empty($recordModule) && !empty($displayValue)) {
-						$value = $recordModule . '::::' . $displayValue;
-					} else {
-						$value = '';
-					}
-				} else {
-					$value = '';
-				}
-			} elseif (\in_array($uitype, [302, 309])) {
-				$parts = explode(',', trim($value, ', '));
-				$values = \App\Fields\Tree::getValuesById((int) $fieldModel->getFieldParams());
-				foreach ($parts as &$part) {
-					foreach ($values as $id => $treeRow) {
-						if ($part === $id) {
-							$part = $treeRow['name'];
-						}
-					}
-				}
-				$value = implode(' |##| ', $parts);
-			}
 		}
 		return $recordValues;
 	}

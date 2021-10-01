@@ -140,6 +140,113 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getValueToExport($value, int $recordId)
+	{
+		$value = trim($value);
+		if (!empty($value)) {
+			$recordModule = \App\Record::getType($value);
+			$displayValueArray = \App\Record::computeLabels($recordModule, $value);
+			if (!empty($displayValueArray)) {
+				foreach ($displayValueArray as $v) {
+					$displayValue = $v;
+				}
+			}
+			if (!empty($recordModule) && !empty($displayValue)) {
+				$value = $recordModule . '::::' . $displayValue;
+			} else {
+				$value = '';
+			}
+		} else {
+			$value = '';
+		}
+		return $value;
+	}
+
+	/** {@inheritdoc} */
+	public function getValueFromImport($value, $defaultValue = null)
+	{
+		$fieldValueDetails = [];
+		$referenceModuleName = '';
+		$entityId = false;
+		if (false !== strpos($value, '::::')) {
+			$fieldValueDetails = explode('::::', $value);
+		} elseif (false !== strpos($value, ':::')) {
+			$fieldValueDetails = explode(':::', $value);
+		}
+		if ($fieldValueDetails && \count($fieldValueDetails) > 1) {
+			$referenceModuleName = trim($fieldValueDetails[0]);
+			$entityLabel = trim($fieldValueDetails[1]);
+			if (\App\Module::isModuleActive($referenceModuleName)) {
+				$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, App\Purifier::decodeHtml($entityLabel));
+			} else {
+				$referenceModuleName = $defaultValue;
+				if (false !== strpos($referenceModuleName, '::')) {
+					[$referenceModuleName, ] = explode('::', $referenceModuleName);
+				}
+				$referencedModules = $this->getFieldModel()->getReferenceList();
+				if ($referenceModuleName && \in_array($referenceModuleName, $referencedModules)) {
+					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, $entityLabel);
+				}
+			}
+		} else {
+			$entityLabel = $value;
+			$referencedModules = $this->getFieldModel()->getReferenceList();
+			if (!empty($defaultValue) && false !== strpos($defaultValue, '::')) {
+				[$refModule, $refFieldName] = explode('::', $defaultValue);
+				if (\in_array($refModule, $referencedModules)) {
+					$referenceModuleName = $refModule;
+					$queryGenerator = new \App\QueryGenerator($refModule);
+					$queryGenerator->permissions = false;
+					$queryGenerator->setFields(['id'])->addCondition($refFieldName, $value, 'e');
+					$entityId = $queryGenerator->createQuery()->scalar();
+				}
+			}
+			foreach ($referencedModules as $referenceModule) {
+				$referenceModuleName = $referenceModule;
+				if ('Users' === $referenceModule) {
+					$referenceEntityId = \App\User::getUserIdByFullName(trim($entityLabel));
+				} elseif ('Currency' === $referenceModule) {
+					$referenceEntityId = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
+				} else {
+					$referenceEntityId = \App\Record::getCrmIdByLabel($referenceModule, App\Purifier::decodeHtml($entityLabel));
+				}
+				if ($referenceEntityId) {
+					$entityId = $referenceEntityId;
+					break;
+				}
+			}
+		}
+		if (\App\Config::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName) && \App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
+			try {
+				$recordModel = Vtiger_Record_Model::getCleanInstance($referenceModuleName);
+				$moduleModel = $recordModel->getModule();
+				$mandatoryFields = array_keys($moduleModel->getMandatoryFieldModels());
+				$entityNameFields = $moduleModel->getNameFields();
+				$save = $entityId = false;
+				foreach ($entityNameFields as $entityNameField) {
+					if (\in_array($entityNameField, $mandatoryFields)) {
+						$recordModel->set($entityNameField, $entityLabel);
+						$save = true;
+					}
+				}
+				if ($save) {
+					if (!\App\Config::module('Import', 'SAVE_BY_HANDLERS')) {
+						$recordModel->setHandlerExceptions(['disableHandlers' => true]);
+					}
+					$recordModel->save();
+					$entityId = $recordModel->getId();
+					if ($entityId) {
+						\App\Record::updateLabel($referenceModuleName, $recordModel->getId());
+					}
+				}
+			} catch (\Exception $e) {
+				$entityId = false;
+			}
+		}
+		return $entityId;
+	}
+
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		$fieldModel = $this->getFieldModel();

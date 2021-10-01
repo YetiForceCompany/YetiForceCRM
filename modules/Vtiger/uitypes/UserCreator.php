@@ -32,6 +32,12 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getValueToExport($value, int $recordId)
+	{
+		return \App\Fields\Owner::getLabel($value);
+	}
+
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/Owner.tpl';

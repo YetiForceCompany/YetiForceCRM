@@ -169,6 +169,31 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		return implode(', ', $display);
 	}
 
+	/** {@inheritdoc} */
+	public function getValueFromImport($value, $defaultValue = null)
+	{
+		$values = [];
+		if ($value) {
+			$owners = explode(',', $value);
+			foreach ($owners as $owner) {
+				$ownerId = \App\User::getUserIdByName(trim($owner));
+				if (empty($ownerId)) {
+					$ownerId = \App\User::getUserIdByFullName(trim($owner));
+				}
+				if (empty($ownerId)) {
+					$ownerId = \App\Fields\Owner::getGroupId($owner);
+				}
+				if (empty($ownerId) && null !== $defaultValue) {
+					$ownerId = $defaultValue;
+				}
+				if (!empty($ownerId)) {
+					$values[] = $ownerId;
+				}
+			}
+		}
+		return implode(',', $values);
+	}
+
 	/**
 	 * Get users and group for module list.
 	 *

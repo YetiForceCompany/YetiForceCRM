@@ -118,6 +118,31 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getValueToExport($value, int $recordId)
+	{
+		return \App\Fields\Owner::getLabel($value);
+	}
+
+	/** {@inheritdoc} */
+	public function getValueFromImport($value, $defaultValue = null)
+	{
+		$ownerId = \App\User::getUserIdByName(trim($value));
+		if (empty($ownerId)) {
+			$ownerId = \App\User::getUserIdByFullName(trim($value));
+		}
+		if (empty($ownerId)) {
+			$ownerId = \App\Fields\Owner::getGroupId($value);
+		}
+		if (empty($ownerId) && null !== $defaultValue) {
+			$ownerId = $defaultValue;
+		}
+		if (!empty($ownerId) && 'Users' === \App\Fields\Owner::getType($ownerId) && !\array_key_exists($ownerId, \App\Fields\Owner::getInstance($this->getFieldModel()->getModuleName())->getAccessibleUsers('', 'owner'))) {
+			$ownerId = $defaultValue;
+		}
+		return $ownerId;
+	}
+
+	/** {@inheritdoc} */
 	public function getRelatedListDisplayValue($value)
 	{
 		return $value;

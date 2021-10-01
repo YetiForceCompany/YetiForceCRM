@@ -149,7 +149,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function getValueFromImport($value)
+	public function getValueFromImport($value, $defaultValue = null)
 	{
 		if (\Config\Main::$phoneFieldAdvancedVerification ?? false) {
 			$value = preg_replace('/[^+\d]/', '', $value);

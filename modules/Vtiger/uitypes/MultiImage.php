@@ -293,7 +293,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				'postData' => [
 					'module' => $this->getFieldModel()->getModuleName(),
 					'actionName' => 'MultiImage',
-					'field' => $this->getFieldModel()->getFieldName(),
+					'field' => $this->getFieldModel()->getName(),
 					'record' => $id,
 					'key' => $item['key'],
 				],
@@ -339,6 +339,19 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			}
 		}
 		return $return ? \App\Json::encode($return) : '';
+	}
+
+	/** {@inheritdoc} */
+	public function getValueFromImport($value, $defaultValue = null)
+	{
+		$value = \App\Json::decode($value);
+		$new = [];
+		foreach ($value as $item) {
+			if (isset($item['baseContent'])) {
+				$new[] = \App\Fields\File::saveFromBase($item, $this->getFieldModel()->getModuleName());
+			}
+		}
+		return \App\Json::encode($new);
 	}
 
 	/** {@inheritdoc} */

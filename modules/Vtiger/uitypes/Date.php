@@ -27,7 +27,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 				'name' => $fieldModel->getName(),
 				'label' => 'LBL_INTEGER',
 				'displaytype' => 1,
-				'typeofdata' => 'I~M'
+				'typeofdata' => 'I~M',
 			]);
 		}
 		return $fieldModel;
@@ -98,6 +98,18 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			$value = DateTimeField::convertToUserFormat($value);
 		}
 		return \App\Purifier::encodeHtml($value);
+	}
+
+	/** {@inheritdoc} */
+	public function getValueFromImport($value, $defaultValue = null)
+	{
+		if (null === $value || '0000-00-00' === $value) {
+			$value = '';
+		}
+		if (0 == preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/', $value)) {
+			$value = '';
+		}
+		return $value;
 	}
 
 	/** {@inheritdoc} */

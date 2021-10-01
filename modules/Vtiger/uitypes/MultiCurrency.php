@@ -203,7 +203,7 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function getValueFromImport($value)
+	public function getValueFromImport($value, $defaultValue = null)
 	{
 		$result = [];
 		if (\is_string($value)) {

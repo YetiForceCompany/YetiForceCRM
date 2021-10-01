@@ -83,6 +83,9 @@ class Field extends FieldBasic
 			$db->createCommand()
 				->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)
 				->execute();
+			if (isset($this->picklistValues)) {
+				$this->picklistValues[$value] = $value;
+			}
 		}
 		\App\Fields\Picklist::clearCache($this->name, $this->getModuleName());
 	}
@@ -128,6 +131,9 @@ class Field extends FieldBasic
 			];
 			$dbCommand->insert($picklistTable, $data)->execute();
 			++$sortId;
+			if (isset($this->picklistValues)) {
+				$this->picklistValues[$value] = $value;
+			}
 		}
 		\App\Fields\Picklist::clearCache($this->name, $this->getModuleName());
 	}

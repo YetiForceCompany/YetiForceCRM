@@ -61,6 +61,27 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getValueFromImport($value, $defaultValue = null)
+	{
+		$value = trim($value);
+		if ('' === $value) {
+			return $defaultValue ?? '';
+		}
+		$picklistValues = array_keys($this->getFieldModel()->getPicklistValues());
+		$picklistValueInLowerCase = mb_strtolower(htmlentities($value, ENT_QUOTES, \App\Config::main('default_charset', 'UTF-8')));
+		$allPicklistValuesInLowerCase = array_map('mb_strtolower', $picklistValues);
+		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $picklistValues);
+		if (\in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
+			$value = $picklistDetails[$picklistValueInLowerCase];
+		} else {
+			if (\App\Config::module('Import', 'ADD_PICKLIST_VALUE')) {
+				$this->getFieldModel()->setPicklistValues([$value]);
+			}
+		}
+		return $value;
+	}
+
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/PickList.tpl';

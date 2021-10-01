@@ -98,6 +98,20 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getValueFromImport($value, $defaultValue = null)
+	{
+		$trimmedValue = trim($value);
+		if ('' === $trimmedValue) {
+			return $defaultValue ?? '';
+		}
+		$explodedValue = explode(' |##| ', $trimmedValue);
+		foreach ($explodedValue as $key => $value) {
+			$explodedValue[$key] = trim($value);
+		}
+		return implode(' |##| ', $explodedValue);
+	}
+
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MultiPicklist.tpl';

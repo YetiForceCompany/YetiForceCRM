@@ -47,6 +47,12 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getValueFromImport($value, $defaultValue = null)
+	{
+		return \App\Fields\Country::findCountryName($value);
+	}
+
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Country.tpl';
@@ -66,7 +72,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	public function getPicklistValues()
 	{
 		$values = [];
-		foreach(\App\Fields\Country::getAll('uitype') as $key=>$data){
+		foreach (\App\Fields\Country::getAll('uitype') as $key => $data) {
 			$values[$key] = \App\Language::translateSingleMod($key, 'Other.Country');
 		}
 		return $values;

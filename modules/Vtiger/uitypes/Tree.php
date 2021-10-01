@@ -78,6 +78,45 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getValueToExport($value, int $recordId)
+	{
+		$parts = explode(',', trim($value, ', '));
+		$values = \App\Fields\Tree::getValuesById((int) $this->getFieldModel()->getFieldParams());
+		foreach ($parts as &$part) {
+			foreach ($values as $id => $treeRow) {
+				if ($part === $id) {
+					$part = $treeRow['name'];
+				}
+			}
+		}
+		return implode(' |##| ', $parts);
+	}
+
+	/** {@inheritdoc} */
+	public function getValueFromImport($value, $defaultValue = null)
+	{
+		$values = explode(' |##| ', trim($value));
+		$fieldValue = '';
+		$trees = \App\Fields\Tree::getValuesById((int) $this->getFieldModel()->getFieldParams());
+		foreach ($trees as $tree) {
+			foreach ($values as $value) {
+				if ($tree['name'] === $value) {
+					$fieldValue .= $tree['tree'] . ',';
+					break;
+				}
+			}
+		}
+		if ('tree' === $this->getFieldModel()->getFieldDataType()) {
+			$fieldValue = trim($fieldValue, ',');
+		} else {
+			if ($fieldValue) {
+				$fieldValue = ',' . $fieldValue;
+			}
+		}
+		return $fieldValue;
+	}
+
+	/** {@inheritdoc} */
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/Tree.tpl';

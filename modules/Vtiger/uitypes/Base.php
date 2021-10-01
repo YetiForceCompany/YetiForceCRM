@@ -473,10 +473,11 @@ class Vtiger_Base_UIType extends \App\Base
 	 * Gets value from import.
 	 *
 	 * @param mixed $value
+	 * @param mixed $defaultValue
 	 *
 	 * @return mixed
 	 */
-	public function getValueFromImport($value)
+	public function getValueFromImport($value, $defaultValue = null)
 	{
 		return $value;
 	}
