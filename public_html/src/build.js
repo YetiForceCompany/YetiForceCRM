@@ -13,7 +13,7 @@ async function build(fileName) {
 			plugins: [
 				babel({
 					babelrc: false,
-					babelHelpers: 'external',
+					babelHelpers: 'inline',
 					presets: [
 						[
 							`${dirModules}@babel/preset-env`,
@@ -30,11 +30,7 @@ async function build(fileName) {
 							}
 						]
 					],
-					plugins: [
-						`${dirModules}@babel/plugin-external-helpers`,
-						`${dirModules}@babel/plugin-proposal-object-rest-spread`,
-						`${dirModules}@babel/plugin-transform-classes`
-					]
+					plugins: [`${dirModules}@babel/plugin-proposal-object-rest-spread`, `${dirModules}@babel/plugin-transform-classes`]
 				}),
 				sourcemaps()
 			]
