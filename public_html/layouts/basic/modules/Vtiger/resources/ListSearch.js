@@ -126,7 +126,7 @@ jQuery.Class(
 			let lockedFields = listViewContainer.find('.js-locked-fields').val();
 			if (lockedFields !== '') {
 				temporarily = JSON.parse(lockedFields);
-				if ($.inArray(self.lastSearchColumn, temporarily) == -1) {
+				if (self.lastSearchColumn && $.inArray(self.lastSearchColumn, temporarily) == -1) {
 					temporarily.push(self.lastSearchColumn);
 				}
 			} else {
