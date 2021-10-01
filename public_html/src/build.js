@@ -1,5 +1,5 @@
 const rollup = require('rollup'),
-	babel = require('rollup-plugin-babel'),
+	{ babel } = require('@rollup/plugin-babel'),
 	finder = require('findit')('../'),
 	path = require('path'),
 	sourcemaps = require('rollup-plugin-sourcemaps'),
@@ -13,9 +13,10 @@ async function build(fileName) {
 			plugins: [
 				babel({
 					babelrc: false,
+					babelHelpers: 'external',
 					presets: [
 						[
-							`${dirModules}babel-preset-env`,
+							`${dirModules}@babel/preset-env`,
 							{
 								modules: false
 							}
@@ -30,9 +31,9 @@ async function build(fileName) {
 						]
 					],
 					plugins: [
-						`${dirModules}babel-plugin-external-helpers`,
-						`${dirModules}babel-plugin-transform-object-rest-spread`,
-						`${dirModules}babel-plugin-transform-es2015-classes`
+						`${dirModules}@babel/plugin-external-helpers`,
+						`${dirModules}@babel/plugin-proposal-object-rest-spread`,
+						`${dirModules}@babel/plugin-transform-classes`
 					]
 				}),
 				sourcemaps()

@@ -3,6 +3,7 @@
  *
  * @license YetiForce Public License 4.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 const rollup = require('rollup'),
@@ -11,8 +12,8 @@ const rollup = require('rollup'),
 	path = require('path'),
 	vue = require('rollup-plugin-vue'),
 	sass = require('rollup-plugin-sass'),
-	commonjs = require('rollup-plugin-commonjs'),
-	resolve = require('rollup-plugin-node-resolve'),
+	commonjs = require('@rollup/plugin-commonjs'),
+	resolve = require('@rollup/plugin-node-resolve').nodeResolve,
 	globals = require('rollup-plugin-node-globals'),
 	json = require('@rollup/plugin-json'),
 	buble = require('@rollup/plugin-buble'),
@@ -41,7 +42,8 @@ const plugins = [
 		transforms: {
 			arrow: true,
 			modules: false,
-			dangerousForOf: true
+			dangerousForOf: true,
+			spreadRest: false
 		},
 		objectAssign: 'Object.assign'
 	}),
