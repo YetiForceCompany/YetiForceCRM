@@ -43,6 +43,7 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model
 				'linklabel' => 'LBL_SPECIFY_THE_MARGINP',
 				'linkurl' => 'javascript:PriceBooks_RelatedList_Js.triggerMassMargin()',
 				'linkclass' => '',
+				'linkicon' => 'fas fa-hand-holding-usd',
 			]);
 		}
 		return $relatedLink;
