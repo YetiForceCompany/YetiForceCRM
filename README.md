@@ -12,7 +12,6 @@
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors)
 [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
-[![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.svg)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
 [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM 'Average time to resolve an issue')
@@ -39,7 +38,6 @@
 	</a>
 </p>
 
-[![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/big.png)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 <a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
 <img width="20%" src="https://support.crowdin.com/assets/badges/localization-at-transparent@1x.svg" alt="crowdin Localization Management Platform">
 </a>
@@ -75,15 +73,16 @@ Follow us on [Twitter](https://twitter.com/YetiForceEN) or like on [FaceBook](ht
 - [Development version](https://download.yetiforce.com/crm-developer.zip) - full package (yarn + composer)
 - [Docker](tests/setup/docker.md) - docker container, for development purposes only
 
-1. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-install-crm-system)
-2. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes-2).
-3. Check Milestone to verify release due date
+1. Requirements [Web server requirements](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements)
+2. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-install-crm-system)
+3. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes-2).
+4. Check Milestone to verify release due date
    https://github.com/YetiForceCompany/YetiForceCRM/milestones
-4. Update PKG link.
+5. Update PKG link.
    https://github.com/YetiForceCompany/UpdatePackages
-5. Additional scripts
+6. Additional scripts
    https://github.com/YetiForceCompany/YetiForceScripts
-6. Languages package
+7. Languages package
    https://github.com/YetiForceCompany/YetiForceCRMLanguages
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
