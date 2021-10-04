@@ -63,7 +63,7 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 #### :blue_book: Knowledge base: [yetiforce.com/en/knowledge-base/documentation](https://yetiforce.com/en/knowledge-base/documentation)
 
-#### :computer: Code Documentation: [doc.yetiforce.com/code/](https://doc.yetiforce.com/code/)
+#### :pencil: Code Documentation: [doc.yetiforce.com/code/](https://doc.yetiforce.com/code/)
 
 #### :globe_with_meridians: API documentation: [doc.yetiforce.com/api/](https://doc.yetiforce.com/api/)
 
