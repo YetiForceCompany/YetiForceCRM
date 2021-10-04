@@ -570,12 +570,14 @@ $.Class(
 			let listSearchInstance = this.getListSearchInstance();
 			if (listSearchInstance !== false) {
 				let searchValue = listSearchInstance.getAlphabetSearchValue();
-				params.search_params = JSON.stringify(listSearchInstance.getListSearchParams(true));
+				params.search_params = listSearchInstance.getListSearchParams(true);
 				if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
 					params.search_key = listSearchInstance.getAlphabetSearchField();
 					params.search_value = searchValue;
 					params.operator = 's';
 				}
+				listSearchInstance.parseConditions(params);
+				params.search_params = JSON.stringify(params.search_params);
 			}
 			return params;
 		},
