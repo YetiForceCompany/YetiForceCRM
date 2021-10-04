@@ -38,10 +38,14 @@
 	</a>
 </p>
 
-<a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
-<img width="20%" src="https://support.crowdin.com/assets/badges/localization-at-transparent@1x.svg" alt="crowdin Localization Management Platform">
-</a>
-[![Download YetiForce CRM](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/yetiforce/files/latest/download)
+<p align="center">
+	<a href="https://sourceforge.net/projects/yetiforce/files/latest/download" rel="nofollow">
+		<img width="30%" src="https://a.fsdn.com/con/app/sf-download-button" srcset="https://a.fsdn.com/con/app/sf-download-button?button_size=2x 2x" alt="Download YetiForce CRM">
+	</a>
+	<a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
+		<img width="30%" src="https://support.crowdin.com/assets/badges/localization-at-transparent@1x.svg" alt="crowdin Localization Management Platform">
+	</a>
+</p>
 
 We design an innovative CRM system that is dedicated for large and medium sized companies. We dedicate it to everyone who values open source software, security and innovation. YetiForce was built on a rock-solid Vtiger foundation, but has hundreds of changes that help to accomplish even the most challenging tasks in the simplest way. Every function within the system was thought through and automated to ensure that all of them work together seamlessly and form a coherent integrity. We looked at the entire sales process and consequently refined the system, module by module. We have years of experience creating tailor made CRM software for a variety of different companies. Download it and have a first-hand experience.
 
@@ -52,6 +56,8 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 3. [YetiPortal2 - Customer Portal](https://github.com/YetiForceCompany/YetiForcePortal2#-demo)
 
 ## Read the documentation to learn more.
+
+#### :computer: Requirements: [Web server requirements](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements)
 
 #### :video_camera: Video Tutorials: [Video Tutorials on YouTube](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh) , [Video Tutorials on our server](https://public.yetiforce.com/Tutorials/)
 
