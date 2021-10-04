@@ -15,6 +15,8 @@ class Vtiger_TotalTime_UIType extends Vtiger_Double_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		return \App\Fields\RangeTime::displayElapseTime($value);
+		$params = $this->getFieldModel()->getFieldParams();
+		$formatOut = $params['formatOut'] ?? 'hi';
+		return \App\Fields\RangeTime::displayElapseTime($value, 'i', $formatOut);
 	}
 }
