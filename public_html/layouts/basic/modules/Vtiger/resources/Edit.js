@@ -1608,7 +1608,7 @@ $.Class(
 			const self = this;
 			let fields = JSON.parse(event.val());
 			$.each(fields, function (key, fieldName) {
-				let fieldElement = container.find(`[name="${fieldName}"]`);
+				let fieldElement = container.find(`[name="${fieldName}"],[name="${fieldName}[]"]`);
 				fieldElement.on(
 					`change ${Vtiger_Edit_Js.referenceSelectionEvent} ${Vtiger_Edit_Js.referenceDeSelectionEvent}`,
 					function () {
