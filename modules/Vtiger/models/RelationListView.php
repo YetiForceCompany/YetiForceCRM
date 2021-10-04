@@ -297,7 +297,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			foreach ($relatedFields as $relatedModuleName => $fields) {
 				foreach ($fields as $sourceField => $field) {
 					$recordData = [
-						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0
+						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0,
 					];
 					foreach ($field as $relatedFieldName) {
 						$recordData[$relatedFieldName] = $row[$sourceField . $relatedModuleName . $relatedFieldName];
@@ -517,8 +517,8 @@ class Vtiger_RelationListView_Model extends \App\Base
 					'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
 					'view' => 'ListPreview',
 					'linkicon' => 'fas fa-desktop',
-				])
-			]
+				]),
+			],
 		];
 		if (!$parentRecordModel->isReadOnly()) {
 			$selectLinks = $this->getSelectRelationLinks();
@@ -532,7 +532,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 					'linklabel' => 'LBL_MASS_DOWNLOAD',
 					'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassDownload('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=massDownload&src_record={$parentRecordModel->getId()}&relatedModule=Documents&mode=multiple','sendByForm')",
 					'linkclass' => '',
-					'linkicon' => 'fas fa-download'
+					'linkicon' => 'fas fa-download',
 				]);
 			}
 			if ($relationModelInstance->getRelationModuleModel()->isPermitted('QuickExportToExcel')) {
@@ -568,7 +568,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
 				'linkicon' => 'fas fa-level-up-alt',
-			])
+			]),
 		];
 	}
 
@@ -591,7 +591,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => 'fas fa-plus',
-			])
+			]),
 		];
 		if ('Documents' === $relatedModel->getName()) {
 			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues([
@@ -709,16 +709,18 @@ class Vtiger_RelationListView_Model extends \App\Base
 		foreach ($this->getArray('search_params') as $values) {
 			if (\is_array($values)) {
 				foreach ($values as $value) {
-					$fieldModel = $moduleModel->getFieldByName($value['field_name']);
-					$fieldModel->set('searchDisabledFields', true);
+					if ($fieldModel = $moduleModel->getFieldByName($value['field_name'])) {
+						$fieldModel->set('searchDisabledFields', true);
+					}
 				}
 			}
 		}
 		if (!$request->isEmpty('lockedFields')) {
 			foreach ($request->getArray('lockedFields') as $value) {
-				$fieldModel = $moduleModel->getFieldByName($value);
-				$fieldModel->set('searchLockedFields', true);
-				$fieldModel->set('searchDisabledFields', false);
+				if ($fieldModel = $moduleModel->getFieldByName($value)) {
+					$fieldModel->set('searchLockedFields', true);
+					$fieldModel->set('searchDisabledFields', false);
+				}
 			}
 		}
 	}
