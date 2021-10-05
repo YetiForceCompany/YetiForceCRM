@@ -16,7 +16,15 @@
     "LBL_CONFIG_EDITOR": "System – Configuration",
     "LBL_CONFIG_EDITOR_DESCRIPTION": "Update configuration file of the application",
     "LBL_MAX_UPLOAD_SIZE": "Maximum upload size",
-    "LBL_MB": "MB"
+    "LBL_MB": "MB",
+    "LBL_RELATION_CONFIG": "Relation",
+    "LBL_RELATION_COMMENT_MAX_LENGTH": "Maximum length of a comment visible on the related record",
+    "LBL_RELATION_COMMENT_MAX_LENGTH_DESC": "These fields are available in some relations, e.g. in the Products & services tab in Account module",
+    "LBL_RELATION_SHOW_RELATED_MODULE_NAME": "Show related modules names in tabs",
+    "LBL_RELATION_SHOW_RELATED_ICON": "Show related modules icon in tabs",
+    "LBL_RELATION_SHOW_RECORDS_COUNT": "Show record count in tabs of related modules",
+    "LBL_RELATION_SEPARATE_CHANGE_RELATION_BUTTON": "Separate action buttons for changing additional data",
+    "LBL_RELATION_SEPARATE_CHANGE_RELATION_BUTTON_DESC": "The button defines a special data type that belongs only to relations, available e.g. in the Occurrences module"
   },
   "js": {
     "JS_CONFIGURATION_DETAILS_SAVED": "Configuration details saved",

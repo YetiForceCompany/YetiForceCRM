@@ -12,7 +12,6 @@
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors)
 [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
-[![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.svg)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
 [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM 'Average time to resolve an issue')
@@ -39,11 +38,14 @@
 	</a>
 </p>
 
-[![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/big.png)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
-<a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
-<img width="20%" src="https://support.crowdin.com/assets/badges/localization-at-transparent@1x.svg" alt="crowdin Localization Management Platform">
-</a>
-[![Download YetiForce CRM](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/yetiforce/files/latest/download)
+<p align="center">
+	<a href="https://sourceforge.net/projects/yetiforce/files/latest/download" rel="nofollow">
+		<img width="30%" src="https://a.fsdn.com/con/app/sf-download-button" srcset="https://a.fsdn.com/con/app/sf-download-button?button_size=2x 2x" alt="Download YetiForce CRM">
+	</a>
+	<a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
+		<img width="30%" src="https://support.crowdin.com/assets/badges/localization-at-transparent@1x.svg" alt="crowdin Localization Management Platform">
+	</a>
+</p>
 
 We design an innovative CRM system that is dedicated for large and medium sized companies. We dedicate it to everyone who values open source software, security and innovation. YetiForce was built on a rock-solid Vtiger foundation, but has hundreds of changes that help to accomplish even the most challenging tasks in the simplest way. Every function within the system was thought through and automated to ensure that all of them work together seamlessly and form a coherent integrity. We looked at the entire sales process and consequently refined the system, module by module. We have years of experience creating tailor made CRM software for a variety of different companies. Download it and have a first-hand experience.
 
@@ -55,11 +57,13 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 ## Read the documentation to learn more.
 
+#### :computer: Requirements: [Web server requirements](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements)
+
 #### :video_camera: Video Tutorials: [Video Tutorials on YouTube](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh) , [Video Tutorials on our server](https://public.yetiforce.com/Tutorials/)
 
 #### :blue_book: Knowledge base: [yetiforce.com/en/knowledge-base/documentation](https://yetiforce.com/en/knowledge-base/documentation)
 
-#### :computer: Code Documentation: [doc.yetiforce.com/code/](https://doc.yetiforce.com/code/)
+#### :pencil: Code Documentation: [doc.yetiforce.com/code/](https://doc.yetiforce.com/code/)
 
 #### :globe_with_meridians: API documentation: [doc.yetiforce.com/api/](https://doc.yetiforce.com/api/)
 
@@ -75,15 +79,16 @@ Follow us on [Twitter](https://twitter.com/YetiForceEN) or like on [FaceBook](ht
 - [Development version](https://download.yetiforce.com/crm-developer.zip) - full package (yarn + composer)
 - [Docker](tests/setup/docker.md) - docker container, for development purposes only
 
-1. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-install-crm-system)
-2. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes-2).
-3. Check Milestone to verify release due date
+1. Requirements [Web server requirements](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements)
+2. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-install-crm-system)
+3. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes-2).
+4. Check Milestone to verify release due date
    https://github.com/YetiForceCompany/YetiForceCRM/milestones
-4. Update PKG link.
+5. Update PKG link.
    https://github.com/YetiForceCompany/UpdatePackages
-5. Additional scripts
+6. Additional scripts
    https://github.com/YetiForceCompany/YetiForceScripts
-6. Languages package
+7. Languages package
    https://github.com/YetiForceCompany/YetiForceCRMLanguages
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.

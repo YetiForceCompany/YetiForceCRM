@@ -51,7 +51,7 @@
 							<div class="col-md-7 py-1">
 								<select name="relation_id"{if $RELATED_ID} readonly="readonly"{/if} class="select2 form-control form-control-sm" data-validation-engine="validate[required]">
 									{foreach from=$RELATEDMODULES item=item key=key}
-										<option value="{$item['relation_id']}" {if $RELATED_ID == $item['relation_id']}selected{/if} data-relatedmodule="{$item['related_tabid']}" data-module-name="{$item['related_modulename']}">
+										<option value="{$item['relation_id']}" {if $RELATED_ID == $item['relation_id']}selected {/if} data-relatedmodule="{$item['related_tabid']}" data-module-name="{$item['related_modulename']}">
 											{\App\Language::translate($item['label'], $item['related_modulename'])}
 										</option>
 									{/foreach}
@@ -83,6 +83,22 @@
 												</optgroup>
 											{/foreach}
 											{append var='MODULES' value=$RELATED_MODULE['relation_id'] index=$RELATED_MODULE['related_tabid']}
+										{/if}
+										{assign var=RELATION_FIELDS value=Vtiger_Relation_Model::getInstanceById($RELATED_MODULE['relation_id'])->getRelationFields()}
+										{if $RELATION_FIELDS }
+											<optgroup
+												label="{\App\Language::translate('LBL_RELATED_FIELDS', $QUALIFIED_MODULE)}" data-module="{$RELATED_MODULE['related_tabid']}">
+												{foreach from=$RELATION_FIELDS item=FIELD_MODEL key=FIELD_NAME}
+													{assign var=VALUE_NAME value="{$RELATED_MODULE['related_tabid']}::{$FIELD_NAME}"}
+													<option value="{$VALUE_NAME}" {' '}
+														{if !empty($WIDGETINFO['data']['relatedfields']) && in_array($VALUE_NAME, $WIDGETINFO['data']['relatedfields'])}
+															selected="selected"
+															data-sort-index="{array_search($VALUE_NAME, $WIDGETINFO['data']['relatedfields'])}"
+														{/if} data-module="{$RELATED_MODULE['related_tabid']}">
+														{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCEMODULE)}
+													</option>
+												{/foreach}
+											</optgroup>
 										{/if}
 									{/foreach}
 								</select>

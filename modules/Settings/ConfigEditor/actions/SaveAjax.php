@@ -23,10 +23,11 @@ class Settings_ConfigEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	{
 		$response = new Vtiger_Response();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_ConfigEditor_Module_Model::getInstance();
+		$type = $request->has('type') ? $request->getByType('type', \App\Purifier::STANDARD) : 'Main';
+		$moduleModel = Settings_ConfigEditor_Module_Model::getInstance()->init($type);
 		try {
 			$configFiles = [];
-			foreach (array_keys($moduleModel->listFields) as $fieldName) {
+			foreach (array_keys($moduleModel->getEditFields()) as $fieldName) {
 				if ($request->has($fieldName)) {
 					$fieldModel = $moduleModel->getFieldInstanceByName($fieldName);
 					$source = $fieldModel->get('source');
@@ -39,7 +40,7 @@ class Settings_ConfigEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			foreach ($configFiles as $configFile) {
 				$configFile->create();
 			}
-			$response->setResult(true);
+			$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_CHANGES_SAVED')]]);
 		} catch (\Throwable $e) {
 			$response->setError(\App\Language::translate('LBL_ERROR', $qualifiedModuleName));
 		}

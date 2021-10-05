@@ -79,7 +79,7 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 		if (\is_string($value)) {
 			$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
 		} else {
-			$data = $value;
+			$data = $value ?: [];
 		}
 		return $data['currencyId'] ?? null;
 	}
@@ -95,6 +95,8 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 		if ($data) {
 			$currencyId = $data['currencyId'];
 			$data = App\Fields\Double::formatToDisplay($data['currencies'][$currencyId]['price'], false);
+		} else {
+			$data = '';
 		}
 		return \App\Purifier::encodeHtml($data);
 	}
@@ -111,7 +113,7 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 		if (\is_string($value)) {
 			$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
 		} else {
-			$data = $value;
+			$data = $value ?: [];
 		}
 		if ($data) {
 			foreach ($data['currencies'] ?? [] as $key => $currency) {
