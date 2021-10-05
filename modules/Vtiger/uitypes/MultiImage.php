@@ -344,8 +344,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getValueFromImport($value, $defaultValue = null)
 	{
-		$value = \App\Json::decode($value);
 		$new = [];
+		$value = $value && !\App\Json::isEmpty($value) ? \App\Json::decode($value) : [];
 		foreach ($value as $item) {
 			if (isset($item['baseContent'])) {
 				$new[] = \App\Fields\File::saveFromBase($item, $this->getFieldModel()->getModuleName());

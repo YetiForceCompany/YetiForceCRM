@@ -95,6 +95,9 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getValueFromImport($value, $defaultValue = null)
 	{
+		if ('' === $value && null !== $defaultValue) {
+			$value = $defaultValue;
+		}
 		$values = explode(' |##| ', trim($value));
 		$fieldValue = '';
 		$trees = \App\Fields\Tree::getValuesById((int) $this->getFieldModel()->getFieldParams());

@@ -479,6 +479,6 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getValueFromImport($value, $defaultValue = null)
 	{
-		return $value;
+		return ('' === $value && null !== $defaultValue) ? $defaultValue : $value;
 	}
 }

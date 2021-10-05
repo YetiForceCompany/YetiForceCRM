@@ -505,11 +505,7 @@ class Import_Data_Action extends \App\Controller\Action
 		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
 		foreach ($fieldData as $fieldName => $fieldValue) {
 			$fieldInstance = $moduleModel->getFieldByName($fieldName);
-			if ('' === $fieldValue && isset($this->defaultValues[$fieldName])) {
-				$fieldData[$fieldName] = $this->defaultValues[$fieldName];
-			} else {
-				$fieldData[$fieldName] = $fieldInstance->getUITypeModel()->getValueFromImport($fieldValue, $this->defaultValues[$fieldName] ?? null);
-			}
+			$fieldData[$fieldName] = $fieldInstance->getUITypeModel()->getValueFromImport($fieldValue, $this->defaultValues[$fieldName] ?? null);
 		}
 		return $fieldData;
 	}
@@ -677,7 +673,7 @@ class Import_Data_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Create rekord.
+	 * Create record.
 	 *
 	 * @param string   $moduleName
 	 * @param array    $fieldData
