@@ -68,7 +68,8 @@
     "Documents": "Documents",
     "LBL_SHOW_DOC_RELATIONS": "List of related relationships",
     "InventoryBlock": "Inventory block",
-    "LBL_DEFAULT_ACTIVE": "Active by default"
+    "LBL_DEFAULT_ACTIVE": "Active by default",
+    "LBL_RELATED_FIELDS": "Related fields"
   },
   "js": {
     "Loading data": "Loading...",

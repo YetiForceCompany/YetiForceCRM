@@ -370,7 +370,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		unset($fields['id']);
 		foreach ($fields as $fieldName => $fieldModel) {
-			if (!$fieldModel->isViewable()) {
+			if (!$fieldModel->isViewable() && !$fieldModel->get('fromOutsideList')) {
 				unset($fields[$fieldName]);
 			}
 		}
@@ -627,10 +627,13 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$fields = explode(',', $fields);
 		}
 		$relatedListFields = [];
+		$relFields = $this->getRelationModel()->getRelationFields();
 		foreach ($fields as $fieldName) {
 			$fieldModel = $this->relatedModuleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
 				$relatedListFields[$fieldName] = $fieldModel;
+			} elseif (isset($relFields[$fieldName])) {
+				$relatedListFields[$fieldName] = $relFields[$fieldName];
 			}
 		}
 		$this->relationModel->set('QueryFields', $relatedListFields);
