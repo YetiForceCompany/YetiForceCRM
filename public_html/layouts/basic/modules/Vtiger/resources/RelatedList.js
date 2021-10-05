@@ -296,13 +296,15 @@ jQuery.Class(
 				params['entityState'] = container.find('.entityState').val();
 			}
 			if (this.listSearchInstance) {
-				params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
+				params.search_params = this.listSearchInstance.getListSearchParams();
 				let searchValue = this.listSearchInstance.getAlphabetSearchValue();
 				if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
 					params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
 					params['search_value'] = searchValue;
 					params['operator'] = 's';
 				}
+				this.listSearchInstance.parseConditions(params);
+				params.search_params = JSON.stringify(params.search_params);
 			}
 			if (this.moduleName == 'Calendar') {
 				let switchBtn = container.find('.js-switch--calendar');

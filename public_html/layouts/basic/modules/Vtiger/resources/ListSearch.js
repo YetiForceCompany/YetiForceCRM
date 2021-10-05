@@ -186,11 +186,10 @@ jQuery.Class(
 		},
 		/**
 		 * Unset element from params.
-		 * @param {array} params
-		 * @param {array|boolean} params
+		 * @param {array} inputParamsData
+		 * @param {array|boolean} functionParamsData
 		 */
 		unsetElementFromParams: function (inputParamsData, functionParamsData) {
-			// const self = this;
 			if (functionParamsData) {
 				let fieldsName = [];
 				for (let i = 0; i < functionParamsData.search_params[0].length; i++) {
