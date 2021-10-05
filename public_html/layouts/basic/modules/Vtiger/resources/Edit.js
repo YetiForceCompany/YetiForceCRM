@@ -262,6 +262,10 @@ $.Class(
 			if (showSwitchElement.length > 0) {
 				params['showSwitch'] = showSwitchElement.val();
 			}
+			let lockedFieldshElement = $('input[name="lockedFields"]', container);
+			if (lockedFieldshElement.length > 0) {
+				params['lockedFields'] = lockedFieldshElement.val();
+			}
 			$.each(['link', 'process'], function (index, value) {
 				let fieldElement = formElement.find('[name="' + value + '"]');
 				if (fieldElement.length && fieldElement.val() != '' && fieldElement.val() != 0) {

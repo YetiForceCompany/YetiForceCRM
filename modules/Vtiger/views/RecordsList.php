@@ -261,6 +261,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('RECORD_SELECTED', $request->getBoolean('record_selected', false));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($request->getModule()));
 		$viewer->assign('LOCKED_FIELDS', $request->isEmpty('lockedFields', true) ? false : \App\Json::encode($request->getArray('lockedFields')));
+		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? false : \App\Json::encode($request->getArray('lockedEmptyFields')));
 		$viewer->assign('CV_ID', $cvId);
 	}
 

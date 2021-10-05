@@ -78,8 +78,13 @@ jQuery.Class(
 		},
 		registerListSearch: function () {
 			let listViewContainer = this.getContainer();
+			let params = {};
 			listViewContainer.find('[data-trigger="listSearch"]').on('click', () => {
-				this.reloadList();
+				if (listViewContainer.hasClass('js-modal-data')) {
+					params = this.parseConditions({ search_params: [this.getListSearchParams(true)[0]] }, true);
+					params.search_params = JSON.stringify(params.search_params);
+				}
+				this.reloadList(params);
 			});
 			listViewContainer.find('input.listSearchContributor').on('keypress', (e) => {
 				if (e.keyCode == 13) {
@@ -100,22 +105,23 @@ jQuery.Class(
 		/**
 		 * Register list search if value empty.
 		 * @param {array} params
+		 * @param {boolean} modal
 		 * @returns {array}
 		 */
-		parseConditions: function (params) {
+		parseConditions: function (params, modal) {
 			let listViewContainer = this.getContainer();
-			let lockedFields = [];
-			let lockedInput = listViewContainer.find('.js-locked-fields').val();
+			let lockedEmptyFields = [];
+			let lockedInput = listViewContainer.find('.js-empty-fields').val();
 			if (lockedInput !== '') {
-				lockedFields = JSON.parse(lockedInput);
+				lockedEmptyFields = JSON.parse(lockedInput);
 			}
 			listViewContainer.find('.js-empty-value').each(function () {
 				let element = $(this);
 				let parentField = element.parents('.searchField').find('.listSearchContributor');
 				let fieldName = parentField.attr('name');
 				if (element.is(':checked')) {
-					if ($.inArray(fieldName, lockedFields) == -1) {
-						lockedFields.push(fieldName);
+					if ($.inArray(fieldName, lockedEmptyFields) == -1) {
+						lockedEmptyFields.push(fieldName);
 					}
 					let state = 0;
 					for (let i = 0; i < params.search_params[0].length; i++) {
@@ -128,14 +134,30 @@ jQuery.Class(
 						params.search_params[0].push([fieldName, 'y', '']);
 					}
 				} else {
-					for (let i = 0; i < lockedFields.length; i++) {
-						if (lockedFields[i] === fieldName) {
-							lockedFields.splice(i, 1);
+					for (let i = 0; i < lockedEmptyFields.length; i++) {
+						if (lockedEmptyFields[i] === fieldName) {
+							lockedEmptyFields.splice(i, 1);
 						}
 					}
 				}
 			});
-			params.lockedFields = lockedFields;
+			if (modal) {
+				let inputSearchParams = this.unsetElementFromParams(
+					{ search_params: [JSON.parse(this.container.find('#search_params').val())[0]] },
+					params
+				);
+				let fieldsName = [];
+				for (let i = 0; i < inputSearchParams.search_params[0].length; i++) {
+					fieldsName.push(inputSearchParams.search_params[0][i][0]);
+				}
+				for (let i = 0; i < params.search_params[0].length; i++) {
+					if ($.inArray(params.search_params[0][i][0], fieldsName) == -1) {
+						inputSearchParams.search_params[0].push(params.search_params[0][i]);
+					}
+				}
+				params.search_params = inputSearchParams.search_params;
+			}
+			params.lockedEmptyFields = lockedEmptyFields;
 			return params;
 		},
 		/**
@@ -144,16 +166,57 @@ jQuery.Class(
 		registerListSearchEmptyValue: function () {
 			let listViewContainer = this.getContainer();
 			const self = this;
-			listViewContainer.find('.js-empty-value').each(function () {
+			let params = {};
+			listViewContainer.find('.js-empty-value').each(function (e) {
 				let element = $(this);
 				element.on('click', function (e) {
-					self.reloadList();
+					if (listViewContainer.hasClass('js-modal-data')) {
+						self.lastSearchColumn = element.parents('.searchField').find('.listSearchContributor').attr('name');
+						params = self.parseConditions({
+							search_params: [JSON.parse(listViewContainer.find('#search_params').val())[0]]
+						});
+						if (!element.is(':checked')) {
+							params = self.unsetElementFromParams(params, false);
+						}
+						params.search_params = JSON.stringify(params.search_params);
+					}
+					self.reloadList(params);
 				});
 			});
 		},
+		/**
+		 * Unset element from params.
+		 * @param {array} params
+		 * @param {array|boolean} params
+		 */
+		unsetElementFromParams: function (inputParamsData, functionParamsData) {
+			// const self = this;
+			if (functionParamsData) {
+				let fieldsName = [];
+				for (let i = 0; i < functionParamsData.search_params[0].length; i++) {
+					fieldsName.push(functionParamsData.search_params[0][i][0]);
+				}
+				for (let i = 0; i < inputParamsData.search_params[0].length; i++) {
+					if (
+						$.inArray(inputParamsData.search_params[0][i][0], fieldsName) == -1 &&
+						inputParamsData.search_params[0][i][2] !== ''
+					) {
+						inputParamsData.search_params[0].splice(i, 1);
+					}
+				}
+			} else {
+				for (let i = 0; i < inputParamsData.search_params[0].length; i++) {
+					if (inputParamsData.search_params[0][i][0] === this.lastSearchColumn) {
+						inputParamsData.search_params[0].splice(i, 1);
+					}
+				}
+			}
+
+			return inputParamsData;
+		},
 		registerListViewSelect: function () {
-			let self = this,
-				listViewContainer = this.getContainer();
+			let listViewContainer = this.getContainer();
+			const self = this;
 			listViewContainer.find('.listViewEntriesTable .select2noactive').each((index, domElement) => {
 				let select = $(domElement);
 				if (!select.data('select2')) {
@@ -164,7 +227,7 @@ jQuery.Class(
 			});
 			if (app.getMainParams('autoRefreshListOnChange') == '1') {
 				listViewContainer.find('.listViewEntriesTable select, .searchInSubcategories').on('change', (e) => {
-					this.lastSearchColumn = $(e.currentTarget).attr('name');
+					self.lastSearchColumn = $(e.currentTarget).attr('name');
 					this.triggerListSearch();
 				});
 				listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', () => {

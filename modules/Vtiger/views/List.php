@@ -283,5 +283,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
+		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? false : \App\Json::encode($request->getArray('lockedEmptyFields')));
 	}
 }
