@@ -71,7 +71,7 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Multipicklist_UIType
 	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return explode(',', \App\Purifier::encodeHtml(trim($value, ',')));
+		return $value ? explode(',', \App\Purifier::encodeHtml(trim($value, ','))) : [];
 	}
 
 	/** {@inheritdoc} */
