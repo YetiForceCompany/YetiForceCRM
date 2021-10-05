@@ -857,29 +857,41 @@ return [
 	'relation' => [
 		'COMMENT_MAX_LENGTH' => [
 			'default' => 20,
-			'description' => 'Maximum length of a comment visible in the related module'
+			'description' => 'Maximum length of a comment visible in the related module',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'SHOW_RELATED_MODULE_NAME' => [
 			'default' => true,
-			'description' => 'Show related modules names'
+			'description' => 'Show related modules names',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'SHOW_RELATED_ICON' => [
 			'default' => true,
-			'description' => 'Show related modules icon'
+			'description' => 'Show related modules icon',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'SHOW_RECORDS_COUNT' => [
 			'default' => false,
 			'description' => 'Show record count in tabs of related modules',
-			'validation' => '\App\Validator::naturalNumber',
+			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'addSearchParamsToCreateView' => [
 			'default' => true,
-			'description' => 'Fill in the record creation form with the data used in filtering (search_params)'
+			'description' => 'Fill in the record creation form with the data used in filtering (search_params)',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'separateChangeRelationButton' => [
 			'default' => false,
-			'description' => 'Separate change relation button in related module'
+			'description' => 'Separate change relation button in related module',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 	],
 	'search' => [

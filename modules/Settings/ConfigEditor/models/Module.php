@@ -35,14 +35,29 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 		'layoutInLoginView' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE'
 	];
 
+	/** @var array Fields for relation */
+	public $relationFields = [
+		'SHOW_RELATED_MODULE_NAME' => 'LBL_RELATION_SHOW_RELATED_MODULE_NAME',
+		'SHOW_RELATED_ICON' => 'LBL_RELATION_SHOW_RELATED_ICON',
+		'SHOW_RECORDS_COUNT' => 'LBL_RELATION_SHOW_RECORDS_COUNT',
+		'COMMENT_MAX_LENGTH' => 'LBL_RELATION_COMMENT_MAX_LENGTH',
+		'separateChangeRelationButton' => 'LBL_RELATION_SEPARATE_CHANGE_RELATION_BUTTON'
+	];
+
+	/** @var string Configuration type */
+	public $type;
+
 	/**
 	 * Function to initiation.
 	 *
+	 * @param string $type
+	 *
 	 * @throws \ReflectionException
 	 */
-	public function init()
+	public function init(string $type = 'Main')
 	{
-		foreach ($this->listFields as $fieldName => $fieldData) {
+		$this->type = $type;
+		foreach (array_keys($this->getEditFields()) as $fieldName) {
 			$source = $this->getFieldInstanceByName($fieldName)->get('source');
 			$value = \App\Config::{$source}($fieldName);
 			if ('upload_maxsize' === $fieldName) {
@@ -50,6 +65,23 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			$this->set($fieldName, $value);
 		}
+		return $this;
+	}
+
+	/**
+	 * Gets fields for edit.
+	 *
+	 * @return array
+	 */
+	public function getEditFields(): array
+	{
+		$fields = [];
+		if ('Main' === $this->type) {
+			$fields = $this->listFields;
+		} elseif ('Relation' === $this->type) {
+			$fields = $this->relationFields;
+		}
+		return $fields;
 	}
 
 	/**
@@ -97,9 +129,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
-		$moduleModel = new self();
-		$moduleModel->init();
-		return $moduleModel;
+		return new self();
 	}
 
 	/**
@@ -112,30 +142,35 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 	public function getFieldInstanceByName($name)
 	{
 		$moduleName = $this->getName(true);
-		$params = ['uitype' => 7, 'column' => $name, 'name' => $name, 'label' => $this->listFields[$name], 'displaytype' => 1, 'typeofdata' => 'I~M', 'presence' => 0, 'isEditableReadOnly' => false, 'maximumlength' => '', 'validator' => [['name' => 'NumberRange100']], 'source' => 'main'];
+		$params = ['uitype' => 7, 'column' => $name, 'name' => $name,  'displaytype' => 1, 'typeofdata' => 'I~M', 'presence' => 0, 'isEditableReadOnly' => false, 'maximumlength' => '', 'validator' => [['name' => 'NumberRange100']], 'source' => 'main'];
 		switch ($name) {
 			case 'listMaxEntriesMassEdit':
 				$params['maximumlength'] = '5000';
 				$params['validator'] = [['name' => 'WholeNumberGreaterThanZero']];
+				$params['label'] = $this->listFields[$name];
 				break;
 			case 'upload_maxsize':
+				$params['label'] = $this->listFields[$name];
 				$params['maximumlength'] = (string) round((vtlib\Functions::getMaxUploadSize() / 1048576), 0);
 				unset($params['validator']);
 				break;
 			case 'layoutInLoginView':
 			case 'langInLoginView':
 			case 'backgroundClosingModal':
+				$params['label'] = $this->listFields[$name];
 				$params['uitype'] = 56;
 				$params['typeofdata'] = 'C~M';
 				unset($params['validator']);
 				break;
 			case 'breadcrumbs':
+				$params['label'] = $this->listFields[$name];
 				$params['uitype'] = 56;
 				$params['typeofdata'] = 'C~M';
 				$params['source'] = 'layout';
 				unset($params['validator']);
 				break;
 			case 'default_module':
+				$params['label'] = $this->listFields[$name];
 				$params['uitype'] = 16;
 				unset($params['validator']);
 				$params['picklistValues'] = ['Home' => \App\Language::translate('Home')];
@@ -144,8 +179,38 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 				}
 				break;
 			case 'defaultLayout':
+				$params['label'] = $this->listFields[$name];
 				$params['uitype'] = 16;
 				$params['picklistValues'] = \App\Layout::getAllLayouts();
+				unset($params['validator']);
+				break;
+			// Realtion
+			case 'COMMENT_MAX_LENGTH':
+				$params['label'] = $this->relationFields[$name];
+				$params['uitype'] = 7;
+				$params['maximumlength'] = '200';
+				$params['validator'] = [['name' => 'WholeNumberGreaterThanZero']];
+				$params['source'] = 'relation';
+				$params['tooltip'] = 'LBL_RELATION_COMMENT_MAX_LENGTH_DESC';
+				$params['fieldvalue'] = $this->get($name);
+				break;
+			case 'SHOW_RELATED_MODULE_NAME':
+			case 'SHOW_RELATED_ICON':
+			case 'SHOW_RECORDS_COUNT':
+				$params['label'] = $this->relationFields[$name];
+				$params['uitype'] = 56;
+				$params['typeofdata'] = 'C~M';
+				$params['source'] = 'relation';
+				$params['fieldvalue'] = $this->get($name);
+				unset($params['validator']);
+				break;
+			case 'separateChangeRelationButton':
+				$params['label'] = $this->relationFields[$name];
+				$params['uitype'] = 56;
+				$params['typeofdata'] = 'C~M';
+				$params['source'] = 'relation';
+				$params['fieldvalue'] = $this->get($name);
+				$params['tooltip'] = 'LBL_RELATION_SEPARATE_CHANGE_RELATION_BUTTON_DESC';
 				unset($params['validator']);
 				break;
 			default:

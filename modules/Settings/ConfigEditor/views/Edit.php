@@ -23,7 +23,7 @@ class Settings_ConfigEditor_Edit_View extends Settings_Vtiger_Index_View
 	public function process(App\Request $request)
 	{
 		$qualifiedName = $request->getModule(false);
-		$moduleModel = Settings_ConfigEditor_Module_Model::getInstance();
+		$moduleModel = Settings_ConfigEditor_Module_Model::getInstance()->init('Main');
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODEL', $moduleModel);
