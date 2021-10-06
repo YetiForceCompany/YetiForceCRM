@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -19,6 +20,7 @@ class Settings_Kanban_Index_View extends Settings_Vtiger_Index_View
 	public function process(App\Request $request)
 	{
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
+		unset($supportedModulesList['Calendar']);
 		$sourceModuleName = $request->getByType('sourceModule', \App\Purifier::ALNUM);
 		if (empty($sourceModuleName)) {
 			$sourceModuleName = reset($supportedModulesList);
