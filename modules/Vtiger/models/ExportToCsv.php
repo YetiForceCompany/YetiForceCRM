@@ -69,9 +69,7 @@ class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$sanitizedRow = $this->sanitizeValues($row);
-			$recordModel = Vtiger_Record_Model::getCleanInstance($this->moduleName);
-			$recordModel->setData($row);
-			if ($isInventory) {
+			if ($isInventory && !$this->quickExport) {
 				$sanitizedRow[] = $rowsCounter++;
 				$rows = (new \App\Db\Query())->from($inventoryTable)->where(['crmid' => $row['id']])->orderBy('seq')->all();
 				if ($rows) {

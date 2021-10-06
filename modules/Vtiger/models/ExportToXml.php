@@ -193,7 +193,7 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 		$xml->startDocument('1.0', 'UTF-8');
 		$xml->startElement('MODULE_FIELDS');
 		foreach ($this->moduleFieldInstances as $fieldName => $fieldModel) {
-			if (!\in_array($fieldModel->get('presence'), [0, 2])) {
+			if (!isset($entries[$fieldName]) || !\in_array($fieldModel->get('presence'), [0, 2])) {
 				continue;
 			}
 			$xml->startElement($fieldName);
@@ -210,7 +210,7 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 			}
 			$xml->endElement();
 		}
-		if ($entriesInventory) {
+		if ($entriesInventory && !$this->quickExport) {
 			$customColumns = [];
 			$xml->startElement('INVENTORY_ITEMS');
 			foreach ($entriesInventory as $inventory) {
