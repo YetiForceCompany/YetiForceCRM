@@ -138,7 +138,7 @@ jQuery.Class(
 		registerListSearchEmptyValue: function () {
 			let listViewContainer = this.getContainer();
 			const self = this;
-			listViewContainer.find('.js-empty-value').each(function (e) {
+			listViewContainer.find('.js-empty-value').each(function () {
 				let element = $(this);
 				element.on('click', function (e) {
 					self.reloadList();
@@ -146,8 +146,8 @@ jQuery.Class(
 			});
 		},
 		registerListViewSelect: function () {
-			let listViewContainer = this.getContainer();
-			const self = this;
+			let self = this,
+				listViewContainer = this.getContainer();
 			listViewContainer.find('.listViewEntriesTable .select2noactive').each((index, domElement) => {
 				let select = $(domElement);
 				if (!select.data('select2')) {
