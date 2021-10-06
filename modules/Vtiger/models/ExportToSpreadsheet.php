@@ -104,7 +104,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 			}
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				if ($isInventory) {
+				if ($isInventory && !$this->quickExport) {
 					$invRows = (new \App\Db\Query())->from($inventoryTable)->where(['crmid' => $row['id']])->orderBy('seq')->all();
 					if ($invRows) {
 						foreach ($invRows as $invRow) {
