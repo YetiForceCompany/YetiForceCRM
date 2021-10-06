@@ -256,9 +256,8 @@ $.Class(
 			}
 			let modalParamsElement = $('input[name="modalParams"]', container);
 			if (modalParamsElement.length > 0) {
-				params['modalParams'] = modalParamsElement.val();
+				params['modal_params'] = modalParamsElement.val();
 			}
-			let showSwitchElement = $('input[name="showSwitch"]', container);
 			let lockedFieldsElement = $('input[name="lockedFields"]', container);
 			if (lockedFieldsElement.length > 0) {
 				params['lockedFields'] = lockedFieldsElement.val();
