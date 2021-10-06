@@ -26,21 +26,22 @@ class Kanban
 	 */
 	public static function getBoards(string $moduleName, bool $privileges = false): array
 	{
-		if (\App\Cache::has('KanbanGetBoards', $moduleName)) {
-			return \App\Cache::get('KanbanGetBoards', $moduleName);
+		if (!\App\Cache::has('KanbanGetBoards', $moduleName)) {
+			$dataReader = (new \App\Db\Query())->from('s_#__kanban_boards')
+				->where(['tabid' => \App\Module::getModuleId($moduleName)])
+				->orderBy(['sequence' => SORT_ASC])
+				->createCommand(\App\Db::getInstance('admin'))->query();
+			$rows = [];
+			while ($row = $dataReader->read()) {
+				$row['detail_fields'] = \App\Json::decode($row['detail_fields']);
+				$row['sum_fields'] = \App\Json::decode($row['sum_fields']);
+				$rows[$row['fieldid']] = $row;
+				\App\Cache::save('KanbanGetBoardById', $row['id'], $row);
+			}
+			\App\Cache::save('KanbanGetBoards', $moduleName, $rows);
+		} else {
+			$rows = \App\Cache::get('KanbanGetBoards', $moduleName);
 		}
-		$dataReader = (new \App\Db\Query())->from('s_#__kanban_boards')
-			->where(['tabid' => \App\Module::getModuleId($moduleName)])
-			->orderBy(['sequence' => SORT_ASC])
-			->createCommand(\App\Db::getInstance('admin'))->query();
-		$rows = [];
-		while ($row = $dataReader->read()) {
-			$row['detail_fields'] = \App\Json::decode($row['detail_fields']);
-			$row['sum_fields'] = \App\Json::decode($row['sum_fields']);
-			$rows[$row['fieldid']] = $row;
-			\App\Cache::save('KanbanGetBoardById', $row['id'], $row);
-		}
-		\App\Cache::save('KanbanGetBoards', $moduleName, $rows);
 		if ($privileges) {
 			foreach ($rows as $id => $row) {
 				$fieldModel = \Vtiger_Field_Model::getInstanceFromFieldId($row['fieldid']);
