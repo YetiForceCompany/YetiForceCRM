@@ -61,7 +61,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$type = $moduleModel->isInventory() ? Vtiger_Module_Model::STANDARD_TYPE : Vtiger_Module_Model::ADVANCED_TYPE;
 		$batchMethod = (new \App\BatchMethod([
 			'method' => '\App\Module::changeType',
-			'params' => ['module' => $sourceModule, 'type' => $type]
+			'params' => [$sourceModule, $type]
 		]));
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
