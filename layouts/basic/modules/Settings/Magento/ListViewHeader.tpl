@@ -7,8 +7,11 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-3 mt-1">
-			<a href="index.php?parent=Settings&module=Log&view=LogsViewer&type=magento"  class="btn btn-info float-right" >
+			<a href="index.php?parent=Settings&module=Log&view=LogsViewer&type=magento" class="btn btn-info float-right">
 				<span class="yfi yfi-system-monitoring mr-2"></span>{\App\Language::translate('LBL_LOGS_VIEWER', 'Settings:Log')}
+			</a>
+			<a href="https://yetiforce.com/en/knowledge-base/documentation/administrator-documentation/category/magento-2" target="_blank" class="btn btn-outline-info js-popover-tooltip float-right mr-3" data-content="{App\Language::translate('BTM_GOTO_YETIFORCE_DOCUMENTATION')}" rel="noreferrer noopener" data-js="popover">
+				<span class="mdi mdi-book-open-page-variant u-fs-lg"></span>
 			</a>
 		</div>
 	</div>

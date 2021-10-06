@@ -297,7 +297,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			foreach ($relatedFields as $relatedModuleName => $fields) {
 				foreach ($fields as $sourceField => $field) {
 					$recordData = [
-						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0
+						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0,
 					];
 					foreach ($field as $relatedFieldName) {
 						$recordData[$relatedFieldName] = $row[$sourceField . $relatedModuleName . $relatedFieldName];
@@ -370,7 +370,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		unset($fields['id']);
 		foreach ($fields as $fieldName => $fieldModel) {
-			if (!$fieldModel->isViewable()) {
+			if (!$fieldModel->isViewable() && !$fieldModel->get('fromOutsideList')) {
 				unset($fields[$fieldName]);
 			}
 		}
@@ -517,8 +517,8 @@ class Vtiger_RelationListView_Model extends \App\Base
 					'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
 					'view' => 'ListPreview',
 					'linkicon' => 'fas fa-desktop',
-				])
-			]
+				]),
+			],
 		];
 		if (!$parentRecordModel->isReadOnly()) {
 			$selectLinks = $this->getSelectRelationLinks();
@@ -532,7 +532,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 					'linklabel' => 'LBL_MASS_DOWNLOAD',
 					'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassDownload('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=massDownload&src_record={$parentRecordModel->getId()}&relatedModule=Documents&mode=multiple','sendByForm')",
 					'linkclass' => '',
-					'linkicon' => 'fas fa-download'
+					'linkicon' => 'fas fa-download',
 				]);
 			}
 			if ($relationModelInstance->getRelationModuleModel()->isPermitted('QuickExportToExcel')) {
@@ -568,7 +568,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
 				'linkicon' => 'fas fa-level-up-alt',
-			])
+			]),
 		];
 	}
 
@@ -591,7 +591,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => 'fas fa-plus',
-			])
+			]),
 		];
 		if ('Documents' === $relatedModel->getName()) {
 			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues([
@@ -627,10 +627,13 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$fields = explode(',', $fields);
 		}
 		$relatedListFields = [];
+		$relFields = $this->getRelationModel()->getRelationFields();
 		foreach ($fields as $fieldName) {
 			$fieldModel = $this->relatedModuleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
 				$relatedListFields[$fieldName] = $fieldModel;
+			} elseif (isset($relFields[$fieldName])) {
+				$relatedListFields[$fieldName] = $relFields[$fieldName];
 			}
 		}
 		$this->relationModel->set('QueryFields', $relatedListFields);

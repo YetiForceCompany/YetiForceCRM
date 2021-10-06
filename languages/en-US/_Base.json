@@ -1407,7 +1407,7 @@
     "LBL_FIELD_HREF": "Link column",
     "LBL_FIELD_HREF_TOOLTIP": "If you select the label field, the icon visible in the list will be hidden. Then the selected field will be converted into a link.",
     "LBL_SORTING_SETTINGS": "Sorting settings",
-    "LBL_CHANGE_RELATION_DATA": "Change addidtional data",
+    "LBL_CHANGE_RELATION_DATA": "Change additional data",
     "LBL_EMPTY_DASHBOARD": "Selected dashboard is empty.",
     "LBL_EDIT_COLOR": "Edit color",
     "LBL_SELECT_COLOR": "Select color:",

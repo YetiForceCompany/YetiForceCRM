@@ -73,6 +73,9 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	/** {@inheritdoc} */
 	public function getValueFromImport($value, $defaultValue = null)
 	{
+		if ('' === $value) {
+			return $defaultValue ?? '';
+		}
 		if (null === $value || '0000-00-00 00:00:00' === $value) {
 			$value = '';
 		}

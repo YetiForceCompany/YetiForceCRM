@@ -33,13 +33,13 @@ class RangeTime
 	 *
 	 * @param int|float $timePeriod Elapse time
 	 * @param string    $formatIn   y,h,m,s
-	 * @param string    $formatOut  y,h,m,s
+	 * @param string    $formatOut  ahis - a:days(year), h:hours, i:minutes, s:seconds
 	 * @param bool      $short
 	 * @param mixed     $interval
 	 *
 	 * @return string
 	 */
-	public static function displayElapseTime($interval, string $formatIn = 'i', string $formatOut = 'i', bool $short = true): string
+	public static function displayElapseTime($interval, string $formatIn = 'i', string $formatOut = 'ahi', bool $short = true): string
 	{
 		$dateFormat = [];
 		$multiplier = 1;
@@ -60,13 +60,14 @@ class RangeTime
 			$dtF = new \DateTime('@0');
 			$dtT = new \DateTime("@{$seconds}");
 			$dateInterval = $dtF->diff($dtT);
-			foreach (self::getIntervalPart($dateInterval) as [$val, $part]) {
+			foreach (self::getIntervalPart($dateInterval, $formatOut) as [$val, $part]) {
 				if ($val) {
 					$dateFormat[] = $short ? $val . \App\Language::translate(self::DIFF_INTERVAL_LABELS[$part]['short']) : "{$val} " . \App\Language::translate(self::DIFF_INTERVAL_LABELS[$part][(1 === $val ? 'singular' : 'plural')]);
 				}
 			}
 		} elseif ($formatOut) {
-			$dateFormat[] = $short ? $seconds . \App\Language::translate(self::DIFF_INTERVAL_LABELS[$formatOut]['short']) : "{$seconds} " . \App\Language::translate(self::DIFF_INTERVAL_LABELS[$formatOut]['plural']);
+			$part = substr($formatOut, -1) ?: 'i';
+			$dateFormat[] = $short ? $seconds . \App\Language::translate(self::DIFF_INTERVAL_LABELS[$part]['short']) : "{$seconds} " . \App\Language::translate(self::DIFF_INTERVAL_LABELS[$part]['plural']);
 		}
 
 		return implode(' ', $dateFormat);
@@ -76,18 +77,32 @@ class RangeTime
 	 * Get data interval part.
 	 *
 	 * @param \DateInterval $dateInterval
+	 * @param string        $formatOut
 	 *
 	 * @return Generator
 	 */
-	public static function getIntervalPart(\DateInterval $dateInterval)
+	public static function getIntervalPart(\DateInterval $dateInterval, string $formatOut = 'ahis')
 	{
+		$value = 0;
+		$parts = str_split($formatOut, 1);
 		foreach (['a', 'h', 'i', 's'] as $part) {
 			$val = (int) $dateInterval->format("%{$part}");
-			if ('a' === $part && $val > 365) {
+			if ('a' === $part && $val > 365 && \in_array($part, $parts)) {
 				$years = (int) floor($val / 365);
 				$val = (int) static::myBcmod(($val), 365);
+				$value = 0;
 				yield [$years, 'y'];
 			}
+			if (!\in_array($part, $parts)) {
+				if ('a' === $part) {
+					$value = $val * 24;
+				} elseif ('h' === $part || 'i' === $part) {
+					$value = ($val + $value) * 60;
+				}
+				continue;
+			}
+			$val += $value;
+			$value = 0;
 			yield [$val, $part];
 		}
 	}

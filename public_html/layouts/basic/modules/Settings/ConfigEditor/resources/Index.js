@@ -71,9 +71,7 @@ jQuery.Class(
 							if (data['success']) {
 								params['text'] = app.vtranslate('JS_CONFIGURATION_DETAILS_SAVED');
 								thisInstance.loadContents(detailUrl).done(function (data) {
-									progressIndicatorElement.progressIndicator({ mode: 'hide' });
-									jQuery('.contentsDiv').html(data);
-									thisInstance.registerDetailViewEvents();
+									window.location.reload();
 								});
 								Settings_Vtiger_Index_Js.showMessage(params);
 							} else {
@@ -140,6 +138,8 @@ jQuery.Class(
 		},
 
 		registerEvents: function () {
+			let container = $('.contentsDiv');
+			app.showPopoverElementView(container.find('.js-popover-tooltip'));
 			if (jQuery('#ConfigEditorDetails').length > 0) {
 				this.registerDetailViewEvents();
 			} else {

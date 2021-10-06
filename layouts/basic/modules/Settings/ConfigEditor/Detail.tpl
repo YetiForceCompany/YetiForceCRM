@@ -1,45 +1,34 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-ConfigEditor-Detail -->
 	<div class="tpl-Settings-ConfigEditor-Detail" id="ConfigEditorDetails">
 		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
-			<div class="col-md-4">
-				<div class="float-right">
-					<button class="btn btn-success editButton mt-2" data-url='{$MODEL->getEditViewUrl()}' type="button"
-							title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><span
-								class="fa fa-edit u-mr-5px"></span><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong>
-					</button>
-				</div>
+		</div>
+		<div>
+			<ul id="tabs" class="nav nav-tabs my-2 mr-0" data-tabs="tabs">
+				<li class="nav-item">
+					<a class="nav-link {if $ACTIVE_TAB eq 'Main'}active{/if}" href="#Main" data-toggle="tab" data-name="Main">
+						<span class="fas fa-sliders-h mr-2"></span>{\App\Language::translate('LBL_MAIN_CONFIG', $QUALIFIED_MODULE)}
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {if $ACTIVE_TAB eq 'Relation'}active{/if}" href="#Relation" data-toggle="tab" data-name="Relation">
+						<span class="adminIcon-modules-relations mr-2"></span>{\App\Language::translate('LBL_RELATION_CONFIG', $QUALIFIED_MODULE)}
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div id="my-tab-content" class="tab-content">
+			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Main'}active{/if}" id="Main" data-name="Main" data-js="data">
+				{include file=\App\Layout::getTemplatePath('MainDetail.tpl', $QUALIFIED_MODULE)}
+			</div>
+			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Relation'}active{/if}" id="Relation" data-name="Relation" data-js="data">
+				{include file=\App\Layout::getTemplatePath('Relation.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<hr>
-		<div class="contents">
-			<table class="table tableRWD table-bordered table-sm themeTableColor">
-				<thead>
-				<tr class="blockHeader">
-					<th colspan="2" class="{$WIDTHTYPE}">
-						<span class="alignMiddle">{\App\Language::translate('LBL_MAIN_CONFIG', $QUALIFIED_MODULE)}</span>
-					</th>
-				</tr>
-				</thead>
-				<tbody>
-				{foreach key=FIELD_NAME item=FIELD_LABEL from=$MODEL->listFields}
-					{assign var="FIELD_MODEL" value=$MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue',$MODEL->get($FIELD_NAME))}
-					<tr>
-						<td width="30%" class="{$WIDTHTYPE} textAlignRight">
-							<label class="muted marginRight10px">
-								{\App\Language::translate($FIELD_LABEL, $QUALIFIED_MODULE)}
-							</label>
-						</td>
-						<td style="border-left: none;" class="{$WIDTHTYPE}">
-							{$MODEL->getDisplayValue($FIELD_NAME)}
-						</td>
-					</tr>
-				{/foreach}
-				</tbody>
-			</table>
-		</div>
 	</div>
+	<!-- /tpl-Settings-ConfigEditor-Detail -->
 {/strip}

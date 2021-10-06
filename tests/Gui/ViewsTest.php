@@ -52,7 +52,7 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 			'url' => $this->driver->getCurrentURL(),
 			'search_params' => \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['search_params'],
 		];
-		static::assertSame([[['accountname', 'a', 'YetiForce']]], \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['search_params'] ?? []);
+		static::assertSame("[[['accountname', 'a', 'YetiForce']]]", \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['search_params'] ?? []);
 		$this->findError();
 
 		$this->driver->executeScript("$('.js-change-order[data-columnname=\"accountname\"]').click()");
@@ -65,15 +65,31 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 		$this->findError();
 
 		$this->driver->executeScript("$('.Accounts_listViewHeader_action_BTN_PERMISSION_INSPECTOR').click()");
+		$this->logs = [
+			'test' => __METHOD__,
+			'url' => $this->driver->getCurrentURL(),
+		];
 		$this->findError();
 
 		$this->driver->executeScript("$('.Accounts_listViewHeader_action_LBL_SHOW_MAP').click()");
+		$this->logs = [
+			'test' => __METHOD__,
+			'url' => $this->driver->getCurrentURL(),
+		];
 		$this->findError();
 
 		$this->driver->executeScript("$('.Accounts_listViewHeader_action_LBL_SEND_NOTIFICATION').click()");
+		$this->logs = [
+			'test' => __METHOD__,
+			'url' => $this->driver->getCurrentURL(),
+		];
 		$this->findError();
 
 		$this->driver->executeScript("$('#menubar_quickCreate_Accounts').click()");
+		$this->logs = [
+			'test' => __METHOD__,
+			'url' => $this->driver->getCurrentURL(),
+		];
 		$this->findError();
 	}
 

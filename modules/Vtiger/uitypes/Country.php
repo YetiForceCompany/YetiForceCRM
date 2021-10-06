@@ -49,7 +49,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getValueFromImport($value, $defaultValue = null)
 	{
-		return \App\Fields\Country::findCountryName($value);
+		return ('' === $value && null !== $defaultValue) ? $defaultValue : \App\Fields\Country::findCountryName($value);
 	}
 
 	/** {@inheritdoc} */

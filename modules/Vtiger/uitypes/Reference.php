@@ -165,6 +165,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getValueFromImport($value, $defaultValue = null)
 	{
+		if (empty($value)) {
+			return '';
+		}
 		$fieldValueDetails = [];
 		$referenceModuleName = '';
 		$entityId = false;
