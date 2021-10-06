@@ -13,6 +13,11 @@
     "FL_TOTAL": "Net",
     "FL_GROSS": "Gross",
     "PLL_WIRE_TRANSFER": "Electronic transfer",
-    "FL_PAYMENT_SUM": "Total payments"
+    "FL_PAYMENT_SUM": "Total payments",
+    "FL_PAYMENT_STATUS": "Payment status",
+    "PLL_NOT_PAID": "Not paid",
+    "PLL_PAID": "Paid",
+    "PLL_OVERPAID": "Over paid",
+    "PLL_UNDERPAID": "Underpaid"
   }
 }
