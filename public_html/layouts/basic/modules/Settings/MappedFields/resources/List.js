@@ -30,16 +30,6 @@ Settings_Vtiger_List_Js(
 				});
 			});
 		},
-		/*
-		 * Function to register the list view row click event
-		 */
-		registerRowClickEvent: function () {
-			var listViewContentDiv = this.getListViewContentContainer();
-			listViewContentDiv.on('click', '.listViewEntries td:not(.tdActions)', function (e) {
-				var editUrl = jQuery(e.currentTarget).parent().find('..fas').closest('a').attr('href');
-				window.location.href = editUrl;
-			});
-		},
 		getDefaultParams: function () {
 			var pageNumber = jQuery('#pageNumber').val();
 			var module = app.getModuleName();
