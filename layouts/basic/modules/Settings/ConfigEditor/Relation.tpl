@@ -21,7 +21,7 @@
 							{/if}:
 						</label>
 						<div class="col-md-8 fieldValue m-auto">
-							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE RECORD=null}
+							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE_NAME=$QUALIFIED_MODULE RECORD=null}
 						</div>
 					</div>
 				{/if}
