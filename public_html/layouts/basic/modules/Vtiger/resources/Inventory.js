@@ -572,7 +572,7 @@ $.Class(
 
 			let subtraction = sumPrice - purchase;
 			if (purchase !== 0 && sumPrice !== 0) {
-				marginp = (subtraction / sumPrice) * 100;
+				marginp = (subtraction * 100) / purchase;
 			}
 			sumRow.find('[data-sumfield="marginP"]').text(App.Fields.Double.formatToDisplay(marginp) + '%');
 		},
