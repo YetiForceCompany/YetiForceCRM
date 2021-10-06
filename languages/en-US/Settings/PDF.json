@@ -156,7 +156,9 @@
     "B": "B",
     "A": "A",
     "DEMY": "Demy",
-    "ROYAL": "Royal"
+    "ROYAL": "Royal",
+    "PLL_ACTIVE": "Active",
+    "PLL_INACTIVE": "Inactive"
   },
   "js": {
     "JS_PDF_SAVED_SUCCESSFULLY": "PDF template saved.",
