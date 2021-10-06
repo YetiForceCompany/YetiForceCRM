@@ -52,7 +52,8 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 			'url' => $this->driver->getCurrentURL(),
 			'search_params' => \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['search_params'],
 		];
-		static::assertSame("[[['accountname', 'a', 'YetiForce']]]", \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['search_params'] ?? []);
+		$searchParams = \vtlib\Functions::getQueryParams($this->driver->getCurrentURL())['search_params'] ?? '[]';
+		static::assertSame([[['accountname', 'a', 'YetiForce']]], \App\Json::decode($searchParams));
 		$this->findError();
 
 		$this->driver->executeScript("$('.js-change-order[data-columnname=\"accountname\"]').click()");
