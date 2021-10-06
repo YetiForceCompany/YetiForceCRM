@@ -697,7 +697,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	}
 
 	/**
-	 * Fields permanently blocked if found in search value.
+	 * Locked fields according to parameters passed.
 	 *
 	 * @param App\Request $request
 	 *

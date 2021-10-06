@@ -157,7 +157,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 
 		$this->setRelatedParent($request);
 		$this->setRecordListModel($request);
-
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
 			$moduleInstance = CRMEntity::getInstance($this->moduleName);

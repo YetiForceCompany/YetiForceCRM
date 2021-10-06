@@ -105,10 +105,10 @@ jQuery.Class(
 		/**
 		 * Register list search if value empty.
 		 * @param {array} params
-		 * @param {boolean} modal
+		 * @param {null|boolean} containerIsModal
 		 * @returns {array}
 		 */
-		parseConditions: function (params, modal) {
+		parseConditions: function (params, containerIsModal) {
 			let listViewContainer = this.getContainer();
 			let lockedEmptyFields = [];
 			let lockedInput = listViewContainer.find('.js-empty-fields').val();
@@ -141,21 +141,21 @@ jQuery.Class(
 					}
 				}
 			});
-			if (modal) {
-				let inputSearchParams = this.unsetElementFromParams(
-					{ search_params: [JSON.parse(this.container.find('#search_params').val())[0]] },
-					params
-				);
+			let searchParamsFromInput = JSON.parse(this.container.find('#search_params').val())[0];
+			if (searchParamsFromInput !== undefined && containerIsModal) {
 				let fieldsName = [];
-				for (let i = 0; i < inputSearchParams.search_params[0].length; i++) {
-					fieldsName.push(inputSearchParams.search_params[0][i][0]);
-				}
 				for (let i = 0; i < params.search_params[0].length; i++) {
-					if ($.inArray(params.search_params[0][i][0], fieldsName) == -1) {
-						inputSearchParams.search_params[0].push(params.search_params[0][i]);
+					fieldsName.push(params.search_params[0][i][0]);
+				}
+				for (let i = 0; i < searchParamsFromInput.length; i++) {
+					if (
+						$.inArray(searchParamsFromInput[i][0], fieldsName) == -1 &&
+						searchParamsFromInput[i][2] === '' &&
+						searchParamsFromInput[i][0] !== this.lastSearchColumn
+					) {
+						params.search_params[0].push(searchParamsFromInput[i]);
 					}
 				}
-				params.search_params = inputSearchParams.search_params;
 			}
 			params.lockedEmptyFields = lockedEmptyFields;
 			return params;
@@ -172,46 +172,17 @@ jQuery.Class(
 				element.on('click', function (e) {
 					if (listViewContainer.hasClass('js-modal-data')) {
 						self.lastSearchColumn = element.parents('.searchField').find('.listSearchContributor').attr('name');
-						params = self.parseConditions({
-							search_params: [JSON.parse(listViewContainer.find('#search_params').val())[0]]
-						});
-						if (!element.is(':checked')) {
-							params = self.unsetElementFromParams(params, false);
-						}
+						params = self.parseConditions(
+							{
+								search_params: [self.getListSearchParams(true)[0]]
+							},
+							true
+						);
 						params.search_params = JSON.stringify(params.search_params);
 					}
 					self.reloadList(params);
 				});
 			});
-		},
-		/**
-		 * Unset element from params.
-		 * @param {array} inputParamsData
-		 * @param {array|boolean} functionParamsData
-		 */
-		unsetElementFromParams: function (inputParamsData, functionParamsData) {
-			if (functionParamsData) {
-				let fieldsName = [];
-				for (let i = 0; i < functionParamsData.search_params[0].length; i++) {
-					fieldsName.push(functionParamsData.search_params[0][i][0]);
-				}
-				for (let i = 0; i < inputParamsData.search_params[0].length; i++) {
-					if (
-						$.inArray(inputParamsData.search_params[0][i][0], fieldsName) == -1 &&
-						inputParamsData.search_params[0][i][2] !== ''
-					) {
-						inputParamsData.search_params[0].splice(i, 1);
-					}
-				}
-			} else {
-				for (let i = 0; i < inputParamsData.search_params[0].length; i++) {
-					if (inputParamsData.search_params[0][i][0] === this.lastSearchColumn) {
-						inputParamsData.search_params[0].splice(i, 1);
-					}
-				}
-			}
-
-			return inputParamsData;
 		},
 		registerListViewSelect: function () {
 			let listViewContainer = this.getContainer();
