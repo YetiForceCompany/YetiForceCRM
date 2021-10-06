@@ -721,5 +721,15 @@ class Vtiger_RelationListView_Model extends \App\Base
 				$fieldModel->set('searchLockedEmptyFields', true);
 			}
 		}
+		if (!$request->isEmpty('search_params')) {
+			foreach ($request->getArray('search_params') as $values) {
+				foreach ($values as $value) {
+					if (empty($value[2])) {
+						$fieldModel = $moduleModel->getFieldByName($value[0]);
+						$fieldModel->set('searchLockedEmptyFields', true);
+					}
+				}
+			}
+		}
 	}
 }

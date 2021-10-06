@@ -54,18 +54,14 @@ $.Class(
 				cvId: this.getFilterSelectElement().val()
 			};
 			let searchValue = this.listSearchInstance.getAlphabetSearchValue();
-			let searchParams = JSON.parse(this.container.find('#search_params').val())[0];
-			if (searchParams !== undefined && searchParams.length > 0) {
-				params['search_params'] = this.container.find('#search_params').val();
-			} else {
-				params['search_params'] = JSON.stringify(this.listSearchInstance.getListSearchParams(true));
-			}
-
+			params['search_params'] = this.listSearchInstance.getListSearchParams(true);
 			if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
 				params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
 				params['search_value'] = searchValue;
 				params['operator'] = 's';
 			}
+			this.listSearchInstance.parseConditions(params);
+			params.search_params = JSON.stringify(params.search_params);
 			return params;
 		},
 		/**

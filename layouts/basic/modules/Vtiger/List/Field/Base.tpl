@@ -39,7 +39,7 @@
 			{/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->searchLockedEmptyFields() || !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
 			<div class="input-group-append">
 				<div class="input-group-text px-1">
-					<input type="checkbox" class="js-empty-value" {if !$FIELD_MODEL->searchLockedEmptyFields()} checked {/if} {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if} >
+					<input type="checkbox" class="js-empty-value" {if !$FIELD_MODEL->searchLockedEmptyFields()}checked{/if} {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if} >
 				</div>
 			</div>
 		</div>

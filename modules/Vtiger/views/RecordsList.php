@@ -54,9 +54,9 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	 */
 	public function preProcessAjax(App\Request $request)
 	{
-		if ($request->has('modal_params')) {
+		if ($request->has('modalParams')) {
 			$viewer = $this->getViewer($request);
-			$viewer->assign('MODAL_PARAMS', $request->getArray('modal_params'));
+			$viewer->assign('MODAL_PARAMS', $request->getArray('modalParams'));
 		}
 		$this->moduleName = $request->getModule();
 		$this->modalIcon = "modCT_{$this->moduleName} yfm-{$this->moduleName}";
@@ -259,8 +259,8 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('RECORD_SELECTED', $request->getBoolean('record_selected', false));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($request->getModule()));
-		$viewer->assign('LOCKED_FIELDS', $request->isEmpty('lockedFields', true) ? false : \App\Json::encode($request->getArray('lockedFields')));
-		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? false : \App\Json::encode($request->getArray('lockedEmptyFields')));
+		$viewer->assign('LOCKED_FIELDS', $request->isEmpty('lockedFields', true) ? [] : $request->getArray('lockedFields'));
+		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? [] : $request->getArray('lockedEmptyFields'));
 		$viewer->assign('CV_ID', $cvId);
 	}
 
