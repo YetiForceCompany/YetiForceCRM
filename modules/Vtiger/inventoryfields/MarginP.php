@@ -48,7 +48,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 			}
 			if (!empty($purchase) && !empty($totalOrNet)) {
 				$subtraction = ($totalOrNet - $purchase);
-				$sum = ($subtraction / $totalOrNet) * 100;
+				$sum = ($subtraction * 100) / $purchase;
 			}
 		}
 		return $sum;
