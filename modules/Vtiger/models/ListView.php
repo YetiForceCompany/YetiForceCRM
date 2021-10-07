@@ -626,14 +626,17 @@ class Vtiger_ListView_Model extends \App\Base
 		$moduleModel = $this->getModule();
 		if (!$request->isEmpty('lockedFields')) {
 			foreach ($request->getArray('lockedFields') as $value) {
-				$fieldModel = $moduleModel->getFieldByName($value);
-				$fieldModel->set('searchLockedFields', true);
+				$moduleModel->getFieldByName($value)->set('searchLockedFields', true);
 			}
 		}
 		if (!$request->isEmpty('lockedEmptyFields')) {
 			foreach ($request->getArray('lockedEmptyFields') as $value) {
-				$fieldModel = $moduleModel->getFieldByName($value);
-				$fieldModel->set('searchLockedEmptyFields', true);
+				if (strpos($value, ':')) {
+					[$fieldName, $moduleName] = explode(':', $value);
+					$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+					$value = $fieldName;
+				}
+				$moduleModel->getFieldByName($value)->set('searchLockedEmptyFields', true);
 			}
 		}
 	}

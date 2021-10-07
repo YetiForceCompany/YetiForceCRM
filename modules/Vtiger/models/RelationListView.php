@@ -711,22 +711,24 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$moduleModel = $this->getRelationModel()->getRelationModuleModel();
 		if (!$request->isEmpty('lockedFields')) {
 			foreach ($request->getArray('lockedFields') as $value) {
-				$fieldModel = $moduleModel->getFieldByName($value);
-				$fieldModel->set('searchLockedFields', true);
+				$moduleModel->getFieldByName($value)->set('searchLockedFields', true);
 			}
 		}
 		if (!$request->isEmpty('lockedEmptyFields')) {
 			foreach ($request->getArray('lockedEmptyFields') as $value) {
-				$fieldModel = $moduleModel->getFieldByName($value);
-				$fieldModel->set('searchLockedEmptyFields', true);
+				if (strpos($value, ':')) {
+					[$fieldName, $moduleName] = explode(':', $value);
+					$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+					$value = $fieldName;
+				}
+				$moduleModel->getFieldByName($value)->set('searchLockedEmptyFields', true);
 			}
 		}
 		if (!$request->isEmpty('search_params')) {
 			foreach ($request->getArray('search_params') as $values) {
 				foreach ($values as $value) {
-					if (empty($value[2])) {
-						$fieldModel = $moduleModel->getFieldByName($value[0]);
-						$fieldModel->set('searchLockedEmptyFields', true);
+					if ('y' === $value[1]) {
+						$moduleModel->getFieldByName($value[0])->set('searchLockedEmptyFields', true);
 					}
 				}
 			}

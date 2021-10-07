@@ -26,9 +26,6 @@
 		{if isset($PARAMS['modalParams'])}
 			<input name="modalParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['modalParams'])}"/>
 		{/if}
-		{if isset($PARAMS['showSwitch'])}
-			<input name="showSwitch" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['showSwitch'])}"/>
-		{/if}
 		{if isset($PARAMS['lockedFields'])}
 			<input name="lockedFields" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['lockedFields'])}"/>
 		{/if}

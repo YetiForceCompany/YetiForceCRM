@@ -107,6 +107,11 @@ jQuery.Class(
 				let element = $(this);
 				let parentField = element.parents('.searchField').find('.listSearchContributor');
 				let fieldName = parentField.attr('name');
+				let moduleName = parentField.data('module-name');
+				let sourceFieldName = parentField.data('source-field-name');
+				if (moduleName !== undefined && sourceFieldName !== undefined) {
+					fieldName = fieldName + ':' + moduleName + ':' + sourceFieldName;
+				}
 				if (element.is(':checked')) {
 					if ($.inArray(fieldName, lockedEmptyFields) == -1) {
 						lockedEmptyFields.push(fieldName);
