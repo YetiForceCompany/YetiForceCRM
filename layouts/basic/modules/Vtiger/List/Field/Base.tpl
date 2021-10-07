@@ -36,10 +36,10 @@
 	{else}
 		<div class="input-group">
 			<input type="text" name="{$FIELD_MODEL->getName()}"  {if !empty($FIELD_MODEL->get('source_field_name'))} data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
-			{/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->searchLockedFields() || !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
+			{/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->searchLockedEmptyFields() || !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
 			<div class="input-group-append">
 				<div class="input-group-text px-1">
-					<input type="checkbox" class="js-empty-value" {if !$FIELD_MODEL->searchLockedFields() || !$FIELD_MODEL->isActiveSearchView()} checked {/if} {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if} >
+					<input type="checkbox" class="js-empty-value" {if !$FIELD_MODEL->searchLockedEmptyFields()}checked{/if} {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if} >
 				</div>
 			</div>
 		</div>
