@@ -40,11 +40,6 @@ jQuery.Class(
 		container: false,
 		reletedInstance: false,
 		viewName: false,
-		/**
-		 * Column name from last search.
-		 * @type {string|boolean}
-		 */
-		lastSearchColumn: false,
 		init: function (container, noEvents, reletedInstance) {
 			if (typeof container === 'undefined') {
 				container = jQuery('.bodyContents');
@@ -83,7 +78,6 @@ jQuery.Class(
 			});
 			listViewContainer.find('input.listSearchContributor').on('keypress', (e) => {
 				if (e.keyCode == 13) {
-					this.lastSearchColumn = $(e.currentTarget).attr('name');
 					this.triggerListSearch();
 				}
 			});
@@ -104,18 +98,23 @@ jQuery.Class(
 		 */
 		parseConditions: function (params) {
 			let listViewContainer = this.getContainer();
-			let lockedFields = [];
-			let lockedInput = listViewContainer.find('.js-locked-fields').val();
+			let lockedEmptyFields = [];
+			let lockedInput = listViewContainer.find('.js-empty-fields').val();
 			if (lockedInput !== '') {
-				lockedFields = JSON.parse(lockedInput);
+				lockedEmptyFields = JSON.parse(lockedInput);
 			}
 			listViewContainer.find('.js-empty-value').each(function () {
 				let element = $(this);
 				let parentField = element.parents('.searchField').find('.listSearchContributor');
 				let fieldName = parentField.attr('name');
+				let moduleName = parentField.data('module-name');
+				let sourceFieldName = parentField.data('source-field-name');
+				if (moduleName !== undefined && sourceFieldName !== undefined) {
+					fieldName = fieldName + ':' + moduleName + ':' + sourceFieldName;
+				}
 				if (element.is(':checked')) {
-					if ($.inArray(fieldName, lockedFields) == -1) {
-						lockedFields.push(fieldName);
+					if ($.inArray(fieldName, lockedEmptyFields) == -1) {
+						lockedEmptyFields.push(fieldName);
 					}
 					let state = 0;
 					for (let i = 0; i < params.search_params[0].length; i++) {
@@ -128,14 +127,14 @@ jQuery.Class(
 						params.search_params[0].push([fieldName, 'y', '']);
 					}
 				} else {
-					for (let i = 0; i < lockedFields.length; i++) {
-						if (lockedFields[i] === fieldName) {
-							lockedFields.splice(i, 1);
+					for (let i = 0; i < lockedEmptyFields.length; i++) {
+						if (lockedEmptyFields[i] === fieldName) {
+							lockedEmptyFields.splice(i, 1);
 						}
 					}
 				}
 			});
-			params.lockedFields = lockedFields;
+			params.lockedEmptyFields = lockedEmptyFields;
 			return params;
 		},
 		/**
@@ -164,7 +163,6 @@ jQuery.Class(
 			});
 			if (app.getMainParams('autoRefreshListOnChange') == '1') {
 				listViewContainer.find('.listViewEntriesTable select, .searchInSubcategories').on('change', (e) => {
-					this.lastSearchColumn = $(e.currentTarget).attr('name');
 					this.triggerListSearch();
 				});
 				listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', () => {

@@ -258,9 +258,9 @@ $.Class(
 			if (modalParamsElement.length > 0) {
 				params['modal_params'] = modalParamsElement.val();
 			}
-			let showSwitchElement = $('input[name="showSwitch"]', container);
-			if (showSwitchElement.length > 0) {
-				params['showSwitch'] = showSwitchElement.val();
+			let lockedFieldsElement = $('input[name="lockedFields"]', container);
+			if (lockedFieldsElement.length > 0) {
+				params['lockedFields'] = lockedFieldsElement.val();
 			}
 			$.each(['link', 'process'], function (index, value) {
 				let fieldElement = formElement.find('[name="' + value + '"]');

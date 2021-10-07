@@ -615,7 +615,7 @@ class Vtiger_ListView_Model extends \App\Base
 	}
 
 	/**
-	 * Fields permanently blocked if found in search value.
+	 * Locked fields according to parameters passed.
 	 *
 	 * @param App\Request $request
 	 *
@@ -624,21 +624,19 @@ class Vtiger_ListView_Model extends \App\Base
 	public function loadSearchLockedFields(App\Request $request): void
 	{
 		$moduleModel = $this->getModule();
-		foreach ($this->getArray('search_params') as $values) {
-			if (\is_array($values)) {
-				foreach ($values as $value) {
-					if ($fieldModel = $moduleModel->getFieldByName($value['field_name'])) {
-						$fieldModel->set('searchDisabledFields', true);
-					}
-				}
-			}
-		}
 		if (!$request->isEmpty('lockedFields')) {
 			foreach ($request->getArray('lockedFields') as $value) {
-				if ($fieldModel = $moduleModel->getFieldByName($value)) {
-					$fieldModel->set('searchLockedFields', true);
-					$fieldModel->set('searchDisabledFields', false);
+				$moduleModel->getFieldByName($value)->set('searchLockedFields', true);
+			}
+		}
+		if (!$request->isEmpty('lockedEmptyFields')) {
+			foreach ($request->getArray('lockedEmptyFields') as $value) {
+				if (strpos($value, ':')) {
+					[$fieldName, $moduleName] = explode(':', $value);
+					$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+					$value = $fieldName;
 				}
+				$moduleModel->getFieldByName($value)->set('searchLockedEmptyFields', true);
 			}
 		}
 	}

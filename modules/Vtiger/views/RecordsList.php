@@ -157,7 +157,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 
 		$this->setRelatedParent($request);
 		$this->setRecordListModel($request);
-
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
 			$moduleInstance = CRMEntity::getInstance($this->moduleName);
@@ -260,7 +259,8 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('RECORD_SELECTED', $request->getBoolean('record_selected', false));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($request->getModule()));
-		$viewer->assign('LOCKED_FIELDS', $request->isEmpty('lockedFields', true) ? false : \App\Json::encode($request->getArray('lockedFields')));
+		$viewer->assign('LOCKED_FIELDS', $request->isEmpty('lockedFields', true) ? [] : $request->getArray('lockedFields'));
+		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? [] : $request->getArray('lockedEmptyFields'));
 		$viewer->assign('CV_ID', $cvId);
 	}
 
