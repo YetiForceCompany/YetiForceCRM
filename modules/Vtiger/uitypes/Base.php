@@ -481,4 +481,13 @@ class Vtiger_Base_UIType extends \App\Base
 	{
 		return ('' === $value && null !== $defaultValue) ? $defaultValue : $value;
 	}
+
+	/**
+	 * Function for deleting specific data for uiType.
+	 *
+	 * @return void
+	 */
+	public function delete()
+	{
+	}
 }

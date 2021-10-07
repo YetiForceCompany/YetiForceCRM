@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * Settings Kanban Save action class.
@@ -33,7 +34,7 @@ class Settings_Kanban_Save_Action extends Settings_Vtiger_Basic_Action
 		\App\Utils\Kanban::addBoard($request->getInteger('field'));
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'message' => \App\Language::translate('Saved changes', $request->getModule(false)),
+			'message' => \App\Language::translate('LBL_CHANGES_SAVED', $request->getModule(false)),
 		]);
 		$response->emit();
 	}
@@ -52,7 +53,7 @@ class Settings_Kanban_Save_Action extends Settings_Vtiger_Basic_Action
 		\App\Utils\Kanban::updateBoard($request->getInteger('board'), $type, $request->getArray('value'));
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'message' => \App\Language::translate('Saved changes', $request->getModule(false)),
+			'message' => \App\Language::translate('LBL_CHANGES_SAVED', $request->getModule(false)),
 		]);
 		$response->emit();
 	}
@@ -67,7 +68,7 @@ class Settings_Kanban_Save_Action extends Settings_Vtiger_Basic_Action
 		\App\Utils\Kanban::deleteBoard($request->getInteger('board'));
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'message' => \App\Language::translate('Saved changes', $request->getModule(false)),
+			'message' => \App\Language::translate('LBL_CHANGES_SAVED', $request->getModule(false)),
 		]);
 		$response->emit();
 	}
@@ -79,11 +80,12 @@ class Settings_Kanban_Save_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function sequence(App\Request $request)
 	{
+		$sourceModule = $request->getByType('sourceModule', \App\Purifier::STANDARD);
 		$boards = $request->getArray('boards', \App\Purifier::INTEGER, [], \App\Purifier::INTEGER);
-		\App\Utils\Kanban::updateSequence($boards);
+		\App\Utils\Kanban::updateSequence($sourceModule, $boards);
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'message' => \App\Language::translate('Saved changes', $request->getModule(false)),
+			'message' => \App\Language::translate('LBL_CHANGES_SAVED', $request->getModule(false)),
 		]);
 		$response->emit();
 	}

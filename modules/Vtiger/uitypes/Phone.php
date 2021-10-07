@@ -159,4 +159,16 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		}
 		return $value;
 	}
+
+	/** {@inheritdoc} */
+	public function delete()
+	{
+		$fieldModel = $this->getFieldModel();
+		$fieldName = $fieldModel->getName();
+		if ($extraFieldId = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['fieldname' => "{$fieldName}_extra", 'tabid' => $fieldModel->getModuleId()])->scalar()) {
+			\Settings_LayoutEditor_Field_Model::getInstance($extraFieldId)->delete();
+		}
+
+		parent::delete();
+	}
 }

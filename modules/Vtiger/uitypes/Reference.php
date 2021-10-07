@@ -280,4 +280,25 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}
+
+	/** {@inheritdoc} */
+	public function delete()
+	{
+		$db = \App\Db::getInstance();
+		$fieldModel = $this->getFieldModel();
+		$reference = $fieldModel->getReferenceList();
+
+		$db->createCommand()->delete('vtiger_relatedlists', [
+			'field_name' => $fieldModel->getName(),
+			'related_tabid' => $fieldModel->getModuleId(),
+			'tabid' => array_map('App\Module::getModuleId', $reference)
+		])->execute();
+
+		foreach ($reference as $module) {
+			\App\Relation::clearCacheByModule($module);
+		}
+		\App\Cache::delete('HierarchyByRelation', '');
+
+		parent::delete();
+	}
 }

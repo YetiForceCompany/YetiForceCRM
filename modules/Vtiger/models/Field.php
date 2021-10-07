@@ -1758,4 +1758,13 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		return $tabindex + self::$tabIndexDefaultSeq;
 	}
+
+	/** {@inheritdoc} */
+	public function delete()
+	{
+		$this->getUITypeModel()->delete();
+		Settings_FieldsDependency_Module_Model::removeField($this->getModuleName(), $this->getName());
+		\App\Utils\Kanban::deleteField($this->getModuleName(), $this->getName());
+		parent::delete();
+	}
 }

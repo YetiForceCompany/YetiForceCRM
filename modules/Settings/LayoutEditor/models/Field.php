@@ -18,10 +18,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	{
 		$db = \App\Db::getInstance();
 		try {
-			$uiType = $this->getUIType();
-			if (10 === $uiType) {
-				$reference = $this->getReferenceList();
-			}
 			parent::delete();
 
 			$fldModule = $this->getModuleName();
@@ -44,7 +40,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			//Deleting from convert lead mapping vtiger_table- Jaguar
 			if ('Leads' === $fldModule) {
 				$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $id])->execute();
-			} elseif ('Accounts' == $fldModule) {
+			} elseif ('Accounts' === $fldModule) {
 				$mapDelId = ['Accounts' => 'accountfid'];
 				$db->createCommand()->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], [$mapDelId[$fldModule] => $id])->execute();
 			}
@@ -66,34 +62,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 				$db->createCommand()->delete('vtiger_picklist_dependency', ['and', ['tabid' => $tabId], ['or', ['sourcefield' => $fieldname], ['targetfield' => $fieldname]]])->execute();
 			}
 
-			if (305 === $uiType) {
-				$fieldParams = \App\Json::decode($this->get('fieldparams'));
-				$destModule = $fieldParams['module'];
-				$db->createCommand()->delete('s_#__multireference', ['source_module' => $fldModule, 'dest_module' => $destModule])->execute();
-				\App\Cache::delete('mrvfbm', "{$fldModule},{$destModule}");
-				\App\Cache::delete('getMultiReferenceModules', $destModule);
-			}
-			$tabIds = (new \App\Db\Query())
-				->select(['fieldid', 'tabid'])
-				->from('vtiger_field')
-				->where(['and',	['<>', 'presence', 1], ['uitype' => 305],	['and', ['like', 'fieldparams', '"field":"' . $id . '"']]
-				])->createCommand()->queryAllByGroup();
-			foreach ($tabIds as $fieldId => $tabId) {
-				$sourceModule = \App\Module::getModuleName($tabId);
-				$db->createCommand()->update('vtiger_field', ['presence' => 1], ['fieldid' => $fieldId])->execute();
-				\App\Cache::delete('mrvfbm', "{$sourceModule},{$fldModule}");
-				\App\Cache::delete('getMultiReferenceModules', $fldModule);
-			}
-
-			if (10 === $uiType && $reference) {
-				$db->createCommand()->delete('vtiger_relatedlists', ['field_name' => $fieldname, 'related_tabid' => $tabId, 'tabid' => array_map('App\Module::getModuleId', $reference)])->execute();
-				foreach ($reference as $module) {
-					\App\Relation::clearCacheByModule($module);
-				}
-				\App\Cache::delete('HierarchyByRelation', '');
-			}
-
-			Settings_FieldsDependency_Module_Model::removeField($fldModule, $fieldname);
 			$entityInfo = \App\Module::getEntityInfo($fldModule);
 			foreach (['fieldnameArr' => 'fieldname', 'searchcolumnArr' => 'searchcolumn'] as $key => $name) {
 				if (false !== ($fieldNameKey = array_search($fieldname, $entityInfo[$key]))) {
@@ -105,9 +73,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 					];
 					Settings_Search_Module_Model::save($params);
 				}
-			}
-			if (11 === $uiType && ($extraFieldId = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['fieldname' => "{$fieldname}_extra", 'tabid' => $tabId])->scalar())) {
-				self::getInstance($extraFieldId)->delete();
 			}
 		} catch (\Throwable $ex) {
 			\App\Log::error($ex->__toString());

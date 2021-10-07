@@ -121,6 +121,7 @@ Settings_Vtiger_Index_Js(
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
+				sourceModule: this.module,
 				action: 'Save',
 				mode: 'sequence',
 				boards: boards
