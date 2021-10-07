@@ -369,13 +369,8 @@ class Cron
 		if (0 == $time) {
 			$time = $this->getLastStart();
 		}
-		if (time() > ($time + \App\Cron::getMaxExecutionTime())) {
-			return true;
-		}
-		if (!empty($this->data['max_exe_time']) && time() >= (($this->data['max_exe_time'] * 60) + $time)) {
-			return true;
-		}
-		return false;
+		return (time() > ($time + \App\Cron::getMaxExecutionTime()))
+			|| (!empty($this->data['max_exe_time']) && time() >= (($this->data['max_exe_time'] * 60) + $time));
 	}
 
 	/**

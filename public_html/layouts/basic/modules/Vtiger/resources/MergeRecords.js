@@ -17,7 +17,7 @@ $.Class(
 				this.container.find('input[value=' + $(e.currentTarget).val() + ']').trigger('click');
 			});
 			this.container.find('[type="submit"]').on('click', (e) => {
-				e.preventDefault;
+				e.preventDefault();
 				const progressIndicatorElement = $.progressIndicator({
 					position: 'html',
 					blockInfo: { enabled: true }

@@ -314,8 +314,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$multiMode = 'multiImage' === $this->getFieldModel()->getFieldDataType();
 		if (\is_string($value)) {
 			$value = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
-		} else {
-			$value = $value;
+		} elseif(!is_array($value)) {
+			$value = [];
 		}
 		$return = [];
 		foreach ($value as $item) {

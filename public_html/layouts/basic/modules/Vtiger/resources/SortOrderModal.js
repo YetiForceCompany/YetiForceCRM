@@ -65,7 +65,7 @@ $.Class(
 				element.find('.js-sort-order').val(element.find('.js-sort-icon-active').data('val'));
 			});
 			this.container.find('.js-modal__save').on('click', (e) => {
-				e.preventDefault;
+				e.preventDefault();
 				this.sourceContainer.find('.js-list-reload').trigger('click', { orderby: this.getSortData() });
 				app.hideModalWindow(null, this.source);
 			});

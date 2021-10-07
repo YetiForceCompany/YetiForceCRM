@@ -76,7 +76,7 @@
 												{/if}
 											</div>
 											<div class="timeline-body small">
-												<strong>{$RECENT_ACTIVITY->getModifierName()}
+												<strong>{$MODIFIER_NAME}
 													&nbsp;</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}
 												<div class="float-right time text-muted ml-1">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
 												<div>

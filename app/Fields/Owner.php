@@ -647,7 +647,7 @@ class Owner
 		$userLabel = false;
 		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
-			foreach ($users as $uid => &$user) {
+			foreach ($users as $uid => $user) {
 				self::$userLabelCache[$uid] = $user['fullName'];
 				self::$ownerLabelCache[$uid] = $user['fullName'];
 			}

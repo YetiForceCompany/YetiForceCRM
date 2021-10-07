@@ -14,7 +14,7 @@ Base_SortOrderModal_JS(
 				.find('.js-modal__save')
 				.off('click')
 				.on('click', (e) => {
-					e.preventDefault;
+					e.preventDefault();
 					this.saveSorting();
 				});
 		},
