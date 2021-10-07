@@ -13,15 +13,11 @@ class Vtiger_Menu_Model
 	/**
 	 * Static Function to get all the accessible menu models with/without ordering them by sequence.
 	 *
-	 * @param bool  $sequenced             - true/false
-	 * @param mixed $restrictedModulesList
-	 *
-	 * @return <Array> - List of Vtiger_Menu_Model instances
+	 * @return array
 	 */
-	public static function getAll($sequenced = false, $restrictedModulesList = [])
+	public static function getAll(): array
 	{
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {
 			require $roleMenu;
@@ -31,7 +27,7 @@ class Vtiger_Menu_Model
 		if (0 === \count($menus)) {
 			require 'user_privileges/menu_0.php';
 		}
-		return $menus;
+		return \Settings_Menu_Record_Model::parseToDisplay($menus);
 	}
 
 	public static function vtranslateMenu($key, $module)
@@ -85,7 +81,7 @@ class Vtiger_Menu_Model
 					}
 					$breadcrumbs[] = [
 						'name' => \App\Language::translate($moduleName, $moduleName),
-						'url' => $url
+						'url' => $url,
 					];
 				} else {
 					$breadcrumbs[] = [
@@ -206,5 +202,54 @@ class Vtiger_Menu_Model
 			return '<span class="c-menu__item__icon yfm-' . $menu['mod'] . '" aria-hidden="true"></span>';
 		}
 		return '';
+	}
+
+	/**
+	 * Get label to display.
+	 *
+	 * @param array $row
+	 *
+	 * @return string
+	 */
+	public static function getLabelToDisplay(array $row): string
+	{
+		$name = '';
+		$type = $row['type'];
+		if (\is_int($type)) {
+			$type = Settings_Menu_Module_Model::TYPES[$type];
+			$moduleName = $row['name'];
+		} else {
+			$moduleName = $row['mod'] ?? '';
+		}
+		switch ($type) {
+			case 'Module':
+				$name = self::vtranslateMenu((empty($row['label']) ? $moduleName : $row['label']), $moduleName);
+				break;
+			case 'Separator':
+				$name = self::vtranslateMenu('LBL_SEPARATOR', 'Menu');
+				break;
+			case 'QuickCreate':
+				if ('' != $row['label']) {
+					$name = self::vtranslateMenu($row['label'], 'Menu');
+				} else {
+					$name = \App\Language::translate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . self::vtranslateMenu('SINGLE_' . $moduleName, $moduleName);
+				}
+				break;
+			case 'HomeIcon':
+				$name = self::vtranslateMenu('LBL_HOME', 'Menu');
+				break;
+			case 'CustomFilter':
+				$cvid = \is_int($row['type']) ? $row['dataurl'] : vtlib\Functions::getQueryParams($row['dataurl'])['viewname'];
+				$data = \App\CustomView::getCustomViewById($cvid);
+				$name = self::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . \App\Language::translate($data['viewname'], $data['entitytype']);
+				break;
+			case 'RecycleBin':
+				$name = self::vtranslateMenu($moduleName, $moduleName);
+				break;
+			default:
+				$name = self::vtranslateMenu($row['label'], 'Menu');
+				break;
+		}
+		return $name;
 	}
 }

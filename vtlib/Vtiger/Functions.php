@@ -646,7 +646,6 @@ class Functions
 	{
 		$queryStr = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
 		parse_str($queryStr, $queryParams);
-
 		return $queryParams;
 	}
 

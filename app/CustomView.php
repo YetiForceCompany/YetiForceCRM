@@ -714,6 +714,23 @@ class CustomView
 	}
 
 	/**
+	 * Get custom view by ID.
+	 *
+	 * @param int $cvId
+	 *
+	 * @return array
+	 */
+	public static function getCustomViewById(int $cvId): array
+	{
+		if (Cache::has('CustomViewById', $cvId)) {
+			return Cache::get('CustomViewById', $cvId);
+		}
+		$data = (new Db\Query())->from('vtiger_customview')->where(['cvid' => $cvId])->one();
+		Cache::save('CustomViewById', $cvId, $data);
+		return $data;
+	}
+
+	/**
 	 * Gets custom view details by ID.
 	 *
 	 * @param int         $cvId
@@ -727,7 +744,7 @@ class CustomView
 			return Cache::get('CustomViewInfo', $cvId);
 		}
 		if (!$moduleName) {
-			$moduleName = (new Db\Query())->select(['entitytype'])->from('vtiger_customview')->where(['cvid' => $cvId])->scalar();
+			$moduleName = self::getCustomViewById($cvId)['entitytype'];
 		}
 		return self::getFiltersByModule($moduleName)[$cvId] ?? [];
 	}
@@ -742,6 +759,7 @@ class CustomView
 	 */
 	public static function clearCacheById(int $cvId, string $moduleName = null): void
 	{
+		Cache::delete('CustomViewById', $cvId);
 		Cache::delete('CustomViewInfo', $cvId);
 		Cache::delete('CustomViewInfo', $moduleName);
 		Cache::delete('getAllFilterColors', false);

@@ -870,7 +870,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		if ($tree) {
-			$menu = Vtiger_Menu_Model::getAll(true);
+			$menu = Vtiger_Menu_Model::getAll();
 			$quickCreateModulesTree = [];
 			foreach ($menu as $parent) {
 				if (!empty($parent['childs'])) {

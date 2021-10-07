@@ -79,8 +79,9 @@ class Menu extends \Api\Core\BaseAction
 	 */
 	public function get(): array
 	{
+		$menu = \Settings_Menu_Record_Model::getCleanInstance()->getChildMenu($this->controller->app['id'], 0, \Settings_Menu_Record_Model::SRC_API);
 		return [
-			'items' => \Settings_Menu_Record_Model::getCleanInstance()->getChildMenu($this->controller->app['id'], 0, \Settings_Menu_Record_Model::SRC_API),
+			'items' => \Settings_Menu_Record_Model::parseToDisplay($menu),
 		];
 	}
 }

@@ -270,6 +270,6 @@ abstract class Page extends Base
 	 */
 	protected function getMenu()
 	{
-		return \Vtiger_Menu_Model::getAll(true);
+		return \Vtiger_Menu_Model::getAll();
 	}
 }

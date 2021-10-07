@@ -53,10 +53,11 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$dataReader = $query->createCommand()->query();
 		$menu = [];
 		while ($row = $dataReader->read()) {
+			$row['type'] = (int) $row['type'];
 			$menu[] = [
 				'id' => $row['id'],
 				'parent' => 0 == $row['parentid'] ? '#' : $row['parentid'],
-				'text' => Vtiger_Menu_Model::vtranslateMenu($settingsModel->getMenuName($row, true), $row['name']),
+				'text' => Vtiger_Menu_Model::getLabelToDisplay($row),
 				'icon' => 'menu-icon-' . $settingsModel->getMenuTypes($row['type']),
 			];
 		}
@@ -200,7 +201,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getChildMenu($roleId, $parent, int $source = 0)
 	{
-		$api = self::SRC_API === $source;
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
 		$menu = [];
 		$query = (new \App\Db\Query())->select(('yetiforce_menu.*, vtiger_tab.name'))
@@ -214,7 +214,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'id' => $row['id'],
 				'tabid' => $row['module'],
 				'mod' => $row['name'],
-				'name' => $settingsModel->getMenuName($row),
+				'label' => $row['label'],
 				'type' => $settingsModel->getMenuTypes($row['type']),
 				'sequence' => $row['sequence'],
 				'newwindow' => $row['newwindow'],
@@ -225,13 +225,39 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'filters' => $row['filters'],
 				'childs' => $this->getChildMenu($roleId, $row['id'], $source),
 			];
-			if ($api) {
-				$row['label'] = 'Module' === $row['type'] ? \App\Language::translate($row['name'], $row['name']) : Vtiger_Menu_Model::vtranslateMenu($row['name'], 'Menu');
-			}
 			$menu[] = $row;
 		}
 		$dataReader->close();
 		return $menu;
+	}
+
+	/**
+	 * Check permissions for display.
+	 *
+	 * @param array $menus
+	 *
+	 * @return array
+	 */
+	public static function parseToDisplay(array $menus): array
+	{
+		$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$data = [];
+		foreach ($menus as $key => $item) {
+			if (\in_array($item['type'], ['QuickCreate', 'Module', 'HomeIcon', 'CustomFilter', 'RecycleBin'])) {
+				if (!\App\Module::isModuleActive($item['mod']) || (!$userPrivilegesModel->isAdminUser() && !$userPrivilegesModel->hasGlobalReadPermission() && !$userPrivilegesModel->hasModulePermission($item['tabid']))) {
+					continue;
+				}
+				if ('QuickCreate' === $item['type'] && (!Vtiger_Module_Model::getInstance($item['tabid'])->isQuickCreateSupported() || $userPrivilegesModel->hasModuleActionPermission($item['tabid'], 'CreateView'))) {
+					continue;
+				}
+			}
+			$item['name'] = Vtiger_Menu_Model::getLabelToDisplay($item);
+			if ($item['childs']) {
+				$item['childs'] = self::parseToDisplay($item['childs']);
+			}
+			$data[$key] = $item;
+		}
+		return $data;
 	}
 
 	public function generateFileMenu($roleId)
@@ -260,8 +286,8 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		unset($menu['filters']);
 		$content = $menu['id'] . '=>[';
 		foreach ($menu as $key => $item) {
-			if ('childs' == $key) {
-				if (\count($item) > 0) {
+			if ('childs' == $key && $item) {
+				if ($item) {
 					$childs = var_export($key, true) . '=>[';
 					foreach ($item as $child) {
 						$childs .= $this->createContentMenu($child);

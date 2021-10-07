@@ -15,9 +15,9 @@ class Settings_Menu_Module_Model
 	 */
 	protected $editFields = [
 		'id', 'role', 'parentid', 'type', 'sequence', 'module', 'label', 'newwindow',
-		'dataurl', 'showicon', 'icon', 'sizeicon', 'hotkey', 'filters', 'edit', 'source'
+		'dataurl', 'showicon', 'icon', 'sizeicon', 'hotkey', 'filters', 'edit', 'source',
 	];
-	protected $types = [
+	const TYPES = [
 		0 => 'Module',
 		1 => 'Shortcut',
 		2 => 'Label',
@@ -54,53 +54,14 @@ class Settings_Menu_Module_Model
 	public function getMenuTypes($key = false)
 	{
 		if (false === $key) {
-			return $this->types;
+			return self::TYPES;
 		}
-		return $this->types[$key];
+		return self::TYPES[$key];
 	}
 
 	public function getMenuTypeKey($val)
 	{
-		return array_search($val, $this->types);
-	}
-
-	public function getMenuName($row, $settings = false)
-	{
-		$name = '';
-		switch ($row['type']) {
-			case 0:
-				$name = empty($row['label']) ? $row['name'] : $row['label'];
-				break;
-			case 3:
-				$name = 'LBL_SEPARATOR';
-				break;
-			case 5:
-				if ('' != $row['label']) {
-					$name = $row['label'];
-				} elseif ($settings) {
-					$name = \App\Language::translate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . Vtiger_Menu_Model::vtranslateMenu('SINGLE_' . $row['name'], $row['name']);
-				}
-				break;
-			case 6:
-				$name = 'LBL_HOME';
-				break;
-			case 7:
-				$query = (new \App\Db\Query())->select(['viewname', 'entitytype'])->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
-				$data = $query->one();
-				if ($settings) {
-					$name = Vtiger_Menu_Model::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . \App\Language::translate($data['viewname'], $data['entitytype']);
-				} else {
-					$name = Vtiger_Menu_Model::vtranslateMenu($data['viewname'], $data['entitytype']);
-				}
-				break;
-			case 9:
-				$name = $row['name'];
-				break;
-			default:
-				$name = $row['label'];
-				break;
-		}
-		return $name;
+		return array_search($val, self::TYPES);
 	}
 
 	public function getMenuUrl($row)
@@ -120,7 +81,7 @@ class Settings_Menu_Module_Model
 				$url = 'index.php?module=' . $row['name'] . '&view=List&viewname=' . $row['dataurl'] . '&mid=' . $row['id'] . (empty($row['parentid']) ? '' : ('&parent=' . $row['parentid']));
 				break;
 			default:
-				$url = null;
+				$url = $row['dataurl'];
 				break;
 		}
 		return $url;
