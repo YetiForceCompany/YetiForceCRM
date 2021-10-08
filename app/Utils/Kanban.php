@@ -45,7 +45,7 @@ class Kanban
 		if ($privileges) {
 			foreach ($rows as $id => $row) {
 				$fieldModel = \Vtiger_Field_Model::getInstanceFromFieldId($id);
-				if (!$fieldModel->isEditable()) {
+				if (!$fieldModel->isAjaxEditable()) {
 					unset($rows[$id]);
 				}
 			}
@@ -162,8 +162,8 @@ class Kanban
 	{
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$fields = [];
-		foreach ($moduleModel->getFields() as $fieldModel) {
-			if (\in_array($fieldModel->getFieldDataType(), ['picklist', 'owner']) && !isset($fields[$fieldModel->getId()])) {
+		foreach ($moduleModel->getFieldsByType(['picklist', 'owner'], true) as $fieldModel) {
+			if ($fieldModel->isAjaxEditable()) {
 				$fields[$fieldModel->getId()] = $fieldModel;
 			}
 		}

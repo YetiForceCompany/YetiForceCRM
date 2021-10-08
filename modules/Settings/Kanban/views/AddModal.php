@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * Add Kanban modal view class.
@@ -35,6 +36,9 @@ class Settings_Kanban_AddModal_View extends \App\Controller\ModalSettings
 				continue;
 			}
 			$field = $field->getFullLabelTranslation();
+		}
+		if (empty($fields)) {
+			$this->successBtn = '';
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELDS', $fields);

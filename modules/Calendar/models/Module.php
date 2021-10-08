@@ -85,6 +85,14 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linkicon' => 'far fa-calendar-minus',
 			]);
 		}
+		if ($this->isPermitted('Kanban') && \App\Utils\Kanban::getBoards($this->getName(), true)) {
+			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_VIEW_KANBAN',
+				'linkurl' => 'index.php?module=' . $this->getName() . '&view=Kanban',
+				'linkicon' => 'yfi yfi-kanban',
+			]);
+		}
 		return $links;
 	}
 

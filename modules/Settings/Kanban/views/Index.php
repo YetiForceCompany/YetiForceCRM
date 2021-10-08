@@ -20,7 +20,6 @@ class Settings_Kanban_Index_View extends Settings_Vtiger_Index_View
 	public function process(App\Request $request)
 	{
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
-		unset($supportedModulesList['Calendar']);
 		$sourceModuleName = $request->getByType('sourceModule', \App\Purifier::ALNUM);
 		if (empty($sourceModuleName)) {
 			$sourceModuleName = reset($supportedModulesList);
