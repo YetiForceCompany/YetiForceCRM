@@ -58,27 +58,28 @@
                                     </div>
                                     <div class="card-footer p-1 text-right">
                                         <div class="float-left pr-1 btns">
-                                            <button type="button" role="button"
-                                                class="btn btn-xs btn-light js-popover-tooltip js-show-modal"
-                                                data-url="index.php?module={$MODULE_NAME}&view=QuickDetailModal&record={$RECORD_ID}"
-                                                data-content="{\App\Language::translate('LBL_SHOW_QUICK_DETAILS')}"
-                                                data-js="popover|click" data-placement="bottom">
-                                                <span class="far fa-caret-square-right u-fs-xs"></span>
-                                            </button>
+                                            {if $MODULE_MODEL->isSummaryViewSupported()}
+                                                <button type="button" role="button"
+                                                    class="btn btn-xs btn-light js-popover-tooltip js-show-modal"
+                                                    data-url="index.php?module={$MODULE_NAME}&view=QuickDetailModal&record={$RECORD_ID}"
+                                                    data-content="{\App\Language::translate('LBL_SHOW_QUICK_DETAILS')}"
+                                                    data-js="popover|click" data-placement="bottom">
+                                                    <span class="far fa-caret-square-right u-fs-xs"></span>
+                                                </button>
+                                            {/if}
                                             <a class="btn btn-xs btn-light js-popover-tooltip" href="{$RECORD->getDetailViewUrl()}"
                                                 data-content="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS')}" data-js="popover"
                                                 data-placement="bottom">
                                                 <span class="fas fa-th-list u-fs-xs"></span>
                                             </a>
                                             {if $COLUMN['isEditable'] && $RECORD_IS_EDITABLE}
-                                                <button type="button" role="button"
-                                                    class="btn btn-xs btn-light js-popover-tooltip js-quick-edit-modal"
+                                                <a class="btn btn-xs btn-light js-popover-tooltip{if $MODULE_MODEL->isQuickCreateSupported()} js-quick-edit-modal{/if}"
                                                     href="{$RECORD->getEditViewUrl()}"
                                                     data-content="{\App\Language::translate('BTN_RECORD_EDIT')}"
                                                     data-module="{$MODULE_NAME}" data-record="{$RECORD_ID}" data-js="popover|click"
                                                     data-placement="bottom">
                                                     <span class="yfi yfi-full-editing-view u-fs-xs"></span>
-                                                </button>
+                                                </a>
                                             {/if}
                                         </div>
                                         {if in_array('assigned_user_id',$ACTIVE_BOARD['detail_fields'])}
