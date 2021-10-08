@@ -296,7 +296,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 					$content .= trim($childs, ',');
 				}
 			} else {
-				$content .= var_export($key, true) . '=>' . var_export($item, true) . ',';
+				$content .= var_export($key, true) . '=>' . \App\Utils::varExport($item) . ',';
 			}
 		}
 		return trim($content, ',') . '],';
@@ -305,10 +305,11 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	public function createParentList($menu)
 	{
 		$content = $menu['id'] . '=>[';
-		$content .= "'name'=>" . var_export($menu['name'], true) . ',';
-		$content .= "'url'=>" . var_export($menu['dataurl'], true) . ',';
+		$content .= "'type'=>" . var_export($menu['type'], true) . ',';
+		$content .= "'mod'=>" . var_export($menu['mod'], true) . ',';
+		$content .= "'label'=>" . var_export($menu['label'], true) . ',';
+		$content .= "'dataurl'=>" . var_export($menu['dataurl'], true) . ',';
 		$content .= "'parent'=>" . var_export($menu['parent'], true) . ',';
-		$content .= "'mod'=>" . var_export($menu['mod'], true);
 		$content .= '],';
 		if (\count($menu['childs']) > 0) {
 			foreach ($menu['childs'] as $child) {

@@ -75,7 +75,7 @@ class Vtiger_Menu_Model
 				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 				if ($moduleModel && $moduleModel->getDefaultUrl()) {
 					if ($mid) {
-						$url = $menus[$mid]['dataurl'] ?? $parentList[$mid]['url'];
+						$url = $menus[$mid]['dataurl'] ?? $parentList[$mid]['dataurl'];
 					} else {
 						$url = $moduleModel->getDefaultUrl();
 					}
@@ -152,13 +152,13 @@ class Vtiger_Menu_Model
 		return $breadcrumbs;
 	}
 
-	public static function getParentMenu($parentList, $parent, $module, $return = [])
+	public static function getParentMenu($parentList, $parent, $module, $return = []): array
 	{
 		$return = [];
-		if (!empty($parent) && \array_key_exists($parent, $parentList)) {
+		if (!empty($parent) && !empty($parentList[$parent])) {
 			$return[] = [
-				'name' => self::vtranslateMenu($parentList[$parent]['name'], $module),
-				'url' => $parentList[$parent]['url'],
+				'name' => self::getLabelToDisplay($parentList[$parent]),
+				'url' => $parentList[$parent]['dataurl'],
 			];
 			if (0 !== $parentList[$parent]['parent'] && \array_key_exists($parentList[$parent]['parent'], $parentList)) {
 				$return = self::getParentMenu($parentList, $parentList[$parent]['parent'], $module, $return);
@@ -173,12 +173,12 @@ class Vtiger_Menu_Model
 	 * @param string|array $menu
 	 * @param string       $title
 	 *
-	 * @return string|bool
+	 * @return string
 	 */
-	public static function getMenuIcon($menu, $title = '')
+	public static function getMenuIcon($menu, $title = ''): string
 	{
 		if (empty($title) && !empty($menu['label'])) {
-			$title = self::vtranslateMenu($menu['label'], $menu['mod']);
+			$title = self::getLabelToDisplay($menu);
 		}
 		if (\is_string($menu)) {
 			$iconName = \Vtiger_Theme::getImagePath($menu);

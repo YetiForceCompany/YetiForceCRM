@@ -248,9 +248,9 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 					$children[$fieldId] = [
 						'id' => $menuItem->getId(),
 						'active' => $selectedFieldId === $menuItem->getId(),
-						'name' => $menuItem->get('name'),
+						'name' => \App\Language::translate($menuItem->get('name'), $menuItem->getModuleName()),
 						'type' => 'Shortcut',
-						'sequence' => $menuModel->get('sequence'),
+						'sequence' => $menuItem->get('sequence'),
 						'newwindow' => '0',
 						'icon' => $menuItem->get('iconpath'),
 						'dataurl' => $menuItem->getUrl(),
@@ -265,7 +265,7 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 				$menu[$blockId] = [
 					'id' => $blockId,
 					'active' => $selectedBlockId === $blockId,
-					'name' => $menuModel->getLabel(),
+					'name' => \App\Language::translate($menuModel->getLabel(), 'Settings::Vtiger'),
 					'type' => 'Label',
 					'sequence' => $menuModel->get('sequence'),
 					'childs' => $children,
@@ -279,7 +279,7 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 				$menu[$blockId] = [
 					'id' => $blockId,
 					'active' => $selectedBlockId === $blockId,
-					'name' => $menuModel->getLabel(),
+					'name' => \App\Language::translate($menuModel->getLabel(), 'Settings::Vtiger'),
 					'type' => 'Shortcut',
 					'sequence' => $menuModel->get('sequence'),
 					'newwindow' => '0',
