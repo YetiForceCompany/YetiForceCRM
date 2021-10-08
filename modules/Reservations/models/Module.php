@@ -18,19 +18,13 @@ class Reservations_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK'], $linkParams);
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+		$links = parent::getSideBarLinks($linkParams);
+		array_unshift($links['SIDEBARLINK'], Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARLINK',
-			'linklabel' => 'LBL_CALENDAR_VIEW',
+			'linklabel' => 'LBL_CALENDAR',
 			'linkurl' => $this->getCalendarViewUrl(),
-			'linkicon' => 'fas fa-calendar-alt',
-		]);
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'SIDEBARLINK',
-			'linklabel' => 'LBL_RECORDS_LIST',
-			'linkurl' => $this->getListViewUrl(),
-			'linkicon' => 'fas fa-list',
-		]);
+			'linkicon' => 'fas fa-calendar-alt'
+		]));
 		return $links;
 	}
 
