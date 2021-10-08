@@ -20869,8 +20869,10 @@ td.fieldValue .input-group {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-left-width: 0; }
-  .c-kanban__record:hover .card .btns, .c-kanban__record:hover .c-panel .btns, .c-kanban__record:hover .c-detail-widget .btns {
-    display: block; }
+  .c-kanban__record__user {
+    display: flex;
+    flex-flow: row-reverse;
+    align-items: center; }
   .c-kanban__record .card, .c-kanban__record .c-panel, .c-kanban__record .c-detail-widget {
     border-radius: 0;
     border-width: 0;
@@ -20878,8 +20880,6 @@ td.fieldValue .input-group {
     font-size: 14px; }
     .c-kanban__record .card .picklistValue, .c-kanban__record .c-panel .picklistValue, .c-kanban__record .c-detail-widget .picklistValue {
       line-height: 1.75rem; }
-    .c-kanban__record .card .btns, .c-kanban__record .c-panel .btns, .c-kanban__record .c-detail-widget .btns {
-      display: none; }
 
 /* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-menu-shortcut .close {

@@ -57,10 +57,10 @@
 		border: 1px solid rgba(0, 0, 0, 0.125);
 		border-left-width: 0;
 
-		&:hover {
-			.card .btns {
-				display: block;
-			}
+		&__user {
+			display: flex;
+			flex-flow: row-reverse;
+			align-items: center;
 		}
 
 		.card {
@@ -71,10 +71,6 @@
 
 			.picklistValue {
 				line-height: 1.75rem;
-			}
-
-			.btns {
-				display: none;
 			}
 		}
 	}

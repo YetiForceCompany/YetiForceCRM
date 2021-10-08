@@ -28,12 +28,15 @@ $.Class(
 				urlParams = Object.assign({}, params);
 			delete urlParams.orderBy;
 			app.changeUrl(urlParams);
+			const progress = $.progressIndicator({ blockInfo: { enabled: true, elementToBlock: this.container } });
 			AppConnector.request(params)
 				.done((responseData) => {
 					this.container.html(responseData);
 					this.registerSortable();
+					progress.progressIndicator({ mode: 'hide' });
 				})
-				.fail((status, errorThrown) => {
+				.fail((_, errorThrown) => {
+					progress.progressIndicator({ mode: 'hide' });
 					app.showNotify({
 						title: app.vtranslate('JS_ERROR'),
 						text: errorThrown,
