@@ -23,13 +23,13 @@
 <script type='text/javascript'>
 	jQuery(function() {
 		jQuery('.dashboardWidgetContent').off('click', 'a[name="history_more"]');
-		jQuery('.dashboardWidgetContent').on('click', 'a[name="history_more"]', function (e) {
+		jQuery('.dashboardWidgetContent').on('click', 'a[name="history_more"]', function(e) {
 			var element = jQuery(e.currentTarget);
 			var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');
 			jQuery(parent).find('.slimScrollDiv').css('overflow', 'visible');
 			var type = parent.find("[name='type']").val();
 			var url = element.data('url') + '&content=true&type=' + type;
-			AppConnector.request(url).done(function (data) {
+			AppConnector.request(url).done(function(data) {
 				jQuery(parent).find('.dashboardWidgetContent').append(data);
 				element.parent().remove();
 			});
