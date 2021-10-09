@@ -23,17 +23,25 @@ class SSalesProcesses_Finances_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (($probability = $recordModel->getField('probability')) && $probability->isActiveField()) {
-			if (($estimated = $recordModel->getField('estimated')) && $estimated->isActiveField() &&
-			($expectedSale = $recordModel->getField('expected_sale')) && $expectedSale->isActiveField()) {
+			if (
+				($estimated = $recordModel->getField('estimated')) && $estimated->isActiveField()
+				&& ($expectedSale = $recordModel->getField('expected_sale')) && $expectedSale->isActiveField()
+			) {
 				$value = (float) $recordModel->get($estimated->getName()) * (float) $recordModel->get($probability->getName()) / 100;
-				$recordModel->set($expectedSale->getName(), $value);
-				$recordModel->setDataForSave([$expectedSale->getTableName() => [$expectedSale->getColumnName() => $value]]);
+				if (!\App\Validator::floatIsEqual($value, (float) $recordModel->get($expectedSale->getName()))) {
+					$recordModel->set($expectedSale->getName(), $value);
+					$recordModel->setDataForSave([$expectedSale->getTableName() => [$expectedSale->getColumnName() => $value]]);
+				}
 			}
-			if (($estimatedMargin = $recordModel->getField('estimated_margin')) && $estimatedMargin->isActiveField() &&
-			($expectedMargin = $recordModel->getField('expected_margin')) && $expectedMargin->isActiveField()) {
+			if (($estimatedMargin = $recordModel->getField('estimated_margin'))
+				&& $estimatedMargin->isActiveField()
+				&& ($expectedMargin = $recordModel->getField('expected_margin')) && $expectedMargin->isActiveField()
+			) {
 				$value = (float) $recordModel->get($estimatedMargin->getName()) * (float) $recordModel->get($probability->getName()) / 100;
-				$recordModel->set($expectedMargin->getName(), $value);
-				$recordModel->setDataForSave([$expectedMargin->getTableName() => [$expectedMargin->getColumnName() => $value]]);
+				if (!\App\Validator::floatIsEqual($value, (float) $recordModel->get($expectedMargin->getName()))) {
+					$recordModel->set($expectedMargin->getName(), $value);
+					$recordModel->setDataForSave([$expectedMargin->getTableName() => [$expectedMargin->getColumnName() => $value]]);
+				}
 			}
 		}
 	}

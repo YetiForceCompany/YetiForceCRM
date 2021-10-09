@@ -1271,8 +1271,8 @@ CREATE TABLE `s_yf_kanban_boards` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `s_yf_kanban_boards_fieldid_idx` (`fieldid`),
   KEY `s_yf_kanban_boards_tabid_idx` (`tabid`),
-  CONSTRAINT `s_yf_kanban_boards_fieldid_fk` FOREIGN KEY (`fieldid`) REFERENCES `yetiforce`.`vtiger_field` (`fieldid`) ON DELETE CASCADE,
-  CONSTRAINT `s_yf_kanban_boards_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `yetiforce`.`vtiger_tab` (`tabid`) ON DELETE CASCADE
+  CONSTRAINT `s_yf_kanban_boards_fieldid_fk` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE,
+  CONSTRAINT `s_yf_kanban_boards_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_mail_queue` */

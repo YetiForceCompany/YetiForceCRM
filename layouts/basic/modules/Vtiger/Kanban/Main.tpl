@@ -82,11 +82,14 @@
         {else}
             {assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert('YetiForceKanban')}
             {if $CHECK_ALERT}
-                <div class="alert alert-warning mt-4">
+                <div class="alert alert-warning m-1">
                     <span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
-                    {\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')} <a class="btn btn-primary btn-sm"
-                        href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceKanban&mode=showProductModal"><span
-                            class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
+                    {\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')}
+                    <a class="btn btn-primary btn-sm"
+                        href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceKanban&mode=showProductModal">
+                        <span class="yfi yfi-shop mr-2"></span>
+                        {\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}
+                    </a>
                 </div>
             {/if}
             <div class="js-kanban-container pb-2 c-kanban__container" js-data="container">

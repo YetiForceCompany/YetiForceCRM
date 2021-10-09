@@ -20829,7 +20829,8 @@ td.fieldValue .input-group {
   padding: 0.3rem 1rem !important; }
 
 .c-kanban__container {
-  overflow: auto; }
+  overflow: auto;
+  position: relative; }
 
 .c-kanban__columns {
   display: inline-flex;

@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
     <!-- tpl-Base-Kanban-Kanban -->
-    <div class="mt-2 mx-0 c-kanban__columns">
+    <div class="mt-3 mx-0 c-kanban__columns">
         {foreach item=COLUMN key=COLUMN_NAME from=$COLUMNS}
             <div class="px-1 c-kanban__column">
                 <span class="c-kanban__color-bar {$COLUMN['colorBg']}"></span>

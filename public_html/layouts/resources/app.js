@@ -1907,7 +1907,7 @@ var app = (window.app = {
 	},
 	showNewScrollbarTopBottomRight: function (element, options = {}) {
 		if (typeof element === 'undefined' || !element.length) return;
-		options = Object.assign(this.scrollOptions, options);
+		options = Object.assign(options, this.scrollOptions);
 		let scrollbarTopLeftInit = new PerfectScrollbar(element[0], options);
 		let scrollbarTopElement = element.find('.ps__rail-x').first();
 		scrollbarTopElement.css({
@@ -1923,7 +1923,7 @@ var app = (window.app = {
 	},
 	showNewScrollbarTopBottom: function (element, options = { wheelPropagation: true, suppressScrollY: true }) {
 		if (typeof element === 'undefined' || !element.length) return;
-		options = Object.assign(this.scrollOptions, options);
+		options = Object.assign(options, this.scrollOptions);
 		new PerfectScrollbar(element[0], options);
 		new PerfectScrollbar(element[0], options);
 		var scrollbarTopElement = element.find('.ps__rail-x').first();
