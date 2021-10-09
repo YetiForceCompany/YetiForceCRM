@@ -70,7 +70,7 @@
             </div>
         </div>
         {if !\App\YetiForce\Register::isRegistered()}
-            <div class="col-md-12">
+            <div class="col-md-12 mt-1">
                 <div class="alert alert-danger">
                     <span class="yfi yfi-yeti-register-alert color-red-600 u-fs-5x mr-4 float-left"></span>
                     <h1 class="alert-heading">
@@ -85,7 +85,7 @@
                 <div class="alert alert-warning m-1">
                     <span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
                     {\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')}
-                    <a class="btn btn-primary btn-sm"
+                    <a class="btn btn-primary btn-sm ml-1"
                         href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceKanban&mode=showProductModal">
                         <span class="yfi yfi-shop mr-2"></span>
                         {\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}
