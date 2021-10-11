@@ -247,7 +247,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				if (!\App\Module::isModuleActive($item['mod']) || (!$userPrivilegesModel->isAdminUser() && !$userPrivilegesModel->hasGlobalReadPermission() && !$userPrivilegesModel->hasModulePermission($item['tabid']))) {
 					continue;
 				}
-				if ('QuickCreate' === $item['type'] && (!Vtiger_Module_Model::getInstance($item['tabid'])->isQuickCreateSupported() || $userPrivilegesModel->hasModuleActionPermission($item['tabid'], 'CreateView'))) {
+				if ('QuickCreate' === $item['type'] && (!Vtiger_Module_Model::getInstance($item['tabid'])->isQuickCreateSupported() || !$userPrivilegesModel->hasModuleActionPermission($item['tabid'], 'CreateView'))) {
 					continue;
 				}
 			}
