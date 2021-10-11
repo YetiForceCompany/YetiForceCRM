@@ -47,6 +47,6 @@ class RecordSearch extends \Tests\Base
 		$this->assertNotEmpty($rows);
 		$key = array_search($record->getId(), array_column($rows, 'crmid'));
 		$this->assertNotFalse($key);
-		$this->assertEquals('YetiForce Sp. z o.o.', $rows[$key]['searchlabel'], "Not found '$key' ({$record->getId()}) in" . print_r($rows, true));
+		$this->assertEquals('YetiForce Sp. z o.o.', $rows[$key]['label'], "Not found '$key' ({$record->getId()}) in" . print_r($rows, true));
 	}
 }
