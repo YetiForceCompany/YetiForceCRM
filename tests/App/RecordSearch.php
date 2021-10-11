@@ -45,8 +45,8 @@ class RecordSearch extends \Tests\Base
 		$recordSearch->operator = 'FulltextBegin';
 		$this->logs = $rows = $recordSearch->search();
 		$this->assertNotEmpty($rows);
-		$row = reset($rows);
-		$this->logs = $row;
-		$this->assertEquals('YetiForce Sp. z o.o.', $row['searchlabel']);
+		$key = array_search($record->getId(), array_column($rows, 'crmid'));
+		$this->assertNotFalse($key);
+		$this->assertEquals('YetiForce Sp. z o.o.', $rows[$key]['searchlabel'], "Not found '$key' ({$record->getId()}) in" . print_r($rows, true));
 	}
 }
