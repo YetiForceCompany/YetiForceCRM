@@ -22,23 +22,26 @@ class RecordSearch extends \Tests\Base
 	public function testSearch()
 	{
 		$recordSearch = new \App\RecordSearch('YetiForce', 'Accounts', 10);
-		$rows = $recordSearch->search();
+		$this->logs = $rows = $recordSearch->search();
 		$this->assertNotEmpty($rows);
 		$row = current($rows);
+		$this->logs = $row;
 		$this->assertEquals('YetiForce Sp. z o.o.', $row['searchlabel']);
 
 		$recordSearch->operator = 'FulltextWord';
-		$rows = $recordSearch->search();
+		$this->logs = $rows = $recordSearch->search();
 		$this->assertNotEmpty($rows);
 		$row = current($rows);
+		$this->logs = $row;
 		$this->assertEquals('YetiForce Sp. z o.o.', $row['searchlabel']);
 		$this->assertArrayHasKey('matcher', $row);
 
 		$recordSearch->setMode(\App\RecordSearch::SEARCH_MODE);
 		$recordSearch->operator = 'FulltextBegin';
-		$rows = $recordSearch->search();
+		$this->logs = $rows = $recordSearch->search();
 		$this->assertNotEmpty($rows);
 		$row = current($rows);
+		$this->logs = $row;
 		$this->assertEquals('YetiForce Sp. z o.o.', $row['searchlabel']);
 	}
 }
