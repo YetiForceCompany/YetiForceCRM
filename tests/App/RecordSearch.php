@@ -28,7 +28,7 @@ class RecordSearch extends \Tests\Base
 		// $this->logs = $rows = $recordSearch->search();
 		// $this->assertNotEmpty($rows);
 		// $this->assertArrayHasKey($record->getId(), $rows, 'Record id not found');
-		// $row = current($rows);
+		// $row = reset($rows);
 		// $this->logs = $row;
 		// $this->assertEquals('YetiForce Sp. z o.o.', $row['searchlabel']);
 
@@ -36,7 +36,7 @@ class RecordSearch extends \Tests\Base
 		// $this->logs = $rows = $recordSearch->search();
 		// $this->assertNotEmpty($rows);
 		// $this->assertArrayHasKey($record->getId(), $rows, 'Record id not found');
-		// $row = current($rows);
+		// $row = reset($rows);
 		// $this->logs = $row;
 		// $this->assertEquals('YetiForce Sp. z o.o.', $row['searchlabel']);
 		// $this->assertArrayHasKey('matcher', $row);
@@ -45,7 +45,7 @@ class RecordSearch extends \Tests\Base
 		$recordSearch->operator = 'FulltextBegin';
 		$this->logs = $rows = $recordSearch->search();
 		$this->assertNotEmpty($rows);
-		$row = current($rows);
+		$row = reset($rows);
 		$this->logs = $row;
 		$this->assertEquals('YetiForce Sp. z o.o.', $row['searchlabel']);
 	}
