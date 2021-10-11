@@ -43,6 +43,7 @@ abstract class GuiBase extends TestCase
 		if (isset($this->logs)) {
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 			\print_r($this->logs);
+			\print_r($t);
 			file_put_contents(ROOT_DIRECTORY . '/cache/logs/selenium_logs.log', print_r($this->logs, true));
 		}
 		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
