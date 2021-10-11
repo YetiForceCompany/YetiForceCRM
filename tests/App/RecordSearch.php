@@ -21,10 +21,13 @@ class RecordSearch extends \Tests\Base
 	 */
 	public function testSearch()
 	{
-		\Tests\Base\C_RecordActions::createAccountRecord();
+		$record = \Tests\Base\C_RecordActions::createAccountRecord();
+		\App\PrivilegeUpdater::update($record->getId(), $record->getModuleName());
+
 		$recordSearch = new \App\RecordSearch('YetiForce', 'Accounts', 10);
 		$this->logs = $rows = $recordSearch->search();
 		$this->assertNotEmpty($rows);
+		$this->assertArrayHasKey($record->getId(), $rows, 'Record id not found');
 		$row = current($rows);
 		$this->logs = $row;
 		$this->assertEquals('YetiForce Sp. z o.o.', $row['searchlabel']);
@@ -32,6 +35,7 @@ class RecordSearch extends \Tests\Base
 		$recordSearch->operator = 'FulltextWord';
 		$this->logs = $rows = $recordSearch->search();
 		$this->assertNotEmpty($rows);
+		$this->assertArrayHasKey($record->getId(), $rows, 'Record id not found');
 		$row = current($rows);
 		$this->logs = $row;
 		$this->assertEquals('YetiForce Sp. z o.o.', $row['searchlabel']);
@@ -41,6 +45,7 @@ class RecordSearch extends \Tests\Base
 		$recordSearch->operator = 'FulltextBegin';
 		$this->logs = $rows = $recordSearch->search();
 		$this->assertNotEmpty($rows);
+		$this->assertArrayHasKey($record->getId(), $rows, 'Record id not found');
 		$row = current($rows);
 		$this->logs = $row;
 		$this->assertEquals('YetiForce Sp. z o.o.', $row['searchlabel']);
