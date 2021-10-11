@@ -102,7 +102,9 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	public function getWidgetData($moduleName, $owner)
 	{
 		$rawData = $data = $years = [];
-		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
+		$dateStart = ((int) date('Y') - 2) . '-01-01';
+		$dateEnd = date('Y-m-d', strtotime('last day of december'));
+		$date = "{$dateStart},{$dateEnd}";
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$sumColumnName = $this->getFilterFields($moduleName)['sum_field']->get('fieldvalue') ?: 'sum_gross';
 		$y = new \yii\db\Expression('extract(year FROM saledate)');
@@ -110,7 +112,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		$s = new \yii\db\Expression("SUM({$sumColumnName})");
 		$fieldList = ['y' => $y, 'm' => $m, 's' => $s];
 		$queryGenerator->setCustomColumn($fieldList);
-		$queryGenerator->addCondition('saledate', $date, 'a');
+		$queryGenerator->addCondition('saledate', $date, 'bw');
 		if ('all' !== $owner) {
 			$queryGenerator->addCondition('assigned_user_id', $owner, 'e');
 		}
@@ -126,7 +128,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			'datasets' => [],
 			'show_chart' => false,
 		];
-		$this->conditions = ['condition' => ['>', 'saledate', $date]];
+		$this->conditions = ['condition' => ['between', 'saledate', $dateStart, $dateEnd]];
 		$yearsData = $tempData = [];
 		$chartData['show_chart'] = (bool) \count($rawData);
 		$shortMonth = ['LBL_Jan', 'LBL_Feb', 'LBL_Mar', 'LBL_Apr', 'LBL_May', 'LBL_Jun',
