@@ -21,6 +21,7 @@ class RecordSearch extends \Tests\Base
 	 */
 	public function testSearch()
 	{
+		\Tests\Base\C_RecordActions::createAccountRecord();
 		$recordSearch = new \App\RecordSearch('YetiForce', 'Accounts', 10);
 		$this->logs = $rows = $recordSearch->search();
 		$this->assertNotEmpty($rows);
