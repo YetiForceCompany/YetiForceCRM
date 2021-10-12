@@ -39,7 +39,7 @@
 </p>
 
 <p align="center">
-	<a href="https://sourceforge.net/projects/yetiforce/files/latest/download" rel="nofollow">
+	<a href="https://sourceforge.net/projects/yetiforce/files/YetiForce%20Portal%202%20for%20CRM%206.x.x/" rel="nofollow">
 		<img width="30%" src="https://a.fsdn.com/con/app/sf-download-button" srcset="https://a.fsdn.com/con/app/sf-download-button?button_size=2x 2x" alt="Download YetiForce CRM">
 	</a>
 	<a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
