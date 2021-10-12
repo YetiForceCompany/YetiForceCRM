@@ -20,6 +20,7 @@
     "LBL_MASS_SEND_SMS_INFO": "All text messages are sent in cron",
     "LBL_CHECK_STATUS": "Check status",
     "message": "Message",
-    "LBL_SMSNOTIFIER_INFORMATION": "SMS information"
+    "LBL_SMSNOTIFIER_INFORMATION": "SMS information",
+    "LBL_MASS_SEND_SMS_QUEUE_INFO": "Added SMS messages to the queue"
   }
 }

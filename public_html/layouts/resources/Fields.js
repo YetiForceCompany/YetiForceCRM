@@ -1077,14 +1077,15 @@ window.App.Fields = {
 					json_url: CONFIG.siteUrl + 'libraries/emojipanel/dist/emojis.json'
 				});
 				emojisContainer.on('click', (e) => {
-					let element = $(e.target);
+					let element = $(e.currentTarget);
 					element.toggleClass('active');
 				});
 				emojisContainer.on('click', '.emoji', (e) => {
 					e.preventDefault();
 					e.stopPropagation();
 					if ($(e.currentTarget).data('char') !== undefined) {
-						inputDiv.append(`${$(e.currentTarget).data('char')}`);
+						let value = `${$(e.currentTarget).data('char')}`;
+						inputDiv.is('textarea') ? (inputDiv.get(0).value += value) : inputDiv.append(value);
 					}
 				});
 				emojisContainer.on('mouseenter', '.emoji', (e) => {
@@ -1093,7 +1094,7 @@ window.App.Fields = {
 						emojisContainer
 							.find('footer')
 							.prepend(
-								`<div class="emoji-hovered">${
+								`<div class="emoji-hovered u-text-ellipsis">${
 									$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')
 								}</div>`
 							);

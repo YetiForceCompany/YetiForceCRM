@@ -21,8 +21,8 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	public function checkPermission(App\Request $request)
 	{
 		$sourceModule = $request->getByType('source_module', 2);
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'CreateView') || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView') || !$userPrivilegesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -61,8 +61,9 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 		$toNumbers = array_unique($toNumbers);
 		$response = new Vtiger_Response();
 		if (!empty($toNumbers)) {
-			SMSNotifier_Module_Model::addSmsToCron($request->getForHtml('message'), $toNumbers, $recordIds, $sourceModule);
-			$response->setResult(true);
+			$message = $request->getForHtml('message');
+			SMSNotifier_Module_Model::addSmsToCron(\App\Utils\Completions::encodeEmoji($message), $toNumbers, $recordIds, $sourceModule);
+			$response->setResult(['message' => \App\Language::translate('LBL_MASS_SEND_SMS_QUEUE_INFO', $request->getModule())]);
 		} else {
 			$response->setResult(false);
 		}

@@ -59,7 +59,7 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 		$provider = SMSNotifier_Module_Model::getActiveProviderInstance();
 		$numbers = \is_array($toNumbers) ? implode(',', $toNumbers) : $toNumbers;
 		$provider->set($provider->toName, $numbers);
-		$provider->set($provider->messageName, $message);
+		$provider->set($provider->messageName, \App\Utils\Completions::decode($message));
 		$result = $provider->send();
 		if ($result) {
 			$recordModel->set('smsnotifier_status', 'PLL_DELIVERED');

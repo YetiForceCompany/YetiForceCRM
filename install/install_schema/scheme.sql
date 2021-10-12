@@ -1460,7 +1460,7 @@ CREATE TABLE `s_yf_sla_policy` (
 
 CREATE TABLE `s_yf_smsnotifier_queue` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `message` varchar(255) NOT NULL,
+  `message` varchar(500) NOT NULL,
   `tonumbers` text NOT NULL,
   `records` text NOT NULL,
   `module` varchar(30) NOT NULL,

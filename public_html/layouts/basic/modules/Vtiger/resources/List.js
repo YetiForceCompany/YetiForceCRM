@@ -103,8 +103,23 @@ $.Class(
 		 */
 		triggerSendSms: function (massActionUrl, module) {
 			let listInstance = Vtiger_List_Js.getInstance();
-			if (listInstance.checkListRecordSelected() != true) {
-				Vtiger_List_Js.triggerMassAction(massActionUrl);
+			if (!listInstance.checkListRecordSelected()) {
+				Vtiger_List_Js.triggerMassAction(massActionUrl, (data) => {
+					new App.Fields.Text.Completions($(data).find('.js-completions').eq(0), {
+						emojiPanel: true,
+						completionsCollection: {}
+					});
+					data.on('submit', 'form', (e) => {
+						e.preventDefault();
+						let form = $(e.currentTarget);
+						form.find('.js-modal__save').attr('disabled', 'disabled');
+						listInstance.massActionSave(form).done(function (response) {
+							if (response.result && response.result.message) {
+								app.showNotify({ text: response.result.message, type: 'info' });
+							}
+						});
+					});
+				});
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}
@@ -741,7 +756,7 @@ $.Class(
 					app.hideModalWindow();
 					if (!data.result) {
 						let params = {
-							text: app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFUL'),
+							text: data.result.message || app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFUL'),
 							type: 'info'
 						};
 						app.showNotify(params);
@@ -2108,13 +2123,6 @@ $.Class(
 				}
 			});
 		},
-		registerMassActionModalEvents() {
-			app.event.on('MassEditModal.AfterLoad', (data, container) => {
-				if (container.hasClass('js-add-comment__container') || container.hasClass('js-send-sms__container')) {
-					new App.Fields.Text.Completions(container.find('.js-completions'));
-				}
-			});
-		},
 		/**
 		 * Register desktop events
 		 * @param {$} listViewContainer
@@ -2157,7 +2165,6 @@ $.Class(
 			this.registerCustomFilterOptionsHoverEvent();
 			this.registerEmailFieldClickEvent();
 			this.registerPhoneFieldClickEvent();
-			this.registerMassActionModalEvents();
 			this.registerMassActionsBtnEvents();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			this.registerUrlFieldClickEvent();

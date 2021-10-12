@@ -167,4 +167,10 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 			'records' => \is_array($recordIds) ? implode(',', $recordIds) : $recordIds,
 			'module' => $ralModuleName, ])->execute();
 	}
+
+	/** {@inheritdoc} */
+	public function isListViewNameFieldNavigationEnabled()
+	{
+		return false;
+	}
 }
