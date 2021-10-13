@@ -87,7 +87,7 @@ class ChangePassword extends \Api\Core\BaseAction
 	 */
 	public function put(): bool
 	{
-		if (\App\Encryption::verifyPasswordHash($this->controller->request->getRaw('currentPassword'), $this->userData['password'], $this->controller->app['type'])) {
+		if (\App\Encryption::verifyPasswordHash($this->controller->request->getRaw('currentPassword'), $this->getUserData('password'), $this->controller->app['type'])) {
 			$this->updateUser([
 				'password' => \App\Encryption::createPasswordHash($this->controller->request->getRaw('newPassword'), $this->controller->app['type']),
 			]);

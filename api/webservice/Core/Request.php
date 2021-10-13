@@ -17,17 +17,13 @@ namespace Api\Core;
  */
 class Request extends \App\Request
 {
-	/**
-	 * Requested content type.
-	 *
-	 * @var string
-	 */
+	/** @var string Requested content type. */
 	public $contentType;
-	/**
-	 * List of headings and sanitization methods.
-	 *
-	 * @var array
-	 */
+
+	/** @var array The content of the request. */
+	public $content = [];
+
+	/** @var array List of headings and sanitization methods. */
 	public $headersPurifierMap = [
 		'encrypted' => \App\Purifier::INTEGER,
 		'authorization' => \App\Purifier::ALNUM_EXTENDED,
@@ -66,7 +62,12 @@ class Request extends \App\Request
 		return static::$request;
 	}
 
-	public function getData()
+	/**
+	 * Load data from request.
+	 *
+	 * @return $this
+	 */
+	public function loadData(): self
 	{
 		if ('GET' === self::getRequestMethod()) {
 			return $this;
@@ -77,13 +78,20 @@ class Request extends \App\Request
 			$content = $this->decryptData($content);
 		}
 		if (empty($content)) {
-			return false;
+			return $this;
 		}
 		$this->rawValues = \App\Utils::merge($this->contentParse($content), $this->rawValues);
 		return $this;
 	}
 
-	public function contentParse($content)
+	/**
+	 * Parsing the content of the request.
+	 *
+	 * @param string $content
+	 *
+	 * @return array
+	 */
+	private function contentParse(string $content): array
 	{
 		$type = $this->contentType;
 		if (!empty($type)) {
@@ -101,10 +109,27 @@ class Request extends \App\Request
 				$return = $data;
 				break;
 		}
-		return $return;
+		return $this->content = $return;
 	}
 
-	public function decryptData($data)
+	/**
+	 * Get key of the content request.
+	 *
+	 * @return array
+	 */
+	public function getContentKeys(): array
+	{
+		return array_map('\App\Purifier::purify', array_keys($this->content));
+	}
+
+	/**
+	 * Decrypt content of the request.
+	 *
+	 * @param string $data
+	 *
+	 * @return string
+	 */
+	public function decryptData(string $data): string
 	{
 		$privateKey = 'file://' . ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Config::api('PRIVATE_KEY');
 		if (!$privateKey = openssl_pkey_get_private($privateKey)) {

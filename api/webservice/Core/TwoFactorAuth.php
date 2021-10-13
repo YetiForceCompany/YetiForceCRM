@@ -129,8 +129,8 @@ class TwoFactorAuth
 	 */
 	public function verify(): void
 	{
-		$params = $this->action->getUserData('auth');
-		if (!(new GoogleAuthenticator())->checkCode($params['authy_secret_key'], (string) $this->action->controller->request->get('code'))) {
+		$auth = $this->action->getUserData('auth');
+		if (!(new GoogleAuthenticator())->checkCode($auth['authy_secret_key'], (string) $this->action->controller->request->get('code'))) {
 			throw new \Exception('Incorrect 2FA TOTP code');
 		}
 	}

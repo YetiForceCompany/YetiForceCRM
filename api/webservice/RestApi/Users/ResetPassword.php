@@ -98,23 +98,23 @@ class ResetPassword extends \Api\Core\BaseAction
 	public function post(): array
 	{
 		$db = \App\Db::getInstance('webservice');
-		$this->userData = (new \App\Db\Query())->from($this->controller->app['tables']['user'])
+		$userData = (new \App\Db\Query())->from($this->controller->app['tables']['user'])
 			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
 			->limit(1)->one($db);
-		if (empty($this->userData)) {
+		if (!$userData) {
 			$this->saveLoginHistory([
 				'status' => 'ERR_EMAIL_NOT_FOUND',
 			]);
 			throw new \Api\Core\Exception(\App\Language::translate('LBL_USER_MAIL_NOT_EXIST', 'Users'), 404);
 		}
-		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
-		\App\User::setCurrentUserId($this->userData['user_id']);
-		$id = (int) $this->userData['id'];
+		$this->setAllUserData($userData);
+		\App\User::setCurrentUserId($userData['user_id']);
+		$id = (int) $userData['id'];
 		$expirationDate = date('Y-m-d H:i:s', strtotime('+1 hour'));
 		$token = \App\Utils\Tokens::generate('\Api\RestApi\Users\ResetPassword', [$id], $expirationDate);
 		$status = \App\Mailer::sendFromTemplate([
 			'template' => 'UsersResetPassword',
-			'to' => $this->userData['user_name'],
+			'to' => $userData['user_name'],
 			'siteUrl' => $this->controller->app['url'] ?: '',
 			'url' => $this->controller->app['url'] ? ($this->controller->app['url'] . 'index.php?module=Users&view=LoginPassReset&mode=token&token=' . $token) : '',
 			'expirationDate' => date('Y-m-d H:i:s (T P)', strtotime($expirationDate)),
@@ -211,15 +211,15 @@ class ResetPassword extends \Api\Core\BaseAction
 			throw new \App\Exceptions\Security('ERR_TOKEN_DOES_NOT_EXIST', 405);
 		}
 		$db = \App\Db::getInstance('webservice');
-		$this->userData = (new \App\Db\Query())->from($this->controller->app['tables']['user'])->where(['id' => $tokenData['params'][0], 'status' => 1])
+		$userData = (new \App\Db\Query())->from($this->controller->app['tables']['user'])->where(['id' => $tokenData['params'][0], 'status' => 1])
 			->limit(1)->one($db);
-		if (empty($this->userData)) {
+		if (!$userData) {
 			$this->saveLoginHistory([
 				'status' => 'ERR_EMAIL_NOT_FOUND',
 			]);
 			throw new \App\Exceptions\Security(\App\Language::translate('LBL_USER_MAIL_NOT_EXIST', 'Users'), 404);
 		}
-		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
+		$this->setAllUserData($userData);
 		$this->updateUser([
 			'password' => \App\Encryption::createPasswordHash($this->controller->request->getRaw('password'), $this->controller->app['type']),
 		]);

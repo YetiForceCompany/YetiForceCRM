@@ -31,8 +31,8 @@ trait LoginHistory
 				'time' => date('Y-m-d H:i:s'),
 				'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
 				'agent' => \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false),
-				'user_name' => $this->controller->request->has('userName') ? $this->controller->request->get('userName') : $this->userData['user_name'],
-				'user_id' => $this->userData['id'] ?? null,
+				'user_name' => $this->controller->request->has('userName') ? $this->controller->request->get('userName') : $this->getUserData('user_name'),
+				'user_id' => $this->getUserData('id'),
 			],
 			$data))->execute();
 	}

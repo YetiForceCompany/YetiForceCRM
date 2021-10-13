@@ -9840,6 +9840,7 @@ CREATE TABLE `w_yf_portal_user` (
   `login_method` varchar(30) NOT NULL DEFAULT 'PLL_PASSWORD',
   `auth` varchar(500) DEFAULT NULL,
   `custom_params` text DEFAULT NULL,
+  `preferences` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`user_name`),
   KEY `user_name_2` (`user_name`,`status`),

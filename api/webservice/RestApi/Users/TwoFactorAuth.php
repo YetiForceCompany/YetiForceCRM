@@ -90,7 +90,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 			]);
 			throw new \Api\Core\Exception('Two-factor authentication has not been enabled');
 		}
-		if (empty($this->userData['auth']['authy_secret_key'])) {
+		if (empty($this->getUserData('auth')['authy_secret_key'])) {
 			return $multiFactorAuth->generate();
 		}
 		return $multiFactorAuth->details();
@@ -157,7 +157,7 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 			]);
 			throw new \Api\Core\Exception('Two-factor authentication has not been enabled');
 		}
-		if (!empty($this->userData['auth']['authy_secret_key'])) {
+		if (!empty($this->getUserData('auth')['authy_secret_key'])) {
 			$this->saveLoginHistory([
 				'status' => 'ERR_2FA_ALREADY_GENERATED',
 			]);

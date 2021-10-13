@@ -200,6 +200,7 @@ class Login extends \Api\RestApi\Users\Login
 	 * 			),
 	 *    		@OA\Property(property="authy_methods", type="string", enum={"", "PLL_AUTHY_TOTP"}, example="PLL_AUTHY_TOTP"),
 	 *    		@OA\Property(property="2faObligatory", type="boolean", example=true),
+	 *    		@OA\Property(property="userPreferences", type="object", description="User preferences", example={"menuPin" : 1}),
 	 *    		@OA\Property(property="companyId", type="integer"),
 	 *    		@OA\Property(property="parentName", type="string", example="YetiForce Company"),
 	 *    		@OA\Property(
@@ -259,7 +260,8 @@ class Login extends \Api\RestApi\Users\Login
 	protected function returnData(): array
 	{
 		$data = parent::returnData();
-		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type'] ? \App\Record::getParentRecord($this->userData['crmid']) : 0;
+		$data['userPreferences'] = $this->getUserData('preferences');
+		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType() ? \App\Record::getParentRecord($this->getUserCrmId()) : 0;
 		if (!empty($parentId)) {
 			$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentId, 'Accounts');
 			$data['companyId'] = $parentId;
@@ -274,7 +276,7 @@ class Login extends \Api\RestApi\Users\Login
 			}
 			$data['companyDetails'] = $companyDetails;
 		}
-		$userModel = \App\User::getUserModel($this->userData['user_id']);
+		$userModel = \App\User::getUserModel($this->getUserData('user_id'));
 		$data['preferences'] += [
 			'activity_view' => $userModel->getDetail('activity_view'),
 			'date_format_js' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),

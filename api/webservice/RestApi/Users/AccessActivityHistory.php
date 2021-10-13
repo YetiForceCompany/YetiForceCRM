@@ -84,7 +84,7 @@ class AccessActivityHistory extends \Api\Core\BaseAction
 		}
 		$query = (new \App\Db\Query())->select(['time', 'status', 'agent', 'ip'])
 			->from($this->controller->app['tables']['loginHistory'])
-			->where(['user_id' => $this->userData['id']])
+			->where(['user_id' => $this->getUserData('id')])
 			->orderBy(['id' => SORT_DESC])
 			->limit($limit)->offset($offset);
 		if ($conditions = $this->controller->request->getHeader('x-condition')) {

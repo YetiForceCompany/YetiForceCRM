@@ -122,7 +122,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 */
 	public function createQuery(): void
 	{
-		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->userData['type'];
+		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->getPermissionType();
 		if ($this->isUserPermissions) {
 			parent::createQuery();
 		} else {

@@ -2918,6 +2918,71 @@
                 ]
             }
         },
+        "/webservice/Portal/Users/Preferences": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Changing user preferences",
+                "description": "Changing user preferences",
+                "operationId": "1659c5e6e8f1e84b3c36ec0003055fde",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Header-Encrypted"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Input data",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_Put_Preferences_Request"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_Put_Preferences_Request"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users_Put_Preferences_Request"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_Put_Preferences_Response"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_Put_Preferences_Response"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/webservice/Portal/Users/Record/{userId}": {
             "get": {
                 "tags": [
@@ -6222,6 +6287,13 @@
                                 "type": "boolean",
                                 "example": true
                             },
+                            "userPreferences": {
+                                "description": "User preferences",
+                                "type": "object",
+                                "example": {
+                                    "menuPin": 1
+                                }
+                            },
                             "companyId": {
                                 "type": "integer"
                             },
@@ -6331,6 +6403,37 @@
                     "result": {
                         "description": "Content of responses from a given method",
                         "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "Users_Put_Preferences_Request": {
+                "title": "Users module - Content of the request to change the user's settings",
+                "type": "object",
+                "example": {
+                    "menuPin": 1
+                }
+            },
+            "Users_Put_Preferences_Response": {
+                "title": "Users module - Response content of changing user settings",
+                "description": "Put method.",
+                "required": [
+                    "status",
+                    "result"
+                ],
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "result": {
+                        "description": "Password change status",
+                        "type": "boolean",
+                        "example": false
                     }
                 },
                 "type": "object"

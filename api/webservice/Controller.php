@@ -114,7 +114,7 @@ class Controller
 	public function process(): void
 	{
 		$handlerClass = $this->getActionClassName();
-		$this->request->getData();
+		$this->request->loadData();
 		$this->debugRequest();
 		$this->actionHandler = new $handlerClass();
 		$this->actionHandler->controller = $this;

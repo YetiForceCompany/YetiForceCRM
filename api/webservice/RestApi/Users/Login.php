@@ -237,7 +237,7 @@ class Login extends \Api\Core\BaseAction
 	public function post(): ?array
 	{
 		$this->checkAccess();
-		if ('PLL_PASSWORD_2FA' === $this->userData['login_method'] && ($response = $this->twoFactorAuth())) {
+		if ('PLL_PASSWORD_2FA' === $this->getUserData('login_method') && ($response = $this->twoFactorAuth())) {
 			$this->saveLoginHistory([
 				'status' => $response,
 			]);
@@ -251,7 +251,7 @@ class Login extends \Api\Core\BaseAction
 			]);
 			return null;
 		}
-		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->userData['type'] && (empty($this->userData['crmid']) || !\App\Record::isExists($this->userData['crmid']))) {
+		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType() && (empty($this->getUserCrmId()) || !\App\Record::isExists($this->getUserCrmId()))) {
 			$this->saveLoginHistory([
 				'status' => 'ERR_NO_CRMID',
 			]);
@@ -290,16 +290,16 @@ class Login extends \Api\Core\BaseAction
 	 */
 	protected function returnData(): array
 	{
-		\App\User::setCurrentUserId($this->userData['user_id']);
+		\App\User::setCurrentUserId($this->getUserData('user_id'));
 		$userModel = \App\User::getCurrentUserModel();
 		$data = [
-			'token' => $this->userData['sid'],
-			'name' => $this->userData['crmid'] ? \App\Record::getLabel($this->userData['crmid']) : $userModel->getName(),
-			'lastLoginTime' => $this->userData['login_time'],
-			'lastLogoutTime' => $this->userData['custom_params']['logout_time'] ?? '',
-			'language' => $this->userData['language'],
-			'type' => $this->userData['type'],
-			'login_method' => $this->userData['login_method'],
+			'token' => $this->getUserData('sid'),
+			'name' => $this->getUserCrmId() ? \App\Record::getLabel($this->getUserCrmId()) : $userModel->getName(),
+			'lastLoginTime' => $this->getUserData('login_time'),
+			'lastLogoutTime' => $this->getUserData('custom_params', 'logout_time') ?? '',
+			'language' => $this->getUserData('language'),
+			'type' => $this->getPermissionType(),
+			'login_method' => $this->getUserData('login_method'),
 			'logged' => true,
 			'preferences' => [
 				'hour_format' => $userModel->getDetail('hour_format'),
@@ -319,8 +319,8 @@ class Login extends \Api\Core\BaseAction
 				'conv_rate' => $userModel->getDetail('conv_rate'),
 			],
 		];
-		if ('PLL_PASSWORD_2FA' === $this->userData['login_method']) {
-			$data['authy_methods'] = $this->userData['auth']['authy_methods'] ?? '';
+		if ('PLL_PASSWORD_2FA' === $this->getUserData('login_method')) {
+			$data['authy_methods'] = $this->getUserData('auth')['authy_methods'] ?? '';
 			if ($this->controller->request->isEmpty('code')) {
 				$data['2faObligatory'] = 'TOTP_OBLIGATORY' === \App\Config::security('USER_AUTHY_MODE');
 			}
@@ -335,22 +335,22 @@ class Login extends \Api\Core\BaseAction
 	 */
 	protected function createSession(): void
 	{
-		$this->userData['sid'] = hash('sha256', microtime(true) . random_int(1, 999999) . random_int(1, 999999));
+		$this->setUserData('sid', hash('sha256', microtime(true) . random_int(1, 999999) . random_int(1, 999999)));
 		$params = $this->controller->request->getArray('params');
 		if (!empty($params['language'])) {
-			$this->userData['language'] = $params['language'];
+			$this->setUserData('language', $params['language']);
 			unset($params['language']);
 		} else {
-			$this->userData['language'] = $this->getLanguage();
+			$this->setUserData('language', $this->getLanguage());
 		}
 		\App\Db::getInstance('webservice')
 			->createCommand()
 			->insert($this->controller->app['tables']['session'], [
-				'id' => $this->userData['sid'],
-				'user_id' => $this->userData['id'],
+				'id' => $this->getUserData('sid'),
+				'user_id' => $this->getUserData('id'),
 				'created' => date(self::DATE_TIME_FORMAT),
 				'changed' => date(self::DATE_TIME_FORMAT),
-				'language' => $this->userData['language'],
+				'language' => $this->getUserData('language'),
 				'params' => \App\Json::encode($params),
 				'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
 				'last_method' => $this->controller->request->getServer('REQUEST_URI'),
@@ -368,23 +368,22 @@ class Login extends \Api\Core\BaseAction
 	protected function checkAccess(): void
 	{
 		$db = \App\Db::getInstance('webservice');
-		$this->userData = (new \App\Db\Query())->from($this->controller->app['tables']['user'])
+		$userData = (new \App\Db\Query())->from($this->controller->app['tables']['user'])
 			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
 			->limit(1)->one($db);
-		if (!$this->userData) {
+		if (!$userData) {
 			$this->saveLoginHistory([
 				'status' => 'ERR_USER_NOT_FOUND',
 			]);
 			\App\Encryption::verifyPasswordHash($this->controller->request->getRaw('password'), '', $this->controller->app['type']);
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
-		$this->userData['type'] = (int) $this->userData['type'];
-		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
-		$this->userData['custom_params']['ip'] = $this->controller->request->getServer('REMOTE_ADDR');
-		if ($this->userData['auth']) {
-			$this->userData['auth'] = \App\Json::decode(\App\Encryption::getInstance()->decrypt($this->userData['auth']));
-		}
-		if (!\App\Encryption::verifyPasswordHash($this->controller->request->getRaw('password'), $this->userData['password'], $this->controller->app['type'])) {
+		$this->setAllUserData($userData);
+		$this->setUserData('type', (int) $this->getUserData('type'));
+		$this->setUserData('custom_params', [
+			'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
+		]);
+		if (!\App\Encryption::verifyPasswordHash($this->controller->request->getRaw('password'), $this->getUserData('password'), $this->controller->app['type'])) {
 			$this->updateUser([
 				'custom_params' => [
 					'invalid_login' => 'Invalid user password',

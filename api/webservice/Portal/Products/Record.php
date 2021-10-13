@@ -137,7 +137,7 @@ class Record extends \Api\Portal\BaseModule\Record
 	 */
 	public function get(): array
 	{
-		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->userData['type'];
+		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->getPermissionType();
 		$response = parent::get();
 		$response['ext'] = $response['productBundles'] = [];
 		if (1 === $this->controller->request->getHeader('x-unit-price')) {

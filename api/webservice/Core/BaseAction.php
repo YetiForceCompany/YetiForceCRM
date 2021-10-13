@@ -29,7 +29,7 @@ class BaseAction
 	public $responseType = 'data';
 
 	/** @var array User data */
-	protected $userData = [];
+	private $userData = [];
 
 	/**
 	 * Check called action.
@@ -75,15 +75,10 @@ class BaseAction
 		}
 		$this->loadSession();
 		$this->checkLifetimeSession();
-		$this->userData['type'] = (int) $this->userData['type'];
-		$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
-		if ($this->userData['auth']) {
-			$this->userData['auth'] = \App\Json::decode(\App\Encryption::getInstance()->decrypt($this->userData['auth']));
-		}
-		\App\User::setCurrentUserId($this->userData['user_id']);
+		\App\User::setCurrentUserId($this->getUserData('user_id'));
 		$userModel = \App\User::getCurrentUserModel();
-		$userModel->set('permission_type', $this->userData['type']);
-		$userModel->set('permission_crmid', $this->userData['crmid']);
+		$userModel->set('permission_type', $this->getPermissionType());
+		$userModel->set('permission_crmid', $this->getUserCrmId());
 		$userModel->set('permission_app', (int) $this->controller->app['id']);
 		$namespace = $this->controller->app['type'];
 		\App\Privilege::setPermissionInterpreter("\\Api\\{$namespace}\\Privilege");
@@ -102,14 +97,15 @@ class BaseAction
 	{
 		$sessionTable = $this->controller->app['tables']['session'];
 		$userTable = $this->controller->app['tables']['user'];
-		$this->userData = (new \App\Db\Query())->select(["$userTable.*", 'sid' => "$sessionTable.id", "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])
+		$userData = (new \App\Db\Query())->select(["$userTable.*", 'sid' => "$sessionTable.id", "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])
 			->from($userTable)
 			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
 			->where(["$sessionTable.id" => $this->controller->headers['x-token'], "$userTable.status" => 1])
 			->one(\App\Db::getInstance('webservice'));
-		if (empty($this->userData)) {
+		if (!$userData) {
 			throw new \Api\Core\Exception('Invalid token', 401);
 		}
+		$this->setAllUserData($userData);
 	}
 
 	/**
@@ -121,7 +117,7 @@ class BaseAction
 	 */
 	protected function checkLifetimeSession(): void
 	{
-		if ((strtotime('now') > strtotime($this->userData['created']) + (\Config\Security::$apiLifetimeSessionCreate * 60)) || (strtotime('now') > strtotime($this->userData['changed']) + (\Config\Security::$apiLifetimeSessionUpdate * 60))) {
+		if ((strtotime('now') > strtotime($this->getUserData('created')) + (\Config\Security::$apiLifetimeSessionCreate * 60)) || (strtotime('now') > strtotime($this->getUserData('changed')) + (\Config\Security::$apiLifetimeSessionUpdate * 60))) {
 			\App\Db::getInstance('webservice')->createCommand()
 				->delete($this->controller->app['tables']['session'], ['id' => $this->controller->headers['x-token']])
 				->execute();
@@ -151,10 +147,10 @@ class BaseAction
 	public function getLanguage(): string
 	{
 		$language = '';
-		if (!empty($this->userData['language'])) {
-			$language = $this->userData['language'];
-		} elseif (!empty($this->userData['custom_params']['language'])) {
-			$language = $this->userData['custom_params']['language'];
+		if ($userLang = $this->getUserData('language')) {
+			$language = $userLang;
+		} elseif ($userLang = $this->getUserData('custom_params', 'language')) {
+			$language = $userLang;
 		} elseif (!empty($this->controller->headers['accept-language'])) {
 			$language = str_replace('_', '-', \Locale::acceptFromHttp($this->controller->headers['accept-language']));
 		} else {
@@ -170,7 +166,7 @@ class BaseAction
 	 */
 	public function getPermissionType(): int
 	{
-		return $this->userData['type'];
+		return (int) $this->userData['type'];
 	}
 
 	/**
@@ -180,7 +176,7 @@ class BaseAction
 	 */
 	public function getUserCrmId(): int
 	{
-		return $this->userData['crmid'];
+		return $this->userData['crmid'] ?: 0;
 	}
 
 	/**
@@ -215,7 +211,7 @@ class BaseAction
 	{
 		if ($this->controller && ($parentId = $this->controller->request->getHeader('x-parent-id'))) {
 			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
-			$hierarchy->setUserData($this->userData);
+			$hierarchy->setAllUserData($this->userData);
 			$hierarchy->findId = $parentId;
 			$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($this->getUserCrmId()));
 			$records = $hierarchy->get();
@@ -234,20 +230,53 @@ class BaseAction
 	 *
 	 * @return void
 	 */
-	public function setUserData(array $data): void
+	public function setAllUserData(array $data): void
 	{
 		$this->userData = \App\Utils::merge($this->userData, $data);
 	}
 
 	/**
-	 * Get user data.
+	 * Set user data.
 	 *
 	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return void
+	 */
+	public function setUserData(string $key, $value): void
+	{
+		if ('custom_params' === $key || 'preferences' === $key) {
+			if (!\is_array($this->userData[$key])) {
+				$this->userData[$key] = \App\Json::isEmpty($this->userData[$key]) ? [] : \App\Json::decode($this->userData[$key]);
+			}
+			$this->userData[$key] = \App\Utils::merge($this->userData[$key], $value);
+		} else {
+			$this->userData[$key] = $value;
+		}
+	}
+
+	/**
+	 * Get user data and session data.
+	 *
+	 * @param string $key
+	 * @param string $param
 	 *
 	 * @return mixed
 	 */
-	public function getUserData(string $key)
+	public function getUserData(string $key, string $param = '')
 	{
+		if ('custom_params' === $key || 'preferences' === $key) {
+			if (!\is_array($this->userData[$key])) {
+				$this->userData[$key] = \App\Json::isEmpty($this->userData[$key]) ? [] : \App\Json::decode($this->userData[$key]);
+			}
+			if ($param) {
+				return $this->userData[$key][$param] ?? null;
+			}
+		} elseif ('auth' === $key) {
+			if (!\is_array($this->userData[$key])) {
+				$this->userData[$key] = empty($this->userData['auth']) ? [] : \App\Json::decode(\App\Encryption::getInstance()->decrypt($this->userData['auth']));
+			}
+		}
 		return $this->userData[$key] ?? null;
 	}
 
@@ -281,12 +310,21 @@ class BaseAction
 	 */
 	public function updateUser(array $data = []): void
 	{
+		if (!\is_array($this->userData['custom_params'])) {
+			$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
+		}
 		$this->userData['custom_params']['agent'] = \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false);
 		if (isset($data['custom_params'])) {
-			$data['custom_params'] = \App\Json::encode(\App\Utils::merge(($this->userData['custom_params'] ?? []), $data['custom_params']));
+			$data['custom_params'] = \App\Json::encode(\App\Utils::merge($this->userData['custom_params'], $data['custom_params']));
 		}
 		if (isset($data['auth'])) {
-			$data['auth'] = \App\Encryption::getInstance()->encrypt(\App\Json::encode(\App\Utils::merge(($this->userData['auth'] ?? []), $data['auth'])));
+			$data['auth'] = \App\Encryption::getInstance()->encrypt(\App\Json::encode(\App\Utils::merge(($this->getUserData('auth') ?? []), $data['auth'])));
+		}
+		if (isset($data['preferences'])) {
+			if (!\is_array($this->userData['preferences'])) {
+				$this->userData['preferences'] = \App\Json::isEmpty($this->userData['preferences']) ? [] : \App\Json::decode($this->userData['preferences']);
+			}
+			$data['preferences'] = \App\Json::encode(\App\Utils::merge($this->userData['preferences'], $data['preferences']));
 		}
 		\App\Db::getInstance('webservice')->createCommand()
 			->update($this->controller->app['tables']['user'], $data, ['id' => $this->userData['id']])
