@@ -225,7 +225,7 @@ final class PortalTest extends \Tests\Base
 					'gross' => 3,
 					'tax' => 0,
 					'taxmode' => 0,
-					'taxparam' => [],
+					'taxparam' => '[]',
 					'comment1' => 0,
 				],
 			],
