@@ -249,6 +249,10 @@ final class PortalTest extends \Tests\Base
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
+		$this->logs = [
+			\App\Privilege::isPermitted('Accounts', 'EditView', self::$recordId),
+			\App\Privilege::$isPermittedLevel,
+		];
 		static::assertSame(200, $request->getStatusCode(), 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(1, $response['status'], 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'put', 200);
