@@ -1585,6 +1585,9 @@ var app = (window.app = {
 									if (responseData.result.notify) {
 										Vtiger_Helper_Js.showMessage(responseData.result.notify);
 									}
+									if (responseData.result.closeModal) {
+										app.hideModalWindow(null, container.closest('.js-modal-container').attr('id'));
+									}
 								}
 								progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							})
