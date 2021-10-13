@@ -219,6 +219,7 @@ final class PortalTest extends \Tests\Base
 					'subunit' => '300g',
 					'currency' => 1,
 					'discount' => 0,
+					'discountparam' => '',
 					'discountmode' => 0,
 					'net' => 5,
 					'gross' => 3,
