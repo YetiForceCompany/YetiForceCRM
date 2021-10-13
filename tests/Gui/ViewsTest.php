@@ -18,6 +18,9 @@ use Facebook\WebDriver\WebDriverBy;
  */
 final class Gui_ViewsTest extends \Tests\GuiBase
 {
+	/** @var int Record ID */
+	private static $recordId;
+
 	/**
 	 * Testing the record list all modules.
 	 *
@@ -43,6 +46,8 @@ final class Gui_ViewsTest extends \Tests\GuiBase
 	{
 		$this->url('index.php?module=Accounts&view=List');
 		static::assertSame('Accounts', $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
+		$this->logs = self::$recordId = $this->driver->findElement(WebDriverBy::id('Accounts_listView_row_1'))->getAttribute('data-id');
+		static::assertNotEmpty(self::$recordId);
 
 		$this->driver->findElement(WebDriverBy::name('accountname'))->sendKeys('YetiForce');
 		$this->driver->executeScript('Vtiger_List_Js.triggerListSearch()');
