@@ -250,8 +250,14 @@ final class PortalTest extends \Tests\Base
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->logs = [
-			\App\Privilege::isPermitted('Accounts', 'EditView', self::$recordId),
-			\App\Privilege::$isPermittedLevel,
+			[
+				\App\Privilege::isPermitted('Accounts', 'EditView', self::$recordId),
+				\App\Privilege::$isPermittedLevel,
+			],
+			[
+				\App\Privilege::isPermitted('Accounts', 'EditView', \Tests\Base\C_RecordActions::createAccountRecord()->getId()),
+				\App\Privilege::$isPermittedLevel,
+			],
 		];
 		static::assertSame(200, $request->getStatusCode(), 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(1, $response['status'], 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
