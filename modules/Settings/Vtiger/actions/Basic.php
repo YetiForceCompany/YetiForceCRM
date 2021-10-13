@@ -10,11 +10,10 @@
 
 class Settings_Vtiger_Basic_Action extends \App\Controller\Action
 {
-	use \App\Controller\ExposeMethod, \App\Controller\Traits\SettingsPermission;
+	use \App\Controller\ExposeMethod;
+	use \App\Controller\Traits\SettingsPermission;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();

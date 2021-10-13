@@ -11,6 +11,14 @@
 
 class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 {
+	const WEBSERVICE_APPS_VISIBILITY = [
+		0 => 'LBL_WSA_VISIBILITY_DEFAULT',
+		1 => 'LBL_DISPLAY_TYPE_1',
+		10 => 'LBL_DISPLAY_TYPE_10',
+		4 => 'LBL_DISPLAY_TYPE_4',
+		9 => 'LBL_DISPLAY_TYPE_9',
+	];
+
 	/**
 	 * Function to remove field.
 	 */
@@ -34,7 +42,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$db->createCommand()->delete('vtiger_cvcolumnlist', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
 			$db->createCommand()->delete('vtiger_cvcolumnlist', [
 				'source_field_name' => $fieldname,
-				'cvid' => (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['entitytype' => $fldModule])
+				'cvid' => (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['entitytype' => $fldModule]),
 			])->execute();
 			$db->createCommand()->delete('u_#__cv_condition', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
 			//Deleting from convert lead mapping vtiger_table- Jaguar
@@ -69,7 +77,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 					$params = [
 						'name' => $name,
 						'tabid' => $tabId,
-						'value' => $entityInfo[$key]
+						'value' => $entityInfo[$key],
 					];
 					Settings_Search_Module_Model::save($params);
 				}
@@ -199,12 +207,22 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 *
 	 * @return bool
 	 */
-	public function isDefaultValueOptionDisabled()
+	public function isDefaultValueOptionDisabled(): bool
 	{
 		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || 'image' === $this->getFieldDataType() || 'multiImage' === $this->getFieldDataType()) {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * A function that will determine if the default value option is disabled for an WebserviceApps configuration.
+	 *
+	 * @return bool
+	 */
+	public function isDefaultValueForWebservice(): bool
+	{
+		return !(\in_array($this->get('uitype'), ['4', '70']) || 'image' === $this->getFieldDataType() || 'multiImage' === $this->getFieldDataType());
 	}
 
 	/**
@@ -290,5 +308,23 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldInfo['isMassEditDisabled'] = $this->isMassEditOptionDisabled();
 		$fieldInfo['isDefaultValueDisabled'] = $this->isDefaultValueOptionDisabled();
 		return $fieldInfo;
+	}
+
+	/**
+	 * Update webservice data.
+	 *
+	 * @param array $data
+	 * @param int   $webserviceApp
+	 *
+	 * @return void
+	 */
+	public function updateWebserviceData(array $data, int $webserviceApp): void
+	{
+		$createCommand = \App\Db::getInstance('webservice')->createCommand();
+		if ($this->getWebserviceData($webserviceApp)) {
+			$createCommand->update('w_#__fields_server', $data, ['fieldid' => $this->getId(), 'serverid' => $webserviceApp])->execute();
+		} else {
+			$createCommand->insert('w_#__fields_server', \App\Utils::merge($data, ['fieldid' => $this->getId(), 'serverid' => $webserviceApp]))->execute();
+		}
 	}
 }

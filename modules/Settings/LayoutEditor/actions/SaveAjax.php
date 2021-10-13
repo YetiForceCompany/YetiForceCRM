@@ -1,11 +1,17 @@
 <?php
 
 /**
- * Save Inventory Action Class.
+ * Settings layout editor save action field.
+ *
+ * @package   Settings.Action
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+/**
+ * Settings layout editor save action class.
  */
 class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {

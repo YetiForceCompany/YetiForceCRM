@@ -13,13 +13,17 @@ class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Get all servers.
 	 *
+	 * @param bool $onlyActive
+	 *
 	 * @return array
 	 */
-	public static function getServers(): array
+	public static function getServers(bool $onlyActive = true): array
 	{
-		return (new \App\Db\Query())->from('w_#__servers')
-			->createCommand(\App\Db::getInstance('webservice'))
-			->queryAllByGroup(1);
+		$query = (new \App\Db\Query())->from('w_#__servers');
+		if ($onlyActive) {
+			$query->where(['status' => 1]);
+		}
+		return $query->createCommand(\App\Db::getInstance('webservice'))->queryAllByGroup(1);
 	}
 
 	/**

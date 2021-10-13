@@ -10,8 +10,10 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-Settings-LayoutEditor-Index" id="layoutEditorContainer">
-		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}"/>
+	<!-- tpl-Settings-LayoutEditor-Index -->
+	{assign var=WEBSERVICE_APPS value=Settings_WebserviceApps_Module_Model::getServers()}
+	<div id="layoutEditorContainer">
+		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-6">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
@@ -26,11 +28,11 @@
 				</div>
 				<div class="form-group float-right">
 					<div class="btn-group">
-						<button class="js-switch--inventory btn btn-outline-primary{if !$IS_INVENTORY} active{/if}" type="button"	data-js="click" {if $CHANGE_MODULE_TYPE_DISABLED}disabled="disabled"{/if} data-value="{Vtiger_Module_Model::STANDARD_TYPE}" autocomplete="off">
-						{App\Language::translate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}
+						<button class="js-switch--inventory btn btn-outline-primary{if !$IS_INVENTORY} active{/if}" type="button" data-js="click" {if $CHANGE_MODULE_TYPE_DISABLED}disabled="disabled" {/if} data-value="{Vtiger_Module_Model::STANDARD_TYPE}" autocomplete="off">
+							{App\Language::translate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}
 						</button>
-						<button class="js-switch--inventory btn btn-outline-primary{if $IS_INVENTORY} active{/if}" type="button" data-js="click" {if $CHANGE_MODULE_TYPE_DISABLED}disabled="disabled"{/if} data-value="{Vtiger_Module_Model::ADVANCED_TYPE}" autocomplete="off">
-						{App\Language::translate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}</button>
+						<button class="js-switch--inventory btn btn-outline-primary{if $IS_INVENTORY} active{/if}" type="button" data-js="click" {if $CHANGE_MODULE_TYPE_DISABLED}disabled="disabled" {/if} data-value="{Vtiger_Module_Model::ADVANCED_TYPE}" autocomplete="off">
+							{App\Language::translate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}</button>
 					</div>
 				</div>
 			</div>
@@ -43,234 +45,45 @@
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs" role="tablist">
 				<li class="nav-item">
-					<a class="nav-link active" data-toggle="tab" role="tab" href="#detailViewLayout" aria-selected="true">
+					<a class="nav-link {if $ACTIVE_TAB === 'detailViewLayout'}active{/if}" id="detailViewLayoutTab" data-toggle="tab" role="tab" href="#detailViewLayout" aria-selected="{if $ACTIVE_TAB === 'detailViewLayout'}true{else}false{/if}">
 						<strong>{App\Language::translate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong>
 					</a>
 				</li>
 				{if $IS_INVENTORY}
 					<li class="nav-item inventoryNav">
-						<a class="nav-link" data-toggle="tab" role="tab" href="#inventoryViewLayout" aria-selected="false">
+						<a class="nav-link {if $ACTIVE_TAB === 'inventoryViewLayout'}active{/if}" id="inventoryViewLayoutTab" data-toggle="tab" role="tab" href="#inventoryViewLayout" aria-selected="{if $ACTIVE_TAB === 'inventoryViewLayout'}true{else}false{/if}">
 							<strong>{App\Language::translate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong>
 						</a>
 					</li>
 				{/if}
-			</ul>
-			<div class="tab-content layoutContent pt-3 themeTableColor overflowVisible">
-				<div class="tab-pane fade show active" id="detailViewLayout" role="tabpanel" aria-labelledby="detailViewLayout">
-					{assign var=FIELD_TYPE_INFO value=$SELECTED_MODULE_MODEL->getAddFieldTypeInfo()}
-					{assign var=IS_SORTABLE value=$SELECTED_MODULE_MODEL->isSortableAllowed()}
-					{assign var=IS_BLOCK_SORTABLE value=$SELECTED_MODULE_MODEL->isBlockSortableAllowed()}
-					{assign var=ALL_BLOCK_LABELS value=[]}
-					{if $IS_SORTABLE}
-						<div class="btn-toolbar" id="layoutEditorButtons">
-							<button class="btn btn-success addButton addCustomBlock">
-								<span class="fas fa-plus mr-2"></span>
-								{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}
-							</button>
-							<button class="btn btn-success saveFieldSequence ml-3 d-none">
-								<span class="fas fa-check mr-2"></span>
-								{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}
-							</button>
-							<button class="btn btn-default ml-3 js-inactive-fields-btn">
-								<span class="fas fa-ban mr-2"></span>
-								{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}
-							</button>
-						</div>
+				{foreach item=SERVER key=SERVER_ID from=$WEBSERVICE_APPS}
+					{if $SERVER['type'] === 'Portal'}
+						<li class="nav-item">
+							<a class="nav-link {if $ACTIVE_TAB === "webserviceApps{$SERVER_ID}" }active{/if}" id="webserviceAppsTab{$SERVER_ID}" data-toggle="tab" role="tab" href="#webserviceApps{$SERVER_ID}" aria-selected="{if $ACTIVE_TAB === "webserviceApps{$SERVER_ID}" }true{else}false{/if}">
+								<strong>{\App\Purifier::encodeHTML($SERVER['name'])} ({\App\Language::translate($SERVER['type'], 'Settings.WebserviceApps')})</strong>
+							</a>
+						</li>
 					{/if}
-					<div class="moduleBlocks">
-						{foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
-							{assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
-							{assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
-							{assign var=BLOCK_ICON value=$BLOCK_MODEL->get('icon')}
-							{$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_LABEL_KEY}
-							<div id="block_{$BLOCK_ID}"
-								 class="editFieldsTable block_{$BLOCK_ID} mb-2 border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if} js-block-container"
-								 data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}"
-								 style="border-radius: 4px;background: white;" data-js="container">
-								<div class="layoutBlockHeader d-flex flex-wrap justify-content-between m-0 p-1 pt-1 w-100">
-									<div class="blockLabel u-white-space-nowrap">
-										{if $IS_BLOCK_SORTABLE}
-											<img class="align-middle" src="{\App\Layout::getImagePath('drag.png')}" alt=""/>
-											&nbsp;&nbsp;
-										{/if}
-										<strong class="align-middle js-block-label" title="{$BLOCK_LABEL_KEY}" data-js="container">{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
-									</div>
-									<div class="btn-toolbar pl-1" role="toolbar" aria-label="Toolbar with button groups">
-										{if $BLOCK_MODEL->isAddCustomFieldEnabled()}
-											<div class="btn-group btn-group-sm u-h-fit mr-1 mt-1">
-												<button class="btn btn-success addCustomField" type="button">
-													<span class="fas fa-plus u-mr-5px"></span><strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
-												</button>
-											</div>
-											<div class="btn-group btn-group-sm u-h-fit mr-1 mt-1">
-												<button class="btn btn-warning js-add-system-field" type="button" data-js="click">
-													<span class="fas fa-plus-circle u-mr-5px"></span><strong>{App\Language::translate('BTN_ADD_SYSTEM_FIELD', $QUALIFIED_MODULE)}</strong>
-												</button>
-											</div>
-										{/if}
-										<div class="btn-group btn-group-sm btn-group-toggle mt-1" data-toggle="buttons">
-											<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if $BLOCK_MODEL->isHidden()} active{/if}" data-visible="0"
-												   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
-												<input type="radio" name="options" id="options-option1" autocomplete="off" {if $BLOCK_MODEL->isHidden()} checked{/if}>
-												<span class="fas fa-fw mr-1 fa-eye-slash"></span>
-												<span class="c-btn-collapsible__text">{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}</span>
-											</label>
-											<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} active{/if}" data-visible="1"
-												   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
-												<input type="radio" name="options" id="options-option2" autocomplete="off" {if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} checked{/if}>
-												<span class="fas fa-fw mr-1  fa-eye"></span>
-												<span class="c-btn-collapsible__text">{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}</span>
-											</label>
-											<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if $BLOCK_MODEL->isDynamic()} active{/if}" data-visible="2"
-												   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
-												<input type="radio" name="options" id="options-option3" autocomplete="off"{if $BLOCK_MODEL->isDynamic()} checked{/if}>
-												<span class="fas fa-fw mr-1  fa-atom"></span>
-												<span class="c-btn-collapsible__text">{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}</span>
-											</label>
-										</div>
-										{if $BLOCK_MODEL->isCustomized()}
-											<div class="btn-group btn-group-sm ml-1 mt-1 u-h-fit" role="group" aria-label="Third group">
-												<button class="js-delete-custom-block-btn c-btn-collapsible btn btn-danger js-popover-tooltip" data-js="click">
-													<span class="fas fa-trash-alt mr-1"></span>
-													<span class="c-btn-collapsible__text">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</span>
-												</button>
-											</div>
-										{/if}
-									</div>
-								</div>
-								<div class="blockFieldsList blockFieldsSortable row m-0 p-1 u-min-height-50">
-									<ul name="{if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}sortable1{/if}"
-										class="sortTableUl js-sort-table1 connectedSortable col-md-6 mb-0" data-js="container">
-										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
-											{if $smarty.foreach.fieldlist.index % 2 eq 0}
-												<li>
-													<div class="opacity editFields ml-0 border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-														<div class="px-2 py-1">
-															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<div class="col-12 pr-0 fieldContainer" style="word-wrap: break-word;">
-																{if $FIELD_MODEL->isEditable()}
-																	<a class="mr-3">
-																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
-																	</a>
-																{/if}
-																<span class="fieldLabel">
-																	{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
-																	{if $IS_MANDATORY}
-																		<span class="redColor">*</span>
-																	{/if}
-																	<span class="ml-3 font-weight-normal">[{$FIELD_MODEL->getName()}]</span>
-																</span>
-																<span class="float-right actions">
-																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
-																	{if $FIELD_MODEL->isEditable()}
-																		<button class="btn btn-success btn-xs editFieldDetails ml-1">
-																			<span class="yfi yfi-full-editing-view"
-																				  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
-																		</button>
-																	{/if}
-																	<button class="btn btn-primary btn-xs copyFieldLabel ml-1"
-																			data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
-																		<span class="fas fa-copy"
-																			  title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
-																	</button>
-																	{if $FIELD_MODEL->isCustomField() eq 'true'}
-																		<button class="btn btn-danger btn-xs deleteCustomField ml-1"
-																				data-field-id="{$FIELD_MODEL->get('id')}">
-																			<span class="fas fa-trash-alt"
-																				  title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
-																		</button>
-																	{/if}
-																	<button class="btn btn-info btn-xs js-context-help ml-1"
-																			data-js="click"
-																			data-field-id="{$FIELD_MODEL->get('id')}"
-																			data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}">
-																		<span class="fas fa-info-circle"
-																			  title="{App\Language::translate('LBL_CONTEXT_HELP', $QUALIFIED_MODULE)}"></span>
-																	</button>
-																</span>
-															</div>
-														</div>
-													</div>
-												</li>
-											{/if}
-										{/foreach}
-									</ul>
-									<ul {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}name="sortable2"{/if}
-										class="connectedSortable js-sort-table2 sortTableUl col-md-6 mb-0"
-										data-js="container">
-										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist1}
-											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
-												<li>
-													<div class="opacity editFields ml-0 border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-														<div class="px-2 py-1">
-															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<div class="col-12 pr-0 fieldContainer" style="word-wrap: break-word;">
-																{if $FIELD_MODEL->isEditable()}
-																	<a class="mr-3">
-																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
-																	</a>
-																{/if}
-																<span class="fieldLabel">
-																	{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
-																	{if $IS_MANDATORY}
-																		<span class="redColor">*</span>
-																	{/if}
-																	<span class="ml-3 font-weight-normal">[{$FIELD_MODEL->getName()}]</span>
-																</span>
-																<span class="float-right actions">
-																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
-																	{if $FIELD_MODEL->isEditable()}
-																		<button class="btn btn-success btn-xs editFieldDetails ml-1">
-																			<span class="yfi yfi-full-editing-view"
-																				  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
-																		</button>
-																	{/if}
-																	<button class="btn btn-primary btn-xs copyFieldLabel ml-1"
-																			data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
-																		<span class="fas fa-copy"
-																			  title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
-																	</button>
-
-																	{if $FIELD_MODEL->isCustomField() eq 'true'}
-																		<button class="btn btn-danger btn-xs deleteCustomField ml-1"
-																				data-field-id="{$FIELD_MODEL->get('id')}">
-																			<span class="fas fa-trash-alt"
-																				  title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
-																		</button>
-																	{/if}
-																	<button class="btn btn-info btn-xs js-context-help ml-1"
-																			data-js="click"
-																			data-field-id="{$FIELD_MODEL->get('id')}"
-																			data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}">
-																		<span class="fas fa-info-circle"
-																			  title="{App\Language::translate('LBL_CONTEXT_HELP', $QUALIFIED_MODULE)}"></span>
-																	</button>
-																</span>
-															</div>
-														</div>
-													</div>
-												</li>
-											{/if}
-										{/foreach}
-									</ul>
-								</div>
-							</div>
-						{/foreach}
-					</div>
-					<input type="hidden" class="inActiveFieldsArray" value='{\App\Purifier::encodeHtml(\App\Json::encode($IN_ACTIVE_FIELDS))}'/>
-					{include file=\App\Layout::getTemplatePath('NewCustomBlock.tpl', $QUALIFIED_MODULE)}
-					{include file=\App\Layout::getTemplatePath('NewCustomField.tpl', $QUALIFIED_MODULE)}
-					{include file=\App\Layout::getTemplatePath('AddBlockModal.tpl', $QUALIFIED_MODULE)}
-					{include file=\App\Layout::getTemplatePath('CreateFieldModal.tpl', $QUALIFIED_MODULE)}
-					{include file=\App\Layout::getTemplatePath('InactiveFieldModal.tpl', $QUALIFIED_MODULE)}
+				{/foreach}
+			</ul>
+			<div class="tab-content layoutContent pt-3 pb-2 themeTableColor overflowVisible">
+				<div class="tab-pane fade {if $ACTIVE_TAB === 'detailViewLayout'}active show{/if}" id="detailViewLayout" role="tabpanel" aria-labelledby="detailViewLayoutTab">
+					{include file=\App\Layout::getTemplatePath('Tabs/DetailViewLayout.tpl', $QUALIFIED_MODULE)}
 				</div>
 				{if $IS_INVENTORY}
-					<div class="tab-pane mt-0" id="inventoryViewLayout" role="tabpanel"
-						 aria-labelledby="inventoryViewLayout">
-						{include file=\App\Layout::getTemplatePath('Inventory.tpl', $QUALIFIED_MODULE)}
+					<div class="tab-pane mt-0 fade {if $ACTIVE_TAB === 'inventoryViewLayout'}active show{/if}" id="inventoryViewLayout" role="tabpanel" aria-labelledby="inventoryViewLayoutTab">
+						{include file=\App\Layout::getTemplatePath('Tabs/Inventory.tpl', $QUALIFIED_MODULE)}
 					</div>
 				{/if}
+				{foreach item=SERVER key=SERVER_ID from=$WEBSERVICE_APPS}
+					{if $SERVER['type'] === 'Portal'}
+						<div class="tab-pane mt-0 fade {if $ACTIVE_TAB === "webserviceApps{$SERVER_ID}" }active show{/if}" id="webserviceApps{$SERVER_ID}" role="tabpanel" aria-labelledby="#webserviceAppsTab{$SERVER_ID}">
+							{include file=\App\Layout::getTemplatePath('Tabs/WebserviceApps.tpl', $QUALIFIED_MODULE)}
+						</div>
+					{/if}
+				{/foreach}
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Settings-LayoutEditor-Index -->
 {/strip}

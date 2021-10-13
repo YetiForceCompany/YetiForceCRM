@@ -29,7 +29,7 @@
     "LBL_DECIMALS": "Decimals",
     "LBL_DEFAULT_VALUE": "Default value",
     "LBL_DELETE_CUSTOM_BLOCK": "Delete custom block",
-    "LBL_DETAILVIEW_LAYOUT": "Detail view layout",
+    "LBL_DETAILVIEW_LAYOUT": "Fields and blocks",
     "LBL_DUPLICATE_FIELD_EXISTS": "Duplicated field exists",
     "LBL_FIELD_NAME_IS_RESERVED": "Field name is reserved",
     "LBL_DUPLICATES_EXIST": "Block name already exists",
@@ -77,6 +77,7 @@
     "LBL_DISPLAY_TYPE_2": "Field visible only in preview, not editable",
     "LBL_DISPLAY_TYPE_3": "Field visible only in list view",
     "LBL_DISPLAY_TYPE_4": "Field visible only during creating and in preview, cannot be modified",
+    "LBL_DISPLAY_TYPE_9": "Field visible everywhere, read only in editing",
     "LBL_DISPLAY_TYPE_10": "Field visible everywhere, not editable",
     "LBL_HELP_INFO": "Help icon",
     "LBL_GENERATED_TYPE": "Basic field",
@@ -210,7 +211,10 @@
     "LBL_FIELD_ICON": "Icon",
     "LBL_ANONYMIZATION_LOGS": "Logs",
     "LBL_ANONYMIZATION_MODTRACKER_DISPLAY": "Updates - display",
-    "LBL_ANONYMIZATION_MODTRACKER_DB": "Updates - database"
+    "LBL_ANONYMIZATION_MODTRACKER_DB": "Updates - database",
+    "BTN_WEBSERVICE_APP_EDIT": "Edit field configuration",
+    "LBL_WSA_VISIBILITY": "Visibility",
+    "LBL_WSA_VISIBILITY_DEFAULT": "According to the field configuration"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",

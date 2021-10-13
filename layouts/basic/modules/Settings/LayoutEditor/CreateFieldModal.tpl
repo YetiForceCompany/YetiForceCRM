@@ -16,7 +16,7 @@
 				<div class="modal-header">
 					<h5 class="modal-title">{App\Language::translate('LBL_CREATE_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h5>
 					<button type="button" class="close" data-dismiss="modal"
-							title="{\App\Language::translate('LBL_CLOSE')}">
+						title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -30,9 +30,9 @@
 								<select class="fieldTypesList form-control" name="fieldType">
 									{foreach item=FIELD_TYPE from=$ADD_SUPPORTED_FIELD_TYPES}
 										<option value="{$FIELD_TYPE}"
-												{foreach key=TYPE_INFO item=TYPE_INFO_VALUE from=$FIELD_TYPE_INFO[$FIELD_TYPE]}
-											data-{$TYPE_INFO}="{$TYPE_INFO_VALUE}"
-												{/foreach}>
+											{foreach key=TYPE_INFO item=TYPE_INFO_VALUE from=$FIELD_TYPE_INFO[$FIELD_TYPE]}
+												data-{$TYPE_INFO}="{$TYPE_INFO_VALUE}"
+											{/foreach}>
 											{App\Language::translate($FIELD_TYPE, $QUALIFIED_MODULE)}
 										</option>
 									{/foreach}
@@ -46,9 +46,9 @@
 							</div>
 							<div class="col-md-8 controls">
 								<input type="text" maxlength="50" name="fieldLabel" value=""
-									   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-									   class="form-control"
-									   data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'FieldLabel']]))}'/>
+									data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+									class="form-control"
+									data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'FieldLabel']]))}' />
 							</div>
 						</div>
 						<div class="form-group row align-items-center">
@@ -58,9 +58,8 @@
 							</div>
 							<div class="col-md-8 controls">
 								<input type="text" maxlength="30" name="fieldName" value=""
-									   data-validation-engine="validate[required, funcCall[Vtiger_FieldName_Validator_Js.invokeValidation]]"
-									   class="form-control"
-									   />
+									data-validation-engine="validate[required, funcCall[Vtiger_FieldName_Validator_Js.invokeValidation]]"
+									class="form-control" />
 							</div>
 						</div>
 						<div class="form-group row align-items-center">
@@ -88,8 +87,8 @@
 							</div>
 							<div class="col-md-8 controls">
 								<input type="text" name="fieldLength" value=""
-									   data-validation-engine="validate[required, custom[integer], funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-									   class="form-control"/>
+									data-validation-engine="validate[required, custom[integer], funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+									class="form-control" />
 							</div>
 						</div>
 						<div class="form-group row align-items-center supportedType decimalsupported d-none">
@@ -99,8 +98,8 @@
 							</div>
 							<div class="col-md-8 controls">
 								<input type="text" name="decimal" value=""
-									   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-									   class="form-control"/>
+									data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+									class="form-control" />
 							</div>
 						</div>
 						<div class="form-group row align-items-center supportedType preDefinedValueExists d-none">
@@ -110,10 +109,10 @@
 							</div>
 							<div class="col-md-8 controls">
 								<select id="pickListValues" class="form-control" name="pickListValues" multiple=""
-										tabindex="-1" aria-hidden="true"
-										placeholder="{App\Language::translate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}"
-										data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-										data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'PicklistFieldValues']]))}'>
+									tabindex="-1" aria-hidden="true"
+									placeholder="{App\Language::translate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}"
+									data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+									data-validator='{\App\Purifier::encodeHtml(\App\Json::encode([['name'=>'PicklistFieldValues']]))}'>
 								</select>
 							</div>
 						</div>
@@ -124,7 +123,7 @@
 							</div>
 							<div class="col-md-8 controls">
 								<select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple="multiple" {/if}
-										class="referenceModule form-control" name="referenceModule">
+									class="referenceModule form-control" name="referenceModule">
 									{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 										<option value="{$MODULE_NAME}">{App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
 									{/foreach}
@@ -156,9 +155,9 @@
 										{foreach item=FIELD key=KEY from=$RELATION->getFields()}
 											{if !isset($LAST_BLOCK) || $LAST_BLOCK->id != $FIELD->get('block')->id}
 												<optgroup label="{App\Language::translate($FIELD->get('block')->label, $RELATION->get('modulename'))}" data-module="{$RELATION->get('modulename')}">
-											{/if}
-											<option value="{$FIELD->getId()}">{App\Language::translate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
-											{if $COUNT_FIELDS == ($KEY - 1)}
+												{/if}
+												<option value="{$FIELD->getId()}">{App\Language::translate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
+												{if $COUNT_FIELDS == ($KEY - 1)}
 												</optgroup>
 											{/if}
 											{assign var=LAST_BLOCK value=$FIELD->get('block')}
@@ -175,10 +174,10 @@
 								<select class="filterField form-control" name="MRVFilterField">
 									{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
 										<option value="-"
-												data-module="{$RELATION->get('modulename')}">{App\Language::translate('--None--')}</option>
+											data-module="{$RELATION->get('modulename')}">{App\Language::translate('--None--')}</option>
 										{foreach item=FIELD key=KEY from=$RELATION->getFields('picklist')}
 											<option value="{$FIELD->getName()}"
-													data-module="{$RELATION->get('modulename')}">{App\Language::translate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
+												data-module="{$RELATION->get('modulename')}">{App\Language::translate($FIELD->get('label'), $RELATION->get('modulename'))}</option>
 										{/foreach}
 									{/foreach}
 								</select>
@@ -200,7 +199,7 @@
 							<div class="col-md-8 controls">
 								<label class="checkbox">
 									<input type="checkbox" class="checkbox" name="isRoleBasedPickList"
-										   value="1">&nbsp;{App\Language::translate('LBL_ROLE_BASED_PICKLIST',$QUALIFIED_MODULE)}
+										value="1">&nbsp;{App\Language::translate('LBL_ROLE_BASED_PICKLIST',$QUALIFIED_MODULE)}
 								</label>
 							</div>
 						</div>
@@ -225,7 +224,7 @@
 							<div class="col-md-8 controls">
 								<select class="form-control" name="server" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
 									{foreach key=key item=SERVER from=Settings_WebserviceApps_Module_Model::getServers()}
-										<option value="{$key}">{App\Purifier::encodeHtml($SERVER['name'])}</option>
+										<option value="{$key}">{App\Purifier::encodeHtml($SERVER['name'])} ({\App\Language::translate($SERVER['type'], 'Settings.WebserviceApps')})</option>
 									{/foreach}
 								</select>
 							</div>

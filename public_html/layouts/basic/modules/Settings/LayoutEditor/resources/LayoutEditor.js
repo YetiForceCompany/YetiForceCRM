@@ -123,26 +123,26 @@ $.Class(
 				}
 			);
 			relatedList.on('click', '.inActiveRelationModule', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var relatedModule = currentTarget.closest('.relatedModule');
 				relatedModule.find('.activeRelationModule').removeClass('d-none').show();
 				currentTarget.hide();
 				thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), false);
 			});
 			relatedList.on('click', '.activeRelationModule', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var relatedModule = currentTarget.closest('.relatedModule');
 				relatedModule.find('.inActiveRelationModule').removeClass('d-none').show();
 				currentTarget.hide();
 				thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), true);
 			});
 			relatedList.on('click', '.removeRelation', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var relatedModule = currentTarget.closest('.relatedModule');
 				thisInstance.removeRelation(relatedModule);
 			});
 			relatedList.on('click', '.addToFavorites', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				thisInstance.changeStateFavorites(currentTarget);
 			});
 			relatedList.on('change', '.relatedViewType', function (e) {
@@ -162,7 +162,7 @@ $.Class(
 				thisInstance.updateCustomView($(e.currentTarget));
 			});
 			relatedList.on('click', '.addRelation', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var container = currentTarget.closest('#relatedTabOrder');
 				var contentsDiv = container.closest('.contentsDiv');
 				var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
@@ -170,7 +170,7 @@ $.Class(
 					App.Fields.Picklist.showSelect2ElementView(data.find('select'));
 					data.find('.relLabel').val(data.find('.target option:selected').val());
 					data.on('change', '.target', function (e) {
-						var currentTarget = $(e.currentTarget);
+						let currentTarget = $(e.currentTarget);
 						data.find('.relLabel').val(currentTarget.find('option:selected').val());
 					});
 					data.find('[name="type"]').on('change', function () {
@@ -856,7 +856,7 @@ $.Class(
 
 			//register the change event for field types
 			form.find('[name="fieldType"]').on('change', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var lengthInput = form.find('[name="fieldLength"]');
 				var selectedOption = currentTarget.find('option:selected');
 
@@ -1107,7 +1107,7 @@ $.Class(
 			var thisInstance = this;
 			var contents = this.container.find('.contents');
 			contents.on('click', '.js-block-visibility', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				thisInstance.updateBlockStatus(currentTarget);
 			});
 		},
@@ -1155,7 +1155,7 @@ $.Class(
 			var thisInstance = this;
 			var contents = this.container.find('.contents');
 			contents.on('click', '.js-inactive-fields-btn', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var currentBlock = currentTarget.closest('.editFieldsTable');
 				//If there are no hidden fields, show pnotify
 				if ($.isEmptyObject(thisInstance.inActiveFieldsList)) {
@@ -1284,7 +1284,7 @@ $.Class(
 			var thisInstance = this;
 			var contents = this.container.find('.contents');
 			contents.on('click', '.js-delete-custom-block-btn', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var table = currentTarget.closest('div.editFieldsTable');
 				var blockId = table.data('blockId');
 
@@ -1410,7 +1410,7 @@ $.Class(
 		 */
 		registerFieldDetailsChange: function (contents) {
 			contents.find('[name="mandatory"]').on('change', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				if (currentTarget.attr('readonly') !== 'readonly') {
 					var form = currentTarget.closest('.fieldDetailsForm');
 					var quickcreateEle = form.find('[name="quickcreate"]').filter(':checkbox').not('.optionDisabled');
@@ -1425,7 +1425,7 @@ $.Class(
 				}
 			});
 			contents.find('[name="defaultvalue"],[name="header_field"]').on('change', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var defaultValueUi = currentTarget.closest('.checkbox').find('.js-toggle-hide');
 				if (currentTarget.is(':checked')) {
 					defaultValueUi.removeClass('zeroOpacity');
@@ -1547,7 +1547,7 @@ $.Class(
 			App.Fields.Picklist.showSelect2ElementView(container.find('[name="layoutEditorModules"]'));
 
 			container.on('change', '[name="layoutEditorModules"]', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var selectedModule = currentTarget.val();
 				thisInstance.getModuleLayoutEditor(selectedModule).done(function (data) {
 					contentsDiv.html(data);
@@ -1563,7 +1563,7 @@ $.Class(
 			App.Fields.Picklist.showSelect2ElementView(container.find('[name="layoutEditorRelModules"]'));
 
 			container.on('change', '[name="layoutEditorRelModules"]', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var selectedModule = currentTarget.val();
 				thisInstance.getRelModuleLayoutEditor(selectedModule).done(function (data) {
 					contentsDiv.html(data);
@@ -1573,7 +1573,7 @@ $.Class(
 		},
 		lockCheckbox: function (contents) {
 			contents.on('change', ':checkbox', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				if (currentTarget.attr('readonly') === 'readonly') {
 					var status = $(e.currentTarget).is(':checked');
 					if (!status) {
@@ -1591,7 +1591,7 @@ $.Class(
 				contents = this.container.find('.contents');
 			}
 			contents.find('.editFieldDetails').on('click', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var fieldRow = currentTarget.closest('div.editFields');
 				var fieldId = fieldRow.data('fieldId');
 				var block = fieldRow.closest('.editFieldsTable');
@@ -1705,7 +1705,7 @@ $.Class(
 			thisInstance.registerEditFieldDetailsClick(contents);
 
 			contents.find(':checkbox').on('change', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				if (currentTarget.attr('readonly') == 'readonly') {
 					var status = $(e.currentTarget).is(':checked');
 					if (!status) {
@@ -1792,7 +1792,7 @@ $.Class(
 			var thisInstance = this;
 			var container = thisInstance.getInventoryViewLayout();
 			container.find('.editInventoryField').on('click', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 				var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
 				var editField = currentTarget.closest('.editFields');
@@ -1943,7 +1943,7 @@ $.Class(
 			var container = thisInstance.getInventoryViewLayout();
 			var selectedModule = this.container.find('[name="layoutEditorModules"]').val();
 			container.find('.deleteInventoryField').on('click', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				var liElement = currentTarget.closest('li');
 				var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
 				Vtiger_Helper_Js.showConfirmationBox({ message: message })
@@ -2061,7 +2061,6 @@ $.Class(
 		},
 		/**
 		 * Context help
-		 * @param {jQuery} container
 		 */
 		registerContextHelp: function () {
 			$(document).on('click', '.js-context-help', function (e) {
@@ -2119,6 +2118,38 @@ $.Class(
 			});
 		},
 		/**
+		 * Register webservice apps events
+		 */
+		registerWebserviceAppsEvent: function () {
+			$(document).on('click', '.js-edit-field-api', function (e) {
+				const element = $(e.currentTarget);
+				let progressInstance = $.progressIndicator({ blockInfo: { enabled: true } });
+				AppConnector.request({
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					view: 'WebserviceAppsModal',
+					wa: element.data('wa'),
+					fieldId: element.data('fieldId')
+				}).done(function (data) {
+					app.showModalWindow(data, (modalContainer) => {
+						progressInstance.progressIndicator({ mode: 'hide' });
+						modalContainer.find('.js-default-value').on('change', function (e) {
+							let currentTarget = $(e.currentTarget);
+							let defaultValueUi = currentTarget.closest('.js-modal-form').find('.js-default-value-container');
+							if (currentTarget.is(':checked')) {
+								defaultValueUi.removeClass('d-none');
+							} else {
+								defaultValueUi.addClass('d-none');
+							}
+						});
+						modalContainer.find('.js-modal__save').on('click', () => {
+							modalContainer.find('.js-modal-form').trigger('submit');
+						});
+					});
+				});
+			});
+		},
+		/**
 		 * register events for layout editor
 		 */
 		registerEvents: function () {
@@ -2145,6 +2176,7 @@ $.Class(
 			this.registerEvents();
 			this.registerCopyClipboard();
 			this.registerContextHelp();
+			this.registerWebserviceAppsEvent();
 		}
 	}
 );

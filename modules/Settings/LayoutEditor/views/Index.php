@@ -33,6 +33,10 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 
 	public function showFieldLayout(App\Request $request)
 	{
+		$activeTab = 'detailViewLayout';
+		if ($request->has('tab')) {
+			$activeTab = $request->getByType('tab', \App\Purifier::ALNUM);
+		}
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
 		if (empty($sourceModule)) {
@@ -61,9 +65,10 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$type = $moduleModel->isInventory() ? Vtiger_Module_Model::STANDARD_TYPE : Vtiger_Module_Model::ADVANCED_TYPE;
 		$batchMethod = (new \App\BatchMethod([
 			'method' => '\App\Module::changeType',
-			'params' => [$sourceModule, $type]
+			'params' => [$sourceModule, $type],
 		]));
 		$viewer = $this->getViewer($request);
+		$viewer->assign('ACTIVE_TAB', $activeTab);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
 		$viewer->assign('SELECTED_MODULE_MODEL', $moduleModel);

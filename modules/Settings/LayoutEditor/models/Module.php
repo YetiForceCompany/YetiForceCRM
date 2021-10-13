@@ -88,7 +88,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Text', 'Decimal', 'Integer', 'AdvPercentage', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
 			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
 			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail',
-			'Smtp', 'ServerAccess', 'MultiDomain', 'RangeTime', 'Token'
+			'Smtp', 'ServerAccess', 'MultiDomain', 'RangeTime', 'Token',
 		];
 	}
 
@@ -570,7 +570,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'id', 'seq', 'header_type', 'header_class',
 			'module', 'parent', 'action', 'mode', 'view', 'selected_ids',
 			'excluded_ids', 'search_params', 'search_key', 'page', 'operator',
-			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory', 'private', 'src_record', 'relationId', 'relation_id', 'picklist', 'overwritten_shownerid'
+			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory', 'private', 'src_record', 'relationId', 'relation_id', 'picklist', 'overwritten_shownerid',
 		]);
 	}
 
@@ -643,7 +643,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$moduleName = $this->getName();
 		$blocksEliminatedArray = ['HelpDesk' => ['LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'],
 			'Faq' => ['LBL_COMMENT_INFORMATION'],
-			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION']
+			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION'],
 		];
 		if (\in_array($moduleName, ['HelpDesk', 'Faq'])) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
@@ -762,8 +762,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$systemFields[$name] = array_merge($systemFields['share_externally'], [
 				'name' => $name,
 				'column' => $name,
-				'label' => $field['name'] . " ({$field['type']})",
-				'fieldparams' => $id
+				'label' => $field['name'] . ' (' . \App\Language::translate($field['type'], 'Settings.WebserviceApps') . ')',
+				'fieldparams' => $id,
 			]);
 		}
 		unset($systemFields['share_externally']);
@@ -824,5 +824,17 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this->name);
 		$blockModel->addField($fieldModel);
+	}
+
+	/**
+	 * Get fields for webservice apps.
+	 *
+	 * @param int $webserviceApp
+	 *
+	 * @return array
+	 */
+	public function getFieldsForWebserviceApps(int $webserviceApp): array
+	{
+		return (new \App\Db\Query())->from('w_#__fields_server')->where(['serverid' => $webserviceApp])->indexBy('fieldid')->all(\App\Db::getInstance('webservice')) ?: [];
 	}
 }
