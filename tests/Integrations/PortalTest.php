@@ -249,10 +249,16 @@ final class PortalTest extends \Tests\Base
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$recordId, 'Accounts');
 		$this->logs = [
 			[
-				\App\Privilege::isPermitted('Accounts', 'EditView', self::$recordId),
-				\App\Privilege::$isPermittedLevel,
+				'isEditable' => $recordModel->isEditable(),
+				'isPermitted' => $recordModel->isPermitted('EditView'),
+				'isLockByFields' => !$recordModel->isLockByFields(),
+				'checkLockEdit' => false === \Users_Privileges_Model::checkLockEdit($recordModel->getModuleName(), $recordModel),
+				'getUnlockFields' => empty($recordModel->getUnlockFields()),
+				'isReadOnly' => !$recordModel->isReadOnly(),
+				'$isPermittedLevel' => \App\Privilege::$isPermittedLevel,
 			],
 			[
 				\App\Privilege::isPermitted('Accounts', 'EditView', \Tests\Base\C_RecordActions::createAccountRecord()->getId()),
