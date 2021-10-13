@@ -221,7 +221,7 @@ final class PortalTest extends \Tests\Base
 					'discount' => 0,
 					'discountparam' => '',
 					'discountmode' => 0,
-					'net' => 5,
+					'net' => 10,
 					'gross' => 3,
 					'tax' => 0,
 					'taxmode' => 0,
