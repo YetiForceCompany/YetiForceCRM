@@ -265,6 +265,9 @@ class BaseAction
 	 */
 	public function getUserData(string $key, string $param = '')
 	{
+		if (!isset($this->userData[$key])) {
+			return null;
+		}
 		if ('custom_params' === $key || 'preferences' === $key) {
 			if (!\is_array($this->userData[$key])) {
 				$this->userData[$key] = \App\Json::isEmpty($this->userData[$key]) ? [] : \App\Json::decode($this->userData[$key]);
