@@ -44,13 +44,14 @@ final class PortalTest extends \Tests\Base
 	 */
 	private static $requestOptions = [];
 
-	/**
-	 * Details about logged in user.
-	 *
-	 * @var array
-	 */
+	/** @var array Details about logged in user. */
 	private static $authUserParams;
+
+	/** @var int Record ID */
 	private static $recordId;
+
+	/** @var int Inventory Record ID */
+	private static $inventoryRecordId;
 
 	/**
 	 * @var SchemaManager
@@ -176,6 +177,18 @@ final class PortalTest extends \Tests\Base
 		static::assertSame(1, $response['status'], 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::$recordId = $response['result']['id'];
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record', 'post', 200);
+
+		$request = $this->httpClient->post('Accounts/Record/', \App\Utils::merge(['json' => [
+			'accountname' => 'Api YetiForce 2',
+			'legal_form' => 'PLL_COMPANY',
+			'share_externally' => 1,
+			'account_id' => self::$recordId,
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record', 'post', 200);
 	}
 
 	/**
@@ -183,26 +196,39 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testAddInventoryRecord(): void
 	{
-		$request = $this->httpClient->post('SCalculations/Record/', \App\Utils::merge(['json' => [
+		$request = $this->httpClient->post('FInvoiceProforma/Record/', \App\Utils::merge(['json' => [
 			'subject' => 'Api YetiForce Sp. z o.o.',
+			'paymentdate' => date('Y-m-d'),
+			'saledate' => date('Y-m-d'),
+			'accountid' => self::$recordId,
+			'payment_methods' => 'PLL_TRANSFER',
+			'finvoiceproforma_status' => 'None',
+			'payment_methods' => 'PLL_TRANSFER',
 			'inventory' => [
 				1 => [
 					'name' => \Tests\Base\C_RecordActions::createProductRecord()->getId(),
 					'qty' => 2,
 					'price' => 5,
 					'total' => 10,
-					'marginp' => 0,
-					'margin' => 10,
-					'purchase' => 0,
+					'unit' => 'l',
+					'subunit' => '300g',
+					'currency' => 1,
+					'discount' => 0,
+					'discountmode' => 0,
+					'net' => 5,
+					'gross' => 3,
+					'tax' => 0,
+					'taxmode' => 0,
+					'taxparam' => [],
 					'comment1' => 0,
-					'unit' => 'Incidents',
 				],
 			],
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'SCalculations/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'SCalculations/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(200, $request->getStatusCode(), 'FInvoiceProforma/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'FInvoiceProforma/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::$inventoryRecordId = $response['result']['id'];
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record', 'post', 200);
 	}
 
@@ -235,6 +261,20 @@ final class PortalTest extends \Tests\Base
 		static::assertSame($response['result']['rawData']['accountname'], 'Api YetiForce Sp. z o.o. New name');
 		static::assertSame($response['result']['rawData']['legal_form'], 'PLL_COMPANY');
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'get', 200);
+	}
+
+	/**
+	 * Testing get hierarchy.
+	 */
+	public function testGetHierarchy(): void
+	{
+		$request = $this->httpClient->get('Accounts/Hierarchy', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Accounts/Hierarchy/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Accounts/Hierarchy/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertNotEmpty($response['result']);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Hierarchy', 'get', 200);
 	}
 
 	/**
@@ -369,16 +409,29 @@ final class PortalTest extends \Tests\Base
 	}
 
 	/**
-	 * Testing get PDF.
+	 * Testing get PDF Templates.
 	 */
 	public function testGetPdfTemplates(): void
 	{
-		$request = $this->httpClient->get('Accounts/PdfTemplates/' . self::$recordId, self::$requestOptions);
+		$request = $this->httpClient->get('FInvoiceProforma/PdfTemplates/' . self::$inventoryRecordId, self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/PdfTemplates/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/PdfTemplates/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(200, $request->getStatusCode(), 'FInvoiceProforma/PdfTemplates/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'FInvoiceProforma/PdfTemplates/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/PdfTemplates/{recordId}', 'get', 200);
+	}
+
+	/**
+	 * Testing get PDF.
+	 */
+	public function testGetPdf(): void
+	{
+		$request = $this->httpClient->get('FInvoiceProforma/Pdf/' . self::$inventoryRecordId, self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'FInvoiceProforma/Pdf/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'FInvoiceProforma/Pdf/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Pdf/{recordId}', 'get', 200);
 	}
 
 	/**
