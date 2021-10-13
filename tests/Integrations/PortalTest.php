@@ -108,19 +108,24 @@ final class PortalTest extends \Tests\Base
 		static::assertSame($row['pass'], 'portal');
 		self::$requestOptions['headers']['x-api-key'] = $row['api_key'];
 
+		$recordModel = \Tests\Base\C_RecordActions::createContactRecord();
+		$recordModel->set('share_externally', 1);
+		$recordModel->save();
+
 		$user = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
 		$user->setData([
 			'server_id' => self::$serverId,
 			'status' => 1,
 			'user_name' => self::$apiUserName,
 			'password' => \App\Encryption::createPasswordHash(self::$apiUserPass, 'Portal'),
-			'type' => 1,
+			'type' => 4,
 			'popupReferenceModule' => 'Contacts',
-			'crmid' => 0,
+			'crmid' => $recordModel->getId(),
 			'crmid_display' => '',
 			'login_method' => 'PLL_PASSWORD',
 			'user_id' => \App\User::getActiveAdminId(),
 		]);
+
 		$user->save();
 		self::$apiUserId = $user->getId();
 		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => self::$apiUserId])->one();
