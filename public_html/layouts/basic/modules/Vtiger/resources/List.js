@@ -756,7 +756,7 @@ $.Class(
 					app.hideModalWindow();
 					if (!data.result) {
 						let params = {
-							text: data.result.message || app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFUL'),
+							text: app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFUL'),
 							type: 'info'
 						};
 						app.showNotify(params);
