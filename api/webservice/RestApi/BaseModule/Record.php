@@ -51,16 +51,19 @@ class Record extends \Api\Core\BaseAction
 			switch ($method) {
 				case 'DELETE':
 					if (!$this->recordModel->privilegeToMoveToTrash()) {
+						\App\Log::error('Privilege::isPermittedLevel: ' . \App\Privilege::$isPermittedLevel, 'API');
 						throw new \Api\Core\Exception('No permissions to remove record', 403);
 					}
 					break;
 				case 'GET':
 					if (!$this->recordModel->isViewable()) {
+						\App\Log::error('Privilege::isPermittedLevel: ' . \App\Privilege::$isPermittedLevel, 'API');
 						throw new \Api\Core\Exception('No permissions to view record', 403);
 					}
 					break;
 				case 'PUT':
 					if (!$this->recordModel->isEditable()) {
+						\App\Log::error('Privilege::isPermittedLevel: ' . \App\Privilege::$isPermittedLevel, 'API');
 						throw new \Api\Core\Exception('No permissions to edit record', 403);
 					}
 					break;
