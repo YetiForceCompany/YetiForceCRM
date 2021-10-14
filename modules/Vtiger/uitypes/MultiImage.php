@@ -314,7 +314,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$multiMode = 'multiImage' === $this->getFieldModel()->getFieldDataType();
 		if (\is_string($value)) {
 			$value = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
-		} elseif(!is_array($value)) {
+		} elseif (!\is_array($value)) {
 			$value = [];
 		}
 		$return = [];
@@ -495,5 +495,19 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getQueryOperators()
 	{
 		return ['y', 'ny'];
+	}
+
+	/**
+	 * Provide a filter in the file select dialog box.
+	 *
+	 * @return string
+	 */
+	public function getAcceptFormats(): string
+	{
+		$formats = [];
+		foreach ($this->getFieldModel()->getFieldInfo()['formats'] ?? [] as $format) {
+			$formats[] = "image/{$format}";
+		}
+		return $formats ? implode(',', $formats) : 'image/*';
 	}
 }
