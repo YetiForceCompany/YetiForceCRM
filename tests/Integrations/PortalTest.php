@@ -138,6 +138,16 @@ final class PortalTest extends \Tests\Base
 		$fieldModel->fieldparams = self::$serverId;
 		$blockInstance = \vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', 'Accounts');
 		$blockInstance->addField($fieldModel);
+
+		$fieldModel = \Vtiger_Field_Model::init('Contacts', \App\Field::SYSTEM_FIELDS['share_externally']);
+		$fieldModel->fieldparams = self::$serverId;
+		$blockInstance = \vtlib\Block::getInstance('LBL_CONTACT_INFORMATION', 'Contacts');
+		$blockInstance->addField($fieldModel);
+
+		$fieldModel = \Vtiger_Field_Model::init('HelpDesk', \App\Field::SYSTEM_FIELDS['share_externally']);
+		$fieldModel->fieldparams = self::$serverId;
+		$blockInstance = \vtlib\Block::getInstance('LBL_TICKET_INFORMATION', 'HelpDesk');
+		$blockInstance->addField($fieldModel);
 	}
 
 	/**
@@ -168,18 +178,16 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testAddRecord(): void
 	{
-		$request = $this->httpClient->post('Accounts/Record/', \App\Utils::merge(['json' => [
-			'accountname' => 'Api YetiForce Sp. z o.o.',
-			'addresslevel5a' => 'Warszawa',
-			'addresslevel8a' => 'Marszałkowska',
-			'buildingnumbera' => 111,
-			'legal_form' => 'PLL_COMPANY',
+		$recordModel = \Tests\Base\C_RecordActions::createAccountRecord();
+		$request = $this->httpClient->post('HelpDesk/Record/', \App\Utils::merge(['json' => [
+			'ticket_title' => 'Api HelpDesk',
+			'parent_id' => $recordModel->getId(),
 			'share_externally' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(200, $request->getStatusCode(), 'HelpDesk/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'HelpDesk/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::$recordId = $response['result']['id'];
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record', 'post', 200);
 
@@ -187,7 +195,7 @@ final class PortalTest extends \Tests\Base
 			'accountname' => 'Api YetiForce 2',
 			'legal_form' => 'PLL_COMPANY',
 			'share_externally' => 1,
-			'account_id' => self::$recordId,
+			'account_id' => $recordModel->getId(),
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
@@ -205,7 +213,7 @@ final class PortalTest extends \Tests\Base
 			'subject' => 'Api YetiForce Sp. z o.o.',
 			'paymentdate' => date('Y-m-d'),
 			'saledate' => date('Y-m-d'),
-			'accountid' => self::$recordId,
+			'accountid' => \Tests\Base\C_RecordActions::createAccountRecord()->getId(),
 			'payment_methods' => 'PLL_TRANSFER',
 			'finvoiceproforma_status' => 'None',
 			'payment_methods' => 'PLL_TRANSFER',
@@ -243,30 +251,13 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testEditRecord(): void
 	{
-		$request = $this->httpClient->put('Accounts/Record/' . self::$recordId, \App\Utils::merge(['json' => [
-			'accountname' => 'Api YetiForce Sp. z o.o. New name',
-			'buildingnumbera' => 222,
+		$request = $this->httpClient->put('HelpDesk/Record/' . self::$recordId, \App\Utils::merge(['json' => [
+			'ticket_title' => 'Api HelpDesk New name',
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$recordId, 'Accounts');
-		$this->logs = [
-			[
-				'isEditable' => $recordModel->isEditable(),
-				'isPermitted' => $recordModel->isPermitted('EditView'),
-				'isLockByFields' => !$recordModel->isLockByFields(),
-				'checkLockEdit' => false === \Users_Privileges_Model::checkLockEdit($recordModel->getModuleName(), $recordModel),
-				'getUnlockFields' => empty($recordModel->getUnlockFields()),
-				'isReadOnly' => !$recordModel->isReadOnly(),
-				'$isPermittedLevel' => \App\Privilege::$isPermittedLevel,
-			],
-			[
-				\App\Privilege::isPermitted('Accounts', 'EditView', \Tests\Base\C_RecordActions::createAccountRecord()->getId()),
-				\App\Privilege::$isPermittedLevel,
-			],
-		];
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(200, $request->getStatusCode(), 'HelpDesk/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'HelpDesk/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'put', 200);
 	}
 
@@ -275,13 +266,12 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testGetRecord(): void
 	{
-		$request = $this->httpClient->get('Accounts/Record/' . self::$recordId, self::$requestOptions);
+		$request = $this->httpClient->get('HelpDesk/Record/' . self::$recordId, self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame($response['result']['rawData']['accountname'], 'Api YetiForce Sp. z o.o. New name');
-		static::assertSame($response['result']['rawData']['legal_form'], 'PLL_COMPANY');
+		static::assertSame(200, $request->getStatusCode(), 'HelpDesk/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'HelpDesk/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame($response['result']['rawData']['ticket_title'], 'Api HelpDesk New name');
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'get', 200);
 	}
 
@@ -304,11 +294,11 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testGetRecordHistory(): void
 	{
-		$request = $this->httpClient->get('Accounts/RecordHistory/' . self::$recordId, self::$requestOptions);
+		$request = $this->httpClient->get('HelpDesk/RecordHistory/' . self::$recordId, self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/RecordHistory/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/RecordHistory/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(200, $request->getStatusCode(), 'HelpDesk/RecordHistory/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'HelpDesk/RecordHistory/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordHistory/{recordId}', 'get', 200);
 	}
 
@@ -317,21 +307,23 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testDeleteRecord(): void
 	{
-		$request = $this->httpClient->post('Accounts/Record/', \App\Utils::merge(['json' => [
-			'accountname' => 'Api Delete YetiForce Sp. z o.o.',
-			'legal_form' => 'PLL_COMPANY',
+		$recordModel = \Tests\Base\C_RecordActions::createAccountRecord();
+		$request = $this->httpClient->post('HelpDesk/Record/', \App\Utils::merge(['json' => [
+			'ticket_title' => 'Api HelpDesk',
+			'parent_id' => $recordModel->getId(),
 			'share_externally' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(200, $request->getStatusCode(), 'HelpDesk/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'HelpDesk/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record', 'post', 200);
 
-		$request = $this->httpClient->delete('Accounts/Record/' . $response['result']['id'], self::$requestOptions);
+		$request = $this->httpClient->delete('HelpDesk/Record/' . $response['result']['id'], self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(200, $request->getStatusCode(), 'HelpDesk/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'HelpDesk/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertTrue($response['result']);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'delete', 200);
 	}
@@ -341,11 +333,11 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testGetRecordRelatedList(): void
 	{
-		$request = $this->httpClient->get('Accounts/RecordRelatedList/' . self::$recordId . '/Contacts', self::$requestOptions);
+		$request = $this->httpClient->get('HelpDesk/RecordRelatedList/' . self::$recordId . '/Contacts', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/RecordRelatedList/{ID}/Contacts API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/RecordRelatedList/{ID}/Contacts API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(200, $request->getStatusCode(), 'HelpDesk/RecordRelatedList/{ID}/Contacts API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'HelpDesk/RecordRelatedList/{ID}/Contacts API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}', 'get', 200);
 	}
 
