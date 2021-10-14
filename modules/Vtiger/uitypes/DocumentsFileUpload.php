@@ -54,14 +54,16 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 						'name' => $row['name'],
 						'type' => $row['type'],
 						'size' => filesize($filePath),
-						'path' => 'Files',
-						'postData' => [
+						'path' => 'Files'
+					];
+					if ($recordModel->getValueByField('filestatus')) {
+						$return['postData'] = [
 							'module' => 'Documents',
 							'actionName' => 'DownloadFile',
 							'record' => $recordModel->getId(),
 							'key' => $row['attachmentsid'],
-						]
-					];
+						];
+					}
 				}
 			} else {
 				$return = [
