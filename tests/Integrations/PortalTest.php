@@ -361,11 +361,11 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testRecordList(): void
 	{
-		$request = $this->httpClient->get('Accounts/RecordsList', self::$requestOptions);
+		$request = $this->httpClient->get('HelpDesk/RecordsList', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Accounts/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Accounts/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(200, $request->getStatusCode(), 'HelpDesk/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'HelpDesk/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertGreaterThanOrEqual(1, \count($response['result']['records']));
 		static::assertGreaterThanOrEqual(1, \count($response['result']['rawData']));
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/RecordsList', 'get', 200);
