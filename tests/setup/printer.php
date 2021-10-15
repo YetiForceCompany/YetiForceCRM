@@ -162,7 +162,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function addError(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
-		$this->writeProgressWithColor('fg-red', '!!! Test ' . $test->getName() . ' error.');
+		$this->writeProgressWithColor('fg-red, fg-black', '!!! Test ' . $test->getName() . ' error.');
 		$this->write(PHP_EOL);
 		$this->lastTestFailed = true;
 	}
@@ -195,7 +195,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	 */
 	public function addFailure(Test $test, AssertionFailedError $e, float $time): void
 	{
-		$this->writeProgressWithColor('bg-red, fg-white', '! Test ' . $this->getTestName($test) . ' failed !!!' . PHP_EOL . $e->__toString());
+		$this->writeProgressWithColor('bg-red, fg-black', '! Test ' . $this->getTestName($test) . ' failed !!!' . PHP_EOL . $e->__toString());
 		$this->write(PHP_EOL);
 		$this->lastTestFailed = true;
 		$time = round($time, 2);
