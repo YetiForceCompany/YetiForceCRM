@@ -558,7 +558,8 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testGetProducts(): void
 	{
-		$recordModel = \Tests\Base\C_RecordActions::createProductRecord();
+	/*	
+$recordModel = \Tests\Base\C_RecordActions::createProductRecord();
 		$recordModel->set('share_externally', 1);
 		$recordModel->save();
 
@@ -591,7 +592,8 @@ final class PortalTest extends \Tests\Base
 		static::assertSame(200, $request->getStatusCode(), 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(1, $response['status'], 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Products/RecordsTree', 'get', 200);
-	}
+	
+}
 
 	/**
 	 * Testing get Files.
@@ -611,6 +613,7 @@ final class PortalTest extends \Tests\Base
 		static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame($body, $fileInstance->getContents(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/Portal/Files', 'put', 200);
+*/
 	}
 
 	/**
