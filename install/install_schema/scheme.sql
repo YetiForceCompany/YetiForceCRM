@@ -9785,8 +9785,8 @@ CREATE TABLE `w_yf_api_user` (
   `custom_params` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`user_name`),
-  KEY `user_name_status` (`user_name`,`status`),
-  KEY `server_id` (`server_id`),
+  KEY `w_yf_api_user_user_name_status__idx` (`user_name`,`status`),
+  KEY `w_yf_api_user_server_id__idx` (`server_id`),
   CONSTRAINT `w_yf_api_user_ibfk_1` FOREIGN KEY (`server_id`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -9799,7 +9799,7 @@ CREATE TABLE `w_yf_fields_server` (
   `is_default` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `default_value` text DEFAULT NULL,
   PRIMARY KEY (`fieldid`),
-  KEY `serverid` (`serverid`),
+  KEY `w_yf_fields_server_serverid_idx` (`serverid`),
   CONSTRAINT `w_yf_fields_server_ibfk_1` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE,
   CONSTRAINT `w_yf_fields_server_ibfk_2` FOREIGN KEY (`serverid`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
