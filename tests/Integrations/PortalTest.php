@@ -141,7 +141,8 @@ final class PortalTest extends \Tests\Base
 			'HelpDesk' => 'LBL_TICKET_INFORMATION',
 			'FInvoiceProforma' => 'LBL_BASIC_DETAILS',
 			'Products' => 'LBL_PRODUCT_INFORMATION',
-		] as $moduleName => $block) {
+                        'Documents' => 17
+   		] as $moduleName => $block) {
 			$fieldModel = \Vtiger_Field_Model::init($moduleName, \App\Field::SYSTEM_FIELDS['share_externally']);
 			$fieldModel->fieldparams = self::$serverId;
 			$blockInstance = \vtlib\Block::getInstance($block, $moduleName);
@@ -608,6 +609,7 @@ $recordModel = \Tests\Base\C_RecordActions::createProductRecord();
 			'module' => 'Documents',
 			'actionName' => 'DownloadFile',
 			'record' => $record->getId(),
+                         'share_externally' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
