@@ -9790,6 +9790,20 @@ CREATE TABLE `w_yf_api_user` (
   CONSTRAINT `w_yf_api_user_ibfk_1` FOREIGN KEY (`server_id`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `w_yf_fields_server` */
+
+CREATE TABLE `w_yf_fields_server` (
+  `fieldid` int(10) NOT NULL,
+  `serverid` int(10) unsigned NOT NULL,
+  `visibility` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `is_default` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `default_value` text DEFAULT NULL,
+  PRIMARY KEY (`fieldid`),
+  KEY `serverid` (`serverid`),
+  CONSTRAINT `w_yf_fields_server_ibfk_1` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE,
+  CONSTRAINT `w_yf_fields_server_ibfk_2` FOREIGN KEY (`serverid`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `w_yf_manage_consents_user` */
 
 CREATE TABLE `w_yf_manage_consents_user` (
