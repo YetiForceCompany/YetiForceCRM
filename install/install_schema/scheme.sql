@@ -6253,7 +6253,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3097 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3098 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -8448,7 +8448,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=669 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=670 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -9328,23 +9328,25 @@ CREATE TABLE `vtiger_trees_templates_data` (
 CREATE TABLE `vtiger_troubletickets` (
   `ticketid` int(10) NOT NULL,
   `ticket_no` varchar(100) NOT NULL,
-  `groupname` varchar(100) DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `status` varchar(200) DEFAULT NULL,
   `parent_id` int(10) DEFAULT NULL,
+  `contact_id` int(10) unsigned DEFAULT 0,
   `product_id` int(10) DEFAULT NULL,
+  `pssold_id` int(10) DEFAULT NULL,
+  `servicecontractsid` int(10) DEFAULT NULL,
+  `parentid` int(10) DEFAULT NULL,
   `priority` varchar(200) DEFAULT NULL,
   `severity` varchar(200) DEFAULT NULL,
-  `status` varchar(200) DEFAULT NULL,
   `category` varchar(200) DEFAULT NULL,
-  `title` varchar(255) NOT NULL,
+  `groupname` varchar(100) DEFAULT NULL,
   `solution` text DEFAULT NULL,
   `update_log` text DEFAULT NULL,
   `version_id` int(10) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT 0.00,
-  `servicecontractsid` int(10) DEFAULT NULL,
+  `sum_time_subordinate` decimal(10,2) DEFAULT NULL,
   `attention` text DEFAULT NULL,
-  `pssold_id` int(10) DEFAULT NULL,
   `from_portal` smallint(1) DEFAULT NULL,
-  `parentid` int(10) DEFAULT NULL,
   `response_range_time` int(11) DEFAULT NULL,
   `solution_range_time` int(11) DEFAULT NULL,
   `idle_range_time` int(11) DEFAULT NULL,
@@ -9356,7 +9358,6 @@ CREATE TABLE `vtiger_troubletickets` (
   `response_expected` datetime DEFAULT NULL,
   `solution_expected` datetime DEFAULT NULL,
   `idle_expected` datetime DEFAULT NULL,
-  `sum_time_subordinate` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),
@@ -9366,6 +9367,7 @@ CREATE TABLE `vtiger_troubletickets` (
   KEY `pssold_id` (`pssold_id`),
   KEY `ticket_no` (`ticket_no`),
   KEY `vtiger_troubletickets_parentid_idx` (`parentid`),
+  KEY `vtiger_troubletickets_contact_id_idx` (`contact_id`),
   CONSTRAINT `fk_1_vtiger_troubletickets` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
