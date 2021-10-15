@@ -1,6 +1,14 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-Tabs-WebserviceApps -->
+	{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert('YetiForceApiPortal')}
+	{if $CHECK_ALERT}
+		<div class="alert alert-warning mt-2 mb-1">
+			<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
+			{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')}
+			<a class="btn btn-primary btn-sm ml-2" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceApiPortal&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
+		</div>
+	{/if}
 	<div class="moduleBlocks">
 		{assign var=WEBSERVICE_DATA value=$SELECTED_MODULE_MODEL->getFieldsForWebserviceApps($SERVER_ID)}
 		{foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
@@ -29,7 +37,8 @@
 									<li {if isset($WEBSERVICE_DATA[$FIELD_MODEL->get('id')])}class="u-bg-gray" {/if}>
 										<div class="opacity ml-0 border1px" data-field-id="{$FIELD_MODEL->get('id')}">
 											<div class="px-2 py-1">
-												<div class="col-12 pr-0 js-field-container fieldContainer" style="word-wrap: break-word;">
+												<div class="col-12 pr-0 js-field-container fieldContainer"
+													style="word-wrap: break-word;">
 													<span class="fieldLabel">
 														{assign var=ICON value=$FIELD_MODEL->getIcon()}
 														{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}

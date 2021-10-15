@@ -2144,6 +2144,7 @@ $.Class(
 						});
 						modalContainer.find('.js-modal__save').on('click', () => {
 							modalContainer.find('.js-modal-form').trigger('submit');
+							element.closest('li').addClass('u-bg-gray');
 						});
 					});
 				});

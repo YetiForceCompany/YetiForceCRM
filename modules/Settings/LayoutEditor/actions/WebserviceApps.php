@@ -35,11 +35,19 @@ class Settings_LayoutEditor_WebserviceApps_Action extends Settings_Vtiger_Index_
 		try {
 			$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldId'));
 			$uitypeModel = $fieldInstance->getUITypeModel();
+			$defaultValue = '';
 			if ($request->getBoolean('is_default')) {
-				$uitypeModel->setDefaultValueFromRequest($request);
-				$defaultValue = $fieldInstance->get('defaultvalue');
-			} else {
-				$defaultValue = '';
+				$list = $fieldInstance->getCustomListForDefaultValue();
+				if ($list && $request->has('customDefaultValue')) {
+					$customDefaultValue = $request->getByType('customDefaultValue', \App\Purifier::ALNUM);
+					if ('-' !== $customDefaultValue && isset($list[$customDefaultValue])) {
+						$defaultValue = $customDefaultValue;
+					}
+				}
+				if ('' === $defaultValue) {
+					$uitypeModel->setDefaultValueFromRequest($request);
+					$defaultValue = $fieldInstance->get('defaultvalue');
+				}
 			}
 			$fieldInstance->updateWebserviceData(
 				[

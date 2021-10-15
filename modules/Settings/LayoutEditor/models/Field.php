@@ -327,4 +327,21 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$createCommand->insert('w_#__fields_server', \App\Utils::merge($data, ['fieldid' => $this->getId(), 'serverid' => $webserviceApp]))->execute();
 		}
 	}
+
+	/**
+	 * Get a list of custom default values for a given field type.
+	 *
+	 * @return array
+	 */
+	public function getCustomListForDefaultValue(): array
+	{
+		if ($this->isReferenceField()) {
+			return [
+				'loggedContact' => \App\Language::translate('LBL_LOGGED_CONTACT', 'Settings:LayoutEditor'),
+				'activeAccount' => \App\Language::translate('LBL_ACTIVE_ACCOUNT', 'Settings:LayoutEditor'),
+				'accountLoggedContact' => \App\Language::translate('LBL_ACCOUNT_LOGGED_CONTACT', 'Settings:LayoutEditor'),
+			];
+		}
+		return [];
+	}
 }

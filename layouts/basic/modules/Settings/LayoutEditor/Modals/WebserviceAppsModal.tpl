@@ -24,7 +24,7 @@
 				<div class="col-sm-9">
 					<select class="select2 form-control" name="visibility" data-validation-engine="validate[required]">
 						{foreach key=KEY item=VALUE from=Settings_LayoutEditor_Field_Model::WEBSERVICE_APPS_VISIBILITY}
-							<option value="{$KEY}" {if isset($DATA['visibility']) && $KEY == $DATA['visibility']}selected{/if}>{App\Language::translate($VALUE, $QUALIFIED_MODULE)}</option>
+							<option value="{$KEY}" {if isset($DATA['visibility']) && $KEY == $DATA['visibility']}selected{/if}>{\App\Language::translate($VALUE, $QUALIFIED_MODULE)}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -42,7 +42,18 @@
 				<div class="col-md-9">
 					<div class="js-default-value-container {if empty($DATA['is_default'])}d-none{/if}" data-js="container">
 						{if $FIELD_MODEL->isDefaultValueForWebservice()}
-							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDefaultEditTemplateName(), $FIELD_MODEL->getModuleName())}
+							{assign var=DEFAULT_VALUE_LIST value=$FIELD_MODEL->getCustomListForDefaultValue()}
+							{if $DEFAULT_VALUE_LIST}
+								<div class="mb-3">
+									<select class="select2 form-control" name="customDefaultValue" data-validation-engine="validate[required]">
+										{foreach key=KEY item=VALUE from=$DEFAULT_VALUE_LIST}
+											<option value="{$KEY}" {if isset($DATA['default_value']) && $KEY == $DATA['default_value']}selected{/if}>{$VALUE}</option>
+										{/foreach}
+									</select>
+								</div>
+							{else}
+								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDefaultEditTemplateName(), $FIELD_MODEL->getModuleName())}
+							{/if}
 						{/if}
 					</div>
 				</div>

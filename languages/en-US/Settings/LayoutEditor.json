@@ -214,7 +214,10 @@
     "LBL_ANONYMIZATION_MODTRACKER_DB": "Updates - database",
     "BTN_WEBSERVICE_APP_EDIT": "Edit field configuration",
     "LBL_WSA_VISIBILITY": "Visibility",
-    "LBL_WSA_VISIBILITY_DEFAULT": "According to the field configuration"
+    "LBL_WSA_VISIBILITY_DEFAULT": "According to the field configuration",
+    "LBL_LOGGED_CONTACT": "Contact currently logged in",
+    "LBL_ACTIVE_ACCOUNT": "Account currently active",
+    "LBL_ACCOUNT_LOGGED_CONTACT": "Account of contact currently logged in"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",
