@@ -90,6 +90,8 @@
     "LBL_MASS_STATUS_UPDATED": "Status updated in selected records",
     "LBL_UPDATE": "Update",
     "LBL_ADD_TIME_CONTROL": "Add working time before you close the ticket",
-    "LBL_CLOSE_RELATED_TICKETS": "Before you close this ticket, close related tickets"
+    "LBL_CLOSE_RELATED_TICKETS": "Before you close this ticket, close related tickets",
+    "LBL_HELPDESK_DEPENDENTS": "Tickets",
+    "LBL_HELPDESK_RELATED": "Tickets (M:M)"
   }
 }
