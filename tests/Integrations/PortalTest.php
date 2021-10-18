@@ -141,7 +141,7 @@ final class PortalTest extends \Tests\Base
 			'HelpDesk' => 'LBL_TICKET_INFORMATION',
 			'FInvoiceProforma' => 'LBL_BASIC_DETAILS',
 			'Products' => 'LBL_PRODUCT_INFORMATION',
-			'Documents' => 17
+			'Documents' => 17,
 		] as $moduleName => $block) {
 			$fieldModel = \Vtiger_Field_Model::init($moduleName, \App\Field::SYSTEM_FIELDS['share_externally']);
 			$fieldModel->fieldparams = self::$serverId;
@@ -400,7 +400,7 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testGetFields(): void
 	{
-		$request = $this->httpClient->get('SQuotes/Fields/', self::$requestOptions);
+		$request = $this->httpClient->get('SQuotes/Fields/', \App\Utils::merge(['headers' => ['x-response-params' => '["inventory", "blocks", "privileges", "dbStructure", "queryOperators"]']], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		static::assertSame(200, $request->getStatusCode(), 'SQuotes/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
