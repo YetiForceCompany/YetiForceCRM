@@ -23,8 +23,8 @@ class Hierarchy extends \Api\Core\BaseAction
 	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
 
-	/** @var int Pecursion limit */
-	public $limit = 100;
+	/** @var int Recursion limit */
+	public $limit = 20;
 
 	/** @var string Module name */
 	public $moduleName;
@@ -91,26 +91,31 @@ class Hierarchy extends \Api\Core\BaseAction
 	 */
 	public function get(): array
 	{
-		$parentCrmId = $this->getParentCrmId();
-		if ($this->getPermissionType() > 2) {
+		$parentId = \App\Record::getParentRecord($this->getUserCrmId());
+		if (\in_array($this->getPermissionType(), [\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY, \Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY])) {
 			$fields = \App\Field::getRelatedFieldForModule($this->moduleName);
 			if (!isset($fields[$this->moduleName])) {
 				throw new \Api\Core\Exception('No hierarchy', 405);
 			}
 			$field = $fields[$this->moduleName];
-			$entityFieldInfo = \App\Module::getEntityInfo($this->moduleName);
 			$queryGenerator = new \App\QueryGenerator($this->moduleName);
-			$this->mainFieldName = $entityFieldInfo['fieldname'];
 			$this->childField = $field['fieldname'];
-			$this->childColumn = "{$field['tablename']}.{$field['columnname']}";
-			$queryGenerator->setFields(['id', $this->childField, $this->mainFieldName]);
+			$queryGenerator->setFields(['id', $this->childField]);
 			$queryGenerator->permissions = false;
-			$this->getRecords($queryGenerator, $parentCrmId);
-		}
-		if (!isset($this->records[$parentCrmId])) {
-			$this->records[$parentCrmId] = [
-				'id' => $parentCrmId,
-				'name' => \App\Record::getLabel($parentCrmId),
+			$this->getRecords($queryGenerator, $parentId);
+			if (\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY === $this->getPermissionType()) {
+				$this->getRecords($queryGenerator, $parentId, 'parent');
+			} else {
+				$this->records[$parentId] = [
+					'id' => $parentId,
+					'parent' => 0,
+					'name' => \App\Record::getLabel($parentId)
+				];
+			}
+		} else {
+			$this->records[$parentId] = [
+				'id' => $parentId,
+				'name' => \App\Record::getLabel($parentId),
 			];
 		}
 		return $this->records;
@@ -135,7 +140,7 @@ class Hierarchy extends \Api\Core\BaseAction
 		if ('parent' === $type) {
 			$queryGenerator->addCondition('id', $parentId, 'e');
 		} else {
-			$queryGenerator->addNativeCondition([$this->childColumn => $parentId]);
+			$queryGenerator->addCondition($this->childField, $parentId, 'eid');
 		}
 		$this->recursion[$parentId][$type] = true;
 		foreach ($queryGenerator->createQuery()->all() as $row) {
@@ -146,20 +151,14 @@ class Hierarchy extends \Api\Core\BaseAction
 			$this->records[$id] = [
 				'id' => $id,
 				'parent' => $row[$this->childField],
-				'name' => $row[$this->mainFieldName],
+				'name' => \App\Record::getLabel($id)
 			];
 			if ($this->findId && $this->findId === $id) {
 				$this->limit = 0;
 				return;
 			}
 			if (!empty($row[$this->childField])) {
-				if (4 === $this->getPermissionType()) {
-					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'parent');
-					$this->getRecords(clone $mainQueryGenerator, $id, 'parent');
-				} elseif (3 === $this->getPermissionType()) {
-					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'child');
-					$this->getRecords(clone $mainQueryGenerator, $id, 'child');
-				}
+				$this->getRecords($mainQueryGenerator, 'parent' === $type ? $row[$this->childField] : $id, $type);
 			}
 		}
 	}

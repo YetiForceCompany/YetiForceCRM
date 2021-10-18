@@ -45,10 +45,7 @@ class PrivilegeQuery
 				break;
 			case Privilege::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY:
 			case Privilege::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY:
-				$parentId = \App\Request::_getHeader('x-parent-id');
-				if (empty($parentId)) {
-					$parentId = \App\Record::getParentRecord($user->get('permission_crmid'));
-				}
+				$parentId = \Api\Portal\Privilege::getParentCrmId($user->get('permission_crmid'));
 				break;
 			default:
 				throw new \Api\Core\Exception('Invalid permissions ', 400);

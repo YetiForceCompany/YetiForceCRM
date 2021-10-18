@@ -65,10 +65,7 @@ class Privilege
 				break;
 			case self::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY:
 			case self::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY:
-				$parentRecordId = (int) \App\Request::_getHeader('x-parent-id');
-				if (empty($parentRecordId)) {
-					$parentRecordId = \App\Record::getParentRecord($user->get('permission_crmid'));
-				}
+				$parentRecordId = static::getParentCrmId($user->get('permission_crmid'));
 				break;
 			default:
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
@@ -155,5 +152,28 @@ class Privilege
 
 		\App\Privilege::$isPermittedLevel = 'ALL_PERMISSION_NO';
 		return false;
+	}
+
+	/**
+	 * Gets parent ID.
+	 *
+	 * @param int $contactId
+	 *
+	 * @return int
+	 */
+	public static function getParentCrmId(int $contactId): int
+	{
+		if ($parentId = (int) \App\Request::_getHeader('x-parent-id')) {
+			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
+			$hierarchy->setAllUserData(['crmid' => $contactId]);
+			$hierarchy->findId = $parentId;
+			$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($contactId));
+			$records = $hierarchy->get();
+			if (isset($records[$parentId])) {
+				return $parentId;
+			}
+			throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
+		}
+		return \App\Record::getParentRecord($contactId);
 	}
 }
