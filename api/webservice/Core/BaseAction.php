@@ -79,7 +79,7 @@ class BaseAction
 		$userModel = \App\User::getCurrentUserModel();
 		$userModel->set('permission_type', $this->getPermissionType());
 		$userModel->set('permission_crmid', $this->getUserCrmId());
-		$userModel->set('permission_app', (int) $this->controller->app['id']);
+		$userModel->set('permission_app', $this->controller->app['id']);
 		$namespace = $this->controller->app['type'];
 		\App\Privilege::setPermissionInterpreter("\\Api\\{$namespace}\\Privilege");
 		\App\PrivilegeQuery::setPermissionInterpreter("\\Api\\{$namespace}\\PrivilegeQuery");

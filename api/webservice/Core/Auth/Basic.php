@@ -44,6 +44,7 @@ class Basic extends AbstractAuth
 		if ($row) {
 			$status = $password === \App\Encryption::getInstance()->decrypt($row['pass']);
 			if ($status) {
+				$row['id'] = (int) $row['id'];
 				$this->currentServer = $row;
 			}
 			return $status;

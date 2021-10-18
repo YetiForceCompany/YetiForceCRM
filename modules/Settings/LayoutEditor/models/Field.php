@@ -19,6 +19,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		9 => 'LBL_DISPLAY_TYPE_9',
 	];
 
+	/** @var array Webservice field data */
+	protected $webserviceData;
+
 	/**
 	 * Function to remove field.
 	 */
@@ -311,6 +314,41 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
+	 * Get webservice data.
+	 *
+	 * @param int $webserviceApp
+	 *
+	 * @return array
+	 */
+	public function getWebserviceData(int $webserviceApp): array
+	{
+		if (isset($this->webserviceData)) {
+			return $this->webserviceData;
+		}
+		return $this->webserviceData = (new \App\Db\Query())->from('w_#__fields_server')->where(['fieldid' => $this->getId(), 'serverid' => $webserviceApp])->one(\App\Db::getInstance('webservice')) ?: [];
+	}
+
+	/**
+	 * Load webservice data.
+	 *
+	 * @param int $webserviceApp
+	 *
+	 * @return void
+	 */
+	public function loadWebserviceData(int $webserviceApp): void
+	{
+		$data = $this->getWebserviceData($webserviceApp);
+		if (empty($data['is_default'])) {
+			$this->set('defaultvalue', '');
+		} else {
+			$this->set('defaultvalue', $data['default_value']);
+		}
+		if (!empty($data['visibility'])) {
+			$this->set('displaytype', $data['visibility']);
+		}
+	}
+
+	/**
 	 * Update webservice data.
 	 *
 	 * @param array $data
@@ -326,6 +364,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		} else {
 			$createCommand->insert('w_#__fields_server', \App\Utils::merge($data, ['fieldid' => $this->getId(), 'serverid' => $webserviceApp]))->execute();
 		}
+		\App\Cache::delete('WebserviceAppsFields', $webserviceApp);
 	}
 
 	/**

@@ -58,9 +58,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	/** @var Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance */
 	protected $uitypeModel;
 
-	/** @var array Webservice field data */
-	protected $webserviceData;
-
 	/**
 	 * Initialize.
 	 *
@@ -1759,40 +1756,5 @@ class Vtiger_Field_Model extends vtlib\Field
 		Settings_FieldsDependency_Module_Model::removeField($this->getModuleName(), $this->getName());
 		\App\Utils\Kanban::deleteField($this->getModuleName(), $this->getName());
 		parent::delete();
-	}
-
-	/**
-	 * Get webservice data.
-	 *
-	 * @param int $webserviceApp
-	 *
-	 * @return array
-	 */
-	public function getWebserviceData(int $webserviceApp): array
-	{
-		if (isset($this->webserviceData)) {
-			return $this->webserviceData;
-		}
-		return $this->webserviceData = (new \App\Db\Query())->from('w_#__fields_server')->where(['fieldid' => $this->getId(), 'serverid' => $webserviceApp])->one(\App\Db::getInstance('webservice')) ?: [];
-	}
-
-	/**
-	 * Load webservice data.
-	 *
-	 * @param int $webserviceApp
-	 *
-	 * @return void
-	 */
-	public function loadWebserviceData(int $webserviceApp): void
-	{
-		$data = $this->getWebserviceData($webserviceApp);
-		if (empty($data['is_default'])) {
-			$this->set('defaultvalue', '');
-		} else {
-			$this->set('defaultvalue', $data['default_value']);
-		}
-		if (!empty($data['visibility'])) {
-			$this->set('displaytype', $data['visibility']);
-		}
 	}
 }

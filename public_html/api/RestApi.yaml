@@ -288,16 +288,28 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/Header-Encrypted'
+        -
+          name: x-response-params
+          in: header
+          description: 'The header contains information about additional data to be returned in the response [Json array]'
+          required: false
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  enum: [inventory, blocks, privileges, dbStructure, queryOperators]
       responses:
         '200':
           description: 'Fields, blocks and inventory details'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseModule_Fields_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Fields_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseModule_Fields_ResponseBody'
+                $ref: '#/components/schemas/BaseModule_Get_Fields_Response'
       security:
         -
           basicAuth: []
@@ -1843,7 +1855,7 @@ components:
           type: boolean
           example: false
       type: object
-    BaseModule_Fields_ResponseBody:
+    BaseModule_Get_Fields_Response:
       title: 'Base module - Response action fields'
       description: 'Fields, blocks and inventory details'
       required:
