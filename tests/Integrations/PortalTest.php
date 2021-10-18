@@ -141,8 +141,8 @@ final class PortalTest extends \Tests\Base
 			'HelpDesk' => 'LBL_TICKET_INFORMATION',
 			'FInvoiceProforma' => 'LBL_BASIC_DETAILS',
 			'Products' => 'LBL_PRODUCT_INFORMATION',
-                        'Documents' => 17
-   		] as $moduleName => $block) {
+			'Documents' => 17
+		] as $moduleName => $block) {
 			$fieldModel = \Vtiger_Field_Model::init($moduleName, \App\Field::SYSTEM_FIELDS['share_externally']);
 			$fieldModel->fieldparams = self::$serverId;
 			$blockInstance = \vtlib\Block::getInstance($block, $moduleName);
@@ -273,9 +273,9 @@ final class PortalTest extends \Tests\Base
 		static::assertSame(200, $request->getStatusCode(), 'HelpDesk/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(1, $response['status'], 'HelpDesk/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->logs = $response;
-		static::assertSame($response['result']['rawData']['ticket_title'], 'Api HelpDesk New name');
-		static::assertSame($response['result']['rawData']['parent_id'], \Tests\Base\C_RecordActions::createAccountRecord()->getId());
-		static::assertSame($response['result']['rawData']['share_externally'], 1);
+		static::assertSame('Api HelpDesk New name', $response['result']['rawData']['ticket_title']);
+		static::assertSame(\Tests\Base\C_RecordActions::createAccountRecord()->getId(), $response['result']['rawData']['parent_id']);
+		static::assertSame(1, $response['result']['rawData']['share_externally']);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'get', 200);
 
 		$request = $this->httpClient->get('FInvoiceProforma/Record/' . self::$inventoryRecordId, self::$requestOptions);
@@ -284,11 +284,11 @@ final class PortalTest extends \Tests\Base
 		static::assertSame(200, $request->getStatusCode(), 'FInvoiceProforma/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(1, $response['status'], 'FInvoiceProforma/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->logs = $response;
-		static::assertSame($response['result']['rawData']['subject'], 'Api YetiForce FInvoiceProforma');
-		static::assertSame($response['result']['rawData']['accountid'], \Tests\Base\C_RecordActions::createAccountRecord()->getId());
-		static::assertSame($response['result']['rawData']['share_externally'], 1);
-		static::assertSame($response['result']['rawData']['paymentdate'], date('Y-m-d'));
-		static::assertSame($response['result']['rawData']['saledate'], date('Y-m-d'));
+		static::assertSame('Api YetiForce FInvoiceProforma', $response['result']['rawData']['subject']);
+		static::assertSame(\Tests\Base\C_RecordActions::createAccountRecord()->getId(), $response['result']['rawData']['accountid']);
+		static::assertSame(1, $response['result']['rawData']['share_externally']);
+		static::assertSame(date('Y-m-d'), $response['result']['rawData']['paymentdate']);
+		static::assertSame(date('Y-m-d'), $response['result']['rawData']['saledate']);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/{moduleName}/Record/{recordId}', 'get', 200);
 	}
 
@@ -559,64 +559,64 @@ final class PortalTest extends \Tests\Base
 	 */
 	public function testGetProducts(): void
 	{
-	/*	
+		/*
 $recordModel = \Tests\Base\C_RecordActions::createProductRecord();
-		$recordModel->set('share_externally', 1);
-		$recordModel->save();
+			$recordModel->set('share_externally', 1);
+			$recordModel->save();
 
-		$request = $this->httpClient->get('Products/Record/' . $recordModel->getId(), \App\Utils::merge([
-			'headers' => [
-				'x-unit-price' => 1,
-				'x-unit-gross' => 1,
-				'x-product-bundles' => 1,
-			],
-		], self::$requestOptions));
-		$body = $request->getBody()->getContents();
+			$request = $this->httpClient->get('Products/Record/' . $recordModel->getId(), \App\Utils::merge([
+				'headers' => [
+					'x-unit-price' => 1,
+					'x-unit-gross' => 1,
+					'x-product-bundles' => 1,
+				],
+			], self::$requestOptions));
+			$body = $request->getBody()->getContents();
 
-		$this->logs = [
-			'$body' => $body,
-			'$recordModel->getData()' => $recordModel->getData(),
-		];
+			$this->logs = [
+				'$body' => $body,
+				'$recordModel->getData()' => $recordModel->getData(),
+			];
 
-		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame($response['result']['rawData']['productname'], 'System CRM YetiForce');
-		static::assertTrue(isset($response['result']['ext']['unit_price']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertTrue(isset($response['result']['ext']['unit_gross']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertTrue(isset($response['result']['productBundles']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Products/Record/{recordId}', 'get', 200);
+			$response = \App\Json::decode($body);
+			static::assertSame(200, $request->getStatusCode(), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+			static::assertSame(1, $response['status'], 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+			static::assertSame($response['result']['rawData']['productname'], 'System CRM YetiForce');
+			static::assertTrue(isset($response['result']['ext']['unit_price']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+			static::assertTrue(isset($response['result']['ext']['unit_gross']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+			static::assertTrue(isset($response['result']['productBundles']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+			self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Products/Record/{recordId}', 'get', 200);
 
-		$request = $this->httpClient->get('Products/RecordsTree', self::$requestOptions);
-		$this->logs = $body = $request->getBody()->getContents();
-		$response = \App\Json::decode($body);
-		static::assertSame(200, $request->getStatusCode(), 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(1, $response['status'], 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Products/RecordsTree', 'get', 200);
-	*/
-}
+			$request = $this->httpClient->get('Products/RecordsTree', self::$requestOptions);
+			$this->logs = $body = $request->getBody()->getContents();
+			$response = \App\Json::decode($body);
+			static::assertSame(200, $request->getStatusCode(), 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+			static::assertSame(1, $response['status'], 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+			self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Portal/Products/RecordsTree', 'get', 200);
+		*/
+	}
 
 	/**
 	 * Testing get Files.
 	 */
 	public function testGetFiles(): void
 	{
-/*
-		$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
-		$fileDetails = $record->getFileDetails();
-		$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
-		$fileInstance = \App\Fields\File::loadFromPath($savedFile);
-		$request = $this->httpClient->put('Files', \App\Utils::merge(['json' => [
-			'module' => 'Documents',
-			'actionName' => 'DownloadFile',
-			'record' => $record->getId(),
-                         'share_externally' => 1,
-		]], self::$requestOptions));
-		$this->logs = $body = $request->getBody()->getContents();
-		static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame($body, $fileInstance->getContents(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/Portal/Files', 'put', 200);
-*/
+		/*
+				$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
+				$fileDetails = $record->getFileDetails();
+				$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
+				$fileInstance = \App\Fields\File::loadFromPath($savedFile);
+				$request = $this->httpClient->put('Files', \App\Utils::merge(['json' => [
+					'module' => 'Documents',
+					'actionName' => 'DownloadFile',
+					'record' => $record->getId(),
+								 'share_externally' => 1,
+				]], self::$requestOptions));
+				$this->logs = $body = $request->getBody()->getContents();
+				static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+				static::assertSame($body, $fileInstance->getContents(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+				self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/Portal/Files', 'put', 200);
+		*/
 	}
 
 	/**
