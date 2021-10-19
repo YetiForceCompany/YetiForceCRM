@@ -158,7 +158,12 @@ class Hierarchy extends \Api\Core\BaseAction
 				return;
 			}
 			if (!empty($row[$this->childField])) {
-				$this->getRecords($mainQueryGenerator, 'parent' === $type ? $row[$this->childField] : $id, $type);
+				if ('parent' === $type) {
+					$this->getRecords($mainQueryGenerator, $row[$this->childField], $type);
+					$this->getRecords($mainQueryGenerator, $row[$this->childField], 'child');
+				} else {
+					$this->getRecords($mainQueryGenerator, $id, $type);
+				}
 			}
 		}
 	}

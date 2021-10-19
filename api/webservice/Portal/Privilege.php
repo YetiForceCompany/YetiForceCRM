@@ -65,7 +65,7 @@ class Privilege
 				break;
 			case self::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY:
 			case self::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY:
-				$parentRecordId = static::getParentCrmId($user->get('permission_crmid'));
+				$parentRecordId = static::getParentCrmId($user);
 				break;
 			default:
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
@@ -157,15 +157,16 @@ class Privilege
 	/**
 	 * Gets parent ID.
 	 *
-	 * @param int $contactId
+	 * @param \App\User $user
 	 *
 	 * @return int
 	 */
-	public static function getParentCrmId(int $contactId): int
+	public static function getParentCrmId(\App\User $user): int
 	{
+		$contactId = $user->get('permission_crmid');
 		if ($parentId = (int) \App\Request::_getHeader('x-parent-id')) {
 			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
-			$hierarchy->setAllUserData(['crmid' => $contactId]);
+			$hierarchy->setAllUserData(['crmid' => $contactId, 'type' => $user->get('permission_type')]);
 			$hierarchy->findId = $parentId;
 			$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($contactId));
 			$records = $hierarchy->get();
