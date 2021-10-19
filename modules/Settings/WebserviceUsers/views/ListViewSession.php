@@ -35,6 +35,7 @@ class Settings_WebserviceUsers_ListViewSession_View extends \App\Controller\Moda
 		'params' => 'LBL_PARAMS',
 		'last_method' => 'FL_LAST_METHOD',
 		'agent' => 'LBL_USER_AGENT',
+		'parent_id' => 'Accounts',
 	];
 
 	/** {@inheritdoc} */

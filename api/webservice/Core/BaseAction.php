@@ -297,6 +297,7 @@ class BaseAction
 		}
 		$data['changed'] = date('Y-m-d H:i:s');
 		$data['ip'] = $this->controller->request->getServer('REMOTE_ADDR');
+		$data['parent_id'] = $this->controller->request->getHeader('x-parent-id') ?: 0;
 		$data['last_method'] = $this->controller->request->getServer('REQUEST_URI');
 		$data['agent'] = \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false);
 		\App\Db::getInstance('webservice')->createCommand()

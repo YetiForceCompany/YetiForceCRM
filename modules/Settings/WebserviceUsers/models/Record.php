@@ -204,6 +204,9 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		foreach ($row as $key => $value) {
 			switch ($key) {
+				case 'parent_id':
+					$row[$key] = $value ? \App\Record::getLabel($value) : '';
+					break;
 				case 'language':
 					$row[$key] = $value ? \App\Language::getLanguageLabel($value) : '';
 					break;

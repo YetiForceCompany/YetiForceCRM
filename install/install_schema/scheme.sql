@@ -9765,6 +9765,7 @@ CREATE TABLE `w_yf_api_session` (
   `ip` varchar(100) NOT NULL,
   `last_method` varchar(100) DEFAULT NULL,
   `agent` varchar(100) NOT NULL,
+  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `w_yf_api_session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_api_user` (`id`) ON DELETE CASCADE
@@ -9835,6 +9836,7 @@ CREATE TABLE `w_yf_portal_session` (
   `ip` varchar(100) NOT NULL,
   `last_method` varchar(100) DEFAULT NULL,
   `agent` varchar(100) NOT NULL,
+  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `w_yf_portal_session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_portal_user` (`id`) ON DELETE CASCADE
