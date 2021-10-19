@@ -108,7 +108,7 @@ class Fields extends \Api\Core\BaseAction
 	 *						@OA\Property(property="phpType", type="string", description="The PHP type of this column.", example="integer"),
 	 *						@OA\Property(property="dbType", type="string", description="The DB type of this column.", example="int(10)"),
 	 *						@OA\Property(property="defaultValue", type="string", description="Default value of this column", example="10"),
-	 *						@OA\Property(property="enumValues", type="string", description="Enumerable values.", example=null),
+	 *						@OA\Property(property="enumValues", type="string", description="Enumerable values.", example=""),
 	 *						@OA\Property(property="size", type="integer", description="Display size of the column.", example=10),
 	 *						@OA\Property(property="precision", type="integer", description="Precision of the column data, if it is numeric.", example=10),
 	 *						@OA\Property(property="scale", type="integer", description="Scale of the column data, if it is numeric.", example=0),

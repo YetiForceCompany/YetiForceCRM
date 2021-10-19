@@ -3024,7 +3024,7 @@
                                                 "enumValues": {
                                                     "description": "Enumerable values.",
                                                     "type": "string",
-                                                    "example": null
+                                                    "example": ""
                                                 },
                                                 "size": {
                                                     "description": "Display size of the column.",
