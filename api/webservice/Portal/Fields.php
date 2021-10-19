@@ -34,7 +34,7 @@ class Fields
 				case 'loggedContact':
 					$value = $actionModel->getUserData('crmid');
 					break;
-				case 'activeAccount':
+				case 'accountOnContact':
 					$value = \App\Record::getParentRecord($actionModel->getUserCrmId());
 					break;
 				case 'accountLoggedContact':

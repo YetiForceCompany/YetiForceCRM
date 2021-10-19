@@ -419,7 +419,7 @@ class Field
 		if ($fieldModel->isReferenceField()) {
 			return [
 				'loggedContact' => \App\Language::translate('LBL_LOGGED_CONTACT', 'Settings:LayoutEditor'),
-				'activeAccount' => \App\Language::translate('LBL_ACTIVE_ACCOUNT', 'Settings:LayoutEditor'),
+				'accountOnContact' => \App\Language::translate('LBL_ACCOUNT_ON_CONTACT', 'Settings:LayoutEditor'),
 				'accountLoggedContact' => \App\Language::translate('LBL_ACCOUNT_LOGGED_CONTACT', 'Settings:LayoutEditor'),
 			];
 		}
