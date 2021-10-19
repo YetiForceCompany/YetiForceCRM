@@ -3039,7 +3039,7 @@
                                                 "scale": {
                                                     "description": "Scale of the column data, if it is numeric.",
                                                     "type": "integer",
-                                                    "example": null
+                                                    "example": 0
                                                 },
                                                 "isPrimaryKey": {
                                                     "description": "Whether this column is a primary key",

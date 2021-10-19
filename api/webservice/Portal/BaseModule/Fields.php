@@ -102,7 +102,7 @@ class Fields extends \Api\RestApi\BaseModule\Fields
 	 *						@OA\Property(property="enumValues", type="string", description="Enumerable values.", example=null),
 	 *						@OA\Property(property="size", type="integer", description="Display size of the column.", example=10),
 	 *						@OA\Property(property="precision", type="integer", description="Precision of the column data, if it is numeric.", example=10),
-	 *						@OA\Property(property="scale", type="integer", description="Scale of the column data, if it is numeric.", example=null),
+	 *						@OA\Property(property="scale", type="integer", description="Scale of the column data, if it is numeric.", example=0),
 	 *						@OA\Property(property="isPrimaryKey", type="boolean", description="Whether this column is a primary key", example=false),
 	 *						@OA\Property(property="autoIncrement", type="boolean", description="Whether this column is auto-incremental", example=false),
 	 *						@OA\Property(property="unsigned", type="boolean", description="Whether this column is unsigned.", example=false),
