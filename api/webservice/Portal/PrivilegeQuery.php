@@ -58,12 +58,19 @@ class PrivilegeQuery
 			$query->andWhere(new Expression('0=1'));
 			return;
 		}
-		$parentModule = \App\Record::getType($parentId) ?? '';
+		\App\PrivilegeQuery::getPrivilegeQuery($query, $moduleName, $user, $relatedRecord);
 
+		$parentModule = \App\Record::getType($parentId) ?? '';
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		if (\in_array($moduleName, ['Products', 'Services']) && ($fieldModel = $moduleModel->getFieldByName('discontinued')) && $fieldModel->isActiveField()) {
+			$where[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => 1];
+		}
+
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			$where[] = ["{$moduleModel->basetable}.{$moduleModel->basetableid}" => $parentId];
-		} elseif ('ModComments' === $moduleName && $relatedRecord && \App\Privilege::isPermitted(\App\Record::getType($relatedRecord), 'DetailView', $relatedRecord, $user->getId())) {
+		} elseif ($relatedRecord && (!($relatedRecordModuleName = \App\Record::getType($relatedRecord)) || !\App\Privilege::isPermitted($relatedRecordModuleName, 'DetailView', $relatedRecord, $user->getId()))) {
+			$query->andWhere(new Expression('0=1'));
+		} elseif ($relatedRecord) {
 			return;
 		} elseif ($parentModule !== $moduleName && ($referenceField = current($moduleModel->getReferenceFieldsForModule($parentModule)))) {
 			$where[] = ["{$referenceField->getTableName()}.{$referenceField->getColumnName()}" => $parentId];
@@ -103,21 +110,6 @@ class PrivilegeQuery
 		} else {
 			$query->andWhere(new Expression('0=1'));
 		}
-		if (\in_array($moduleName, ['Products', 'Services']) && ($fieldModel = $moduleModel->getFieldByName('discontinued')) && $fieldModel->isActiveField()) {
-			$where[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => 1];
-		}
 		$query->andWhere($where);
-		if (\App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && ($fieldInfo = \App\Field::getFieldInfo('private', $moduleName)) && \in_array($fieldInfo['presence'], [0, 2])) {
-			$owners = array_merge([$user->getId()], $user->getGroups());
-			$conditions = ['or'];
-			$conditions[] = ['vtiger_crmentity.private' => 0];
-			$subConditions = ['or', ['vtiger_crmentity.smownerid' => $owners]];
-			if (\App\Config::security('PERMITTED_BY_SHARED_OWNERS')) {
-				$subQuery = (new \App\Db\Query())->select(['crmid'])->distinct()->from('u_yf_crmentity_showners')->where(['userid' => $owners]);
-				$subConditions[] = ['vtiger_crmentity.crmid' => $subQuery];
-			}
-			$conditions[] = ['and', ['vtiger_crmentity.private' => 1], $subConditions];
-			$query->andWhere($conditions);
-		}
 	}
 }

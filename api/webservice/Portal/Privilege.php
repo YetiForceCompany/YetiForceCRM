@@ -85,34 +85,12 @@ class Privilege
 			\App\Privilege::$isPermittedLevel = 'FIELD_PERMISSION_NO';
 			return false;
 		}
+		if (!\App\Privilege::checkPermission($moduleName, $actionName, $record, $userId)) {
+			return false;
+		}
 
 		$parentModule = \App\Record::getType($parentRecordId) ?? '';
-
 		$moduleModel = $recordModel->getModule();
-		if (\App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && ($privateField = $recordModel->getField('private')) && $privateField->isActiveField() && $recordModel->get($privateField->getName())) {
-			$isPermittedPrivateRecord = false;
-			$recOwnId = $recordModel->get('assigned_user_id');
-			$recOwnType = \App\Fields\Owner::getType($recOwnId);
-			if ('Users' === $recOwnType) {
-				if ($userId === $recOwnId) {
-					$isPermittedPrivateRecord = true;
-				}
-			} elseif ('Groups' === $recOwnType) {
-				if (\in_array($recOwnId, $user->getGroups())) {
-					$isPermittedPrivateRecord = true;
-				}
-			}
-			if (!$isPermittedPrivateRecord && \App\Config::security('PERMITTED_BY_SHARED_OWNERS')) {
-				$shownerIds = \App\Fields\SharedOwner::getById($record);
-				if (\in_array($userId, $shownerIds) || \count(array_intersect($shownerIds, $user->getGroups())) > 0) {
-					$isPermittedPrivateRecord = true;
-				}
-			}
-			if (!$isPermittedPrivateRecord) {
-				\App\Privilege::$isPermittedLevel = 'SEC_PRIVATE_RECORD_NO';
-				return $isPermittedPrivateRecord;
-			}
-		}
 		if (\in_array($moduleName, ['Products', 'Services']) && !$recordModel->get('discontinued')) {
 			\App\Privilege::$isPermittedLevel = $moduleName . '_DISCONTINUED_NO';
 			return false;
