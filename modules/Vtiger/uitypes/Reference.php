@@ -132,10 +132,34 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		}
 		return [
 			'value' => \App\Record::getLabel($value, true),
-			'record' => $value,
+			'raw' => $value,
 			'referenceModule' => $referenceModuleName,
 			'state' => \App\Record::getState($value),
 			'isPermitted' => \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value),
+		];
+	}
+
+	/** {@inheritdoc} */
+	public function getApiEditValue($value)
+	{
+		if (empty($value) || !($referenceModule = $this->getReferenceModule($value))) {
+			return ['value' => ''];
+		}
+		$referenceModuleName = $referenceModule->getName();
+		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
+			return [
+				'value' => \App\Fields\Owner::getLabel($value),
+				'record' => $value,
+				'referenceModule' => $referenceModuleName,
+			];
+		}
+		if (!\App\Record::isExists($value)) {
+			return ['value' => ''];
+		}
+		return [
+			'value' => \App\Record::getLabel($value, true),
+			'raw' => $value,
+			'referenceModule' => $referenceModuleName,
 		];
 	}
 
@@ -291,7 +315,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$db->createCommand()->delete('vtiger_relatedlists', [
 			'field_name' => $fieldModel->getName(),
 			'related_tabid' => $fieldModel->getModuleId(),
-			'tabid' => array_map('App\Module::getModuleId', $reference)
+			'tabid' => array_map('App\Module::getModuleId', $reference),
 		])->execute();
 
 		foreach ($reference as $module) {

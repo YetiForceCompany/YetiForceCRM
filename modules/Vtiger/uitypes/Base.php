@@ -295,6 +295,21 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function to get edit value for Web Service API.
+	 *
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
+	public function getApiEditValue($value)
+	{
+		return [
+			'value' => \App\Purifier::decodeHtml($this->getEditViewDisplayValue($value)),
+			'raw' => $value,
+		];
+	}
+
+	/**
 	 * Duplicate value from record.
 	 *
 	 * @param Vtiger_Record_Model $recordModel
@@ -303,7 +318,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDuplicateValue(Vtiger_Record_Model $recordModel)
 	{
-		return $recordModel->get($this->getFieldModel()->getFieldName());
+		return $recordModel->get($this->getFieldModel()->getName());
 	}
 
 	/**

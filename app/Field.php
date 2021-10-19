@@ -406,4 +406,23 @@ class Field
 		}
 		return $return;
 	}
+
+	/**
+	 * Get a list of custom default values for a given field type in the Portal API.
+	 *
+	 * @param \Vtiger_Field_Model $fieldModel
+	 *
+	 * @return string[]
+	 */
+	public static function getCustomListForDefaultValue(\Vtiger_Field_Model $fieldModel): array
+	{
+		if ($fieldModel->isReferenceField()) {
+			return [
+				'loggedContact' => \App\Language::translate('LBL_LOGGED_CONTACT', 'Settings:LayoutEditor'),
+				'activeAccount' => \App\Language::translate('LBL_ACTIVE_ACCOUNT', 'Settings:LayoutEditor'),
+				'accountLoggedContact' => \App\Language::translate('LBL_ACCOUNT_LOGGED_CONTACT', 'Settings:LayoutEditor'),
+			];
+		}
+		return [];
+	}
 }

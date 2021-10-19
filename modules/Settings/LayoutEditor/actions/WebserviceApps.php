@@ -37,7 +37,7 @@ class Settings_LayoutEditor_WebserviceApps_Action extends Settings_Vtiger_Index_
 			$uitypeModel = $fieldInstance->getUITypeModel();
 			$defaultValue = '';
 			if ($request->getBoolean('is_default')) {
-				$list = $fieldInstance->getCustomListForDefaultValue();
+				$list = \App\Field::getCustomListForDefaultValue($fieldInstance);
 				if ($list && $request->has('customDefaultValue')) {
 					$customDefaultValue = $request->getByType('customDefaultValue', \App\Purifier::ALNUM);
 					if ('-' !== $customDefaultValue && isset($list[$customDefaultValue])) {

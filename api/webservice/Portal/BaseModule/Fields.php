@@ -92,7 +92,22 @@ class Fields extends \Api\RestApi\BaseModule\Fields
 	 *					@OA\Property(property="fieldparams", description="Field params", type="object"),
 	 *					@OA\Property(property="blockId", type="integer", description="Field block id", example=280),
 	 *					@OA\Property(property="helpInfo", type="string", description="Additional field description", example="Edit,Detail"),
-	 *					@OA\Property(property="dbStructure", type="object", description="Info about field structure in database"),
+	 *					@OA\Property(property="dbStructure", type="object", title="Info about field structure in database",
+	 *						@OA\Property(property="name", type="string", description="Name of this column (without quotes).", example="parent_id"),
+	 *						@OA\Property(property="allowNull", type="boolean", description="Whether this column can be null.", example=true),
+	 *						@OA\Property(property="type", type="string", description="Abstract type of this column.", example="integer"),
+	 *						@OA\Property(property="phpType", type="string", description="The PHP type of this column.", example="integer"),
+	 *						@OA\Property(property="dbType", type="string", description="The DB type of this column.", example="int(10)"),
+	 *						@OA\Property(property="defaultValue", type="string", description="Default value of this column", example="10"),
+	 *						@OA\Property(property="enumValues", type="string", description="Enumerable values.", example=null),
+	 *						@OA\Property(property="size", type="integer", description="Display size of the column.", example=10),
+	 *						@OA\Property(property="precision", type="integer", description="Precision of the column data, if it is numeric.", example=10),
+	 *						@OA\Property(property="scale", type="integer", description="Scale of the column data, if it is numeric.", example=null),
+	 *						@OA\Property(property="isPrimaryKey", type="boolean", description="Whether this column is a primary key", example=false),
+	 *						@OA\Property(property="autoIncrement", type="boolean", description="Whether this column is auto-incremental", example=false),
+	 *						@OA\Property(property="unsigned", type="boolean", description="Whether this column is unsigned.", example=false),
+	 *						@OA\Property(property="comment", type="string", description="Comment of this column.", example=""),
+	 *					),
 	 *					@OA\Property(property="queryOperators", type="object", description="Field query operators"),
 	 *					@OA\Property(property="isEmptyPicklistOptionAllowed", description="Defines empty picklist element availability", type="boolean", example=false),
 	 *					@OA\Property(property="referenceList", type="object", title="List of related modules, available only for reference field",
@@ -105,6 +120,10 @@ class Fields extends \Api\RestApi\BaseModule\Fields
 	 *							@OA\Property(property="parent", description="Parent tree id", type="string", example="T1"),
 	 *							@OA\Property(property="text", description="Tree value", type="string", example="Tree value"),
 	 *						),
+	 *					),
+	 *					@OA\Property(property="defaultEditValue", type="object", title="Default field value in editable format",
+	 *						@OA\Property(property="value", type="string", description="Value in editable format", example="Some value"),
+	 *						@OA\Property(property="raw", type="string", description="Raw value", example="T10"),
 	 *					),
 	 *				),
 	 *			),
@@ -147,7 +166,7 @@ class Fields extends \Api\RestApi\BaseModule\Fields
 		foreach ($this->getFields() as $fieldName => $fieldData) {
 			if (isset($fields[$fieldName])) {
 				if (!empty($fieldData['is_default'])) {
-					$fields[$fieldName]->set('defaultvalue', $fieldData['default_value']);
+					$fields[$fieldName]->set('defaultvalue', \Api\Portal\Fields::getDefaultValue($fields[$fieldName], $fieldData, $this));
 				}
 				if (!empty($fieldData['visibility'])) {
 					$fields[$fieldName]->set('displaytype', $fieldData['visibility']);
@@ -156,7 +175,13 @@ class Fields extends \Api\RestApi\BaseModule\Fields
 				\App\Log::warning('No field found: ' . $fieldName);
 			}
 		}
-		return parent::get();
+		$return = parent::get();
+		foreach ($fields as $fieldName => $fieldModel) {
+			if (isset($return['fields'][$fieldName]) && $fieldModel->get('defaultvalue')) {
+				$return['fields'][$fieldName]['defaultEditValue'] = $fieldModel->getUITypeModel()->getApiEditValue($fieldModel->getDefaultFieldValue());
+			}
+		}
+		return $return;
 	}
 
 	/**

@@ -93,6 +93,19 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getApiEditValue($value)
+	{
+		if (empty($value)) {
+			return ['value' => ''];
+		}
+		$tree = \App\Fields\Tree::getPicklistValueImage($this->getFieldModel()->getFieldParams(), $this->getFieldModel()->getModuleName(), $value);
+		return [
+			'value' => $tree['name'],
+			'raw' => $value,
+		];
+	}
+
+	/** {@inheritdoc} */
 	public function getValueFromImport($value, $defaultValue = null)
 	{
 		if ('' === $value && null !== $defaultValue) {

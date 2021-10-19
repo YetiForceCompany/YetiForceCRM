@@ -42,7 +42,7 @@
 				<div class="col-md-9">
 					<div class="js-default-value-container {if empty($DATA['is_default'])}d-none{/if}" data-js="container">
 						{if $FIELD_MODEL->isDefaultValueForWebservice()}
-							{assign var=DEFAULT_VALUE_LIST value=$FIELD_MODEL->getCustomListForDefaultValue()}
+							{assign var=DEFAULT_VALUE_LIST value=\App\Field::getCustomListForDefaultValue($FIELD_MODEL)}
 							{if $DEFAULT_VALUE_LIST}
 								<div class="mb-3">
 									<select class="select2 form-control" name="customDefaultValue" data-validation-engine="validate[required]">
