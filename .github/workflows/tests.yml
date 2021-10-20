@@ -8,7 +8,7 @@ on:
 jobs:
   tests73:
     runs-on: ubuntu-latest
-    name: PHP 7.3 - MariaDB 10.x
+    name: PHP 7.3 - MariaDB 10
     steps:
       - uses: actions/checkout@v2
         with:
@@ -22,7 +22,7 @@ jobs:
 
   tests74:
     runs-on: ubuntu-latest
-    name: PHP 7.4 - MariaDB 10.x
+    name: PHP 7.4 - MariaDB 10
     steps:
       - uses: actions/checkout@v2
         with:
@@ -36,7 +36,7 @@ jobs:
 
   tests80:
     runs-on: ubuntu-latest
-    name: PHP 8.0 - MariaDB 10.x
+    name: PHP 8.0 - MariaDB 10
     steps:
       - uses: actions/checkout@v2
         with:
@@ -44,6 +44,20 @@ jobs:
 
       - name: Tests
         uses: YetiForceCompany/YetiForceCRM-Tests/8.0@main
+        env:
+          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+
+  tests81:
+    runs-on: ubuntu-latest
+    name: PHP 8.1 - MariaDB 10
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Tests
+        uses: YetiForceCompany/YetiForceCRM-Tests/8.1@main
         env:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
