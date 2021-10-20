@@ -62,53 +62,51 @@ class PrivilegeQuery
 
 		$parentModule = \App\Record::getType($parentId) ?? '';
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		if (\in_array($moduleName, ['Products', 'Services']) && ($fieldModel = $moduleModel->getFieldByName('discontinued')) && $fieldModel->isActiveField()) {
-			$where[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => 1];
-		}
+		$relatedRecordModuleName = $relatedRecord ? \App\Record::getType($relatedRecord) : '';
 
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			$where[] = ["{$moduleModel->basetable}.{$moduleModel->basetableid}" => $parentId];
-		} elseif ($relatedRecord && (!($relatedRecordModuleName = \App\Record::getType($relatedRecord)) || !\App\Privilege::isPermitted($relatedRecordModuleName, 'DetailView', $relatedRecord, $user->getId()))) {
+		} elseif ($relatedRecord && !\in_array($relatedRecordModuleName, ['Products', 'Services']) && (!$relatedRecordModuleName || !\App\Privilege::isPermitted($relatedRecordModuleName, 'DetailView', $relatedRecord, $user->getId()))) {
 			$query->andWhere(new Expression('0=1'));
-		} elseif ($relatedRecord) {
-			return;
-		} elseif ($parentModule !== $moduleName && ($referenceField = current($moduleModel->getReferenceFieldsForModule($parentModule)))) {
-			$where[] = ["{$referenceField->getTableName()}.{$referenceField->getColumnName()}" => $parentId];
-		} elseif ($relationId = key(\App\Relation::getByModule($parentModule, true, $moduleName))) {
-			$relationModel = \Vtiger_Relation_Model::getInstanceById($relationId);
-			$relationModel->set('parentRecord', \Vtiger_Record_Model::getInstanceById($parentId, $parentModule));
-			$queryGenerator = $relationModel->getQuery();
-			$queryGenerator->permissions = false;
-			$queryGenerator->clearFields()->setFields(['id']);
-			$subQuery = $queryGenerator->createQuery()->select($queryGenerator->getColumnName('id'));
-			$where[] = ["{$moduleModel->basetable}.{$moduleModel->basetableid}" => $subQuery];
-		} elseif ($fields = $moduleModel->getFieldsByReference()) {
-			$foundField = false;
-			foreach ($fields as $fieldModel) {
-				if (!$fieldModel->isActiveField()) {
-					continue;
-				}
-				foreach ($fieldModel->getReferenceList() as $relModuleName) {
-					if ('Users' === $relModuleName || $relModuleName === $parentModule || $relModuleName === $moduleName) {
+		} elseif ((!$relatedRecord && !\in_array($moduleName, ['Products', 'Services'])) || \in_array($relatedRecordModuleName, ['Products', 'Services'])) {
+			$whereOr = ['or'];
+			foreach ($moduleModel->getReferenceFieldsForModule($parentModule) as $referenceField) {
+				$whereOr[] = ["{$referenceField->getTableName()}.{$referenceField->getColumnName()}" => $parentId];
+			}
+			foreach (array_keys(\App\Relation::getByModule($parentModule, true, $moduleName)) as $relationId) {
+				$relationModel = \Vtiger_Relation_Model::getInstanceById($relationId);
+				$relationModel->set('parentRecord', \Vtiger_Record_Model::getInstanceById($parentId, $parentModule));
+				$queryGenerator = $relationModel->getQuery();
+				$queryGenerator->permissions = false;
+				$queryGenerator->clearFields()->setFields(['id']);
+				$subQuery = $queryGenerator->createQuery()->select($queryGenerator->getColumnName('id'));
+				$whereOr[] = ["{$moduleModel->basetable}.{$moduleModel->basetableid}" => $subQuery];
+			}
+			if ($fields = $moduleModel->getFieldsByReference()) {
+				foreach ($fields as $fieldModel) {
+					if (!$fieldModel->isActiveField()) {
 						continue;
 					}
-					$relModuleModel = \Vtiger_Module_Model::getInstance($relModuleName);
-					if ($referenceField = current($relModuleModel->getReferenceFieldsForModule($parentModule))) {
-						$queryGenerator = new \App\QueryGenerator($relModuleName);
-						$queryGenerator->permissions = false;
-						$queryGenerator->setFields(['id'])->addCondition($referenceField->getName(), $parentId, 'eid');
-						$subQuery = $queryGenerator->createQuery()->select($queryGenerator->getColumnName('id'));
-						$where[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => $subQuery];
-						$foundField = true;
-						break 2;
+					foreach ($fieldModel->getReferenceList() as $relModuleName) {
+						if ('Users' === $relModuleName || $relModuleName === $parentModule || $relModuleName === $moduleName) {
+							continue;
+						}
+						$relModuleModel = \Vtiger_Module_Model::getInstance($relModuleName);
+						foreach ($relModuleModel->getReferenceFieldsForModule($parentModule) as $referenceField) {
+							$queryGenerator = new \App\QueryGenerator($relModuleName);
+							$queryGenerator->permissions = false;
+							$queryGenerator->setFields(['id'])->addCondition($referenceField->getName(), $parentId, 'eid');
+							$subQuery = $queryGenerator->createQuery()->select($queryGenerator->getColumnName('id'));
+							$whereOr[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => $subQuery];
+						}
 					}
 				}
 			}
-			if (!$foundField) {
+			if (\count($whereOr) > 1) {
+				$where[] = $whereOr;
+			} else {
 				$query->andWhere(new Expression('0=1'));
 			}
-		} else {
-			$query->andWhere(new Expression('0=1'));
 		}
 		$query->andWhere($where);
 	}

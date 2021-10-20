@@ -91,15 +91,19 @@ class Privilege
 
 		$parentModule = \App\Record::getType($parentRecordId) ?? '';
 		$moduleModel = $recordModel->getModule();
-		if (\in_array($moduleName, ['Products', 'Services']) && !$recordModel->get('discontinued')) {
-			\App\Privilege::$isPermittedLevel = $moduleName . '_DISCONTINUED_NO';
-			return false;
-		}
-		if ($parentModule !== $moduleName && ($referenceField = current($moduleModel->getReferenceFieldsForModule($parentModule))) && $recordModel->get($referenceField->getName()) === $parentRecordId) {
-			\App\Privilege::$isPermittedLevel = 'RECORD_RELATED_YES';
+		if (\in_array($moduleName, ['Products', 'Services'])) {
+			\App\Privilege::$isPermittedLevel = $moduleName . '_SPECIAL_PERMISSION_YES';
 			return true;
 		}
-		if ($relationId = key(\App\Relation::getByModule($parentModule, true, $moduleName))) {
+		if ($parentModule !== $moduleName) {
+			foreach ($moduleModel->getReferenceFieldsForModule($parentModule) as $referenceField) {
+				if ($recordModel->get($referenceField->getName()) === $parentRecordId) {
+					\App\Privilege::$isPermittedLevel = 'RECORD_RELATED_YES';
+					return true;
+				}
+			}
+		}
+		foreach (array_keys(\App\Relation::getByModule($parentModule, true, $moduleName)) as $relationId) {
 			$relationModel = \Vtiger_Relation_Model::getInstanceById($relationId);
 			$relationModel->set('parentRecord', \Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModule));
 			$queryGenerator = $relationModel->getQuery();
@@ -109,7 +113,8 @@ class Privilege
 				\App\Privilege::$isPermittedLevel = $moduleName . '_RELATED_YES';
 				return true;
 			}
-		} elseif ($fields = $moduleModel->getFieldsByReference()) {
+		}
+		if ($fields = $moduleModel->getFieldsByReference()) {
 			foreach ($fields as $fieldModel) {
 				if (!$fieldModel->isActiveField() || $recordModel->isEmpty($fieldModel->getName())) {
 					continue;
@@ -120,8 +125,24 @@ class Privilege
 						continue;
 					}
 					$relModuleModel = \Vtiger_Module_Model::getInstance($relModuleName);
-					if (($referenceField = current($relModuleModel->getReferenceFieldsForModule($parentModule))) && \App\Record::isExists($relRecordId, $relModuleName) && \App\Record::getType($relRecordId) === $relModuleName && \Vtiger_Record_Model::getInstanceById($relRecordId, $relModuleName)->get($referenceField->getName()) === $parentRecordId) {
-						\App\Privilege::$isPermittedLevel = $moduleName . '_RELATED_SL_YES';
+					foreach ($relModuleModel->getReferenceFieldsForModule($parentModule) as $referenceField) {
+						if (\App\Record::isExists($relRecordId, $relModuleName) && \App\Record::getType($relRecordId) === $relModuleName && \Vtiger_Record_Model::getInstanceById($relRecordId, $relModuleName)->get($referenceField->getName()) === $parentRecordId) {
+							\App\Privilege::$isPermittedLevel = $moduleName . '_RELATED_SL_YES';
+							return true;
+						}
+					}
+				}
+			}
+		}
+		if ('Documents' === $moduleName) {
+			foreach (\Documents_Record_Model::getReferenceModuleByDocId($record) as $parentModuleName) {
+				$relationListView = \Vtiger_RelationListView_Model::getInstance($recordModel, $parentModuleName);
+				$relationListView->setFields([]);
+				$relationListView->getQueryGenerator()->setFields(['id'])->setLimit(10)->permissions = false;
+				$dataReader = $relationListView->getRelationQuery()->createCommand()->query();
+				while ($id = $dataReader->readColumn(0)) {
+					if (\App\Privilege::isPermitted($parentModuleName, 'DetailView', $id, $user->getId())) {
+						\App\Privilege::$isPermittedLevel = "PERMISSION_{$parentModuleName}_YES-{$id}";
 						return true;
 					}
 				}
@@ -142,17 +163,18 @@ class Privilege
 	public static function getParentCrmId(\App\User $user): int
 	{
 		$contactId = $user->get('permission_crmid');
-		if ($parentId = (int) \App\Request::_getHeader('x-parent-id')) {
+		$parentApiId = \App\Record::getParentRecord($contactId);
+		if (($parentId = (int) \App\Request::_getHeader('x-parent-id')) && $parentApiId !== $parentId) {
 			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
 			$hierarchy->setAllUserData(['crmid' => $contactId, 'type' => $user->get('permission_type')]);
 			$hierarchy->findId = $parentId;
-			$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($contactId));
+			$hierarchy->moduleName = \App\Record::getType($parentApiId);
 			$records = $hierarchy->get();
 			if (isset($records[$parentId])) {
 				return $parentId;
 			}
 			throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
 		}
-		return \App\Record::getParentRecord($contactId);
+		return $parentApiId;
 	}
 }
