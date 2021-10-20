@@ -14,9 +14,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	const WEBSERVICE_APPS_VISIBILITY = [
 		0 => 'LBL_WSA_VISIBILITY_DEFAULT',
 		1 => 'LBL_DISPLAY_TYPE_1',
-		10 => 'LBL_DISPLAY_TYPE_10',
 		4 => 'LBL_DISPLAY_TYPE_4',
 		9 => 'LBL_DISPLAY_TYPE_9',
+		10 => 'LBL_DISPLAY_TYPE_10',
 	];
 
 	/** @var array Webservice field data */

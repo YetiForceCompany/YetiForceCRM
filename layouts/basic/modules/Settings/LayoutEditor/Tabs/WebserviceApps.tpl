@@ -46,9 +46,6 @@
 														{if $FIELD_MODEL->isMandatory()}
 															<span class="redColor">*</span>
 														{/if}
-														{if isset($WEBSERVICE_DATA[$FIELD_MODEL->get('id')])}
-															<span class="redColor">*</span>
-														{/if}
 														<span class="ml-3 badge badge-secondary">{$FIELD_MODEL->getName()}</span>
 														<span class="ml-3 badge badge-info">{$FIELD_MODEL->getFieldDataType()}</span>
 													</span>
