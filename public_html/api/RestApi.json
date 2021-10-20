@@ -2796,16 +2796,10 @@
                                     "fieldtype",
                                     "id",
                                     "uitype",
-                                    "isEditable",
-                                    "isViewable",
-                                    "isReadOnly",
-                                    "isEditableReadOnly",
                                     "sequence",
                                     "fieldparams",
                                     "blockId",
-                                    "helpInfo",
-                                    "dbStructure",
-                                    "queryOperators"
+                                    "helpInfo"
                                 ],
                                 "type": "object",
                                 "additionalProperties": {
@@ -2950,22 +2944,27 @@
                                             "example": 1
                                         },
                                         "isEditable": {
-                                            "description": "Check if record is editable",
+                                            "description": "Check if the field is editable, depends on header `x-response-params`",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "isViewable": {
-                                            "description": "Check if record is viewable",
+                                            "description": "Check if the field is viewable, depends on header `x-response-params`",
                                             "type": "boolean",
                                             "example": true
                                         },
                                         "isReadOnly": {
-                                            "description": "Check if record is read only (based on profiles)",
+                                            "description": "Check if the field is read only (based on profiles), depends on header `x-response-params`",
                                             "type": "boolean",
                                             "example": false
                                         },
                                         "isEditableReadOnly": {
-                                            "description": "Check if record is editable or read only (based on the field type)",
+                                            "description": "Check if the field is editable or read only (based on the field type), depends on header `x-response-params`",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "isEditableHidden": {
+                                            "description": "Check if the field is hidden in the edit (based on the field type), depends on header `x-response-params`",
                                             "type": "boolean",
                                             "example": false
                                         },
@@ -2989,7 +2988,7 @@
                                             "example": "Edit,Detail"
                                         },
                                         "dbStructure": {
-                                            "title": "Info about field structure in database",
+                                            "title": "Info about field structure in database, depends on header `x-response-params`",
                                             "properties": {
                                                 "name": {
                                                     "description": "Name of this column (without quotes).",
@@ -3065,7 +3064,7 @@
                                             "type": "object"
                                         },
                                         "queryOperators": {
-                                            "description": "Field query operators",
+                                            "description": "Field query operators, depends on header `x-response-params`",
                                             "type": "object"
                                         },
                                         "isEmptyPicklistOptionAllowed": {
@@ -3117,7 +3116,7 @@
                                 }
                             },
                             "blocks": {
-                                "title": "List of all available blocks in the module",
+                                "title": "List of all available blocks in the module, depends on header `x-response-params`",
                                 "type": "object",
                                 "additionalProperties": {
                                     "title": "Block details",
@@ -3207,7 +3206,7 @@
                                 }
                             },
                             "inventory": {
-                                "title": "Inventory field group, available depending on the type of module",
+                                "title": "Inventory field group, available depending on the type of module, depends on header `x-response-params`",
                                 "properties": {
                                     "1": {
                                         "title": "Inventory field list",
