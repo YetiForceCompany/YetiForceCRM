@@ -106,7 +106,8 @@
 														{if $IS_MANDATORY}
 															<span class="redColor">*</span>
 														{/if}
-														<span class="ml-3 font-weight-normal">[{$FIELD_MODEL->getName()}]</span>
+														<span class="ml-3 badge badge-secondary">{$FIELD_MODEL->getName()}</span>
+														<span class="ml-3 badge badge-info">{$FIELD_MODEL->getFieldDataType()}</span>
 													</span>
 													<span class="float-right actions">
 														<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />

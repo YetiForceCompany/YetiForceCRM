@@ -46,13 +46,11 @@
 														{if $FIELD_MODEL->isMandatory()}
 															<span class="redColor">*</span>
 														{/if}
-														<span class="ml-3 font-weight-normal">[{$FIELD_MODEL->getName()}]</span>
 														{if isset($WEBSERVICE_DATA[$FIELD_MODEL->get('id')])}
 															<span class="redColor">*</span>
 														{/if}
-														<span class="ml-3 font-weight-normal">
-
-														</span>
+														<span class="ml-3 badge badge-secondary">{$FIELD_MODEL->getName()}</span>
+														<span class="ml-3 badge badge-info">{$FIELD_MODEL->getFieldDataType()}</span>
 													</span>
 													<span class="float-right actions">
 														<button class="btn btn-success btn-xs js-edit-field-api ml-2" data-wa="{$SERVER_ID}" data-field-id="{$FIELD_MODEL->get('id')}" title="{App\Language::translate('BTN_WEBSERVICE_APP_EDIT', $QUALIFIED_MODULE)}">
