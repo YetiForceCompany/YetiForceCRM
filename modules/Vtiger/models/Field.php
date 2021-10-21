@@ -42,6 +42,12 @@ class Vtiger_Field_Model extends vtlib\Field
 		'longblob' => 4294967295,
 	];
 
+	/** @var Vtiger_Field_Model[] Cache by field id */
+	protected static $instanceCacheById = [];
+
+	/** @var Vtiger_Field_Model[][] Cache by module id and field id */
+	protected static $instanceCacheByName = [];
+
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
@@ -627,6 +633,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			//5 => 'LBL_DISPLAY_TYPE_5',
 			9 => 'LBL_DISPLAY_TYPE_9',
 			10 => 'LBL_DISPLAY_TYPE_10',
+			6 => 'LBL_DISPLAY_TYPE_6',
 		];
 	}
 
@@ -671,7 +678,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isViewEnabled()
 	{
-		if (4 === $this->getDisplayType() || \in_array($this->get('presence'), [1, 3])) {
+		if (4 === $this->getDisplayType() || 6 === $this->getDisplayType() || 1 === $this->get('presence') || 3 === $this->get('presence')) {
 			return false;
 		}
 		return $this->getPermissions();
@@ -1069,38 +1076,42 @@ class Vtiger_Field_Model extends vtlib\Field
 			$fieldObjects = [];
 		}
 		foreach ($fieldObjects as &$fieldObject) {
-			$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
-			$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
-			$fieldModelList[$block][] = $fieldModelObject;
-			Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
-			Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
+			$fieldModel = self::getInstanceFromFieldObject($fieldObject);
+			$block = $fieldModel->get('block') ? $fieldModel->get('block')->id : 0;
+			$fieldModelList[$block][] = $fieldModel;
+			self::$instanceCacheById[$fieldModel->getId()] = $fieldModel;
+			self::$instanceCacheByName[$moduleModel->getId()][$fieldModel->getName()] = $fieldModel;
 		}
 		\App\Cache::staticSave('ModuleFields', $moduleModel->id, $fieldModelList);
 		return $fieldModelList;
 	}
 
 	/**
-	 * Function to get instance.
+	 * Function to get new field model instance, the function creates a new object and does not pass a reference.
 	 *
-	 * @param string|int                $value  - fieldname or fieldid
-	 * @param Vtiger_Module_Model|false $module - optional - module instance
+	 * @param string|int                $value  fieldname or field id
+	 * @param Vtiger_Module_Model|false $module optional - module instance
 	 *
 	 * @return Vtiger_Field_Model|false
 	 */
 	public static function getInstance($value, $module = false)
 	{
-		$fieldObject = null;
-		if ($module) {
-			$fieldObject = Vtiger_Cache::get('field-' . $module->getId(), $value);
-		}
-		if (!$fieldObject) {
-			$fieldObject = parent::getInstance($value, $module);
-			if ($module) {
-				Vtiger_Cache::set('field-' . $module->getId(), $value, $fieldObject);
+		if (\is_int($value)) {
+			if (isset(self::$instanceCacheById[$value])) {
+				return clone self::$instanceCacheById[$value];
 			}
+		} elseif ($module) {
+			if (isset(self::$instanceCacheByName[$module->getId()][$value])) {
+				return clone self::$instanceCacheByName[$module->getId()][$value];
+			}
+		} else {
+			throw new \App\Exceptions\AppException("ERR_NOT_MODULE||$value||$module");
 		}
-		if ($fieldObject) {
-			return self::getInstanceFromFieldObject($fieldObject);
+		if ($fieldInstance = parent::getInstance($value, $module)) {
+			$fieldModel = self::getInstanceFromFieldObject($fieldInstance);
+			self::$instanceCacheById[$fieldModel->getId()] = $fieldModel;
+			self::$instanceCacheByName[$module->getId()][$value] = $fieldModel;
+			return $fieldModel;
 		}
 		return false;
 	}
@@ -1431,15 +1442,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
-		$fieldModel = Vtiger_Cache::get('FieldModel', $fieldId);
-		if ($fieldModel) {
-			return $fieldModel;
+		if (isset(self::$instanceCacheById[$fieldId])) {
+			return self::$instanceCacheById[$fieldId];
 		}
 		$field = \App\Field::getFieldInfo($fieldId);
 		$className = Vtiger_Loader::getComponentClassName('Model', 'Field', \App\Module::getModuleName($field['tabid']));
 		$fieldModel = new $className();
 		$fieldModel->initialize($field, $field['tabid']);
-		Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
+		self::$instanceCacheById[$fieldModel->getId()] = $fieldModel;
+		self::$instanceCacheByName[$fieldModel->get('tabid')][$fieldModel->getName()] = $fieldModel;
 		return $fieldModel;
 	}
 
