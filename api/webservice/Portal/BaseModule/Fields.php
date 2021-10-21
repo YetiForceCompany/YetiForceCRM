@@ -84,9 +84,10 @@ class Fields extends \Api\RestApi\BaseModule\Fields
 	 *					),
 	 *					@OA\Property(property="id", type="integer", description="Field ID", example=24862),
 	 *					@OA\Property(property="uitype", type="integer", description="Field UiType", example=1),
-	 *					@OA\Property(property="isEditable", description="Check if the field is editable, depends on header `x-response-params`", type="boolean", example=true),
 	 *					@OA\Property(property="isViewable", description="Check if the field is viewable, depends on header `x-response-params`", type="boolean", example=true),
 	 *					@OA\Property(property="isReadOnly", description="Check if the field is read only (based on profiles), depends on header `x-response-params`", type="boolean", example=false),
+	 *					@OA\Property(property="isCreatable", description="Check if the field is creatable, depends on header `x-response-params`", type="boolean", example=true),
+	 *					@OA\Property(property="isEditable", description="Check if the field is editable, depends on header `x-response-params`", type="boolean", example=true),
 	 *					@OA\Property(property="isEditableReadOnly", description="Check if the field is editable or read only (based on the field type), depends on header `x-response-params`", type="boolean", example=false),
 	 *					@OA\Property(property="isEditableHidden", description="Check if the field is hidden in the edit (based on the field type), depends on header `x-response-params`", type="boolean", example=false),
 	 *					@OA\Property(property="sequence", description="Sequence field", type="integer", example=24862),
@@ -163,46 +164,6 @@ class Fields extends \Api\RestApi\BaseModule\Fields
 	 */
 	public function get(): array
 	{
-		$fields = \Vtiger_Module_Model::getInstance($this->controller->request->get('module'))->getFields();
-		foreach ($this->getFields() as $fieldName => $fieldData) {
-			if (isset($fields[$fieldName])) {
-				if (!empty($fieldData['is_default'])) {
-					$fields[$fieldName]->set('defaultvalue', \Api\Portal\Fields::getDefaultValue($fields[$fieldName], $fieldData, $this));
-				}
-				if (!empty($fieldData['visibility'])) {
-					$fields[$fieldName]->set('displaytype', $fieldData['visibility']);
-				}
-			} else {
-				\App\Log::warning('No field found: ' . $fieldName);
-			}
-		}
-		$return = parent::get();
-		foreach ($fields as $fieldName => $fieldModel) {
-			if (isset($return['fields'][$fieldName]) && $fieldModel->get('defaultvalue')) {
-				$return['fields'][$fieldName]['defaultEditValue'] = $fieldModel->getUITypeModel()->getApiEditValue($fieldModel->getDefaultFieldValue());
-			}
-		}
-		return $return;
-	}
-
-	/**
-	 * Get fields for current webservice app.
-	 *
-	 * @return array
-	 */
-	private function getFields(): array
-	{
-		$serverId = $this->controller->app['id'];
-		if (\App\Cache::has('WebserviceAppsFields', $serverId)) {
-			return \App\Cache::get('WebserviceAppsFields', $serverId);
-		}
-		$response = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'w_#__fields_server.*'])
-			->from('w_#__fields_server')
-			->where(['w_#__fields_server.serverid' => $serverId])
-			->innerJoin('vtiger_field', 'w_#__fields_server.fieldid = vtiger_field.fieldid')
-			->indexBy('fieldname')
-			->all(\App\Db::getInstance('webservice')) ?: [];
-		\App\Cache::save('WebserviceAppsFields', $serverId, $response);
-		return $response;
+		return parent::get();
 	}
 }

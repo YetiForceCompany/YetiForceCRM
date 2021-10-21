@@ -93,9 +93,10 @@ class Fields extends \Api\Core\BaseAction
 	 *					),
 	 *					@OA\Property(property="id", type="integer", description="Field ID", example=24862),
 	 *					@OA\Property(property="uitype", type="integer", description="Field UiType", example=1),
-	 *					@OA\Property(property="isEditable", description="Check if the field is editable, depends on header `x-response-params`", type="boolean", example=true),
 	 *					@OA\Property(property="isViewable", description="Check if the field is viewable, depends on header `x-response-params`", type="boolean", example=true),
 	 *					@OA\Property(property="isReadOnly", description="Check if the field is read only (based on profiles), depends on header `x-response-params`", type="boolean", example=false),
+	 *					@OA\Property(property="isCreatable", description="Check if the field is creatable, depends on header `x-response-params`", type="boolean", example=true),
+	 *					@OA\Property(property="isEditable", description="Check if the field is editable, depends on header `x-response-params`", type="boolean", example=true),
 	 *					@OA\Property(property="isEditableReadOnly", description="Check if the field is editable or read only (based on the field type), depends on header `x-response-params`", type="boolean", example=false),
 	 *					@OA\Property(property="isEditableHidden", description="Check if the field is hidden in the edit (based on the field type), depends on header `x-response-params`", type="boolean", example=false),
 	 *					@OA\Property(property="sequence", description="Sequence field", type="integer", example=24862),
@@ -130,6 +131,10 @@ class Fields extends \Api\Core\BaseAction
 	 *							@OA\Property(property="parent", description="Parent tree id", type="string", example="T1"),
 	 *							@OA\Property(property="text", description="Tree value", type="string", example="Tree value"),
 	 *						),
+	 *					),
+	 *					@OA\Property(property="defaultEditValue", type="object", title="Default field value in editable format",
+	 *						@OA\Property(property="value", type="string", description="Value in editable format", example="Some value"),
+	 *						@OA\Property(property="raw", type="string", description="Raw value", example="T10"),
 	 *					),
 	 *				),
 	 *			),
@@ -180,6 +185,7 @@ class Fields extends \Api\Core\BaseAction
 			if (!$fieldModel->isActiveField()) {
 				continue;
 			}
+			\Api\RestApi\Fields::loadWebserviceByField($fieldModel, $this);
 			$block = $fieldModel->get('block');
 			if ($returnBlocks && !isset($blocks[$block->id])) {
 				$blockProperties = get_object_vars($block);
@@ -192,9 +198,11 @@ class Fields extends \Api\Core\BaseAction
 			$fieldInfo['id'] = $fieldModel->getId();
 			$fieldInfo['uitype'] = $fieldModel->getUIType();
 			if ($returnPrivileges) {
-				$fieldInfo['isEditable'] = $fieldModel->isEditable();
+				$isEditable = $fieldModel->isEditable();
 				$fieldInfo['isViewable'] = $fieldModel->isViewable();
 				$fieldInfo['isReadOnly'] = $fieldModel->isReadOnly();
+				$fieldInfo['isCreatable'] = $isEditable || 4 === $fieldModel->get('displaytype');
+				$fieldInfo['isEditable'] = $isEditable;
 				$fieldInfo['isEditableReadOnly'] = $fieldModel->isEditableReadOnly();
 				$fieldInfo['isEditableHidden'] = 9 === $fieldModel->get('displaytype');
 			}
@@ -218,6 +226,9 @@ class Fields extends \Api\Core\BaseAction
 			}
 			if ($fieldModel->isTreeField()) {
 				$fieldInfo['treeValues'] = \App\Fields\Tree::getTreeValues((int) $fieldModel->getFieldParams(), $moduleName);
+			}
+			if ($fieldModel->get('defaultvalue')) {
+				$fieldInfo['defaultEditValue'] = $fieldModel->getUITypeModel()->getApiEditValue($fieldModel->getDefaultFieldValue());
 			}
 			$fields[$fieldModel->getName()] = $fieldInfo;
 		}
