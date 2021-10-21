@@ -2943,11 +2943,6 @@
                                             "type": "integer",
                                             "example": 1
                                         },
-                                        "isEditable": {
-                                            "description": "Check if the field is editable, depends on header `x-response-params`",
-                                            "type": "boolean",
-                                            "example": true
-                                        },
                                         "isViewable": {
                                             "description": "Check if the field is viewable, depends on header `x-response-params`",
                                             "type": "boolean",
@@ -2957,6 +2952,16 @@
                                             "description": "Check if the field is read only (based on profiles), depends on header `x-response-params`",
                                             "type": "boolean",
                                             "example": false
+                                        },
+                                        "isCreatable": {
+                                            "description": "Check if the field is creatable, depends on header `x-response-params`",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "isEditable": {
+                                            "description": "Check if the field is editable, depends on header `x-response-params`",
+                                            "type": "boolean",
+                                            "example": true
                                         },
                                         "isEditableReadOnly": {
                                             "description": "Check if the field is editable or read only (based on the field type), depends on header `x-response-params`",
@@ -3110,6 +3115,22 @@
                                                 },
                                                 "type": "object"
                                             }
+                                        },
+                                        "defaultEditValue": {
+                                            "title": "Default field value in editable format",
+                                            "properties": {
+                                                "value": {
+                                                    "description": "Value in editable format",
+                                                    "type": "string",
+                                                    "example": "Some value"
+                                                },
+                                                "raw": {
+                                                    "description": "Raw value",
+                                                    "type": "string",
+                                                    "example": "T10"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
