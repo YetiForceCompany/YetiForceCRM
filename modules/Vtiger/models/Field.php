@@ -1110,7 +1110,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($fieldInstance = parent::getInstance($value, $module)) {
 			$fieldModel = self::getInstanceFromFieldObject($fieldInstance);
 			self::$instanceCacheById[$fieldModel->getId()] = $fieldModel;
-			self::$instanceCacheByName[$module->getId()][$value] = $fieldModel;
+			self::$instanceCacheByName[$fieldModel->get('tabid')][$value] = $fieldModel;
 			return $fieldModel;
 		}
 		return false;
