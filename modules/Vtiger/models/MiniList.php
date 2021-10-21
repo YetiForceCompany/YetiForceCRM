@@ -63,10 +63,10 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		}
 		if ('Calendar' === $moduleName && $extraField) {
 			$moduleModel = $this->getTargetModuleModel();
-			if (\in_array('date_start', $fields) && ($fieldModel = \Vtiger_Field_Model::getInstance('time_start', $moduleModel)) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
+			if (\in_array('date_start', $fields) && ($fieldModel = $moduleModel->getFieldByName('time_start')) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
 				$fields[] = 'time_start';
 			}
-			if (\in_array('due_end', $fields) && ($fieldModel = \Vtiger_Field_Model::getInstance('time_end', $moduleModel)) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
+			if (\in_array('due_end', $fields) && ($fieldModel = $moduleModel->getFieldByName('time_end')) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
 				$fields[] = 'time_end';
 			}
 		}
@@ -162,7 +162,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 							'sourceField' => $sourceFieldName,
 							'relatedModule' => $moduleName,
 							'relatedField' => $fieldName,
-							'relatedSortOrder' => $sortFlag
+							'relatedSortOrder' => $sortFlag,
 						]);
 					} elseif (isset($fields[$fieldName])) {
 						$this->queryGenerator->setOrder($fieldName, $sortFlag);

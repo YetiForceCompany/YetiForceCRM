@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex pt-2 form-group-sm js-condition-builder-conditions-row"
-		 data-js="container">
+		data-js="container">
 		{if empty($SELECTED_FIELD_MODEL) && !empty($CONDITIONS_ROW)}
 			{assign var=SELECTED_FIELD_MODEL value=Vtiger_Field_Model::getInstanceFromFilter($CONDITIONS_ROW['fieldname'])}
 			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getRecordOperators()}
@@ -20,7 +20,7 @@
 							{if !$FIELD_MODEL->isActiveSearchView()}
 								{continue}
 							{/if}
-							<option value="{$FIELD_MODEL->getCustomViewSelectColumnName()}" {if $FIELD_INFO eq $FIELD_MODEL->getCustomViewSelectColumnName()} selected="selected"{/if}>
+							<option value="{$FIELD_MODEL->getCustomViewSelectColumnName()}" {if $FIELD_INFO eq $FIELD_MODEL->getCustomViewSelectColumnName()} selected="selected" {/if}>
 								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 							</option>
 						{/foreach}
@@ -28,14 +28,14 @@
 				{/foreach}
 				{foreach key=MODULE_KEY item=RECORD_STRUCTURE_FIELD from=$RECORD_STRUCTURE_RELATED_MODULES}
 					{foreach key=RELATED_FIELD_NAME item=RECORD_STRUCTURE from=$RECORD_STRUCTURE_FIELD}
-						{assign var=RELATED_FIELD_LABEL value=Vtiger_Field_Model::getInstance($RELATED_FIELD_NAME, Vtiger_Module_Model::getInstance($SOURCE_MODULE))->getFieldLabel()}
+						{assign var=RELATED_FIELD_LABEL value=Vtiger_Module_Model::getInstance($SOURCE_MODULE)->getFieldByName($RELATED_FIELD_NAME)->getFieldLabel()}
 						{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 							<optgroup label="{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($MODULE_KEY, $MODULE_KEY)}&nbsp;-&nbsp;{\App\Language::translate($BLOCK_LABEL, $MODULE_KEY)}">
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 									{if !$FIELD_MODEL->isActiveSearchView()}
 										{continue}
 									{/if}
-									<option value="{$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}" {if $FIELD_INFO eq $FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)} selected="selected"{/if}>
+									<option value="{$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}" {if $FIELD_INFO eq $FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)} selected="selected" {/if}>
 										{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}
 										&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
 									</option>
@@ -49,7 +49,7 @@
 		<div class="col-3">
 			<select class="select2 form-control js-conditions-operator" data-js="change">
 				{foreach key=OP item=OPERATOR from=$OPERATORS}
-					<option value="{$OP}" {if $SELECTED_OPERATOR eq $OP}selected="selected"{/if}>
+					<option value="{$OP}" {if $SELECTED_OPERATOR eq $OP}selected="selected" {/if}>
 						{\App\Language::translate($OPERATOR, $SOURCE_MODULE)}
 					</option>
 				{/foreach}

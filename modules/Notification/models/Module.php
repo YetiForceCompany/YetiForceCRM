@@ -112,6 +112,6 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getTypes()
 	{
-		return Vtiger_Field_Model::getInstance('notification_type', Vtiger_Module_Model::getInstance($this->getName()))->getPicklistValues();
+		return Vtiger_Module_Model::getInstance($this->getName())->getFieldByName('notification_type')->getPicklistValues();
 	}
 }

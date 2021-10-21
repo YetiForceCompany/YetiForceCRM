@@ -47,7 +47,7 @@ class CustomView_Record_Model extends \App\Base
 				['userid' => $currentUser->getId()],
 				['presence' => 0],
 				['status' => [\App\CustomView::CV_STATUS_DEFAULT, \App\CustomView::CV_STATUS_PUBLIC]],
-				['and', ['status' => \App\CustomView::CV_STATUS_PRIVATE], ['cvid' => (new \App\Db\Query())->select(['cvid'])->from('u_#__cv_privileges')->where(['member' => $currentUser->getMemberStructure()])]]
+				['and', ['status' => \App\CustomView::CV_STATUS_PRIVATE], ['cvid' => (new \App\Db\Query())->select(['cvid'])->from('u_#__cv_privileges')->where(['member' => $currentUser->getMemberStructure()])]],
 			]);
 		}
 		$dataReader = $query->orderBy(['sequence' => SORT_ASC])->createCommand()->query();
@@ -560,7 +560,7 @@ class CustomView_Record_Model extends \App\Base
 						'sourceField' => $sourceFieldName,
 						'relatedModule' => $moduleName,
 						'relatedField' => $fieldName,
-						'relatedSortOrder' => $sortFlag
+						'relatedSortOrder' => $sortFlag,
 					]);
 				} else {
 					$queryGenerator->setOrder($fieldName, $sortFlag);
@@ -735,7 +735,7 @@ class CustomView_Record_Model extends \App\Base
 		$operator = $rule['operator'];
 		$value = $rule['value'] ?? '';
 		if (!$this->get('advfilterlistDbFormat') && !\in_array($operator, App\Condition::OPERATORS_WITHOUT_VALUES + array_keys(App\Condition::DATE_OPERATORS))) {
-			$value = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName))
+			$value = Vtiger_Module_Model::getInstance($fieldModuleName)->getFieldByName($fieldName)
 				->getUITypeModel()
 				->getDbConditionBuilderValue($value, $operator);
 		}
@@ -746,7 +746,7 @@ class CustomView_Record_Model extends \App\Base
 			'source_field_name' => $sourceFieldName,
 			'operator' => $operator,
 			'value' => $value,
-			'index' => $index
+			'index' => $index,
 		])->execute();
 	}
 
@@ -772,7 +772,7 @@ class CustomView_Record_Model extends \App\Base
 			'cvid' => $this->getId(),
 			'condition' => 'AND' === $rule['condition'] ? 'AND' : 'OR',
 			'parent_id' => $parentId,
-			'index' => $index
+			'index' => $index,
 		])->execute();
 		$index = 0;
 		$parentId = $db->getLastInsertID('u_#__cv_condition_group_id_seq');
@@ -892,7 +892,7 @@ class CustomView_Record_Model extends \App\Base
 			$dbCommand->insert('u_#__cv_duplicates', [
 				'cvid' => $this->getId(),
 				'fieldid' => $data['fieldid'],
-				'ignore' => $data['ignore']
+				'ignore' => $data['ignore'],
 			])->execute();
 		}
 	}
@@ -912,7 +912,7 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.columnindex',
 			'vtiger_cvcolumnlist.field_name',
 			'vtiger_cvcolumnlist.module_name',
-			'vtiger_cvcolumnlist.source_field_name'
+			'vtiger_cvcolumnlist.source_field_name',
 		])
 			->from('vtiger_cvcolumnlist')
 			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')

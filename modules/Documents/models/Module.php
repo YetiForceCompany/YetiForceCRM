@@ -55,7 +55,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 		$headerFields = $queryGenerator->getListViewFields();
 		foreach (['filestatus', 'filesize', 'filelocationtype'] as $fieldName) {
 			if (!isset($headerFields[$fieldName])) {
-				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
+				$fieldModel = $this->getFieldByName($fieldName);
 				if ($fieldModel->getPermissions()) {
 					$queryGenerator->setField($fieldName);
 				}

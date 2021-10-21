@@ -94,7 +94,7 @@ class Imap extends Base
 		foreach (\OSSMailScanner_Record_Model::getEmailSearchList() as $field) {
 			$field = explode('=', $field);
 			if (empty($field[2])) {
-				$fieldModel = \Vtiger_Field_Model::getInstance($field[0], \Vtiger_Module_Model::getInstance($field[1]));
+				$fieldModel = \Vtiger_Module_Model::getInstance($field[1])->getField($field[0]);
 				$field[2] = $fieldModel->getUIType();
 			}
 			if ($searchModuleName && $searchModuleName !== $field[1]) {

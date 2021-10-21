@@ -434,7 +434,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 				if ('record_id' === $row['fieldname'] || 'record_module' === $row['fieldname']) {
 					continue;
 				}
-				if (!($fieldModel = Vtiger_Field_Model::getInstance($row['fieldname'], $this->getModule()))) {
+				if (!($fieldModel = $this->getModule()->getFieldByName($row['fieldname']))) {
 					continue;
 				}
 				$fieldInstance = new ModTracker_Field_Model();

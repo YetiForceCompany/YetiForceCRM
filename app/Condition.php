@@ -222,7 +222,7 @@ class Condition
 					$value = $condition['value'] ?? '';
 					if (!\in_array($operator, self::OPERATORS_WITHOUT_VALUES + array_keys(self::DATE_OPERATORS))) {
 						[$fieldName, $fieldModuleName,] = array_pad(explode(':', $condition['fieldname']), 3, false);
-						$value = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($fieldModuleName))
+						$value = \Vtiger_Module_Model::getInstance($fieldModuleName)->getFieldByName($fieldName)
 							->getUITypeModel()
 							->getDbConditionBuilderValue($value, $operator);
 					}

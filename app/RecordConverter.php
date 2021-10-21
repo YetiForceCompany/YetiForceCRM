@@ -439,7 +439,7 @@ class RecordConverter extends Base
 	 */
 	public function getGroupRecords(array $records): array
 	{
-		$fieldModel = \Vtiger_Field_Model::getInstance($this->get('field_merge'), $this->sourceModuleModel);
+		$fieldModel = $this->sourceModuleModel->getField($this->get('field_merge'));
 		$focus = \CRMEntity::getInstance($this->sourceModule);
 		return (new Db\Query())->select([$fieldModel->getTableName() . ".{$fieldModel->getColumnName()}", $focus->tab_name_index[$fieldModel->getTableName()]])->from($fieldModel->getTableName())->where([$focus->tab_name_index[$fieldModel->getTableName()] => $records])->createCommand()->queryAllByGroup(2);
 	}

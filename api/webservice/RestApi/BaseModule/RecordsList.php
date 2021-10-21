@@ -299,7 +299,7 @@ class RecordsList extends \Api\Core\BaseAction
 			foreach ($this->relatedFields as $relatedModuleName => $fields) {
 				foreach ($fields as $sourceField => $field) {
 					foreach ($field as $relatedFieldName) {
-						$fieldModel = \Vtiger_Field_Model::getInstance($relatedFieldName, \Vtiger_Module_Model::getInstance($relatedModuleName));
+						$fieldModel = \Vtiger_Module_Model::getInstance($relatedModuleName)->getFieldByName($relatedFieldName);
 						$headers[$sourceField . $relatedModuleName . $relatedFieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $relatedModuleName);
 					}
 				}

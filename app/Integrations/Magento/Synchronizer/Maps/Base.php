@@ -267,7 +267,7 @@ abstract class Base
 						if (isset(static::${$parsedFieldName}[$fieldParsed])) {
 							$fieldParsed = static::${$parsedFieldName}[$fieldParsed] ?? $fieldParsed;
 						} else {
-							$fieldInstance = \Vtiger_Field_Model::getInstance($parsedFieldName, \Vtiger_Module_Model::getInstance($this->moduleName));
+							$fieldInstance = \Vtiger_Module_Model::getInstance($this->moduleName)->getFieldByName($parsedFieldName);
 							$fieldInstance->setNoRolePicklistValues([trim($fieldParsedValue)]);
 						}
 						break;

@@ -366,7 +366,7 @@ class OSSMail_Mail_Model extends \App\Base
 				$row = explode('=', $field);
 				$moduleName = $row[1];
 				$fieldName = $row[0];
-				$fieldModel = Vtiger_Field_Model::getInstance($row[0], Vtiger_Module_Model::getInstance($moduleName));
+				$fieldModel = Vtiger_Module_Model::getInstance($moduleName)->getField($row[0]);
 				if ($searchModule && $searchModule !== $moduleName) {
 					$enableFind = false;
 				}
