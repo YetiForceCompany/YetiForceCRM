@@ -95,13 +95,16 @@ class Privilege
 			\App\Privilege::$isPermittedLevel = $moduleName . '_SPECIAL_PERMISSION_YES';
 			return true;
 		}
-		if ($parentModule !== $moduleName) {
-			foreach ($moduleModel->getReferenceFieldsForModule($parentModule) as $referenceField) {
+		$fieldsForParent = $moduleModel->getReferenceFieldsForModule($parentModule);
+		if ($fieldsForParent) {
+			foreach ($fieldsForParent as $referenceField) {
 				if ($recordModel->get($referenceField->getName()) === $parentRecordId) {
 					\App\Privilege::$isPermittedLevel = 'RECORD_RELATED_YES';
 					return true;
 				}
 			}
+			\App\Privilege::$isPermittedLevel = 'RECORD_RELATED_NO';
+			return false;
 		}
 		foreach (array_keys(\App\Relation::getByModule($parentModule, true, $moduleName)) as $relationId) {
 			$relationModel = \Vtiger_Relation_Model::getInstanceById($relationId);

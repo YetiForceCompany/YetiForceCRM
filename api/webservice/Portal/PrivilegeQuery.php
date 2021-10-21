@@ -66,13 +66,18 @@ class PrivilegeQuery
 
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			$where[] = ["{$moduleModel->basetable}.{$moduleModel->basetableid}" => $parentId];
-		} elseif ($relatedRecord && !\in_array($relatedRecordModuleName, ['Products', 'Services']) && (!$relatedRecordModuleName || !\App\Privilege::isPermitted($relatedRecordModuleName, 'DetailView', $relatedRecord, $user->getId()))) {
-			$query->andWhere(new Expression('0=1'));
-		} elseif ((!$relatedRecord && !\in_array($moduleName, ['Products', 'Services'])) || \in_array($relatedRecordModuleName, ['Products', 'Services'])) {
+		} elseif (\in_array($moduleName, ['Products', 'Services'])) {
+			// exception
+		} elseif ($fieldsForParent = $moduleModel->getReferenceFieldsForModule($parentModule)) {
 			$whereOr = ['or'];
-			foreach ($moduleModel->getReferenceFieldsForModule($parentModule) as $referenceField) {
+			foreach ($fieldsForParent as $referenceField) {
 				$whereOr[] = ["{$referenceField->getTableName()}.{$referenceField->getColumnName()}" => $parentId];
 			}
+			$where[] = $whereOr;
+		} elseif ($relatedRecord && (!$relatedRecordModuleName || !\App\Privilege::isPermitted($relatedRecordModuleName, 'DetailView', $relatedRecord, $user->getId()))) {
+			$query->andWhere(new Expression('0=1'));
+		} elseif ((!$relatedRecord && !\in_array($moduleName, ['Products', 'Services'])) || (\in_array($relatedRecordModuleName, ['Products', 'Services']) && 'Documents' != $moduleName)) {
+			$whereOr = ['or'];
 			foreach (array_keys(\App\Relation::getByModule($parentModule, true, $moduleName)) as $relationId) {
 				$relationModel = \Vtiger_Relation_Model::getInstanceById($relationId);
 				$relationModel->set('parentRecord', \Vtiger_Record_Model::getInstanceById($parentId, $parentModule));
