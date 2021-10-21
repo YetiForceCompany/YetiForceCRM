@@ -173,24 +173,30 @@ class RecordHistory extends \Api\Core\BaseAction
 			if (($isCreate = $recordModel->isCreate()) || $recordModel->isUpdate() || $recordModel->isTransferEdit()) {
 				$data = [];
 				foreach ($recordModel->getFieldInstances() as $fieldModel) {
-					if ($fieldModel && ($fieldInstance = $fieldModel->getFieldInstance()) && $fieldInstance->isViewable() && 5 !== $fieldModel->getFieldInstance()->getDisplayType()) {
-						$fieldName = $fieldInstance->getName();
-						$data[$fieldName]['label'] = $fieldInstance->getFullLabelTranslation();
-						if ($isCreate) {
-							$data[$fieldName]['value'] = $fieldInstance->getUITypeModel()->getHistoryDisplayValue($fieldModel->get('postvalue'), $recordModel, true);
-						} else {
-							$data[$fieldName]['from'] = $fieldInstance->getUITypeModel()->getHistoryDisplayValue($fieldModel->get('prevalue'), $recordModel, true);
-							$data[$fieldName]['to'] = $fieldInstance->getUITypeModel()->getHistoryDisplayValue($fieldModel->get('postvalue'), $recordModel, true);
-						}
-						if ($isRawData) {
+					if ($fieldModel && ($fieldInstance = $fieldModel->getFieldInstance())) {
+						\Api\RestApi\Fields::loadWebserviceByField($fieldInstance, $this);
+						if ($fieldInstance->isViewable() && 5 !== $fieldModel->getFieldInstance()->getDisplayType()) {
+							$fieldName = $fieldInstance->getName();
+							$data[$fieldName]['label'] = $fieldInstance->getFullLabelTranslation();
 							if ($isCreate) {
-								$data[$fieldName]['raw'] = $fieldModel->get('postvalue');
+								$data[$fieldName]['value'] = $fieldInstance->getUITypeModel()->getHistoryDisplayValue($fieldModel->get('postvalue'), $recordModel, true);
 							} else {
-								$data[$fieldName]['rawFrom'] = $fieldModel->get('prevalue');
-								$data[$fieldName]['rawTo'] = $fieldModel->get('postvalue');
+								$data[$fieldName]['from'] = $fieldInstance->getUITypeModel()->getHistoryDisplayValue($fieldModel->get('prevalue'), $recordModel, true);
+								$data[$fieldName]['to'] = $fieldInstance->getUITypeModel()->getHistoryDisplayValue($fieldModel->get('postvalue'), $recordModel, true);
+							}
+							if ($isRawData) {
+								if ($isCreate) {
+									$data[$fieldName]['raw'] = $fieldModel->get('postvalue');
+								} else {
+									$data[$fieldName]['rawFrom'] = $fieldModel->get('prevalue');
+									$data[$fieldName]['rawTo'] = $fieldModel->get('postvalue');
+								}
 							}
 						}
 					}
+				}
+				if (!$data) {
+					continue;
 				}
 				$row['data'] = $data;
 			} elseif ($recordModel->isRelationLink() || $recordModel->isRelationUnLink() || $recordModel->isTransferLink() || $recordModel->isTransferUnLink()) {

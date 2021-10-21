@@ -454,7 +454,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to get the field mode, the function creates a new object and does not pass a reference.
 	 *
-	 * @param string $fieldName - field name
+	 * @param string $fieldName - field name or field id
 	 *
 	 * @return Vtiger_Field_Model
 	 */

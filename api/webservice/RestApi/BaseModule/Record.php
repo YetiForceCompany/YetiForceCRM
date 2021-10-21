@@ -146,10 +146,11 @@ class Record extends \Api\Core\BaseAction
 		$moduleName = $this->controller->request->get('module');
 		$rawData = $this->recordModel->getData();
 		$setRawData = 1 === (int) ($this->controller->headers['x-raw-data'] ?? 0);
-
 		$displayData = $fieldsLabel = [];
-		foreach ($this->recordModel->getModule()->getFields() as $fieldModel) {
-			if (!$fieldModel->isActiveField()) {
+		$fields = $this->recordModel->getModule()->getFields();
+		\Api\RestApi\Fields::loadWebserviceFields($fields, $this);
+		foreach ($fields as $fieldModel) {
+			if (!$fieldModel->isActiveField() || !$fieldModel->isViewable()) {
 				continue;
 			}
 			$uiTypeModel = $fieldModel->getUITypeModel();
@@ -354,6 +355,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function post(): array
 	{
+		\Api\RestApi\Fields::loadWebserviceFields($this->recordModel->getModule()->getFields(), $this);
 		$saveModel = new \Api\RestApi\Save();
 		$saveModel->init($this);
 		$saveModel->saveRecord($this->controller->request);
