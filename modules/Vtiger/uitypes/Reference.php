@@ -149,14 +149,11 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
 			return [
 				'value' => \App\Fields\Owner::getLabel($value),
-				'record' => $value,
+				'raw' => $value,
 				'referenceModule' => $referenceModuleName,
 			];
 		}
-		if (!\App\Record::isExists($value)) {
-			return ['value' => ''];
-		}
-		return [
+		return !\App\Record::isExists($value) ? ['value' => ''] : [
 			'value' => \App\Record::getLabel($value, true),
 			'raw' => $value,
 			'referenceModule' => $referenceModuleName,
