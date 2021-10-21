@@ -68,7 +68,7 @@ class PrivilegeQuery
 			$where[] = ["{$moduleModel->basetable}.{$moduleModel->basetableid}" => $parentId];
 		} elseif (\in_array($moduleName, ['Products', 'Services'])) {
 			// exception
-		} elseif ($fieldsForParent = $moduleModel->getReferenceFieldsForModule($parentModule)) {
+		} elseif ('ModComments' !== $moduleName && $fieldsForParent = $moduleModel->getReferenceFieldsForModule($parentModule)) {
 			$whereOr = ['or'];
 			foreach ($fieldsForParent as $referenceField) {
 				$whereOr[] = ["{$referenceField->getTableName()}.{$referenceField->getColumnName()}" => $parentId];
