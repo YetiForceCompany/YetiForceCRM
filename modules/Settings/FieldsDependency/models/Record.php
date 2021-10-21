@@ -177,7 +177,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 			case 'fields':
 				$moduleModel = Vtiger_Module_Model::getInstance($this->get('tabid'));
 				$value = implode(', ', array_map(function ($fieldName) use ($moduleModel) {
-					return $moduleModel->getField($fieldName)->getFullLabelTranslation();
+					return $moduleModel->getFieldByName($fieldName)->getFullLabelTranslation();
 				}, \App\Json::decode($value) ?? []));
 				$value = "<div class=\"js-popover-tooltip ml-2 mr-2 d-inline mt-2\" data-js=\"popover\" data-content=\"$value\">" . \App\TextParser::textTruncate($value) . '</div>';
 				break;

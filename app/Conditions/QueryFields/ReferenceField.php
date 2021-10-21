@@ -31,7 +31,7 @@ class ReferenceField extends BaseField
 				return [$this->fieldModel->getTableName() . $this->related['sourceField'] . '.' . $this->fieldModel->getColumnName()];
 			}
 			$relatedModuleModel = \Vtiger_Module_Model::getInstance($this->related['relatedModule']);
-			$fieldModel = $relatedModuleModel->getField($this->related['relatedField']);
+			$fieldModel = $relatedModuleModel->getFieldByName($this->related['relatedField']);
 			return $this->getRelatedTables($fieldModel->getReferenceList(), $this->related['relatedField']);
 		}
 		return $this->getRelatedTables($this->getTables(), $this->fieldModel->getName());

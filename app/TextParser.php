@@ -566,7 +566,7 @@ class TextParser
 		$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'MultiCompany');
 		if ($recordModel->has($fieldName)) {
 			$value = $recordModel->get($fieldName);
-			$fieldModel = $recordModel->getModule()->getField($fieldName);
+			$fieldModel = $recordModel->getModule()->getFieldByName($fieldName);
 			if ('' === $value || !$fieldModel || !$this->useValue($fieldModel, 'MultiCompany')) {
 				return '';
 			}
@@ -659,7 +659,7 @@ class TextParser
 		}
 		[$key, $params] = array_pad(explode('|', $params, 2), 2, false);
 		if ($this->recordModel->has($key)) {
-			$fieldModel = $this->recordModel->getModule()->getField($key);
+			$fieldModel = $this->recordModel->getModule()->getFieldByName($key);
 			if (!$fieldModel || !$this->useValue($fieldModel, $this->moduleName)) {
 				return '';
 			}
@@ -687,7 +687,7 @@ class TextParser
 			case 'ChangesListChanges':
 				$value = '';
 				foreach ($this->recordModel->getPreviousValue() as $fieldName => $oldValue) {
-					$fieldModel = $this->recordModel->getModule()->getField($fieldName);
+					$fieldModel = $this->recordModel->getModule()->getFieldByName($fieldName);
 					if (!$fieldModel) {
 						continue;
 					}
@@ -709,7 +709,7 @@ class TextParser
 					unset($changes['createdtime'], $changes['modifiedtime'], $changes['id'], $changes['newRecord'], $changes['modifiedby']);
 				}
 				foreach ($changes as $fieldName => $oldValue) {
-					$fieldModel = $this->recordModel->getModule()->getField($fieldName);
+					$fieldModel = $this->recordModel->getModule()->getFieldByName($fieldName);
 					if (!$fieldModel) {
 						continue;
 					}

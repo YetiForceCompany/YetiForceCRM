@@ -59,7 +59,7 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $this->record);
 		$viewer->assign('CONVERT_LEAD_FIELDS', $this->record->getConvertLeadFields());
 
-		$assignedToFieldModel = $moduleModel->getField('assigned_user_id');
+		$assignedToFieldModel = $moduleModel->getFieldByName('assigned_user_id');
 		if ('true' === $marketingProcessConfig['change_owner']) {
 			$assignedToFieldModel->set('fieldvalue', App\User::getCurrentUserId());
 		} else {

@@ -64,8 +64,8 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		if (!isset($this->filterFields)) {
 			$this->filterFields = [];
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$fieldModel = $moduleModel->getField('sum_total');
-			$fieldModelGross = $moduleModel->getField('sum_gross');
+			$fieldModel = $moduleModel->getFieldByName('sum_total');
+			$fieldModelGross = $moduleModel->getFieldByName('sum_gross');
 			$field = new \Vtiger_Field_Model();
 			$field->set('name', 'sum_field')
 				->set('column', 'sum_field')
@@ -132,7 +132,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		$yearsData = $tempData = [];
 		$chartData['show_chart'] = (bool) \count($rawData);
 		$shortMonth = ['LBL_Jan', 'LBL_Feb', 'LBL_Mar', 'LBL_Apr', 'LBL_May', 'LBL_Jun',
-			'LBL_Jul', 'LBL_Aug', 'LBL_Sep', 'LBL_Oct', 'LBL_Nov', 'LBL_Dec'];
+			'LBL_Jul', 'LBL_Aug', 'LBL_Sep', 'LBL_Oct', 'LBL_Nov', 'LBL_Dec', ];
 		for ($i = 0; $i < 12; ++$i) {
 			$chartData['labels'][] = App\Language::translate($shortMonth[$i]);
 		}

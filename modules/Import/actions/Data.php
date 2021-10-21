@@ -618,7 +618,7 @@ class Import_Data_Action extends \App\Controller\Action
 			$columnNames = $db->getTableSchema($tableName, true)->getColumnNames();
 			foreach ($columnNames as $key => $fieldName) {
 				if ($key > 2) {
-					$importRecords['headers'][$fieldName] = $moduleModel->getField($fieldName)->getFieldLabel();
+					$importRecords['headers'][$fieldName] = $moduleModel->getFieldByName($fieldName)->getFieldLabel();
 				}
 			}
 			while ($row = $dataReader->read()) {

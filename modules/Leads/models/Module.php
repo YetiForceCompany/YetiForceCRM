@@ -41,7 +41,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$response[] = [
 				$row['count'],
-				$row['time']
+				$row['time'],
 			];
 		}
 		return $response;
@@ -114,7 +114,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$focus = $moduleModel->getEntityInstance();
 			foreach ($mappingFields as $mappingField) {
 				foreach ($mappingField as $leadFieldName => $accountFieldName) {
-					$fieldModel = $moduleModel->getField($accountFieldName);
+					$fieldModel = $moduleModel->getFieldByName($accountFieldName);
 					if (!$fieldModel) {
 						throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 					}
