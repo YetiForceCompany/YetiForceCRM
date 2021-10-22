@@ -77,7 +77,7 @@
     "LBL_DISPLAY_TYPE_2": "Field visible only in preview",
     "LBL_DISPLAY_TYPE_3": "Field visible only in list view",
     "LBL_DISPLAY_TYPE_4": "Field visible only in creating and in preview, cannot be modified",
-    "LBL_DISPLAY_TYPE_6": "Field off everywhere",
+    "LBL_DISPLAY_TYPE_6": "Field disabled everywhere",
     "LBL_DISPLAY_TYPE_9": "Field visible everywhere, hidden in creating and editing",
     "LBL_DISPLAY_TYPE_10": "Field visible everywhere, not editable",
     "LBL_HELP_INFO": "Help icon",
