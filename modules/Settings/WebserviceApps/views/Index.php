@@ -33,7 +33,7 @@ class Settings_WebserviceApps_Index_View extends Settings_Vtiger_Index_View
 		$listServers = Settings_WebserviceApps_Module_Model::getServers();
 		$isPortal = false;
 		foreach ($listServers as $value) {
-			if ('Portal' === $value['type']) {
+			if ('WebservicePremium' === $value['type']) {
 				$isPortal = true;
 				continue;
 			}

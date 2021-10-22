@@ -1,12 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-Tabs-WebserviceApps -->
-	{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert('YetiForceApiPortal')}
+	{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert('YetiForceWebservicePremium')}
 	{if $CHECK_ALERT}
 		<div class="alert alert-warning mt-2 mb-1">
 			<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
 			{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')}
-			<a class="btn btn-primary btn-sm ml-2" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceApiPortal&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
+			<a class="btn btn-primary btn-sm ml-2" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceWebservicePremium&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
 		</div>
 	{/if}
 	<div class="moduleBlocks">

@@ -98,13 +98,13 @@ Testing Supported By<br/>
 <img width="160" src="http://foundation.zurb.com/sites/docs/assets/img/logos/browser-stack.svg" alt="BrowserStack"/>
 </a>
 
-<a href="https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fgitdeveloper.yetiforce.com%2Fapi%2FRestApi.json">
-<img width="70" src="https://validator.swagger.io/validator?url=https://gitdeveloper.yetiforce.com/api/RestApi.json" />
+<a href="https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fgitdeveloper.yetiforce.com/api/WebserviceStandard.json">
+<img width="70" src="https://validator.swagger.io/validator?url=https://gitdeveloper.yetiforce.com/api/WebserviceStandard.json" />
 </a>
-<a href="https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fgitdeveloper.yetiforce.com%2Fapi%2FPortal.json">
-<img width="70" src="https://validator.swagger.io/validator?url=https://gitdeveloper.yetiforce.com/api/Portal.json" />
+<a href="https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fgitdeveloper.yetiforce.com/api/WebservicePremium.json">
+<img width="70" src="https://validator.swagger.io/validator?url=https://gitdeveloper.yetiforce.com/api/WebservicePremium.json" />
 </a>
-<a href="https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fgitdeveloper.yetiforce.com%2Fapi%2FManageConsents.json">
+<a href="https://validator.swagger.io/validator/debug?url=https%3A%2F%2Fgitdeveloper.yetiforce.com/api/ManageConsents.json">
 <img width="70" src="https://validator.swagger.io/validator?url=https://gitdeveloper.yetiforce.com/api/ManageConsents.json" />
 </a>
 

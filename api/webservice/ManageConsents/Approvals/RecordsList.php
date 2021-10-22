@@ -151,9 +151,9 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *    	 	type="object",
 	 *   		@OA\Property(property="message", type="string", example="Invalid method", description="To show more details turn on: config\Debug.php apiShowExceptionMessages = true"),
 	 *   		@OA\Property(property="code", type="integer", example=405),
-	 *   		@OA\Property(property="file", type="string", example="api\webservice\Portal\BaseAction\Files.php", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
+	 *   		@OA\Property(property="file", type="string", example="api\webservice\WebservicePremium\BaseAction\Files.php", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
 	 *   		@OA\Property(property="line", type="integer", example=101, description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
-	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\Portal\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
+	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\WebservicePremium\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
 	 *    	),
 	 *	),
 	 */

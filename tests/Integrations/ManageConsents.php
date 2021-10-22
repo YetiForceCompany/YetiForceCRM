@@ -158,7 +158,7 @@ final class ManageConsents extends \Tests\Base
 		$user = \Settings_WebserviceUsers_Record_Model::getCleanInstance('ManageConsents');
 		$user->set('server_id', self::$serverId);
 		$user->set('status', 1);
-		$user->set('type', \Api\Portal\Privilege::USER_PERMISSIONS);
+		$user->set('type', \Api\WebservicePremium\Privilege::USER_PERMISSIONS);
 		$user->set('user_id', \App\User::getActiveAdminId());
 		$user->save();
 

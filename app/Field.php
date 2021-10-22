@@ -408,7 +408,7 @@ class Field
 	}
 
 	/**
-	 * Get a list of custom default values for a given field type in the Portal API.
+	 * Get a list of custom default values for a given field type in the WebservicePremium API.
 	 *
 	 * @param \Vtiger_Field_Model $fieldModel
 	 *

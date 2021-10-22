@@ -57,7 +57,7 @@
 					</li>
 				{/if}
 				{foreach item=SERVER key=SERVER_ID from=$WEBSERVICE_APPS}
-					{if $SERVER['type'] === 'Portal'}
+					{if $SERVER['type'] === 'WebservicePremium'}
 						<li class="nav-item">
 							<a class="nav-link {if $ACTIVE_TAB === "webserviceApps{$SERVER_ID}" }active{/if}" id="webserviceAppsTab{$SERVER_ID}" data-toggle="tab" role="tab" href="#webserviceApps{$SERVER_ID}" aria-selected="{if $ACTIVE_TAB === "webserviceApps{$SERVER_ID}" }true{else}false{/if}">
 								<strong>{\App\Purifier::encodeHTML($SERVER['name'])} ({\App\Language::translate($SERVER['type'], 'Settings.WebserviceApps')})</strong>
@@ -76,7 +76,7 @@
 					</div>
 				{/if}
 				{foreach item=SERVER key=SERVER_ID from=$WEBSERVICE_APPS}
-					{if $SERVER['type'] === 'Portal'}
+					{if $SERVER['type'] === 'WebservicePremium'}
 						<div class="tab-pane mt-0 fade {if $ACTIVE_TAB === "webserviceApps{$SERVER_ID}" }active show{/if}" id="webserviceApps{$SERVER_ID}" role="tabpanel" aria-labelledby="#webserviceAppsTab{$SERVER_ID}">
 							{include file=\App\Layout::getTemplatePath('Tabs/WebserviceApps.tpl', $QUALIFIED_MODULE)}
 						</div>

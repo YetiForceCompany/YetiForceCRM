@@ -359,7 +359,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $pathVerification = [
-		'webservice/RestApi/' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'webservice/WebserviceStandard/' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'.well-known/carddav' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'.well-known/caldav' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'robots.txt' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],

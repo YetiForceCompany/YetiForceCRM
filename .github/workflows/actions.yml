@@ -77,18 +77,18 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Validate OpenAPI definition - Portal.yaml
+      - name: Validate OpenAPI definition - WebservicePremium.yaml
         uses: char0n/swagger-editor-validate@v1.2.1
         with:
-          definition-file: public_html/api/Portal.yaml
+          definition-file: public_html/api/WebservicePremium.yaml
       - name: Validate OpenAPI definition - ManageConsents.yaml
         uses: char0n/swagger-editor-validate@v1.2.1
         with:
           definition-file: public_html/api/ManageConsents.yaml
-      - name: Validate OpenAPI definition - RestApi.yaml
+      - name: Validate OpenAPI definition - WebserviceStandard.yaml
         uses: char0n/swagger-editor-validate@v1.2.1
         with:
-          definition-file: public_html/api/RestApi.yaml
+          definition-file: public_html/api/WebserviceStandard.yaml
 
   gitGuardian:
     name: GitGuardian scan

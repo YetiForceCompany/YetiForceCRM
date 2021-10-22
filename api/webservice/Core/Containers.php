@@ -19,28 +19,28 @@ class Containers
 {
 	/** @var string[] List of available API containers */
 	public static $list = [
-		'RestApi', 'Portal', 'ManageConsents'
+		'WebserviceStandard', 'WebservicePremium', 'ManageConsents',
 	];
 
 	/** @var string[] List of GUI tabs */
 	public static $listTab = [
-		'RestApi', 'Portal', 'ManageConsents'
+		'WebserviceStandard', 'WebservicePremium', 'ManageConsents',
 	];
 
 	/** @var array List of db tables */
 	public static $listTables = [
-		'RestApi' => [
+		'WebserviceStandard' => [
 			'user' => 'w_#__api_user',
 			'session' => 'w_#__api_session',
 			'loginHistory' => 'l_#__api_login_history',
 		],
-		'Portal' => [
+		'WebservicePremium' => [
 			'user' => 'w_#__portal_user',
 			'session' => 'w_#__portal_session',
 			'loginHistory' => 'l_#__portal_login_history',
 		],
 		'ManageConsents' => [
-			'user' => 'w_#__manage_consents_user'
-		]
+			'user' => 'w_#__manage_consents_user',
+		],
 	];
 }

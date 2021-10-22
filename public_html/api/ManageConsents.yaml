@@ -338,7 +338,7 @@ components:
             file:
               description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
               type: string
-              example: api\webservice\Portal\BaseAction\Files.php
+              example: api\webservice\WebservicePremium\BaseAction\Files.php
             line:
               description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
               type: integer
@@ -346,7 +346,7 @@ components:
             backtrace:
               description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
               type: string
-              example: '#0 api\webservice\Portal\BaseAction\Files.php (101) ....'
+              example: '#0 api\webservice\WebservicePremium\BaseAction\Files.php (101) ....'
           type: object
       type: object
     BaseModule_Post_GetConsentsForEntry_Request:

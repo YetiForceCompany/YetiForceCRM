@@ -44,7 +44,7 @@ class YetiForceWebservicePremium extends \App\YetiForce\Shop\AbstractBaseProduct
 		if (\App\YetiForce\Register::getProducts('YetiForceWebservicePremium')) {
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceWebservicePremium');
 		} else {
-			if ((new \App\Db\Query())->from('w_#__servers')->where(['type' => 'Portal'])->exists()) {
+			if ((new \App\Db\Query())->from('w_#__servers')->where(['type' => 'WebservicePremium'])->exists()) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;
 			}
@@ -85,7 +85,7 @@ class YetiForceWebservicePremium extends \App\YetiForce\Shop\AbstractBaseProduct
 				'relatedModuleName' => 'Settings:WebserviceUsers',
 				'linkicon' => 'adminIcon-webservice-users mr-2',
 				'linkhref' => true,
-				'linkurl' => 'index.php?module=WebserviceUsers&view=List&parent=Settings&typeApi=Portal',
+				'linkurl' => 'index.php?module=WebserviceUsers&view=List&parent=Settings&typeApi=WebservicePremium',
 				'linkclass' => 'btn-primary',
 				'showLabel' => 1,
 			]);

@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert('YetiForceWebservicePremium')}
-	{if $TYPE_API === 'Portal' && $CHECK_ALERT}
+	{if $TYPE_API === 'WebservicePremium' && $CHECK_ALERT}
 		<div class="alert alert-warning mt-2 mb-1">
 			<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
 			{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')}

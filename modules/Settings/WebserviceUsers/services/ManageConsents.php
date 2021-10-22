@@ -255,7 +255,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 	public function getTypeValues($value = false)
 	{
 		$data = [
-			\Api\Portal\Privilege::USER_PERMISSIONS => 'PLL_USER_PERMISSIONS',
+			\Api\WebservicePremium\Privilege::USER_PERMISSIONS => 'PLL_USER_PERMISSIONS',
 		];
 		if ($value) {
 			return $data[$value] ?: '';

@@ -324,9 +324,9 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @param string $type
 	 *
-	 * @return \self
+	 * @return $this
 	 */
-	public static function getCleanInstance($type)
+	public static function getCleanInstance($type): self
 	{
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
 		$moduleInstance->typeApi = $type;
