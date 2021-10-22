@@ -72,7 +72,7 @@
     "LBL_FIELD_TYPE1": "Additional (eg. vtiger_accountcf)",
     "Editor": "WYSIWYG Editor",
     "Related1M": "Related field 1:M",
-    "LBL_DISPLAY_TYPE": "Field type",
+    "LBL_DISPLAY_TYPE": "Visibility",
     "LBL_DISPLAY_TYPE_1": "Field visible everywhere",
     "LBL_DISPLAY_TYPE_2": "Field visible only in preview",
     "LBL_DISPLAY_TYPE_3": "Field visible only in list view",
@@ -215,7 +215,7 @@
     "LBL_ANONYMIZATION_MODTRACKER_DB": "Updates - database",
     "BTN_WEBSERVICE_APP_EDIT": "Edit field configuration",
     "LBL_WSA_VISIBILITY": "Visibility",
-    "LBL_WSA_VISIBILITY_DEFAULT": "According to the field configuration",
+    "LBL_WSA_VISIBILITY_DEFAULT": "Inherits from field visibility",
     "LBL_LOGGED_CONTACT": "Contact currently logged in",
     "LBL_ACCOUNT_ON_CONTACT": "Account assigned to contact",
     "LBL_ACCOUNT_LOGGED_CONTACT": "Account of contact currently logged in"
