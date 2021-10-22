@@ -76,20 +76,6 @@ jobs:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
-  testx:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/testx@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-
   coverage:
     runs-on: ubuntu-latest
     name: Code Coverage
