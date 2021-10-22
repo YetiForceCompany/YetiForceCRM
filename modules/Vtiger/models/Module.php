@@ -500,7 +500,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 * @param string|string[] $type   - field type
 	 * @param bool            $active
 	 *
-	 * @return Vtiger_Field_Model[] - list of field models
+	 * @return Vtiger_Field_Model[] - list of field models `fieldName => Vtiger_Field_Model`
 	 */
 	public function getFieldsByType($type, bool $active = false): array
 	{

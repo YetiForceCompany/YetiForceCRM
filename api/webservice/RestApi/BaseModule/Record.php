@@ -34,8 +34,7 @@ class Record extends \Api\Core\BaseAction
 	{
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
-		$method = $this->controller->method;
-		if ('POST' === $method) {
+		if ('POST' === $this->controller->method) {
 			$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
 			if (!$this->recordModel->isCreateable()) {
 				throw new \Api\Core\Exception('No permissions to create record', 403);
@@ -48,7 +47,7 @@ class Record extends \Api\Core\BaseAction
 				throw new \Api\Core\Exception('Record doesn\'t exist', 404);
 			}
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($this->controller->request->getInteger('record'), $moduleName);
-			switch ($method) {
+			switch ($this->controller->method) {
 				case 'DELETE':
 					if (!$this->recordModel->privilegeToMoveToTrash()) {
 						\App\Log::error('Privilege::isPermittedLevel: ' . \App\Privilege::$isPermittedLevel, 'API');
@@ -300,7 +299,18 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function put(): array
 	{
-		return $this->post();
+		\Api\RestApi\Fields::loadWebserviceFields($this->recordModel->getModule()->getFields(), $this);
+		$saveModel = new \Api\RestApi\Save();
+		$saveModel->init($this);
+		$saveModel->saveRecord($this->controller->request);
+		$return = [
+			'id' => $this->recordModel->getId(),
+			'name' => $this->recordModel->getName(),
+		];
+		if ($saveModel->skippedData) {
+			$return['skippedData'] = $saveModel->skippedData;
+		}
+		return $return;
 	}
 
 	/**
@@ -355,17 +365,14 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function post(): array
 	{
-		\Api\RestApi\Fields::loadWebserviceFields($this->recordModel->getModule()->getFields(), $this);
-		$saveModel = new \Api\RestApi\Save();
-		$saveModel->init($this);
-		$saveModel->saveRecord($this->controller->request);
-		$return = [
-			'id' => $this->recordModel->getId(),
-			'name' => $this->recordModel->getName(),
-		];
-		if ($saveModel->skippedData) {
-			$return['skippedData'] = $saveModel->skippedData;
+		if (1 !== $this->getUserData('type')) {
+			foreach ($this->recordModel->getModule()->getFieldsByType('serverAccess') as $fieldName => $fieldModel) {
+				if ($fieldModel->getFieldParams() == $this->getUserData('server_id')) {
+					$this->recordModel->set($fieldName, 1);
+					break;
+				}
+			}
 		}
-		return $return;
+		return $this->put();
 	}
 }

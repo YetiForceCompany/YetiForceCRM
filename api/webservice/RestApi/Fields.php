@@ -53,7 +53,7 @@ class Fields
 			$fieldData = self::getFields($actionModel->controller->app['id'])[$fieldModel->getName()] ?? [];
 		}
 		if ($fieldData) {
-			if (!empty($fieldData['is_default'])) {
+			if (1 !== $actionModel->getUserData('type') && !empty($fieldData['is_default'])) {
 				$fieldModel->set('defaultvalue', self::getDefaultValue($fieldModel, $fieldData, $actionModel));
 			}
 			if (!empty($fieldData['visibility'])) {
