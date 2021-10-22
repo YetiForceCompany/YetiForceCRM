@@ -11,17 +11,18 @@
 	{/if}
 	<div class="picklistSearchField">
 		<select class="select2noactive listSearchContributor {$FIELD_MODEL->getName()}" name="{$FIELD_MODEL->getName()}"
-				multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}'
-				{if !empty($FIELD_MODEL->get('source_field_name'))}
-					data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
-					data-module-name="{$FIELD_MODEL->getModuleName()}"
-				{/if} data-ajax-search="1"
-				data-ajax-url="index.php?module={$FIELD_MODEL->getModuleName()}&action=Fields&mode=getReference&fieldName={$FIELD_MODEL->getName()}"
-				data-minimum-input="3">
+			multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}'
+			{if !empty($FIELD_MODEL->get('source_field_name'))}
+				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
+				data-module-name="{$FIELD_MODEL->getModuleName()}"
+			{/if} data-ajax-search="1"
+			data-ajax-url="index.php?module={$FIELD_MODEL->getModuleName()}&action=Fields&mode=getReference&fieldName={$FIELD_MODEL->getName()}"
+			data-minimum-input="3"
+			{if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}>
 			{foreach from=$SEARCH_VALUES item=ID}
 				{assign var="RECORD_NAME" value=\App\Record::getLabel($ID)}
 				<option value="{$ID}" title="{\App\Purifier::encodeHtml($RECORD_NAME)}"
-						selected="selected">{\App\Purifier::encodeHtml(\App\TextParser::textTruncate($RECORD_NAME, 30))}</option>
+					selected="selected">{\App\Purifier::encodeHtml(\App\TextParser::textTruncate($RECORD_NAME, 30))}</option>
 			{/foreach}
 		</select>
 	</div>

@@ -19,12 +19,13 @@
 	{/if}
 	<div class="boolenSearchField">
 		<select name="{$FIELD_MODEL->getName()}" class="select2noactive select2 listSearchContributor"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-				data-fieldinfo='{$FIELD_INFO|escape}'
-				{if !empty($FIELD_MODEL->get('source_field_name'))}
-			data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
-			data-module-name="{$FIELD_MODEL->getModuleName()}"
-				{/if}>
+			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+			data-fieldinfo='{$FIELD_INFO|escape}'
+			{if !empty($FIELD_MODEL->get('source_field_name'))}
+				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
+				data-module-name="{$FIELD_MODEL->getModuleName()}"
+			{/if}
+			{if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}>
 			<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 			<option value="1" {if $SEARCH_VALUES eq 1} selected{/if}>{\App\Language::translate('LBL_YES',$MODULE)}</option>
 			<option value="0" {if $SEARCH_VALUES eq '0'} selected{/if}>{\App\Language::translate('LBL_NO',$MODULE)}</option>
