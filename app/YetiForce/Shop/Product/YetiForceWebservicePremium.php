@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForce Api portal file.
+ * YetiForce shop YetiForce Webservice Premium file.
  *
  * @package App
  *
@@ -12,18 +12,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForce Api portal class.
+ * YetiForce shop YetiForce Webservice Premium class.
  */
-class YetiForceApiPortal extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceWebservicePremium extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce API Portal';
+	public $label = 'YetiForce Webservice Premium';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-portal';
+	public $website = 'https://yetiforce.com/en/yetiforce-webservice-premium';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -41,8 +41,8 @@ class YetiForceApiPortal extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceApiPortal')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceApiPortal');
+		if (\App\YetiForce\Register::getProducts('YetiForceWebservicePremium')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceWebservicePremium');
 		} else {
 			if ((new \App\Db\Query())->from('w_#__servers')->where(['type' => 'Portal'])->exists()) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
