@@ -74,18 +74,17 @@ class Privilege
 			\App\Privilege::$isPermittedLevel = 'FIELD_PERMISSION_NOT_EXISTS';
 			return false;
 		}
+		if (!\App\Privilege::checkPermission($moduleName, $actionName, $record, $userId)) {
+			return false;
+		}
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			$permission = $parentRecordId === $record;
 			\App\Privilege::$isPermittedLevel = 'RECORD_HIERARCHY_LEVEL_' . ($permission ? 'YES' : 'NO');
 			return $permission;
 		}
-
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		if ('ModComments' !== $moduleName && !$recordModel->get($permissionFieldInfo['fieldname'])) {
 			\App\Privilege::$isPermittedLevel = 'FIELD_PERMISSION_NO';
-			return false;
-		}
-		if (!\App\Privilege::checkPermission($moduleName, $actionName, $record, $userId)) {
 			return false;
 		}
 
