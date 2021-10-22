@@ -5,15 +5,12 @@
 		<div class="media-body wordBreakAll">
 			<div class="js-toggle-panel c-panel" data-js="click">
 				<div class="card-header p-2">
-					{if $ICON}
-						<div class="float-left">
-							{assign var=IMAGE_PATH value=$ICON['src']}
-							{if $IMAGE_PATH}
-								<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
-							{else}
-								<span class="mr-1 fas fa-user userImage"></span>
-							{/if}
-						</div>
+					{if !empty($ICON['icon'])}
+						<span class="mr-1 {$ICON['icon']}"></span>
+					{elseif !empty($ICON['url'])}
+						<img class="userImage float-left mr-1" src="{$ICON['url']}">
+					{else}
+						<span class="fas fa-user mr-1"></span>
 					{/if}
 					<div class="float-right">
 						<small>
@@ -26,7 +23,7 @@
 					{assign var=COTENT value=$ROW->getMessage()}
 					{if $COTENT}
 						{$COTENT}
-						<hr/>
+						<hr />
 					{/if}
 					<div class="text-right ">
 						<b>{\App\Language::translate('Created By')}:</b>&nbsp;{$ROW->getCreatorUser()}&nbsp;
@@ -34,7 +31,7 @@
 							<span class="fas fa-check"></span>
 						</button>
 						{assign var=RELATED_RECORD value=$ROW->getRelatedRecord()}
-						{if $RELATED_RECORD['id'] && \App\Record::isExists($RELATED_RECORD['id'])}
+						{if $RELATED_RECORD && $RELATED_RECORD['id'] && \App\Record::isExists($RELATED_RECORD['id'])}
 							<a class="btn btn-info btn-sm ml-1" role="button" href="index.php?module={$RELATED_RECORD['module']}&view=Detail&record={$RELATED_RECORD['id']}">
 								<span class="fas fa-th-list" title="{\App\Language::translate('LBL_GO_TO_PREVIEW')}"></span>
 							</a>
