@@ -22,6 +22,7 @@
 		</div>
 	{/if}
 	<div class="moduleBlocks">
+		{assign var=FIEL_TYPE_LABEL value=Settings_LayoutEditor_Field_Model::$fieldTypeLabel}
 		{foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
 			{assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
 			{assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
@@ -107,7 +108,9 @@
 															<span class="redColor">*</span>
 														{/if}
 														<span class="ml-3 badge badge-secondary">{$FIELD_MODEL->getName()}</span>
-														<span class="ml-3 badge badge-info">{$FIELD_MODEL->getFieldDataType()}</span>
+														{if isset($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()])}
+															<span class="ml-3 badge badge-info">{App\Language::translate($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()], $QUALIFIED_MODULE)}</span>
+														{/if}
 													</span>
 													<span class="float-right actions">
 														<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />

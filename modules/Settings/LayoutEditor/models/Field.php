@@ -22,6 +22,51 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		6 => 'LBL_DISPLAY_TYPE_6',
 	];
 
+	/** @var array Translations of field types */
+	public static $fieldTypeLabel = [
+ 		1 => 'Text',
+ 		2 => 'Text',
+		5 => 'Date',
+		6 => 'DateTime',
+		7 => 'Integer',
+		9 => 'Percent',
+		10 => 'Related1M',
+		11 => 'Phone',
+		13 => 'Email',
+		14 => 'Time',
+		15 => 'Picklist',
+		16 => 'Picklist',
+		17 => 'URL',
+		19 => 'TextArea',
+		21 => 'TextArea',
+		23 => 'Date',
+		30 => 'Integer',
+		33 => 'MultiSelectCombo',
+		35 => 'Country',
+		51 => 'Related1M',
+		56 => 'Checkbox',
+		63 => 'Integer',
+		69 => 'Image',
+		70 => 'DateTime',
+		71 => 'Currency',
+		79 => 'DateTime',
+		85 => 'Skype',
+		255 => 'Text',
+		300 => 'Editor',
+		302 => 'Tree',
+		305 => 'MultiReferenceValue',
+		308 => 'RangeTime',
+		309 => 'CategoryMultipicklist',
+		311 => 'MultiImage',
+		313 => 'Twitter',
+		314 => 'MultiEmail',
+		316 => 'Smtp',
+		318 => 'ServerAccess',
+		319 => 'MultiDomain',
+		324 => 'Token',
+		365 => 'AdvPercentage',
+	];
+
 	/** @var array Webservice field data */
 	protected $webserviceData;
 
