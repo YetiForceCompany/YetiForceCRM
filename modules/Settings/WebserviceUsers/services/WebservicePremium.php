@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Portal Record Model.
+ * WebservicePremium Record Model.
  *
  * @package Settings
  *
@@ -12,9 +12,9 @@
  */
 
 /**
- * Settings_WebserviceUsers_Portal_Service class.
+ * Settings_WebserviceUsers_WebservicePremium_Service class.
  */
-class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_WebserviceStandard_Service
+class Settings_WebserviceUsers_WebservicePremium_Service extends Settings_WebserviceUsers_WebserviceStandard_Service
 {
 	/** {@inheritdoc} */
 	public $baseTable = 'w_#__portal_user';
