@@ -111,7 +111,7 @@
     "LBL_ERROR_INSTALL": "نصب و راه اندازی ناموفق بود",
     "LBL_SESSION_ERROR_TITLE": "Invalid session ID",
     "LBL_SESSION_ERROR_DESC": "Sent session ID does not match the one received from the server. We recommend clearing your browser cache, and if that does not fix the problem, we recommend correcting your server configuration.",
-    "LBL_NAME": "Company name or first and last name",
+    "LBL_NAME": "نام شرکت و یا نام و نام خانوادگی",
     "LBL_INDUSTRY": "صنعت",
     "LBL_CITY": "شهر",
     "LBL_COUNTRY": "کشور",
@@ -128,9 +128,9 @@
     "LBL_HOSTING_SHARED": "به میزبانی YetiForce",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "خرید",
-    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
-    "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
-    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
+    "LBL_NAME_INFO": "در صورت استفاده شخصی لطفا عبارت \"Private use\" را وارد نمایید.",
+    "LBL_VAT_ID_INFO": "در مورد اشخاص خصوصی ، \"Private use\" را وارد کنید. اگر شرکت شما شماره مالیات بر ارزش افزوده ندارد ، \"none\" را وارد کنید.",
+    "LBL_WEBSITE_INFO": "نشانی وب سایت شرکت را وارد نمایید نه URL سامانه CRM را.",
     "LBL_SHOW_MORE": "اطلاعات بیشتر در مورد محصول"
   },
   "js": {
