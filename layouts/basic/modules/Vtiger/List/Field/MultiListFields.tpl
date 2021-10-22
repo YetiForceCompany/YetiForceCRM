@@ -10,12 +10,13 @@
 	{/if}
 	<div class="picklistSearchField">
 		<select class="select2noactive listSearchContributor" name="{$FIELD_MODEL->getName()}"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple="multiple"
-				data-fieldinfo='{$FIELD_INFO|escape}'
-				{if !empty($FIELD_MODEL->get('source_field_name'))}
-			data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
-			data-module-name="{$FIELD_MODEL->getModuleName()}"
-				{/if}>
+			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple="multiple"
+			data-fieldinfo='{$FIELD_INFO|escape}'
+			{if !empty($FIELD_MODEL->get('source_field_name'))}
+				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
+				data-module-name="{$FIELD_MODEL->getModuleName()}"
+			{/if}
+			{if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}>
 			{foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}
 				<option value="{\App\Purifier::encodeHtml($PICKLIST_KEY)}" {if in_array($PICKLIST_KEY,$SEARCH_VALUES) && ($PICKLIST_KEY neq "")} selected{/if}>{\App\Purifier::encodeHtml($PICKLIST_LABEL)}</option>
 			{/foreach}

@@ -21,20 +21,21 @@
 			{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 		{/if}
 		<select class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"
-				name="{$ASSIGNED_USER_ID}" multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}'
-				{if !empty($FIELD_MODEL->get('source_field_name'))}
-					data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
-					data-module-name="{$FIELD_MODEL->getModuleName()}"
-				{/if}
-				{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
-			data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
-				{/if}>
+			name="{$ASSIGNED_USER_ID}" multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}'
+			{if !empty($FIELD_MODEL->get('source_field_name'))}
+				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
+				data-module-name="{$FIELD_MODEL->getModuleName()}"
+			{/if}
+			{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
+				data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+			{/if}
+			{if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}>
 			{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 				{foreach from=$SEARCH_VALUES item=OWNER_ID}
 					{if !empty($OWNER_ID)}
 						{assign var=OWNER_NAME value=\App\Fields\Owner::getLabel($OWNER_ID)}
 						<option value="{$OWNER_ID}" data-picklistvalue="{\App\Purifier::encodeHtml($OWNER_NAME)}"
-								selected="selected" data-userId="{$OWNER_ID}">
+							selected="selected" data-userId="{$OWNER_ID}">
 							{\App\Purifier::encodeHtml($OWNER_NAME)}
 						</option>
 					{/if}
@@ -43,8 +44,8 @@
 				<optgroup label="{\App\Language::translate('LBL_USERS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 						<option value="{$OWNER_ID}"
-								data-picklistvalue='{\App\Purifier::encodeHtml($OWNER_NAME)}' {if in_array($OWNER_ID,$SEARCH_VALUES)} selected {/if}
-								data-userId="{$CURRENT_USER_ID}">
+							data-picklistvalue='{\App\Purifier::encodeHtml($OWNER_NAME)}' {if in_array($OWNER_ID,$SEARCH_VALUES)} selected {/if}
+							data-userId="{$CURRENT_USER_ID}">
 							{\App\Purifier::encodeHtml($OWNER_NAME)}
 						</option>
 					{/foreach}
@@ -53,7 +54,7 @@
 					<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 							<option value="{$OWNER_ID}"
-									data-picklistvalue="{\App\Purifier::encodeHtml($OWNER_NAME)}" {if in_array(trim($OWNER_ID),$SEARCH_VALUES)} selected {/if}>
+								data-picklistvalue="{\App\Purifier::encodeHtml($OWNER_NAME)}" {if in_array(trim($OWNER_ID),$SEARCH_VALUES)} selected {/if}>
 								{\App\Purifier::encodeHtml($OWNER_NAME)}
 							</option>
 						{/foreach}
