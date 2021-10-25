@@ -8,6 +8,8 @@
 		"LBL_CHECK_BLACKLIST_REPORTS_DESC": "Number of accepted blacklisted spam reports: %s",
 		"LBL_CHECK_SUSPENDED_ACCOUNTS": "Suspended email accounts",
 		"LBL_CHECK_SUSPENDED_ACCOUNTS_DESC": "List of suspended e-mail accounts: %s",
+		"LBL_CHECK_ERROR_MAIL": "Invalid email messages",
+		"LBL_CHECK_ERROR_MAIL_DESC": "Amount of erroneous messages e-mail: %s",
 		"LBL_LIBRARY_ROUNDCUBE": "Roundcube library",
 		"LBL_LIBRARY_PHPEXCEL": "PHPExcel library",
 		"LBL_CONFIG_REPORT": "Server configuration",
