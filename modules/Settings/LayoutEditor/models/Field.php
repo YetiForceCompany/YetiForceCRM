@@ -24,8 +24,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 	/** @var array Translations of field types */
 	public static $fieldTypeLabel = [
- 		1 => 'Text',
- 		2 => 'Text',
+		1 => 'Text',
+		2 => 'Text',
 		5 => 'Date',
 		6 => 'DateTime',
 		7 => 'Integer',
@@ -41,10 +41,13 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		21 => 'TextArea',
 		23 => 'Date',
 		30 => 'Integer',
+		32 => 'LBL_LANGUAGE',
 		33 => 'MultiSelectCombo',
 		35 => 'Country',
 		51 => 'Related1M',
+		52 => 'LBL_USER',
 		56 => 'Checkbox',
+		57 => 'Related1M',
 		63 => 'Integer',
 		69 => 'Image',
 		70 => 'DateTime',

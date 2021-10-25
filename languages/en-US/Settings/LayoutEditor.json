@@ -61,6 +61,8 @@
     "TextArea": "Text area",
     "Text": "Text",
     "Time": "Time",
+    "LBL_LANGUAGE": "Language",
+    "LBL_USER": "User",
     "URL": "Website",
     "LBL_REL_MODULE_LAYOUT_EDITOR": "Edit related modules",
     "LBL_VISIBLE": "Visible",
