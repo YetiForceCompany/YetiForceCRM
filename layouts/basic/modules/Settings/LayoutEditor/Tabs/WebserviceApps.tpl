@@ -11,6 +11,7 @@
 	{/if}
 	<div class="moduleBlocks">
 		{assign var=WEBSERVICE_DATA value=$SELECTED_MODULE_MODEL->getFieldsForWebserviceApps($SERVER_ID)}
+		{assign var=FIEL_TYPE_LABEL value=Settings_LayoutEditor_Field_Model::$fieldTypeLabel}
 		{foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
 			{assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
 			{assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
@@ -47,7 +48,9 @@
 															<span class="redColor">*</span>
 														{/if}
 														<span class="ml-3 badge badge-secondary">{$FIELD_MODEL->getName()}</span>
-														<span class="ml-3 badge badge-info">{$FIELD_MODEL->getFieldDataType()}</span>
+														{if isset($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()])}
+															<span class="ml-3 badge badge-info">{App\Language::translate($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()], $QUALIFIED_MODULE)}</span>
+														{/if}
 													</span>
 													<span class="float-right actions">
 														<button class="btn btn-success btn-xs js-edit-field-api ml-2" data-wa="{$SERVER_ID}" data-field-id="{$FIELD_MODEL->get('id')}" title="{App\Language::translate('BTN_WEBSERVICE_APP_EDIT', $QUALIFIED_MODULE)}">
