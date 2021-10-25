@@ -824,12 +824,17 @@ Vtiger_Base_Validator_Js(
 			var fieldDateTime = '';
 			var fieldDateTimeInstance = [];
 			var contextFormElem = field.closest('form');
-			var view = contextFormElem.attr('name');
-			if (view == 'EditView') {
-				return true;
-			}
 			var j = 0;
-			for (var i = 0; i < dependentFieldList.length; i++) {
+
+			if (contextFormElem.data('jqv').InvalidFields.length > 0) {
+				let invalidFields = contextFormElem.data('jqv').InvalidFields.map((e) => {
+					return e.attributes.name.value;
+				});
+				if (invalidFields.filter((value) => dependentFieldList.includes(value)).length > 0) {
+					return false;
+				}
+			}
+			for (let i in dependentFieldList) {
 				var dependentField = dependentFieldList[i];
 				var dependentFieldInContext = jQuery('input[name=' + dependentField + ']', contextFormElem);
 				if (dependentFieldInContext.length > 0) {
