@@ -162,8 +162,10 @@ class Settings_AdminAccess_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Clear cache.
+	 *
+	 * @return void
 	 */
-	public function clearCache()
+	public function clearCache(): void
 	{
 		$previous = $this->changes['user'] ?? [];
 		$users = array_merge($this->get('user'), $previous);

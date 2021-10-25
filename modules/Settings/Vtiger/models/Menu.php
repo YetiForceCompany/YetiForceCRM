@@ -298,8 +298,10 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 
 	/**
 	 * Clear cache.
+	 *
+	 * @return void
 	 */
-	public static function clearCache()
+	public static function clearCache(): void
 	{
 		\App\Cache::delete('MenuItemAll', \Settings_Vtiger_MenuItem_Model::ACTIVE);
 		\App\Cache::delete('MenuItemAll', \Settings_Vtiger_MenuItem_Model::INACTIVE);

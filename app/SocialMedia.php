@@ -95,8 +95,9 @@ class SocialMedia extends Base
 
 	/**
 	 * Function clears cache.
+	 * @return void
 	 */
-	public function clearCache()
+	public function clearCache():void
 	{
 		Cache::delete('SocialMediaConfig', $this->type);
 	}

@@ -202,8 +202,10 @@ class EventHandler
 
 	/**
 	 * Clear cache.
+	 *
+	 * @return void
 	 */
-	public static function clearCache()
+	public static function clearCache(): void
 	{
 		Cache::delete('EventHandlerByType', 'All');
 		Cache::delete('EventHandlerByType', 'All:active');

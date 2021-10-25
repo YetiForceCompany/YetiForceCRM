@@ -169,8 +169,10 @@ class Currency
 
 	/**
 	 * Function clears cache.
+	 *
+	 * @return void
 	 */
-	public static function clearCache()
+	public static function clearCache(): void
 	{
 		\App\Cache::delete('CurrencyGetAll', 'All');
 		\App\Cache::delete('CurrencySupported', 'All');
