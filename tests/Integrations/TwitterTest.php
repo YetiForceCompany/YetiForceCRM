@@ -100,13 +100,10 @@ final class TwitterTest extends \Tests\Base
 	{
 		static::assertIsInt(self::$twitterFields[0]->getId());
 		static::assertTrue(
-			(new \App\Db\Query())
-				->from('vtiger_field')
-				->where(['fieldid' => self::$twitterFields[0]->getId()])->exists(),
+			(new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => self::$twitterFields[0]->getId()])->exists(),
 			'Field twitter not exists'
 		);
-		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
-			->getFieldByName(self::$twitterFields[0]->getFieldName());
+		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')->getFieldByName(self::$twitterFields[0]->getName());
 		static::assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
 		static::assertSame(
 			self::$twitterFields[0]->getId(),

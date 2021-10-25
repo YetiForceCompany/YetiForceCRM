@@ -376,12 +376,16 @@ class FieldBasic
 
 	/**
 	 * Clear cache.
+	 *
+	 * @return void
 	 */
-	protected function clearCache()
+	protected function clearCache(): void
 	{
 		\App\Cache::staticDelete('ModuleFields', $this->getModuleId());
 		\App\Cache::delete('AllFieldForModule', $this->getModuleId());
 		\App\Cache::staticDelete('module', $this->getModuleName());
 		\App\Cache::delete('BlocksForModule', $this->getModuleId());
+		\App\Cache::delete('ModuleFieldInfosByName', $this->getModuleName());
+		\App\Cache::delete('ModuleFieldInfosByColumn', $this->getModuleName());
 	}
 }

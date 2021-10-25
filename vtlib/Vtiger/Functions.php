@@ -174,7 +174,7 @@ class Functions
 		if (is_numeric($module)) {
 			$module = \App\Module::getModuleName($module);
 		}
-		$cacheName = 'getModuleFieldInfosByName';
+		$cacheName = 'ModuleFieldInfosByName';
 		if (!\App\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
 				->from('vtiger_field')
@@ -187,10 +187,10 @@ class Functions
 				$fieldInfoByColumn[$row['columnname']] = $row;
 			}
 			\App\Cache::save($cacheName, $module, $fieldInfoByName);
-			\App\Cache::save('getModuleFieldInfosByColumn', $module, $fieldInfoByColumn);
+			\App\Cache::save('ModuleFieldInfosByColumn', $module, $fieldInfoByColumn);
 		}
 		if ($returnByColumn) {
-			return \App\Cache::get('getModuleFieldInfosByColumn', $module);
+			return \App\Cache::get('ModuleFieldInfosByColumn', $module);
 		}
 		return \App\Cache::get($cacheName, $module);
 	}
