@@ -611,9 +611,8 @@ class Vtiger_Record_Model extends \App\Base
 		foreach ($this->dataForSave as $tableName => $values) {
 			$forSave[$tableName] = array_merge($forSave[$tableName] ?? [], $values);
 		}
-		foreach ($saveFields as &$fieldName) {
-			$fieldModel = $moduleModel->getFieldByName($fieldName);
-			if ($fieldModel) {
+		foreach ($saveFields as $fieldName) {
+			if ($fieldModel = $moduleModel->getFieldByName($fieldName)) {
 				$value = $this->get($fieldName);
 				$uitypeModel = $fieldModel->getUITypeModel();
 				$uitypeModel->validate($value);

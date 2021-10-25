@@ -387,5 +387,7 @@ class FieldBasic
 		\App\Cache::delete('BlocksForModule', $this->getModuleId());
 		\App\Cache::delete('ModuleFieldInfosByName', $this->getModuleName());
 		\App\Cache::delete('ModuleFieldInfosByColumn', $this->getModuleName());
+		\App\Cache::delete('App\Field::getFieldsPermissions' . \App\User::getCurrentUserId(), $this->getModuleName());
+		\Vtiger_Module_Model::getInstance($this->getModuleName())->clearCache();
 	}
 }
