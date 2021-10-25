@@ -1455,4 +1455,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		return \App\Config::performance('quickCreateLayout', 'blocks');
 	}
+
+	/**
+	 * Clear cache.
+	 * @return void
+	 */
+	public function clearCache():void
+	{
+		$this->fields = null;
+	}
 }
