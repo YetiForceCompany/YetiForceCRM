@@ -48,7 +48,7 @@
     "device-uuid": "^1.0.4",
     "emoji-mart-vue-fast": "^8.0.0",
     "emojipanel": "https://github.com/danbovey/EmojiPanel#master",
-    "flag-icon-css": "^3.3.0",
+    "flag-icon-css": "^4.0.0",
     "floatthead": "^2.1.3",
     "fontawesome-web": "^5.0.2",
     "footable": "^2.0.6",
