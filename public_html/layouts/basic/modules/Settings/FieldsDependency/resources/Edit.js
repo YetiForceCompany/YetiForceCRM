@@ -32,7 +32,6 @@ $.Class(
 		 * Load condition builder
 		 */
 		loadConditionBuilderView() {
-			console.log(this.sourceModule);
 			this.conditionBuilder = new Vtiger_ConditionBuilder_Js(
 				this.container.find('.js-condition-builder'),
 				this.sourceModule

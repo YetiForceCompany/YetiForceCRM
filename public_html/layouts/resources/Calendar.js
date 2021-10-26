@@ -99,7 +99,6 @@ window.Calendar_Js = class {
 			let s = moment(app.moduleCacheGet('start')).valueOf();
 			let e = moment(app.moduleCacheGet('end')).valueOf();
 			options.defaultDate = moment(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
-			console.log(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
 		}
 		return Object.assign(this.setCalendarMinimalOptions(), options);
 	}

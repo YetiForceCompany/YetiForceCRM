@@ -819,14 +819,15 @@ Vtiger_Base_Validator_Js(
 		 * @return false if validation error occurs
 		 */
 		validate: function (dependentFieldList) {
-			var thisInstance = this;
-			var field = this.getElement();
-			var fieldDateTime = '';
-			var fieldDateTimeInstance = [];
-			var contextFormElem = field.closest('form');
-			var j = 0;
+			let thisInstance = this;
+			let field = this.getElement();
+			let fieldDateTime = '';
+			let fieldDateTimeInstance = [];
+			let contextFormElem = field.closest('form');
+			let view = contextFormElem.attr('name');
+			let j = 0;
 
-			if (contextFormElem.data('jqv').InvalidFields.length > 0) {
+			if (view == 'EditView' && contextFormElem.data('jqv').InvalidFields.length > 0) {
 				let invalidFields = contextFormElem.data('jqv').InvalidFields.map((e) => {
 					return e.attributes.name.value;
 				});
@@ -835,8 +836,8 @@ Vtiger_Base_Validator_Js(
 				}
 			}
 			for (let i in dependentFieldList) {
-				var dependentField = dependentFieldList[i];
-				var dependentFieldInContext = jQuery('input[name=' + dependentField + ']', contextFormElem);
+				let dependentField = dependentFieldList[i];
+				let dependentFieldInContext = jQuery('input[name=' + dependentField + ']', contextFormElem);
 				if (dependentFieldInContext.length > 0) {
 					if (typeof dependentFieldInContext.data('dateFormat') === 'undefined' && fieldDateTime) {
 						fieldDateTime += ' ' + dependentFieldInContext.val();
