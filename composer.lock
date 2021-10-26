@@ -365,34 +365,30 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "9cf661f4eb38f7c881cac67c75ea9b00bf97b210"
+                "reference": "8b7ff3e4b7de6b2c84da85637b59fd2880ecaa89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/9cf661f4eb38f7c881cac67c75ea9b00bf97b210",
-                "reference": "9cf661f4eb38f7c881cac67c75ea9b00bf97b210",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/8b7ff3e4b7de6b2c84da85637b59fd2880ecaa89",
+                "reference": "8b7ff3e4b7de6b2c84da85637b59fd2880ecaa89",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^7.0",
-                "phpstan/phpstan": "^0.11",
-                "phpstan/phpstan-phpunit": "^0.11",
-                "phpstan/phpstan-strict-rules": "^0.11",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+                "doctrine/coding-standard": "^8.2",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-phpunit": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
+                "vimeo/psalm": "^4.10"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Doctrine\\Inflector\\": "lib/Doctrine/Inflector"
@@ -440,7 +436,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/inflector/issues",
-                "source": "https://github.com/doctrine/inflector/tree/2.0.x"
+                "source": "https://github.com/doctrine/inflector/tree/2.0.4"
             },
             "funding": [
                 {
@@ -456,7 +452,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-29T15:13:26+00:00"
+            "time": "2021-10-22T20:16:43+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -996,16 +992,16 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v8.65.0",
+            "version": "v8.67.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "dca614ef58d05d01c5610ae9c91536f4afe6f695"
+                "reference": "2142c8cf75f1cf4416a5f414a6ed377de4b73ad9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/dca614ef58d05d01c5610ae9c91536f4afe6f695",
-                "reference": "dca614ef58d05d01c5610ae9c91536f4afe6f695",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/2142c8cf75f1cf4416a5f414a6ed377de4b73ad9",
+                "reference": "2142c8cf75f1cf4416a5f414a6ed377de4b73ad9",
                 "shasum": ""
             },
             "require": {
@@ -1046,11 +1042,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-10-14T15:27:26+00:00"
+            "time": "2021-10-20T22:21:30+00:00"
         },
         {
             "name": "illuminate/contracts",
-            "version": "v8.65.0",
+            "version": "v8.67.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1098,7 +1094,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v8.65.0",
+            "version": "v8.67.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1144,16 +1140,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v8.65.0",
+            "version": "v8.67.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "066058e2f017d818cf6fe37ae7b103ed1312f76a"
+                "reference": "85b6513696d407280b54014865dca4e3fcdccce3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/066058e2f017d818cf6fe37ae7b103ed1312f76a",
-                "reference": "066058e2f017d818cf6fe37ae7b103ed1312f76a",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/85b6513696d407280b54014865dca4e3fcdccce3",
+                "reference": "85b6513696d407280b54014865dca4e3fcdccce3",
                 "shasum": ""
             },
             "require": {
@@ -1163,7 +1159,7 @@
                 "illuminate/collections": "^8.0",
                 "illuminate/contracts": "^8.0",
                 "illuminate/macroable": "^8.0",
-                "nesbot/carbon": "^2.31",
+                "nesbot/carbon": "^2.53.1",
                 "php": "^7.3|^8.0",
                 "voku/portable-ascii": "^1.4.8"
             },
@@ -1208,7 +1204,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-10-18T13:43:07+00:00"
+            "time": "2021-10-22T13:20:42+00:00"
         },
         {
             "name": "league/climate",
@@ -4915,5 +4911,5 @@
         "ext-hash": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
