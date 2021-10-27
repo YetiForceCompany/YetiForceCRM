@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-Workflows-Tasks-VTWatchdog -->
+	<!-- tpl-Settings-Workflows-Tasks-VTWatchdog -->
 	<div class="alert alert-info">
 		{\App\Language::translate('LBL_WATCHDOG_INFO',$QUALIFIED_MODULE)}
 	</div>
@@ -9,7 +9,7 @@
 		<div class="col-md-9">
 			<select class="select2 form-control" name="type" data-validation-engine="validate[required]">
 				{foreach from=\App\Fields\Picklist::getValuesName('notification_type') key=KEY item=ITEM}
-					<option {if isset($TASK_OBJECT->type) && $TASK_OBJECT->type eq $ITEM}selected="selected"{/if} value="{$ITEM}">
+					<option {if isset($TASK_OBJECT->type) && $TASK_OBJECT->type eq $ITEM}selected="selected" {/if} value="{$ITEM}">
 						{\App\Language::translate($ITEM, $TASK_OBJECT->srcWatchdogModule)}
 					</option>
 				{/foreach}
@@ -20,20 +20,20 @@
 		<span class="col-md-3">{\App\Language::translate('LBL_SELECT_RECIPIENTS', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
 			<select class="select2 form-control" name="recipients" data-validation-engine="validate[required]">
-				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'watchdog'}selected="selected"{/if} value="watchdog">
+				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'watchdog'}selected="selected" {/if} value="watchdog">
 					{\App\Language::translate('LBL_WATCHING_USERS', $QUALIFIED_MODULE)}
 				</option>
-				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'owner'}selected="selected"{/if} value="owner">
+				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'owner'}selected="selected" {/if} value="owner">
 					{\App\Language::translate('LBL_OWNER_REKORD', $QUALIFIED_MODULE)}
 				</option>
-				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'owner_and_showner'}selected="selected"{/if} value="owner_and_showner">
+				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'owner_and_showner'}selected="selected" {/if} value="owner_and_showner">
 					{\App\Language::translate('LBL_OWNER_REKORD', $QUALIFIED_MODULE)} + {\App\Language::translate('Share with users', $SOURCE_MODULE)}
 				</option>
 				{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 					<optgroup label="{\App\Language::translate($GROUP_LABEL)}">
 						{foreach from=$ALL_GROUP_MEMBERS key=MEMBER_ID item=MEMBER}
 							<option class="{$MEMBER['type']}" value="{$MEMBER_ID}"
-									{if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq $MEMBER_ID}selected="selected"{/if}>{\App\Language::translate($MEMBER['name'])}</option>
+								{if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq $MEMBER_ID}selected="selected" {/if}>{\App\Language::translate($MEMBER['name'])}</option>
 						{/foreach}
 					</optgroup>
 				{/foreach}
@@ -46,11 +46,11 @@
 			<input name="skipCurrentUser" type="checkbox" value="1" {if !empty($TASK_OBJECT->skipCurrentUser)}checked{/if}>
 		</div>
 	</div>
-	<hr/>
+	<hr />
 	<div class="row">
 		{include file=\App\Layout::getTemplatePath('VariablePanel.tpl') SELECTED_MODULE=$SOURCE_MODULE PARSER_TYPE='mail' GRAY=true}
 	</div>
-	<hr/>
+	<hr />
 	<div class="row padding-bottom1per">
 		<span class="col-md-3">{\App\Language::translate('LBL_TITLE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
@@ -60,14 +60,14 @@
 	<div class="row padding-bottom1per">
 		<span class="col-md-3">{\App\Language::translate('LBL_MESSAGE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
-			<textarea class="form-control messageContent" name="message" rows="3">
-				{if isset($TASK_OBJECT->message)}
-					{$TASK_OBJECT->message}
-				{else}
+			<textarea class="js-editor form-control messageContent" name="message" rows="3" data-js="ckeditor">
+					{if isset($TASK_OBJECT->message)}
+							{$TASK_OBJECT->message}
+					{else}
 
-				{/if}
-			</textarea>
+					{/if}
+				</textarea>
 		</div>
 	</div>
-<!-- /tpl-Settings-Workflows-Tasks-VTWatchdog -->
+	<!-- /tpl-Settings-Workflows-Tasks-VTWatchdog -->
 {/strip}

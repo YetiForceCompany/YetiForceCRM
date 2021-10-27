@@ -20,6 +20,16 @@ class VTWatchdog extends VTTask
 	}
 
 	/**
+	 * Get request method name for field name.
+	 *
+	 * @return array
+	 */
+	public function getFieldsNamesRequestMethod(): array
+	{
+		return ['message' => 'getForHtml'];
+	}
+
+	/**
 	 * Execute task.
 	 *
 	 * @param Vtiger_Record_Model $recordModel

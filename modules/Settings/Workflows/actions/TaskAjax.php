@@ -120,7 +120,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 			}
 
 			$fieldNames = $taskObject->getFieldNames();
-
+			$fieldNamesRequestMethods = method_exists($taskObject, 'getFieldsNamesRequestMethod') ? $taskObject->getFieldsNamesRequestMethod() : [];
 			foreach ($fieldNames as $fieldName) {
 				if ('field_value_mapping' == $fieldName || 'content' == $fieldName) {
 					$values = \App\Json::decode($request->getRaw($fieldName));
@@ -133,6 +133,8 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 					} else {
 						$taskObject->{$fieldName} = $request->getRaw($fieldName);
 					}
+				} elseif (isset($fieldNamesRequestMethods[$fieldName])) {
+					$taskObject->{$fieldName} = $request->{$fieldNamesRequestMethods[$fieldName]}($fieldName);
 				} else {
 					$taskObject->{$fieldName} = $request->get($fieldName);
 				}
