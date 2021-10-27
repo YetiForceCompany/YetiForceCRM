@@ -66,9 +66,11 @@ class VTUpdateRelatedFieldTask extends VTTask
 						$fieldModel = $relRecordModel->getField($relatedData[2]);
 						if ($fieldModel->isEditable()) {
 							$fieldModel->getUITypeModel()->validate($fieldValue);
-							$relRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 							$relRecordModel->set($relatedData[2], $fieldValue);
-							$relRecordModel->save();
+							if(false !== $relRecordModel->getPreviousValue($relatedData[2])){
+								$relRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
+								$relRecordModel->save();
+							}
 						} else {
 							\App\Log::warning('No permissions to edit field: ' . $fieldModel->getName());
 						}
@@ -105,7 +107,10 @@ class VTUpdateRelatedFieldTask extends VTTask
 			if ($fieldModel->isEditable()) {
 				$fieldModel->getUITypeModel()->validate($fieldValue);
 				$recordModel->set($relatedFieldName, $fieldValue);
-				$recordModel->save();
+				if (false !== $recordModel->getPreviousValue($relatedFieldName)) {
+					$recordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
+					$recordModel->save();
+				}
 			} else {
 				\App\Log::warning('No permissions to edit field: ' . $fieldModel->getName());
 			}

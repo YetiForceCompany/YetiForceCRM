@@ -134,7 +134,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public static function setRecordToCron($moduleName, $destModule, $recordId, $type = 1)
 	{
-		\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $destModule, 'lastid' => $recordId, 'type' => $type])->execute();
+		$data = ['source_module' => $moduleName, 'dest_module' => $destModule, 'lastid' => $recordId, 'type' => $type];
+		if(!(new \App\Db\Query())->from('s_#__multireference')->where($data)->exists()){
+			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', $data)->execute();
+		}
 	}
 
 	/**
