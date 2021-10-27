@@ -12,8 +12,6 @@
 
 namespace App\SystemWarnings\Mail;
 
-use DateTime;
-
 /**
  * Check for errors while sending the message class.
  */
@@ -30,7 +28,7 @@ class CheckErrorMail extends \App\SystemWarnings\Template
 	 */
 	public function process(): void
 	{
-		$data = (new \App\Db\Query())->from('l_yf_mail')->where(['>=', 'date', (new DateTime(date('Y-m-d H:i:s')))->modify('-24 hours')->format('Y-m-d H:i:s')])->all();
+		$data = (new \App\Db\Query())->from('l_#__mail')->where(['>=', 'date', (new \DateTime(date('Y-m-d H:i:s')))->modify('-24 hours')->format('Y-m-d H:i:s')])->all();
 		if (!$data) {
 			$this->status = 1;
 		} else {
