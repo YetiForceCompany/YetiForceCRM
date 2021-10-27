@@ -120,21 +120,25 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 			}
 
 			$fieldNames = $taskObject->getFieldNames();
-
+			$fieldNamesRequestMethods = method_exists($taskObject, 'getFieldsNamesRequestMethod') ? $taskObject->getFieldsNamesRequestMethod() : [];
 			foreach ($fieldNames as $fieldName) {
-				if ('field_value_mapping' == $fieldName || 'content' == $fieldName) {
-					$values = \App\Json::decode($request->getRaw($fieldName));
-					if (\is_array($values)) {
-						foreach ($values as $index => $value) {
-							$values[$index]['value'] = htmlspecialchars($value['value']);
-						}
+				if (isset($fieldNamesRequestMethods[$fieldName])) {
+					$taskObject->{$fieldName} = $request->{$fieldNamesRequestMethods[$fieldName]}($fieldName);
+				}else{
+					if ('field_value_mapping' == $fieldName || 'content' == $fieldName) {
+						$values = \App\Json::decode($request->getRaw($fieldName));
+						if (\is_array($values)) {
+							foreach ($values as $index => $value) {
+								$values[$index]['value'] = htmlspecialchars($value['value']);
+							}
 
-						$taskObject->{$fieldName} = \App\Json::encode($values);
+							$taskObject->{$fieldName} = \App\Json::encode($values);
+						} else {
+							$taskObject->{$fieldName} = $request->getRaw($fieldName);
+						}
 					} else {
-						$taskObject->{$fieldName} = $request->getRaw($fieldName);
+						$taskObject->{$fieldName} = $request->get($fieldName);
 					}
-				} else {
-					$taskObject->{$fieldName} = $request->get($fieldName);
 				}
 			}
 
