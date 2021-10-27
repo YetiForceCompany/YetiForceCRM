@@ -1087,6 +1087,10 @@ class Vtiger_ChartFilter_Model extends \App\Base
 			$operator = 'e';
 			if ($this->groupFieldModel->isReferenceField()) {
 				$operator = 'a';
+			} elseif (\in_array($this->groupFieldModel->getFieldDataType(), ['multipicklist', 'categoryMultipicklist'])) {
+				$operator = 'c';
+			} elseif ($this->groupFieldModel->getFieldDataType() === 'multipicklist') {
+				$row[$this->groupName] = str_replace(' |##| ', '##', $row[$this->groupName]);
 			}
 			$params = array_merge($this->searchParams, [[$this->groupName, $operator, $row[$this->groupName]]]);
 			if ($this->isDividedByField()) {
