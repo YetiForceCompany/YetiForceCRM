@@ -116,7 +116,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	/**
 	 * Divide field model (for stacked/dividing charts).
 	 *
-	 * @var \Vtiger_Module_Model
+	 * @var \Vtiger_Field_Model
 	 */
 	private $dividingFieldModel;
 
@@ -1084,9 +1084,9 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
 		if (!$this->sectors && !isset($this->data[$groupValue][$dividingValue]['link'])) {
-			$params = array_merge($this->searchParams, [$this->getSearchParamValue($this->groupFieldModel, $this->groupName, $row[$this->groupName])]);
+			$params = array_merge($this->searchParams, [$this->getSearchParamValue($this->groupFieldModel, $row[$this->groupName])]);
 			if ($this->isDividedByField()) {
-				$params = array_merge($params, [$this->getSearchParamValue($this->dividingFieldModel->getFieldByName($this->dividingName), $this->dividingName, $row[$this->dividingName])]);
+				$params = array_merge($params, [$this->getSearchParamValue($this->dividingFieldModel, $row[$this->dividingName])]);
 			}
 			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . rawurlencode(App\Json::encode([$params]));
 			$this->addValue('link', $link, $groupValue, $dividingValue);
@@ -1094,15 +1094,14 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	}
 
 	/**
-	 * Set search param values.
+	 * Get search param value.
 	 *
 	 * @param Vtiger_Field_Model $fieldModel
-	 * @param string              $name
-	 * @param mixed               $value
+	 * @param mixed              $value
 	 *
 	 * @return array
 	 */
-	protected function getSearchParamValue(Vtiger_Field_Model $fieldModel, string $name, $value): array
+	protected function getSearchParamValue(Vtiger_Field_Model $fieldModel, $value): array
 	{
 		$operator = 'e';
 		$fieldDataType = $fieldModel->getFieldDataType();
@@ -1112,7 +1111,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 			$operator = 'c';
 			$value = 'multipicklist' === $fieldDataType ? str_replace(' |##| ', '##', $value) : $value;
 		}
-		return [$name, $operator, $value];
+		return [$fieldModel->getName(), $operator, $value];
 	}
 
 	/**
