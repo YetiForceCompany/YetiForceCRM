@@ -886,7 +886,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 					}
 				}
 			}
-			if (!empty($this->extraData['sortOrder']) && isset($this->data[0]) && count($this->data) === 1) {
+			if (!empty($this->extraData['sortOrder']) && isset($this->data[0]) && 1 === \count($this->data)) {
 				$dataForSort = $this->data[0];
 				if ('ASC' === $this->extraData['sortOrder']) {
 					$firstReturnValueForSort = -1;
@@ -1084,21 +1084,35 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
 		if (!$this->sectors && !isset($this->data[$groupValue][$dividingValue]['link'])) {
-			$operator = 'e';
-			if ($this->groupFieldModel->isReferenceField()) {
-				$operator = 'a';
-			} elseif (\in_array($this->groupFieldModel->getFieldDataType(), ['multipicklist', 'categoryMultipicklist'])) {
-				$operator = 'c';
-			} elseif ($this->groupFieldModel->getFieldDataType() === 'multipicklist') {
-				$row[$this->groupName] = str_replace(' |##| ', '##', $row[$this->groupName]);
-			}
-			$params = array_merge($this->searchParams, [[$this->groupName, $operator, $row[$this->groupName]]]);
+			$params = array_merge($this->searchParams, [$this->setSearchParamValues($this->groupFieldModel, $this->groupName, $row[$this->groupName])]);
 			if ($this->isDividedByField()) {
-				$params = array_merge($params, [[$this->dividingName, $operator, $row[$this->dividingName]]]);
+				$params = array_merge($params, [$this->setSearchParamValues($this->dividingFieldModel, $this->dividingName, $row[$this->dividingName])]);
 			}
 			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . rawurlencode(App\Json::encode([$params]));
 			$this->addValue('link', $link, $groupValue, $dividingValue);
 		}
+	}
+
+	/**
+	 * Set search param values.
+	 *
+	 * @param vVtiger_Field_Model $fieldModel
+	 * @param string              $name
+	 * @param mixed               $value
+	 *
+	 * @return array
+	 */
+	protected function setSearchParamValues(Vtiger_Field_Model $fieldModel, string $name, $value): array
+	{
+		$operator = 'e';
+		$fieldDataType = $fieldModel->getFieldDataType();
+		if ($fieldModel->isReferenceField()) {
+			$operator = 'a';
+		} elseif (\in_array($fieldDataType, ['multipicklist', 'categoryMultipicklist'])) {
+			$operator = 'c';
+			$value = 'multipicklist' === $fieldDataType ? str_replace(' |##| ', '##', $value) : $value;
+		}
+		return [$name, $operator, $value];
 	}
 
 	/**
