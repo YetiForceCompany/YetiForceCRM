@@ -19,7 +19,7 @@ class CheckErrorMail extends \App\SystemWarnings\Template
 {
 	protected $statusValue = 0;
 	/** @var string Modal header title */
-	protected $title = 'LBL_CHECK_ERROR_MAIL';
+	protected $title = 'LBL_CHECK_MAIL_QUEUE_ERROR';
 
 	/**
 	 * Checks for suspended email accounts.
@@ -28,13 +28,16 @@ class CheckErrorMail extends \App\SystemWarnings\Template
 	 */
 	public function process(): void
 	{
-		$data = (new \App\Db\Query())->from('l_#__mail')->where(['>=', 'date', (new \DateTime(date('Y-m-d H:i:s')))->modify('-24 hours')->format('Y-m-d H:i:s')])->all();
-		if (!$data) {
-			$this->status = 1;
-		} else {
+		$count = (new \App\Db\Query())->from('l_#__mail')->where(['>=', 'date', (new \DateTime())->modify('-24 hours')->format('Y-m-d H:i:s')])->count();
+		if ($count) {
 			$this->status = 0;
-			$this->description = \App\Language::translateArgs('LBL_CHECK_ERROR_MAIL_DESC', 'Settings:SystemWarnings', \count($data));
-
+			$this->description = \App\Language::translateArgs('LBL_CHECK_ERROR_MAIL_DESC', 'Settings:SystemWarnings', $count);
+			if (\App\Security\AdminAccess::isPermitted('Log')) {
+				$this->link = 'index.php?parent=Settings&module=Log&view=LogsViewer&type=mail';
+				$this->linkTitle = \App\Language::translate('LBL_LOGS_VIEWER', 'Settings:Log');
+			}
+		} else {
+			$this->status = 1;
 		}
 	}
 }
