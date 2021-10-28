@@ -292,8 +292,8 @@ final class TwitterTest extends \Tests\Base
 	{
 		\App\Config::set('component', 'Social', 'TWITTER_ENABLE_FOR_MODULES', []);
 		foreach (self::$twitterFields as $fieldModel) {
-			\Settings_LayoutEditor_Field_Model::getInstance($fieldModel->getId())->delete();
-			//$fieldModel->delete();
+			//\Settings_LayoutEditor_Field_Model::getInstance($fieldModel->getId())->delete();
+			$fieldModel->delete();
 		}
 		\App\Cache::clearAll();
 	}
