@@ -116,7 +116,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	/**
 	 * Divide field model (for stacked/dividing charts).
 	 *
-	 * @var \Vtiger_Module_Model
+	 * @var \Vtiger_Field_Model
 	 */
 	private $dividingFieldModel;
 
@@ -886,7 +886,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 					}
 				}
 			}
-			if (!empty($this->extraData['sortOrder']) && isset($this->data[0]) && count($this->data) === 1) {
+			if (!empty($this->extraData['sortOrder']) && isset($this->data[0]) && 1 === \count($this->data)) {
 				$dataForSort = $this->data[0];
 				if ('ASC' === $this->extraData['sortOrder']) {
 					$firstReturnValueForSort = -1;
@@ -1084,17 +1084,34 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
 		if (!$this->sectors && !isset($this->data[$groupValue][$dividingValue]['link'])) {
-			$operator = 'e';
-			if ($this->groupFieldModel->isReferenceField()) {
-				$operator = 'a';
-			}
-			$params = array_merge($this->searchParams, [[$this->groupName, $operator, $row[$this->groupName]]]);
+			$params = array_merge($this->searchParams, [$this->getSearchParamValue($this->groupFieldModel, $row[$this->groupName])]);
 			if ($this->isDividedByField()) {
-				$params = array_merge($params, [[$this->dividingName, $operator, $row[$this->dividingName]]]);
+				$params = array_merge($params, [$this->getSearchParamValue($this->dividingFieldModel, $row[$this->dividingName])]);
 			}
 			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . rawurlencode(App\Json::encode([$params]));
 			$this->addValue('link', $link, $groupValue, $dividingValue);
 		}
+	}
+
+	/**
+	 * Get search param value.
+	 *
+	 * @param Vtiger_Field_Model $fieldModel
+	 * @param mixed              $value
+	 *
+	 * @return array
+	 */
+	protected function getSearchParamValue(Vtiger_Field_Model $fieldModel, $value): array
+	{
+		$operator = 'e';
+		$fieldDataType = $fieldModel->getFieldDataType();
+		if ($fieldModel->isReferenceField()) {
+			$operator = 'a';
+		} elseif (\in_array($fieldDataType, ['multipicklist', 'categoryMultipicklist'])) {
+			$operator = 'c';
+			$value = 'multipicklist' === $fieldDataType ? str_replace(' |##| ', '##', $value) : $value;
+		}
+		return [$fieldModel->getName(), $operator, $value];
 	}
 
 	/**
