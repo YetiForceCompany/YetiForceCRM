@@ -36,7 +36,7 @@
 						<strong>{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->getFieldName()}
 					</div>
 					<div class="col-md-6">
-						<strong>{App\Language::translate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}: </strong> {if isset($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()])}{App\Language::translate($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()], $QUALIFIED_MODULE)}{/if} (UiType: {$FIELD_MODEL->getUIType()})<br />
+						<strong>{App\Language::translate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}: </strong> {if isset($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()])}{App\Language::translate($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()], $QUALIFIED_MODULE)}{/if} (UiType: {$FIELD_MODEL->getUIType()})<br />
 						<strong>{App\Language::translate('LBL_LENGTH', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->get('maximumlength')}
 					</div>
 				</div>

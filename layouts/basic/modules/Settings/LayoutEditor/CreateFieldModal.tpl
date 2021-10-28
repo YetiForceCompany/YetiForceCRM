@@ -65,7 +65,7 @@
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>
-								{App\Language::translate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}
+								{App\Language::translate('LBL_TABLE', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
 								<select class="marginLeftZero form-control" name="fieldTypeList">
