@@ -193,7 +193,6 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (60,'SharingAccess',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (61,'SlaPolicy',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (62,'SMSNotifier',1,'2020-09-09 12:08:50');
-insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (63,'SocialMedia',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (64,'SupportProcesses',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (65,'TimeControlProcesses',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (66,'TreesManager',1,'2020-09-09 12:08:50');
@@ -226,8 +225,6 @@ insert  into `a_yf_taxes_config`(`param`,`value`) values ('taxs','0,1,2,3');
 insert  into `a_yf_taxes_global`(`id`,`name`,`value`,`status`,`default`) values (1,'VAT',23.00,0,0);
 
 /*Data for the table `b_yf_interests_conflict_conf` */
-
-/*Data for the table `b_yf_social_media_twitter` */
 
 /*Data for the table `com_vtiger_workflow_activatedonce` */
 
@@ -347,8 +344,6 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 /*Data for the table `l_yf_settings_tracker_basic` */
 
 /*Data for the table `l_yf_settings_tracker_detail` */
-
-/*Data for the table `l_yf_social_media_logs` */
 
 /*Data for the table `l_yf_switch_users` */
 
@@ -1334,16 +1329,6 @@ insert  into `u_yf_scalculations_invmap`(`module`,`field`,`tofield`) values ('Se
 
 /*Data for the table `u_yf_servicecontracts_sla_policy` */
 
-/*Data for the table `u_yf_social_media_config` */
-
-insert  into `u_yf_social_media_config`(`id`,`name`,`value`,`type`) values (1,'archiving_records_number_of_days','365','twitter');
-insert  into `u_yf_social_media_config`(`id`,`name`,`value`,`type`) values (2,'twitter_api_key',NULL,'twitter');
-insert  into `u_yf_social_media_config`(`id`,`name`,`value`,`type`) values (3,'twitter_api_secret',NULL,'twitter');
-insert  into `u_yf_social_media_config`(`id`,`name`,`value`,`type`) values (4,'oauth_token',NULL,'twitter');
-insert  into `u_yf_social_media_config`(`id`,`name`,`value`,`type`) values (5,'oauth_token_secret',NULL,'twitter');
-
-/*Data for the table `u_yf_social_media_twitter` */
-
 /*Data for the table `u_yf_squoteenquiries` */
 
 /*Data for the table `u_yf_squoteenquiriescf` */
@@ -2254,8 +2239,6 @@ insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (31,1,'LBK_SYSTEM_WARNINGS','Vtiger_SystemWarnings_Cron',86400,NULL,NULL,NULL,27,NULL,'Vtiger',NULL,NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (32,1,'LBL_BATCH_METHODS','Vtiger_BatchMethods_Cron',60,NULL,NULL,NULL,30,NULL,'Vtiger',NULL,NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (33,1,'LBL_SESSION_CLEANER','Vtiger_SessionCleaner_Cron',60,NULL,NULL,NULL,31,NULL,'Vtiger','',NULL);
-insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (34,0,'LBL_ARCHIVE_OLD_RECORDS','Vtiger_Social_Cron',86400,NULL,NULL,NULL,32,NULL,'Vtiger','',NULL);
-insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (35,0,'LBL_GET_SOCIAL_MEDIA_MESSAGES','Vtiger_SocialGet_Cron',1800,NULL,NULL,NULL,33,NULL,'Vtiger','',NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (36,0,'LBL_MAGENTO','Vtiger_Magento_Cron',60,NULL,NULL,NULL,29,NULL,'Vtiger',NULL,NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (37,1,'LBL_MAIL_RBL','Vtiger_MailRbl_Cron',7200,NULL,NULL,NULL,35,NULL,'Vtiger',NULL,NULL);
 
@@ -3414,8 +3397,6 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (61,'EntityAfterTransferLink','Vtiger_MultiReferenceUpdater_Handler',1,'','',5,0,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (62,'EntityAfterTransferUnLink','Vtiger_MultiReferenceUpdater_Handler',1,'','',5,0,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (63,'EntityBeforeSave','OSSTimeControl_TimeControl_Handler',1,'OSSTimeControl','',5,51,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (64,'EntityBeforeSave','Vtiger_SocialMedia_Handler',1,'','',5,0,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (65,'EntityBeforeDelete','Vtiger_SocialMedia_Handler',1,'','',5,0,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (66,'EntityAfterSave','Project_ProjectHandler_Handler',1,'Project,ProjectMilestone','',3,42,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (67,'EntityChangeState','Project_ProjectHandler_Handler',1,'Project,ProjectMilestone','',3,42,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (68,'UserAfterSave','Vtiger_Workflow_Handler',1,'Users','',4,0,0);
@@ -19075,7 +19056,6 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (108,4,'LBL_COUNTRY_SETTINGS','yfi yfi-adminIcon-countries','LBL_COUNTRY_DESCRIPTION','index.php?module=Countries&parent=Settings&view=Index',12,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (109,7,'LBL_ENCRYPTION','fas fa-key',NULL,'index.php?module=Password&parent=Settings&view=Encryption',4,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (111,7,'LBL_2FA_CONF','adminIcon-passwords-configuration','LBL_2FA_DESCRIPTION','index.php?module=TwoFactorAuthentication&parent=Settings&view=Index',5,0,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (112,5,'LBL_SOCIAL_MEDIA','yfi yfi-twitter','LBL_SOCIAL_MEDIA_DESC','index.php?module=SocialMedia&parent=Settings&view=Index',14,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (113,9,'LBL_YETIFORCE_WATCHDOG_HEADER','fas fa-thermometer-half','LBL_YETIFORCE_WATCHDOG_DESC','index.php?module=Watchdog&parent=Settings&view=Index',6,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (114,7,'LBL_LOGS','yfi yfi-security-incidents','LBL_LOGS_DESC','index.php?parent=Settings&module=Log&view=LogsOwasp',6,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (116,4,'LBL_BACKUP_MANAGER','yfi yfi-adminIcon-backup','LBL_BACKUP_MANAGER_DESCRIPTION','index.php?module=Backup&parent=Settings&view=Index',14,0,0,0,NULL);

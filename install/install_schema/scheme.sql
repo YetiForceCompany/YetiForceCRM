@@ -313,22 +313,6 @@ CREATE TABLE `b_yf_interests_conflict_conf` (
   KEY `related_id` (`related_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `b_yf_social_media_twitter` */
-
-CREATE TABLE `b_yf_social_media_twitter` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `twitter_login` varchar(15) NOT NULL,
-  `id_twitter` varchar(32) DEFAULT NULL,
-  `message` text DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `twitter_name` varchar(50) DEFAULT NULL,
-  `reply` int(11) DEFAULT NULL,
-  `retweet` int(11) DEFAULT NULL,
-  `favorite` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `twitter_login` (`twitter_login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `com_vtiger_workflow_activatedonce` */
 
 CREATE TABLE `com_vtiger_workflow_activatedonce` (
@@ -764,20 +748,6 @@ CREATE TABLE `l_yf_settings_tracker_detail` (
   `post_value` text NOT NULL DEFAULT '',
   `field` varchar(255) NOT NULL,
   KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `l_yf_social_media_logs` */
-
-CREATE TABLE `l_yf_social_media_logs` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `date` datetime NOT NULL,
-  `type` varchar(16) NOT NULL,
-  `name` varchar(16) NOT NULL,
-  `message` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `date` (`date`),
-  KEY `type` (`type`),
-  KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `l_yf_switch_users` */
@@ -3998,34 +3968,6 @@ CREATE TABLE `u_yf_servicecontracts_sla_policy` (
   KEY `fk_sla_policy_idx` (`sla_policy_id`),
   CONSTRAINT `fk_crmid_idx` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
   CONSTRAINT `fk_sla_policy_idx` FOREIGN KEY (`sla_policy_id`) REFERENCES `s_yf_sla_policy` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `u_yf_social_media_config` */
-
-CREATE TABLE `u_yf_social_media_config` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `value` text DEFAULT NULL,
-  `type` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_type_unique` (`name`,`type`),
-  KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `u_yf_social_media_twitter` */
-
-CREATE TABLE `u_yf_social_media_twitter` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `twitter_login` varchar(15) NOT NULL,
-  `id_twitter` varchar(32) DEFAULT NULL,
-  `message` text DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `twitter_name` varchar(50) DEFAULT NULL,
-  `reply` int(11) DEFAULT NULL,
-  `retweet` int(11) DEFAULT NULL,
-  `favorite` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `twitter_login` (`twitter_login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squoteenquiries` */

@@ -29,31 +29,6 @@ final class TwitterTest extends \Tests\Base
 	 * @var int[]
 	 */
 	private static $listId;
-	/**
-	 * @var int
-	 */
-	private static $idTwitter = 299792456;
-
-	/**
-	 * Add Twitter message.
-	 *
-	 * @param string $twitterLogin
-	 *
-	 * @throws \yii\db\Exception
-	 * @codeCoverageIgnore
-	 */
-	private static function addTwitter(string $twitterLogin): void
-	{
-		\App\Db::getInstance()
-			->createCommand()
-			->insert('u_#__social_media_twitter', [
-				'id_twitter' => self::$idTwitter++,
-				'twitter_login' => $twitterLogin,
-				'twitter_name' => $twitterLogin,
-				'message' => 'TEST',
-				'created' => \date('Y-m-d H:i:s'),
-			])->execute();
-	}
 
 	/**
 	 * @codeCoverageIgnore
@@ -61,7 +36,6 @@ final class TwitterTest extends \Tests\Base
 	 */
 	public static function setUpBeforeClass(): void
 	{
-		\App\Config::set('component', 'Social', 'TWITTER_ENABLE_FOR_MODULES', ['Contacts']);
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');
 		$block = $moduleModel->getBlocks()['LBL_CONTACT_INFORMATION'];
 		$type = 'Twitter';
@@ -73,24 +47,6 @@ final class TwitterTest extends \Tests\Base
 		$param['sourceModule'] = 'Contacts';
 		$param['fieldTypeList'] = 0;
 		self::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
-		self::addTwitter('yeti');
-		self::addTwitter('yetiforceen');
-		self::addTwitter('forceen');
-	}
-
-	/**
-	 * Testing configuration for module.
-	 */
-	public function testConfigModule(): void
-	{
-		static::assertIsArray(
-			\App\Config::component('Social', 'TWITTER_ENABLE_FOR_MODULES'),
-			'Module Contacts not configured for social media'
-		);
-		static::assertTrue(
-			\in_array('Contacts', \App\Config::component('Social', 'TWITTER_ENABLE_FOR_MODULES')),
-			'Module Contacts not configured for social media'
-		);
 	}
 
 	/**
@@ -204,12 +160,6 @@ final class TwitterTest extends \Tests\Base
 				->from(self::$twitterFields[0]->getTableName())
 				->where(['contactid' => $recordModel->getId()])->scalar()
 		);
-		static::assertTrue((new \App\Db\Query())
-			->from('u_#__social_media_twitter')
-			->where(['twitter_login' => 'yeti'])->exists(), 'Twitter message not exists');
-		static::assertTrue((new \App\Db\Query())
-			->from('u_#__social_media_twitter')
-			->where(['twitter_login' => 'forceen'])->exists(), 'Twitter message not exists');
 	}
 
 	/**
@@ -227,62 +177,6 @@ final class TwitterTest extends \Tests\Base
 				->from(self::$twitterFields[0]->getTableName())
 				->where(['contactid' => $recordModel->getId()])->scalar()
 		);
-		static::assertTrue((new \App\Db\Query())
-			->from('u_#__social_media_twitter')
-			->where(['twitter_login' => 'yeti'])->exists(), 'Twitter message not exists');
-		static::assertTrue((new \App\Db\Query())
-			->from('u_#__social_media_twitter')
-			->where(['twitter_login' => 'forceen'])->exists(), 'Twitter message not exists');
-		static::assertFalse((new \App\Db\Query())
-			->from('u_#__social_media_twitter')
-			->where(['twitter_login' => 'yetiforceen'])->exists(), 'Twitter message exists');
-	}
-
-	/**
-	 * Testing editing a Twitter account, set empty value.
-	 *
-	 * @throws \Exception
-	 */
-	public function testEditTwitterEmpty(): void
-	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
-		$recordModel->set(self::$twitterFields[0]->getColumnName(), '');
-		$recordModel->save();
-		static::assertFalse((new \App\Db\Query())
-			->from('u_#__social_media_twitter')
-			->where(['twitter_login' => 'yeti'])->exists(), 'Twitter message exists');
-		static::assertTrue((new \App\Db\Query())
-			->from('u_#__social_media_twitter')
-			->where(['twitter_login' => 'forceen'])->exists(), 'Twitter message not exists');
-	}
-
-	/**
-	 * Testing editing a Twitter account, set not empty value.
-	 *
-	 * @throws \Exception
-	 */
-	public function testEditTwitterNotEmpty(): void
-	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
-		$recordModel->set(self::$twitterFields[0]->getColumnName(), 'forceen');
-		$recordModel->save();
-		static::assertTrue((new \App\Db\Query())
-			->from('u_#__social_media_twitter')
-			->where(['twitter_login' => 'forceen'])->exists(), 'Twitter message not exists');
-	}
-
-	/**
-	 * Removal testing.
-	 *
-	 * @throws \Exception
-	 */
-	public function testDeleteTwitter(): void
-	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
-		$recordModel->delete();
-		static::assertFalse((new \App\Db\Query())
-			->from('u_#__social_media_twitter')
-			->where(['twitter_login' => 'forceen'])->exists(), 'Twitter message exists');
 	}
 
 	/**
@@ -290,7 +184,8 @@ final class TwitterTest extends \Tests\Base
 	 */
 	public static function tearDownAfterClass(): void
 	{
-		\App\Config::set('component', 'Social', 'TWITTER_ENABLE_FOR_MODULES', []);
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$listId[0]);
+		$recordModel->delete();
 		foreach (self::$twitterFields as $fieldModel) {
 			$fieldModel->delete();
 		}

@@ -114,14 +114,6 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => '',
 			];
 		}
-		if (Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->isEnableForRecord()) {
-			$relatedLinks[] = [
-				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => 'LBL_SOCIAL_MEDIA',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showSocialMedia',
-				'linkicon' => 'yfi yfi-social-media',
-			];
-		}
 		if (
 			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
 			\App\Module::isModuleActive('Chat') && !\App\RequestUtil::getBrowserInfo()->ie &&

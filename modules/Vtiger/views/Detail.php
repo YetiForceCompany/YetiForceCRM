@@ -65,7 +65,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedTree');
 		$this->exposeMethod('showRecentRelation');
 		$this->exposeMethod('showOpenStreetMap');
-		$this->exposeMethod('showSocialMedia');
 		$this->exposeMethod('showInventoryDetails');
 		$this->exposeMethod('showChat');
 		$this->exposeMethod('processWizard');
@@ -1114,30 +1113,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COORRDINATES', $coordinates);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
-	}
-
-	/**
-	 * Show social media.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 * @throws \App\Exceptions\NoPermittedToRecord
-	 *
-	 * @return \html
-	 */
-	public function showSocialMedia(App\Request $request)
-	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
-		if (!Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->isEnableForRecord()) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
-		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
-		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
 	}
 
 	/**

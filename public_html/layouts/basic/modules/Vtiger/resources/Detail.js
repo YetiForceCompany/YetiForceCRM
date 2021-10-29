@@ -2470,11 +2470,6 @@ jQuery.Class(
 				mapView.registerDetailView(container);
 			}
 		},
-		registerSocialMediaEvents(container) {
-			let socialMediaContainer = container.find('.tpl-Detail-SocialMedia');
-			if (socialMediaContainer.length) {
-			}
-		},
 		registerShowSummary: function (container) {
 			container.on('click', '.showSummaryRelRecord', function (e) {
 				let currentTarget = $(e.currentTarget);
@@ -2565,7 +2560,6 @@ jQuery.Class(
 			thisInstance.registerCommentEvents(detailContentsHolder);
 			thisInstance.registerEmailEvents(detailContentsHolder);
 			thisInstance.registerMapsEvents(detailContentsHolder);
-			thisInstance.registerSocialMediaEvents(detailContentsHolder);
 			thisInstance.registerSubProducts(detailContentsHolder);
 			thisInstance.registerCollapsiblePanels(detailContentsHolder);
 			App.Fields.Date.register(detailContentsHolder);
