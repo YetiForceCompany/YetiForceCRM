@@ -38,7 +38,8 @@
     "LBL_SENT_NOTIFICATIONS": "Send notifications",
     "LBL_NOTIFICATION_SETTINGS": "Notification settings",
     "LBL_UNREAD": "Unread",
-    "LBL_NO_UNREAD_NOTIFICATIONS": "No unread notifications"
+    "LBL_NO_UNREAD_NOTIFICATIONS": "No unread notifications",
+    "FL_SUBPROCESS_SECOND_LEVEL": "Second level subprocess"
   },
   "js": {
     "JS_MARKED_AS_READ": "Marked as read"
