@@ -38,7 +38,7 @@ class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			return $twitter;
 		}
-		return "<a href=\"https://twitter.com/{$twitter}\" target='_blank'>@{$twitter}</a>";
+		return "<a href=\"https://twitter.com/{$twitter}\" target='_blank' rel=\"noreferrer noopener\" >@{$twitter}</a>";
 	}
 
 	/** {@inheritdoc} */
