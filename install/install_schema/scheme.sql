@@ -3674,6 +3674,7 @@ CREATE TABLE `u_yf_notification` (
   `subprocess` int(10) DEFAULT NULL,
   `linkextend` int(10) DEFAULT NULL,
   `category` varchar(30) DEFAULT '',
+  `subprocess_sl` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`notificationid`),
   KEY `link` (`link`),
   KEY `process` (`process`),
@@ -6253,7 +6254,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3098 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3099 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -8448,7 +8449,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=670 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=671 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
