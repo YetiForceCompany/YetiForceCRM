@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3300279494f2a53204787aaf4597ed80",
+    "content-hash": "5ae77479901bc386c20c58c522190823",
     "packages": [
         {
             "name": "abraham/twitteroauth",
-            "version": "2.0.2",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/abraham/twitteroauth.git",
-                "reference": "5a424e80a1200674451844fbaae8a0098a316a01"
+                "reference": "51a502cde3c4f414ea0f98827afbeca1f19dfe2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/5a424e80a1200674451844fbaae8a0098a316a01",
-                "reference": "5a424e80a1200674451844fbaae8a0098a316a01",
+                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/51a502cde3c4f414ea0f98827afbeca1f19dfe2d",
+                "reference": "51a502cde3c4f414ea0f98827afbeca1f19dfe2d",
                 "shasum": ""
             },
             "require": {
@@ -65,7 +65,7 @@
                 "issues": "https://github.com/abraham/twitteroauth/issues",
                 "source": "https://github.com/abraham/twitteroauth"
             },
-            "time": "2021-06-11T02:56:14+00:00"
+            "time": "2021-07-19T00:42:49+00:00"
         },
         {
             "name": "adhocore/jwt",
@@ -4912,5 +4912,5 @@
         "ext-hash": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
