@@ -13,13 +13,13 @@
 	<div class="tpl-Base-CommentThreadList Comment comment-div js-comment-div" data-js="container">
 		<div class="js-comment-single singleComment" data-js="append">
 			<div class="js-comment-info-header commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
-				 data-parentcommentid="{$COMMENT->get('parent_comments')}"
-				 data-js="data-commentid|data-parentcommentid">
+				data-parentcommentid="{$COMMENT->get('parent_comments')}"
+				data-js="data-commentid|data-parentcommentid">
 				<div class="float-left">
 					{assign var=IMAGE value=$COMMENT->getImage()}
 					{if $IMAGE}
 						<img class="c-img__user float-left" alt="" src="{$IMAGE.url}">
-						<br/>
+						<br />
 					{else}
 						<span class="fas fa-user userImage float-left"></span>
 					{/if}
@@ -28,10 +28,9 @@
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 					<div class="commentorInfo w-100">
-						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						<div class="d-flex justify-content-between">
 							<span class="commentorName">
-								<strong>{$COMMENTOR->getName()}</strong>
+								<strong>{$COMMENT->getCommentatorName()}</strong>
 							</span>
 							<span class="pr-2">
 								<p class="text-muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
@@ -39,7 +38,7 @@
 						</div>
 						{if !empty($HIERARCHY)}
 							{assign var=RELATED_TO value=$COMMENT->get('related_to')}
-							<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}"/>
+							<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}" />
 							{assign var=RELATED_MODULE value=\App\Record::getType($RELATED_TO)}
 							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$RELATED_TO}">
 								<strong>{\App\Language::translate($RELATED_MODULE,$RELATED_MODULE)}
@@ -57,7 +56,7 @@
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 				<div class="js-edited-status edited-status" name="editStatus" data-js="class: d-none">
 					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} js-edit-reason text-muted"
-						  data-js="class: d-none">
+						data-js="class: d-none">
 						<p>
 							<small>
 								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
@@ -81,18 +80,18 @@
 				<div class="commentActionsDiv">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
 					<span class="float-right commentActions">
-				{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
+						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-							<button type="button" class="btn btn-sm btn-success js-reply-comment"
-									title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
-						<span class="fas fa-share"></span>
-					</button>
+							<button type="button" class="btn btn-sm btn-success js-reply-comment m-0 px-1 py-0"
+								title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
+								<span class="fas fa-share"></span>
+							</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-							<button type="button" class="btn btn-sm btn-primary js-edit-comment feedback ml-1 mr-1"
-									title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}" data-js="click">
-						<span class="yfi yfi-full-editing-view"></span>
-					</button>
+							<button type="button" class="btn btn-sm btn-primary js-edit-comment feedback m-0 px-1 py-0"
+								title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}" data-js="click">
+								<span class="yfi yfi-full-editing-view"></span>
+							</button>
 						{/if}
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}
 						{if count($LINKS) > 0}
@@ -100,7 +99,7 @@
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='comment'  MODULE=$MODULE_NAME}
 							{/foreach}
 						{/if}
-			</span>
+					</span>
 				</div>
 			</div>
 		</div>

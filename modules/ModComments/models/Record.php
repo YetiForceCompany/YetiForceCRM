@@ -14,6 +14,15 @@
  */
 class ModComments_Record_Model extends Vtiger_Record_Model
 {
+	/** @var \Vtiger_Record_Model Commentator record model instance. */
+	private $commentatorModel;
+
+	/** @var \Vtiger_Record_Model Parent record model instance. */
+	private $parentModel;
+
+	/** @var \Vtiger_Record_Model Parent comment record model instance. */
+	private $parentCommentModel;
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -71,31 +80,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		return $this->getDetailViewUrl() . '&mode=showChildComments';
 	}
 
-	public function getImage()
-	{
-		$commentor = $this->getCommentedByModel();
-		if ($commentor) {
-			$customer = $this->get('customer');
-			$isMailConverterType = $this->get('from_mailconverter');
-			if (!empty($customer) && 1 != $isMailConverterType) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($customer);
-				$imageDetails = $recordModel->getImage();
-				if (!empty($imageDetails)) {
-					return $imageDetails;
-				}
-				return [];
-			}
-			if (1 == $isMailConverterType) {
-				return \App\Layout::getImagePath('MailConverterComment.png');
-			}
-			$imagePath = $commentor->getImage();
-			if (!empty($imagePath)) {
-				return $imagePath;
-			}
-		}
-		return [];
-	}
-
 	/**
 	 * Prepare value to save.
 	 *
@@ -113,52 +97,91 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function returns the parent Comment Model.
 	 *
-	 * @return Vtiger_Record_Model
+	 * @return Vtiger_Record_Model|null
 	 */
-	public function getParentCommentModel()
+	public function getParentCommentModel(): ?Vtiger_Record_Model
 	{
-		$recordId = $this->get('parent_comments');
-		if (!empty($recordId)) {
-			return Vtiger_Record_Model::getInstanceById($recordId, 'ModComments');
+		if (isset($this->parentCommentModel)) {
+			return $this->parentCommentModel;
 		}
-		return false;
+		$parentCommentModel = null;
+		if ($recordId = $this->get('parent_comments')) {
+			$parentCommentModel = Vtiger_Record_Model::getInstanceById($recordId, 'ModComments');
+		}
+		return $this->parentCommentModel = $parentCommentModel;
 	}
 
 	/**
 	 * Function returns the parent Record Model(Contacts, Accounts etc).
 	 *
-	 * @return Vtiger_Record_Model
+	 * @return Vtiger_Record_Model|null
 	 */
-	public function getParentRecordModel()
+	public function getParentRecordModel(): ?Vtiger_Record_Model
 	{
-		$parentRecordId = $this->get('related_to');
-		if (!empty($parentRecordId)) {
-			return Vtiger_Record_Model::getInstanceById($parentRecordId);
+		if (isset($this->parentModel)) {
+			return $this->parentModel;
 		}
-		return false;
+		$parentModel = null;
+		if ($parentRecordId = $this->get('related_to')) {
+			$parentModel = Vtiger_Record_Model::getInstanceById($parentRecordId);
+		}
+		return $this->parentModel = $parentModel;
 	}
 
 	/**
-	 * Function returns the commentor Model (Users Model).
+	 * Function returns the commentator Model (Users Model).
 	 *
-	 * @return false|Vtiger_Record_Model
+	 * @return Vtiger_Record_Model|null
 	 */
-	public function getCommentedByModel()
+	public function getCommentedByModel(): ?Vtiger_Record_Model
 	{
-		$customer = $this->get('customer');
-		if (!empty($customer)) {
-			return Vtiger_Record_Model::getInstanceById($customer, 'Contacts');
+		if (isset($this->commentedModel)) {
+			return $this->commentatorModel;
 		}
-		$commentedBy = $this->get('assigned_user_id');
-		if ($commentedBy) {
-			$commentedByModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
-			if (empty($commentedByModel->entity->column_fields['user_name'])) {
-				$commentedByModel = Vtiger_Record_Model::getInstanceById(Users::getActiveAdminId(), 'Users');
+		if ($customer = $this->get('customer')) {
+			return $this->commentatorModel = Vtiger_Record_Model::getInstanceById($customer, 'Contacts');
+		}
+		$commentatorModel = null;
+		if ($commentedBy = $this->get('assigned_user_id')) {
+			$commentatorModel = Users_Privileges_Model::getInstanceById($commentedBy, 'Users');
+			if (empty($commentatorModel->entity->column_fields['user_name'])) {
+				$commentatorModel = Users_Privileges_Model::getInstanceById(Users::getActiveAdminId(), 'Users');
 			}
-			return $commentedByModel;
 		}
+		return $this->commentatorModel = $commentatorModel;
+	}
 
-		return false;
+	/**
+	 * Get commentator image.
+	 *
+	 * @return array|string
+	 */
+	public function getImage()
+	{
+		if (1 == $this->get('from_mailconverter')) {
+			return \App\Layout::getImagePath('MailConverterComment.png');
+		}
+		if (($commentator = $this->getCommentedByModel()) && ($imagePath = $commentator->getImage())) {
+			return $imagePath;
+		}
+		return [];
+	}
+
+	/**
+	 * Get commentator name.
+	 *
+	 * @return string
+	 */
+	public function getCommentatorName(): string
+	{
+		$label = '';
+		if ($this->get('assigned_user_id')) {
+			$label = $this->getDisplayValue('assigned_user_id');
+		}
+		if ($this->get('customer') && ($contact = $this->getDisplayValue('customer'))) {
+			$label = $label ? "$contact ($label)" : $label;
+		}
+		return $label;
 	}
 
 	/**
@@ -194,8 +217,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	public static function getAllParentComments(int $parentId, string $moduleName, array $hierarchy = [], Vtiger_Paging_Model $pagingModel = null)
 	{
 		$queryGenerator = new \App\QueryGenerator('ModComments');
-		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
+		$queryGenerator->setFields(array_merge(array_keys(\App\Field::getModuleFieldInfosByPresence('ModComments')), ['id']));
 		$queryGenerator->setSourceRecord($parentId);
 		$moduleLevel = \App\ModuleHierarchy::getModuleLevel($moduleName);
 		$requireCount = false === $moduleLevel || \in_array($moduleLevel, $hierarchy) ? 1 : 0;
@@ -230,27 +252,26 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function returns all the child comment count.
 	 *
-	 * @return <type>
+	 * @return int
 	 */
-	public function getChildCommentsCount()
+	public function getChildCommentsCount(): int
 	{
 		$recordId = $this->getId();
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields([]);
 		$queryGenerator->setSourceRecord($recordId);
 		$queryGenerator->addNativeCondition(['parent_comments' => $recordId, 'related_to' => $this->get('related_to')]);
-
 		return $queryGenerator->createQuery()->count();
 	}
 
 	/**
 	 * Function returns all the comment count.
 	 *
-	 * @param mixed $recordId
+	 * @param int $recordId
 	 *
-	 * @return <int>
+	 * @return int
 	 */
-	public static function getCommentsCount($recordId)
+	public static function getCommentsCount(int $recordId): int
 	{
 		if (empty($recordId)) {
 			return 0;
@@ -275,8 +296,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			return;
 		}
 		$queryGenerator = new \App\QueryGenerator('ModComments');
-		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid', 'parents']);
+		$queryGenerator->setFields(array_merge(array_keys(\App\Field::getModuleFieldInfosByPresence('ModComments')), ['id']));
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
 		$queryGenerator->addNativeCondition(['parent_comments' => $parentCommentId, 'related_to' => $this->get('related_to')]);
@@ -303,8 +323,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			return;
 		}
 		$queryGenerator = new \App\QueryGenerator('ModComments');
-		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid', 'parents']);
+		$queryGenerator->setFields(array_merge(array_keys(\App\Field::getModuleFieldInfosByPresence('ModComments')), ['id']));
 		$queryGenerator->addNativeCondition(['modcommentsid' => $parentCommentId, 'related_to' => $this->get('related_to')]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$recordInstances = [];
@@ -330,9 +349,9 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getSearchComments(int $parentId, $moduleName, string $searchValue, bool $isWidget, array $hierarchy = [], Vtiger_Paging_Model $pagingModel = null)
 	{
+		$fields = array_merge(array_keys(\App\Field::getModuleFieldInfosByPresence('ModComments')), ['id']);
 		$queryGenerator = new \App\QueryGenerator('ModComments');
-		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
+		$queryGenerator->setFields($fields);
 		$queryGenerator->setSourceRecord($parentId);
 		$where = ['or'];
 		$requireCount = 0;
@@ -372,8 +391,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			}
 			if (!empty($commentsId)) {
 				$queryGeneratorParents = new \App\QueryGenerator('ModComments');
-				$queryGeneratorParents->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-					'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
+				$queryGeneratorParents->setFields($fields);
 				$queryGeneratorParents->addNativeCondition(['in', 'modcommentsid', array_unique($commentsId)], false);
 				$parentQuery = $queryGeneratorParents->createQuery();
 				if ($pagingModel && 0 !== $pagingModel->get('limit')) {
@@ -409,7 +427,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 					'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
 				],
 				'linkicon' => 'fas fa-archive',
-				'linkclass' => 'btn-md',
+				'linkclass' => 'btn-md m-0 px-1 py-0',
 				'style' => empty($stateColors['Archived']) ? '' : "color: {$stateColors['Archived']};",
 				'showLabel' => false,
 			]);
@@ -424,7 +442,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 					'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'),
 				],
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-md text-danger',
+				'linkclass' => 'btn-md text-danger m-0 px-1 py-0',
 				'showLabel' => false,
 			]);
 		}

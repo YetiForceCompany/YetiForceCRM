@@ -38,9 +38,10 @@
 			</div>
 		</div>
 		<hr>
-		<div class="alert alert-block alert-warning mb-2">
-			<span class="mdi mdi-information-outline u-fs-xlg mr-2 float-left"></span>
+		<div class="alert alert-block alert-warning mb-2 text-center">
+			<span class="fas fa-exclamation-triangle u-fs-xlg mr-2 float-left"></span>
 			<span>{\App\Language::translate('LBL_EDIT_MAY_AFFECT_STABILITY_DESC', $QUALIFIED_MODULE)}</span>
+			<span class="fas fa-exclamation-triangle u-fs-xlg mr-2 float-right"></span>
 		</div>
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs" role="tablist">

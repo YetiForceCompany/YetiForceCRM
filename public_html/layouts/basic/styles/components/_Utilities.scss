@@ -159,6 +159,15 @@
 	background-color: darken($light, 10%) !important;
 	@include u-transition(background-color 275ms ease);
 }
+
+.u-bg-light-blue {
+	background-color: #bbdefb !important;
+}
+
+.u-bg-light-green {
+	background-color: #b2dfdb !important;
+}
+
 .u-hover-container {
 	.u-hover-display-inline {
 		display: none;

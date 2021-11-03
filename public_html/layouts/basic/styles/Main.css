@@ -13011,11 +13011,7 @@ body > .q-dialog:not(.quasar-reset) .q-field .col {
 
 @media only screen and (min-width: 768px) {
   .singleComment .q-message-text {
-    background: #e0e0e0; }
-  .singleComment:hover .comment-actions {
-    visibility: visible; }
-  .singleComment .comment-actions {
-    visibility: hidden; } }
+    background: #e0e0e0; } }
 
 /* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media print {
@@ -15875,6 +15871,12 @@ table .listButtons.narrow .c-badge__icon {
   -ms-transition: background-color 275ms ease;
   -o-transition: background-color 275ms ease;
   transition: background-color 275ms ease; }
+
+.u-bg-light-blue {
+  background-color: #bbdefb !important; }
+
+.u-bg-light-green {
+  background-color: #b2dfdb !important; }
 
 .u-hover-container .u-hover-display-inline {
   display: none; }

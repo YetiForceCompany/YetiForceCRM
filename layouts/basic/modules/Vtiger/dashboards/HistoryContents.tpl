@@ -94,26 +94,28 @@
 											{/if}
 										{else}
 											<a class="u-cursor-pointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}'
-											{else} onclick='window.location.href = "{$LINKED_RECORD_DETAIL_URL}"' {/if}>
-											{\App\Language::translate($RELATION->getValue(), $RELATION->get('targetmodule') )}
+												{else} onclick='window.location.href = "{$LINKED_RECORD_DETAIL_URL}"'
+												{/if}>
+												{\App\Language::translate($RELATION->getValue(), $RELATION->get('targetmodule') )}
+											</a>
+										{/if}{\App\Language::translate('LBL_FOR')}
+										<a class="u-cursor-pointer" {if stripos($PARENT_DETAIL_URL, 'javascript:')===0}
+											onclick='{$PARENT_DETAIL_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$PARENT_DETAIL_URL}"'
+											{/if}>
+											{$RELATION->getParent()->getParent()->getName()}
 										</a>
-									{/if}{\App\Language::translate('LBL_FOR')}
-									<a class="u-cursor-pointer" {if stripos($PARENT_DETAIL_URL, 'javascript:')===0}
-									   onclick='{$PARENT_DETAIL_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$PARENT_DETAIL_URL}"' {/if}>
-										{$RELATION->getParent()->getParent()->getName()}
-									</a>
-								</div>
-							{else}
-								<div>
-									<strong>{$MODIFIER_NAME}&nbsp;</strong>{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}
-									<a class="u-cursor-pointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
-										&nbsp;{$PARENT->getName()}
-									</a>
-								</div>
-							{/if}
+									</div>
+								{else}
+									<div>
+										<strong>{$MODIFIER_NAME}&nbsp;</strong>{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}
+										<a class="u-cursor-pointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
+											&nbsp;{$PARENT->getName()}
+										</a>
+									</div>
+								{/if}
+							</div>
 						</div>
-					</div>
-				{/if}
+					{/if}
 				{else if $MODELNAME == 'ModComments_Record_Model'}
 					{assign var=TRANSLATED_MODULE_NAME value = \App\Language::translate('SINGLE_ModComments' ,'ModComments')}
 					<div class="d-flex">
@@ -124,20 +126,20 @@
 							{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
 							<p class="float-right text-muted"><small title="{\App\Fields\DateTime::formatToDay("$COMMENT_TIME")}">{\App\Fields\DateTime::formatToViewDate("$COMMENT_TIME")}</small></p>
 							<div>
-								<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {\App\Language::translate('LBL_COMMENTED')} {\App\Language::translate('LBL_ON')} <a class="u-text-ellipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
+								<strong>{$HISTORY->getCommentatorName()}</strong> {\App\Language::translate('LBL_COMMENTED')} {\App\Language::translate('LBL_ON')} <a class="u-text-ellipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
+								<span class="ml-2 font-x-small">"{nl2br($HISTORY->getDisplayValue('commentcontent'))}"</span>
 							</div>
-							<div class='font-x-small'><span>"{nl2br($HISTORY->getDisplayValue('commentcontent'))}"</span></div>
 						</div>
 					</div>
-					{/if}
-						{/foreach}
-							{if $NEXTPAGE}
-								<button class="load-more badge badge-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
-							{/if}
-							{else}
-								<span class="noDataMsg">
-									{\App\Language::translate('LBL_NO_UPDATES_OR_COMMENTS', $MODULE_NAME)}
-								</span>
-								{/if}
-								</div>
-								{/strip}
+				{/if}
+			{/foreach}
+			{if $NEXTPAGE}
+				<button class="load-more badge badge-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
+			{/if}
+		{else}
+			<span class="noDataMsg">
+				{\App\Language::translate('LBL_NO_UPDATES_OR_COMMENTS', $MODULE_NAME)}
+			</span>
+		{/if}
+	</div>
+{/strip}
