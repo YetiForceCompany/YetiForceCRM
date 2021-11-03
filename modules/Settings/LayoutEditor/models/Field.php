@@ -296,6 +296,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditable()
 	{
+		if ('ModComments' === $this->getModuleName() && \in_array($this->getName(), ['commentcontent', 'userid', 'created_user_id', 'customer', 'reasontoedit', 'parents', 'assigned_user_id', 'creator', 'modifiedtime', 'related_to', 'createdtime', 'parent_comments'])) {
+			return false;
+		}
 		return true;
 	}
 
