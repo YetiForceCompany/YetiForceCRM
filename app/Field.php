@@ -347,9 +347,9 @@ class Field
 	 * @param int|string $module
 	 * @param bool       $returnByColumn
 	 *
-	 * @return mixed[]
+	 * @return array
 	 */
-	public static function getModuleFieldInfos($module, bool $returnByColumn = false)
+	public static function getModuleFieldInfos($module, bool $returnByColumn = false): array
 	{
 		if (is_numeric($module)) {
 			$module = Module::getModuleName($module);
@@ -381,9 +381,9 @@ class Field
 	 * @param int|string $module
 	 * @param array      $presence
 	 *
-	 * @return mixed[]
+	 * @return array
 	 */
-	public static function getModuleFieldInfosByPresence($module, array $presence = ['0', '2'])
+	public static function getModuleFieldInfosByPresence($module, array $presence = ['0', '2']): array
 	{
 		$moduleFields = [];
 		$fieldsInfo = self::getModuleFieldInfos($module);
