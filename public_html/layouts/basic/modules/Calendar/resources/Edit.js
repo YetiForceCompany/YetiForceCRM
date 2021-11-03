@@ -321,11 +321,14 @@ Vtiger_Edit_Js(
 			});
 		},
 		getFreeTime: function (container) {
-			var timeStart = container.find('[name="time_start"], [data-element-name="time_start"]');
-			var timeEnd = container.find('[name="time_end"], [data-element-name="time_end"]');
-			var dateStart = container.find('[name="date_start"], [data-element-name="date_start"]');
-			var ownerId = container.find('[name="assigned_user_id"], [data-element-name="assigned_user_id"]');
-			var params = {
+			let ownerId = container.find('[name="assigned_user_id"], [data-element-name="assigned_user_id"]');
+			if (ownerId.length === 0 || !ownerId.val()) {
+				return;
+			}
+			let timeStart = container.find('[name="time_start"], [data-element-name="time_start"]');
+			let timeEnd = container.find('[name="time_end"], [data-element-name="time_end"]');
+			let dateStart = container.find('[name="date_start"], [data-element-name="date_start"]');
+			let params = {
 				module: 'Calendar',
 				action: 'GetFreeTime',
 				dateStart: dateStart.val(),
