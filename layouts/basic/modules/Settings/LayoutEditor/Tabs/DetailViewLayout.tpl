@@ -87,7 +87,7 @@
 				<div class="blockFieldsList blockFieldsSortable row m-0 p-1 u-min-height-50">
 					{for $LOOP=0 to 1}
 						<ul name="{if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}sortable{$LOOP+1}{/if}"
-							class="sortTableUl js-sort-table{$LOOP} connectedSortable col-md-6 mb-1" data-js="container">
+							class="sortTableUl js-sort-table{$LOOP+1} connectedSortable col-md-6 mb-1" data-js="container">
 							{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
 								{if $smarty.foreach.fieldlist.index % 2 eq $LOOP}
 									<li>
@@ -115,19 +115,19 @@
 													<span class="float-right actions">
 														<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 														{if $FIELD_MODEL->isEditable()}
-															<button class="btn btn-success btn-xs editFieldDetails ml-2" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}">
+															<button class="btn btn-success btn-xs editFieldDetails ml-1" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}">
 																<span class="yfi yfi-full-editing-view"></span>
 															</button>
 														{/if}
-														<button class="btn btn-primary btn-xs copyFieldLabel ml-2" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}">
+														<button class="btn btn-primary btn-xs copyFieldLabel ml-1" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}">
 															<span class="fas fa-copy"></span>
 														</button>
 														{if $FIELD_MODEL->isCustomField() eq 'true'}
-															<button class="btn btn-danger btn-xs deleteCustomField ml-2" data-field-id="{$FIELD_MODEL->get('id')}" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}">
+															<button class="btn btn-danger btn-xs deleteCustomField ml-1" data-field-id="{$FIELD_MODEL->get('id')}" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}">
 																<span class="fas fa-trash-alt"></span>
 															</button>
 														{/if}
-														<button class="btn btn-info btn-xs js-context-help ml-2" data-js="click" data-field-id="{$FIELD_MODEL->get('id')}"
+														<button class="btn btn-info btn-xs js-context-help ml-1" data-js="click" data-field-id="{$FIELD_MODEL->get('id')}"
 															data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}" title="{App\Language::translate('LBL_CONTEXT_HELP', $QUALIFIED_MODULE)}">
 															<span class="fas fa-info-circle"></span>
 														</button>
@@ -146,7 +146,6 @@
 	</div>
 	<input type="hidden" class="inActiveFieldsArray" value='{\App\Purifier::encodeHtml(\App\Json::encode($IN_ACTIVE_FIELDS))}' />
 	{include file=\App\Layout::getTemplatePath('NewCustomBlock.tpl', $QUALIFIED_MODULE)}
-	{include file=\App\Layout::getTemplatePath('NewCustomField.tpl', $QUALIFIED_MODULE)}
 	{include file=\App\Layout::getTemplatePath('AddBlockModal.tpl', $QUALIFIED_MODULE)}
 	{include file=\App\Layout::getTemplatePath('CreateFieldModal.tpl', $QUALIFIED_MODULE)}
 	{include file=\App\Layout::getTemplatePath('InactiveFieldModal.tpl', $QUALIFIED_MODULE)}

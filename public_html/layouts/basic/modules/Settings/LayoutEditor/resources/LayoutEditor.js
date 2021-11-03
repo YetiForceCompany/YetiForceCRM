@@ -777,7 +777,7 @@ $.Class(
 					app.hideModalWindow();
 					params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
 					Settings_Vtiger_Index_Js.showMessage(params);
-					this.showCustomField(result);
+					window.location.reload();
 				} else {
 					app.showNotify({
 						title:
@@ -910,48 +910,6 @@ $.Class(
 					thisInstance.loadMultiReferenceFields(form);
 				}
 			});
-		},
-		/**
-		 * Function to add new custom field ui to the list
-		 */
-		showCustomField: function (result) {
-			var thisInstance = this;
-			var contents = this.container.find('.contents');
-			var relatedBlock = contents.find('.block_' + result['blockid']);
-			var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
-			var fieldContainer = fieldCopy.find('.js-custom-field');
-			fieldContainer
-				.addClass('opacity editFields')
-				.attr('data-field-id', result['id'])
-				.attr('data-block-id', result['blockid']);
-			fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
-			fieldContainer
-				.find('.fieldLabel')
-				.html(result['label'] + '<span class="ml-3 font-weight-normal">[' + result['name'] + ']</span>');
-			fieldContainer
-				.find('#relatedFieldValue')
-				.val(result['name'])
-				.prop('id', 'relatedFieldValue' + result['id']);
-			fieldContainer.find('.copyFieldLabel').attr('data-target', 'relatedFieldValue' + result['id']);
-			thisInstance.registerCopyClipboard();
-			if (!result['customField']) {
-				fieldContainer.find('.deleteCustomField').remove();
-			}
-			if ($.inArray(result['type'], ['string', 'phone', 'currency', 'url', 'integer', 'double']) == -1) {
-				fieldContainer.find('.maskField').remove();
-			}
-			var block = relatedBlock.find('.blockFieldsList');
-			var sortable1 = block.find('.js-sort-table1');
-			var length1 = sortable1.children().length;
-			var sortable2 = block.find('.js-sort-table2');
-			var length2 = sortable2.children().length;
-			// Deciding where to add the new field
-			if (length1 > length2) {
-				sortable2.append(fieldCopy.removeClass('d-none newCustomFieldCopy'));
-			} else {
-				sortable1.append(fieldCopy.removeClass('d-none newCustomFieldCopy'));
-			}
-			thisInstance.makeFieldsListSortable();
 		},
 		/**
 		 * Function to register click event for add custom block button
@@ -1262,10 +1220,8 @@ $.Class(
 			if (params.fieldIdList !== '[]') {
 				AppConnector.request(params)
 					.done(function (data) {
-						for (let index in data.result) {
-							self.showCustomField(data.result[index]);
-						}
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						window.location.reload();
 					})
 					.fail(function (error) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
