@@ -188,6 +188,7 @@ class RecordsList extends \Api\Core\BaseAction
 		}
 		$this->queryGenerator->setLimit($limit);
 		$this->queryGenerator->setOffset($offset);
+		\Api\WebserviceStandard\Fields::loadWebserviceFields($this->queryGenerator->getModuleModel()->getFields(), $this);
 		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
 			if (!\App\Json::isJson($requestFields)) {
 				throw new \Api\Core\Exception('Incorrect json syntax: x-fields', 400);
@@ -292,7 +293,9 @@ class RecordsList extends \Api\Core\BaseAction
 		$headers = [];
 		if ($this->fields) {
 			foreach ($this->fields as $fieldName => $fieldModel) {
-				$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
+				if ($fieldModel->isViewable()) {
+					$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
+				}
 			}
 		}
 		if ($this->relatedFields) {
@@ -300,7 +303,9 @@ class RecordsList extends \Api\Core\BaseAction
 				foreach ($fields as $sourceField => $field) {
 					foreach ($field as $relatedFieldName) {
 						$fieldModel = \Vtiger_Module_Model::getInstance($relatedModuleName)->getFieldByName($relatedFieldName);
-						$headers[$sourceField . $relatedModuleName . $relatedFieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $relatedModuleName);
+						if ($fieldModel->isViewable()) {
+							$headers[$sourceField . $relatedModuleName . $relatedFieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $relatedModuleName);
+						}
 					}
 				}
 			}

@@ -3858,6 +3858,7 @@ components:
                 - end_hour
                 - date_format
                 - time_zone
+                - raw_time_zone
                 - currency_id
                 - currency_grouping_pattern
                 - currency_decimal_separator
@@ -3868,10 +3869,6 @@ components:
                 - currency_code
                 - currency_symbol
                 - conv_rate
-                - activity_view
-                - date_format_js
-                - dayoftheweek
-                - truncate_trailing_zeros
               properties:
                 hour_format:
                   type: string
@@ -3886,8 +3883,13 @@ components:
                   type: string
                   example: yyyy-mm-dd
                 time_zone:
+                  description: 'User time zone, all data you will be in this time zone'
                   type: string
                   example: Europe/Warsaw
+                raw_time_zone:
+                  description: 'System main time zone (data in database format)'
+                  type: string
+                  example: UTC
                 currency_id:
                   type: integer
                   example: 1

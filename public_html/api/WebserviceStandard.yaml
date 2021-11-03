@@ -1197,23 +1197,23 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Users_Login_RequestBody'
+              $ref: '#/components/schemas/Users_Post_Login_Request'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Users_Login_RequestBody'
+              $ref: '#/components/schemas/Users_Post_Login_Request'
           application/json:
             schema:
-              $ref: '#/components/schemas/Users_Login_RequestBody'
+              $ref: '#/components/schemas/Users_Post_Login_Request'
       responses:
         '200':
           description: 'User details'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Users_Login_ResponseBody'
+                $ref: '#/components/schemas/Users_Post_Login_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Users_Login_ResponseBody'
+                $ref: '#/components/schemas/Users_Post_Login_Response'
         '401':
           description: '`Invalid data access` OR `Invalid user password` OR `No crmid` OR `2FA verification error`'
           content:
@@ -2549,7 +2549,7 @@ components:
       example:
         column_name1: 'searched value 1'
         column_name2: 'searched value 2'
-    Users_Login_RequestBody:
+    Users_Post_Login_Request:
       title: 'Users module - Users login request body'
       description: 'JSON or form-data'
       required:
@@ -2574,7 +2574,7 @@ components:
               example: pl-PL
           type: object
       type: object
-    Users_Login_ResponseBody:
+    Users_Post_Login_Response:
       title: 'Users module - Users login response body'
       description: 'Users login response body'
       required:
@@ -2631,6 +2631,7 @@ components:
                 - end_hour
                 - date_format
                 - time_zone
+                - raw_time_zone
                 - currency_id
                 - currency_grouping_pattern
                 - currency_decimal_separator
@@ -2655,8 +2656,13 @@ components:
                   type: string
                   example: yyyy-mm-dd
                 time_zone:
+                  description: 'User time zone, all data you will be in this time zone'
                   type: string
                   example: Europe/Warsaw
+                raw_time_zone:
+                  description: 'System main time zone (data in database format)'
+                  type: string
+                  example: UTC
                 currency_id:
                   type: integer
                   example: 1

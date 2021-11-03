@@ -54,22 +54,22 @@ class Login extends \Api\Core\BaseAction
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data format",
-	 *    		@OA\JsonContent(ref="#/components/schemas/Users_Login_RequestBody"),
+	 *    		@OA\JsonContent(ref="#/components/schemas/Users_Post_Login_Request"),
 	 *     		@OA\MediaType(
 	 *         		mediaType="multipart/form-data",
-	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/Users_Post_Login_Request")
 	 *     		),
 	 *     		@OA\MediaType(
 	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/Users_Login_RequestBody")
+	 *         		@OA\Schema(ref="#/components/schemas/Users_Post_Login_Request")
 	 *     		),
 	 *		),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
 	 *			description="User details",
-	 *			@OA\JsonContent(ref="#/components/schemas/Users_Login_ResponseBody"),
-	 *			@OA\XmlContent(ref="#/components/schemas/Users_Login_ResponseBody")
+	 *			@OA\JsonContent(ref="#/components/schemas/Users_Post_Login_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Users_Post_Login_Response")
 	 *		),
 	 *		@OA\Response(
 	 *			response=401,
@@ -155,7 +155,7 @@ class Login extends \Api\Core\BaseAction
 	 *		),
 	 *	),
 	 *	@OA\Schema(
-	 * 		schema="Users_Login_RequestBody",
+	 * 		schema="Users_Post_Login_Request",
 	 * 		title="Users module - Users login request body",
 	 * 		description="JSON or form-data",
 	 *		type="object",
@@ -171,7 +171,7 @@ class Login extends \Api\Core\BaseAction
 	 *		)
 	 *	),
 	 *	@OA\Schema(
-	 * 		schema="Users_Login_ResponseBody",
+	 * 		schema="Users_Post_Login_Response",
 	 * 		title="Users module - Users login response body",
 	 * 		description="Users login response body",
 	 *		type="object",
@@ -193,12 +193,13 @@ class Login extends \Api\Core\BaseAction
 	 *    		@OA\Property(
 	 *    			property="preferences",
 	 *    			type="object",
-	 * 				required={"hour_format", "start_hour", "end_hour", "date_format", "time_zone", "currency_id", "currency_grouping_pattern", "currency_decimal_separator", "currency_grouping_separator", "currency_symbol_placement", "no_of_currency_decimals", "currency_name", "currency_code", "currency_symbol", "conv_rate"},
+	 * 				required={"hour_format", "start_hour", "end_hour", "date_format", "time_zone", "raw_time_zone", "currency_id", "currency_grouping_pattern", "currency_decimal_separator", "currency_grouping_separator", "currency_symbol_placement", "no_of_currency_decimals", "currency_name", "currency_code", "currency_symbol", "conv_rate"},
 	 *    			@OA\Property(property="hour_format", type="string", example="24"),
 	 *    			@OA\Property(property="start_hour", type="string", example="08:00"),
 	 *    			@OA\Property(property="end_hour", type="string", example="16:00"),
 	 *    			@OA\Property(property="date_format", type="string", example="yyyy-mm-dd"),
-	 *    			@OA\Property(property="time_zone", type="string", example="Europe/Warsaw"),
+	 *    			@OA\Property(property="time_zone", type="string", example="Europe/Warsaw", description="User time zone, all data you will be in this time zone"),
+	 *    			@OA\Property(property="raw_time_zone", type="string", example="UTC", description="System main time zone (data in database format)"),
 	 *    			@OA\Property(property="currency_id", type="integer", example=1),
 	 *    			@OA\Property(property="currency_grouping_pattern", type="string", example="123,456,789"),
 	 *    			@OA\Property(property="currency_decimal_separator", type="string", example="."),
@@ -307,6 +308,7 @@ class Login extends \Api\Core\BaseAction
 				'end_hour' => $userModel->getDetail('end_hour'),
 				'date_format' => $userModel->getDetail('date_format'),
 				'time_zone' => $userModel->getDetail('time_zone'),
+				'raw_time_zone' => \App\Fields\DateTime::getTimeZone(),
 				'currency_id' => $userModel->getDetail('currency_id'),
 				'currency_grouping_pattern' => $userModel->getDetail('currency_grouping_pattern'),
 				'currency_decimal_separator' => $userModel->getDetail('currency_decimal_separator'),

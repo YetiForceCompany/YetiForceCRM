@@ -121,4 +121,14 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		}
 		return $return;
 	}
+
+	/** {@inheritdoc} */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		$value = \App\Purifier::decodeHtml($this->getDisplayValue($value, $recordModel->getId(), $recordModel, true, false));
+		if (80 === $this->getFieldModel()->getUIType()) {
+			return $value;
+		}
+		return $value . date(' (T P)', strtotime($value));
+	}
 }
