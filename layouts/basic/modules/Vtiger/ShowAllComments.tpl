@@ -37,7 +37,7 @@
 					</div>
 				</div>
 			{/if}
-			<div class="{if $HIERARCHY !== false && $HIERARCHY < 2} col-xl-4 col-lg-6{else} col-xl-2 col-lg-3{/if} col-12 px-0 d-flex">
+			<div class="{if $HIERARCHY !== false && $HIERARCHY < 2}col-xl-4 col-lg-6{else}col-xl-2 col-lg-3{/if} col-12 px-0 d-flex">
 				{if $HIERARCHY !== false && $HIERARCHY < 2}
 					<div class="px-0">
 						<div class="btn-group btn-group-toggle detailCommentsHierarchy" data-toggle="buttons">
