@@ -14,9 +14,9 @@
 	{* Change to this also refer: RecentComments.tpl *}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	<div class="js-completions__container" data-js="container">
-		<div class="d-flex flex-wrap justify-content-between">
+		<div class="d-flex flex-wrap">
 			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-				<div class="js-add-comment-block addCommentBlock mb-2 col-xl-10 col-lg-8 pl-0 pr-lg-1 pr-0" data-js="container">
+				<div class="js-add-comment-block addCommentBlock mb-2 {if $HIERARCHY !== false && $HIERARCHY < 2}col-xl-8 col-lg-6{else}col-xl-10 col-lg-9{/if} col-12 pl-0 pr-lg-1 pr-0" data-js="container">
 					<div class="input-group">
 						<span class="input-group-prepend">
 							<div class="input-group-text"><span class="fas fa-comments"></span></div>
@@ -37,47 +37,49 @@
 					</div>
 				</div>
 			{/if}
-			<input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
-			<div class="col-xl-2 col-lg-4 mb-lg-0 mb-2 pr-0 pl-lg-1 pl-0">
-				<div class="input-group">
-					<input type="text" class="js-comment-search form-control"
-						placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
-						aria-describedby="commentSearchAddon"
-						data-js="keypress|data" />
-					<div class="input-group-append">
-						<button class="btn btn-light js-search-icon" type="button" data-js="click">
-							<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
-						</button>
+			<div class="{if $HIERARCHY !== false && $HIERARCHY < 2}col-xl-4 col-lg-6{else}col-xl-2 col-lg-3{/if} col-12 px-0 d-flex">
+				{if $HIERARCHY !== false && $HIERARCHY < 2}
+					<div class="px-0">
+						<div class="btn-group btn-group-toggle detailCommentsHierarchy" data-toggle="buttons">
+							<label class="js-detail-hierarchy-comments-btn u-text-ellipsis c-btn-block-sm-down btn btn-outline-primary {if in_array('current', $HIERARCHY_VALUE)}active{/if}"
+								title="{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}" data-js="click">
+								<input name="options" type="checkbox"
+									class="js-detail-hierarchy-comments"
+									data-js="val"
+									value="current"
+									{if in_array('current', $HIERARCHY_VALUE)} checked="checked" {/if}
+									autocomplete="off" />
+								{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
+							</label>
+							<label class="js-detail-hierarchy-comments-btn u-text-ellipsis c-btn-block-sm-down btn btn-outline-primary {if in_array('related', $HIERARCHY_VALUE)}active{/if}"
+								title="{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}" data-js="click">
+								<input name="options" type="checkbox"
+									class="js-detail-hierarchy-comments"
+									data-js="val"
+									value="related"
+									{if in_array('related', $HIERARCHY_VALUE)} checked="checked" {/if}
+									autocomplete="off" />
+								{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
+							</label>
+						</div>
+					</div>
+				{/if}
+				<input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
+				<div class="col mb-sm-0  pr-0  pl-1">
+					<div class="input-group">
+						<input type="text" class="js-comment-search form-control"
+							placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
+							aria-describedby="commentSearchAddon"
+							data-js="keypress|data" />
+						<div class="input-group-append">
+							<button class="btn btn-light js-search-icon" type="button" data-js="click">
+								<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		{if $HIERARCHY !== false && $HIERARCHY < 2}
-			<div class="col-12 px-0">
-				<div class="btn-group btn-group-toggle detailCommentsHierarchy" data-toggle="buttons">
-					<label class="js-detail-hierarchy-comments-btn u-text-ellipsis c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-primary {if in_array('current', $HIERARCHY_VALUE)}active{/if}"
-						title="{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}" data-js="click">
-						<input name="options" type="checkbox"
-							class="js-detail-hierarchy-comments"
-							data-js="val"
-							value="current"
-							{if in_array('current', $HIERARCHY_VALUE)} checked="checked" {/if}
-							autocomplete="off" />
-						{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
-					</label>
-					<label class="js-detail-hierarchy-comments-btn u-text-ellipsis c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-primary {if in_array('related', $HIERARCHY_VALUE)}active{/if}"
-						title="{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}" data-js="click">
-						<input name="options" type="checkbox"
-							class="js-detail-hierarchy-comments"
-							data-js="val"
-							value="related"
-							{if in_array('related', $HIERARCHY_VALUE)} checked="checked" {/if}
-							autocomplete="off" />
-						{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
-					</label>
-				</div>
-			</div>
-		{/if}
 		<div class="commentContainer">
 			<div class="js-completions__messages commentsList col-md-12 px-0" data-js="click">
 				{include file=\App\Layout::getTemplatePath('CommentsList.tpl') COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
