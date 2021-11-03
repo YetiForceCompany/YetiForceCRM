@@ -50,11 +50,5 @@ body > .q-dialog:not(.quasar-reset) {
 		.q-message-text {
 			background: #e0e0e0;
 		}
-		&:hover .comment-actions {
-			visibility: visible;
-		}
-		.comment-actions {
-			visibility: hidden;
-		}
 	}
 }

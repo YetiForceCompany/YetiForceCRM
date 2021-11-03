@@ -98,9 +98,9 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				break;
 			case 'Groups':
 				if (\App\User::getCurrentUserModel()->isAdmin()) {
-					$recordModel = new Settings_Groups_Record_Model();
-					$recordModel->set('groupid', $value);
-					$detailViewUrl = $recordModel->getDetailViewUrl();
+					$groupRecordModel = new Settings_Groups_Record_Model();
+					$groupRecordModel->set('groupid', $value);
+					$detailViewUrl = $groupRecordModel->getDetailViewUrl();
 					$popoverRecordClass = '';
 				}
 				break;
