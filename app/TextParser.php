@@ -694,10 +694,10 @@ class TextParser
 					$oldValue = $this->getDisplayValueByField($fieldModel, $oldValue);
 					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
-						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br />' : PHP_EOL);
+						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br>' : PHP_EOL);
 					} else {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
-						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
 					}
 				}
 				return $value;
@@ -715,9 +715,9 @@ class TextParser
 					}
 					$currentValue = \in_array($fieldModel->getFieldDataType(), $this->largeDataUiTypes) ? '' : $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
-						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
 					} else {
-						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
 					}
 				}
 				return $value;
@@ -728,9 +728,9 @@ class TextParser
 					foreach ($fields as $fieldName => $fieldModel) {
 						$currentValue = $this->getDisplayValueByField($fieldModel);
 						if ($this->withoutTranslations) {
-							$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+							$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
 						} else {
-							$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+							$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
 						}
 					}
 					return $value;
@@ -1187,14 +1187,14 @@ class TextParser
 		$commentsList = '';
 		foreach ($query->all() as $comment) {
 			if ('' != $comment['commentcontent']) {
-				$commentsList .= '<br /><br />';
+				$commentsList .= '<br><br>';
 				if ('true' === $showAuthor) {
 					$commentsList .= Purifier::encodeHtml(\App\Fields\Owner::getUserLabel($comment['userid'])) . ': ';
 				}
 				$commentsList .= nl2br($comment['commentcontent']);
 			}
 		}
-		return ltrim($commentsList, '<br /><br />');
+		return ltrim($commentsList, '<br><br>');
 	}
 
 	/**
@@ -1879,7 +1879,7 @@ class TextParser
 								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
 									$comment = $commentField->getDisplayValue($value, $inventoryRow, $rawText);
 									if ($comment) {
-										$html .= '<br />' . $comment;
+										$html .= '<br>' . $comment;
 									}
 								}
 							}

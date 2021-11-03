@@ -3,24 +3,24 @@
 	<!-- tpl-Notification-Reminders -->
 	<style>
 		{foreach item=VALUE key=NAME from=$COLORS}
-		.headingColor{$NAME} {
+			.headingColor{$NAME} {
 			background-color: {$VALUE} !important;
 			border-color: {$VALUE};
 			background: linear-gradient(-10deg, #fff, transparent 70%)
-		}
+			}
 
 		{/foreach}
 	</style>
 	<div class="remindersContent pb-5">
 		{foreach item=RECORD from=$RECORDS}
 			<div class="js-toggle-panel card ml-0 mr-3 mt-2 headingColor{$RECORD->get('notification_type')} js-notification-panel"
-				 data-js="click" data-record="{$RECORD->getId()}">
+				data-js="click" data-record="{$RECORD->getId()}">
 				<div class="card-body row p-0">
 					<div class="col-2 notificationIcon pl-3">
 						<span class="fas {if $RECORD->get('notification_type') eq 'PLL_SYSTEM'}fa-hdd{else}fa-user{/if}"
-							  aria-hidden="true"></span>
+							aria-hidden="true"></span>
 					</div>
-					<div class="col-10 notiContent pb-1">
+					<div class="col-10 notiContent small pb-1">
 						<div class="d-flex justify-content-between py-1 pb-2">
 							<div class="paddingLRZero font-small">
 								<strong>{\App\Language::translate($RECORD->get('notification_type'),$MODULE_NAME)}</strong>
@@ -38,18 +38,11 @@
 							</div>
 						</div>
 						<div class="d-flex flex-column">
-							{if $RECORD->get('link') && \App\Record::isExists($RECORD->get('link'))}
-								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}:&nbsp;{$RECORD->getDisplayValue('link')}
-							{/if}
-							{if $RECORD->get('linkextend')  && \App\Record::isExists($RECORD->get('linkextend'))}
-								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}:&nbsp;{$RECORD->getDisplayValue('linkextend')}
-							{/if}
-							{if $RECORD->get('process')  && \App\Record::isExists($RECORD->get('process'))}
-								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}:&nbsp;{$RECORD->getDisplayValue('process')}
-							{/if}
-							{if $RECORD->get('subprocess')  && \App\Record::isExists($RECORD->get('subprocess'))}
-								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}:&nbsp;{$RECORD->getDisplayValue('subprocess')}
-							{/if}
+							{foreach from=['link','linkextend','process','subprocess','subprocess_sl'] item=FIELD_NAME}
+								{if $RECORD->get($FIELD_NAME) && \App\Record::isExists($RECORD->get($FIELD_NAME))}
+									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get($FIELD_NAME)))}:&nbsp;{$RECORD->getDisplayValue($FIELD_NAME)}
+								{/if}
+							{/foreach}
 						</div>
 						<div class="d-flex justify-content-between">
 							<div>
@@ -58,7 +51,7 @@
 							</div>
 							<div>
 								<button type="button" class="btn btn-success btn-sm js-set-marked" data-js="click"
-										title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
+									title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
 									<span class="fas fa-check" aria-hidden="true"></span>
 								</button>
 							</div>
@@ -66,7 +59,7 @@
 					</div>
 				</div>
 			</div>
-			{foreachelse}
+		{foreachelse}
 			<div class="alert alert-info">
 				{\App\Language::translate('LBL_NO_UNREAD_NOTIFICATIONS',$MODULE_NAME)}
 			</div>
@@ -76,9 +69,9 @@
 				<span class="fas fa-list"></span>
 			</a>
 			<button type="button" class="btn btn-light js-popover-tooltip showModal" data-js="popover"
-					data-placement="top"
-					data-content="{\App\Language::translate('LBL_NOTIFICATION_SETTINGS',$MODULE_NAME)}"
-					data-target="focus hover" data-url="index.php?module=Notification&amp;view=NotificationConfig">
+				data-placement="top"
+				data-content="{\App\Language::translate('LBL_NOTIFICATION_SETTINGS',$MODULE_NAME)}"
+				data-target="focus hover" data-url="index.php?module=Notification&amp;view=NotificationConfig">
 				<span class="fas fa-cog"></span>
 			</button>
 		</div>

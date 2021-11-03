@@ -33,7 +33,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			$textParser = \App\TextParser::getInstance();
 			$textParser->setContent($value)->parseTranslations();
 		}
-		return nl2br($textParser->getContent());
+
+		return nl2br(str_replace("<br>\n", '<br>', $textParser->getContent()));
 	}
 
 	/**
@@ -87,7 +88,10 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$process = $this->get('process');
 		$link = $this->get('link');
 		$linkextend = $this->get('linkextend');
-		if (!empty($subprocess) && \App\Record::isExists($subprocess)) {
+		$sl = $this->get('subprocess_sl');
+		if (!empty($sl) && \App\Record::isExists($sl)) {
+			$relatedId = $sl;
+		} elseif (!empty($subprocess) && \App\Record::isExists($subprocess)) {
 			$relatedId = $subprocess;
 		} elseif (!empty($process) && \App\Record::isExists($process)) {
 			$relatedId = $process;

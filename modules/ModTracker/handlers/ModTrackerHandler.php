@@ -289,9 +289,8 @@ class ModTracker_ModTrackerHandler_Handler
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 			$users = $watchdog->getWatchingUsers([\App\User::getCurrentUserRealId()]);
 			if (!empty($users)) {
-				$currentUser = \App\User::getCurrentUserModel();
 				$watchdogTitle = '$(translate : ModTracker|' . $watchdogTitle . ')$ $(record : RecordLabel)$';
-				$watchdogTitle = $currentUser->getName() . ' ' . $watchdogTitle;
+				$watchdogTitle = \App\Fields\Owner::getUserLabel(\App\User::getCurrentUserId()) . ' ' . $watchdogTitle;
 				$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 				if ($relatedField) {
 					$notification = Vtiger_Record_Model::getCleanInstance('Notification');

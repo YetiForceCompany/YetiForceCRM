@@ -20,7 +20,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	public function getQuery(array $conditions = []): App\Db\Query
 	{
 		$queryGenerator = new App\QueryGenerator($this->getName());
-		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'linkextend', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid', 'notification_type']);
+		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'linkextend', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid', 'notification_type', 'subprocess_sl']);
 		if (!empty($conditions)) {
 			$queryGenerator->addNativeCondition($conditions);
 		}
