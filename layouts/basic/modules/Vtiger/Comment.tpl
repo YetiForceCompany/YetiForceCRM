@@ -122,12 +122,10 @@
 							<div class="q-message-text q-py-xs {$COMMENT_BACKGROUND}">
 								{if $HIERARCHY}
 									{assign var=RELATED_TO value=$COMMENT->get('related_to')}
-									<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}" />
 									{assign var=RELATED_MODULE value=\App\Record::getType($RELATED_TO)}
-									<span class="mr-1">{\App\Language::translate($RELATED_MODULE, $RELATED_MODULE)}:</span>
-									<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$RELATED_TO}">
-										<span>{$COMMENT->getDisplayValue('related_to')}</span>
-									</a>
+									<input type="hidden" class="related_to" name="related_to" value="{$RELATED_TO}" />
+									<span class="mr-1">{\App\Language::translateSingularModuleName($RELATED_MODULE)}:</span>
+									{$COMMENT->getDisplayValue('related_to',false,false,150)}
 								{/if}
 								<span class="q-message-text-content">
 									<div class="js-comment-info" data-js="html">{$COMMENT->getDisplayValue('commentcontent')}</div>
