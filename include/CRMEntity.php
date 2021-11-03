@@ -97,9 +97,7 @@ class CRMEntity
 		if (!isset($record)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 		}
-
-		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
-		if ($cachedModuleFields) {
+		if ($cachedModuleFields = \App\Field::getModuleFieldInfosByPresence($module)) {
 			$query = new \App\Db\Query();
 			$columnClause = [];
 			$requiredTables = $this->tab_name_index; // copies-on-write

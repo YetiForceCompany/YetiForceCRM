@@ -119,7 +119,7 @@ class Record
 			$leftJoinTables = $paramsCol = [];
 			$query = new \App\Db\Query();
 			$focus = $moduleModel->getEntityInstance();
-			$moduleInfoExtend = Functions::getModuleFieldInfos($moduleName, true);
+			$moduleInfoExtend = \App\Field::getModuleFieldInfos($moduleName, true);
 			foreach (array_filter($columns) as $column) {
 				if (\array_key_exists($column, $moduleInfoExtend)) {
 					$otherTable = $moduleInfoExtend[$column]['tablename'];

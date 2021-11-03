@@ -161,7 +161,7 @@ class Users extends CRMEntity
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_RECORD_NOT_FOUND||' . $record);
 			}
 		}
-		$fields = vtlib\Functions::getModuleFieldInfos($module);
+		$fields = \App\Field::getModuleFieldInfos($module);
 		foreach ($fields as $fieldName => &$fieldRow) {
 			if (isset($result[$fieldRow['tablename']][$fieldRow['columnname']])) {
 				$value = $result[$fieldRow['tablename']][$fieldRow['columnname']];

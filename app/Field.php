@@ -332,13 +332,67 @@ class Field
 				->where(['vtiger_field.fieldid' => $mixed])->one();
 			Cache::save('FieldInfoById', $mixed, $fieldInfo, Cache::LONG);
 		} else {
-			$fieldsInfo = \vtlib\Functions::getModuleFieldInfos($module);
+			$fieldsInfo = self::getModuleFieldInfos($module);
 			if ($fieldsInfo && isset($fieldsInfo[$mixed])) {
 				$fieldInfo = $fieldsInfo[$mixed];
 				Cache::save('FieldInfoById', $fieldInfo['fieldid'], $fieldInfo, Cache::LONG);
 			}
 		}
 		return $fieldInfo;
+	}
+
+	/**
+	 * Function get module field infos.
+	 *
+	 * @param int|string $module
+	 * @param bool       $returnByColumn
+	 *
+	 * @return mixed[]
+	 */
+	public static function getModuleFieldInfos($module, bool $returnByColumn = false)
+	{
+		if (is_numeric($module)) {
+			$module = Module::getModuleName($module);
+		}
+		$cacheName = 'ModuleFieldInfosByName';
+		if (!Cache::has($cacheName, $module)) {
+			$dataReader = (new Db\Query())
+				->from('vtiger_field')
+				->leftJoin('s_#__fields_anonymization', 'vtiger_field.fieldid = s_#__fields_anonymization.field_id')
+				->where(['tabid' => Module::getModuleId($module)])
+				->createCommand()->query();
+			$fieldInfoByName = $fieldInfoByColumn = [];
+			while ($row = $dataReader->read()) {
+				$fieldInfoByName[$row['fieldname']] = $row;
+				$fieldInfoByColumn[$row['columnname']] = $row;
+			}
+			Cache::save($cacheName, $module, $fieldInfoByName);
+			Cache::save('ModuleFieldInfosByColumn', $module, $fieldInfoByColumn);
+		}
+		if ($returnByColumn) {
+			return Cache::get('ModuleFieldInfosByColumn', $module);
+		}
+		return Cache::get($cacheName, $module);
+	}
+
+	/**
+	 * Function get module field infos by presence.
+	 *
+	 * @param int|string $module
+	 * @param array      $presence
+	 *
+	 * @return mixed[]
+	 */
+	public static function getModuleFieldInfosByPresence($module, array $presence = ['0', '2'])
+	{
+		$moduleFields = [];
+		$fieldsInfo = self::getModuleFieldInfos($module);
+		foreach ($fieldsInfo as $fieldInfo) {
+			if (\in_array($fieldInfo['presence'], $presence)) {
+				$moduleFields[$fieldInfo['fieldname']] = $fieldInfo;
+			}
+		}
+		return $moduleFields;
 	}
 
 	/**

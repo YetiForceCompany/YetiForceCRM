@@ -162,40 +162,6 @@ class Functions
 	}
 
 	/**
-	 * Function get module field infos.
-	 *
-	 * @param int|string $module
-	 * @param bool       $returnByColumn
-	 *
-	 * @return mixed[]
-	 */
-	public static function getModuleFieldInfos($module, $returnByColumn = false)
-	{
-		if (is_numeric($module)) {
-			$module = \App\Module::getModuleName($module);
-		}
-		$cacheName = 'ModuleFieldInfosByName';
-		if (!\App\Cache::has($cacheName, $module)) {
-			$dataReader = (new \App\Db\Query())
-				->from('vtiger_field')
-				->leftJoin('s_#__fields_anonymization', 'vtiger_field.fieldid = s_#__fields_anonymization.field_id')
-				->where(['tabid' => \App\Module::getModuleId($module)])
-				->createCommand()->query();
-			$fieldInfoByName = $fieldInfoByColumn = [];
-			while ($row = $dataReader->read()) {
-				$fieldInfoByName[$row['fieldname']] = $row;
-				$fieldInfoByColumn[$row['columnname']] = $row;
-			}
-			\App\Cache::save($cacheName, $module, $fieldInfoByName);
-			\App\Cache::save('ModuleFieldInfosByColumn', $module, $fieldInfoByColumn);
-		}
-		if ($returnByColumn) {
-			return \App\Cache::get('ModuleFieldInfosByColumn', $module);
-		}
-		return \App\Cache::get($cacheName, $module);
-	}
-
-	/**
 	 * Function to gets mudule field ID.
 	 *
 	 * @param int|string $moduleId
@@ -391,7 +357,7 @@ class Functions
 				if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
 					$message = [
 						'message' => $message,
-						'trace' => str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', "{$e->getFile()}({$e->getLine()})\n{$e->getTraceAsString()}")
+						'trace' => str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', "{$e->getFile()}({$e->getLine()})\n{$e->getTraceAsString()}"),
 					];
 					$code = $e->getCode();
 				}

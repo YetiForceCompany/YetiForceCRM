@@ -183,7 +183,7 @@ class Deprecated
 	{
 		\App\Log::trace('Entering getColumnFields(' . $module . ') method ...');
 		$columnFields = [];
-		foreach (\VTCacheUtils::lookupFieldInfoModule($module) as $fieldInfo) {
+		foreach (\App\Field::getModuleFieldInfosByPresence($module) as $fieldInfo) {
 			$columnFields[$fieldInfo['fieldname']] = '';
 		}
 		\App\Log::trace('Exiting getColumnFields method ...');
@@ -203,8 +203,8 @@ class Deprecated
 		require 'user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php';
 		include 'user_privileges/tabdata.php';
 
-		if (false === $is_admin && 1 == $profileGlobalPermission[1] &&
-			1 == $profileGlobalPermission[2]) {
+		if (false === $is_admin && 1 == $profileGlobalPermission[1]
+			&& 1 == $profileGlobalPermission[2]) {
 			foreach ($tab_seq_array as $tabid => $seq_value) {
 				if (0 === $seq_value && isset($profileTabsPermission[$tabid]) && 0 === $profileTabsPermission[$tabid]) {
 					$permittedModules[] = ($tabid);
