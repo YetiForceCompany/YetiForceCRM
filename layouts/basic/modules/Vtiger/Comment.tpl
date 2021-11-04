@@ -17,7 +17,7 @@
 		{assign var=COMMENT_BACKGROUND value='u-bg-light-blue'}
 	{/if}
 	{if $COMMENT->get('customer')}
-		{assign var=COMMENT_BACKGROUND value='u-bg-light-green'}
+		{assign var=COMMENT_BACKGROUND value='u-bg-light-orange'}
 	{/if}
 	<div class="Comment comment-div js-comment-div border-bottom pb-3" data-js="container">
 		<div class="js-comment-single singleComment" data-js="append">
@@ -31,7 +31,7 @@
 					<div class="q-message-container row items-end no-wrap">
 						{assign var=IMAGE value=$COMMENT->getImage()}
 						{if $IMAGE}
-							<img class="q-message-avatar gt-sm" alt="userImage" src="{$IMAGE.url}">
+							<img class="q-message-avatar gt-sm mr-2" alt="userImage" src="{$IMAGE['url']}">
 						{else}
 							<div class="q-message-avatar gt-sm visible u-fs-26px flex flex-center">
 								<span class="fas fa-user"></span>

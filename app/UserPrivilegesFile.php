@@ -48,7 +48,7 @@ class UserPrivilegesFile
 			$userFocus->id = $userid;
 			foreach ($userFocus->column_fields as $field => $value) {
 				if (isset($userFocus->{$field})) {
-					if ('currency_symbol' === $field) {
+					if ('currency_symbol' === $field || $field === 'imagename'|| $field === 'othereventduration') {
 						$userInfo[$field] = $userFocus->{$field};
 					} else {
 						$userInfo[$field] = is_numeric($userFocus->{$field}) ? $userFocus->{$field} : \App\Purifier::encodeHtml($userFocus->{$field});

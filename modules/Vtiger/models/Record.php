@@ -1829,7 +1829,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getImage()
 	{
 		$image = [];
-		if (!$this->isEmpty('imagename') && '[]' !== $this->get('imagename') && '""' !== $this->get('imagename')) {
+		if (!$this->isEmpty('imagename') && \App\Json::isJson($this->get('imagename'))) {
 			$image = \App\Json::decode($this->get('imagename'));
 			if (empty($image) || !($image = \current($image)) || empty($image['path'])) {
 				\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get('imagename')}]");
@@ -1839,7 +1839,7 @@ class Vtiger_Record_Model extends \App\Base
 			$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field=imagename&record={$this->getId()}&key={$image['key']}";
 		} else {
 			foreach ($this->getModule()->getFieldsByType('multiImage') as $fieldModel) {
-				if (!$this->isEmpty($fieldModel->getName()) && '[]' !== $this->get($fieldModel->getName()) && '""' !== $this->get($fieldModel->getName())) {
+				if (!$this->isEmpty($fieldModel->getName()) && \App\Json::isJson($this->get($fieldModel->getName()))) {
 					$image = \App\Json::decode($this->get($fieldModel->getName()));
 					if (empty($image) || !($image = \current($image)) || empty($image['path'])) {
 						\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get('imagename')}]");

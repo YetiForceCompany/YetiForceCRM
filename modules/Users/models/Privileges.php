@@ -142,7 +142,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$instance->{$key} = $value;
 		}
 		$instance->setData($valueMap);
-
+		$instance->setModule('Users');
 		return $instance;
 	}
 
@@ -161,7 +161,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		if (empty($userId)) {
 			return null;
 		}
-
 		if (isset(self::$userPrivilegesModelCache[$userId])) {
 			return self::$userPrivilegesModelCache[$userId];
 		}
@@ -170,8 +169,8 @@ class Users_Privileges_Model extends Users_Record_Model
 			$valueMap = array_merge($valueMap, $valueMap['user_info']);
 		}
 		$instance = self::getInstance($valueMap);
+		$instance->setId($userId);
 		self::$userPrivilegesModelCache[$userId] = $instance;
-
 		return $instance;
 	}
 

@@ -17,7 +17,7 @@
 					{assign var=IMAGE value=$RECORD->getImage()}
 					<span class="moduleIcon{if $IMAGE} o-detail__record-img mr-1{/if}">
 						{if $IMAGE}
-							<img class="js-detail-hierarchy rounded-circle" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE.url}">
+							<img class="js-detail-hierarchy rounded-circle" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE['url']}">
 						{else}
 							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy yfm-{$MODULE}" data-js="click"></span>
 						{/if}
@@ -44,7 +44,7 @@
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE && $RECORD_STATE !== 'Active'}
 						{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
-						<span class="badge badge-secondary ml-1" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+						<span class="badge badge-secondary ml-1" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};" {/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
 								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
 							{else}
