@@ -34,7 +34,7 @@
 							<img class="q-message-avatar gt-sm mr-2" alt="userImage" src="{$IMAGE['url']}">
 						{else}
 							<div class="q-message-avatar gt-sm visible u-fs-26px flex flex-center">
-								<span class="fas fa-user"></span>
+								<span class="fas {if $COMMENT->get('customer')}fa-user-circle{else}fa-user{/if}"></span>
 							</div>
 						{/if}
 						<div class="full-width">
