@@ -179,9 +179,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 			\App\Log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
 			register_shutdown_function(function () use ($mbox, $user) {
-				\App\Log::beginProfile('OSSMail_Record_Model|imap_close|' . $user, 'Mail|IMAP');
-				imap_close($mbox);
-				\App\Log::endProfile('OSSMail_Record_Model|imap_close|' . $user, 'Mail|IMAP');
+				try {
+					\App\Log::beginProfile('OSSMail_Record_Model|imap_close|' . $user, 'Mail|IMAP');
+					imap_close($mbox);
+					\App\Log::endProfile('OSSMail_Record_Model|imap_close|' . $user, 'Mail|IMAP');
+				} catch (\Throwable $e) {
+					\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+					throw $e;
+				}
 			});
 		} else {
 			if ($account) {

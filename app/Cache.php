@@ -192,7 +192,11 @@ class Cache
 			return false;
 		}
 		register_shutdown_function(function () {
-			static::resetOpcache();
+			try {
+				static::resetOpcache();
+			} catch (\Throwable $e) {
+				\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+			}
 		});
 		return static::$clearOpcache = true;
 	}

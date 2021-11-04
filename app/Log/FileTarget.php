@@ -133,13 +133,21 @@ class FileTarget extends \yii\log\FileTarget
 		}
 		$result = '';
 		$anonymization = new \App\Anonymization();
-		foreach (\yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars) as $key => $value) {
-			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($anonymization->setData($value)->anonymize()->getData());
+		try {
+			foreach (\yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars) as $key => $value) {
+				$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($anonymization->setData($value)->anonymize()->getData());
+			}
+		} catch (\Throwable $th) {
+			$result .= "\nError while saving logs: 'GLOBALS': \n" . $th->__toString();
 		}
 		$result .= "\nHEADERS = " . \yii\helpers\VarDumper::dumpAsString(getallheaders());
 		if ('test' !== \App\Config::main('systemMode')) {
-			foreach (\App\Utils\ConfReport::getAllErrors(true) as $key => $value) {
-				$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
+			try {
+				foreach (\App\Utils\ConfReport::getAllErrors(true) as $key => $value) {
+					$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
+				}
+			} catch (\Throwable $th) {
+				$result .= "\nError while saving logs: 'ConfReport::getAllErrors': \n" . $th->__toString();
 			}
 		}
 		$result .= PHP_EOL;

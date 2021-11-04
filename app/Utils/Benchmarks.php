@@ -194,7 +194,12 @@ class Benchmarks
 			];
 		}
 		register_shutdown_function(function () {
-			\vtlib\Functions::recurseDelete('cache/speed');
+			try {
+				\vtlib\Functions::recurseDelete('cache/speed');
+			} catch (\Throwable $e) {
+				\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+				throw $e;
+			}
 		});
 		return [
 			'read' => $read,

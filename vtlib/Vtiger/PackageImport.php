@@ -657,8 +657,13 @@ class PackageImport extends PackageExport
 		$this->importCronTasks($this->_modulexml);
 		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTINSTALL);
 		register_shutdown_function(function () {
-			chdir(ROOT_DIRECTORY);
-			(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::recalculateAll', 'params' => []]))->save();
+			try {
+				chdir(ROOT_DIRECTORY);
+				(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::recalculateAll', 'params' => []]))->save();
+			} catch (\Throwable $e) {
+				\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+				throw $e;
+			}
 		});
 	}
 
@@ -1150,9 +1155,14 @@ class PackageImport extends PackageExport
 		}
 		Functions::recurseDelete($dirName);
 		register_shutdown_function(function () {
-			$viewer = \Vtiger_Viewer::getInstance();
-			$viewer->clearAllCache();
-			Functions::recurseDelete('cache/templates_c');
+			try {
+				$viewer = \Vtiger_Viewer::getInstance();
+				$viewer->clearAllCache();
+				Functions::recurseDelete('cache/templates_c');
+			} catch (\Throwable $e) {
+				\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+				throw $e;
+			}
 		});
 		\App\Module::createModuleMetaFile();
 		\App\Cache::clear();

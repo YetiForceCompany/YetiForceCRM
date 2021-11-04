@@ -73,7 +73,12 @@ class Controller
 	{
 		register_shutdown_function(function () {
 			if ($error = error_get_last()) {
-				$this->errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+				try {
+					$this->errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+				} catch (\Throwable $e) {
+					\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+					$this->handleError($e);
+				}
 			}
 		});
 		set_error_handler([$this, 'errorHandler']);

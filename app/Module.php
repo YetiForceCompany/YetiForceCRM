@@ -285,7 +285,12 @@ class Module
 		}
 		static::initFromDb();
 		register_shutdown_function(function () {
-			YetiForce\Shop::generateCache();
+			try {
+				YetiForce\Shop::generateCache();
+			} catch (\Throwable $e) {
+				\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+				throw $e;
+			}
 		});
 	}
 
