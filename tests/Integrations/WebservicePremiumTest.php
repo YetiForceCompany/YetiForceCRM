@@ -601,22 +601,20 @@ $recordModel = \Tests\Base\C_RecordActions::createProductRecord();
 	 */
 	public function testGetFiles(): void
 	{
-		/*
-				$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
-				$fileDetails = $record->getFileDetails();
-				$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
-				$fileInstance = \App\Fields\File::loadFromPath($savedFile);
-				$request = $this->httpClient->put('Files', \App\Utils::merge(['json' => [
-					'module' => 'Documents',
-					'actionName' => 'DownloadFile',
-					'record' => $record->getId(),
-								 'share_externally' => 1,
-				]], self::$requestOptions));
-				$this->logs = $body = $request->getBody()->getContents();
-				static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-				static::assertSame($body, $fileInstance->getContents(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-				self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/WebservicePremium/Files', 'put', 200);
-		*/
+		$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
+		$fileDetails = $record->getFileDetails();
+		$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
+		$fileInstance = \App\Fields\File::loadFromPath($savedFile);
+		$request = $this->httpClient->put('Files', \App\Utils::merge(['json' => [
+			'module' => 'Documents',
+			'actionName' => 'DownloadFile',
+			'record' => $record->getId(),
+			'share_externally' => 1,
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame($body, $fileInstance->getContents(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/WebservicePremium/Files', 'put', 200);
 	}
 
 	/**
