@@ -229,13 +229,10 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_ACTIVATE_RECORD',
 					'title' => \App\Language::translate('LBL_ACTIVATE_RECORD'),
-					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
-					'linkdata' => [
-						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
-						'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC'),
-					],
+					'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC'), 'source-view' => 'Detail'],
 					'linkicon' => 'fas fa-undo-alt',
-					'linkclass' => 'entityStateBtn btn-outline-dark btn-sm',
+					'linkclass' => 'entityStateBtn btn-outline-dark btn-sm js-action-confirm',
 					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
 				]);
 			}
@@ -244,13 +241,10 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_ARCHIVE_RECORD',
 					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
-					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
-					'linkdata' => [
-						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
-						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
-					],
+					'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'), 'source-view' => 'Detail'],
 					'linkicon' => 'fas fa-archive',
-					'linkclass' => 'entityStateBtn btn-outline-dark btn-sm',
+					'linkclass' => 'entityStateBtn btn-outline-dark btn-sm js-action-confirm',
 					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
 				]);
 			}
@@ -259,13 +253,10 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
 					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
-					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
-					'linkdata' => [
-						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
-						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'),
-					],
+					'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'), 'source-view' => 'Detail'],
 					'linkicon' => 'fas fa-trash-alt',
-					'linkclass' => 'entityStateBtn btn-outline-dark btn-sm',
+					'linkclass' => 'entityStateBtn btn-outline-dark btn-sm js-action-confirm',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 				]);
 			}
@@ -274,13 +265,10 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
 					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
-					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
-					'linkdata' => [
-						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
-						'confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC'),
-					],
+					'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC'), 'source-view' => 'Href'],
 					'linkicon' => 'fas fa-eraser',
-					'linkclass' => 'btn-dark btn-sm',
+					'linkclass' => 'btn-dark btn-sm js-action-confirm',
 				]);
 			}
 			if ($moduleModel->isPermitted('DuplicateRecord')) {

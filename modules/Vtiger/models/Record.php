@@ -1390,27 +1390,28 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRecordListViewLinksLeftSide()
 	{
+		if (!$this->isViewable()) {
+			return [];
+		}
 		$links = $recordLinks = [];
-		if ($this->isViewable()) {
-			if ($this->getModule()->isSummaryViewSupported()) {
-				$recordLinks['LBL_SHOW_QUICK_DETAILS'] = [
-					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-					'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
-					'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-					'linkicon' => 'far fa-caret-square-right',
-					'linkclass' => 'btn-sm btn-default',
-					'modalView' => true,
-				];
-			}
-			$recordLinks['LBL_SHOW_COMPLETE_DETAILS'] = [
+		if ($this->getModule()->isSummaryViewSupported()) {
+			$recordLinks['LBL_SHOW_QUICK_DETAILS'] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
-				'linkurl' => $this->getFullDetailViewUrl(),
-				'linkicon' => 'fas fa-th-list',
+				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
+				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
+				'linkicon' => 'far fa-caret-square-right',
 				'linkclass' => 'btn-sm btn-default',
-				'linkhref' => true,
+				'modalView' => true,
 			];
 		}
+		$recordLinks['LBL_SHOW_COMPLETE_DETAILS'] = [
+			'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+			'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
+			'linkurl' => $this->getFullDetailViewUrl(),
+			'linkicon' => 'fas fa-th-list',
+			'linkclass' => 'btn-sm btn-default',
+			'linkhref' => true,
+		];
 		if ($this->isEditable()) {
 			$recordLinks['LBL_EDIT'] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
@@ -1450,33 +1451,33 @@ class Vtiger_Record_Model extends \App\Base
 				$recordLinks['LBL_ACTIVATE_RECORD'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_ACTIVATE_RECORD',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active&record=' . $this->getId(),
 					'linkicon' => 'fas fa-undo-alt',
 					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
-					'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn',
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC'), 'source-view' => 'List'],
+					'linkclass' => 'btn-sm btn-default entityStateBtn js-action-confirm',
 				];
 			}
 			if ($this->privilegeToArchive()) {
 				$recordLinks[] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_ARCHIVE_RECORD',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&record=' . $this->getId(),
 					'linkicon' => 'fas fa-archive',
 					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
-					'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn',
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'), 'source-view' => 'List'],
+					'linkclass' => 'btn-sm btn-default entityStateBtn js-action-confirm',
 				];
 			}
 			if ($this->privilegeToMoveToTrash()) {
 				$recordLinks['LBL_MOVE_TO_TRASH'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&record=' . $this->getId(),
 					'linkicon' => 'fas fa-trash-alt',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
-					'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn',
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'), 'source-view' => 'List'],
+					'linkclass' => 'btn-sm btn-default entityStateBtn js-action-confirm',
 				];
 			}
 			if ($this->privilegeToDelete()) {
@@ -1484,9 +1485,9 @@ class Vtiger_Record_Model extends \App\Base
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
 					'linkicon' => 'fas fa-eraser',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-					'linkclass' => 'btn-sm btn-dark recordEvent',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC'), 'source-view' => 'List'],
+					'linkclass' => 'btn-sm btn-dark js-action-confirm',
 				];
 			}
 		}
@@ -1520,26 +1521,28 @@ class Vtiger_Record_Model extends \App\Base
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
 		$links = [];
-		if ($this->isViewable()) {
-			if ($this->getModule()->isSummaryViewSupported()) {
-				$defaultViewName = $viewModel->getParentRecordModel()->getModule()->getDefaultViewName();
-				$links['LBL_SHOW_QUICK_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
-					'linkhref' => 'ListPreview' !== $defaultViewName,
-					'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-					'linkicon' => 'far fa-caret-square-right',
-					'linkclass' => 'btn-sm btn-default',
-					'modalView' => true,
-				]);
-			}
-			$links['LBL_SHOW_COMPLETE_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
-				'linkurl' => $this->getFullDetailViewUrl(),
-				'linkhref' => true,
-				'linkicon' => 'fas fa-th-list',
+		if (!$this->isViewable()) {
+			return [];
+		}
+		if ($this->getModule()->isSummaryViewSupported()) {
+			$defaultViewName = $viewModel->getParentRecordModel()->getModule()->getDefaultViewName();
+			$links['LBL_SHOW_QUICK_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
+				'linkhref' => 'ListPreview' !== $defaultViewName,
+				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
+				'linkicon' => 'far fa-caret-square-right',
 				'linkclass' => 'btn-sm btn-default',
+				'modalView' => true,
 			]);
 		}
+		$links['LBL_SHOW_COMPLETE_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
+			'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
+			'linkurl' => $this->getFullDetailViewUrl(),
+			'linkhref' => true,
+			'linkicon' => 'fas fa-th-list',
+			'linkclass' => 'btn-sm btn-default',
+		]);
+
 		if (!$this->isReadOnly()) {
 			$relationModel = $viewModel->getRelationModel();
 			if ($relationModel->isEditable() && $this->isEditable()) {
@@ -1550,17 +1553,19 @@ class Vtiger_Record_Model extends \App\Base
 					'linkicon' => 'yfi yfi-full-editing-view',
 					'linkclass' => 'btn-sm btn-default',
 				]);
-				$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_QUICK_EDIT',
-					'linkicon' => 'yfi yfi-quick-creation',
-					'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
-					'linkdata' => [
-						'module' => $this->getModuleName(),
-						'record' => $this->getId(),
-					],
-				]);
+				if ($this->getModule()->isQuickCreateSupported()) {
+					$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
+						'linklabel' => 'LBL_QUICK_EDIT',
+						'linkicon' => 'yfi yfi-quick-creation',
+						'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
+						'linkdata' => [
+							'module' => $this->getModuleName(),
+							'record' => $this->getId(),
+						],
+					]);
+				}
 			}
-			if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
+			if ($this->getModule()->isPermitted('WatchingRecords')) {
 				$watching = (int) ($this->isWatchingRecord());
 				$links['BTN_WATCHING_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'BTN_WATCHING_RECORD',

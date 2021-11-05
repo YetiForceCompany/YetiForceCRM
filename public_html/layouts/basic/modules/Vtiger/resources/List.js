@@ -232,7 +232,7 @@ $.Class(
 				}
 			});
 		},
-		/*
+		/**
 		 * Function to get the related module container
 		 */
 		getRelatedModuleContainer: function () {
@@ -339,7 +339,7 @@ $.Class(
 			}
 			return count;
 		},
-		/*
+		/**
 		 * function to trigger export action
 		 * returns UI
 		 */
@@ -460,7 +460,7 @@ $.Class(
 				listInstance.noRecordSelectedAlert();
 			}
 		},
-		/*
+		/**
 		 * Function to register the submit event for mass comment
 		 */
 		triggerMassComment: function (massActionUrl) {
@@ -1589,69 +1589,6 @@ $.Class(
 				window.location.href = recordUrl;
 			});
 		},
-		registerRecordEvents: function () {
-			let thisInstance = this;
-			let listViewContentDiv = this.getListViewContentContainer();
-			listViewContentDiv.on('click', '.recordEvent', function (event) {
-				let target = $(this);
-				let recordId = target.closest('tr').data('id');
-				let params = {};
-				if (target.data('confirm')) {
-					params.message = target.data('confirm');
-					params.title = target.html() + ' ' + target.data('content');
-				} else {
-					params.message = target.data('content');
-				}
-				Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
-					let progressIndicatorElement = $.progressIndicator({
-						position: 'html',
-						blockInfo: {
-							enabled: true
-						}
-					});
-					AppConnector.request(target.data('url') + '&sourceView=List&record=' + recordId).done(function (data) {
-						progressIndicatorElement.progressIndicator({
-							mode: 'hide'
-						});
-						if (data && data.success) {
-							if (data.result.notify) {
-								Vtiger_Helper_Js.showMessage(data.result.notify);
-							}
-							let paginationObject = $('.pagination');
-							let totalCount = paginationObject.data('totalCount');
-							if (totalCount != '') {
-								totalCount--;
-								paginationObject.data('totalCount', totalCount);
-							}
-							let orderBy = $('#orderBy').val();
-							let sortOrder = $('#sortOrder').val();
-							let pageNumber = parseInt($('#pageNumber').val());
-							if ($('#noOfEntries').val() == 1 && pageNumber != 1) {
-								pageNumber--;
-							}
-							let urlParams = {
-								viewname: data.result.viewname,
-								orderby: orderBy,
-								sortorder: sortOrder,
-								page: pageNumber
-							};
-							$('#recordsCount').val('');
-							$('#totalPageCount').text('');
-							thisInstance.getListViewRecords(urlParams).done(function () {
-								thisInstance.updatePagination(pageNumber);
-							});
-						} else {
-							app.showNotify({
-								text: app.vtranslate(data.error.message),
-								title: app.vtranslate('JS_LBL_PERMISSION'),
-								type: 'error'
-							});
-						}
-					});
-				});
-				event.stopPropagation();
-			});
-		},
 		registerMassRecordsEvents: function () {
 			const self = this;
 			this.getListViewContainer().on('click', '.js-mass-record-event', function () {
@@ -2149,7 +2086,6 @@ $.Class(
 			this.registerCheckBoxClickEvent();
 			this.registerSelectAllClickEvent();
 			this.registerDeselectAllClickEvent();
-			this.registerRecordEvents();
 			this.registerMassRecordsEvents();
 			this.registerMassActionsBtnMergeEvents();
 			this.registerHeadersClickEvent();

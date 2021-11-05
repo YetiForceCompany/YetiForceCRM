@@ -11,7 +11,12 @@
 
 class CustomView {
 	constructor(url) {
-		let progressIndicatorElement = $.progressIndicator();
+		let progressIndicatorElement = $.progressIndicator({
+			position: 'html',
+			blockInfo: {
+				enabled: true
+			}
+		});
 		app.showModalWindow(null, url, () => {
 			this.contentsCotainer = $('.js-filter-modal__container');
 			this.advanceFilterInstance = new Vtiger_ConditionBuilder_Js(

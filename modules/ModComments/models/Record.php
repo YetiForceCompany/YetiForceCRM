@@ -421,13 +421,10 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_ARCHIVE_RECORD',
 				'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
-				'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
-				'linkdata' => [
-					'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
-					'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
-				],
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'), 'source-view' => 'DetailTab'],
 				'linkicon' => 'fas fa-archive',
-				'linkclass' => 'btn-md m-0 px-1 py-0',
+				'linkclass' => 'btn-md m-0 px-1 py-0 js-action-confirm',
 				'style' => empty($stateColors['Archived']) ? '' : "color: {$stateColors['Archived']};",
 				'showLabel' => false,
 			]);
@@ -436,13 +433,10 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_MOVE_TO_TRASH',
 				'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
-				'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
-				'linkdata' => [
-					'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
-					'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'),
-				],
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'), 'source-view' => 'DetailTab'],
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-md text-danger m-0 px-1 py-0',
+				'linkclass' => 'btn-md text-danger m-0 px-1 py-0 js-action-confirm',
 				'showLabel' => false,
 			]);
 		}

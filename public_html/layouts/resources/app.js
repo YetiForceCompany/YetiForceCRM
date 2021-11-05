@@ -2725,35 +2725,6 @@ var app = (window.app = {
 		});
 		return url;
 	},
-	showConfirmation: function (data, element) {
-		var params = {};
-		if (data) {
-			params = $.extend(params, data);
-		}
-		if (element) {
-			element = $(element);
-			if (!params.title) {
-				params.title = element.html() + ' ' + (element.data('content') ? element.data('content') : '');
-			}
-			if (!params.message) {
-				params.message = element.data('confirm');
-			}
-			if (!params.url) {
-				params.url = element.data('url');
-			}
-		}
-		Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
-			if (params.type == 'href') {
-				AppConnector.request(params.url).done(function (data) {
-					app.openUrl(data.result);
-				});
-			} else if (params.type == 'reloadTab') {
-				AppConnector.request(params.url).done(function (data) {
-					Vtiger_Detail_Js.getInstance().reloadTabContent();
-				});
-			}
-		});
-	},
 	formatToHourText: function (decTime, type = 'short', withSeconds = false, withMinutes = true) {
 		const short = type === 'short';
 		const hour = Math.floor(decTime);
@@ -2910,47 +2881,65 @@ var app = (window.app = {
 		PNotify.defaultModules.set(PNotifyFontAwesome5, {});
 		PNotify.defaultModules.set(PNotifyMobile, {});
 	},
-	showConfirmModal: function (text, callback) {
-		return this.showNotify({
-			icon: 'fas fa-question-circle',
-			title: text,
-			closer: false,
-			sticker: false,
-			destroy: false,
-			modules: new Map([
-				...PNotify.defaultModules,
-				[
-					PNotifyConfirm,
-					{
-						confirm: true,
-						buttons: [
+	showConfirmModal: function (params) {
+		let confirmButtonLabel = 'JS_OK';
+		let rejectedButtonLabel = 'JS_CANCEL';
+		if (typeof params.confirmButtonLabel !== 'undefined') {
+			confirmButtonLabel = params.confirmButtonLabel;
+		}
+		if (typeof params.rejectedButtonLabel !== 'undefined') {
+			rejectedButtonLabel = params.rejectedButtonLabel;
+		}
+		return this.showNotify(
+			$.extend(
+				{
+					icon: 'fas fa-question-circle',
+					closer: false,
+					sticker: false,
+					destroy: false,
+					hide: false,
+					animateSpeed: 'fast',
+					modules: new Map([
+						...PNotify.defaultModules,
+						[
+							PNotifyConfirm,
 							{
-								text: app.vtranslate('JS_OK'),
-								primary: true,
-								promptTrigger: true,
-								click: function (notice) {
-									notice.close();
-									callback(true);
-								}
-							},
-							{
-								text: app.vtranslate('JS_CANCEL'),
-								click: function (notice) {
-									notice.close();
-									callback(false);
-								}
+								confirm: true,
+								buttons: [
+									{
+										text: '<span class="fas fa-check mr-2"></span>' + app.vtranslate(confirmButtonLabel),
+										textTrusted: true,
+										primary: true,
+										promptTrigger: true,
+										click: function (notice) {
+											if (typeof params.confirmedCallback !== 'undefined') {
+												params.confirmedCallback(notice);
+											}
+											notice.close();
+										}
+									},
+									{
+										text: '<span class="fas fa-times mr-2"></span>' + app.vtranslate(rejectedButtonLabel),
+										textTrusted: true,
+										click: function (notice) {
+											if (typeof params.rejectedCallback !== 'undefined') {
+												params.rejectedCallback(notice);
+											}
+											notice.close();
+										}
+									}
+								]
 							}
 						]
-					}
-				]
-			]),
-			stack: new PNotify.Stack({
-				dir1: 'down',
-				modal: true,
-				firstpos1: 25,
-				overlayClose: false
-			})
-		});
+					]),
+					stack: new PNotify.Stack({
+						modal: true,
+						overlayClose: false
+					})
+				},
+				params
+			)
+		);
 	},
 	registesterScrollbar(container) {
 		container.find('.js-scrollbar').each(function () {
@@ -3068,6 +3057,63 @@ var app = (window.app = {
 			default:
 				return;
 		}
+	},
+	/**
+	 * Function to register the records events
+	 * @param {$} container - Jquery container.
+	 */
+	registerRecordActionsEvents: function (container) {
+		container.on('click', '.js-action-confirm', function (event) {
+			event.stopPropagation();
+			let target = $(this),
+				sourceView = target.data('sourceView'),
+				addBtnIcon = target.data('addBtnIcon');
+			let params = {
+				icon: false,
+				title: target.data('content'),
+				confirmedCallback: () => {
+					let progressIndicatorElement = $.progressIndicator({
+						position: 'html',
+						blockInfo: {
+							enabled: true
+						}
+					});
+					AppConnector.request(target.data('url') + '&sourceView=' + sourceView).done(function (data) {
+						progressIndicatorElement.progressIndicator({
+							mode: 'hide'
+						});
+						if (data && data.success) {
+							if (data.result.notify) {
+								app.showNotify(data.result.notify);
+							}
+							if (sourceView === 'List') {
+								app.pageController.getListViewRecords();
+							} else if (sourceView === 'DetailTab') {
+								app.pageController.reloadTabContent();
+							} else if (sourceView === 'Detail') {
+								window.location.reload();
+							} else if (sourceView === 'Href') {
+								app.openUrl(data.result);
+							}
+						} else {
+							app.showNotify({
+								text: app.vtranslate(data.error.message),
+								title: app.vtranslate('JS_LBL_PERMISSION'),
+								type: 'error'
+							});
+						}
+					});
+				}
+			};
+			if (target.data('confirm')) {
+				params.text = target.data('confirm');
+				addBtnIcon = 1;
+			}
+			if (addBtnIcon == 1) {
+				params.title = target.html() + ' ' + params.title;
+			}
+			app.showConfirmModal(params);
+		});
 	}
 });
 CKEDITOR.disableAutoInline = true;
@@ -3092,6 +3138,7 @@ $(function () {
 	app.registerShowHideBlock(document);
 	app.registerAfterLoginEvents(document);
 	app.registerFormsEvents(document);
+	app.registerRecordActionsEvents(document);
 	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
 	App.Clipboard.register(document);
