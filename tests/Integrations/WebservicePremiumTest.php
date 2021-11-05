@@ -182,7 +182,6 @@ final class WebservicePremiumTest extends \Tests\Base
 		$request = $this->httpClient->post('HelpDesk/Record/', \App\Utils::merge(['json' => [
 			'ticket_title' => 'Api HelpDesk',
 			'parent_id' => $recordModel->getId(),
-			'share_externally' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
@@ -194,7 +193,6 @@ final class WebservicePremiumTest extends \Tests\Base
 		$request = $this->httpClient->post('Accounts/Record/', \App\Utils::merge(['json' => [
 			'accountname' => 'Api YetiForce 2',
 			'legal_form' => 'PLL_COMPANY',
-			'share_externally' => 1,
 			'account_id' => $recordModel->getId(),
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
@@ -217,7 +215,6 @@ final class WebservicePremiumTest extends \Tests\Base
 			'payment_methods' => 'PLL_TRANSFER',
 			'finvoiceproforma_status' => 'None',
 			'payment_methods' => 'PLL_TRANSFER',
-			'share_externally' => 1,
 			'inventory' => [
 				1 => [
 					'name' => \Tests\Base\C_RecordActions::createProductRecord()->getId(),
@@ -327,7 +324,6 @@ final class WebservicePremiumTest extends \Tests\Base
 		$request = $this->httpClient->post('HelpDesk/Record/', \App\Utils::merge(['json' => [
 			'ticket_title' => 'Api HelpDesk',
 			'parent_id' => \Tests\Base\C_RecordActions::createAccountRecord()->getId(),
-			'share_externally' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
@@ -349,6 +345,9 @@ final class WebservicePremiumTest extends \Tests\Base
 	 */
 	public function testGetRecordRelatedList(): void
 	{
+		$relationModel = \Vtiger_Relation_Model::getInstance(\Vtiger_Module_Model::getInstance('HelpDesk'), \Vtiger_Module_Model::getInstance('Contacts'));
+		$relationModel->addRelation(self::$recordId, \Tests\Base\C_RecordActions::createContactRecord()->getId());
+
 		$request = $this->httpClient->get('HelpDesk/RecordRelatedList/' . self::$recordId . '/Contacts', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
@@ -561,7 +560,6 @@ final class WebservicePremiumTest extends \Tests\Base
 	{
 		/*
 $recordModel = \Tests\Base\C_RecordActions::createProductRecord();
-			$recordModel->set('share_externally', 1);
 			$recordModel->save();
 
 			$request = $this->httpClient->get('Products/Record/' . $recordModel->getId(), \App\Utils::merge([
@@ -609,7 +607,6 @@ $recordModel = \Tests\Base\C_RecordActions::createProductRecord();
 			'module' => 'Documents',
 			'actionName' => 'DownloadFile',
 			'record' => $record->getId(),
-			'share_externally' => 1,
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
