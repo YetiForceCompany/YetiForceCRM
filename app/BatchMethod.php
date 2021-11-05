@@ -146,6 +146,14 @@ class BatchMethod extends Base
 	}
 
 	/**
+	 * Delete entries with the same parameters.
+	 */
+	public function deleteDuplicate(): bool
+	{
+		return Db::getInstance('admin')->createCommand()->delete('s_#__batchmethod', ['method' => $this->get('method'), 'params' => $this->get('params')])->execute();
+	}
+
+	/**
 	 * Delete by method.
 	 *
 	 * @param string $method

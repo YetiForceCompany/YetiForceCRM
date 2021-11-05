@@ -330,4 +330,24 @@ abstract class AbstractBaseProduct
 	{
 		return [];
 	}
+
+	/**
+	 * Switch button to activate/deactivate service.
+	 *
+	 * @return \Vtiger_Link_Model|null
+	 */
+	public function getSwitchButton(): ?\Vtiger_Link_Model
+	{
+		return null;
+	}
+
+	/**
+	 * Check if the service is active.
+	 *
+	 * @return bool
+	 */
+	public function isActive(): bool
+	{
+		return false;
+	}
 }
