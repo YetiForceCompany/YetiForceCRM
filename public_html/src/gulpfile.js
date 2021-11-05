@@ -12,8 +12,7 @@ const cleanCSS = require('gulp-clean-css')
 const autoprefixer = require('gulp-autoprefixer')
 const sourcemaps = require('gulp-sourcemaps')
 const rename = require('gulp-rename')
-const sass = require('gulp-sass')
-sass.compiler = require('node-sass')
+const sass = require('gulp-sass')(require('sass'))
 
 const mainCssPath = '../layouts/basic/styles/'
 const mainScss = 'Main.scss'
@@ -63,7 +62,7 @@ function getMinifyCssTask(path, name) {
 				})
 			)
 			.pipe(sourcemaps.init())
-			.pipe(sass().on('error', sass.logError))
+			.pipe(sass({ style: 'compressed' }).on('error', sass.logError))
 			.pipe(autoprefixer())
 			.pipe(
 				cleanCSS({}, details => {
@@ -89,7 +88,7 @@ function getCompileCss(path, name) {
 		return gulp
 			.src(path + name)
 			.pipe(sourcemaps.init())
-			.pipe(sass().on('error', sass.logError))
+			.pipe(sass({ style: 'compressed' }).on('error', sass.logError))
 			.pipe(sourcemaps.write('./'))
 			.pipe(gulp.dest(path))
 	}

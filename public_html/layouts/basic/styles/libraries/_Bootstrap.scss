@@ -1,6 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 //table
+@use "sass:math";
+
 .table thead th,
 .table-bordered thead td {
 	border-bottom-width: 1px;
@@ -8,11 +10,11 @@
 
 .btn-xs {
 	@include button-size(
-		$btn-padding-y-sm / 1.25,
-		$btn-padding-x-sm / 1.25,
-		$font-size-sm/1.25,
-		$btn-line-height-sm/1.25,
-		$btn-border-radius-sm/1.25
+		math.div($btn-padding-y-sm, 1.25),
+		math.div($btn-padding-x-sm, 1.25),
+		math.div($font-size-sm, 1.25),
+		math.div($btn-line-height-sm, 1.25),
+		math.div($btn-border-radius-sm, 1.25)
 	);
 }
 

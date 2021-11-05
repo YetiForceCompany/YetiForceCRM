@@ -24,9 +24,6 @@ td.listViewEntryValue.medium {
 .listViewEntries td.narrow,
 td.listViewEntryValue.narrow {
 	&:not(.listButtons) {
-		.btn.btn-sm {
-			@extend .btn-xs;
-		}
 		padding: calculate-rem(6px);
 	}
 	&[data-field-type="text"] {

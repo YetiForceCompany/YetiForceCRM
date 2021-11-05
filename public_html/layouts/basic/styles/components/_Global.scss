@@ -278,10 +278,6 @@ body:not(.desktop) {
 			.btn-group {
 				vertical-align: top;
 			}
-
-			.btn-xs {
-				@extend .btn-sm;
-			}
 		}
 	}
 }
