@@ -162,7 +162,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_troubletickets.ticketid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_troubletickets.ticketid' => $id])
+			->where(['vtiger_troubletickets.ticketid' => $id])
 			->one();
 		if ($row) {
 			$parentid = $row['parentid'];
