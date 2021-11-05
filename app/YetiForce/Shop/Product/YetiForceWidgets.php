@@ -20,7 +20,7 @@ class YetiForceWidgets extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce Premium Widgets';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'Addons';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-widgets-premium';
