@@ -596,14 +596,17 @@ final class WebservicePremiumTest extends \Tests\Base
 	 */
 	public function testGetFiles(): void
 	{
-		$record = \Tests\Base\C_RecordActions::createDocumentsRecord();
-		$fileDetails = $record->getFileDetails();
+		$recordModel = \Tests\Base\C_RecordActions::createDocumentsRecord();
+		$recordModel->set('share_externally', 1);
+		$recordModel->save();
+
+		$fileDetails = $recordModel->getFileDetails();
 		$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
 		$fileInstance = \App\Fields\File::loadFromPath($savedFile);
 		$request = $this->httpClient->put('Files', \App\Utils::merge(['json' => [
 			'module' => 'Documents',
 			'actionName' => 'DownloadFile',
-			'record' => $record->getId(),
+			'record' => $recordModel->getId(),
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
