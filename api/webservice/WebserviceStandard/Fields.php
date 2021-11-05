@@ -32,8 +32,6 @@ class Fields
 		foreach (self::getFields($actionModel->controller->app['id']) as $fieldName => $fieldData) {
 			if (isset($fields[$fieldName])) {
 				self::loadWebserviceByField($fields[$fieldName], $actionModel, $fieldData);
-			} else {
-				\App\Log::warning('No field found: ' . $fieldName);
 			}
 		}
 	}

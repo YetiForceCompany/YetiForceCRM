@@ -21,11 +21,11 @@ class Basic extends AbstractAuth
 	{
 		if (!isset($_SERVER['PHP_AUTH_USER'])) {
 			$this->api->response->addHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"');
-			throw new \Api\Core\Exception('Unauthorized', 401);
+			throw new \Api\Core\Exception('Web service - Applications: Unauthorized', 401);
 		}
 		if (!$this->validatePass($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
 			$this->api->response->addHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"');
-			throw new \Api\Core\Exception('Wrong Credentials', 401);
+			throw new \Api\Core\Exception('Web service - Applications: Wrong Credentials', 401);
 		}
 		return true;
 	}

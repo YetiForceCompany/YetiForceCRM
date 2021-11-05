@@ -73,12 +73,7 @@ class Controller
 	{
 		register_shutdown_function(function () {
 			if ($error = error_get_last()) {
-				try {
-					$this->errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
-				} catch (\Throwable $e) {
-					\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-					$this->handleError($e);
-				}
+				$this->errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
 			}
 		});
 		set_error_handler([$this, 'errorHandler']);
@@ -260,7 +255,7 @@ class Controller
 	public static function errorHandler(int $no, string $str, string $file, int $line): void
 	{
 		if (\in_array($no, [E_ERROR, E_WARNING, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR])) {
-			throw new Core\Exception($no . ': ' . $str . ' in ' . $file . ', line ' . $line);
+			\App\Log::error($no . ': ' . $str . ' in ' . $file . ', line ' . $line);
 		}
 	}
 }
