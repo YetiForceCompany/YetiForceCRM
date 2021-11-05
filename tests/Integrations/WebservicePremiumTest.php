@@ -558,40 +558,37 @@ final class WebservicePremiumTest extends \Tests\Base
 	 */
 	public function testGetProducts(): void
 	{
-		/*
-$recordModel = \Tests\Base\C_RecordActions::createProductRecord();
-			$recordModel->save();
+		$recordModel = \Tests\Base\C_RecordActions::createProductRecord();
 
-			$request = $this->httpClient->get('Products/Record/' . $recordModel->getId(), \App\Utils::merge([
-				'headers' => [
-					'x-unit-price' => 1,
-					'x-unit-gross' => 1,
-					'x-product-bundles' => 1,
-				],
-			], self::$requestOptions));
-			$body = $request->getBody()->getContents();
+		$request = $this->httpClient->get('Products/Record/' . $recordModel->getId(), \App\Utils::merge([
+			'headers' => [
+				'x-unit-price' => 1,
+				'x-unit-gross' => 1,
+				'x-product-bundles' => 1,
+			],
+		], self::$requestOptions));
+		$body = $request->getBody()->getContents();
 
-			$this->logs = [
-				'$body' => $body,
-				'$recordModel->getData()' => $recordModel->getData(),
-			];
+		$this->logs = [
+			'$body' => $body,
+			'$recordModel->getData()' => $recordModel->getData(),
+		];
 
-			$response = \App\Json::decode($body);
-			static::assertSame(200, $request->getStatusCode(), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-			static::assertSame(1, $response['status'], 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-			static::assertSame($response['result']['rawData']['productname'], 'System CRM YetiForce');
-			static::assertTrue(isset($response['result']['ext']['unit_price']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-			static::assertTrue(isset($response['result']['ext']['unit_gross']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-			static::assertTrue(isset($response['result']['productBundles']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-			self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/WebservicePremium/Products/Record/{recordId}', 'get', 200);
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame($response['result']['rawData']['productname'], 'System CRM YetiForce');
+		static::assertTrue(isset($response['result']['ext']['unit_price']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertTrue(isset($response['result']['ext']['unit_gross']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertTrue(isset($response['result']['productBundles']), 'Products/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/WebservicePremium/Products/Record/{recordId}', 'get', 200);
 
-			$request = $this->httpClient->get('Products/RecordsTree', self::$requestOptions);
-			$this->logs = $body = $request->getBody()->getContents();
-			$response = \App\Json::decode($body);
-			static::assertSame(200, $request->getStatusCode(), 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-			static::assertSame(1, $response['status'], 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-			self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/WebservicePremium/Products/RecordsTree', 'get', 200);
-		*/
+		$request = $this->httpClient->get('Products/RecordsTree', self::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Products/RecordsTree API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/WebservicePremium/Products/RecordsTree', 'get', 200);
 	}
 
 	/**
