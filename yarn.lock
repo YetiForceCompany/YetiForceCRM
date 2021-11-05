@@ -343,10 +343,10 @@ fbjs@^0.8.4:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.30"
 
-flag-icon-css@^4.1.0:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-4.1.4.tgz#a31fd41187acb28d1333a23b10f31391e5690982"
-  integrity sha512-C1zP1/LYS5LUL5JGDGI1tOLQDS/NfwJA457lGkylHQCAUjPGzZQWp5br9q/WpcCa0Z45Tf2dadwHWENuWvaRKg==
+flag-icon-css@^4.1.4:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-4.1.5.tgz#e62bb9b06cb659bb89fcf15ecec44ad65bf26180"
+  integrity sha512-n79GW+Seau2sBgT6UF4njkAIVYktGxp133+MPvs92pbqycuFxikfpb8MOCCT0u5niybkHHVXVab19a9xNqxm0g==
 
 floatthead@^2.1.3:
   version "2.2.4"
