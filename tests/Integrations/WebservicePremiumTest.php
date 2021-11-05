@@ -559,6 +559,8 @@ final class WebservicePremiumTest extends \Tests\Base
 	public function testGetProducts(): void
 	{
 		$recordModel = \Tests\Base\C_RecordActions::createProductRecord();
+		$recordModel->set('share_externally', 1);
+		$recordModel->save();
 
 		$request = $this->httpClient->get('Products/Record/' . $recordModel->getId(), \App\Utils::merge([
 			'headers' => [
