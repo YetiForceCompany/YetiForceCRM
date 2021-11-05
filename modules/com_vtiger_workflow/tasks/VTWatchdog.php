@@ -53,13 +53,13 @@ class VTWatchdog extends VTTask
 				$users = \App\PrivilegeUtil::getUserByMember($this->recipients);
 				break;
 		}
-		if (empty($users)) {
-			return false;
-		}
+		$users = array_filter($users);
 		if (!empty($this->skipCurrentUser) && false !== ($key = array_search(\App\User::getCurrentUserId(), $users))) {
 			unset($users[$key]);
 		}
-		$users = array_filter($users);
+		if (empty($users)) {
+			return false;
+		}
 		$textParser = \App\TextParser::getInstanceByModel($recordModel);
 		$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		$notification = Vtiger_Record_Model::getCleanInstance('Notification');
