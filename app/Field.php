@@ -52,7 +52,7 @@ class Field
 		'private' => [
 			'validationConditions' => ['name'],
 			'name' => 'private',	'column' => 'private',	'label' => 'FL_IS_PRIVATE',	'table' => 'vtiger_crmentity',
-			'uitype' => 56,	'typeofdata' => 'C~O',	'columntype' => 'int(11)', 'maximumlength' => '-128,127',
+			'uitype' => 56,	'typeofdata' => 'C~O',	'columntype' => 'int(11)', 'maximumlength' => '-128,127', 'presence' => 2, 'generatedtype' => 2
 		],
 		'share_externally' => [
 			'validationConditions' => ['uitype', 'fieldparams'],
