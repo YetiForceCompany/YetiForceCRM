@@ -24,7 +24,7 @@ return [
 		'description' => 'Save record including handlers'
 	],
 	'ADD_PICKLIST_VALUE' => [
-		'default' => true,
+		'default' => false,
 		'description' => 'Missing picklist values are added'
 	],
 ];
