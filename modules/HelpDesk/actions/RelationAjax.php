@@ -32,8 +32,9 @@ class HelpDesk_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		}
 		$moduleModel = \Vtiger_Module_Model::getInstance($sourceModule);
 		$hierarchy = $moduleModel->getHierarchy($recordId);
+		$hierarchyAmount = 'Active' === \App\Record::getState($recordId) ? \count($hierarchy['entries']) - 1 : 0;
 		$response = new Vtiger_Response();
-		$response->setResult(\count($hierarchy['entries']) - 1);
+		$response->setResult($hierarchyAmount);
 		$response->emit();
 	}
 }
