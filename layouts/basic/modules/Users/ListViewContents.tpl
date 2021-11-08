@@ -191,9 +191,7 @@
 				<tbody>
 					<tr>
 						<td>
-							{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
 							{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
-							<!--{if $IS_MODULE_EDITABLE} {\App\Language::translate('LBL_CREATE')} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{\App\Language::translate($SINGLE_MODULE, $MODULE)}</a>-->{/if}
 						</td>
 					</tr>
 				</tbody>
