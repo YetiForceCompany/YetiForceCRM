@@ -43,22 +43,24 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 	{
 		$listviewHeader = [];
 		$listviewEntries = [];
-		$listColumns = \App\Config::module('HelpDesk', 'COLUMNS_IN_HIERARCHY');
-		if (empty($listColumns)) {
-			$listColumns = $this->getEntityInstance()->list_fields_name;
-		}
-		foreach ($listColumns as $fieldname => $colname) {
-			if (\App\Field::getFieldPermission('HelpDesk', $colname)) {
-				$listviewHeader[] = App\Language::translate($fieldname, 'HelpDesk');
+		if ('Active' === \App\Record::getState($id)) {
+			$listColumns = \App\Config::module('HelpDesk', 'COLUMNS_IN_HIERARCHY');
+			if (empty($listColumns)) {
+				$listColumns = $this->getEntityInstance()->list_fields_name;
 			}
+			foreach ($listColumns as $fieldname => $colname) {
+				if (\App\Field::getFieldPermission('HelpDesk', $colname)) {
+					$listviewHeader[] = App\Language::translate($fieldname, 'HelpDesk');
+				}
+			}
+			$rows = [];
+			$encountered = [$id];
+			$rows = $this->getParent($id, $rows, $encountered);
+			$baseId = current(array_keys($rows));
+			$rows = [$baseId => $rows[$baseId]];
+			$rows[$baseId] = $this->getChild($baseId, $rows[$baseId], $rows[$baseId]['depth']);
+			$this->getHierarchyData($id, $rows[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
 		}
-		$rows = [];
-		$encountered = [$id];
-		$rows = $this->getParent($id, $rows, $encountered);
-		$baseId = current(array_keys($rows));
-		$rows = [$baseId => $rows[$baseId]];
-		$rows[$baseId] = $this->getChild($baseId, $rows[$baseId], $rows[$baseId]['depth']);
-		$this->getHierarchyData($id, $rows[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
 		return ['header' => $listviewHeader, 'entries' => $listviewEntries];
 	}
 
@@ -162,7 +164,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_troubletickets.ticketid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-			->where(['vtiger_troubletickets.ticketid' => $id])
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_troubletickets.ticketid' => $id])
 			->one();
 		if ($row) {
 			$parentid = $row['parentid'];
@@ -270,7 +272,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 	public function getChildIds(int $id, &$childIds = []): array
 	{
 		$recordsIds = (new App\Db\Query())->select([
-			'vtiger_troubletickets.ticketid'
+			'vtiger_troubletickets.ticketid',
 		])->from('vtiger_troubletickets')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_troubletickets.ticketid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
