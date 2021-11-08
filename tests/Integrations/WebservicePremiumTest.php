@@ -574,6 +574,9 @@ final class WebservicePremiumTest extends \Tests\Base
 		$this->logs = [
 			'$body' => $body,
 			'$recordModel->getData()' => $recordModel->getData(),
+			'row_products' => (new \App\Db\Query())->from('vtiger_products')->where(['productid' => $recordModel->getId()])->one(),
+			'row_crmentity' => (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordModel->getId()])->one(),
+			'fields' => \App\Field::getModuleFieldInfosByPresence($recordModel->getModuleName()),
 		];
 
 		$response = \App\Json::decode($body);
