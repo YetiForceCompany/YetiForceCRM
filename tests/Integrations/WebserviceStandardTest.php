@@ -99,7 +99,7 @@ final class WebserviceStandardTest extends \Tests\Base
 		$app->save();
 		self::$serverId = (int) $app->getId();
 
-		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => self::$serverId])->one();
+		$row = \App\Fields\ServerAccess::get(self::$serverId);
 		static::assertNotFalse($row, 'No record id: ' . self::$serverId);
 		static::assertSame($row['type'], 'WebserviceStandard');
 		static::assertSame($row['status'], 1);

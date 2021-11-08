@@ -1505,7 +1505,10 @@
     "LBL_USER_FORMAT_DATA_CANNOT_BE_IMPORTED": "User format data cannot be imported into the system",
     "LBL_MASS_EDIT_INCLUDE_INFO": "Checking the field will result in adding the values to the already existing ones",
     "LBL_YETIFORCE_NOT_REGISTRATION_TITLE": "This functionality is available after registration.",
-    "LBL_YETIFORCE_NOT_REGISTRATION_DESC": "The system has not been registered. Please register your YetiForce CRM to have access to this part of the system."
+    "LBL_YETIFORCE_NOT_REGISTRATION_DESC": "The system has not been registered. Please register your YetiForce CRM to have access to this part of the system.",
+    "BTN_SHARE_RECORD_IN": "Share a record in:",
+    "BTN_DISABLE_SHARE_RECORD_IN": "Disable record sharing in:",
+    "BTN_SERVER_ACCESS": "Manage record sharing for Webservice"
   },
   "js": {
     "JS_APPROVE": "Approve",

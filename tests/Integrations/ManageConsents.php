@@ -89,8 +89,8 @@ final class ManageConsents extends \Tests\Base
 			'connect_timeout' => 60,
 			'http_errors' => false,
 			'headers' => [
-				'x-raw-data' => 1
-			]
+				'x-raw-data' => 1,
+			],
 		]));
 	}
 
@@ -146,7 +146,7 @@ final class ManageConsents extends \Tests\Base
 		$app->save();
 		self::$serverId = (int) $app->getId();
 
-		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => self::$serverId])->one();
+		$row = \App\Fields\ServerAccess::get(self::$serverId);
 		static::assertNotFalse($row, 'No record id: ' . self::$serverId);
 		static::assertSame($row['type'], 'ManageConsents');
 		static::assertSame($row['status'], 1);
@@ -198,7 +198,7 @@ final class ManageConsents extends \Tests\Base
 			'contactid' => self::$recordId,
 			'approvals_register_type' => 'PLL_ACCEPTANCE',
 			'approvals_register_status' => 'PLL_ACCEPTED',
-			'registration_date' => date('Y-m-d H:i:s')
+			'registration_date' => date('Y-m-d H:i:s'),
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
@@ -220,7 +220,7 @@ final class ManageConsents extends \Tests\Base
 		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$recordId);
 		$approvalField = current($recordModel->getModule()->getFieldsByType('multiReference', true));
 		$request = $this->httpClient->post('Contacts/GetConsentsForEntry', \App\Utils::merge(['json' => [
-			'token' => $recordModel->get('token')
+			'token' => $recordModel->get('token'),
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);

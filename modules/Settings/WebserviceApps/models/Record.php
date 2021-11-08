@@ -60,10 +60,7 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 			return false;
 		}
 		$model = self::getCleanInstance();
-		$data = (new \App\Db\Query())->from('w_#__servers')
-			->where(['id' => $recordId])
-			->one(\App\Db::getInstance('webservice'));
-		if ($data) {
+		if ($data = \App\Fields\ServerAccess::get($recordId)) {
 			$model->setData($data);
 		}
 		return $model;
@@ -77,6 +74,7 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Db::getInstance('webservice')->createCommand()
 			->delete('w_#__servers', ['id' => $this->getId()])
 			->execute();
+		\App\Cache::has('App\Fields\ServerAccess::get', $this->getId());
 	}
 
 	/**
@@ -118,5 +116,6 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			$db->createCommand()->update('w_#__servers', $data, ['id' => $this->getId()])->execute();
 		}
+		\App\Cache::has('App\Fields\ServerAccess::get', $this->getId());
 	}
 }

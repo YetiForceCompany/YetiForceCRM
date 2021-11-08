@@ -1433,6 +1433,9 @@ class Vtiger_Record_Model extends \App\Base
 					],
 				];
 			}
+			if ($link = \App\Fields\ServerAccess::getLinks($this)) {
+				$recordLinks['BTN_SERVER_ACCESS'] = $link;
+			}
 		}
 		if (!$this->isReadOnly()) {
 			if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
@@ -1563,6 +1566,9 @@ class Vtiger_Record_Model extends \App\Base
 							'record' => $this->getId(),
 						],
 					]);
+				}
+				if ($link = \App\Fields\ServerAccess::getLinks($this)) {
+					$links['BTN_SERVER_ACCESS'] = $link;
 				}
 			}
 			if ($this->getModule()->isPermitted('WatchingRecords')) {

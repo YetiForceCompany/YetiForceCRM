@@ -100,7 +100,7 @@ final class WebservicePremiumTest extends \Tests\Base
 		$app->save();
 		self::$serverId = (int) $app->getId();
 
-		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => self::$serverId])->one();
+		$row = \App\Fields\ServerAccess::get(self::$serverId);
 		static::assertNotFalse($row, 'No record id: ' . self::$serverId);
 		static::assertSame($row['type'], 'WebservicePremium');
 		static::assertSame($row['status'], 1);
@@ -721,7 +721,7 @@ final class WebservicePremiumTest extends \Tests\Base
 		\Settings_WebserviceUsers_Record_Model::getInstanceById(self::$apiUserId, 'WebservicePremium')->delete();
 		\Settings_WebserviceApps_Record_Model::getInstanceById(self::$serverId)->delete();
 
-		static::assertFalse((new \App\Db\Query())->from('w_#__servers')->where(['id' => self::$serverId])->exists(), 'Record in the database should not exist');
+		static::assertFalse((bool) \App\Fields\ServerAccess::get(self::$serverId), 'Record in the database should not exist');
 		static::assertFalse((new \App\Db\Query())->from('w_#__portal_user')->where(['id' => self::$apiUserId])->exists(), 'Record in the database should not exist');
 	}
 }
