@@ -559,6 +559,7 @@ final class WebservicePremiumTest extends \Tests\Base
 	public function testGetProducts(): void
 	{
 		$recordModel = \Tests\Base\C_RecordActions::createProductRecord();
+		$dataBefore = $recordModel->getData();
 		$recordModel->set('share_externally', 1);
 		$recordModel->save();
 
@@ -576,10 +577,9 @@ final class WebservicePremiumTest extends \Tests\Base
 
 		$this->logs = [
 			'$body' => $body,
-			'$recordModel->getData()' => $recordModel->getData(),
+			'$recordModel->getData()1' => $dataBefore,
+			'$recordModel->getData()2' => $recordModel->getData(),
 			'row_products' => (new \App\Db\Query())->from('vtiger_products')->where(['productid' => $recordModel->getId()])->one(),
-			'row_crmentity' => (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordModel->getId()])->one(),
-			'fields' => \App\Field::getModuleFieldInfosByPresence($recordModel->getModuleName()),
 		];
 
 		$response = \App\Json::decode($body);
