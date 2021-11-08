@@ -17824,6 +17824,10 @@ body:not(.desktop) .ps__rail-y {
   line-height: 1.5rem;
 }
 
+.pnotify-action-bar {
+  margin-top: 1rem;
+}
+
 .mdi {
   line-height: 1;
 }
