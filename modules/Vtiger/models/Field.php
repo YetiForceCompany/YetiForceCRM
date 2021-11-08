@@ -1096,7 +1096,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function getInstance($value, $module = false)
 	{
-		if (\is_int($value)) {
+		if (\is_numeric($value)) {
 			if (isset(self::$instanceCacheById[$value])) {
 				return clone self::$instanceCacheById[$value];
 			}

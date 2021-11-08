@@ -82,7 +82,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	public function showDeleteView(App\Request $request)
 	{
 		$module = $request->getByType('source_module', 2);
-		$pickListFieldId = $request->get('pickListFieldId');
+		$pickListFieldId = $request->getInteger('pickListFieldId');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldId);
 		$valueToDelete = $request->get('fieldValue');
 
@@ -135,11 +135,11 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	public function getPickListValueForField(App\Request $request)
 	{
 		$sourceModule = $request->getByType('source_module', 2);
-		$pickFieldId = $request->get('pickListFieldId');
+		$pickFieldId = $request->getInteger('pickListFieldId');
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
 		if (!empty($pickFieldId)) {
-			$fieldModel = Settings_Picklist_Field_Model::getInstance((int) $pickFieldId);
+			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 			$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($fieldModel->getName());
 		}
 		$viewer = $this->getViewer($request);
@@ -160,7 +160,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	public function getPickListValueByRole(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
-		$pickFieldId = $request->get('pickListFieldId');
+		$pickFieldId = $request->getInteger('pickListFieldId');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
@@ -187,7 +187,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	public function showAssignValueToRoleView(App\Request $request)
 	{
 		$sourceModule = $request->getByType('source_module', 2);
-		$pickFieldId = $request->get('pickListFieldId');
+		$pickFieldId = $request->getInteger('pickListFieldId');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
