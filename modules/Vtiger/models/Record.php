@@ -823,7 +823,7 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function isEditable()
+	public function isEditable(): bool
 	{
 		if (!isset($this->privileges['isEditable'])) {
 			return $this->privileges['isEditable'] = $this->isPermitted('EditView') && !$this->isLockByFields() && false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && empty($this->getUnlockFields()) && !$this->isReadOnly();
@@ -1433,7 +1433,7 @@ class Vtiger_Record_Model extends \App\Base
 					],
 				];
 			}
-			if ($link = \App\Fields\ServerAccess::getLinks($this)) {
+			if ($link = \App\Fields\ServerAccess::getLinks($this, 'ListView')) {
 				$recordLinks['BTN_SERVER_ACCESS'] = $link;
 			}
 		}
@@ -1567,7 +1567,7 @@ class Vtiger_Record_Model extends \App\Base
 						],
 					]);
 				}
-				if ($link = \App\Fields\ServerAccess::getLinks($this)) {
+				if ($link = \App\Fields\ServerAccess::getLinks($this, 'RelatedListView')) {
 					$links['BTN_SERVER_ACCESS'] = $link;
 				}
 			}

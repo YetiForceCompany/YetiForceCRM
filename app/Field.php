@@ -52,11 +52,11 @@ class Field
 		'private' => [
 			'validationConditions' => ['name'],
 			'name' => 'private',	'column' => 'private',	'label' => 'FL_IS_PRIVATE',	'table' => 'vtiger_crmentity',
-			'uitype' => 56,	'typeofdata' => 'C~O',	'columntype' => 'int(11)', 'maximumlength' => '-128,127', 'presence' => 2, 'generatedtype' => 2
+			'uitype' => 56,	'typeofdata' => 'C~O',	'columntype' => 'int(11)', 'maximumlength' => '-128,127', 'presence' => 2, 'generatedtype' => 2,
 		],
 		'share_externally' => [
 			'validationConditions' => ['uitype', 'fieldparams'],
-			'name' => 'share_externally',	'column' => 'share_externally',	'label' => 'FL_SHARE_EXTERNALLY',	'defaultvalue' => 1,	'fieldparams' => 1,
+			'name' => 'share_externally',	'column' => 'share_externally',	'label' => 'FL_SHARE_EXTERNALLY',	'defaultvalue' => 0,	'fieldparams' => 1,
 			'uitype' => 318,	'typeofdata' => 'C~O',	'columntype' => 'tinyint(1)', 'maximumlength' => '-128,127',
 		],
 	];

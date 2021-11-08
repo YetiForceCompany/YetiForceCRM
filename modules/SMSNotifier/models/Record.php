@@ -27,7 +27,7 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return bool
 	 */
-	public function isEditable()
+	public function isEditable(): bool
 	{
 		return false;
 	}

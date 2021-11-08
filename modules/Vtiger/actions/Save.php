@@ -39,18 +39,18 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!$request->isEmpty('record', true)) {
+		if ($request->isEmpty('record', true)) {
+			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
+			if (!$this->record->isCreateable()) {
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			}
+		} else {
 			$recordId = $request->getInteger('record');
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			$this->record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 			if ('recordChanger' !== $request->getMode() && !$this->record->isEditable()) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-			}
-		} else {
-			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
-			if (!$this->record->isCreateable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}

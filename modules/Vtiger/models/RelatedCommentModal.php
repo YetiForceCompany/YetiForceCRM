@@ -69,7 +69,7 @@ class Vtiger_RelatedCommentModal_Model extends \App\Base
 			->where(['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]);
 	}
 
-	public function isEditable()
+	public function isEditable(): bool
 	{
 		return $this->get('relationListView')->getRelationModel()->get('relation_comment');
 	}

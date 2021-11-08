@@ -71,7 +71,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isEditable()
+	public function isEditable(): bool
 	{
 		return parent::isEditable() && !$this->getConverted();
 	}

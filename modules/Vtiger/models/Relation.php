@@ -513,7 +513,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function isEditable()
+	public function isEditable(): bool
 	{
 		return $this->getRelationModuleModel()->isPermitted('EditView');
 	}

@@ -17,13 +17,23 @@ namespace App\Fields;
 class ServerAccess
 {
 	/**
+	 * @var array Class mapping for different button places
+	 */
+	const BTN_CLASS = [
+		'ModComments' => [0 => 'text-secondary', 1 => 'text-success'],
+		'ListView' => [0 => 'btn-secondary', 1 => 'btn-success'],
+		'RelatedListView' => [0 => 'btn-secondary', 1 => 'btn-success'],
+	];
+
+	/**
 	 * Get links to share the record in external services (Web service - Applications).
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string               $source
 	 *
 	 * @return \Vtiger_Link_Model|null
 	 */
-	public static function getLinks(\Vtiger_Record_Model $recordModel): ?\Vtiger_Link_Model
+	public static function getLinks(\Vtiger_Record_Model $recordModel, string $source): ?\Vtiger_Link_Model
 	{
 		$fields = $recordModel->getModule()->getFieldsByType('serverAccess', true);
 		$isActive = 0;
@@ -49,7 +59,7 @@ class ServerAccess
 				'linklabel' => 'BTN_SERVER_ACCESS',
 				'linkhint' => $label,
 				'linkicon' => ($isActive ? 'fas fa-user-circle' : 'far fa-user-circle'),
-				'linkclass' => 'js-action-confirm btn-sm ' . ($isActive ? 'btn-success' : 'btn-secondary'),
+				'linkclass' => 'js-action-confirm btn-sm ' . self::BTN_CLASS[$source][$isActive],
 				'dataUrl' => "index.php?module={$recordModel->getModuleName()}&action=SaveAjax&record={$recordModel->getId()}&field={$fieldName}&value=" . ($isActive ? 0 : 1),
 				'linkdata' => ['add-btn-icon' => 1,	'source-view' => 'List'],
 			]);
@@ -58,7 +68,7 @@ class ServerAccess
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'BTN_SERVER_ACCESS',
 				'linkicon' => ($isActive ? 'fas fa-user-circle' : 'far fa-user-circle'),
-				'linkclass' => 'btn-sm js-quick-edit-modal ' . ($isActive ? 'btn-success' : 'btn-secondary'),
+				'linkclass' => 'btn-sm js-quick-edit-modal ' . self::BTN_CLASS[$source][$isActive],
 				'linkdata' => ['module' => $recordModel->getModuleName(), 'record' => $recordModel->getId(), 'show-layout' => 'vertical', 'edit-fields' => \App\Json::encode(array_keys($fields))],
 			]);
 		}

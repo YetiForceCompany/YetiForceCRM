@@ -62,7 +62,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/** {@inheritdoc} */
-	public function isEditable()
+	public function isEditable(): bool
 	{
 		if (!isset($this->privileges['isEditable'])) {
 			return $this->privileges['isEditable'] = \App\User::getCurrentUserRealId() === (int) $this->get('userid') && parent::isEditable() && $this->isPermitted('EditableComments');
@@ -439,6 +439,9 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				'linkclass' => 'btn-md text-danger m-0 px-1 py-0 js-action-confirm',
 				'showLabel' => false,
 			]);
+		}
+		if ($link = \App\Fields\ServerAccess::getLinks($this, 'ModComments')) {
+			$links[] = $link;
 		}
 		return $links;
 	}
