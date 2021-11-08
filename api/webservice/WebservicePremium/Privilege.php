@@ -84,7 +84,7 @@ class Privilege
 		}
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		if ('ModComments' !== $moduleName && !$recordModel->get($permissionFieldInfo['fieldname'])) {
-			\App\Privilege::$isPermittedLevel = 'FIELD_PERMISSION_NO';
+			\App\Privilege::$isPermittedLevel = "FIELD_PERMISSION_NO {$permissionFieldInfo['fieldname']}: {$recordModel->get($permissionFieldInfo['fieldname'])}";
 			return false;
 		}
 
