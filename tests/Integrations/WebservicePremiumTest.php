@@ -562,6 +562,9 @@ final class WebservicePremiumTest extends \Tests\Base
 		$recordModel->set('share_externally', 1);
 		$recordModel->save();
 
+		$createCommand = \App\Db::getInstance()->createCommand();
+		$createCommand->update('vtiger_products', ['share_externally' => 1], ['productid' => $recordModel->getId()])->execute();
+
 		$request = $this->httpClient->get('Products/Record/' . $recordModel->getId(), \App\Utils::merge([
 			'headers' => [
 				'x-unit-price' => 1,
