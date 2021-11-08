@@ -139,7 +139,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
 		if (!empty($pickFieldId)) {
-			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
+			$fieldModel = Settings_Picklist_Field_Model::getInstance((int) $pickFieldId);
 			$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($fieldModel->getName());
 		}
 		$viewer = $this->getViewer($request);
