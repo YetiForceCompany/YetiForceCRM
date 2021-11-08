@@ -97,6 +97,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if (empty($searchParams) || !\is_array($searchParams)) {
 			$searchParamsRaw = $searchParams = [];
 		}
+		$this->listViewModel->loadSearchLockedFields($request);
 		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
 		$this->listViewModel->set('search_params', $transformedSearchParams);
 
@@ -161,6 +162,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
+		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? [] : $request->getArray('lockedEmptyFields'));
 	}
 
 	/**

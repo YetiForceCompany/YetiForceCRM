@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-ConfigEditor-Detail -->
-	<div class="verticalScroll" id="ConfigEditorDetails">
+	<div id="ConfigEditorDetails">
 		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
