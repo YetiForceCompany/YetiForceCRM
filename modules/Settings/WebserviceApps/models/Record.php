@@ -8,7 +8,8 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -74,7 +75,7 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Db::getInstance('webservice')->createCommand()
 			->delete('w_#__servers', ['id' => $this->getId()])
 			->execute();
-		\App\Cache::has('App\Fields\ServerAccess::get', $this->getId());
+		\App\Cache::delete('App\Fields\ServerAccess::get', $this->getId());
 	}
 
 	/**
@@ -116,6 +117,6 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			$db->createCommand()->update('w_#__servers', $data, ['id' => $this->getId()])->execute();
 		}
-		\App\Cache::has('App\Fields\ServerAccess::get', $this->getId());
+		\App\Cache::delete('App\Fields\ServerAccess::get', $this->getId());
 	}
 }
