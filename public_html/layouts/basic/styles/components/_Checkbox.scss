@@ -96,12 +96,6 @@ input[type="radio"]:before {
 	transition: all 0.25s;
 }
 
-input[type="radio"]:checked:before {
-	margin: 3px 0 0 3px;
-	height: 6px;
-	width: 6px;
-}
-
 input[type="radio"]:focus {
 	outline: none;
 	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0 2px #404958;
@@ -112,6 +106,9 @@ input[type="radio"]:checked {
 }
 
 input[type="radio"]:checked:before {
+	margin: 3px 0 0 3px;
+	height: 6px;
+	width: 6px;
 	background-color: #4a5364;
 }
 

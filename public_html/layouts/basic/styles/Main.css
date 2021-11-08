@@ -24276,7 +24276,6 @@ table th {
   border-radius: 50%;
 }
 .c-circle-icon [class^=yfm-],
-.c-circle-icon .adminIcon-user,
 .c-circle-icon .adminIcon-user {
   font-size: 1.25rem;
 }
@@ -24697,34 +24696,33 @@ input[type=checkbox][disabled] {
 }
 
 .c-btn-light-green {
-  color: #212529;
-  background-color: #8bc34a;
-  border-color: #8bc34a;
   color: #fff;
+  background-color: #7cb342;
+  border-color: #7cb342;
 }
 .c-btn-light-green:hover {
   color: #fff;
-  background-color: #78ad39;
-  border-color: #71a436;
+  background-color: #699738;
+  border-color: #628e34;
 }
 .c-btn-light-green:focus, .c-btn-light-green.focus {
   color: #fff;
-  background-color: #78ad39;
-  border-color: #71a436;
-  box-shadow: 0 0 0 0.2rem rgba(123, 171, 69, 0.5);
+  background-color: #699738;
+  border-color: #628e34;
+  box-shadow: 0 0 0 0.2rem rgba(144, 190, 94, 0.5);
 }
 .c-btn-light-green.disabled, .c-btn-light-green:disabled {
-  color: #212529;
-  background-color: #8bc34a;
-  border-color: #8bc34a;
+  color: #fff;
+  background-color: #7cb342;
+  border-color: #7cb342;
 }
 .c-btn-light-green:not(:disabled):not(.disabled):active, .c-btn-light-green:not(:disabled):not(.disabled).active, .show > .c-btn-light-green.dropdown-toggle {
   color: #fff;
-  background-color: #71a436;
-  border-color: #6a9a33;
+  background-color: #628e34;
+  border-color: #5c8431;
 }
 .c-btn-light-green:not(:disabled):not(.disabled):active:focus, .c-btn-light-green:not(:disabled):not(.disabled).active:focus, .show > .c-btn-light-green.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem rgba(123, 171, 69, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(144, 190, 94, 0.5);
 }
 
 .detailViewTitle .c-btn-link {
@@ -24858,12 +24856,6 @@ input[type=radio]:before {
   transition: all 0.25s;
 }
 
-input[type=radio]:checked:before {
-  margin: 3px 0 0 3px;
-  height: 6px;
-  width: 6px;
-}
-
 input[type=radio]:focus {
   outline: none;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0 2px #404958;
@@ -24874,6 +24866,9 @@ input[type=radio]:checked {
 }
 
 input[type=radio]:checked:before {
+  margin: 3px 0 0 3px;
+  height: 6px;
+  width: 6px;
   background-color: #4a5364;
 }
 
@@ -26394,7 +26389,7 @@ ul.c-process-line li.c-process-line__active > a:after {
 }
 
 .o-register-error + .o-register-warning + .mainContainer .verticalScroll {
-  height: calc(100vh -8rem - 2rem - 2rem);
+  height: calc(100vh - 8rem - 2rem - 2rem);
 }
 
 @media (max-width: 767.98px) {
