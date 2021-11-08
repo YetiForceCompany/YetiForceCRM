@@ -8,6 +8,7 @@ echo 5 - Gui.
 echo 6 - Finish.
 echo 7 - App.
 echo 8 - Integrations.
+echo 9 - NoGui.
 set /p testMode=Enter a number:
 
 echo.
@@ -19,6 +20,7 @@ IF %testMode%==5 goto Gui
 IF %testMode%==6 goto Finish
 IF %testMode%==7 goto App
 IF %testMode%==8 goto Integrations
+IF %testMode%==9 goto NoGui
 
 EXIT /B
 
@@ -47,7 +49,7 @@ pause
 exit
 
 :App
-php.exe ..\vendor\phpunit\phpunit\phpunit --debug --stderr --verbose --testsuite Apps
+php.exe ..\vendor\phpunit\phpunit\phpunit --debug --stderr --verbose --testsuite App
 echo.
 pause
 exit
@@ -67,6 +69,11 @@ exit
 
 :Finish
 php.exe ..\vendor\phpunit\phpunit\phpunit --debug --stderr --verbose --testsuite Finish
+echo.
+pause
+
+:NoGui
+php.exe ..\vendor\phpunit\phpunit\phpunit --debug --stderr --verbose --testsuite NoGUI
 echo.
 pause
 exit

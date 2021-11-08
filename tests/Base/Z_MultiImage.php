@@ -208,8 +208,8 @@ class Z_MultiImage extends \Tests\Base
 			$this->assertSame($data[$i]['key'], $url['key'], 'Key in image url should be equal to provided');
 			$this->assertSame((string) $recordModel->getId(), $url['record'], 'Record in image url should be equal to provided');
 		}
-		\Vtiger_MultiImage_UIType::deleteRecord($recordModel);
-		foreach (\App\Json::decode($recordModel->get('imagename')) as $info) {
+		$recordModel->delete();
+		foreach ($attach as $info) {
 			$this->assertFileDoesNotExist($info['path'], 'File should be removed');
 		}
 	}

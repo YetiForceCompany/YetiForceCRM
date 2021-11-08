@@ -1381,6 +1381,9 @@ class PrivilegeUtil
 	public static function recalculateSharingRulesByUser($id)
 	{
 		$userModel = \App\User::getUserModel($id);
+		if (!$userModel->getId()) {
+			return null;
+		}
 		$roles = explode('::', $userModel->getParentRolesSeq());
 		$groups = $userModel->getGroups();
 		$sharing = [];
