@@ -17828,6 +17828,10 @@ body:not(.desktop) .ps__rail-y {
   margin-top: 1rem;
 }
 
+.pnotify.c-confirm-modal .pnotify-title {
+  font-size: 1.4rem;
+}
+
 .mdi {
   line-height: 1;
 }

@@ -543,6 +543,9 @@ body:not(.desktop) {
 .pnotify-action-bar {
 	margin-top: 1rem;
 }
+.pnotify.c-confirm-modal .pnotify-title {
+	font-size: 1.4rem;
+}
 
 //-------- Material Design Icons --------//
 .mdi {

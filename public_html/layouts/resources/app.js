@@ -2899,6 +2899,7 @@ var app = (window.app = {
 					destroy: false,
 					hide: false,
 					animateSpeed: 'fast',
+					addModalClass: 'c-confirm-modal',
 					modules: new Map([
 						...PNotify.defaultModules,
 						[
