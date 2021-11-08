@@ -1,31 +1,22 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************** */
+/**
+ * ModComments save action file.
+ *
+ * @package   Action
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
+/**
+ * ModComments save action class.
+ */
 class ModComments_Save_Action extends Vtiger_Save_Action
 {
-	public function process(App\Request $request)
+	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
 	{
-		$request->set('assigned_user_id', App\User::getCurrentUserId());
-		$this->saveRecord($request);
-		$responseFieldsToSent = ['reasontoedit', 'commentcontent'];
-		foreach ($responseFieldsToSent as $fieldName) {
-			$result[$fieldName] = $this->record->getDisplayValue($fieldName);
-		}
-		$result['success'] = true;
-		$result['modifiedtime'] = \App\Fields\DateTime::formatToViewDate($this->record->get('modifiedtime'));
-		$result['modifiedtimetitle'] = \App\Fields\DateTime::formatToDay($this->record->get('modifiedtime'));
-
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
-		$response->setResult($result);
-		$response->emit();
+		throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 	}
 }

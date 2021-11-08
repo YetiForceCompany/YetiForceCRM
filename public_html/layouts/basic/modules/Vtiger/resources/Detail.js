@@ -644,20 +644,18 @@ jQuery.Class(
 				relatedTo = thisInstance.getRecordId();
 			}
 			let postData = {
+				action: 'SaveAjax',
 				commentcontent: commentContentValue,
 				related_to: relatedTo,
 				module: 'ModComments'
 			};
-
 			if (commentMode == 'edit') {
+				postData['fromView'] = 'QuickEdit';
 				postData['record'] = commentId;
 				postData['reasontoedit'] = editCommentReason;
 				postData['parent_comments'] = parentCommentId;
-				postData['mode'] = 'edit';
-				postData['action'] = 'Save';
 			} else if (commentMode == 'add') {
 				postData['parent_comments'] = commentId;
-				postData['action'] = 'SaveAjax';
 			}
 			AppConnector.request(postData)
 				.done(function (data) {
@@ -665,7 +663,7 @@ jQuery.Class(
 					if (commentMode == 'add') {
 						thisInstance.addRelationBetweenRecords(
 							'ModComments',
-							data.result.id,
+							data.result._recordId,
 							thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel),
 							{ relationId: null }
 						);
@@ -2157,8 +2155,7 @@ jQuery.Class(
 				commentInfoBlock = currentTarget.closest('.js-comment-single');
 			commentTextAreaElement.html('');
 			if (mode == 'add') {
-				let commentId = data['result']['id'],
-					commentHtml = self.getCommentUI(commentId);
+				let commentHtml = self.getCommentUI(data['result']['_recordId']);
 				commentHtml.done(function (data) {
 					let commentBlock = closestAddCommentBlock.closest('.js-comment-details'),
 						detailContentsHolder = self.getContentHolder(),
@@ -2197,14 +2194,14 @@ jQuery.Class(
 					commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 					commentEditStatus = commentInfoBlock.find('.js-edited-status'),
 					commentReason = commentInfoBlock.find('.js-edit-reason-span');
-				commentInfoContent.html(data.result.commentcontent);
-				commentReason.html(data.result.reasontoedit);
-				modifiedTime.html(data.result.modifiedtime);
-				modifiedTime.attr('title', data.result.modifiedtimetitle);
+				commentInfoContent.html(data['result']['commentcontent']['display_value']);
+				commentReason.html(data['result']['reasontoedit']['display_value']);
+				modifiedTime.html(data['result']['modifiedtime']['formatToViewDate']);
+				modifiedTime.attr('title', data['result']['modifiedtime']['formatToDay']);
 				if (commentEditStatus.hasClass('d-none')) {
 					commentEditStatus.removeClass('d-none');
 				}
-				if (data.result.reasontoedit != '') {
+				if (data['result']['reasontoedit']['display_value'] != '') {
 					commentInfoBlock.find('.js-edit-reason').removeClass('d-none');
 				}
 				commentInfoContent.show();
