@@ -651,11 +651,11 @@ pre code {
 .col-xxxl-auto, .col-xxxl-12, .col-xxxl-11, .col-xxxl-10, .col-xxxl-9, .col-xxxl-8, .col-xxxl-7, .col-xxxl-6, .col-xxxl-5, .col-xxxl-4, .col-xxxl-3, .col-xxxl-2, .col-xxxl-1, .col-xxl,
 .col-xxl-auto, .col-xxl-12, .col-xxl-11, .col-xxl-10, .col-xxl-9, .col-xxl-8, .col-xxl-7, .col-xxl-6, .col-xxl-5, .col-xxl-4, .col-xxl-3, .col-xxl-2, .col-xxl-1, .col-xl,
 .col-xl-auto, .col-xl-12, .col-xl-11, .col-xl-10, .col-xl-9, .col-xl-8, .col-xl-7, .col-xl-6, .col-xl-5, .col-xl-4, .col-xl-3, .col-xl-2, .col-xl-1, .col-lg,
-.col-lg-auto, .col-lg-12, .col-lg-11, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-7, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .chatModal, .col-lg-2, .col-lg-1, .col-md,
+.col-lg-auto, .col-lg-12, .col-lg-11, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-7, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-lg-2, .col-lg-1, .col-md,
 .col-md-auto, .col-md-12, .c-panel__body, .col-md-11, .col-md-10, .col-md-9, .col-md-8, .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2, .col-md-1, .col-sm,
-.col-sm-auto, .col-sm-12, .c-panel__label, .col-sm-11, .col-sm-10, .col-sm-9, .col-sm-8, .chatModal, .col-sm-7, .col-sm-6, .col-sm-5, .col-sm-4, .col-sm-3, .col-sm-2, .col-sm-1, .col-xsm,
+.col-sm-auto, .col-sm-12, .c-panel__label, .col-sm-11, .col-sm-10, .col-sm-9, .col-sm-8, .col-sm-7, .col-sm-6, .col-sm-5, .col-sm-4, .col-sm-3, .col-sm-2, .col-sm-1, .col-xsm,
 .col-xsm-auto, .col-xsm-12, .col-xsm-11, .col-xsm-10, .col-xsm-9, .col-xsm-8, .col-xsm-7, .col-xsm-6, .col-xsm-5, .col-xsm-4, .col-xsm-3, .col-xsm-2, .col-xsm-1, .col,
-.col-auto, .col-12, .js-css-element-queries .col-ceq-xsm-6, .chatModal, .col-11, .col-10, .col-9, .col-8, .col-7, .col-6, .js-css-element-queries[min-width~="400px"] .col-ceq-xsm-6, .col-5, .col-4, .col-3, .col-2, .col-1 {
+.col-auto, .col-12, .js-css-element-queries .col-ceq-xsm-6, .col-11, .col-10, .col-9, .col-8, .col-7, .col-6, .js-css-element-queries[min-width~="400px"] .col-ceq-xsm-6, .col-5, .col-4, .col-3, .col-2, .col-1 {
   position: relative;
   width: 100%;
   padding-right: 15px;
@@ -759,7 +759,7 @@ pre code {
   max-width: 91.66666667%;
 }
 
-.col-12, .js-css-element-queries .col-ceq-xsm-6, .chatModal {
+.col-12, .js-css-element-queries .col-ceq-xsm-6 {
   flex: 0 0 100%;
   max-width: 100%;
 }
@@ -1157,7 +1157,7 @@ pre code {
     max-width: 58.33333333%;
   }
 
-  .col-sm-8, .chatModal {
+  .col-sm-8 {
     flex: 0 0 66.66666667%;
     max-width: 66.66666667%;
   }
@@ -1554,7 +1554,7 @@ pre code {
     max-width: 16.66666667%;
   }
 
-  .col-lg-3, .chatModal {
+  .col-lg-3 {
     flex: 0 0 25%;
     max-width: 25%;
   }
@@ -25308,35 +25308,6 @@ body > .o-exception-fixed-block {
   font-weight: initial;
 }
 
-.o-chat-modal-window {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1040;
-  display: none;
-  max-width: 64%;
-}
-
-.o-chat-items {
-  max-height: calc(100vh - 14.125rem);
-  overflow: auto;
-}
-
-.c-chat-room-name {
-  max-width: 220px;
-}
-
-.chatModal {
-  left: auto;
-}
-.chatModal .modal-body {
-  padding: 5px 0;
-}
-.chatModal .modal-footer {
-  background: #fff;
-}
-
 .navbar .o-global-search__value {
   border-top: none;
   border-bottom: none;
@@ -27216,17 +27187,15 @@ ul.c-process-line li.c-process-line__active > a:after {
   }
 }
 @media only screen and (max-width: 480px) {
-  .c-calendar-view .fieldRow .col-12, .c-calendar-view .fieldRow .chatModal, .c-calendar-view .fieldRow .js-css-element-queries .col-ceq-xsm-6, .js-css-element-queries .c-calendar-view .fieldRow .col-ceq-xsm-6,
+  .c-calendar-view .fieldRow .col-12, .c-calendar-view .fieldRow .js-css-element-queries .col-ceq-xsm-6, .js-css-element-queries .c-calendar-view .fieldRow .col-ceq-xsm-6,
 .c-calendar-quickcreate .fieldRow .col-12,
-.c-calendar-quickcreate .fieldRow .chatModal,
 .c-calendar-quickcreate .fieldRow .js-css-element-queries .col-ceq-xsm-6,
 .js-css-element-queries .c-calendar-quickcreate .fieldRow .col-ceq-xsm-6 {
     padding-right: 8px;
     padding-left: 0;
   }
-  .c-calendar-view .fieldRow .col-12 label, .c-calendar-view .fieldRow .chatModal label, .c-calendar-view .fieldRow .js-css-element-queries .col-ceq-xsm-6 label, .js-css-element-queries .c-calendar-view .fieldRow .col-ceq-xsm-6 label,
+  .c-calendar-view .fieldRow .col-12 label, .c-calendar-view .fieldRow .js-css-element-queries .col-ceq-xsm-6 label, .js-css-element-queries .c-calendar-view .fieldRow .col-ceq-xsm-6 label,
 .c-calendar-quickcreate .fieldRow .col-12 label,
-.c-calendar-quickcreate .fieldRow .chatModal label,
 .c-calendar-quickcreate .fieldRow .js-css-element-queries .col-ceq-xsm-6 label,
 .js-css-element-queries .c-calendar-quickcreate .fieldRow .col-ceq-xsm-6 label {
     margin-bottom: 0;
