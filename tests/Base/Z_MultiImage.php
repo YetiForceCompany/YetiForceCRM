@@ -15,21 +15,11 @@ namespace Tests\Base;
 
 class Z_MultiImage extends \Tests\Base
 {
-	/**
-	 * Files array.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Files array. */
 	public static $files = ['0.jpg', '1.png', '2.png', '3.jpg'];
 
-	/**
-	 * @var bool get contact from cache
-	 */
-	private static $cacheContact = false;
-	/**
-	 * @var bool get product from cache
-	 */
-	private static $cacheProduct = false;
+	/** @var bool Cache */
+	private static $cache = [];
 
 	/**
 	 * @codeCoverageIgnore
@@ -87,20 +77,19 @@ class Z_MultiImage extends \Tests\Base
 	{
 		switch ($module) {
 			case 'Users':
-				$record = \App\User::getUserIdByName('admin');
+				$record = self::$cache['Users'] ?? \App\User::getUserIdByName('admin');
 				break;
 			case 'Contacts':
-				$record = \Tests\Base\C_RecordActions::createContactRecord(self::$cacheContact)->getId();
-				self::$cacheContact = true;
+				$record = self::$cache['Contacts'] ?? \Tests\Base\C_RecordActions::createContactRecord(false)->getId();
 				break;
 			case 'Products':
-				$record = \Tests\Base\C_RecordActions::createProductRecord(self::$cacheProduct)->getId();
-				self::$cacheProduct = true;
+				$record = self::$cache['Products'] ?? \Tests\Base\C_RecordActions::createProductRecord(false)->getId();
 				break;
 			default:
 				return; // @codeCoverageIgnore
 				break;
 		}
+		self::$cache[$module] = $record;
 		$filePathSrc = ROOT_DIRECTORY . '/tests/data/MultiImage/' . self::$files[$file];
 		$filePathDst = ROOT_DIRECTORY . '/storage/MultiImage/' . md5(rand(0, 9999)) . substr(self::$files[$file], \strpos(self::$files[$file], '.'));
 		\copy($filePathSrc, $filePathDst);
@@ -110,7 +99,7 @@ class Z_MultiImage extends \Tests\Base
 			'name' => self::$files[$file],
 			'size' => \vtlib\Functions::showBytes($fileObj->getSize()),
 			'key' => $hash,
-			'path' => $fileObj->getPath()
+			'path' => $fileObj->getPath(),
 		];
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
 		$this->assertSame($record, $recordModel->getId(), 'Record ' . $record . '(' . $module . ') load error');
@@ -143,28 +132,12 @@ class Z_MultiImage extends \Tests\Base
 	 */
 	public function testDeleteImage($module, $field): void
 	{
-		switch ($module) {
-			case 'Users':
-				$record = \App\User::getUserIdByName('admin');
-				break;
-			case 'Contacts':
-				$record = \Tests\Base\C_RecordActions::createContactRecord(self::$cacheContact)->getId();
-				self::$cacheContact = true;
-				break;
-			case 'Products':
-				$record = \Tests\Base\C_RecordActions::createProductRecord(self::$cacheProduct)->getId();
-				self::$cacheProduct = true;
-				break;
-			default:
-				return; // @codeCoverageIgnore
-				break;
-		}
-		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$cache[$module], $module);
 		$data = \App\Json::decode($recordModel->get($field));
 		$this->assertFileExists($data[0]['path'], 'File should exists');
 		$recordModel->set($field, '');
 		$recordModel->save();
-		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$cache[$module], $module);
 		$this->assertSame('', $recordModel->get($field), 'Value should be empty');
 		$this->assertFileDoesNotExist($data[0]['path'], 'File should be removed');
 	}
@@ -188,7 +161,7 @@ class Z_MultiImage extends \Tests\Base
 				'name' => $name,
 				'size' => \vtlib\Functions::showBytes($fileObj->getSize()),
 				'key' => $hash[$i],
-				'path' => $fileObj->getPath()
+				'path' => $fileObj->getPath(),
 			];
 		}
 		$recordModel->set('imagename', \App\Json::encode($attach));

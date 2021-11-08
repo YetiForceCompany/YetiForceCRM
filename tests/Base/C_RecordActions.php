@@ -212,7 +212,9 @@ class C_RecordActions extends \Tests\Base
 		$record->set('pscategory', 'T3');
 		$record->set('imagename', '[]');
 		$record->save();
-		self::$recordProducts = $record;
+		if ($cache) {
+			self::$recordProducts = $record;
+		}
 		return $record;
 	}
 
