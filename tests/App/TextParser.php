@@ -421,17 +421,14 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Expected record label is different');
 
-		self::$parserRecord->recordModel->set('company', 'test')->save();
-
 		$text = '+ $(record : ChangesListChanges)$ +';
 		$this->assertSame('+  +', self::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Test record changes list should be empty');
 
-		$text = '+ $(record : ChangesListValues)$ +';
-		$this->assertNotSame('+  +', self::$parserRecord->setContent($text)
-			->parse()
-			->getContent(), 'Test record changes list values should be not empty');
+		$text = '$(record : ChangesListValues)$';
+		$this->assertSame('Mail podstawowy z  na test3@yetiforce.com<br>Zgoda na kontakt mailowy z Nie na Tak<br>Nazwa leada z TestLead sp. z o.o. na test<br>', self::$parserRecord->setContent($text)->parse()->getContent());
+
 		self::$parserRecord->withoutTranslations(true);
 		$text = '+ $(record : ChangesListChanges)$ +';
 		$this->assertSame('+  +', self::$parserRecord->setContent($text)
