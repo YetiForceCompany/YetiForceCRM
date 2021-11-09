@@ -338,8 +338,10 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent();
 		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found(CustomView not exists)');
-		$accountModel = \Tests\Base\C_RecordActions::createAccountRecord(false);
-		$contactModel = \Tests\Base\C_RecordActions::createContactRecord(false);
+		$accountModel = \Tests\Base\C_RecordActions::createAccountRecord();
+		$contactModel = \Tests\Base\C_RecordActions::createContactRecord();
+		$contactModel->set('parent_id', $accountModel->getId());
+		$contactModel->save();
 		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime,contactstatus,verification|[[["firstname","a","Test"]]]|All|5)$';
 		$result = \App\TextParser::getInstanceByModel($accountModel)->withoutTranslations(true)
 			->setContent($text)
