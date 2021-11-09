@@ -108,6 +108,21 @@ final class WebservicePremiumTest extends \Tests\Base
 		static::assertSame($row['pass'], 'portal');
 		self::$requestOptions['headers']['x-api-key'] = $row['api_key'];
 
+		foreach ([
+			// module name => block name or id
+			'Accounts' => 'LBL_ACCOUNT_INFORMATION',
+			'Contacts' => 'LBL_CONTACT_INFORMATION',
+			'HelpDesk' => 'LBL_TICKET_INFORMATION',
+			'FInvoiceProforma' => 'LBL_BASIC_DETAILS',
+			'Products' => 'LBL_PRODUCT_INFORMATION',
+			'Documents' => 17,
+		] as $moduleName => $block) {
+			$fieldModel = \Vtiger_Field_Model::init($moduleName, \App\Field::SYSTEM_FIELDS['share_externally']);
+			$fieldModel->fieldparams = self::$serverId;
+			$blockInstance = \vtlib\Block::getInstance($block, $moduleName);
+			$blockInstance->addField($fieldModel);
+		}
+
 		$recordModel = \Tests\Base\C_RecordActions::createContactRecord();
 		$recordModel->set('share_externally', 1);
 		$recordModel->save();
@@ -133,21 +148,6 @@ final class WebservicePremiumTest extends \Tests\Base
 		static::assertSame((int) $row['server_id'], self::$serverId);
 		static::assertSame($row['user_name'], self::$apiUserName);
 		static::assertTrue(\App\Encryption::verifyPasswordHash(self::$apiUserPass, $row['password'], 'WebservicePremium'));
-
-		foreach ([
-			// module name => block name or id
-			'Accounts' => 'LBL_ACCOUNT_INFORMATION',
-			'Contacts' => 'LBL_CONTACT_INFORMATION',
-			'HelpDesk' => 'LBL_TICKET_INFORMATION',
-			'FInvoiceProforma' => 'LBL_BASIC_DETAILS',
-			'Products' => 'LBL_PRODUCT_INFORMATION',
-			'Documents' => 17,
-		] as $moduleName => $block) {
-			$fieldModel = \Vtiger_Field_Model::init($moduleName, \App\Field::SYSTEM_FIELDS['share_externally']);
-			$fieldModel->fieldparams = self::$serverId;
-			$blockInstance = \vtlib\Block::getInstance($block, $moduleName);
-			$blockInstance->addField($fieldModel);
-		}
 	}
 
 	/**
@@ -604,9 +604,15 @@ final class WebservicePremiumTest extends \Tests\Base
 	 */
 	public function testGetFiles(): void
 	{
-		$recordModel = \Tests\Base\C_RecordActions::createDocumentsRecord();
+		$recordModel = \Tests\Base\C_RecordActions::createDocumentsRecord(false);
 		$recordModel->set('share_externally', 1);
 		$recordModel->save();
+
+		$apiUser = \Settings_WebserviceUsers_Record_Model::getInstanceById(self::$apiUserId, 'WebservicePremium');
+		$contactId = $apiUser->get('crmid');
+		$accountId = \Vtiger_Record_Model::getInstanceById($contactId)->get('parent_id');
+		$relationModel = \Vtiger_Relation_Model::getInstance(\Vtiger_Module_Model::getInstance('Accounts'), $recordModel->getModule());
+		$relationModel->addRelation($accountId, $recordModel->getId());
 
 		$fileDetails = $recordModel->getFileDetails();
 		$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];

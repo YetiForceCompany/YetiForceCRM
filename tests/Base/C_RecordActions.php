@@ -127,7 +127,7 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public static function createContactRecord($cache = true): \Vtiger_Record_Model
 	{
-		if (self::$recordContacts && $cache) {
+		if (self::$recordContacts && \App\Record::isExists(self::$recordContacts->getId()) && $cache) {
 			return self::$recordContacts;
 		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
