@@ -115,7 +115,7 @@ class Z_Chat extends \Tests\Base
 	{
 		self::$chatActive = \App\Module::isModuleActive('Chat');
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
-		$recordModel = C_RecordActions::createContactRecord();
+		$recordModel = C_RecordActions::createContactRecord(false);
 		self::$listId[] = $recordModel->getId();
 		self::$users[] = A_User::createUsersRecord('test_1')->getId();
 		self::$users[] = A_User::createUsersRecord('test_2')->getId();
