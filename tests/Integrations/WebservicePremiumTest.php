@@ -37,6 +37,9 @@ final class WebservicePremiumTest extends \Tests\Base
 	/** @var int Api user id. */
 	private static $apiUserPass = 'demo';
 
+	/** @var \Vtiger_Record_Model Temporary Contacts record object. */
+	protected static $recordContacts;
+
 	/**
 	 * Request options.
 	 *
@@ -123,9 +126,9 @@ final class WebservicePremiumTest extends \Tests\Base
 			$blockInstance->addField($fieldModel);
 		}
 
-		$recordModel = \Tests\Base\C_RecordActions::createContactRecord();
-		$recordModel->set('share_externally', 1);
-		$recordModel->save();
+		self::$recordContacts = \Tests\Base\C_RecordActions::createContactRecord(false);
+		self::$recordContacts->set('share_externally', 1);
+		self::$recordContacts->save();
 
 		$user = \Settings_WebserviceUsers_Record_Model::getCleanInstance('WebservicePremium');
 		$user->setData([
@@ -135,7 +138,7 @@ final class WebservicePremiumTest extends \Tests\Base
 			'password' => \App\Encryption::createPasswordHash(self::$apiUserPass, 'WebservicePremium'),
 			'type' => 4,
 			'popupReferenceModule' => 'Contacts',
-			'crmid' => $recordModel->getId(),
+			'crmid' => self::$recordContacts->getId(),
 			'crmid_display' => '',
 			'login_method' => 'PLL_PASSWORD',
 			'user_id' => \App\User::getActiveAdminId(),
@@ -346,7 +349,7 @@ final class WebservicePremiumTest extends \Tests\Base
 	public function testGetRecordRelatedList(): void
 	{
 		$relationModel = \Vtiger_Relation_Model::getInstance(\Vtiger_Module_Model::getInstance('HelpDesk'), \Vtiger_Module_Model::getInstance('Contacts'));
-		$relationModel->addRelation(self::$recordId, \Tests\Base\C_RecordActions::createContactRecord()->getId());
+		$relationModel->addRelation(self::$recordId, self::$recordContacts->getId());
 
 		$request = $this->httpClient->get('HelpDesk/RecordRelatedList/' . self::$recordId . '/Contacts', self::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
