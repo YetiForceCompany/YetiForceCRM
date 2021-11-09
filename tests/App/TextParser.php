@@ -416,11 +416,11 @@ class TextParser extends \Tests\Base
 		$this->assertSame('+ ' . self::$recordLeads->getName() . ' +', self::$parserRecord->setContent($text)->parse()->getContent(), 'Expected record label is different');
 
 		$text = '+ $(record : ChangesListChanges)$ +';
-		$this->assertSame('+  +', self::$parserRecord->setContent($text)->parse()->getContent(), 'Test record changes list should be empty');
+		$this->assertSame('+  +', self::$parserRecord->setContent($text)->parse()->getContent());
 
 		self::$parserRecord->withoutTranslations(true);
 		$text = '+ $(record : ChangesListChanges)$ +';
-		$this->assertSame('+  +', self::$parserRecord->setContent($text)->parse()->getContent(), 'Test record changes list should be empty(withoutTranslations)');
+		$this->assertSame('+  +', self::$parserRecord->setContent($text)->parse()->getContent());
 		self::$parserRecord->withoutTranslations(false);
 
 		self::$parserRecord->recordModel->set('email', 'test3@yetiforce.com')->save();
@@ -430,7 +430,7 @@ class TextParser extends \Tests\Base
 
 		self::$parserRecord->withoutTranslations(true);
 		$text = '+ $(record : ChangesListValues)$ +';
-		$this->assertSame('+  +', self::$parserRecord->setContent($text)->parse()->getContent(), 'Test record changes list values should be not empty(withoutTranslations)');
+		$this->assertSame('+ $(translate : Leads|Email)$: test3@yetiforce.com<br> +', self::$parserRecord->setContent($text)->parse()->getContent());
 		self::$parserRecord->withoutTranslations(false);
 
 		self::$recordLeads->set('vat_id', 'test');
