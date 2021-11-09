@@ -421,6 +421,8 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Expected record label is different');
 
+		self::$parserRecord->recordModel->set('company', 'test')->save();
+
 		$text = '+ $(record : ChangesListChanges)$ +';
 		$this->assertSame('+  +', self::$parserRecord->setContent($text)
 			->parse()
