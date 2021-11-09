@@ -23,9 +23,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 	protected $rowNo = 1;
 	protected $invNo = 0;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function initializeFromRequest(App\Request $request)
 	{
 		parent::initializeFromRequest($request);
@@ -38,9 +36,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 		];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaders(): array
 	{
 		$headers = parent::getHeaders();
@@ -52,9 +48,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 		return $headers;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function output($headers, $entries)
 	{
 		//having written out all the data lets have a go at getting the columns to auto-size
@@ -74,9 +68,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 		unlink($tempFileName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function exportData()
 	{
 		if (!$this->exportColumns && $this->quickExport && $this->queryOptions['viewname']) {
@@ -164,9 +156,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 		++$this->colNo;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function sanitizeValues(array $row): array
 	{
 		++$this->rowNo;

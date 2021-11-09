@@ -11,9 +11,7 @@
 
 class Vtiger_DashBoard_View extends Vtiger_Index_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -47,9 +45,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer->view('dashboards/DashBoardPreProcessAjax.tpl', $moduleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
@@ -81,17 +77,13 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessTplName(App\Request $request)
 	{
 		return 'dashboards/DashBoardPreProcess.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -112,9 +104,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer->view('dashboards/DashBoardContents.tpl', $moduleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		parent::postProcess($request);

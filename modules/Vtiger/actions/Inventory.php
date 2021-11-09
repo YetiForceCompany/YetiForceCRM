@@ -27,9 +27,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$this->exposeMethod('getTableData');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

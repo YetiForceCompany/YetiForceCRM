@@ -17,9 +17,7 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 	 */
 	public $dbParams = ['relatedmodule' => 'ModComments'];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isPermitted(): bool
 	{
 		return parent::isPermitted() && $this->moduleModel->isCommentEnabled();

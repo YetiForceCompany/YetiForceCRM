@@ -1133,9 +1133,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->view('Detail/Chat.tpl', 'Chat');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();

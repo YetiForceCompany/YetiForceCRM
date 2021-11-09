@@ -45,9 +45,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 		$exportModel->exportData();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static function getQuery(App\Request $request)
 	{
 		$cvId = $request->isEmpty('viewname') ? '' : $request->getByType('viewname', 2);

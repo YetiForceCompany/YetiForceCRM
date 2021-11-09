@@ -11,9 +11,7 @@
  */
 class Vtiger_RelatedCommentModal_Action extends \App\Controller\Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
@@ -24,9 +22,7 @@ class Vtiger_RelatedCommentModal_Action extends \App\Controller\Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();

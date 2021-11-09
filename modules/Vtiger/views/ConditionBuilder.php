@@ -11,9 +11,7 @@
  */
 class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getByType('sourceModuleName', 2))) {
@@ -21,9 +19,7 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$sourceModuleName = $request->getByType('sourceModuleName', 2);

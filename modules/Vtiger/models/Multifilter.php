@@ -151,9 +151,7 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 		return $this->targetModuleModel;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function initListViewController()
 	{
 		if (!$this->listViewModel) {

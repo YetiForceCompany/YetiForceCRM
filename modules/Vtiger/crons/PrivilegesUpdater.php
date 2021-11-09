@@ -15,9 +15,7 @@
  */
 class Vtiger_PrivilegesUpdater_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$limit = App\Config::performance('CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER');

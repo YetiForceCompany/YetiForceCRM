@@ -31,9 +31,7 @@ class Vtiger_ChangeRelationData_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request): void
 	{
 		$recordId = $request->getInteger('record');

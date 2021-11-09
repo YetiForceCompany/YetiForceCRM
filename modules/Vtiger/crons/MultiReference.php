@@ -15,9 +15,7 @@
  */
 class Vtiger_MultiReference_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$db = \App\Db::getInstance();

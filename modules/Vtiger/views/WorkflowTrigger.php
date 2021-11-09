@@ -10,9 +10,7 @@
  */
 class Vtiger_WorkflowTrigger_View extends Vtiger_BasicModal_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
@@ -27,9 +25,7 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
@@ -42,9 +38,7 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalScripts(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertJsScripts([
@@ -53,9 +47,7 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_BasicModal_View
 		]), parent::getModalScripts($request));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalCss(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertCssStyles([

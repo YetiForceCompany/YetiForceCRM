@@ -14,9 +14,7 @@
  */
 class Vtiger_BatchProcesses_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$disable = true;

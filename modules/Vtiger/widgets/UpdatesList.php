@@ -14,9 +14,7 @@
  */
 class Vtiger_UpdatesList_Widget extends Vtiger_Basic_Widget
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getWidget()
 	{
 		$fieldName = $this->Config['data']['field_name'];
@@ -28,9 +26,7 @@ class Vtiger_UpdatesList_Widget extends Vtiger_Basic_Widget
 		return $this->Config;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getConfigTplName()
 	{
 		return 'UpdatesListConfig';

@@ -15,9 +15,7 @@
  */
 class Vtiger_RecordUnlock_Action extends \App\Controller\Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true) || !Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->isUnlockByFields()) {
@@ -25,9 +23,7 @@ class Vtiger_RecordUnlock_Action extends \App\Controller\Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));

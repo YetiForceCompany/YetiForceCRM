@@ -15,9 +15,7 @@
  */
 class Vtiger_AddressBook_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		\App\Log::trace('Start create AddressBook');

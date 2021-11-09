@@ -14,9 +14,7 @@
  */
 class Vtiger_BrowsingHistory_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$deleteAfter = App\Config::performance('BROWSING_HISTORY_DELETE_AFTER');

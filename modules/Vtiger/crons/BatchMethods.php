@@ -14,9 +14,7 @@
  */
 class Vtiger_BatchMethods_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$query = (new \App\Db\Query())->from('s_#__batchmethod')->limit(10);

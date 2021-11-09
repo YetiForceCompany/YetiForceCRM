@@ -85,9 +85,7 @@ class Vtiger_TreeInventoryModal_Model extends Vtiger_TreeCategoryModal_Model
 		return $trees;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static function getInstance(Vtiger_Module_Model $moduleModel)
 	{
 		$moduleName = $moduleModel->get('name');

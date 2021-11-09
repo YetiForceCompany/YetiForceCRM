@@ -15,14 +15,10 @@
  */
 class Vtiger_RecordUnlock_View extends \App\Controller\Modal
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalSize = 'modal-md';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true) || !Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->isUnlockByFields()) {
@@ -30,9 +26,7 @@ class Vtiger_RecordUnlock_View extends \App\Controller\Modal
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -41,26 +35,20 @@ class Vtiger_RecordUnlock_View extends \App\Controller\Modal
 		parent::preProcessAjax($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('Modals/RecordUnlock.tpl', $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		return \App\Language::translate('BTN_RECORD_OPEN', $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function initializeContent(App\Request $request)
 	{
 		$lockFields = [];
@@ -79,9 +67,7 @@ class Vtiger_RecordUnlock_View extends \App\Controller\Modal
 		$viewer->assign('BTN_DANGER', $this->dangerBtn);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcessAjax(App\Request $request)
 	{
 	}

@@ -14,9 +14,7 @@
  */
 class Vtiger_SystemWarnings_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$html = '';

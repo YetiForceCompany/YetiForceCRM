@@ -32,9 +32,7 @@ class Vtiger_RelatedModuleChart_Widget extends Vtiger_Basic_Widget
 		return $url;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getWidget()
 	{
 		$widget = [];
@@ -61,9 +59,7 @@ class Vtiger_RelatedModuleChart_Widget extends Vtiger_Basic_Widget
 		return $params;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getConfigTplName()
 	{
 		return 'RelatedModuleChartConfig';

@@ -25,9 +25,7 @@ class Vtiger_TreeModal_View extends \App\Controller\Modal
 	 */
 	public $fieldModel;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -43,9 +41,7 @@ class Vtiger_TreeModal_View extends \App\Controller\Modal
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -54,9 +50,7 @@ class Vtiger_TreeModal_View extends \App\Controller\Modal
 		parent::preProcessAjax($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function preProcessTplName(App\Request $request)
 	{
 		return 'Modals/TreeHeader.tpl';
@@ -90,9 +84,7 @@ class Vtiger_TreeModal_View extends \App\Controller\Modal
 		$viewer->view('Modals/TreeModal.tpl', $moduleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -108,9 +100,7 @@ class Vtiger_TreeModal_View extends \App\Controller\Modal
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalCss(App\Request $request)
 	{
 		return array_merge(parent::getModalCss($request), $this->checkAndConvertCssStyles([

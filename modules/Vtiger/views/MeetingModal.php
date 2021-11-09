@@ -14,17 +14,11 @@
  */
 class Vtiger_MeetingModal_View extends \App\Controller\Modal
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalIcon = 'mdi mdi-card-account-phone';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $successBtn = '';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $showFooter = false;
 	/**
 	 * @var string Meeting URL
@@ -35,9 +29,7 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 	 */
 	protected $moderator = false;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -47,9 +39,7 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$this->initMeetingData($request);
@@ -105,18 +95,14 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 		$this->moderator = $recordModel->isEditable();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		$label = \App\Record::getLabel($request->getInteger('record'));
 		return $label ? $label : parent::getPageTitle($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalScripts(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertJsScripts([

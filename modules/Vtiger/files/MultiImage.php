@@ -76,9 +76,7 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function post(App\Request $request)
 	{
 		$attach = \App\Fields\File::uploadAndSave($request, $_FILES, $this->fileType, $this->storageName . DIRECTORY_SEPARATOR . $request->getModule() . DIRECTORY_SEPARATOR . $request->getByType('field', 'Alnum'));

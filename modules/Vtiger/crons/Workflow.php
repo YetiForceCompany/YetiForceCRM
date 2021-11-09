@@ -14,9 +14,7 @@
  */
 class Vtiger_Workflow_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		require_once 'include/Webservices/Utils.php';

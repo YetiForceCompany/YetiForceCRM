@@ -17,9 +17,7 @@ class Vtiger_InterestsConflict_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -28,9 +26,7 @@ class Vtiger_InterestsConflict_Action extends \App\Controller\Action
 		$this->exposeMethod('usersCancel');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		switch ($request->getMode()) {

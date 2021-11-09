@@ -14,9 +14,7 @@
  */
 class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getStructure()
 	{
 		if (!empty($this->structuredValues)) {

@@ -15,9 +15,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	use App\Controller\ClearProcess;
 	use \App\Controller\ExposeMethod;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -33,9 +31,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('checkFilesIntegrity');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

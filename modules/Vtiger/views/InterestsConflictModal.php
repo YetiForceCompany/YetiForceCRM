@@ -15,13 +15,9 @@
 class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 {
 	use \App\Controller\ExposeMethod;
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalSize = '';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $showFooter = false;
 	/**
 	 * Undocumented variable.
@@ -30,9 +26,7 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 	 */
 	public $parent;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -41,9 +35,7 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 		$this->exposeMethod('users');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true) || !\App\Privilege::isPermitted($request->getModule())) {
@@ -55,9 +47,7 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 		$this->parent = \App\Components\InterestsConflict::getParent($request->getInteger('record'), $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -140,9 +130,7 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 		$viewer->view('Modals/InterestsConflictUsers.tpl', $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalScripts(App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
@@ -153,9 +141,7 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalCss(App\Request $request)
 	{
 		return array_merge(parent::getModalCss($request), $this->checkAndConvertCssStyles([

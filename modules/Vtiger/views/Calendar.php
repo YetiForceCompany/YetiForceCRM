@@ -14,9 +14,7 @@
  */
 class Vtiger_Calendar_View extends Vtiger_Index_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -25,25 +23,19 @@ class Vtiger_Calendar_View extends Vtiger_Index_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function getTpl(string $tplFile)
 	{
 		return "Calendar/{$tplFile}";
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function preProcessTplName(App\Request $request)
 	{
 		return $this->getTpl('PreProcess.tpl');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, $display);
@@ -51,9 +43,7 @@ class Vtiger_Calendar_View extends Vtiger_Index_View
 		$this->getViewer($request)->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($request->getModule(), $mid));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -74,9 +64,7 @@ class Vtiger_Calendar_View extends Vtiger_Index_View
 		$viewer->view($this->getTpl('CalendarView.tpl'), $moduleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
@@ -85,9 +73,7 @@ class Vtiger_Calendar_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
@@ -101,9 +87,7 @@ class Vtiger_Calendar_View extends Vtiger_Index_View
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
