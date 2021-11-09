@@ -297,7 +297,9 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		if ('I' === $this->get('filelocationtype')) {
 			if ($file) {
 				$file['original_name'] = \App\Request::_get('0_hidden');
-				$this->uploadAndSaveFile($file);
+				if ($this->uploadAndSaveFile($file) && isset($this->file)) {
+					$this->file = [];
+				}
 			}
 		} else {
 			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
@@ -340,7 +342,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		} else {
 			$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $currentId])->execute();
 		}
-		\App\Log::trace('Skip the uploadAndSaveFile process.');
+		\App\Log::trace('Exiting uploadAndSaveFile');
 		return $result;
 	}
 

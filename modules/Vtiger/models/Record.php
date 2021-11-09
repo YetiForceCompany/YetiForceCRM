@@ -710,6 +710,7 @@ class Vtiger_Record_Model extends \App\Base
 			if ($this->getModule()->isCommentEnabled()) {
 				(new \App\BatchMethod(['method' => 'ModComments_Module_Model::deleteForRecord', 'params' => [$this->getId()]]))->save();
 			}
+			$this->clearPrivilegesCache($this->getId());
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
