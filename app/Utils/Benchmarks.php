@@ -18,7 +18,7 @@ namespace App\Utils;
 class Benchmarks
 {
 	/** @var string[] Math functions list */
-	public static $mathFunctions = ['abs', 'acos', 'asin', 'atan', 'floor', 'exp', 'sin', 'tan', 'pi', 'is_finite', 'is_nan', 'sqrt'];
+	public static $mathFunctions = ['abs', 'acos', 'asin', 'atan', 'floor', 'exp', 'sin', 'tan', 'is_finite', 'is_nan', 'sqrt'];
 	/** @var string[] Hash functions list */
 	public static $hashAlgo = ['md4', 'md5', 'crc32', 'sha1', 'adler32', 'ripemd256', 'sha256', 'sha384', 'sha512'];
 	/** @var string[] String functions list */

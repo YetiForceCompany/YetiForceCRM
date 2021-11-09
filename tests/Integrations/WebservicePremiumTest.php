@@ -203,6 +203,16 @@ final class WebservicePremiumTest extends \Tests\Base
 		static::assertSame(200, $request->getStatusCode(), 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(1, $response['status'], 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/WebservicePremium/{moduleName}/Record', 'post', 200);
+
+		$request = $this->httpClient->post('ModComments/Record/', \App\Utils::merge(['json' => [
+			'commentcontent' => 'Api comment content',
+			'related_to' => $recordModel->getId(),
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'ModComments/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'ModComments/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/WebservicePremium/{moduleName}/Record', 'post', 200);
 	}
 
 	/**
