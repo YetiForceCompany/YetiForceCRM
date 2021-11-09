@@ -36,7 +36,7 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$viewer = $this->getViewer($request);
@@ -50,6 +50,14 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 	protected function preProcessTplName(App\Request $request)
 	{
 		return 'Modals/QuickEditHeader.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(App\Request $request)
+	{
+		return $request->has('modalTitle') ? $request->getByType('modalTitle', 'Text') : '';
 	}
 
 	/**
@@ -204,6 +212,7 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 	 * Function to get the list of links for the module.
 	 *
 	 * @param \Vtiger_Record_Model $recordMode
+	 * @param Vtiger_Record_Model  $recordModel
 	 *
 	 * @return Vtiger_Link_Model[] - Associate array of Link Type to List of Vtiger_Link_Model instances
 	 */
@@ -215,7 +224,7 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 			'showLabel' => 1,
 			'linkicon' => 'yfi yfi-full-editing-view',
 			'linkdata' => ['js' => 'click', 'url' => $recordModel->getEditViewUrl()],
-			'linkclass' => 'btn-light js-full-editlink fontBold u-text-ellipsis mb-2 mb-md-0 col-12'
+			'linkclass' => 'btn-light js-full-editlink fontBold u-text-ellipsis mb-2 mb-md-0 col-12',
 		]);
 		return $links;
 	}

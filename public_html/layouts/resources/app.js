@@ -107,7 +107,7 @@ var App = (window.App = {
 							progress.progressIndicator({
 								mode: 'hide'
 							});
-							App.Components.QuickCreate.showModal(data, params);
+							App.Components.QuickCreate.showModal(data, params, element);
 							app.registerEventForClockPicker();
 						});
 					}
@@ -182,8 +182,9 @@ var App = (window.App = {
 			 *
 			 * @param   {string}  html
 			 * @param   {object}  params
+			 * @param   {jQuery}  element
 			 */
-			showModal(html, params = {}) {
+			showModal(html, params = {}, element) {
 				app.showModalWindow(html, (container) => {
 					const quickCreateForm = container.find('form.js-form');
 					const moduleName = quickCreateForm.find('[name="module"]').val();
@@ -198,18 +199,19 @@ var App = (window.App = {
 					if (typeof params.callbackPostShown !== 'undefined') {
 						params.callbackPostShown(quickCreateForm);
 					}
-					this.registerPostLoadEvents(quickCreateForm, params);
+					this.registerPostLoadEvents(quickCreateForm, params, element);
 				});
 			},
 			/**
 			 * Register post load events
 			 *
-			 * @param   {object}  form jQuery
+			 * @param   {jQuery}  form
 			 * @param   {object}  params
+			 * @param   {jQuery}  element
 			 *
 			 * @return  {boolean}
 			 */
-			registerPostLoadEvents(form, params) {
+			registerPostLoadEvents(form, params, element) {
 				const submitSuccessCallback = params.callbackFunction || function () {};
 				const goToFullFormCallBack = params.goToFullFormcallback || function () {};
 				form.on('submit', (e) => {
@@ -263,19 +265,8 @@ var App = (window.App = {
 											text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 											type: 'success'
 										});
-										if ('List' === app.getViewName()) {
-											let listInstance = new Vtiger_List_Js();
-											listInstance.getListViewRecords();
-										} else if ('Detail' === app.getViewName()) {
-											if (app.getUrlVar('mode') === 'showRelatedList') {
-												Vtiger_Detail_Js.getInstance().loadRelatedList();
-											} else if (params && params.data) {
-												window.location.reload();
-											}
-										} else if ('Kanban' === app.getViewName()) {
-											app.pageController.loadKanban(false);
-										}
 									}
+									app.reloadAfterSave(data, params, form, element);
 								})
 								.fail(function (textStatus, errorThrown) {
 									app.showNotify({
@@ -406,10 +397,9 @@ var App = (window.App = {
 			/**
 			 * Register post load events
 			 *
-			 * @param   {object}  form jQuery
+			 * @param   {jQuery}  form jQuery
 			 * @param   {object}  params
-			 *
-			 * @return  {boolean}
+			 * @param   {jQuery}  element
 			 */
 			registerPostLoadEvents(form, params, element) {
 				const submitSuccessCallback = params.callbackFunction || function () {};
@@ -453,14 +443,8 @@ var App = (window.App = {
 							});
 							saveHandler(form).done((data) => {
 								const modalContainer = form.closest('.modalContainer');
-								const parentModuleName = app.getModuleName();
-								const viewName = app.getViewName();
 								if (modalContainer.length) {
 									app.hideModalWindow(false, modalContainer[0].id);
-								}
-								if (moduleName === parentModuleName && 'List' === viewName) {
-									const listInstance = new Vtiger_List_Js();
-									listInstance.getListViewRecords();
 								}
 								submitSuccessCallback(data);
 								app.event.trigger('QuickEdit.AfterSaveFinal', data, form, element);
@@ -471,23 +455,7 @@ var App = (window.App = {
 										type: 'success'
 									});
 								}
-								if ('Detail' === viewName && app.getRecordId() === form.find('[name="record"]').val()) {
-									if (data.result._isViewable == false) {
-										if (window !== window.parent) {
-											window.parent.location.href = 'index.php?module=' + moduleName + '&view=ListPreview';
-										} else {
-											window.location.href = 'index.php?module=' + moduleName + '&view=List';
-										}
-									} else if (params.removeFromUrl) {
-										let searchParams = new URLSearchParams(window.location.search);
-										searchParams.delete('step');
-										window.location.href = 'index.php?' + searchParams.toString();
-									} else {
-										window.location.reload();
-									}
-								} else if ('Kanban' === viewName) {
-									app.pageController.loadKanban(false);
-								}
+								app.reloadAfterSave(data, params, form, element);
 							});
 						} else {
 							//If validation fails in recordPreSaveEvent, form should submit again
@@ -2345,18 +2313,11 @@ var app = (window.app = {
 			if (element.data('values')) {
 				$.extend(data, element.data('values'));
 			}
-			if (element.data('mandatoryFields')) {
-				data.mandatoryFields = element.data('mandatoryFields');
-			}
-			if (element.data('showLayout')) {
-				data.showLayout = element.data('showLayout');
-			}
-			if (element.data('editFields')) {
-				data.editFields = element.data('editFields');
-			}
-			if (element.data('picklistValues')) {
-				data.picklistValues = element.data('picklistValues');
-			}
+			$.each(['mandatoryFields', 'modalTitle', 'showLayout', 'editFields', 'picklistValues'], function (index, value) {
+				if (element.data(value)) {
+					data[value] = element.data(value);
+				}
+			});
 			App.Components.QuickEdit.showModal(data, element);
 		});
 	},
@@ -3060,8 +3021,59 @@ var app = (window.app = {
 		}
 	},
 	/**
+	 * Function to reload view after save event
+	 *
+	 * @param {object} responseData - Save responses data.
+	 * @param {object} params - Save params.
+	 * @param {jQuery} form - Jquery form container.
+	 * @param {jQuery} element - Jquery trigger element.
+	 */
+	reloadAfterSave: function (responseData, params, form, element) {
+		const moduleName = params['module'];
+		const parentModuleName = app.getModuleName();
+		const viewName = app.getViewName();
+		if ('List' === viewName) {
+			if (moduleName === parentModuleName) {
+				app.pageController.getListViewRecords();
+			}
+		} else if ('Kanban' === viewName) {
+			app.pageController.loadKanban(false);
+		} else if ('Detail' === viewName) {
+			if (form && app.getRecordId() === form.find('[name="record"]').val()) {
+				if (responseData.result._isViewable == false) {
+					if (window !== window.parent) {
+						window.parent.location.href = 'index.php?module=' + moduleName + '&view=ListPreview';
+					} else {
+						window.location.href = 'index.php?module=' + moduleName + '&view=List';
+					}
+				} else if (params && params.removeFromUrl) {
+					let searchParams = new URLSearchParams(window.location.search);
+					searchParams.delete('step');
+					window.location.href = 'index.php?' + searchParams.toString();
+				} else {
+					window.location.reload();
+				}
+			} else {
+				let widget, block;
+				if (responseData.result._reload) {
+					window.location.reload();
+				} else if (app.getUrlVar('mode') === 'showRelatedList') {
+					app.pageController.loadRelatedList();
+				} else if (element && (widget = element.closest('.widgetContentBlock')) && widget.length !== 0) {
+					app.pageController.loadWidget(widget);
+				} else if (element && (block = element.closest('.detailViewBlockLink')) && block.length !== 0) {
+					app.pageController.reloadDetailViewBlock(block);
+				} else if (params && params.data) {
+					window.location.reload();
+				} else {
+					app.pageController.reloadTabContent();
+				}
+			}
+		}
+	},
+	/**
 	 * Function to register the records events
-	 * @param {$} container - Jquery container.
+	 * @param {jQuery} container - Jquery container.
 	 */
 	registerRecordActionsEvents: function (container) {
 		container.on('click', '.js-action-confirm', function (event) {
@@ -3079,7 +3091,8 @@ var app = (window.app = {
 							enabled: true
 						}
 					});
-					AppConnector.request(target.data('url') + '&sourceView=' + sourceView).done(function (data) {
+					let url = target.data('url') + '&sourceView=' + sourceView;
+					AppConnector.request(url).done(function (data) {
 						progressIndicatorElement.progressIndicator({
 							mode: 'hide'
 						});
@@ -3087,14 +3100,10 @@ var app = (window.app = {
 							if (data.result.notify) {
 								app.showNotify(data.result.notify);
 							}
-							if (sourceView === 'List') {
-								app.pageController.getListViewRecords();
-							} else if (sourceView === 'DetailTab') {
-								app.pageController.reloadTabContent();
-							} else if (sourceView === 'Detail') {
-								window.location.reload();
-							} else if (sourceView === 'Href') {
+							if (sourceView === 'Href') {
 								app.openUrl(data.result);
+							} else {
+								app.reloadAfterSave(data, app.convertUrlToObject(url), null, target);
 							}
 						} else {
 							app.showNotify({

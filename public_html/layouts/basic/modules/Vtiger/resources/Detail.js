@@ -941,39 +941,21 @@ jQuery.Class(
 		 * Function to register Event for Sorting
 		 */
 		registerEventForRelatedList: function () {
-			let thisInstance = this;
+			const self = this;
 			let detailContentsHolder = this.getContentHolder();
-			let relatedModuleName = thisInstance.getRelatedModuleName();
+			let relatedModuleName = self.getRelatedModuleName();
 			if (relatedModuleName) {
 				let relatedController = Vtiger_RelatedList_Js.getInstance(
-					thisInstance.getRecordId(),
+					self.getRecordId(),
 					app.getModuleName(),
-					thisInstance.getSelectedTab(),
+					self.getSelectedTab(),
 					relatedModuleName
 				);
 				relatedController.setRelatedContainer(detailContentsHolder);
 				relatedController.registerRelatedEvents();
 			}
 			detailContentsHolder.find('.detailViewBlockLink').each(function (n, block) {
-				block = $(block);
-				let blockContent = block.find('.blockContent');
-
-				if (blockContent.is(':visible')) {
-					AppConnector.request({
-						type: 'GET',
-						dataType: 'html',
-						data: {},
-						url: block.data('url')
-					}).done(function (response) {
-						blockContent.html(response);
-						let relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(
-							block.data('url'),
-							thisInstance.getSelectedTab()
-						);
-						relatedController.setRelatedContainer(blockContent);
-						relatedController.registerRelatedEvents();
-					});
-				}
+				self.reloadDetailViewBlock($(block), false);
 			});
 			detailContentsHolder.find('.detailViewBlockLink .blockHeader').on('click', function (e) {
 				const target = $(e.target);
@@ -986,25 +968,34 @@ jQuery.Class(
 				) {
 					return false;
 				}
-				const block = $(this).closest('.js-toggle-panel');
-				const blockContent = block.find('.blockContent');
-				const isEmpty = blockContent.is(':empty');
-				let url = block.data('url');
-				if (blockContent.is(':visible') && url) {
-					blockContent.progressIndicator();
-					AppConnector.request(url).done(function (response) {
-						blockContent.html(response);
-						const relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(url, thisInstance.getSelectedTab());
-						relatedController.setRelatedContainer(blockContent);
-						if (isEmpty) {
-							relatedController.registerRelatedEvents();
-						} else {
-							relatedController.registerPostLoadEvents();
-							relatedController.registerListEvents();
-						}
-					});
-				}
+				self.reloadDetailViewBlock($(this).closest('.js-toggle-panel'));
 			});
+		},
+		/**
+		 * Function to reload detail view block
+		 * @param {$} block - Jquery container.
+		 */
+		reloadDetailViewBlock: function (block, progressIndicator = true) {
+			const self = this;
+			const blockContent = block.find('.blockContent');
+			const isEmpty = blockContent.is(':empty');
+			let url = block.data('url');
+			if (blockContent.is(':visible') && url) {
+				if (progressIndicator) {
+					blockContent.progressIndicator();
+				}
+				AppConnector.request(url).done(function (response) {
+					blockContent.html(response);
+					const relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(url, self.getSelectedTab());
+					relatedController.setRelatedContainer(blockContent);
+					if (isEmpty) {
+						relatedController.registerRelatedEvents();
+					} else {
+						relatedController.registerPostLoadEvents();
+						relatedController.registerListEvents();
+					}
+				});
+			}
 		},
 		registerBlockStatusCheckOnLoad: function () {
 			let blocks = this.getContentHolder().find('.js-toggle-panel');
@@ -1414,7 +1405,7 @@ jQuery.Class(
 						quickCreate = App.Components.QuickCreate;
 					}
 					quickCreate.getForm(quickcreateUrl, moduleName, quickCreateParams).done(function (data) {
-						quickCreate.showModal(data, quickCreateParams);
+						quickCreate.showModal(data, quickCreateParams, currentElement);
 						progress.progressIndicator({ mode: 'hide' });
 					});
 				});
@@ -1602,21 +1593,25 @@ jQuery.Class(
 							quickCreate = window.parent.App.Components.QuickCreate;
 						}
 						quickCreate.getForm(url, 'Calendar', { noCache: true }).done((data) => {
-							quickCreate.showModal(data, {
-								callbackFunction: () => {
-									let widget = currentTarget.closest('.widgetContentBlock');
-									if (widget.length) {
-										thisInstance.loadWidget(widget);
-										let updatesWidget = thisInstance.getContentHolder().find("[data-type='Updates']");
-										if (updatesWidget.length > 0) {
-											thisInstance.loadWidget(updatesWidget);
+							quickCreate.showModal(
+								data,
+								{
+									callbackFunction: () => {
+										let widget = currentTarget.closest('.widgetContentBlock');
+										if (widget.length) {
+											thisInstance.loadWidget(widget);
+											let updatesWidget = thisInstance.getContentHolder().find("[data-type='Updates']");
+											if (updatesWidget.length > 0) {
+												thisInstance.loadWidget(updatesWidget);
+											}
+										} else {
+											thisInstance.loadRelatedList();
 										}
-									} else {
-										thisInstance.loadRelatedList();
+										thisInstance.registerRelatedModulesRecordCount();
 									}
-									thisInstance.registerRelatedModulesRecordCount();
-								}
-							});
+								},
+								currentTarget
+							);
 						});
 					} else {
 						app.showModalWindow(null, url);

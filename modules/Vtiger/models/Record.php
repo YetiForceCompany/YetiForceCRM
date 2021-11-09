@@ -1434,7 +1434,7 @@ class Vtiger_Record_Model extends \App\Base
 					],
 				];
 			}
-			if ($link = \App\Fields\ServerAccess::getLinks($this, 'ListView')) {
+			if ($link = \App\Fields\ServerAccess::getLinks($this, 'List')) {
 				$recordLinks['BTN_SERVER_ACCESS'] = $link;
 			}
 		}
@@ -1568,7 +1568,7 @@ class Vtiger_Record_Model extends \App\Base
 						],
 					]);
 				}
-				if ($link = \App\Fields\ServerAccess::getLinks($this, 'RelatedListView')) {
+				if ($link = \App\Fields\ServerAccess::getLinks($this, 'RelatedList')) {
 					$links['BTN_SERVER_ACCESS'] = $link;
 				}
 			}
