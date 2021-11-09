@@ -2055,16 +2055,16 @@
         },
         {
             "name": "parsecsv/php-parsecsv",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/parsecsv/parsecsv-for-php.git",
-                "reference": "009820d190342581c05ce84a71237153d09e754d"
+                "reference": "2d6236cae09133e0533d34ed45ba1e1ecafffebb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/parsecsv/parsecsv-for-php/zipball/009820d190342581c05ce84a71237153d09e754d",
-                "reference": "009820d190342581c05ce84a71237153d09e754d",
+                "url": "https://api.github.com/repos/parsecsv/parsecsv-for-php/zipball/2d6236cae09133e0533d34ed45ba1e1ecafffebb",
+                "reference": "2d6236cae09133e0533d34ed45ba1e1ecafffebb",
                 "shasum": ""
             },
             "require": {
@@ -2115,7 +2115,7 @@
                 "issues": "https://github.com/parsecsv/parsecsv-for-php/issues",
                 "source": "https://github.com/parsecsv/parsecsv-for-php"
             },
-            "time": "2021-06-20T21:25:35+00:00"
+            "time": "2021-11-07T14:15:46+00:00"
         },
         {
             "name": "phenx/php-font-lib",
@@ -4793,5 +4793,5 @@
         "ext-hash": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
