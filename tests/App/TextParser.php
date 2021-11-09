@@ -396,51 +396,37 @@ class TextParser extends \Tests\Base
 	public function testRecord()
 	{
 		$text = '+ $(record : NotExists)$ +';
-		$this->assertSame('+  +', self::$parserClean->setContent($text)
-			->parse()
-			->getContent(), 'Expected empty string');
+		$this->assertSame('+  +', self::$parserClean->setContent($text)->parse()->getContent(), 'Expected empty string');
 
 		$text = '+ $(record : CrmDetailViewURL)$ +';
-		$this->assertSame('+ ' . \App\Config::main('site_URL') . 'index.php?module=Leads&view=Detail&record=' . self::$recordLeads->getId() . ' +', self::$parserRecord->setContent($text)
-			->parse()
-			->getContent(), 'Expected url is different');
+		$this->assertSame('+ ' . \App\Config::main('site_URL') . 'index.php?module=Leads&view=Detail&record=' . self::$recordLeads->getId() . ' +',
+		self::$parserRecord->setContent($text)->parse()->getContent(), 'Expected url is different');
 
 		$text = '+ $(record : PortalDetailViewURL)$ +';
-		$this->assertSame('+ ' . \App\Config::main('PORTAL_URL') . '/index.php?module=Leads&action=index&id=' . self::$recordLeads->getId() . ' +', self::$parserRecord->setContent($text)
-			->parse()
-			->getContent(), 'Expected url is different');
+		$this->assertSame('+ ' . \App\Config::main('PORTAL_URL') . '/index.php?module=Leads&action=index&id=' . self::$recordLeads->getId() . ' +',
+		self::$parserRecord->setContent($text)->parse()->getContent(), 'Expected url is different');
 
 		$text = '+ $(record : ModuleName)$ +';
-		$this->assertSame('+ Leads +', self::$parserRecord->setContent($text)
-			->parse()
-			->getContent(), 'Expected module name is different');
+		$this->assertSame('+ Leads +', self::$parserRecord->setContent($text)->parse()->getContent(), 'Expected module name is different');
 
 		$text = '+ $(record : RecordId)$ +';
-		$this->assertSame('+ ' . self::$recordLeads->getId() . ' +', self::$parserRecord->setContent($text)
-			->parse()
-			->getContent(), 'Expected record id is different');
+		$this->assertSame('+ ' . self::$recordLeads->getId() . ' +', self::$parserRecord->setContent($text)->parse()->getContent(), 'Expected record id is different');
 
 		$text = '+ $(record : RecordLabel)$ +';
-		$this->assertSame('+ ' . self::$recordLeads->getName() . ' +', self::$parserRecord->setContent($text)
-			->parse()
-			->getContent(), 'Expected record label is different');
+		$this->assertSame('+ ' . self::$recordLeads->getName() . ' +', self::$parserRecord->setContent($text)->parse()->getContent(), 'Expected record label is different');
 
 		$text = '+ $(record : ChangesListChanges)$ +';
-		$this->assertSame('+  +', self::$parserRecord->setContent($text)
-			->parse()
-			->getContent(), 'Test record changes list should be empty');
+		$this->assertSame('+  +', self::$parserRecord->setContent($text)->parse()->getContent(), 'Test record changes list should be empty');
 
 		self::$parserRecord->withoutTranslations(true);
 		$text = '+ $(record : ChangesListChanges)$ +';
-		$this->assertSame('+  +', self::$parserRecord->setContent($text)
-			->parse()
-			->getContent(), 'Test record changes list should be empty(withoutTranslations)');
+		$this->assertSame('+  +', self::$parserRecord->setContent($text)->parse()->getContent(), 'Test record changes list should be empty(withoutTranslations)');
 		self::$parserRecord->withoutTranslations(false);
 
 		self::$parserRecord->recordModel->set('email', 'test3@yetiforce.com')->save();
 
 		$text = '$(record : ChangesListValues)$';
-		$this->assertSame('Mail podstawowy z  na test3@yetiforce.com<br>Zgoda na kontakt mailowy z Nie na Tak<br>Nazwa leada z TestLead sp. z o.o. na test<br>', self::$parserRecord->setContent($text)->parse()->getContent());
+		$this->assertSame('Mail podstawowy: test3@yetiforce.com<br>', self::$parserRecord->setContent($text)->parse()->getContent());
 
 		self::$parserRecord->withoutTranslations(true);
 		$text = '+ $(record : ChangesListValues)$ +';
