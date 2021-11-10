@@ -15,7 +15,9 @@ td.listViewEntryValue.medium {
 	&:not(.listButtons) {
 		padding: calculate-rem(10px);
 	}
-	&[data-field-type="text"] {
+	&[data-field-type="text"],
+	&[data-field-type="image"],
+	&[data-field-type="multiImage"] {
 		padding: 0;
 	}
 }
@@ -26,7 +28,9 @@ td.listViewEntryValue.narrow {
 	&:not(.listButtons) {
 		padding: calculate-rem(6px);
 	}
-	&[data-field-type="text"] {
+	&[data-field-type="text"],
+	&[data-field-type="image"],
+	&[data-field-type="multiImage"] {
 		padding: 0;
 	}
 }

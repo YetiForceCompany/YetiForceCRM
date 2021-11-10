@@ -233,10 +233,10 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (!\is_array($value)) {
 			return '';
 		}
-		$result = '<div class="c-multi-image__result">';
+		$result = '<div class="c-multi-image__result text-center">';
 		foreach ($value as $item) {
 			if ($record) {
-				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img" style="background-image:url(' . $this->getImageUrl($item['key'], $record) . ')"></div>';
+				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img middle" style="background-image:url(' . $this->getImageUrl($item['key'], $record) . ')"></div>';
 			} else {
 				$result .= \App\Purifier::encodeHtml($item['name']) . ', ';
 			}
