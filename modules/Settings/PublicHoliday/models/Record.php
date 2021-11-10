@@ -117,15 +117,13 @@ class Settings_PublicHoliday_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDisplayValue(string $key)
 	{
-		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->getName();
 		$value = $this->get($key);
 		switch ($key) {
 			case 'holidaydate':
 				$displayValue = DateTimeField::convertToUserFormat($value);
 				break;
 			case 'holidaytype':
-				$displayValue = \App\Language::translate($value, $moduleName);
+				$displayValue = \App\Language::translate($value, 'Settings:PublicHoliday');
 				break;
 			default:
 				$displayValue = $value;

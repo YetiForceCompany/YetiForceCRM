@@ -99,6 +99,7 @@ class Vtiger_Response
 		$error = [
 			'code' => $e->getCode(),
 		];
+		$statusCode = \is_int($e->getCode()) ? $e->getCode() : 500;
 		if (\Config\Debug::$DISPLAY_EXCEPTION_BACKTRACE) {
 			$error['trace'] = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 		}
@@ -108,9 +109,9 @@ class Vtiger_Response
 		if ($show && ($e instanceof \App\Exceptions\AppException)) {
 			$error['message'] = $e->getDisplayMessage();
 		}
-		$this->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], ' ', $reasonPhrase));
+		$this->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $statusCode . ' ' . str_ireplace(["\r\n", "\r", "\n"], ' ', $reasonPhrase));
 		$this->error = $error;
-		http_response_code($e->getCode());
+		http_response_code($statusCode);
 	}
 
 	/**

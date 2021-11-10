@@ -195,6 +195,7 @@ class RecordStatus
 		if (!$blockId) {
 			$blockInstance = new \Settings_LayoutEditor_Block_Model();
 			$blockInstance->set('label', 'BL_RECORD_STATUS_TIMES');
+			$blockInstance->set('icon', 'fas fa-business-time');
 			$blockId = $blockInstance->save($moduleModel);
 		}
 		$allFields = $moduleModel->getFields();

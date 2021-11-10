@@ -258,9 +258,9 @@ class Date
 	 * @param string $start
 	 * @param string $end
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public static function getHolidays(string $start = '', string $end = '')
+	public static function getHolidays(string $start = '', string $end = ''): array
 	{
 		if (\App\Cache::has('Date::getHolidays', $start . $end)) {
 			return \App\Cache::get('Date::getHolidays', $start . $end);

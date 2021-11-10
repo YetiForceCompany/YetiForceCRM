@@ -49,7 +49,7 @@ Vtiger_Detail_Js(
 		 */
 		getTemplateTableHtml(rows) {
 			let somethingChecked = false;
-			rows.each((i, row) => {
+			rows.forEach((row) => {
 				if (row.checked) {
 					somethingChecked = true;
 					return false;
