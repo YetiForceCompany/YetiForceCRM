@@ -127,6 +127,9 @@ table {
 		}
 		.c-badge__icon {
 			font-size: calculate-rem(10px);
+			width: calculate-rem(22px);
+			height: calculate-rem(22px);
+			line-height: calculate-rem(19px);
 		}
 	}
 }

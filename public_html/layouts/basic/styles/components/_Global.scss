@@ -116,10 +116,10 @@ body:not(.desktop) {
 	@extend .text-white;
 	@extend .text-center;
 
-	width: 32px;
-	height: 32px;
-	line-height: 27px;
-	font-size: 17px;
+	width: calculate-rem(32px);
+	height: calculate-rem(32px);
+	line-height: calculate-rem(27px);
+	font-size: calculate-rem(17px);
 }
 
 .c-badge--md {

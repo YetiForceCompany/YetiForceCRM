@@ -21572,6 +21572,9 @@ table .listButtons {
 }
 table .listButtons.narrow .c-badge__icon {
   font-size: 0.625rem;
+  width: 1.375rem;
+  height: 1.375rem;
+  line-height: 1.1875rem;
 }
 
 /* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
@@ -24056,10 +24059,10 @@ body:not(.desktop) .bodyContent {
 }
 
 .c-badge__icon {
-  width: 32px;
-  height: 32px;
-  line-height: 27px;
-  font-size: 17px;
+  width: 2rem;
+  height: 2rem;
+  line-height: 1.6875rem;
+  font-size: 1.0625rem;
 }
 
 .c-badge--md {
