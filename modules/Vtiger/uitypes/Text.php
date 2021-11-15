@@ -101,7 +101,8 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
 	{
-		return \App\Utils\Completions::decode($value, \App\Utils\Completions::FORMAT_TEXT);
+		$value = \App\Utils\Completions::decode($value, \App\Utils\Completions::FORMAT_TEXT);
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true, false);
 	}
 
 	/** {@inheritdoc} */
