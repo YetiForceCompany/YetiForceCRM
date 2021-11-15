@@ -881,7 +881,7 @@ CREATE TABLE `roundcube_cache` (
   KEY `expires_index` (`expires`),
   KEY `user_cache_index` (`user_id`,`cache_key`),
   CONSTRAINT `roundcube_user_id_fk_cache` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_cache_index` */
 
@@ -894,7 +894,7 @@ CREATE TABLE `roundcube_cache_index` (
   PRIMARY KEY (`user_id`,`mailbox`),
   KEY `expires_index` (`expires`),
   CONSTRAINT `roundcube_user_id_fk_cache_index` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_cache_messages` */
 
@@ -908,7 +908,7 @@ CREATE TABLE `roundcube_cache_messages` (
   PRIMARY KEY (`user_id`,`mailbox`,`uid`),
   KEY `expires_index` (`expires`),
   CONSTRAINT `roundcube_user_id_fk_cache_messages` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_cache_shared` */
 
@@ -919,7 +919,7 @@ CREATE TABLE `roundcube_cache_shared` (
   `data` longtext NOT NULL,
   KEY `expires_index` (`expires`),
   KEY `cache_key_index` (`cache_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_cache_thread` */
 
@@ -931,7 +931,7 @@ CREATE TABLE `roundcube_cache_thread` (
   PRIMARY KEY (`user_id`,`mailbox`),
   KEY `expires_index` (`expires`),
   CONSTRAINT `roundcube_user_id_fk_cache_thread` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_contactgroupmembers` */
 
@@ -956,7 +956,7 @@ CREATE TABLE `roundcube_contactgroups` (
   PRIMARY KEY (`contactgroup_id`),
   KEY `roundcube_contactgroups_user_index` (`user_id`,`del`),
   CONSTRAINT `roundcube_user_id_fk_contactgroups` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_contacts` */
 
@@ -974,17 +974,17 @@ CREATE TABLE `roundcube_contacts` (
   PRIMARY KEY (`contact_id`),
   KEY `roundcube_user_contacts_index` (`user_id`,`del`),
   CONSTRAINT `roundcube_user_id_fk_contacts` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_dictionary` */
 
 CREATE TABLE `roundcube_dictionary` (
   `user_id` int(10) unsigned DEFAULT NULL,
-  `language` varchar(5) NOT NULL,
+  `language` varchar(16) NOT NULL,
   `data` longtext NOT NULL,
   UNIQUE KEY `uniqueness` (`user_id`,`language`),
   CONSTRAINT `roundcube_user_id_fk_dictionary` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_filestore` */
 
@@ -998,7 +998,7 @@ CREATE TABLE `roundcube_filestore` (
   PRIMARY KEY (`file_id`),
   UNIQUE KEY `uniqueness` (`user_id`,`context`,`filename`),
   CONSTRAINT `user_id_fk_filestore` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_identities` */
 
@@ -1019,7 +1019,7 @@ CREATE TABLE `roundcube_identities` (
   KEY `user_identities_index` (`user_id`,`del`),
   KEY `email_identities_index` (`email`,`del`),
   CONSTRAINT `roundcube_user_id_fk_identities` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_searches` */
 
@@ -1032,7 +1032,7 @@ CREATE TABLE `roundcube_searches` (
   PRIMARY KEY (`search_id`),
   UNIQUE KEY `uniqueness` (`user_id`,`type`,`name`),
   CONSTRAINT `roundcube_user_id_fk_searches` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_session` */
 
@@ -1044,7 +1044,7 @@ CREATE TABLE `roundcube_session` (
   `vars` mediumtext NOT NULL,
   PRIMARY KEY (`sess_id`),
   KEY `changed_index` (`changed`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_users` */
 
@@ -1056,7 +1056,7 @@ CREATE TABLE `roundcube_users` (
   `last_login` datetime DEFAULT NULL,
   `failed_login` datetime DEFAULT NULL,
   `failed_login_counter` int(10) unsigned DEFAULT NULL,
-  `language` varchar(5) DEFAULT NULL,
+  `language` varchar(16) DEFAULT NULL,
   `preferences` longtext DEFAULT NULL,
   `actions` text DEFAULT NULL,
   `password` varchar(500) DEFAULT NULL,
@@ -1067,7 +1067,7 @@ CREATE TABLE `roundcube_users` (
   UNIQUE KEY `username` (`username`,`mail_host`),
   KEY `crm_user_id` (`crm_user_id`),
   KEY `crm_status` (`crm_status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roundcube_users_autologin` */
 
