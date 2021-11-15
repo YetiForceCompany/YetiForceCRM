@@ -298,7 +298,7 @@ class RecordStatus
 		$previousCountingValue = $timeCountingValues[$previous] ?? '';
 		if ($previous && $currentCountingValue !== $previousCountingValue
 		&& ($date = self::getStateDate($recordModel, $previousCountingValue)) && ($key = self::$fieldsByStateTime[$previousCountingValue] ?? '')) {
-			$recordModel->set($key . '_range_time', Utils\ServiceContracts::getDiff($date, $recordModel));
+			$recordModel->set($key . '_range_time', $recordModel->get($key . '_range_time') + Utils\ServiceContracts::getDiff($date, $recordModel));
 			$recordModel->set($key . '_datatime', date('Y-m-d H:i:s'));
 		}
 		if (self::TIME_COUNTING_IDLE === $currentCountingValue) {
