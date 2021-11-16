@@ -282,9 +282,13 @@ class Calendar
 	 */
 	private function parseText(string $fieldName, string $davName): void
 	{
-		$value = \App\Purifier::decodeHtml(\str_replace([
-			'-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-',
-		], '', \App\Purifier::purify((string) $this->vcomponent->{$davName})));
+		$separator = '-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-';
+		$value = (string) $this->vcomponent->{$davName};
+		if (false !== strpos($value, $separator)) {
+			[$html,$text] = explode($separator, $value, 2);
+			$value = trim(strip_tags($html)) . "\n" . \trim(\str_replace($separator, '', $text));
+		}
+		$value = \App\Purifier::decodeHtml(\App\Purifier::purify($value));
 		if ($length = $this->record->getField($fieldName)->get('maximumlength')) {
 			$value = \App\TextParser::textTruncate($value, $length, false);
 		}

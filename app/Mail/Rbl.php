@@ -581,7 +581,7 @@ class Rbl extends \App\Base
 				\App\Log::warning($e->getMessage(), __NAMESPACE__);
 			}
 		}
-		return $this->dkimCache = ['status' => $status, 'logs' => trim($logs)] + self::DKIM[$status];
+		return $this->dkimCache = \App\Utils::merge(['status' => $status, 'logs' => trim($logs)], self::DKIM[$status]);
 	}
 
 	/**
