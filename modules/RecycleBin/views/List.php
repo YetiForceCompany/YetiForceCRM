@@ -88,6 +88,7 @@ class RecycleBin_List_View extends Vtiger_List_View
 		$viewer->assign('IS_MODULE_EDITABLE', false);
 		$viewer->assign('IS_MODULE_DELETABLE', false);
 		$viewer->assign('SEARCH_PARAMS', []);
+		$viewer->assign('LOCKED_EMPTY_FIELDS', []);
 	}
 
 	/**
