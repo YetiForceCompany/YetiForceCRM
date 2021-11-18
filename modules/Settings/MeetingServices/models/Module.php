@@ -34,7 +34,7 @@ class Settings_MeetingServices_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public $listFields = [
 		'url' => 'FL_URL',
-		'status' => 'FL_STATUS'
+		'status' => 'FL_STATUS',
 	];
 
 	/**
@@ -61,7 +61,8 @@ class Settings_MeetingServices_Module_Model extends Settings_Vtiger_Module_Model
 	public static $formFields = [
 		'url' => ['required' => 1, 'purifyType' => \App\Purifier::URL, 'label' => 'FL_URL', 'maximumlength' => '255'],
 		'status' => ['required' => 0, 'purifyType' => \App\Purifier::BOOL, 'label' => 'FL_STATUS', 'maximumlength' => '2'],
-		'secret' => ['required' => 1, 'default' => '', 'purifyType' => \APP\Purifier::TEXT, 'label' => 'FL_PASSWORD', 'maximumlength' => '100']
+		'key' => ['required' => 1, 'default' => '', 'purifyType' => \APP\Purifier::TEXT, 'label' => 'FL_APP_ID', 'maximumlength' => '64'],
+		'secret' => ['required' => 1, 'default' => '', 'purifyType' => \APP\Purifier::TEXT, 'label' => 'FL_SECRET_KEY', 'maximumlength' => '100'],
 	];
 
 	/**

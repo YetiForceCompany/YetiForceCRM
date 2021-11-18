@@ -212,6 +212,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (80,'FieldsDependency',1,'2020-10-13 09:49:22');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (81,'Proxy',1,'2021-02-02 08:38:48');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (82,'Kanban',1,'2021-08-13 11:36:47');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (83,'MeetingServices',1,'2021-11-18 16:39:26');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 

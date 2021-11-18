@@ -68,7 +68,6 @@ class MeetingService extends Base
 			$result = (new \App\Db\Query())->from(self::TABLE_NAME)->orderBy(['status' => SORT_DESC])->indexBy('id')->all();
 			Cache::save($cacheName, '', $result, Cache::LONG);
 		}
-
 		return Cache::get($cacheName, '');
 	}
 
