@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Base-Detail-Widget-GeneralInfo -->
 	{assign var=TRANSLATED_LABEL value=\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}
-	<div class="c-detail-widget c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
+	<div class="c-detail-widget c-detail-widget--general-info js-widget-general-info detailViewTable" data-js="edit/save">
 		<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0">
 			<div class="c-detail-widget__header__container d-flex align-items-center py-1">
 				<div class="c-detail-widget__toggle collapsed" id="{$TRANSLATED_LABEL}" data-toggle="collapse" data-target="#{$TRANSLATED_LABEL}-collapse" aria-expanded="false" aria-controls="{$TRANSLATED_LABEL}-collapse">
@@ -39,7 +39,7 @@
 						{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
 							{if $FIELD_MODEL->getName() neq 'modifiedtime' && $FIELD_MODEL->getName() neq 'createdtime'}
 								<tr class="c-table__row--hover {if $FIELD_MODEL->get('hideField')} d-none{/if}">
-									<td class="{$WIDTHTYPE}">
+									<td class="fieldLabel {$WIDTHTYPE}">
 										<label class="font-weight-bold mb-0">
 											{assign var=ICON value=$FIELD_MODEL->getIcon('GeneralInfo')}
 											{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
@@ -56,21 +56,21 @@
 									<td class="fieldValue {$WIDTHTYPE} u-w-60per">
 										<div class="c-detail-widget__header__container d-flex align-items-center px-0">
 											<div class="value px-0 w-100" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'
-																	or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;" {/if}>
+																																or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;" {/if}>
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName())
-																	FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD SOURCE_TPL='GeneralInfoWidget'}
+																																FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD SOURCE_TPL='GeneralInfoWidget'}
 										</div>
 										{if empty($IS_READ_ONLY) && $FIELD_MODEL->isEditable() eq 'true' &&
-																($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED &&
-																$FIELD_MODEL->isAjaxEditable() eq 'true'}
+																															($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED &&
+																															$FIELD_MODEL->isAjaxEditable() eq 'true'}
 										<div class="d-none edit input-group input-group-sm px-0">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),
-																		$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
+																																	$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 											{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
 												<input type="hidden" class="fieldname" data-type="{$FIELD_MODEL->getFieldDataType()}" value='{$FIELD_MODEL->getName()}' data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->get(' fieldvalue'))}' />
 											{else}
 												{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),
-																				$RECORD)}
+																																								$RECORD)}
 												{if $FIELD_VALUE|is_array}
 													{assign var=FIELD_VALUE value=\App\Json::encode($FIELD_VALUE)}
 												{/if}
