@@ -31,7 +31,7 @@
 								{continue}
 							{/if}
 							<div class="form-row c-table__row--hover border-bottom py-0 py-sm-1 u-fs-13px c-detail-widget__mobile-line ">
-								<div class="col-5 fieldLabel u-border-bottom-label-md u-border-right-0-md {$WIDTHTYPE} d-flex align-items-center" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+								<div class="col-5 fieldLabel {$WIDTHTYPE} d-flex align-items-center" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 									{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 									<label class="font-weight-bold mb-0">
 										{assign var=ICON value=$FIELD_MODEL->getIcon('Detail')}
@@ -48,7 +48,7 @@
 										{/if}
 									</label>
 								</div>
-								<div class="fieldValue col-7 u-border-bottom-value-sm d-flex align-items-center justify-content-between {$WIDTHTYPE}"
+								<div class="fieldValue col-7 d-flex align-items-center justify-content-between {$WIDTHTYPE}"
 									id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}">
 									<span class="value flex-grow-1"
 										data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>
