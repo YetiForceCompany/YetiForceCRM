@@ -771,10 +771,9 @@ $.Class(
 		saveCustomField: function (blockId, form) {
 			let saveButton = form.find(':submit');
 			this.addCustomField(blockId, form).done((data) => {
-				let result = data['result'],
-					params = {};
 				if (data['success']) {
 					app.hideModalWindow();
+					let params = {};
 					params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
 					Settings_Vtiger_Index_Js.showMessage(params);
 					window.location.reload();
@@ -1201,7 +1200,6 @@ $.Class(
 		 * Function to unHide the selected fields in the inactive fields modal
 		 */
 		reActivateHiddenFields: function (blockId, fields) {
-			const self = this;
 			let progressIndicatorElement = $.progressIndicator({
 					position: 'html',
 					blockInfo: {

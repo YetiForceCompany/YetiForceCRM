@@ -3039,7 +3039,7 @@ window.App.Fields = {
 					}).then((response) => {
 						if (response.success && response.result && response.result.pwd) {
 							this.clear();
-							field.val(response.result.pwd).trigger('keyup');
+							field.val(response.result.pwd).trigger('keyup').focus();
 						}
 					});
 				});

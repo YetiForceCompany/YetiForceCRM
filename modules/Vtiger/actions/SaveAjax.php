@@ -47,7 +47,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 		$result['_isViewable'] = $this->record->isViewable();
 		$result['_reload'] = \count($this->record->getPreviousValue()) > 1;
 		if (method_exists($this, 'addCustomResult')) {
-			$this->addCustomResult($result, $request);
+			$this->addCustomResult($result);
 		}
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);

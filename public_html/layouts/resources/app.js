@@ -184,7 +184,7 @@ var App = (window.App = {
 			 * @param   {object}  params
 			 * @param   {jQuery}  element
 			 */
-			showModal(html, params = {}, element) {
+			showModal(html, params = {}, element = null) {
 				app.showModalWindow(html, (container) => {
 					const quickCreateForm = container.find('form.js-form');
 					const moduleName = quickCreateForm.find('[name="module"]').val();

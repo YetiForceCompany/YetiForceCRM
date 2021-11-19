@@ -38,12 +38,11 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	/**
 	 * Add custom data to the response.
 	 *
-	 * @param array        $result
-	 * @param \App\Request $request
+	 * @param array $result
 	 *
 	 * @return void
 	 */
-	protected function addCustomResult(array &$result, App\Request $request): void
+	protected function addCustomResult(array &$result): void
 	{
 		$result['modifiedtime']['formatToViewDate'] = \App\Fields\DateTime::formatToViewDate($this->record->get('modifiedtime'));
 		$result['modifiedtime']['formatToDay'] = \App\Fields\DateTime::formatToDay($this->record->get('modifiedtime'));
