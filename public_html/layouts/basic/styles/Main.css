@@ -19701,6 +19701,7 @@ table tr td .input-sm {
 
 tr.summaryViewEntries,
 #detailView table,
+#recordsListContents table,
 table.listViewEntriesTable {
   font-size: 0.8125rem;
 }
