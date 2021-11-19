@@ -94,11 +94,24 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
-	public static function getPasswordChangeDate()
+	/**
+	 * Get conditions for password modification.
+	 *
+	 * @return array
+	 */
+	public static function getPasswordChangeDateCondition(): array
 	{
+		$conditions = [['force_password_change', 'e', '1']];
+		$date = null;
 		$passConfig = static::getUserPassConfig();
+		$delayDays = $passConfig['change_time'];
+		if (!empty($delayDays)) {
+			$date = date('Y-m-d', strtotime("-{$delayDays} day"));
+			$date = \App\Fields\Date::formatToDisplay($date);
+			$conditions[] = ['date_password_change', 'b', $date];
+		}
 
-		return date('Y-m-d', strtotime("-{$passConfig['change_time']} day"));
+		return [[[]], $conditions];
 	}
 
 	/**
