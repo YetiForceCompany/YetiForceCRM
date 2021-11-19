@@ -211,22 +211,6 @@
 					{/if}
 				{/if}
 			{/if}
-			{if $PARENT_MODULE === 'Settings'}
-				<div class="mr-xxl-4 d-flex flex-sm-nowrap ml-4">
-					<a class="btn btn-light c-header__btn ml-2" title="YetiForce Documentation" role="button" href="https://doc.yetiforce.com" target="_blank" rel="noreferrer noopener">
-						<span class="mdi mdi-book-open-page-variant"></span>
-					</a>
-					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}" role="button" href="index.php?module=YetiForce&parent=Settings&view=Shop&category=Support" target="_blank">
-						<span class="far fa-life-ring fa-fw"></span>
-					</a>
-					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}" role="button" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer noopener">
-						<span class="fas fa-bug fa-fw"></span>
-					</a>
-					<a class="btn btn-light c-header__btn ml-2" title="YetiForceCRM" role="button" href="#" data-toggle="modal" data-target="#yetiforceDetails">
-						<span class="fas fa-info-circle fa-fw"></span>
-					</a>
-				</div>
-			{/if}
 			{if \App\Privilege::isPermitted('Chat')}
 				<div class="ml-2 quasar-reset">
 					<div id="ChatModalVue"></div>
@@ -238,6 +222,32 @@
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
 				<div class="o-action-menu__container d-flex flex-md-nowrap flex-column flex-md-row" id="o-action-menu__container">
+					{if $PARENT_MODULE === 'Settings'}
+						<div class="o-action-menu__item ml-md-2">
+							<a class="btn btn-light c-header__btn d-block col-sm col-12" title="{\App\Language::translate('LBL_YETIFORCE_DOCUMENTATION', $QUALIFIED_MODULE)}" role="button" href="https://doc.yetiforce.com" target="_blank" rel="noreferrer noopener">
+								<span class="mdi mdi-book-open-page-variant"></span>
+								<span class="c-header__label--sm-down ml-1">{\App\Language::translate('LBL_YETIFORCE_DOCUMENTATION', $QUALIFIED_MODULE)}</span>
+							</a>
+						</div>
+						<div class=" o-action-menu__item ml-md-2">
+							<a class="btn btn-light c-header__btn d-block" title="{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}" role="button" href="index.php?module=YetiForce&parent=Settings&view=Shop&category=Support" target="_blank">
+								<span class="far fa-life-ring fa-fw"></span>
+								<span class="c-header__label--sm-down ml-1">{\App\Language::translate('LBL_YETIFORCE_ASSISTANCE', $QUALIFIED_MODULE)}</span>
+							</a>
+						</div>
+						<div class="o-action-menu__item ml-md-2">
+							<a class="btn btn-light c-header__btn d-block" title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}" role="button" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer noopener">
+								<span class="fas fa-bug fa-fw"></span>
+								<span class="c-header__label--sm-down ml-1">{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}</span>
+							</a>
+						</div>
+						<div class="o-action-menu__item ml-md-2">
+							<a class="btn btn-light c-header__btn d-block" title="YetiForceCRM" role="button" href="#" data-toggle="modal" data-target="#yetiforceDetails">
+								<span class="fas fa-info-circle fa-fw"></span>
+								<span class="c-header__label--sm-down ml-1">YetiForceCRM</span>
+							</a>
+						</div>
+					{/if}
 					{assign var=QUICKCREATE_MODULES_PARENT value=Vtiger_Module_Model::getQuickCreateModules(true, true)}
 					{if \App\Config::main('isActiveRecordTemplate')}
 						{assign var=LIST_TEMPLATES value=\App\RecordAddsTemplates::getTemplatesList()}
@@ -276,6 +286,7 @@
 									data-placement="bottom" data-content="{\App\Language::translate($LIST_TEMPLATES[0]->label)}"
 									href="#">
 									<span class="{$LIST_TEMPLATES[0]->icon}"></span>
+									<span class="c-header__label--sm-down ml-1">{{$LIST_TEMPLATES[0]->label}}</span>
 								</a>
 							</div>
 						{/if}
