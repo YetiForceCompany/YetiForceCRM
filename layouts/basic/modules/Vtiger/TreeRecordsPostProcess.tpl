@@ -2,13 +2,13 @@
 {strip}
 	<!-- tpl-TreeRecordsPostProcess -->
 	</div>
-	<div class="{if $USER_MODEL->get('leftpanelhide')}c-menu--open {/if}siteBarRight col-xs-12 hideSiteBar"
-		 id="rightPanel"
-		 data-js="class: hideSiteBar">
-		 <div class="o-expandable__panel__tabs">
-			<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-lg-block"
+	<div class="c-menu--open siteBarRight col-xs-12"
+		id="rightPanel"
+		data-js="class: hideSiteBar">
+		<div class="o-expandable__panel__tabs">
+			<div class="btn btn-block toggleSiteBarRightButton d-lg-block" data-nocache="1"
 				title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
-				<span class="fas fa-chevron-left"></span>
+				<span class="fas fa-chevron-right"></span>
 			</div>
 		</div>
 		<div class="tab-content">
@@ -23,7 +23,7 @@
 								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 									<option value="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if}>
 										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
-										{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'} [ {$CUSTOM_VIEW->getOwnerName()} ]  {/if}
+										{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}
 									</option>
 								{/foreach}
 							</optgroup>

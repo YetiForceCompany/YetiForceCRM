@@ -404,21 +404,25 @@ $.Class(
 		},
 		registerSiteBarButton(container) {
 			const key = 'ShowHideRightPanel' + app.getModuleName();
-			if (app.cacheGet(key) == 'show') {
+			let cache = !container.find('.toggleSiteBarRightButton').data('nocache');
+			if (cache && app.cacheGet(key) == 'show') {
 				this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
-			} else if (app.cacheGet(key) == null) {
+			} else if (cache && app.cacheGet(key) == null) {
 				if (container.find('.siteBarRight').data('showpanel') == 1) {
 					this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
 				}
 			}
 			container.find('.toggleSiteBarRightButton').on('click', (e) => {
-				let toogleButton = $(e.currentTarget);
-				if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
-					app.cacheSet(key, 'show');
-				} else {
-					app.cacheSet(key, 'hide');
+				let toggleButton = $(e.currentTarget);
+				if (!toggleButton.data('nocache')) {
+					if (toggleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
+						app.cacheSet(key, 'show');
+					} else {
+						app.cacheSet(key, 'hide');
+					}
 				}
-				this.toggleSiteBar(toogleButton);
+
+				this.toggleSiteBar(toggleButton);
 			});
 		},
 		toggleSiteBar(toogleButton) {

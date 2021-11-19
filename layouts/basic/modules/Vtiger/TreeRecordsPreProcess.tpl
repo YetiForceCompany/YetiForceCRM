@@ -9,5 +9,5 @@
 		</div>
 	</div>
 	<div class="rowContent">
-		<div class="col-md-12" id="recordsListContents">
+		<div class="col-md-12 text-nowrap table-responsive mt-2" id="recordsListContents">
 {/strip}

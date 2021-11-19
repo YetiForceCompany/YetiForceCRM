@@ -31,16 +31,20 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 			if ($multiReferenceFieldId && ($fieldInfo = \App\Field::getFieldInfo($multiReferenceFieldId))) {
 				$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
 				$queryGenerator = $listViewModel->getQueryGenerator();
+				$conditions = ['or'];
 				if (!empty($branches)) {
-					$queryGenerator->addCondition($fieldInfo['fieldname'], implode('##', $branches), 'e');
+					$queryField = $queryGenerator->getQueryField($fieldInfo['fieldname']);
+					$queryField->setValue(implode('##', $branches));
+					$conditions[] = ['or like', $queryField->getColumnName(), $queryField->getValue()];
 				}
 				if (!empty($category)) {
 					$query = (new \App\Db\Query())
 						->select(['crmid'])
 						->from('u_#__crmentity_rel_tree')
 						->where(['module' => App\Module::getModuleId($baseModuleName), 'relmodule' => App\Module::getModuleId($moduleName), 'tree' => $category]);
-					$queryGenerator->addNativeCondition(['in', 'vtiger_crmentity.crmid', $query], false);
+					$conditions[] = ['in', 'vtiger_crmentity.crmid', $query];
 				}
+				$queryGenerator->addNativeCondition($conditions);
 				$listEntries = $listViewModel->getAllEntries();
 				if (0 < \count($listEntries)) {
 					$listHeaders = $listViewModel->getListViewHeaders();
