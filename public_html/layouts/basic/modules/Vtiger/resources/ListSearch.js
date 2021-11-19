@@ -303,7 +303,8 @@ jQuery.Class(
 						'fileLocationType',
 						'userRole',
 						'multiReferenceValue',
-						'inventoryLimit'
+						'inventoryLimit',
+						'currencyList'
 					]) >= 0
 				) {
 					searchOperator = 'e';

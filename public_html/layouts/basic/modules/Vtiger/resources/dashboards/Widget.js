@@ -1737,7 +1737,8 @@ jQuery.Class(
 							'boolean',
 							'fileLocationType',
 							'userRole',
-							'multiReferenceValue'
+							'multiReferenceValue',
+							'currencyList'
 						]) >= 0
 					) {
 						searchOperator = 'e';
