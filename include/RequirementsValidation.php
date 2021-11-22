@@ -9,10 +9,10 @@ if (\PHP_VERSION_ID < 70300) {
 	throw new \Exception('Wrong PHP version, recommended version >= 7.3');
 }
 if (isset($checkLibrary)) {
-	$result = \App\Utils\ConfReport::getByType(['libraries']);
-	foreach (\App\Utils\ConfReport::getByType(['libraries'])['libraries'] as $name => $value) {
-		if (!empty($value['mandatory']) && !$value['status']) {
-			throw new \Exception("The {$name} library is missing");
+	$extensions = get_loaded_extensions();
+	foreach (['PDO', 'pdo_mysql', 'json', 'session', 'mbstring', 'fileinfo', 'intl', 'SPL', 'Reflection', 'SimpleXML', 'bcmath', 'SimpleXML', 'SimpleXML'] as $extension) {
+		if (!\in_array($extension, $extensions)) {
+			throw new \Exception("The {$extension} library is missing");
 		}
 	}
 }

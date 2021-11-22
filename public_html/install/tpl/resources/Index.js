@@ -75,20 +75,16 @@ jQuery.Class(
 			});
 		},
 		showBuyModal(event) {
-			$.get(`Install.php?mode=showBuyModal&product=${$(event.currentTarget).data('product')}`).done(
-				(data) => {
-					app.showModalWindow(data, '', (modalContainer) => {
-						new window.Settings_YetiForce_Shop_Js().registerBuyModalEvents(modalContainer);
-					});
-				}
-			);
+			$.get(`Install.php?mode=showBuyModal&product=${$(event.currentTarget).data('product')}`).done((data) => {
+				app.showModalWindow(data, '', (modalContainer) => {
+					new window.Settings_YetiForce_Shop_Js().registerBuyModalEvents(modalContainer);
+				});
+			});
 		},
 		registerEventForStepChooseHost() {
 			$('.js-buy-modal').on('click', this.showBuyModal);
 			$('.js-product-modal').on('click', (e) => {
-				$.get(
-					`Install.php?mode=showProductModal&product=${$(e.currentTarget).data('product')}`
-				).done((data) => {
+				$.get(`Install.php?mode=showProductModal&product=${$(e.currentTarget).data('product')}`).done((data) => {
 					app.showModalWindow(data, '', (modalContainer) => {
 						modalContainer.find('.js-modal__save').on('click', (_) => {
 							app.hideModalWindow();
@@ -106,10 +102,11 @@ jQuery.Class(
 			$('.js-confirm').on('submit', function (e) {
 				if (elements.length > 0) {
 					e.preventDefault();
-					app.showConfirmModal(app.vtranslate('LBL_SETTINGS_WARNING'), function (s) {
-						if (s) {
+					app.showConfirmModal({
+						text: app.vtranslate('LBL_SETTINGS_WARNING'),
+						confirmedCallback: () => {
 							elements = false;
-							$('form[name="step3"]').submit();
+							$('form[name="step3"]').trigger('submit');
 							return;
 						}
 					});
@@ -153,10 +150,7 @@ jQuery.Class(
 						jQuery(formField).val(config[field]);
 						jQuery(formField).select2('destroy');
 						App.Fields.Picklist.showSelect2ElementView(jQuery(formField));
-					} else if (
-						'INPUT' == jQuery(formField).prop('tagName') &&
-						'checkbox' == jQuery(formField).attr('type')
-					) {
+					} else if ('INPUT' == jQuery(formField).prop('tagName') && 'checkbox' == jQuery(formField).attr('type')) {
 						if (true == config[field]) {
 							jQuery(formField).prop('checked', true);
 							jQuery('.config-table tr.d-none').removeClass('d-none');
