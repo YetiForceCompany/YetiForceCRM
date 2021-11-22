@@ -79,6 +79,9 @@ jQuery.Class(
 			this.registerDataTables(container);
 			this.showMore(container);
 			this.showLicense(container);
+			if (app.getUrlVar('displayLicenseModal')) {
+				container.find('tr[data-name="' + app.getUrlVar('displayLicenseModal') + '"] .js-show-license').click();
+			}
 		}
 	}
 );
