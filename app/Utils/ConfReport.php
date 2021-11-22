@@ -54,7 +54,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $stability = [
-		'phpVersion' => ['recommended' => '7.3.x, 7.4.x', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
+		'phpVersion' => ['recommended' => '7.3.x, 7.4.x, 8.0.x', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
 		'protocolVersion' => ['recommended' => '2.0, 1.x', 'type' => 'Version', 'container' => 'env', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
 		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],
@@ -225,11 +225,11 @@ class ConfReport
 		'innodb_file_format' => ['container' => 'db', 'testCli' => true],
 		'innodb_file_format_check' => ['container' => 'db', 'testCli' => true],
 		'innodb_file_format_max' => ['container' => 'db', 'testCli' => true],
-		'character_set_server' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
-		'character_set_database' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
-		'character_set_client' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
-		'character_set_connection' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
-		'character_set_results' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
+		'character_set_server' => ['recommended' => 'utf8, utf8mb3', 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
+		'character_set_database' => ['recommended' => 'utf8, utf8mb3', 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
+		'character_set_client' => ['recommended' => 'utf8, utf8mb3', 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
+		'character_set_connection' => ['recommended' => 'utf8, utf8mb3', 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
+		'character_set_results' => ['recommended' => 'utf8, utf8mb3', 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
 		'character_set_system' => ['container' => 'db', 'testCli' => true],
 		'character_set_filesystem' => ['container' => 'db', 'testCli' => true],
 		'datadir' => ['container' => 'db', 'testCli' => true],
@@ -1272,6 +1272,25 @@ class ConfReport
 	}
 
 	/**
+	 * Validate one of array.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateOneOf(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$recommended = \array_map('trim', \explode(',', strtolower($row['recommended'])));
+		if (isset($row[$sapi]) && !\in_array((string) $row[$sapi], $recommended)) {
+			$row['status'] = false;
+		}
+		return $row;
+	}
+
+	/**
 	 * Validate exists url.
 	 *
 	 * @param string $name
@@ -1400,7 +1419,7 @@ class ConfReport
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
-				if (200 === $response->getStatusCode() && 'No token' === (string) $response->getBody()) {
+				if (200 === $response->getStatusCode()) {
 					$supported[] = $type;
 				}
 			} catch (\Throwable $e) {
