@@ -78,7 +78,7 @@
     </slot>
     <template v-for="(room, roomId) of roomData">
       <q-item
-        v-show="isRoomExpanded"
+        v-show="isRoomExpanded && room.name !== undefined"
         class="q-pl-sm u-hover-container"
         clickable
         v-ripple

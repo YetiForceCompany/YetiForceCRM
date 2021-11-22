@@ -16,7 +16,7 @@
         round
         flat
         color="primary"
-        class="js-popover-tooltip--record ellipsis"
+		:class="[room && room.moduleName && room.recordid ? 'js-popover-tooltip--record' : '', 'ellipsis']"
         @click.stop
         icon="mdi-link-variant"
         :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"

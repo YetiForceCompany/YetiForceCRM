@@ -115,12 +115,14 @@ export default {
     },
     roomMessages() {
       this.scrollbarHidden = true
-      this.onScroll(this.$refs.scrollContainer.scrollPosition)
+	  if(this.$refs.scrollContainer !== 'undefined'){
+ 		this.onScroll(this.$refs.scrollContainer.scrollPosition)
+	  }
       let forceScrollDown = !this.fetchingEarlier && !this.scrollButton
       if (!this.fetchingEarlier) {
-        this.isNewMessages = this.isNewMessages || this.roomData.chatEntries.length > this.countMessages
+        this.isNewMessages = this.isNewMessages || (this.roomData.chatEntries && this.roomData.chatEntries.length > this.countMessages)
       }
-      this.countMessages = this.roomData.chatEntries.length
+      this.countMessages = this.roomData.chatEntries ? this.roomData.chatEntries.length : 0;
       if (forceScrollDown) {
         this.$nextTick(function() {
           this.scrollDown()

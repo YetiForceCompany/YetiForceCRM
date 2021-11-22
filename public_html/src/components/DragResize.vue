@@ -13,7 +13,10 @@
       v-if="$q.platform.is.desktop"
 			key="desktop"
       ref="resize"
-      :class="[maximized ? 'fit position-static' : 'modal-mini', 'overflow-hidden']"
+      :class="[maximized ? 'fit position-static c-vue-dialog' : 'modal-mini', 'overflow-hidden']"
+	  :parentLimitation="true"
+	  :parentW="getWindowWidth()"
+	  :parentH="getWindowHeight()"
       preventActiveBehavior
       isResizable
       :isActive="active"
@@ -119,15 +122,18 @@ export default {
       this.$emit('dragstop', true)
     },
     onActivated() {
-	  if(this.$options.propsData.maximized && this.$refs.resize.$el.querySelectorAll('.content-container').length === 1){
-		this.$refs.resize.$el.querySelectorAll('.content-container')[0].classList.add('fit');
-	  }
       const sticks = this.$refs.resize.$el.querySelectorAll('.vdr-stick')
       Array.prototype.map.call(sticks, element => {
         for (let prop in this.stickStyle) {
           element.style[prop] = this.stickStyle[prop]
         }
       })
+    },
+    getWindowWidth() {
+      return window.screen.availWidth - (window.outerWidth - window.innerWidth)
+    },
+    getWindowHeight() {
+      return window.screen.availHeight - (window.outerHeight - window.innerHeight)
     }
   },
   mounted() {
@@ -147,5 +153,9 @@ export default {
 }
 .modal-mini .vdr-stick {
   display: inline-flex;
+}
+.c-vue-dialog .content-container{
+  width: 100% !important;
+  height: 100% !important;
 }
 </style>
