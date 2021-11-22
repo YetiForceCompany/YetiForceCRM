@@ -50,13 +50,13 @@
 
 We design an innovative CRM system that is dedicated for large and medium sized companies. We dedicate it to everyone who values open source software, security and innovation. YetiForce was built on a rock-solid Vtiger foundation, but has hundreds of changes that help to accomplish even the most challenging tasks in the simplest way. Every function within the system was thought through and automated to ensure that all of them work together seamlessly and form a coherent integrity. We looked at the entire sales process and consequently refined the system, module by module. We have years of experience creating tailor made CRM software for a variety of different companies. Download it and have a first-hand experience.
 
-## Demos
+## 😎 Demos
 
 1. [GitStable](https://gitstable.yetiforce.com)
 2. [GitDeveloper](https://gitdeveloper.yetiforce.com)
 3. [YetiPortal2 - Customer Portal](https://github.com/YetiForceCompany/YetiForcePortal2#-demo)
 
-## Read the documentation to learn more.
+## 📖 Read the documentation to learn more.
 
 #### :computer: Requirements: [Web server requirements](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements)
 
@@ -72,7 +72,7 @@ Join our [LinkedIn group](https://www.linkedin.com/groups/8177576) and connect w
 
 Follow us on [Twitter](https://twitter.com/YetiForceEN) or like on [FaceBook](https://www.facebook.com/YetiForce-CRM-158646854306054/?ref=aymt_homepage_panel) to get real-time info about new articles and functionalities.
 
-## Where else can you find YetiForce?
+## 🔎 Where else can you find YetiForce?
 
 - [Sourceforge](https://sourceforge.net/projects/yetiforce/)
 - [Softaculous](http://www.softaculous.com/apps/erp/YetiForce)
@@ -120,19 +120,19 @@ Testing Supported By<br/>
 [![sonarcloud.io security](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=security_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![sonarcloud.io vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 
-## Contributors
+## 🎯 Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors">
 <img src="https://contrib.rocks/image?repo=YetiForceCompany/YetiForceCRM" />
 </a>
 
-## Backers
+## 💰 Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/YetiForceCRM#backer)]
 <a href="https://opencollective.com/YetiForceCRM#backers" target="_blank"><img src="https://opencollective.com/YetiForceCRM/backers.svg?width=890"></a>
 
-## Sponsors
+## 🍀 Sponsors
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/YetiForceCRM#sponsor)]
 
