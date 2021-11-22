@@ -7,8 +7,8 @@
     "LBL_REGISTER": "تسجل",
     "LBL_REGISTERED": "تم التسجيل بنجاح",
     "LBL_REGISTRATION_KEY": "مفتاح التسجيل:",
-    "LBL_REGISTRATION_OFFLINE_DESC": "تسجيل نسخة من النظام الذي لا يوجد لديه إمكانية الوصول إلى الإنترنت إرسال بريد إلكتروني إلى %s مع البيانات التالية",
-    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nCompany name or first and last name:\nCountry:\nCity:\nThe number of employees of the company:\nYour company's website:\nProduct key: %s \nAPP ID: %s\nVersion: %s",
+    "LBL_REGISTRATION_OFFLINE_DESC": "In order to register a system that does not have access to the Internet, please send an email to %s together with the entity's data.",
+    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nCompany name or first and last name: %s\nCountry: %s\nCity: %s\nThe number of employees of the company: %s\nYour company's website: %s\nProduct key: %s \nAPP ID: %s\nVersion: %s",
     "LBL_SUPPLIERS": "الموردون",
     "LBL_INVALID_OFFLINE_KEY": "دخلت غير صحيحة الرئيسية",
     "LBL_ONLINE_REGISTRATION_FAILED": "عرض أثناء التسجيل",
@@ -119,6 +119,8 @@
     "LBL_SHOP_YETIFORCEDAV_INTRO": "YetiForce DAV allows for two-way synchronization of contacts, calendar and tasks between different devices by using CardDAV and CalDAV protocols.",
     "LBL_SHOP_YETIFORCEDAV_DESC": "YetiForce DAV consists of two functionalities:\n- CalDAV - enables two-way synchronization of activities (tasks, calls, meetings) saved in the calendar between YetiForce CRM and any mobile device or other tool supporting the DAV standard.\n- CardDAV - enables two-way synchronization of contacts between YetiForce CRM and any mobile device or other tool supporting the DAV standard.\n\nBoth solutions create a new calendar / address book next to our old ones where we can add new entries. All added entries will be sent to CRM.\nThanks to this solution, we can always have an up-to-date calendar or contact book on the phone or other device.\nThe list of applications can be found in our documentation: https://doc.yetiforce.com/apps/#DAV",
     "LBL_SHOP_YETIFORCEKANBAN_INTRO": "The Kanban board will facilitate your work and speed up the handling of processes",
-    "LBL_SHOP_YETIFORCEKANBAN_DESC": "Present all your data in the form of a Kanban board, therefore you will be able to manage your data in a simple and transparent way.\n\n- The board works for any module with data.\n- You can define what data you want to see on each board separately.\n- Field types supported: Picklist, Assigned To.\n - Ability to show a summary of numeric fields.\n - Color and icon support for fields, values."
+    "LBL_SHOP_YETIFORCEKANBAN_DESC": "Present all your data in the form of a Kanban board, therefore you will be able to manage your data in a simple and transparent way.\n\n- The board works for any module with data.\n- You can define what data you want to see on each board separately.\n- Field types supported: Picklist, Assigned To.\n - Ability to show a summary of numeric fields.\n - Color and icon support for fields, values.",
+    "LBL_ACTIVATE_DEACTIVATE_SERVICE": "Activate/Deactivate service",
+    "LBL_ACTIVATE_DEACTIVATE_SERVICE_CONFIRM_DESC": "Are you sure you want to activate/deactivate service?"
   }
 }

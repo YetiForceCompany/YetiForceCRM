@@ -7,8 +7,8 @@
     "LBL_REGISTER": "Registruj",
     "LBL_REGISTERED": "Registracija uspješna",
     "LBL_REGISTRATION_KEY": "Registracija ključ",
-    "LBL_REGISTRATION_OFFLINE_DESC": "Da biste registrirali verziju sistema koja nema pristup internetu, pošaljite poruku %s sa sljedećim podacima",
-    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Predmet: YetiForce registracija van mreže\n\nPoruka:\nCRM registracija:\nNaziv kompanije ili ime i prezime:\nDržava:\nGrad:\nBroj zaposlenih u kompaniji:\nWeb stranica vaše kompanije:\nKljuč proizvoda: %s\nID APLIKACIJE: %s\nVerzija: %s",
+    "LBL_REGISTRATION_OFFLINE_DESC": "In order to register a system that does not have access to the Internet, please send an email to %s together with the entity's data.",
+    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Subject: YetiForce offline registration\n\nMessage:\nCRM registration:\nCompany name or first and last name: %s\nCountry: %s\nCity: %s\nThe number of employees of the company: %s\nYour company's website: %s\nProduct key: %s \nAPP ID: %s\nVersion: %s",
     "LBL_SUPPLIERS": "Dobavljači",
     "LBL_INVALID_OFFLINE_KEY": "Unesen neispravan ključ",
     "LBL_ONLINE_REGISTRATION_FAILED": "Grešaka tokom registracije.",
@@ -119,6 +119,8 @@
     "LBL_SHOP_YETIFORCEDAV_INTRO": "YetiForce DAV omogućava dvosmjernu sinhronizaciju kontakata, kalendara i zadataka između različitih uređaja korištenjem CardDAV i CalDAV protokola.",
     "LBL_SHOP_YETIFORCEDAV_DESC": "YetiForce DAV sastoji se od dvije funkcionalnosti:\n- CalDAV - omogućava dvosmjernu sinhronizaciju aktivnosti (zadaci, pozivi, sastanci) sačuvanih u kalendaru između YetiForce CRM -a i bilo kojeg mobilnog uređaja ili drugog alata koji podržava DAV standard.\n- CardDAV - omogućava dvosmjernu sinkronizaciju kontakata između YetiForce CRM -a i bilo kojeg mobilnog uređaja ili drugog alata koji podržava DAV standard.\n\nOba rješenja stvaraju novi kalendar / adresar pored naših starih u koje možemo dodati nove unose. Svi dodani unosi bit će poslani u CRM.\nZahvaljujući ovom rješenju, na telefonu ili drugom uređaju uvijek možemo imati ažuriran kalendar ili knjigu kontakata.\nSpisak aplikacija možete pronaći u našoj dokumentaciji: https://doc.yetiforce.com/apps/#DAV",
     "LBL_SHOP_YETIFORCEKANBAN_INTRO": "The Kanban board will facilitate your work and speed up the handling of processes",
-    "LBL_SHOP_YETIFORCEKANBAN_DESC": "Present all your data in the form of a Kanban board, therefore you will be able to manage your data in a simple and transparent way.\n\n- The board works for any module with data.\n- You can define what data you want to see on each board separately.\n- Field types supported: Picklist, Assigned To.\n - Ability to show a summary of numeric fields.\n - Color and icon support for fields, values."
+    "LBL_SHOP_YETIFORCEKANBAN_DESC": "Present all your data in the form of a Kanban board, therefore you will be able to manage your data in a simple and transparent way.\n\n- The board works for any module with data.\n- You can define what data you want to see on each board separately.\n- Field types supported: Picklist, Assigned To.\n - Ability to show a summary of numeric fields.\n - Color and icon support for fields, values.",
+    "LBL_ACTIVATE_DEACTIVATE_SERVICE": "Activate/Deactivate service",
+    "LBL_ACTIVATE_DEACTIVATE_SERVICE_CONFIRM_DESC": "Are you sure you want to activate/deactivate service?"
   }
 }

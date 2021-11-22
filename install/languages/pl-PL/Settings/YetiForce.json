@@ -7,8 +7,8 @@
     "LBL_REGISTER": "Zarejestruj",
     "LBL_REGISTERED": "Rejestracja zakończona pomyślnie.",
     "LBL_REGISTRATION_KEY": "Klucz rejestracyjny",
-    "LBL_REGISTRATION_OFFLINE_DESC": "Aby zarejestrować wersję systemu która nie ma dostępu do internetu, należy wysłać maila na adres %s z danymi",
-    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Temat: Rejestracja offline systemu YetiForceCRM\n\nTreść: \nProszę o rejestrację mojego systemu CRM:\n\nNazwa firmy:\nKraj:\nMiasto:\nLiczba pracowników:\nStrona internetowa:\nKlucz produktu: %s\nID instancji (APP ID): %s\nWersja: %s",
+    "LBL_REGISTRATION_OFFLINE_DESC": "Aby zarejestrować system, który nie ma dostępu do Internetu, wyślij wiadomość e-mail na %s wraz z danymi podmiotu.",
+    "LBL_REGISTRATION_OFFLINE_EXAMPLE": "Temat: Rejestracja offline systemu YetiForceCRM\n\nTreść: \nProszę o rejestrację mojego systemu CRM:\n\nNazwa firmy lub imię i nazwisko: %s\nKraj: %s\nMiasto: %s\nLiczba pracowników: %s\nStrona internetowa: %s\nKlucz produktu: %s\nAPP ID: %s\nWersja: %s",
     "LBL_SUPPLIERS": "Dostawcy",
     "LBL_INVALID_OFFLINE_KEY": "Wprowadzony klucz jest błedny",
     "LBL_ONLINE_REGISTRATION_FAILED": "Podczas rejestracji produktu wystąpił błąd",
@@ -119,6 +119,8 @@
     "LBL_SHOP_YETIFORCEDAV_INTRO": "YetiForce DAV pozwala na synchronizację dwukierunkową kontaktów, kalendarza i zadań pomiędzy różnymi urządzeniami dzięki zastosowaniu protokołu CardDAV i CalDAV.",
     "LBL_SHOP_YETIFORCEDAV_DESC": "YetiForce DAV składa się z dwóch funkcjonalności:\n- CalDAV umożliwia dwukierunkową synchronizację aktywności (zadania, telefony, spotkania) zapisanych w kalendarzu pomiędzy YetiForce CRM a dowolnym urządzeniem mobilnym lub innym narzędziem obsługującym standard DAV.\n- CardDAV umożliwia dwukierunkową synchronizację kontaktów pomiędzy YetiForce CRM a dowolnym urządzeniem mobilnym lub innym narzędziem obsługującym standard DAV.\n\n\nOba rozwiązania tworzą nowy kalendarz/książkę adresową obok naszych starych, gdzie możemy dodawać nowe wpisy, które zostaną wysłane do CRM.\nDzięki takiemu rozwiązaniu zawsze możemy mieć aktualny kalendarz lub książkę kontaktów w telefonie lub innym urządzeniu. \nListę aplikacji można znaleźć w naszej dokumentacji: https://doc.yetiforce.com/apps/#DAV",
     "LBL_SHOP_YETIFORCEKANBAN_INTRO": "Tablica Kanban ułatwi Twoją prace i przyspieszy obsługę procesów",
-    "LBL_SHOP_YETIFORCEKANBAN_DESC": "Zaprezentuj wszystkie Twoje dane w postaci tablicy Kanban, dzięki temu będziesz mógł zarządzać w prosty i przejrzysty sposób Twoimi danymi.\n\n- Tablica działa dla dowolnego modułu z danymi.\n- Możesz określić jakie dane chcesz widzieć na każdej tablicy oddzielnie.\n- Obsługiwane typu pól: Słownikowe, Właściciel rekordu.\n- Możliwość pokazania podsumowania pól liczbowych.\n- Obsługa kolorów i ikon dla pól, wartości."
+    "LBL_SHOP_YETIFORCEKANBAN_DESC": "Zaprezentuj wszystkie Twoje dane w postaci tablicy Kanban, dzięki temu będziesz mógł zarządzać w prosty i przejrzysty sposób Twoimi danymi.\n\n- Tablica działa dla dowolnego modułu z danymi.\n- Możesz określić jakie dane chcesz widzieć na każdej tablicy oddzielnie.\n- Obsługiwane typu pól: Słownikowe, Właściciel rekordu.\n- Możliwość pokazania podsumowania pól liczbowych.\n- Obsługa kolorów i ikon dla pól, wartości.",
+    "LBL_ACTIVATE_DEACTIVATE_SERVICE": "Aktywuj/dezaktywuj usługę",
+    "LBL_ACTIVATE_DEACTIVATE_SERVICE_CONFIRM_DESC": "Czy na pewno chcesz aktywować/dezaktywować usługę?"
   }
 }
