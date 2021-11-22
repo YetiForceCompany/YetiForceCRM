@@ -36,6 +36,23 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	}
 
 	/** {@inheritdoc} */
+	public function getRecordListViewLinksLeftSide()
+	{
+		$links = [];
+		if (!$this->isReadOnly() && \in_array($this->getValueByField('filetype'), $this->filePreview)) {
+			$links['LBL_PREVIEW_FILE'] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_PREVIEW_FILE',
+				'linkhref' => true,
+				'linkurl' => $this->getDownloadFileURL() . '&show=1',
+				'linkicon' => 'fas fa-binoculars',
+				'linkclass' => 'btn-sm btn-light',
+				'linktarget' => '_blank',
+			]);
+		}
+		return array_merge($links, parent::getRecordListViewLinksLeftSide());
+	}
+
+	/** {@inheritdoc} */
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
 		$links = [];
