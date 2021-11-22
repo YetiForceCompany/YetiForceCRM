@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -16,11 +17,10 @@
  */
 class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * The name of the send button.
-	 *
-	 * @var string
-	 */
+	/** {@inheritdoc} */
+	public $modalSize = 'modal-full';
+
+	/** @var string The name of the send button. */
 	public $successBtn = 'LBL_SEND';
 
 	/**
@@ -45,6 +45,7 @@ class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\Mo
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('REGISTER_COMPANIES', $this->prepareCompanies());
+		$viewer->assign('LICENSE', $this->getLicense());
 		$viewer->view('RegistrationOnlineModal.tpl', $request->getModule(false));
 	}
 
@@ -53,7 +54,7 @@ class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\Mo
 	 *
 	 * @return array
 	 */
-	public function prepareCompanies(): array
+	private function prepareCompanies(): array
 	{
 		$data = [];
 		foreach (\App\Company::getAll() as $company) {
@@ -61,5 +62,29 @@ class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\Mo
 			$data[$key][] = $company;
 		}
 		return $data;
+	}
+
+	/**
+	 * Get License details.
+	 *
+	 * @return array
+	 */
+	private function getLicense(): array
+	{
+		$lang = strtoupper(\App\Language::getShortLanguageName());
+		$fileName = 'LicenseEN.txt';
+		if (file_exists(ROOT_DIRECTORY . "/licenses/License{$lang}.txt")) {
+			$fileName = "License{$lang}.txt";
+		}
+		$text = '';
+		foreach (file(ROOT_DIRECTORY . "/licenses/{$fileName}") as $line) {
+			if (\in_array(substr($line, 0, 2), ['b)', 'c)'])) {
+				$text .= $line;
+			}
+		}
+		return [
+			'fileName' => $fileName,
+			'text' => $text,
+		];
 	}
 }

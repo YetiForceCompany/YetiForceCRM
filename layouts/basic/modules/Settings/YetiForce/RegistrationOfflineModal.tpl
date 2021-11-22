@@ -7,7 +7,7 @@
 			</button>
 			<p>{\App\Language::translateArgs('LBL_REGISTRATION_OFFLINE_DESC',$QUALIFIED_MODULE,'registration@yetiforce.com')}</p>
 		</div>
-		<textarea rows="14" readonly="readonly">{str_replace('<br />','',\App\Language::translateArgs('LBL_REGISTRATION_OFFLINE_EXAMPLE',$QUALIFIED_MODULE,\App\YetiForce\Register::getCrmKey(),\App\YetiForce\Register::getInstanceKey(),\App\Version::get()))}</textarea>
+		<textarea rows="14" readonly="readonly">{$EXAMPLE}</textarea>
 		<form>
 			<div class="form-group form-row">
 				<label class="col-form-label u-text-small-bold text-right col-lg-5">

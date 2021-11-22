@@ -119,7 +119,7 @@
     "LBL_WEBSITE": "Your company's website",
     "LBL_ADDRESS": "Address",
     "LBL_POST_CODE": "Post code",
-    "LBL_VAT_ID": "VAT ID",
+    "LBL_VAT_ID": "Entity's unique identifier",
     "LBL_CHOOSE_INSTALLATION_TYPE": "Choose installation type",
     "LBL_INSTALL_YOURSELF": "Install",
     "LBL_HOSTING_SELF": "Own server",
@@ -128,9 +128,8 @@
     "LBL_HOSTING_SHARED": "YetiForce hosting",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "Buy",
-    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
     "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
-    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
+    "LBL_WEBSITE_INFO": "Enter a company or personal website. DO NOT enter the URL where your CRM is installed. ",
     "LBL_SHOW_MORE": "More information about product"
   },
   "js": {

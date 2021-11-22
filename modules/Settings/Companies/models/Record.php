@@ -305,6 +305,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'website':
 				$params['uitype'] = 17;
+				$params['typeofdata'] = 'V~O';
 				unset($params['validator']);
 				break;
 			case 'firstname':

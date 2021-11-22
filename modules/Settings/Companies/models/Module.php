@@ -11,7 +11,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public $baseTable = 's_yf_companies';
 	public $baseIndex = 'id';
-	public $listFields = ['name' => 'LBL_NAME', 'status' => 'LBL_STATUS', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'address' => 'AddressLevel8', 'post_code' => 'AddressLevel7', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE', 'vat_id' => 'Vat ID'];
+	public $listFields = ['name' => 'LBL_NAME', 'status' => 'LBL_STATUS', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'address' => 'AddressLevel8', 'post_code' => 'AddressLevel7', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE', 'vat_id' => 'LBL_VAT_ID'];
 	/**
 	 * List of fields in form.
 	 *
@@ -25,11 +25,11 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		'name' => [
 			'registerView' => true,
 			'paymentData' => true,
-			'infoText' => 'LBL_NAME_INFO',
 		],
 		'vat_id' => [
 			'paymentData' => true,
 			'registerView' => true,
+			'infoText' => 'LBL_VAT_ID_INFO',
 		],
 		'country' => [
 			'registerView' => true,
