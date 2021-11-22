@@ -24,13 +24,13 @@
 					</div>
 					<h5 class="mb-sm-1 mb-0">{if !empty($BLOCK_ICON)}<span class="{$BLOCK_ICON} mr-2"></span>{/if}{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h5>
 				</div>
-				<div class="c-detail-widget__content js-detail-widget-collapse blockContent table-responsive-sm {if $IS_HIDDEN}d-none{/if} js-detail-widget-content py-sm-2 py-0 overflow-hidden" data-js="container|value">
+				<div class="c-detail-widget__content js-detail-widget-collapse blockContent table-responsive-sm {if $IS_HIDDEN}d-none{/if} js-detail-widget-content py-0 overflow-hidden" data-js="container|value">
 					<div class="c-detail-widget__table">
 						{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
 							{if !$FIELD_MODEL->isViewableInDetailView()}
 								{continue}
 							{/if}
-							<div class="form-row c-table__row--hover border-bottom py-0 py-sm-1 u-fs-13px c-detail-widget__mobile-line ">
+							<div class="form-row c-table__row--hover border-bottom py-0 u-fs-13px c-detail-widget__mobile-line ">
 								<div class="col-5 fieldLabel {$WIDTHTYPE} d-flex align-items-center" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 									{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 									<label class="font-weight-bold mb-0">
@@ -48,7 +48,7 @@
 										{/if}
 									</label>
 								</div>
-								<div class="fieldValue col-7 d-flex align-items-center justify-content-between {$WIDTHTYPE}"
+								<div class="fieldValue col-7 d-flex align-items-center justify-content-between listButtons {$WIDTHTYPE}"
 									id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}">
 									<span class="value flex-grow-1"
 										data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>
@@ -62,7 +62,7 @@
 										<button type="button" class="btn btn-sm btn-light js-detail-quick-edit u-cursor-pointer">
 											<span class="yfi yfi-full-editing-view my-1 " title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 										</button>
-										<div class="d-none edit col-12">
+										<div class="d-none edit col-12 px-0">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 											{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
 												<input type="hidden" class="fieldname"
