@@ -27,8 +27,8 @@
 							<p>
 								{\App\Language::translate('LBL_STEP2_DESCRIPTION_1','Install')}&nbsp;
 								<a target="_blank" rel="noreferrer noopener"
-								   href="https://yetiforce.com/en/yetiforce/license" aria-label="{\App\Language::translate('LBL_LICENSE', 'Install')}">
-									<span class="fas fa-link"></span> </a><br/><br/>
+									href="https://yetiforce.com/en/yetiforce/license" aria-label="{\App\Language::translate('LBL_LICENSE', 'Install')}">
+									<span class="fas fa-link"></span> </a><br /><br />
 								{\App\Language::translate('LBL_STEP2_DESCRIPTION_2','Install')}
 							</p>
 						</div>
@@ -72,41 +72,41 @@
 					<div class="modal-body">
 						<table class="table table-sm table-bordered js-data-table" data-js="datatable">
 							<thead>
-							<th class="p-2">
-								{\App\Language::translate('LBL_LIBRARY_NAME', 'Install')}
-							</th>
-							<th class="p-2 text-center">
-								{\App\Language::translate('LBL_VERSION', 'Install')}
-							</th>
-							<th class="p-2 text-center">
-								{\App\Language::translate('LBL_LICENSE', 'Install')}
-							</th>
+								<th class="p-2">
+									{\App\Language::translate('LBL_LIBRARY_NAME', 'Install')}
+								</th>
+								<th class="p-2 text-center">
+									{\App\Language::translate('LBL_VERSION', 'Install')}
+								</th>
+								<th class="p-2 text-center">
+									{\App\Language::translate('LBL_LICENSE', 'Install')}
+								</th>
 							</thead>
 							<tbody>
-							{foreach from=$LIBRARIES key=TYPE item=ITEMS}
-								{if $ITEMS}
-									{foreach from=$ITEMS item=ITEM}
-										<tr>
-											<td class="u-word-break">
-												<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', 'Install')}"
-												   href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}" target="_blank"
-												   rel="noreferrer noopener">
-													{$ITEM['name']}
-												</a>
-												{if !empty($ITEM['description'])}
-													({\App\Language::translate($ITEM['description'], 'Settings')})
-												{/if}
-											</td>
-											<td class="text-center">
-												{$ITEM['version']}
-											</td>
-											<td class="text-center">
-												{$ITEM['license']}
-											</td>
-										</tr>
-									{/foreach}
-								{/if}
-							{/foreach}
+								{foreach from=$LIBRARIES key=TYPE item=ITEMS}
+									{if $ITEMS}
+										{foreach from=$ITEMS item=ITEM}
+											<tr>
+												<td class="u-word-break">
+													<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', 'Install')}"
+														href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}" target="_blank"
+														rel="noreferrer noopener">
+														{$ITEM['name']}
+													</a>
+													{if !empty($ITEM['description'])}
+														({\App\Language::translate($ITEM['description'], 'Settings')})
+													{/if}
+												</td>
+												<td class="text-center">
+													{$ITEM['version']}
+												</td>
+												<td class="text-center">
+													{$ITEM['license']}
+												</td>
+											</tr>
+										{/foreach}
+									{/if}
+								{/foreach}
 							</tbody>
 						</table>
 					</div>

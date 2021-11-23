@@ -19,8 +19,9 @@
 			</form>
 			<script type="text/javascript">
 				window.localStorage.removeItem('yetiforce_install');
-				jQuery(function () { /* Delay to let page load complete */
-					setTimeout(function () {
+				jQuery(function() {
+					/* Delay to let page load complete */
+					setTimeout(function() {
 						jQuery('form[name="step7"]').submit();
 					}, 150);
 				});

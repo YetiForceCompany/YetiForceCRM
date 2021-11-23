@@ -25,6 +25,7 @@
 	{include file='JSResources.tpl'}
 	</div>
 	</body>
+
 	</html>
 	<!-- /tpl-install-tpl-Footer -->
 {/strip}
