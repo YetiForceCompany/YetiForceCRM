@@ -10,7 +10,7 @@ if (\PHP_VERSION_ID < 70300) {
 }
 if (isset($checkLibrary)) {
 	$extensions = get_loaded_extensions();
-	foreach (['PDO', 'pdo_mysql', 'json', 'session', 'mbstring', 'fileinfo', 'intl', 'SPL', 'Reflection', 'SimpleXML', 'bcmath', 'SimpleXML', 'SimpleXML'] as $extension) {
+	foreach (['PDO', 'pdo_mysql', 'json', 'session', 'mbstring', 'fileinfo', 'intl', 'SPL', 'Reflection', 'SimpleXML', 'bcmath'] as $extension) {
 		if (!\in_array($extension, $extensions)) {
 			throw new \Exception("The {$extension} library is missing");
 		}

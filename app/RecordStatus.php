@@ -8,6 +8,7 @@
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -378,7 +379,7 @@ class RecordStatus
 	 *
 	 * @return string[]
 	 */
-	public static function getLockStatus(string $moduleName, bool $byName = true)
+	public static function getLockStatus(string $moduleName, bool $byName = true): array
 	{
 		$tabId = Module::getModuleId($moduleName);
 		$cacheName = "RecordStatus::getLockStatus::$moduleName";
