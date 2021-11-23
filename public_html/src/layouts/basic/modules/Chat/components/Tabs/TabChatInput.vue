@@ -177,4 +177,12 @@ export default {
 }
 </script>
 <style>
+.emoji-mart-category-label h3 {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+.emoji-mart, .emoji-mart * {
+    box-sizing: border-box !important;
+    line-height: 1.15 !important;
+}
 </style>
