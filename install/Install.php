@@ -47,4 +47,5 @@ try {
 	}
 } catch (\Throwable $th) {
 	echo '<pre>' . $th->__toString();
+	\App\Log::error($th->__toString(), 'Install');
 }

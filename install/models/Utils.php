@@ -97,13 +97,14 @@ class Install_Utils_Model
 					'password' => $db_password,
 					'charset' => 'utf8',
 					'attributes' => [
-						PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+						PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 					],
 				]);
 				$db = \App\Db::getInstance();
 				$conn = $db->getMasterPdo();
 			} catch (\Throwable $e) {
 				$pdoException = $e->getMessage();
+				\App\Log::error($e->__toString(), 'Install');
 			}
 			$db_type_status = true;
 			if ($conn) {

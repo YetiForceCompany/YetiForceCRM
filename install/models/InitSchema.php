@@ -87,7 +87,7 @@ class Install_InitSchema_Model
 			$_SESSION['installation_success'] = $createQuery && $executedQuery;
 		} catch (Throwable $e) {
 			$return = false;
-			\App\Log::error($e->__toString());
+			\App\Log::error($e->__toString(), 'Install');
 			$_SESSION['installation_success'] = false;
 		} finally {
 			$this->db->createCommand('SET FOREIGN_KEY_CHECKS = 1;')->execute();

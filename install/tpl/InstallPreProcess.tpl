@@ -17,7 +17,7 @@
 			<header class="d-flex flex-nowrap align-items-center">
 				<div class="logo">
 					<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}"
-						 alt="{\App\Language::translate('LBL_COMPANY_LOGO_TITLE', 'Install')} YetiForce">
+						alt="{\App\Language::translate('LBL_COMPANY_LOGO_TITLE', 'Install')} YetiForce">
 				</div>
 				<div class="pl-1 pl-sm-3">
 					<h1 class="h3">{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h1>
@@ -30,8 +30,7 @@
 			<div class="inner-container py-5">
 				<div class="col-12 text-center py-5">
 					<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
-					<img src="../{\App\Layout::getPublicUrl('layouts/basic/images/install_loading.gif')}"
-						 alt="Install loading"><br>
+					<img src="../{\App\Layout::getPublicUrl('layouts/basic/images/install_loading.gif')}" class="mb-3" alt="Install loading"><br>
 					<h6>{\App\Language::translate('LBL_STEP7_DESCRIPTION','Install')}</h6>
 					<ul class="text-center list-inline">
 						<li class="yetiforceDetailsLink list-inline-item">
@@ -59,7 +58,7 @@
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
 							<a rel="noreferrer noopener" target="_blank"
-							   href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
+								href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
 								<span class="fab fa-facebook-square"></span>
 								<span class="sr-only">Facebook</span>
 							</a>
@@ -72,7 +71,7 @@
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
 							<a rel="noreferrer noopener" target="_blank"
-							   href="https://github.com/YetiForceCompany/YetiForceCRM/issues">
+								href="https://github.com/YetiForceCompany/YetiForceCRM/issues">
 								<span class="fas fa-bug"></span>
 								<span class="sr-only">Issues</span>
 							</a>

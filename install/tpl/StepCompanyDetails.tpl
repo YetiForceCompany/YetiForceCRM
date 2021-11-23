@@ -22,6 +22,11 @@
 						</div>
 					</div>
 					<hr>
+					{if !empty($ERROR)}
+						<div class="alert alert-primary" role="alert">
+							<h2>{\App\Language::translate($ERROR, 'Install')}</h2>
+						</div>
+					{/if}
 					<div class="row">
 						<p class="col-12">
 							{\App\Language::translate('LBL_STEP6_DESCRIPTION', 'Install')}
