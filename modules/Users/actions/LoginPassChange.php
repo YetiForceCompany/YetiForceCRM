@@ -43,13 +43,16 @@ class Users_LoginPassChange_Action extends Users_Login_Action
 				$userRecordModel->set('changeUserPassword', true);
 				$userRecordModel->set('user_password', $password);
 				$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
+
 				$eventHandler = new \App\EventHandler();
 				$eventHandler->setRecordModel($userRecordModel);
 				$eventHandler->setModuleName('Users');
 				$eventHandler->setParams(['action' => 'change']);
 				$eventHandler->trigger('UsersBeforePasswordChange');
+
 				$userRecordModel->save();
 				$eventHandler->trigger('UsersAfterPasswordChange');
+
 				$response->setResult(\App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users'));
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users'));
 				\App\Session::set('UserLoginMessageType', 'success');
