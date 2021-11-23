@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -693,10 +694,11 @@ final class Chat
 				$lastMessagesData[] = $roomLastMessage;
 			}
 		}
-		$lastMessage = array_reduce($lastMessagesData, function ($a, $b) {
+
+		$lastMessage = 1 === \count($lastMessagesData) ? current($lastMessagesData) : array_reduce($lastMessagesData, function ($a, $b) {
 			return $a['created'] > $b['created'] ? $a : $b;
 		});
-		if (isset($lastMessage)) {
+		if (!empty($lastMessage)) {
 			$lastMessage['messages'] = static::decodeNoHtmlMessage($lastMessage['messages'], false);
 			$lastMessage['userData'] = static::getUserInfo($lastMessage['userid']);
 		}
