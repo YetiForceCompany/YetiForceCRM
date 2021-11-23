@@ -117,7 +117,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true, $config = [], array $account = [])
 	{
-		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
+		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , '****' , $folder) method ...");
 		if (!$config) {
 			$config = self::loadRoundcubeConfig();
 		}
@@ -166,7 +166,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$params = $config['imap_params'];
 		}
 		static::$imapConnectMailbox = "{{$host}:{$port}/imap{$sslMode}{$validatecert}}{$folder}";
-		\App\Log::trace('imap_open(({' . static::$imapConnectMailbox . ", $user , $password. $options, $maxRetries, " . var_export($params, true) . ') method ...');
+		\App\Log::trace('imap_open(({' . static::$imapConnectMailbox . ", $user , '****'. $options, $maxRetries, " . var_export($params, true) . ') method ...');
 		\App\Log::beginProfile(__METHOD__ . '|imap_open|' . $user, 'Mail|IMAP');
 		$mbox = imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params);
 		\App\Log::endProfile(__METHOD__ . '|imap_open|' . $user, 'Mail|IMAP');
