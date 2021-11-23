@@ -115,6 +115,11 @@
 													<span class="float-right actions">
 														<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 														{if $FIELD_MODEL->isEditable()}
+															{if !$FIELD_MODEL->isActiveOptionDisabled()}
+																<button class="btn btn-warning btn-xs js-disable-field ml-1" title="{App\Language::translate('LBL_DISABLE_FIELD', $QUALIFIED_MODULE)}">
+																	<span class="fas fa-times"></span>
+																</button>
+															{/if}
 															<button class="btn btn-success btn-xs editFieldDetails ml-1" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}">
 																<span class="yfi yfi-full-editing-view"></span>
 															</button>
