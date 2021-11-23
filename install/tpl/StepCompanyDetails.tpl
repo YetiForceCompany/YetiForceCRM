@@ -31,7 +31,7 @@
 					{foreach key="FIELD_NAME" item="FIELD" from=$RECORD_MODEL->getModule()->getFormFields()}
 						{if in_array($FIELD_NAME, ["name","vat_id",'post_code','address', "city"])}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label" for="company-{$FIELD_NAME}">
+								<label class="col-sm-4 col-form-label" for="company-{$FIELD_NAME}">
 									{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Install')}<span class="no">*</span>
 									{if isset($FIELD['infoText'])}
 										<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], 'Install'))}">
@@ -39,17 +39,16 @@
 										</div>
 									{/if}
 								</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input id="company-{$FIELD_NAME}" type="text" name="company_{$FIELD_NAME}" class="form-control" data-validation-engine="validate[required]">
 								</div>
 							</div>
 						{elseif $FIELD_NAME === "industry"}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label" for="company-industry">{App\Language::translate('LBL_INDUSTRY', 'Install')}
+								<label class="col-sm-4 col-form-label" for="company-industry">{App\Language::translate('LBL_INDUSTRY', 'Install')}
 									&nbsp;<span class="no">*</span></label>
-								<div class="col-sm-9">
-									<select class="select2 form-control" id="company-industry" name="company_industry"
-											data-validation-engine="validate[required]">
+								<div class="col-sm-8">
+									<select class="select2 form-control" id="company-industry" name="company_industry" data-validation-engine="validate[required]">
 										{foreach from=Install_Utils_Model::getIndustryList() item=ITEM}
 											<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
 										{/foreach}
@@ -58,11 +57,11 @@
 							</div>
 						{elseif $FIELD_NAME === "country"}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label" for="company-country">{App\Language::translate('LBL_COUNTRY', 'Install')}
+								<label class="col-sm-4 col-form-label" for="company-country">{App\Language::translate('LBL_COUNTRY', 'Install')}
 									&nbsp;<span class="no">*</span></label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<select id="company-country" class="select2 form-control" name="company_country"
-											data-validation-engine="validate[required]">
+										data-validation-engine="validate[required]">
 										{foreach from=Install_Utils_Model::getCountryList() item=ITEM}
 											<option value="{$ITEM}">{\App\Language::translateSingleMod($ITEM,'Other.Country')}</option>
 										{/foreach}
@@ -71,32 +70,31 @@
 							</div>
 						{elseif $FIELD_NAME === "companysize"}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label" for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Install')}
+								<label class="col-sm-4 col-form-label" for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Install')}
 									<span class="no">*</span></label>
-								<div class="col-sm-9">
-									<input id="company-companysize" type="number" name="company_companysize" class="form-control"	 data-validation-engine="validate[required,max[16777215]]">
+								<div class="col-sm-8">
+									<input id="company-companysize" type="number" name="company_companysize" class="form-control" data-validation-engine="validate[required,max[16777215]]">
 								</div>
 							</div>
 						{elseif $FIELD_NAME === "website"}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label" for="company-website">
-									{App\Language::translate('LBL_WEBSITE', 'Install')}<span class="no">*</span>
+								<label class="col-sm-4 col-form-label" for="company-website">
+									{App\Language::translate('LBL_WEBSITE', 'Install')}
 									{if isset($FIELD['infoText'])}
 										<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], 'Install'))}">
 											<span class="fas fa-info-circle"></span>
 										</div>
 									{/if}
 								</label>
-								<div class="col-sm-9">
-									<input id="company-website" type="text" name="company_website" class="form-control" data-validation-engine="validate[required,custom[url]]">
+								<div class="col-sm-8">
+									<input id="company-website" type="text" name="company_website" class="form-control" data-validation-engine="validate[custom[url]]">
 								</div>
 							</div>
 						{/if}
 					{/foreach}
 					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
 						<div class="text-center w-100">
-							<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php"
-							   role="button">
+							<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php" role="button">
 								<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
 								{App\Language::translate('LBL_BACK', 'Install')}
 							</a>

@@ -18,8 +18,8 @@
 			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, 'ConfReport')}
 			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
 				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-				   data-trigger="focus hover" data-placement="right"
-				   data-content="{$HELP_TEXT_TRANS}">
+					data-trigger="focus hover" data-placement="right"
+					data-content="{$HELP_TEXT_TRANS}">
 					<span class="fas fa-info-circle"></span>
 				</a>
 			{/if}
@@ -64,8 +64,8 @@
 						</div>
 						{\App\Language::translate('LBL_STEP3_DESCRIPTION','Install')}&nbsp;
 						<a target="_blank" rel="noreferrer noopener"
-						   href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"
-						   aria-label="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements">
+							href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"
+							aria-label="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements">
 							<span class="fas fa-link"></span>
 						</a>
 
@@ -73,94 +73,99 @@
 							<div>
 								<table class="config-table table u-word-break-all" data-type="libraries">
 									<thead>
-									<tr>
-										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_LIBRARY', 'ConfReport')}
-										</th>
-										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_MANDATORY', 'ConfReport')}
-										</th>
-										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_INSTALLED', 'ConfReport')}
-										</th>
-									</tr>
+										<tr>
+											<th colspan="1" scope="col" class="text-left">
+												{App\Language::translate('LBL_LIBRARY', 'ConfReport')}
+											</th>
+											<th colspan="1" scope="col">
+												{App\Language::translate('LBL_MANDATORY', 'ConfReport')}
+											</th>
+											<th colspan="1" scope="col">
+												{App\Language::translate('LBL_INSTALLED', 'ConfReport')}
+											</th>
+										</tr>
 									</thead>
 									<tbody>
-									{foreach from=$ALL['libraries'] key=KEY item=ITEM}
-										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
-											<td>
-												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-											</td>
-											{if isset($ITEM['mandatory'])}
-											<td>
-												{if $ITEM['mandatory']}
-													{App\Language::translate('LBL_MANDATORY', 'ConfReport')}
-												{else}
-													{App\Language::translate('LBL_OPTIONAL', 'ConfReport')}
-												{/if}
-											</td>
-											<td>
-												{else}
-											<td colspan="2" class="u-word-break-keep-all">
-												{/if}
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
-											</td>
-										</tr>
-									{/foreach}
+										{foreach from=$ALL['libraries'] key=KEY item=ITEM}
+											<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+												<td>
+													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+												</td>
+												{if isset($ITEM['mandatory'])}
+													<td>
+														{if $ITEM['mandatory']}
+															{App\Language::translate('LBL_MANDATORY', 'ConfReport')}
+														{else}
+															{App\Language::translate('LBL_OPTIONAL', 'ConfReport')}
+														{/if}
+													</td>
+													<td>
+													{else}
+													<td colspan="2" class="u-word-break-keep-all">
+													{/if}
+													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+													{if isset($ITEM['www_info'])}
+														<a href="#" class="js-show-modal-content ml-2" data-content="{\App\Purifier::encodeHtml($ITEM['www_info'])}" data-class="modal-lg u-table-min-width-10rem" data-js="modal">
+															<span class="fas fa-info-circle"></span>
+														</a>
+													{/if}
+												</td>
+											</tr>
+										{/foreach}
 									</tbody>
 								</table>
 								<br>
 								<table class="config-table table u-word-break-all" data-type="security">
 									<caption
-											class="sr-only">{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</caption>
+										class="sr-only">{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</caption>
 									<thead>
-									<tr>
-										<th>{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</th>
-										<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
-										<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
-									</tr>
+										<tr>
+											<th>{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</th>
+											<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+											<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
+										</tr>
 									</thead>
 									<tbody>
-									{foreach from=$ALL['security'] key=KEY item=ITEM}
-										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
-											<td class="bg-light text-left u-word-break-keep-all">
-												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-											</td>
-											<td>
-												{SHOW_RECOMMENDED ITEM=$ITEM}
-											</td>
-											<td>
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
-											</td>
-										</tr>
-									{/foreach}
+										{foreach from=$ALL['security'] key=KEY item=ITEM}
+											<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+												<td class="bg-light text-left u-word-break-keep-all">
+													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+												</td>
+												<td>
+													{SHOW_RECOMMENDED ITEM=$ITEM}
+												</td>
+												<td>
+													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+												</td>
+											</tr>
+										{/foreach}
 									</tbody>
 								</table>
 								<br>
 								<table class="config-table table u-word-break-all" data-type="stability">
 									<caption
-											class="sr-only">{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</caption>
+										class="sr-only">{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</caption>
 									<thead>
-									<tr>
-										<th>{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
-										<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
-										<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
-									</tr>
+										<tr>
+											<th>{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
+											<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+											<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
+										</tr>
 									</thead>
 									<tbody>
-									{foreach from=$ALL['stability'] key=KEY item=ITEM}
-										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
-											<td>
-												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-											</td>
-											<td>
-												{SHOW_RECOMMENDED ITEM=$ITEM}
-											</td>
-											<td colspan="2">
-												{if isset($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
-											</td>
-										</tr>
-									{/foreach}
+										{foreach from=$ALL['stability'] key=KEY item=ITEM}
+											<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+												<td>
+													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+												</td>
+												<td>
+													{SHOW_RECOMMENDED ITEM=$ITEM}
+												</td>
+												<td colspan="2">
+													{if isset($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+												</td>
+											</tr>
+										{/foreach}
 									</tbody>
 								</table>
 								<br>
@@ -169,26 +174,26 @@
 										{App\Language::translate('LBL_PERFORMANCE_VERIFICATION', 'ConfReport')}
 									</caption>
 									<thead>
-									<tr>
-										<th colspan="1" scope="col" class="text-left">{App\Language::translate('LBL_PARAMETER', 'ConfReport')}</th>
-										<th colspan="1" scope="col">{App\Language::translate('LBL_RECOMMENDED', 'ConfReport')}</th>
-										<th colspan="1" scope="col">{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
-									</tr>
+										<tr>
+											<th colspan="1" scope="col" class="text-left">{App\Language::translate('LBL_PARAMETER', 'ConfReport')}</th>
+											<th colspan="1" scope="col">{App\Language::translate('LBL_RECOMMENDED', 'ConfReport')}</th>
+											<th colspan="1" scope="col">{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
+										</tr>
 									</thead>
 									<tbody>
-									{foreach from=$ALL['performance'] key=KEY item=ITEM}
-										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
-											<td>
-												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-											</td>
-											<td>
-												{SHOW_RECOMMENDED ITEM=$ITEM}
-											</td>
-											<td>
-												{if isset($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
-											</td>
-										</tr>
-									{/foreach}
+										{foreach from=$ALL['performance'] key=KEY item=ITEM}
+											<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+												<td>
+													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+												</td>
+												<td>
+													{SHOW_RECOMMENDED ITEM=$ITEM}
+												</td>
+												<td>
+													{if isset($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+												</td>
+											</tr>
+										{/foreach}
 									</tbody>
 								</table>
 								<br>
@@ -197,30 +202,30 @@
 										{App\Language::translate('LBL_DENY_PUBLIC_DIR_TITLE', 'ConfReport')}
 									</caption>
 									<thead>
-									<tr>
-										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_PUBLIC_DIR', 'ConfReport')}
-										</th>
-										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', 'ConfReport')}
-										</th>
-									</tr>
+										<tr>
+											<th colspan="1" scope="col" class="text-left">
+												{App\Language::translate('LBL_PUBLIC_DIR', 'ConfReport')}
+											</th>
+											<th colspan="1" scope="col">
+												{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', 'ConfReport')}
+											</th>
+										</tr>
 									</thead>
 									<tbody>
-									{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
-										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
-											<td>
-												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-											</td>
-											<td colspan="2">
-												{if $ITEM.status}
-													{App\Language::translate('LBL_YES', 'ConfReport')}
-												{else}
-													{App\Language::translate('LBL_NO', 'ConfReport')}
-												{/if}
-											</td>
-										</tr>
-									{/foreach}
+										{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
+											<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+												<td>
+													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+												</td>
+												<td colspan="2">
+													{if $ITEM.status}
+														{App\Language::translate('LBL_YES', 'ConfReport')}
+													{else}
+														{App\Language::translate('LBL_NO', 'ConfReport')}
+													{/if}
+												</td>
+											</tr>
+										{/foreach}
 									</tbody>
 								</table>
 								<br>
@@ -229,46 +234,17 @@
 										{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', 'ConfReport')}
 									</caption>
 									<thead>
-									<tr>
-										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_PARAMETER', 'ConfReport')}
-										</th>
-										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}
-										</th>
-									</tr>
+										<tr>
+											<th colspan="1" scope="col" class="text-left">
+												{App\Language::translate('LBL_PARAMETER', 'ConfReport')}
+											</th>
+											<th colspan="1" scope="col">
+												{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}
+											</th>
+										</tr>
 									</thead>
 									<tbody>
-									{foreach from=$ALL['environment'] key=KEY item=ITEM}
-										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
-											<td>
-												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-											</td>
-											<td>
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
-											</td>
-										</tr>
-									{/foreach}
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div class="offset2">
-							<div>
-								{if !empty($ALL['writableFilesAndFolders'])}
-									<table class="config-table table u-word-break-all" data-type="writableFilesAndFolders">
-										<thead>
-										<tr class="blockHeader">
-											<th colspan="1" class="mediumWidthType">
-												<span>{App\Language::translate('LBL_PATH', 'ConfReport')}</span>
-											</th>
-											<th colspan="1" class="mediumWidthType">
-												<span>{App\Language::translate('LBL_PERMISSION', 'ConfReport')}</span>
-											</th>
-										</tr>
-										</thead>
-										<tbody>
-										{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
+										{foreach from=$ALL['environment'] key=KEY item=ITEM}
 											<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 												<td>
 													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
@@ -278,6 +254,35 @@
 												</td>
 											</tr>
 										{/foreach}
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="offset2">
+							<div>
+								{if !empty($ALL['writableFilesAndFolders'])}
+									<table class="config-table table u-word-break-all" data-type="writableFilesAndFolders">
+										<thead>
+											<tr class="blockHeader">
+												<th colspan="1" class="mediumWidthType">
+													<span>{App\Language::translate('LBL_PATH', 'ConfReport')}</span>
+												</th>
+												<th colspan="1" class="mediumWidthType">
+													<span>{App\Language::translate('LBL_PERMISSION', 'ConfReport')}</span>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
+												<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+													<td>
+														{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+													</td>
+													<td>
+														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+													</td>
+												</tr>
+											{/foreach}
 										</tbody>
 									</table>
 								{/if}
@@ -287,7 +292,7 @@
 					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
 						<div class="text-center w-100">
 							<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php?mode=stepChooseHost"
-							   role="button">
+								role="button">
 								<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
 								{App\Language::translate('LBL_BACK', 'Install')}
 							</a>

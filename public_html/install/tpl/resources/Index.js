@@ -103,6 +103,7 @@ jQuery.Class(
 				if (elements.length > 0) {
 					e.preventDefault();
 					app.showConfirmModal({
+						icon: 'fas fa-exclamation-triangle',
 						text: app.vtranslate('LBL_SETTINGS_WARNING'),
 						confirmedCallback: () => {
 							elements = false;

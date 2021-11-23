@@ -17,8 +17,8 @@
 			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, 'ConfReport')}
 			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
 				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-				   data-trigger="focus hover" data-placement="right"
-				   data-content="{$HELP_TEXT_TRANS}">
+					data-trigger="focus hover" data-placement="right"
+					data-content="{$HELP_TEXT_TRANS}">
 					<span class="fas fa-info-circle"></span>
 				</a>
 			{/if}
@@ -65,51 +65,51 @@
 							<table class="config-table input-table">
 								<caption class="sr-only">{\App\Language::translate('LBL_DATABASE_INFORMATION','Install')}</caption>
 								<thead>
-								<tr>
-									<th colspan="2">{\App\Language::translate('LBL_DATABASE_INFORMATION','Install')}</th>
-								</tr>
+									<tr>
+										<th colspan="2"><span class="fas fa-database mr-2"></span>{\App\Language::translate('LBL_DATABASE_INFORMATION','Install')}</th>
+									</tr>
 								</thead>
 								<tbody>
-								<tr>
-									<td>{\App\Language::translate('LBL_DATABASE_TYPE','Install')}</td>
-									<td>{\App\Language::translate('MySQL','Install')}</td>
-								</tr>
-								<tr>
-									<td class="{if !$INFORMATION['db_server']}no{/if}">{\App\Language::translate('LBL_HOST_NAME','Install')}</td>
-									<td>{$INFORMATION['db_server']}</td>
-								</tr>
-								<tr>
-									<td class="{if !$INFORMATION['db_port']}no{/if}">{\App\Language::translate('LBL_HOST_PORT','Install')}</td>
-									<td>{$INFORMATION['db_port']}</td>
-								</tr>
-								<tr>
-									<td class="{if !$INFORMATION['db_name']}no{/if}">{\App\Language::translate('LBL_DB_NAME','Install')}</td>
-									<td>{$INFORMATION['db_name']}</td>
-								</tr>
-								<tr>
-									<td class="{if !$INFORMATION['db_username']}no{/if}">{\App\Language::translate('LBL_USERNAME','Install')}</td>
-									<td>{$INFORMATION['db_username']}</td>
-								</tr>
+									<tr>
+										<td>{\App\Language::translate('LBL_DATABASE_TYPE','Install')}</td>
+										<td>{\App\Language::translate('MySQL','Install')}</td>
+									</tr>
+									<tr>
+										<td class="{if !$INFORMATION['db_server']}no{/if}">{\App\Language::translate('LBL_HOST_NAME','Install')}</td>
+										<td>{$INFORMATION['db_server']}</td>
+									</tr>
+									<tr>
+										<td class="{if !$INFORMATION['db_port']}no{/if}">{\App\Language::translate('LBL_HOST_PORT','Install')}</td>
+										<td>{$INFORMATION['db_port']}</td>
+									</tr>
+									<tr>
+										<td class="{if !$INFORMATION['db_name']}no{/if}">{\App\Language::translate('LBL_DB_NAME','Install')}</td>
+										<td>{$INFORMATION['db_name']}</td>
+									</tr>
+									<tr>
+										<td class="{if !$INFORMATION['db_username']}no{/if}">{\App\Language::translate('LBL_USERNAME','Install')}</td>
+										<td>{$INFORMATION['db_username']}</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
 						<div class="table-responsive">
 							<table class="config-table input-table">
-								<caption class="sr-only">{\App\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</caption>
+								<caption class="sr-only">{\App\Language::translate('LBL_MORE_INFORMATION','Install')}</caption>
 								<thead>
-								<tr>
-									<th colspan="2">{\App\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</th>
-								</tr>
+									<tr>
+										<th colspan="2"><span class="fas fa-tools mr-2"></span>{\App\Language::translate('LBL_MORE_INFORMATION','Install')}</th>
+									</tr>
 								</thead>
 								<tbody>
-								<tr>
-									<td class="{if !$INFORMATION['site_URL']}no{/if}">{\App\Language::translate('LBL_URL','Install')}</td>
-									<td><a href="#">{$INFORMATION['site_URL']}</a></td>
-								</tr>
-								<tr>
-									<td class="{if !$INFORMATION['currency_name']}no{/if}">{\App\Language::translate('LBL_CURRENCY','Install')}</td>
-									<td>{$INFORMATION['currency_name']}</td>
-								</tr>
+									<tr>
+										<td class="{if !$INFORMATION['site_URL']}no{/if}">{\App\Language::translate('LBL_URL','Install')}</td>
+										<td><a href="#">{$INFORMATION['site_URL']}</a></td>
+									</tr>
+									<tr>
+										<td class="{if !$INFORMATION['currency_name']}no{/if}">{\App\Language::translate('LBL_CURRENCY','Install')}</td>
+										<td>{$INFORMATION['currency_name']}</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -117,35 +117,35 @@
 							<table class="config-table input-table">
 								<caption class="sr-only">{\App\Language::translate('LBL_ADMIN_USER_INFORMATION','Install')}</caption>
 								<thead>
-								<tr>
-									<th colspan="2">{\App\Language::translate('LBL_ADMIN_USER_INFORMATION','Install')}</th>
-								</tr>
+									<tr>
+										<th colspan="2"><span class="fas fa-user-tie mr-2"></span>{\App\Language::translate('LBL_ADMIN_USER_INFORMATION','Install')}</th>
+									</tr>
 								</thead>
 								<tbody>
-								<tr>
-									<td class="{if !$INFORMATION['firstname']}no{/if}">{\App\Language::translate('LBL_FIRST_NAME','Install')}</td>
-									<td>{$INFORMATION['firstname']}</td>
-								</tr>
-								<tr>
-									<td class="{if !$INFORMATION['lastname']}no{/if}">{\App\Language::translate('LBL_LAST_NAME','Install')}</td>
-									<td>{$INFORMATION['lastname']}</td>
-								</tr>
-								<tr>
-									<td class="{if !$INFORMATION['user_name']}no{/if}">{\App\Language::translate('LBL_USERNAME','Install')}</td>
-									<td>{$INFORMATION['user_name']}</td>
-								</tr>
-								<tr>
-									<td class="{if !$INFORMATION['admin_email']}no{/if}">{\App\Language::translate('LBL_EMAIL','Install')}</td>
-									<td>{$INFORMATION['admin_email']}</td>
-								</tr>
-								<tr>
-									<td class="{if !$INFORMATION['default_timezone']}no{/if}">{\App\Language::translate('LBL_TIME_ZONE','Install')}</td>
-									<td>{$INFORMATION['default_timezone']}</td>
-								</tr>
-								<tr>
-									<td class="{if !$INFORMATION['dateformat']}no{/if}">{\App\Language::translate('LBL_DATE_FORMAT','Install')}</td>
-									<td>{$INFORMATION['dateformat']}</td>
-								</tr>
+									<tr>
+										<td class="{if !$INFORMATION['firstname']}no{/if}">{\App\Language::translate('LBL_FIRST_NAME','Install')}</td>
+										<td>{$INFORMATION['firstname']}</td>
+									</tr>
+									<tr>
+										<td class="{if !$INFORMATION['lastname']}no{/if}">{\App\Language::translate('LBL_LAST_NAME','Install')}</td>
+										<td>{$INFORMATION['lastname']}</td>
+									</tr>
+									<tr>
+										<td class="{if !$INFORMATION['user_name']}no{/if}">{\App\Language::translate('LBL_USERNAME','Install')}</td>
+										<td>{$INFORMATION['user_name']}</td>
+									</tr>
+									<tr>
+										<td class="{if !$INFORMATION['admin_email']}no{/if}">{\App\Language::translate('LBL_EMAIL','Install')}</td>
+										<td>{$INFORMATION['admin_email']}</td>
+									</tr>
+									<tr>
+										<td class="{if !$INFORMATION['default_timezone']}no{/if}">{\App\Language::translate('LBL_TIME_ZONE','Install')}</td>
+										<td>{$INFORMATION['default_timezone']}</td>
+									</tr>
+									<tr>
+										<td class="{if !$INFORMATION['dateformat']}no{/if}">{\App\Language::translate('LBL_DATE_FORMAT','Install')}</td>
+										<td>{$INFORMATION['dateformat']}</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -155,34 +155,34 @@
 								<br>
 								<table class="config-table table u-word-break-all" data-type="database">
 									<caption
-											class="sr-only">{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</caption>
+										class="sr-only">{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</caption>
 									<thead>
-									<tr>
-										<th>{App\Language::translate('LBL_PARAMETER', 'Install')}</th>
-										<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
-										<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
-									</tr>
+										<tr>
+											<th>{App\Language::translate('LBL_PARAMETER', 'Install')}</th>
+											<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+											<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
+										</tr>
 									</thead>
 									<tbody>
-									{foreach from=$CONF_REPORT_RESULT['database'] key=KEY item=ITEM}
-										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
-											<td>
-												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-											</td>
-											{if isset($ITEM['recommended'])}
+										{foreach from=$CONF_REPORT_RESULT['database'] key=KEY item=ITEM}
+											<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 												<td>
-													{$ITEM['recommended']}
+													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 												</td>
-												<td>
-													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
-												</td>
-											{else}
-												<td colspan="2">
-													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
-												</td>
-											{/if}
-										</tr>
-									{/foreach}
+												{if isset($ITEM['recommended'])}
+													<td>
+														{$ITEM['recommended']}
+													</td>
+													<td>
+														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+													</td>
+												{else}
+													<td colspan="2">
+														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+													</td>
+												{/if}
+											</tr>
+										{/foreach}
 									</tbody>
 								</table>
 							{/if}
@@ -191,7 +191,7 @@
 						<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
 							<div class="text-center w-100">
 								<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php"
-								   role="button">
+									role="button">
 									<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
 									{App\Language::translate('LBL_BACK', 'Install')}
 								</a>
