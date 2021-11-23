@@ -46,8 +46,6 @@ class Module extends ModuleBasic
 	 * @param mixed $functionName
 	 * @param mixed $fieldName
 	 * @param mixed $fields
-	 *
-	 * @internal Creates table vtiger_crmentityrel if it does not exists
 	 */
 	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'getRelatedList', $fieldName = null, $fields = [])
 	{

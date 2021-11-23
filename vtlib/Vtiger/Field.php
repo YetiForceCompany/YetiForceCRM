@@ -29,8 +29,6 @@ class Field extends FieldBasic
 	 *
 	 * @param array List of values to add
 	 * @param mixed $values
-	 *
-	 * @internal Creates picklist base if it does not exists
 	 */
 	public function setPicklistValues($values)
 	{
@@ -95,8 +93,6 @@ class Field extends FieldBasic
 	 *
 	 * @param array List of values to add
 	 * @param mixed $values
-	 *
-	 * @internal Creates picklist base if it does not exists
 	 */
 	public function setNoRolePicklistValues($values)
 	{
