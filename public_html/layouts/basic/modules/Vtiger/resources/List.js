@@ -253,7 +253,12 @@ $.Class(
 					return true;
 				};
 			}
-			let progressIndicatorElement = $.progressIndicator();
+			let progressIndicatorElement = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
 			let actionParams = {
 				type: 'POST',
 				url: massActionUrl,

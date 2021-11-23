@@ -480,7 +480,7 @@ window.App.Fields = {
 				}
 				params = $.extend(config, params);
 				this.isModal = element.closest('.js-modal-container').length;
-				if (this.isModal) {
+				if (this.isModal && element.is(':visible')) {
 					let self = this;
 					this.progressInstance = $.progressIndicator({
 						blockInfo: {
@@ -550,7 +550,7 @@ window.App.Fields = {
 							evt.editor.on('blur', function () {
 								evt.editor.updateElement();
 							});
-							if (self.isModal) {
+							if (self.isModal && self.progressInstance) {
 								self.progressInstance.progressIndicator({ mode: 'hide' });
 							}
 						}
