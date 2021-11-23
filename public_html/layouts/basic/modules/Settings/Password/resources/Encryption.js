@@ -150,14 +150,12 @@ jQuery.Class(
 					AppConnector.request(formData).done((response) => {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						if (response.result.message) {
-							app.showConfirmModal(
-								response.result.message + `<div>${app.vtranslate('JS_CHANGE_CONFIRMATION')}</div>`,
-								(confirm) => {
-									if (confirm) {
-										save();
-									}
+							app.showConfirmModal({
+								text: response.result.message + `<div>${app.vtranslate('JS_CHANGE_CONFIRMATION')}</div>`,
+								confirmedCallback: () => {
+									save();
 								}
-							);
+							});
 						} else if (response.result.result) {
 							save();
 						}

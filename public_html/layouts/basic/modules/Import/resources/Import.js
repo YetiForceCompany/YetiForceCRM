@@ -361,25 +361,24 @@ if (typeof ImportJs === 'undefined') {
 			});
 		},
 		deleteMap: function (module) {
-			app.showConfirmModal(app.vtranslate('LBL_DELETE_CONFIRMATION'), function (s) {
-				if (s) {
-					var selectedMapElement = jQuery('#saved_maps option:selected');
-					var mapId = selectedMapElement.attr('id');
-					var status = jQuery('#status');
+			app.showConfirmModal({
+				text: app.vtranslate('LBL_DELETE_CONFIRMATION'),
+				confirmedCallback: () => {
+					let selectedMapElement = jQuery('#saved_maps option:selected');
+					let mapId = selectedMapElement.attr('id');
+					let status = jQuery('#status');
 					status.show();
-					var postData = {
+					AppConnector.request({
 						module: module,
 						view: 'Import',
 						mode: 'deleteMap',
 						mapid: mapId
-					};
-					AppConnector.request(postData)
+					})
 						.done(function (data) {
 							let mapContainer = $('#savedMapsContainer').html(data);
 							status.hide();
 							App.Fields.Picklist.showSelect2ElementView(mapContainer.find('select'));
-							var parent = jQuery('#saved_maps');
-							App.Fields.Picklist.changeSelectElementView(parent);
+							App.Fields.Picklist.changeSelectElementView(jQuery('#saved_maps'));
 						})
 						.fail(function (error, err) {
 							console.error(error);

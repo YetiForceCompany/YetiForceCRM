@@ -5,24 +5,24 @@ Vtiger_List_Js(
 	'OSSMailView_List_Js',
 	{
 		bindMails: function (url) {
-			var listInstance = Vtiger_List_Js.getInstance();
-			var validationResult = listInstance.checkListRecordSelected();
+			let listInstance = Vtiger_List_Js.getInstance();
+			let validationResult = listInstance.checkListRecordSelected();
 			if (validationResult != true) {
-				app.showConfirmModal(app.vtranslate('JS_BIND_CONFIRM'), function (a) {
-					if (!a) {
-						return false;
+				app.showConfirmModal({
+					text: app.vtranslate('JS_BIND_CONFIRM'),
+					confirmedCallback: () => {
+						let params = {};
+						params.data = { module: 'OSSMailView', action: 'BindMails' };
+						$.extend(params.data, Vtiger_List_Js.getSelectedRecordsParams());
+						params.async = false;
+						AppConnector.request(params).done(function (data) {
+							app.showNotify({
+								text: data.result,
+								delay: '4000',
+								type: 'success'
+							});
+						});
 					}
-				});
-				var params = {};
-				params.data = { module: 'OSSMailView', action: 'BindMails' };
-				$.extend(params.data, Vtiger_List_Js.getSelectedRecordsParams());
-				params.async = false;
-				AppConnector.request(params).done(function (data) {
-					app.showNotify({
-						text: data.result,
-						delay: '4000',
-						type: 'success'
-					});
 				});
 			} else {
 				listInstance.noRecordSelectedAlert();

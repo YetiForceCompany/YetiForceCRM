@@ -630,8 +630,10 @@ Vtiger_Edit_Js(
 				self.validateHolidayDate(form).done(function (isHoliday) {
 					if (lockSave && isHoliday) {
 						e.preventDefault();
-						app.showConfirmModal(app.vtranslate('JS_DATES_SELECTED_HOLIDAYS'), function (s) {
-							if (s) {
+						app.showConfirmModal({
+							icon: 'fas fa-exclamation-triangle',
+							text: app.vtranslate('JS_DATES_SELECTED_HOLIDAYS'),
+							confirmedCallback: () => {
 								lockSave = false;
 								form.submit();
 							}

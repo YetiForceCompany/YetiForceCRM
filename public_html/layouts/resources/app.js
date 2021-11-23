@@ -637,8 +637,9 @@ var App = (window.App = {
 									app.errorLog(error, err);
 								});
 						};
-					app.showConfirmModal(app.vtranslate('JS_CHANGE_CONFIRMATION'), (result) => {
-						if (result) {
+					app.showConfirmModal({
+						text: app.vtranslate('JS_CHANGE_CONFIRMATION'),
+						confirmedCallback: () => {
 							params.callback(e, this);
 						}
 					});
