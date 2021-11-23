@@ -48,7 +48,7 @@
 										{/if}
 									</label>
 								</div>
-								<div class="fieldValue col-7 d-flex align-items-center justify-content-between listButtons {$WIDTHTYPE}"
+								<div class="fieldValue col-7 d-flex align-items-center justify-content-between {$WIDTHTYPE}"
 									id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}">
 									<span class="value flex-grow-1"
 										data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>

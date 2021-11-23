@@ -53,7 +53,7 @@
 											{/if}
 										</label>
 									</td>
-									<td class="fieldValue listButtons {$WIDTHTYPE} u-w-60per">
+									<td class="fieldValue {$WIDTHTYPE} py-0 u-w-60per">
 										<div class="c-detail-widget__header__container d-flex align-items-center px-0">
 											<div class="value px-0 w-100" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;" {/if}>
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD SOURCE_TPL='GeneralInfoWidget'}
