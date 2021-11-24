@@ -966,7 +966,7 @@ $.Class(
 					e.preventDefault();
 					if (!form.find('input[id^="selectRow"]:checked').length) {
 						app.showNotify({
-							text: app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT'),
+							text: app.vtranslate('JS_NONE_FIELD_MARKED_IN_MASS_EDIT'),
 							type: 'error'
 						});
 						return;
