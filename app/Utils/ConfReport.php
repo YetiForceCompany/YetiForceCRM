@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Utils;
@@ -225,11 +226,11 @@ class ConfReport
 		'innodb_file_format' => ['container' => 'db', 'testCli' => true],
 		'innodb_file_format_check' => ['container' => 'db', 'testCli' => true],
 		'innodb_file_format_max' => ['container' => 'db', 'testCli' => true],
-		'character_set_server' => ['recommended' => 'utf8, utf8mb3', 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
-		'character_set_database' => ['recommended' => 'utf8, utf8mb3', 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
-		'character_set_client' => ['recommended' => 'utf8, utf8mb3', 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
-		'character_set_connection' => ['recommended' => 'utf8, utf8mb3', 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
-		'character_set_results' => ['recommended' => 'utf8, utf8mb3', 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
+		'character_set_server' => ['recommended' => 'utf8', 'values' => ['utf8', 'utf8mb3', 'utf8mb4'], 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
+		'character_set_database' => ['recommended' => 'utf8', 'values' => ['utf8', 'utf8mb3', 'utf8mb4'], 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
+		'character_set_client' => ['recommended' => 'utf8', 'values' => ['utf8', 'utf8mb3', 'utf8mb4'], 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
+		'character_set_connection' => ['recommended' => 'utf8', 'values' => ['utf8', 'utf8mb3', 'utf8mb4'], 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
+		'character_set_results' => ['recommended' => 'utf8', 'values' => ['utf8', 'utf8mb3', 'utf8mb4'], 'type' => 'OneOf', 'container' => 'db', 'testCli' => true],
 		'character_set_system' => ['container' => 'db', 'testCli' => true],
 		'character_set_filesystem' => ['container' => 'db', 'testCli' => true],
 		'datadir' => ['container' => 'db', 'testCli' => true],
@@ -625,7 +626,7 @@ class ConfReport
 	 *
 	 * @param string $type
 	 *
-	 * @return array
+	 * @return mixed
 	 */
 	public static function getCronVariables(string $type)
 	{
@@ -688,10 +689,8 @@ class ConfReport
 				if (isset($main[$key])) {
 					$item[static::$sapi] = $main[$key];
 				}
-				if (self::$testCli || ($item['testCli'] && 'www' === static::$sapi)) {
-					if (isset($cron[$key]['cron'])) {
-						$item['cron'] = $cron[$key]['cron'];
-					}
+				if (isset($cron[$key]['cron']) && (self::$testCli || ($item['testCli'] && 'www' === static::$sapi))) {
+					$item['cron'] = $cron[$key]['cron'];
 				}
 				if (isset($item['type'])) {
 					$methodName = 'validate' . $item['type'];
@@ -1283,7 +1282,11 @@ class ConfReport
 	private static function validateOneOf(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$recommended = \array_map('trim', \explode(',', strtolower($row['recommended'])));
+		if (isset($row['values'])) {
+			$recommended = $row['values'];
+		} else {
+			$recommended = \array_map('trim', \explode(',', strtolower($row['recommended'])));
+		}
 		if (isset($row[$sapi]) && !\in_array((string) $row[$sapi], $recommended)) {
 			$row['status'] = false;
 		}

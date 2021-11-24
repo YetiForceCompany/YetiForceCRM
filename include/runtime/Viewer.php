@@ -165,7 +165,7 @@ class Vtiger_Viewer extends SmartyBC
 	 * @param string $moduleName
 	 * @param bool   $fetch
 	 *
-	 * @return html data
+	 * @return string html data
 	 */
 	public function view($templateName, $moduleName = '', $fetch = false)
 	{
