@@ -98,6 +98,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$currentUserId = \App\User::getCurrentUserId();
 		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId());
 		$time = $request->getDateRange('time');
 		$owner = $request->getByType('owner', 2);
@@ -108,6 +109,8 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
 		$data = $this->getTicketsByPriority($time, $owner);
+		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance($moduleName, $currentUserId)->getAccessibleUsersForModule());
+		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance($moduleName, $currentUserId)->getAccessibleGroupForModule());
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
