@@ -10,11 +10,9 @@
  */
 class OSSEmployees_Relation_Model extends Vtiger_Relation_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function privilegeToDelete(): bool
+	/** {@inheritdoc} */
+	public function privilegeToDelete(Vtiger_Record_Model $recordModel = null, int $recordId = null): bool
 	{
-		return 'OSSTimeControl' !== $this->getRelationModuleName() && parent::privilegeToDelete();
+		return 'OSSTimeControl' !== $this->getRelationModuleName() && parent::privilegeToDelete($recordModel, $recordId);
 	}
 }
