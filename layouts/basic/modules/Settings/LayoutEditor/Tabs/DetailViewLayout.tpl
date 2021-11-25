@@ -92,7 +92,7 @@
 								{if $smarty.foreach.fieldlist.index % 2 eq $LOOP}
 									<li>
 										<div class="opacity editFields ml-0 border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-											<div class="px-2 py-1">
+											<div class="px-2 py-1 d-flex">
 												{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 												<div class="col-12 pr-0 fieldContainer" style="word-wrap: break-word;">
 													{if $FIELD_MODEL->isEditable()}
@@ -107,9 +107,9 @@
 														{if $IS_MANDATORY}
 															<span class="redColor">*</span>
 														{/if}
-														<span class="ml-3 badge badge-secondary">{$FIELD_MODEL->getName()}</span>
+														<span class="ml-3 badge badge-secondary d-none d-sm-inline-block">{$FIELD_MODEL->getName()}</span>
 														{if isset($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()])}
-															<span class="ml-3 badge badge-info">{App\Language::translate($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()], $QUALIFIED_MODULE)}</span>
+															<span class="ml-3 badge badge-info d-none d-sm-inline-block">{App\Language::translate($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()], $QUALIFIED_MODULE)}</span>
 														{/if}
 													</span>
 													<span class="float-right actions">
