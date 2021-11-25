@@ -46,8 +46,8 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 	 */
 	public function add()
 	{
-		$contactId = (int) $this->mail->findEmailAdress('from_email', 'Contacts', false);
-		$parentId = (int) $this->mail->findEmailAdress('from_email', 'Accounts', false);
+		$contactId = (int) $this->mail->findEmailAddress('from_email', 'Contacts', false);
+		$parentId = (int) $this->mail->findEmailAddress('from_email', 'Accounts', false);
 		$record = Vtiger_Record_Model::getCleanInstance('HelpDesk');
 		if (!$contactId && !$parentId && !\Config\Modules\OSSMailScanner::$helpdeskCreateWithoutNoRelation) {
 			return 0;

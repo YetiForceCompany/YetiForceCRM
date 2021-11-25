@@ -16,11 +16,11 @@ class OSSMailScanner_EmailScannerAction_Model
 			return 0;
 		}
 
-		$crmIds = $mail->findEmailAdress('from_email', $moduleName, true);
-		$crmidsToaddress = $mail->findEmailAdress('to_email', $moduleName, true);
-		$crmidsCcaddress = $mail->findEmailAdress('cc_email', $moduleName, true);
-		$crmidsBccaddress = $mail->findEmailAdress('bcc_email', $moduleName, true);
-		$crmidsReplyToaddress = $mail->findEmailAdress('reply_toaddress', $moduleName, true);
+		$crmIds = $mail->findEmailAddress('from_email', $moduleName, true);
+		$crmidsToaddress = $mail->findEmailAddress('to_email', $moduleName, true);
+		$crmidsCcaddress = $mail->findEmailAddress('cc_email', $moduleName, true);
+		$crmidsBccaddress = $mail->findEmailAddress('bcc_email', $moduleName, true);
+		$crmidsReplyToaddress = $mail->findEmailAddress('reply_toaddress', $moduleName, true);
 		$crmIds = OSSMailScanner_Record_Model::mergeArray($crmIds, $crmidsToaddress);
 		$crmIds = OSSMailScanner_Record_Model::mergeArray($crmIds, $crmidsCcaddress);
 		$crmIds = OSSMailScanner_Record_Model::mergeArray($crmIds, $crmidsBccaddress);

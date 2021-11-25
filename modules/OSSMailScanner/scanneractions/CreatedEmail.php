@@ -31,8 +31,8 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			}
 		}
 		if (false === $mail->getMailCrmId()) {
-			$fromIds = array_merge($mail->findEmailAdress('from_email'), $mail->findEmailAdress('reply_toaddress'));
-			$toIds = array_merge($mail->findEmailAdress('to_email'), $mail->findEmailAdress('cc_email'), $mail->findEmailAdress('bcc_email'));
+			$fromIds = array_merge($mail->findEmailAddress('from_email'), $mail->findEmailAddress('reply_toaddress'));
+			$toIds = array_merge($mail->findEmailAddress('to_email'), $mail->findEmailAddress('cc_email'), $mail->findEmailAddress('bcc_email'));
 			$account = $mail->getAccount();
 			$record = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 			$record->set('assigned_user_id', $mail->getAccountOwner());
