@@ -115,11 +115,6 @@
 													<span class="float-right actions">
 														<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 														{if $FIELD_MODEL->isEditable()}
-															{if !$FIELD_MODEL->isActiveOptionDisabled()}
-																<button class="btn btn-warning btn-xs js-disable-field ml-1" title="{App\Language::translate('LBL_DISABLE_FIELD', $QUALIFIED_MODULE)}">
-																	<span class="fas fa-times"></span>
-																</button>
-															{/if}
 															<button class="btn btn-success btn-xs editFieldDetails ml-1" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}">
 																<span class="yfi yfi-full-editing-view"></span>
 															</button>
@@ -127,6 +122,11 @@
 														<button class="btn btn-primary btn-xs copyFieldLabel ml-1" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}">
 															<span class="fas fa-copy"></span>
 														</button>
+														{if $FIELD_MODEL->isEditable() && !$FIELD_MODEL->isActiveOptionDisabled()}
+															<button class="btn btn-default btn-xs js-disable-field ml-1" title="{App\Language::translate('LBL_DISABLE_FIELD', $QUALIFIED_MODULE)}">
+																<span class="fas fa-ban"></span>
+															</button>
+														{/if}
 														{if $FIELD_MODEL->isCustomField() eq 'true'}
 															<button class="btn btn-danger btn-xs deleteCustomField ml-1" data-field-id="{$FIELD_MODEL->get('id')}" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}">
 																<span class="fas fa-trash-alt"></span>

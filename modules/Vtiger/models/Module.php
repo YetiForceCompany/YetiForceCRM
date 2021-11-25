@@ -1202,20 +1202,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function which will give complusory mandatory fields.
-	 *
-	 * @return type
-	 */
-	public function getCumplosoryMandatoryFieldList()
-	{
-		$focus = $this->getEntityInstance();
-		if (empty($focus->mandatory_fields)) {
-			return [];
-		}
-		return $focus->mandatory_fields;
-	}
-
-	/**
 	 * Function returns mandatory field Models.
 	 *
 	 * @return Vtiger_Field_Model[]
@@ -1458,9 +1444,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Clear cache.
+	 *
 	 * @return void
 	 */
-	public function clearCache():void
+	public function clearCache(): void
 	{
 		$this->fields = null;
 	}

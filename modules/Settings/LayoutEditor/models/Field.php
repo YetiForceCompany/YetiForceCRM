@@ -201,19 +201,12 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 *
 	 * @return bool - true if we can make a field mandatory and non mandatory , false if we cant change previous state
 	 */
-	public function isMandatoryOptionDisabled()
+	public function isMandatoryOptionDisabled(): bool
 	{
-		$moduleModel = $this->getModule();
-		$complusoryMandatoryFieldList = $moduleModel->getCumplosoryMandatoryFieldList();
-		//uitypes for which mandatory switch is disabled
-		$mandatoryRestrictedUitypes = ['4', '70'];
-		if (\in_array($this->getName(), $complusoryMandatoryFieldList)) {
-			return true;
-		}
-		if (\in_array($this->get('uitype'), $mandatoryRestrictedUitypes)) {
-			return true;
-		}
-		return false;
+		$focus = $this->getModule()->getEntityInstance();
+		$compulsoryMandatoryFieldList = $focus->mandatory_fields ?? [];
+
+		return \in_array($this->getName(), $compulsoryMandatoryFieldList) || \in_array($this->get('uitype'), ['4', '70']);
 	}
 
 	/**
@@ -221,12 +214,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 *
 	 * @return bool
 	 */
-	public function isActiveOptionDisabled()
+	public function isActiveOptionDisabled(): bool
 	{
-		if (0 == $this->get('presence') || 306 == $this->get('uitype') || $this->isMandatoryOptionDisabled()) {
-			return true;
-		}
-		return false;
+		return 0 === (int) $this->get('presence') || 306 === (int) $this->get('uitype') || $this->isMandatoryOptionDisabled();
 	}
 
 	/**

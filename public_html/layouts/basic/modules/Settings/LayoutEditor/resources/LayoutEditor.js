@@ -1544,37 +1544,42 @@ $.Class(
 			if (typeof contents === 'undefined') {
 				contents = this.container.find('.contents');
 			}
-			contents.find('.js-disable-field').on('click', function (e) {
+			contents.find('.js-disable-field').on('click', (e) => {
 				let currentTarget = $(e.currentTarget);
-				let fieldRow = currentTarget.closest('div.editFields');
-				let fieldId = fieldRow.data('fieldId');
-				let block = fieldRow.closest('.editFieldsTable');
-				let blockId = block.data('blockId');
-				AppConnector.request({
-					module: app.getModuleName(),
-					parent: app.getParentModuleName(),
-					action: 'Field',
-					mode: 'save',
-					fieldid: fieldId,
-					presence: 1
-				}).done(function (response) {
-					fieldRow.parent().fadeOut('slow').remove();
-					if ($.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
-						if (thisInstance.inActiveFieldsList.length === 0) {
-							thisInstance.inActiveFieldsList = {};
+				Vtiger_Helper_Js.showConfirmationBox({
+					message: app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_INACTIVE_FIELD')
+				}).done(() => {
+					let fieldRow = currentTarget.closest('div.editFields');
+					let fieldId = fieldRow.data('fieldId');
+					let block = fieldRow.closest('.editFieldsTable');
+					let blockId = block.data('blockId');
+					AppConnector.request({
+						module: app.getModuleName(),
+						parent: app.getParentModuleName(),
+						action: 'Field',
+						mode: 'save',
+						fieldid: fieldId,
+						presence: 1
+					}).done(function (response) {
+						fieldRow.parent().fadeOut('slow').remove();
+						if ($.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
+							if (thisInstance.inActiveFieldsList.length === 0) {
+								thisInstance.inActiveFieldsList = {};
+							}
+							thisInstance.inActiveFieldsList[blockId] = {};
+							thisInstance.inActiveFieldsList[blockId][fieldId] = response['result']['label'];
+						} else {
+							thisInstance.inActiveFieldsList[blockId][fieldId] = response['result']['label'];
 						}
-						thisInstance.inActiveFieldsList[blockId] = {};
-						thisInstance.inActiveFieldsList[blockId][fieldId] = response['result']['label'];
-					} else {
-						thisInstance.inActiveFieldsList[blockId][fieldId] = response['result']['label'];
-					}
-					thisInstance.reArrangeBlockFields(block);
-					app.showNotify({
-						type: 'success',
-						text: app.vtranslate('JS_SAVE_CHANGES')
+						thisInstance.reArrangeBlockFields(block);
+						app.showNotify({
+							type: 'success',
+							text: app.vtranslate('JS_SAVE_CHANGES')
+						});
 					});
 				});
 			});
+
 			contents.find('.editFieldDetails').on('click', function (e) {
 				let currentTarget = $(e.currentTarget);
 				let fieldRow = currentTarget.closest('div.editFields');
