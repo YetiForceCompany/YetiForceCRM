@@ -129,11 +129,14 @@ final class Chat
 
 	/**
 	 * Set default room as current room.
+	 *
+	 * @return array|false
 	 */
 	public static function setCurrentRoomDefault()
 	{
 		$defaultRoom = static::getDefaultRoom();
 		static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
+		return $defaultRoom;
 	}
 
 	/**
