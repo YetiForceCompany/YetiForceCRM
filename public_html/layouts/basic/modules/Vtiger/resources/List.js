@@ -2089,7 +2089,6 @@ $.Class(
 		 */
 		registerKeyboardShortcutsEvent: function () {
 			document.addEventListener('keydown', (event) => {
-				console.log(event.keyCode);
 				if (event.altKey && event.keyCode === 65 && $('.js-add-record').length) {
 					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=Edit';
 				}
