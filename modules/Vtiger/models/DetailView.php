@@ -210,7 +210,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linklabel' => 'BTN_RECORD_EDIT',
 					'linkurl' => $recordModel->getEditViewUrl(),
 					'linkicon' => 'yfi yfi-full-editing-view',
-					'linkclass' => 'btn btn-outline-dark btn-sm',
+					'linkclass' => 'js-edit-btn btn btn-outline-dark btn-sm',
 					'linkhint' => 'BTN_RECORD_EDIT',
 				]);
 			} elseif ($recordModel->isUnlockByFields()) {
@@ -277,7 +277,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linklabel' => 'LBL_DUPLICATE',
 					'linkurl' => $recordModel->getDuplicateRecordUrl(),
 					'linkicon' => 'fas fa-clone',
-					'linkclass' => 'btn-outline-dark btn-sm',
+					'linkclass' => 'js-duplicate-btn btn-outline-dark btn-sm',
 					'title' => \App\Language::translate('LBL_DUPLICATE_RECORD'),
 				]);
 			}

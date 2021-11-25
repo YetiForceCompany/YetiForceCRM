@@ -344,7 +344,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
-				'linkclass' => 'btn-light addButton modCT_' . $moduleModel->getName(),
+				'linkclass' => 'js-add-record btn-light addButton modCT_' . $moduleModel->getName(),
 				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
 				'linkhref' => true,

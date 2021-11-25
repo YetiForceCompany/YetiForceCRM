@@ -2996,6 +2996,23 @@ jQuery.Class(
 				}
 			});
 		},
+		/**
+		 * Register keyboard shortcuts events
+		 * @param {jQuery} container
+		 */
+		registerKeyboardShortcutsEvent: function (container) {
+			document.addEventListener('keydown', (event) => {
+				if (event.altKey && event.keyCode === 68) {
+					container.find('.js-duplicate-btn').trigger('click');
+				}
+				if (event.altKey && event.keyCode === 69) {
+					container.find('.js-edit-btn').trigger('click');
+				}
+				if (event.altKey && event.keyCode === 76) {
+					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=List';
+				}
+			});
+		},
 		registerEvents: function () {
 			this.registerSendSmsSubmitEvent();
 			this.registerAjaxEditEvent();
@@ -3022,6 +3039,7 @@ jQuery.Class(
 			this.registerProgress();
 			this.registerChat(detailViewContainer);
 			this.registerSendPdfFromPdfViewer(detailViewContainer);
+			this.registerKeyboardShortcutsEvent(detailViewContainer);
 		}
 	}
 );

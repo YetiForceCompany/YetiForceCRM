@@ -2084,6 +2084,17 @@ $.Class(
 				this.registerFixedThead(listViewContainer);
 			}
 		},
+		/**
+		 * Register keyboard shortcuts events
+		 */
+		registerKeyboardShortcutsEvent: function () {
+			document.addEventListener('keydown', (event) => {
+				console.log(event.keyCode);
+				if (event.altKey && event.keyCode === 65 && $('.js-add-record').length) {
+					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=Edit';
+				}
+			});
+		},
 		registerEvents: function () {
 			this.registerRowClickEvent();
 			this.registerPageNavigationEvents();
@@ -2118,6 +2129,7 @@ $.Class(
 			this.registerDesktopEvents(listViewContainer);
 			this.registerUnreviewedCountEvent();
 			this.registerLastRelationsEvent();
+			this.registerKeyboardShortcutsEvent();
 			Vtiger_Index_Js.registerMailButtons(listViewContainer);
 		},
 		/**

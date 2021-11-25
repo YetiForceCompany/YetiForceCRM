@@ -1625,6 +1625,24 @@ $.Class(
 			});
 		},
 		/**
+		 * Register keyboard shortcuts events
+		 */
+		registerKeyboardShortcutsEvent: function () {
+			document.addEventListener('keydown', (event) => {
+				if (event.altKey && event.keyCode === 83) {
+					let form = event.srcElement.closest('form');
+					if (form) {
+						$(form).trigger('submit');
+					} else {
+						form = $(event.srcElement).find('form');
+						if (form.length) {
+							form.last().trigger('submit');
+						}
+					}
+				}
+			});
+		},
+		/**
 		 * Function which will register basic events which will be used in quick create as well
 		 *
 		 */
@@ -1647,6 +1665,7 @@ $.Class(
 			this.registerReferenceCreate(container);
 			this.registerRecordCollectorModal(container);
 			this.registerAccountName(container);
+			this.registerKeyboardShortcutsEvent();
 			App.Fields.MultiEmail.register(container);
 			App.Fields.MultiDependField.register(container);
 			App.Fields.Tree.register(container);
