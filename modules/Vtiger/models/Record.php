@@ -1602,8 +1602,8 @@ class Vtiger_Record_Model extends \App\Base
 					]);
 				}
 			}
-			$privilegeToDelete = $relationModel->privilegeToDelete();
-			if ($privilegeToDelete && $this->privilegeToMoveToTrash()) {
+			$privilegeToDelete = $relationModel->privilegeToDelete($this);
+			if ($privilegeToDelete) {
 				$links['LBL_REMOVE_RELATION'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_REMOVE_RELATION',
 					'linkicon' => 'fas fa-unlink',

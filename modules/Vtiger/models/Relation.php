@@ -77,6 +77,16 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
+	 * Gets parent record model.
+	 *
+	 * @return Vtiger_Record_Model|null
+	 */
+	public function getParentRecord(): ?Vtiger_Record_Model
+	{
+		return $this->get('parentRecord') ?? null;
+	}
+
+	/**
 	 * Set relation's parent module model.
 	 *
 	 * @param Vtiger_Module_Model $relationModel
@@ -521,13 +531,19 @@ class Vtiger_Relation_Model extends \App\Base
 	/**
 	 * Function which will specify whether the relation is deletable.
 	 *
+	 * @param \Vtiger_Record_Model|null $recordModel
+	 * @param int|null                  $recordId
+	 *
 	 * @return bool
 	 */
-	public function privilegeToDelete(): bool
+	public function privilegeToDelete(Vtiger_Record_Model $recordModel = null, int $recordId = null): bool
 	{
 		$returnVal = $this->getRelationModuleModel()->isPermitted('RemoveRelation');
 		if ($returnVal && $this->getRelationType() === static::RELATION_O2M && ($fieldModel = $this->getRelationField())) {
-			$returnVal = !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly();
+			if (!$recordModel && $recordId) {
+				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
+			}
+			$returnVal = !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly() && (!$recordModel || $recordModel->isEditable());
 		}
 		return $returnVal;
 	}

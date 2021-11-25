@@ -169,7 +169,6 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		}
 		$viewer->assign('IS_FAVORITES', $isFavorites);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
-		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);

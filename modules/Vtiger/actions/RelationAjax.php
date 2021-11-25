@@ -205,11 +205,13 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
 		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId, $cvId);
-		$rows = $this->getRecordsListFromRequest($request);
 		$relationModel = $relationListView->getRelationModel();
-		foreach ($rows as $relatedRecordId) {
-			if (\App\Privilege::isPermitted($relatedModuleName, 'DetailView', $relatedRecordId)) {
-				$relationModel->deleteRelation((int) $sourceRecordId, (int) $relatedRecordId);
+		if ($relationModel->privilegeToDelete()) {
+			$rows = $this->getRecordsListFromRequest($request);
+			foreach ($rows as $relatedRecordId) {
+				if (\App\Privilege::isPermitted($relatedModuleName, 'DetailView', $relatedRecordId) && $relationModel->privilegeToDelete(null, $relatedRecordId)) {
+					$relationModel->deleteRelation((int) $sourceRecordId, (int) $relatedRecordId);
+				}
 			}
 		}
 

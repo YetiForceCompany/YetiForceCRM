@@ -931,7 +931,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('COLUMNS', $columns);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
-		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
 		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
