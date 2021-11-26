@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'yfi';
-	src: url('fonts/yfi.eot?kd9fg9');
-	src: url('fonts/yfi.eot?kd9fg9#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?kd9fg9') format('truetype'),
-		url('fonts/yfi.woff?kd9fg9') format('woff'), url('fonts/yfi.svg?kd9fg9#yfi') format('svg');
+	src: url('fonts/yfi.eot?ruhjh8');
+	src: url('fonts/yfi.eot?ruhjh8#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?ruhjh8') format('truetype'),
+		url('fonts/yfi.woff?ruhjh8') format('woff'), url('fonts/yfi.svg?ruhjh8#yfi') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -24,6 +24,24 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.yfi-api-premium:before {
+	content: '\e9e5';
+}
+.yfi-hierarchy:before {
+	content: '\e9e2';
+}
+.yfi-api-webservice:before {
+	content: '\e9e3';
+}
+.yfi-tree-records:before {
+	content: '\e9e4';
+}
+.yfi-public-webservice:before {
+	content: '\e9e0';
+}
+.yfi-unshare-in-webservice:before {
+	content: '\e9e1';
+}
 .yfi-kanban:before {
 	content: '\e9df';
 }
