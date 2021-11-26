@@ -1629,12 +1629,12 @@ $.Class(
 		 */
 		registerKeyboardShortcutsEvent: function () {
 			document.addEventListener('keydown', (event) => {
-				if (event.altKey && event.keyCode === 83) {
-					let form = event.srcElement.closest('form');
+				if (event.altKey && event.code === 'KeyS') {
+					let form = event.target.closest('form');
 					if (form) {
 						$(form).trigger('submit');
 					} else {
-						form = $(event.srcElement).find('form');
+						form = $(event.target).find('form');
 						if (form.length) {
 							form.last().trigger('submit');
 						}

@@ -3002,13 +3002,13 @@ jQuery.Class(
 		 */
 		registerKeyboardShortcutsEvent: function (container) {
 			document.addEventListener('keydown', (event) => {
-				if (event.altKey && event.keyCode === 68) {
+				if (event.altKey && event.code === 'KeyD') {
 					container.find('.js-duplicate-btn').trigger('click');
 				}
-				if (event.altKey && event.keyCode === 69) {
+				if (event.altKey && event.code === 'KeyE') {
 					container.find('.js-edit-btn').trigger('click');
 				}
-				if (event.altKey && event.keyCode === 76) {
+				if (event.altKey && event.code === 'KeyL') {
 					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=List';
 				}
 			});
