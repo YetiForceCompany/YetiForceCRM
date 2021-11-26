@@ -744,4 +744,17 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		return false;
 	}
+
+	/**
+	 * Update user data for account.
+	 *
+	 * @param int   $userId
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	public static function setAccountUserData(int $userId, array $data): bool
+	{
+		return \App\Db::getInstance()->createCommand()->update('roundcube_users', $data, ['user_id' => $userId])->execute();
+	}
 }

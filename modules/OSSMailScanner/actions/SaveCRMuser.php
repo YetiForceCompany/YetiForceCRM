@@ -69,7 +69,7 @@ class OSSMailScanner_SaveCRMuser_Action extends \App\Controller\Action
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $status, 406);
 		}
 		if ($userId) {
-			\App\Db::getInstance()->createCommand()->update('roundcube_users', ['crm_status' => $status], ['user_id' => $userId])->execute();
+			OSSMail_Record_Model::setAccountUserData($userId, ['crm_status' => $status]);
 			$success = true;
 			$data = \App\Language::translate('JS_saveuser_info', $moduleName);
 		} else {

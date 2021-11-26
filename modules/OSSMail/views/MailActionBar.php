@@ -24,10 +24,16 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		if (!$account) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED == $account['crm_status'] || OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED == $account['crm_status']) {
+		if (OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED == $account['crm_status']) {
 			return;
 		}
+
 		$rcId = $account['user_id'];
+		if (OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED == $account['crm_status']) {
+			OSSMail_Record_Model::setAccountUserData($rcId, ['crm_status' => OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE]);
+			$account['crm_status'] = OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE;
+		}
+
 		$mailViewModel = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 		$folderDecode = \App\Utils::convertCharacterEncoding($request->getRaw('folder'), 'UTF7-IMAP', 'UTF-8');
 		$folderDecode = \App\Purifier::purifyByType($folderDecode, 'Text');
