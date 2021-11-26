@@ -23903,6 +23903,10 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
   flex: 0 1 auto;
 }
 
+.u-flex-b100 {
+  flex-basis: 100%;
+}
+
 .bg-navy {
   background-color: #202c40 !important;
 }
