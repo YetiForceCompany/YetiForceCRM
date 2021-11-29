@@ -109,6 +109,7 @@ class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 		$data['reaction_time'] = \App\Purifier::purifyByType($data['reaction_time'], 'TimePeriod');
 		$data['idle_time'] = \App\Purifier::purifyByType($data['idle_time'], 'TimePeriod');
 		$data['resolve_time'] = \App\Purifier::purifyByType($data['resolve_time'], 'TimePeriod');
+		$data['available_for_record_time_count'] = \App\Purifier::purifyByType($data['available_for_record_time_count'], 'Bool');
 		if ($data['business_hours']) {
 			$data['business_hours'] = explode(',', $data['business_hours']);
 			foreach ($data['business_hours'] as $index => $businessHoursId) {
