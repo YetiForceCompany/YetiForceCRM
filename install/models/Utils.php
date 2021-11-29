@@ -33,13 +33,11 @@ class Install_Utils_Model
 	/**
 	 * Returns list of currencies.
 	 *
-	 * @return <Array>
+	 * @return array
 	 */
-	public static function getCurrencyList()
+	public static function getCurrencyList(): array
 	{
-		require_once 'install/models/Currencies.php';
-
-		return $currencies;
+		return require_once 'install/models/Currencies.php';
 	}
 
 	/**
@@ -47,7 +45,7 @@ class Install_Utils_Model
 	 *
 	 * @return array
 	 */
-	public static function getIndustryList()
+	public static function getIndustryList(): array
 	{
 		return require 'install/models/Industry.php';
 	}
@@ -57,7 +55,7 @@ class Install_Utils_Model
 	 *
 	 * @return array
 	 */
-	public static function getCountryList()
+	public static function getCountryList(): array
 	{
 		return require 'install/models/Country.php';
 	}

@@ -121,11 +121,11 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		return false;
 	}
 
-	public static function getIndustryList()
+	public static function getIndustryList(): array
 	{
 		return array_merge(
-			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column(),
-			(new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
+			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->orderBy('sortorderid')->column(),
+			(new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->orderBy('sortorderid')->column()
 		);
 	}
 
