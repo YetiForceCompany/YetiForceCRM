@@ -208,7 +208,7 @@ class ConfReport
 		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => true],
 		'wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => true],
 		'interactive_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => true],
-		'sql_mode' => ['recommended' => '', 'type' => 'NotIn', 'container' => 'db', 'testCli' => true, 'values' => ['STRICT_ALL_TABLES', 'STRICT_TRANS_TABLE']],
+		'sql_mode' => ['recommended' => '', 'type' => 'NotIn', 'container' => 'db', 'testCli' => true, 'exclusions' => ['STRICT_ALL_TABLES', 'STRICT_TRANS_TABLE']],
 		'max_allowed_packet' => ['recommended' => '10 MB', 'type' => 'GreaterMb', 'container' => 'db', 'testCli' => true],
 		'thread_cache_size' => ['container' => 'db', 'testCli' => true],
 		'tx_isolation' => ['container' => 'db', 'testCli' => true],
@@ -1231,7 +1231,7 @@ class ConfReport
 			if (!\is_array($row[$sapi])) {
 				$value = \explode(',', $row[$sapi]);
 			}
-			$recommended = (array) $row['values'];
+			$recommended = (array) $row['exclusions'];
 			foreach ($recommended as $item) {
 				if (\in_array($item, $value)) {
 					$row['status'] = false;
