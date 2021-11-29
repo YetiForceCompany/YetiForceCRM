@@ -2393,27 +2393,35 @@ var app = (window.app = {
 		}
 	},
 	registerIframeAndMoreContent(container = $(document)) {
-		let showMoreModal = (e) => {
+		container.on('click', '.js-more', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			const btn = $(e.currentTarget);
-			const message = btn.data('iframe')
-				? btn.siblings('iframe').clone().show()
-				: btn.closest('.js-more-content').find('.fullContent').html();
-			bootbox.dialog({
-				message,
-				title: '<span class="mdi mdi-overscan"></span>  ' + app.vtranslate('JS_FULL_TEXT'),
-				className: 'u-word-break modal-fullscreen',
-				buttons: {
-					danger: {
-						label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CLOSE'),
-						className: 'btn-danger',
-						callback: function () {}
+			app.showModalWindow(
+				`<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog modal-fullscreen" role="document"><div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title"><span class="mdi mdi-overscan"></span>${app.vtranslate('JS_FULL_TEXT')}</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body text-break u-word-break"></div>
+					<div class="modal-footer">
+						<button class="btn btn-danger" type="reset" data-dismiss="modal">
+							<span class="fas fa-times mr-1"></span>${app.vtranslate('JS_CLOSE')}</button>
+						</div>
+					</div>
+				</div></div>`,
+				(container) => {
+					if (btn.data('iframe')) {
+						let iframe = btn.siblings('iframe');
+						let message = iframe.clone();
+						message.height(iframe.contents().height());
+						container.find('.modal-body').html(message);
+					} else {
+						container.find('.modal-body').html(btn.closest('.js-more-content').find('.fullContent').html());
 					}
 				}
-			});
-		};
-		container.on('click', '.js-more', showMoreModal);
+			);
+		});
 	},
 	registerIframeEvents(content) {
 		content.find('.js-iframe-full-height').each(function () {
@@ -2860,6 +2868,7 @@ var app = (window.app = {
 					sticker: false,
 					destroy: false,
 					hide: false,
+					width: 'auto',
 					animateSpeed: 'fast',
 					addModalClass: 'c-confirm-modal',
 					modules: new Map([
@@ -2896,6 +2905,10 @@ var app = (window.app = {
 						]
 					]),
 					stack: new PNotify.Stack({
+						dir1: 'down',
+						firstpos1: 50,
+						spacing1: 0,
+						push: 'top',
 						modal: true,
 						overlayClose: false
 					})

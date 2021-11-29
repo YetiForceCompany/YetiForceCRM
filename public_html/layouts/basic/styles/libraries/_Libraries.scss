@@ -543,10 +543,24 @@ body:not(.desktop) {
 .pnotify-action-bar {
 	margin-top: 1rem;
 }
-.pnotify.c-confirm-modal .pnotify-title {
-	font-size: 1.4rem;
+.pnotify.c-confirm-modal {
+	.pnotify-container {
+		color: #000;
+		background-color: #fff;
+		border-color: #fff;
+	}
+	.btn-primary {
+		background-color: #3eac33;
+		border-color: #3eac33;
+	}
+	.btn-secondary {
+		background-color: #d15d5d;
+		border-color: #d15d5d;
+	}
+	.pnotify-title {
+		font-size: 1.4rem;
+	}
 }
-
 //-------- Material Design Icons --------//
 .mdi {
 	line-height: 1;

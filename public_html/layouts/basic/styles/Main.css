@@ -17828,6 +17828,19 @@ body:not(.desktop) .ps__rail-y {
   margin-top: 1rem;
 }
 
+.pnotify.c-confirm-modal .pnotify-container {
+  color: #000;
+  background-color: #fff;
+  border-color: #fff;
+}
+.pnotify.c-confirm-modal .btn-primary {
+  background-color: #3eac33;
+  border-color: #3eac33;
+}
+.pnotify.c-confirm-modal .btn-secondary {
+  background-color: #d15d5d;
+  border-color: #d15d5d;
+}
 .pnotify.c-confirm-modal .pnotify-title {
   font-size: 1.4rem;
 }
@@ -26121,29 +26134,6 @@ ul.c-process-line li.c-process-line__active > a:after {
 @media (min-width: 768px) {
   .modal-full {
     max-width: 72%;
-  }
-}
-@media (min-width: 768px) {
-  .modal-fullscreen:not(.bootbox),
-.bootbox.modal-fullscreen > .modal-dialog {
-    top: 21px;
-    right: 32px;
-    left: 0;
-    max-width: calc(100% - 50px);
-    width: calc(100% - 50px);
-    margin-left: 50px;
-    margin-right: 0;
-    min-height: calc(100% - 80px);
-  }
-
-  .bootbox.modal-fullscreen .modal-body {
-    padding-bottom: 0;
-  }
-  .bootbox.modal-fullscreen .bootbox-body {
-    margin-bottom: -0.3125rem;
-  }
-  .bootbox.modal-fullscreen iframe.modal-iframe {
-    height: calc(100vh - 14.3125rem);
   }
 }
 .modal-blg {

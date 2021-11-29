@@ -450,37 +450,29 @@ var Vtiger_Index_Js = {
 				record = instance.data('record');
 			}
 		}
-		bootbox.dialog({
-			message: app.vtranslate('JS_WATCHING_MESSAGE' + value),
-			title: '<span class="fas fa-eye mr-1"></span>' + app.vtranslate('JS_WATCHING_TITLE'),
-			buttons: {
-				success: {
-					label: '<span class="fas fa-check mr-1"></span>' + app.vtranslate('LBL_YES'),
-					className: 'btn-success',
-					callback: function () {
-						Vtiger_Index_Js.updateWatching(module, value, user, record).done(function (data) {
-							if (instance != undefined) {
-								let buttonIcon = instance.find('.fas');
-								state = data.result == 1 ? 0 : 1;
-								instance.data('value', state);
-								if (state == 1) {
-									instance.toggleClass(instance.data('off') + ' ' + instance.data('on'));
-									buttonIcon.removeClass('fas fa-eye');
-									buttonIcon.addClass('fas fa-eye-slash');
-								} else {
-									instance.toggleClass(instance.data('on') + ' ' + instance.data('off'));
-									buttonIcon.removeClass('fas fa-eye-slash');
-									buttonIcon.addClass('fas fa-eye');
-								}
-							}
-						});
+		app.showConfirmModal({
+			title: app.vtranslate('JS_WATCHING_TITLE'),
+			text: app.vtranslate('JS_WATCHING_MESSAGE' + value),
+			icon: 'fas fa-eye',
+			confirmButtonLabel: 'LBL_YES',
+			rejectedButtonLabel: 'LBL_NO',
+			confirmedCallback: () => {
+				Vtiger_Index_Js.updateWatching(module, value, user, record).done(function (data) {
+					if (instance != undefined) {
+						let buttonIcon = instance.find('.fas');
+						state = data.result == 1 ? 0 : 1;
+						instance.data('value', state);
+						if (state == 1) {
+							instance.toggleClass(instance.data('off') + ' ' + instance.data('on'));
+							buttonIcon.removeClass('fas fa-eye');
+							buttonIcon.addClass('fas fa-eye-slash');
+						} else {
+							instance.toggleClass(instance.data('on') + ' ' + instance.data('off'));
+							buttonIcon.removeClass('fas fa-eye-slash');
+							buttonIcon.addClass('fas fa-eye');
+						}
 					}
-				},
-				danger: {
-					label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('LBL_NO'),
-					className: 'btn-danger',
-					callback: function () {}
-				}
+				});
 			}
 		});
 	},

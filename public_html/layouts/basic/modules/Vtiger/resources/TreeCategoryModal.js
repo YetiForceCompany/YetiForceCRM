@@ -121,24 +121,14 @@ jQuery.Class(
 					related_module: container.find('#relatedModule').val()
 				};
 				if (recordsToAdd.length > 4) {
-					bootbox.dialog({
+					app.showConfirmModal({
 						title: app.vtranslate('JS_INFORMATION'),
-						message: app.vtranslate('JS_SAVE_SELECTED_ITEMS_ALERT').replace('__LENGTH__', recordsToAdd.length),
-						buttons: {
-							success: {
-								label: app.vtranslate('JS_LBL_SAVE'),
-								className: 'btn-success',
-								callback: function () {
-									thisInstance.saveRecordsEvent(params);
-								}
-							},
-							danger: {
-								label: app.vtranslate('JS_LBL_CANCEL'),
-								className: 'btn-warning',
-								callback: function () {
-									saveButton.removeAttr('disabled');
-								}
-							}
+						text: app.vtranslate('JS_SAVE_SELECTED_ITEMS_ALERT').replace('__LENGTH__', recordsToAdd.length),
+						confirmedCallback: () => {
+							thisInstance.saveRecordsEvent(params);
+						},
+						rejectedCallback: () => {
+							saveButton.removeAttr('disabled');
 						}
 					});
 				} else {
