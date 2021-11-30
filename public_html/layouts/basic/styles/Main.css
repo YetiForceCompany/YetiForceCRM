@@ -26135,6 +26135,17 @@ ul.c-process-line li.c-process-line__active > a:after {
   .modal-full {
     max-width: 72%;
   }
+
+  .modal-fullscreen {
+    top: 21px;
+    right: 32px;
+    left: 0;
+    max-width: calc(100% - 50px);
+    width: calc(100% - 50px);
+    margin-left: 50px;
+    margin-right: 0;
+    min-height: calc(100% - 80px);
+  }
 }
 .modal-blg {
   max-width: 90%;

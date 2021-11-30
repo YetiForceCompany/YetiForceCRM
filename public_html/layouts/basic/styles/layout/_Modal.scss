@@ -34,8 +34,17 @@
 	.modal-full {
 		max-width: 72%;
 	}
+	.modal-fullscreen {
+		top: 21px;
+		right: 32px;
+		left: 0;
+		max-width: calc(100% - 50px);
+		width: calc(100% - 50px);
+		margin-left: 50px;
+		margin-right: 0;
+		min-height: calc(100% - 80px); // if not - nested modals will be cutted
+	}
 }
-
 .modal-blg {
 	max-width: 90%;
 }
