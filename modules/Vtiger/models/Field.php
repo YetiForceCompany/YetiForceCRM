@@ -929,7 +929,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getFieldInfo()
 	{
 		$this->fieldInfo['name'] = $this->get('name');
-		$this->fieldInfo['label'] = App\Language::translate($this->get('label'), $this->getModuleName());
+		$this->fieldInfo['label'] = App\Language::translate($this->get('label'), $this->getModuleName(), false, false);
 		$fieldDataType = $this->getFieldDataType();
 		$this->fieldInfo['type'] = $fieldDataType;
 		$this->fieldInfo['mandatory'] = $this->isMandatory();
