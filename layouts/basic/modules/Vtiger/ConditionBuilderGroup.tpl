@@ -2,12 +2,14 @@
 {strip}
 	<div class="tpl-Base-ConditionBuilderGroup c-condition-builder__group pt-2 js-condition-builder-group-container">
 		<div class="btn-group btn-group-toggle js-condition-switch mr-2" data-toggle="buttons">
-			<label class="btn btn-sm btn-outline-primary js-condition-switch-value {if empty($CONDITIONS_GROUP['condition']) || $CONDITIONS_GROUP['condition'] eq 'AND'}active {/if}">
-				<input type="radio" autocomplete="off">
+			{assign var=GROUP_OPTION_ACTIVE value=empty($CONDITIONS_GROUP['condition']) || ($CONDITIONS_GROUP['condition'] eq 'AND')}
+			<label class="btn btn-sm btn-outline-primary js-condition-switch-value {if $GROUP_OPTION_ACTIVE} active {/if}">
+				<input type="radio" autocomplete="off" {if $GROUP_OPTION_ACTIVE} checked {/if}>
 				AND
 			</label>
-			<label class="btn btn-sm btn-outline-primary {if !empty($CONDITIONS_GROUP['condition']) && $CONDITIONS_GROUP['condition'] eq 'OR'}active {/if}">
-				<input type="radio" autocomplete="off">
+			{assign var=GROUP_OPTION_ACTIVE value=!empty($CONDITIONS_GROUP['condition']) && $CONDITIONS_GROUP['condition'] eq 'OR'}
+			<label class="btn btn-sm btn-outline-primary {if $GROUP_OPTION_ACTIVE} active {/if}">
+				<input type="radio" autocomplete="off" {if $GROUP_OPTION_ACTIVE} checked {/if}>
 				OR
 			</label>
 		</div>
