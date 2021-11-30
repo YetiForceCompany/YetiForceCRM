@@ -1,6 +1,6 @@
 <?php
 /**
- * Webservice premium container for widgets - file.
+ * Webservice premium container - Gets a list of widgets file.
  *
  * @package API
  *
@@ -14,7 +14,7 @@ namespace Api\WebservicePremium\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container for widgets - class.
+ * Webservice premium container - Gets a list of widgets class.
  */
 class Widgets extends \Api\Core\BaseAction
 {
@@ -31,8 +31,8 @@ class Widgets extends \Api\Core\BaseAction
 	 *
 	 *	@OA\Get(
 	 *		path="/webservice/WebservicePremium/{moduleName}/Widgets",
-	 *		description="Gets a list of widgets",
-	 *		summary="List of widgets",
+	 *		summary="Gets a list of widgets",
+	 *		description="List of widgets",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", description="Module name",	@OA\Schema(type="string"), in="path", example="Contacts", required=true),

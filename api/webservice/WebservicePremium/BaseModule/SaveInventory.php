@@ -1,6 +1,6 @@
 <?php
 /**
- * The file contains a the SaveInventory class.
+ * Webservice premium container - A store functionality - creates a record in an advanced module (orders) file.
  *
  * @package Api
  *
@@ -16,7 +16,7 @@ namespace Api\WebservicePremium\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Saving data to the inventory module.
+ * Webservice premium container - A store functionality - creates a record in an advanced module (orders) class.
  */
 class SaveInventory extends \Api\Core\BaseAction
 {
@@ -47,13 +47,13 @@ class SaveInventory extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Create inventory record.
+	 * Put method - A store functionality - creates a record in an advanced module (orders).
 	 *
 	 * @return array
 	 *
 	 *	@OA\Post(
 	 *		path="/webservice/WebservicePremium/{moduleName}/SaveInventory",
-	 *		summary="Add inventory record from cart",
+	 *		summary="A store functionality - creates a record in an advanced module (orders)",
 	 *		description="Creating inventory records for the functionality of the store",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},

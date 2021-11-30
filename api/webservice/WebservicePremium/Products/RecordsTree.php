@@ -1,6 +1,6 @@
 <?php
 /**
- * Webservice premium container - Get product records tree detail file.
+ * Webservice premium container - A store functionality - gets a list of products for orders file.
  *
  * @package Api
  *
@@ -16,38 +16,26 @@ namespace Api\WebservicePremium\Products;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container - Get product records tree detail class.
+ * Webservice premium container - A store functionality - gets a list of products for orders class.
  */
 class RecordsTree extends \Api\WebservicePremium\BaseModule\RecordsList
 {
-	/**
-	 * Permission type.
-	 *
-	 * @var int
-	 */
+	/** @var int Permission type. */
 	private $permissionType;
 
-	/**
-	 * Is user permissions.
-	 *
-	 * @var bool
-	 */
+	/** @var bool Is user permissions. */
 	private $isUserPermissions;
 
-	/**
-	 * Parent record model.
-	 *
-	 * @var \Vtiger_Record_Model
-	 */
+	/** @var \Vtiger_Record_Model Parent record model. */
 	private $parentRecordModel;
 
 	/**
-	 * Construct.
+	 * Get method - A store functionality - gets a list of products for orders.
 	 *
 	 *	@OA\Get(
 	 *		path="/webservice/WebservicePremium/Products/RecordsTree",
-	 *		summary="Tree list of records",
-	 *		description="Get the tree list of records",
+	 *		summary="A store functionality - gets a list of products for orders",
+	 *		description="Tree list of records",
 	 *		tags={"Products"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),

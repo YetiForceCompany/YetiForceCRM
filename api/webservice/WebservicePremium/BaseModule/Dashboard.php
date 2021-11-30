@@ -1,6 +1,6 @@
 <?php
 /**
- * Webservice premium container - Get dashboard widgets file.
+ * Webservice premium container - Gets widgets' data from the dashboard file.
  *
  * @package API
  *
@@ -16,7 +16,7 @@ namespace Api\WebservicePremium\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container - Get dashboard widgets class.
+ * Webservice premium container - Gets widgets' data from the dashboard class.
  */
 class Dashboard extends \Api\Core\BaseAction
 {
@@ -24,13 +24,13 @@ class Dashboard extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/**
-	 * Get widgets.
+	 * Get method - Gets widgets' data from the dashboard.
 	 *
 	 * @return array
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/WebservicePremium/{moduleName}/Dashboard",
-	 *		summary="Get dashboard widgets",
+	 *		summary="Gets widgets' data from the dashboard",
 	 *		description="Supported widget types: Mini List , Chart Filter",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},

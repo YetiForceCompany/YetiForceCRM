@@ -1,6 +1,6 @@
 <?php
 /**
- * Webservice premium container - Install file.
+ * Webservice premium container - Test method for the portal file.
  *
  * @package API
  *
@@ -15,7 +15,7 @@ namespace Api\WebservicePremium\BaseAction;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container - Install class.
+ * Webservice premium container - Test method for the portal class.
  */
 class Install extends \Api\Core\BaseAction
 {
@@ -33,14 +33,14 @@ class Install extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Put method.
+	 * Put method - Test method for the portal.
 	 *
 	 * @return array
 	 *
 	 *	@OA\Put(
 	 *		path="/webservice/WebservicePremium/Install",
-	 *		summary="Install the system",
-	 *		description="Test method for the customer portal",
+	 *		summary="Test method for the portal",
+	 *		description="Install the system",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}

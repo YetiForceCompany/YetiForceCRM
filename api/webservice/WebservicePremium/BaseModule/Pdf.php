@@ -1,6 +1,6 @@
 <?php
 /**
- * Webservice premium container - Pdf action file.
+ * Webservice premium container - Generates and downloads a PDF file from a template file.
  *
  * @package Api
  *
@@ -15,7 +15,7 @@ namespace Api\WebservicePremium\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container - Pdf action class.
+ * Webservice premium container - Generates and downloads a PDF file from a template class.
  */
 class Pdf extends \Api\Core\BaseAction
 {
@@ -43,14 +43,14 @@ class Pdf extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Get method - Generate PDF.
+	 * Get method - Generates and downloads a PDF file from a template.
 	 *
 	 * @return array
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/WebservicePremium/{moduleName}/Pdf/{recordId}",
-	 *		summary="Generate PDF",
-	 *		description="Generate and download a PDF file from a template",
+	 *		summary="Generates and downloads a PDF file from a template",
+	 *		description="Get PDF file by template",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),

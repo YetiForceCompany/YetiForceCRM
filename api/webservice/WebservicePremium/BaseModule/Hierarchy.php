@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Webservice premium container - Records hierarchy action file.
+ * Webservice premium container - Gets records hierarchy file.
  *
  * @package API
  *
@@ -16,7 +16,7 @@ namespace Api\WebservicePremium\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container - Records hierarchy action class.
+ * Webservice premium container - Gets records hierarchy class.
  */
 class Hierarchy extends \Api\Core\BaseAction
 {
@@ -48,15 +48,16 @@ class Hierarchy extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Get records hierarchy.
+	 * Get method - Gets records hierarchy.
 	 *
 	 * @throws \Api\Core\Exception
 	 *
 	 * @return array
+	 *
 	 * @OA\Get(
 	 *		path="/webservice/WebservicePremium/{moduleName}/Hierarchy",
-	 *		summary="Hierarchy of records",
-	 *		description="Get records hierarchy",
+	 *		summary="Gets records hierarchy",
+	 *		description="Hierarchy of records",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),
@@ -109,7 +110,7 @@ class Hierarchy extends \Api\Core\BaseAction
 				$this->records[$parentId] = [
 					'id' => $parentId,
 					'parent' => 0,
-					'name' => \App\Record::getLabel($parentId)
+					'name' => \App\Record::getLabel($parentId),
 				];
 			}
 		} else {
@@ -151,7 +152,7 @@ class Hierarchy extends \Api\Core\BaseAction
 			$this->records[$id] = [
 				'id' => $id,
 				'parent' => $row[$this->childField],
-				'name' => \App\Record::getLabel($id)
+				'name' => \App\Record::getLabel($id),
 			];
 			if ($this->findId && $this->findId === $id) {
 				$this->limit = 0;

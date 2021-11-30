@@ -152,8 +152,8 @@
                 "tags": [
                     "BaseAction"
                 ],
-                "summary": "Install the system",
-                "description": "Test method for the customer portal",
+                "summary": "Test method for the portal",
+                "description": "Install the system",
                 "operationId": "8e66373ace76072166e78987b6208292",
                 "parameters": [
                     {
@@ -211,8 +211,8 @@
                 "tags": [
                     "BaseAction"
                 ],
-                "summary": "Get menu",
-                "description": "Get menu for the customer portal",
+                "summary": "Gets the menu for the portal",
+                "description": "Get menu",
                 "operationId": "c67a6d8f29e0670190a68b254559b1a1",
                 "parameters": [
                     {
@@ -521,7 +521,7 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get dashboard widgets",
+                "summary": "Gets widgets' data from the dashboard",
                 "description": "Supported widget types: Mini List , Chart Filter",
                 "operationId": "0b315ef990cf1b27fc54ade5d4ad5a58",
                 "parameters": [
@@ -652,8 +652,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Hierarchy of records",
-                "description": "Get records hierarchy",
+                "summary": "Gets records hierarchy",
+                "description": "Hierarchy of records",
                 "operationId": "df234264b83e83a11c13df2abb2e1d69",
                 "parameters": [
                     {
@@ -721,8 +721,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Generate PDF",
-                "description": "Generate and download a PDF file from a template",
+                "summary": "Generates and downloads a PDF file from a template",
+                "description": "Get PDF file by template",
                 "operationId": "e31fa16784ea1ec42b7c6fe99558562d",
                 "parameters": [
                     {
@@ -844,8 +844,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "PDF templates",
-                "description": "Get PDF templates list",
+                "summary": "Gets a list of  PDF templates",
+                "description": "PDF templates",
                 "operationId": "e065acf7c270e973b1ca0989128f3b37",
                 "parameters": [
                     {
@@ -879,7 +879,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Get PDF templates list",
+                        "description": "Gets a list of  PDF templates",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2071,7 +2071,7 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Add inventory record from cart",
+                "summary": "A store functionality - creates a record in an advanced module (orders)",
                 "description": "Creating inventory records for the functionality of the store",
                 "operationId": "0f1fbd0b91993088b4e1513d598ca30a",
                 "parameters": [
@@ -2140,8 +2140,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "Get the source-based data",
-                "description": "Get the record data from sources",
+                "summary": "Gets the record data from sources",
+                "description": "Get the record by sources",
                 "operationId": "17acbd766f129384116b0a985e9e0331",
                 "parameters": [
                     {
@@ -2210,8 +2210,8 @@
                 "tags": [
                     "BaseModule"
                 ],
-                "summary": "List of widgets",
-                "description": "Gets a list of widgets",
+                "summary": "Gets a list of widgets",
+                "description": "List of widgets",
                 "operationId": "0b45057e3efb771e9be607863585cb61",
                 "parameters": [
                     {
@@ -2301,8 +2301,8 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Data for the product",
-                "description": "Gets the details of a product",
+                "summary": "Gets the details of a product",
+                "description": "Data for the product",
                 "operationId": "3e9df34f1053ff5878b3d9d98373ab29",
                 "parameters": [
                     {
@@ -2451,8 +2451,8 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Tree list of records",
-                "description": "Get the tree list of records",
+                "summary": "A store functionality - gets a list of products for orders",
+                "description": "Tree list of records",
                 "operationId": "ed539236c8df1e2ee5562c8f40c147f0",
                 "parameters": [
                     {
@@ -2946,8 +2946,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Changing user preferences",
-                "description": "Changing user preferences",
+                "summary": "Changes user’s preferences",
+                "description": "Changes user’s preferences",
                 "operationId": "0918e84256e4caea7b399e3cd4b62847",
                 "parameters": [
                     {
@@ -3979,7 +3979,7 @@
             },
             "BaseModule_Get_Dashboard_Response": {
                 "title": "Base module - Dashboard response schema",
-                "description": "Get widgets.",
+                "description": "Get method - Gets widgets' data from the dashboard.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4566,7 +4566,7 @@
             },
             "BaseModule_Get_Hierarchy_Response": {
                 "title": "Base module - Hierarchy response schema",
-                "description": "Get records hierarchy.",
+                "description": "Get method - Gets records hierarchy.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4603,7 +4603,7 @@
             },
             "BaseModule_Get_Pdf_Response": {
                 "title": "Base module - Generate PDF response schema",
-                "description": "Get method - Generate PDF.",
+                "description": "Get method - Generates and downloads a PDF file from a template.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4636,7 +4636,7 @@
             },
             "BaseModule_Get_PdfTemplates_Response": {
                 "title": "Base module - Get PDF templates list response schema",
-                "description": "Get method - Get PDF templates list.",
+                "description": "Get method - Gets a list of  PDF templates.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -5666,7 +5666,7 @@
             },
             "BaseAction_SaveInventory_ResponseBodyError": {
                 "title": "Base module - Create inventory record response error schema",
-                "description": "Create inventory record.",
+                "description": "Put method - A store functionality - creates a record in an advanced module (orders).",
                 "properties": {
                     "errors": {
                         "description": "Error details",
@@ -6534,7 +6534,7 @@
             },
             "Users_Put_Preferences_Response": {
                 "title": "Users module - Response content of changing user settings",
-                "description": "Put method.",
+                "description": "Put method - Changes user’s preferences.",
                 "required": [
                     "status",
                     "result"

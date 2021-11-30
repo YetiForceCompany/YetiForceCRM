@@ -1,6 +1,6 @@
 <?php
 /**
- * Webservice premium container - Get product record detail file.
+ * Webservice premium container - Loads the details of a product file.
  *
  * @package Api
  *
@@ -16,7 +16,7 @@ namespace Api\WebservicePremium\Products;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container - Get product record detail class.
+ * Webservice premium container - Loads the details of a product class.
  */
 class Record extends \Api\WebservicePremium\BaseModule\Record
 {
@@ -34,8 +34,8 @@ class Record extends \Api\WebservicePremium\BaseModule\Record
 	 *
 	 *	@OA\Get(
 	 *		path="/webservice/WebservicePremium/Products/Record/{recordId}",
-	 *		summary="Data for the product",
-	 *		description="Gets the details of a product",
+	 *		summary="Gets the details of a product",
+	 *		description="Data for the product",
 	 *		tags={"Products"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="recordId", in="path", @OA\Schema(type="integer"), description="Record id", required=true, example=116),

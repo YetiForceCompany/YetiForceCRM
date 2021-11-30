@@ -1,6 +1,6 @@
 <?php
 /**
- * Webservice premium container - Users preferences action file.
+ * Webservice premium container - Changes user’s preferences file.
  *
  * @package API
  *
@@ -14,7 +14,7 @@ namespace Api\WebservicePremium\Users;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container - Users preferences action class.
+ * Webservice premium container - Changes user’s preferences class.
  */
 class Preferences extends \Api\Core\BaseAction
 {
@@ -27,14 +27,14 @@ class Preferences extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Put method.
+	 * Put method - Changes user’s preferences.
 	 *
 	 * @return bool
 	 *
 	 * @OA\Put(
 	 *		path="/webservice/WebservicePremium/Users/Preferences",
-	 *		description="Changing user preferences",
-	 *		summary="Changing user preferences",
+	 *		summary="Changes user’s preferences",
+	 *		description="Changes user’s preferences",
 	 *		tags={"Users"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(

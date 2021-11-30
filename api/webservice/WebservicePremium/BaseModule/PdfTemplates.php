@@ -1,6 +1,6 @@
 <?php
 /**
- * Webservice premium container - Get PDF templates list file.
+ * Webservice premium container - Gets a list of  PDF templates file.
  *
  * @package Api
  *
@@ -15,7 +15,7 @@ namespace Api\WebservicePremium\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container - Get PDF templates list class.
+ * Webservice premium container - Gets a list of  PDF templates class.
  */
 class PdfTemplates extends \Api\Core\BaseAction
 {
@@ -40,14 +40,14 @@ class PdfTemplates extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Get method - Get PDF templates list.
+	 * Get method - Gets a list of  PDF templates.
 	 *
 	 * @return array
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/WebservicePremium/{moduleName}/PdfTemplates/{recordId}",
-	 *		summary="PDF templates",
-	 *		description="Get PDF templates list",
+	 *		summary="Gets a list of  PDF templates",
+	 *		description="PDF templates",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Accounts"),
@@ -55,7 +55,7 @@ class PdfTemplates extends \Api\Core\BaseAction
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(
 	 *			response=200,
-	 *			description="Get PDF templates list",
+	 *			description="Gets a list of  PDF templates",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_PdfTemplates_Response"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_PdfTemplates_Response"),
 	 *		),

@@ -1,6 +1,6 @@
 <?php
 /**
- * Webservice premium container - Get the source-based data file.
+ * Webservice premium container - Gets the record data from sources file.
  *
  * @package API
  *
@@ -14,7 +14,7 @@ namespace Api\WebservicePremium\BaseModule;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container - Get the source-based data class.
+ * Webservice premium container - Gets the record data from sources class.
  */
 class SourceBasedData extends \Api\Core\BaseAction
 {
@@ -22,14 +22,14 @@ class SourceBasedData extends \Api\Core\BaseAction
 	public $allowedMethod = ['PUT'];
 
 	/**
-	 * Get the source-based data.
+	 * Put method - Gets the record data from sources.
 	 *
 	 * @return array
 	 *
 	 * @OA\Put(
 	 *		path="/webservice/WebservicePremium/{moduleName}/SourceBasedData",
-	 *		summary="Get the source-based data",
-	 *		description="Get the record data from sources",
+	 *		summary="Gets the record data from sources",
+	 *		description="Get the record by sources",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(required=true, description="Contents of the request contains an associative array with the data record.",

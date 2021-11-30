@@ -20,7 +20,7 @@ use OpenApi\Annotations as OA;
 class RecordsList extends \Api\WebserviceStandard\BaseModule\RecordsList
 {
 	/**
-	 * Get record list method.
+	 * Get method - Get record list method.
 	 *
 	 * @return array
 	 *

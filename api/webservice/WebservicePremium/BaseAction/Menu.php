@@ -1,6 +1,6 @@
 <?php
 /**
- * Webservice premium container - File action to get menu.
+ * Webservice premium container - Gets the menu for the portal file.
  *
  * @package API
  *
@@ -15,7 +15,7 @@ namespace Api\WebservicePremium\BaseAction;
 use OpenApi\Annotations as OA;
 
 /**
- * Webservice premium container - Class action to get menu.
+ * Webservice premium container - Gets the menu for the portal class.
  */
 class Menu extends \Api\Core\BaseAction
 {
@@ -23,14 +23,14 @@ class Menu extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/**
-	 * Get method.
+	 * Get method - Gets the menu for the portal.
 	 *
 	 * @return array
 	 *
 	 *	@OA\Get(
 	 *		path="/webservice/WebservicePremium/Menu",
-	 *		summary="Get menu",
-	 *		description="Get menu for the customer portal",
+	 *		summary="Gets the menu for the portal",
+	 *		description="Get menu",
 	 *		tags={"BaseAction"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
