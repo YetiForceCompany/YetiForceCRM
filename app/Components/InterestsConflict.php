@@ -85,22 +85,19 @@ class InterestsConflict
 	 *
 	 * @return array|null
 	 */
-	private static function getLast(int $record, ?int $userId = null): ?array
+	public static function getLast(int $record, ?int $userId = null): ?array
 	{
 		if (null === $userId) {
 			$userId = \App\User::getCurrentUserRealId();
 		}
-		$cacheName = "InterestsConflict::getLast{$userId}_";
-		if (\App\Cache::has($cacheName, $record)) {
-			return \App\Cache::get($cacheName, $record);
+		$row = null;
+		foreach (self::getByRecord($record) as $value) {
+			if ($value['user_id'] == $userId && self::CONF_STATUS_CANCELED != $value['status']) {
+				$row = $value;
+				break;
+			}
 		}
-		$row = (new \App\Db\Query())
-			->from('u_#__interests_conflict_conf')
-			->where(['user_id' => $userId, 'related_id' => $record])
-			->andWhere(['<>', 'status', self::CONF_STATUS_CANCELED])
-			->orderBy(['id' => SORT_DESC])
-			->one() ?: null;
-		return \App\Cache::save($cacheName, $record, $row);
+		return $row;
 	}
 
 	/**
@@ -181,12 +178,6 @@ class InterestsConflict
 		], ['id' => $row['id']])
 			->execute();
 		\App\Cache::delete('InterestsConflict::getByRecord', $record);
-		$cacheName = "InterestsConflict::getLast{$userId}_";
-		if (\App\Cache::has($cacheName, $record)) {
-			$cache = \App\Cache::get($cacheName, $record);
-			$cache['status'] = self::CONF_STATUS_CANCELED;
-			\App\Cache::save($cacheName, $record, $cache);
-		}
 		$userCreateCommand->insert('u_#__interests_conflict_unlock', [
 			'date_time' => $row['date_time'],
 			'status' => self::UNLOCK_STATUS_CANCELED,
@@ -265,6 +256,7 @@ class InterestsConflict
 			'related_label' => \App\Record::getLabel($baseRecord),
 			'source_id' => $sourceRecord,
 		])->execute();
+		\App\Cache::delete('InterestsConflict::getByRecord', $baseRecord);
 	}
 
 	/**
@@ -296,6 +288,7 @@ class InterestsConflict
 						'modify_user_id' => \App\User::getCurrentUserRealId(),
 					], ['user_id' => $row['user_id'], 'related_id' => $row['related_id']])
 					->execute();
+				\App\Cache::delete('InterestsConflict::getByRecord', $row['related_id']);
 			}
 		}
 		if (\Config\Components\InterestsConflict::$sendMailAccessResponse) {
