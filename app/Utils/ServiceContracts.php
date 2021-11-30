@@ -272,7 +272,7 @@ class ServiceContracts
 	 *
 	 * @return array
 	 */
-	public static function getSlaPolicyRulesForRecord(\Vtiger_Record_Model $recordModel):array
+	public static function getSlaPolicyRulesForRecord(\Vtiger_Record_Model $recordModel): array
 	{
 		$times = $businessHours = [];
 		foreach (self::getSlaPolicyForRecord($recordModel->getModule()->getId()) as $row) {
@@ -517,7 +517,6 @@ class ServiceContracts
 		$return = [];
 		$date = new \DateTime();
 		if ($id && ($rules = self::getRulesForServiceContracts($id, $recordModel)) || ($rules = self::getSlaPolicyRulesForRecord($recordModel))) {
-
 			if (isset($rules['id'])) {
 				foreach (self::$fieldsMap as $key => $fieldKey) {
 					if (\in_array($fieldKey, $type)) {
@@ -528,8 +527,7 @@ class ServiceContracts
 				return $return;
 			}
 			$days = self::parseBusinessHoursToDays($rules);
-		}
-		elseif ($businessHours = self::getDefaultBusinessHours()) {
+		} elseif ($businessHours = self::getDefaultBusinessHours()) {
 			$days = self::parseBusinessHoursToDays($businessHours);
 		} else {
 			return [];
