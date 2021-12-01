@@ -33,7 +33,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$value = \App\Language::translateSingleMod($value, 'Other.Country');
+		$value = \App\Language::translateSingleMod($value, 'Other.Country', false, false);
 		if (\is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}

@@ -16,7 +16,7 @@
 			<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 			{foreach item=PICKLIST_VALUE key=KEY from=$PICKLIST_VALUES}
 				<option value="{\App\Purifier::encodeHtml($KEY)}" {if in_array($KEY,$SEARCH_VALUES) && ($KEY neq "")}selected{/if}>
-					{\App\Purifier::encodeHtml(\App\Language::translateSingleMod($KEY,'Other.Country'))}
+					{\App\Purifier::encodeHtml($PICKLIST_VALUE)}
 				</option>
 			{/foreach}
 		</select>

@@ -8,7 +8,7 @@
 			multiple="multiple" data-js="val" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}">
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 				<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" title="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if in_array($PICKLIST_NAME, $FIELD_VALUES)}selected{/if}>
-					{\App\Purifier::encodeHtml(\App\Language::translateSingleMod($PICKLIST_NAME,'Other.Country'))}
+					{\App\Language::translateSingleMod($PICKLIST_NAME,'Other.Country')}
 				</option>
 			{/foreach}
 		</select>
