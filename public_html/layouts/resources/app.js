@@ -2414,7 +2414,13 @@ var app = (window.app = {
 					if (btn.data('iframe')) {
 						let iframe = btn.siblings('iframe');
 						let message = iframe.clone();
-						message.height(iframe.contents().height());
+						message.css('display', '');
+						iframe.css('display', '');
+						let height = iframe.contents().height() ?? iframe.contents().find('body').height();
+						if (height) {
+							message.height(height);
+						}
+						iframe.css('display', 'none');
 						container.find('.modal-body').html(message);
 					} else {
 						container.find('.modal-body').html(btn.closest('.js-more-content').find('.fullContent').html());

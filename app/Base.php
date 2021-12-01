@@ -16,6 +16,7 @@ namespace App;
  */
 class Base
 {
+	/** @var array Values */
 	protected $value;
 
 	/**
