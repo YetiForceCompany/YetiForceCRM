@@ -126,8 +126,7 @@ class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$data = static::validate($this->getData());
 		$db = \App\Db::getInstance('admin');
-		$recordId = $this->getId();
-		if ($recordId) {
+		if ($recordId = $this->getId()) {
 			$db->createCommand()->update('s_#__sla_policy', $data, ['id' => $recordId])->execute();
 		} else {
 			$db->createCommand()->insert('s_#__sla_policy', $data)->execute();
