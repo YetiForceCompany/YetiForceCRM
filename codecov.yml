@@ -10,19 +10,19 @@ coverage:
   status:
     project:
       default:
-        target: 27%
+        target: 29%
 
       tests:
         target: 100%
         paths:
           - 'tests/'
       app:
-        target: 34%
+        target: 37%
         paths:
           - 'app/'
 
       api:
-        target: 53%
+        target: 64%
         paths:
           - 'api/'
     patch: off
