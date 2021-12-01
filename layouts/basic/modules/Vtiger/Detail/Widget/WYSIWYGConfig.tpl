@@ -5,12 +5,12 @@
 			<div class="modal-content">
 				<form class="form-modalAddWidget">
 					{if !empty($WID)}<input type="hidden" name="wid" value="{$WID}" />{/if}
-					<input type="hidden" name="type" value="{$TYPE}"/>
+					<input type="hidden" name="type" value="{$TYPE}" />
 					<div class="modal-header">
 						<h5 id="massEditHeader"
 							class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</h5>
 						<button type="button" data-dismiss="modal" class="close"
-								title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">
+							title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">
 							&times;
 						</button>
 					</div>
@@ -33,8 +33,8 @@
 									</div>
 									<div class="col-md-7">
 										<input name="label" class="form-control" type="text"
-											   data-validation-engine="validate[required]"
-											   value="{$WIDGETINFO['label']}"/>
+											data-validation-engine="validate[required]"
+											value="{$WIDGETINFO['label']}" />
 									</div>
 								</div>
 								<div class="form-group row">
@@ -47,7 +47,7 @@
 										<select name="field_name" class="select2 form-control">
 											{foreach from=$MODULE_MODEL->getWYSIWYGFields($SOURCE,$SOURCEMODULE) item=item key=key}
 												<option {if isset($WIDGETINFO['data']['field_name']) && $WIDGETINFO['data']['field_name'] == $key}selected{/if}
-														value="{$key}">{$item}</option>
+													value="{$key}">{$item}</option>
 											{/foreach}
 										</select>
 									</div>

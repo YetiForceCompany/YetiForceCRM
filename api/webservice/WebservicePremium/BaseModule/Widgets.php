@@ -127,7 +127,15 @@ class Widgets extends \Api\Core\BaseAction
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$row['data'] = \App\Json::decode($row['data']);
-			$row['name'] = \App\Language::translate($row['label'], $moduleName, false, false);
+			if (empty($row['label'])) {
+				if (isset(\Vtiger_Widget_Model::DEFAULT_LABELS[$row['type']])) {
+					$row['name'] = \App\Language::translate(\Vtiger_Widget_Model::DEFAULT_LABELS[$row['type']], $moduleName, false, false);
+				} else {
+					$row['name'] = \App\Language::translate($row['data']['relatedmodule'], $row['data']['relatedmodule'], false, false);
+				}
+			} else {
+				$row['name'] = \App\Language::translate($row['label'], $moduleName, false, false);
+			}
 			$widgetClass = \Vtiger_Loader::getComponentClassName('Widget', $row['type'], $moduleName);
 			$widgetInstance = new $widgetClass($moduleName, null, null, $row);
 			if ($row = $widgetInstance->getApiData($row)) {
@@ -135,7 +143,6 @@ class Widgets extends \Api\Core\BaseAction
 			}
 		}
 		$dataReader->close();
-
 		return $response;
 	}
 }

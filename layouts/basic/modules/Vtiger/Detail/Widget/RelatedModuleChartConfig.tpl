@@ -6,13 +6,13 @@
 			<div class="modal-content">
 				<form class="form-modalAddWidget form-horizontal validateForm">
 					{if !empty($WID)}<input type="hidden" name="wid" value="{$WID}" />{/if}
-					<input type="hidden" name="type" value="{$TYPE}"/>
+					<input type="hidden" name="type" value="{$TYPE}" />
 					<div class="modal-header">
 						<h5 id="massEditHeader" class="modal-title">
 							<span class="fas fa-plus mr-1"></span>{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}
 						</h5>
 						<button type="button" class="close" data-dismiss="modal"
-								aria-label="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">
+							aria-label="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -40,25 +40,25 @@
 									{\App\Language::translate('Label', $QUALIFIED_MODULE)}:
 								</label>
 								<div class="col-md-7 py-1">
-									<input name="label" class="form-control form-control-sm" data-validation-engine="validate[required]" type="text" value="{$WIDGETINFO['label']}"/>
+									<input name="label" class="form-control form-control-sm" data-validation-engine="validate[required]" type="text" value="{$WIDGETINFO['label']}" />
 								</div>
 							</div>
 							<div class="form-group form-group-sm row">
 								<label class="col-md-4 col-form-label">{\App\Language::translate('Related module', $QUALIFIED_MODULE)}
 									<a href="#" class="js-help-info" title="" data-placement="top" data-content="{\App\Language::translate('Related module info', $QUALIFIED_MODULE)}"
-									   data-original-title="{\App\Language::translate('Related module', $QUALIFIED_MODULE)}">
-									   <i class="fas fa-info-circle"></i>
+										data-original-title="{\App\Language::translate('Related module', $QUALIFIED_MODULE)}">
+										<i class="fas fa-info-circle"></i>
 									</a>:
 								</label>
 								<div class="col-md-7 py-1">
-									<select name="relation_id"{if $RELATED_ID} readonly="readonly"{/if} class="select2 form-control form-control-sm" data-validation-engine="validate[required]">
+									<select name="relation_id" {if $RELATED_ID} readonly="readonly" {/if} class="select2 form-control form-control-sm" data-validation-engine="validate[required]">
 										{foreach from=$RELATEDMODULES item=item key=key}
 											<option value="{$item['relation_id']}" {if $RELATED_ID == $item['relation_id']}selected{/if} data-relatedmodule="{$item['related_tabid']}">
 												{\App\Language::translate($item['label'], $item['related_modulename'])}
 											</option>
 										{/foreach}
 									</select>
-									<input name="relatedmodule" type="hidden" value="{$RELATED_MODULE_ID}"/>
+									<input name="relatedmodule" type="hidden" value="{$RELATED_MODULE_ID}" />
 								</div>
 							</div>
 							<div class="form-group form-group-sm row">
@@ -72,10 +72,10 @@
 													<optgroup label="{\App\Language::translate($BLOCK_NAME, $RELATED_MODULE['related_modulename'])}" data-module="{$RELATED_MODULE['related_tabid']}">
 														{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME}
 															{assign var=VALUE_NAME value="{$FIELD_NAME}"}
-															<option value="{$VALUE_NAME}"{' '}
-																	{if !empty($WIDGETINFO['data']['groupField']) && $VALUE_NAME eq $WIDGETINFO['data']['groupField']}
-																		selected="selected"
-																	{/if} data-module="{$RELATED_MODULE['related_tabid']}">
+															<option value="{$VALUE_NAME}" {' '}
+																{if !empty($WIDGETINFO['data']['groupField']) && $VALUE_NAME eq $WIDGETINFO['data']['groupField']}
+																	selected="selected"
+																{/if} data-module="{$RELATED_MODULE['related_tabid']}">
 																{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['related_modulename'])}
 															</option>
 														{/foreach}
@@ -91,21 +91,21 @@
 								<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_SELECT_CHART', 'Home')}:</label>
 								<div class="col-md-7 py-1">
 									<select name="chartType" class="select2 form-control form-control-sm" data-validation-engine="validate[required]">
-											{foreach from=['Pie' => 'LBL_PIE_CHART','Donut' => 'LBL_DONUT_CHART','Bar' => 'LBL_VERTICAL_BAR_CHART','Horizontal' => 'LBL_HORIZONTAL_BAR_CHART','Line' => 'LBL_LINE_CHART','LinePlain' => 'LBL_LINE_CHART_PLAIN'] item=LABEL key=KEY}
-												<option value="{$KEY}" {if !empty($WIDGETINFO['data']['chartType']) && $KEY eq $WIDGETINFO['data']['chartType']}
-														selected="selected"
-													{/if}>
-													{\App\Language::translate($LABEL)}
-												</option>
-											{/foreach}
+										{foreach from=['Pie' => 'LBL_PIE_CHART','Donut' => 'LBL_DONUT_CHART','Bar' => 'LBL_VERTICAL_BAR_CHART','Horizontal' => 'LBL_HORIZONTAL_BAR_CHART','Line' => 'LBL_LINE_CHART','LinePlain' => 'LBL_LINE_CHART_PLAIN'] item=LABEL key=KEY}
+											<option value="{$KEY}" {if !empty($WIDGETINFO['data']['chartType']) && $KEY eq $WIDGETINFO['data']['chartType']}
+													selected="selected"
+												{/if}>
+												{\App\Language::translate($LABEL)}
+											</option>
+										{/foreach}
 									</select>
 								</div>
 							</div>
-							<input type="hidden" name="color" value="{if empty($WIDGETINFO['data']['color'])}1{else}{$WIDGETINFO['data']['color']}{/if}"/>
-							<input type="hidden" name="valueType" value="{if empty($WIDGETINFO['data']['valueType'])}count{else}{$WIDGETINFO['data']['valueType']}{/if}"/>
-							<input type="hidden" name="valueField" value="{if !empty($WIDGETINFO['data']['valueField'])}{$WIDGETINFO['data']['valueField']}{/if}"/>
-							<input type="hidden" name="limit" value="99999"/>
-							<input type="hidden" name="search_params" value="{if empty($WIDGETINFO['data']['search_params'])}[]{else}{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETINFO['data']['search_params']))}{/if}"/>
+							<input type="hidden" name="color" value="{if empty($WIDGETINFO['data']['color'])}1{else}{$WIDGETINFO['data']['color']}{/if}" />
+							<input type="hidden" name="valueType" value="{if empty($WIDGETINFO['data']['valueType'])}count{else}{$WIDGETINFO['data']['valueType']}{/if}" />
+							<input type="hidden" name="valueField" value="{if !empty($WIDGETINFO['data']['valueField'])}{$WIDGETINFO['data']['valueField']}{/if}" />
+							<input type="hidden" name="limit" value="99999" />
+							<input type="hidden" name="search_params" value="{if empty($WIDGETINFO['data']['search_params'])}[]{else}{\App\Purifier::encodeHtml(\App\Json::encode($WIDGETINFO['data']['search_params']))}{/if}" />
 						</div>
 					</div>
 					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}

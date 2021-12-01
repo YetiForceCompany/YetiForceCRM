@@ -14,7 +14,7 @@
 						<div class="modal-Fields">
 							<div class="row">
 								<div class="col-md-12">
-									<p class="float-left" > <strong>{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}</strong>: </p>
+									<p class="float-left"> <strong>{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}</strong>: </p>
 									<p class="float-left">&nbsp; {\App\Language::translate($TYPE, $QUALIFIED_MODULE)} </p>
 								</div>
 							</div>

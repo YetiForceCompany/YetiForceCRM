@@ -14,6 +14,13 @@
  */
 class Vtiger_Widget_Model extends \App\Base
 {
+	/** @var array Default labels */
+	const DEFAULT_LABELS = [
+		'Activities' => 'LBL_ACTIVITIES',
+		'DetailView' => 'LBL_RECORD_DETAILS',
+		'GeneralInfo' => 'LBL_RECORD_SUMMARY',
+	];
+
 	/**
 	 * Get ID.
 	 *
@@ -325,7 +332,7 @@ class Vtiger_Widget_Model extends \App\Base
 				'linklabel' => 'LBL_EDIT',
 				'linkclass' => 'btn btn-success btn-xs js-edit-widget',
 				'linkicon' => 'yfi yfi-full-editing-view',
-				'linkdata' => ['url' => "index.php?parent=Settings&module=WidgetsManagement&view=EditWidget&linkId={$this->get('linkid')}&blockId={$this->get('blockid')}&widgetId={$this->getId()}"]
+				'linkdata' => ['url' => "index.php?parent=Settings&module=WidgetsManagement&view=EditWidget&linkId={$this->get('linkid')}&blockId={$this->get('blockid')}&widgetId={$this->getId()}"],
 			]);
 		}
 		if (\App\User::getCurrentUserModel()->isAdmin()) {
@@ -333,7 +340,7 @@ class Vtiger_Widget_Model extends \App\Base
 				'linklabel' => 'LBL_DELETE',
 				'linkclass' => 'btn-danger btn-xs js-delete-widget',
 				'linkicon' => 'fas fa-trash-alt',
-				'linkdata' => ['id' => $this->getId()]
+				'linkdata' => ['id' => $this->getId()],
 			]);
 		}
 
@@ -348,7 +355,7 @@ class Vtiger_Widget_Model extends \App\Base
 		'isdefault' => ['label' => 'LBL_MANDATORY_WIDGET', 'purifyType' => \App\Purifier::BOOL],
 		'cache' => ['label' => 'LBL_CACHE_WIDGET', 'purifyType' => \App\Purifier::BOOL],
 		'width' => ['label' => 'LBL_WIDTH', 'purifyType' => \App\Purifier::INTEGER],
-		'height' => ['label' => 'LBL_HEIGHT', 'purifyType' => \App\Purifier::INTEGER]
+		'height' => ['label' => 'LBL_HEIGHT', 'purifyType' => \App\Purifier::INTEGER],
 	];
 
 	/**
@@ -390,7 +397,7 @@ class Vtiger_Widget_Model extends \App\Base
 		}
 		$params = [
 			'label' => $field['label'],
-			'tooltip' => $field['tooltip'] ?? ''
+			'tooltip' => $field['tooltip'] ?? '',
 		];
 		switch ($name) {
 			case 'cache':
@@ -455,7 +462,7 @@ class Vtiger_Widget_Model extends \App\Base
 					'day' => 'PLL_CURRENT_DAY',
 					'week' => 'PLL_CURRENT_WEEK',
 					'month' => 'PLL_CURRENT_MONTH',
-					'year' => 'PLL_CURRENT_YEAR'
+					'year' => 'PLL_CURRENT_YEAR',
 				];
 				foreach ($picklistValue as $key => $label) {
 					$params['picklistValues'][$key] = \App\Language::translate($label, $moduleName);

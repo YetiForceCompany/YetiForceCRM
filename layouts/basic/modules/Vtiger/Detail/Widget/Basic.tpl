@@ -15,8 +15,7 @@
 					<div class="c-detail-widget__header__container d-flex align-items-center py-1">
 						<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse"
 							data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">
-							<span class="u-transform_rotate-180deg mdi mdi-chevron-down"
-								alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+							<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 						</div>
 						<div class="c-detail-widget__header__title">
 							<h5 class="mb-0 text-truncate modCT_{$RELATED_MODULE_NAME}">
@@ -182,14 +181,14 @@
 										class="select2 form-control form-control-sm js-filter_field"
 										data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 										data-fieldinfo='{$FIELD_INFO|escape}' {if
-												!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'
+																																!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'
 									{/if} data-return="value" data-urlparams="{$FIELD_MODEL->getName()}" data-js="change">
 									<optgroup class="p-0">
 										<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 									</optgroup>
 									{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$FIELD_MODEL->getPicklistValues()}
 										<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq
-												$PICKLIST_NAME} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
+																											$PICKLIST_NAME} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
 								{/foreach}
 							</select>
 						</div>
