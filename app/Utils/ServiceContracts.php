@@ -272,7 +272,7 @@ class ServiceContracts
 	 *
 	 * @return array
 	 */
-	public static function getSlaPolicyRulesForForModule(\Vtiger_Record_Model $recordModel): array
+	public static function getSlaPolicyRulesForModule(\Vtiger_Record_Model $recordModel): array
 	{
 		$times = $businessHours = [];
 		foreach (self::getSlaPolicyForModule($recordModel->getModule()->getId()) as $row) {
@@ -447,7 +447,7 @@ class ServiceContracts
 	 */
 	public static function getDiffFromSlaPolicy(string $start, string $end, \Vtiger_Record_Model $recordModel): ?int
 	{
-		if ($rules = self::getSlaPolicyRulesForForModule($recordModel)) {
+		if ($rules = self::getSlaPolicyRulesForModule($recordModel)) {
 			$time = 0;
 			foreach ($rules as $row) {
 				$time += self::businessTime($start, $end, $row['working_hours_from'], $row['working_hours_to'], explode(',', $row['working_days']), !empty($row['holidays']));
@@ -510,7 +510,7 @@ class ServiceContracts
 	{
 		$return = [];
 		$date = new \DateTime();
-		if ($id && ($rules = self::getRulesForServiceContracts($id, $recordModel)) || ($rules = self::getSlaPolicyRulesForForModule($recordModel))) {
+		if ($id && ($rules = self::getRulesForServiceContracts($id, $recordModel)) || ($rules = self::getSlaPolicyRulesForModule($recordModel))) {
 			if (isset($rules['id'])) {
 				foreach (self::$fieldsMap as $key => $fieldKey) {
 					if (\in_array($fieldKey, $type)) {
