@@ -130,7 +130,8 @@
     "LBL_HOSTING_SHARED": "YetiForce 主机",
     "LBL_HOSTING_CLOUD": "YetiForce 云",
     "LBL_BUY": "购买",
-    "LBL_SHOW_MORE": "有关产品的更多信息"
+    "LBL_SHOW_MORE": "有关产品的更多信息",
+    "LBL_NO_NO_DATA_IN_SESSION": "Error generating configuration files, no data in the session"
   },
   "js": {
     "JS_ALL": "全部",

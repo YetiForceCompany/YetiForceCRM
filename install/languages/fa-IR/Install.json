@@ -130,7 +130,8 @@
     "LBL_HOSTING_SHARED": "به میزبانی YetiForce",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "خرید",
-    "LBL_SHOW_MORE": "اطلاعات بیشتر در مورد محصول"
+    "LBL_SHOW_MORE": "اطلاعات بیشتر در مورد محصول",
+    "LBL_NO_NO_DATA_IN_SESSION": "Error generating configuration files, no data in the session"
   },
   "js": {
     "JS_ALL": "همه",

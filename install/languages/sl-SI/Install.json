@@ -130,7 +130,8 @@
     "LBL_HOSTING_SHARED": "YetiForce gostovanje",
     "LBL_HOSTING_CLOUD": "YetiForce oblak",
     "LBL_BUY": "Nakup",
-    "LBL_SHOW_MORE": "Več informacij o izdelku"
+    "LBL_SHOW_MORE": "Več informacij o izdelku",
+    "LBL_NO_NO_DATA_IN_SESSION": "Error generating configuration files, no data in the session"
   },
   "js": {
     "JS_ALL": "Vsi",

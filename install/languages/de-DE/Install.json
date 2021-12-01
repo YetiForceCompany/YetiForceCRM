@@ -120,7 +120,7 @@
     "LBL_WEBSITE_INFO": "Enter the entity's website or a personal website. DO NOT enter the URL where your CRM is installed.",
     "LBL_ADDRESS": "Adresse",
     "LBL_POST_CODE": "Postleitzahl",
-    "LBL_VAT_ID": "Entity's unique identifier",
+    "LBL_VAT_ID": "Eindeutige Kennung der Entität",
     "LBL_VAT_ID_INFO": "In case of companies, provide unique tax identifier applicable in the country, for example TAX ID: PL1180002425\nIn case of private persons, provide a unique identifier assigned on the day of birth, for example:  PESEL: 01234567890",
     "LBL_CHOOSE_INSTALLATION_TYPE": "Installationstyp auswählen",
     "LBL_INSTALL_YOURSELF": "Installieren",
@@ -130,7 +130,8 @@
     "LBL_HOSTING_SHARED": "YetiForce Hosting",
     "LBL_HOSTING_CLOUD": "YetiForce Cloud",
     "LBL_BUY": "Kaufen",
-    "LBL_SHOW_MORE": "Mehr Informationen über das Produkt"
+    "LBL_SHOW_MORE": "Mehr Informationen über das Produkt",
+    "LBL_NO_NO_DATA_IN_SESSION": "Error generating configuration files, no data in the session"
   },
   "js": {
     "JS_ALL": "Alle",

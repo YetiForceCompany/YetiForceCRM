@@ -53,7 +53,7 @@
     "LBL_SYSTEM_INFORMATION": "Podsumowanie serwera",
     "LBL_TIME_ZONE": "Strefa czasowa",
     "LBL_TRUE": "Ok",
-    "LBL_URL": "Ścieżka",
+    "LBL_URL": "Adres URL",
     "LBL_USERNAME": "Nazwa użytkownika",
     "LBL_FIRST_NAME": "Imię",
     "LBL_LAST_NAME": "Nazwisko",
@@ -130,7 +130,8 @@
     "LBL_HOSTING_SHARED": "Hosting YetiForce",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "Kup",
-    "LBL_SHOW_MORE": "Więcej informacji o produkcie"
+    "LBL_SHOW_MORE": "Więcej informacji o produkcie",
+    "LBL_NO_NO_DATA_IN_SESSION": "Błąd podczas generowania plików konfiguracyjnych, brak danych w sesji"
   },
   "js": {
     "JS_ALL": "Wszystkie",

@@ -130,7 +130,8 @@
     "LBL_HOSTING_SHARED": "YetiForce ホスティング",
     "LBL_HOSTING_CLOUD": "YetiForce クラウド",
     "LBL_BUY": "購入する",
-    "LBL_SHOW_MORE": "製品についての詳細情報"
+    "LBL_SHOW_MORE": "製品についての詳細情報",
+    "LBL_NO_NO_DATA_IN_SESSION": "Error generating configuration files, no data in the session"
   },
   "js": {
     "JS_ALL": "すべて",

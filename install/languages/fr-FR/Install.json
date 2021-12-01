@@ -130,7 +130,8 @@
     "LBL_HOSTING_SHARED": "Hébergement YetiForce",
     "LBL_HOSTING_CLOUD": "Cloud YetiForce",
     "LBL_BUY": "Acheter",
-    "LBL_SHOW_MORE": "Plus d'informations sur le produit"
+    "LBL_SHOW_MORE": "Plus d'informations sur le produit",
+    "LBL_NO_NO_DATA_IN_SESSION": "Error generating configuration files, no data in the session"
   },
   "js": {
     "JS_ALL": "Tous",
