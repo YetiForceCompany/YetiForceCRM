@@ -256,7 +256,7 @@ class Condition
 	 */
 	private static function parseConditions(?array $conditions, \Vtiger_Record_Model $recordModel): bool
 	{
-		if (empty($conditions)) {
+		if (empty($conditions) || empty($conditions['rules'])) {
 			return true;
 		}
 		$result = false;

@@ -1421,6 +1421,7 @@ CREATE TABLE `s_yf_sla_policy` (
   `idle_time` varchar(20) NOT NULL DEFAULT '0:m',
   `resolve_time` varchar(20) NOT NULL DEFAULT '0:m',
   `business_hours` text NOT NULL,
+  `available_for_record_time_count` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_s_yf_sla_policy` (`tabid`),
   CONSTRAINT `fk_s_yf_sla_policy` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
