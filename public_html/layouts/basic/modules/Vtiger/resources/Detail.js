@@ -3008,9 +3008,6 @@ jQuery.Class(
 				if (event.altKey && event.code === 'KeyE') {
 					container.find('.js-edit-btn').trigger('click');
 				}
-				if (event.altKey && event.code === 'KeyL') {
-					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=List';
-				}
 			});
 		},
 		registerEvents: function () {

@@ -3138,6 +3138,23 @@ var app = (window.app = {
 			}
 			app.showConfirmModal(params);
 		});
+	},
+	/**
+	 * Register keyboard shortcuts events
+	 * @param {jQuery} container
+	 */
+	registerKeyboardShortcutsEvent: function (container) {
+		let isSettings = app.getUrlVar('parent') === 'Settings';
+		if (!isSettings) {
+			document.addEventListener('keydown', (event) => {
+				if (event.altKey && event.code === 'KeyL') {
+					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=List';
+				}
+				if (event.altKey && event.code === 'KeyQ') {
+					App.Components.QuickCreate.createRecord(app.getModuleName());
+				}
+			});
+		}
 	}
 });
 CKEDITOR.disableAutoInline = true;
@@ -3163,6 +3180,7 @@ $(function () {
 	app.registerAfterLoginEvents(document);
 	app.registerFormsEvents(document);
 	app.registerRecordActionsEvents(document);
+	app.registerKeyboardShortcutsEvent(document);
 	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
 	App.Clipboard.register(document);
